@@ -3,20 +3,22 @@
 /* Styles for Wizard Progress Bars */
 #crm-container ul.wizard-bar-preApp {
   border-collapse: collapse;
-  padding: 0em 0em 0em 1em;
+  padding: 0em 0em 0em 0em;
   white-space: nowrap;
   list-style: normal;
-  margin: 10px 0px 20px;
+  margin: 0px 0px 0px 0px;
   height: auto;
   width: auto;
   line-height: normal;
+  border-bottom: 1px solid #bbb;
 }
 #crm-container ul.wizard-bar-preApp li {
   display: block;
   background-color: #F7F7F7;
-  border: 1px solid #bbb;
+  border-top: 1px solid #bbb;
   height: auto;
-  margin-right: 1em;
+  margin-right: 0em;
+  margin-left: 0em;
   padding: .5em 1em .5em;
   text-decoration: none;
 }
@@ -28,9 +30,11 @@
   background-color: #eee;
   color: #666;
 }
-.rightside td {
-  background-color: #eee;
-  border: 1px solid #bbb;
+table#preapp-content td.rightside {
+  background-color: #fff;
+  margin: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
+  border-top: 1px solid #bbb;
 }
 td#category {
   font-family: Arial, Helvetica, sans-serif;
@@ -51,20 +55,26 @@ td.fieldlabel {
   font-size: 10px;
   font-style: italic;
 }
-.greeting {
-  padding: 5px 5px 0px 5px;
+td.preapp-message {
+  color: red;
+  text-align: center;
+  line-height: 2em;
+  border-top: 1px solid #bbb;
+}
+table#preapp-content td.greeting {
+  padding: 10px 5px 3px 10px;
   color: #9D6E4A;
   text-align: left;
   font-weight: bold;
   font-size: 16px;
 }
-.save {
-  padding: 5px 5px 0px 0px;
+.crm-submit-buttons, .save {
+  padding: 3px 5px 3px 0px;
   border: none;
   text-decoration: none;
   float: right;
   font-size: 12px;
-  margin: 0px 10px 10px 10px;
+  margin: 0px 10px 3px 10px;
   font-weight: bold;
 }
 input.form-submit {
@@ -79,3 +89,13 @@ input.form-submit {
   border-right-color:#000;
   border-bottom-color:#000;
 }
+table#preapp-content td.rightside table.app {
+  margin: 10px 10px 10px 10px;
+  border: 1px solid #bbb;
+  background-color: #fff;
+  padding: 4px;
+}
+#crm-container td#preapp-left-nav {
+  padding: 0px;
+}
+

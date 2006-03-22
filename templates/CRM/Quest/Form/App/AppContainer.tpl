@@ -4,8 +4,8 @@
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
 
 {if $context EQ 'begin'}
-    <div id="content">
-    <table cellpadding=0 cellspacing=0 border=0 id="content">
+    <div id="preapp-content">
+    <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
             <td class="greeting">
             	Welcome,&nbsp;Michael</td>
@@ -15,11 +15,12 @@
             </div>	    	
         </tr>
         <tr>
-        	<td colspan=2>
-         		<hr size=0></td>
+           <td class="preapp-message" colspan=2>
+             {ts}Please note: the application deadline is May 15, 2006{/ts}
+           </td>
         </tr>
         <tr>
-         	<td width="1%" valign=top nowrap>
+         	<td width="1%" valign=top nowrap id="preapp-left-nav">
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
             {include file="CRM/WizardHeader.tpl}
             <br>
