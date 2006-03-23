@@ -144,6 +144,8 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $group               = array('' => ts('- any group -')) + $this->_group;
         $this->_groupElement =& $this->addElement('select', 'group', ts('Group'), $group);
 
+        //group where new contacts are directed.
+        $this->addElement('select', 'add_contact_to_group', ts('Add Contacts to Group'), $group);
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
@@ -190,7 +192,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFGroup::retrieve($params, $defaults);
             $defaults['group'] = $defaults['limit_listings_group_id'];
-
+            $defaults['add_contact_to_group'] = $defaults['add_to_group_id'];
          
             //get the uf join records for current uf group
             $ufJoinRecords = CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id );

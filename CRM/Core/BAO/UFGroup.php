@@ -319,7 +319,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                               'options_per_line' => $importableFields[$field->field_name]['options_per_line'],
                               'location_type_id' => $field->location_type_id,
                               'phone_type'       => $field->phone_type,
-                              'group_id'         => $group->id  
+                              'group_id'         => $group->id,
+                              'add_to_group_id'  => $group->add_to_group_id
                               );
                 }
             }
@@ -772,6 +773,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function add(&$params, &$ids) {
         $params['is_active'              ] = CRM_Utils_Array::value('is_active', $params, false);
         $params['limit_listings_group_id'] = CRM_Utils_Array::value('group', $params);
+        $params['add_to_group_id'] = CRM_Utils_Array::value('add_contact_to_group', $params);
     
         $ufGroup             =& new CRM_Core_DAO_UFGroup();
         $ufGroup->domain_id  = CRM_Core_Config::domainID( );

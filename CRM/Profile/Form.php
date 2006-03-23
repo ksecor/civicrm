@@ -88,6 +88,13 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @var array 
      */ 
     protected $_contact; 
+
+    /** 
+     * to store group_id of the group which is to be assigned to the contact
+     * 
+     * @var int
+     */ 
+    protected $_addToGroupID;
     
     /** 
      * pre processing work done here. 
@@ -124,7 +131,7 @@ class CRM_Profile_Form extends CRM_Core_Form
 
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm', 'reset=1' ) );
         }
-
+        //print_r($this->_fields);
         if ( $this->_id ) {
             $defaults = array( );
 
@@ -394,6 +401,10 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( in_array($field['name'], array('non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' )) ) {
                 $this->addRule($field['name'], ts('Please enter a valid amount.'), 'money');
             }
+
+            if ($field['add_to_group_id']) {
+                $addToGroupId = $field['add_to_group_id'];
+            }
             
             if ( $field['rule'] ) {
                 if ($field['rule'] == 'email'  &&  $this->_mode == self::MODE_SEARCH) {
@@ -402,6 +413,12 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
                 }
             }
+        }
+
+        if ($addToGroupId) {
+            $this->add('hidden', "group[$addToGroupId]", 1 );
+            $this->assign( 'addToGroupId' , $addToGroupId );
+            $this->_addToGroupID = $addToGroupId;
         }
 
         // if view mode pls freeze it with the done button.
@@ -805,6 +822,11 @@ class CRM_Profile_Form extends CRM_Core_Form
             CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
         } 
         
+        //to add profile in default group
+        if ($this->_addToGroupID ) {
+            $contactIds = array($contact->id);
+            CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $this->_addToGroupID );
+        }
     }
 }
 
