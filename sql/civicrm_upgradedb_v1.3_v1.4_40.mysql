@@ -267,6 +267,17 @@ CREATE TABLE civicrm_sms_history (
 
 -- /*******************************************************
 -- *
+-- * update civicrm_uf_field with the default values (also fix label)
+-- *
+-- *******************************************************/
+
+   UPDATE civicrm_uf_field SET is_searchable = 1 WHERE in_selector = 1 AND visibility = 'Public User Pages and Listings';
+
+   UPDATE civicrm_uf_field SET label=field_name, field_type='Individual';
+
+
+-- /*******************************************************
+-- *
 -- * Drop Old Tables
 -- *
 -- *******************************************************/

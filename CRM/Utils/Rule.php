@@ -111,8 +111,8 @@ class CRM_Utils_Rule {
         return Validate::uri( $url, $options );
     }
 
-    static function Domain( $domain ) {
-        if ( ! preg_match('/^[\w\s]+[.][\w\s]+$/', $domain ) ) {
+    static function domain( $domain ) {
+        if ( ! preg_match('/^(([A-Za-z0-9\-])+\.)+[A-Za-z\-]+$/', $domain ) ) {
             return false;
         }
         return true;
