@@ -79,7 +79,6 @@
   <field>
        <name>amount_2</name>  
        <type>decimal</type>  
-       <required>true</required>
        <comment>Total annual income from source 2.</comment>
       <add>1.5</add>
   </field>

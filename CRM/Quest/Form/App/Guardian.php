@@ -209,14 +209,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     {
         $params  = $this->controller->exportValues( $this->_name );
 
-        // check if this person has a job, if so add to incomeArray
-        if ( $params['industry_id'] && $params['industry_id'] != self::INDUSTRY_UNEMPLOYED ) {
-            // add an income form for this person
-            $incomeDetails = $this->controller->get( 'incomeDetails' );
-            $count = count( $incomeDetails ) + 1;
-            $incomeDetails[ "Income-{$count}" ] = "{$params['first_name']} {$params['last_name']} Income Details";
-            $this->controller->set( 'incomeDetails', $incomeDetails );
-        }
+        
 
         $householdInfo  = $this->controller->exportValues( 'Household' );
         $ids = array();
@@ -248,6 +241,19 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 
         require_once 'CRM/Quest/BAO/Person.php';
         $person = CRM_Quest_BAO_Person::create( $params , $ids );
+        
+        // check if this person has a job, if so add to incomeArray
+        if ( $params['industry_id'] && $params['industry_id'] != self::INDUSTRY_UNEMPLOYED ) {
+            // add an income form for this person
+            $incomeDetails = $this->controller->get( 'incomeDetails' );
+            $personDetails = $this->controller->get( 'personDetails' );
+            //$count = count( $incomeDetails ) + 1;
+            $count = $person->id;
+            $incomeDetails[ "Income-{$count}" ] = "{$params['first_name']} {$params['last_name']} Income Details";
+            $personDetails[ "Income-{$count}" ] = $person->id;
+            $this->controller->set( 'incomeDetails', $incomeDetails );
+            $this->controller->set( 'personDetails', $personDetails );
+        }
               
         //need to update household record
         $householdParams                    = array();

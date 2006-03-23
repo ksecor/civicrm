@@ -31,7 +31,7 @@ Also, please be sure to include any individuals not living with you who contribu
 </tr> 
 {section name=rowLoop start=1 loop=4}
     <tr>
-       {assign var=source value="source_"|cat:$smarty.section.rowLoop.index}  
+       {assign var=source value="type_of_income_id_"|cat:$smarty.section.rowLoop.index}  
        <td class="grouplabel">{$form.$source.label}</td>
        <td> {$form.$source.html}</td>
     </tr>

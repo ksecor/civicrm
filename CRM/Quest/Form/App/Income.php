@@ -79,10 +79,23 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Income');
 
         for ( $i = 1; $i <= 3; $i++ ) {
-            $this->addSelect( 'source', ts( 'Type of Income' ), "_$i" );
+            if ( $i < 2) {
+                $this->addSelect( 'type_of_income', ts( 'Type of Income' ), "_$i" ,true );
+                $this->addElement( 'text', "amount_$i",
+                               ts( 'Total 2005 income from this source' ),
+                               $attributes['amount_1'] );
+                $this->addRule("amount_$i","Pleae enter total 2005 income from this source",'required');
+            } else {
+                $this->addSelect( 'type_of_income', ts( 'Type of Income' ), "_$i");
+                $this->addElement( 'text', "amount_$i",
+                               ts( 'Total 2005 income from this source' ),
+                               $attributes['amount_1'] );
+                
+            }
             $this->addElement( 'text', "job_$i",
                                ts( 'Job Description (if applicable)' ),
                                $attributes['job_1'] );
+            
             $this->addElement( 'text', "amount_$i",
                                ts( 'Total 2005 income from this source' ),
                                $attributes['amount_1'] );
@@ -90,6 +103,33 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         parent::buildQuickForm();
             
     }//end of function
+
+    /** 
+     * process the form after the input has been submitted and validated 
+     * 
+     * @access public 
+     * @return void 
+     */ 
+    public function postProcess()  
+    {
+        $params  = $this->controller->exportValues( $this->_name );
+        $personDetails = $this->get('personDetails');
+        $params['source_1_id'] = $params['type_of_income_id_1']; 
+        $params['source_2_id'] = $params['type_of_income_id_2']; 
+        $params['person_id']   = $personDetails[$this->_name];
+        
+        $this->_incomeIDs = $this->get( 'incomeIDs' );
+        $ids = array();
+        if ( $this->_incomeIDs[$this->_name] ) {
+            $ids['id'] = $this->_incomeIDs[$this->_name];
+        }
+
+        require_once 'CRM/Quest/BAO/Income.php';
+        $income = CRM_Quest_BAO_Income::create( $params , $ids );
+        $this->_incomeIDs[$this->_name] = $income->id;
+        $this->set('incomeIDs' , $this->_incomeIDs);
+    }
+    
 
     /**
      * Return a descriptive name for the page, used in wizard header
