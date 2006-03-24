@@ -45,6 +45,36 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 {
+
+     /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        parent::preProcess();
+        $session =& CRM_Core_Session::singleton( );
+        $this->_contactId = $session->get( 'userID' );
+        $this->_siblingIds = array();
+        $this->_siblingIds = $this->get('siblingIds');
+        if ( empty( $this->_siblingIds )) {
+            $householdDetails = $this->get('householdType');
+            require_once 'CRM/Quest/DAO/Person.php';
+            $dao = & new CRM_Quest_DAO_Person();
+            $dao->contact_id = $this->_contactId;
+            $dao->find();
+            while( $dao->fetch() ) {
+                if (! array_key_exists( $dao->relationship_id ,$householdDetails ) ) {
+                    $count = count( $this->_siblingIds ) + 1;
+                    $this->_siblingIds['Sibling-'.$count] = $dao->id ;
+                }
+            }
+            
+        }
+    }
+    
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -55,6 +85,15 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        if ($this->_siblingIds[$this->_name]) {
+            require_once 'CRM/Quest/DAO/Person.php';
+            $dao = & new CRM_Quest_DAO_Person();
+            $dao->id = $this->_siblingIds[$this->_name];
+            if ($dao->find(true)) {
+                CRM_Core_DAO::storeValues( $dao , $defaults );
+            }
+            $defaults['sibling_relationship_id'] = $defaults['relationship_id'];
+        }
         return $defaults;
     }
     
@@ -79,7 +118,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                            $attributes['last_name'],'required' );
         $this->addRule("last_name",ts('Please Enter Last Name'),'required');
         
-        $this->addSelect('sibling_relationship', ts( 'Relationship to you' ));
+        $this->addSelect('sibling_relationship', ts( 'Relationship to you' ),null ,true );
        
         $this->addElement( 'text', "age",
                            ts('Age'),
@@ -120,12 +159,13 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
       
         require_once 'CRM/Quest/BAO/Person.php';
         $ids = array();
-        $siblingId = $this->get('siblingId');
-        if ( $siblingId ) {
-            $ids['id'] = $siblingId; 
+      
+        if ( $this->_siblingIds[$this->_name] ) {
+            $ids['id'] = $this->_siblingIds[$this->_name]; 
         }
         $sibling = CRM_Quest_BAO_Person::create( $params , $ids);
-        $this->set('siblingId',$sibling->id);
+        $this->_siblingIds[$this->_name] = $sibling->id;
+        $this->set('siblingIds',$this->_siblingIds);
 
 
     }

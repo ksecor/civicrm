@@ -55,6 +55,32 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        
+        
+        $session =& CRM_Core_Session::singleton( );
+        $this->_contactId = $session->get( 'userID' );
+        if ( $this->_contactId ) {
+            $dao = & new CRM_Quest_DAO_Student();
+            $dao->contact_id = $this->_contactId ;
+            if ($dao->find(true)) {
+                $this->_studentId = $dao->id;
+                CRM_Core_DAO::storeValues( $dao , $defaults );
+            }
+        }
+        
+        $fields = array( 'educational_interest','college_type','college_interest' );
+        foreach( $fields as $field ) {
+            if ( $defaults[$field] ) {
+                $value = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
+            }
+            $defaults[$field] = array();
+            if ( is_array( $value ) ) {
+                foreach( $value as $v ) {
+                    $defaults[$field][$v] = 1;
+                }
+            }
+        }
+       
         return $defaults;
     }
     

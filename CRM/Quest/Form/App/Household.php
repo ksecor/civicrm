@@ -55,6 +55,39 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        
+        $session =& CRM_Core_Session::singleton( );
+        $this->_contactId = $session->get( 'userID' );
+        if ( $this->_contactId ) {
+            for ( $i = 1; $i <= 2; $i++ ) {
+                require_once 'CRM/Quest/DAO/Household.php';
+                $dao = & new CRM_Quest_DAO_Household();
+                $dao->contact_id     = $this->_contactId ;
+                if ($i == 1) {
+                    $dao->household_type = 'Current';
+                } else {
+                    $dao->household_type = 'Previous';
+                }
+                if ( $dao->find(true) ) {
+                    $defaults['member_count_'.$i]   = $dao->member_count;
+                    $defaults['years_lived_id_'.$i] = $dao->years_lived_id;
+                    $defaults['household_note']     = $dao->description;
+                    for ( $j = 1; $j <= 2; $j++ ) {
+                        require_once 'CRM/Quest/DAO/Person.php';
+                        $personDAO = & new CRM_Quest_DAO_Person();
+                        $string = "person_".$j."_id"; 
+                        $personDAO->id = $dao->$string;
+                        if ( $dao->$string && $personDAO->find(true) ) {
+                            $defaults['relationship_id_'.$i.'_'.$j] = $personDAO->relationship_id;
+                            $defaults['first_name_'.$i.'_'.$j]      = $personDAO->first_name;
+                            $defaults['last_name_'.$i.'_'.$j]       = $personDAO->last_name;
+                        }
+                    }
+                }
+            }
+        }
+        
+       
         return $defaults;
     }
     
@@ -68,7 +101,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     public function buildQuickForm( ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Household');
-
         for ( $i = 1; $i <= 2; $i++ ) {
             if ( $i == 1 ) {
                 $title = ts( 'How many people live with you in your current household?' );

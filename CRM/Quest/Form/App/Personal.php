@@ -72,22 +72,23 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        $studentDefaults = array();
+        $contactDefaults = array();
         
         if ( $this->_contactId ) {
             $dao = & new CRM_Quest_DAO_Student();
             $dao->contact_id = $this->_contactId ;
             if ($dao->find(true)) {
                 $this->_studentId = $dao->id;
-                CRM_Core_DAO::storeValues( $dao , $defaults);
+                CRM_Core_DAO::storeValues( $dao , $studentDefaults);
             }
         }
         if ( $this->_contactId ) {
             $options = array( );
-            $contact =& CRM_Contact_BAO_Contact::contactDetails( $this->_contactId , $option );
-            $fields = array('first_name'=>'first_name','last_name'=>'last_name','email'=>'location[1][email][1][email]') ;
-            foreach( $fields as $key=>$value ) {
-                $defaults[ $value] = $contact->$key;
-            }
+            $ids = array();
+            $params  = array('contact_id' => $this->_contactId); 
+            $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$contactDefaults, &$ids );
+            $defaults = array_merge($contactDefaults,$studentDefaults);
         }
         return $defaults;
     }
@@ -239,6 +240,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
        
     
       $params['location'][1]['location_type_id'] = 1;
+      $params['location'][1]['is_primary'] = 1 ;
       $params['location'][2]['location_type_id'] = 2;
       
       

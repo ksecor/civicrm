@@ -59,6 +59,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
+        $this->_personID = null;
         require_once 'CRM/Core/OptionGroup.php';
         $relationships = CRM_Core_OptionGroup::values( 'relationship' );
         foreach ( $relationships as $key=> $value ) {
@@ -66,13 +67,14 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                 $relationshipID = $key;
             }
         }
-
-        require_once 'CRM/Quest/DAO/Person.php';
-        $dao = new CRM_Quest_DAO_Person();
-        $dao->contact_id      = $this->get('contact_id');
-        $dao->relationship_id = $relationshipID;
-        if ( $dao->find(true) ) {
-            $this->_personID = $dao->id;
+        if ( $relationshipID ) {
+            require_once 'CRM/Quest/DAO/Person.php';
+            $dao = new CRM_Quest_DAO_Person();
+            $dao->contact_id      = $this->get('contact_id');
+            $dao->relationship_id = $relationshipID;
+            if ( $dao->find(true) ) {
+                $this->_personID = $dao->id;
+            }
         }
     }
    
@@ -86,6 +88,24 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        if ( $this->_personID ) {
+            $dao = & new CRM_Quest_DAO_Person();
+            $dao->id = $this->_personID ;
+            if ($dao->find(true)) {
+                CRM_Core_DAO::storeValues( $dao , $defaults );
+            }
+            
+            // format date
+            $dateFields = array('separated_year','college_grad_year','prof_grad_year');
+            foreach( $dateFields as $field ) {
+                $date = CRM_Utils_Date::unformat( $defaults[$field],'-' );  
+                if (! empty( $date) ) {
+                    $defaults[$field] = $date;  
+                } else {
+                    $defaults[$field] = '';
+                }
+            }
+        }
         return $defaults;
     }
     
@@ -208,8 +228,6 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     public function postProcess()  
     {
         $params  = $this->controller->exportValues( $this->_name );
-
-        
 
         $householdInfo  = $this->controller->exportValues( 'Household' );
         $ids = array();

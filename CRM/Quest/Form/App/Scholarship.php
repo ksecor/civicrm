@@ -55,6 +55,18 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        $session =& CRM_Core_Session::singleton( );
+        $this->_contactId = $session->get( 'userID' );
+        if ( $this->_contactId ) {
+            $dao = & new CRM_Quest_DAO_Student();
+            $dao->contact_id = $this->_contactId ;
+            if ($dao->find(true)) {
+                $this->_studentId = $dao->id;
+                CRM_Core_DAO::storeValues( $dao , $defaults );
+            }
+        }
+        $defaults['internet_access']  = $defaults['internet_access_id'];
+        
         return $defaults;
     }
     
@@ -102,9 +114,10 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
     public function postProcess() 
     {
         $params = $this->controller->exportValues( $this->_name );
+        $params['internet_access_id'] = $params['internet_access'];
         $values = $this->controller->exportValues( 'Personal' );
         $params = array_merge( $params,$values );
-       
+        
         $id = $this->get('id');
         $contact_id = $this->get('contact_id');
         //$ids = array('id'=>$id ,'contact_id' => $contact_id);
