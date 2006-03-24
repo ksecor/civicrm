@@ -462,8 +462,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             
             if ( self::isDuplicate($newContact)  || is_a( $newContact,CRM_Contact_BAO_Contact ) ) {
                 //relationship contact insert
-                print_r($params);
-
                 foreach ($params as $key => $field) {
                     
                     list($id, $first, $second) = explode('_', $key);
@@ -477,7 +475,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                   
 
                     $formatting = array('contact_type' => $params[$key]['contact_type']);
-                    echo "============";
+
                     $contactFields = null;
                     if ($contactFields == null) {
                         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $params[$key]['contact_type']) . ".php");
