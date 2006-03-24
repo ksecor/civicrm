@@ -137,7 +137,7 @@ class CRM_Core_SelectValues {
         static $privacy = null;
         if (!$privacy) {
             $privacy = array(
-                'do_not_phone' => ts('Do not call'),
+                'do_not_phone' => ts('Do not phone'),
                 'do_not_email' => ts('Do not email'),
                 'do_not_mail'  => ts('Do not mail'),
                 'do_not_trade' => ts('Do not trade')
