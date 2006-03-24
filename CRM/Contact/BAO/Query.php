@@ -359,9 +359,11 @@ class CRM_Contact_BAO_Query {
         //CRM_Core_Error::debug( 'p', $this->_params );
         
         //format privacy options
-        foreach ($this->_params['privacy'] as $key => $value) {
-            if ($value) {
-                $this->_params[$key] = 1;
+        if ( is_array($this->_params['privacy']) ) {
+            foreach ($this->_params['privacy'] as $key => $value) {
+                if ($value) {
+                    $this->_params[$key] = 1;
+                }
             }
         }
 
