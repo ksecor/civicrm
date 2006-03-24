@@ -55,7 +55,8 @@ class CRM_Core_Component {
                                  'Quest'          => array( 'title' => 'Quest Application Process',
                                                             'path'  => 'CRM_Quest_',
                                                             'url'   => 'quest',
-                                                            'perm'  => array( 'access Quest Student Records' ) ),
+                                                            'perm'  => array( 'access Quest Student Records' ),
+                                                            'css'   => 'quest.css' ),
                                  );
         }
         return self::$_info;
@@ -78,6 +79,15 @@ class CRM_Core_Component {
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) &&
                  $info[$name]['url'] === $args[1] ) {
+                // also set the smarty variables to the current component
+                $template =& CRM_Core_Smarty::singleton( );
+                $template->assign( 'activeComponent', $info[$name]['url'] );
+                if ( CRM_Utils_Array::value( 'css', $info[$name] ) ) {
+                  $styleSheets .= '<style type="text/css">@import url(' . "{$config->resourceBase}css/{$info[$name]['css']});</style>";
+                  CRM_Utils_System::addHTMLHead( $styleSheet );
+                }
+         	drupal_set_html_head( $styleSheets );
+
                 $className = $info[$name]['path'] . 'Invoke';
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
                 eval( $className . '::main( $args );' );

@@ -105,14 +105,14 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 
         // first_name
         $this->addElement('text', 'first_name', ts('First Name'), $attributes['first_name'] );
-        $this->addRule('first_name',ts('Please Eneter First Name'),'required');
+        $this->addRule('first_name',ts('Please enter your First Name'),'required');
 
         //middle_name
         $this->addElement('text', 'middle_name', ts('Middle Name'), $attributes['middle_name']);
         
         // last_name
         $this->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name']);
-        $this->addRule('last_name',ts('Please Eneter  Last Name'),'required');
+        $this->addRule('last_name',ts('Please enter your Last Name'),'required');
 
         // suffix
         $this->addElement('select', 'suffix_id', ts('Suffix'), array('' => ts('- suffix -')) + CRM_Core_PseudoConstant::individualSuffix());
@@ -124,7 +124,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         // radio button for gender
         $this->addRadio( 'gender_id', ts('Gender'),
                          CRM_Core_PseudoConstant::gender() );
-        $this->addRule('gender_id',ts('Please Select Gender'),'required');
+        $this->addRule('gender_id',ts('Please select Gender'),'required');
         
         // email
         $this->addElement('text',
@@ -141,10 +141,10 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
                                   ts( 'Alternate Telephone' ) );
         
         // citizenship status
-        $this->addSelect('citizenship_status', ts( 'Your U.S. citizenship status' ), null , true);
+        $this->addSelect('citizenship_status', ts( 'your U.S. Citizenship Status' ), null , true);
         
         // citizenship country
-        $this->addCountry('citizenship_country_id', ts( 'Country of citizenship' ),true );
+        $this->addCountry('citizenship_country_id', ts( 'Country of Citizenship' ),true );
        
         // ethnicity 
         $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" );
@@ -166,11 +166,11 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 
         // years in US
         $this->addElement('text', 'years_in_us', ts( 'Number of years in U.S.' ), $attributes['years_in_us'] );
-        $this->addRule('years_in_us', ts("Please enter value for Number of years in U.S."),'required');
+        $this->addRule('years_in_us', ts("Please enter value for Number of Years in U.S."),'required');
         $this->addRule( "years_in_us", ts('Number not valid.'), 'integer' );
         
         $this->addElement('text', 'number_siblings', ts( 'Number of siblings ' ), $attributes['number_siblings'] );
-        $this->addRule('number_siblings', ts("Please enter Number of siblings "),'required');
+        $this->addRule('number_siblings', ts("Please enter Number of Siblings "),'required');
         $this->addRule( "number_siblings", ts('Number not valid.'), 'integer' );
 
         //Country of Heritage/Nationality

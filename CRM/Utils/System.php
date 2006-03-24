@@ -405,6 +405,20 @@ class CRM_Utils_System {
     }
 
     /**
+     * Append a string to the head of the html file
+     *
+     * @param string $head the new string to be appended
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function addHTMLHead( $bc ) {
+        $config   =& CRM_Core_Config::singleton( );
+        return eval( 'return ' . $config->userFrameworkClass . '::addHTMLHead( $bc );' );
+    }
+
+    /**
      * figure out the post url for the form
      *
      * @param the default action if one is pre-specified

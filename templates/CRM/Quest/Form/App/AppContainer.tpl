@@ -28,6 +28,8 @@
 
         <!--begin main right cell that contains the application-->
         <td valign=top align=center class="rightside">
+        {include file="CRM/Form/body.tpl"}
+
 {/if}
 
 {if $context EQ 'end'}

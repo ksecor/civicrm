@@ -10,7 +10,7 @@
 
 <!-- .tpl file invoked: {$tplFile}. Call via form.tpl if we have a form in the page. -->
 {if $isForm}
-    {include file="CRM/form.tpl"}
+    {include file="CRM/Form/$activeComponent.tpl"}
 {else}
     {include file=$tplFile}
 {/if}

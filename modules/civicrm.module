@@ -42,9 +42,6 @@ function civicrm_html_head()
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
     $styleSheets = '<style type="text/css">@import url(' . $config->resourceBase . 'css/civicrm.css);</style>';
-    if ( in_array( 'Quest', $config->enableComponents) ) {
-        $styleSheets .= '<style type="text/css">@import url(' . $config->resourceBase . 'css/quest.css);</style>';
-    }
     return $styleSheets;
     
 }

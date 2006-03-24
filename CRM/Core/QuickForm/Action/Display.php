@@ -171,8 +171,8 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
         }
 
         $config =& CRM_Core_Config::singleton();
-        self::$_requiredTemplate = file_get_contents( $config->templateDir . '/CRM/common/form_label.tpl' );
-        self::$_errorTemplate    = file_get_contents( $config->templateDir . '/CRM/common/form_error.tpl' );
+        self::$_requiredTemplate = file_get_contents( $config->templateDir . '/CRM/Form/label.tpl' );
+        self::$_errorTemplate    = file_get_contents( $config->templateDir . '/CRM/Form/error.tpl' );
     }
 
 }

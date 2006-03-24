@@ -79,6 +79,19 @@ class CRM_Utils_System_Drupal {
         drupal_set_breadcrumb( $breadCrumb );
     }
 
+    /**
+     * Append a string to the head of the html file
+     *
+     * @param string $head the new string to be appended
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function addHTMLHead( $head ) {
+      drupal_set_html_head( $head );
+    }
+
     /** 
      * rewrite various system urls to https 
      *  

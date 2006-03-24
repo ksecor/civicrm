@@ -2,7 +2,7 @@
 <div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
 
 {if $mode eq 8 || $mode eq 1}
-{include file="CRM/common/form_body.tpl"}
+{include file="CRM/Form/body.tpl"}
 {/if}
     {strip}
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
