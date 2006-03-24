@@ -357,7 +357,14 @@ class CRM_Contact_BAO_Query {
         
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
-   
+        
+        //format privacy options
+        foreach ($this->_params['privacy'] as $key => $value) {
+            if ($value) {
+                $this->_params[$key] = 1;
+            }
+        }
+
         foreach ($this->_fields as $name => $field) {
             $value = CRM_Utils_Array::value( $name, $this->_params );
             // if we need to get the value for this param or we need all values
