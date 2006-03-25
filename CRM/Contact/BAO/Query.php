@@ -1076,7 +1076,8 @@ class CRM_Contact_BAO_Query {
                 if ( $mode & self::MODE_CONTRIBUTE ) {
                     $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
                 } else {
-                    $from .= " $side JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
+                    // keep it INNER for now, at some point we might make it a left join
+                    $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
                 }
                 continue;
 
