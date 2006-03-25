@@ -347,16 +347,8 @@ function &crm_fetch_contact( $params, $returnProperties = null ) {
         return _crm_error( count( $contacts ) . " contacts matching input params." );
     }
 
-    $contactIds = array_keys( $contacts );
-    $contactId  = $contactIds[0];
-
-    $contact =& new CRM_Contact_BAO_Contact( );
-    $contact->id = $contact->contact_id = $contactIds[0];
-
-    foreach ( $contacts[$contactIds[0]] as $name => $value ) {
-        $contact->$name = $value;
-    }
-    return $contact;
+    $contacts = array_values( $contacts );
+    return $contacts[0];
 }
 
 /**
