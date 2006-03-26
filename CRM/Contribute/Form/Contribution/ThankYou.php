@@ -57,7 +57,6 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
         $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
         $this->assign( 'thankyou_footer' , $this->_values['thankyou_footer']  );
-        $this->assign( 'receipt_text', $this->_values['receipt_text'] );
 
         CRM_Utils_System::setTitle($this->_values['thankyou_title']);
     }
