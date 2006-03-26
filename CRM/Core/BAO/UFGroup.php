@@ -372,17 +372,23 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * get the html for the form that represents this particular group
      *
-     * @param int     $userID   the user id that we are actually editing
-     * @param string  $title    the title of the group we are interested in
-     * @param int     $action   the action of the form
-     * @param boolean $register is this the registration form
-     * @param boolean $reset    should we reset the form?
+     * @param int     $userID    the user id that we are actually editing
+     * @param string  $title     the title of the group we are interested in
+     * @param int     $action    the action of the form
+     * @param boolean $register  is this the registration form
+     * @param boolean $reset     should we reset the form?
+     * @param int     $profileID do we have the profile ID?
      *
      * @return string       the html for the form on success, otherwise empty string
      * @static
      * @access public
      */
-    static function getEditHTML( $userID, $title, $action = null, $register = false, $reset = false ) {
+    static function getEditHTML( $userID,
+                                 $title,
+                                 $action = null,
+                                 $register = false,
+                                 $reset = false,
+                                 $profileID = null ) {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
@@ -402,19 +408,25 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $template =& CRM_Core_Smarty::singleton( );
             return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
         } else {
-            // make sure we have a valid group
-            $group =& new CRM_Core_DAO_UFGroup( );
-            
-            $group->title     = $title;
-            $group->domain_id = CRM_Core_Config::domainID( );
-            
-            if ( $group->find( true ) ) {
+            if ( ! $profileID ) {
+                // make sure we have a valid group
+                $group =& new CRM_Core_DAO_UFGroup( );
+                
+                $group->title     = $title;
+                $group->domain_id = CRM_Core_Config::domainID( );
+
+                if ( $group->find( true ) ) {
+                    $profileID = $group->id;
+                }
+            }
+
+            if ( $profileID ) {
                 require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
                 if ( $reset ) {
                     $controller->reset( );
                 }
-                $controller->set( 'gid'     , $group->id );
+                $controller->set( 'gid'     , $profileID );
                 $controller->set( 'id'      , $userID );
                 $controller->set( 'register', 0 );
                 $controller->process( );
