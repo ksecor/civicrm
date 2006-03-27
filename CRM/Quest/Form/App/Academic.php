@@ -45,6 +45,31 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
 {
+    static $_honorIds;
+    
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        // need tp get honor ID's
+        $this->_honorIds = array();
+
+        $session =& CRM_Core_Session::singleton( );
+        $contactId = $session->get( 'userID' );
+        require_once 'CRM/Quest/DAO/Honor.php';
+        $dao = & new CRM_Quest_DAO_Honor();
+        $dao->contact_id = $contactId;
+        $dao->find();
+        while ( $dao->fetch() ) {
+            $count = count($this->_honorIds) + 1;
+            $this->_honorIds[$count] = $dao->id;
+        }
+        
+    }
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -54,7 +79,31 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
-        $defaults = array( );
+        $defaults       = array( );
+        $studetDefaults = array( );
+ 
+        $session =& CRM_Core_Session::singleton( );
+        $contactId = $session->get( 'userID' );
+        if ( $contactId ) {
+            $dao = & new CRM_Quest_DAO_Student();
+            $dao->contact_id = $contactId;
+            if ($dao->find(true)) {
+                $this->_studentId = $dao->id;
+                CRM_Core_DAO::storeValues( $dao , $studetDefaults );
+            }
+        }
+
+        //set defaluts for honor
+        require_once 'CRM/Quest/DAO/Honor.php';
+        $dao = & new CRM_Quest_DAO_Honor();
+        $dao->contact_id = $contactId;
+        $dao->find();
+        while ( $dao->fetch() ) {
+            $count = count($defaults) + 1;
+            $defaults['description_'.$count] = $dao->description;
+            $defaults['award_date_'.$count] = $dao->award_date;
+        }
+        $defaults = array_merge($defaults , $studetDefaults);
         return $defaults;
     }
     
@@ -143,7 +192,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         }
         
         require_once 'CRM/Quest/BAO/Honor.php';
-        $honorIds = $this->get( 'honorIds', $honorIds );
+        $this->_honorIds = $this->get( 'honorIds');
         foreach ( $honors as $key => $honor ) {
             $ids = array();
             if ( $honorIds[$key] ) {
@@ -151,9 +200,9 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             }
             $honor['contact_id']     = $contact_id;
             $newHonor                = CRM_Quest_BAO_Honor::create( $honor,$ids );
-            $honorIds[$key]          = $newHonor->id;
+            $this->_honorIds[$key]   = $newHonor->id;
         }
-        $this->set( 'honorIds', $honorIds);
+        $this->set( 'honorIds', $this->_honorIds);
         
     }//end of function
 

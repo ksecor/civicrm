@@ -45,6 +45,38 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
 {
+    static $_orgIDOther;
+    static $_relIDOther;
+    
+    
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        $contactID = $this->get( 'contact_id' );
+        //to get relationship id
+        require_once 'CRM/Contact/DAO/Relationship.php';
+        $relDAO = & new CRM_Contact_DAO_Relationship();
+        $relDAO->contact_id_a            = $contactID;
+        $relDAO->relationship_type_id    = 1;//need to fix  	  
+        $relDAO->find(); 
+        while ( $relDAO->fetch()) {
+           $orgID = $this->get('orgID');
+           if ( $relDAO->contact_id_b != $orgID  ) {
+               $this->_orgIDOther = $relDAO->contact_id_b;
+               $this->_relIDOther = $relDAO->id;
+               $this->set('orgIDOther' , $relDAO->contact_id_b);
+           }
+        }
+        
+        
+    }
+    
+    
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -55,6 +87,31 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        if ( $this->_orgIDOther ) {
+            $ids = array();
+            $params  = array('contact_id' => $this->_orgIDOther ,'contact_type' => 'Organization'); 
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$defaults, &$ids );
+            
+            //set custom data defaults
+            require_once 'CRM/Core/BAO/CustomGroup.php';
+            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Organization',$this->_orgIDOther, 0);
+            $viewMode = false;
+            $inactiveNeeded = false;
+            if( isset($this->_groupTree) ) {
+                CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+            }
+            
+            // set relationship defaults
+            require_once 'CRM/Contact/DAO/Relationship.php';
+            $relDAO = & new CRM_Contact_DAO_Relationship();
+            $relDAO->id = $this->_relIDOther; 
+            if ( $relDAO->find(true) ) {
+                $defaults['date_of_entry'] =  $relDAO->start_date;
+            }
+            
+        }
+        
         return $defaults;
     }
     
@@ -73,7 +130,7 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         $this->addElement('text', 'organization_name',
                           ts( 'Name of Institution' ),
                           $attributes['organization_name'] );
-
+        
         $this->addElement('date', 'date_of_entry',
                           ts( 'Dates Attended' ),
                           CRM_Core_SelectValues::date( 'custom', 7, 0, "Y\001M" ) );
@@ -103,19 +160,21 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
     {
         $params = $this->controller->exportValues( $this->_name );
         $params['location'][1]['location_type_id'] = 1;
+        $params['location'][1]['is_primary'] = 1 ;
+
         $contactID = $this->get('contact_id');
         $params['contact_type'] = 'Organization';
         
         $ids = array();
-        $org_2_id = $this->get('org_2_id');
+        $this->_orgIDOther = $this->get('orgIDOther');
         
-        if ( $org_2_id ) {
-            $idParams = array( 'id' => $org_2_id, 'contact_id' => $org_2_id );
+        if ( $this->_orgIDOther ) {
+            $idParams = array( 'id' => $this->_orgIDOther, 'contact_id' => $this->_orgIDOther );
             CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
         }
         
         $org = CRM_Contact_BAO_Contact::create($params, $ids, 2);
-        $this->set('org_2_id' , $org->id );
+        $this->set('orgIDOther' , $org->id );
         
         // add data for custom fields 
         require_once 'CRM/Core/BAO/CustomGroup.php';
@@ -131,10 +190,10 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         $relationshipParams['end_date']           = $params['date_of_exit'];
         $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
         
-        $rel_2_id = $this->get('rel_2_id');
+        $this->relIDOther = $this->get('relIDOther');
         
-        if ( $rel_2_id ) {
-            $ids = array('contact' =>$contactID,'relationship' => $rel_2_id ,'contactTarget' =>$organizationID);
+        if ( $this->relIDOther ) {
+            $ids = array('contact' =>$contactID,'relationship' => $this->relId ,'contactTarget' =>$organizationID);
         } else {
             $ids = array('contact' =>$contactID);
         }
@@ -143,7 +202,7 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         
         require_once 'CRM/Contact/BAO/Relationship.php';
         $relationship= CRM_Contact_BAO_Relationship::add($relationshipParams,$ids,$organizationID);
-        $this->set('rel_2_id' , $relationship->id );
+        $this->set('relIDOther' , $relationship->id );
     }//end of function
 
     /**

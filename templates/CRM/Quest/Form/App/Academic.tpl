@@ -18,8 +18,8 @@
     <td>{$form.class_rank.html}  {$form.class_num_students.html}<br/>Your rank   &nbsp;&nbsp;&nbsp;Total number students in your class</td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.class_rank_percent.label}</td>
-    <td>{$form.class_rank_percent.html}</td>
+    <td class="fieldlabel">{$form.class_rank_percent_id.label}</td>
+    <td>{$form.class_rank_percent_id.html}</td>
 </tr>
 <tr>
     <td class="fieldlabel">{$form.gpa_explanation.label}</td>

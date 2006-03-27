@@ -45,6 +45,29 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
 {
+    static $_incomeIDs;
+    
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        $personDetails = array();
+        $personDetails = $this->get('personDetails');
+        require_once 'CRM/Quest/DAO/Income.php';
+        // need to bulid ids for income
+        foreach ( $personDetails as $key => $value ) {
+            $dao = & new  CRM_Quest_DAO_Income();
+            $dao->person_id = $value;
+            $dao->find(true);
+            $this->_incomeIDs[$key] = $dao->id;
+        }
+        $this->set('incomeIDs' , $this->_incomeIDs);
+    }
+
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -54,7 +77,28 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
+        $personDetails = $this->get('personDetails');
         $defaults = array( );
+        require_once 'CRM/Quest/DAO/Income.php';
+        $dao = & new CRM_Quest_DAO_Income();
+        $dao->person_id = $personDetails[$this->_name];
+        if ($dao->find(true)) {
+            CRM_Core_DAO::storeValues( $dao , $defaults );
+        }
+        
+        //for type of income
+        
+        $defaults['type_of_income_id_1'] = $defaults['source_1_id'];
+        $defaults['type_of_income_id_2'] = $defaults['source_2_id'];
+
+        //set the first name and last name
+        require_once 'CRM/Quest/DAO/Person.php';
+        $dao = & new CRM_Quest_DAO_Person();
+        $dao->id = $personDetails[$this->_name];
+        if ($dao->find(true)) {
+            $defaults['first_name'] = $dao->first_name;
+            $defaults['last_name']  = $dao->last_name;
+        }
         return $defaults;
     }
     
