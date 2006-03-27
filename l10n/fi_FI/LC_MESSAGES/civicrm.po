@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-21 12:04+0100\n"
+"POT-Creation-Date: 2006-03-27 12:58+0200\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "Language-Team: none\n"
@@ -484,6 +484,10 @@ msgstr "Kuvaus:"
 #: CRM/Contact/Form/Task/Email.php CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
 msgstr "Sähköpostiosoitteesi ei ole kelvollinen."
+
+#: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Advanced.php
+msgid "Privacy"
+msgstr "Yksityisyys"
 
 #: CRM/Contact/Form/Email.php CRM/Contact/Selector.php
 #: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
@@ -2162,10 +2166,6 @@ msgstr "Tallenna ja uusi"
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
 msgstr "Sinun %1 yhteystietoa on tallennettu."
-
-#: CRM/Contact/Form/Edit.php
-msgid "Privacy"
-msgstr "Yksityisyys"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Prefers"
@@ -3945,7 +3945,8 @@ msgid "Both"
 msgstr "Molemmat"
 
 #: CRM/Core/SelectValues.php
-msgid "Do not call"
+#, fuzzy
+msgid "Do not phone"
 msgstr "Älä soita"
 
 #: CRM/Core/SelectValues.php
@@ -10018,6 +10019,9 @@ msgstr ""
 msgid "Error in SMTP transaction"
 msgstr ""
 
+#~ msgid "Do not call"
+#~ msgstr "Älä soita"
+
 #~ msgid "Hash"
 #~ msgstr "???"
 
@@ -10080,9 +10084,6 @@ msgstr ""
 
 #~ msgid "Preferred Communication Method"
 #~ msgstr "Suositeltava yhteydenpitotapa"
-
-#~ msgid "Do Not Phone"
-#~ msgstr "Älä soita"
 
 #~ msgid "Do Not Email"
 #~ msgstr "Älä lähetä sähköpostia"

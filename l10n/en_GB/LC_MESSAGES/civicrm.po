@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-21 12:04+0100\n"
+"POT-Creation-Date: 2006-03-27 12:58+0200\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Gareth Jones <info@sports-alive.com>\n"
 "Language-Team: none\n"
@@ -488,6 +488,10 @@ msgstr "Description: "
 #: CRM/Contact/Form/Task/Email.php CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
 msgstr "Email is not valid."
+
+#: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Advanced.php
+msgid "Privacy"
+msgstr "Privacy"
 
 #: CRM/Contact/Form/Email.php CRM/Contact/Selector.php
 #: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
@@ -2240,10 +2244,6 @@ msgstr "Save and New"
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
 msgstr "Your %1 contact record has been saved."
-
-#: CRM/Contact/Form/Edit.php
-msgid "Privacy"
-msgstr "Privacy"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Prefers"
@@ -4093,8 +4093,9 @@ msgid "Both"
 msgstr "Both"
 
 #: CRM/Core/SelectValues.php
-msgid "Do not call"
-msgstr "Do not call"
+#, fuzzy
+msgid "Do not phone"
+msgstr "Do Not Phone"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not email"
@@ -10481,6 +10482,9 @@ msgstr ""
 msgid "Error in SMTP transaction"
 msgstr ""
 
+#~ msgid "Do not call"
+#~ msgstr "Do not call"
+
 #~ msgid "Hash"
 #~ msgstr "Hash"
 
@@ -10542,9 +10546,6 @@ msgstr ""
 
 #~ msgid "Preferred Communication Method"
 #~ msgstr "Preferred Communication Method"
-
-#~ msgid "Do Not Phone"
-#~ msgstr "Do Not Phone"
 
 #~ msgid "Do Not Email"
 #~ msgstr "Do Not Email"

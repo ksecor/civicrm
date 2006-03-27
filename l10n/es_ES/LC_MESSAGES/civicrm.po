@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-21 12:04+0100\n"
+"POT-Creation-Date: 2006-03-27 12:58+0200\n"
 "PO-Revision-Date: 2005-12-13 23:35+0100\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -484,6 +484,10 @@ msgstr "Descripción:"
 #: CRM/Contact/Form/Task/Email.php CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
 msgstr "Email no válido."
+
+#: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Advanced.php
+msgid "Privacy"
+msgstr "Privacidad"
 
 #: CRM/Contact/Form/Email.php CRM/Contact/Selector.php
 #: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
@@ -2184,10 +2188,6 @@ msgstr "Guardar y Nuevo"
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
 msgstr "Tu %1 contacto ha sido guardado"
-
-#: CRM/Contact/Form/Edit.php
-msgid "Privacy"
-msgstr "Privacidad"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Prefers"
@@ -4012,8 +4012,9 @@ msgid "Both"
 msgstr "Ambos"
 
 #: CRM/Core/SelectValues.php
-msgid "Do not call"
-msgstr "No llamar"
+#, fuzzy
+msgid "Do not phone"
+msgstr "No telefonear"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not email"
@@ -10462,6 +10463,9 @@ msgstr "Mensaje cogido por un filtro de contenido"
 msgid "Error in SMTP transaction"
 msgstr "Error en la transacción SMTP"
 
+#~ msgid "Do not call"
+#~ msgstr "No llamar"
+
 #~ msgid "Hash"
 #~ msgstr "Hash"
 
@@ -10522,9 +10526,6 @@ msgstr "Error en la transacción SMTP"
 
 #~ msgid "Preferred Communication Method"
 #~ msgstr "Método de comunicación preferente"
-
-#~ msgid "Do Not Phone"
-#~ msgstr "No telefonear"
 
 #~ msgid "Do Not Email"
 #~ msgstr "No Email"

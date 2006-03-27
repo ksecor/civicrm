@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-21 12:04+0100\n"
-"PO-Revision-Date: 2006-03-21 07:31+0100\n"
+"POT-Creation-Date: 2006-03-27 12:58+0200\n"
+"PO-Revision-Date: 2006-03-27 13:01+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -484,6 +484,10 @@ msgstr "Opis:"
 #: CRM/Contact/Form/Task/Email.php CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
 msgstr "Email jest błędny."
+
+#: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Advanced.php
+msgid "Privacy"
+msgstr "Prywatność"
 
 #: CRM/Contact/Form/Email.php CRM/Contact/Selector.php
 #: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
@@ -2109,10 +2113,6 @@ msgstr "Zapisz i nowy"
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
 msgstr "Kontakt typu %1 został zapisany."
-
-#: CRM/Contact/Form/Edit.php
-msgid "Privacy"
-msgstr "Prywatność"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Prefers"
@@ -3863,7 +3863,7 @@ msgid "Both"
 msgstr "Oba"
 
 #: CRM/Core/SelectValues.php
-msgid "Do not call"
+msgid "Do not phone"
 msgstr "Nie dzwonić"
 
 #: CRM/Core/SelectValues.php
@@ -4148,7 +4148,7 @@ msgstr "Maska"
 
 #: CRM/Custom/Form/Field.php
 msgid "Is this Field Searchable?"
-msgstr "Czy to pole jest przeszukiwalne?"
+msgstr "Pole przeszukiwalne?"
 
 #: CRM/Custom/Form/Field.php
 msgid "Search by Range?"
@@ -10509,6 +10509,9 @@ msgstr "Wiadomość złapana w filtr treści"
 msgid "Error in SMTP transaction"
 msgstr "Błąd w transakcji SMTP"
 
+#~ msgid "Do not call"
+#~ msgstr "Nie dzwonić"
+
 #~ msgid "Hash"
 #~ msgstr "Hash"
 
@@ -10601,9 +10604,6 @@ msgstr "Błąd w transakcji SMTP"
 
 #~ msgid "Preferred Mail Format"
 #~ msgstr "Preferowany format wiadomości"
-
-#~ msgid "Do Not Phone"
-#~ msgstr "Nie dzwonić"
 
 #~ msgid "Do Not Email"
 #~ msgstr "Nie wysyłać emaili"

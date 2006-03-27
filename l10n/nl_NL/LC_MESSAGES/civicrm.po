@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-21 12:04+0100\n"
+"POT-Creation-Date: 2006-03-27 12:58+0200\n"
 "PO-Revision-Date: 2006-03-12 14:45+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
@@ -484,6 +484,10 @@ msgstr "Beschrijving:"
 #: CRM/Contact/Form/Task/Email.php CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
 msgstr "Emailadres is niet geldig."
+
+#: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Advanced.php
+msgid "Privacy"
+msgstr "privacy"
 
 #: CRM/Contact/Form/Email.php CRM/Contact/Selector.php
 #: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
@@ -2126,10 +2130,6 @@ msgstr "bewaar en nieuw"
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
 msgstr "Je %1 contact gegeven is bewaard."
-
-#: CRM/Contact/Form/Edit.php
-msgid "Privacy"
-msgstr "privacy"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Prefers"
@@ -3907,8 +3907,9 @@ msgid "Both"
 msgstr "Beide"
 
 #: CRM/Core/SelectValues.php
-msgid "Do not call"
-msgstr "niet bellen"
+#, fuzzy
+msgid "Do not phone"
+msgstr "Telefoneer Niet"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not email"
@@ -10549,6 +10550,9 @@ msgstr "Bericht is onderschept door een contentfilter."
 msgid "Error in SMTP transaction"
 msgstr "Fout in SMTP transactie"
 
+#~ msgid "Do not call"
+#~ msgstr "niet bellen"
+
 #~ msgid "Hash"
 #~ msgstr "Hash"
 
@@ -10611,9 +10615,6 @@ msgstr "Fout in SMTP transactie"
 
 #~ msgid "Preferred Communication Method"
 #~ msgstr "Voorkeur Communicatiemethode"
-
-#~ msgid "Do Not Phone"
-#~ msgstr "Telefoneer Niet"
 
 #~ msgid "Do Not Email"
 #~ msgstr "Email Niet"

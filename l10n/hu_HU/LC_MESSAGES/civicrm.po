@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-21 12:04+0100\n"
+"POT-Creation-Date: 2006-03-27 12:58+0200\n"
 "PO-Revision-Date: 2006-01-09 09:49+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -482,6 +482,10 @@ msgstr ""
 #: CRM/Contact/Form/Domain.php CRM/Contact/Form/Email.php
 #: CRM/Contact/Form/Task/Email.php CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
+msgstr ""
+
+#: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Advanced.php
+msgid "Privacy"
 msgstr ""
 
 #: CRM/Contact/Form/Email.php CRM/Contact/Selector.php
@@ -2081,10 +2085,6 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
-msgstr ""
-
-#: CRM/Contact/Form/Edit.php
-msgid "Privacy"
 msgstr ""
 
 #: CRM/Contact/Form/Edit.php
@@ -3767,7 +3767,7 @@ msgid "Both"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-msgid "Do not call"
+msgid "Do not phone"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
