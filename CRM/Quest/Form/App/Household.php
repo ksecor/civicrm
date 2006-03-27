@@ -204,22 +204,24 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
 
         // make sure we have a mother and father in there
         if ( ! CRM_Utils_Array::value( 'Mother', $details ) ) {
-            $details['Mother'] = 'Mother Details';
+            $details['Mother'] = array( 'title' => 'Mother Details',
+                                        'options' => null );
         }
 
         if ( ! CRM_Utils_Array::value( 'Father', $details ) ) {
-            $details['Father'] = 'Father Details';
+            $details['Father'] = array( 'title' => 'Father Details',
+                                        'options' => null );
         }
-
+        
         $householdType = array();
         for ( $i = 1; $i <= 2; $i++ ) {
             for ( $j = 1; $j <= 2; $j++ ) {
                 if ( $i == 1 ) {
                     $name = trim( 
-                     CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params ) . ' ' .
-                     CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params )
-                     );
-
+                                 CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params ) . ' ' .
+                                 CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params )
+                                 );
+                    
                     if ( $name ) {
                         $rid = CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params );
                         $householdType[$rid] = 'current';
@@ -244,15 +246,16 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     }//end of function 
 
     public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j ) {
-        $name = trim( 
-                     CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params ) . ' ' .
-                     CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params )
-                     );
+        $first = CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params );
+        $last  = CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params );
+        $relationshipID = CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params );
+        
+        $name = trim( $first . ' ' . $last );
         if ( ! $name ) {
             return;
         }
 
-        $relationshipName = trim( CRM_Utils_Array::value( CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params ),
+        $relationshipName = trim( CRM_Utils_Array::value( $relationshipID,
                                                           $relationship ) );
 
         if ( ! $relationshipName ) {
@@ -263,7 +266,33 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             return;
         }
 
-        $details[$relationshipName] = "$name Details";
+        // we also need to create the person record here
+        $params['first_name']      = $first;
+        $params['last_name' ]      = $last;
+        $params['relationship_id'] = $relationshipID;
+        $params['contact_id']      = $this->get('contact_id');
+        $params['lived_with_period_id'] = $relationshipID;
+
+        $ids = array( );
+
+        require_once 'CRM/Quest/BAO/Person.php'; 
+
+        $dao = new CRM_Quest_DAO_Person(); 
+        $dao->contact_id      = $this->get('contact_id'); 
+        $dao->relationship_id = $relationshipID; 
+        $personID = null;
+        if ( $dao->find(true) ) { 
+            $personID = $dao->id; 
+        }
+        $ids = array( );
+        $ids['id'] = $personID;
+        $person = CRM_Quest_BAO_Person::create( $params , $ids );
+
+        $details[$relationshipName] = array( 'title' => "$name Details",
+                                             'options' => array( 'personID'       => $personID,
+                                                                 'relationshipID' => $relationshipID,
+                                                                 'firstName'      => $first,
+                                                                 'lastName'       => $last ) );
     }
 }
 

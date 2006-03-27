@@ -216,7 +216,6 @@ class CRM_Quest_Form_App extends CRM_Core_Form
              if($required) {
                  $this->addRule("location[$locationId][phone][1][phone]",ts("Please enter a value for $phone"),'required');
              }
-             $this->addRule("location[$locationId][phone][1][phone]",ts("Please enter a valid number"),'phone');
          }
 
          if ( $alternatePhone ) {

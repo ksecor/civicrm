@@ -269,8 +269,9 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         $pages = $stateMachine->getPages( );
 
         foreach ( $pages as $name => $value ) {
-            $className   = CRM_Utils_Array::value( 'className', $value, $name );
-            $title       = CRM_Utils_Array::value( 'title'    , $value );
+            $className   = CRM_Utils_Array::value( 'className' , $value, $name );
+            $title       = CRM_Utils_Array::value( 'title'     , $value );
+            $options     = CRM_Utils_Array::value( 'options'   , $value );
             $stateName   = CRM_Utils_String::getClassName($className);
             if ( CRM_Utils_Array::value( 'className', $value ) ) {
                 $formName = $name;
@@ -281,6 +282,9 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
             $$stateName =& new $className( $stateMachine->find( $className ), $action, 'post', $formName );
             if ( $title ) {
                 $$stateName->setTitle( $title );
+            }
+            if ( $options ) {
+                $$stateName->setOptions( $options );
             }
             $this->addPage( $$stateName );
             $this->addAction( $stateName, new HTML_QuickForm_Action_Direct( ) );

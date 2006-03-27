@@ -106,7 +106,6 @@
   <field>
       <name>lived_with_period_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Period student lived with this person.</comment>
       <add>1.5</add>
   </field>

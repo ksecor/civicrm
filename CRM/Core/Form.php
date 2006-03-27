@@ -65,6 +65,11 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      */
     protected $_title = null;
 
+    /**
+     * The options passed into this form
+     * @var mixed
+     */
+    protected $_options = null;
 
     /**
      * The mode of operation for this form
@@ -375,13 +380,24 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *
      * @param string $title the title of the form
      *
-     * @return string
+     * @return void
      * @access public
      */     
     function setTitle( $title ) {
         $this->_title = $title;
     }
-	
+
+    /**
+     * Setter function for options
+     * @param mixed 
+     *
+     * @return void
+     * @access public
+     */
+    function setOptions( $options ) {
+        $this->_options = $options;
+    }
+
     /**
      * getter function for link.
      *

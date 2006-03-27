@@ -62,15 +62,18 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
 
         $householdDetails  = $controller->get( 'householdDetails' );
         if ( ! $householdDetails ) {
-            $householdDetails = array( 'Mother' => 'Mother Details',
-                                       'Father' => 'Father Details' );
+            $householdDetails = array( 'Mother' => array( 'title' => 'Mother Details',
+                                                          'options' => null ),
+                                       'Father' => array( 'title' => 'Father Details',
+                                                          'options' => null ) );
             $controller->set( 'householdDetails', $householdDetails );
         }
 
         $householdDetailPages = array( );
-        foreach ( $householdDetails as $name => $title ) {
+        foreach ( $householdDetails as $name => $values ) {
             $householdDetailPages[$name] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
-                                                  'title'     => $title );
+                                                  'title'     => $values['title'],
+                                                  'options'   => $values['options'] );
         }
 
         $totalSiblings = $controller->exportValue( 'Personal', 'number_siblings' );
