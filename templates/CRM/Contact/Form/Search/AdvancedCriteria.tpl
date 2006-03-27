@@ -41,6 +41,10 @@
                 </div>
             </td>
 		</tr>
+        <tr>
+            <td><br>{$form.privacy.label}</td>
+            <td><br>{$form.privacy.html}</td>
+        </tr>
     </table>
     <fieldset><legend>{ts}Location{/ts}</legend>
     <table class="form-layout">

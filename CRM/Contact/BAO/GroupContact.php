@@ -418,10 +418,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $query = '';
         if ( empty($returnProperties) ) {
-            //$query = "SELECT civicrm_contact.id as contact_id,(fixed for broken api crm_get_group_contacts )
-            //            civicrm_email.email as email";
-            $query = "SELECT *,civicrm_contact.id as contact_id,
-                        civicrm_email.email as email";
+            $query = "SELECT civicrm_contact.id as contact_id,
+                      civicrm_email.email as email";
+            //$query = "SELECT *,civicrm_contact.id as contact_id, (talk to lobo before re-enabling this)
+            //civicrm_email.email as email";
         } else {
             $query  = "SELECT civicrm_contact.id as civicrm_contact_id ,";
             $query .= implode( ',', $returnProperties );

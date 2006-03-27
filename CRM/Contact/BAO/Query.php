@@ -357,7 +357,16 @@ class CRM_Contact_BAO_Query {
         
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
-   
+        
+        //format privacy options
+        if ( is_array($this->_params['privacy']) ) {
+            foreach ($this->_params['privacy'] as $key => $value) {
+                if ($value) {
+                    $this->_params[$key] = 1;
+                }
+            }
+        }
+
         foreach ($this->_fields as $name => $field) {
             $value = CRM_Utils_Array::value( $name, $this->_params );
             // if we need to get the value for this param or we need all values
@@ -1067,7 +1076,8 @@ class CRM_Contact_BAO_Query {
                 if ( $mode & self::MODE_CONTRIBUTE ) {
                     $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
                 } else {
-                    $from .= " $side JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
+                    // keep it INNER for now, at some point we might make it a left join
+                    $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
                 }
                 continue;
 

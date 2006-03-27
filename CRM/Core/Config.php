@@ -464,7 +464,7 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
-            $this->imageUploadURL = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADURL );
+            $this->imageUploadURL = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADURL, '/' );
         }
 
         if ( defined( 'CIVICRM_CLEANURL' ) ) {
@@ -614,11 +614,11 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
-            $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL );
+            $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
         }
 
         if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
-            $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL );
+            $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
         }
 
         if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
@@ -813,9 +813,13 @@ class CRM_Core_Config {
         return true;
     }
 
-    static function addTrailingSlash( $name ) {
-        if ( substr( $name, -1, 1 ) != DIRECTORY_SEPARATOR ) {
-            $name .= DIRECTORY_SEPARATOR;
+    static function addTrailingSlash( $name, $separator = null ) {
+        if ( ! $separator ) {
+            $separator = DIRECTORY_SEPARATOR;
+        }
+            
+        if ( substr( $name, -1, 1 ) != $separator ) {
+            $name .= $separator;
         }
         return $name;
     }

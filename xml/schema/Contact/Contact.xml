@@ -91,7 +91,7 @@
   </field>
   <field>
        <name>home_URL</name>
-       <rule>home_URL</rule>
+       <rule>url</rule>
        <title>Home URL</title>
        <type>varchar</type>
        <length>128</length>

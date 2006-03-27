@@ -279,6 +279,10 @@ class CRM_Core_Block {
         $values =  array( );
 
         foreach ( $items as $item ) {
+            if ( ! CRM_Utils_Array::value( 'crmType', $item ) ) {
+                continue;
+            }
+
             if ( ( $item['crmType'] &  CRM_Utils_Menu::NORMAL_ITEM ) &&
                  ( $item['crmType'] >= CRM_Utils_Menu::NORMAL_ITEM ) &&
                  $item['access'] ) {

@@ -580,7 +580,7 @@ class CRM_Core_Invoke {
         }
 
         
-        if ( $secondArg == 'edit' ) {
+        if ( $secondArg == 'edit' || $secondArg == 'create' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton(); 
             $session->pushUserContext( CRM_Utils_System::url('civicrm/profile/edit', 'reset=1' ) ); 

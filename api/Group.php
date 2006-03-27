@@ -207,10 +207,10 @@ function crm_add_group_contacts(&$group, &$contacts, $status = 'Added', $method 
     
 
     foreach($contacts as $contact){
-        if ( ! isset( $contact->id )) {
+        if ( ! isset( $contact->contact_id )) {
             return _crm_error( 'Invalid contact object passed in' );
         }
-        $contactID[] = $contact->id;
+        $contactID[] = $contact->contact_id;
     } 
     
     CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID, $group->id, $method, $status);

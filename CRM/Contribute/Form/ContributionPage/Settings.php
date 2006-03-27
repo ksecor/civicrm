@@ -61,7 +61,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
 
         // intro_text and footer_text
         $this->add('textarea', 'intro_text', ts('Introductory Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'intro_text'), true);
-        $this->add('textarea', 'footer_text', ts('Footer Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'footer_text'), true);
+        $this->add('textarea', 'footer_text', ts('Footer Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'footer_text'), false);
 
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Online Contribution Page Active?') );

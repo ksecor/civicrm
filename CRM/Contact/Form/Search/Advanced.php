@@ -99,6 +99,16 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         $this->addElement('text', 'location_name', ts('Location Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name') );
 
+        // checkboxes for DO NOT phone, email, mail
+        // we take labels from SelectValues
+        $t = CRM_Core_SelectValues::privacy();
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_phone', null, $t['do_not_phone']);
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_email', null, $t['do_not_email']);
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_mail' , null, $t['do_not_mail']);
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_trade', null, $t['do_not_trade']);
+        
+        $this->addGroup($privacy, 'privacy', ts('Privacy'), '&nbsp;');
+
         // checkboxes for location type
         $location_type = array();
         $locationType = CRM_Core_PseudoConstant::locationType( );
