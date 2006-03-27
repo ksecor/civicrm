@@ -173,8 +173,11 @@
     </td>
     <td class="fieldlabel">
         {$form.ethnicity_id_1.html}
-        <div id="ethnicity_id_2[show]">{$ethnicity_id_2.show}{ts}add another Race/Ethnicity{/ts}</div>
-        <div id="ethnicity_id_1">{$form.ethnicity_id_2.html}</div>
+        <div id="ethnicity_id_2[show]">{$ethnicity_id_2.show}</div>
+        <div id="ethnicity_id_2">
+            {$form.ethnicity_id_2.html}
+            <span id="ethnicity_id_2[hide]">{$ethnicity_id_2.hide}</span>
+        </div>
     </td>
 </tr>
 <tr>
@@ -244,6 +247,9 @@
 </tr>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+
+{* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
+{include file="CRM/common/showHide.tpl"}
 
 {literal}
     <script type="text/javascript">
