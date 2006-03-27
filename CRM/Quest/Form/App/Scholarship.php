@@ -85,7 +85,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
         $this->addSelectOther('internet_access',
                               ts('What is your primary method of accessing the Internet?'),
                               array('' => ts('- Select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
-                              $attributes ,true);
+                              $attributes ,true, array('onChange' =>"showTextField()") );
 
         // computer at home
         $this->addYesNo( 'is_home_computer',
@@ -113,6 +113,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
       */
     public function postProcess() 
     {
+        /*
         $params = $this->controller->exportValues( $this->_name );
         $params['internet_access_id'] = $params['internet_access'];
         $values = $this->controller->exportValues( 'Personal' );
@@ -128,7 +129,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
 
         require_once 'CRM/Quest/BAO/Student.php';
         $student = CRM_Quest_BAO_Student::create( $params, $ids);
-
+        */
     }//end of function
 
 

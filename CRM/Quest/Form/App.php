@@ -134,9 +134,14 @@ class CRM_Quest_Form_App extends CRM_Core_Form
 
     }
 
-    function addSelectOther( $id, $label, $options, &$attributes ,$required = null) {
+    function addSelectOther( $id, $label, $options, &$attributes ,$required = null, $javascriptMethod = null) {
         
-        $this->addElement('select', $id , $label, $options );
+        if ($javascriptMethod) {
+            $this->addElement('select', $id , $label, $options, $javascriptMethod);
+        } else {
+            $this->addElement('select', $id , $label, $options);
+        }
+        
         if( $required ) {
             $this->addRule($id,ts("Please select $label "),'required');
         }

@@ -95,7 +95,7 @@
     <td class="grouplabel" rowspan="7">
         <label>{ts}Mailing Address{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel">
-        <input type="checkbox" name="copy_address" value="1" /> {ts}Check if same as Permanent Address{/ts}
+        <input type="checkbox" name="copy_address" value="1" onClick="copyAddress()"/> {ts}Check if same as Permanent Address{/ts}
     </td>
 </tr>
 <tr>
@@ -244,3 +244,38 @@
 </tr>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+
+{literal}
+    <script type="text/javascript">
+	var field = new Array(7);
+
+	field[0] = "[street_address]";
+	field[1] = "[supplemental_address_1]";
+	field[2] = "[city]";
+	field[3] = "[postal_code]";
+	field[4] = "[postal_code_suffix]";
+	field[5] = "[state_province_id]";
+	field[6] = "[country_id]";
+
+   	function copyAddress() {
+	    if (document.getElementsByName("copy_address")[0].checked) {
+	  	 for (i = 0; i < field.length; i++) {
+		    if (field[i] == "[state_province_id]" || field[i] == "[country_id]") {
+	 		   document.getElementById("location[2][address]"+field[i]).selectedIndex =
+				document.getElementById("location[1][address]"+field[i]).selectedIndex; 
+  		           document.getElementById("location[2][address]"+field[i]).disabled = true;
+		    } else {		
+ 		   	document.getElementById("location[2][address]"+field[i]).value = 
+				document.getElementById("location[1][address]"+field[i]).value;
+  		        document.getElementById("location[2][address]"+field[i]).readOnly = true;
+		    }
+	         }
+	    } else {
+	  	 for (i = 0; i < field.length; i++) {
+ 		   document.getElementById("location[2][address]"+field[i]).readOnly = false;
+ 		   document.getElementById("location[2][address]"+field[i]).value = null;
+	   	 }
+	    }
+	}
+    </script>  
+{/literal}

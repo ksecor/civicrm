@@ -98,7 +98,7 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
         $this->addCheckBox( 'educational_interest',
                             ts( 'Please select all of your educational interests' ),
                             CRM_Core_OptionGroup::values( 'educational_interest', true ),
-                            true, '<br/>',true );
+                            true, '<br/>',true, array('onClick' =>"showTextField()") );
 
         $this->addCheckBox( 'college_type',
                             ts( 'Please select the type(s) of college you are interested in attending' ),

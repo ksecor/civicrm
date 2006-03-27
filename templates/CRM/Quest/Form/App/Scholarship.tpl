@@ -11,6 +11,10 @@
      <td class="fieldlabel">{$form.internet_access.html}</td>
 </tr> 
 <tr>
+     <td class="grouplabel">  </td>
+     <td class="fieldlabel">{$form.internet_accessother.html}</td>
+</tr>
+<tr>
     <td class="grouplabel"> {$form.is_home_computer.label}</td>
     <td class="fieldlabel"> {$form.is_home_computer.html} </td>
 </tr> 
@@ -29,3 +33,23 @@
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
+{literal}
+    <script type="text/javascript">
+      var selectedOption; 
+      selectedOption = document.getElementById('internet_access').options[document.getElementById('internet_access').selectedIndex].text;
+	if (selectedOption == 'Other') {
+	   show('internet_accessother');
+	} else {
+	   hide('internet_accessother');
+	}	
+	
+   	function showTextField() {
+    		selectedOption = document.getElementById('internet_access').options[document.getElementById('internet_access').selectedIndex].text;	
+		if (selectedOption == 'Other') {
+		   show('internet_accessother');
+		} else {
+		   hide('internet_accessother');
+		}	
+ 	}
+    </script>  
+{/literal}

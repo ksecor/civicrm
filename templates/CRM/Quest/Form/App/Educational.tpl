@@ -33,6 +33,24 @@
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
+{literal}
     <script type="text/javascript">
-	hide('educational_interest_other');
+
+      var selectedOther; 
+	   selectedOther = document.getElementsByName("educational_interest[270]")[0].checked;
+	   if (selectedOther) {
+		show('educational_interest_other');
+	   } else {
+		hide('educational_interest_other');
+	   }
+
+   	function showTextField() {
+	   selectedOther = document.getElementsByName("educational_interest[270]")[0].checked;
+	   if (selectedOther) {
+		show('educational_interest_other');
+	   } else {
+		hide('educational_interest_other');
+	   }
+ 	}
     </script>  
+{/literal}
