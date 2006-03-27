@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-29 13:48+0100\n"
-"PO-Revision-Date: 2005-08-23 16:49+0200\n"
+"PO-Revision-Date: 2006-03-25 21:55+0100\n"
 "Last-Translator: Axel Rüweler <axel@rueweler.de>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -35,13 +35,11 @@ msgstr "CiviCRM administrieren"
 msgid "access CiviCRM"
 msgstr "Auf CiviCRM zugreifen"
 
-#, fuzzy
 msgid "edit contacts in %1"
-msgstr "Alle Kontakte bearbeiten"
+msgstr "Kontakte bearbeiten in %1"
 
-#, fuzzy
 msgid "view contacts in %1"
-msgstr "Alle Kontakte anzeigen"
+msgstr "Kontakte anzeigen in %1"
 
 msgid ""
 "The CiviCRM module stores information on the universe of people associated "
@@ -52,7 +50,7 @@ msgid ""
 "these activities in a single database, creating efficiencies and new "
 "opportunities for communities to better communicate and benefit from "
 "relationships with their community members."
-msgstr ""
+msgstr "Das CiviCRM-Modul speichert Informationen über das Universum vom Leuten, die mit einer Community verbunden werden. Zudem werden auch Interaktionen wie Emails, Spenden, Petitionen, Events etc. gespeichert. Es kann als ein Stand-Alone Contact Management System betrieben werden oder es kann mit einem Mass-Mailer, Freiwilligen-Management, Petitionen oder  Terminfindungstool verbunden werden. CiviCRM ermöglicht Organisationen all diese aktivitäten zu organisieren und in einer einzigen Datenbank zu speichern. Damit können Sie besser kommunizieren und profitieren von den Beziehungen mit anderen Community-Mitgliedern."
 
 msgid ""
 "The CiviCRM module allows you to create contacts, or import them from other "
@@ -73,7 +71,7 @@ msgid ""
 msgstr ""
 
 msgid "You can:"
-msgstr ""
+msgstr "Sie können:"
 
 msgid "read the <a href=\"%1\">CiviCRM Administrator Guide</a>."
 msgstr ""
@@ -168,3 +166,4 @@ msgstr ""
 
 #~ msgid "view %group"
 #~ msgstr "%group anzeigen"
+
