@@ -840,7 +840,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_uf_group` DISABLE KEYS */;
 LOCK TABLES `civicrm_uf_group` WRITE;
-INSERT INTO `civicrm_uf_group` VALUES (1,1,1,'CiviCRM Profile','Constituent Information','',NULL,NULL,NULL),(2,1,1,'CiviCRM Profile','Contributor Info','Tell us about the issue that is most important for you, and your experience in prior campaigns.',NULL,NULL,NULL);
+INSERT INTO `civicrm_uf_group` VALUES (1,1,1,'CiviCRM Profile','Constituent Information','','',NULL,NULL,NULL),(2,1,1,'CiviCRM Profile','Contributor Info','Tell us about the issue that is most important for you, and your experience in prior campaigns.','',NULL,NULL,NULL);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_uf_group` ENABLE KEYS */;
 
