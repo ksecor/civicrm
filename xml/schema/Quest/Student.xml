@@ -323,7 +323,7 @@
        <type>text</type>
        <htmlType>textarea</htmlType>
        <rows>4</rows>
-       <cols>60</cols>
+       <cols>40</cols>
        <export>true</export>
        <import>true</import>
        <headerPattern>/other college/i</headerPattern>

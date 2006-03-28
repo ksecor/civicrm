@@ -112,7 +112,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                                $title,
                                $attributes['member_count'] );
             if ( $i == 1 ) {
-                $this->addRule('member_count_'.$i,ts('Please Enter the number of people live with u'),'required');
+                $this->addRule('member_count_'.$i,ts('Please enter the number of people who live with you.'),'required');
             }
 
             for ( $j = 1; $j <= 2; $j++ ) {
@@ -138,9 +138,9 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         }
 
         $this->addElement('textarea',
-                          'household_note',
-                          ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
-                          CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_Student', 'household_note' ) );
+                          'description',
+                          ts( 'If this section above does not adequately capture your primary caregiver situation (e,g, perhaps your older sibling was your guardian), or if you have any other unique circumstances regarding your household situation, please describe it here:' ),
+                          CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_Student', 'description' ) );
 
         $this->addFormRule(array('CRM_Quest_Form_App_Household', 'formRule'));
 

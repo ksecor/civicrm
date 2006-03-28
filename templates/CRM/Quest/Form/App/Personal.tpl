@@ -69,13 +69,13 @@
     <td class="fieldlabel">
         {$form.location.1.address.state_province_id.html}<br />
         {ts}State (required only for USA, Canada, and Mexico) {/ts}<span class="marker">*</span>
-        </td>
+    </td>
 </tr>
 <tr>
     <td class="fieldlabel">
         {$form.location.1.address.postal_code.html} - {$form.location.1.address.postal_code_suffix.html}<br />
         {ts}USA Zip Code (Zip Plus 4 if available) OR International Postal Code{/ts} <span class="marker">*</span>
-        </td>
+    </td>
 </tr>
 <tr>
     <td class="fieldlabel">

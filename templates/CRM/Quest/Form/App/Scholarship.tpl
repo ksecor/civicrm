@@ -7,12 +7,14 @@
     <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </tr>
 <tr>
-     <td class="grouplabel"> {$form.internet_access.label} </td>
-     <td class="fieldlabel">{$form.internet_access.html}</td>
+     <td class="grouplabel"> {$form.internet_access_id.label} </td>
+     <td class="fieldlabel">{$form.internet_access_id.html}</td>
 </tr> 
-<tr>
-     <td class="grouplabel">  </td>
-     <td class="fieldlabel">{$form.internet_accessother.html}</td>
+<tr id="internet-access-other">
+     <td class="grouplabel">&nbsp;</td>
+     <td class="fieldlabel">{$form.internet_access_other.html}<br />
+        {ts}Describe your primary internet access method.{/ts}
+    </td>
 </tr>
 <tr>
     <td class="grouplabel"> {$form.is_home_computer.label}</td>
@@ -35,20 +37,20 @@
 
 {literal}
     <script type="text/javascript">
-      var selectedOption; 
-      selectedOption = document.getElementById('internet_access').options[document.getElementById('internet_access').selectedIndex].text;
+    var selectedOption; 
+    selectedOption = document.getElementById('internet_access_id').options[document.getElementById('internet_access_id').selectedIndex].text;
 	if (selectedOption == 'Other') {
-	   show('internet_accessother');
+	   show('internet-access-other','table-row');
 	} else {
-	   hide('internet_accessother');
+	   hide('internet-access-other','table-row');
 	}	
 	
    	function showTextField() {
-    		selectedOption = document.getElementById('internet_access').options[document.getElementById('internet_access').selectedIndex].text;	
+        selectedOption = document.getElementById('internet_access_id').options[document.getElementById('internet_access_id').selectedIndex].text;	
 		if (selectedOption == 'Other') {
-		   show('internet_accessother');
+		   show('internet-access-other','table-row');
 		} else {
-		   hide('internet_accessother');
+		   hide('internet-access-other','table-row');
 		}	
  	}
     </script>  

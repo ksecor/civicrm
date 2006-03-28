@@ -6,28 +6,28 @@
     <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </td>
 <tr>
-    <td class="grouplabel">
+    <td class="grouplabel" width="30%">
         {$form.educational_interest.label}</td>
-    <td>
-        {$form.educational_interest.html}<br>
-        {$form.educational_interest_other.label}{$form.educational_interest_other.html}</td>
+    <td class="fieldlabel">
+        {$form.educational_interest.html}&nbsp;<span id="educational-interest-other">{$form.educational_interest_other.html|crmReplace:class:big}</span>
+    </td>
 </tr>
 <tr>
-    <td class="grouplabel">
+    <td class="grouplabel" width="30%">
         {$form.college_type.label}</td>
-    <td>
+    <td class="fieldlabel">
         {$form.college_type.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">
+    <td class="grouplabel" width="30%">
         {$form.college_interest.label}</td>
-    <td>
+    <td class="fieldlabel">
         {$form.college_interest.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">
+    <td class="grouplabel" width="30%">
         {$form.college_interest_other.label}</td>
-    <td>
+    <td class="fieldlabel">
         {$form.college_interest_other.html}</td>
 </tr>
 </table>
@@ -39,17 +39,17 @@
       var selectedOther; 
 	   selectedOther = document.getElementsByName("educational_interest[270]")[0].checked;
 	   if (selectedOther) {
-		show('educational_interest_other');
+		show('educational-interest-other');
 	   } else {
-		hide('educational_interest_other');
+		hide('educational-interest-other');
 	   }
 
    	function showTextField() {
 	   selectedOther = document.getElementsByName("educational_interest[270]")[0].checked;
 	   if (selectedOther) {
-		show('educational_interest_other');
+		show('educational-interest-other');
 	   } else {
-		hide('educational_interest_other');
+		hide('educational-interest-other');
 	   }
  	}
     </script>  

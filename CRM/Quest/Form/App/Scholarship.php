@@ -65,7 +65,6 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
                 CRM_Core_DAO::storeValues( $dao , $defaults );
             }
         }
-        $defaults['internet_access']  = $defaults['internet_access_id'];
         
         return $defaults;
     }
@@ -84,14 +83,14 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
         // primary method to access internet
         $this->addSelectOther('internet_access',
                               ts('What is your primary method of accessing the Internet?'),
-                              array('' => ts('- Select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
+                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
                               $attributes ,true, array('onChange' =>"showTextField()") );
 
         // computer at home
         $this->addYesNo( 'is_home_computer',
                          ts( 'Do you have a computer at home?' ),null,true );
 
-        // internat access at home
+        // internet access at home
         $this->addYesNo( 'is_home_internet',
                          ts( 'If yes, do you have internet access at home?' ));
 
@@ -102,15 +101,38 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
         $this->addSelect( 'study_method',
                           ts( 'If yes, how do you plan to study?' ));
 
+        $this->addFormRule(array('CRM_Quest_Form_App_Scholarship', 'formRule'));
+
         parent::buildQuickForm();
     }//end of function
 
-     /**
-      * process the form after the input has been submitted and validated
-      *
-      * @access public
-      * @return void
-      */
+    
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        
+        $errors = array( );
+        if ( $params['internet_access_id'] == 23 && $params['internet_access_other'] == '') {
+            $errors["internet_access_other"] = "Please describe your other method for accessing the internet.";
+        }
+            
+        return empty($errors) ? true : $errors;
+        
+    }
+
+    /**
+     * process the form after the input has been submitted and validated
+     *
+     * @access public
+     * @return void
+     */
     public function postProcess() 
     {
         /*

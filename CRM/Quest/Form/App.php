@@ -108,18 +108,18 @@ class CRM_Quest_Form_App extends CRM_Core_Form
                            );
     }
 
-    function addSelect( $id, $label, $prefix = null, $required = null ) {
+    function addSelect( $name, $label, $prefix = null, $required = null ) {
         if ($prefix) {
-            $this->addElement('select', $id . '_id' . $prefix , $label,
-                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values($id) );
+            $this->addElement('select', $name . '_id' . $prefix , $label,
+                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values($name) );
             if ( $required) {
-                $this->addRule($id . '_id' . $prefix, ts("Please select $label"),'required');
+                $this->addRule($name . '_id' . $prefix, ts("Please select $label"),'required');
             }
         } else {
-            $this->addElement('select', $id. '_id' , $label,
-                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values($id) );
+            $this->addElement('select', $name. '_id' , $label,
+                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values($name) );
             if ( $required) {
-                $this->addRule($id. '_id' , ts("Please select $label"),'required');
+                $this->addRule($name. '_id' , ts("Please select $label"),'required');
             }
 
         }
@@ -135,19 +135,15 @@ class CRM_Quest_Form_App extends CRM_Core_Form
 
     }
 
-    function addSelectOther( $id, $label, $options, &$attributes ,$required = null, $javascriptMethod = null) {
+    function addSelectOther( $name, $label, $options, &$attributes ,$required = null, $javascriptMethod = null) {
         
-        if ($javascriptMethod) {
-            $this->addElement('select', $id , $label, $options, $javascriptMethod);
-        } else {
-            $this->addElement('select', $id , $label, $options);
-        }
+        $this->addElement('select', $name . '_id' , $label, $options, $javascriptMethod);
         
         if( $required ) {
-            $this->addRule($id, ts("Please select $label "), 'required');
+            $this->addRule($name . '_id' ,ts("Please select $label "),'required');
         }
 
-        $this->addElement( 'text', $id . 'other', $label, $attributes[$id . 'other'] );
+        $this->addElement( 'text', $name . '_other', $label, $attributes[$name . '_other'] );
     }
 
     function buildAddressBlock( $locationId, $title, $phone, $alternatePhone  = null,$required = null ) {

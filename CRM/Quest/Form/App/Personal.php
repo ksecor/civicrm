@@ -269,6 +269,11 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
           $ids['id']  = $this->_studentId;
       }
       $params['contact_id'] = $contact->id;
+      if( $params['high_school_grad_year']['Y'] > 0 ) {
+          $params['high_school_grad_year'] = $params['high_school_grad_year']['Y'] . '0101';
+      } else {
+          $params['high_school_grad_year'] = 'null';
+      }
       $student = CRM_Quest_BAO_Student::create( $params , $ids);
       $this->set('id', $student->id );
       $this->set('contact_id',$student->contact_id );

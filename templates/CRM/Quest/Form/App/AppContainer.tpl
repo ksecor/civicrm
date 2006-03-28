@@ -12,7 +12,8 @@
             <td class="save">
             <div class="crm-submit-buttons">
                 {$form.buttons.html}
-            </div>	    	
+            </div>
+            </td>	    	
         </tr>
         <tr>
            <td class="preapp-message" colspan=2>
