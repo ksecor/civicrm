@@ -87,7 +87,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             }
         }
         
-       
         return $defaults;
     }
     
@@ -287,6 +286,9 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         $ids = array( );
         $ids['id'] = $personID;
         $person = CRM_Quest_BAO_Person::create( $params , $ids );
+        if ( ! $personID ) {
+            $personID = $person->id;
+        }
 
         $details[$relationshipName] = array( 'title' => "$name Details",
                                              'options' => array( 'personID'       => $personID,

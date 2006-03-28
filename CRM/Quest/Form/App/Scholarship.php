@@ -135,9 +135,9 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-        /*
+      
         $params = $this->controller->exportValues( $this->_name );
-        $params['internet_access_id'] = $params['internet_access'];
+       
         $values = $this->controller->exportValues( 'Personal' );
         $params = array_merge( $params,$values );
         
@@ -151,7 +151,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
 
         require_once 'CRM/Quest/BAO/Student.php';
         $student = CRM_Quest_BAO_Student::create( $params, $ids);
-        */
+       
     }//end of function
 
 

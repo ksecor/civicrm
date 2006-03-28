@@ -60,14 +60,15 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         $this->_siblingIds = array();
         $this->_siblingIds = $this->get('siblingIds');
         if ( empty( $this->_siblingIds )) {
-            $householdDetails = $this->get('householdType');
+            require_once 'CRM/Quest/BAO/Household.php';
+            $householdIds = CRM_Quest_BAO_Household::getHouseholdsIds($this->_contactId);
             require_once 'CRM/Quest/DAO/Person.php';
             $dao = & new CRM_Quest_DAO_Person();
             $dao->contact_id = $this->_contactId;
             $dao->is_parent_guardian = false;
             $dao->find();
             while( $dao->fetch() ) {
-                if (! array_key_exists( $dao->relationship_id ,$householdDetails ) ) {
+                if (! array_key_exists( $dao->relationship_id ,$householdIds) ) {
                     $count = count( $this->_siblingIds ) + 1;
                     $this->_siblingIds['Sibling-'.$count] = $dao->id ;
                 }
