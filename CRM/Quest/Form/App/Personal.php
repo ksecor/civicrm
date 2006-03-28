@@ -60,6 +60,9 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         parent::preProcess();
         $session =& CRM_Core_Session::singleton( );
         $this->_contactId = $session->get( 'userID' );
+        if( $this->_contactId == null ) {
+            return;
+        }
     }
 
     /**
@@ -99,6 +102,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         $showHide->addToTemplate( );
         $this->set( 'welcome_name', CRM_Utils_Array::value( 'first_name', $defaults ) ); 
 
+       
         return $defaults;
     }
     

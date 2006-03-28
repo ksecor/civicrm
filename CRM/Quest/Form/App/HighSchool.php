@@ -66,9 +66,11 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         if ($relDAO->find(true) ) {
             $this->_orgID = $relDAO->contact_id_b;
             $this->_relID = $relDAO->id;
+            $this->set('orgID' , $relDAO->contact_id_b);
+            $this->set('relID' , $relDAO->id);
         }
         
-        $this->set('orgID' , $relDAO->contact_id_b);
+        
     }
 
 

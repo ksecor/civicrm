@@ -70,6 +70,7 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
                $this->_orgIDOther = $relDAO->contact_id_b;
                $this->_relIDOther = $relDAO->id;
                $this->set('orgIDOther' , $relDAO->contact_id_b);
+               $this->set('relIDOther' , $relDAO->id);
            }
         }
         

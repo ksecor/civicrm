@@ -119,10 +119,10 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
         
         // name of school
-        $this->addElement('text', 'gpa',
+        $this->addSelect('gpa',
                           ts( 'What is your GPA?' ),
-                          $attributes['gpa'] );
-        $this->addRule('gpa' , ts("Please enter GPA"),'required');
+                         null,true);
+        // $this->addRule('gpa_id' , ts("Please enter GPA"),'required');
 
         $this->addYesNo( 'is_class_ranking',
                          ts( 'Does your school give class rankings?' ),null,true );

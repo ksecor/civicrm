@@ -71,7 +71,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                 if ( $dao->find(true) ) {
                     $defaults['member_count_'.$i]   = $dao->member_count;
                     $defaults['years_lived_id_'.$i] = $dao->years_lived_id;
-                    $defaults['household_note']     = $dao->description;
+                    $defaults['description']     = $dao->description;
                     for ( $j = 1; $j <= 2; $j++ ) {
                         require_once 'CRM/Quest/DAO/Person.php';
                         $personDAO = & new CRM_Quest_DAO_Person();
@@ -219,8 +219,9 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             $householdParams['household_type'] = ( $i == 1 ) ? 'Current' : 'Previous';
             $householdParams['member_count']   = $params["member_count_$i"];
             $householdParams['years_lived_id'] = $params["years_lived_id_$i"];
+            
             if ( $i == 1 ) {
-                $householdParams['description'] = $params["household_note"];
+                $householdParams['description'] = $params["description"];
             }
 
             $needed = false;
@@ -287,7 +288,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         $params['last_name' ]      = $last;
         $params['relationship_id'] = $relationshipID;
         $params['contact_id']      = $this->get('contact_id');
-        $params['lived_with_period_id'] = $relationshipID;
+        //$params['lived_with_period_id'] = $relationshipID;
         $params['is_parent_guardian']   = true;
 
         $ids = array( );

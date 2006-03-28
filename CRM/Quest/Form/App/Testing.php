@@ -55,6 +55,10 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        $testTypes = CRM_Core_OptionGroup::values( 'test' ,true);
+        $testSet1 = array('act','psat','sat');
+        $testSet2 = array('satII','ap');
+        
         return $defaults;
     }
     

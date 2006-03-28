@@ -6,8 +6,8 @@
     <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </td>
 <tr>
-    <td class="grouplabel">{$form.gpa.label}</td>
-    <td class="fieldlabel">{$form.gpa.html} <br/> Please give your GPA on an unweighted, 4.0 scale</td>
+    <td class="grouplabel">{$form.gpa_id.label}</td>
+    <td class="fieldlabel">{$form.gpa_id.html} <br/> Please give your GPA on an unweighted, 4.0 scale</td>
 </tr> 
 <tr>
     <td class="grouplabel">{$form.is_class_ranking.label}</td>
