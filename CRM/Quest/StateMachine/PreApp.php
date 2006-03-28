@@ -60,41 +60,15 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                             'CRM_Quest_Form_App_Household'    => null,
                             );
 
-        $householdDetails  = $controller->get( 'householdDetails' );
-        if ( ! $householdDetails ) {
-            $householdDetails = array( 'Mother' => array( 'title' => 'Mother Details',
-                                                          'options' => null ),
-                                       'Father' => array( 'title' => 'Father Details',
-                                                          'options' => null ) );
-            $controller->set( 'householdDetails', $householdDetails );
-        }
+        require_once 'CRM/Quest/Form/App/Household.php';
+        $householdPages  =& CRM_Quest_Form_App_Household::getPages( $controller );
 
-        $householdDetailPages = array( );
-        foreach ( $householdDetails as $name => $values ) {
-            $householdDetailPages[$name] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
-                                                  'title'     => $values['title'],
-                                                  'options'   => $values['options'] );
-        }
+        require_once 'CRM/Quest/Form/App/Sibling.php';
+        $siblingPages    =& CRM_Quest_Form_App_Sibling::getPages  ( $controller );
 
-        $totalSiblings = $controller->exportValue( 'Personal', 'number_siblings' );
-        $siblingPages = array( );
-        if ( is_numeric( $totalSiblings ) && $totalSiblings > 0 ) {
-            for ( $i = 1; $i <= $totalSiblings; $i++ ) {
-                $siblingPages["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling',
-                                                       'title'     => "Sibling $i" );
-            }
-        }
+        require_once 'CRM/Quest/Form/App/Income.php';
+        $incomePages     =& CRM_Quest_Form_App_Income::getPages   ( $controller );
 
-        $incomeDetails = $controller->get( 'incomeDetails' );
-        if ( ! $incomeDetails ) {
-            $incomeDetails = array( 'NewSource' => 'Add an Income Source' );
-        }
-        $incomePages  = array( );
-        foreach ( $incomeDetails as $name => $title ) {
-            $incomePages[$name] = array( 'className' => 'CRM_Quest_Form_App_Income',
-                                         'title'     => $title );
-        }
-        
         $lastPages = array(
                            'CRM_Quest_Form_App_HighSchool'   => null,
                            'CRM_Quest_Form_App_SchoolOther'  => null,
@@ -103,7 +77,7 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                            'CRM_Quest_Form_App_Essay'        => null,
                            );
 
-        $this->_pages = array_merge( $firstPages, $householdDetailPages, $siblingPages, $incomePages, $lastPages );
+        $this->_pages = array_merge( $firstPages, $householdPages, $siblingPages, $incomePages, $lastPages );
 
         $this->addSequentialPages( $this->_pages, $action );
     }

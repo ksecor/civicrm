@@ -250,12 +250,14 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
 
         // make sure we have a mother and father in there
         if ( ! CRM_Utils_Array::value( 'Mother', $details ) ) {
-            $details['Mother'] = array( 'title' => 'Mother Details',
+            $details['Mother'] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
+                                        'title' => 'Mother Details',
                                         'options' => null );
         }
 
         if ( ! CRM_Utils_Array::value( 'Father', $details ) ) {
-            $details['Father'] = array( 'title' => 'Father Details',
+            $details['Father'] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
+                                        'title' => 'Father Details',
                                         'options' => null );
         }
         
@@ -309,13 +311,29 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             $personID = $person->id;
         }
 
-        $details[$relationshipName] = array( 'title' => "$name Details",
+        $details[$relationshipName] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
+                                             'title' => "$name Details",
                                              'options' => array( 'personID'       => $personID,
                                                                  'relationshipID' => $relationshipID,
                                                                  'firstName'      => $first,
                                                                  'lastName'       => $last ) );
         return $personID;
     }
+
+    static function &getPages( &$controller ) {
+        $details = $controller->get( 'householdDetails' );
+        if ( ! $details ) {
+            $details = array( 'Mother' => array( 'className' => 'CRM_Quest_Form_App_Guardian',
+                                                 'title' => 'Mother Details',
+                                                 'options' => null ),
+                              'Father' => array( 'className' => 'CRM_Quest_Form_App_Guardian',
+                                                 'title' => 'Father Details',
+                                                 'options' => null ) );
+            $controller->set( 'householdDetails', $details );
+        }
+        return $details;
+    }
+
 }
 
 ?>

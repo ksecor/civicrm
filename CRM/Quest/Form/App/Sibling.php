@@ -157,7 +157,6 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         $params['relationship_id'] = $params['sibling_relationship_id'];
         $params['contact_id']      = $this->get('contact_id'); 
 
-      
         require_once 'CRM/Quest/BAO/Person.php';
         $ids = array();
       
@@ -166,10 +165,14 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         }
         $sibling = CRM_Quest_BAO_Person::create( $params , $ids);
         $this->_siblingIds[$this->_name] = $sibling->id;
-        $this->set('siblingIds',$this->_siblingIds);
+        $this->set( 'siblingIds', $this->_siblingIds );
 
-
+        // also fix the form name
+        $details = $this->controller->get( 'siblingDetails' );
+        $details[$this->_name]['title'] = "Sibling {$params['first_name']} {$params['last_name']} Details";
+        $this->controller->set( 'siblingDetails', $details );
     }
+
     /**
      * Return a descriptive name for the page, used in wizard header
      *
@@ -179,6 +182,27 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
     public function getTitle()
     {
         return $this->_title ? $this->_title : ts('Sibling Information');
+    }
+
+    static function &getPages( &$controller ) {
+        $details = $controller->get( 'siblingDetails' );
+        if ( ! $details ) {
+            $totalSiblings = $controller->exportValue( 'Personal', 'number_siblings' );
+            if ( is_numeric( $totalSiblings ) && $totalSiblings > 0 ) {
+                for ( $i = 1; $i <= $totalSiblings; $i++ ) {
+                    $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling', 
+                                                      'title'   => "Sibling $i",
+                                                      'options' => array( 'index' => $i ) );
+                }
+            }
+            $controller->set( 'siblingDetails', $details );
+        }
+
+        if ( ! $details ) {
+            $details = array( );
+        }
+
+        return $details;
     }
 }
 

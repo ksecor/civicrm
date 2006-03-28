@@ -12,8 +12,10 @@
  | March 2002.                                                        |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
- | WITHOUT ANY WARRANTY; without even the implied warranty of         |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABIL
+
+ITY or FITNESS FOR A PARTICULAR PURPOSE.               |
  | See the Affero General Public License for more details.            |
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
@@ -135,7 +137,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
 
         $this->addElement('date', 'date_of_entry',
                           ts( 'Date of entry (month/year)' ),
-                          CRM_Core_SelectValues::date( 'custom', 7, 0, "Y\001M" ) );
+                          CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
         $this->addRule('date_of_entry', ts('Select a valid date.'), 'qfDate');
         $this->addRule('date_of_entry', ts("Please enter Date of entry"),'required');
         

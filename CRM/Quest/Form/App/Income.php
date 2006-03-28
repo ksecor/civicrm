@@ -186,6 +186,18 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         return $this->_title ? $this->_title : ts('Household Income');
     }
 
+    static function &getPages( &$controller ) {
+        $details = $controller->get( 'incomeDetails' );
+        if ( ! $details ) {
+            $details = array( );
+            $details['NewSource'] = array( 'className' => 'CRM_Quest_Form_App_Income',
+                                           'title'     => 'Add an Income Source',
+                                           'options'   => null );
+            $controller->set( 'incomeDetails', $details );
+        }
+        return $details;
+    }
+    
 }
 
 ?>
