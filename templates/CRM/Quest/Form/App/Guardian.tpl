@@ -2,7 +2,7 @@
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
 
-<table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </td>
@@ -22,7 +22,7 @@
     <td class="grouplabel">{$form.marital_status_id.label}</td>
     <td class="fieldlabel">{$form.marital_status_id.html}</td>
 </tr>
-<tr>
+<tr id="separated-year">
     <td class="grouplabel">{$form.separated_year.label}</td>
     <td class="fieldlabel">{$form.separated_year.html}</td>
 </tr>
@@ -102,3 +102,27 @@
 </table>
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+
+{* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
+{include file="CRM/common/showHide.tpl"}
+
+{literal}
+    <script type="text/javascript">
+    var selectedOption; 
+    selectedOption = document.getElementById('marital_status_id').options[document.getElementById('marital_status_id').selectedIndex].text;
+	if (selectedOption == 'Other') {
+	   show('internet-access-other','table-row');
+	} else {
+	   hide('internet-access-other','table-row');
+	}	
+	
+   	function showTextField() {
+        selectedOption = document.getElementById('marital_status_id').options[document.getElementById('marital_status_id').selectedIndex].text;	
+		if (selectedOption == 'Other') {
+		   show('internet-access-other','table-row');
+		} else {
+		   hide('internet-access-other','table-row');
+		}	
+ 	}
+    </script>  
+{/literal}

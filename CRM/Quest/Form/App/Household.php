@@ -176,23 +176,23 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             for ( $j = 1; $j <= $numBlocks; $j++ ) {
                 if ($params["relationship_id_".$i."_".$j]) {
                     if (! $params["first_name_".$i."_".$j]) {
-                        $errors["first_name_".$i."_".$j] = "Please enter the first name";
+                        $errors["first_name_".$i."_".$j] = "Please enter the family member First Name.";
                     }
                     if (! $params["last_name_".$i."_".$j]) {
-                        $errors["last_name_".$i."_".$j] = "Please enter the last name";
+                        $errors["last_name_".$i."_".$j] = "Please enter the family member Last Name.";
                     }
-                    if ( $i != 1 ) { //since error is to be generated only for the second member_count
-                        $errors["member_count_".$i] = "Please enter the number of people who lived with you";                        
+                    if ( $i != 1 && !is_numeric( $params["member_count_".$i] )) { //since error is to be generated only for the second member_count
+                        $errors["member_count_".$i] = "Please enter the number of people who lived with you in your previous household.";                        
                     }
                 } else {
                     if ($params["first_name_".$i."_".$j] || $params["last_name_".$i."_".$j]) {
-                        $errors["relationship_id_".$i."_".$j] = "Please specify the family member";
+                        $errors["relationship_id_".$i."_".$j] = "Please select the type of Family Member.";
                     }
                 }
             }
             if ($params["relationship_id_".$i."_1"] || $params["relationship_id_".$i."_2"]) {
                 if (! $params["years_lived_id_".$i]) {
-                    $errors["years_lived_id_".$i] = "Please specify the number of years lived";
+                    $errors["years_lived_id_".$i] = "Please specify the number of years you lived in the household.";
                 }
             }
         }

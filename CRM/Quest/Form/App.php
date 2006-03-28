@@ -74,7 +74,11 @@ class CRM_Quest_Form_App extends CRM_Core_Form
     {
         $this->assign       ( 'displayRecent' , false );
         $this->assign       ( 'welcome_name'  , $this->get('welcome_name'));
-        $this->addDefaultButtons(ts('Save & Continue'));        
+        if ( $this->_name == 'Personal' ) {
+            $this->addDefaultButtons(ts('Save & Continue'), 'next', null);
+        } else {
+            $this->addDefaultButtons(ts('Save & Continue'));
+        }
     }
 
        
@@ -98,14 +102,17 @@ class CRM_Quest_Form_App extends CRM_Core_Form
      * @access public
      */
     function addDefaultButtons( $title, $nextType = 'next', $backType = 'back' ) {
-        $this->addButtons( array(
-                                 array ( 'type'      => $nextType,
-                                         'name'      => $title,
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => $backType,
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
+        $buttons = array();
+        if ( $backType != null ) {
+            $buttons[] = array ( 'type'      => $backType,
+                                 'name'      => ts('Previous'));
+        }
+        if ( $nextType != null ) {
+            $buttons[] = array ( 'type'      => $nextType,
+                                 'name'      => $title,
+                                 'isDefault' => true   );
+        }
+        $this->addButtons( $buttons );
     }
 
     function addSelect( $name, $label, $prefix = null, $required = null ) {

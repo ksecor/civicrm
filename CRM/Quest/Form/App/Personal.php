@@ -207,6 +207,10 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
                           CRM_Core_SelectValues::date( 'custom', 5, 1, "Y" ) );
         $this->addRule('high_school_grad_year', ts('Select a valid date.'), 'qfDate');
 
+        // did parent graduate from college
+        $this->addYesNo( 'parent_grad_college_id',
+                         ts( 'Have either of your parents/guardians graduated from a four-year college?' ),1,true );
+
         $this->addRadio( 'home_area_id',
                          ts('Would you describe your home area as'),
                          CRM_Core_OptionGroup::values('home_area') );
