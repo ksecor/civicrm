@@ -2,7 +2,7 @@
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
 
-<table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td colspan="4" id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </tr>
@@ -44,8 +44,9 @@
 </tr>
 <tr>
   <td colspan="4" class="grouplabel">
-    <p><hr noshade size="1">
-    {ts}If you lived at the above residence for less than five years, please answer the questions below regarding your previous (primary) household.{/ts}</p>
+    <p>
+    {ts}If you lived at the above residence for less than five years, please answer the questions below regarding your previous (primary) household.{/ts}
+    </p>
   </td>
 </tr>
 <tr>
@@ -79,7 +80,6 @@
     <td class="fieldlabel">{$form.years_lived_id_2.html}</td>
     <td class="fieldlabel"></td>
 </tr>
-<tr><td colspan="4" class="fieldlabel"><hr noshade size="1"></td></tr>
 <tr>
     <td colspan="2" class="grouplabel">{$form.description.label}</td>
     <td colspan="2" class="fieldlabel">{$form.description.html}</td>    

@@ -140,7 +140,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         $this->addElement('textarea',
                           'description',
                           ts( 'If this section above does not adequately capture your primary caregiver situation (e,g, perhaps your older sibling was your guardian), or if you have any other unique circumstances regarding your household situation, please describe it here:' ),
-                          CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_Student', 'description' ) );
+                          CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_Household', 'description' ) );
 
         $this->addFormRule(array('CRM_Quest_Form_App_Household', 'formRule'));
 
