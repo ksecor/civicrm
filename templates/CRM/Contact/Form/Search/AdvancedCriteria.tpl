@@ -16,6 +16,9 @@
                     {ts}Complete OR partial contact name OR email.{/ts}
                 </div>
             </td>
+            <td>
+                {$form.uf_group_id.label} {$form.uf_group_id.html}
+            </td>
             <td class="label">{$form.buttons.html}</td>       
         </tr>
 		<tr>

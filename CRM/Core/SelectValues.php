@@ -264,6 +264,7 @@ class CRM_Core_SelectValues {
                 'User Registration' => ts('User Registration'),
                 'User Account'      => ts('View/Edit User Account'),
                 'Profile'           => ts('Profile'),
+                'Search Profile'    => ts('Search Profile'),
             );
         }
         return $ufGroupType;

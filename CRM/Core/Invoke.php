@@ -313,6 +313,11 @@ class CRM_Core_Invoke {
             $title = ts('Search');
             $url   = 'civicrm/contact/search/basic';
         }
+
+        $id = CRM_Utils_Request::retrieve('id', $form, false, 0, 'GET');
+        if ($id) {
+            $session->set('id', $id);
+        }
         require_once 'CRM/Contact/Controller/Search.php';
         $controller =& new CRM_Contact_Controller_Search($title, $mode);
         $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
@@ -614,7 +619,7 @@ class CRM_Core_Invoke {
             $wrapper =& new CRM_Utils_Wrapper( );  
             return $wrapper->run( 'CRM_Profile_Form_Dojo', ts( 'Create Profile' ), CRM_Core_Action::ADD ); 
         } 
-
+        
         require_once 'CRM/Profile/Page/Listings.php';
         $page =& new CRM_Profile_Page_Listings( );
         return $page->run( );

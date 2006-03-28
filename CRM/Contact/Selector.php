@@ -106,6 +106,21 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
     protected $_query;
 
+    /** 
+     * group id 
+     * 
+     * @var int 
+     */ 
+    protected $_groupId; 
+    
+    /**
+     * the public visible fields to be shown to the user
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_fields;
+
     /**
      * Class constructor
      *
@@ -125,8 +140,32 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
         // type of selector
         $this->_action = $action;
+        
+        $session =& CRM_Core_Session::singleton();
+        $this->_groupId = $session->get('id');
 
-        $this->_query =& new CRM_Contact_BAO_Query( $this->_formValues );
+        if ($this->_groupId ) {
+            $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
+                                                                     CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
+                                                                     CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
+                                                                     false, $this->_groupId );
+            //CRM_Core_Error::debug( 'f', $this->_fields );
+            
+            $this->_customFields =& CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
+
+            $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
+            $returnProperties['contact_type'] = 1;
+            $returnProperties['sort_name'   ] = 1;
+            $this->_query   =& new CRM_Contact_BAO_Query( $this->_formValues, $returnProperties, $this->_fields );
+            $this->_options =& $this->_query->_options;
+            
+            require_once 'CRM/Core/Page.php';
+            $page =& new CRM_Core_Page();
+            $page->assign('id', $this->_groupId);
+            
+        } else {
+            $this->_query =& new CRM_Contact_BAO_Query( $this->_formValues );
+        }
     }//end of constructor
 
 
@@ -212,7 +251,42 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             }
             return $csvHeaders;
         } else {
-            return self::_getColumnHeaders();
+            if ($this->_groupId ) {
+                static $skipFields = array( 'group', 'tag' );
+                $direction = CRM_Utils_Sort::ASCENDING;
+                $empty = true;
+                if ( ! isset( self::$_columnHeaders ) ) {
+                    
+                    self::$_columnHeaders = array( array( 'name' => '' ),
+                                                   array(
+                                                         'name'      => ts('Name'),
+                                                         'sort'      => 'sort_name',
+                                                         'direction' => CRM_Utils_Sort::ASCENDING,
+                                                         )
+                                                   );
+                    foreach ( $this->_fields as $name => $field ) { 
+                        if ( $field['in_selector'] &&
+                             ! in_array( $name, $skipFields ) ) {
+                            self::$_columnHeaders[] = array( 'name'      => $field['title'],
+                                                             'sort'      => $name,
+                                                             'direction' => $direction );
+                            $direction = CRM_Utils_Sort::DONTCARE;
+                            $empty = false;
+                        }
+                    }
+                    
+                    // if we dont have any valid columns, dont add the implicit ones
+                    // this allows the template to check on emptiness of column headers
+                    if ( $empty ) {
+                        self::$_columnHeaders = array( );
+                    } else {
+                        self::$_columnHeaders[] = array('desc' => ts('Actions'));
+                    }
+                }
+                return self::$_columnHeaders;
+            } else {
+                return self::_getColumnHeaders();
+            }
         }
     }
 
@@ -241,6 +315,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      *
      * @return int   the total number of rows for this action
      */
+
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $config =& CRM_Core_Config::singleton( );
 
@@ -266,21 +341,67 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         
         $gc = CRM_Core_SelectValues::groupContactStatus();
 
-        /* Dirty session hack to get at the context */
+        // Dirty session hack to get at the context 
         $session =& CRM_Core_Session::singleton();
         $context = $session->get('context', 'CRM_Contact_Controller_Search');
 
-        // CRM_Core_Error::debug( 'p', self::$_properties );
+        if ($this->_groupId ) {
+            
+            // CRM_Core_Error::debug( 'p', self::$_properties );
+            require_once 'CRM/Core/PseudoConstant.php';
+            $locationTypes = CRM_Core_PseudoConstant::locationType( );
+            
+            $names = array( );
+            static $skipFields = array( 'group', 'tag' ); 
+            foreach ( $this->_fields as $key => $field ) {
+                if ( $field['in_selector'] && 
+                     ! in_array( $key, $skipFields ) ) { 
+                    if ( strpos( $key, '-' ) !== false ) {
+                        list( $fieldName, $id, $type ) = explode( '-', $key );
+                        $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+                        if ( ! $locationTypeName ) {
+                            continue;
+                        }
+                        
+                        if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) { 
+                            if ( $type ) {
+                                $names[] = "{$locationTypeName}-{$fieldName}-{$type}";
+                            } else {
+                                $names[] = "{$locationTypeName}-{$fieldName}-1";
+                            }
+                        } else {
+                            $names[] = "{$locationTypeName}-{$fieldName}";
+                        }
+                    } else {
+                        $names[] = $field['name'];
+                    }
+                }
+            }
+            
+            $names[] =  "status";
+            
+        } else {
+            $names = self::$_properties;
+        }
 
         while ($result->fetch()) {
             $row = array();
 
             // the columns we are interested in
-            foreach (self::$_properties as $property) {
+            foreach ($names as $property) {
                 if ( $property == 'status' ) {
                     continue;
                 }
-                $row[$property] = $result->$property;
+                
+                if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($property)) {
+                    $row[$property] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$property, $cfID, $this->_options );
+                } else {
+                    $row[$property] = $result->$property;
+                }
+
+                if ( ! empty( $result->$property ) ) {
+                    $empty = false;
+                }
             }
 
             if (!empty ($result->postal_code_suffix)) {
@@ -319,15 +440,19 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     break;
                 }
                 $row['contact_type'] = $contact_type;
+                $row['contact_id'  ] = $result->contact_id;
+                $row['sort_name'   ] = $result->sort_name;
             }
 
-            $rows[] = $row;
-        }
         
+            if ( ! $empty ) {
+                $rows[] = $row;
+            }
+        }
+        //print_r($rows);
         return $rows;
     }
-    
-    
+   
     /**
      * Given the current formValues, gets the query in local
      * language
