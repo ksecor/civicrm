@@ -88,3 +88,32 @@
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
+{literal}
+    <script type="text/javascript">
+
+      var selectedSamePerson = new Array(2); 
+      var field = new Array(3);
+
+	field[0] = "first_name_";
+	field[1] = "last_name_";
+	field[2] = "relationship_id_";
+
+   	function copyNames() {
+	     for (var i = 0; i < selectedSamePerson.length; i++) {		
+		selectedSamePerson[i] = document.getElementsByName("same_2_"+(i+1))[0].checked;
+		   if (selectedSamePerson[i]) {
+		      for (var j = 0; j < field.length; j++) {		
+			  document.getElementById(field[j]+"2_"+(i+1)).value =
+				document.getElementById(field[j]+"1_"+(i+1)).value;
+			  document.getElementById(field[j]+"2_"+(i+1)).readOnly = true;
+		      }	
+		   } else {
+		      for (var j = 0; j < field.length; j++) {		
+			  document.getElementById(field[j]+"2_"+(i+1)).value = null;
+			  document.getElementById(field[j]+"2_"+(i+1)).readOnly = false;
+		      }	
+		   }
+	     }
+ 	}
+    </script>  
+{/literal}

@@ -113,6 +113,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             if ( $i == 1 ) {
                 $this->addRule('member_count_'.$i,ts('Please enter the number of people who live with you.'),'required');
             }
+            $this->addRule('member_count_'.$i,ts('Not a valid number.'),'integer');
 
             for ( $j = 1; $j <= 2; $j++ ) {
                 $this->addSelect( "relationship",
@@ -127,7 +128,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                                    $attributes['last_name'] );
                 
                 if ( $i == 2 ) {
-                    $this->addElement( 'checkbox', "same_".$i."_".$j, null, null );
+                    $this->addElement( 'checkbox', "same_".$i."_".$j, null, null, array('onClick' =>"copyNames()") );
                 }
             }
 
@@ -169,16 +170,33 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $errors = array( );
-        
-        /*for ( $i = 1; $i <= 2; $i++ ) {
-            for ( $j = 1; $j <= 2; $j++ ) {
+        $numBlocks = 2;
+
+        for ( $i = 1; $i <= $numBlocks; $i++ ) {
+            for ( $j = 1; $j <= $numBlocks; $j++ ) {
                 if ($params["relationship_id_".$i."_".$j]) {
-                    $errors["first_name_".$i."_".$j] = "Please enter first name";
-                    $errors["last_name_".$i."_".$j] = "Please enter last name";
+                    if (! $params["first_name_".$i."_".$j]) {
+                        $errors["first_name_".$i."_".$j] = "Please enter the first name";
+                    }
+                    if (! $params["last_name_".$i."_".$j]) {
+                        $errors["last_name_".$i."_".$j] = "Please enter the last name";
+                    }
+                    if ( $i != 1 ) { //since error is to be generated only for the second member_count
+                        $errors["member_count_".$i] = "Please enter the number of people who lived with you";                        
+                    }
+                } else {
+                    if ($params["first_name_".$i."_".$j] || $params["last_name_".$i."_".$j]) {
+                        $errors["relationship_id_".$i."_".$j] = "Please specify the family member";
+                    }
                 }
             }
-        }*/
-        
+            if ($params["relationship_id_".$i."_1"] || $params["relationship_id_".$i."_2"]) {
+                if (! $params["years_lived_id_".$i]) {
+                    $errors["years_lived_id_".$i] = "Please specify the number of years lived";
+                }
+            }
+        }
+
         return empty($errors) ? true : $errors;
     }
 
