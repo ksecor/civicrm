@@ -64,6 +64,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
             require_once 'CRM/Quest/DAO/Person.php';
             $dao = & new CRM_Quest_DAO_Person();
             $dao->contact_id = $this->_contactId;
+            $dao->is_parent_guardian = false;
             $dao->find();
             while( $dao->fetch() ) {
                 if (! array_key_exists( $dao->relationship_id ,$householdDetails ) ) {
@@ -71,7 +72,6 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                     $this->_siblingIds['Sibling-'.$count] = $dao->id ;
                 }
             }
-            
         }
     }
     
@@ -124,7 +124,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                            ts('Age'),
                            $attributes['age'] );
         $this->addRule('age',ts('Please Enter Age'),'required');
-        
+
         $this->addRadio( 'lived_with_period_id',
                          ts( 'How long have you lived with this person?' ),
                          CRM_Core_OptionGroup::values( 'years_lived' ));

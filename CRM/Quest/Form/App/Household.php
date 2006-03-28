@@ -197,8 +197,36 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
 
         $details = array( );
         for ( $i = 1; $i <= 2; $i++ ) {
+            $householdParams = array( );
+            $householdParams['contact_id']      = $this->get('contact_id'); 
+            $householdParams['household_type'] = ( $i == 1 ) ? 'Current' : 'Previous';
+            $householdParams['member_count']   = $params["member_count_$i"];
+            $householdParams['years_lived_id'] = $params["years_lived_id_$i"];
+            if ( $i == 1 ) {
+                $householdParams['description'] = $params["household_note"];
+            }
+
+            $needed = false;
             for ( $j = 1; $j <= 2; $j++ ) {
-                $this->getRelationshipDetail( $details, $relationship, $params, $i, $j );
+                $personID = $this->getRelationshipDetail( $details, $relationship, $params, $i, $j );
+                if ( $personID ) {
+                    $needed = true;
+                    $householdParams["person_{$j}_id"] = $personID;
+                }
+            }
+
+            if ( $needed ) {
+                // now create the household
+                require_once 'CRM/Quest/BAO/Household.php';
+                $dao                 =& new CRM_Quest_DAO_Household();
+                $dao->contact_id     =  $householdParams['contact_id'];
+                $dao->household_type =  $householdParams['household_type'];
+                $id = null;
+                if ( $dao->find(true) ) {
+                    $id = $dao->id;
+                }
+                $ids = array( 'id' => $id );
+                CRM_Quest_BAO_Household::create( $householdParams , $ids );
             }
         }
 
@@ -213,35 +241,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                                         'options' => null );
         }
         
-        $householdType = array();
-        for ( $i = 1; $i <= 2; $i++ ) {
-            for ( $j = 1; $j <= 2; $j++ ) {
-                if ( $i == 1 ) {
-                    $name = trim( 
-                                 CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params ) . ' ' .
-                                 CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params )
-                                 );
-                    
-                    if ( $name ) {
-                        $rid = CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params );
-                        $householdType[$rid] = 'current';
-                    }
-                  
-                } else {
-                    $name = trim( 
-                     CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params ) . ' ' .
-                     CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params )
-                     );
-                    
-                    if ( $name ) {
-                        $rid = CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params);
-                        $householdType[$rid] = 'previous';
-                    }
-                }
-            }
-        }
-       
-        $this->set( 'householdType', $householdType );
         $this->set( 'householdDetails', $details );
     }//end of function 
 
@@ -272,6 +271,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         $params['relationship_id'] = $relationshipID;
         $params['contact_id']      = $this->get('contact_id');
         $params['lived_with_period_id'] = $relationshipID;
+        $params['is_parent_guardian']   = true;
 
         $ids = array( );
 
@@ -293,6 +293,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                                                                  'relationshipID' => $relationshipID,
                                                                  'firstName'      => $first,
                                                                  'lastName'       => $last ) );
+        return $personID;
     }
 }
 

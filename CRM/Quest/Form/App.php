@@ -144,7 +144,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         }
         
         if( $required ) {
-            $this->addRule($id,ts("Please select $label "),'required');
+            $this->addRule($id, ts("Please select $label "), 'required');
         }
 
         $this->addElement( 'text', $id . 'other', $label, $attributes[$id . 'other'] );

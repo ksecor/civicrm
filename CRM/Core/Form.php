@@ -405,7 +405,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */     
     function getLink( ) {
-        return '';
+        $config =& CRM_Core_Config::singleton( );
+        return CRM_Utils_System::url( $_GET[$config->userFrameworkURLVar],
+                                      '_qf_' . $this->_name . '_display=true' );
     }
 	
     /**

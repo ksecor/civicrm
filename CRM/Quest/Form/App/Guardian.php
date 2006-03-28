@@ -148,10 +148,12 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['age'] );
         $this->addRule('age',ts('Please Enter Age'),'required');
         $this->addRule('age',ts('age not valid'),'integer');
-        
+
+        $options = array( '1' => 'All my life',
+                          '2' => 'Period' );
         $this->addRadio( 'lived_with_period_id',
                          ts( 'How long have you lived with this person?' ),
-                         CRM_Core_OptionGroup::values( 'lived_with_period' ) );
+                         CRM_Core_OptionGroup::values( 'years_lived' ));
         $this->addElement( 'text', "lived_with_from_age", ts( 'From Age' ),
                            $attributed['lived_with_from_age'] );
         $this->addRule('lived_with_from_age',ts('age not valid'),'integer');
@@ -244,15 +246,6 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $params['relationship_id'] = $relationshipID;
         $params['contact_id']      = $this->get('contact_id'); 
         
-        //code to find lived_with_period_id
-        foreach ( $householdInfo as $key => $value ) {
-            if (substr($key, 0, 15) == 'relationship_id' && $value == $relationshipID) {
-                $idArray = explode( '_' , $key );
-                $params['lived_with_period_id'] = $householdInfo['years_lived_id_'.$idArray[2]];
-            }
-            
-        }
-        
         if( $this->_personID ) {
             $ids['id'] = $this->_personID;
         }
@@ -272,44 +265,6 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
             $this->controller->set( 'incomeDetails', $incomeDetails );
             $this->controller->set( 'personDetails', $personDetails );
         }
-              
-        //need to update household record
-        $householdParams                    = array();
-        $householdType                      = $this->get( 'householdType');
-              
-        require_once 'CRM/Quest/DAO/Household.php';
-        $dao = & new CRM_Quest_DAO_Household();
-        $dao->contact_id = $this->get('contact_id');
-        $dao->household_type = $householdType[$relationshipID];
-        if ( $dao->find(true) ) {
-            $householdID = $dao->id;
-        }
-        if ( $householdID ) {
-            $householdParams['person_2_id']     = $person->id;
-        } else {
-            $householdParams['person_1_id']     = $person->id;
-        }
-        $householdParams['contact_id']      = $this->get('contact_id'); 
-        if ($householdType[$relationshipID] == 'current' ) {
-            $householdParams['years_lived_id']  = $householdInfo['years_lived_id_1'];
-        } else {
-            $householdParams['years_lived_id']  = $householdInfo['years_lived_id_2'];
-        }
-        $householdParams['description']     = $householdInfo['household_note'];
-        $householdParams['household_type']  = $householdType[$relationshipID];
-        if ($householdType[$relationshipID] == 'current' ) {
-            $householdParams['member_count']    = $householdInfo['member_count_1'];
-        } else {
-            $householdParams['member_count']    = $householdInfo['member_count_2'];
-        }
-        $ids = array();
-        if ( $householdID ) {
-            $ids['id'] = $householdID;
-        }
-        
-        require_once 'CRM/Quest/BAO/Household.php';
-        $household = CRM_Quest_BAO_Household::create( $householdParams , $ids );
-        //$this->_personID[$person->id] = $person ;
     }
 
     /**
