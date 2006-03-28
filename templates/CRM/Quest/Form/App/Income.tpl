@@ -33,16 +33,16 @@ Also, please be sure to include any individuals not living with you who contribu
     <tr>
        {assign var=source value="type_of_income_id_"|cat:$smarty.section.rowLoop.index}  
        <td class="grouplabel">{$form.$source.label}</td>
-       <td> {$form.$source.html}</td>
+       <td class="fieldlabel">{$form.$source.html}</td>
     </tr>
     <tr>
        {assign var=job value="job_"|cat:$smarty.section.rowLoop.index} 
        <td class="grouplabel">{$form.$job.label}</td>
-       <td>{$form.$job.html}</td>
+       <td class="fieldlabel">{$form.$job.html}</td>
     </tr>
        {assign var=amount value="amount_"|cat:$smarty.section.rowLoop.index}
        <td class="grouplabel">{$form.$amount.label}</td>
-       <td>{$form.$amount.html}</td>
+       <td class="fieldlabel">{$form.$amount.html}</td>
     </tr>
 {/section}
 

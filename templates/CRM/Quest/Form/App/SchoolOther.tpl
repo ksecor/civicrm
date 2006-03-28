@@ -9,34 +9,33 @@
     <td colspan=2>{ts}If you've attended any special programs at other secondary schools, colleges where you took courses for credit, etc., please list them here.{/ts}</td>
 </tr>
 <tr>
-    <td class="grouplabel"> {$form.organization_name.label} </td>
-    <td> {$form.organization_name.html} </td>
+    <td class="grouplabel">{$form.organization_name.label} </td>
+    <td class="fieldlabel"> {$form.organization_name.html} </td>
 </tr>
 <tr>
-    <td class="grouplabel"> {$form.date_of_entry.label} </td>
-    <td> {$form.date_of_entry.html}  {$form.date_of_exit.html} </td>
+    <td class="grouplabel">{$form.date_of_entry.label} </td>
+    <td class="fieldlabel">{$form.date_of_entry.html}  {$form.date_of_exit.html} </td>
 </tr>
 <tr>
     <td class="grouplabel" rowspan="4"><label>{ts}Location{/ts}</label></td>
 </tr>
 <tr>
-    <td> {$form.location.1.address.city.html} </td>
+    <td class="fieldlabel">{$form.location.1.address.city.html} </td>
 </tr>
 <tr>
-    <td> {$form.location.1.address.state_province_id.html} </td>
+    <td class="fieldlabel">{$form.location.1.address.state_province_id.html} </td>
 </tr>
 <tr>
-    <td> {$form.location.1.address.country_id.html} </td>
+    <td class="fieldlabel">{$form.location.1.address.country_id.html} </td>
 </tr>
 <tr>
-    <td> {$form.location.1.phone.1.phone.label} </td>
-    <td> {$form.location.1.phone.1.phone.html}  </td>
+    <td class="grouplabel">{$form.location.1.phone.1.phone.label} </td>
+    <td class="fieldlabel">{$form.location.1.phone.1.phone.html}  </td>
 </tr>
 <tr>
-    <td class="grouplabel"> {$form.note.label} </td>
-    <td> {$form.note.html} </td>
+    <td class="grouplabel">{$form.note.label}</td>
+    <td class="fieldlabel">{$form.note.html}</td>
 </tr>
 
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
-

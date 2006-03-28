@@ -18,39 +18,39 @@
                             {$form.last_name.label}</td>
 </tr> 
 <tr>
-    <td>{$form.sibling_relationship_id.label}</td>
-    <td>{$form.sibling_relationship_id.html}</td>
+    <td class="grouplabel">{$form.sibling_relationship_id.label}</td>
+    <td class="fieldlabel">{$form.sibling_relationship_id.html}</td>
 </tr> 
 <tr>
-    <td>{$form.age.label}</td>
-    <td>{$form.age.html}</td>
+    <td class="grouplabel">{$form.age.label}</td>
+    <td class="fieldlabel">{$form.age.html}</td>
 </tr>
 <tr>
-    <td>{$form.lived_with_period_id.label}</td>
-    <td>{$form.lived_with_period_id.html}</td>
+    <td class="grouplabel">{$form.lived_with_period_id.label}</td>
+    <td class="fieldlabel">{$form.lived_with_period_id.html}</td>
 </tr>
 <tr>
-    <td>{$form.lived_with_from_age.label}</td>
-    <td>{$form.lived_with_from_age.html}</td>
+    <td class="grouplabel">{$form.lived_with_from_age.label}</td>
+    <td class="fieldlabel">{$form.lived_with_from_age.html}</td>
 </tr>
 <tr>
-    <td>{$form.lived_with_to_age.label}</td>
-    <td>{$form.lived_with_to_age.html}</td>
+    <td class="grouplabel">{$form.lived_with_to_age.label}</td>
+    <td class="fieldlabel">{$form.lived_with_to_age.html}</td>
 </tr>
 <tr>
-    <td>{$form.current_school_level_id.label}</td>
-    <td>{$form.current_school_level_id.html}</td>
+    <td class="grouplabel">{$form.current_school_level_id.label}</td>
+    <td class="fieldlabel">{$form.current_school_level_id.html}</td>
 </tr>
 <tr>
-    <td>{$form.college_name.label}</td>
-    <td>{$form.college_name.html}</td>
+    <td class="grouplabel">{$form.college_name.label}</td>
+    <td class="fieldlabel">{$form.college_name.html}</td>
 <tr>    
-    <td>{$form.job_occupation.label}</td>
-    <td>{$form.job_occupation.html}</td>
+    <td class="grouplabel">{$form.job_occupation.label}</td>
+    <td class="fieldlabel">{$form.job_occupation.html}</td>
 </tr>
 <tr>
-    <td>{$form.description.label}</td>
-    <td>{$form.description.html}</td>
+    <td class="grouplabel">{$form.description.label}</td>
+    <td class="fieldlabel">{$form.description.html}</td>
 </tr>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

@@ -10,31 +10,31 @@
 </tr>
 <tr>
     <td class="grouplabel"> {$form.act_english.label}</td>
-    <td>{$form.act_english.html}</td>
+    <td class="fieldlabel">{$form.act_english.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.act_reading.label}</td>
-    <td>{$form.act_reading.html}</td>
+    <td class="fieldlabel">{$form.act_reading.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.act_writing.label}</td>
-    <td>{$form.act_writing.html}</td>
+    <td class="fieldlabel">{$form.act_writing.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.act_math.label}</td>
-    <td>{$form.act_math.html}</td>
+    <td class="fieldlabel">{$form.act_math.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.act_science.label}</td>
-    <td>{$form.act_science.html}</td>
+    <td class="fieldlabel">{$form.act_science.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.act_composite.label}</td>
-    <td>{$form.act_composite.html}</td>
+    <td class="fieldlabel">{$form.act_composite.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.act_date.label}</td>
-    <td>{$form.act_date.html}</td>
+    <td class="fieldlabel">{$form.act_date.html}</td>
 </tr>
 
 </tr>
@@ -42,24 +42,24 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.psat_criticalreading.label}</td>
-    <td>{$form.psat_criticalreading.html}</td>
+    <td class="fieldlabel">{$form.psat_criticalreading.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.psat_math.label}</td>
-    <td>{$form.psat_math.html}</td>
+    <td class="fieldlabel">{$form.psat_math.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.psat_writing.label}</td>
-    <td>{$form.psat_writing.html}</td>
+    <td class="fieldlabel">{$form.psat_writing.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.psat_total.label}</td>
-    <td>{$form.psat_total.html}</td>
+    <td class="fieldlabel">{$form.psat_total.html}</td>
 </tr>
 
 <tr>
     <td class="grouplabel">{$form.psat_date.label}</td>
-    <td>{$form.psat_date.html}</td>
+    <td class="fieldlabel">{$form.psat_date.html}</td>
 </tr>
 
 </tr>
@@ -67,23 +67,23 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_criticalreading.label}</td>
-    <td>{$form.sat_criticalreading.html}</td>
+    <td class="fieldlabel">{$form.sat_criticalreading.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_math.label}</td>
-    <td>{$form.sat_math.html}</td>
+    <td class="fieldlabel">{$form.sat_math.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_writing.label}</td>
-    <td>{$form.sat_writing.html}</td>
+    <td class="fieldlabel">{$form.sat_writing.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_total.label}</td>
-    <td>{$form.sat_total.html}</td>
+    <td class="fieldlabel">{$form.sat_total.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_date.label}</td>
-    <td>{$form.sat_date.html}</td>
+    <td class="fieldlabel">{$form.sat_date.html}</td>
 </tr>
 </tr>
 <tr><td colspan=2 class="sub-category">{ts}SAT II Subject Test{/ts}</td>
@@ -94,18 +94,18 @@
  <tr>
     {assign var=subject value="satII_"|cat:$smarty.section.rowLoop.index|cat:"_subject"}
     <td class="grouplabel">{$form.$subject.label}</td>
-    <td> {$form.$subject.html}</td>
+    <td class="fieldlabel"> {$form.$subject.html}</td>
        
 </tr>
 <tr>
     {assign var=score value="satII_"|cat:$smarty.section.rowLoop.index|cat:"_score"}
     <td class="grouplabel">{$form.$score.label}</td>
-    <td> {$form.$score.html}</td>
+    <td class="fieldlabel"> {$form.$score.html}</td>
 </tr>
 <tr>
     {assign var=date value="satII_"|cat:$smarty.section.rowLoop.index|cat:"_date"}
     <td class="grouplabel">{$form.$date.label}</td>
-    <td> {$form.$date.html}</td>
+    <td class="fieldlabel">{$form.$date.html}</td>
 </tr>
 {/section}
 
@@ -116,27 +116,27 @@
  <tr>
     {assign var=subject value="ap_"|cat:$smarty.section.rowLoop.index|cat:"_subject"}
     <td class="grouplabel">{$form.$subject.label}</td>
-    <td> {$form.$subject.html}</td>
+    <td class="fieldlabel">{$form.$subject.html}</td>
        
 </tr>
 <tr>
     {assign var=score value="ap_"|cat:$smarty.section.rowLoop.index|cat:"_score"}
     <td class="grouplabel">{$form.$score.label}</td>
-    <td> {$form.$score.html}</td>
+    <td class="fieldlabel">{$form.$score.html}</td>
 </tr>
 <tr>
     {assign var=date value="ap_"|cat:$smarty.section.rowLoop.index|cat:"_date"}
     <td class="grouplabel">{$form.$date.label}</td>
-    <td> {$form.$date.html}</td>
+    <td class="fieldlabel">{$form.$date.html}</td>
 </tr>
 {/section}
 <tr>
     <td class="grouplabel">{$form.is_test_tutoring.label}</td>
-    <td>{$form.is_test_tutoring.html}</td>
+    <td class="fieldlabel">{$form.is_test_tutoring.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.test_tutoring.label}</td>
-    <td>{$form.test_tutoring.html}</td>
+    <td class="fieldlabel">{$form.test_tutoring.html}</td>
 </tr>
 </table>
 

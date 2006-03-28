@@ -20,27 +20,27 @@
 </tr> 
 <tr>
     <td class="grouplabel">{$form.marital_status_id.label}</td>
-    <td>{$form.marital_status_id.html}</td>
+    <td class="fieldlabel">{$form.marital_status_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.separated_year.label}</td>
-    <td>{$form.separated_year.html}</td>
+    <td class="fieldlabel">{$form.separated_year.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.is_deceased.label}</td>
-    <td>{$form.is_deceased.html}</td>
+    <td class="fieldlabel">{$form.is_deceased.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.deceased_year_date.label}</td>
-    <td>{$form.deceased_year_date.html}</td>
+    <td class="fieldlabel">{$form.deceased_year_date.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.age.label}</td>
-    <td>{$form.age.html}</td>
+    <td class="fieldlabel">{$form.age.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.lived_with_period_id.label}</td>
-    <td>{$form.lived_with_period_id.html}&nbsp;&nbsp;&nbsp;
+    <td class="fieldlabel">{$form.lived_with_period_id.html}&nbsp;&nbsp;&nbsp;
     {$form.lived_with_from_age.label}
     {$form.lived_with_from_age.html}
     {$form.lived_with_to_age.label}
@@ -48,56 +48,56 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.industry_id.label}</td>
-    <td>{$form.industry_id.html}</td>
+    <td class="fieldlabel">{$form.industry_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.job_organization.label}</td>
-    <td>{$form.job_organization.html}</td>
+    <td class="fieldlabel">{$form.job_organization.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.job_occupation.label}</td>
-    <td>{$form.job_occupation.html}</td>
+    <td class="fieldlabel">{$form.job_occupation.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.job_current_years.label}</td>
-    <td>{$form.job_current_years.html}</td>
+    <td class="fieldlabel">{$form.job_current_years.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.highest_school_level_id.label}</td>
-    <td>{$form.highest_school_level_id.html}</td>
+    <td class="fieldlabel">{$form.highest_school_level_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.college_name.label}</td>
-    <td>{$form.college_name.html}</td>
+    <td class="fieldlabel">{$form.college_name.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.college_country_id.label}</td>
-    <td>{$form.college_country_id.html}</td>
+    <td class="fieldlabel">{$form.college_country_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.college_grad_year.label}</td>
-    <td>{$form.college_grad_year.html}</td>
+    <td class="fieldlabel">{$form.college_grad_year.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.college_major.label}</td>
-    <td>{$form.college_major.html}</td>
+    <td class="fieldlabel">{$form.college_major.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.prof_school_name.label}</td>
-    <td>{$form.prof_school_name.html}</td>
+    <td class="fieldlabel">{$form.prof_school_name.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.prof_school_degree_id.label}</td>
-    <td>{$form.prof_school_degree_id.html}</td>
+    <td class="fieldlabel">{$form.prof_school_degree_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.prof_grad_year.label}</td>
-    <td>{$form.prof_grad_year.html}</td>
+    <td class="fieldlabel">{$form.prof_grad_year.html}</td>
 </tr>
 
 <tr>
     <td class="grouplabel">{$form.description.label}</td>
-    <td>{$form.description.html}</td>
+    <td class="fieldlabel">{$form.description.html}</td>
 </tr>
 </table>
 
