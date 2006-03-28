@@ -263,6 +263,9 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                                                          'title'     => "{$params['first_name']} {$params['last_name']} Income Details",
                                                          'options'   => array( 'id' => $person->id ) );
             $personDetails[ "Income-{$count}" ] = $person->id;
+
+            // also unset the add an income source
+            unset( $incomeDetails['NewSource'] );
             $this->controller->set( 'incomeDetails', $incomeDetails );
             $this->controller->set( 'personDetails', $personDetails );
         }
