@@ -183,7 +183,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
             }
 
             $totalSiblings = $controller->exportValue( 'Personal', 'number_siblings' );
-            if ( is_numeric( $totalSiblings ) && $totalSiblings > $i ) {
+            if ( is_numeric( $totalSiblings ) && $totalSiblings >= $i ) {
                 for ( ; $i <= $totalSiblings; $i++ ) {
                     $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling', 
                                                       'title'   => "Sibling $i",
