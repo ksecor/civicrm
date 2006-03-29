@@ -263,23 +263,11 @@
    	function copyAddress() {
 	    if (document.getElementsByName("copy_address")[0].checked) {
 	  	 for (i = 0; i < field.length; i++) {
-		    if (field[i] == "[state_province_id]" || field[i] == "[country_id]") {
-	 		   document.getElementById("location[2][address]"+field[i]).selectedIndex =
-				document.getElementById("location[1][address]"+field[i]).selectedIndex; 
-  		           document.getElementById("location[2][address]"+field[i]).disabled = true;
-		    } else {		
  		   	document.getElementById("location[2][address]"+field[i]).value = 
 				document.getElementById("location[1][address]"+field[i]).value;
-  		        document.getElementById("location[2][address]"+field[i]).readOnly = true;
-		    }
 	         }
 	    } else {
 	  	 for (i = 0; i < field.length; i++) {
-		    if (field[i] == "[state_province_id]" || field[i] == "[country_id]") {
-			document.getElementById("location[2][address]"+field[i]).disabled = false;
-		    } else {
-	 		document.getElementById("location[2][address]"+field[i]).readOnly = false;
-		    }
  		    document.getElementById("location[2][address]"+field[i]).value = null;
 	   	 }
 	    }

@@ -89,7 +89,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         if ( $this->_contactId ) {
             $options = array( );
             $ids = array();
-            $params  = array('contact_id' => $this->_contactId); 
+            $params  = array('contact_id' => $this->_contactId, 'id'=> $this->_contactId); 
             $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$contactDefaults, &$ids );
             $defaults = array_merge($contactDefaults,$studentDefaults);
         }
@@ -102,7 +102,6 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         $showHide->addToTemplate( );
         $this->set( 'welcome_name', CRM_Utils_Array::value( 'first_name', $defaults ) ); 
 
-       
         return $defaults;
     }
     
@@ -170,9 +169,10 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         require_once 'CRM/Core/ShowHideBlocks.php';
         CRM_Core_ShowHideBlocks::links( $this,"ethnicity_id_2", ts('add another Race/Ethnicity'), ts('hide this Race/Ethnicity field'));
        
-        $this->addElement('date', 'birth_date', ts(' Birthdate (month/day/year)'), CRM_Core_SelectValues::date('birth'));
+        $this->addElement('date', 'birth_date', ts(' Birthdate (month/day/year)'), CRM_Core_SelectValues::date('birth'), true);
         
-        $this->addRule('birth_date', ts("Please enter your Birthdate"),'required');
+        //$this->addRule("birth_date[M]", ts("Please enter your Birthdate"),'required');
+
         $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
 
         $this->addRadio( 'home_area_id',
@@ -242,9 +242,11 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
             }
             $locNo++;
         }
-        
-        return empty($errors) ? true : $errors;
+        if ((!$params['birth_date']['M']) && (!$params['birth_date']['D']) && (!$params['birth_date']['Y']) ) {
+            $errors["birth_date"] = "Please enter your Birthdate";
+        }
 
+        return empty($errors) ? true : $errors;
     }
 
     /**
@@ -256,7 +258,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
     public function postProcess() 
     {
       $params = $this->controller->exportValues( $this->_name );
-      
+
       require_once 'CRM/Quest/BAO/Student.php';
                
       $params['contact_type'] = 'Individual';

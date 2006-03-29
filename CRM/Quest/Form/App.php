@@ -193,9 +193,6 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         $location[$locationId]['address']['state_province_id']      =
              $this->addElement('select', "location[$locationId][address][state_province_id]", ts('State / Province'),
                                array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
-        if( $required ){
-             $this->addRule("location[$locationId][address][state_province_id]" , ts("Please select the State / Province for %1." , array( 1 => $title)),'required');
-        }
 
         $location[$locationId]['address']['country_id']             =
              $this->addElement('select', "location[$locationId][address][country_id]", ts('Country'),
