@@ -1,20 +1,21 @@
 {* Quest Pre-application:  section *}
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
-<table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </tr>
 <tr>
-    <td colspan=2>
-<div id="help">     
-{ts}The 'Household Information' and 'Parent/Guardian Information' sections need to be complete in order to use this section properly. (20)
+    <td colspan=2 class="grouplabel">
+<p>
+<p>{ts}Household Income is the total income coming into your current, primary household. Please list all individuals and other sources of income who contribute financially to your household.</p>
+<p>An Income Source page will be presented for each individual whom you listed as a Parent or Guardian in the Household section.
+If any individual has more than one job or source of income, please enter information for both sources.{/ts}</p>
 
-Household Income is the total income coming into your current, primary household. Please list all individuals and other sources of income who contribute financially to your household. All individuals you listed in the Parent/Guardian Section are displayed. If any individual has more than one job or source of income, please list him or her multiple times for each source.
-
-Also, please be sure to include any individuals not living with you who contribute to the household financially. For these individuals, please only enter the amount contributed to your household annually (e.g., alimony or child support), not their total income which may not go to your household.{/ts}
-</div> 
-
+{if $form.another_income_source.html}
+<p>{ts}Check the <strong>Add another income source</strong> box to add information for individuals who are not living with you, but who contribute to the household financially.
+For these individuals, please only enter the amount contributed to your household annually (e.g., alimony or child support), not their total income which may not go to your household.{/ts}</p>
+{/if}
     </td>
 </tr>
 <tr>
@@ -29,7 +30,7 @@ Also, please be sure to include any individuals not living with you who contribu
         {$form.last_name.html}<br />
         {$form.last_name.label}</td>
 </tr> 
-{section name=rowLoop start=1 loop=4}
+{section name=rowLoop start=1 loop=3}
     <tr>
        {assign var=source value="type_of_income_id_"|cat:$smarty.section.rowLoop.index}  
        <td class="grouplabel">{$form.$source.label}</td>
@@ -46,6 +47,11 @@ Also, please be sure to include any individuals not living with you who contribu
     </tr>
 {/section}
 
+{if $form.another_income_source.html}
+<tr>
+    <td class="grouplabel" colspan="2">{$form.another_income_source.html}</td>
+</tr>
+{/if}
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 

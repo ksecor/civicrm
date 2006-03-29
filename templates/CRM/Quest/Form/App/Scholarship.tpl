@@ -25,6 +25,10 @@
     <td class="fieldlabel"> {$form.is_home_internet.html} </td>
 </tr> 
 <tr>
+    <td class="grouplabel"> {$form.fed_lunch_id.label}</td>
+    <td class="fieldlabel">{$form.fed_lunch_id.html}</td>
+</tr>
+<tr>
     <td class="grouplabel"> {$form.is_take_SAT_ACT.label}</td>
     <td class="fieldlabel"> {$form.is_take_SAT_ACT.html} </td>
 </tr>

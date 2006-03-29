@@ -8,7 +8,7 @@
 </tr>
 <tr>
   <td colspan="4" class="grouplabel">
-    <br /><p>{ts}In this section, our goal is to better understand your living situation over the past five years. Please answer the following regarding your current, primary household. If you live in two separate homes on a regular basis, please list the one where you spend most of your time.{/ts}</p>
+    <p>{ts}In this section, our goal is to better understand your living situation over the past five years. Please answer the following regarding your current, primary household. If you live in two separate homes on a regular basis, please list the one where you spend most of your time.{/ts}</p>
   </td>
 </tr>
 <tr>
@@ -17,7 +17,7 @@
 </tr>
 <tr>
     <td colspan="4" class="grouplabel">
-    {ts}Please list the primary caregiver(s) (parents, legal guardians, etc.) in this household{/ts}: *
+    <strong>{ts}Please list the primary caregiver(s) (parents, legal guardians, etc.) in this household{/ts}: <span class="marker">*</span></strong>
 </td>
 </tr>
 <tr>

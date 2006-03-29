@@ -94,6 +94,10 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
         $this->addYesNo( 'is_home_internet',
                          ts( 'If yes, do you have internet access at home?' ));
 
+        // federal lunch program
+        $this->addSelect( 'fed_lunch',
+                          ts( 'Are you eligible for Federal Free or Reduced Price Lunches?' ), null, true);
+
         // plan on taking SAT or ACT
         $this->addYesNo( 'is_take_SAT_ACT',
                          ts( 'Do you plan on taking the SAT or ACT?' ) ,null,true);
