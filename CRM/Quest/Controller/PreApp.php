@@ -54,6 +54,18 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         $config =& CRM_Core_Config::singleton( );
         $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
 
+        // set contact id and welcome name
+        if ( ! $this->get( 'contact_id' ) ) {
+            $session =& CRM_Core_Session::singleton( );
+            $cid = $session->get( 'userID' );
+            $this->set( 'contact_id' , $cid );
+            $dao =& new CRM_Contact_DAO_Individual( );
+            $dao->contact_id = $cid;
+            if ( $dao->find( true ) ) {
+                $this->set( 'welcome_name',
+                            $dao->first_name );
+            }
+        }
     }
 
     function addWizardStyle( &$wizard ) {

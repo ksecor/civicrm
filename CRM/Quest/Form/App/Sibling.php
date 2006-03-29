@@ -175,7 +175,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
             require_once 'CRM/Quest/DAO/Person.php';
             $dao = & new CRM_Quest_DAO_Person();
             $dao->contact_id = $controller->get( 'contact_id' );
-            $dao->is_parent_guardian = false;
+            $dao->is_sibling = true;
             $dao->find();
             $i = 1;
             while ( $dao->fetch( ) ) {

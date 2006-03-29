@@ -311,8 +311,14 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $values['score_SAT']     =  $totalScore['SAT'];
         $values['score_PSAT']    =  $totalScore['PSAT'];
         $values['score_ACT']     =  $totalScore['ACT'];
-        require_once 'CRM/Core/BAO/CustomOption.php';
-        $values['test_tutoring'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['test_tutoring']));
+        
+        if ( CRM_Utils_Array::value( 'test_tutoring', $params ) &&
+             is_array( $params['test_tutoring'] ) &&
+             ! empty( $params['test_tutoring'] ) ) {
+            require_once 'CRM/Core/BAO/CustomOption.php';
+            $values['test_tutoring'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['test_tutoring']));
+        }
+
         $id = $this->get('id');
         $contact_id = $this->get('contact_id');
         $ids = array();
