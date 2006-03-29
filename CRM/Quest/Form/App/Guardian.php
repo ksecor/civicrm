@@ -108,12 +108,12 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $this->addElement( 'text', "first_name",
                            ts('First Name'),
                            $attributes['first_name'] );
-        $this->addRule('first_name',ts('Please Enter First Name'),'required');
+        $this->addRule('first_name',ts('Please enter First Name'),'required');
 
         $this->addElement( 'text', "last_name",
                            ts('Last Name'),
                            $attributes['last_name'] );
-        $this->addRule('last_name',ts('Please Enter  Last Name'),'required');
+        $this->addRule('last_name',ts('Please enter Last Name'),'required');
 
         $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '42,43,44', 'separated-year', 'table-row', 'select', false);" );
         $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
@@ -149,7 +149,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 
         $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47', 'job_organization|job_occupation|job_current_years', 'table-row', 'select', true);" );
 
-        $this->addSelect('industry', ts( 'Industry' ),null, null, $extra1 );
+        $this->addSelect('industry', ts( 'Industry' ),null, true, $extra1 );
 
 
         $this->addElement( 'text', "job_organization",
@@ -163,7 +163,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['job_current_years']);
         $this->addRule('job_current_years',ts('not a valid number'),'integer');
 
-        $this->addSelect('highest_school_level', ts('Highest level of schooling'),null);
+        $this->addSelect('highest_school_level', ts('Highest level of schooling'),null,true);
         $this->addElement( 'text', 'college_name', ts('College Name'),
                            $attributes['college_name'] );
         $this->addCountry( 'college_country_id', ts('Which country is the college located in?'));

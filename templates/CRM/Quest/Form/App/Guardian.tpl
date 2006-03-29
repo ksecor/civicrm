@@ -103,12 +103,22 @@
 
 {* Include Javascript to show/hide fields based on value of other fields. *}
 {* Marital status field *}
-{*include file="CRM/common/showHideByFieldValue.tpl" *}
-{*include file="CRM/common/showHide.tpl"
+{include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="marital_status_id"
     trigger_value       ="42,43,44"
     target_element_id   ="separated-year" 
     target_element_type ="table-row"
-*}
+    field_type          ="select"
+    invert              = 0
+}
+{* Deceased field *}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_deceased"
+    trigger_value       ="1"
+    target_element_id   ="deceased_year_date" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

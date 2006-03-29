@@ -104,7 +104,7 @@ function on_load_init_blocks(showBlocks, hideBlocks, elementType)
  * @param  target_element_id    HTML id of element to be shown or hidden
  * @param  target_element_type  Type of element to be shown or hidden ('block' or 'table-row')
  * @param  field_type           Type of element radio/select
- * @param  status               status
+ * @param  invert               Boolean - if true, we HIDE target on value match; if false, we SHOW target on value match
  * @return none 
 */
 function showHideByValue(trigger_field_id, trigger_value, target_element_id, target_element_type, field_type, invert ) {
