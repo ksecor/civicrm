@@ -9,7 +9,7 @@
 <tr>
     <td class="grouplabel" width="30%">
         {$form.educational_interest.label}</td>
-    <td class="fieldlabel">
+    <td>
         <table class="app">
         {assign var="countEI" value=0}
         {foreach from=$form.educational_interest item=type key=key}
@@ -18,17 +18,17 @@
                 {if $countEI is not odd}
                 <tr>
                 {/if}
-                <td class="fieldlabel white-border">{$form.educational_interest.$key.html}</td>
+                <td class="optionlist">{$form.educational_interest.$key.html}</td>
                 {if $countEI is not even}
                 </tr>
                 {/if}
             {/if}
         {/foreach}
         {if ($countEI gt 9) and ($countEI is not odd) }
-        <td class="fieldlabel white-border"></td></tr>
+        <td class="optionlist"></td></tr>
         {/if}
         <tr>
-        <td colspan=2 id="educational-interest-other" class="fieldlabel white-border">{$form.educational_interest_other.html|crmReplace:class:medium}</td>
+        <td colspan=2 id="educational-interest-other" class="optionlist">{$form.educational_interest_other.html|crmReplace:class:large}</td>
         </tr>
         </table>
     </td>
@@ -36,7 +36,7 @@
 <tr>
     <td class="grouplabel" width="30%">
         {$form.college_type.label}</td>
-    <td class="fieldlabel">
+    <td>
         <table class="app">
         {assign var="countCT" value=0}
         {foreach from=$form.college_type item=type key=key}
@@ -45,14 +45,14 @@
                 {if $countCT is not odd}
                 <tr>
                 {/if}
-                <td class="fieldlabel white-border">{$form.college_type.$key.html}</td>
+                <td class="optionlist">{$form.college_type.$key.html}</td>
                 {if $countCT is not even}
                 </tr>
                 {/if}
             {/if}
         {/foreach}
         {if ($countCT gt 9) and ($countCT is not odd) }
-        <td class="fieldlabel white-border"></td></tr>
+        <td class="optionlist"></td></tr>
         {/if}
         </table>
     </td>
@@ -60,7 +60,7 @@
 <tr>
     <td class="grouplabel" width="30%">
         {$form.college_interest.label}</td>
-    <td class="fieldlabel">
+    <td>
         <table class="app">
         {assign var="countCI" value=0}
         {foreach from=$form.college_interest item=type key=key}
@@ -69,14 +69,14 @@
                 {if $countCI is not odd}
                 <tr>
                 {/if}
-                <td class="fieldlabel white-border">{$form.college_interest.$key.html}</td>
+                <td class="optionlist">{$form.college_interest.$key.html}</td>
                 {if $countCI is not even}
                 </tr>
                 {/if}
             {/if}
         {/foreach}
         {if ($countCI gt 9) and ($countCI is not odd) }
-        <td class="fieldlabel white-border"></td></tr>
+        <td class="optionlist"></td></tr>
         {/if}
         </table>
     </td>

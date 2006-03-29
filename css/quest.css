@@ -44,19 +44,26 @@ td#category {
   color: #9D6E4A;
   font-size: 16px;
 }
-td.grouplabel {
+table.app td {
+  background-color: #f1f1f1;
+  color: #285A66;
+  font-size: 10px;
+}
+
+table.app td.grouplabel {
   background-color: #f1f1f1;
   color: #285A66;
   font-size: 12px;
 }
-td.fieldlabel {
+table.app td.fieldlabel {
   background-color: #f1f1f1;
   color: #285A66;
   font-size: 10px;
   font-style: italic;
 }
-td.white-border{
+table.app td.optionlist {
   border: 2px solid #fff;
+  width: 50%;
 }
 td.preapp-message {
   color: red;
