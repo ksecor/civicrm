@@ -57,13 +57,12 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
     }
 
     function addWizardStyle( &$wizard ) {
-        $wizard['style'] = array('barClass' => 'preApp',
+        $wizard['style'] = array('barClass'          => 'preApp',
                                  'stepPrefixCurrent' => ' ',
-                                 'stepPrefixPast' => ' ',
-                                 'stepPrefixFuture' => ' ');
+                                 'stepPrefixPast'    => ' ',
+                                 'stepPrefixFuture'  => ' ' );
     }
 
-    
 }
 
 ?>

@@ -45,8 +45,7 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 {
-    static $_personID;
-    static $_personCount = 0 ;
+    protected $_personID;
 
     const INDUSTRY_UNEMPLOYED = 47;
 
@@ -59,23 +58,8 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-        $this->_personID = null;
-        require_once 'CRM/Core/OptionGroup.php';
-        $relationships = CRM_Core_OptionGroup::values( 'relationship' );
-        foreach ( $relationships as $key=> $value ) {
-            if ( trim($value) == trim($this->_name) ) {
-                $relationshipID = $key;
-            }
-        }
-        if ( $relationshipID ) {
-            require_once 'CRM/Quest/DAO/Person.php';
-            $dao = new CRM_Quest_DAO_Person();
-            $dao->contact_id      = $this->get('contact_id');
-            $dao->relationship_id = $relationshipID;
-            if ( $dao->find(true) ) {
-                $this->_personID = $dao->id;
-            }
-        }
+        $this->_personID = $this->_options['personID'];
+        $relationshipID  = $this->_options['relationshipID'];
     }
    
     /**
@@ -275,17 +259,16 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         if ( $params['industry_id'] && $params['industry_id'] != self::INDUSTRY_UNEMPLOYED ) {
             // add an income form for this person
             $incomeDetails = $this->controller->get( 'incomeDetails' );
-            $personDetails = $this->controller->get( 'personDetails' );
-            $count = $person->id;
-            $incomeDetails[ "Income-{$count}" ] = array( 'className' => 'CRM_Quest_Form_App_Income',
-                                                         'title'     => "{$params['first_name']} {$params['last_name']} Income Details",
-                                                         'options'   => array( 'id' => $person->id ) );
-            $personDetails[ "Income-{$count}" ] = $person->id;
-
-            // also unset the add an income source
-            unset( $incomeDetails['NewSource'] );
+            $incomeID = null;
+            if ( CRM_Utils_Array::value( "Income-{$person->id}", $incomeDetails ) ) {
+                $incomeID = $incomeDetails[ "Income-{$person->id}" ]['options']['incomeID'];
+            }
+            $incomeDetails[ "Income-{$person->id}" ] =
+                array( 'className' => 'CRM_Quest_Form_App_Income',
+                       'title'     => "{$params['first_name']} {$params['last_name']} Income Details",
+                       'options'   => array( 'personID' => $person->id,
+                                             'incomeID' => $incomeID ) );
             $this->controller->set( 'incomeDetails', $incomeDetails );
-            $this->controller->set( 'personDetails', $personDetails );
         }
     }
 

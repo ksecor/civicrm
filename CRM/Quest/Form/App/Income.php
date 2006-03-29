@@ -45,8 +45,9 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
 {
-    static $_incomeIDs;
-    
+    protected $_personID;
+    protected $_incomeID;
+
     /**
      * Function to set variables up before form is built
      *
@@ -55,17 +56,11 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
      */
     public function preProcess()
     {
-        $personDetails = array();
-        $personDetails = $this->get('personDetails');
-        require_once 'CRM/Quest/DAO/Income.php';
-        // need to bulid ids for income
-        foreach ( $personDetails as $key => $value ) {
-            $dao = & new  CRM_Quest_DAO_Income();
-            $dao->person_id = $value;
-            $dao->find(true);
-            $this->_incomeIDs[$key] = $dao->id;
-        }
-        $this->set('incomeIDs' , $this->_incomeIDs);
+        parent::preProcess();
+
+        $this->_contactId = $this->get('contact_id');
+        $this->_incomeID  = CRM_Utils_Array::value( 'incomeID', $this->_options );
+        $this->_personID  = CRM_Utils_Array::value( 'personID', $this->_options );
     }
 
     /**
@@ -77,31 +72,34 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
-        $personDetails = $this->get('personDetails');
         $defaults = array( );
-        require_once 'CRM/Quest/DAO/Income.php';
-        $dao = & new CRM_Quest_DAO_Income();
-        $dao->person_id = $personDetails[$this->_name];
-        if ($dao->find(true)) {
-            CRM_Core_DAO::storeValues( $dao , $defaults );
-        }
-        
-        //for type of income
-        
-        $defaults['type_of_income_id_1'] = $defaults['source_1_id'];
-        $defaults['type_of_income_id_2'] = $defaults['source_2_id'];
 
-        //set the first name and last name
-        require_once 'CRM/Quest/DAO/Person.php';
-        $dao = & new CRM_Quest_DAO_Person();
-        $dao->id = $personDetails[$this->_name];
-        if ($dao->find(true)) {
-            $defaults['first_name'] = $dao->first_name;
-            $defaults['last_name']  = $dao->last_name;
+        if ( $this->_incomeID ) {
+            require_once 'CRM/Quest/DAO/Income.php';
+            $dao = & new CRM_Quest_DAO_Income();
+            $dao->person_id = $this->_incomeID;
+            if ($dao->find(true)) {
+                CRM_Core_DAO::storeValues( $dao , $defaults );
+            }
+            
+            //for type of income
+            $defaults['type_of_income_id_1'] = $defaults['source_1_id'];
+            $defaults['type_of_income_id_2'] = $defaults['source_2_id'];
         }
+
+        if ( $this->_personID ) {
+            //set the first name and last name
+            require_once 'CRM/Quest/DAO/Person.php';
+            $dao = & new CRM_Quest_DAO_Person();
+            $dao->id = $this->_personID;
+            if ($dao->find(true)) {
+                $defaults['first_name'] = $dao->first_name;
+                $defaults['last_name']  = $dao->last_name;
+            }
+        }
+
         return $defaults;
     }
-    
 
     /**
      * Function to actually build the form
@@ -157,21 +155,33 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
     public function postProcess()  
     {
         $params  = $this->controller->exportValues( $this->_name );
-        $personDetails = $this->get('personDetails');
+
         $params['source_1_id'] = $params['type_of_income_id_1']; 
-        $params['source_2_id'] = $params['type_of_income_id_2']; 
-        $params['person_id']   = $personDetails[$this->_name];
-        
-        $this->_incomeIDs = $this->get( 'incomeIDs' );
-        $ids = array();
-        if ( $this->_incomeIDs[$this->_name] ) {
-            $ids['id'] = $this->_incomeIDs[$this->_name];
+        $params['source_2_id'] = $params['type_of_income_id_2'];
+
+        if ( ! $this->_personID ) {
+            $personParams = array( );
+            $personParams['first_name'] = $params['first_name'];
+            $personParams['last_name'] = $params['last_name'];
+            require_once 'CRM/Quest/BAO/Person.php';
+            $person = CRM_Quest_BAO_Person::create( $params , $ids );
+            $this->_personID = $person->id;
         }
+
+        $params['person_id']   = $this->_personID;
+        
+        $ids['id'] = $this->_incomeID;
 
         require_once 'CRM/Quest/BAO/Income.php';
         $income = CRM_Quest_BAO_Income::create( $params , $ids );
-        $this->_incomeIDs[$this->_name] = $income->id;
-        $this->set('incomeIDs' , $this->_incomeIDs);
+
+        $details = $this->controller->get( 'incomeDetails' );
+        $details[ "Income-{$this->_personID}"] =
+            array( 'className' => 'CRM_Quest_Form_App_Income',
+                   'title'     => "{$params['first_name']} {$params['last_name']} Income Details",
+                   'options'   => array( 'personID' => $this->_personID,
+                                         'incomeID' => $income->id ) );
+        $this->controller->set( 'incomeDetails', $incomeDetails );
     }
     
 
@@ -188,13 +198,59 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
 
     static function &getPages( &$controller ) {
         $details = $controller->get( 'incomeDetails' );
+
         if ( ! $details ) {
+            $cid = $controller->get( 'contact_id' ); 
+            require_once 'CRM/Quest/DAO/Income.php';
+            $dao =& new CRM_Quest_DAO_Income( );
+            $dao->contact_id = $cid;
+            $dao->find( );
+
             $details = array( );
+            while ( $dao->fetch( ) ) {
+                require_once 'CRM/Quest/DAO/Person.php';
+                $person =& new CRM_Quest_DAO_Person();
+                $person->contact_id = $cid; 
+                $person->id = $dao->person_id;
+                if ( $person->find( true ) ) {
+                    $details[ "Income-{$dao->person_id}"] =
+                        array( 'className' => 'CRM_Quest_Form_App_Income',
+                               'title'     => "{$person->first_name} {$person->last_name} Income Details",
+                               'options'   => array( 'personID' => $person->id,
+                                                     'incomeID' => $dao->id ) );
+                } else {
+                    CRM_Core_Error::fatal( "Database is inconsistent" );
+                }
+            }
+
+            // now get all parent/guardians that have some income
+            require_once 'CRM/Quest/DAO/Person.php';
+            require_once 'CRM/Quest/Form/App/Guardian.php';
+            $dao =& new CRM_Quest_DAO_Person( );
+            $dao->contact_id = $cid;
+            $dao->is_parent_guardian = true;
+            $dao->find( );
+            while ( $dao->fetch( ) ) {
+                if ( ! CRM_Utils_Array::value( "Income-{$dao->id}", $details ) &&
+                     $dao->industry_id &&
+                     $dao->industry_id != CRM_Quest_Form_App_Guardian::INDUSTRY_UNEMPLOYED ) {
+                    $details[ "Income-{$dao->person_id}"] =
+                        array( 'className' => 'CRM_Quest_Form_App_Income',
+                               'title'     => "{$dao->first_name} {$dao->last_name} Income Details",
+                               'options'   => array( 'personID' => $dao->id,
+                                                     'incomeID' => null ) );
+                }
+            }
+        }
+
+        if ( empty( $details ) ) {
+            // dont store this in session, always add at end
             $details['NewSource'] = array( 'className' => 'CRM_Quest_Form_App_Income',
                                            'title'     => 'Add an Income Source',
-                                           'options'   => null );
-            $controller->set( 'incomeDetails', $details );
+                                           'options'   => array( 'personID' => null,
+                                                                 'incomeID' => null ) );
         }
+
         return $details;
     }
     

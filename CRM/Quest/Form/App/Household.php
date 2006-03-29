@@ -111,7 +111,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                                $title,
                                $attributes['member_count'] );
             if ( $i == 1 ) {
-                $this->addRule('member_count_'.$i,ts('Please enter the number of people who live with you.'),'required');
+                $this->addRule( "member_count_$i",ts('Please enter the number of people who live with you.'),'required');
             }
             $this->addRule('member_count_'.$i,ts('Not a valid number.'),'integer');
 
@@ -181,8 +181,8 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                     if (! $params["last_name_".$i."_".$j]) {
                         $errors["last_name_".$i."_".$j] = "Please enter the family member Last Name.";
                     }
-                    if ( $i != 1 && !is_numeric( $params["member_count_".$i] )) { //since error is to be generated only for the second member_count
-                        $errors["member_count_".$i] = "Please enter the number of people who lived with you in your previous household.";                        
+                    if ( $i != 1 && ! is_numeric( $params["member_count_$i"] ) && $params["member_count_$i"] <= 0 ) {
+                        $errors["member_count_".$i] = "Please enter the number of people who lived with you";                        
                     }
                 } else {
                     if ($params["first_name_".$i."_".$j] || $params["last_name_".$i."_".$j]) {
@@ -282,16 +282,18 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         }
 
         if ( CRM_Utils_Array::value( "same_{$i}_{$j}", $params ) ) {
-            return;
+            if ( ! CRM_Utils_Array::value( $relationshipName, $details ) ) {
+                CRM_Core_Error::fatal( ts( "This should have been trapped in a form rule" ) );
+            }
+            return $details[$relationshipName]['options']['personID'];
         }
 
         // we also need to create the person record here
-        $params['first_name']      = $first;
-        $params['last_name' ]      = $last;
-        $params['relationship_id'] = $relationshipID;
-        $params['contact_id']      = $this->get('contact_id');
-        //$params['lived_with_period_id'] = $relationshipID;
-        $params['is_parent_guardian']   = true;
+        $params['first_name']         = $first;
+        $params['last_name' ]         = $last;
+        $params['relationship_id']    = $relationshipID;
+        $params['contact_id']         = $this->get('contact_id');
+        $params['is_parent_guardian'] = true;
 
         $ids = array( );
 
@@ -314,21 +316,39 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         $details[$relationshipName] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
                                              'title' => "$name Details",
                                              'options' => array( 'personID'       => $personID,
-                                                                 'relationshipID' => $relationshipID,
-                                                                 'firstName'      => $first,
-                                                                 'lastName'       => $last ) );
+                                                                 'relationshipID' => $relationshipID ) );
         return $personID;
     }
 
     static function &getPages( &$controller ) {
-        $details = $controller->get( 'householdDetails' );
+        $details       = $controller->get( 'householdDetails' );
+
         if ( ! $details ) {
-            $details = array( 'Mother' => array( 'className' => 'CRM_Quest_Form_App_Guardian',
-                                                 'title' => 'Mother Details',
-                                                 'options' => null ),
-                              'Father' => array( 'className' => 'CRM_Quest_Form_App_Guardian',
-                                                 'title' => 'Father Details',
-                                                 'options' => null ) );
+            $cid = $controller->get( 'contact_id' ); 
+            require_once 'CRM/Quest/DAO/Person.php';
+            $dao =& new CRM_Quest_DAO_Person( );
+            $dao->contact_id = $cid;
+            $dao->is_parent_guardian = true;
+            $dao->find( );
+            $details = array( );
+            $relationship = CRM_Core_OptionGroup::values( 'relationship' );
+            while ( $dao->fetch( ) ) {
+                $relationshipName = trim( CRM_Utils_Array::value( $dao->relationship_id,
+                                                                  $relationship ) );
+                $name = trim( "{$dao->first_name} {$dao->last_name}" );
+                $details[$relationshipName] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
+                                                     'title' => "$name Details",
+                                                     'options' => array( 'personID'       => $dao->id,
+                                                                         'relationshipID' => $dao->relationshipID ) );
+            }
+            if ( empty( $details ) ) {
+                $details = array( 'Mother' => array( 'className' => 'CRM_Quest_Form_App_Guardian',
+                                                     'title' => 'Mother Details',
+                                                     'options' => null ),
+                                  'Father' => array( 'className' => 'CRM_Quest_Form_App_Guardian',
+                                                     'title' => 'Father Details',
+                                                     'options' => null ) );
+            }
             $controller->set( 'householdDetails', $details );
         }
         return $details;

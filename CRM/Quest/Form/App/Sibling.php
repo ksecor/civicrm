@@ -45,6 +45,7 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 {
+    protected $_siblingID;
 
      /**
      * Function to set variables up before form is built
@@ -55,25 +56,9 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-        $session =& CRM_Core_Session::singleton( );
-        $this->_contactId = $session->get( 'userID' );
-        $this->_siblingIds = array();
-        $this->_siblingIds = $this->get('siblingIds');
-        if ( empty( $this->_siblingIds )) {
-            require_once 'CRM/Quest/BAO/Household.php';
-            $householdIds = CRM_Quest_BAO_Household::getHouseholdsIds($this->_contactId);
-            require_once 'CRM/Quest/DAO/Person.php';
-            $dao = & new CRM_Quest_DAO_Person();
-            $dao->contact_id = $this->_contactId;
-            $dao->is_parent_guardian = false;
-            $dao->find();
-            while( $dao->fetch() ) {
-                if (! array_key_exists( $dao->relationship_id ,$householdIds) ) {
-                    $count = count( $this->_siblingIds ) + 1;
-                    $this->_siblingIds['Sibling-'.$count] = $dao->id ;
-                }
-            }
-        }
+
+        $this->_contactId = $this->get('contact_id');
+        $this->_siblingID  = CRM_Utils_Array::value( 'siblingID', $this->_options );
     }
     
     /**
@@ -86,10 +71,10 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        if ($this->_siblingIds[$this->_name]) {
+        if ( $this->_siblingID ) {
             require_once 'CRM/Quest/DAO/Person.php';
             $dao = & new CRM_Quest_DAO_Person();
-            $dao->id = $this->_siblingIds[$this->_name];
+            $dao->id = $this->_siblingID;
             if ($dao->find(true)) {
                 CRM_Core_DAO::storeValues( $dao , $defaults );
             }
@@ -98,7 +83,6 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         }
         return $defaults;
     }
-    
 
     /**
      * Function to actually build the form
@@ -157,20 +141,19 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
        
         $params['relationship_id'] = $params['sibling_relationship_id'];
         $params['contact_id']      = $this->get('contact_id'); 
+        $params['is_sibling']      = true;
 
         require_once 'CRM/Quest/BAO/Person.php';
+
         $ids = array();
-      
-        if ( $this->_siblingIds[$this->_name] ) {
-            $ids['id'] = $this->_siblingIds[$this->_name]; 
-        }
+        $ids['id'] = $this->_siblingID;
+
         $sibling = CRM_Quest_BAO_Person::create( $params , $ids);
-        $this->_siblingIds[$this->_name] = $sibling->id;
-        $this->set( 'siblingIds', $this->_siblingIds );
 
         // also fix the form name
         $details = $this->controller->get( 'siblingDetails' );
-        $details[$this->_name]['title'] = "Sibling {$params['first_name']} {$params['last_name']} Details";
+        $details[$this->_name]['title']   = "Sibling {$params['first_name']} {$params['last_name']}";
+        $details[$this->_name]['options']['siblingID'] = $sibling->id;
         $this->controller->set( 'siblingDetails', $details );
     }
 
@@ -188,14 +171,30 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
     static function &getPages( &$controller ) {
         $details = $controller->get( 'siblingDetails' );
         if ( ! $details ) {
+            // now adjust the ones that have a record in them
+            require_once 'CRM/Quest/DAO/Person.php';
+            $dao = & new CRM_Quest_DAO_Person();
+            $dao->contact_id = $controller->get( 'contact_id' );
+            $dao->is_parent_guardian = false;
+            $dao->find();
+            $i = 1;
+            while ( $dao->fetch( ) ) {
+                $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling',
+                                                  'title' => trim( "Sibling {$dao->first_name} {$dao->last_name}" ),
+                                                  'options' => array( 'index' => $i,
+                                                                      'siblingID' => $dao->id ) );
+                $i++;
+            }
+
             $totalSiblings = $controller->exportValue( 'Personal', 'number_siblings' );
-            if ( is_numeric( $totalSiblings ) && $totalSiblings > 0 ) {
-                for ( $i = 1; $i <= $totalSiblings; $i++ ) {
+            if ( is_numeric( $totalSiblings ) && $totalSiblings > $i ) {
+                for ( ; $i <= $totalSiblings; $i++ ) {
                     $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling', 
                                                       'title'   => "Sibling $i",
                                                       'options' => array( 'index' => $i ) );
                 }
             }
+            
             $controller->set( 'siblingDetails', $details );
         }
 
