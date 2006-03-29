@@ -93,6 +93,9 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
             $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$contactDefaults, &$ids );
             $defaults = array_merge($contactDefaults,$studentDefaults);
         }
+        require_once 'CRM/Utils/Date.php';
+        $defaults['high_school_grad_year'] = CRM_Utils_Date::unformat($defaults['high_school_grad_year'],'-') ;
+
         
         if ( CRM_Utils_Array::value( 'ethnicity_id_2', $defaults )) {
             $showHide =& new CRM_Core_ShowHideBlocks(array('ethnicity_id_2'       => 1), array('ethnicity_id_2[show]'       => 1) );
@@ -279,11 +282,14 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
           $ids['id']  = $this->_studentId;
       }
       $params['contact_id'] = $contact->id;
-      if( $params['high_school_grad_year']['Y'] > 0 ) {
+      /*if( $params['high_school_grad_year']['Y'] > 0 ) {
           $params['high_school_grad_year'] = $params['high_school_grad_year']['Y'] . '0101';
       } else {
           $params['high_school_grad_year'] = 'null';
-      }
+          }*/
+      
+      require_once 'CRM/Utils/Date.php';
+      $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
       $student = CRM_Quest_BAO_Student::create( $params , $ids);
       $this->set('id', $student->id );
       $this->set('contact_id',$student->contact_id );

@@ -96,11 +96,12 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
             }
             
             // format date
-            $dateFields = array('separated_year','college_grad_year','prof_grad_year');
+            require_once 'CRM/Utils/Date.php';
+            $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year');
             foreach( $dateFields as $field ) {
                 $date = CRM_Utils_Date::unformat( $defaults[$field],'-' );  
                 if (! empty( $date) ) {
-                    $defaults[$field] = $date;  
+                    $defaults[$field] = $date;
                 } else {
                     $defaults[$field] = '';
                 }
@@ -248,6 +249,19 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         
         if( $this->_personID ) {
             $ids['id'] = $this->_personID;
+        }
+
+
+        // format date
+        require_once 'CRM/Utils/Date.php';
+        $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year');
+        foreach( $dateFields as $field ) {
+            $date = CRM_Utils_Date::format( $params[$field]);  
+            if (! empty( $date) ) {
+                $params[$field] = $date;  
+            } else {
+                $params[$field] = '';
+            }
         }
 
         require_once 'CRM/Quest/BAO/Person.php';

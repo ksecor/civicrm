@@ -94,6 +94,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                 CRM_Core_DAO::storeValues( $dao , $defaults );
             }
             $defaults['sibling_relationship_id'] = $defaults['relationship_id'];
+            
         }
         return $defaults;
     }

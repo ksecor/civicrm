@@ -92,8 +92,12 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
                 CRM_Core_DAO::storeValues( $dao , $studetDefaults );
             }
         }
-
+        if ( $studetDefaults ['class_rank'] ) {
+            $studetDefaults ['class_rank'] = $studetDefaults ['is_class_ranking'];
+        }
+        
         //set defaluts for honor
+        require_once 'CRM/Utils/Date.php';
         require_once 'CRM/Quest/DAO/Honor.php';
         $dao = & new CRM_Quest_DAO_Honor();
         $dao->contact_id = $contactId;
@@ -101,7 +105,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         while ( $dao->fetch() ) {
             $count = count($defaults) + 1;
             $defaults['description_'.$count] = $dao->description;
-            $defaults['award_date_'.$count] = $dao->award_date;
+            $defaults['award_date_'.$count] = CRM_Utils_Date::unformat( $dao->award_date,'-' );
         }
         $defaults = array_merge($defaults , $studetDefaults);
         return $defaults;
@@ -181,13 +185,14 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $student = CRM_Quest_BAO_Student::create( $params, $ids);
 
         // to add honour records 
+        require_once 'CRM/Utils/Date.php';
         $honors = array();
         foreach ( $honorParams as $key => $value ){
             $field = explode('_' , $key ) ;
             if ($field[0] == 'description') {
                 $honors[$field[1]]['description'] = $value;
             } else if ( $field[0] == 'award' && $field[1] == 'date' ) {
-                $honors[$field[2]]['award_date'] = $value;
+                $honors[$field[2]]['award_date'] = CRM_Utils_Date::format( $value );;
             }
         }
         
@@ -195,8 +200,8 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $this->_honorIds = $this->get( 'honorIds');
         foreach ( $honors as $key => $honor ) {
             $ids = array();
-            if ( $honorIds[$key] ) {
-                $ids['id'] = $honorIds[$key];
+            if ( $this->_honorIds[$key] ) {
+                $ids['id'] = $this->_honorIds[$key];
             }
             $honor['contact_id']     = $contact_id;
             $newHonor                = CRM_Quest_BAO_Honor::create( $honor,$ids );

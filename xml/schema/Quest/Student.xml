@@ -192,19 +192,10 @@
       <name>parent_grad_college_id</name>
       <type>int unsigned</type>
       <default>NULL</default>
-      <comment>Has any parent or guardian graduated from a 4-year college? FK to civicrm_option_value.</comment>
+      <comment>Has any parent or guardian graduated from a 4-year college?</comment>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>parent_grad_college_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <export>true</export>
-       <import>true</import>
-       <headerPattern>/parent college graduate/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
-  <field>
+   <field>
        <name>internet_access_id</name>
        <type>int unsigned</type>
        <comment>How do they access the internet. FK to civicrm_option_value.</comment>

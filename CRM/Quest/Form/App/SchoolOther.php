@@ -104,11 +104,13 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
             }
             
             // set relationship defaults
+            require_once 'CRM/Utils/Date.php';
             require_once 'CRM/Contact/DAO/Relationship.php';
             $relDAO = & new CRM_Contact_DAO_Relationship();
             $relDAO->id = $this->_relIDOther; 
             if ( $relDAO->find(true) ) {
-                $defaults['date_of_entry'] =  $relDAO->start_date;
+                $defaults['date_of_entry'] = CRM_Utils_Date::unformat( $relDAO->start_date,'-' );
+                $defaults['date_of_exit']  = CRM_Utils_Date::unformat( $relDAO->start_date,'-' );
             }
             
         }
@@ -184,17 +186,18 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
         
         //create a realtionship
+        require_once 'CRM/Utils/Date.php';
         $relationshipParams = array();
         
         $relationshipParams['relationship_type_id'] = '1_a_b';
-        $relationshipParams['start_date']           = $params['date_of_entry'];
-        $relationshipParams['end_date']           = $params['date_of_exit'];
+        $relationshipParams['start_date']           = CRM_Utils_Date::format($params['date_of_entry']);
+        $relationshipParams['end_date']            =  CRM_Utils_Date::format($params['date_of_exit'] );
         $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
         
         $this->relIDOther = $this->get('relIDOther');
         
         if ( $this->relIDOther ) {
-            $ids = array('contact' =>$contactID,'relationship' => $this->relId ,'contactTarget' =>$organizationID);
+            $ids = array('contact' =>$contactID,'relationship' => $this->relIDOther ,'contactTarget' =>$organizationID);
         } else {
             $ids = array('contact' =>$contactID);
         }
