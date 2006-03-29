@@ -248,9 +248,6 @@
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
-{* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
-{include file="CRM/common/showHide.tpl"}
-
 {literal}
     <script type="text/javascript">
 	var field = new Array(7);

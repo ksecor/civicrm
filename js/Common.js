@@ -94,6 +94,34 @@ function on_load_init_blocks(showBlocks, hideBlocks, elementType)
     
 }
 
+/** 
+ *  This function is called when we need to show or hide a related form element (target_element)
+ *  based on the value (trigger_value) of another form field (trigger_field).
+ * 
+ * @access public
+ * @param  trigger_field_id     HTML id of field whose onchange is the trigger
+ * @param  trigger_value        List of integers - option value(s) which trigger show-element action for target_field
+ * @param  target_element_id    HTML id of element to be shown or hidden
+ * @param  target_element_type  Type of element to be shown or hidden ('block' or 'table-row')
+ * @return none 
+*/
+function showHideByValue(trigger_field_id, trigger_value, target_element_id, target_element_type) {
+    if ( target_element_type == null ) {
+        var target_element_type = 'block';
+    }
+    
+    var trigger = trigger_value.split(",");
+    var selectedOptionValue = document.getElementById(trigger_field_id).options[document.getElementById(trigger_field_id).selectedIndex].value;	
+    for(var i = 0; i < trigger.length; i++) {
+        if (selectedOptionValue == trigger[i]) {
+            show(target_element_id, target_element_type);
+            break;
+        } else {
+            hide(target_element_id,target_element_type);
+        }	
+	}
+}
+
 
 /** 
  * This function is used to display a page element  (e.g. block or table row or...). 

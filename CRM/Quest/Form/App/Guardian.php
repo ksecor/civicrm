@@ -130,8 +130,8 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['last_name'] );
         $this->addRule('last_name',ts('Please Enter  Last Name'),'required');
 
-        
-        $this->addSelect('marital_status', ts( 'Marital Status?' ) );
+        $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '42,43,44', 'separated-year', 'table-row');" );
+        $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
 
         $this->addElement( 'date', 'separated_year', 
                            ts( 'Year your parents separated or divorced' ),

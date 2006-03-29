@@ -115,16 +115,16 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         $this->addButtons( $buttons );
     }
 
-    function addSelect( $name, $label, $prefix = null, $required = null ) {
+    function addSelect( $name, $label, $prefix = null, $required = null, $extra = null ) {
         if ($prefix) {
             $this->addElement('select', $name . '_id' . $prefix , $label,
-                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values($name) );
+                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values($name), $extra );
             if ( $required) {
                 $this->addRule($name . '_id' . $prefix, ts("Please select $label"),'required');
             }
         } else {
             $this->addElement('select', $name. '_id' , $label,
-                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values($name) );
+                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values($name), $extra );
             if ( $required) {
                 $this->addRule($name. '_id' , ts("Please select $label"),'required');
             }

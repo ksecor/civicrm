@@ -101,28 +101,14 @@
 </tr>
 </table>
 
+{* Include Javascript to show/hide fields based on value of other fields. *}
+{* Marital status field *}
+{include file="CRM/common/showHideByFieldValue.tpl"
+    trigger_field_id    ="marital_status_id"
+    trigger_value       ="42,43,44"
+    target_element_id   ="separated-year" 
+    target_element_type ="table-row"
+}
+
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
-{* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
-{include file="CRM/common/showHide.tpl"}
-
-{literal}
-    <script type="text/javascript">
-    var selectedOption; 
-    selectedOption = document.getElementById('marital_status_id').options[document.getElementById('marital_status_id').selectedIndex].text;
-	if (selectedOption == 'Other') {
-	   show('internet-access-other','table-row');
-	} else {
-	   hide('internet-access-other','table-row');
-	}	
-	
-   	function showTextField() {
-        selectedOption = document.getElementById('marital_status_id').options[document.getElementById('marital_status_id').selectedIndex].text;	
-		if (selectedOption == 'Other') {
-		   show('internet-access-other','table-row');
-		} else {
-		   hide('internet-access-other','table-row');
-		}	
- 	}
-    </script>  
-{/literal}
