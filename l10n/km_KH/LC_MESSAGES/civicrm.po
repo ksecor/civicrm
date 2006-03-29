@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-27 12:58+0200\n"
+"POT-Creation-Date: 2006-03-29 14:35+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: none\n"
@@ -19,6 +19,9 @@ msgstr ""
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Email.php
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/EmailHistory.php
+#: CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: CRM/Mailing/Form/Component.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -46,22 +49,26 @@ msgid "Duration"
 msgstr "រយៈពេល"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Contact/Form/Task/Record.php
+#: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/Activity.php
+#: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/Meeting.php
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Location"
 msgstr "ទីតាំង"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
-#: CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
+#: CRM/Core/DAO/Phonecall.php CRM/History/Selector/Activity.php
+#: CRM/Profile/Selector/Listings.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Details"
 msgstr "ព័ត៌មាន​លម្អិត"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
-#: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
-#: CRM/Contact/Selector/Activity.php CRM/Mailing/Selector/Browse.php
-#: templates/CRM/Contact/Form/Selector.tpl
+#: CRM/Activity/Form/Phonecall.php CRM/Contact/DAO/GroupContact.php
+#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Task/Record.php
+#: CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php
+#: CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php CRM/Mailing/DAO/Job.php
+#: CRM/Mailing/Selector/Browse.php templates/CRM/Contact/Form/Selector.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
@@ -74,13 +81,14 @@ msgid "Please select status."
 msgstr "សូម​ជ្រើស​ស្ថានភាព"
 
 #: CRM/Activity/Form/Meeting.php CRM/Contact/Selector/Activity.php
-#: xml/templates/civicrm_add_domain.tpl
+#: CRM/Core/DAO/CustomGroup.php xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Meeting"
 msgstr "លុប"
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
+#: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/ActivityType.php
 #: CRM/History/Import/Form/MapField.php CRM/History/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Type"
@@ -88,14 +96,20 @@ msgstr "ប្រភេទ​សកម្មភាព"
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Admin/Form/ActivityType.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/RelationshipType.php
-#: CRM/Admin/Form/Tag.php CRM/Contact/Form/Task/Export/Map.php
+#: CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php
+#: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Task/Export/Map.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector/Activity.php
+#: CRM/Contribute/DAO/ContributionType.php
+#: CRM/Contribute/DAO/PaymentInstrument.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ContributionType.php
 #: CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Contribute/Form/PaymentInstrument.php
-#: CRM/Contribute/Import/Form/MapField.php
+#: CRM/Contribute/Import/Form/MapField.php CRM/Core/DAO/ActivityType.php
+#: CRM/Core/DAO/Domain.php CRM/Core/DAO/LocationType.php
+#: CRM/Core/DAO/Mapping.php CRM/Core/DAO/Tag.php CRM/Core/DAO/Validation.php
 #: CRM/History/Import/Form/MapField.php CRM/History/Selector/Activity.php
-#: CRM/Import/Form/MapField.php templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Import/Form/MapField.php CRM/Mailing/DAO/BounceType.php
+#: templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Tag.tpl
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -104,6 +118,10 @@ msgstr "ប្រភេទ​សកម្មភាព"
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Description"
 msgstr "ពិពណ៌នា"
+
+#: CRM/Activity/Form/Phonecall.php CRM/Core/DAO/Phonecall.php
+msgid "Phone Number"
+msgstr "លេខ​ទូរស័ព្ទ"
 
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -188,11 +206,12 @@ msgstr "បោះបង់"
 #: CRM/Contribute/Page/ContributionType.php
 #: CRM/Contribute/Page/ManagePremiums.php
 #: CRM/Contribute/Page/PaymentInstrument.php
-#: CRM/Contribute/Selector/Search.php CRM/Custom/Form/Option.php
-#: CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php
-#: CRM/Custom/Page/Option.php CRM/Group/Page/Group.php
-#: CRM/History/Form/Activity.php CRM/History/Selector/Activity.php
-#: CRM/Note/Form/Note.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Contribute/Selector/Search.php CRM/Core/DAO/ACL.php
+#: CRM/Custom/Form/Option.php CRM/Custom/Page/Field.php
+#: CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php
+#: CRM/Group/Page/Group.php CRM/History/Form/Activity.php
+#: CRM/History/Selector/Activity.php CRM/Note/Form/Note.php
+#: CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Delete"
 msgstr "លុប"
@@ -201,15 +220,20 @@ msgstr "លុប"
 #: CRM/Admin/Form/IMProvider.php CRM/Admin/Form/IndividualPrefix.php
 #: CRM/Admin/Form/IndividualSuffix.php CRM/Admin/Form/LocationType.php
 #: CRM/Admin/Form/MobileProvider.php CRM/Admin/Form/Tag.php
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/SaveSearch.php
-#: CRM/Contact/Selector.php CRM/Contribute/Form/AcceptCreditCard.php
+#: CRM/Contact/DAO/Group.php CRM/Contact/Form/Task/Export/Map.php
+#: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector.php
+#: CRM/Contribute/Form/AcceptCreditCard.php
 #: CRM/Contribute/Form/ContributionType.php
 #: CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Contribute/Form/PaymentInstrument.php
 #: CRM/Contribute/Import/Form/MapField.php CRM/Contribute/Selector/Search.php
-#: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
-#: CRM/Mailing/Form/Component.php CRM/Profile/Selector/Listings.php
-#: templates/CRM/Admin/Page/ActivityType.tpl
+#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
+#: CRM/Core/DAO/Domain.php CRM/Core/DAO/MappingField.php
+#: CRM/Core/DAO/Mapping.php CRM/Core/DAO/MobileProvider.php
+#: CRM/Core/DAO/Tag.php CRM/History/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php CRM/Mailing/DAO/BounceType.php
+#: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Component.php
+#: CRM/Profile/Selector/Listings.php templates/CRM/Admin/Page/ActivityType.tpl
 #: templates/CRM/Admin/Page/Gender.tpl
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
@@ -270,9 +294,12 @@ msgstr ""
 #: CRM/Admin/Form/Gender.php CRM/Admin/Form/IndividualPrefix.php
 #: CRM/Admin/Form/IndividualSuffix.php
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
-#: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php
-#: CRM/Custom/Form/Option.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
-#: templates/CRM/Admin/Page/Gender.tpl
+#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
+#: CRM/Core/DAO/CustomOption.php CRM/Core/DAO/Gender.php
+#: CRM/Core/DAO/IndividualPrefix.php CRM/Core/DAO/IndividualSuffix.php
+#: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFJoin.php CRM/Custom/Form/Field.php
+#: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
+#: CRM/UF/Form/Group.php templates/CRM/Admin/Page/Gender.tpl
 #: templates/CRM/Admin/Page/IndividualPrefix.tpl
 #: templates/CRM/Admin/Page/IndividualSuffix.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
@@ -303,6 +330,16 @@ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្
 msgid "Default?"
 msgstr "តម្លៃ​លំនាំដើម"
 
+#: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+msgid "Contact Type A"
+msgstr ""
+
+#: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+msgid "Contact Type B"
+msgstr ""
+
 #: CRM/Admin/Page/ActivityType.php CRM/Admin/Page/Gender.php
 #: CRM/Admin/Page/IMProvider.php CRM/Admin/Page/IndividualPrefix.php
 #: CRM/Admin/Page/IndividualSuffix.php CRM/Admin/Page/LocationType.php
@@ -313,9 +350,9 @@ msgstr "តម្លៃ​លំនាំដើម"
 #: CRM/Contribute/Page/ContributionType.php
 #: CRM/Contribute/Page/ManagePremiums.php
 #: CRM/Contribute/Page/PaymentInstrument.php CRM/Contribute/Page/Premium.php
-#: CRM/Contribute/Selector/Search.php CRM/Group/Page/Group.php
-#: CRM/Mailing/Page/Component.php CRM/UF/Page/Field.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Contribute/Selector/Search.php CRM/Core/DAO/ACL.php
+#: CRM/Group/Page/Group.php CRM/Mailing/Page/Component.php
+#: CRM/UF/Page/Field.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Edit"
 msgstr "កែសម្រួល"
 
@@ -373,28 +410,32 @@ msgstr ""
 
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Note.php
 #: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector.php
-#: CRM/Contribute/Selector/Search.php CRM/Custom/Page/Option.php
-#: CRM/Profile/Page/Note.php templates/CRM/Contact/Page/View/Group.tpl
+#: CRM/Contribute/Selector/Search.php CRM/Core/DAO/ACL.php
+#: CRM/Custom/Page/Option.php CRM/Profile/Page/Note.php
+#: templates/CRM/Contact/Page/View/Group.tpl
 msgid "View"
 msgstr "មើល"
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
+#: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Selector.php CRM/Contribute/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php
+#: CRM/Core/DAO/CustomGroup.php CRM/Import/Form/UploadFile.php
 msgid "Individual"
 msgstr ""
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
+#: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Selector.php
-#: CRM/Contribute/Selector/Search.php CRM/Import/Form/UploadFile.php
-#: templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomGroup.php
+#: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "ផ្ទះសម្បែង"
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
+#: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php
-#: CRM/Contribute/Selector/Search.php CRM/Import/Form/UploadFile.php
-#: templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomGroup.php
+#: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr "អង្គការ"
 
@@ -435,14 +476,173 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php
+#: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php
+#: CRM/Contribute/Selector/Search.php CRM/Core/DAO/MappingField.php
+#: CRM/Import/Form/UploadFile.php
+msgid "Contact Type"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
+#: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
+msgid "Nick Name"
+msgstr "ឈ្មោះ​ក្រៅ"
+
+#: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/Group.php
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Print.tpl
+msgid "Source"
+msgstr "ប្រភព"
+
+#: CRM/Contact/DAO/Contact.php CRM/Mailing/Event/DAO/Queue.php
+#: CRM/Mailing/Event/DAO/Subscribe.php
+msgid "Hash"
+msgstr ""
+
+#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Phone.php
+#: CRM/Contact/Selector.php CRM/Core/BAO/UFGroup.php CRM/Core/DAO/Phone.php
+#: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php CRM/UF/Page/Field.php
+#: templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
+#: templates/CRM/Contact/Form/Task/Print.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Relationship.tpl
+msgid "Phone"
+msgstr "លេខ​ទូរស័ព្ទ"
+
+#: CRM/Contact/DAO/Contact.php CRM/Contact/DAO/SubscriptionHistory.php
+#: CRM/Contact/Form/Email.php CRM/Contact/Selector.php CRM/Core/DAO/Email.php
+#: CRM/Core/DAO/UFMatch.php CRM/Core/DAO/Validation.php
+#: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
+#: templates/CRM/Contact/Form/Task/Print.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Relationship.tpl
+#: xml/templates/civicrm_add_domain.tpl
+msgid "Email"
+msgstr "សារ"
+
+#: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
+#: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
+msgid "Text"
+msgstr ""
+
+#: CRM/Contact/DAO/Contact.php CRM/Core/SelectValues.php
+msgid "HTML"
+msgstr ""
+
+#: CRM/Contact/DAO/Contact.php CRM/Core/SelectValues.php
+msgid "Both"
+msgstr ""
+
+#: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
+#: CRM/Core/SelectValues.php
+msgid "Added"
+msgstr ""
+
+#: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
+#: CRM/Core/SelectValues.php
+msgid "Removed"
+msgstr ""
+
+#: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
+#: CRM/Core/SelectValues.php
+msgid "Pending"
+msgstr ""
+
+#: CRM/Contact/DAO/Group.php CRM/Contribute/DAO/ContributionPage.php
+#: CRM/Contribute/Form/AcceptCreditCard.php
+#: CRM/Contribute/Form/ContributionPage/Premium.php
+#: CRM/Contribute/Form/ContributionPage/Settings.php CRM/Core/DAO/ACLGroup.php
+#: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
+#: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+msgid "Title"
+msgstr "ចំណងជើង"
+
+#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php CRM/Group/Form/Edit.php
+#: CRM/UF/Form/Field.php templates/CRM/Group/Page/Group.tpl
+#: templates/CRM/UF/Page/Field.tpl
+msgid "Visibility"
+msgstr "ភាព​អាច​មើល​ឃើញ"
+
+#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
+msgid "User and User Admin Only"
+msgstr ""
+
+#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
+msgid "Public User Pages"
+msgstr ""
+
+#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
+#: CRM/Core/SelectValues.php
+msgid "Public User Pages and Listings"
+msgstr ""
+
+#: CRM/Contact/DAO/Household.php CRM/Contact/Form/Household.php
+msgid "Household Name"
+msgstr "ឈ្មោះ​ផ្ទះ​សម្បែង"
+
+#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 #: CRM/Contribute/Form/ContributionBase.php
+msgid "First Name"
+msgstr "នាមខ្លួន"
+
+#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "Middle Name"
+msgstr "ឈ្មោះ​កណ្ដាល"
+
+#: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
+#: CRM/Contribute/Form/ContributionBase.php
+msgid "Last Name"
+msgstr "គោត្តនាម"
+
+#: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
+msgid "Organization Name"
+msgstr "ឈ្មោះ​អង្គការ"
+
+#: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
+msgid "Legal Name"
+msgstr ""
+
+#: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
+#: CRM/Contribute/DAO/ContributionProduct.php
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Mailing/DAO/Job.php
+#: CRM/Mailing/Form/Schedule.php CRM/Mailing/Selector/Browse.php
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Start Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
+#: CRM/Contribute/DAO/ContributionProduct.php CRM/Mailing/DAO/Job.php
+#: templates/CRM/Contact/Page/View/Relationship.tpl
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "End Date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/BAO/CustomField.php
+#: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
+#: CRM/Mailing/Selector/Event.php templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Note.tpl
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
+#: templates/CRM/Profile/Page/Note.tpl
+msgid "Date"
+msgstr "កាលបរិច្ឆេទ"
+
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php
+#: CRM/Contribute/Form/ContributionBase.php CRM/Core/DAO/Address.php
 msgid "Street Address"
 msgstr "អាសយដ្ឋាន​ផ្លូវ"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Selector.php CRM/Contribute/Form/ContributionBase.php
-#: templates/CRM/Contact/Form/Relationship.tpl
+#: CRM/Core/DAO/Address.php templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
@@ -471,8 +671,9 @@ msgstr "ជ្រើស"
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Form/StateCountry.php CRM/Contact/Form/Test.php
 #: CRM/Contact/Selector.php CRM/Contribute/Form/ContributionBase.php
-#: CRM/Core/BAO/CustomField.php CRM/Profile/Form/Dojo.php
-#: templates/CRM/Contact/Form/Task/Print.tpl
+#: CRM/Core/BAO/CustomField.php CRM/Core/DAO/Country.php
+#: CRM/Core/DAO/County.php CRM/Core/DAO/CustomField.php
+#: CRM/Profile/Form/Dojo.php templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
 msgstr "ប្រទេស"
 
@@ -495,17 +696,6 @@ msgstr ""
 msgid "Privacy"
 msgstr ""
 
-#: CRM/Contact/Form/Email.php CRM/Contact/Selector.php
-#: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
-#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
-#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
-#: templates/CRM/Contact/Form/Task/Print.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Relationship.tpl
-#: xml/templates/civicrm_add_domain.tpl
-msgid "Email"
-msgstr "សារ"
-
 #: CRM/Contact/Form/GroupContact.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "- select group -"
@@ -518,25 +708,8 @@ msgstr ""
 msgid "%1 is a required field."
 msgstr "%1 ជា​វាល​ចាំបាច់"
 
-#: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
-#: CRM/Contact/Form/Organization.php
-msgid "Nick Name"
-msgstr "ឈ្មោះ​ក្រៅ"
-
-#: CRM/Contact/Form/Individual.php CRM/Contribute/Form/ContributionBase.php
-msgid "First Name"
-msgstr "នាមខ្លួន"
-
-#: CRM/Contact/Form/Individual.php CRM/Contribute/Form/ContributionBase.php
-msgid "Middle Name"
-msgstr "ឈ្មោះ​កណ្ដាល"
-
-#: CRM/Contact/Form/Individual.php CRM/Contribute/Form/ContributionBase.php
-msgid "Last Name"
-msgstr "គោត្តនាម"
-
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
-#: CRM/Profile/Form.php CRM/UF/Form/Preview.php
+#: CRM/Core/DAO/Gender.php CRM/Profile/Form.php CRM/UF/Form/Preview.php
 msgid "Gender"
 msgstr "ភេទ"
 
@@ -555,20 +728,10 @@ msgid "Enter a valid Website."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Contact/Form/Location.php CRM/Contact/Form/Search/Advanced.php
+#: CRM/Core/DAO/Location.php
 #, fuzzy
 msgid "Location Name"
 msgstr "ប្រភេទ​ទីតាំង"
-
-#: CRM/Contact/Form/Phone.php CRM/Contact/Selector.php
-#: CRM/Core/BAO/UFGroup.php CRM/Core/SelectValues.php CRM/UF/Page/Field.php
-#: templates/CRM/Contact/Form/Relationship.tpl
-#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
-#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
-#: templates/CRM/Contact/Form/Task/Print.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Relationship.tpl
-msgid "Phone"
-msgstr "លេខ​ទូរស័ព្ទ"
 
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
@@ -583,11 +746,6 @@ msgstr ""
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Relationship Type"
 msgstr ""
-
-#: CRM/Contact/Form/Relationship.php CRM/Mailing/Form/Schedule.php
-#: CRM/Mailing/Selector/Browse.php templates/CRM/Mailing/Page/Report.tpl
-msgid "Start Date"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
 
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
@@ -617,7 +775,7 @@ msgid "- any country -"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php
-#: CRM/Contribute/Form/ContributionBase.php
+#: CRM/Contribute/Form/ContributionBase.php CRM/Core/DAO/Address.php
 msgid "Postal Code"
 msgstr ""
 
@@ -709,7 +867,8 @@ msgstr ""
 msgid "Your user record does not have a valid email address"
 msgstr ""
 
-#: CRM/Contact/Form/Task/Email.php CRM/SMS/Form/Task/SMS.php
+#: CRM/Contact/Form/Task/Email.php CRM/Core/DAO/EmailHistory.php
+#: CRM/SMS/DAO/History.php CRM/SMS/Form/Task/SMS.php
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "Message"
@@ -828,8 +987,9 @@ msgstr ""
 msgid "Delete Activity"
 msgstr ""
 
-#: CRM/Contact/Selector/Activity.php CRM/History/Import/Form/MapField.php
-#: CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Contact/Selector/Activity.php CRM/Core/DAO/ActivityHistory.php
+#: CRM/History/Import/Form/MapField.php CRM/History/Selector/Activity.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Date"
 msgstr "កាលបរិច្ឆេទ​សកម្មភាព"
 
@@ -837,8 +997,9 @@ msgstr "កាលបរិច្ឆេទ​សកម្មភាព"
 msgid "CiviCRM Activity History"
 msgstr "ប្រវត្តិ​សកម្មភាព​ CivicCRM"
 
-#: CRM/Contact/Selector/Activity.php CRM/Core/SelectValues.php
-#: CRM/Mailing/BAO/Job.php
+#: CRM/Contact/Selector/Activity.php CRM/Core/DAO/Activity.php
+#: CRM/Core/DAO/Meeting.php CRM/Core/DAO/Phonecall.php
+#: CRM/Core/SelectValues.php CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Scheduled"
 msgstr "បាន​កំណត់​​ពេល"
 
@@ -857,10 +1018,20 @@ msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
 msgid "Contact %%StatusMessage%%"
 msgstr ""
 
-#: CRM/Contact/Selector.php CRM/Contribute/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php
-msgid "Contact Type"
-msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+#: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
+#: templates/CRM/Contact/Form/Address.tpl
+#: templates/CRM/Contact/Form/Task/Print.tpl
+msgid "Address"
+msgstr ""
+
+#: CRM/Contact/Selector.php CRM/Core/DAO/StateProvince.php
+#: templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
+#: templates/CRM/Contact/Form/Task/Print.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "State"
+msgstr "រដ្ឋ"
 
 #: CRM/Contact/Task.php CRM/Utils/Menu.php
 #, fuzzy
@@ -868,6 +1039,7 @@ msgid "Export Contacts"
 msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
 
 #: CRM/Contribute/BAO/Contribution.php CRM/Contribute/Selector/Search.php
+#: CRM/Core/DAO/CustomGroup.php
 msgid "Contribution"
 msgstr ""
 
@@ -875,23 +1047,79 @@ msgstr ""
 msgid "- Contribution Fields -"
 msgstr ""
 
-#: CRM/Contribute/Form/AcceptCreditCard.php
-#: CRM/Contribute/Form/ContributionPage/Premium.php
-#: CRM/Contribute/Form/ContributionPage/Settings.php
-#: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
-#: templates/CRM/Contribute/Page/ContributionPage.tpl
-msgid "Title"
-msgstr "ចំណងជើង"
+#: CRM/Contribute/DAO/ContributionPage.php
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+#, fuzzy
+msgid "Receipt From Name"
+msgstr "ឈ្មោះ​ក្រុម"
 
-#: CRM/Contribute/Form/Contribution/Confirm.php CRM/Import/Form/Preview.php
-msgid "Processing"
+#: CRM/Contribute/DAO/ContributionPage.php
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+#, fuzzy
+msgid "Receipt From Email"
+msgstr "សារ"
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Core/DAO/ActivityHistory.php
+msgid "Contact ID (match to contact)"
 msgstr ""
 
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Selector/Event.php
-#, fuzzy
-msgid "Email Address"
-msgstr "អាសយដ្ឋាន​អ៊ីម៉ែល​មិន​ត្រឹមត្រូវ"
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Non-deductible Amount"
+msgstr ""
 
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
+#: CRM/Contribute/Form/Contribution.php
+#: CRM/Contribute/Import/Form/MapField.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Page/ContributionTotals.tpl
+#: templates/CRM/Contribute/Page/DashBoard.tpl
+msgid "Total Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
+#: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Fee Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
+#: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Net Amount"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#, fuzzy
+msgid "Transaction ID"
+msgstr "អង្គការ"
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Invoice ID"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Currency"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+#: CRM/Contribute/DAO/ContributionRecur.php
+#, fuzzy
+msgid "Cancel Date"
+msgstr "បោះបង់"
+
+#: CRM/Contribute/DAO/Contribution.php CRM/Core/BAO/CustomField.php
+#: CRM/Core/DAO/Address.php CRM/Core/DAO/Note.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Note.tpl
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Profile/Page/Note.tpl
+msgid "Note"
+msgstr "ចំណាំ"
+
+#: CRM/Contribute/DAO/ContributionRecur.php
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -901,6 +1129,104 @@ msgstr "អាសយដ្ឋាន​អ៊ីម៉ែល​មិន​ត្
 #, fuzzy
 msgid "Amount"
 msgstr "ប្រទេស"
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Frequency Unit"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "Frequency Interval"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Core/DAO/Note.php
+#, fuzzy
+msgid "Modified Date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+msgid "day"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+msgid "week"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "month"
+msgstr "លុយ"
+
+#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "year"
+msgstr "ភេទ"
+
+#: CRM/Contribute/DAO/ContributionType.php
+#: CRM/Contribute/Form/ContributionPage/Settings.php
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Search.php
+#: CRM/Contribute/Import/Form/MapField.php CRM/Profile/Form.php
+#: CRM/UF/Form/Preview.php templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Search/Common.tpl
+#, fuzzy
+msgid "Contribution Type"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/DAO/ContributionType.php
+#: CRM/Contribute/Form/ContributionType.php
+#, fuzzy
+msgid "Accounting Code"
+msgstr "ប្រទេស"
+
+#: CRM/Contribute/DAO/FinancialTrxn.php CRM/Contribute/DAO/Premium.php
+#: CRM/Core/DAO/ACLGroupJoin.php CRM/Core/DAO/ACL.php
+#: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/CustomOption.php
+#: CRM/Core/DAO/CustomValue.php CRM/Core/DAO/DupeMatch.php
+#: CRM/Core/DAO/EntityTag.php CRM/Core/DAO/Location.php CRM/Core/DAO/Note.php
+#: CRM/Core/DAO/UFJoin.php CRM/Mailing/DAO/Group.php
+#, fuzzy
+msgid "Entity Table"
+msgstr "អាច​ប្រើ​បាន"
+
+#: CRM/Contribute/DAO/PaymentInstrument.php CRM/Contribute/Form/Search.php
+msgid "Payment Instrument"
+msgstr ""
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+#: templates/CRM/Contribute/Page/ManagePremiums.tpl
+#: templates/CRM/Contribute/Page/Premium.tpl
+msgid "SKU"
+msgstr ""
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Options"
+msgstr "រយៈពេល"
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Period Type"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+msgid "Fixed Period Start Day"
+msgstr ""
+
+#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Duration Unit"
+msgstr "រយៈពេល"
+
+#: CRM/Contribute/Form/Contribution/Confirm.php CRM/Import/Form/Preview.php
+msgid "Processing"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Selector/Event.php
+#, fuzzy
+msgid "Email Address"
+msgstr "អាសយដ្ឋាន​អ៊ីម៉ែល​មិន​ត្រឹមត្រូវ"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -930,12 +1256,15 @@ msgstr ""
 msgid "Please enter a valid money value (e.g. 99.99)."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
-#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Custom/Form/Field.php
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomOption.php
+#: CRM/Core/DAO/UFField.php CRM/Custom/Form/Field.php
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Label"
 msgstr "ស្លាក"
 
-#: CRM/Contribute/Form/ContributionPage/Amount.php CRM/Custom/Form/Field.php
+#: CRM/Contribute/Form/ContributionPage/Amount.php
+#: CRM/Core/DAO/CustomOption.php CRM/Custom/Form/Field.php
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Value"
 msgstr "តម្លៃ"
@@ -954,15 +1283,6 @@ msgstr "លុប"
 #, fuzzy
 msgid "Introductory Message"
 msgstr "សារ"
-
-#: CRM/Contribute/Form/ContributionPage/Settings.php
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Search.php
-#: CRM/Contribute/Import/Form/MapField.php CRM/Profile/Form.php
-#: CRM/UF/Form/Preview.php templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Contribute/Form/Search/Common.tpl
-#, fuzzy
-msgid "Contribution Type"
-msgstr "ប្រភេទ​ទំនាក់​ទំនង"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Core/SelectValues.php
 #: CRM/Profile/Form.php CRM/UF/Form/Preview.php
@@ -1001,20 +1321,6 @@ msgstr "បោះបង់"
 msgid "Please enter a valid amount."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
-#: CRM/Contribute/Form/Contribution.php
-#: CRM/Contribute/Import/Form/MapField.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Contribute/Page/ContributionTotals.tpl
-#: templates/CRM/Contribute/Page/DashBoard.tpl
-msgid "Total Amount"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Contribute/Form/Task/Print.tpl
-msgid "Source"
-msgstr "ប្រភព"
-
 #: CRM/Contribute/Form/Contribution.php CRM/Note/Form/Note.php
 #: CRM/Utils/Menu.php templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -1042,6 +1348,7 @@ msgid "Delete Contributions"
 msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
+#: CRM/Core/DAO/Mapping.php
 #, fuzzy
 msgid "Export Contributions"
 msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
@@ -1203,7 +1510,7 @@ msgstr ""
 msgid "Manage Premiums"
 msgstr "រៀប​ចំ​ក្រុម"
 
-#: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
+#: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php CRM/Core/DAO/Mapping.php
 #, fuzzy
 msgid "Import Contributions"
 msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
@@ -1250,22 +1557,20 @@ msgstr ""
 msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
 msgstr ""
 
+#: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
+#: templates/CRM/Contribute/Form/Task/Print.tpl
+#: templates/CRM/Mailing/Page/Component.tpl
+msgid "Type"
+msgstr ""
+
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
 msgstr "ចំនួន​គត់"
 
-#: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
+#: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php
 msgid "Money"
 msgstr "លុយ"
-
-#: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
-#: CRM/Mailing/Selector/Event.php templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Note.tpl
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#: templates/CRM/Profile/Page/Note.tpl
-msgid "Date"
-msgstr "កាលបរិច្ឆេទ"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php
 #: CRM/Custom/Form/Field.php CRM/Mailing/Event/BAO/Unsubscribe.php
@@ -1333,6 +1638,179 @@ msgstr ""
 msgid "Browse Sent Mailings"
 msgstr ""
 
+#: CRM/Core/DAO/ACL.php CRM/UF/Page/Group.php
+#, fuzzy
+msgid "Create"
+msgstr "កាលបរិច្ឆេទ"
+
+#: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/UFJoin.php
+#, fuzzy
+msgid "Module"
+msgstr "ចល័ត"
+
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
+#: CRM/Core/DAO/Phonecall.php
+#, fuzzy
+msgid "Target Entity Table"
+msgstr "អាច​ប្រើ​បាន"
+
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
+#: CRM/Core/DAO/Phonecall.php
+msgid "Scheduled Date Time"
+msgstr "ពេលវេលា កាលបរិច្ឆេទ​ដែល​បាន​កំណត់"
+
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
+#: CRM/Core/DAO/Phonecall.php
+msgid "Duration Hours"
+msgstr "រយៈពេល​គិត​ជា​ម៉ោង"
+
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
+#: CRM/Core/DAO/Phonecall.php
+msgid "Duration Minutes"
+msgstr "រយៈពេល​គិត​ជា​នាទី"
+
+#: CRM/Core/DAO/Activity.php CRM/Core/DAO/Meeting.php
+#: CRM/Core/DAO/Phonecall.php CRM/Core/SelectValues.php
+msgid "Completed"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Default Value"
+msgstr "តម្លៃ​លំនាំដើម"
+
+#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
+#: CRM/Core/DAO/UFGroup.php
+msgid "Help Pre"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
+#: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
+msgid "Help Post"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Mask"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Options Per Line"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
+msgid "Memo"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "TextArea"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Select"
+msgstr "ជ្រើស​ក្រុម"
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Multi-Select"
+msgstr "ជ្រើស​ក្រុម"
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "Radio"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+msgid "CheckBox"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Select Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Select State/Province"
+msgstr "រដ្ឋ/ខេត្ត"
+
+#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Select Country"
+msgstr "ជ្រើស​ក្រុម"
+
+#: CRM/Core/DAO/CustomGroup.php CRM/Mailing/Selector/Event.php
+#, fuzzy
+msgid "Contact"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Core/DAO/CustomGroup.php CRM/UF/Form/Group.php
+#: templates/CRM/Contact/Form/Task/AddToGroup.tpl
+#: templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Group"
+msgstr ""
+
+#: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
+msgid "Tab"
+msgstr ""
+
+#: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
+msgid "Inline"
+msgstr ""
+
+#: CRM/Core/DAO/EmailHistory.php CRM/SMS/DAO/History.php
+#, fuzzy
+msgid "Sent Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
+#: CRM/Core/DAO/UFField.php
+msgid "Phone Type"
+msgstr "ប្រភេទ​ទូរស័ព្ទ"
+
+#: CRM/Core/DAO/Mapping.php CRM/Utils/Menu.php
+msgid "Import"
+msgstr ""
+
+#: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
+#, fuzzy
+msgid "Import Activity History"
+msgstr "ប្រវត្តិ​សកម្មភាព​ CivicCRM"
+
+#: CRM/Core/DAO/Phonecall.php CRM/Core/SelectValues.php
+msgid "Left Message"
+msgstr ""
+
+#: CRM/Core/DAO/Phonecall.php CRM/Core/SelectValues.php
+msgid "Unreachable"
+msgstr ""
+
+#: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
+msgid "Mobile"
+msgstr "ចល័ត"
+
+#: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
+msgid "Fax"
+msgstr "ទួរសារ"
+
+#: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
+msgid "Pager"
+msgstr ""
+
+#: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
+#, fuzzy
+msgid "Field Name"
+msgstr "នាមខ្លួន"
+
+#: CRM/Core/DAO/UFGroup.php CRM/Utils/Menu.php templates/CRM/UF/Form/Group.tpl
+msgid "CiviCRM Profile"
+msgstr ""
+
+#: CRM/Core/DAO/Validation.php CRM/Mailing/Selector/Event.php
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "URL"
+msgstr ""
+
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "Advanced Search"
@@ -1364,20 +1842,18 @@ msgstr ""
 msgid "Groups"
 msgstr "ក្រុម"
 
-#: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
-msgid "Text"
-msgstr ""
-
 #: CRM/Core/SelectValues.php CRM/Utils/Menu.php
 msgid "Activities"
 msgstr "សកម្មភាព"
 
 #: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
+#: CRM/Mailing/DAO/Component.php
 #, fuzzy
 msgid "Header"
 msgstr "ភេទ"
 
 #: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
+#: CRM/Mailing/DAO/Component.php
 #, fuzzy
 msgid "Footer"
 msgstr "ចំណាំ"
@@ -1434,11 +1910,6 @@ msgstr ""
 msgid "Delete Group"
 msgstr "លុប​ក្រុម"
 
-#: CRM/Group/Form/Edit.php CRM/UF/Form/Field.php
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Field.tpl
-msgid "Visibility"
-msgstr "ភាព​អាច​មើល​ឃើញ"
-
 #: CRM/Group/Page/Group.php CRM/Utils/Menu.php
 msgid "Group Members"
 msgstr "សមាជិក​ក្រុម"
@@ -1448,13 +1919,64 @@ msgstr "សមាជិក​ក្រុម"
 msgid "Settings"
 msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/Event/BAO/Bounce.php
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+msgid "Running"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+msgid "Complete"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+msgid "Paused"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
+#, fuzzy
+msgid "Canceled"
+msgstr "បោះបង់"
+
+#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
+#: CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
+msgstr ""
+
+#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
+msgid "Reply"
+msgstr ""
+
+#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
+msgid "Unsubscribe"
 msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr ""
+
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
+#, fuzzy
+msgid "Component Type"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
+msgid "Body Html"
+msgstr ""
+
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
+#: templates/CRM/Mailing/Page/Component.tpl
+msgid "Body Text"
+msgstr ""
+
+#: CRM/Mailing/DAO/Job.php CRM/Mailing/Selector/Browse.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Mailing/Page/Report.tpl
+msgid "Scheduled Date"
+msgstr ""
+
+#: CRM/Mailing/DAO/Mailing.php CRM/Mailing/Form/Upload.php
+#, fuzzy
+msgid "From Email"
+msgstr "សារ"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Subscribe.php
 msgid "\"%1 Administrator\" <do-not-reply@%2>"
@@ -1462,6 +1984,20 @@ msgstr ""
 
 #: CRM/Mailing/Event/BAO/Reply.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "\"%1 Administrator\" <%2>"
+msgstr ""
+
+#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
+#, fuzzy
+msgid "Bounce Reason"
+msgstr "ហេតុផល"
+
+#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Event/DAO/Confirm.php
+#: CRM/Mailing/Event/DAO/Delivered.php CRM/Mailing/Event/DAO/Forward.php
+#: CRM/Mailing/Event/DAO/Opened.php CRM/Mailing/Event/DAO/Reply.php
+#: CRM/Mailing/Event/DAO/Subscribe.php
+#: CRM/Mailing/Event/DAO/TrackableURLOpen.php
+#: CRM/Mailing/Event/DAO/Unsubscribe.php
+msgid "Time Stamp"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Name.php
@@ -1541,10 +2077,6 @@ msgstr "វាល​ប្រធាន​បទ​មិន​អាច​ទទ
 #: CRM/Activity/Form/Phonecall.php
 msgid "Call Date and Time are required."
 msgstr "ត្រូវការ​កាល​បរិច្ឆេទ​ និង ពេលវេលាហៅ​មួយ"
-
-#: CRM/Activity/Form/Phonecall.php
-msgid "Phone Number"
-msgstr "លេខ​ទូរស័ព្ទ"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "OR New Phone"
@@ -1683,16 +2215,6 @@ msgstr ""
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-B to A"
-msgstr ""
-
-#: CRM/Admin/Form/RelationshipType.php
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-msgid "Contact Type A"
-msgstr ""
-
-#: CRM/Admin/Form/RelationshipType.php
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-msgid "Contact Type B"
 msgstr ""
 
 #: CRM/Admin/Form/RelationshipType.php
@@ -2096,6 +2618,164 @@ msgstr ""
 msgid "Selected Relationship has been Deleted Successfuly."
 msgstr ""
 
+#: CRM/Contact/DAO/Contact.php
+#, fuzzy
+msgid "Internal Contact ID"
+msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contact/DAO/Contact.php
+msgid "Legal Identifier"
+msgstr ""
+
+#: CRM/Contact/DAO/Contact.php
+msgid "External Identifier"
+msgstr ""
+
+#: CRM/Contact/DAO/Contact.php
+msgid "Sort Name"
+msgstr "តម្រៀប​ឈ្មោះ"
+
+#: CRM/Contact/DAO/Contact.php
+#, fuzzy
+msgid "Display Name"
+msgstr "បង្ហាញ​ឈ្មោះ"
+
+#: CRM/Contact/DAO/Contact.php
+#, fuzzy
+msgid "Home URL"
+msgstr "Url គេហទំព័រ"
+
+#: CRM/Contact/DAO/Contact.php
+#, fuzzy
+msgid "Image Url"
+msgstr "​Url រូបភាព"
+
+#: CRM/Contact/DAO/Contact.php
+msgid "Preferred Communication Method"
+msgstr ""
+
+#: CRM/Contact/DAO/Contact.php
+#, fuzzy
+msgid "Preferred Mail Format"
+msgstr "សារ"
+
+#: CRM/Contact/DAO/Contact.php
+#, fuzzy
+msgid "Do Not Phone"
+msgstr "បង្កើត​ក្រុម​ថ្មី"
+
+#: CRM/Contact/DAO/Contact.php
+#, fuzzy
+msgid "Do Not Email"
+msgstr "សារ"
+
+#: CRM/Contact/DAO/Contact.php
+#, fuzzy
+msgid "Do Not Mail"
+msgstr "សារ"
+
+#: CRM/Contact/DAO/Contact.php
+#, fuzzy
+msgid "Do Not Trade"
+msgstr "សារ"
+
+#: CRM/Contact/DAO/Contact.php
+msgid "Is Opt-out?"
+msgstr ""
+
+#: CRM/Contact/DAO/Contact.php
+msgid "Post"
+msgstr ""
+
+#: CRM/Contact/DAO/Individual.php
+#, fuzzy
+msgid "Greeting Type"
+msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#: CRM/Contact/DAO/Individual.php
+msgid "Custom Greeting"
+msgstr ""
+
+#: CRM/Contact/DAO/Individual.php templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Job Title"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contact/DAO/Individual.php
+#, fuzzy
+msgid "Birth Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contact/DAO/Individual.php
+msgid "Is Deceased"
+msgstr ""
+
+#: CRM/Contact/DAO/Individual.php
+#, fuzzy
+msgid "Formal"
+msgstr "ស្រី"
+
+#: CRM/Contact/DAO/Individual.php
+#, fuzzy
+msgid "Informal"
+msgstr "ស្រី"
+
+#: CRM/Contact/DAO/Individual.php
+msgid "Honorific"
+msgstr ""
+
+#: CRM/Contact/DAO/Individual.php
+#, fuzzy
+msgid "Custom"
+msgstr "លុប"
+
+#: CRM/Contact/DAO/Individual.php xml/templates/civicrm_add_domain.tpl
+msgid "Other"
+msgstr ""
+
+#: CRM/Contact/DAO/Organization.php
+#, fuzzy
+msgid "Sic Code"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contact/DAO/RelationshipType.php
+msgid "Name A B"
+msgstr "ឈ្មោះ A B"
+
+#: CRM/Contact/DAO/RelationshipType.php
+#, fuzzy
+msgid "Name B A"
+msgstr "ឈ្មោះ A B"
+
+#: CRM/Contact/DAO/SavedSearch.php
+msgid "SQL Query"
+msgstr ""
+
+#: CRM/Contact/DAO/SavedSearch.php
+msgid "Submitted Form Values"
+msgstr ""
+
+#: CRM/Contact/DAO/SubscriptionHistory.php
+msgid "Method"
+msgstr ""
+
+#: CRM/Contact/DAO/SubscriptionHistory.php
+#, fuzzy
+msgid "Tracking"
+msgstr "រយៈពេល"
+
+#: CRM/Contact/DAO/SubscriptionHistory.php
+msgid "Admin"
+msgstr ""
+
+#: CRM/Contact/DAO/SubscriptionHistory.php
+#, fuzzy
+msgid "Web"
+msgstr "ទម្ងន់"
+
+#: CRM/Contact/DAO/SubscriptionHistory.php
+msgid "API"
+msgstr ""
+
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 1"
 msgstr ""
@@ -2220,10 +2900,6 @@ msgstr ""
 msgid "Contact has been added to the selected group."
 msgstr ""
 
-#: CRM/Contact/Form/Household.php
-msgid "Household Name"
-msgstr "ឈ្មោះ​ផ្ទះ​សម្បែង"
-
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger (preferred)"
 msgstr ""
@@ -2297,14 +2973,6 @@ msgid "Notes:"
 msgstr ""
 
 #: CRM/Contact/Form/Organization.php
-msgid "Organization Name"
-msgstr "ឈ្មោះ​អង្គការ"
-
-#: CRM/Contact/Form/Organization.php
-msgid "Legal Name"
-msgstr ""
-
-#: CRM/Contact/Form/Organization.php
 msgid "SIC Code"
 msgstr ""
 
@@ -2327,12 +2995,6 @@ msgstr ""
 #: CRM/Contact/Form/Relationship.php
 msgid "Find Target Contact"
 msgstr ""
-
-#: CRM/Contact/Form/Relationship.php
-#: templates/CRM/Contact/Page/View/Relationship.tpl
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "End Date"
-msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Save Relationship"
@@ -2749,19 +3411,6 @@ msgstr ""
 msgid "Smart"
 msgstr "ជ្រើស​ក្រុម"
 
-#: CRM/Contact/Selector.php templates/CRM/Contact/Form/Address.tpl
-#: templates/CRM/Contact/Form/Task/Print.tpl
-msgid "Address"
-msgstr ""
-
-#: CRM/Contact/Selector.php templates/CRM/Contact/Form/Relationship.tpl
-#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
-#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
-#: templates/CRM/Contact/Form/Task/Print.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "State"
-msgstr "រដ្ឋ"
-
 #: CRM/Contact/Selector.php templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
 msgstr ""
@@ -2825,6 +3474,252 @@ msgstr "លុប"
 
 #: CRM/Contribute/BAO/Premium.php
 msgid "No thank you"
+msgstr ""
+
+#: CRM/Contribute/DAO/AcceptCreditCard.php
+#, fuzzy
+msgid "Accept Credit Card"
+msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Intro Text"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Default Amount"
+msgstr "តម្លៃ​លំនាំដើម"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Min Amount"
+msgstr "ប្រទេស"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Max Amount"
+msgstr "ប្រទេស"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Thank-you Title"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Thank-you Text"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Thank-you Footer"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Cc Receipt"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+msgid "Bcc Receipt"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Receipt Text"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/DAO/ContributionPage.php
+#, fuzzy
+msgid "Footer Text"
+msgstr "ចំណាំ"
+
+#: CRM/Contribute/DAO/Contribution.php
+msgid "Solicitor ID"
+msgstr ""
+
+#: CRM/Contribute/DAO/Contribution.php
+#, fuzzy
+msgid "Receive Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/DAO/Contribution.php
+#, fuzzy
+msgid "Cancel Reason"
+msgstr "ហេតុផល"
+
+#: CRM/Contribute/DAO/Contribution.php
+#, fuzzy
+msgid "Receipt Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/DAO/Contribution.php
+#, fuzzy
+msgid "Thank-you Date"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contribute/DAO/Contribution.php
+#, fuzzy
+msgid "Contribution Source"
+msgstr "សង្ខេប​ព័ត៌មាន​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/DAO/ContributionProduct.php
+#, fuzzy
+msgid "Product Option"
+msgstr "លុប"
+
+#: CRM/Contribute/DAO/ContributionProduct.php
+msgid "Quantity"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionProduct.php
+#, fuzzy
+msgid "Fulfilled Date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Contribute/DAO/ContributionProduct.php
+msgid "Comment"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+msgid "Installments"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+#, fuzzy
+msgid "Create Date"
+msgstr "កាលបរិច្ឆេទ"
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+#, fuzzy
+msgid "Cycle Day"
+msgstr "បោះបង់"
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+#, fuzzy
+msgid "Next Sched Contribution"
+msgstr "អង្គការ​ថ្មី"
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+msgid "Failure Count"
+msgstr ""
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+#, fuzzy
+msgid "Failure Retry Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Contribute/DAO/ContributionRecur.php
+msgid "Auto Renew"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+#, fuzzy
+msgid "Trxn Date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+#, fuzzy
+msgid "Trxn Type"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Payment Processor"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+msgid "Trxn Result Code"
+msgstr ""
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+#, fuzzy
+msgid "Debit"
+msgstr "ទម្ងន់"
+
+#: CRM/Contribute/DAO/FinancialTrxn.php
+#, fuzzy
+msgid "Credit"
+msgstr "កាលបរិច្ឆេទ"
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Premiums Active"
+msgstr "<< មុន"
+
+#: CRM/Contribute/DAO/Premium.php
+msgid "Title for Premiums section"
+msgstr ""
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Premiums Intro Text"
+msgstr "មុខ​តំណែង"
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Premiums Contact Email"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Premiums Contact Phone"
+msgstr "បង្កើត​ក្រុម​ថ្មី"
+
+#: CRM/Contribute/DAO/Premium.php
+#, fuzzy
+msgid "Premiums Display Min Contribution"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Contribute/DAO/PremiumsProduct.php
+#, fuzzy
+msgid "Sort Position"
+msgstr "ទីតាំង"
+
+#: CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "Product Name"
+msgstr "ឈ្មោះ​ក្រុម"
+
+#: CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "Image"
+msgstr "​Url រូបភាព"
+
+#: CRM/Contribute/DAO/Product.php
+msgid "Thumbnail"
+msgstr ""
+
+#: CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "Price"
+msgstr "ឈ្មោះ​កណ្ដាល"
+
+#: CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "Minimum Contribution"
+msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Contribute/DAO/Product.php
+msgid "Cost"
+msgstr ""
+
+#: CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "Is Active"
+msgstr "សកម្ម?"
+
+#: CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "Duration Interval"
+msgstr "រយៈពេល"
+
+#: CRM/Contribute/DAO/Product.php
+#, fuzzy
+msgid "rolling"
+msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#: CRM/Contribute/DAO/Product.php
+msgid "fixed"
 msgstr ""
 
 #: CRM/Contribute/Form/AcceptCreditCard.php
@@ -3086,16 +3981,6 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #, fuzzy
-msgid "Receipt From Name"
-msgstr "ឈ្មោះ​ក្រុម"
-
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
-msgid "Receipt From Email"
-msgstr "សារ"
-
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
 msgid "Receipt Message"
 msgstr "សារ"
 
@@ -3136,32 +4021,6 @@ msgstr "ហេតុផល"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Non-deductible Amount"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Fee Amount"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Net Amount"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
-msgid "Transaction ID"
-msgstr "អង្គការ"
-
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Invoice ID"
-msgstr ""
-
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Fulfilled"
 msgstr ""
 
@@ -3175,11 +4034,6 @@ msgid ""
 "A contribution type with this name already exists. Please select another "
 "name."
 msgstr ""
-
-#: CRM/Contribute/Form/ContributionType.php
-#, fuzzy
-msgid "Accounting Code"
-msgstr "ប្រទេស"
 
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Tax-deductible?"
@@ -3231,12 +4085,6 @@ msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "A product with this name already exists. Please select another name."
-msgstr ""
-
-#: CRM/Contribute/Form/ManagePremiums.php
-#: templates/CRM/Contribute/Page/ManagePremiums.tpl
-#: templates/CRM/Contribute/Page/Premium.tpl
-msgid "SKU"
 msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -3307,30 +4155,6 @@ msgid "Please enter a monetary value for the Minimum Contribution Amount."
 msgstr "សូម​បញ្ចូល​អត្ថបទ​ចំណាំ ។"
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
-msgid "Options"
-msgstr "រយៈពេល"
-
-#: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
-msgid "Period Type"
-msgstr "ប្រភេទ​ទំនាក់​ទំនង"
-
-#: CRM/Contribute/Form/ManagePremiums.php
-msgid "Fixed Period Start Day"
-msgstr ""
-
-#: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
-msgid "Duration Unit"
-msgstr "រយៈពេល"
-
-#: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
-msgid "Frequency Unit"
-msgstr "ឈ្មោះ​ផ្លូវ"
-
-#: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency"
 msgstr ""
 
@@ -3373,10 +4197,6 @@ msgstr "បន្ត >>"
 
 #: CRM/Contribute/Form/Search.php
 msgid "Contribution Dates - From"
-msgstr ""
-
-#: CRM/Contribute/Form/Search.php
-msgid "Payment Instrument"
 msgstr ""
 
 #: CRM/Contribute/Form/Search.php
@@ -3615,12 +4435,6 @@ msgid "Delete Contribution"
 msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Contribute/Selector/Search.php
-#: templates/CRM/Contribute/Form/Task/Print.tpl
-#: templates/CRM/Mailing/Page/Component.tpl
-msgid "Type"
-msgstr ""
-
-#: CRM/Contribute/Selector/Search.php
 msgid "CiviCRM Contribution Search"
 msgstr ""
 
@@ -3631,13 +4445,6 @@ msgstr ""
 #: CRM/Core/BAO/CustomField.php
 msgid "Number"
 msgstr ""
-
-#: CRM/Core/BAO/CustomField.php templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Note.tpl
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Profile/Page/Note.tpl
-msgid "Note"
-msgstr "ចំណាំ"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Yes or No"
@@ -3802,6 +4609,434 @@ msgstr ""
 msgid "New Group"
 msgstr ""
 
+#: CRM/Core/DAO/ACL.php
+msgid "Deny"
+msgstr ""
+
+#: CRM/Core/DAO/ACL.php
+#, fuzzy
+msgid "Operation"
+msgstr "រយៈពេល"
+
+#: CRM/Core/DAO/ACL.php
+msgid "Object Table"
+msgstr ""
+
+#: CRM/Core/DAO/ACL.php
+msgid "Acl Table"
+msgstr ""
+
+#: CRM/Core/DAO/ACL.php
+msgid "Grant"
+msgstr ""
+
+#: CRM/Core/DAO/ACL.php
+msgid "Revoke"
+msgstr ""
+
+#: CRM/Core/DAO/ActivityHistory.php
+msgid "Callback Method"
+msgstr ""
+
+#: CRM/Core/DAO/ActivityHistory.php
+#, fuzzy
+msgid "Activity ID"
+msgstr "សកម្មភាព"
+
+#: CRM/Core/DAO/ActivityHistory.php
+#, fuzzy
+msgid "Activity Summary"
+msgstr "ប្រភេទ​សកម្មភាព"
+
+#: CRM/Core/DAO/Address.php
+#, fuzzy
+msgid "Street Number"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Core/DAO/Address.php
+#, fuzzy
+msgid "Street Number Suffix"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Core/DAO/Address.php
+#, fuzzy
+msgid "Street Number Predirectional"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Core/DAO/Address.php
+msgid "Street Name"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Core/DAO/Address.php
+#, fuzzy
+msgid "Street Type"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Core/DAO/Address.php
+#, fuzzy
+msgid "Street Number Postdirectional"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Core/DAO/Address.php
+#, fuzzy
+msgid "Street Unit"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Core/DAO/Address.php
+#, fuzzy
+msgid "Supplemental Address 1"
+msgstr "អាសយដ្ឋាន​ផ្លូវ"
+
+#: CRM/Core/DAO/Address.php
+#, fuzzy
+msgid "Supplemental Address 2"
+msgstr "អាសយដ្ឋាន​ផ្លូវ"
+
+#: CRM/Core/DAO/Address.php
+#, fuzzy
+msgid "Supplemental Address 3"
+msgstr "អាសយដ្ឋាន​ផ្លូវ"
+
+#: CRM/Core/DAO/Address.php
+msgid "Postal Code Suffix"
+msgstr ""
+
+#: CRM/Core/DAO/Address.php
+msgid "Usps Adc"
+msgstr ""
+
+#: CRM/Core/DAO/Address.php
+msgid "Geo Code 1"
+msgstr ""
+
+#: CRM/Core/DAO/Address.php
+msgid "Geo Code 2"
+msgstr ""
+
+#: CRM/Core/DAO/Address.php
+msgid "Timezone"
+msgstr ""
+
+#: CRM/Core/DAO/Country.php
+#, fuzzy
+msgid "Iso Code"
+msgstr "ប្រទេស"
+
+#: CRM/Core/DAO/Country.php
+#, fuzzy
+msgid "Country Code"
+msgstr "ប្រទេស"
+
+#: CRM/Core/DAO/Country.php
+#, fuzzy
+msgid "Idd Prefix"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Core/DAO/Country.php
+#, fuzzy
+msgid "Ndd Prefix"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Core/DAO/County.php
+#, fuzzy
+msgid "Country Abbreviation"
+msgstr "សកម្មភាព"
+
+#: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
+msgid "Data Type"
+msgstr "ប្រភេទ​ទិន្នន័យ"
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "Html Type"
+msgstr "ប្រភេទ​ទិន្នន័យ"
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "Attributes"
+msgstr "សកម្មភាព"
+
+#: CRM/Core/DAO/CustomField.php
+msgid "Javascript"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "Start Date Years"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "End Date Years"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "Date Parts"
+msgstr "កាលបរិច្ឆេទ"
+
+#: CRM/Core/DAO/CustomField.php
+msgid "Note Columns"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "Note Rows"
+msgstr "ចំណាំ"
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "String"
+msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "Int"
+msgstr "ចំនួន​គត់"
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "Float"
+msgstr "ចំណាំ"
+
+#: CRM/Core/DAO/CustomField.php
+msgid "Boolean"
+msgstr ""
+
+#: CRM/Core/DAO/CustomField.php
+#, fuzzy
+msgid "StateProvince"
+msgstr "រដ្ឋ/ខេត្ត"
+
+#: CRM/Core/DAO/CustomGroup.php
+msgid "Extends"
+msgstr ""
+
+#: CRM/Core/DAO/CustomGroup.php templates/CRM/Custom/Page/Group.tpl
+msgid "Style"
+msgstr ""
+
+#: CRM/Core/DAO/CustomGroup.php
+msgid "Collapse Display"
+msgstr ""
+
+#: CRM/Core/DAO/CustomGroup.php
+#, fuzzy
+msgid "Activity"
+msgstr "សកម្មភាព"
+
+#: CRM/Core/DAO/CustomGroup.php
+#, fuzzy
+msgid "Phonecall"
+msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: CRM/Core/DAO/CustomValue.php
+#, fuzzy
+msgid "Int Data"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Core/DAO/CustomValue.php
+#, fuzzy
+msgid "Float Data"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Core/DAO/CustomValue.php
+msgid "Decimal Data"
+msgstr ""
+
+#: CRM/Core/DAO/CustomValue.php
+#, fuzzy
+msgid "Char Data"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Core/DAO/CustomValue.php
+#, fuzzy
+msgid "Date Data"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Core/DAO/CustomValue.php
+#, fuzzy
+msgid "Memo Data"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Core/DAO/Domain.php
+#, fuzzy
+msgid "Contact Name"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Core/DAO/Domain.php
+#, fuzzy
+msgid "Email Domain"
+msgstr "សារ"
+
+#: CRM/Core/DAO/Domain.php
+#, fuzzy
+msgid "Email Return Path"
+msgstr "សារ"
+
+#: CRM/Core/DAO/DupeMatch.php
+#, fuzzy
+msgid "Rule"
+msgstr "ចល័ត"
+
+#: CRM/Core/DAO/Email.php
+msgid "On Hold"
+msgstr ""
+
+#: CRM/Core/DAO/Email.php
+#, fuzzy
+msgid "Hold Date"
+msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
+
+#: CRM/Core/DAO/Email.php
+#, fuzzy
+msgid "Reset Date"
+msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
+
+#: CRM/Core/DAO/GeoCoord.php
+#, fuzzy
+msgid "Coord Type"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Core/DAO/GeoCoord.php
+msgid "Coord Units"
+msgstr ""
+
+#: CRM/Core/DAO/GeoCoord.php
+msgid "Coord Ogc Wkt String"
+msgstr ""
+
+#: CRM/Core/DAO/GeoCoord.php
+#, fuzzy
+msgid "LatLong"
+msgstr "ទីតាំង"
+
+#: CRM/Core/DAO/GeoCoord.php
+msgid "Projected"
+msgstr ""
+
+#: CRM/Core/DAO/GeoCoord.php
+#, fuzzy
+msgid "Degree"
+msgstr "លុប"
+
+#: CRM/Core/DAO/GeoCoord.php
+msgid "Grad"
+msgstr ""
+
+#: CRM/Core/DAO/GeoCoord.php
+msgid "Radian"
+msgstr ""
+
+#: CRM/Core/DAO/GeoCoord.php
+#, fuzzy
+msgid "Foot"
+msgstr "ចំណាំ"
+
+#: CRM/Core/DAO/GeoCoord.php
+#, fuzzy
+msgid "Meter"
+msgstr "សមាជិក​ក្រុម"
+
+#: CRM/Core/DAO/IM.php
+#, fuzzy
+msgid "IM Screen Name"
+msgstr "ឈ្មោះ​ផ្លូវ"
+
+#: CRM/Core/DAO/IMProvider.php
+#, fuzzy
+msgid "IM Provider Name"
+msgstr "ឈ្មោះ​កណ្ដាល"
+
+#: CRM/Core/DAO/IndividualPrefix.php
+#, fuzzy
+msgid "Individual Prefix"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Core/DAO/IndividualSuffix.php
+#, fuzzy
+msgid "Individual Suffix"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Core/DAO/LocationType.php
+#, fuzzy
+msgid "Location Type"
+msgstr "ប្រភេទ​ទីតាំង"
+
+#: CRM/Core/DAO/LocationType.php
+#, fuzzy
+msgid "vCard Location Type"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
+
+#: CRM/Core/DAO/MappingField.php
+#, fuzzy
+msgid "Column Number"
+msgstr "លេខ​ទូរស័ព្ទ"
+
+#: CRM/Core/DAO/Mapping.php
+#, fuzzy
+msgid "Mapping Type"
+msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
+
+#: CRM/Core/DAO/Mapping.php
+#, fuzzy
+msgid "Export"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Core/DAO/StateProvince.php
+msgid "State Abbreviation"
+msgstr ""
+
+#: CRM/Core/DAO/UFField.php
+#, fuzzy
+msgid "In Selector"
+msgstr "ជ្រើស​ក្រុម"
+
+#: CRM/Core/DAO/UFField.php templates/CRM/Custom/Page/Field.tpl
+msgid "Field Type"
+msgstr ""
+
+#: CRM/Core/DAO/UFGroup.php
+#, fuzzy
+msgid "Form Type"
+msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+
+#: CRM/Core/DAO/UFGroup.php
+msgid "Post Url"
+msgstr ""
+
+#: CRM/Core/DAO/Validation.php
+msgid "Parameters"
+msgstr ""
+
+#: CRM/Core/DAO/Validation.php
+#, fuzzy
+msgid "Function Name"
+msgstr "ឈ្មោះ​អង្គការ"
+
+#: CRM/Core/DAO/Validation.php
+#, fuzzy
+msgid "Positive Integer"
+msgstr "ចំនួន​គត់"
+
+#: CRM/Core/DAO/Validation.php
+#, fuzzy
+msgid "Variable Name"
+msgstr "ឈ្មោះ​កណ្ដាល"
+
+#: CRM/Core/DAO/Validation.php
+#, fuzzy
+msgid "Range"
+msgstr "រៀប​ចំ​ក្រុម"
+
+#: CRM/Core/DAO/Validation.php
+msgid "Regular Expression Match"
+msgstr ""
+
+#: CRM/Core/DAO/Validation.php
+msgid "Regular Expression No Match"
+msgstr ""
+
 #: CRM/Core/Form/Date.php
 msgid "yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)"
 msgstr ""
@@ -3901,11 +5136,6 @@ msgid "Sync Drupal Users"
 msgstr ""
 
 #: CRM/Core/Invoke.php
-#, fuzzy
-msgid "Import Activity History"
-msgstr "ប្រវត្តិ​សកម្មភាព​ CivicCRM"
-
-#: CRM/Core/Invoke.php
 msgid "Import Contacts"
 msgstr "នាំចូល​ព័ត៌មាន​ទំនាក់​ទំនង"
 
@@ -3942,18 +5172,6 @@ msgid "Customized"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-msgid "Mobile"
-msgstr "ចល័ត"
-
-#: CRM/Core/SelectValues.php
-msgid "Fax"
-msgstr "ទួរសារ"
-
-#: CRM/Core/SelectValues.php
-msgid "Pager"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
 msgid "San Francisco"
 msgstr ""
 
@@ -3963,14 +5181,6 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Postal Mail"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "HTML"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Both"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
@@ -4008,10 +5218,6 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Decimal Number"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Memo"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
@@ -4066,14 +5272,6 @@ msgid "Meetings"
 msgstr "លុប"
 
 #: CRM/Core/SelectValues.php
-msgid "Tab"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Inline"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
 msgid "User Registration"
 msgstr ""
 
@@ -4087,47 +5285,11 @@ msgid "Profile"
 msgstr "ឈ្មោះ​កណ្ដាល"
 
 #: CRM/Core/SelectValues.php
-msgid "Added"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Removed"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Pending"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
 msgid "Dynamic"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Static"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "User and User Admin Only"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Public User Pages"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Public User Pages and Listings"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Completed"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Unreachable"
-msgstr ""
-
-#: CRM/Core/SelectValues.php
-msgid "Left Message"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
@@ -4180,43 +5342,6 @@ msgid ""
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
-msgid "Select"
-msgstr "ជ្រើស​ក្រុម"
-
-#: CRM/Custom/Form/Field.php
-msgid "Radio"
-msgstr ""
-
-#: CRM/Custom/Form/Field.php
-msgid "CheckBox"
-msgstr ""
-
-#: CRM/Custom/Form/Field.php
-#, fuzzy
-msgid "Multi-Select"
-msgstr "ជ្រើស​ក្រុម"
-
-#: CRM/Custom/Form/Field.php
-msgid "TextArea"
-msgstr ""
-
-#: CRM/Custom/Form/Field.php
-#, fuzzy
-msgid "Select Date"
-msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#: CRM/Custom/Form/Field.php
-#, fuzzy
-msgid "Select State/Province"
-msgstr "រដ្ឋ/ខេត្ត"
-
-#: CRM/Custom/Form/Field.php
-#, fuzzy
-msgid "Select Country"
-msgstr "ជ្រើស​ក្រុម"
-
-#: CRM/Custom/Form/Field.php
 msgid "Data and Input Field Type"
 msgstr ""
 
@@ -4255,21 +5380,9 @@ msgid "Height (rows)"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
-msgid "Options Per Line"
-msgstr ""
-
-#: CRM/Custom/Form/Field.php
 #, fuzzy
 msgid " must be a numeric value"
 msgstr "ជា​វាល​លេខ​មួយ"
-
-#: CRM/Custom/Form/Field.php
-msgid "Default Value"
-msgstr "តម្លៃ​លំនាំដើម"
-
-#: CRM/Custom/Form/Field.php
-msgid "Mask"
-msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Is this Field Searchable?"
@@ -4662,35 +5775,134 @@ msgstr ""
 msgid "View Contact URL"
 msgstr ""
 
-#: CRM/Mailing/BAO/Job.php
-msgid "Running"
+#: CRM/Mailing/DAO/BouncePattern.php
+msgid "Pattern"
 msgstr ""
 
-#: CRM/Mailing/BAO/Job.php
-msgid "Complete"
-msgstr ""
-
-#: CRM/Mailing/BAO/Job.php
-msgid "Paused"
-msgstr ""
-
-#: CRM/Mailing/BAO/Job.php
+#: CRM/Mailing/DAO/BounceType.php
 #, fuzzy
-msgid "Canceled"
+msgid "Hold Threshold"
+msgstr "ផ្ទះសម្បែង"
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "AOL"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Away"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "DNS"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Host"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+#: templates/CRM/Contribute/Page/ContributionPage.tpl
+#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
+#: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
+msgid "Inactive"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+#, fuzzy
+msgid "Invalid"
+msgstr "តម្លៃ"
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Loop"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Quota"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Relay"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Spam"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php
+msgid "Syntax"
+msgstr ""
+
+#: CRM/Mailing/DAO/Component.php
+#, fuzzy
+msgid "Component Name"
+msgstr "តម្រៀប​ឈ្មោះ"
+
+#: CRM/Mailing/DAO/Component.php
+#, fuzzy
+msgid "Subscribe"
+msgstr "ពិពណ៌នា"
+
+#: CRM/Mailing/DAO/Component.php
+#, fuzzy
+msgid "Welcome"
+msgstr "សារ"
+
+#: CRM/Mailing/DAO/Component.php
+msgid "OptOut"
+msgstr ""
+
+#: CRM/Mailing/DAO/Group.php
+#, fuzzy
+msgid "Group Type"
+msgstr "ឈ្មោះ​ក្រុម"
+
+#: CRM/Mailing/DAO/Group.php
+#, fuzzy
+msgid "Include"
 msgstr "បោះបង់"
 
-#: CRM/Mailing/BAO/Mailing.php
-msgid "Reply"
-msgstr ""
-
-#: CRM/Mailing/BAO/Mailing.php
-msgid "Unsubscribe"
-msgstr ""
-
-#: CRM/Mailing/Form/Component.php
+#: CRM/Mailing/DAO/Group.php
 #, fuzzy
-msgid "Component Type"
-msgstr "ប្រភេទ​ទំនាក់​ទំនង"
+msgid "Exclude"
+msgstr "បោះបង់"
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "From Name"
+msgstr "ឈ្មោះ​ក្រុម"
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "Replyto Email"
+msgstr "សារ"
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "Url Tracking"
+msgstr "រយៈពេល"
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "Forward Replies"
+msgstr "សារ"
+
+#: CRM/Mailing/DAO/Mailing.php
+msgid "Auto Responder"
+msgstr ""
+
+#: CRM/Mailing/DAO/Mailing.php
+#, fuzzy
+msgid "Open Tracking"
+msgstr "រយៈពេល"
+
+#: CRM/Mailing/DAO/TrackableURL.php
+msgid "Url"
+msgstr ""
+
+#: CRM/Mailing/Event/DAO/Unsubscribe.php
+#, fuzzy
+msgid "Org Unsubscribe"
+msgstr "ពិពណ៌នា"
 
 #: CRM/Mailing/Form/Component.php
 msgid "Body in text format"
@@ -4805,11 +6017,6 @@ msgstr ""
 #, fuzzy
 msgid "From name"
 msgstr "ឈ្មោះ​ក្រុម"
-
-#: CRM/Mailing/Form/Upload.php
-#, fuzzy
-msgid "From Email"
-msgstr "សារ"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Forward replies?"
@@ -4939,11 +6146,6 @@ msgstr "ព័ត៌មាន​ទំនាក់​ទំនង %%StatusMessag
 msgid "Mailing Name"
 msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
 
-#: CRM/Mailing/Selector/Browse.php templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Scheduled Date"
-msgstr ""
-
 #: CRM/Mailing/Selector/Browse.php
 #, fuzzy
 msgid "Completed Date"
@@ -4969,22 +6171,8 @@ msgstr "ព័ត៌មាន​ទំនាក់​ទំនង %%StatusMessag
 
 #: CRM/Mailing/Selector/Event.php
 #, fuzzy
-msgid "Contact"
-msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
-
-#: CRM/Mailing/Selector/Event.php
-#, fuzzy
 msgid "Bounce Type"
 msgstr "ប្រភេទ​ទូរស័ព្ទ"
-
-#: CRM/Mailing/Selector/Event.php
-#, fuzzy
-msgid "Bounce Reason"
-msgstr "ហេតុផល"
-
-#: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-msgid "URL"
-msgstr ""
 
 #: CRM/Mailing/Selector/Event.php
 #, fuzzy
@@ -5141,11 +6329,6 @@ msgstr ""
 msgid "Delete Profile Field"
 msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
 
-#: CRM/UF/Form/Field.php
-#, fuzzy
-msgid "Field Name"
-msgstr "នាមខ្លួន"
-
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 #, fuzzy
 msgid "In Selector?"
@@ -5212,13 +6395,6 @@ msgstr ""
 #, fuzzy
 msgid "Enter a valid URL."
 msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
-
-#: CRM/UF/Form/Group.php templates/CRM/Contact/Form/Task/AddToGroup.tpl
-#: templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/GroupContact.tpl
-msgid "Group"
-msgstr ""
 
 #: CRM/UF/Form/Group.php
 msgid "This profile cannot be deleted since it is used for other modules."
@@ -5308,11 +6484,6 @@ msgstr "លុប​ក្រុម"
 
 #: CRM/UF/Page/Group.php
 #, fuzzy
-msgid "Create"
-msgstr "កាលបរិច្ឆេទ"
-
-#: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "CiviCRM Profile Group Preview"
 msgstr "លុប​ក្រុម"
 
@@ -5373,10 +6544,6 @@ msgstr ""
 #, fuzzy
 msgid "Activity Types"
 msgstr "ប្រភេទ​សកម្មភាព"
-
-#: CRM/Utils/Menu.php templates/CRM/UF/Form/Group.tpl
-msgid "CiviCRM Profile"
-msgstr ""
 
 #: CRM/Utils/Menu.php
 msgid "CiviCRM Profile Fields"
@@ -5452,10 +6619,6 @@ msgstr "រៀប​ចំ​ក្រុម"
 #: CRM/Utils/Menu.php
 msgid "Create New Group"
 msgstr "បង្កើត​ក្រុម​ថ្មី"
-
-#: CRM/Utils/Menu.php
-msgid "Import"
-msgstr ""
 
 #: CRM/Utils/Menu.php templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -6367,8 +7530,8 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid ""
-"Complete OR partial contact name OR email. To search by first AND last name,"
-"<br />enter 'lastname, firstname'. Example: 'Doe, Jane'."
+"Complete OR partial contact name OR email. To search by first AND last name, "
+"enter 'lastname, firstname'. Example: 'Doe, Jane'."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -6706,10 +7869,6 @@ msgstr ""
 #, fuzzy
 msgid "Other Activities"
 msgstr "សកម្មភាព"
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "Job Title"
-msgstr "មុខ​តំណែង"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "View User Record"
@@ -8371,12 +9530,6 @@ msgid "Active"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
-#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
-#: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
-msgid "Inactive"
-msgstr ""
-
-#: templates/CRM/Contribute/Page/ContributionPage.tpl
 #, fuzzy
 msgid "New Contribution Page"
 msgstr "អង្គការ​ថ្មី"
@@ -8718,14 +9871,6 @@ msgid "Preview of this field as it will be displayed in an edit form."
 msgstr ""
 
 #: templates/CRM/Custom/Page/Field.tpl
-msgid "Data Type"
-msgstr "ប្រភេទ​ទិន្នន័យ"
-
-#: templates/CRM/Custom/Page/Field.tpl
-msgid "Field Type"
-msgstr ""
-
-#: templates/CRM/Custom/Page/Field.tpl
 msgid "Req?"
 msgstr ""
 
@@ -8748,10 +9893,6 @@ msgstr ""
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Group Title"
-msgstr ""
-
-#: templates/CRM/Custom/Page/Group.tpl
-msgid "Style"
 msgstr ""
 
 #: templates/CRM/Custom/Page/Group.tpl
@@ -9192,10 +10333,6 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Component.tpl
-msgid "Body Text"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -9678,10 +10815,6 @@ msgid "Main office location"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "Other"
-msgstr ""
-
-#: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Other location"
 msgstr "ទីតាំង"
@@ -9951,112 +11084,6 @@ msgid "Error in SMTP transaction"
 msgstr ""
 
 #, fuzzy
-#~ msgid "Entity Table"
-#~ msgstr "អាច​ប្រើ​បាន"
-
-#, fuzzy
-#~ msgid "Module"
-#~ msgstr "ចល័ត"
-
-#~ msgid "Scheduled Date Time"
-#~ msgstr "ពេលវេលា កាលបរិច្ឆេទ​ដែល​បាន​កំណត់"
-
-#~ msgid "Duration Hours"
-#~ msgstr "រយៈពេល​គិត​ជា​ម៉ោង"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "រយៈពេល​គិត​ជា​នាទី"
-
-#~ msgid "Phone Type"
-#~ msgstr "ប្រភេទ​ទូរស័ព្ទ"
-
-#, fuzzy
-#~ msgid "Internal Contact ID"
-#~ msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
-
-#~ msgid "Sort Name"
-#~ msgstr "តម្រៀប​ឈ្មោះ"
-
-#, fuzzy
-#~ msgid "Home URL"
-#~ msgstr "Url គេហទំព័រ"
-
-#, fuzzy
-#~ msgid "Do Not Email"
-#~ msgstr "សារ"
-
-#, fuzzy
-#~ msgid "Greeting Type"
-#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
-
-#, fuzzy
-#~ msgid "Birth Date"
-#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#, fuzzy
-#~ msgid "Formal"
-#~ msgstr "ស្រី"
-
-#, fuzzy
-#~ msgid "Informal"
-#~ msgstr "ស្រី"
-
-#~ msgid "Name A B"
-#~ msgstr "ឈ្មោះ A B"
-
-#, fuzzy
-#~ msgid "Name B A"
-#~ msgstr "ឈ្មោះ A B"
-
-#, fuzzy
-#~ msgid "Web"
-#~ msgstr "ទម្ងន់"
-
-#, fuzzy
-#~ msgid "Intro Text"
-#~ msgstr "មុខ​តំណែង"
-
-#, fuzzy
-#~ msgid "Default Amount"
-#~ msgstr "តម្លៃ​លំនាំដើម"
-
-#, fuzzy
-#~ msgid "Thank-you Title"
-#~ msgstr "មុខ​តំណែង"
-
-#, fuzzy
-#~ msgid "Thank-you Text"
-#~ msgstr "មុខ​តំណែង"
-
-#, fuzzy
-#~ msgid "Receive Date"
-#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#, fuzzy
-#~ msgid "Cancel Date"
-#~ msgstr "បោះបង់"
-
-#, fuzzy
-#~ msgid "Cancel Reason"
-#~ msgstr "ហេតុផល"
-
-#, fuzzy
-#~ msgid "Trxn Date"
-#~ msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
-
-#, fuzzy
-#~ msgid "Trxn Type"
-#~ msgstr "ប្រភេទ​ទំនាក់​ទំនង"
-
-#, fuzzy
-#~ msgid "Debit"
-#~ msgstr "ទម្ងន់"
-
-#, fuzzy
-#~ msgid "Credit"
-#~ msgstr "កាលបរិច្ឆេទ"
-
-#, fuzzy
 #~ msgid "Credit Card Number"
 #~ msgstr "លេខ​កំណត់ត្រា"
 
@@ -10067,201 +11094,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Preview Contribute Page"
 #~ msgstr "អង្គការ​ថ្មី"
-
-#, fuzzy
-#~ msgid "Activity Summary"
-#~ msgstr "ប្រភេទ​សកម្មភាព"
-
-#, fuzzy
-#~ msgid "Street Number"
-#~ msgstr "ឈ្មោះ​ផ្លូវ"
-
-#, fuzzy
-#~ msgid "Street Number Suffix"
-#~ msgstr "ឈ្មោះ​ផ្លូវ"
-
-#~ msgid "Street Name"
-#~ msgstr "ឈ្មោះ​ផ្លូវ"
-
-#, fuzzy
-#~ msgid "Street Type"
-#~ msgstr "ឈ្មោះ​ផ្លូវ"
-
-#, fuzzy
-#~ msgid "Supplemental Address 1"
-#~ msgstr "អាសយដ្ឋាន​ផ្លូវ"
-
-#, fuzzy
-#~ msgid "Supplemental Address 2"
-#~ msgstr "អាសយដ្ឋាន​ផ្លូវ"
-
-#, fuzzy
-#~ msgid "Supplemental Address 3"
-#~ msgstr "អាសយដ្ឋាន​ផ្លូវ"
-
-#, fuzzy
-#~ msgid "Country Code"
-#~ msgstr "ប្រទេស"
-
-#, fuzzy
-#~ msgid "Html Type"
-#~ msgstr "ប្រភេទ​ទិន្នន័យ"
-
-#, fuzzy
-#~ msgid "Attributes"
-#~ msgstr "សកម្មភាព"
-
-#, fuzzy
-#~ msgid "String"
-#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
-
-#, fuzzy
-#~ msgid "Int"
-#~ msgstr "ចំនួន​គត់"
-
-#, fuzzy
-#~ msgid "StateProvince"
-#~ msgstr "រដ្ឋ/ខេត្ត"
-
-#, fuzzy
-#~ msgid "Activity"
-#~ msgstr "សកម្មភាព"
-
-#, fuzzy
-#~ msgid "Int Data"
-#~ msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
-
-#, fuzzy
-#~ msgid "Float Data"
-#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#, fuzzy
-#~ msgid "Char Data"
-#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#, fuzzy
-#~ msgid "Rule"
-#~ msgstr "ចល័ត"
-
-#, fuzzy
-#~ msgid "Sent Date"
-#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#, fuzzy
-#~ msgid "Hold Date"
-#~ msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
-
-#, fuzzy
-#~ msgid "Reset Date"
-#~ msgstr "កាលបរិច្ឆេទ​ចាប់ផ្តើម"
-
-#, fuzzy
-#~ msgid "Coord Type"
-#~ msgstr "ប្រភេទ​ទំនាក់​ទំនង"
-
-#, fuzzy
-#~ msgid "LatLong"
-#~ msgstr "ទីតាំង"
-
-#, fuzzy
-#~ msgid "Degree"
-#~ msgstr "លុប"
-
-#, fuzzy
-#~ msgid "Foot"
-#~ msgstr "ចំណាំ"
-
-#, fuzzy
-#~ msgid "Meter"
-#~ msgstr "សមាជិក​ក្រុម"
-
-#, fuzzy
-#~ msgid "IM Screen Name"
-#~ msgstr "ឈ្មោះ​ផ្លូវ"
-
-#, fuzzy
-#~ msgid "IM Provider Name"
-#~ msgstr "ឈ្មោះ​កណ្ដាល"
-
-#, fuzzy
-#~ msgid "Individual Prefix"
-#~ msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
-
-#, fuzzy
-#~ msgid "Individual Suffix"
-#~ msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
-
-#, fuzzy
-#~ msgid "vCard Location Type"
-#~ msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
-
-#, fuzzy
-#~ msgid "Column Number"
-#~ msgstr "លេខ​ទូរស័ព្ទ"
-
-#, fuzzy
-#~ msgid "Mapping Type"
-#~ msgstr "ផ្ញើ​សារ​អ៊ីម៉ែល"
-
-#, fuzzy
-#~ msgid "Modified Date"
-#~ msgstr "កាលបរិច្ឆេទ​បញ្ចប់"
-
-#, fuzzy
-#~ msgid "In Selector"
-#~ msgstr "ជ្រើស​ក្រុម"
-
-#, fuzzy
-#~ msgid "Form Type"
-#~ msgstr "ប្រភេទ​ទំនាក់​ទំនង"
-
-#, fuzzy
-#~ msgid "Function Name"
-#~ msgstr "ឈ្មោះ​អង្គការ"
-
-#, fuzzy
-#~ msgid "Positive Integer"
-#~ msgstr "ចំនួន​គត់"
-
-#, fuzzy
-#~ msgid "Hold Threshold"
-#~ msgstr "ផ្ទះសម្បែង"
-
-#, fuzzy
-#~ msgid "Component Name"
-#~ msgstr "តម្រៀប​ឈ្មោះ"
-
-#, fuzzy
-#~ msgid "Group Type"
-#~ msgstr "ឈ្មោះ​ក្រុម"
-
-#, fuzzy
-#~ msgid "Include"
-#~ msgstr "បោះបង់"
-
-#, fuzzy
-#~ msgid "Exclude"
-#~ msgstr "បោះបង់"
-
-#, fuzzy
-#~ msgid "From Name"
-#~ msgstr "ឈ្មោះ​ក្រុម"
-
-#, fuzzy
-#~ msgid "Replyto Email"
-#~ msgstr "សារ"
-
-#, fuzzy
-#~ msgid "Forward Replies"
-#~ msgstr "សារ"
-
-#, fuzzy
-#~ msgid "Open Tracking"
-#~ msgstr "រយៈពេល"
-
-#, fuzzy
-#~ msgid "Org Unsubscribe"
-#~ msgstr "ពិពណ៌នា"
 
 #, fuzzy
 #~ msgid "'Group(s)' is a required field."
