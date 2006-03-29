@@ -35,7 +35,12 @@ class WebTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminIMService.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminMobileProvider.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminCustomData.php' );
-        
+        // $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminContribution.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminPaymentInstrument.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminAcceptedCreditCards.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminManagePremiums.php' );
+
+
         // Manage Groups
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/ManageGroups.php' );
         
@@ -45,8 +50,6 @@ class WebTests extends GroupTest {
         // Search
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/FindContacts.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdvancedSearch.php' );
-        
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/ImportContacts.php' );
     }
 
 }
