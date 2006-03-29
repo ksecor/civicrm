@@ -46,6 +46,7 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 {
     protected $_personID;
+    protected $_relationshipID;
 
     const INDUSTRY_UNEMPLOYED = 47;
 
@@ -58,8 +59,8 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-        $this->_personID = $this->_options['personID'];
-        $relationshipID  = $this->_options['relationshipID'];
+        $this->_personID        = $this->_options['personID'];
+        $this->_relationshipID  = $this->_options['relationshipID'];
     }
    
     /**
@@ -215,25 +216,15 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     {
         $params  = $this->controller->exportValues( $this->_name );
        
-        $householdInfo  = $this->controller->exportValues( 'Household' );
-        $ids = array();
+        $params['relationship_id'] = $this->_relationshipID;
+
+        $relationship = CRM_Core_OptionGroup::values( 'relationship' );
+        $relationshipName = trim( CRM_Utils_Array::value( $this->_relationshipID,
+                                                          $relationship ) );
         
-        //code to get relationship id
-        require_once 'CRM/Core/OptionGroup.php';
-        $relationships = CRM_Core_OptionGroup::values( 'relationship' );
-        foreach ( $relationships as $key=> $value ) {
-            if ( trim($value) == trim($this->_name) ) {
-                $relationshipID = $key;
-            }
-        }
-        
-        $params['relationship_id'] = $relationshipID;
         $params['contact_id']      = $this->get('contact_id'); 
         
-        if( $this->_personID ) {
-            $ids['id'] = $this->_personID;
-        }
-
+        $ids['id'] = $this->_personID;
 
         // format date
         require_once 'CRM/Utils/Date.php';
@@ -249,6 +240,14 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 
         require_once 'CRM/Quest/BAO/Person.php';
         $person = CRM_Quest_BAO_Person::create( $params , $ids );
+
+        // fix the details array
+        $details = $this->controller->get( 'householdDetails' );
+        $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']} Details";
+        $details[$this->_name]['options']['personID'] = $person->id;
+        $details[$this->_name]['options']['relationshipID'] = $relationshipID;
+        $details[$this->_name]['options']['relationshipName'] = $relationshipName;
+        $this->set( 'householdDetails', $details );
         
         // check if this person has a job, if so add to incomeArray
         if ( $params['industry_id'] && $params['industry_id'] != self::INDUSTRY_UNEMPLOYED ) {

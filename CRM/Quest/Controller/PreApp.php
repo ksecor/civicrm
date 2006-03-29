@@ -58,6 +58,9 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         if ( ! $this->get( 'contact_id' ) ) {
             $session =& CRM_Core_Session::singleton( );
             $cid = $session->get( 'userID' );
+            if ( ! $cid ) {
+                CRM_Core_Error::fatal( ts( "Could not find a valid contact id" ) );
+            }
             $this->set( 'contact_id' , $cid );
             require_once 'CRM/Contact/DAO/Individual.php';
             $dao =& new CRM_Contact_DAO_Individual( );
@@ -65,6 +68,8 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
             if ( $dao->find( true ) ) {
                 $this->set( 'welcome_name',
                             $dao->first_name );
+            } else {
+                CRM_Core_Error::fatal( ts( "Could not retrieve contact from database" ) );
             }
         }
     }

@@ -181,7 +181,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                    'title'     => "{$params['first_name']} {$params['last_name']} Income Details",
                    'options'   => array( 'personID' => $this->_personID,
                                          'incomeID' => $income->id ) );
-        $this->controller->set( 'incomeDetails', $incomeDetails );
+        $this->controller->set( 'incomeDetails', $details );
     }
     
 
@@ -241,6 +241,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                                                      'incomeID' => null ) );
                 }
             }
+            $controller->set( 'incomeDetails', $details );
         }
 
         if ( empty( $details ) ) {

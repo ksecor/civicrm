@@ -146,7 +146,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 
         $sibling = CRM_Quest_BAO_Person::create( $params , $ids);
 
-        // also fix the form name
+        // fix the details array
         $details = $this->controller->get( 'siblingDetails' );
         $details[$this->_name]['title']   = "Sibling {$params['first_name']} {$params['last_name']}";
         $details[$this->_name]['options']['siblingID'] = $sibling->id;
