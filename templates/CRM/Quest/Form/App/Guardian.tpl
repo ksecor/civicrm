@@ -50,15 +50,15 @@
     <td class="grouplabel">{$form.industry_id.label}</td>
     <td class="fieldlabel">{$form.industry_id.html}</td>
 </tr>
-<tr>
+<tr id="job_organization">
     <td class="grouplabel">{$form.job_organization.label}</td>
     <td class="fieldlabel">{$form.job_organization.html}</td>
 </tr>
-<tr>
+<tr id="job_occupation">
     <td class="grouplabel">{$form.job_occupation.label}</td>
     <td class="fieldlabel">{$form.job_occupation.html}</td>
 </tr>
-<tr>
+<tr id="job_current_years">
     <td class="grouplabel">{$form.job_current_years.label}</td>
     <td class="fieldlabel">{$form.job_current_years.html}</td>
 </tr>

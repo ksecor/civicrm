@@ -131,14 +131,14 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['last_name'] );
         $this->addRule('last_name',ts('Please Enter  Last Name'),'required');
 
-        $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '42,43,44', 'separated-year', 'table-row', 'select');" );
+        $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '42,43,44', 'separated-year', 'table-row', 'select', false);" );
         $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
 
         $this->addElement( 'date', 'separated_year', 
                            ts( 'Year your parents separated or divorced' ),
                            CRM_Core_SelectValues::date( 'custom', 30, 1, "Y" ) );
         
-        $this->addYesNo( 'is_deceased', ts( 'Deceased?' ), null,true, array ('onchange' => "return showHideByValue('is_deceased', '1', 'deceased_year_date', 'table-row', 'radio');"));
+        $this->addYesNo( 'is_deceased', ts( 'Deceased?' ), null,true, array ('onchange' => "return showHideByValue('is_deceased', '1', 'deceased_year_date', 'table-row', 'radio', false);"));
 
         $this->addElement( 'date', 'deceased_year_date', 
                            ts( 'Year Deceased' ),
@@ -163,7 +163,11 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributed['lived_with_to_age'] );
         $this->addRule('lived_with_to_age',ts('age not valid'),'integer');
 
-        $this->addSelect('industry', ts( 'Industry' ),null );
+        $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47', 'job_organization|job_occupation|job_current_years', 'table-row', 'select', true);" );
+
+        $this->addSelect('industry', ts( 'Industry' ),null, null, $extra1 );
+
+
         $this->addElement( 'text', "job_organization",
                            ts( 'Name of business or organization' ),
                            $attributes['job_organization'] );

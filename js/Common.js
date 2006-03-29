@@ -103,9 +103,11 @@ function on_load_init_blocks(showBlocks, hideBlocks, elementType)
  * @param  trigger_value        List of integers - option value(s) which trigger show-element action for target_field
  * @param  target_element_id    HTML id of element to be shown or hidden
  * @param  target_element_type  Type of element to be shown or hidden ('block' or 'table-row')
+ * @param  field_type           Type of element radio/select
+ * @param  status               status
  * @return none 
 */
-function showHideByValue(trigger_field_id, trigger_value, target_element_id, target_element_type, field_type ) {
+function showHideByValue(trigger_field_id, trigger_value, target_element_id, target_element_type, field_type, invert ) {
     if ( target_element_type == null ) {
         var target_element_type = 'block';
     }
@@ -113,13 +115,27 @@ function showHideByValue(trigger_field_id, trigger_value, target_element_id, tar
     if (field_type == 'select') {
 	var trigger = trigger_value.split(",");
 	var selectedOptionValue = document.getElementById(trigger_field_id).options[document.getElementById(trigger_field_id).selectedIndex].value;	
-	for(var i = 0; i < trigger.length; i++) {
-	    if (selectedOptionValue == trigger[i]) {
-		show(target_element_id, target_element_type);
-		break;
-	    } else {
-		hide(target_element_id,target_element_type);
-	    }	
+	
+	var target = target_element_id.split("|");
+	for(var j = 0; j < target.length; j++) {
+	    for(var i = 0; i < trigger.length; i++) {
+		if ( invert ) {  
+		    if (selectedOptionValue != trigger[i]) {
+			show(target[j], target_element_type);
+			break;
+		    } else {
+			hide(target[j],target_element_type);
+		    }	
+		} else {
+		    
+		    if (selectedOptionValue == trigger[i]) {
+			show(target[j], target_element_type);
+			break;
+		    } else {
+			hide(target[j],target_element_type);
+		    }	
+		}
+	    }
 	}
     } else if (field_type == 'radio') {
 	if (document.getElementsByName(trigger_field_id)[0].checked) {
@@ -130,6 +146,42 @@ function showHideByValue(trigger_field_id, trigger_value, target_element_id, tar
     
     }
 }
+
+function showHideByValues(trigger_field_id, trigger_value, target_element_id, target_element_type, field_type, invert ) {
+    if ( target_element_type == null ) {
+        var target_element_type = 'block';
+    }
+    
+    if (field_type == 'select') {
+	var trigger = trigger_value.split(",");
+	var selectedOptionValue = document.getElementById(trigger_field_id).options[document.getElementById(trigger_field_id).selectedIndex].value;	
+	for(var i = 0; i < trigger.length; i++) {
+	    if ( invert ) {  
+		if (selectedOptionValue != trigger[i]) {
+		    show(target_element_id, target_element_type);
+		    break;
+		} else {
+		    hide(target_element_id,target_element_type);
+		}	
+	    } else {
+		if (selectedOptionValue == trigger[i]) {
+		    show(target_element_id, target_element_type);
+		    break;
+		} else {
+		    hide(target_element_id,target_element_type);
+		}	
+	    }
+	}
+    } else if (field_type == 'radio') {
+	if (document.getElementsByName(trigger_field_id)[0].checked) {
+	    show(target_element_id, target_element_type);
+        } else {
+	    hide(target_element_id, target_element_type);
+        }
+    
+    }
+}
+
 
 
 /** 
