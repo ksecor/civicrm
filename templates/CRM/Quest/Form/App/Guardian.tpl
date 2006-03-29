@@ -30,7 +30,7 @@
     <td class="grouplabel">{$form.is_deceased.label}</td>
     <td class="fieldlabel">{$form.is_deceased.html}</td>
 </tr>
-<tr>
+<tr id="deceased_year_date">
     <td class="grouplabel">{$form.deceased_year_date.label}</td>
     <td class="fieldlabel">{$form.deceased_year_date.html}</td>
 </tr>
@@ -103,12 +103,12 @@
 
 {* Include Javascript to show/hide fields based on value of other fields. *}
 {* Marital status field *}
-{include file="CRM/common/showHideByFieldValue.tpl"
+{*include file="CRM/common/showHideByFieldValue.tpl" *}
+{*include file="CRM/common/showHide.tpl"
     trigger_field_id    ="marital_status_id"
     trigger_value       ="42,43,44"
     target_element_id   ="separated-year" 
     target_element_type ="table-row"
-}
+*}
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
-

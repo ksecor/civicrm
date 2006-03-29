@@ -581,12 +581,12 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addGroup($options, $name, $title );
     }
 
-    function addYesNo( $id, $title, $dontKnow = null ,$required = null) {
+    function addYesNo( $id, $title, $dontKnow = null ,$required = null, $attribute = null) {
         $choice = array( );
-        $choice[] = $this->createElement( 'radio', null, '', ts( 'Yes' ), '1' );
-        $choice[] = $this->createElement( 'radio', null, '', ts( 'No' ) , '0' );
+        $choice[] = $this->createElement( 'radio', null, '11', ts( 'Yes' ), '1', $attribute );
+        $choice[] = $this->createElement( 'radio', null, '11', ts( 'No' ) , '0', $attribute );
         if ( $dontKnow ) {
-            $choice[] = $this->createElement( 'radio', null, '', ts( "Don't Know" ), '2' );
+            $choice[] = $this->createElement( 'radio', null, '22', ts( "Don't Know" ), '2', $attribute );
         }
         $this->addGroup( $choice, $id, $title );
         if ( $required ) {
