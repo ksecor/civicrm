@@ -55,6 +55,9 @@ td.fieldlabel {
   font-size: 10px;
   font-style: italic;
 }
+td.white-border{
+  border: 2px solid #fff;
+}
 td.preapp-message {
   color: red;
   text-align: center;
@@ -98,4 +101,3 @@ table#preapp-content td.rightside table.app {
 #crm-container td#preapp-left-nav {
   padding: 0px;
 }
-
