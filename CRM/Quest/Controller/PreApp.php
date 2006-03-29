@@ -59,6 +59,7 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
             $session =& CRM_Core_Session::singleton( );
             $cid = $session->get( 'userID' );
             $this->set( 'contact_id' , $cid );
+            require_once 'CRM/Contact/DAO/Individual.php';
             $dao =& new CRM_Contact_DAO_Individual( );
             $dao->contact_id = $cid;
             if ( $dao->find( true ) ) {
