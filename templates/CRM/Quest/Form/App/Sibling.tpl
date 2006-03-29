@@ -26,10 +26,6 @@
     <td class="fieldlabel">{$form.age.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.lived_with_period_id.label}</td>
-    <td class="fieldlabel">{$form.lived_with_period_id.html}</td>
-</tr>
-<tr>
     <td class="grouplabel">{$form.lived_with_from_age.label}</td>
     <td class="fieldlabel">{$form.lived_with_from_age.html}</td>
 </tr>

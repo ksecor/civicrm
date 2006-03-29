@@ -111,10 +111,6 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                            $attributes['age'] );
         $this->addRule('age',ts('Please Enter Age'),'required');
 
-        $this->addRadio( 'lived_with_period_id',
-                         ts( 'How long have you lived with this person?' ),
-                         CRM_Core_OptionGroup::values( 'years_lived' ));
-       
         $this->addElement( 'text', "lived_with_from_age", ts( 'From Age' ),
                            $attributed['lived_with_from_age'] );
         $this->addElement( 'text', "lived_with_to_age", ts( 'To Age' ),

@@ -39,12 +39,13 @@
     <td class="fieldlabel">{$form.age.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.lived_with_period_id.label}</td>
-    <td class="fieldlabel">{$form.lived_with_period_id.html}&nbsp;&nbsp;&nbsp;
-    {$form.lived_with_from_age.label}
-    {$form.lived_with_from_age.html}
-    {$form.lived_with_to_age.label}
-    {$form.lived_with_to_age.html}</td>
+    <td class="grouplabel"><label>{ts}How long have you lived with this person?{/ts}</label></td>
+    <td>
+        <table border="0">
+        <tr><td class="grouplabel"><label>{$form.lived_with_from_age.label}</label></td><td width="80%">{$form.lived_with_from_age.html}</td></tr>
+        <tr><td class="grouplabel"><label>{$form.lived_with_to_age.label}</label></td><td>{$form.lived_with_to_age.html}</td></tr>
+        </table>
+    </td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.industry_id.label}</td>
@@ -120,5 +121,13 @@
     field_type          ="radio"
     invert              = 0
 }
-
+{* Industry field *}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="industry_id"
+    trigger_value       ="47"
+    target_element_id   ="job_organization|job_occupation|job_current_years" 
+    target_element_type ="table-row"
+    field_type          ="select"
+    invert              = 1
+}
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

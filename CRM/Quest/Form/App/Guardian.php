@@ -131,21 +131,16 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $this->addElement( 'text', "age",
                            ts('Age'),
                            $attributes['age'] );
-        $this->addRule('age',ts('Please Enter Age'),'required');
-        $this->addRule('age',ts('age not valid'),'integer');
+        $this->addRule('age',ts('Please enter current Age for this person.'),'required');
+        $this->addRule('age',ts('Please enter a valid number for the Age of this person.'),'integer');
 
-        $options = array( '1' => 'All my life',
-                          '2' => 'Period' );
-        $this->addRadio( 'lived_with_period_id',
-                         ts( 'How long have you lived with this person?' ),
-                         CRM_Core_OptionGroup::values( 'years_lived' ));
-        $this->addElement( 'text', "lived_with_from_age", ts( 'From Age' ),
-                           $attributed['lived_with_from_age'] );
-        $this->addRule('lived_with_from_age',ts('age not valid'),'integer');
+        $this->add( 'text', "lived_with_from_age", ts( 'From Age' ),
+                           $attributes['lived_with_from_age'], true );
+        $this->addRule('lived_with_from_age',ts('Please enter a valid number for From Age.'),'integer');
 
-        $this->addElement( 'text', "lived_with_to_age", ts( 'To Age' ),
-                           $attributed['lived_with_to_age'] );
-        $this->addRule('lived_with_to_age',ts('age not valid'),'integer');
+        $this->add( 'text', "lived_with_to_age", ts( 'To Age' ),
+                           $attributes['lived_with_to_age'], true );
+        $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'integer');
 
         $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47', 'job_organization|job_occupation|job_current_years', 'table-row', 'select', true);" );
 

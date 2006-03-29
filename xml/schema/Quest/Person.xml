@@ -111,18 +111,6 @@
       <add>1.5</add>
   </field>
   <field>
-      <name>lived_with_period_id</name>
-      <type>int unsigned</type>
-      <comment>Period student lived with this person.</comment>
-      <add>1.5</add>
-  </field>
-  <foreignKey>
-       <name>lived_with_period_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <add>1.5</add>
-  </foreignKey>
-  <field>
       <name>lived_with_from_age</name>
       <type>int unsigned</type>
       <comment>Age of student when they began living with this person.</comment>
