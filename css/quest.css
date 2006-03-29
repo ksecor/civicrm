@@ -54,6 +54,7 @@ table.app td.grouplabel {
   background-color: #f1f1f1;
   color: #285A66;
   font-size: 12px;
+  vertical-align: top;
 }
 table.app td.fieldlabel {
   background-color: #f1f1f1;

@@ -1,7 +1,7 @@
 {* Quest Pre-application: Sibling Information section *}
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
-<table cellpadding=0 cellspacing=1 border=0 width="90%" class="app">
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
 </tr>
@@ -26,12 +26,13 @@
     <td class="fieldlabel">{$form.age.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.lived_with_from_age.label}</td>
-    <td class="fieldlabel">{$form.lived_with_from_age.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.lived_with_to_age.label}</td>
-    <td class="fieldlabel">{$form.lived_with_to_age.html}</td>
+    <td class="grouplabel"><label>{ts}How long have you lived with this person?{/ts}</label></td>
+    <td>
+        <table border="0">
+        <tr><td class="grouplabel"><label>{$form.lived_with_from_age.label}</label></td><td width="80%">{$form.lived_with_from_age.html}</td></tr>
+        <tr><td class="grouplabel"><label>{$form.lived_with_to_age.label}</label></td><td>{$form.lived_with_to_age.html}</td></tr>
+        </table>
+    </td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.current_school_level_id.label}</td>
@@ -46,7 +47,10 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.description.label}</td>
-    <td class="fieldlabel">{$form.description.html}</td>
+    <td class="fieldlabel">
+        {$form.description.html}<br />
+        {ts}If important information regarding your relationship with this sibling is not captured above, please enter it here.{/ts}
+    </td>
 </tr>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
