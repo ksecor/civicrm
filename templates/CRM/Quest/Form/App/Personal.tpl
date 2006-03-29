@@ -275,8 +275,12 @@
 	         }
 	    } else {
 	  	 for (i = 0; i < field.length; i++) {
- 		   document.getElementById("location[2][address]"+field[i]).readOnly = false;
- 		   document.getElementById("location[2][address]"+field[i]).value = null;
+		    if (field[i] == "[state_province_id]" || field[i] == "[country_id]") {
+			document.getElementById("location[2][address]"+field[i]).disabled = false;
+		    } else {
+	 		document.getElementById("location[2][address]"+field[i]).readOnly = false;
+		    }
+ 		    document.getElementById("location[2][address]"+field[i]).value = null;
 	   	 }
 	    }
 	}
