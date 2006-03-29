@@ -3,7 +3,7 @@
       <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
         <dd>
-    {ts 1=$title}Are you sure you want to delete the contribution page "%1"?{/ts}<br><br>
+    {ts 1=$title}Are you sure you want to delete the contribution page "%1"?{/ts}<br /><br />
         </dd>
       </dl>
     </div>

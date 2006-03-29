@@ -112,7 +112,7 @@
                 {else}
                     {ts count=$group.added plural='%count contacts added to this existing group.'}One contact added to this existing group.{/ts}
                 {/if}
-                {if $group.notAdded}{ts count=$group.notAdded plural='%count contacts NOT added (already in this group).'}One contact NOT added (already in this group).{/ts}{/if}<br>
+                {if $group.notAdded}{ts count=$group.notAdded plural='%count contacts NOT added (already in this group).'}One contact NOT added (already in this group).{/ts}{/if}<br />
             {/foreach}
         </td>
     </tr>

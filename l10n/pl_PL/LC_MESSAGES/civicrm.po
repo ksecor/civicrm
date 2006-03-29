@@ -6278,7 +6278,7 @@ msgid ""
 "<br />enter 'lastname, firstname'. Example: 'Doe, Jane'."
 msgstr ""
 "Pełna lub częściowa nazwa kontaktu lub adres email. By znaleźć osoby podając "
-"<br />imię i nazwisko, wprowadź „Nazwisko, Imię”. Przykład: „Kowalski, Jan”."
+"imię i nazwisko, wprowadź „Nazwisko, Imię”. Przykład: „Kowalski, Jan”."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
