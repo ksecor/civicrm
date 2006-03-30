@@ -96,7 +96,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
 
         // federal lunch program
         $this->addSelect( 'fed_lunch',
-                          ts( 'Are you eligible for Federal Free or Reduced Price Lunches?' ), null, true);
+                          ts( 'Are you eligible for Federal Free or Reduced Price Lunches?' ),null,true);
 
         // plan on taking SAT or ACT
         $this->addYesNo( 'is_take_SAT_ACT',
