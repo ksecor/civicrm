@@ -31,8 +31,8 @@ INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `i
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (13, 1, 'type_of_income', 'Type of income', 0, 1);
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (14, 1, 'gpa', 'What is your GPA?', 0, 1);
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (15, 1, 'class_rank_percent', 'Percent class rank', 0, 1);
-INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (16, 1, 'sat_II_test_subject', 'Subject', 0, 1);
-INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (17, 1, 'ap_test_subject', 'Subject', 0, 1);
+INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (16, 1, 'satII_subject', 'Subject', 0, 1);
+INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (17, 1, 'ap_subject', 'Subject', 0, 1);
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (18, 1, 'citizenship_status', 'Your U.S. citizenship status', 0, 1);
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (19, 1, 'educational_interest', 'Please select all of your educational interests', 0, 1);
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (20, 1, 'college_type', 'Please select the type(s) of college you are interested in attending', 0, 1);
