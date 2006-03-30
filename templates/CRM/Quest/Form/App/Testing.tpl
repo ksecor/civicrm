@@ -36,9 +36,9 @@
     <td class="grouplabel">{$form.act_date.label}</td>
     <td class="fieldlabel">{$form.act_date.html}</td>
 </tr>
-
-</tr>
-<tr><td colspan=2 class="sub-category">{ts}PSAT Test{/ts}</td>
+</table>
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr><td colspan=2 id="sub-category">{ts}PSAT Test{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.psat_criticalreading.label}</td>
@@ -61,9 +61,9 @@
     <td class="grouplabel">{$form.psat_date.label}</td>
     <td class="fieldlabel">{$form.psat_date.html}</td>
 </tr>
-
-</tr>
-<tr><td colspan=2 class="sub-category">{ts}SAT Test{/ts}</td>
+</table>
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr><td colspan=2 id="sub-category">{ts}SAT Test{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_criticalreading.label}</td>
@@ -85,8 +85,9 @@
     <td class="grouplabel">{$form.sat_date.label}</td>
     <td class="fieldlabel">{$form.sat_date.html}</td>
 </tr>
-</tr>
-<tr><td colspan=2 class="sub-category">{ts}SAT II Subject Test{/ts}</td>
+</table>
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr><td colspan=2 id="sub-category">{ts}SAT II Subject Test{/ts}</td>
 </tr>
 
 {*{section name=rowLoop start=1 loop=6}*}
@@ -108,8 +109,9 @@
     <td class="fieldlabel">{$form.$date.html}</td>
 </tr>
 {/section}
-
-<tr><td colspan=2 class="sub-category">{ts}AP Tests{/ts}</td>
+</table>
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr><td colspan=2 id="sub-category">{ts}AP Tests{/ts}</td>
 </tr>
 {*{section name=rowLoop start=1 loop=33}*}
 {section name=rowLoop start=1 loop=2}
@@ -130,6 +132,8 @@
     <td class="fieldlabel">{$form.$date.html}</td>
 </tr>
 {/section}
+</table>
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td class="grouplabel">{$form.is_test_tutoring.label}</td>
     <td class="fieldlabel">{$form.is_test_tutoring.html}</td>
