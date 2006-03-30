@@ -113,30 +113,27 @@ function showHideByValue(trigger_field_id, trigger_value, target_element_id, tar
     }
     
     if (field_type == 'select') {
-	var trigger = trigger_value.split(",");
-	var selectedOptionValue = document.getElementById(trigger_field_id).options[document.getElementById(trigger_field_id).selectedIndex].value;	
-	
-	var target = target_element_id.split("|");
-	for(var j = 0; j < target.length; j++) {
-	    for(var i = 0; i < trigger.length; i++) {
-		if ( invert ) {  
-		    if (selectedOptionValue != trigger[i]) {
-			show(target[j], target_element_type);
-			break;
-		    } else {
-			hide(target[j],target_element_type);
-		    }	
-		} else {
-		    
-		    if (selectedOptionValue == trigger[i]) {
-			show(target[j], target_element_type);
-			break;
-		    } else {
-			hide(target[j],target_element_type);
-		    }	
-		}
-	    }
-	}
+        var trigger = trigger_value.split("|");
+        var selectedOptionValue = document.getElementById(trigger_field_id).options[document.getElementById(trigger_field_id).selectedIndex].value;	
+        
+        var target = target_element_id.split("|");
+        for(var j = 0; j < target.length; j++) {
+            if ( invert ) {  
+                show(target[j], target_element_type);
+            } else {
+                hide(target[j],target_element_type);
+            }
+            for(var i = 0; i < trigger.length; i++) {
+                if (selectedOptionValue == trigger[i]) {
+                    if ( invert ) {  
+                        hide(target[j],target_element_type);
+                    } else {
+                        show(target[j],target_element_type);
+                    }	
+                }
+            }
+        }
+ 
     } else if (field_type == 'radio') {
 	if (document.getElementsByName(trigger_field_id)[0].checked) {
 	    show(target_element_id, target_element_type);
@@ -146,43 +143,6 @@ function showHideByValue(trigger_field_id, trigger_value, target_element_id, tar
     
     }
 }
-
-function showHideByValues(trigger_field_id, trigger_value, target_element_id, target_element_type, field_type, invert ) {
-    if ( target_element_type == null ) {
-        var target_element_type = 'block';
-    }
-    
-    if (field_type == 'select') {
-	var trigger = trigger_value.split(",");
-	var selectedOptionValue = document.getElementById(trigger_field_id).options[document.getElementById(trigger_field_id).selectedIndex].value;	
-	for(var i = 0; i < trigger.length; i++) {
-	    if ( invert ) {  
-		if (selectedOptionValue != trigger[i]) {
-		    show(target_element_id, target_element_type);
-		    break;
-		} else {
-		    hide(target_element_id,target_element_type);
-		}	
-	    } else {
-		if (selectedOptionValue == trigger[i]) {
-		    show(target_element_id, target_element_type);
-		    break;
-		} else {
-		    hide(target_element_id,target_element_type);
-		}	
-	    }
-	}
-    } else if (field_type == 'radio') {
-	if (document.getElementsByName(trigger_field_id)[0].checked) {
-	    show(target_element_id, target_element_type);
-        } else {
-	    hide(target_element_id, target_element_type);
-        }
-    
-    }
-}
-
-
 
 /** 
  * This function is used to display a page element  (e.g. block or table row or...). 
