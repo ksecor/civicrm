@@ -122,8 +122,9 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                 if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
                     if ( ! $data['valid'][$pageName] ) {
                         $title = $form->getTitle( );
+                        $otherTitle = $controller->_pages[$pageName]->getTitle( );
                         $session =& CRM_Core_Session::singleton( );
-                        $session->setStatus( "You need to fill $name Information before $title" );
+                        $session->setStatus( "You need to complete $otherTitle before $title" );
                         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/preapp',
                                                                            "_qf_{$name}_display=1" ) );
                     }
