@@ -149,7 +149,6 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      */
     function run( ) {
-
         // the names of the action and page should be saved
         // note that this is split into two, because some versions of
         // php 5.x core dump on the triple assignment :)
@@ -166,7 +165,6 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         // note that based on action, control might not come back!!
         // e.g. if action is a valid JUMP, u basically do a redirect
         // to the appropriate place
-
         $this->wizardHeader( $pageName );
         $this->_pages[$pageName]->handle($action);
 

@@ -71,6 +71,13 @@ class CRM_Core_StateMachine {
     protected $_pages;
 
     /**
+     * The names of the pages
+     *
+     * @var array
+     */
+    protected $_pageNames;
+
+    /**
      * the mode that the state machine is operating in
      * @var int
      */
@@ -245,18 +252,18 @@ class CRM_Core_StateMachine {
         $this->_pages =& $pages;
         $numPages = count( $pages );
 
-        $names = array( );
+        $this->_pageNames = array( );
         foreach ( $pages as $tempName => $value ) {
             if ( CRM_Utils_Array::value( 'className', $value ) ) {
-                $names[] = $tempName;
+                $this->_pageNames[] = $tempName;
             } else {
-                $names[] = CRM_Utils_String::getClassName( $tempName );
+                $this->_pageNames[] = CRM_Utils_String::getClassName( $tempName );
             }
         }
 
         $i = 0;
         foreach ( $pages as $tempName => $value ) {
-            $name = $names[$i];
+            $name = $this->_pageNames[$i];
 
             $className = CRM_Utils_Array::value( 'className',
                                                  $value,
@@ -268,17 +275,17 @@ class CRM_Core_StateMachine {
             } else if ( $i == 0 ) {
                 // start state
                 $prev = null;
-                $next = $names[$i + 1];
+                $next = $this->_pageNames[$i + 1];
                 $type = CRM_Core_State::START;
             } else if ( $i == $numPages - 1 ) {
                 // finish state
-                $prev = $names[$i - 1];
+                $prev = $this->_pageNames[$i - 1];
                 $next = null;
                 $type = CRM_Core_State::FINISH;
             } else {
                 // in between simple state
-                $prev = $names[$i - 1];
-                $next = $names[$i + 1];
+                $prev = $this->_pageNames[$i - 1];
+                $next = $this->_pageNames[$i + 1];
                 $type = CRM_Core_State::SIMPLE;
             }
       

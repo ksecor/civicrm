@@ -83,6 +83,46 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
 
     }
 
+    /**
+     * Process the request, overrides the default QFC run method
+     * This routine actually checks if the QFC is modal and if it
+     * is the first invalid page, if so it call the requested action
+     * if not, it calls the display action on the first invalid page
+     * avoids the issue of users hitting the back button and getting
+     * a broken page
+     *
+     * This run is basically a composition of the original run and the
+     * jump action
+     *
+     */
+    function run( ) {
+        // the names of the action and page should be saved
+        // note that this is split into two, because some versions of
+        // php 5.x core dump on the triple assignment :)
+        $this->_actionName = $this->getActionName();
+        list($pageName, $action) = $this->_actionName;
+
+        if ( $this->isModal( ) ) {
+            if ( ! $this->isValid( $pageName ) ) {
+                $pageName = $this->findInvalid( );
+                $action   = 'display';
+            }
+        }
+
+        // note that based on action, control might not come back!!
+        // e.g. if action is a valid JUMP, u basically do a redirect
+        // to the appropriate place
+        $this->wizardHeader( $pageName );
+
+        // check dependency first
+        // if dependency fails, this does not return, but does a redirect
+        $this->_stateMachine->checkDependency( $this, $this->_pages[$pageName] );
+
+        $this->_pages[$pageName]->handle($action);
+
+        return $pageName;
+    }
+
     function addWizardStyle( &$wizard ) {
         $wizard['style'] = array('barClass'          => 'preApp',
                                  'stepPrefixCurrent' => ' ',
