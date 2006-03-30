@@ -119,3 +119,9 @@ table#preapp-content td.rightside table.app {
 table#preapp-content td.rightside {
   width: 730px;
 }
+p.preapp-instruction {
+  font-weight: bold;
+}
+#crm-container label, .labels, .label {
+  font-weight: normal;
+}
