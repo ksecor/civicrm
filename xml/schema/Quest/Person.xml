@@ -106,7 +106,6 @@
   <field>
       <name>age</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Persons age (years).</comment>
       <add>1.5</add>
   </field>
