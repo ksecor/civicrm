@@ -110,8 +110,12 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                                'member_count_' . $i,
                                $title,
                                $attributes['member_count'] );
+            $this->addSelect( "years_lived",
+                              ts( 'How long have you lived in this household?' ),
+                              "_$i" );
             if ( $i == 1 ) {
                 $this->addRule( "member_count_$i",ts('Please enter the number of people who live with you.'),'required');
+                $this->addRule( "years_lived_id_$i", ts( 'Please select a value for years lived in this household.' ), 'required' );
             }
             $this->addRule('member_count_'.$i,ts('Not a valid number.'),'integer');
 
@@ -132,9 +136,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                 }
             }
 
-            $this->addSelect( "years_lived",
-                              ts( 'How long have you lived in this household?' ),
-                              "_".$i );
         }
 
         $this->addElement('textarea',
@@ -172,9 +173,11 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         $errors = array( );
         $numBlocks = 2;
 
+        $filled = false;
         for ( $i = 1; $i <= $numBlocks; $i++ ) {
             for ( $j = 1; $j <= $numBlocks; $j++ ) {
                 if ($params["relationship_id_".$i."_".$j]) {
+                    $filled = true;
                     if (! $params["first_name_".$i."_".$j]) {
                         $errors["first_name_".$i."_".$j] = "Please enter the family member First Name.";
                     }
@@ -195,6 +198,11 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                     $errors["years_lived_id_".$i] = "Please specify the number of years you lived in the household.";
                 }
             }
+        }
+
+        if ( ! $filled &&
+             empty( $params['description'] ) ) {
+            $errors["_qf_default"] = "You have to enter at least one family member or explain your circumstances";
         }
 
         return empty($errors) ? true : $errors;
