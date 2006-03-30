@@ -303,7 +303,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         $first = CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params );
         $last  = CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params );
         $relationshipID = CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params );
-        
         $name = trim( $first . ' ' . $last );
         if ( ! $name ) {
             return;
@@ -317,10 +316,12 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         }
 
         if ( CRM_Utils_Array::value( "same_{$i}_{$j}", $params ) ) {
-            if ( ! CRM_Utils_Array::value( $relationshipName, $details ) ) {
-                CRM_Core_Error::fatal( ts( "This should have been trapped in a form rule" ) );
+            foreach ( $details as $name => $value ) {
+                if ( $value['options']['relationshipID'] == $relationshipID ) {
+                    return $value['options']['personID'];
+                }
             }
-            return $details[$relationshipName]['options']['personID'];
+            CRM_Core_Error::fatal( ts( "This should have been trapped in a form rule" ) );
         }
 
         // we also need to create the person record here
@@ -336,15 +337,15 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         require_once 'CRM/Quest/BAO/Person.php'; 
 
         $dao = new CRM_Quest_DAO_Person(); 
-        $dao->contact_id      = $this->get('contact_id'); 
+        $dao->contact_id      = $this->get('contact_id');
         $dao->relationship_id = $relationshipID; 
         $personID = null;
         if ( $dao->find(true) ) { 
             $personID = $dao->id; 
         }
-        $ids = array( );
+
         $ids['id'] = $personID;
-        $person = CRM_Quest_BAO_Person::create( $params , $ids );
+        $person = CRM_Quest_BAO_Person::create( $personParams , $ids );
         if ( ! $personID ) {
             $personID = $person->id;
         }
