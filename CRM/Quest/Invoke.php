@@ -56,7 +56,7 @@ class CRM_Quest_Invoke {
         
         if ( $args[2] == 'preapp' ) {
             require_once 'CRM/Quest/Controller/PreApp.php';
-            $controller =& new CRM_Quest_Controller_PreApp( );
+            $controller =& new CRM_Quest_Controller_PreApp( null, CRM_Core_Action::NONE, false );
             return $controller->run( );
         }
 

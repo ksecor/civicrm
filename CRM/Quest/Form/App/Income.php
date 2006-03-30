@@ -185,7 +185,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         $income = CRM_Quest_BAO_Income::create( $params , $ids );
 
         $details = $this->controller->get( 'incomeDetails' );
-        $details[ "Income-{$this->_personID}"] =
+        $details[ $this->_name ] =
             array( 'className' => 'CRM_Quest_Form_App_Income',
                    'title'     => "{$params['first_name']} {$params['last_name']} Income Details",
                    'options'   => array( 'personID'   => $this->_personID,
@@ -193,11 +193,11 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                                          'lastSource' => false ) );
 
         if ( CRM_Utils_Array::value( 'another_income_source', $params ) ) {
-            $details['NewSource'] = array( 'className' => 'CRM_Quest_Form_App_Income',
-                                           'title'     => 'Add an Income Source',
-                                           'options'   => array( 'personID'   => null,
-                                                                 'incomeID'   => null,
-                                                                 'lastSource' => true ) );
+            $details[$this->_name . '-1'] = array( 'className' => 'CRM_Quest_Form_App_Income',
+                                                   'title'     => 'Add an Income Source',
+                                                   'options'   => array( 'personID'   => null,
+                                                                         'incomeID'   => null,
+                                                                         'lastSource' => true ) );
         } else {
             $keys = array_keys( $details );
             $last = array_pop( $keys );
