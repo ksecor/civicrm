@@ -57,20 +57,20 @@
     <strong>{ts}Please list the primary caregiver(s) (parents, legal guardians, etc.) in this household{/ts}:</strong>
     </td>
 </tr>
-    <td class="grouplabel"><label>{ts}Same person as in current household above{/ts}</label></td>
     <td class="grouplabel"><label>{ts}Family Member{/ts}</label></td>
+    <td class="grouplabel"><label>{ts}Same person as in current household above{/ts}</label></td>
     <td class="grouplabel"><label>{ts}First Name{/ts}</label></td>
     <td class="grouplabel"><label>{ts}Last Name{/ts}</label></td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.same_2_1.html}</td>
     <td class="fieldlabel">{$form.relationship_id_2_1.html}</td>
+    <td class="fieldlabel">{$form.same_2_1.html}</td>
     <td class="fieldlabel">{$form.first_name_2_1.html}</td>
     <td class="fieldlabel">{$form.last_name_2_1.html}</td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.same_2_2.html}</td>
     <td class="fieldlabel">{$form.relationship_id_2_2.html}</td>
+    <td class="fieldlabel">{$form.same_2_2.html}</td>
     <td class="fieldlabel">{$form.first_name_2_2.html}</td>
     <td class="fieldlabel">{$form.last_name_2_2.html}</td>
 </tr>
