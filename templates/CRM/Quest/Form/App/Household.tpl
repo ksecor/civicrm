@@ -8,7 +8,7 @@
 </tr>
 <tr>
   <td colspan="4" class="grouplabel">
-    <p>{ts}In this section, our goal is to better understand your living situation over the past five years. Please answer the following regarding your current, primary household. If you live in two separate homes on a regular basis, please list the one where you spend most of your time.{/ts}</p>
+    <p class="preapp-instruction">{ts}In this section, our goal is to better understand your living situation over the past five years. Please answer the following regarding your current, primary household. If you live in two separate homes on a regular basis, please list the one where you spend most of your time.{/ts}</p>
   </td>
 </tr>
 <tr>
@@ -39,9 +39,11 @@
     <td colspan="2" class="grouplabel">{$form.years_lived_id_1.label}</td>
     <td class="fieldlabel" colspan="2">{$form.years_lived_id_1.html}</td>
 </tr>
+</table>
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
   <td colspan="4" class="grouplabel">
-    <p>
+    <p class="preapp-instruction">
     {ts}If you lived at the above residence for less than five years, please answer the questions below regarding your previous (primary) household.{/ts}
     </p>
   </td>

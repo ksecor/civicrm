@@ -17,7 +17,9 @@
         </tr>
         <tr>
            <td class="preapp-message" colspan=2>
-             {ts}Please note: the application deadline is May 15, 2006{/ts}
+             {ts}
+               Please note: the application deadline is May 15, 2006. ( * = required field)
+             {/ts}
            </td>
         </tr>
      </table>
