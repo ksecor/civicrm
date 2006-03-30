@@ -216,6 +216,14 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     { 
+        // first reset all the parent guardians for this contact
+        $query = "
+UPDATE quest_person
+SET    is_parent_guardian = 0
+WHERE  contact_id = {$this->controller->get( 'contact_id' )}
+";
+        CRM_Core_DAO::executeQuery( $query );
+
         // get all the relevant details so we can decide the detailed information we need
         $params  = $this->controller->exportValues( 'Household' );
         $relationship = CRM_Core_OptionGroup::values( 'relationship' );

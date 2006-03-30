@@ -490,6 +490,16 @@ class CRM_Core_PseudoConstant {
 
             self::populate( self::$country, 'CRM_Core_DAO_Country', true, 'name', 'is_active', $whereClause );
 
+            // if default country is set, percolate it to the top
+            if ( $config->defaultContactCountry ) {
+                $countryIsoCodes =& self::countryIsoCode();
+                $defaultID = array_search($config->defaultContactCountry, $countryIsoCodes); 
+                if ( $defaultID !== false ) {
+                    $default[$defaultID] = self::$country[$defaultID];
+                    self::$country = $default + self::$country;
+                }
+            }
+
             // localise the country names if in an non-en_US locale
             if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
                 $i18n =& CRM_Core_I18n::singleton();
@@ -497,6 +507,7 @@ class CRM_Core_PseudoConstant {
                 asort(self::$country);
             }
         }
+
         if ($id) {
             if (array_key_exists($id, self::$country)) {
                 return self::$country[$id];

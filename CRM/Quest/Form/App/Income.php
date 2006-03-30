@@ -225,9 +225,14 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             $cid = $controller->get( 'contact_id' ); 
             $last = null;
             require_once 'CRM/Quest/DAO/Income.php';
-            $dao =& new CRM_Quest_DAO_Income( );
-            $dao->contact_id = $cid;
-            $dao->find( );
+            $query = "
+SELECT i.person_id as person_id
+FROM   quest_income i, quest_person p
+WHERE  i.person_id = p.id
+  AND  p.contact_id = $cid
+";
+
+            $dao =& CRM_Core_DAO::executeQuery( $query );
 
             $details = array( );
             while ( $dao->fetch( ) ) {
