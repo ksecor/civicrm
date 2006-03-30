@@ -20,8 +20,10 @@
              {ts}Please note: the application deadline is May 15, 2006{/ts}
            </td>
         </tr>
+     </table>
+    <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
-         	<td width="1%" valign=top nowrap id="preapp-left-nav">
+         	<td valign=top nowrap id="preapp-left-nav">
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
             {include file="CRM/WizardHeader.tpl}
             <br>

@@ -26,6 +26,11 @@
   background-color: #D9D9D9;
   font-weight: bold;
 }
+#crm-container ul.wizard-bar-preApp a {
+  font-weight: none;
+  color: #0000FF;
+  text-decoration: underline;
+}
 #crm-container ul.wizard-bar-preApp li.past-step {
   background-color: #eee;
   color: #666;
@@ -64,7 +69,6 @@ table.app td.fieldlabel {
 }
 table.app td.optionlist {
   border: 2px solid #fff;
-  width: 50%;
 }
 td.preapp-message {
   color: red;
@@ -108,4 +112,10 @@ table#preapp-content td.rightside table.app {
 }
 #crm-container td#preapp-left-nav {
   padding: 0px;
+}
+#wizard-steps, #preapp-left-nav {
+  width: 170px;
+}
+table#preapp-content td.rightside {
+  width: 730px;
 }
