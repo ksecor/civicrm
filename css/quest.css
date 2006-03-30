@@ -54,6 +54,10 @@ td#category {
   color: #9D6E4A;
   font-size: 16px;
 }
+td#sub-category {
+  font-weight: bold;
+  font-size: 12px;
+}
 table.app td {
   background-color: #f1f1f1;
   color: #285A66;
