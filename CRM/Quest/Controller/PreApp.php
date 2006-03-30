@@ -69,7 +69,15 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                 $this->set( 'welcome_name',
                             $dao->first_name );
             } else {
-                CRM_Core_Error::fatal( ts( "Could not retrieve contact from database" ) );
+                // make sure contact exists
+                $dao =& new CRM_Contact_DAO_Contact( );
+                $dao->id = $cid;
+                if ( $dao->find( true ) ) {
+                    $this->set( 'welcome_name',
+                                $dao->display_name );
+                } else {
+                    CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
+                }
             }
         }
     }

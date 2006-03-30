@@ -268,7 +268,9 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                     $last = "Income-{$dao->person_id}";
                 }
             }
-            $details[$last]['options']['lastSource'] = true;
+            if ( $last ) {
+                $details[$last]['options']['lastSource'] = true;
+            }
             $controller->set( 'incomeDetails', $details );
         }
 
