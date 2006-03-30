@@ -93,18 +93,18 @@
 {*{section name=rowLoop start=1 loop=6}*}
 {section name=rowLoop start=1 loop=2}
  <tr>
-    {assign var=subject value="satII_"|cat:$smarty.section.rowLoop.index|cat:"_subject"}
+    {assign var=subject value="satII_subject_id_"|cat:$smarty.section.rowLoop.index}
     <td class="grouplabel">{$form.$subject.label}</td>
     <td class="fieldlabel"> {$form.$subject.html}</td>
        
 </tr>
 <tr>
-    {assign var=score value="satII_"|cat:$smarty.section.rowLoop.index|cat:"_score"}
+    {assign var=score value="satII_score_"|cat:$smarty.section.rowLoop.index}
     <td class="grouplabel">{$form.$score.label}</td>
     <td class="fieldlabel"> {$form.$score.html}</td>
 </tr>
 <tr>
-    {assign var=date value="satII_"|cat:$smarty.section.rowLoop.index|cat:"_date"}
+    {assign var=date value="satII_date_"|cat:$smarty.section.rowLoop.index}
     <td class="grouplabel">{$form.$date.label}</td>
     <td class="fieldlabel">{$form.$date.html}</td>
 </tr>
@@ -116,18 +116,18 @@
 {*{section name=rowLoop start=1 loop=33}*}
 {section name=rowLoop start=1 loop=2}
  <tr>
-    {assign var=subject value="ap_"|cat:$smarty.section.rowLoop.index|cat:"_subject"}
+    {assign var=subject value="ap_subject_id_"|cat:$smarty.section.rowLoop.index}
     <td class="grouplabel">{$form.$subject.label}</td>
     <td class="fieldlabel">{$form.$subject.html}</td>
        
 </tr>
 <tr>
-    {assign var=score value="ap_"|cat:$smarty.section.rowLoop.index|cat:"_score"}
+    {assign var=score value="ap_score_"|cat:$smarty.section.rowLoop.index}
     <td class="grouplabel">{$form.$score.label}</td>
     <td class="fieldlabel">{$form.$score.html}</td>
 </tr>
 <tr>
-    {assign var=date value="ap_"|cat:$smarty.section.rowLoop.index|cat:"_date"}
+    {assign var=date value="ap_date_"|cat:$smarty.section.rowLoop.index}
     <td class="grouplabel">{$form.$date.label}</td>
     <td class="fieldlabel">{$form.$date.html}</td>
 </tr>
