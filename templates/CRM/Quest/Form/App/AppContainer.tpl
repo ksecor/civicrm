@@ -33,6 +33,7 @@
 
         <!--begin main right cell that contains the application-->
         <td valign=top class="rightside">
+        {include file="CRM/common/status.tpl"}
         {include file="CRM/Form/body.tpl"}
 
 {/if}

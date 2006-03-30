@@ -8,8 +8,8 @@
 <tr>
     <td colspan=2 class="grouplabel">
 <p>
-<p>{ts}Household Income is the total income coming into your current, primary household. Please list all individuals and other sources of income who contribute financially to your household.</p>
-<p>An Income Source page will be presented for each individual whom you listed as a Parent or Guardian in the Household section.{/ts}</p>
+<p class="preapp-instruction">{ts}Household Income is the total income coming into your current, primary household. Please list all individuals and other sources of income who contribute financially to your household.</p>
+<p class="preapp-instruction">An Income Source page will be presented for each individual whom you listed as a Parent or Guardian in the Household section.{/ts}</p>
     </td>
 </tr>
 <tr>
@@ -28,7 +28,7 @@
     {if $smarty.section.rowLoop.index GT 1}
     <tr>
         <td class="grouplabel" colspan="2">
-            <p>{ts}If this individual has more than one job or source of income, please enter information for the additional source below.{/ts}</p>
+            <p class="preapp-instruction">{ts}If this individual has more than one job or source of income, please enter information for the additional source below.{/ts}</p>
         </td>
     </tr>
     {/if}
@@ -51,7 +51,7 @@
 {if $form.another_income_source.html}
     <tr>
         <td class="grouplabel" colspan="2">
-            <p>{ts}Check the <strong>Add another income source</strong> box to add information for individuals who are not living with you, but who contribute to the household financially.
+            <p class="preapp-instruction">{ts}Check the <strong>Add another income source</strong> box to add information for individuals who are not living with you, but who contribute to the household financially.
             For these individuals, please enter only the amount contributed to your household annually (e.g., alimony or child support), not their total income which may not go to your household.{/ts}</p>
         </td>
     </tr>
