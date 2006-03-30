@@ -378,7 +378,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                 $details["Guardian-{$dao->id}"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
                                                          'title' => "$name Details",
                                                          'options' => array( 'personID'       => $dao->id,
-                                                                             'relationshipID' => $dao->relationshipID,
+                                                                             'relationshipID' => $dao->relationship_id,
                                                                              'relationshipName' => $relationshipName ) );
                 if ( $relationshipName == 'Mother' ) {
                     $mother = true;
