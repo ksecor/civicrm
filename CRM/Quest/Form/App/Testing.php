@@ -167,6 +167,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
         }
 
+        require_once 'CRM/Core/ShowHideBlocks.php';
         // add 5 Sat II tests
         for ( $i = 1; $i <= 5; $i++ ) {
             $this->addSelect( 'satII_subject',
@@ -179,6 +180,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $this->addElement('date', 'satII_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
+            CRM_Core_ShowHideBlocks::links( $this,"satII_test_$i", ts('add another SAT II test score'), ts('hide this SAT II test'));
         }
 
         // add 32 AP test
@@ -193,6 +195,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $this->addElement('date', 'ap_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
+            CRM_Core_ShowHideBlocks::links( $this,"ap_test_$i", ts('add another AP test score'), ts('hide this AP test'));
         }
 
         $this->addYesNo( 'is_test_tutoring',

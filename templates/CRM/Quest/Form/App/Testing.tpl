@@ -86,53 +86,70 @@
     <td class="fieldlabel">{$form.sat_date.html}</td>
 </tr>
 </table>
-<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-<tr><td colspan=2 id="sub-category">{ts}SAT II Subject Test{/ts}</td>
-</tr>
 
-{*{section name=rowLoop start=1 loop=6}*}
-{section name=rowLoop start=1 loop=2}
- <tr>
-    {assign var=subject value="satII_subject_id_"|cat:$smarty.section.rowLoop.index}
-    <td class="grouplabel">{$form.$subject.label}</td>
-    <td class="fieldlabel"> {$form.$subject.html}</td>
-       
-</tr>
-<tr>
-    {assign var=score value="satII_score_"|cat:$smarty.section.rowLoop.index}
-    <td class="grouplabel">{$form.$score.label}</td>
-    <td class="fieldlabel"> {$form.$score.html}</td>
-</tr>
-<tr>
-    {assign var=date value="satII_date_"|cat:$smarty.section.rowLoop.index}
-    <td class="grouplabel">{$form.$date.label}</td>
-    <td class="fieldlabel">{$form.$date.html}</td>
-</tr>
-{/section}
-</table>
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-<tr><td colspan=2 id="sub-category">{ts}AP Tests{/ts}</td>
-</tr>
-{*{section name=rowLoop start=1 loop=33}*}
-{section name=rowLoop start=1 loop=2}
- <tr>
-    {assign var=subject value="ap_subject_id_"|cat:$smarty.section.rowLoop.index}
-    <td class="grouplabel">{$form.$subject.label}</td>
-    <td class="fieldlabel">{$form.$subject.html}</td>
-       
-</tr>
-<tr>
-    {assign var=score value="ap_score_"|cat:$smarty.section.rowLoop.index}
-    <td class="grouplabel">{$form.$score.label}</td>
-    <td class="fieldlabel">{$form.$score.html}</td>
-</tr>
-<tr>
-    {assign var=date value="ap_date_"|cat:$smarty.section.rowLoop.index}
-    <td class="grouplabel">{$form.$date.label}</td>
-    <td class="fieldlabel">{$form.$date.html}</td>
-</tr>
+<tr><td colspan=2 id="sub-category">{ts}SAT II Subject Test{/ts}</td></tr>
+{*{section name=rowLoop start=1 loop=6}*}
+{section name=rowLoop start=1 loop=3}
+    {assign var=i value=$smarty.section.rowLoop.index}
+     <tr>
+        {assign var=subject value="satII_subject_id_"|cat:$i}
+        <td class="grouplabel">{$form.$subject.label}</td>
+        <td class="fieldlabel"> {$form.$subject.html}</td>
+           
+    </tr>
+    <tr>
+        {assign var=score value="satII_score_"|cat:$i}
+        <td class="grouplabel">{$form.$score.label}</td>
+        <td class="fieldlabel"> {$form.$score.html}</td>
+    </tr>
+    <tr>
+        {assign var=date value="satII_date_"|cat:$i}
+        <td class="grouplabel">{$form.$date.label}</td>
+        <td class="fieldlabel">{$form.$date.html}</td>
+    </tr>
 {/section}
 </table>
+
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr><td colspan=2 id="sub-category">{ts}AP Tests{/ts}</td></tr>
+</table>
+
+{* assign var=maxAP value=33 *}
+{assign var=maxAP value=4}
+{section name=rowLoop start=1 loop=$maxAP}
+    {assign var=i value=$smarty.section.rowLoop.index}
+    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+     <tr>
+        {assign var=subject value="ap_subject_id_"|cat:$i}
+        <td class="grouplabel">{$form.$subject.label}</td>
+        <td class="fieldlabel">{$form.$subject.html}</td>
+    </tr>
+    <tr>
+        {assign var=score value="ap_score_"|cat:$i}
+        <td class="grouplabel">{$form.$score.label}</td>
+        <td class="fieldlabel">{$form.$score.html}</td>
+    </tr>
+    <tr>
+        {assign var=date value="ap_date_"|cat:$i}
+        <td class="grouplabel">{$form.$date.label}</td>
+        <td class="fieldlabel">
+            {$form.$date.html}
+            {assign var=foo value="ap_test_"|cat:$i}
+            {if $smarty.section.rowLoop.index LT $maxAP}
+                <br /><span id="ap_test_{$i}[show]">{$foo.show}</span>
+            {/if}        
+        </td>
+    </tr>
+    </table>
+{/section}
+
+        <div id="ethnicity_id_2[show]">{$ethnicity_id_2.show}</div>
+        <div id="ethnicity_id_2">
+            {$form.ethnicity_id_2.html}
+            <span id="ethnicity_id_2[hide]">{$ethnicity_id_2.hide}</span>
+        </div>
+
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td class="grouplabel">{$form.is_test_tutoring.label}</td>
