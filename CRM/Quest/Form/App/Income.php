@@ -126,7 +126,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                 $this->addElement( 'text', "amount_$i",
                                ts( 'Total 2005 income from this source' ),
                                $attributes['amount_1'] );
-                $this->addRule("amount_$i","Pleae enter total 2005 income from this source",'required');
+                $this->addRule("amount_$i","Please enter total 2005 income from this source",'required');
             } else {
                 $this->addSelect( 'type_of_income', ts( 'Type of Income' ), "_$i");
                 $this->addElement( 'text', "amount_$i",
@@ -220,13 +220,13 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
 
     static function &getPages( &$controller ) {
         $details = $controller->get( 'incomeDetails' );
-
+        $details = null;
         if ( ! $details ) {
             $cid = $controller->get( 'contact_id' ); 
             $last = null;
             require_once 'CRM/Quest/DAO/Income.php';
             $query = "
-SELECT i.person_id as person_id
+SELECT i.id as id, i.person_id as person_id
 FROM   quest_income i, quest_person p
 WHERE  i.person_id = p.id
   AND  p.contact_id = $cid
@@ -281,11 +281,11 @@ WHERE  i.person_id = p.id
 
         if ( empty( $details ) ) {
             // dont store this in session, always add at end
-            $details['NewSource'] = array( 'className' => 'CRM_Quest_Form_App_Income',
-                                           'title'     => 'Add an Income Source',
-                                           'options'   => array( 'personID'   => null,
-                                                                 'incomeID'   => null,
-                                                                 'lastSource' => true ) );
+            $details['Income-New'] = array( 'className' => 'CRM_Quest_Form_App_Income',
+                                            'title'     => 'Add an Income Source',
+                                            'options'   => array( 'personID'   => null,
+                                                                  'incomeID'   => null,
+                                                                  'lastSource' => true ) );
         }
 
         return $details;

@@ -264,46 +264,25 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
             }
         }
 
-        $mother = $father = false;
-        foreach ( $details as $name => $value ) {
-            if ( $value['options']['relationshipName'] == 'Mother' ) {
-                $mother = true;
-            }
-            if ( $value['options']['relationshipName'] == 'Father' ) {
-                $father = true;
-            }
-        }            
-
         // make sure we have a mother and father in there
-        if ( ! $mother ) {
+        if ( ! CRM_Utils_Array::value( "Guardian-Mother", $details ) ) {
             $relationshipID = array_search( 'Mother', $relationship );
             $details["Guardian-Mother"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
                                                  'title' => "Mother Details",
                                                  'options' => array( 'personID'         => null,
                                                                      'relationshipID'   => $relationshipID,
                                                                      'relationshipName' => 'Mother' ) );
-        } else {
-            unset( $details["Guardian-Mother"] );
         }
 
-        if ( ! $father ) {
+        if ( ! CRM_Utils_Array::value( "Guardian-Father", $details ) ) {
             $relationshipID = array_search( 'Father', $relationship );
             $details["Guardian-Father"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
                                                  'title' => "Father Details",
                                                  'options' => array( 'personID'         => null,
                                                                      'relationshipID'   => $relationshipID,
                                                                      'relationshipName' => 'Father' ) );
-        } else {
-            unset( $details["Guardian-Father"] );
         }
 
-        
-        if ( ! CRM_Utils_Array::value( 'Father', $details ) ) {
-            $details['Father'] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
-                                        'title' => 'Father Details',
-                                        'options' => null );
-        }
-        
         $this->set( 'householdDetails', $details );
     }//end of function 
 
@@ -368,7 +347,7 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
 
     static function &getPages( &$controller ) {
         $details       = $controller->get( 'householdDetails' );
-        $details = null;
+
         if ( ! $details ) {
             $cid = $controller->get( 'contact_id' ); 
             require_once 'CRM/Quest/DAO/Person.php';
@@ -383,40 +362,36 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
                 $relationshipName = trim( CRM_Utils_Array::value( $dao->relationship_id,
                                                                   $relationship ) );
                 $name = trim( "{$dao->first_name} {$dao->last_name}" );
-                $details["Guardian-{$dao->id}"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
-                                                         'title' => "$name Details",
-                                                         'options' => array( 'personID'       => $dao->id,
-                                                                             'relationshipID' => $dao->relationship_id,
-                                                                             'relationshipName' => $relationshipName ) );
-                if ( $relationshipName == 'Mother' ) {
-                    $mother = true;
+                if ( $relationshipName == 'Mother' || $relationshipName == 'Father' ) {
+                    $pageName = "Guardian-$relationshipName";
+                } else {
+                    $pageName = "Guardian-{$dao->id}";
                 }
-                if ( $relationshipName == 'Father' ) {
-                    $father = true;
-                }
+                $details[$pageName] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
+                                             'title' => "$name Details",
+                                             'options' => array( 'personID'       => $dao->id,
+                                                                 'relationshipID' => $dao->relationship_id,
+                                                                 'relationshipName' => $relationshipName ) );
             }
 
-            if ( ! $mother ) {
+            if ( ! CRM_Utils_Array::value( "Guardian-Mother", $details ) ) {
                 $relationshipID = array_search( 'Mother', $relationship );
                 $details["Guardian-Mother"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
                                                      'title' => "Mother Details",
                                                      'options' => array( 'personID'         => null,
                                                                          'relationshipID'   => $relationshipID,
                                                                          'relationshipName' => 'Mother' ) );
-            } else {
-                unset( $details["Guardian-Mother"] );
             }
 
-            if ( ! $father ) {
+            if ( ! CRM_Utils_Array::value( "Guardian-Father", $details ) ) {
                 $relationshipID = array_search( 'Father', $relationship );
                 $details["Guardian-Father"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
                                                      'title' => "Father Details",
                                                      'options' => array( 'personID'         => null,
                                                                          'relationshipID'   => $relationshipID,
                                                                          'relationshipName' => 'Father' ) );
-            } else {
-                unset( $details["Guardian-Father"] );
             }
+
             $controller->set( 'householdDetails', $details );
         }
         return $details;

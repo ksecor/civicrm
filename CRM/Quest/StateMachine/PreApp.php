@@ -75,10 +75,10 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                            'CRM_Quest_Form_App_Academic'     => null,
                            'CRM_Quest_Form_App_Testing'      => null,
                            'CRM_Quest_Form_App_Essay'        => null,
+                           'CRM_Quest_Form_App_Submit'       => null,
                            );
 
         $this->_pages = array_merge( $firstPages, $householdPages, $siblingPages, $incomePages, $lastPages );
-
         $this->addSequentialPages( $this->_pages, $action );
     }
 
