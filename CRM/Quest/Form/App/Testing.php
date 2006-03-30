@@ -171,30 +171,30 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
 
         // add 5 Sat II tests
         for ( $i = 1; $i <= 5; $i++ ) {
-            $this->addElement( 'text',
-                               'satII_' . $i . '_subject',
+            $this->addSelect( 'satII_subject',
                                ts( 'Subject' ),
+                               "_$i",
                                $attributes['subject'] );
             $this->addElement( 'text',
-                               'satII_' . $i . '_score',
+                               'satII_score_' . $i,
                                ts( 'Score' ),
                                $attributes['score_english'] );
-            $this->addElement('date', 'satII_' . $i . '_date',
+            $this->addElement('date', 'satII_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
         }
 
         // add 32 AP test
         for ( $i = 1; $i <= 32; $i++ ) {
-            $this->addElement( 'text',
-                               'ap_' . $i . '_subject',
+            $this->addSelect( 'ap_subject',
                                ts( 'Subject' ),
+                               "_$i",
                                $attributes['subject'] );
             $this->addElement( 'text',
-                               'ap_' . $i . '_score',
+                               'ap_score_' . $i,
                                ts( 'Score' ),
                                $attributes['score_english'] );
-            $this->addElement('date', 'ap_' . $i . '_date',
+            $this->addElement('date', 'ap_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
         }
