@@ -131,13 +131,12 @@
         <td class="fieldlabel">{$form.$score.html}</td>
     </tr>
     <tr>
-        {assign var=date value="ap_date_"|cat:$i}
+        {assign var=date value="ap_date_$i"}
         <td class="grouplabel">{$form.$date.label}</td>
         <td class="fieldlabel">
             {$form.$date.html}
-            {assign var=foo value="ap_test_"|cat:$i}
-            {if $smarty.section.rowLoop.index LT $maxAP}
-                <br /><span id="ap_test_{$i}[show]">{$foo.show}</span>
+            {if $i LT $maxAP}
+                <br /><span id="ap_test_{$i}[show]">{$ap_test.$i.show}</span>
             {/if}        
         </td>
     </tr>

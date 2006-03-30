@@ -343,7 +343,7 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
         if ( $relationshipName == 'Mother' || $relationshipName == 'Father' ) {
             $pageName = "Guardian-$relationshipName";
         } else {
-            $pageName = "Guardian-{$dao->id}";
+            $pageName = "Guardian-{$personID}";
         }
         $details[$pageName] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
                                      'title' => "$name Details",

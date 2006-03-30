@@ -184,6 +184,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         }
 
         // add 32 AP test
+        $ap_test = array( );
         for ( $i = 1; $i <= 32; $i++ ) {
             $this->addSelect( 'ap_subject',
                                ts( 'Subject' ),
@@ -195,8 +196,12 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $this->addElement('date', 'ap_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
-            CRM_Core_ShowHideBlocks::links( $this,"ap_test_$i", ts('add another AP test score'), ts('hide this AP test'));
+            $ap_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"ap_test_$i",
+                                                           ts('add another AP test score'),
+                                                           ts('hide this AP test'),
+                                                           false );
         }
+        $this->assign( 'ap_test', $ap_test );
 
         $this->addYesNo( 'is_test_tutoring',
                          ts( 'Have you received tutoring for any of the standardized tests above?' ) );
