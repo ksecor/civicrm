@@ -92,6 +92,7 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                                        'Educational' => array( 'Personal'  => 1 ),
                                        'Household'   => array( 'Personal'  => 1 ),
                                        'Guardian'    => array( 'Household' => 1 ),
+                                       'Sibling'     => array( 'Household' => 1 ),
                                        'Income'      => array( 'Personal'  => 1 ),
                                        'HighSchool'  => array( 'Personal'  => 1 ),
                                        'SchoolOther' => array( 'Personal'  => 1 ),

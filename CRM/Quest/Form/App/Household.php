@@ -59,15 +59,12 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
         $session =& CRM_Core_Session::singleton( );
         $this->_contactId = $session->get( 'userID' );
         if ( $this->_contactId ) {
+            $person_1_id = $person_2_id = null;
             for ( $i = 1; $i <= 2; $i++ ) {
                 require_once 'CRM/Quest/DAO/Household.php';
                 $dao = & new CRM_Quest_DAO_Household();
                 $dao->contact_id     = $this->_contactId ;
-                if ($i == 1) {
-                    $dao->household_type = 'Current';
-                } else {
-                    $dao->household_type = 'Previous';
-                }
+                $dao->household_type = ($i == 1 ) ? 'Current' : 'Previous';
                 if ( $dao->find(true) ) {
                     $defaults['member_count_'.$i]   = $dao->member_count;
                     $defaults['years_lived_id_'.$i] = $dao->years_lived_id;
@@ -75,12 +72,18 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                     for ( $j = 1; $j <= 2; $j++ ) {
                         require_once 'CRM/Quest/DAO/Person.php';
                         $personDAO = & new CRM_Quest_DAO_Person();
-                        $string = "person_".$j."_id"; 
+                        $string = "person_{$j}_id"; 
                         $personDAO->id = $dao->$string;
-                        if ( $dao->$string && $personDAO->find(true) ) {
-                            $defaults['relationship_id_'.$i.'_'.$j] = $personDAO->relationship_id;
-                            $defaults['first_name_'.$i.'_'.$j]      = $personDAO->first_name;
-                            $defaults['last_name_'.$i.'_'.$j]       = $personDAO->last_name;
+                        if ( $personDAO->id && $personDAO->find(true) ) {
+                            $defaults["relationship_id_{$i}_{$j}"] = $personDAO->relationship_id;
+                            $defaults["first_name_{$i}_{$j}"]      = $personDAO->first_name;
+                            $defaults["last_name_{$i}_{$j}"]       = $personDAO->last_name;
+                            if ( $i == 1 ) {
+                                $$string = $personDAO->id;
+                            } else if ( $personDAO->id == $person_1_id ||
+                                        $personDAO->id == $person_2_id ) {
+                                $defaults["same_{$i}_{$j}"] = 1;
+                            }
                         }
                     }
                 }
@@ -287,8 +290,8 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
     }//end of function 
 
     public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j ) {
-        $first = CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params );
-        $last  = CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params );
+        $first = trim( CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params ) );
+        $last  = trim( CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params ) );
         $relationshipID = CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params );
         $name = trim( $first . ' ' . $last );
         if ( ! $name ) {
@@ -325,7 +328,9 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
 
         $dao = new CRM_Quest_DAO_Person(); 
         $dao->contact_id      = $this->get('contact_id');
-        $dao->relationship_id = $relationshipID; 
+        $dao->relationship_id = $relationshipID;
+        $dao->first_name      = $first;
+        $dao->last_name       = $last;
         $personID = null;
         if ( $dao->find(true) ) { 
             $personID = $dao->id; 
@@ -333,9 +338,7 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
 
         $ids['id'] = $personID;
         $person = CRM_Quest_BAO_Person::create( $personParams , $ids );
-        if ( ! $personID ) {
-            $personID = $person->id;
-        }
+        $personID = $person->id;
 
         $details["Guardian-{$personID}"] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
                                                   'title' => "$name Details",

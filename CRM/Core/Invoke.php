@@ -70,7 +70,7 @@ class CRM_Core_Invoke {
 
 	// set active Component
         $template =& CRM_Core_Smarty::singleton( );
-	$template->assign( 'activeComponent', 'default' );
+        $template->assign( 'activeComponent', 'default' );
 
         switch ( $args[1] ) {
 
