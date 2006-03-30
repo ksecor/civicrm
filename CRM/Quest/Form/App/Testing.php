@@ -81,7 +81,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             }
         }
        
-        //set the default values // FIX ME
+        //set the default values
         $subject = array('english','reading','criticalReading','writing','math','science','composite','total');
         foreach ($this->_testIDs as $test => $value ) {
             if ( ! is_array($value) ) {
@@ -89,28 +89,26 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                 $dao->id = $value;
                 $dao->find(true);
                 foreach ( $subject as $sub ) {
-                    $field = "score_".$sub;
-                    $defaults[$test."_$sub"] = $dao->$field;
+                    $field = "score_$sub";
+                    $defaults["{$test}_$sub"] = $dao->$field;
                     if ( $sub == 'criticalReading' ) {
-                        $defaults[$test.'_criticalreading'] = $dao->score_reading;
+                        $defaults["{$test}_criticalreading"] = $dao->score_reading;
                     }
                 }
                 if ( $sub == 'total' && ( $test =='psat' || $test =='sat'  )) {
-                    $defaults[$test.'_total'] = $dao->score_composite;
+                    $defaults["{$test}_total"] = $dao->score_composite;
                 }
-                $defaults[$test."_date"] = CRM_Utils_Date::unformat( $dao->test_date , '-' );
+                $defaults["{$test}_date"] = CRM_Utils_Date::unformat( $dao->test_date , '-' );
             } else {
                 foreach ( $value as $k => $v ) {
                     $dao = & new CRM_Quest_DAO_Test();
                     $dao->id = $v;
                     $dao->find(true);
-                    $defaults[$test."_".$k."_subject"] = $dao->subject;
-                    $defaults[$test."_".$k."_score"]   = $dao->score_composite;
-                    $defaults[$test."_".$k."_date"]    = CRM_Utils_Date::unformat( $dao->test_date , '-' );
+                    $defaults["{$test}_subject_id_$k"] = $dao->subject;
+                    $defaults["{$test}_score_$k"]   = $dao->score_composite;
+                    $defaults["{$test}_date_$k"]    = CRM_Utils_Date::unformat( $dao->test_date , '-' );
                 }
-
             }
-                
         }
         require_once 'CRM/Quest/DAO/Student.php';
         $studDAO = & new CRM_Quest_DAO_Student();
@@ -173,8 +171,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         for ( $i = 1; $i <= 5; $i++ ) {
             $this->addSelect( 'satII_subject',
                                ts( 'Subject' ),
-                               "_$i",
-                               $attributes['subject'] );
+                              "_$i" );
             $this->addElement( 'text',
                                'satII_score_' . $i,
                                ts( 'Score' ),
@@ -188,8 +185,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         for ( $i = 1; $i <= 32; $i++ ) {
             $this->addSelect( 'ap_subject',
                                ts( 'Subject' ),
-                               "_$i",
-                               $attributes['subject'] );
+                              "_$i" );
             $this->addElement( 'text',
                                'ap_score_' . $i,
                                ts( 'Score' ),
@@ -234,7 +230,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                 $keyArray = explode( '_' ,$key );
                 if ( $keyArray[0] == $sub ) {
                     if ( $keyArray[1] == 'date' ) {
-                        
                         $testParams1[$sub]["test_".$keyArray[1]]  = CRM_Utils_Date::format( $value );
                     } else if ( $keyArray[1] == 'total' ) {
                         $testParams1[$sub]["score_composite"]     = $value;
@@ -255,18 +250,20 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             foreach ( $params as $key => $value  ) {
                 $keyArray = explode('_' , $key ) ;
                 if ( $keyArray[0] == $sub ) {
-                    if ( $keyArray[2] == 'date' ) {
-                        $testParams2[$sub][$keyArray[1]]["test_".$keyArray[2]] =  CRM_Utils_Date::format( $value );
-                    } else if ($keyArray[2] == 'score') { 
-                        $testParams2[$sub][$keyArray[1]]["score_composite"] = $value;
+                    $testID = $keyArray[2];
+                    if ( $keyArray[1] == 'date' ) {
+                        $testParams2[$sub][$testID]["test_".$keyArray[1]] =  CRM_Utils_Date::format( $value );
+                    } else if ($keyArray[1] == 'score') { 
+                        $testParams2[$sub][$testID]["score_composite"] = $value;
                     } else {
-                        $testParams2[$sub][$keyArray[1]][$keyArray[2]] = $value;
+                        $testID = $keyArray[3];
+                        $testParams2[$sub][$testID][$keyArray[1]] = $value;
                     }
-                    $testParams2[$sub][$keyArray[1]]['contact_id'] = $contactId;
+                    $testParams2[$sub][$testID]['contact_id'] = $contactId;
                     if ( $sub == "satII" ) {
-                        $testParams2[$sub][$keyArray[1]]['test_id']    = $testTypes[strtoupper('sat II')];
+                        $testParams2[$sub][$testID]['test_id']    = $testTypes[strtoupper('sat II')];
                     } else {
-                        $testParams2[$sub][$keyArray[1]]['test_id']    = $testTypes[strtoupper($sub)];
+                        $testParams2[$sub][$testID]['test_id']    = $testTypes[strtoupper($sub)];
                     }
                 }
                 

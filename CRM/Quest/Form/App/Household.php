@@ -340,11 +340,16 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
         $person = CRM_Quest_BAO_Person::create( $personParams , $ids );
         $personID = $person->id;
 
-        $details["Guardian-{$personID}"] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
-                                                  'title' => "$name Details",
-                                                  'options' => array( 'personID'         => $personID,
-                                                                      'relationshipID'   => $relationshipID,
-                                                                      'relationshipName' => $relationshipName ) );
+        if ( $relationshipName == 'Mother' || $relationshipName == 'Father' ) {
+            $pageName = "Guardian-$relationshipName";
+        } else {
+            $pageName = "Guardian-{$dao->id}";
+        }
+        $details[$pageName] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
+                                     'title' => "$name Details",
+                                     'options' => array( 'personID'         => $personID,
+                                                         'relationshipID'   => $relationshipID,
+                                                         'relationshipName' => $relationshipName ) );
         return $personID;
     }
 
