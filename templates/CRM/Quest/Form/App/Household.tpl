@@ -23,14 +23,12 @@
 <tr>
     <td class="grouplabel"><label>{ts}Family Member{/ts}</label></td>
     <td class="grouplabel"><label>{ts}First Name{/ts}</label></td>
-    <td class="grouplabel"><label>{ts}Last Name{/ts}</label></td>
-    <td class="fieldlabel"></td>
+    <td class="grouplabel" colspan="2"><label>{ts}Last Name{/ts}</label></td>
 </tr>
 <tr>
     <td class="fieldlabel">{$form.relationship_id_1_1.html}</td>
     <td class="fieldlabel">{$form.first_name_1_1.html}</td>
-    <td class="fieldlabel">{$form.last_name_1_1.html}</td>
-    <td class="fieldlabel"></td>
+    <td class="fieldlabel" colspan="2">{$form.last_name_1_1.html}</td>
 </tr>
 <tr>
     <td class="fieldlabel">{$form.relationship_id_1_2.html}</td>
@@ -39,8 +37,7 @@
 </tr>
 <tr>
     <td colspan="2" class="grouplabel">{$form.years_lived_id_1.label}</td>
-    <td class="fieldlabel">{$form.years_lived_id_1.html}</td>
-    <td class="fieldlabel"></td>
+    <td class="fieldlabel" colspan="2">{$form.years_lived_id_1.html}</td>
 </tr>
 <tr>
   <td colspan="4" class="grouplabel">
@@ -55,30 +52,29 @@
 </tr>
 <tr>
     <td colspan="4" class="grouplabel">
-    {ts}Please list the primary caregiver(s) (parents, legal guardians, etc.) in this household{/ts}: *
+    <strong>{ts}Please list the primary caregiver(s) (parents, legal guardians, etc.) in this household{/ts}:</strong>
     </td>
 </tr>
+    <td class="grouplabel"><label>{ts}Same person as in current household above{/ts}</label></td>
     <td class="grouplabel"><label>{ts}Family Member{/ts}</label></td>
     <td class="grouplabel"><label>{ts}First Name{/ts}</label></td>
     <td class="grouplabel"><label>{ts}Last Name{/ts}</label></td>
-    <td class="grouplabel"><label>{ts}Same person as in current household above{/ts}</label></td>
 </tr>
 <tr>
+    <td class="fieldlabel">{$form.same_2_1.html}</td>
     <td class="fieldlabel">{$form.relationship_id_2_1.html}</td>
     <td class="fieldlabel">{$form.first_name_2_1.html}</td>
     <td class="fieldlabel">{$form.last_name_2_1.html}</td>
-    <td class="fieldlabel">{$form.same_2_1.html}</td>
 </tr>
 <tr>
+    <td class="fieldlabel">{$form.same_2_2.html}</td>
     <td class="fieldlabel">{$form.relationship_id_2_2.html}</td>
     <td class="fieldlabel">{$form.first_name_2_2.html}</td>
     <td class="fieldlabel">{$form.last_name_2_2.html}</td>
-    <td class="fieldlabel">{$form.same_2_2.html}</td>
 </tr>
 <tr>
-    <td colspan="2" class="grouplabel">{$form.years_lived_id_2.label}</td>
-    <td class="fieldlabel">{$form.years_lived_id_2.html}</td>
-    <td class="fieldlabel"></td>
+    <td class="grouplabel" colspan="2">{$form.years_lived_id_2.label}</td>
+    <td class="fieldlabel" colspan="2">{$form.years_lived_id_2.html}</td>
 </tr>
 <tr>
     <td colspan="2" class="grouplabel">{$form.description.label}</td>
