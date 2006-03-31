@@ -272,7 +272,8 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             foreach ( $sections as $name ) {
                 if ($params[$testName.'_'.strtolower( $name )]) {
                     foreach ( $sections as $checkName ) {
-                        if (! $params[$testName.'_'.strtolower( $checkName )]) {
+                        if ( (!$params[$testName.'_'.strtolower( $checkName )]) && 
+                             array_key_exists($testName.'_'.strtolower( $checkName ), $params)) {
                             $errors[$testName.'_'.strtolower( $checkName )]= "Please enter ".strtolower( $checkName )." score";
                         }
                     }
@@ -286,7 +287,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                 }
             }
         }
-
+        
         return empty($errors) ? true : $errors;
     }
 
@@ -411,19 +412,20 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         
 
         //for 'satII','ap'
-
-        foreach ( $testParams2 as $key => $value ) {
-            foreach ( $value as $k => $v ) {
-                $testParam = $v;
-                 $ids  = array();
-                 if ( $this->_testIDs[$key][$k] ) {
-                     $ids['id'] = $this->_testIDs[$key][$k];
-                 }
-                 $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
-                 $this->_testIDs[$key][$k] = $test->id;
+        if ( is_array( $testParams2 ) ) {
+            foreach ( $testParams2 as $key => $value ) {
+                foreach ( $value as $k => $v ) {
+                    $testParam = $v;
+                    $ids  = array();
+                    if ( $this->_testIDs[$key][$k] ) {
+                        $ids['id'] = $this->_testIDs[$key][$k];
+                    }
+                    $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
+                    $this->_testIDs[$key][$k] = $test->id;
+                }
             }
         }
-        
+
         $this->set( 'testIDs' ,$this->_testIDs );
         
         // Insert  Student recornd  
