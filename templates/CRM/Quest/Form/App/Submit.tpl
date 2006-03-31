@@ -7,14 +7,18 @@
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-<td colspan=2>
+<td colspan=2 class="grouplabel">
+<p class="preapp-instruction">
 If you have completed the application, please click the "Submit
 Application" button below. Once you click "Submit", we will check the
 application for any errors or missing pieces of information that are
 required. Please be patient as the checking process may take a minute
-or so. Please note: if you need to make changes to the application
+or so.
+<br><br>
+Please note: if you need to make changes to the application
 after you have submitted it, please "Submit" the application again so
 it can be checked again. Thank you. 
+</p>
 <p>
 {$form.approve.html}&nbsp;I understand that my application will be
 shared with QuestBridge's partner colleges. I have filled out the

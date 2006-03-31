@@ -20,13 +20,13 @@
     <td class="grouplabel" rowspan="4"><label>{ts}Location{/ts}</label></td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.location.1.address.city.html} </td>
+    <td class="fieldlabel">{$form.location.1.address.city.html}<br>{ts}City{/ts}</td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.location.1.address.state_province_id.html} </td>
+    <td class="fieldlabel">{$form.location.1.address.state_province_id.html}<br>{ts}State or Province{/ts}</td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.location.1.address.country_id.html} </td>
+    <td class="fieldlabel">{$form.location.1.address.country_id.html}<br>{ts}Country{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.location.1.phone.1.phone.label} </td>

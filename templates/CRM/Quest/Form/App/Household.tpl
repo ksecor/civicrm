@@ -4,7 +4,7 @@
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
-    <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
+    <td colspan=4 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
   <td colspan="4" class="grouplabel">
