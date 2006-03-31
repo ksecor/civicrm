@@ -110,7 +110,11 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     $dao->id = $v;
                     $dao->find(true);
                     $defaults["{$test}_subject_id_$k"] = $dao->subject;
-                    $defaults["{$test}_score_$k"]   = $dao->score_composite;
+                    if ( $test != 'ap') {
+                        $defaults["{$test}_score_$k"]   = $dao->score_composite;
+                    } else {
+                        $defaults["{$test}_score_id_$k"]   = $dao->score_composite;
+                    }
                     $defaults["{$test}_date_$k"]    = CRM_Utils_Date::unformat( $dao->test_date , '-' );
                 }
             }
@@ -148,7 +152,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         }
 
         $this->_showHide->addToTemplate( );
-
         return $defaults;
     }
     
@@ -224,11 +227,13 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $this->addSelect( 'ap_subject',
                                ts( 'Subject' ),
                               "_$i" );
-            $this->addElement( 'text',
-                               'ap_score_' . $i,
-                               ts( 'Score' ),
-                               $attributes['score_english'] );
-            $this->addRule( 'ap_score_' . $i, ts( 'AP Test score not valid.'),'integer');
+            //  $this->addElement( 'text',
+            //        'ap_score_' . $i,
+                                   //            ts( 'Score' ),
+            //    $attributes['score_english'] );
+            $this->addSelect( 'ap_score' , ts( 'Score' ), "_$i" );
+ 
+            $this->addRule( 'ap_score_id_' . $i, ts( 'AP Test score not valid.'),'integer');
             $this->addElement('date', 'ap_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
@@ -261,9 +266,9 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
      * @access public
      * @static
      */
-    public function formRule(&$params) {
+      public function formRule(&$params) {
         $errors = array( );
-        
+           
         $tests = array( 'act', 'psat', 'sat' );
         $sections = array( 'English', 'Reading', 'CriticalReading', 'Writing', 'Math',
                            'Science', 'Composite', 'Total' );
@@ -300,6 +305,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
     public function postProcess() 
     {
         $params = $this->controller->exportValues( $this->_name );
+
         $testSet1 = array('act','psat','sat');
         $testSet2 = array('satII','ap');
 
@@ -357,7 +363,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             }
         }
        
-        // process sat II stuff
+        // process sat II/ ap stuff
         foreach  ( $this->_multiTests as $testName => $testCount ) {
             for ( $i = 1; $i <= $testCount; $i++ ) { 
                 $filled = false;
@@ -369,7 +375,12 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     $testParams2[$testName][$i]["subject"] = $value;
                 }
                 
-                $key   = "{$testName}_score_$i";
+                if ( $testName != 'ap' ) {
+                    $key   = "{$testName}_score_$i";
+                } else {
+                    $key   = "{$testName}_score_id_$i";
+                }
+
                 $value = $params[$key];
                 if ( ! empty( $value ) ) {
                     $filled = true;

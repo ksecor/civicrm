@@ -137,9 +137,9 @@
         <td class="fieldlabel" width="75%">{$form.$subject.html}</td>
     </tr>
     <tr>
-        {assign var=score value="ap_score_"|cat:$i}
+        {assign var=score value="ap_score_id_"|cat:$i}
         <td class="grouplabel">{$form.$score.label}</td>
-        <td class="fieldlabel">{$form.$score.html}</td>
+        <td class="fieldlabel" width="75%">{$form.$score.html}</td>
     </tr>
     <tr>
         {assign var=date value="ap_date_$i"}
