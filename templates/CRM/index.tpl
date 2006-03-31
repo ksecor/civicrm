@@ -6,9 +6,6 @@
 <div id="crm-container">
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
-{if $config->userFramework eq 'Mambo'}
-    {include file="CRM/common/mambo.tpl"}
-{else}
-    {include file="CRM/common/drupal.tpl"}
-{/if}
+{include file="CRM/common/$metaTpl.tpl"}
+
 </div> {* end crm-container div *}

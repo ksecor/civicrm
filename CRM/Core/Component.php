@@ -42,21 +42,23 @@ class CRM_Core_Component {
     static function &info( ) {
         if ( self::$_info == null ) {
             self::$_info = array( 
-                                 'CiviContribute' => array( 'title' => 'CiviCRM Contribution Engine',
-                                                            'path'  => 'CRM_Contribute_',
-                                                            'url'   => 'contribute',
-                                                            'perm'  => array( 'access CiviContribute',
+                                 'CiviContribute' => array( 'title'   => 'CiviCRM Contribution Engine',
+                                                            'path'    => 'CRM_Contribute_',
+                                                            'url'     => 'contribute',
+                                                            'perm'    => array( 'access CiviContribute',
                                                                               'edit contributions',
                                                                               'make online contributions' ) ),
-                                 'CiviMail'       => array( 'title' => 'CiviCRM Mailing Engine',
-                                                            'path'  => 'CRM_Mailing_',
-                                                            'url'   => 'mailing',
-                                                            'perm'  => array( 'access CiviMail' ) ),
-                                 'Quest'          => array( 'title' => 'Quest Application Process',
-                                                            'path'  => 'CRM_Quest_',
-                                                            'url'   => 'quest',
-                                                            'perm'  => array( 'access Quest Student Records' ),
-                                                            'css'   => 'quest.css' ),
+                                 'CiviMail'       => array( 'title'   => 'CiviCRM Mailing Engine',
+                                                            'path'    => 'CRM_Mailing_',
+                                                            'url'     => 'mailing',
+                                                            'perm'    => array( 'access CiviMail' ) ),
+                                 'Quest'          => array( 'title'   => 'Quest Application Process',
+                                                            'path'    => 'CRM_Quest_',
+                                                            'url'     => 'quest',
+                                                            'perm'    => array( 'access Quest Student Records' ),
+                                                            'metaTpl' => 'quest',
+                                                            'formTpl' => 'quest',
+                                                            'css'     => 'quest.css' ),
                                  );
         }
         return self::$_info;
@@ -81,7 +83,13 @@ class CRM_Core_Component {
                  $info[$name]['url'] === $args[1] ) {
                 // also set the smarty variables to the current component
                 $template =& CRM_Core_Smarty::singleton( );
-                $template->assign( 'activeComponent', $info[$name]['url'] );
+                $template->assign( 'activeComponent', $name );
+                if ( CRM_Utils_Array::value( 'metaTpl', $info[$name] ) ) {
+                    $template->assign( 'metaTpl', $info[$name]['metaTpl'] );
+                }
+                if ( CRM_Utils_Array::value( 'formTpl', $info[$name] ) ) {
+                    $template->assign( 'formTpl', $info[$name]['formTpl'] );
+                }
                 if ( CRM_Utils_Array::value( 'css', $info[$name] ) ) {
                   $styleSheets .= '<style type="text/css">@import url(' . "{$config->resourceBase}css/{$info[$name]['css']});</style>";
                   CRM_Utils_System::addHTMLHead( $styleSheet );
