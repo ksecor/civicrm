@@ -186,6 +186,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                                        $testName . '_' . strtolower( $name ),
                                        ts( $name . ' Score' ),
                                        $attributes['score_english'] );
+                    $this->addRule( $testName . '_' . strtolower( $name ), ts( strtolower( $name ).' score not valid.'),'integer');
                 }
             }
 
@@ -206,6 +207,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                                'satII_score_' . $i,
                                ts( 'Score' ),
                                $attributes['score_english'] );
+            $this->addRule( 'satII_score_' . $i, ts( 'SAT II score not valid.'),'integer');
             $this->addElement('date', 'satII_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
@@ -226,6 +228,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                                'ap_score_' . $i,
                                ts( 'Score' ),
                                $attributes['score_english'] );
+            $this->addRule( 'ap_score_' . $i, ts( 'AP Test score not valid.'),'integer');
             $this->addElement('date', 'ap_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
@@ -243,8 +246,48 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                             ts( 'If yes, for which tests?' ),
                             CRM_Core_OptionGroup::values( 'test',true ),
                             false ,null);
+
+        $this->addFormRule(array('CRM_Quest_Form_App_Testing', 'formRule'));
      
         parent::buildQuickForm( );
+    }
+
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        $errors = array( );
+        
+        $tests = array( 'act', 'psat', 'sat' );
+        $sections = array( 'English', 'Reading', 'CriticalReading', 'Writing', 'Math',
+                           'Science', 'Composite', 'Total' );
+
+        foreach ( $tests as $testName ) {
+            foreach ( $sections as $name ) {
+                if ($params[$testName.'_'.strtolower( $name )]) {
+                    foreach ( $sections as $checkName ) {
+                        if (! $params[$testName.'_'.strtolower( $checkName )]) {
+                            $errors[$testName.'_'.strtolower( $checkName )]= "Please enter ".strtolower( $checkName )." score";
+                        }
+                    }
+                    if ( (!$params[$testName.'_date']['M']) && (!$params[$testName.'_date']['Y']) ) {
+                        $errors[$testName.'_date']= "Please enter the ".strtoupper($testName)."-Test date";
+                    } else {
+                        if ( (!$params[$testName.'_date']['M']) || !($params[$testName.'_date']['Y']) ) {
+                            $errors[$testName.'_date']= "Please enter a valid ".strtoupper($testName)."-Test date";
+                        }
+                    }
+                }
+            }
+        }
+
+        return empty($errors) ? true : $errors;
     }
 
     /**
@@ -394,7 +437,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         require_once 'CRM/Quest/BAO/Student.php';
         $student = CRM_Quest_BAO_Student::create( $values, $ids);
               
-        
+
     }//end of function
 
     /**
