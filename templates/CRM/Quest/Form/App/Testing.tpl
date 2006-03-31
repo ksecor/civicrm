@@ -89,7 +89,7 @@
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr><td colspan=2 id="sub-category">{ts}SAT II Subject Test(s){/ts}</td></tr>
-</table>
+<tr><td colspan=2>
 {assign var=maxSAT value=6}
 {section name=rowLoop start=1 loop=$maxSAT}
     {assign var=i value=$smarty.section.rowLoop.index}
@@ -120,11 +120,12 @@
     </table>
     </div>
 {/section}
+</td></tr>
+</table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr><td colspan=2 id="sub-category">{ts}AP Test(s){/ts}</td></tr>
-</table>
-
+<tr><td colspan=2>
 {assign var=maxAP value=33}
 {section name=rowLoop start=1 loop=$maxAP}
     {assign var=i value=$smarty.section.rowLoop.index}
@@ -155,6 +156,8 @@
     </table>
     </div>
 {/section}
+</td></tr>
+</table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
