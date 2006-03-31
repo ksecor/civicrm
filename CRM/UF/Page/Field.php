@@ -148,6 +148,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
             $ufField[$ufFieldBAO->id] = array();
             $phoneType = $locType = '';
             CRM_Core_DAO::storeValues( $ufFieldBAO, $ufField[$ufFieldBAO->id]);
+            CRM_Core_DAO_UFField::addDisplayEnums($ufField[$ufFieldBAO->id]);
 
             // fix the field_name value
             $ufField[$ufFieldBAO->id]['field_name'] = $select[$ufField[$ufFieldBAO->id]['field_name']];
