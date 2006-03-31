@@ -136,11 +136,11 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         
         $this->addElement('date', 'date_of_entry',
                           ts( 'Dates Attended' ),
-                          CRM_Core_SelectValues::date( 'custom', 7, 0, "Y\001M" ) );
+                          CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
         
         $this->addElement('date', 'date_of_exit',
                           ts( 'Dates Attended' ),
-                          CRM_Core_SelectValues::date( 'custom', 7, 0, "Y\001M" ) );
+                          CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
         
         $this->buildAddressBlock( 1,
                                   ts( 'Location' ),null );

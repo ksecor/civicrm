@@ -35,7 +35,7 @@
     <td class="fieldlabel">{$form.deceased_year_date.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.birth_date.label}</td>
+    <td class="grouplabel">{$form.birth_date.label} <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.birth_date.html}
      <div class="description"> 
         {include file="CRM/common/calendar/desc.tpl"}

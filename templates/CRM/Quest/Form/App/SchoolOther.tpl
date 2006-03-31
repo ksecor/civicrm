@@ -14,7 +14,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.date_of_entry.label} </td>
-    <td class="fieldlabel">{$form.date_of_entry.html}  {$form.date_of_exit.html} </td>
+    <td class="grouplabel"><label>From</label> {$form.date_of_entry.html} &nbsp;&nbsp; <label>To</label>  {$form.date_of_exit.html} </td>
 </tr>
 <tr>
     <td class="grouplabel" rowspan="4"><label>{ts}Location{/ts}</label></td>
@@ -27,10 +27,6 @@
 </tr>
 <tr>
     <td class="fieldlabel">{$form.location.1.address.country_id.html}<br>{ts}Country{/ts}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.location.1.phone.1.phone.label} </td>
-    <td class="fieldlabel">{$form.location.1.phone.1.phone.html}  </td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.note.label}</td>
