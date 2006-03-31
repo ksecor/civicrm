@@ -47,6 +47,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
 {
     protected $_personID;
     protected $_incomeID;
+    protected $_totalIncome;
 
     /**
      * Function to set variables up before form is built
@@ -162,6 +163,8 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         $params['source_1_id'] = $params['type_of_income_id_1']; 
         $params['source_2_id'] = $params['type_of_income_id_2'];
 
+        
+
         if ( ! $this->_personID ) {
             $personParams = array( );
             $personParams['first_name'] = $params['first_name'];
@@ -180,6 +183,35 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
 
         require_once 'CRM/Quest/BAO/Income.php';
         $income = CRM_Quest_BAO_Income::create( $params , $ids );
+
+        $totalIncome = $this->get('totalIncome');
+        $personId = $this->_personID;
+        $totalIncome[$personId] =  $params['amount_1'] + $params['amount_2']   ;
+        $this->set('totalIncome',  $totalIncome );
+        
+
+        //add total Income in student Table
+        $studValues = $this->controller->exportValues( 'Personal' );
+
+        $income = null;
+        $totalIncome = $this->get('totalIncome');
+        if ( is_array( $totalIncome ) )  {
+            foreach( $totalIncome as $value ) {
+                $income = $income + $value;
+            }
+        }
+        $studValues['household_income_total'] = $income;
+        $id = $this->get('id');
+        $contact_id = $this->get('contact_id');
+        $ids = array();
+        $ids['id'] = $id;
+        $ids['contact_id'] = $contact_id;
+
+        require_once 'CRM/Quest/BAO/Student.php';
+        $student = CRM_Quest_BAO_Student::create( $studValues, $ids);
+
+
+        
 
         $details = $this->controller->get( 'incomeDetails' );
         $details[ $this->_name ] =
@@ -200,6 +232,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             $last = array_pop( $keys );
             $details[$last]['options']['lastSource'] = true;
         }
+        
         $this->controller->set( 'incomeDetails', $details );
     }
     
