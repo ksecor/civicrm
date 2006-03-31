@@ -135,7 +135,7 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        <label>{ts}Mailing Telephone{/ts}</label> <span class="marker">*</span></td>
+        <label>{ts}Mailing Telephone{/ts}</label></td>
     <td class="fieldlabel">
         {$form.location.2.phone.1.phone.html}<br />
         {ts}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/ts}
@@ -143,7 +143,7 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        <label>{ts}Alternate Telephone <span class="marker">*</span></td>
+        <label>{ts}Alternate Telephone</td>
     <td class="fieldlabel">
         {$form.location.2.phone.2.phone.html}<br />
         {ts}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/ts}
@@ -181,7 +181,7 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        {$form.birth_date.label}</td>
+        {$form.birth_date.label} <span class="marker">*</span></td>
     <td class="fieldlabel">
         {$form.birth_date.html}
         <div class="description"> 

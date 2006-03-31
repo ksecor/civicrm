@@ -152,12 +152,12 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         $this->buildAddressBlock( 1, ts( 'Permanent Address' ),
                                   ts( 'Permanent Telephone' ),
                                   '',
-                                  true );
+                                  true, true );
         
         $this->buildAddressBlock( 2, ts( 'Mailing Address' ),
                                   ts( 'Mailing Telephone' ),
                                   ts( 'Alternate Telephone' ),
-                                  true );
+                                  true, false, false );
         
         // citizenship status
         $this->addSelect('citizenship_status', ts( 'U.S. Citizenship Status' ), null , true);
