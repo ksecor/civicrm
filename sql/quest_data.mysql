@@ -400,7 +400,35 @@ INSERT INTO `civicrm_uf_field` (`id`, `uf_group_id`, `field_name`, `is_active`, 
  
 INSERT INTO `civicrm_uf_join` (`id`, `is_active`, `module`, `entity_table`, `entity_id`, `weight`, `uf_group_id`) VALUES (1, 1, 'User Registration', '', 0, 1, 1);
  
+--
+-- Dumping data for table `civicrm_custom_group`  
+--
 
+INSERT INTO `civicrm_custom_group` (`id`, `domain_id`, `name`, `title`, `extends`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`) VALUES (1, 1, 'Hischool_Info', 'Hischool Info', 'Organization', 'Inline', 0, '', '', 1, 1);
+
+--
+-- Dumping data for table `civicrm_custom_field`  
+--
+
+INSERT INTO `civicrm_custom_field` (`id`, `custom_group_id`, `name`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `validation_id`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `options_per_line`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`) VALUES (1, 1, 'School_Search_Code', 'School Search Code', 'String', 'Text', '', 0, 0, 0, 1, NULL, NULL, '', NULL, NULL, NULL, 1, 0, 0, 0, 'MdY', 60, 4);
+INSERT INTO `civicrm_custom_field` (`id`, `custom_group_id`, `name`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `validation_id`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `options_per_line`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`) VALUES (2, 1, 'Your_School_Is', 'Your School Is', 'String', 'Radio', '', 0, 0, 0, 2, NULL, NULL, '', NULL, NULL, NULL, 1, 0, 0, 0, 'MdY', 60, 4);
+INSERT INTO `civicrm_custom_field` (`id`, `custom_group_id`, `name`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `validation_id`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `options_per_line`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`) VALUES (3, 1, 'Number_of_students_in_your_scho', 'Number of students in your school', 'Int', 'Text', '', 0, 0, 0, 3, NULL, NULL, '', NULL, NULL, NULL, 1, 0, 0, 0, 'MdY', 60, 4);
+
+
+
+-- 
+-- Dumping data for table `civicrm_custom_option`
+-- 
+
+INSERT INTO `civicrm_custom_option` (`id`, `entity_table`, `entity_id`, `label`, `value`, `weight`, `is_active`) VALUES (1, 'civicrm_custom_field', 2, 'Public', '310', 1, 1);
+INSERT INTO `civicrm_custom_option` (`id`, `entity_table`, `entity_id`, `label`, `value`, `weight`, `is_active`) VALUES (2, 'civicrm_custom_field', 2, 'Private', '311', 2, 1);
+INSERT INTO `civicrm_custom_option` (`id`, `entity_table`, `entity_id`, `label`, `value`, `weight`, `is_active`) VALUES (3, 'civicrm_custom_field', 2, 'Parochial', '312', 3, 1);
+
+-- 
+-- Dumping data for table `civicrm_relation_type`
+-- 
+
+INSERT INTO `civicrm_relationship_type` (`id`, `domain_id`, `name_a_b`, `name_b_a`, `description`, `contact_type_a`, `contact_type_b`, `is_reserved`, `is_active`) VALUES (8, 1, 'Student of', 'School  of', NULL, 'Individual', 'Organization', 1, 1);
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

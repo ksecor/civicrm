@@ -79,7 +79,6 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
             if ($dao->find(true)) {
                 CRM_Core_DAO::storeValues( $dao , $defaults );
             }
-            
             // format date
             require_once 'CRM/Utils/Date.php';
             $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year','birth_date');

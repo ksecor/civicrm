@@ -291,8 +291,9 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     }
                 }
             }
+
         }
-        
+
         return empty($errors) ? true : $errors;
     }
 
@@ -446,18 +447,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $values['score_PSAT']    =  $totalScore['psat'];
         $values['score_ACT']     =  $totalScore['act'];
         
-        
-
-        //add totol income for household
-        $income = null;
-        $totalIncome = $this->get('totalIncome');
-        if ( is_array( $totalIncome ) )  {
-            foreach( $totalIncome as $value ) {
-                $income = $income + $value;
-            }
-        }
-        $values['household_income_total'] = $income;
-
         if ( CRM_Utils_Array::value( 'test_tutoring', $params ) &&
              is_array( $params['test_tutoring'] ) &&
              ! empty( $params['test_tutoring'] ) ) {

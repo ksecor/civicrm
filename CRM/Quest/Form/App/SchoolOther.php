@@ -57,12 +57,19 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
      */
     public function preProcess()
     {
+
+        require_once 'CRM/Contact/DAO/RelationshipType.php';
+        $dao = & new CRM_Contact_DAO_RelationshipType();
+        $dao->name_a_b = 'Student of';
+        $dao->find(true);
+        $relID  = $dao->id ;
+
         $contactID = $this->get( 'contact_id' );
         //to get relationship id
         require_once 'CRM/Contact/DAO/Relationship.php';
         $relDAO = & new CRM_Contact_DAO_Relationship();
         $relDAO->contact_id_a            = $contactID;
-        $relDAO->relationship_type_id    = 1;//need to fix  	  
+        $relDAO->relationship_type_id    = $relID;//need to fix  	  
         $relDAO->find(); 
         while ( $relDAO->fetch()) {
            $orgID = $this->get('orgID');
@@ -181,17 +188,26 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         
         // add data for custom fields 
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $this->_groupTree = & CRM_Core_BAO_CustomGroup::getTree('Organization',$this->_relationshipId,0);
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Organization',$org->id); 
+        $this->_groupTree = & CRM_Core_BAO_CustomGroup::getTree('Organization',$org->id, 0 );
+        
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
+        
+
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Organization',$org->id); 
         
         //create a realtionship
         require_once 'CRM/Utils/Date.php';
         $relationshipParams = array();
         
-        $relationshipParams['relationship_type_id'] = '1_a_b';
-        $relationshipParams['start_date']           = CRM_Utils_Date::format($params['date_of_entry']);
-        $relationshipParams['end_date']            =  CRM_Utils_Date::format($params['date_of_exit'] );
+        require_once 'CRM/Contact/DAO/RelationshipType.php';
+        $dao = & new CRM_Contact_DAO_RelationshipType();
+        $dao->name_a_b = 'Student of';
+        $dao->find(true);
+        $relID  = $dao->id ;
+        
+        $relationshipParams['relationship_type_id'] = $relID.'_a_b';
+        $relationshipParams['start_date']           = $params['date_of_entry'];
+        $relationshipParams['end_date']            =  $params['date_of_exit'];
         $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
         
         $this->relIDOther = $this->get('relIDOther');
