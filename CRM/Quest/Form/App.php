@@ -202,11 +202,6 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         
 
          if ( $phone ) {
-             $location[$locationId]['phone'][1]['phone_type'] = $this->addElement('select',
-                                                                                  "location[$locationId][phone][1][phone_type]",
-                                                                                  null,
-                                                                                  CRM_Core_SelectValues::phoneType());
-             
              $location[$locationId]['phone'][1]['phone']      = $this->addElement('text',
                                                                                   "location[$locationId][phone][1][phone]", 
                                                                                   $phone,
@@ -218,12 +213,6 @@ class CRM_Quest_Form_App extends CRM_Core_Form
          }
 
          if ( $alternatePhone ) {
-             $location[$locationId]['phone'][2]['phone_type'] = $this->addElement('select',
-                                                                                  "location[$locationId][phone][2][phone_type]",
-                                                                                  null,
-                                                                                  CRM_Core_SelectValues::phoneType());
-             
-             
              $location[$locationId]['phone'][2]['phone']      = $this->addElement('text',
                                                                                   "location[$locationId][phone][2][phone]", 
                                                                                   $phoneTitle,

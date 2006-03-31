@@ -86,7 +86,7 @@
     <td class="grouplabel">
         <label>{ts}Permanent Telephone{/ts} <span class="marker">*</span></td>
     <td class="fieldlabel">
-        {$form.location.1.phone.1.phone_type.html}{$form.location.1.phone.1.phone.html}<br />
+        {$form.location.1.phone.1.phone.html}<br />
         {ts}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/ts}
     </td>
 </tr>
@@ -137,7 +137,7 @@
     <td class="grouplabel">
         <label>{ts}Mailing Telephone{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel">
-        {$form.location.2.phone.1.phone_type.html}{$form.location.2.phone.1.phone.html}<br />
+        {$form.location.2.phone.1.phone.html}<br />
         {ts}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/ts}
     </td>
 </tr>
@@ -145,7 +145,7 @@
     <td class="grouplabel">
         <label>{ts}Alternate Telephone <span class="marker">*</span></td>
     <td class="fieldlabel">
-        {$form.location.2.phone.2.phone_type.html}{$form.location.2.phone.2.phone.html}<br />
+        {$form.location.2.phone.2.phone.html}<br />
         {ts}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/ts}
     </td>
 </tr>

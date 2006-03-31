@@ -171,7 +171,10 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         require_once 'CRM/Core/ShowHideBlocks.php';
         CRM_Core_ShowHideBlocks::links( $this,"ethnicity_id_2", ts('add another Race/Ethnicity'), ts('hide this Race/Ethnicity field'));
        
-        $this->addElement('date', 'birth_date', ts(' Birthdate (month/day/year)'), CRM_Core_SelectValues::date('birth'), true);
+        $this->addElement('date', 'birth_date',
+                          ts(' Birthdate (month/day/year)'),
+                          CRM_Core_SelectValues::date('custom', 25, -10, "M\001d\001Y" ),
+                          true);
         
         //$this->addRule("birth_date[M]", ts("Please enter your Birthdate"),'required');
 
@@ -206,7 +209,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 
         // year of high school graduation
         $this->addElement('date', 'high_school_grad_year', ts( 'Year of high school graduation'),
-                          CRM_Core_SelectValues::date( 'custom', 5, 1, "Y" ) );
+                          CRM_Core_SelectValues::date( 'custom', 2, 1, "Y" ) );
         $this->addRule('high_school_grad_year', ts('Select a valid date.'), 'qfDate');
 
         // did parent graduate from college
