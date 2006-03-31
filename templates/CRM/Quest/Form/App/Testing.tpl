@@ -10,7 +10,7 @@
 </tr>
 <tr>
     <td class="grouplabel"> {$form.act_english.label}</td>
-    <td class="fieldlabel">{$form.act_english.html}</td>
+    <td class="fieldlabel" width="75%">{$form.act_english.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.act_reading.label}</td>
@@ -42,7 +42,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.psat_criticalreading.label}</td>
-    <td class="fieldlabel">{$form.psat_criticalreading.html}</td>
+    <td class="fieldlabel" width="75%">{$form.psat_criticalreading.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.psat_math.label}</td>
@@ -67,7 +67,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_criticalreading.label}</td>
-    <td class="fieldlabel">{$form.sat_criticalreading.html}</td>
+    <td class="fieldlabel" width="75%">{$form.sat_criticalreading.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_math.label}</td>
@@ -88,14 +88,17 @@
 </table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-<tr><td colspan=2 id="sub-category">{ts}SAT II Subject Test{/ts}</td></tr>
-{*{section name=rowLoop start=1 loop=6}*}
-{section name=rowLoop start=1 loop=3}
+<tr><td colspan=2 id="sub-category">{ts}SAT II Subject Test(s){/ts}</td></tr>
+</table>
+{assign var=maxSAT value=6}
+{section name=rowLoop start=1 loop=$maxSAT}
     {assign var=i value=$smarty.section.rowLoop.index}
+    <div id="satII_test_{$i}">
+    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
      <tr>
         {assign var=subject value="satII_subject_id_"|cat:$i}
         <td class="grouplabel">{$form.$subject.label}</td>
-        <td class="fieldlabel"> {$form.$subject.html}</td>
+        <td class="fieldlabel" width="75%"> {$form.$subject.html}</td>
            
     </tr>
     <tr>
@@ -106,24 +109,31 @@
     <tr>
         {assign var=date value="satII_date_"|cat:$i}
         <td class="grouplabel">{$form.$date.label}</td>
-        <td class="fieldlabel">{$form.$date.html}</td>
+        <td class="fieldlabel">
+            {$form.$date.html}
+            {if $i LT $maxSAT}
+                {assign var=j value=$i+1}
+                <br /><span id="satII_test_{$j}[show]">{$satII_test.$j.show}</span>
+            {/if}        
+        </td>
     </tr>
+    </table>
+    </div>
 {/section}
-</table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-<tr><td colspan=2 id="sub-category">{ts}AP Tests{/ts}</td></tr>
+<tr><td colspan=2 id="sub-category">{ts}AP Test(s){/ts}</td></tr>
 </table>
 
-{* assign var=maxAP value=33 *}
-{assign var=maxAP value=4}
+{assign var=maxAP value=33}
 {section name=rowLoop start=1 loop=$maxAP}
     {assign var=i value=$smarty.section.rowLoop.index}
+    <div id="ap_test_{$i}">
     <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
      <tr>
         {assign var=subject value="ap_subject_id_"|cat:$i}
         <td class="grouplabel">{$form.$subject.label}</td>
-        <td class="fieldlabel">{$form.$subject.html}</td>
+        <td class="fieldlabel" width="75%">{$form.$subject.html}</td>
     </tr>
     <tr>
         {assign var=score value="ap_score_"|cat:$i}
@@ -135,28 +145,33 @@
         <td class="grouplabel">{$form.$date.label}</td>
         <td class="fieldlabel">
             {$form.$date.html}
+            {*{if $i GT 1}<span id="ap_test_{$i}[hide]">{$ap_test.$i.hide}</span>{/if}*}
             {if $i LT $maxAP}
-                <br /><span id="ap_test_{$i}[show]">{$ap_test.$i.show}</span>
+                {assign var=j value=$i+1}
+                <br /><span id="ap_test_{$j}[show]">{$ap_test.$j.show}</span>
             {/if}        
         </td>
     </tr>
     </table>
+    </div>
 {/section}
-
-        <div id="ethnicity_id_2[show]">{$ethnicity_id_2.show}</div>
-        <div id="ethnicity_id_2">
-            {$form.ethnicity_id_2.html}
-            <span id="ethnicity_id_2[hide]">{$ethnicity_id_2.hide}</span>
-        </div>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td class="grouplabel">{$form.is_test_tutoring.label}</td>
-    <td class="fieldlabel">{$form.is_test_tutoring.html}</td>
+    <td class="fieldlabel" width="75%">{$form.is_test_tutoring.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.test_tutoring.label}</td>
-    <td class="fieldlabel">{$form.test_tutoring.html}</td>
+    <td class="grouplabel">
+        {assign var="countCI" value=0}
+        {foreach from=$form.test_tutoring item=type key=key}
+            {assign var="countCI" value=`$countCI+1`}
+            {if $countCI gt 9 }
+                {$form.test_tutoring.$key.html} &nbsp;&nbsp;
+            {/if}
+        {/foreach}
+    </td>
 </tr>
 </table>
 

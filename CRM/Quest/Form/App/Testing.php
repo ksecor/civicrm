@@ -124,6 +124,26 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         }
 
         $this->set( 'testIDs' ,$this->_testIDs );
+
+        // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+        for ( $i = 2; $i <= 5; $i++ ) {
+            if ( CRM_Utils_Array::value( "satII_score_$i", $defaults )) {
+                $this->_showHide->addShow( "satII_test_$i" );
+            } else {
+                $this->_showHide->addHide( "satII_test_$i" );
+            }
+        }
+        for ( $i = 2; $i <= 32; $i++ ) {
+            if ( CRM_Utils_Array::value( "ap_score_$i", $defaults )) {
+                $this->_showHide->addShow( "ap_test_$i" );
+            } else {
+                $this->_showHide->addHide( "ap_test_$i" );
+            }
+        }
+
+        $this->_showHide->addToTemplate( );
+
         return $defaults;
     }
     
@@ -169,6 +189,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
 
         require_once 'CRM/Core/ShowHideBlocks.php';
         // add 5 Sat II tests
+        $satII_test = array( );
         for ( $i = 1; $i <= 5; $i++ ) {
             $this->addSelect( 'satII_subject',
                                ts( 'Subject' ),
@@ -180,8 +201,12 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $this->addElement('date', 'satII_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
-            CRM_Core_ShowHideBlocks::links( $this,"satII_test_$i", ts('add another SAT II test score'), ts('hide this SAT II test'));
+            $satII_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"satII_test_$i",
+                                                           ts('add another SAT II test score'),
+                                                           ts('hide this SAT II test'),
+                                                           false );
         }
+        $this->assign( 'satII_test', $satII_test );
 
         // add 32 AP test
         $ap_test = array( );
