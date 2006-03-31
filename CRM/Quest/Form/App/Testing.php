@@ -320,7 +320,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                         $filled = true;
                         if ( $name == 'Total' ) {
                             $testParams1[$testName]["score_composite"] = $value;
-                            $totalScore[strtoupper($testName)] = $value;
                         } else if ($name == 'CriticalReading') {
                             $testParams1[$testName]["score_reading"] = $value;
                         } else {
@@ -342,8 +341,21 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                 $testParams1[$testName]['test_id']    = $testTypes[strtoupper($testName)];
             }
         }
+        
+        // calculate total score for SAT , PSAT , ACT
+        
+        if( is_array( $testParams1 ) ) {
+            foreach( $testParams1 as $test => $score ) {
+                if ( $test == 'act' ) {
+                    $totalScore[$test] = $score['score_composite'];
+                } else if($test == 'psat') {
+                    $totalScore[$test] = ( $score['score_math'] + $score['score_reading']) * 10;
+                } else if ( $test == 'sat' ) {
+                    $totalScore[$test] = ( $score['score_math'] + $score['score_reading']);
+                }
+            }
+        }
        
-
         // process sat II stuff
         foreach  ( $this->_multiTests as $testName => $testCount ) {
             for ( $i = 1; $i <= $testCount; $i++ ) { 
@@ -417,10 +429,22 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         // Insert  Student recornd  
         
         $values = $this->controller->exportValues( 'Personal' );
-        $values['score_SAT']     =  $totalScore['SAT'];
-        $values['score_PSAT']    =  $totalScore['PSAT'];
-        $values['score_ACT']     =  $totalScore['ACT'];
+        $values['score_SAT']     =  $totalScore['sat'];
+        $values['score_PSAT']    =  $totalScore['psat'];
+        $values['score_ACT']     =  $totalScore['act'];
         
+        
+
+        //add totol income for household
+        $income = null;
+        $totalIncome = $this->get('totalIncome');
+        if ( is_array( $totalIncome ) )  {
+            foreach( $totalIncome as $value ) {
+                $income = $income + $value;
+            }
+        }
+        $values['household_income_total'] = $income;
+
         if ( CRM_Utils_Array::value( 'test_tutoring', $params ) &&
              is_array( $params['test_tutoring'] ) &&
              ! empty( $params['test_tutoring'] ) ) {
