@@ -123,6 +123,73 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         return $pageName;
     }
 
+    /**
+     * Create the header for the wizard from the list of pages
+     * Store the created header in smarty
+     *
+     * @param string $currentPageName name of the page being displayed
+     * @return array
+     * @access public
+     */
+    function wizardHeader( $currentPageName ) {
+        $wizard          = array( );
+        $wizard['steps'] = array( );
+
+        $count           = 0;
+        
+        $sections = array( 'Guardian' => array( 'title' => 'Parent/Guardian Detail',
+                                                'valid' => true ),
+                           'Sibling'  => array( 'title' => 'Sibling Information',
+                                                'valid' => true ),
+                           'Income'   => array( 'title' => 'Household Income',
+                                                'valid' => true ) );
+
+        $subCount = 0;
+        foreach ( $this->_pages as $name => $page ) {
+            $subNames = explode( '-', $name );
+            $section  = true;
+            if ( CRM_Utils_Array::value( $subNames[0], $sections ) ) {
+                $section = false;
+                if ( $sections[$subNames[0]]['valid'] ) {
+                    $count++;
+                    $sections[$subNames[0]]['valid'] = false;
+                    $wizard['steps'][] = array( 'name'       => $name,
+                                                'title'      => $sections[$subNames[0]]['title'],
+                                                'link'       => $page->getLink ( ),
+                                                'section'    => true,
+                                                'stepNumber' => $count );
+                    $subCount = 1;
+                    $stepNumber = $count . ".$subCount";
+                } else {
+                    $subCount++;
+                    $stepNumber = $count . ".$subCount";
+                }
+            } else {
+                $count++;
+                $stepNumber = $count;
+            }
+
+            $wizard['steps'][] = array( 'name'       => $name,
+                                        'title'      => $page->getTitle( ),
+                                        'link'       => $page->getLink ( ),
+                                        'section'    => $section,
+                                        'stepNumber' => $stepNumber );
+
+            if ( $name == $currentPageName ) {
+                $wizard['currentStepNumber'] = $count;
+                $wizard['currentStepName']   = $name;
+                $wizard['currentStepTitle']  = $page->getTitle( );
+            }
+        }
+
+        $wizard['stepCount']         = $count;
+
+        $this->addWizardStyle( $wizard ); 
+
+        $this->assign( 'wizard', $wizard );
+        return $wizard;
+    }
+
     function addWizardStyle( &$wizard ) {
         $wizard['style'] = array('barClass'          => 'preApp',
                                  'stepPrefixCurrent' => ' ',
