@@ -29,16 +29,34 @@
     <td colspan=2 id="category">{ts}Academic Honors{/ts}</td>
 <tr>
 <tr>
-    <td colspan=2>{ts}Describe any honors you have been awarded since you entered high school.{/ts}</td>
+    <td colspan=2><p class="preapp-instruction">{ts}Describe any honors you have been awarded since you entered high school.{/ts}</p></td>
 </tr>
-<tr>
-    <td class="grouplabel">{$form.description_1.label}</td>
-    <td class="fieldlabel">{$form.description_1.html}<br/>honor</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.award_date_1.label}</td>
-    <td class="fieldlabel">{$form.award_date_1.html}</td>
-</tr>
+<tr><td colspan=2>
+{assign var=maxHonors value=7}
+{section name=rowLoop start=1 loop=$maxHonors}
+    {assign var=i value=$smarty.section.rowLoop.index}
+    <div id="honor_{$i}">
+    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+     <tr>
+        {assign var=description value="description_"|cat:$i}
+        <td class="grouplabel">{$form.$description.label}</td>
+        <td class="fieldlabel" width="75%"> {$form.$description.html}<br />{ts}Honor title or description{/ts}</td>
+    </tr>
+    <tr>
+        {assign var=award_date value="award_date_"|cat:$i}
+        <td class="grouplabel">{$form.$award_date.label}</td>
+        <td class="fieldlabel">
+            {$form.$award_date.html}
+            {if $i LT $maxHonors}
+                {assign var=j value=$i+1}
+                <br /><span id="honor_{$j}[show]">{$honor.$j.show}</span>
+            {/if}
+        </td>
+    </tr>
+    </table>
+    </div>
+{/section}
+</td></tr>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 

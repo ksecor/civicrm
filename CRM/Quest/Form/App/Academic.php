@@ -96,7 +96,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $studetDefaults ['class_rank'] = $studetDefaults ['is_class_ranking'];
         }
         
-        //set defaluts for honor
+        //set defaults for honor
         require_once 'CRM/Utils/Date.php';
         require_once 'CRM/Quest/DAO/Honor.php';
         $dao = & new CRM_Quest_DAO_Honor();
@@ -108,6 +108,18 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $defaults['award_date_'.$count] = CRM_Utils_Date::unformat( $dao->award_date,'-' );
         }
         $defaults = array_merge($defaults , $studetDefaults);
+
+        // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+        for ( $i = 2; $i <= 6; $i++ ) {
+            if ( CRM_Utils_Array::value( "description_$i", $defaults )) {
+                $this->_showHide->addShow( "honor_$i" );
+            } else {
+                $this->_showHide->addHide( "honor_$i" );
+            }
+        }
+        $this->_showHide->addToTemplate( );
+
         return $defaults;
     }
     
@@ -148,7 +160,10 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
                           $attributes['gpa_explanation'] );
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Honor');
-        for ( $i = 1; $i <= 5; $i++ ) {
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        // add up to 6 Honors
+        $honor = array( );
+        for ( $i = 1; $i <= 6; $i++ ) {
             $this->addElement('text', 'description_' . $i,
                               ts( 'Honors' ),
                               $attributes['description'] );
@@ -156,8 +171,14 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $this->addElement('date', 'award_date_' . $i,
                               null,
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
+            $honor[$i] = CRM_Core_ShowHideBlocks::links( $this,"honor_$i",
+                                                              ts('add another honor'),
+                                                              ts('hide this honor'),
+                                                              false );
         }
-        
+        // Assign showHide links to tpl
+        $this->assign( 'honor', $honor );
+
         parent::buildQuickForm( );
     }
 
@@ -189,10 +210,16 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $honors = array();
         foreach ( $honorParams as $key => $value ){
             $field = explode('_' , $key ) ;
-            if ($field[0] == 'description') {
-                $honors[$field[1]]['description'] = $value;
-            } else if ( $field[0] == 'award' && $field[1] == 'date' ) {
-                $honors[$field[2]]['award_date'] = CRM_Utils_Date::format( $value );;
+            // Only save the honor if description field is not empty
+            if ($field[0] == 'description' && $value != '') {
+                $filled = true;
+            }
+            if ( $filled ) {
+                if ($field[0] == 'description') {
+                    $honors[$field[1]]['description'] = $value;
+                } else if ( $field[0] == 'award' && $field[1] == 'date' ) {
+                    $honors[$field[2]]['award_date'] = CRM_Utils_Date::format( $value );;
+                }
             }
         }
         

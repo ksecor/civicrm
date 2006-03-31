@@ -215,8 +215,8 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
             $satII_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"satII_test_$i",
-                                                           ts('add another SAT II test score'),
-                                                           ts('hide this SAT II test'),
+                                                           ts('Add another SAT II test score'),
+                                                           ts('Hide this SAT II test'),
                                                            false );
         }
         $this->assign( 'satII_test', $satII_test );
