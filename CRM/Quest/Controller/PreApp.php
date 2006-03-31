@@ -147,17 +147,19 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         $subCount = 0;
         foreach ( $this->_pages as $name => $page ) {
             $subNames = explode( '-', $name );
-            $section  = true;
+            $step  = true;
             if ( CRM_Utils_Array::value( $subNames[0], $sections ) ) {
-                $section = false;
+                $step      = false;
+                $collapsed = true;
                 if ( $sections[$subNames[0]]['valid'] ) {
                     $count++;
                     $sections[$subNames[0]]['valid'] = false;
                     $wizard['steps'][] = array( 'name'       => $name,
                                                 'title'      => $sections[$subNames[0]]['title'],
                                                 'link'       => $page->getLink ( ),
-                                                'section'    => true,
-                                                'stepNumber' => $count );
+                                                'step'       => true,
+                                                'stepNumber' => $count,
+                                                'collapsed'  => false );
                     $subCount = 1;
                     $stepNumber = $count . ".$subCount";
                 } else {
@@ -167,13 +169,15 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
             } else {
                 $count++;
                 $stepNumber = $count;
+                $collapsed  = false;
             }
 
             $wizard['steps'][] = array( 'name'       => $name,
                                         'title'      => $page->getTitle( ),
                                         'link'       => $page->getLink ( ),
-                                        'section'    => $section,
-                                        'stepNumber' => $stepNumber );
+                                        'step'       => $step,
+                                        'stepNumber' => $stepNumber,
+                                        'collapsed'  => $collapsed );
 
             if ( $name == $currentPageName ) {
                 $wizard['currentStepNumber'] = $count;
