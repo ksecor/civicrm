@@ -15,7 +15,10 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.custom_1.label}</td>
-    <td class="fieldlabel">{$form.custom_1.html}</td>
+    <td class="fieldlabel">
+        {$form.custom_1.html|crmReplace:class:six}<br />
+        <a href="javascript:popUp('http://questscholars.stanford.edu/help_popup/ceeb.html')">{ts}Click here</a> to locate your CEEB school code.{/ts}
+    </td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.date_of_entry.label}</td>
@@ -27,17 +30,17 @@
          {ts}Number and Street (including apartment number){/ts}</td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.location.1.address.city.html}<br/></td>
+    <td class="fieldlabel">{$form.location.1.address.city.html}<br/>{ts}City{/ts}</td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.location.1.address.state_province_id.html}<br/></td>
+    <td class="fieldlabel">{$form.location.1.address.state_province_id.html}<br/>{ts}State or Province{/ts}</td>
 </tr>
 <tr>
     <td class="fieldlabel">{$form.location.1.address.postal_code.html} - {$form.location.1.address.postal_code_suffix.html}<br />
         {ts}USA Zip Code (Zip Plus 4 if available) OR International Postal Code{/ts}</td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.location.1.address.country_id.html}</td>
+    <td class="fieldlabel">{$form.location.1.address.country_id.html}<br />{ts}Country{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.location.1.phone.1.phone.label}</td>
@@ -49,10 +52,10 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.custom_3.label}</td>
-    <td class="fieldlabel"> {$form.custom_3.html}</td>
+    <td class="fieldlabel"> {$form.custom_3.html|crmReplace:class:four}</td>
 </tr>
 <tr>
-    <td colspan=2>{ts}If you attended another high school prior to the one above, click to add another{/ts}</td>
+    <td colspan=2>{ts}If you attended another high school prior to the one above, click to add another. NOTE: Add another school is TBD (dgg){/ts}</td>
 
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

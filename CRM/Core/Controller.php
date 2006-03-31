@@ -394,6 +394,9 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
                                   'stepPrefixCurrent' => '&raquo;',
                                   'stepPrefixPast' => '&radic;',
                                   'stepPrefixFuture' => ' ',
+                                  'subStepPrefixCurrent' => '&nbsp;&nbsp;',
+                                  'subStepPrefixPast' => '&nbsp;&nbsp;',
+                                  'subStepPrefixFuture' => '&nbsp;&nbsp;',
                                   'showTitle' => 1 );
     }
 
