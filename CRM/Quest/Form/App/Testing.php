@@ -47,6 +47,11 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
 {
     static $_testIDs = array();
 
+    protected $_tests;
+    protected $_multiTests;
+    protected $_sections;
+    protected $_parts;
+
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -76,11 +81,11 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                 $count = count($this->_testIDs['satII']) + 1;
                 $this->_testIDs['satII'][$count] = $dao->id;
             } else {
-                $count = count($this->_testIDs[$testTypes[$dao->test_id]]) + 1;
-                $this->_testIDs[strtolower($testTypes[$dao->test_id])][$count] = $dao->id;
+                $count = count($this->_testIDs['ap']) + 1;
+                $this->_testIDs['ap'][$count] = $dao->id;
             }
         }
-       
+
         //set the default values
         $subject = array('english','reading','criticalReading','writing','math','science','composite','total');
         foreach ($this->_testIDs as $test => $value ) {
@@ -158,21 +163,24 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Test' );
 
-        $params = array( 'English'          => 1,
-                         'Reading'          => 1,
-                         'CriticalReading'  => 6,
-                         'Writing'          => 7,
-                         'Math'             => 7,
-                         'Science'          => 1,
-                         'Composite'        => 1,
-                         'Total'            => 6 );
+        $this->_sections = array( 'English'          => 1,
+                                  'Reading'          => 1,
+                                  'CriticalReading'  => 6,
+                                  'Writing'          => 7,
+                                  'Math'             => 7,
+                                  'Science'          => 1,
+                                  'Composite'        => 1,
+                                  'Total'            => 6 );
 
-        $tests = array( 'act'  => 1,
-                        'psat' => 2,
-                        'sat'  => 4 );
+        $this->_tests = array( 'act'  => 1,
+                               'psat' => 2,
+                               'sat'  => 4 );
 
-        foreach ( $tests as $testName => $testValue ) {
-            foreach ( $params as $name => $value ) {
+        $this->_multiTests = array( 'satII' => 5,
+                                    'ap'    => 32 );
+
+        foreach ( $this->_tests as $testName => $testValue ) {
+            foreach ( $this->_sections as $name => $value ) {
                 if ( $value & $testValue ) {
                     $this->addElement( 'text',
                                        $testName . '_' . strtolower( $name ),
@@ -258,50 +266,78 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $totalScore = array();
 
         require_once 'CRM/Utils/Date.php';
-        foreach ( $testSet1 as  $sub ) {
-            foreach ( $params as $key => $value  ) {
-                $keyArray = explode( '_' ,$key );
-                if ( $keyArray[0] == $sub ) {
-                    if ( $keyArray[1] == 'date' ) {
-                        $testParams1[$sub]["test_".$keyArray[1]]  = CRM_Utils_Date::format( $value );
-                    } else if ( $keyArray[1] == 'total' ) {
-                        $testParams1[$sub]["score_composite"]     = $value;
-                        $totalScore[strtoupper($sub)] = $value;
-                    } else if ($keyArray[1] == 'criticalreading') {
-                        $testParams1[$sub]["score_reading"] = $value;
-                    } else {
-                        $testParams1[$sub]["score_".$keyArray[1]] = $value;
+
+        foreach ( $this->_tests as $testName => $testValue ) {
+            $filled = false;
+            foreach ( $this->_sections as $name => $value ) {
+                if ( $value & $testValue ) {
+                    $key   = $testName . '_' . strtolower( $name );
+                    $value = $params[$key];
+                    if ( ! empty( $value ) ) {
+                        $filled = true;
+                        if ( $name == 'Total' ) {
+                            $testParams1[$testName]["score_composite"] = $value;
+                            $totalScore[strtoupper($testName)] = $value;
+                        } else if ($name == 'CriticalReading') {
+                            $testParams1[$testName]["score_reading"] = $value;
+                        } else {
+                            $testParams1[$testName]["score_" . strtolower( $name )] = $value;
+                        }
                     }
                 }
             }
-            $testParams1[$sub]['contact_id'] = $contactId;
-            $testParams1[$sub]['test_id']    = $testTypes[strtoupper($sub)];
+            
+            $key   = "{$testName}_date";
+            $value = $params[$key]; 
+            if ( ! CRM_Utils_System::isNull( $value ) ) {
+                $filled = true;
+                $testParams1[$testName]["test_date"] = CRM_Utils_Date::format( $value );
+            }
+
+            if ( $filled ) {
+                $testParams1[$testName]['contact_id'] = $contactId;
+                $testParams1[$testName]['test_id']    = $testTypes[strtoupper($testName)];
+            }
         }
        
-        $testParams2 = array();
-        foreach ( $testSet2 as $sub ){
-            foreach ( $params as $key => $value  ) {
-                $keyArray = explode('_' , $key ) ;
-                if ( $keyArray[0] == $sub ) {
-                    $testID = $keyArray[2];
-                    if ( $keyArray[1] == 'date' ) {
-                        $testParams2[$sub][$testID]["test_".$keyArray[1]] =  CRM_Utils_Date::format( $value );
-                    } else if ($keyArray[1] == 'score') { 
-                        $testParams2[$sub][$testID]["score_composite"] = $value;
-                    } else {
-                        $testID = $keyArray[3];
-                        $testParams2[$sub][$testID][$keyArray[1]] = $value;
-                    }
-                    $testParams2[$sub][$testID]['contact_id'] = $contactId;
-                    if ( $sub == "satII" ) {
-                        $testParams2[$sub][$testID]['test_id']    = $testTypes[strtoupper('sat II')];
-                    } else {
-                        $testParams2[$sub][$testID]['test_id']    = $testTypes[strtoupper($sub)];
-                    }
+
+        // process sat II stuff
+        foreach  ( $this->_multiTests as $testName => $testCount ) {
+            for ( $i = 1; $i <= $testCount; $i++ ) { 
+                $filled = false;
+
+                $key   = "{$testName}_subject_id_$i";
+                $value = $params[$key];
+                if ( ! empty( $value ) ) {
+                    $filled = true;
+                    $testParams2[$testName][$i]["subject"] = $value;
                 }
                 
+                $key   = "{$testName}_score_$i";
+                $value = $params[$key];
+                if ( ! empty( $value ) ) {
+                    $filled = true;
+                    $testParams2[$testName][$i]["score_composite"] = $value;
+                }
+                
+                $key   = "{$testName}_date_$i";
+                $value = $params[$key];
+                if ( ! CRM_Utils_System::isNull( $value ) ) {
+                    $filled = true;
+                    $testParams2[$testName][$i]["test_date"] = CRM_Utils_Date::format( $value );
+                }
+                
+                if ( $filled ) {
+                    $testParams2[$testName][$i]['contact_id'] = $contactId;
+                    if ( $testName == 'satII' ) {
+                        $testParams2[$testName][$i]['test_id']    = $testTypes[strtoupper('sat II')];
+                    } else {
+                        $testParams2[$testName][$i]['test_id']    = $testTypes[strtoupper($testName)];
+                    }
+                }
             }
         }
+                        
         require_once 'CRM/Quest/BAO/Test.php';
         
         $this->_testIDs = $this->get( 'testIDs' );
