@@ -183,6 +183,7 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                 $wizard['currentStepNumber'] = $stepNumber;
                 $wizard['currentStepName']   = $name;
                 $wizard['currentStepTitle']  = $page->getTitle( );
+                $wizard['currentStepRootTitle'] = null;
             }
         }
 
@@ -193,6 +194,9 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
 
             // fix collapsed of sub section
             foreach ( $wizard['steps'] as $idx => $value ) {
+                if ( $value['stepNumber'] == $one ) {
+                    $wizard['currentStepRootTitle'] = $value['title'] . ': ';
+                }
                 list( $three, $four ) = explode( '.', $value['stepNumber'] );
                 if ( $one == $three ) {
                     $wizard['steps'][$idx]['collapsed'] = false;

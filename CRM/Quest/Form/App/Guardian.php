@@ -244,7 +244,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 
         // fix the details array
         $details = $this->controller->get( 'householdDetails' );
-        $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']} Details";
+        $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']}";
         $details[$this->_name]['options']['personID'] = $person->id;
         $details[$this->_name]['options']['relationshipID'] = $this->_relationshipID;
         $details[$this->_name]['options']['relationshipName'] = $relationshipName;

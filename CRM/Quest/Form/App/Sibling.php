@@ -148,7 +148,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 
         // fix the details array
         $details = $this->controller->get( 'siblingDetails' );
-        $details[$this->_name]['title']   = "Sibling {$params['first_name']} {$params['last_name']}";
+        $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']}";
         $details[$this->_name]['options']['siblingID'] = $sibling->id;
         $this->controller->set( 'siblingDetails', $details );
     }
@@ -176,7 +176,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
             $i = 1;
             while ( $dao->fetch( ) ) {
                 $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling',
-                                                  'title' => trim( "Sibling {$dao->first_name} {$dao->last_name}" ),
+                                                  'title' => trim( "{$dao->first_name} {$dao->last_name}" ),
                                                   'options' => array( 'index' => $i,
                                                                       'siblingID' => $dao->id ) );
                 $i++;

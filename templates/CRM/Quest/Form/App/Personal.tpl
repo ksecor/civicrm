@@ -2,8 +2,7 @@
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
-    <td colspan=2 id="category">{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}
-</td>
+    <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
     <td rowspan=4 valign=top class="grouplabel" width="30%">

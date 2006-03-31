@@ -271,7 +271,7 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
         if ( ! CRM_Utils_Array::value( "Guardian-Mother", $details ) ) {
             $relationshipID = array_search( 'Mother', $relationship );
             $details["Guardian-Mother"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
-                                                 'title' => "Mother Details",
+                                                 'title' => "Mother",
                                                  'options' => array( 'personID'         => null,
                                                                      'relationshipID'   => $relationshipID,
                                                                      'relationshipName' => 'Mother' ) );
@@ -280,7 +280,7 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
         if ( ! CRM_Utils_Array::value( "Guardian-Father", $details ) ) {
             $relationshipID = array_search( 'Father', $relationship );
             $details["Guardian-Father"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
-                                                 'title' => "Father Details",
+                                                 'title' => "Father",
                                                  'options' => array( 'personID'         => null,
                                                                      'relationshipID'   => $relationshipID,
                                                                      'relationshipName' => 'Father' ) );
@@ -346,7 +346,7 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
             $pageName = "Guardian-{$personID}";
         }
         $details[$pageName] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
-                                     'title' => "$name Details",
+                                     'title' => "$name",
                                      'options' => array( 'personID'         => $personID,
                                                          'relationshipID'   => $relationshipID,
                                                          'relationshipName' => $relationshipName ) );
@@ -376,7 +376,7 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
                     $pageName = "Guardian-{$dao->id}";
                 }
                 $details[$pageName] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
-                                             'title' => "$name Details",
+                                             'title' => "$name",
                                              'options' => array( 'personID'       => $dao->id,
                                                                  'relationshipID' => $dao->relationship_id,
                                                                  'relationshipName' => $relationshipName ) );
@@ -385,7 +385,7 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
             if ( ! CRM_Utils_Array::value( "Guardian-Mother", $details ) ) {
                 $relationshipID = array_search( 'Mother', $relationship );
                 $details["Guardian-Mother"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
-                                                     'title' => "Mother Details",
+                                                     'title' => "Mother",
                                                      'options' => array( 'personID'         => null,
                                                                          'relationshipID'   => $relationshipID,
                                                                          'relationshipName' => 'Mother' ) );
@@ -394,7 +394,7 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
             if ( ! CRM_Utils_Array::value( "Guardian-Father", $details ) ) {
                 $relationshipID = array_search( 'Father', $relationship );
                 $details["Guardian-Father"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
-                                                     'title' => "Father Details",
+                                                     'title' => "Father",
                                                      'options' => array( 'personID'         => null,
                                                                          'relationshipID'   => $relationshipID,
                                                                          'relationshipName' => 'Father' ) );

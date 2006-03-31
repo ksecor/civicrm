@@ -184,7 +184,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         $details = $this->controller->get( 'incomeDetails' );
         $details[ $this->_name ] =
             array( 'className' => 'CRM_Quest_Form_App_Income',
-                   'title'     => "{$params['first_name']} {$params['last_name']} Income Details",
+                   'title'     => "{$params['first_name']} {$params['last_name']}",
                    'options'   => array( 'personID'   => $this->_personID,
                                          'incomeID'   => $income->id,
                                          'lastSource' => false ) );
@@ -240,7 +240,7 @@ WHERE  i.person_id = p.id
                 if ( $person->find( true ) ) {
                     $details[ "Income-{$dao->person_id}"] =
                         array( 'className' => 'CRM_Quest_Form_App_Income',
-                               'title'     => "{$person->first_name} {$person->last_name} Income Details",
+                               'title'     => "{$person->first_name} {$person->last_name}",
                                'options'   => array( 'personID'   => $person->id,
                                                      'incomeID'   => $dao->id,
                                                      'lastSource' => false ) );
@@ -263,7 +263,7 @@ WHERE  i.person_id = p.id
                      $dao->industry_id != CRM_Quest_Form_App_Guardian::INDUSTRY_UNEMPLOYED ) {
                     $details[ "Income-{$dao->person_id}"] =
                         array( 'className' => 'CRM_Quest_Form_App_Income',
-                               'title'     => "{$dao->first_name} {$dao->last_name} Income Details",
+                               'title'     => "{$dao->first_name} {$dao->last_name}",
                                'options'   => array( 'personID'   => $dao->id,
                                                      'incomeID'   => null,
                                                      'lastSource' => false ) );
