@@ -224,7 +224,6 @@
        <name>is_home_computer</name>
        <type>boolean</type>
        <default>NULL</default>
-       <default>0</default>
        <export>true</export>
        <import>true</import>
        <headerPattern>/home computer/i</headerPattern>
@@ -234,7 +233,7 @@
   <field>
        <name>is_home_internet</name>
        <type>boolean</type>
-       <default>0</default>
+       <default>NULL</default>
        <export>true</export>
        <import>true</import>
        <headerPattern>/home internet/i</headerPattern>
@@ -244,8 +243,8 @@
   <field>
        <name>is_take_SAT_ACT</name>
        <type>boolean</type>
-        <default>0</default>
-        <export>true</export>
+       <default>NULL</default>
+       <export>true</export>
        <import>true</import>
        <headerPattern>/take SAT/i</headerPattern>
        <comment>Plans on taking SAT or ACT test.</comment>
@@ -337,6 +336,16 @@
        <headerPattern>/gpa/i</headerPattern>
        <add>1.5</add>
   </foreignKey>
+  <field>
+       <name>is_class_ranking</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/class ranking/i</headerPattern>
+       <comment>Does students class have rankings.</comment>
+       <add>1.5</add>
+  </field>
   <field>
       <name>class_rank</name>
       <type>int unsigned</type>

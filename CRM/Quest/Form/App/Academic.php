@@ -208,7 +208,9 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         // to add honour records 
         require_once 'CRM/Utils/Date.php';
         $honors = array();
+        
         foreach ( $honorParams as $key => $value ){
+            $filled = false;
             $field = explode('_' , $key ) ;
             // Only save the honor if description field is not empty
             if ($field[0] == 'description' && $value != '') {
