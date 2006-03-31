@@ -35,8 +35,13 @@
     <td class="fieldlabel">{$form.deceased_year_date.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.age.label}</td>
-    <td class="fieldlabel">{$form.age.html}</td>
+    <td class="grouplabel">{$form.birth_date.label}</td>
+    <td class="fieldlabel">{$form.birth_date.html}
+     <div class="description"> 
+        {include file="CRM/common/calendar/desc.tpl"}
+     </div>
+        {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear}
+    </td>
 </tr>
 <tr>
     <td class="grouplabel"><label>{ts}How long have you lived with this person?{/ts}</label></td>

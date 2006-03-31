@@ -82,7 +82,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
             
             // format date
             require_once 'CRM/Utils/Date.php';
-            $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year');
+            $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year','birth_date');
             foreach( $dateFields as $field ) {
                 $date = CRM_Utils_Date::unformat( $defaults[$field],'-' );  
                 if (! empty( $date) ) {
@@ -129,11 +129,19 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            ts( 'Year Deceased' ),
                            CRM_Core_SelectValues::date( 'custom', 50, 1, "Y" ) );
         
-        $this->addElement( 'text', "age",
+        /*$this->addElement( 'text', "age",
                            ts('Age'),
                            $attributes['age'] );
         $this->addRule('age',ts('Please enter current Age for this person.'),'required');
-        $this->addRule('age',ts('Please enter a valid number for the Age of this person.'),'integer');
+        $this->addRule('age',ts('Please enter a valid number for the Age of this person.'),'integer');*/
+
+        $this->addElement('date', 'birth_date',
+                          ts(' Birthdate (month/day/year)'),
+                          CRM_Core_SelectValues::date('custom', 25, -10, "M\001d\001Y" ),
+                          true);
+           
+        $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
+
 
         $this->add( 'text', "lived_with_from_age", ts( 'From Age' ),
                            $attributes['lived_with_from_age'], true );
@@ -202,7 +210,9 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $errors = array( );
-
+        if ((!$params['birth_date']['M']) && (!$params['birth_date']['D']) && (!$params['birth_date']['Y']) ) {
+            $errors["birth_date"] = "Please enter your Birthdate";
+        }
         return empty($errors) ? true : $errors;
     }
 
@@ -229,7 +239,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 
         // format date
         require_once 'CRM/Utils/Date.php';
-        $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year');
+        $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year','birth_date');
         foreach( $dateFields as $field ) {
             $date = CRM_Utils_Date::format( $params[$field]);  
             if (! empty( $date) ) {

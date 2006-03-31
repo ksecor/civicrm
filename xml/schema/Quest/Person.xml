@@ -104,9 +104,9 @@
        <add>1.5</add>
   </field>
   <field>
-      <name>age</name>
-      <type>int unsigned</type>
-      <comment>Persons age (years).</comment>
+      <name>birth_date</name>
+      <type>date</type>
+      <comment>Persons birth date .</comment>
       <add>1.5</add>
   </field>
   <field>
