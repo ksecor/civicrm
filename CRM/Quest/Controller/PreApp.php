@@ -180,13 +180,25 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                                         'collapsed'  => $collapsed );
 
             if ( $name == $currentPageName ) {
-                $wizard['currentStepNumber'] = $count;
+                $wizard['currentStepNumber'] = $stepNumber;
                 $wizard['currentStepName']   = $name;
                 $wizard['currentStepTitle']  = $page->getTitle( );
             }
         }
 
         $wizard['stepCount']         = $count;
+
+        if ( strpos( $wizard['currentStepNumber'], '.' ) !== false ) {
+            list( $one, $two ) = explode( '.', $wizard['currentStepNumber'] );
+
+            // fix collapsed of sub section
+            foreach ( $wizard['steps'] as $idx => $value ) {
+                list( $three, $four ) = explode( '.', $value['stepNumber'] );
+                if ( $one == $three ) {
+                    $wizard['steps'][$idx]['collapsed'] = false;
+                }
+            }
+        }
 
         $this->addWizardStyle( $wizard ); 
 
