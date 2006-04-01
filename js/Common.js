@@ -135,12 +135,23 @@ function showHideByValue(trigger_field_id, trigger_value, target_element_id, tar
         }
  
     } else if (field_type == 'radio') {
-	if (document.getElementsByName(trigger_field_id)[0].checked) {
-	    show(target_element_id, target_element_type);
-        } else {
-	    hide(target_element_id, target_element_type);
-        }
-    
+
+        var target = target_element_id.split("|");
+        for(var j = 0; j < target.length; j++) {
+	    if (document.getElementsByName(trigger_field_id)[0].checked) {
+		if ( invert ) {  
+		    hide(target[j], target_element_type);
+		} else {
+		    show(target[j], target_element_type);
+		 }
+	    } else {
+		if ( invert ) {  
+		    show(target[j], target_element_type);
+		} else {
+		    hide(target[j], target_element_type);
+		}
+	    }
+	}
     }
 }
 
