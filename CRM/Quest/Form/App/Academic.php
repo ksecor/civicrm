@@ -80,6 +80,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
+        require_once 'CRM/Quest/DAO/Student.php';
         $defaults       = array( );
  
         $session =& CRM_Core_Session::singleton( );
@@ -91,9 +92,6 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
                 $this->_studentId = $dao->id;
                 CRM_Core_DAO::storeValues( $dao , $defaults );
             }
-        }
-        if ( $defaults ['class_rank'] ) {
-            $defaults ['class_rank'] = $defaults ['is_class_ranking'];
         }
         
         //set defaults for honor
@@ -119,7 +117,6 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             }
         }
         $this->_showHide->addToTemplate( );
-
         return $defaults;
     }
     

@@ -291,7 +291,38 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     }
                 }
             }
+        }
 
+        $multiTests = array( 'satII' => 5,
+                             'ap'    => 32 );
+        
+        foreach  (  $multiTests as $testName => $testCount ) { 
+            for ( $i = 1; $i <= $testCount; $i++ ) { 
+                
+                $subjectKey   = "{$testName}_subject_id_$i";
+                $valueSubject  = $params[$subjectKey];
+                
+                if ( $testName != 'ap' ) {
+                    $scoreKey   = "{$testName}_score_$i";
+                } else {
+                    $scoreKey   = "{$testName}_score_id_$i";
+                }
+                
+                $valueScore = $params[$scoreKey];
+                
+                $valueDate = "{$testName}_date_{$i}";
+
+                if ( $valueSubject || $valueScore  ) {
+                    if ( !$params[$valueDate]['M'] || !$params[$valueDate]['Y'] ) {
+                        $errors[$valueDate] = "Please enter the valid date for ". strtoupper($testName);
+                    }
+                    if ( !$valueScore ) {
+                        $errors[$scoreKey]= "Please enter the ".strtoupper($testName)." score.";
+                    } else if( !$valueSubject ) {
+                        $errors[$subjectKey]= "Please enter the ".strtoupper($testName)." subject.";
+                    }
+                }
+            }
         }
 
         return empty($errors) ? true : $errors;
@@ -365,7 +396,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         }
        
         // process sat II/ ap stuff
-        foreach  ( $this->_multiTests as $testName => $testCount ) {
+        foreach  ( $this->_multiTests as $testName => $testCount ) { 
             for ( $i = 1; $i <= $testCount; $i++ ) { 
                 $filled = false;
 
