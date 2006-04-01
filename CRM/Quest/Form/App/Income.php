@@ -78,7 +78,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         if ( $this->_incomeID ) {
             require_once 'CRM/Quest/DAO/Income.php';
             $dao = & new CRM_Quest_DAO_Income();
-            $dao->person_id = $this->_incomeID;
+            $dao->id = $this->_incomeID;
             if ($dao->find(true)) {
                 CRM_Core_DAO::storeValues( $dao , $defaults );
             }
@@ -172,6 +172,8 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             $personParams['contact_id'] = $this->get( 'contact_id' );
             $relationship = CRM_Core_OptionGroup::values( 'relationship' );
             $personParams['relationship_id'] = array_search( 'Other', $relationship );
+            
+            $ids = array( );
             require_once 'CRM/Quest/BAO/Person.php';
             $person = CRM_Quest_BAO_Person::create( $personParams , $ids );
             $this->_personID = $person->id;
@@ -179,7 +181,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
 
         $params['person_id']   = $this->_personID;
         
-        $ids['id'] = $this->_incomeID;
+        $ids = array( 'id' => $this->_incomeID );
 
         require_once 'CRM/Quest/BAO/Income.php';
         $income = CRM_Quest_BAO_Income::create( $params , $ids );
@@ -234,6 +236,8 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         }
         
         $this->controller->set( 'incomeDetails', $details );
+
+        $this->controller->rebuild( );
     }
     
 
@@ -248,10 +252,10 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         return $this->_title ? $this->_title : ts('Household Income');
     }
 
-    static function &getPages( &$controller ) {
+    static function &getPages( &$controller, $reset = false ) {
         $details = $controller->get( 'incomeDetails' );
-        $details = null;
-        if ( ! $details ) {
+
+        if ( ! $details || $reset ) {
             $cid = $controller->get( 'contact_id' ); 
             $last = null;
             require_once 'CRM/Quest/DAO/Income.php';
@@ -294,13 +298,13 @@ WHERE  i.person_id = p.id
                 if ( ! CRM_Utils_Array::value( "Income-{$dao->id}", $details ) &&
                      $dao->industry_id &&
                      $dao->industry_id != CRM_Quest_Form_App_Guardian::INDUSTRY_UNEMPLOYED ) {
-                    $details[ "Income-{$dao->person_id}"] =
+                    $details[ "Income-{$dao->id}"] =
                         array( 'className' => 'CRM_Quest_Form_App_Income',
                                'title'     => "{$dao->first_name} {$dao->last_name}",
                                'options'   => array( 'personID'   => $dao->id,
                                                      'incomeID'   => null,
                                                      'lastSource' => false ) );
-                    $last = "Income-{$dao->person_id}";
+                    $last = "Income-{$dao->id}";
                 }
             }
             if ( $last ) {

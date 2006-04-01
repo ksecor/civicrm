@@ -93,13 +93,13 @@ class CRM_Core_State {
      * @return object
      * @access public
      */
-    function __construct( $name, $type, $back, $next, $stateMachine ) {
+    function __construct( $name, $type, $back, $next, &$stateMachine ) {
         $this->_name  = $name;
         $this->_type  = $type;
         $this->_back  = $back;
         $this->_next  = $next;
     
-        $this->_stateMachine = $stateMachine;
+        $this->_stateMachine =& $stateMachine;
     }
 
     /**

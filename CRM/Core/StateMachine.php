@@ -155,7 +155,7 @@ class CRM_Core_StateMachine {
         }
 
         $state =& $this->_states[$pageName];
-
+        
         // dont know how or why we landed here so abort and display
         // current page
         if ( empty($state) ) {

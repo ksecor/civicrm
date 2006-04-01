@@ -221,6 +221,13 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                                  'showTitle'            => 0 );
     }
 
+    function rebuild( ) {
+        $this->_stateMachine->rebuild( $this );
+
+        $this->_pages = array( );
+        $this->addPages( $this->_stateMachine );
+    }
+
 }
 
 ?>

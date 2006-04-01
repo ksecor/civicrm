@@ -55,6 +55,13 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
     function __construct( &$controller, $action = CRM_Core_Action::NONE ) {
         parent::__construct( $controller, $action );
 
+        $this->rebuild( $controller, $action );
+    }
+
+    public function rebuild( &$controller, $action = CRM_Core_Action::NONE ) {
+        // ensure the states array is reset
+        $this->_states = array( );
+
         $firstPages = array(
                             'CRM_Quest_Form_App_Personal'     => null,
                             'CRM_Quest_Form_App_Scholarship'  => null,
@@ -62,14 +69,13 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                             'CRM_Quest_Form_App_Household'    => null,
                             );
 
-        require_once 'CRM/Quest/Form/App/Household.php';
-        $householdPages  =& CRM_Quest_Form_App_Household::getPages( $controller );
-
-        require_once 'CRM/Quest/Form/App/Sibling.php';
-        $siblingPages    =& CRM_Quest_Form_App_Sibling::getPages  ( $controller );
-
-        require_once 'CRM/Quest/Form/App/Income.php';
-        $incomePages     =& CRM_Quest_Form_App_Income::getPages   ( $controller );
+        $dynamic = array( 'Household', 'Sibling', 'Income' );
+        $dynamicPages = array( );
+        foreach ( $dynamic as $d ) {
+            require_once "CRM/Quest/Form/App/$d.php";
+            eval( '$pages =& CRM_Quest_Form_App_' . $d . '::getPages( $controller );' );
+            $dynamicPages = array_merge( $dynamicPages, $pages );
+        }
 
         $lastPages = array(
                            'CRM_Quest_Form_App_HighSchool'   => null,
@@ -80,8 +86,10 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                            'CRM_Quest_Form_App_Submit'       => null,
                            );
 
-        $this->_pages = array_merge( $firstPages, $householdPages, $siblingPages, $incomePages, $lastPages );
+        $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages );
+
         $this->addSequentialPages( $this->_pages, $action );
+
     }
 
     public function &getDependency( ) {

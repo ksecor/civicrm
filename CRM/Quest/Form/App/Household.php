@@ -287,6 +287,9 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
         }
 
         $this->set( 'householdDetails', $details );
+
+        $this->controller->rebuild( );
+
     }//end of function 
 
     public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j ) {
@@ -353,10 +356,10 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
         return $personID;
     }
 
-    static function &getPages( &$controller ) {
+    static function &getPages( &$controller, $reset = false ) {
         $details       = $controller->get( 'householdDetails' );
 
-        if ( ! $details ) {
+        if ( ! $details || $reset ) {
             $cid = $controller->get( 'contact_id' ); 
             require_once 'CRM/Quest/DAO/Person.php';
             $dao =& new CRM_Quest_DAO_Person( );

@@ -64,8 +64,9 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $dao = & new CRM_Quest_DAO_Honor();
         $dao->contact_id = $contactId;
         $dao->find();
+        $count = 0;
         while ( $dao->fetch() ) {
-            $count = count($this->_honorIds) + 1;
+            $count++;
             $this->_honorIds[$count] = $dao->id;
         }
         
@@ -80,7 +81,6 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults       = array( );
-        $studetDefaults = array( );
  
         $session =& CRM_Core_Session::singleton( );
         $contactId = $session->get( 'userID' );
@@ -89,11 +89,11 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $dao->contact_id = $contactId;
             if ($dao->find(true)) {
                 $this->_studentId = $dao->id;
-                CRM_Core_DAO::storeValues( $dao , $studetDefaults );
+                CRM_Core_DAO::storeValues( $dao , $defaults );
             }
         }
-        if ( $studetDefaults ['class_rank'] ) {
-            $studetDefaults ['class_rank'] = $studetDefaults ['is_class_ranking'];
+        if ( $defaults ['class_rank'] ) {
+            $defaults ['class_rank'] = $defaults ['is_class_ranking'];
         }
         
         //set defaults for honor
@@ -102,12 +102,12 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $dao = & new CRM_Quest_DAO_Honor();
         $dao->contact_id = $contactId;
         $dao->find();
+        $count = 0;
         while ( $dao->fetch() ) {
-            $count = count($defaults) + 1;
-            $defaults['description_'.$count] = $dao->description;
-            $defaults['award_date_'.$count] = CRM_Utils_Date::unformat( $dao->award_date,'-' );
+            $count++;
+            $defaults["description_$count"] = $dao->description;
+            $defaults["award_date_$count" ] = CRM_Utils_Date::unformat( $dao->award_date,'-' );
         }
-        $defaults = array_merge($defaults , $studetDefaults);
 
         // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
@@ -195,9 +195,9 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $values = $this->controller->exportValues( 'Personal' );
         $params = array_merge( $params,$values );
        
-        $id = $this->get('id');
+        $id         = $this->get('id');
         $contact_id = $this->get('contact_id');
-        //$ids = array('id'=>$id ,'contact_id' => $contact_id);
+
         $ids = array();
         $ids['id'] = $id;
         $ids['contact_id'] = $contact_id;
@@ -208,23 +208,15 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         // to add honour records 
         require_once 'CRM/Utils/Date.php';
         $honors = array();
-        
-        foreach ( $honorParams as $key => $value ){
-            $filled = false;
-            $field = explode('_' , $key ) ;
-            // Only save the honor if description field is not empty
-            if ($field[0] == 'description' && $value != '') {
-                $filled = true;
-            }
-            if ( $filled ) {
-                if ($field[0] == 'description') {
-                    $honors[$field[1]]['description'] = $value;
-                } else if ( $field[0] == 'award' && $field[1] == 'date' ) {
-                    $honors[$field[2]]['award_date'] = CRM_Utils_Date::format( $value );;
-                }
+
+        for ( $i = 1; $i <= 6; $i++ ) {
+            if ( ! empty( $params[ "description_$i" ] ) &&
+                 ! CRM_Utils_System::isNull( $params[ "award_date_$i" ] ) ) {
+                $honors[$i]['description'] = $params[ "description_$i" ];
+                $honors[$i]['award_date'] = CRM_Utils_Date::format( $params[ "award_date_$i" ] );
             }
         }
-        
+
         require_once 'CRM/Quest/BAO/Honor.php';
         $this->_honorIds = $this->get( 'honorIds');
         foreach ( $honors as $key => $honor ) {

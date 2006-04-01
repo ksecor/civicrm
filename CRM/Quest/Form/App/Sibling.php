@@ -106,10 +106,11 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         
         $this->addSelect('sibling_relationship', ts( 'Relationship to you' ),null ,true );
        
-        $this->addElement( 'text', "age",
-                           ts('Age'),
-                           $attributes['age'] );
-        $this->addRule('age',ts('Please Enter Age'),'required');
+        $this->addElement('date', 'birth_date',
+                          ts(' Birthdate (month/day/year)'),
+                          CRM_Core_SelectValues::date('custom', 60, 0, "M\001d\001Y" ),
+                          true);
+        $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
 
         $this->addElement( 'text', "lived_with_from_age", ts( 'From Age' ),
                            $attributed['lived_with_from_age'] );
@@ -138,6 +139,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         $params['relationship_id'] = $params['sibling_relationship_id'];
         $params['contact_id']      = $this->get('contact_id'); 
         $params['is_sibling']      = true;
+        $params['birth_date']      = CRM_Utils_Date::format( $params['birth_date'] );
 
         require_once 'CRM/Quest/BAO/Person.php';
 
@@ -164,9 +166,9 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         return $this->_title ? $this->_title : ts('Sibling Information');
     }
 
-    static function &getPages( &$controller ) {
+    static function &getPages( &$controller, $reset = false ) {
         $details = $controller->get( 'siblingDetails' );
-        if ( ! $details ) {
+        if ( ! $details || $details ) {
             // now adjust the ones that have a record in them
             require_once 'CRM/Quest/DAO/Person.php';
             $dao = & new CRM_Quest_DAO_Person();

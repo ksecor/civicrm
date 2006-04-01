@@ -12,10 +12,8 @@
  | March 2002.                                                        |
  |                                                                    |
  | CiviCRM is distributed in the hope that it will be useful, but     |
- | WITHOUT ANY WARRANTY; without even the implied warranty of         |
- | MERCHANTABIL
-
-ITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
  | See the Affero General Public License for more details.            |
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
@@ -66,6 +64,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         $relID  = $dao->id ;
 
         $contactID = $this->get( 'contact_id' );
+
         //to get relationship id
         require_once 'CRM/Contact/DAO/Relationship.php';
         $relDAO = & new CRM_Contact_DAO_Relationship();
@@ -233,6 +232,43 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         $this->set('relID' , $relationship->id );
 
     }//end of function
+
+    static function &getPages( &$controller ) {
+        $details = $controller->get( 'highschoolDetails' );
+        if ( ! $details ) {
+            // now adjust the ones that have a record in them
+            require_once 'CRM/Quest/DAO/Person.php';
+            $dao = & new CRM_Quest_DAO_Person();
+            $dao->contact_id = $controller->get( 'contact_id' );
+            $dao->is_sibling = true;
+            $dao->find();
+            $i = 1;
+            while ( $dao->fetch( ) ) {
+                $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling',
+                                                  'title' => trim( "{$dao->first_name} {$dao->last_name}" ),
+                                                  'options' => array( 'index' => $i,
+                                                                      'siblingID' => $dao->id ) );
+                $i++;
+            }
+
+            $totalSiblings = $controller->exportValue( 'Personal', 'number_siblings' );
+            if ( is_numeric( $totalSiblings ) && $totalSiblings >= $i ) {
+                for ( ; $i <= $totalSiblings; $i++ ) {
+                    $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling', 
+                                                      'title'   => "Sibling $i",
+                                                      'options' => array( 'index' => $i ) );
+                }
+            }
+            
+            $controller->set( 'siblingDetails', $details );
+        }
+
+        if ( ! $details ) {
+            $details = array( );
+        }
+
+        return $details;
+    }
 
     /**
      * Return a descriptive name for the page, used in wizard header
