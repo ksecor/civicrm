@@ -138,7 +138,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         // $this->addRule('gpa_id' , ts("Please enter GPA"),'required');
 
         $this->addYesNo( 'is_class_ranking',
-                         ts( 'Does your school give class rankings?' ),null,true );
+                         ts( 'Does your school give class rankings?' ),null,true,array ('onchange' => "return showHideByValue('is_class_ranking', '1', 'class_rank', 'table-row', 'radio', false);") );
 
         $this->addElement('text', 'class_rank',
                           ts( 'If yes, what is your class rank?' ),

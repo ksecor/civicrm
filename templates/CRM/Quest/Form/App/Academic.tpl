@@ -13,7 +13,7 @@
     <td class="grouplabel">{$form.is_class_ranking.label}</td>
     <td class="fieldlabel">{$form.is_class_ranking.html}</td>
 </tr> 
-<tr>
+<tr id="class_rank">
     <td class="grouplabel">{$form.class_rank.label}</td>
     <td class="fieldlabel">{$form.class_rank.html}  {$form.class_num_students.html}<br/>Your rank   &nbsp;&nbsp;&nbsp;Total number students in your class</td>
 </tr>
