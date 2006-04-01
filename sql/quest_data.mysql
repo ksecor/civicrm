@@ -430,6 +430,11 @@ INSERT INTO `civicrm_custom_option` (`id`, `entity_table`, `entity_id`, `label`,
 
 INSERT INTO `civicrm_relationship_type` (`id`, `domain_id`, `name_a_b`, `name_b_a`, `description`, `contact_type_a`, `contact_type_b`, `is_reserved`, `is_active`) VALUES (8, 1, 'Student of', 'School  of', NULL, 'Individual', 'Organization', 1, 1);
 
+-- 
+-- Disable 'Transgender' option
+-- 
+
+UPDATE `civicrm_gender` SET `is_active` = 0 WHERE `name` = 'Transgender';
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
