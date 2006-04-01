@@ -88,8 +88,8 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
             }
         }
         
-        $this->set('relIDs' , $this->_relIDsOther);
-        $this->set('orgIDs' , $this->_orgIDsOther);
+        $this->set('relIDsOther' , $this->_relIDsOther);
+        $this->set('orgIDsOther' , $this->_orgIDsOther);
         
         
         
