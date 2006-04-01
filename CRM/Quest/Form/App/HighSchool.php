@@ -135,7 +135,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         $this->addElement('text', 'organization_name',
                           ts( 'School you are now attending' ),
                           $attributes['organization_name'] );
-        $this->addRule('organization_name',ts('Please Enter  School Name'),'required');
+        $this->addRule('organization_name',ts('Please enter School Name'),'required');
 
         $this->addElement('text', 'custom_1',
                           ts( 'School Search Code' ),
@@ -155,7 +155,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         $this->addElement('text', 'custom_3',
                           ts( 'Number of students in your school' ),
                           $attributes['organization_name'] );
-        $this->addRule('custom_3',ts('Please Enter number of students'),'required');
+        $this->addRule('custom_3',ts('Please enter Number of Students'),'required');
         $this->addRule('custom_3',ts('number of students not valid'),'integer');
 
         $this->buildAddressBlock( 1,

@@ -279,14 +279,14 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     foreach ( $sections as $checkName ) {
                         if ( (!$params[$testName.'_'.strtolower( $checkName )]) && 
                              array_key_exists($testName.'_'.strtolower( $checkName ), $params)) {
-                            $errors[$testName.'_'.strtolower( $checkName )]= "Please enter ".strtolower( $checkName )." score";
+                            $errors[$testName.'_'.strtolower( $checkName )]= "Please enter the ".strtoupper($testName)." ".strtolower( $checkName )." score";
                         }
                     }
                     if ( (!$params[$testName.'_date']['M']) && (!$params[$testName.'_date']['Y']) ) {
-                        $errors[$testName.'_date']= "Please enter the ".strtoupper($testName)."-Test date";
+                        $errors[$testName.'_date']= "Please enter the ".strtoupper($testName)." test date";
                     } else {
                         if ( (!$params[$testName.'_date']['M']) || !($params[$testName.'_date']['Y']) ) {
-                            $errors[$testName.'_date']= "Please enter a valid ".strtoupper($testName)."-Test date";
+                            $errors[$testName.'_date']= "Please enter a valid ".strtoupper($testName)." test date";
                         }
                     }
                 }

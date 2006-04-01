@@ -29,7 +29,7 @@
                 {/if}
             {/if}
             {* wizard.steps[step].link value is passed for wizards/steps which allow clickable navigation *} 
-            <li class="{$stepClass}">{$stepPrefix}{if $wizard.steps[step].link}<a href="{$wizard.steps[step].link}">{/if}{$wizard.steps[step].title}{if $wizard.steps[step].link}</a>{/if}</li>
+            <li class="{$stepClass}">{$stepPrefix}{if $wizard.steps[step].link}<a href="{$wizard.steps[step].link}"onclick="submitCurrentForm('{$form.formName}','{$wizard.steps[step].link}'); return false;">{/if}{$wizard.steps[step].title}{if $wizard.steps[step].link}</a>{/if}</li>
         {/if} 
     {/section}
    </ul>

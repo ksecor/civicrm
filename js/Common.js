@@ -516,3 +516,16 @@ function submitOnce(obj,formId,procText) {
     }
 }
 
+/**
+ * Function submits referenced form on click of wizard nav link.
+ * Populates targetPage hidden field prior to POST.
+ *
+ * @param formID string - the id of the form being submitted
+ * @param targetPage - identifier of wizard section target
+ * @return null
+ */
+function submitCurrentForm(formId,targetPage) {
+    alert(formId + ' ' + targetPage);
+    document.getElementById(formId).targetPage.value = targetPage;
+    document.getElementById(formId).submit();
+}
