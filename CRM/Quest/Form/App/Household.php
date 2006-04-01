@@ -225,7 +225,9 @@ UPDATE quest_person
 SET    is_parent_guardian = 0
 WHERE  contact_id = {$this->controller->get( 'contact_id' )}
 ";
-        CRM_Core_DAO::executeQuery( $query );
+        // skippping execution for now, since this also unsets folks not
+        // present in this form, specifically MOTHER an FATHER
+        // CRM_Core_DAO::executeQuery( $query );
 
         // get all the relevant details so we can decide the detailed information we need
         $params  = $this->controller->exportValues( 'Household' );
