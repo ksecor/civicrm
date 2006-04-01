@@ -89,7 +89,6 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
         $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages );
 
         $this->addSequentialPages( $this->_pages, $action );
-
     }
 
     public function &getDependency( ) {

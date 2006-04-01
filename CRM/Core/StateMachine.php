@@ -155,7 +155,7 @@ class CRM_Core_StateMachine {
         }
 
         $state =& $this->_states[$pageName];
-        
+
         // dont know how or why we landed here so abort and display
         // current page
         if ( empty($state) ) {
@@ -165,6 +165,9 @@ class CRM_Core_StateMachine {
         // the page is valid, process it if we are jumping to the next state
         if ( $type == 'Next' ) {
             $page->postProcess( );
+            // we get the state again, since postProcess might have changed it
+            // this bug took me forever to find :) Lobo
+            $state =& $this->_states[$pageName];
             $state->handleNextState( $page );
         } else {
             $state->handleBackState( $page );

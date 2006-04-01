@@ -269,8 +269,12 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
             $incomeDetails[ "Income-{$person->id}" ] =
                 array( 'className' => 'CRM_Quest_Form_App_Income',
                        'title'     => "{$params['first_name']} {$params['last_name']} Income Details",
-                       'options'   => array( 'personID' => $person->id,
-                                             'incomeID' => $incomeID ) );
+                       'options'   => array( 'personID'   => $person->id,
+                                             'incomeID'   => $incomeID,
+                                             'lastSource' => false ) );
+            $keys = array_keys( $incomeDetails );
+            $last = array_pop( $keys );
+            $incomeDetails[$last]['options']['lastSource'] = true;
             $this->controller->set( 'incomeDetails', $incomeDetails );
         }
     }

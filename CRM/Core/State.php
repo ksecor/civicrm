@@ -102,6 +102,9 @@ class CRM_Core_State {
         $this->_stateMachine =& $stateMachine;
     }
 
+    function debugPrint( ) {
+        CRM_Core_Error::debug( "{$this->_name}, {$this->_type}", "{$this->_back}, {$this->_next}" );
+    }
     /**
      * Given an CRM Form, jump to the previous page
      *

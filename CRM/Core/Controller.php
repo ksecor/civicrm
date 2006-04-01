@@ -216,15 +216,17 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
         foreach ($names as $name => $classPath) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, $classPath) . '.php');
-            $this->addAction( $name,new $classPath( $this->_stateMachine ) );
+            $action =& new $classPath( $this->_stateMachine );
+            $this->addAction( $name, $action );
         }
     
         if ( ! empty( $uploadDirectory ) ) {
             require_once 'CRM/Core/QuickForm/Action/Upload.php';
-            $this->addAction('upload' ,
-                            new CRM_Core_QuickForm_Action_Upload ($this->_stateMachine,
-                                                                   $uploadDirectory,
-                                                                   $uploadNames));
+            $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
+                                                              $uploadDirectory,
+                                                              $uploadNames );
+
+            $this->addAction('upload' , $action );
         }
     
     }
@@ -263,7 +265,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      * @access public
      *
      */
-    function addPages( $stateMachine, $action = CRM_Core_Action::NONE ) {
+    function addPages( &$stateMachine, $action = CRM_Core_Action::NONE ) {
         $pages = $stateMachine->getPages( );
 
         foreach ( $pages as $name => $value ) {
