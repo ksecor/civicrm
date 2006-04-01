@@ -45,8 +45,8 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
 {
-    static $_orgID;
-    static $_relID;
+    static $_orgIDs;
+    static $_relIDs;
 
 
     /**
@@ -64,19 +64,31 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         $relID  = $dao->id ;
 
         $contactID = $this->get( 'contact_id' );
-
-        //to get relationship id
+        
+        // to get  OrganizationId and Relationship ID's
+        
+        require_once 'CRM/Core/DAO/CustomValue.php';
+        $customDAO = & new CRM_Core_DAO_CustomValue();
+        $customDAO->char_data    = 'Highschool';
+        $customDAO->find();
+        while ( $customDAO->fetch() ) {
+            $count = count( $this->_orgIDs)+1;
+            $this->_orgIDs[$count] = $customDAO->entity_id;
+        }
+        //get relationshipID
+        
         require_once 'CRM/Contact/DAO/Relationship.php';
-        $relDAO = & new CRM_Contact_DAO_Relationship();
-        $relDAO->contact_id_a            = $contactID;
-        $relDAO->relationship_type_id    = $relID;//need to fix  	  
-        if ($relDAO->find(true) ) {
-            $this->_orgID = $relDAO->contact_id_b;
-            $this->_relID = $relDAO->id;
-            $this->set('orgID' , $relDAO->contact_id_b);
-            $this->set('relID' , $relDAO->id);
+        if (is_array($this->_orgIDs)) {
+            foreach ( $this->_orgIDs as $key => $value ) {
+                $dao = & new CRM_Contact_DAO_Relationship();
+                $dao->contact_id_b =$value;
+                $dao->find(true);
+                $this->_relIDs[$key] = $dao->id;
+            }
         }
         
+        $this->set('relIDs' , $this->_relIDs);
+        $this->set('orgIDs' , $this->_orgIDs);
         
     }
 
@@ -91,32 +103,53 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        if ( $this->_orgID ) {
-            $ids = array();
-            $params  = array('contact_id' => $this->_orgID ,'contact_type' => 'Organization'); 
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$defaults, &$ids );
-            
-            //set custom data defaults
-            require_once 'CRM/Core/BAO/CustomGroup.php';
-            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Organization',$this->_orgID, 0);
-            $viewMode = false;
-            $inactiveNeeded = false;
-            if( isset($this->_groupTree) ) {
-                CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
-             }
-            
-            // set relationship defaults
-            require_once 'CRM/Utils/Date.php';
-            require_once 'CRM/Contact/DAO/Relationship.php';
-            $relDAO = & new CRM_Contact_DAO_Relationship();
-            $relDAO->id = $this->_relID; 
-            if ( $relDAO->find(true) ) {
-                $defaults['date_of_entry'] =  CRM_Utils_Date::unformat( $relDAO->start_date , '-' );;
+        if (is_array($this->_orgIDs) ) {
+            foreach ($this->_orgIDs as $key => $value ) {
+                if ( $value  ) {
+                    $ids = array();
+                    $params  = array('contact_id' => $value ,'contact_type' => 'Organization'); 
+                    require_once 'CRM/Contact/BAO/Contact.php';
+                    $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$orgDefaults, &$ids );
+                    
+                    //set custom data defaults
+                    require_once 'CRM/Core/BAO/CustomGroup.php';
+                    $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Organization',$value , 0);
+                    $viewMode = false;
+                    $inactiveNeeded = false;
+                    if( isset($this->_groupTree) ) {
+                        CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree,$orgDefaults, $viewMode, $inactiveNeeded );
+                    }
+                    
+                    // set relationship defaults
+                    require_once 'CRM/Utils/Date.php';
+                    require_once 'CRM/Contact/DAO/Relationship.php';
+                    $relDAO = & new CRM_Contact_DAO_Relationship();
+                    $relDAO->id = $this->_relIDs[$key]; 
+                    if ( $relDAO->find(true) ) {
+                        $orgDefaults['date_of_entry'] =  CRM_Utils_Date::unformat( $relDAO->start_date , '-' );;
+                    }
+                    
+                }
+                foreach ($orgDefaults as $k => $value ) {
+                    $defaults[$k."_".$key] = $value;
+                }
             }
-            
+
+        }
+        // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+        for ( $i = 2; $i <= 2; $i++ ) {
+            if ( CRM_Utils_Array::value( "organization_name-$i", $defaults )) {
+                $this->_showHide->addShow( "HighSchool_$i" );
+            } else {
+                $this->_showHide->addHide( "HighSchool_$i" );
+            }
         }
         
+        $this->_showHide->addToTemplate( );
+        
+
         return $defaults;
     }
     
@@ -130,42 +163,50 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
     public function buildQuickForm( ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Organization' );
-        
+        $highschool = array( );
+        for ( $i = 1; $i < 3; $i++ ) {
         // name of school
-        $this->addElement('text', 'organization_name',
-                          ts( 'School you are now attending' ),
-                          $attributes['organization_name'] );
-        $this->addRule('organization_name',ts('Please enter School Name'),'required');
-
-        $this->addElement('text', 'custom_1',
-                          ts( 'School Search Code' ),
-                          $attributes['organization_name'] );
-
-        $this->addElement('date', 'date_of_entry',
-                          ts( 'Date of entry (month/year)' ),
-                          CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
-        $this->addRule('date_of_entry', ts('Select a valid date.'), 'qfDate');
-        $this->addRule('date_of_entry', ts("Please enter Date of entry"),'required');
-        
-        
-        $this->addRadio( 'custom_2',
-                         ts( 'Your School Is' ),
-                         CRM_Core_OptionGroup::values( 'school_type' ) );
-
-        $this->addElement('text', 'custom_3',
-                          ts( 'Number of students in your school' ),
-                          $attributes['organization_name'] );
-        $this->addRule('custom_3',ts('Please enter Number of Students'),'required');
-        $this->addRule('custom_3',ts('number of students not valid'),'integer');
-
-        $this->buildAddressBlock( 1,
-                                  ts( 'School Address' ),
-                                  ts( 'School Phone' ) ,
-                                  null );
-
+            $this->addElement('text', 'organization_name_'. $i ,
+                              ts( 'School you are now attending' ),
+                              $attributes['organization_name'] );
+            //$this->addRule('organization_name',ts('Please enter School Name'),'required');
+            
+            $this->addElement('text', 'custom_1_'.$i,
+                              ts( 'School Search Code' ),
+                              $attributes['organization_name'] );
+            
+            $this->addElement('date', 'date_of_entry_'.$i,
+                              ts( 'Date of entry (month/year)' ),
+                              CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
+            $this->addRule('date_of_entry_'.$i, ts('Select a valid date.'), 'qfDate');
+            //$this->addRule('date_of_entry', ts("Please enter Date of entry"),'required');
+            
+            
+            $this->addRadio( 'custom_2_'.$i,
+                             ts( 'Your School Is' ),
+                             CRM_Core_OptionGroup::values( 'school_type' ) );
+            
+            $this->addElement('text', 'custom_3_'.$i,
+                              ts( 'Number of students in your school' ),
+                              $attributes['organization_name'] );
+            //$this->addRule('custom_3',ts('Please enter Number of Students'),'required');
+            $this->addRule('custom_3_'.$i , ts('number of students not valid'),'integer');
+            
+            $this->buildAddressBlock( 1,
+                                      ts( 'School Address' ),
+                                      ts( 'School Phone' ) ,
+                                      null,null,null,null,'location_'.$i);
+            
+            require_once 'CRM/Core/ShowHideBlocks.php';
+            $highschool[$i] = CRM_Core_ShowHideBlocks::links( $this,"HighSchool_$i",
+                                                           ts('add another High School '),
+                                                           ts('hide this High School'),
+                                                           false );
+        }
+        $this->assign( 'highschool',$highschool );
         parent::buildQuickForm( );
     }
-
+    
     /**
      * process the form after the input has been submitted and validated
      *
@@ -175,61 +216,76 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
     public function postProcess() 
     {
         $params = $this->controller->exportValues( $this->_name );
-        $params['location'][1]['location_type_id'] = 1;
-        $params['location'][1]['is_primary'] = 1 ;
-
-        $contactID = $this->get('contact_id');
-        $params['contact_type'] = 'Organization';
-        
-        $ids = array();
-        $this->_orgID = $this->get('orgID');
-        
-        if ( $this->_orgID ) {
-            $idParams = array( 'id' => $this->_orgID, 'contact_id' => $this->_orgID );
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+        //format parameters
+        foreach( $params as $key => $value ) {
+            $keyArray = explode( '_', $key );
+            $orgnizationParams[$keyArray[count($keyArray)-1]][substr($key, 0, -2)] = $value ;// need to fix
         }
         
-        $org = CRM_Contact_BAO_Contact::create($params, $ids, 2);
-        $this->set('orgID' , $org->id );
+        foreach ( $orgnizationParams as $key => $orgParams) {
+            if ( ! $orgParams['organization_name']) {
+                continue;
+            }
 
-        // add data for custom fields 
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $this->_groupTree = & CRM_Core_BAO_CustomGroup::getTree('Organization',$org->id,0);
+            $orgParams['location'][1]['location_type_id'] = 1;
+            $orgParams['location'][1]['is_primary'] = 1 ;
+            $contactID = $this->get('contact_id');
+            $orgParams['contact_type'] = 'Organization';
+            $orgParams['custom_4'] = 'Highschool';
+            
+            $ids = array();
+            $this->_orgIDs = $this->get('orgIDs');
+
+            if ( $this->_orgIDs[$key] ) {
+                $idParams = array( 'id' => $this->_orgIDs[$key], 'contact_id' => $this->_orgIDs[$key] );
+                CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+            }
+            
+            $org = CRM_Contact_BAO_Contact::create($orgParams, $ids, 2);
+            $this->_orgIDs[$key] = $org->id;
+            $this->set('orgIDs' , $this->_orgIDs);
+
+           // add data for custom fields 
+            require_once 'CRM/Core/BAO/CustomGroup.php';
+            $this->_groupTree = & CRM_Core_BAO_CustomGroup::getTree('Organization',$org->id,0);
+            
+            CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $orgParams );
+            
+            CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Organization',$org->id); 
+
+            //create a realtionship
+           
+            $relationshipParams = array();
+            
+            require_once 'CRM/Contact/DAO/RelationshipType.php';
+            $dao = & new CRM_Contact_DAO_RelationshipType();
+            $dao->name_a_b = 'Student of';
+            $dao->find(true);
+            $relID  = $dao->id ;
+            
+            $relationshipParams['relationship_type_id'] = $relID.'_a_b';
+            $relationshipParams['start_date']           = $orgParams['date_of_entry'];
+            $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
+        
+            $organizationID = $org->id;
+            
+            $this->_relIDs = $this->get('relIDs');
+        
+            if ( $this->_relIDs[$key] ) {
+                $ids = array('contact' =>$contactID,'relationship' => $this->_relIDs[$key] ,'contactTarget' =>$organizationID);
+            } else {
+                $ids = array('contact' =>$contactID);
+            }
+            
        
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
-        
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Organization',$org->id); 
-
-        //create a realtionship
-        require_once 'CRM/Utils/Date.php';
-        $relationshipParams = array();
-        
-        require_once 'CRM/Contact/DAO/RelationshipType.php';
-        $dao = & new CRM_Contact_DAO_RelationshipType();
-        $dao->name_a_b = 'Student of';
-        $dao->find(true);
-        $relID  = $dao->id ;
-
-        $relationshipParams['relationship_type_id'] = $relID.'_a_b';
-        $relationshipParams['start_date']           = $params['date_of_entry'];
-        $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
-        
-        $organizationID = $org->id;
-
-        $this->_relID = $this->get('relID');
-        
-        if ( $this->_relID ) {
-            $ids = array('contact' =>$contactID,'relationship' => $this->_relID ,'contactTarget' =>$organizationID);
-        } else {
-            $ids = array('contact' =>$contactID);
+            
+            require_once 'CRM/Contact/BAO/Relationship.php';
+            
+            $relationship= CRM_Contact_BAO_Relationship::add($relationshipParams,$ids,$organizationID);
+            $this->_relIDs[$key] = $relationship->id;
+            
+            $this->set('relIDs' , $this->_relIDs);
         }
-        
-       
-        
-        require_once 'CRM/Contact/BAO/Relationship.php';
-       
-        $relationship= CRM_Contact_BAO_Relationship::add($relationshipParams,$ids,$organizationID);
-        $this->set('relID' , $relationship->id );
 
     }//end of function
 
