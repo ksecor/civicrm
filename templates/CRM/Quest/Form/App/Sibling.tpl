@@ -34,8 +34,8 @@
     <td>
         <table border="0">
          <tr><td class="grouplabel" colspan=2>{$form.all_life.label} {$form.all_life.html}</td></tr>
-        <tr><td class="grouplabel"><label>{$form.lived_with_from_age.label}</label></td><td width="80%">{$form.lived_with_from_age.html}</td></tr>
-        <tr><td class="grouplabel"><label>{$form.lived_with_to_age.label}</label></td><td>{$form.lived_with_to_age.html}</td></tr>
+        <tr id="lived_with_from_age"><td class="grouplabel"><label>{$form.lived_with_from_age.label}</label></td><td width="80%">{$form.lived_with_from_age.html}</td></tr>
+        <tr id="lived_with_to_age"><td class="grouplabel"><label>{$form.lived_with_to_age.label}</label></td><td>{$form.lived_with_to_age.html}</td></tr>
         </table>
     </td>
 </tr>

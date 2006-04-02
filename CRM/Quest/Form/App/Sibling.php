@@ -121,8 +121,11 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 
         $this->addElement( 'text', "lived_with_from_age", ts( 'From Age' ),
                            $attributed['lived_with_from_age'] );
+        $this->addRule('lived_with_from_age',ts('Please enter a valid number for From Age.'),'integer');
+
         $this->addElement( 'text', "lived_with_to_age", ts( 'To Age' ),
                            $attributed['lived_with_to_age'] );
+        $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'integer');
 
         $this->addSelect('current_school_level', ts('Year in school'));
      

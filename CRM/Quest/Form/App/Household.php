@@ -219,21 +219,30 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     { 
-        // first reset all the parent guardians for this contact
-        $query = "
-UPDATE quest_person
-SET    is_parent_guardian = 0
-WHERE  contact_id = {$this->controller->get( 'contact_id' )}
-";
-        // skippping execution for now, since this also unsets folks not
-        // present in this form, specifically MOTHER an FATHER
-        // CRM_Core_DAO::executeQuery( $query );
 
         // get all the relevant details so we can decide the detailed information we need
         $params  = $this->controller->exportValues( 'Household' );
         $relationship = CRM_Core_OptionGroup::values( 'relationship' );
 
-        $details = array( );
+        $details = $this->controller->get( 'householdDetails' );
+
+        // unset all details other than father and mother
+        // also set the other parent guardians as null
+        foreach ( $details as $name => $value ) {
+            if ( $name == "Guardian-Mother" || $name == "Guardian-Father" ) {
+                continue;
+            }
+
+            $query = "
+UPDATE quest_person
+SET    is_parent_guardian = 0
+WHERE  id = {$value['options']['personID']}
+";
+            CRM_Core_DAO::executeQuery( $query );
+
+            unset( $details[$name] );
+        }
+
         for ( $i = 1; $i <= 2; $i++ ) {
             $householdParams = array( );
             $householdParams['contact_id']      = $this->get('contact_id'); 
@@ -407,6 +416,7 @@ WHERE  contact_id = {$this->controller->get( 'contact_id' )}
 
             $controller->set( 'householdDetails', $details );
         }
+
         return $details;
     }
 
