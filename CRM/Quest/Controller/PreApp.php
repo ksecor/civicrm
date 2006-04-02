@@ -145,6 +145,7 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                                                 'valid' => true ) );
 
         $subCount = 0;
+        $data =& $this->container( );
         foreach ( $this->_pages as $name => $page ) {
             $subNames = explode( '-', $name );
             $step  = true;
@@ -154,9 +155,10 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                 if ( $sections[$subNames[0]]['valid'] ) {
                     $count++;
                     $sections[$subNames[0]]['valid'] = false;
+                    $link = $this->_stateMachine->validPage( $name, $data['valid'] ) ? $page->getLink ( ) : null;
                     $wizard['steps'][] = array( 'name'       => $name,
                                                 'title'      => $sections[$subNames[0]]['title'],
-                                                'link'       => $page->getLink ( ),
+                                                'link'       => $link,
                                                 'step'       => true,
                                                 'stepNumber' => $count,
                                                 'collapsed'  => false );
@@ -172,9 +174,10 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                 $collapsed  = false;
             }
 
+            $link = $this->_stateMachine->validPage( $name, $data['valid'] ) ? $page->getLink ( ) : null;
             $wizard['steps'][] = array( 'name'       => $name,
                                         'title'      => $page->getTitle( ),
-                                        'link'       => $page->getLink ( ),
+                                        'link'       => $link,
                                         'step'       => $step,
                                         'stepNumber' => $stepNumber,
                                         'collapsed'  => $collapsed );

@@ -99,7 +99,7 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                                        'Educational' => array( 'Personal'  => 1 ),
                                        'Household'   => array( 'Personal'  => 1 ),
                                        'Guardian'    => array( 'Household' => 1 ),
-                                       'Sibling'     => array( 'Household' => 1 ),
+                                       'Sibling'     => array( 'Personal'  => 1 ),
                                        'Income'      => array( 'Personal'  => 1 ),
                                        'HighSchool'  => array( 'Personal'  => 1 ),
                                        'SchoolOther' => array( 'Personal'  => 1 ),
@@ -129,8 +129,8 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
             foreach ( $this->_pageNames as $pageName ) {
                 if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
                     if ( ! $data['valid'][$pageName] ) {
-                        $title = $form->getTitle( );
-                        $otherTitle = $controller->_pages[$pageName]->getTitle( );
+                        $title = $form->getCompleteTitle( );
+                        $otherTitle = $controller->_pages[$pageName]->getCompleteTitle( );
                         $session =& CRM_Core_Session::singleton( );
                         $session->setStatus( "The $otherTitle section must be completed before you can go to $title ." );
                         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/preapp',
@@ -139,6 +139,25 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                 }
             }
         }
+    }
+
+    public function validPage( $name, &$valid ) {
+        $dependency =& $this->getDependency( );
+
+        $name = explode( '-', $name );
+        $formName = $name[0];
+        
+        foreach ( $dependency[$formName] as $name => $value ) {
+            // for each name check that all pages are valid
+            foreach ( $this->_pageNames as $pageName ) {
+                if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
+                    if ( ! $valid[$pageName] ) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 }

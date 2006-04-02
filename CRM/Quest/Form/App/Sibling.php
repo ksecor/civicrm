@@ -176,6 +176,10 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         return $this->_title ? $this->_title : ts('Sibling Information');
     }
 
+    public function getRootTitle( ) {
+        return "Sibling Information: ";
+    }
+
     static function &getPages( &$controller, $reset = false ) {
         $details = $controller->get( 'siblingDetails' );
         if ( ! $details || $details ) {

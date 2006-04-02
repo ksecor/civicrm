@@ -252,6 +252,10 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         return $this->_title ? $this->_title : ts('Household Income');
     }
 
+    public function getRootTitle( ) {
+        return "Income Details: ";
+    }
+
     static function &getPages( &$controller, $reset = false ) {
         $details = $controller->get( 'incomeDetails' );
 

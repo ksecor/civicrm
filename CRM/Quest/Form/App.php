@@ -229,6 +229,14 @@ class CRM_Quest_Form_App extends CRM_Core_Form
          }
     }
 
+    public function getRootTitle( ) {
+        return null;
+    }
+
+    public function getCompleteTitle( ) {
+        return $this->getRootTitle( ) . $this->getTitle( );
+    }
+
 }
 
 ?>
