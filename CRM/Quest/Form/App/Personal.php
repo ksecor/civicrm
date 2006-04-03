@@ -171,13 +171,10 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         require_once 'CRM/Core/ShowHideBlocks.php';
         CRM_Core_ShowHideBlocks::links( $this,"ethnicity_id_2", ts('add another Race/Ethnicity'), ts('hide this Race/Ethnicity field'));
        
-        $this->addElement('date', 'birth_date',
-                          ts(' Birthdate (month/day/year)'),
-                          CRM_Core_SelectValues::date('custom', 60, 0, "M\001d\001Y" ),
-                          true);        
-
-        //$this->addRule("birth_date[M]", ts("Please enter your Birthdate"),'required');
-
+        $this->add('date', 'birth_date',
+                   ts(' Birthdate (month/day/year)'),
+                   CRM_Core_SelectValues::date('custom', 30, 0, "M\001d\001Y" ),
+                   true);        
         $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
 
         $this->addRadio( 'home_area_id',
@@ -235,7 +232,6 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
      * @static
      */
     public function formRule(&$params) {
-
         $errors = array( );
         $locNo = 1;
         foreach ($params['location'] as $location) {
@@ -246,9 +242,6 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
                 $errors["location[$locNo][address][state_province_id]"]= "Please select the state";
             }
             $locNo++;
-        }
-        if ((!$params['birth_date']['M']) && (!$params['birth_date']['D']) && (!$params['birth_date']['Y']) ) {
-            $errors["birth_date"] = "Please enter your Birthdate";
         }
 
         return empty($errors) ? true : $errors;
