@@ -36,7 +36,13 @@ class HTML_QuickForm_Rule_Required extends HTML_QuickForm_Rule
      */
     function validate($value, $options = null)
     {
-        if ((string)$value == '') {
+        if ( is_array( $value ) ) {
+            foreach ( $value as $k => $v ) {
+                if ( ( string ) $v == '' ) {
+                    return false;
+                }
+            }
+        } else if ((string)$value == '') {
             return false;
         }
         return true;
