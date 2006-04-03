@@ -42,8 +42,10 @@ INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `i
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (24, 1, 'school_type', 'Your school is\n', 0, 1);
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (25, 1, 'test', 'Names of scholastic tests', 0, 1);
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (26, 1, 'ap_score', 'Score', 0, 1);
-
-
+INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (27, 1, 'project_status', 'Status options for Projects', 1, 1);
+INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (28, 1, 'task_status', 'Status options for Task Status records', 1, 1);
+INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (29, 1, 'priority', 'Task priority values', 1, 1);
+INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (30, 1, 'task_type', 'Types of tasks', 1, 1);
 
 -- 
 -- Dumping data for table `civicrm_option_value`
@@ -371,6 +373,19 @@ INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `g
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (321, 26, '3', '3', NULL, 0,3 , NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (322, 26, '4', '4', NULL, 0,4 , NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (323, 26, '5', '5', NULL, 0,5 , NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (324, 27, 'Active', '1', NULL, 1, 1, NULL, 0, 1, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (325, 27, 'Closed', '2', NULL, 0, 2, NULL, 0, 1, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (326, 28, 'Not Started', '1', NULL, 1, 1, NULL, 0, 1, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (327, 28, 'In Progress', '2', NULL, 0, 2, NULL, 0, 1, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (328, 28, 'Completed', '3', NULL, 0, 3, NULL, 0, 1, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (329, 28, 'Deferred', '4', NULL, 0, 4, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (330, 29, 'Low', '1', NULL, 1, 1, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (331, 29, 'Medium', '2', NULL, 0, 2, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (332, 29, 'High', '3', NULL, 0, 3, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (333, 30, 'Application', '1', NULL, 1, 1, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (334, 30, 'Submit Application', '2', NULL, 0, 2, NULL, 0, 2, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (335, 30, 'Review Application', '3', NULL, 0, 3, NULL, 0, 3, 1);
+
 --
 -- Dumping data for table `civicrm_group`  
 --
@@ -434,6 +449,19 @@ INSERT INTO `civicrm_relationship_type` (`id`, `domain_id`, `name_a_b`, `name_b_
 -- 
 
 UPDATE `civicrm_gender` SET `is_active` = 0 WHERE `name` = 'Transgender';
+
+-- 
+-- Dumping data for table `civicrm_project`
+-- 
+
+INSERT INTO `civicrm_project` (`id`, `domain_id`, `title`, `description`, `logo`, `owner_entity_table`, `owner_entity_id`, `start_date`, `end_date`, `is_active`, `status_id`) VALUES (1, 1, 'Quest College Match Program', '(describe College Match Program here...)', NULL, 'civicrm_contact', 1, '2006-04-15 00:00:01', NULL, 1, 324);
+
+-- 
+-- Dumping data for table `civicrm_task`
+-- 
+
+INSERT INTO `civicrm_task` (`id`, `domain_id`, `title`, `description`, `task_type_id`, `owner_entity_table`, `owner_entity_id`, `parent_entity_table`, `parent_entity_id`, `due_date`, `priority_id`, `task_class`, `is_active`) VALUES (1, 1, 'College Match Pre-application', NULL, 333, 'civicrm_contact', 1, 'civicrm_project', 1, NULL, NULL, NULL, 1);
+INSERT INTO `civicrm_task` (`id`, `domain_id`, `title`, `description`, `task_type_id`, `owner_entity_table`, `owner_entity_id`, `parent_entity_table`, `parent_entity_id`, `due_date`, `priority_id`, `task_class`, `is_active`) VALUES (2, 1, 'Submit Pre-application', NULL, 334, 'civicrm_contact', 1, 'civicrm_task', 1, '2006-05-15 23:59:59', NULL, 'CRM_Quest_PreApp', 1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
