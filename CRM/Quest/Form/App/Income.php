@@ -48,6 +48,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
     protected $_personID;
     protected $_incomeID;
     protected $_totalIncome;
+    protected $_deleteButtonName = null;
 
     /**
      * Function to set variables up before form is built
@@ -146,9 +147,27 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             $this->add( 'checkbox', "another_income_source", ts( "Add another income source?" ), ts( "Add another income source?" ) );
         }
 
+        $this->_deleteButtonName = $this->getButtonName( 'next'   , 'delete' );
+        $this->assign( 'deleteButtonName', $this->_deleteButtonName );
+        if ( ! $this->_options['personID'] ) {
+            // this is a new income form, allow deletion
+            $this->add( 'submit', $this->_deleteButtonName, ts( 'Delete this Income Source' ) );
+        }
+
         parent::buildQuickForm();
             
     }//end of function
+
+    function validate( ) {
+        // check if the delete button has been submitted 
+        // if so skip all validation
+        $buttonName = $this->controller->getButtonName( ); 
+        if ( $buttonName == $this->_deleteButtonName ) { 
+            return true;
+        } 
+
+        return parent::validate( );
+    }
 
     /** 
      * process the form after the input has been submitted and validated 
@@ -158,12 +177,26 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     {
+        // check if the delete button has been submitted
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->_deleteButtonName ) {
+            // delete this form from the list of detail pages
+            $details = $this->controller->get( 'incomeDetails' );
+            unset( $details[$this->_name] );
+            $last = null;
+            foreach ( $details as $name => $value ) {
+                $last = $name;
+                $details[$name]['options']['lastSource'] = false;
+            }
+            $details[$last]['options']['lastSource'] = true;
+            $this->controller->set( 'incomeDetails', $details );
+            return;
+        }
+
         $params  = $this->controller->exportValues( $this->_name );
 
         $params['source_1_id'] = $params['type_of_income_id_1']; 
         $params['source_2_id'] = $params['type_of_income_id_2'];
-
-        
 
         if ( ! $this->_personID ) {
             $personParams = array( );
