@@ -158,7 +158,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
             }
             
             if ($ufFieldBAO->phone_type) {
-                if ($ufFieldBAO->phone_type != ts('Phone')) { // this hack is to prevent Phone Phone 
+                if ($ufFieldBAO->phone_type != 'Phone') { // this hack is to prevent Phone Phone 
                     $phoneType .= '-'.$ufFieldBAO->phone_type;
                 }
             }
