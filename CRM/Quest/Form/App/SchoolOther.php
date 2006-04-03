@@ -116,7 +116,8 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         if (is_array($this->_orgIDsOther) ) {
             foreach ($this->_orgIDsOther as $key => $value ) {
                 if ( $value  ) {
-                    $ids = array();
+                    $ids         = array( );
+                    $orgDefaults = array( );
                     $params  = array('contact_id' => $value ,'contact_type' => 'Organization'); 
                     require_once 'CRM/Contact/BAO/Contact.php';
                     $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$orgDefaults, &$ids );
@@ -141,13 +142,10 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
                     }
                     
                     //format note for contact
-                    $note = null;
                     if (is_array ($orgDefaults['note'])) {
                         foreach( $orgDefaults['note'] as $k1 => $v1) {
-                            if ( $v1['note'] ) {
-                                $orgDefaults['note']  = $v1['note'];
-                                break;
-                            }
+                            $orgDefaults['note'] = $v1['note'];
+                            break;
                         }
                     }
                 }
