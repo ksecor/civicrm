@@ -173,9 +173,9 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
        
         $this->addElement('date', 'birth_date',
                           ts(' Birthdate (month/day/year)'),
-                          CRM_Core_SelectValues::date('custom', 25, -10, "M\001d\001Y" ),
-                          true);
-        
+                          CRM_Core_SelectValues::date('custom', 60, 0, "M\001d\001Y" ),
+                          true);        
+
         //$this->addRule("birth_date[M]", ts("Please enter your Birthdate"),'required');
 
         $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
