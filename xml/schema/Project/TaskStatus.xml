@@ -118,13 +118,6 @@
       <add>1.5</add> 
   </field> 
   <index>
-    <name>UI_task_task_status</name>
-    <fieldName>id</fieldName>
-    <fieldName>task_id</fieldName>
-    <unique>true</unique>
-    <add>1.5</add>
-  </index>
-  <index>
     <name>UI_task_status_responsible</name>
     <fieldName>id</fieldName>
     <fieldName>responsible_entity_table</fieldName>

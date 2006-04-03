@@ -106,13 +106,6 @@
        <add>1.5</add>
   </foreignKey>
   <index>
-    <name>UI_project_domain</name>
-    <fieldName>id</fieldName>
-    <fieldName>domain_id</fieldName>
-    <unique>true</unique>
-    <add>1.5</add>
-  </index>
-  <index>
     <name>UI_project_owner</name>
     <fieldName>id</fieldName>
     <fieldName>owner_entity_table</fieldName>

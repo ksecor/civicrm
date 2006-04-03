@@ -126,11 +126,12 @@
   </field>
 
   <index>
-    <name>UI_task_domain</name>
+    <name>UI_task_parent</name>
     <fieldName>id</fieldName>
-    <fieldName>domain_id</fieldName>
+    <fieldName>parent_entity_table</fieldName>
+    <fieldName>parent_entity_id</fieldName>
     <unique>true</unique>
-    <add>1.5</add>
+    <add>1.5</add> 
   </index>
   <index>
     <name>UI_task_owner</name>
