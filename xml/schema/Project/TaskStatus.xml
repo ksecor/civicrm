@@ -31,27 +31,6 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-       <name>description</name>
-       <title>Description</title>
-       <type>varchar</type>
-       <length>255</length>
-       <comment>Optional verbose description of the Task. May be used for display - HTML allowed.</comment>
-       <add>1.5</add>
-  </field>
-  <field>
-       <name>task_type_id</name>
-       <title>Task Type</title>
-       <type>int unsigned</type>
-       <comment>Configurable task type values (e.g. App Submit, App Review...). FK to civicrm_option_value.</comment>
-      <add>1.5</add>
-  </field>
-  <foreignKey>
-       <name>task_type_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <add>1.5</add>
-  </foreignKey>
-  <field>
        <name>responsible_entity_table</name>
        <type>varchar</type>
        <length>64</length>
