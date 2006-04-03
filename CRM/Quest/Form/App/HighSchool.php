@@ -66,18 +66,31 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         $contactID = $this->get( 'contact_id' );
         
         // to get  OrganizationId and Relationship ID's
+
+        require_once 'CRM/Contact/DAO/Relationship.php';
+        $dao = & new CRM_Contact_DAO_Relationship();
+        $dao->relationship_type_id = $relID;
+        $dao->contact_id_a   	   = $contactID;
+        $dao->find();
+        $orgIds = array();
+        while( $dao->fetch() ) {
+            $orgIds[$dao->contact_id_b] = $dao->contact_id_b;
+        }
         
+        //get Orgnization Ids
         require_once 'CRM/Core/DAO/CustomValue.php';
         $customDAO = & new CRM_Core_DAO_CustomValue();
         $customDAO->char_data    = 'Highschool';
         $customDAO->find();
         while ( $customDAO->fetch() ) {
+            if(array_key_exists($customDAO->entity_id,$orgIds)) {
             $count = count( $this->_orgIDs)+1;
             $this->_orgIDs[$count] = $customDAO->entity_id;
+            }
         }
         //get relationshipID
         
-        require_once 'CRM/Contact/DAO/Relationship.php';
+        
         if (is_array($this->_orgIDs)) {
             foreach ( $this->_orgIDs as $key => $value ) {
                 $dao = & new CRM_Contact_DAO_Relationship();
@@ -140,7 +153,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         require_once 'CRM/Core/ShowHideBlocks.php';
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
         for ( $i = 2; $i <= 2; $i++ ) {
-            if ( CRM_Utils_Array::value( "organization_name-$i", $defaults )) {
+            if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
                 $this->_showHide->addShow( "HighSchool_$i" );
             } else {
                 $this->_showHide->addHide( "HighSchool_$i" );

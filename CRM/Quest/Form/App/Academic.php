@@ -69,7 +69,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $count++;
             $this->_honorIds[$count] = $dao->id;
         }
-        
+        $this->set( 'honorIds', $this->_honorIds);
     }
     /**
      * This function sets the default values for the form. Relationship that in edit/view action

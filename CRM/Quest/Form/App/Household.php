@@ -68,7 +68,9 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                 if ( $dao->find(true) ) {
                     $defaults['member_count_'.$i]   = $dao->member_count;
                     $defaults['years_lived_id_'.$i] = $dao->years_lived_id;
+                    if ( $i == 1 ) {
                     $defaults['description']     = $dao->description;
+                    }
                     for ( $j = 1; $j <= 2; $j++ ) {
                         require_once 'CRM/Quest/DAO/Person.php';
                         $personDAO = & new CRM_Quest_DAO_Person();
