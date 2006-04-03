@@ -109,6 +109,10 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
             $names = array_keys( self::$_dependency );
             self::$_dependency['Submit'] = array( );
             foreach ( $names as $name ) {
+                // skip School Other since it is option
+                if ( $name == 'SchoolOther' ) {
+                    continue;
+                }
                 self::$_dependency['Submit'][$name] = 1;
             }
         }
