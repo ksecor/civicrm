@@ -57,7 +57,6 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
      */
     public function preProcess()
     {
-
         require_once 'CRM/Contact/DAO/RelationshipType.php';
         $dao = & new CRM_Contact_DAO_RelationshipType();
         $dao->name_a_b = 'Student of';
@@ -67,7 +66,6 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         $contactID = $this->get( 'contact_id' );
         
         // to get  OrganizationId and Relationship ID's
-
         require_once 'CRM/Contact/DAO/Relationship.php';
         $dao = & new CRM_Contact_DAO_Relationship();
         $dao->relationship_type_id = $relID;
@@ -88,8 +86,8 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
                 $this->_orgIDsOther[$count] = $customDAO->entity_id;
             }
         }
+      
         //get relationshipID
-        
         require_once 'CRM/Contact/DAO/Relationship.php';
         if (is_array($this->_orgIDsOther)) {
             foreach ( $this->_orgIDsOther as $key => $value ) {
@@ -102,8 +100,6 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         
         $this->set('relIDsOther' , $this->_relIDsOther);
         $this->set('orgIDsOther' , $this->_orgIDsOther);
-        
-       
     }
     
     
@@ -125,7 +121,6 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
                     require_once 'CRM/Contact/BAO/Contact.php';
                     $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$orgDefaults, &$ids );
                     
-                    
                     //set custom data defaults
                     require_once 'CRM/Core/BAO/CustomGroup.php';
                     $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Organization',$value , 0);
@@ -141,27 +136,31 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
                     $relDAO = & new CRM_Contact_DAO_Relationship();
                     $relDAO->id = $this->_relIDsOther[$key]; 
                     if ( $relDAO->find(true) ) {
-                        // print_r($relDAO);
                         $orgDefaults['date_of_entry'] =  CRM_Utils_Date::unformat( $relDAO->start_date , '-' );
                         $orgDefaults['date_of_exit'] =  CRM_Utils_Date::unformat( $relDAO->end_date , '-' );
-
                     }
                     
+                    //format note for contact
+                    $note = null;
+                    if (is_array ($orgDefaults['note'])) {
+                        foreach( $orgDefaults['note'] as $k1 => $v1) {
+                            if ( $v1['note'] ) {
+                                $orgDefaults['note']  = $v1['note'];
+                                break;
+                            }
+                        }
+                    }
                 }
                
-              
                 foreach ($orgDefaults as $k => $v ) {
                     $defaults[$k."_".$key] = $v;
                 }
-                
             }
-
         }
 
         // fix for note field 
         require_once 'CRM/Core/DAO.php';
-        
-        
+          
         // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
         for ( $i = 2; $i <= 5; $i++ ) {
@@ -217,12 +216,11 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
     public function postProcess() 
     {
         $params = $this->controller->exportValues( $this->_name );
-        //print_r($params);
+
         foreach( $params as $key => $value ) {
             $keyArray = explode( '_', $key );
             $orgnizationParams[$keyArray[count($keyArray)-1]][substr($key, 0, -2)] = $value ;
         }
-        // print_r($orgnizationParams);
         
         foreach( $orgnizationParams as $key => $orgParams) {
             if (! $orgParams['organization_name']) {
