@@ -40,6 +40,15 @@
       <add>1.1</add>
   </field>
   <field>
+       <name>contact_sub_type</name>
+       <type>varchar</type>
+       <length>64</length>
+       <import>true</import>
+       <headerPattern>/^(sub-type|subtype)/i</headerPattern>
+       <comment>May be used to over-ride contact view and edit templates.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
        <name>legal_identifier</name>
        <type>varchar</type>
        <length>32</length>
