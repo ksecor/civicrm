@@ -177,6 +177,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     public function formRule(&$params) {
         $errors = array( );
         $numBlocks = 2;
+        $fiveYearsOrMore = 35;
 
         $filled = false;
         for ( $i = 1; $i <= $numBlocks; $i++ ) {
@@ -205,6 +206,12 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             }
         }
 
+        if ( (! empty($params["years_lived_id_1"])) && ($params["years_lived_id_1"] != $fiveYearsOrMore) ) {
+            if ( (!$params["relationship_id_2_1"]) && (!$params["relationship_id_2_2"]) ) {
+                $errors["relationship_id_2_1"] = "You have to enter the additional household information";
+            } 
+        }
+        
         if ( ! $filled &&
              empty( $params['description'] ) ) {
             $errors["_qf_default"] = "You have to enter at least one family member or explain your circumstances";
