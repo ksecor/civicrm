@@ -300,6 +300,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
             $this->set('relIDs' , $this->_relIDs);
         }
 
+        parent::postProcess( );
     }//end of function
 
     static function &getPages( &$controller ) {

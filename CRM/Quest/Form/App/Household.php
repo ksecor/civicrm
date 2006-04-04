@@ -303,6 +303,7 @@ WHERE  id = {$value['options']['personID']}
 
         $this->controller->rebuild( );
 
+        parent::postProcess( );
     }//end of function 
 
     public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j ) {

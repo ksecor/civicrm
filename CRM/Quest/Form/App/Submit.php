@@ -81,6 +81,7 @@ class CRM_Quest_Form_App_Submit extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
+        parent::postProcess( );
     }//end of function
 
 

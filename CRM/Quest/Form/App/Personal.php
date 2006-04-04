@@ -282,8 +282,11 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
       $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
       
       $student = CRM_Quest_BAO_Student::create( $params , $ids);
+
       $this->set( 'id', $student->id );
       $this->set( 'welcome_name', $params['first_name'] );
+
+      parent::postProcess( );
     }//end of function
 
     /**

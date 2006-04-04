@@ -45,8 +45,8 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
 {
-    static $_orgIDsOther;
-    static $_relIDsOther;
+    protected $_orgIDsOther;
+    protected $_relIDsOther;
     
     
     /**
@@ -98,8 +98,6 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
             }
         }
         
-        $this->set('relIDsOther' , $this->_relIDsOther);
-        $this->set('orgIDsOther' , $this->_orgIDsOther);
     }
     
     
@@ -230,9 +228,8 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
             $contactID = $this->get('contact_id');
             $orgParams['contact_type'] = 'Organization';
             $orgParams['custom_4']     = 'Other School';
+
             $ids = array();
-            $this->_orgIDsOther = $this->get('orgIDsOther');
-            
             if ( $this->_orgIDsOther[$key] ) {
                 $idParams = array( 'id' => $this->_orgIDsOther[$key], 'contact_id' => $this->_orgIDsOther[$key] );
                 CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
@@ -265,8 +262,6 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
             $relationshipParams['end_date']            =  $orgParams['date_of_exit'];
             $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
             
-            $this->relIDsOther = $this->get('relIDsOther');
-            
             if ( $this->relIDsOther[$key] ) {
                 $ids = array('contact' =>$contactID,'relationship' => $this->relIDsOther[$key] ,'contactTarget' =>$organizationID);
             } else {
@@ -278,8 +273,9 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
             require_once 'CRM/Contact/BAO/Relationship.php';
             $relationship= CRM_Contact_BAO_Relationship::add($relationshipParams,$ids,$organizationID);
             $this->relIDsOther[$key] = $relationship->id;
-            $this->set('relIDsOther' , $this->relIDsOther );
         }
+
+        parent::postProcess( );
     }//end of function
 
     /**

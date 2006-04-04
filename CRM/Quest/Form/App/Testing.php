@@ -45,7 +45,7 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
 {
-    static $_testIDs = array();
+    protected $_testIDs = array();
 
     protected $_tests;
     protected $_multiTests;
@@ -131,8 +131,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $defaults['test_tutoring']    = $defSeleted;
             $defaults['is_test_tutoring'] = 1;
         }
-
-        $this->set( 'testIDs' ,$this->_testIDs );
 
         // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
@@ -439,8 +437,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                         
         require_once 'CRM/Quest/BAO/Test.php';
         
-        $this->_testIDs = $this->get( 'testIDs' );
-        
         // add data to database
         // for 'act','psat','sat'
         foreach ( $testParams1 as $key => $value ) {
@@ -469,10 +465,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             }
         }
 
-        $this->set( 'testIDs' ,$this->_testIDs );
-        
         // Insert  Student recornd  
-        
         $values = $this->controller->exportValues( 'Personal' );
         $values['score_SAT']     =  $totalScore['sat'];
         $values['score_PSAT']    =  $totalScore['psat'];
@@ -494,7 +487,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         require_once 'CRM/Quest/BAO/Student.php';
         $student = CRM_Quest_BAO_Student::create( $values, $ids);
               
-
+        parent::postProcess( );
     }//end of function
 
     /**

@@ -46,7 +46,7 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
 {
 
-    static $_essayId;
+    protected $_essayID = null;
 
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
@@ -65,8 +65,7 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
             $dao->contact_id = $contactID;
             if ( $dao->find(true) ) {
                 $defaults['essay'] = $dao->essay;
-                $this->_essayId = $dao->id;
-                $this->set('essayId',$this->_essayId );
+                $this->_essayID = $dao->id;
             }
         }
         
@@ -113,14 +112,12 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
      
         $contact_id = $this->get('contact_id');
         $params['contact_id'] =  $contact_id;
-        $ids = array();
-        $this->_essayId = $this->get('essayId');
-        if ( $this->_essayId ) {
-            $ids['id'] = $this->_essayId;
-        }
-        $essay = CRM_Quest_BAO_Essay::create( $params,$ids);
-        $this->set('essayId', $essay->id );
-        
+
+        $ids = array( 'id' => $this->_essayID );
+
+        CRM_Quest_BAO_Essay::create( $params, $ids);
+
+        parent::postProcess( );
     }//end of function
 
 

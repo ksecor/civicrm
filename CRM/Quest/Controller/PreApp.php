@@ -81,6 +81,27 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         $config =& CRM_Core_Config::singleton( );
         $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
 
+        // get the task status object, if not there create one
+        require_once 'CRM/Project/DAO/TaskStatus.php';
+        $dao =& new CRM_Project_DAO_TaskStatus( );
+        $dao->responsible_entity_table = 'civicrm_contact';
+        $dao->responsible_entity_id    = $cid;
+        if ( ! $dao->find( true ) ) {
+            $dao->task_id             = 2;
+            $dao->target_entity_table = 'civicrm_contact';
+            $dao->target_entity_id    = $cid;
+            $dao->create_date         = date( 'YmdHis' );
+            
+            $status =& CRM_Core_OptionGroup::values( 'task_status', true );
+            $dao->status_id = $status['Not Started'];
+            $dao->save( );
+        } else if ( $dao->status_detail ) {
+            $data =& $this->container( );
+            $data['valid'] = unserialize( $dao->status_detail );
+        }
+
+        $this->set( 'taskStatusID', $dao->id );
+    
     }
 
     /**

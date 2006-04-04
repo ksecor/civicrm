@@ -163,6 +163,8 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']}";
         $details[$this->_name]['options']['siblingID'] = $sibling->id;
         $this->controller->set( 'siblingDetails', $details );
+
+        parent::postProcess( );
     }
 
     /**

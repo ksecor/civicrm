@@ -226,7 +226,8 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $this->_honorIds[$key]   = $newHonor->id;
         }
         $this->set( 'honorIds', $this->_honorIds);
-        
+     
+        parent::postProcess( );
     }//end of function
 
     /**

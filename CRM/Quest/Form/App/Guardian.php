@@ -291,6 +291,8 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
             $incomeDetails[$last]['options']['lastSource'] = true;
             $this->controller->set( 'incomeDetails', $incomeDetails );
         }
+
+        parent::postProcess( );
     }
 
     /**

@@ -181,7 +181,7 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        {$form.birth_date.label} <span class="marker">*</span></td>
+        {$form.birth_date.label}
     <td class="fieldlabel">
         {$form.birth_date.html}
         <div class="description"> 
