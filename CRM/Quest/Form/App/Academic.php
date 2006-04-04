@@ -200,6 +200,10 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $ids['contact_id'] = $contact_id;
 
         require_once 'CRM/Quest/BAO/Student.php';
+        
+        require_once 'CRM/Utils/Date.php';
+        $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
+
         $student = CRM_Quest_BAO_Student::create( $params, $ids);
 
         // to add honour records 

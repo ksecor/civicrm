@@ -177,7 +177,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     {
-        // check if the delete button has been submitted
+       // check if the delete button has been submitted
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_deleteButtonName ) {
             // delete this form from the list of detail pages
@@ -226,7 +226,6 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
 
         //add total Income in student Table
         $studValues = $this->controller->exportValues( 'Personal' );
-
         $income = null;
         $totalIncome = $this->get('totalIncome');
         if ( is_array( $totalIncome ) )  {
@@ -242,6 +241,9 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         $ids['contact_id'] = $contact_id;
 
         require_once 'CRM/Quest/BAO/Student.php';
+
+        require_once 'CRM/Utils/Date.php';
+        $studValues['high_school_grad_year'] = CRM_Utils_Date::format($studValues['high_school_grad_year']) ;
         $student = CRM_Quest_BAO_Student::create( $studValues, $ids);
 
         $details = $this->controller->get( 'incomeDetails' );
@@ -267,7 +269,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         $this->controller->set( 'incomeDetails', $details );
 
         $this->controller->rebuild( );
-
+        
         parent::postProcess( );
     }
     

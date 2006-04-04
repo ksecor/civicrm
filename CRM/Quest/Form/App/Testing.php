@@ -485,7 +485,10 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $ids['contact_id'] = $contact_id;
 
         require_once 'CRM/Quest/BAO/Student.php';
+        require_once 'CRM/Utils/Date.php';
+        $values['high_school_grad_year'] = CRM_Utils_Date::format($values['high_school_grad_year']) ;
         $student = CRM_Quest_BAO_Student::create( $values, $ids);
+       
               
         parent::postProcess( );
     }//end of function
