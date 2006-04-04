@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-29 14:35+0200\n"
+"POT-Creation-Date: 2006-04-04 08:41+0200\n"
 "PO-Revision-Date: 2006-02-24 19:35+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -497,9 +497,8 @@ msgid "Hash"
 msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Phone.php
-#: CRM/Contact/Selector.php CRM/Core/BAO/UFGroup.php CRM/Core/DAO/Phone.php
-#: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php CRM/UF/Page/Field.php
-#: templates/CRM/Contact/Form/Relationship.tpl
+#: CRM/Contact/Selector.php CRM/Core/DAO/Phone.php CRM/Core/DAO/Validation.php
+#: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
@@ -7216,8 +7215,9 @@ msgstr "Clique para selecioanr data/hora do calendário."
 #, fuzzy
 msgid ""
 "Powered by CiviCRM %1 rev%2. CiviCRM is openly available under the <a href="
-"\"%3\">Affero General Public License (AGPL)</a>. Download source <a href=\"%4"
-"\">here</a>. View issues and report bugs <a href=\"%5\">here</a>."
+"\"%3\">Affero General Public License (AGPL)</a>. <a href=\"%4\">Download "
+"source</a>. <a href=\"%5\">View issues and report bugs</a>. <a href=\"%6"
+"\">Online documentation</a>."
 msgstr ""
 "O software CiviCRM é aberto a qualquer pessoa ou organização sob os termosda "
 "<a href=\"%1\">Licença Pública Geral Affero (AGPL)</a>. O código-fontepode "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-29 14:35+0200\n"
+"POT-Creation-Date: 2006-04-04 08:41+0200\n"
 "PO-Revision-Date: 2006-01-09 09:49+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -495,9 +495,8 @@ msgid "Hash"
 msgstr ""
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Phone.php
-#: CRM/Contact/Selector.php CRM/Core/BAO/UFGroup.php CRM/Core/DAO/Phone.php
-#: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php CRM/UF/Page/Field.php
-#: templates/CRM/Contact/Form/Relationship.tpl
+#: CRM/Contact/Selector.php CRM/Core/DAO/Phone.php CRM/Core/DAO/Validation.php
+#: CRM/Core/SelectValues.php templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
@@ -6844,8 +6843,9 @@ msgstr ""
 #: templates/CRM/common/feedback.tpl
 msgid ""
 "Powered by CiviCRM %1 rev%2. CiviCRM is openly available under the <a href="
-"\"%3\">Affero General Public License (AGPL)</a>. Download source <a href=\"%4"
-"\">here</a>. View issues and report bugs <a href=\"%5\">here</a>."
+"\"%3\">Affero General Public License (AGPL)</a>. <a href=\"%4\">Download "
+"source</a>. <a href=\"%5\">View issues and report bugs</a>. <a href=\"%6"
+"\">Online documentation</a>."
 msgstr ""
 
 #: templates/CRM/common/form_body.tpl
