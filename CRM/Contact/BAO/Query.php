@@ -1249,7 +1249,7 @@ class CRM_Contact_BAO_Query {
             $this->_tables['civicrm_group_contact'] =  
                 "civicrm_contact.id = civicrm_group_contact.contact_id AND civicrm_group_contact.group_id IN (" .
                 implode(',', array_keys($this->_params['group'])) . ')'; 
-            $this->_tables['civicrm_group_contact'] = $this->_whereTables['civicrm_group_contact'];
+            $this->_whereTables['civicrm_group_contact'] = $this->_tables['civicrm_group_contact'];
             return implode(' OR ', $ssWhere);
         }
         return null;
@@ -1770,6 +1770,7 @@ class CRM_Contact_BAO_Query {
             // regenerate fromClause since permission might have added tables
             if ( $permission ) {
                 $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation, $this->_mode ); 
+                $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
             }
         }
 
