@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-29 14:35+0200\n"
-"PO-Revision-Date: 2006-02-23 03:27+0100\n"
-"Last-Translator: Edoardo Biasini <edoardo@atrepiu.it>\n"
+"PO-Revision-Date: 2006-04-01 18:59+0200\n"
+"Last-Translator: paolo mereu <maolo.pereu@tiscali.it>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -426,7 +426,7 @@ msgstr "Persona"
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
-msgstr ""
+msgstr "Famiglia"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -462,15 +462,15 @@ msgstr "Ricerca Contatto CiviCRM"
 
 #: CRM/Contact/BAO/Query.php CRM/Core/BAO/CustomQuery.php
 msgid "greater than \"%1\""
-msgstr ""
+msgstr "Maggiore di \"%1\""
 
 #: CRM/Contact/BAO/Query.php CRM/Core/BAO/CustomQuery.php
 msgid "less than \"%1\""
-msgstr ""
+msgstr "minore di \"%1\""
 
 #: CRM/Contact/BAO/Query.php CRM/Core/BAO/CustomQuery.php
 msgid "and"
-msgstr ""
+msgstr "e"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/MappingField.php
@@ -488,12 +488,12 @@ msgstr "Nick Name"
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Source"
-msgstr "Fonte"
+msgstr "Sorgente"
 
 #: CRM/Contact/DAO/Contact.php CRM/Mailing/Event/DAO/Queue.php
 #: CRM/Mailing/Event/DAO/Subscribe.php
 msgid "Hash"
-msgstr ""
+msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Phone.php
 #: CRM/Contact/Selector.php CRM/Core/BAO/UFGroup.php CRM/Core/DAO/Phone.php
@@ -527,11 +527,11 @@ msgstr "Testo"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/SelectValues.php
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/SelectValues.php
 msgid "Both"
-msgstr ""
+msgstr "Sospeso"
 
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/SelectValues.php
@@ -546,7 +546,7 @@ msgstr "Rimosso"
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/SelectValues.php
 msgid "Pending"
-msgstr ""
+msgstr "Sospeso"
 
 #: CRM/Contact/DAO/Group.php CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/AcceptCreditCard.php
@@ -675,11 +675,11 @@ msgstr "Paese"
 
 #: CRM/Contact/Form/Domain.php CRM/Group/Form/Edit.php
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 #: CRM/Contact/Form/Domain.php CRM/Group/Form/Edit.php
 msgid "Description:"
-msgstr ""
+msgstr "Descrizione:"
 
 #: CRM/Contact/Form/Domain.php CRM/Contact/Form/Email.php
 #: CRM/Contact/Form/Task/Email.php CRM/Profile/Form/ForwardMailing.php
@@ -688,7 +688,7 @@ msgstr "Email non valida"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Advanced.php
 msgid "Privacy"
-msgstr ""
+msgstr "Privacy"
 
 #: CRM/Contact/Form/GroupContact.php CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
@@ -713,12 +713,11 @@ msgstr "Data di Nascita"
 
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 msgid "Website"
-msgstr ""
+msgstr "Sito Web"
 
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid "Enter a valid Website."
-msgstr "Prego inserire un Oggetto valido."
+msgstr "Prego inserire Sito Web valido."
 
 #: CRM/Contact/Form/Location.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Core/DAO/Location.php
@@ -843,7 +842,7 @@ msgstr "Record di relazione non creati - duplicati di relazioni esistenti: %1."
 
 #: CRM/Contact/Form/Task/AddToTag.php CRM/Contact/Form/Task/RemoveFromTag.php
 msgid "Select Tag"
-msgstr ""
+msgstr "Seleziona un Tag"
 
 #: CRM/Contact/Form/Task/Delete.php CRM/Contact/Task.php
 msgid "Delete Contacts"
@@ -851,11 +850,11 @@ msgstr "Elimina Contatti"
 
 #: CRM/Contact/Form/Task/Email.php CRM/SMS/Form/Task/SMS.php
 msgid "(preferred)"
-msgstr ""
+msgstr "(preferito)"
 
 #: CRM/Contact/Form/Task/Email.php CRM/Contact/Page/View/Email.php
 msgid "Your user record does not have a valid email address"
-msgstr ""
+msgstr "Il tuo record-utente non ha un indirizzo email valido"
 
 #: CRM/Contact/Form/Task/Email.php CRM/Core/DAO/EmailHistory.php
 #: CRM/SMS/DAO/History.php CRM/SMS/Form/Task/SMS.php
@@ -868,31 +867,31 @@ msgstr "Messaggio"
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Mapping Option"
-msgstr ""
+msgstr "Opzione di Mappatura"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Load Mapping"
-msgstr ""
+msgstr "Carica Mappatura"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr ""
+msgstr "Salva questo campo di mappatura"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
-msgstr ""
+msgstr "Aggiorna questo campo di mappatura"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
-msgstr ""
+msgstr "Salva come nuovo campo di mappatura"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 #: CRM/Contribute/Import/Form/MapField.php
@@ -997,7 +996,7 @@ msgstr "Azioni"
 
 #: CRM/Contact/Selector.php CRM/Core/Invoke.php
 msgid "Map Contact"
-msgstr ""
+msgstr "Mappa dei Contatti"
 
 #: CRM/Contact/Selector.php CRM/Profile/Selector/Listings.php
 msgid "Contact %%StatusMessage%%"
@@ -1029,7 +1028,7 @@ msgstr "Contributo"
 
 #: CRM/Contribute/BAO/Contribution.php CRM/Core/BAO/History.php
 msgid "- Contribution Fields -"
-msgstr ""
+msgstr "Campi per la contribuzione"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
@@ -1043,7 +1042,7 @@ msgstr "Ricevuto da Email"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Core/DAO/ActivityHistory.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "Contact ID (Identificativo contatto - corrisponde a contatto)"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -1113,23 +1112,23 @@ msgstr "Importo"
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency Unit"
-msgstr ""
+msgstr "Unità di frequenza"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "Frequency Interval"
-msgstr ""
+msgstr "Intervallo di frequenza"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "Data modificata"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "day"
-msgstr ""
+msgstr "giorno"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "week"
-msgstr ""
+msgstr "Settimana"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #, fuzzy
@@ -1195,7 +1194,7 @@ msgstr "Durata"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php CRM/Import/Form/Preview.php
 msgid "Processing"
-msgstr ""
+msgstr "In elaborazione"
 
 #: CRM/Contribute/Form/Contribution/Main.php CRM/Mailing/Selector/Event.php
 msgid "Email Address"
@@ -1262,7 +1261,7 @@ msgstr "-seleziona-"
 #: CRM/UF/Form/Preview.php templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 msgid "Paid By"
-msgstr ""
+msgstr "Pagato da"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -1286,7 +1285,7 @@ msgstr "Annullato"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Profile/Form.php
 msgid "Please enter a valid amount."
-msgstr ""
+msgstr "Prego inserire una somma valida"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Note/Form/Note.php
 #: CRM/Utils/Menu.php templates/CRM/Contact/Form/Edit.tpl
@@ -1336,7 +1335,7 @@ msgstr ""
 msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.)"
-msgstr ""
+msgstr "Campi contatto richiesti mancanti (Dovrebbero essere Nome e Cognome o email primaria o nome, cognome e email primaria)"
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
@@ -1346,7 +1345,7 @@ msgstr ""
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
 msgid "Missing required field: %1"
-msgstr ""
+msgstr "Campo richiesto mancante: %1"
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
@@ -1644,7 +1643,7 @@ msgstr "Aiuto Post"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
-msgstr ""
+msgstr "Maschera"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Options Per Line"
@@ -1668,11 +1667,11 @@ msgstr "Multi-Selezione"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Radio"
-msgstr ""
+msgstr "Radio"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "CheckBox"
-msgstr ""
+msgstr "Casella di controllo"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Date"
@@ -1700,7 +1699,7 @@ msgstr "Gruppo"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Inline"
@@ -1719,7 +1718,7 @@ msgstr "Tipo di Componente"
 
 #: CRM/Core/DAO/Mapping.php CRM/Utils/Menu.php
 msgid "Import"
-msgstr ""
+msgstr "Importo"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
 #, fuzzy
@@ -1740,15 +1739,15 @@ msgstr "Cellulare"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Pager"
-msgstr ""
+msgstr "Pager"
 
 #: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
 msgid "Field Name"
-msgstr ""
+msgstr "Nome del campo"
 
 #: CRM/Core/DAO/UFGroup.php CRM/Utils/Menu.php templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile"
@@ -1757,7 +1756,7 @@ msgstr "Profilo CiviCRM"
 #: CRM/Core/DAO/Validation.php CRM/Mailing/Selector/Event.php
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
-msgstr ""
+msgstr "URL (indirizzo risorsa web)"
 
 #: CRM/Core/Invoke.php CRM/Utils/Menu.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
@@ -1810,7 +1809,7 @@ msgstr "Il Gruppo \"%1\" è stato eliminato."
 #: CRM/Custom/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Field Label"
-msgstr ""
+msgstr "Etichetta del campo"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php CRM/UF/Form/Field.php
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
@@ -1994,27 +1993,27 @@ msgstr "Seleziona una data valida."
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "Activity \"%1\" has been logged to Activity History."
-msgstr ""
+msgstr "L'Attività \"%1\" è stata registrata nello storico delle attività"
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "Selected Activity is deleted sucessfully."
-msgstr ""
+msgstr "L'attività selezionata è stata eliminata con successo."
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "Activity \"%1\" has been saved."
-msgstr ""
+msgstr "L'attività \"%1\" è stata salvata."
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Select Phone Number"
-msgstr ""
+msgstr "Seleziona Numero Telefonico"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "The Field Subject should not be Empty"
-msgstr ""
+msgstr "Il campo Oggetto non dovrebbe essere vuoto"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Call Date and Time are required."
-msgstr ""
+msgstr "Data e Ora di chiamata sono richieste."
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "OR New Phone"
@@ -2022,27 +2021,27 @@ msgstr ""
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Selected Phone Call is deleted sucessfully."
-msgstr ""
+msgstr "La chiamata telefonica selezionata è stata eliminata con successo."
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Phone Call \"%1\" has been logged to Activity History."
-msgstr ""
+msgstr " La chiamata telefonica \"%1\" è stata registrata nello storico delle attività"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Phone Call \"%1\" has been saved."
-msgstr ""
+msgstr "La chiamata telefonica \"%1\" è stata salvata."
 
 #: CRM/Admin/Form/ActivityType.php
 msgid "Please enter a valid activity type name."
-msgstr ""
+msgstr "Prego inserire un nome valido per tipo di attività"
 
 #: CRM/Admin/Form/ActivityType.php
 msgid "Selected activity type has been deleted."
-msgstr ""
+msgstr "Il tipo di attività selezionato è stato eliminato."
 
 #: CRM/Admin/Form/ActivityType.php
 msgid "The activity type \"%1\" has been saved."
-msgstr ""
+msgstr "Il tipo di attività \"%1\" è stato salvato."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "Match On:"
@@ -10752,3 +10751,4 @@ msgstr ""
 
 #~ msgid "Process Mailing Queue"
 #~ msgstr "Coda di processo Mailing"
+
