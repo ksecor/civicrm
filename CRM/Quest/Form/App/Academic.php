@@ -46,6 +46,7 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
 {
     static $_honorIds;
+    static $action;
     
     /**
      * Function to set variables up before form is built
@@ -58,8 +59,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         // need tp get honor ID's
         $this->_honorIds = array();
 
-        $session =& CRM_Core_Session::singleton( );
-        $contactId = $session->get( 'userID' );
+        $contactId = $this->get( 'contact_id' );
         require_once 'CRM/Quest/DAO/Honor.php';
         $dao = & new CRM_Quest_DAO_Honor();
         $dao->contact_id = $contactId;
@@ -70,6 +70,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $this->_honorIds[$count] = $dao->id;
         }
         $this->set( 'honorIds', $this->_honorIds);
+        $this->action = $this->get('mode');
     }
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
@@ -84,7 +85,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $defaults       = array( );
  
         $session =& CRM_Core_Session::singleton( );
-        $contactId = $session->get( 'userID' );
+        $contactId = $this->get( 'contact_id' );
         if ( $contactId ) {
             $dao = & new CRM_Quest_DAO_Student();
             $dao->contact_id = $contactId;
@@ -129,6 +130,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
+        
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
         
         // name of school
@@ -176,6 +178,10 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         // Assign showHide links to tpl
         $this->assign( 'honor', $honor );
 
+        if( $this->action & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
+        
         parent::buildQuickForm( );
     }
 
@@ -187,50 +193,50 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-
-        $honorParams = $params = $this->controller->exportValues( $this->_name );
-        $values = $this->controller->exportValues( 'Personal' );
-        $params = array_merge( $params,$values );
-       
-        $id         = $this->get('id');
-        $contact_id = $this->get('contact_id');
-
-        $ids = array();
-        $ids['id'] = $id;
-        $ids['contact_id'] = $contact_id;
-
-        require_once 'CRM/Quest/BAO/Student.php';
-        
-        require_once 'CRM/Utils/Date.php';
-        $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
-
-        $student = CRM_Quest_BAO_Student::create( $params, $ids);
-
-        // to add honour records 
-        require_once 'CRM/Utils/Date.php';
-        $honors = array();
-
-        for ( $i = 1; $i <= 6; $i++ ) {
-            if ( ! empty( $params[ "description_$i" ] ) &&
-                 ! CRM_Utils_System::isNull( $params[ "award_date_$i" ] ) ) {
-                $honors[$i]['description'] = $params[ "description_$i" ];
-                $honors[$i]['award_date'] = CRM_Utils_Date::format( $params[ "award_date_$i" ] );
-            }
-        }
-
-        require_once 'CRM/Quest/BAO/Honor.php';
-        $this->_honorIds = $this->get( 'honorIds');
-        foreach ( $honors as $key => $honor ) {
+        if ($this->action !=  CRM_Core_Action::VIEW ) {
+            $honorParams = $params = $this->controller->exportValues( $this->_name );
+            $values = $this->controller->exportValues( 'Personal' );
+            $params = array_merge( $params,$values );
+            
+            $id         = $this->get('id');
+            $contact_id = $this->get('contact_id');
+            
             $ids = array();
-            if ( $this->_honorIds[$key] ) {
-                $ids['id'] = $this->_honorIds[$key];
+            $ids['id'] = $id;
+            $ids['contact_id'] = $contact_id;
+            
+            require_once 'CRM/Quest/BAO/Student.php';
+            
+            require_once 'CRM/Utils/Date.php';
+            $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
+            
+            $student = CRM_Quest_BAO_Student::create( $params, $ids);
+            
+            // to add honour records 
+            require_once 'CRM/Utils/Date.php';
+            $honors = array();
+            
+            for ( $i = 1; $i <= 6; $i++ ) {
+                if ( ! empty( $params[ "description_$i" ] ) &&
+                     ! CRM_Utils_System::isNull( $params[ "award_date_$i" ] ) ) {
+                    $honors[$i]['description'] = $params[ "description_$i" ];
+                    $honors[$i]['award_date'] = CRM_Utils_Date::format( $params[ "award_date_$i" ] );
+                }
             }
-            $honor['contact_id']     = $contact_id;
-            $newHonor                = CRM_Quest_BAO_Honor::create( $honor,$ids );
-            $this->_honorIds[$key]   = $newHonor->id;
+            
+            require_once 'CRM/Quest/BAO/Honor.php';
+            $this->_honorIds = $this->get( 'honorIds');
+            foreach ( $honors as $key => $honor ) {
+                $ids = array();
+                if ( $this->_honorIds[$key] ) {
+                    $ids['id'] = $this->_honorIds[$key];
+                }
+                $honor['contact_id']     = $contact_id;
+                $newHonor                = CRM_Quest_BAO_Honor::create( $honor,$ids );
+                $this->_honorIds[$key]   = $newHonor->id;
+            }
+            $this->set( 'honorIds', $this->_honorIds);
         }
-        $this->set( 'honorIds', $this->_honorIds);
-     
         parent::postProcess( );
     }//end of function
 

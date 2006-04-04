@@ -46,6 +46,8 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 {
     protected $_siblingID;
+    static    $action;
+    
 
      /**
      * Function to set variables up before form is built
@@ -59,6 +61,8 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 
         $this->_contactId = $this->get('contact_id');
         $this->_siblingID  = CRM_Utils_Array::value( 'siblingID', $this->_options );
+        $this->action = $this->get('mode');
+        
     }
     
     /**
@@ -138,32 +142,39 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                            'description',
                            ts('Comments'),
                            $attributes['description'] );
+        
+        if( $this->action & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
+        
+        
         parent::buildQuickForm();
     }//end of function
 
 
     public function postProcess()  
     {
-        $params  = $this->controller->exportValues( $this->_name );
-       
-        $params['relationship_id'] = $params['sibling_relationship_id'];
-        $params['contact_id']      = $this->get('contact_id'); 
-        $params['is_sibling']      = true;
-        $params['birth_date']      = CRM_Utils_Date::format( $params['birth_date'] );
-
-        require_once 'CRM/Quest/BAO/Person.php';
-
-        $ids = array();
-        $ids['id'] = $this->_siblingID;
-
-        $sibling = CRM_Quest_BAO_Person::create( $params , $ids);
-
-        // fix the details array
-        $details = $this->controller->get( 'siblingDetails' );
-        $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']}";
-        $details[$this->_name]['options']['siblingID'] = $sibling->id;
-        $this->controller->set( 'siblingDetails', $details );
-
+        if ($this->action !=  CRM_Core_Action::VIEW ) {
+            $params  = $this->controller->exportValues( $this->_name );
+            
+            $params['relationship_id'] = $params['sibling_relationship_id'];
+            $params['contact_id']      = $this->get('contact_id'); 
+            $params['is_sibling']      = true;
+            $params['birth_date']      = CRM_Utils_Date::format( $params['birth_date'] );
+            
+            require_once 'CRM/Quest/BAO/Person.php';
+            
+            $ids = array();
+            $ids['id'] = $this->_siblingID;
+            
+            $sibling = CRM_Quest_BAO_Person::create( $params , $ids);
+            
+            // fix the details array
+            $details = $this->controller->get( 'siblingDetails' );
+            $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']}";
+            $details[$this->_name]['options']['siblingID'] = $sibling->id;
+            $this->controller->set( 'siblingDetails', $details );
+        }
         parent::postProcess( );
     }
 

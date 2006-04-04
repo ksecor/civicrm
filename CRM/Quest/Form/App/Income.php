@@ -49,7 +49,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
     protected $_incomeID;
     protected $_totalIncome;
     protected $_deleteButtonName = null;
-
+    static    $action; 
     /**
      * Function to set variables up before form is built
      *
@@ -63,6 +63,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         $this->_contactId = $this->get('contact_id');
         $this->_incomeID  = CRM_Utils_Array::value( 'incomeID', $this->_options );
         $this->_personID  = CRM_Utils_Array::value( 'personID', $this->_options );
+        $this->action = $this->get('mode');
     }
 
     /**
@@ -153,7 +154,10 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             // this is a new income form, allow deletion
             $this->add( 'submit', $this->_deleteButtonName, ts( 'Delete this Income Source' ) );
         }
-
+        
+        if( $this->action & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
         parent::buildQuickForm();
             
     }//end of function
@@ -177,99 +181,100 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     {
-       // check if the delete button has been submitted
-        $buttonName = $this->controller->getButtonName( );
-        if ( $buttonName == $this->_deleteButtonName ) {
-            // delete this form from the list of detail pages
-            $details = $this->controller->get( 'incomeDetails' );
-            unset( $details[$this->_name] );
-            $last = null;
-            foreach ( $details as $name => $value ) {
-                $last = $name;
-                $details[$name]['options']['lastSource'] = false;
+        if ($this->action !=  CRM_Core_Action::VIEW ) {
+            // check if the delete button has been submitted
+            $buttonName = $this->controller->getButtonName( );
+            if ( $buttonName == $this->_deleteButtonName ) {
+                // delete this form from the list of detail pages
+                $details = $this->controller->get( 'incomeDetails' );
+                unset( $details[$this->_name] );
+                $last = null;
+                foreach ( $details as $name => $value ) {
+                    $last = $name;
+                    $details[$name]['options']['lastSource'] = false;
+                }
+                $details[$last]['options']['lastSource'] = true;
+                $this->controller->set( 'incomeDetails', $details );
+                return;
             }
-            $details[$last]['options']['lastSource'] = true;
-            $this->controller->set( 'incomeDetails', $details );
-            return;
-        }
-
-        $params  = $this->controller->exportValues( $this->_name );
-
-        $params['source_1_id'] = $params['type_of_income_id_1']; 
-        $params['source_2_id'] = $params['type_of_income_id_2'];
-
-        if ( ! $this->_personID ) {
-            $personParams = array( );
-            $personParams['first_name'] = $params['first_name'];
-            $personParams['last_name']  = $params['last_name'];
-            $personParams['contact_id'] = $this->get( 'contact_id' );
-            $relationship = CRM_Core_OptionGroup::values( 'relationship' );
-            $personParams['relationship_id'] = array_search( 'Other', $relationship );
             
-            $ids = array( );
-            require_once 'CRM/Quest/BAO/Person.php';
-            $person = CRM_Quest_BAO_Person::create( $personParams , $ids );
-            $this->_personID = $person->id;
-        }
-
-        $params['person_id']   = $this->_personID;
-        
-        $ids = array( 'id' => $this->_incomeID );
-
-        require_once 'CRM/Quest/BAO/Income.php';
-        $income = CRM_Quest_BAO_Income::create( $params , $ids );
-
-        $totalIncome = $this->get('totalIncome');
-        $personId = $this->_personID;
-        $totalIncome[$personId] =  $params['amount_1'] + $params['amount_2']   ;
-        $this->set('totalIncome',  $totalIncome );        
-
-        //add total Income in student Table
-        $studValues = $this->controller->exportValues( 'Personal' );
-        $income = null;
-        $totalIncome = $this->get('totalIncome');
-        if ( is_array( $totalIncome ) )  {
-            foreach( $totalIncome as $value ) {
-                $income = $income + $value;
+            $params  = $this->controller->exportValues( $this->_name );
+            
+            $params['source_1_id'] = $params['type_of_income_id_1']; 
+            $params['source_2_id'] = $params['type_of_income_id_2'];
+            
+            if ( ! $this->_personID ) {
+                $personParams = array( );
+                $personParams['first_name'] = $params['first_name'];
+                $personParams['last_name']  = $params['last_name'];
+                $personParams['contact_id'] = $this->get( 'contact_id' );
+                $relationship = CRM_Core_OptionGroup::values( 'relationship' );
+                $personParams['relationship_id'] = array_search( 'Other', $relationship );
+                
+                $ids = array( );
+                require_once 'CRM/Quest/BAO/Person.php';
+                $person = CRM_Quest_BAO_Person::create( $personParams , $ids );
+                $this->_personID = $person->id;
             }
+            
+            $params['person_id']   = $this->_personID;
+            
+            $ids = array( 'id' => $this->_incomeID );
+            
+            require_once 'CRM/Quest/BAO/Income.php';
+            $income = CRM_Quest_BAO_Income::create( $params , $ids );
+            
+            $totalIncome = $this->get('totalIncome');
+            $personId = $this->_personID;
+            $totalIncome[$personId] =  $params['amount_1'] + $params['amount_2']   ;
+            $this->set('totalIncome',  $totalIncome );        
+            
+            //add total Income in student Table
+            $studValues = $this->controller->exportValues( 'Personal' );
+            $income = null;
+            $totalIncome = $this->get('totalIncome');
+            if ( is_array( $totalIncome ) )  {
+                foreach( $totalIncome as $value ) {
+                    $income = $income + $value;
+                }
+            }
+            $studValues['household_income_total'] = $income;
+            $id = $this->get('id');
+            $contact_id = $this->get('contact_id');
+            $ids = array();
+            $ids['id'] = $id;
+            $ids['contact_id'] = $contact_id;
+            
+            require_once 'CRM/Quest/BAO/Student.php';
+
+            require_once 'CRM/Utils/Date.php';
+            $studValues['high_school_grad_year'] = CRM_Utils_Date::format($studValues['high_school_grad_year']) ;
+            $student = CRM_Quest_BAO_Student::create( $studValues, $ids);
+            
+            $details = $this->controller->get( 'incomeDetails' );
+            $details[ $this->_name ] =
+                array( 'className' => 'CRM_Quest_Form_App_Income',
+                       'title'     => "{$params['first_name']} {$params['last_name']}",
+                       'options'   => array( 'personID'   => $this->_personID,
+                                             'incomeID'   => $income->id,
+                                             'lastSource' => false ) );
+            
+            if ( CRM_Utils_Array::value( 'another_income_source', $params ) ) {
+                $details[$this->_name . '-1'] = array( 'className' => 'CRM_Quest_Form_App_Income',
+                                                       'title'     => 'Add an Income Source',
+                                                       'options'   => array( 'personID'   => null,
+                                                                             'incomeID'   => null,
+                                                                             'lastSource' => true ) );
+            } else {
+                $keys = array_keys( $details );
+                $last = array_pop( $keys );
+                $details[$last]['options']['lastSource'] = true;
+            }
+            
+            $this->controller->set( 'incomeDetails', $details );
+            
+            $this->controller->rebuild( );
         }
-        $studValues['household_income_total'] = $income;
-        $id = $this->get('id');
-        $contact_id = $this->get('contact_id');
-        $ids = array();
-        $ids['id'] = $id;
-        $ids['contact_id'] = $contact_id;
-
-        require_once 'CRM/Quest/BAO/Student.php';
-
-        require_once 'CRM/Utils/Date.php';
-        $studValues['high_school_grad_year'] = CRM_Utils_Date::format($studValues['high_school_grad_year']) ;
-        $student = CRM_Quest_BAO_Student::create( $studValues, $ids);
-
-        $details = $this->controller->get( 'incomeDetails' );
-        $details[ $this->_name ] =
-            array( 'className' => 'CRM_Quest_Form_App_Income',
-                   'title'     => "{$params['first_name']} {$params['last_name']}",
-                   'options'   => array( 'personID'   => $this->_personID,
-                                         'incomeID'   => $income->id,
-                                         'lastSource' => false ) );
-
-        if ( CRM_Utils_Array::value( 'another_income_source', $params ) ) {
-            $details[$this->_name . '-1'] = array( 'className' => 'CRM_Quest_Form_App_Income',
-                                                   'title'     => 'Add an Income Source',
-                                                   'options'   => array( 'personID'   => null,
-                                                                         'incomeID'   => null,
-                                                                         'lastSource' => true ) );
-        } else {
-            $keys = array_keys( $details );
-            $last = array_pop( $keys );
-            $details[$last]['options']['lastSource'] = true;
-        }
-        
-        $this->controller->set( 'incomeDetails', $details );
-
-        $this->controller->rebuild( );
-        
         parent::postProcess( );
     }
     

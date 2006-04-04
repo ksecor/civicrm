@@ -51,6 +51,19 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
     protected $_multiTests;
     protected $_sections;
     protected $_parts;
+    static    $action;
+
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        parent::preProcess();
+        $this->action = $this->get('mode');
+    }
 
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
@@ -251,7 +264,11 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                             false ,null);
 
         $this->addFormRule(array('CRM_Quest_Form_App_Testing', 'formRule'));
-     
+       
+        if( $this->action & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
+        
         parent::buildQuickForm( );
     }
 
@@ -334,162 +351,163 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-        $params = $this->controller->exportValues( $this->_name );
-
-        $testSet1 = array('act','psat','sat');
-        $testSet2 = array('satII','ap');
-
-        $contactId = $this->get('contact_id');
-        $testTypes = CRM_Core_OptionGroup::values( 'test' ,true);
-        
-        $testParams1 = array();
-        $totalScore = array();
-
-        require_once 'CRM/Utils/Date.php';
-
-        foreach ( $this->_tests as $testName => $testValue ) {
-            $filled = false;
-            foreach ( $this->_sections as $name => $value ) {
-                if ( $value & $testValue ) {
-                    $key   = $testName . '_' . strtolower( $name );
+        if ($this->action !=  CRM_Core_Action::VIEW ) {
+            $params = $this->controller->exportValues( $this->_name );
+            
+            $testSet1 = array('act','psat','sat');
+            $testSet2 = array('satII','ap');
+            
+            $contactId = $this->get('contact_id');
+            $testTypes = CRM_Core_OptionGroup::values( 'test' ,true);
+            
+            $testParams1 = array();
+            $totalScore = array();
+            
+            require_once 'CRM/Utils/Date.php';
+            
+            foreach ( $this->_tests as $testName => $testValue ) {
+                $filled = false;
+                foreach ( $this->_sections as $name => $value ) {
+                    if ( $value & $testValue ) {
+                        $key   = $testName . '_' . strtolower( $name );
+                        $value = $params[$key];
+                        if ( ! empty( $value ) ) {
+                            $filled = true;
+                            if ( $name == 'Total' ) {
+                                $testParams1[$testName]["score_composite"] = $value;
+                            } else if ($name == 'CriticalReading') {
+                                $testParams1[$testName]["score_reading"] = $value;
+                            } else {
+                                $testParams1[$testName]["score_" . strtolower( $name )] = $value;
+                            }
+                        }
+                    }
+                }
+                
+                $key   = "{$testName}_date";
+                $value = $params[$key]; 
+                if ( ! CRM_Utils_System::isNull( $value ) ) {
+                    $filled = true;
+                    $testParams1[$testName]["test_date"] = CRM_Utils_Date::format( $value );
+                }
+                
+                if ( $filled ) {
+                    $testParams1[$testName]['contact_id'] = $contactId;
+                    $testParams1[$testName]['test_id']    = $testTypes[strtoupper($testName)];
+                }
+            }
+            
+            // calculate total score for SAT , PSAT , ACT
+            
+            if( is_array( $testParams1 ) ) {
+                foreach( $testParams1 as $test => $score ) {
+                    if ( $test == 'act' ) {
+                        $totalScore[$test] = $score['score_composite'];
+                    } else if($test == 'psat') {
+                        $totalScore[$test] = ( $score['score_math'] + $score['score_reading']) * 10;
+                    } else if ( $test == 'sat' ) {
+                        $totalScore[$test] = ( $score['score_math'] + $score['score_reading']);
+                    }
+                }
+            }
+            
+            // process sat II/ ap stuff
+            foreach  ( $this->_multiTests as $testName => $testCount ) { 
+                for ( $i = 1; $i <= $testCount; $i++ ) { 
+                    $filled = false;
+                    
+                    $key   = "{$testName}_subject_id_$i";
                     $value = $params[$key];
                     if ( ! empty( $value ) ) {
                         $filled = true;
-                        if ( $name == 'Total' ) {
-                            $testParams1[$testName]["score_composite"] = $value;
-                        } else if ($name == 'CriticalReading') {
-                            $testParams1[$testName]["score_reading"] = $value;
+                        $testParams2[$testName][$i]["subject"] = $value;
+                    }
+                    
+                    if ( $testName != 'ap' ) {
+                        $key   = "{$testName}_score_$i";
+                    } else {
+                        $key   = "{$testName}_score_id_$i";
+                    }
+                    
+                    $value = $params[$key];
+                    if ( ! empty( $value ) ) {
+                        $filled = true;
+                        $testParams2[$testName][$i]["score_composite"] = $value;
+                    }
+                    
+                    $key   = "{$testName}_date_$i";
+                    $value = $params[$key];
+                    if ( ! CRM_Utils_System::isNull( $value ) ) {
+                        $filled = true;
+                        $testParams2[$testName][$i]["test_date"] = CRM_Utils_Date::format( $value );
+                    }
+                    
+                    if ( $filled ) {
+                        $testParams2[$testName][$i]['contact_id'] = $contactId;
+                        if ( $testName == 'satII' ) {
+                            $testParams2[$testName][$i]['test_id']    = $testTypes[strtoupper('sat II')];
                         } else {
-                            $testParams1[$testName]["score_" . strtolower( $name )] = $value;
+                            $testParams2[$testName][$i]['test_id']    = $testTypes[strtoupper($testName)];
                         }
                     }
                 }
             }
             
-            $key   = "{$testName}_date";
-            $value = $params[$key]; 
-            if ( ! CRM_Utils_System::isNull( $value ) ) {
-                $filled = true;
-                $testParams1[$testName]["test_date"] = CRM_Utils_Date::format( $value );
-            }
-
-            if ( $filled ) {
-                $testParams1[$testName]['contact_id'] = $contactId;
-                $testParams1[$testName]['test_id']    = $testTypes[strtoupper($testName)];
-            }
-        }
+            require_once 'CRM/Quest/BAO/Test.php';
         
-        // calculate total score for SAT , PSAT , ACT
-        
-        if( is_array( $testParams1 ) ) {
-            foreach( $testParams1 as $test => $score ) {
-                if ( $test == 'act' ) {
-                    $totalScore[$test] = $score['score_composite'];
-                } else if($test == 'psat') {
-                    $totalScore[$test] = ( $score['score_math'] + $score['score_reading']) * 10;
-                } else if ( $test == 'sat' ) {
-                    $totalScore[$test] = ( $score['score_math'] + $score['score_reading']);
+            // add data to database
+            // for 'act','psat','sat'
+            foreach ( $testParams1 as $key => $value ) {
+                $testParam = $value;
+                $ids  = array();
+                if ( $this->_testIDs[$key] ) {
+                    $ids['id'] = $this->_testIDs[$key];
                 }
+                $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
+                $this->_testIDs[$key] = $test->id;
             }
-        }
-       
-        // process sat II/ ap stuff
-        foreach  ( $this->_multiTests as $testName => $testCount ) { 
-            for ( $i = 1; $i <= $testCount; $i++ ) { 
-                $filled = false;
-
-                $key   = "{$testName}_subject_id_$i";
-                $value = $params[$key];
-                if ( ! empty( $value ) ) {
-                    $filled = true;
-                    $testParams2[$testName][$i]["subject"] = $value;
-                }
-                
-                if ( $testName != 'ap' ) {
-                    $key   = "{$testName}_score_$i";
-                } else {
-                    $key   = "{$testName}_score_id_$i";
-                }
-
-                $value = $params[$key];
-                if ( ! empty( $value ) ) {
-                    $filled = true;
-                    $testParams2[$testName][$i]["score_composite"] = $value;
-                }
-                
-                $key   = "{$testName}_date_$i";
-                $value = $params[$key];
-                if ( ! CRM_Utils_System::isNull( $value ) ) {
-                    $filled = true;
-                    $testParams2[$testName][$i]["test_date"] = CRM_Utils_Date::format( $value );
-                }
-                
-                if ( $filled ) {
-                    $testParams2[$testName][$i]['contact_id'] = $contactId;
-                    if ( $testName == 'satII' ) {
-                        $testParams2[$testName][$i]['test_id']    = $testTypes[strtoupper('sat II')];
-                    } else {
-                        $testParams2[$testName][$i]['test_id']    = $testTypes[strtoupper($testName)];
+            
+            
+            //for 'satII','ap'
+            if ( is_array( $testParams2 ) ) {
+                foreach ( $testParams2 as $key => $value ) {
+                    foreach ( $value as $k => $v ) {
+                        $testParam = $v;
+                        $ids  = array();
+                        if ( $this->_testIDs[$key][$k] ) {
+                            $ids['id'] = $this->_testIDs[$key][$k];
+                        }
+                        $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
+                        $this->_testIDs[$key][$k] = $test->id;
                     }
                 }
             }
-        }
-                        
-        require_once 'CRM/Quest/BAO/Test.php';
-        
-        // add data to database
-        // for 'act','psat','sat'
-        foreach ( $testParams1 as $key => $value ) {
-            $testParam = $value;
-            $ids  = array();
-            if ( $this->_testIDs[$key] ) {
-                $ids['id'] = $this->_testIDs[$key];
+            
+            // Insert  Student recornd  
+            $values = $this->controller->exportValues( 'Personal' );
+            $values['score_SAT']     =  $totalScore['sat'];
+            $values['score_PSAT']    =  $totalScore['psat'];
+            $values['score_ACT']     =  $totalScore['act'];
+            
+            if ( CRM_Utils_Array::value( 'test_tutoring', $params ) &&
+                 is_array( $params['test_tutoring'] ) &&
+                 ! empty( $params['test_tutoring'] ) ) {
+                require_once 'CRM/Core/BAO/CustomOption.php';
+                $values['test_tutoring'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['test_tutoring']));
             }
-            $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
-            $this->_testIDs[$key] = $test->id;
-        }
-        
+            
+            $id = $this->get('id');
+            $contact_id = $this->get('contact_id');
+            $ids = array();
+            $ids['id'] = $id;
+            $ids['contact_id'] = $contact_id;
 
-        //for 'satII','ap'
-        if ( is_array( $testParams2 ) ) {
-            foreach ( $testParams2 as $key => $value ) {
-                foreach ( $value as $k => $v ) {
-                    $testParam = $v;
-                    $ids  = array();
-                    if ( $this->_testIDs[$key][$k] ) {
-                        $ids['id'] = $this->_testIDs[$key][$k];
-                    }
-                    $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
-                    $this->_testIDs[$key][$k] = $test->id;
-                }
-            }
-        }
-
-        // Insert  Student recornd  
-        $values = $this->controller->exportValues( 'Personal' );
-        $values['score_SAT']     =  $totalScore['sat'];
-        $values['score_PSAT']    =  $totalScore['psat'];
-        $values['score_ACT']     =  $totalScore['act'];
-        
-        if ( CRM_Utils_Array::value( 'test_tutoring', $params ) &&
-             is_array( $params['test_tutoring'] ) &&
-             ! empty( $params['test_tutoring'] ) ) {
-            require_once 'CRM/Core/BAO/CustomOption.php';
-            $values['test_tutoring'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['test_tutoring']));
-        }
-
-        $id = $this->get('id');
-        $contact_id = $this->get('contact_id');
-        $ids = array();
-        $ids['id'] = $id;
-        $ids['contact_id'] = $contact_id;
-
-        require_once 'CRM/Quest/BAO/Student.php';
-        require_once 'CRM/Utils/Date.php';
-        $values['high_school_grad_year'] = CRM_Utils_Date::format($values['high_school_grad_year']) ;
-        $student = CRM_Quest_BAO_Student::create( $values, $ids);
-       
-              
+            require_once 'CRM/Quest/BAO/Student.php';
+            require_once 'CRM/Utils/Date.php';
+            $values['high_school_grad_year'] = CRM_Utils_Date::format($values['high_school_grad_year']) ;
+            $student = CRM_Quest_BAO_Student::create( $values, $ids);
+            
+        }         
         parent::postProcess( );
     }//end of function
 

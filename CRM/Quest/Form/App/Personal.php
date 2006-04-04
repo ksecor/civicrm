@@ -48,6 +48,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 
     static $_contactId;
     static $_studentId;
+    static $action;
 
     /**
      * Function to set variables up before form is built
@@ -58,11 +59,12 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-        $session =& CRM_Core_Session::singleton( );
-        $this->_contactId = $session->get( 'userID' );
+        $this->_contactId = $this->get( 'contact_id' );
         if( $this->_contactId == null ) {
             return;
         }
+        $this->action = $this->get('mode');
+        
     }
 
     /**
@@ -218,7 +220,10 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
                          CRM_Core_OptionGroup::values('home_area') );
 
         $this->addFormRule(array('CRM_Quest_Form_App_Personal', 'formRule'));
-
+        if($this->action & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
+        
         parent::buildQuickForm( );
     }
 
@@ -255,38 +260,42 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-      $params = $this->controller->exportValues( $this->_name );
-
-      require_once 'CRM/Quest/BAO/Student.php';
-               
-      $params['contact_type'] = 'Individual';
-       
+        
+        if ($this->action !=  CRM_Core_Action::VIEW ) {
+            $params = $this->controller->exportValues( $this->_name );
+            
+            require_once 'CRM/Quest/BAO/Student.php';
+            
+            $params['contact_type'] = 'Individual';
+            
     
-      $params['location'][1]['location_type_id'] = 1;
-      $params['location'][1]['is_primary'] = 1 ;
-      $params['location'][2]['location_type_id'] = 2;
-      
-      
-      $idParams = array( 'id' => $this->_contactId, 'contact_id' => $this->_contactId );
+            $params['location'][1]['location_type_id'] = 1;
+            $params['location'][1]['is_primary'] = 1 ;
+            $params['location'][2]['location_type_id'] = 2;
+            
+            
+            $idParams = array( 'id' => $this->_contactId, 'contact_id' => $this->_contactId );
           
-      CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-      $contact = CRM_Contact_BAO_Contact::create($params, $ids, 2);
-     
-      $ids = array();
-      if ( $this->_studentId ) {
-          $ids['id']  = $this->_studentId;
-      }
-      $params['contact_id'] = $contact->id;
-
-      require_once 'CRM/Utils/Date.php';
-      $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
-      
-      $student = CRM_Quest_BAO_Student::create( $params , $ids);
-
-      $this->set( 'id', $student->id );
-      $this->set( 'welcome_name', $params['first_name'] );
-
-      parent::postProcess( );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+            $contact = CRM_Contact_BAO_Contact::create($params, $ids, 2);
+            
+            $ids = array();
+            if ( $this->_studentId ) {
+                $ids['id']  = $this->_studentId;
+            }
+            $params['contact_id'] = $contact->id;
+            
+            require_once 'CRM/Utils/Date.php';
+            $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
+            
+            $student = CRM_Quest_BAO_Student::create( $params , $ids);
+            
+            $this->set( 'id', $student->id );
+            $this->set( 'welcome_name', $params['first_name'] );
+        
+            }
+        parent::postProcess( );
+        
     }//end of function
 
     /**

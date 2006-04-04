@@ -47,6 +47,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 {
     protected $_personID;
     protected $_relationshipID;
+    static    $action;
 
     const INDUSTRY_UNEMPLOYED = 47;
 
@@ -61,6 +62,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         parent::preProcess();
         $this->_personID        = $this->_options['personID'];
         $this->_relationshipID  = $this->_options['relationshipID'];
+        $this->action = $this->get('mode');
     }
    
     /**
@@ -205,6 +207,10 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 
         $this->addFormRule(array('CRM_Quest_Form_App_Guardian', 'formRule'));
 
+        if( $this->action & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
+
         parent::buildQuickForm();
     }//end of function
     
@@ -233,68 +239,69 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     {
-        $params  = $this->controller->exportValues( $this->_name );
-       
-        $params['relationship_id'] = $this->_relationshipID;
-
-        $relationship = CRM_Core_OptionGroup::values( 'relationship' );
-        $relationshipName = trim( CRM_Utils_Array::value( $this->_relationshipID,
-                                                          $relationship ) );
-        
-        $params['contact_id']      = $this->get('contact_id'); 
-        $params['is_parent_guardian'] = true;
-
-        $ids['id'] = $this->_personID;
-
-        // format date
-        require_once 'CRM/Utils/Date.php';
-        $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year','birth_date');
-        foreach( $dateFields as $field ) {
-            $date = CRM_Utils_Date::format( $params[$field]);  
-            if (! empty( $date) ) {
-                $params[$field] = $date;  
-            } else {
-                $params[$field] = '';
+        if ($this->action !=  CRM_Core_Action::VIEW ) {
+            $params  = $this->controller->exportValues( $this->_name );
+            
+            $params['relationship_id'] = $this->_relationshipID;
+            
+            $relationship = CRM_Core_OptionGroup::values( 'relationship' );
+            $relationshipName = trim( CRM_Utils_Array::value( $this->_relationshipID,
+                                                              $relationship ) );
+            
+            $params['contact_id']      = $this->get('contact_id'); 
+            $params['is_parent_guardian'] = true;
+            
+            $ids['id'] = $this->_personID;
+            
+            // format date
+            require_once 'CRM/Utils/Date.php';
+            $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year','birth_date');
+            foreach( $dateFields as $field ) {
+                $date = CRM_Utils_Date::format( $params[$field]);  
+                if (! empty( $date) ) {
+                    $params[$field] = $date;  
+                } else {
+                    $params[$field] = '';
+                }
+            }
+            
+            //fix for deceased_year
+            $params['deceased_year'] = $params['deceased_year_date'];
+            
+            require_once 'CRM/Quest/BAO/Person.php';
+            $person = CRM_Quest_BAO_Person::create( $params , $ids );
+            
+            // fix the details array
+            $details = $this->controller->get( 'householdDetails' );
+            $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']}";
+            $details[$this->_name]['options']['personID'] = $person->id;
+            $details[$this->_name]['options']['relationshipID'] = $this->_relationshipID;
+            $details[$this->_name]['options']['relationshipName'] = $relationshipName;
+            $this->set( 'householdDetails', $details );
+            
+            // check if this person has a job, if so add to incomeArray
+            if ( $params['industry_id'] && $params['industry_id'] != self::INDUSTRY_UNEMPLOYED ) {
+                // add an income form for this person
+                $incomeDetails = $this->controller->get( 'incomeDetails' );
+                $incomeID = null;
+                if ( CRM_Utils_Array::value( "Income-{$person->id}", $incomeDetails ) ) {
+                    $incomeID = $incomeDetails[ "Income-{$person->id}" ]['options']['incomeID'];
+                }
+                $incomeDetails[ "Income-{$person->id}" ] =
+                    array( 'className' => 'CRM_Quest_Form_App_Income',
+                           'title'     => "{$params['first_name']} {$params['last_name']}",
+                           'options'   => array( 'personID'   => $person->id,
+                                                 'incomeID'   => $incomeID,
+                                                 'lastSource' => false ) );
+                $keys = array_keys( $incomeDetails );
+                $last = array_pop( $keys );
+                $incomeDetails[$last]['options']['lastSource'] = true;
+                $this->controller->set( 'incomeDetails', $incomeDetails );
             }
         }
-
-        //fix for deceased_year
-        $params['deceased_year'] = $params['deceased_year_date'];
-
-        require_once 'CRM/Quest/BAO/Person.php';
-        $person = CRM_Quest_BAO_Person::create( $params , $ids );
-
-        // fix the details array
-        $details = $this->controller->get( 'householdDetails' );
-        $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']}";
-        $details[$this->_name]['options']['personID'] = $person->id;
-        $details[$this->_name]['options']['relationshipID'] = $this->_relationshipID;
-        $details[$this->_name]['options']['relationshipName'] = $relationshipName;
-        $this->set( 'householdDetails', $details );
-        
-        // check if this person has a job, if so add to incomeArray
-        if ( $params['industry_id'] && $params['industry_id'] != self::INDUSTRY_UNEMPLOYED ) {
-            // add an income form for this person
-            $incomeDetails = $this->controller->get( 'incomeDetails' );
-            $incomeID = null;
-            if ( CRM_Utils_Array::value( "Income-{$person->id}", $incomeDetails ) ) {
-                $incomeID = $incomeDetails[ "Income-{$person->id}" ]['options']['incomeID'];
-            }
-            $incomeDetails[ "Income-{$person->id}" ] =
-                array( 'className' => 'CRM_Quest_Form_App_Income',
-                       'title'     => "{$params['first_name']} {$params['last_name']}",
-                       'options'   => array( 'personID'   => $person->id,
-                                             'incomeID'   => $incomeID,
-                                             'lastSource' => false ) );
-            $keys = array_keys( $incomeDetails );
-            $last = array_pop( $keys );
-            $incomeDetails[$last]['options']['lastSource'] = true;
-            $this->controller->set( 'incomeDetails', $incomeDetails );
-        }
-
         parent::postProcess( );
     }
-
+    
     /**
      * Return a descriptive name for the page, used in wizard header
      *

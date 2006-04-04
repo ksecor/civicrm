@@ -47,7 +47,20 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
 {
 
     protected $_essayID = null;
+    static    $action;
 
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        parent::preProcess();
+        $this->action = $this->get('mode');
+    }
+    
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -68,7 +81,6 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
                 $this->_essayID = $dao->id;
             }
         }
-        
         return $defaults;
     }
     
@@ -88,6 +100,10 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
                           'essay',
                           ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
                           $attributes['essay'] );
+        
+        if( $this->action & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
         parent::buildQuickForm();
 
 
@@ -106,17 +122,18 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
 
   public function postProcess() 
     {
-        $params = $this->controller->exportValues( $this->_name );
-      
-        require_once 'CRM/Quest/BAO/Essay.php';
-     
-        $contact_id = $this->get('contact_id');
-        $params['contact_id'] =  $contact_id;
-
-        $ids = array( 'id' => $this->_essayID );
-
-        CRM_Quest_BAO_Essay::create( $params, $ids);
-
+        if ($this->action !=  CRM_Core_Action::VIEW ) {
+            $params = $this->controller->exportValues( $this->_name );
+            
+            require_once 'CRM/Quest/BAO/Essay.php';
+            
+            $contact_id = $this->get('contact_id');
+            $params['contact_id'] =  $contact_id;
+            
+            $ids = array( 'id' => $this->_essayID );
+            
+            CRM_Quest_BAO_Essay::create( $params, $ids);
+        }
         parent::postProcess( );
     }//end of function
 

@@ -54,8 +54,14 @@ class CRM_Quest_Invoke {
         }
 
         if ( $args[2] == 'preapp' ) {
+            $cid = CRM_Utils_Request::retrieve('id', $form);
+            $mode = CRM_Utils_Request::retrieve('action', $form);
+            
             require_once 'CRM/Quest/Controller/PreApp.php';
-            $controller =& new CRM_Quest_Controller_PreApp( null, CRM_Core_Action::NONE, false );
+            $controller =& new CRM_Quest_Controller_PreApp( null,$mode, false );
+            if( $cid ) {
+                $controller->set('contact_id',$cid);
+            }
             return $controller->run( );
         }
 

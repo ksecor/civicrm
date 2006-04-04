@@ -47,7 +47,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
 {
     static $_orgIDs;
     static $_relIDs;
-
+    static $action;
 
     /**
      * Function to set variables up before form is built
@@ -102,6 +102,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         
         $this->set('relIDs' , $this->_relIDs);
         $this->set('orgIDs' , $this->_orgIDs);
+        $this->action = $this->get('mode');
         
     }
 
@@ -217,6 +218,11 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                                                            false );
         }
         $this->assign( 'highschool',$highschool );
+        
+        if( $this->action & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
+        
         parent::buildQuickForm( );
     }
     
@@ -228,78 +234,79 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-        $params = $this->controller->exportValues( $this->_name );
-        //format parameters
-        foreach( $params as $key => $value ) {
-            $keyArray = explode( '_', $key );
-            $orgnizationParams[$keyArray[count($keyArray)-1]][substr($key, 0, -2)] = $value ;// need to fix
+        if ($this->action !=  CRM_Core_Action::VIEW ) {
+            $params = $this->controller->exportValues( $this->_name );
+            //format parameters
+            foreach( $params as $key => $value ) {
+                $keyArray = explode( '_', $key );
+                $orgnizationParams[$keyArray[count($keyArray)-1]][substr($key, 0, -2)] = $value ;// need to fix
+            }
+        
+            foreach ( $orgnizationParams as $key => $orgParams) {
+                if ( ! $orgParams['organization_name']) {
+                    continue;
+                }
+                
+                $orgParams['location'][1]['location_type_id'] = 1;
+                $orgParams['location'][1]['is_primary'] = 1 ;
+                $contactID = $this->get('contact_id');
+                $orgParams['contact_type'] = 'Organization';
+                $orgParams['custom_4'] = 'Highschool';
+                
+                $ids = array();
+                $this->_orgIDs = $this->get('orgIDs');
+                
+                if ( $this->_orgIDs[$key] ) {
+                    $idParams = array( 'id' => $this->_orgIDs[$key], 'contact_id' => $this->_orgIDs[$key] );
+                    CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+                }
+                
+                $org = CRM_Contact_BAO_Contact::create($orgParams, $ids, 2);
+                $this->_orgIDs[$key] = $org->id;
+                $this->set('orgIDs' , $this->_orgIDs);
+                
+                // add data for custom fields 
+                require_once 'CRM/Core/BAO/CustomGroup.php';
+                $this->_groupTree = & CRM_Core_BAO_CustomGroup::getTree('Organization',$org->id,0);
+                
+                CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $orgParams );
+                
+                CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Organization',$org->id); 
+                
+                //create a realtionship
+                
+                $relationshipParams = array();
+                
+                require_once 'CRM/Contact/DAO/RelationshipType.php';
+                $dao = & new CRM_Contact_DAO_RelationshipType();
+                $dao->name_a_b = 'Student of';
+                $dao->find(true);
+                $relID  = $dao->id ;
+                
+                $relationshipParams['relationship_type_id'] = $relID.'_a_b';
+                $relationshipParams['start_date']           = $orgParams['date_of_entry'];
+                $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
+                
+                $organizationID = $org->id;
+                
+                $this->_relIDs = $this->get('relIDs');
+                
+                if ( $this->_relIDs[$key] ) {
+                    $ids = array('contact' =>$contactID,'relationship' => $this->_relIDs[$key] ,'contactTarget' =>$organizationID);
+                } else {
+                    $ids = array('contact' =>$contactID);
+                }
+                
+                
+                
+                require_once 'CRM/Contact/BAO/Relationship.php';
+                
+                $relationship= CRM_Contact_BAO_Relationship::add($relationshipParams,$ids,$organizationID);
+                $this->_relIDs[$key] = $relationship->id;
+                
+                $this->set('relIDs' , $this->_relIDs);
+            }
         }
-        
-        foreach ( $orgnizationParams as $key => $orgParams) {
-            if ( ! $orgParams['organization_name']) {
-                continue;
-            }
-
-            $orgParams['location'][1]['location_type_id'] = 1;
-            $orgParams['location'][1]['is_primary'] = 1 ;
-            $contactID = $this->get('contact_id');
-            $orgParams['contact_type'] = 'Organization';
-            $orgParams['custom_4'] = 'Highschool';
-            
-            $ids = array();
-            $this->_orgIDs = $this->get('orgIDs');
-
-            if ( $this->_orgIDs[$key] ) {
-                $idParams = array( 'id' => $this->_orgIDs[$key], 'contact_id' => $this->_orgIDs[$key] );
-                CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-            }
-            
-            $org = CRM_Contact_BAO_Contact::create($orgParams, $ids, 2);
-            $this->_orgIDs[$key] = $org->id;
-            $this->set('orgIDs' , $this->_orgIDs);
-
-           // add data for custom fields 
-            require_once 'CRM/Core/BAO/CustomGroup.php';
-            $this->_groupTree = & CRM_Core_BAO_CustomGroup::getTree('Organization',$org->id,0);
-            
-            CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $orgParams );
-            
-            CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Organization',$org->id); 
-
-            //create a realtionship
-           
-            $relationshipParams = array();
-            
-            require_once 'CRM/Contact/DAO/RelationshipType.php';
-            $dao = & new CRM_Contact_DAO_RelationshipType();
-            $dao->name_a_b = 'Student of';
-            $dao->find(true);
-            $relID  = $dao->id ;
-            
-            $relationshipParams['relationship_type_id'] = $relID.'_a_b';
-            $relationshipParams['start_date']           = $orgParams['date_of_entry'];
-            $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
-        
-            $organizationID = $org->id;
-            
-            $this->_relIDs = $this->get('relIDs');
-        
-            if ( $this->_relIDs[$key] ) {
-                $ids = array('contact' =>$contactID,'relationship' => $this->_relIDs[$key] ,'contactTarget' =>$organizationID);
-            } else {
-                $ids = array('contact' =>$contactID);
-            }
-            
-       
-            
-            require_once 'CRM/Contact/BAO/Relationship.php';
-            
-            $relationship= CRM_Contact_BAO_Relationship::add($relationshipParams,$ids,$organizationID);
-            $this->_relIDs[$key] = $relationship->id;
-            
-            $this->set('relIDs' , $this->_relIDs);
-        }
-
         parent::postProcess( );
     }//end of function
 

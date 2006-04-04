@@ -45,6 +45,20 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
 {
+    static $action;
+   
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        parent::preProcess();
+        $this->action = $this->get('mode');
+    }
+    
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -55,10 +69,7 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        
-        
-        $session =& CRM_Core_Session::singleton( );
-        $this->_contactId = $session->get( 'userID' );
+        $this->_contactId = $this->get( 'contact_id' );
         if ( $this->_contactId ) {
             $dao = & new CRM_Quest_DAO_Student();
             $dao->contact_id = $this->_contactId ;
@@ -117,6 +128,10 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
                            ts( 'List any other colleges that you could see yourself attending. (List one per line)' ),
                            $attributes['college_interest_other'] );
 
+        if($this->action & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
+
         parent::buildQuickForm( );
 
     }//end of function
@@ -128,34 +143,36 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
       */
     public function postProcess() 
     {
-        $params = $this->controller->exportValues( $this->_name );
-        $values = $this->controller->exportValues( 'Personal' );
-        $params = array_merge( $params,$values );
-        
-        if ( $params['educational_interest'] ) {
-            $params['educational_interest'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['educational_interest']));
+        if ($this->action !=  CRM_Core_Action::VIEW ) {
+            $params = $this->controller->exportValues( $this->_name );
+            $values = $this->controller->exportValues( 'Personal' );
+            $params = array_merge( $params,$values );
+            
+            if ( $params['educational_interest'] ) {
+                $params['educational_interest'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['educational_interest']));
+            }
+            if ( $params['college_interest'] ) {
+                $params['college_interest']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_interest']));
+            }
+            
+            if ( $params['college_type'] ) {
+                $params['college_type']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_type']));
+            }
+            
+            $id = $this->get('id');
+            $contact_id = $this->get('contact_id');
+            //$ids = array('id'=>$id ,'contact_id' => $contact_id);
+            $ids = array();
+            $ids['id'] = $id;
+            $ids['contact_id'] = $contact_id;
+            
+            
+            require_once 'CRM/Quest/BAO/Student.php';
+            require_once 'CRM/Utils/Date.php';
+            $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
+            
+            $student = CRM_Quest_BAO_Student::create( $params, $ids);
         }
-        if ( $params['college_interest'] ) {
-            $params['college_interest']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_interest']));
-        }
-
-        if ( $params['college_type'] ) {
-            $params['college_type']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_type']));
-        }
-        
-        $id = $this->get('id');
-        $contact_id = $this->get('contact_id');
-        //$ids = array('id'=>$id ,'contact_id' => $contact_id);
-        $ids = array();
-        $ids['id'] = $id;
-        $ids['contact_id'] = $contact_id;
-
-
-        require_once 'CRM/Quest/BAO/Student.php';
-        require_once 'CRM/Utils/Date.php';
-        $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
-        
-        $student = CRM_Quest_BAO_Student::create( $params, $ids);
         parent::postProcess( );
     }
     /**
