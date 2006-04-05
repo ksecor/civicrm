@@ -254,22 +254,12 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-<<<<<<< .mine
-      $params = $this->controller->exportValues( $this->_name );
-
-      $params['contact_type'] = 'Individual';
-       
-=======
-        
         if ($this->action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
             
             require_once 'CRM/Quest/BAO/Student.php';
-            
             $params['contact_type'] = 'Individual';
-            
->>>>>>> .r5062
-    
+
             $params['location'][1]['location_type_id'] = 1;
             $params['location'][1]['is_primary'] = 1 ;
             $params['location'][2]['location_type_id'] = 2;

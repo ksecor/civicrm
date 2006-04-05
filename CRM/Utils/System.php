@@ -572,7 +572,20 @@ class CRM_Utils_System {
         $vModules = self:: parsePHPModules();
         return $vModules[$pModuleName][$pSetting];
     }
-    
+  
+    static function memory( $title = null ) {
+        static $pid = null;
+        if ( ! $pid ) {
+            $pid = posix_getpid( );
+        }
+
+        $memory = str_replace("\n", '', shell_exec("ps -p $pid -o rss="));
+        if ( $title ) {
+            CRM_Core_Error::debug( $title, $memory );
+        }
+        return $memory;
+    }
+
 }
 
 ?>
