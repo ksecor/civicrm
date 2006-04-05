@@ -57,15 +57,16 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
             $this->set('mode',CRM_Core_Action::VIEW);
         } 
         
-        
+        $act = $this->get('mode');
+            
         if ( $cid ) {
             require_once 'CRM/Contact/BAO/Contact.php';
             require_once 'CRM/Utils/System.php';
-            if ( ( $cid != $uid ) || $mode == 'edit' ) {
+            if ( ( $cid != $uid ) && ($act & CRM_Core_Action::UPDATE) ) {
                 if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) {
                     CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Application.') );
                 } 
-            } else if (($cid != $uid ) || $mode == 'view') {
+            } else if (($cid != $uid ) && ($act & CRM_Core_Action::VIEW) ) {
                 if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) {
                     CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Application.') );
                 }
