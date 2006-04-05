@@ -332,14 +332,17 @@ WHERE  i.person_id = p.id
             // now get all parent/guardians that have some income
             require_once 'CRM/Quest/DAO/Person.php';
             require_once 'CRM/Quest/Form/App/Guardian.php';
+             require_once 'CRM/Utils/Date.php';
             $dao =& new CRM_Quest_DAO_Person( );
             $dao->contact_id = $cid;
             $dao->is_parent_guardian = true;
             $dao->find( );
             while ( $dao->fetch( ) ) {
+                $deceasedYear = CRM_Utils_Date::format($dao->deceased_year);
+                $deceasedYear = $deceasedYear['Y'];
                 if ( ! CRM_Utils_Array::value( "Income-{$dao->id}", $details ) &&
                      $dao->industry_id &&
-                     $dao->industry_id != CRM_Quest_Form_App_Guardian::INDUSTRY_UNEMPLOYED ) {
+                     $dao->industry_id != CRM_Quest_Form_App_Guardian::INDUSTRY_UNEMPLOYED && (! $dao->is_deceased || $deceasedYear == date("Y"))) {
                     $details[ "Income-{$dao->id}"] =
                         array( 'className' => 'CRM_Quest_Form_App_Income',
                                'title'     => "{$dao->first_name} {$dao->last_name}",

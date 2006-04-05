@@ -252,7 +252,8 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
             $params['is_parent_guardian'] = true;
             
             $ids['id'] = $this->_personID;
-            
+            $deceasedYear = $params['deceased_year_date']['Y'];
+
             // format date
             require_once 'CRM/Utils/Date.php';
             $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year','birth_date');
@@ -281,22 +282,25 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
             
             // check if this person has a job, if so add to incomeArray
             if ( $params['industry_id'] && $params['industry_id'] != self::INDUSTRY_UNEMPLOYED ) {
-                // add an income form for this person
-                $incomeDetails = $this->controller->get( 'incomeDetails' );
-                $incomeID = null;
-                if ( CRM_Utils_Array::value( "Income-{$person->id}", $incomeDetails ) ) {
-                    $incomeID = $incomeDetails[ "Income-{$person->id}" ]['options']['incomeID'];
+                //Household Income: if someone is deceased, they should not appear unless they died this year.
+                if ( ! $params['is_deceased'] || $deceasedYear == date("Y")  ) {
+                    // add an income form for this person
+                    $incomeDetails = $this->controller->get( 'incomeDetails' );
+                    $incomeID = null;
+                    if ( CRM_Utils_Array::value( "Income-{$person->id}", $incomeDetails ) ) {
+                        $incomeID = $incomeDetails[ "Income-{$person->id}" ]['options']['incomeID'];
+                    }
+                    $incomeDetails[ "Income-{$person->id}" ] =
+                        array( 'className' => 'CRM_Quest_Form_App_Income',
+                               'title'     => "{$params['first_name']} {$params['last_name']}",
+                               'options'   => array( 'personID'   => $person->id,
+                                                     'incomeID'   => $incomeID,
+                                                     'lastSource' => false ) );
+                    $keys = array_keys( $incomeDetails );
+                    $last = array_pop( $keys );
+                    $incomeDetails[$last]['options']['lastSource'] = true;
+                    $this->controller->set( 'incomeDetails', $incomeDetails );
                 }
-                $incomeDetails[ "Income-{$person->id}" ] =
-                    array( 'className' => 'CRM_Quest_Form_App_Income',
-                           'title'     => "{$params['first_name']} {$params['last_name']}",
-                           'options'   => array( 'personID'   => $person->id,
-                                                 'incomeID'   => $incomeID,
-                                                 'lastSource' => false ) );
-                $keys = array_keys( $incomeDetails );
-                $last = array_pop( $keys );
-                $incomeDetails[$last]['options']['lastSource'] = true;
-                $this->controller->set( 'incomeDetails', $incomeDetails );
             }
         }
         parent::postProcess( );

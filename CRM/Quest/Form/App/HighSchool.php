@@ -180,8 +180,14 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         $highschool = array( );
         for ( $i = 1; $i < 3; $i++ ) {
         // name of school
+            if ( $i == 1) {
+                $title = ts("School you are now attending");
+            } else {
+                $title = ts("Last Attended School");
+            }
+            
             $this->addElement('text', 'organization_name_'. $i ,
-                              ts( 'School you are now attending' ),
+                              $title,
                               $attributes['organization_name'] );
             //$this->addRule('organization_name',ts('Please enter School Name'),'required');
             
