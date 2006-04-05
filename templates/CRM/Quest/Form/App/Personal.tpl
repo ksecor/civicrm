@@ -187,7 +187,7 @@
         <div class="description"> 
             {include file="CRM/common/calendar/desc.tpl"}
         </div>
-        {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear}
+        {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1986 endDate=currentYear}
     </td>
 </tr>
 <tr>

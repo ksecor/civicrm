@@ -43,6 +43,39 @@
     <td class="grouplabel">{$form.current_school_level_id.label}</td>
     <td class="fieldlabel">{$form.current_school_level_id.html}</td>
 </tr>
+<tr id ="highest_school_level">
+    <td class="grouplabel">{$form.highest_school_level_id.label}</td>
+    <td class="fieldlabel">{$form.highest_school_level_id.html}</td>
+</tr>
+<tr id="college_name">
+    <td class="grouplabel">{$form.college_name.label}</td>
+    <td class="fieldlabel">{$form.college_name.html}</td>
+</tr>
+<tr id="college_country">
+    <td class="grouplabel">{$form.college_country_id.label}</td>
+    <td class="fieldlabel">{$form.college_country_id.html}</td>
+</tr>
+<tr id="college_grad_year">
+    <td class="grouplabel">{$form.college_grad_year.label}</td>
+    <td class="fieldlabel">{$form.college_grad_year.html}</td>
+</tr>
+<tr id="college_major">
+    <td class="grouplabel">{$form.college_major.label}</td>
+    <td class="fieldlabel">{$form.college_major.html}</td>
+</tr>
+<tr id="prof_school_name">
+    <td class="grouplabel">{$form.prof_school_name.label}</td>
+    <td class="fieldlabel">{$form.prof_school_name.html}</td>
+</tr>
+<tr id="prof_school_degree">
+    <td class="grouplabel">{$form.prof_school_degree_id.label}</td>
+    <td class="fieldlabel">{$form.prof_school_degree_id.html}</td>
+</tr>
+<tr id="prof_grad_year">
+    <td class="grouplabel">{$form.prof_grad_year.label}</td>
+    <td class="fieldlabel">{$form.prof_grad_year.html}</td>
+</tr>
+
 <tr>
     <td class="grouplabel">{$form.college_name.label}</td>
     <td class="fieldlabel">{$form.college_name.html}</td>
@@ -58,4 +91,31 @@
     </td>
 </tr>
 </table>
+
+
+{* Highest school completed field. College values, then grad school value. *}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="highest_school_level_id"
+    trigger_value       ="118|119|120|121|122"
+    target_element_id   ="college_name|college_country|college_grad_year|college_major" 
+    target_element_type ="table-row"
+    field_type          ="select"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="highest_school_level_id"
+    trigger_value       ="122"
+    target_element_id   ="prof_school_name|prof_school_degree|prof_grad_year" 
+    target_element_type ="table-row"
+    field_type          ="select"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="current_school_level"
+    trigger_value       ="141"
+    target_element_id   ="highest_school_level_id" 
+    target_element_type ="table-row"
+    field_type          ="select"
+    invert              = 0
+}
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

@@ -131,8 +131,37 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                            $attributed['lived_with_to_age'] );
         $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'integer');
 
-        $this->addSelect('current_school_level', ts('Year in school'));
+        $extra1 = array( 'onchange' => "return showHideByValue('current_school_level_id', '141', 'highest_school_level', 'table-row', 'select', false);" );
+
+        $this->addSelect('current_school_level', ts('Year in school'), null, true, $extra1);
+
+
+        $extra2 = array( 'onchange' => "showHideByValue('highest_school_level_id', '118|119|120|121|122', 'college_name|college_country|college_grad_year|college_major', 'table-row', 'select', false); return showHideByValue('highest_school_level_id', '122', 'prof_school_name|prof_school_degree|prof_grad_year', 'table-row', 'select', false);" );
+        $this->addSelect('highest_school_level', ts('Highest level of schooling'),null,true,$extra2);
+        $this->addElement( 'text', 'college_name', ts('College Name'),
+                           $attributes['college_name'] );
+        $this->addCountry( 'college_country_id', ts('Which country is the college located in?'));
+        $this->addElement( 'date',
+                           'college_grad_year',
+                           ts('Year of college completion'),
+                           CRM_Core_SelectValues::date( 'custom', 50, 1, "Y" ) ); 
+
+        $this->addElement( 'text',
+                           'college_major',
+                           ts('Area of concentration'),
+                           $attributes['college_major'] );
+        $this->addElement( 'text',
+                           'prof_school_name',
+                           ts('Name of professional or graduate school'),
+                           $attributes['prof_school_name'] );
+        $this->addElement( 'date',
+                           'prof_grad_year',
+                           ts('Year in which graduate degree was received'),
+                           CRM_Core_SelectValues::date( 'custom', 50, 1, "Y" ) );
+        $this->addSelect( 'prof_school_degree', ts('Degree received in professional or graduate school ') );
      
+       
+
         $this->addElement( 'text', 'college_name', ts('College attending or attended (if any)'),
                            $attributes['college_name'] );
         $this->addElement( 'text', 'job_occupation',

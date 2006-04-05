@@ -27,8 +27,8 @@
         {if ($countEI gt 9) and ($countEI is not odd) }
         <td class="optionlist"></td></tr>
         {/if}
-        <tr>
-        <td colspan=2 id="educational-interest-other" class="optionlist">{$form.educational_interest_other.html|crmReplace:class:large}</td>
+        <tr id="educational_interest_other">
+        <td colspan=2 class="optionlist">{$form.educational_interest_other.html|crmReplace:class:large}</td>
         </tr>
         </table>
     </td>
@@ -91,24 +91,11 @@
 {/strip}
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
-{literal}
-    <script type="text/javascript">
-      var selectedOther; 
-	  selectedOther = document.getElementsByName("educational_interest[270]")[0].checked;
-	  if (selectedOther) {
-		show('educational-interest-other', 'table-cell');
-	   } else {
-		hide('educational-interest-other');
-	   }
-      
-   	function showTextField() {
-	   selectedOther = document.getElementsByName("educational_interest[270]")[0].checked;
-        
-	   if (selectedOther) {
-		show('educational-interest-other', 'table-cell');
-	   } else {
-		hide('educational-interest-other');
-	   }
- 	}
-    </script>  
-{/literal}
+{include file="CRM/common/showHideByFieldValue.tpl"
+    trigger_field_id    ="educational_interest[245]"
+    trigger_value       ="1"
+    target_element_id   ="educational_interest_other"
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
