@@ -8,7 +8,7 @@
 </tr>
 <tr>
   <td colspan="4" class="grouplabel">
-    <p class="preapp-instruction">{ts}In this section, our goal is to better understand your living situation over the past five years. Please answer the following regarding your current, primary household. If you live in two separate homes on a regular basis, please list the one where you spend most of your time.{/ts}</p>
+    <p class="preapp-instruction">{ts}In this section, our goal is to better understand your living situation over the past five years. Please answer the following regarding your current, primary household. If you live in two separate homes on a regular basis, please list the one where you spend more of your time.{/ts}</p>
   </td>
 </tr>
 <tr>

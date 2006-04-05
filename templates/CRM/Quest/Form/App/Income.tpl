@@ -44,7 +44,7 @@
     </tr>
        {assign var=amount value="amount_"|cat:$smarty.section.rowLoop.index}
        <td class="grouplabel">{$form.$amount.label}</td>
-       <td class="fieldlabel">{$form.$amount.html}</td>
+       <td class="fieldlabel">{$form.$amount.html}<BR>{ts}ONLY enter the US dollars amount (e.g: 10000). DO NOT enter decimal amount. For currency exchange rates <a href="http://finance.yahoo.com/currency" target="_blank">click here</a>{/ts}</td>
     </tr>
 {/section}
 
