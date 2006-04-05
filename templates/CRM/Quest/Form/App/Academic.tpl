@@ -23,7 +23,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.gpa_explanation.label}</td>
-    <td class="fieldlabel">{$form.gpa_explanation.html}<br/> If there were any extenuating circumstances that affected your GPA, please describe them here.</td>
+    <td class="fieldlabel">{$form.gpa_explanation.html}</td>
 </tr>
 <tr>
     <td colspan=2 id="category">{ts}Academic Honors{/ts}</td>

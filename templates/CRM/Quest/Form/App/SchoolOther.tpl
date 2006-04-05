@@ -6,7 +6,7 @@
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-    <td colspan=2 class="grouplabel"><p>{ts}If you've attended any special programs at other secondary schools, colleges where you took courses for credit, etc., please list them here.{/ts}</p></td>
+    <td colspan=2 class="grouplabel"><p>{ts}If you've attended any special programs at other secondary schools, including summer schools and programs, or colleges where you took courses for credit, etc., please list them here.{/ts}</p></td>
 </tr>
 <tr><td colspan=2>
 {assign var=maxOtherSchool value=6}
