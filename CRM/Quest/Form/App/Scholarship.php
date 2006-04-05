@@ -117,7 +117,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
                          ts( 'Do you plan on taking the SAT or ACT?' ) ,null,true);
 
         $this->addSelect( 'study_method',
-                          ts( 'If yes, how do you plan to study?' ));
+                          ts( 'If yes, do you plan to study? If so, how?' ));
 
         $this->addFormRule(array('CRM_Quest_Form_App_Scholarship', 'formRule'));
         
