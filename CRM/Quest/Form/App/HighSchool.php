@@ -190,7 +190,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                               $attributes['organization_name'] );
             
             $this->addElement('date', 'date_of_entry_'.$i,
-                              ts( 'Date of entry (month/year)' ),
+                              ts( 'Dates attended (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
             $this->addRule('date_of_entry_'.$i, ts('Select a valid date.'), 'qfDate');
             //$this->addRule('date_of_entry', ts("Please enter Date of entry"),'required');
