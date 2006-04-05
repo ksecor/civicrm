@@ -17,8 +17,28 @@
 </tr>
 <tr>
       <td> {$form.essay.html}</td>
-</tr>    
+</tr>  
+<tr>
+      <td>{$form.word_count.label} &nbsp;&nbsp;{$form.word_count.html}</td> 
+</tr>  
+  
 </table>
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+
+{literal}
+    <script type="text/javascript">
+        function countit(){ 
+            var formcontent = document.getElementById("essay");
+            var contentvalue  = formcontent.value;
+            var count = document.getElementById("word_count");
+            count.value = 1500 - contentvalue.length;
+            if (count.value <= 0) {
+                formcontent.value = contentvalue.substr( 0, 1500 );
+                count.value = 0; 
+                alert("You cannot enter any more characters.");
+            }
+        }
+   </script>  
+{/literal}
 
