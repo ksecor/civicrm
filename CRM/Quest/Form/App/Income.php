@@ -226,7 +226,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             
             $totalIncome = $this->get('totalIncome');
             $personId = $this->_personID;
-            $totalIncome[$personId] =  $params['amount_1'] + $params['amount_2']   ;
+            $totalIncome[$personId] =  (int)(str_replace(",","",$params['amount_1'])) +(int) (str_replace(",","",$params['amount_2']))   ;
             $this->set('totalIncome',  $totalIncome );        
             
             //add total Income in student Table
