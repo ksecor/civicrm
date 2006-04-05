@@ -6,12 +6,37 @@
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
-<tr><td colspan=2 id="sub-category">{ts}ACT Test{/ts}</td>
-</tr>
 <tr>
   <td colspan="2" class="grouplabel">
     <p class="preapp-instruction">{ts}Enter your test scores and dates for any of the tests below which you have taken. Please enter all test component scores and the test date for each completed test.{/ts}</p>
   </td>
+</tr>
+<tr><td colspan=2 id="sub-category">{ts}PSAT Test{/ts}</td>
+</tr>
+<tr> 
+    <td class="grouplabel">{$form.psat_criticalreading.label}</td>
+    <td class="fieldlabel" width="75%">{$form.psat_criticalreading.html}</td>
+</tr>
+<tr> 
+    <td class="grouplabel">{$form.psat_math.label}</td>
+    <td class="fieldlabel">{$form.psat_math.html}</td>   
+</tr>
+<tr> 
+    <td class="grouplabel">{$form.psat_writing.label}</td>
+    <td class="fieldlabel">{$form.psat_writing.html}</td>  
+</tr>
+<tr> 
+    <td class="grouplabel">{$form.psat_total.label}</td>
+    <td class="fieldlabel">{$form.psat_total.html}</td>
+</tr>
+
+<tr>
+    <td class="grouplabel">{$form.psat_date.label}</td>
+    <td class="fieldlabel">{$form.psat_date.html}</td>
+</tr>
+</table>
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr><td colspan=2 id="sub-category">{ts}ACT Test{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel"> {$form.act_english.label}</td>
@@ -40,31 +65,6 @@
 <tr>
     <td class="grouplabel">{$form.act_date.label}</td>
     <td class="fieldlabel">{$form.act_date.html}</td>
-</tr>
-</table>
-<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-<tr><td colspan=2 id="sub-category">{ts}PSAT Test{/ts}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.psat_criticalreading.label}</td>
-    <td class="fieldlabel" width="75%">{$form.psat_criticalreading.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.psat_math.label}</td>
-    <td class="fieldlabel">{$form.psat_math.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.psat_writing.label}</td>
-    <td class="fieldlabel">{$form.psat_writing.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.psat_total.label}</td>
-    <td class="fieldlabel">{$form.psat_total.html}</td>
-</tr>
-
-<tr>
-    <td class="grouplabel">{$form.psat_date.label}</td>
-    <td class="fieldlabel">{$form.psat_date.html}</td>
 </tr>
 </table>
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
