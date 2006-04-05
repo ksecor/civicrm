@@ -155,7 +155,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         $this->addSelect( 'class_rank_percent', ts( 'Percent class rank' ) );
 
         $this->addElement('textarea', 'gpa_explanation',
-                          ts( 'Explain your GPA' ),
+                          ts( 'If there are any extenuating circumstances, or details regarding your academic performance that you would like to add or clarify, please do so here' ),
                           $attributes['gpa_explanation'] );
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Honor');
