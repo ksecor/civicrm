@@ -69,16 +69,14 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-       
+
         $this->_contactId = $this->get( 'contact_id' );
-        if ( $this->_contactId ) {
-            $dao = & new CRM_Quest_DAO_Student();
-            $dao->contact_id = $this->_contactId ;
-            if ($dao->find(true)) {
-                $this->_studentId = $dao->id;
-                CRM_Core_DAO::storeValues( $dao , $defaults );
-            }
-        }
+
+        $params = array( 'contact_id' => $this->_contactId );
+        $ids = array( );
+
+        CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
+        $this->_studentId = CRM_Utils_Array::value( 'student_id', $ids );
         
         return $defaults;
     }

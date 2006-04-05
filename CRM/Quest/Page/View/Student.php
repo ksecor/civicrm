@@ -40,7 +40,7 @@ require_once 'CRM/Contact/Page/View.php';
  * Main page for viewing contact.
  *
  */
-class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
+class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
 
     /** 
      * Heart of the viewing process. The runner gets all the meta data for 
@@ -110,7 +110,10 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         $ids      = array( );
 
         $params['id'] = $params['contact_id'] = $this->_contactId;
-        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+        $contact =& CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+
+        require_once 'CRM/Quest/BAO/Student.php';
+        $student =& CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
 
@@ -136,24 +139,6 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
         $this->assign( $defaults );
         $this->setShowHide( $defaults );        
-
-        // get the contributions, new style of doing stuff
-        // do the below only if the person has access to contributions
-        $config =& CRM_Core_Config::singleton( );
-        if ( CRM_Utils_System::accessCiviContribute( ) ) {
-            $this->assign( 'accessContribution', true );
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action );  
-            $controller->setEmbedded( true );                           
-            $controller->reset( );  
-            $controller->set( 'limit', 3 ); 
-            $controller->set( 'force', 1 );
-            $controller->set( 'cid'  , $this->_contactId );
-            $controller->set( 'context', 'basic' ); 
-            $controller->process( );  
-            $controller->run( );
-        } else {
-            $this->assign( 'accessContribution', false );
-        }
 
         //add link to CMS user
         if ( $uid = CRM_Core_BAO_UFMatch::getUFId( $this->_contactId ) ) {
@@ -192,10 +177,6 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                                                          'activityHx'           => 1 ) );
 
         $config =& CRM_Core_Config::singleton( ); 
-        if ( CRM_Utils_System::accessCiviContribute( ) ) {
-            $showHide->addShow( 'contributions[show]' ); 
-            $showHide->addHide( 'contributions' ); 
-        }
 
         if ( $defaults['contact_type'] == 'Individual' ) {
             // is there any demographics data?

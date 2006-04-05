@@ -51,8 +51,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         parent::__construct( );
     }
 
-    
-
     /**
      * function to add/update student Information
      *
@@ -75,6 +73,16 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
        
                 
     }
+
+    static function retrieve( &$params, &$defaults, &$ids ) {
+        $dao = & new CRM_Quest_DAO_Student();
+        $dao->contact_id = $params['contact_id'];
+        if ( $dao->find( true ) ) {
+            CRM_Core_DAO::storeValues( $dao, $defaults );
+            $ids['student_id'] = $dao->id;
+        }
+    }
+
 }
     
 ?>

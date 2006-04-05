@@ -263,8 +263,16 @@ class CRM_Core_Invoke {
                 return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
             
             default:
-                require_once 'CRM/Contact/Page/View/Basic.php';
-                $view =& new CRM_Contact_Page_View_Basic( );
+                $nullObject = null;
+                $id = CRM_Utils_Request::retrieve( 'cid', $nullObject );
+                $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
+                if ( $contact_sub_type == 'Student' ) {
+                    require_once 'CRM/Quest/Page/View/Student.php';
+                    $view =& new CRM_Quest_Page_View_Student( );
+                } else {
+                    require_once 'CRM/Contact/Page/View/Basic.php';
+                    $view =& new CRM_Contact_Page_View_Basic( );
+                }
                 break;
             }
             return $view->run( );

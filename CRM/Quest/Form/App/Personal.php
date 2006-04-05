@@ -37,6 +37,7 @@
  */
 
 require_once 'CRM/Quest/Form/App.php';
+require_once 'CRM/Quest/BAO/Student.php'; 
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
@@ -46,8 +47,8 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 {
 
-    static $_contactId;
-    static $_studentId;
+    protected $_contactId;
+    protected $_studentId;
     static $action;
 
     /**
@@ -60,9 +61,6 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
     {
         parent::preProcess();
         $this->_contactId = $this->get( 'contact_id' );
-        if( $this->_contactId == null ) {
-            return;
-        }
         $this->action = $this->get('mode');
         
     }
@@ -80,24 +78,20 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         $studentDefaults = array();
         $contactDefaults = array();
         
-        if ( $this->_contactId ) {
-            $dao = & new CRM_Quest_DAO_Student();
-            $dao->contact_id = $this->_contactId ;
-            if ($dao->find(true)) {
-                $this->_studentId = $dao->id;
-                CRM_Core_DAO::storeValues( $dao , $studentDefaults);
-            }
-        }
-        if ( $this->_contactId ) {
-            $options = array( );
-            $ids = array();
-            $params  = array('contact_id' => $this->_contactId, 'id'=> $this->_contactId); 
-            $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$contactDefaults, &$ids );
-            $defaults = array_merge($contactDefaults,$studentDefaults);
-        }
+        $params = array( 'contact_id' => $this->_contactId,
+                         'id'         => $this->_contactId );
+        $defaults = array( );
+
+        $options = array( );
+        $ids = array();
+        $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$defaults, &$ids );
+        
+        $ids    = array( );
+        CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
+        $this->_studentId = CRM_Utils_Array::value( 'student_id', $ids );
+
         require_once 'CRM/Utils/Date.php';
         $defaults['high_school_grad_year'] = CRM_Utils_Date::unformat($defaults['high_school_grad_year'],'-') ;
-
         
         if ( CRM_Utils_Array::value( 'ethnicity_id_2', $defaults )) {
             $showHide =& new CRM_Core_ShowHideBlocks(array('ethnicity_id_2'       => 1), array('ethnicity_id_2[show]'       => 1) );
@@ -260,6 +254,12 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
+<<<<<<< .mine
+      $params = $this->controller->exportValues( $this->_name );
+
+      $params['contact_type'] = 'Individual';
+       
+=======
         
         if ($this->action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
@@ -268,6 +268,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
             
             $params['contact_type'] = 'Individual';
             
+>>>>>>> .r5062
     
             $params['location'][1]['location_type_id'] = 1;
             $params['location'][1]['is_primary'] = 1 ;
