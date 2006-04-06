@@ -80,7 +80,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $this->_testIDs = array();
         $testTypes  = CRM_Core_OptionGroup::values( 'test');
         $testTypes  = array_flip($testTypes);
-        $testSet1 = array('act','psat','sat');
+        $testSet1 = array('act','psat','sat','pact');
 
         $contactID  = $this->get('contact_id');
         
@@ -188,7 +188,8 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
 
         $this->_tests = array( 'act'  => 1,
                                'psat' => 2,
-                               'sat'  => 4 );
+                               'sat'  => 4, 
+                               'pact'=>  1);
 
         $this->_multiTests = array( 'satII' => 5,
                                     'ap'    => 32 );
@@ -284,7 +285,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
       public function formRule(&$params) {
         $errors = array( );
            
-        $tests = array( 'act', 'psat', 'sat' );
+        $tests = array( 'act', 'psat', 'sat' ,'pact');
         $sections = array( 'English', 'Reading', 'CriticalReading', 'Writing', 'Math',
                            'Science');
 
@@ -354,7 +355,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         if ($this->action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
             
-            $testSet1 = array('act','psat','sat');
+            $testSet1 = array('act','psat','sat','pact');
             $testSet2 = array('satII','ap');
             
             $contactId = $this->get('contact_id');
@@ -410,8 +411,11 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     } else if ( $test == 'sat' ) {
                         $totalScore[$test] = ( $score['score_math'] + $score['score_reading']);
                         $totalSAT         =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
-                        
+                    } else if ( $test == 'pact' ) {
+                        $totalScore[$test] = $score['score_composite'];
+                        $totalPACT = $score['score_reading']+ $score['score_english']+$score['score_science']+$score['score_math'] ;
                     }
+
                 }
             }
             
@@ -426,7 +430,12 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             if (! $testParams1['sat']['score_composite'] && is_array($testParams1['sat'])) {
                 $testParams1['sat']['score_composite']  = $totalSAT;
             }
+           if ( $totalPACT > 0 && ! $testParams1['pact']['score_composite'] && is_array($testParams1['pact'])) {
+                $testParams1['pact']['score_composite'] = $totalPACT/4;
+            }
             
+
+
             // process sat II/ ap stuff
             foreach  ( $this->_multiTests as $testName => $testCount ) { 
                 for ( $i = 1; $i <= $testCount; $i++ ) { 
@@ -472,7 +481,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             require_once 'CRM/Quest/BAO/Test.php';
         
             // add data to database
-            // for 'act','psat','sat'
+            // for 'act','psat','sat','pact'
             foreach ( $testParams1 as $key => $value ) {
                 $testParam = $value;
                 $ids  = array();
@@ -504,6 +513,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $values['score_SAT']     =  $totalScore['sat'];
             $values['score_PSAT']    =  $totalScore['psat'];
             $values['score_ACT']     =  $totalScore['act'];
+            $values['score_PACT']     =  $totalScore['pact'];
             
             if ( CRM_Utils_Array::value( 'test_tutoring', $params ) &&
                  is_array( $params['test_tutoring'] ) &&

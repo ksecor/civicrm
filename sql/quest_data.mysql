@@ -367,6 +367,7 @@ INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `g
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (333, 30, 'Application', '1', NULL, 1, 1, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (334, 30, 'Submit Application', '2', NULL, 0, 2, NULL, 0, 2, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (335, 30, 'Review Application', '3', NULL, 0, 3, NULL, 0, 3, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (336, 25, 'PACT', '6', NULL, 0, 6, NULL, 0, 0, 1);
 
 --
 -- Dumping data for table `civicrm_group`  
