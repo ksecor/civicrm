@@ -45,7 +45,7 @@
   </foreignKey>
   <field>
       <name>score_composite</name>
-      <type>int unsigned</type>
+      <type>float</type>
       <required>true</required>
       <comment>Composite or total score for this test.</comment>
       <add>1.5</add>

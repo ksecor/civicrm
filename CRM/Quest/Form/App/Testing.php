@@ -180,7 +180,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $this->_sections = array( 'English'          => 1,
                                   'Reading'          => 1,
                                   'CriticalReading'  => 6,
-                                  'Writing'          => 6,
+                                  'Writing'          => 6,//was 7
                                   'Math'             => 7,
                                   'Science'          => 1,
                                   'Composite'        => 1,
