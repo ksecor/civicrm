@@ -163,14 +163,14 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
     function setShowHide( &$defaults ) {
         require_once 'CRM/Core/ShowHideBlocks.php';
 
-        $showHide =& new CRM_Core_ShowHideBlocks( array( 'commPrefs'           => 1,
+        $showHide =& new CRM_Core_ShowHideBlocks( array( 'academic'             => 1,
                                                          'notes[show]'          => 1,
                                                          'relationships[show]'  => 1,
                                                          'groups[show]'         => 1,
                                                          'openActivities[show]' => 1,
                                                          'activityHx[show]'     => 1 ),
                                                   array( 'notes'                => 1,
-                                                         'commPrefs[show]'      => 1,
+                                                         'academic[show]'       => 1,
                                                          'relationships'        => 1,
                                                          'groups'               => 1,
                                                          'openActivities'       => 1,

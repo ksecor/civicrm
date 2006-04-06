@@ -225,7 +225,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
 
         if ( (! empty($params["years_lived_id_1"])) && ($params["years_lived_id_1"] != $fiveYearsOrMore) ) {
             if ( (!$params["relationship_id_2_1"]) && (!$params["relationship_id_2_2"]) ) {
-                $errors["relationship_id_2_1"] = "You have to enter the additional household information";
+                $errors["relationship_id_2_1"] = "Please complete the information about your previous household (as you have indicated that you have lived in your current household for less than 5 years).";
             } 
         }
         

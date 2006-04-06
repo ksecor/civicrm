@@ -1,7 +1,7 @@
 {if $action eq 2}
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
-{* View Contact Summary *}
+{* View Contact Summary - Quest Student Version *}
 <div id="name" class="data-group">
    <div>
     <label>{$displayName}</label>
@@ -14,7 +14,10 @@
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
+    &nbsp; &nbsp; <a href="{crmURL p='civicrm/quest/preapp' q="reset=1&mode=view&id=$contactId"}">&raquo; {ts}View Preapplication{/ts}</a>
     {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
+    
+    
     {if $contactTag}<br />{ts}Tags{/ts}:&nbsp;{$contactTag}{/if}
    </div>
 </div>
@@ -82,60 +85,117 @@
  </div>
 {/foreach}
 
- <div id="commPrefs[show]" class="data-group">
-  <a href="#" onclick="hide('commPrefs[show]'); show('commPrefs'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Communications Preferences{/ts}</label><br />
- </div>
-
-<div id="commPrefs">
- <fieldset>
-  <legend><a href="#" onclick="hide('commPrefs'); show('commPrefs[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Communications Preferences{/ts}</legend>
-  <div class="col1">
-    <label>{ts}Privacy:{/ts}</label>
-    <span class="font-red upper">
-    {foreach from=$privacy item=privacy_val key=privacy_label}
-      {if $privacy_val eq 1}{$privacy_values.$privacy_label} &nbsp; {/if}
-    {/foreach}
-    {if $is_opt_out}
-      {ts}DO NOT SEND BULK EMAIL{/ts}
-    {/if}
-    </span>
-  </div>
-  <div class="col2">
-    <label>{ts}Communication Preference:{/ts}</label> {$preferred_communication_method_display}
-  </div>
-  <div class="col2">
-    <label>{ts}Mail Format Preference:{/ts}</label> {$preferred_mail_format_display}
-  </div>
-  <div class="spacer"></div>
- </fieldset>
-</div>
-
 {* Display only those custom groups having style as Inline*}
  <div>
     {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
  </div>
 
- {if $contact_type eq 'Individual'}
  <div id="demographics[show]" class="data-group">
-  <a href="#" onclick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Demographics{/ts}</label><br />
+  <a href="#" onclick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Demographics and Family Information{/ts}</label><br />
  </div>
 
  <div id="demographics">
   <fieldset>
-   <legend><a href="#" onclick="hide('demographics'); show('demographics[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Demographics{/ts}</legend>
+   <legend><a href="#" onclick="hide('demographics'); show('demographics[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Demographics and Family Information{/ts}</legend>
+   <table class="form-layout-compressed" border="0" width="90%">
+    <tr>
+        <td class="label">{ts}Gender:{/ts}</td><td>{$gender_display}</td>
+        <td class="label">{ts}Ethnicity:{/ts}</td><td>{$ethnicity_1}{if $ethnicity_2}<br />{$ethnicity_2}{/if}</td>
+    </tr>
+    <tr>
+        <td class="label">{ts}Date of Birth:{/ts}</td><td>{$birth_date|crmDate}</td>
+        <td class="label">{ts}Citizenship Status:{/ts}</td><td>{$citizenship_status}</td>
+    </tr>
+    <tr>
+        <td class="label" colspan="2">{ts}Total Household Income:{/ts}</td><td colspan="2">{$household_income_total|crmMoney}</td>
+    </tr>
+   </table>
+  </fieldset>
+ </div>
+
+{* Academic Info fieldset (quest_student record) *}
+ <div id="academic[show]" class="data-group">
+  <a href="#" onclick="hide('academic[show]'); show('academic'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Academic Information{/ts}</label><br />
+ </div>
+
+ <div id="academic">
+  <fieldset>
+   <legend><a href="#" onclick="hide('academic'); show('academic[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Academic Information{/ts}</legend>
    <div class="col1">
-    <label>{ts}Gender:{/ts}</label> {$gender_display}<br />
-    {if $is_deceased eq 1}
-        <label>{ts}Contact is Deceased{/ts}</label>
-    {/if}
+    <label>{ts}GPA:{/ts}</label> {$gpa}<br />
+    <label>{ts}Rank in Class:{/ts}</label> {$class_rank} of {$class_num_students}
    </div>
    <div class="col2">
-    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}
+    &nbsp;
    </div>
    <div class="spacer"></div>
   </fieldset>
  </div>
+
+<div id="relationships[show]" class="data-group">
+  {if $relationship.totalCount}
+    <a href="#" onclick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Relationships{/ts}</label> ({$relationship.totalCount})<br />
+  {else}
+    <dl><dt>{ts}Relationships{/ts}</dt>
+    <dd>
+        {if $permission EQ 'edit'}
+            {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No relationships. You can <a href="%1">create a new relationship</a>.{/ts}
+        {else}
+            {ts}There are no Relationships entered for this contact.{/ts}
+        {/if}
+    </dd>
+    </dl>
+  {/if}
+</div>
+
+{* Relationships block display property is always hidden (non) if there are no relationships *}
+<div id="relationships">
+ {if $relationship.totalCount}
+ <fieldset><legend><a href="#" onclick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $relationship.totalCount GT 3}{ts 1=$relationship.totalCount}Relationships (3 of %1){/ts}{else}{ts}Relationships{/ts}{/if}</legend>
+    {strip}
+        <table>
+        <tr class="columnheader">
+            <th>{ts}Relationship{/ts}</th>
+            <th></th>
+            <th>{ts}City{/ts}</th>
+            <th>{ts}State{/ts}</th>
+            <th>{ts}Email{/ts}</th>
+            <th>{ts}Phone{/ts}</th>
+            <th>&nbsp;</th>
+        </tr>
+
+        {foreach from=$relationship.data item=rel}
+          {*assign var = "rtype" value = "" }
+              {if $rel.contact_a > 0 }
+            {assign var = "rtype" value = "b_a" }
+          {else}	  
+            {assign var = "rtype" value = "a_b" }
+          {/if*}
+            <tr class="{cycle values="odd-row,even-row"}">
+                <td class="label"><a href="{crmURL p='civicrm/contact/view/rel' q="action=view&reset=1&cid=`$contactId`&id=`$rel.id`&rtype=`$rel.rtype`"}">{$rel.relation}</a></td>
+                <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
+                <td>{$rel.city}</td>
+                <td>{$rel.state}</td>
+                <td>{$rel.email}</td>
+                <td>{$rel.phone}</td>
+                <td>
+                    {if $permission EQ 'edit'}<a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`&cid=$contactId"}">{ts}Edit{/ts}</a>{/if}
+                </td>
+            </tr>  
+        {/foreach}
+        {if $relationship.totalCount gt 3 }
+            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/rel' q="action=browse&cid=$contactId"}">&raquo; {ts}View All Relationships...{/ts}</a></td></tr>
+        {/if}
+        </table>
+	{/strip}
+   {if $permission EQ 'edit'}
+   <div class="action-link">
+       <a href="{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}">&raquo; {ts}New Relationship{/ts}</a>
+   </div>
+   {/if}
+ </fieldset>
  {/if}
+</div>
 
 <div id="openActivities[show]" class="data-group">
   {if $openActivity.totalCount}
@@ -241,70 +301,6 @@
  </fieldset>
 </div>
 
-<div id="relationships[show]" class="data-group">
-  {if $relationship.totalCount}
-    <a href="#" onclick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Relationships{/ts}</label> ({$relationship.totalCount})<br />
-  {else}
-    <dl><dt>{ts}Relationships{/ts}</dt>
-    <dd>
-        {if $permission EQ 'edit'}
-            {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No relationships. You can <a href="%1">create a new relationship</a>.{/ts}
-        {else}
-            {ts}There are no Relationships entered for this contact.{/ts}
-        {/if}
-    </dd>
-    </dl>
-  {/if}
-</div>
-
-{* Relationships block display property is always hidden (non) if there are no relationships *}
-<div id="relationships">
- {if $relationship.totalCount}
- <fieldset><legend><a href="#" onclick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $relationship.totalCount GT 3}{ts 1=$relationship.totalCount}Relationships (3 of %1){/ts}{else}{ts}Relationships{/ts}{/if}</legend>
-    {strip}
-        <table>
-        <tr class="columnheader">
-            <th>{ts}Relationship{/ts}</th>
-            <th></th>
-            <th>{ts}City{/ts}</th>
-            <th>{ts}State{/ts}</th>
-            <th>{ts}Email{/ts}</th>
-            <th>{ts}Phone{/ts}</th>
-            <th>&nbsp;</th>
-        </tr>
-
-        {foreach from=$relationship.data item=rel}
-          {*assign var = "rtype" value = "" }
-              {if $rel.contact_a > 0 }
-            {assign var = "rtype" value = "b_a" }
-          {else}	  
-            {assign var = "rtype" value = "a_b" }
-          {/if*}
-            <tr class="{cycle values="odd-row,even-row"}">
-                <td class="label"><a href="{crmURL p='civicrm/contact/view/rel' q="action=view&reset=1&cid=`$contactId`&id=`$rel.id`&rtype=`$rel.rtype`"}">{$rel.relation}</a></td>
-                <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
-                <td>{$rel.city}</td>
-                <td>{$rel.state}</td>
-                <td>{$rel.email}</td>
-                <td>{$rel.phone}</td>
-                <td>
-                    {if $permission EQ 'edit'}<a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`&cid=$contactId"}">{ts}Edit{/ts}</a>{/if}
-                </td>
-            </tr>  
-        {/foreach}
-        {if $relationship.totalCount gt 3 }
-            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/rel' q="action=browse&cid=$contactId"}">&raquo; {ts}View All Relationships...{/ts}</a></td></tr>
-        {/if}
-        </table>
-	{/strip}
-   {if $permission EQ 'edit'}
-   <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}">&raquo; {ts}New Relationship{/ts}</a>
-   </div>
-   {/if}
- </fieldset>
- {/if}
-</div>
 
 <div id="groups[show]" class="data-group">
   {if $group.totalCount}
