@@ -180,7 +180,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $this->_sections = array( 'English'          => 1,
                                   'Reading'          => 1,
                                   'CriticalReading'  => 6,
-                                  'Writing'          => 7,
+                                  'Writing'          => 6,
                                   'Math'             => 7,
                                   'Science'          => 1,
                                   'Composite'        => 1,
@@ -286,7 +286,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
            
         $tests = array( 'act', 'psat', 'sat' );
         $sections = array( 'English', 'Reading', 'CriticalReading', 'Writing', 'Math',
-                           'Science', 'Composite', 'Total' );
+                           'Science');
 
         foreach ( $tests as $testName ) {
             foreach ( $sections as $name ) {
@@ -398,17 +398,33 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             }
             
             // calculate total score for SAT , PSAT , ACT
-            
+                       
             if( is_array( $testParams1 ) ) {
                 foreach( $testParams1 as $test => $score ) {
                     if ( $test == 'act' ) {
                         $totalScore[$test] = $score['score_composite'];
+                        $totalACT = $score['score_reading']+ $score['score_english']+$score['score_science']+$score['score_math'] ;
                     } else if($test == 'psat') {
                         $totalScore[$test] = ( $score['score_math'] + $score['score_reading']) * 10;
+                        $totalPSAT         =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
                     } else if ( $test == 'sat' ) {
                         $totalScore[$test] = ( $score['score_math'] + $score['score_reading']);
+                        $totalSAT         =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
+                        
                     }
                 }
+            }
+            
+            //echo $totalACT;
+            // calcuate(composite & total score)
+            if ( $totalACT > 0 && ! $testParams1['act']['score_composite'] && is_array($testParams1['act'])) {
+                $testParams1['act']['score_composite'] = $totalACT/4;
+            }
+            if (! $testParams1['psat']['score_composite'] && is_array($testParams1['psat'])) {
+                $testParams1['psat']['score_composite'] = $totalPSAT;
+            }
+            if (! $testParams1['sat']['score_composite'] && is_array($testParams1['sat'])) {
+                $testParams1['sat']['score_composite']  = $totalSAT;
             }
             
             // process sat II/ ap stuff

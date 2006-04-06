@@ -46,10 +46,10 @@
     <td class="grouplabel">{$form.act_reading.label}</td>
     <td class="fieldlabel">{$form.act_reading.html}</td>
 </tr>
-<tr>
+{*<tr>
     <td class="grouplabel">{$form.act_writing.label}</td>
     <td class="fieldlabel">{$form.act_writing.html}</td>
-</tr>
+</tr>*}
 <tr>
     <td class="grouplabel">{$form.act_math.label}</td>
     <td class="fieldlabel">{$form.act_math.html}</td>
