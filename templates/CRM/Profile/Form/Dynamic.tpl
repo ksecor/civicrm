@@ -32,7 +32,7 @@
     
     {assign var=n value=$field.name}
 
-    {if $field.options_per_line > 1}
+    {if $field.options_per_line}
 	<tr>
         <td class="option-label">{$form.$n.label}</td>
         <td>
