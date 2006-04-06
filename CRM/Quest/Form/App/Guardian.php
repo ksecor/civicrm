@@ -96,7 +96,11 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         }
         //fix for deceased_year
         $defaults['deceased_year_date']= $defaults['deceased_year'] ;
-
+        if ( !$defaults['lived_with_from_age'] &&  ! $defaults['lived_with_to_age'] ) {
+            $defaults['all_life'] = 1;
+        } else {
+            $defaults['all_life'] = 0;
+        }
         return $defaults;
     }
     

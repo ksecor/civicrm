@@ -84,7 +84,14 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
             }
             $defaults['sibling_relationship_id'] = $defaults['relationship_id'];
             
+            if ( !$defaults['lived_with_from_age'] &&  ! $defaults['lived_with_to_age'] ) {
+                $defaults['all_life'] = 1;
+            } else {
+                $defaults['all_life'] = 0;
+            }
         }
+
+
         return $defaults;
     }
 
