@@ -202,6 +202,14 @@ class CRM_Contact_BAO_Query {
     protected $_customQuery;
 
     /**
+     * should we enable the distinct clause, used if we are including
+     * more than one group
+     *
+     * @var boolean
+     */
+    protected $_useDistinct = false;
+
+    /**
      * The tables which have a dependency on location and/or address
      *
      * @var array
@@ -578,13 +586,21 @@ class CRM_Contact_BAO_Query {
      */ 
     function query( $count = false, $sortByChar = false, $groupContacts = false ) {
         if ( $count ) {
-            $select = 'SELECT count(civicrm_contact.id)'; 
+            if ( $this->_useDistinct ) {
+                $select = 'SELECT count(DISTINCT civicrm_contact.id)';
+            } else {
+                $select = 'SELECT count(civicrm_contact.id)'; 
+            }
             $from = $this->_simpleFromClause;
         } else if ( $sortByChar ) {  
             $select = 'SELECT DISTINCT UPPER(LEFT(civicrm_contact.sort_name, 1)) as sort_name';
             $from = $this->_simpleFromClause;
         } else if ( $groupContacts ) { 
-            $select  = 'SELECT civicrm_contact.id as id'; 
+            if ( $this->_useDistinct ) { 
+                $select  = 'SELECT DISTINCT(civicrm_contact.id) as id'; 
+            } else {
+                $select  = 'SELECT civicrm_contact.id as id'; 
+            }
             $from = $this->_simpleFromClause;
         } else {
             if ( CRM_Utils_Array::value( 'group', $this->_params ) ) {
@@ -596,6 +612,9 @@ class CRM_Contact_BAO_Query {
                     $this->_element['status']               = 1;
                 }
                 $this->_tables['civicrm_group_contact'] = 1;
+            }
+            if ( $this->_useDistinct ) {
+                $this->_select['contact_id'] = 'DISTINCT(civicrm_contact.id) as contact_id';
             }
             $select = 'SELECT ' . implode( ', ', $this->_select );
             $from = $this->_fromClause;
@@ -1162,6 +1181,10 @@ class CRM_Contact_BAO_Query {
     function group( ) {
         if ( ! CRM_Utils_Array::value( 'group', $this->_params ) ) {
             return;
+        }
+
+        if ( count( $this->_params['group'] ) > 1 ) {
+            $this->_useDistinct = true;
         }
 
         $groupClause = 'civicrm_group_contact.group_id IN (' . 
