@@ -60,3 +60,11 @@
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_class_ranking"
+    trigger_value       ="1"
+    target_element_id   ="class_rank" 
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}

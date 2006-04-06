@@ -95,7 +95,7 @@
     trigger_field_id    ="educational_interest[245]"
     trigger_value       ="1"
     target_element_id   ="educational_interest_other"
-    target_element_type ="table-row"
+    target_element_type =""
     field_type          ="radio"
     invert              = 0
 }

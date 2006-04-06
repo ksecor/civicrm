@@ -125,7 +125,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['last_name'] );
         $this->addRule('last_name',ts('Please enter Last Name'),'required');
 
-        $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '42|43|44', 'separated-year', 'table-row', 'select', false);" );
+        $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '42|43|44', 'separated-year', '', 'select', false);" );
         $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
 
         $this->addElement( 'date', 'separated_year', 
@@ -151,7 +151,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                           true);
         $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
 
-        $extra2 = array ('onchange' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', 'table-row', 'radio', true);");
+        $extra2 = array ('onclick' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', '', 'radio', true);");
         $choice = array( );
         $choice[] = $this->createElement( 'radio', null, '11', ts( 'All my life' ), '1', $extra2 );
         $choice[] = $this->createElement( 'radio', null, '11', ts( 'From age' ) , '0', $extra2 );
@@ -166,7 +166,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['lived_with_to_age']);
         $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'integer');
 
-        $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47', 'job_organization|job_occupation|job_current_years', 'table-row', 'select', true);" );
+        $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47', 'job_organization|job_occupation|job_current_years', '', 'select', true);" );
         $this->addSelect('industry', ts( 'Industry' ),null, true, $extra1 );
 
 
@@ -181,7 +181,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['job_current_years']);
         $this->addRule('job_current_years',ts('not a valid number'),'integer');
 
-        $extra2 = array( 'onchange' => "showHideByValue('highest_school_level_id', '118|119|120|121|122', 'college_name|college_country|college_grad_year|college_major', 'table-row', 'select', false); return showHideByValue('highest_school_level_id', '122', 'prof_school_name|prof_school_degree|prof_grad_year', 'table-row', 'select', false);" );
+        $extra2 = array( 'onchange' => "showHideByValue('highest_school_level_id', '118|119|120|121|122', 'college_name|college_country|college_grad_year|college_major', '', 'select', false); return showHideByValue('highest_school_level_id', '122', 'prof_school_name|prof_school_degree|prof_grad_year', '', 'select', false);" );
         $this->addSelect('highest_school_level', ts('Highest level of schooling'),null,true,$extra2);
         $this->addElement( 'text', 'college_name', ts('College Name'),
                            $attributes['college_name'] );
