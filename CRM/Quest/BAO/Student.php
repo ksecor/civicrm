@@ -80,6 +80,12 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         if ( $dao->find( true ) ) {
             CRM_Core_DAO::storeValues( $dao, $defaults );
             $ids['student_id'] = $dao->id;
+            $names = array( 'citizenship_status_id' => array('newName'=>'citizenship_status','groupName' => 'citizenship_status'),
+                            'gpa_id'                => array('newName' => 'gpa', 'groupName' => 'gpa'),
+                            'ethnicity_id_1'        => array('newName' => 'ethnicity_1', 'groupName' => 'ethnicity'),
+                            'ethnicity_id_2'        => array('newName' => 'ethnicity_2', 'groupName' => 'ethnicity'));
+            require_once 'CRM/Core/OptionGroup.php';
+            CRM_Core_OptionGroup::lookupValues( $defaults, $names, false );
         }
     }
 

@@ -71,6 +71,58 @@ ORDER BY v.grouping, v.weight;
         }
         return self::$_values[$name];
     }
+
+/**
+ * Function to lookup titles OR ids for a set of option_value populated fields. The retrieved value
+ * is assigned a new fieldname by id or id's by title  
+ * (each within a specificied option_group)
+ *
+ * @param  array   $params   Reference array of values submitted by the form. Based on
+ *                           $flip, creates new elements in $params for each field in
+ *                           the $names array.
+ *                           If $flip = false, adds     root field name     => title
+ *                           If $flip = true, adds      actual field name   => id                                                                     
+ * 
+ * @param  array   $names    Reference array of fieldnames we want transformed.
+ *                           Array key = 'postName' (field name submitted by form in $params).
+ *                           Array value = array('newName' => $newName, 'groupName' => $groupName).
+ *                           
+ *
+ * @param  boolean $flip
+ *
+ * @return void     
+ * 
+ * @access public
+ * @static
+ */
+
+    static function lookupValues( &$params, &$names, $flip = false ) {
+        $domainID = CRM_Core_Config::domainID( );
+        foreach ($names as $postName => $value) {
+            // See if $params field is in $names array (i.e. is a value that we need to lookup)
+            if ( CRM_Utils_Array::value( $postName, $params ) ) {
+                if ( $flip ) {
+                    $select = "v.id";
+                    $lookupBy = "v.title = '" . CRM_Utils_Type::escape( $params[$postName], 'String' )
+                    . "';";
+                } else {
+                    $lookupBy = "v.id = " . CRM_Utils_Type::escape( $params[$postName], 'Integer' ) . ";";
+                    $select = "v.title";
+                }
+                
+                $query = "
+    SELECT $select
+    FROM   civicrm_option_value v,
+    civicrm_option_group g
+    WHERE  v.option_group_id = g.id
+    AND    g.domain_id       = $domainID
+    AND    g.name            = '{$value['groupName']}'
+    AND  $lookupBy";
+                
+                $params[$value['newName']] = CRM_Core_DAO::singleValueQuery( $query );
+            }
+        }
+    }
 }
 
 ?>
