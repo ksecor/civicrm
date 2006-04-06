@@ -442,7 +442,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             CRM_Core_BAO_Email::getTableName() => true,
             CRM_Contact_BAO_Contact::getTableName() => true, 
             CRM_Contact_BAO_Group::getTableName() => true,
-            CRM_Contact_BAO_SubscriptionHistory::getTableName() => true,
         );
 
         $inner = array( );
