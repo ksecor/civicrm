@@ -576,7 +576,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 //to handle custom data (checkbox) to be written
                 // to handle gender / suffix / prefix
                 if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix' ) ) ) {
-                    $params[$index] = $values[$index] = $details->$name;
+                    $values[$index] = $details->$name;
+                    $name = $name . '_id';
+                    $params[$index] = $details->$name ;
                 } else if ( in_array( $name, array( 'state_province', 'country' ) ) ) {
                     $values[$index] = $details->$name;
                     $idx = $name . '_id';

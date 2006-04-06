@@ -248,7 +248,9 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $defaults[$name] = array_search( $this->_contact->country, $country );
                     }
                 } else if ( $objName == 'gender' ) {
-                    $defaults[$name] = $this->_contact->gender_id;
+                    if ($this->_contact->gender_id) {
+                        $defaults[$name] = $this->_contact->gender_id;
+                    }
                 } else if ( $objName == 'group' ) {
                     CRM_Contact_Form_GroupTag::setDefaults( $this->_id, 
                                                             $defaults,
@@ -264,7 +266,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-
         return $defaults;
     }
 
