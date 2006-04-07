@@ -77,11 +77,23 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         $this->assign       ( 'displayRecent' , false );
         $this->assign       ( 'welcome_name'  , $this->get('welcome_name'));
         if ( $this->_name == 'Personal' ) {
-            $this->addDefaultButtons(ts('Save & Continue'), 'next', null);
+            if ( $this->_action & CRM_Core_Action::VIEW ) {
+                $this->addDefaultButtons(ts('Continue'), 'next', null);
+            } else {
+                $this->addDefaultButtons(ts('Save & Continue'), 'next', null);
+            }
         } else if ( $this->_name == 'Submit' ) {
-            $this->addDefaultButtons( ts('Submit Application') );
+            if ( $this->_action & CRM_Core_Action::VIEW ) {
+                $this->addDefaultButtons( ts('Continue') );
+            } else {
+                $this->addDefaultButtons( ts('Submit Application') );
+            }
         } else {
-            $this->addDefaultButtons( ts('Save & Continue') );
+            if ( $this->_action & CRM_Core_Action::VIEW ) {
+                $this->addDefaultButtons( ts('Continue') );
+            } else {
+                $this->addDefaultButtons( ts('Save & Continue') );
+            }
         }
 
         if ( $this->get( 'action' ) & CRM_Core_Action::VIEW ) {
