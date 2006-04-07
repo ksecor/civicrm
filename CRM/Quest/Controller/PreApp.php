@@ -193,7 +193,7 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
             $subNames = explode( '-', $name );
             $step  = true;
             $link  = $this->_stateMachine->validPage( $name, $data['valid'] ) ? $page->getLink ( ) : null;
-            $valid = ( $name == 'SchoolOther' ) ? 1 : $data['valid'];
+            $valid = ( $name == 'SchoolOther' ) ? 1 : $data['valid'][$name];
             if ( CRM_Utils_Array::value( $subNames[0], $sections ) ) {
                 $step      = false;
                 $collapsed = true;
