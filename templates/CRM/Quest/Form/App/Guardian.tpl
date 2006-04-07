@@ -114,7 +114,7 @@
 {* Marital status field *}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="marital_status_id"
-    trigger_value       ="42,43,44"
+    trigger_value       ="43,44"
     target_element_id   ="separated-year" 
     target_element_type =""
     field_type          ="select"
