@@ -29,7 +29,7 @@
 #crm-container ul.wizard-bar-preApp a {
   font-weight: none;
   color: #0000FF;
-  text-decoration: underline;
+  text-decoration: none;
 }
 #crm-container ul.wizard-bar-preApp a:hover {
   color: #285A66;
