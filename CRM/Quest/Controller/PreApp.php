@@ -192,16 +192,18 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         foreach ( $this->_pages as $name => $page ) {
             $subNames = explode( '-', $name );
             $step  = true;
+            $link  = $this->_stateMachine->validPage( $name, $data['valid'] ) ? $page->getLink ( ) : null;
+            $valid = ( $name == 'SchoolOther' ) ? 1 : $data['valid'];
             if ( CRM_Utils_Array::value( $subNames[0], $sections ) ) {
                 $step      = false;
                 $collapsed = true;
                 if ( $sections[$subNames[0]]['valid'] ) {
                     $count++;
                     $sections[$subNames[0]]['valid'] = false;
-                    $link = $this->_stateMachine->validPage( $name, $data['valid'] ) ? $page->getLink ( ) : null;
                     $wizard['steps'][] = array( 'name'       => $name,
                                                 'title'      => $sections[$subNames[0]]['title'],
                                                 'link'       => $link,
+                                                'valid'      => $valid,
                                                 'step'       => true,
                                                 'stepNumber' => $count,
                                                 'collapsed'  => false );
@@ -217,10 +219,10 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                 $collapsed  = false;
             }
 
-            $link = $this->_stateMachine->validPage( $name, $data['valid'] ) ? $page->getLink ( ) : null;
             $wizard['steps'][] = array( 'name'       => $name,
                                         'title'      => $page->getTitle( ),
                                         'link'       => $link,
+                                        'valid'      => $valid,
                                         'step'       => $step,
                                         'stepNumber' => $stepNumber,
                                         'collapsed'  => $collapsed );
