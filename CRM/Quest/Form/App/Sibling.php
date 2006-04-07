@@ -46,8 +46,6 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 {
     protected $_siblingID;
-    static    $action;
-    
 
      /**
      * Function to set variables up before form is built
@@ -61,7 +59,6 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 
         $this->_contactId = $this->get('contact_id');
         $this->_siblingID  = CRM_Utils_Array::value( 'siblingID', $this->_options );
-        $this->action = $this->get('mode');
         
     }
     
@@ -176,18 +173,13 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                            ts('Comments'),
                            $attributes['description'] );
         
-        if( $this->action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
-        
-        
         parent::buildQuickForm();
     }//end of function
 
 
     public function postProcess()  
     {
-        if ($this->action !=  CRM_Core_Action::VIEW ) {
+        if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params  = $this->controller->exportValues( $this->_name );
             
             $params['relationship_id'] = $params['sibling_relationship_id'];

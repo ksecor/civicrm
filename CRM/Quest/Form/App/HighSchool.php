@@ -47,7 +47,6 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
 {
     static $_orgIDs;
     static $_relIDs;
-    static $action;
 
     /**
      * Function to set variables up before form is built
@@ -102,8 +101,6 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         
         $this->set('relIDs' , $this->_relIDs);
         $this->set('orgIDs' , $this->_orgIDs);
-        $this->action = $this->get('mode');
-        
     }
 
 
@@ -225,10 +222,6 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         }
         $this->assign( 'highschool',$highschool );
         
-        if( $this->action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
-        
         parent::buildQuickForm( );
     }
     
@@ -240,7 +233,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-        if ($this->action !=  CRM_Core_Action::VIEW ) {
+        if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
             //format parameters
             foreach( $params as $key => $value ) {

@@ -49,6 +49,9 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         TEST_PSAT = 2,
         TEST_SAT  = 4;
 
+    function preProcess( ) {
+    }
+
     /**
      * This function sets the default values for the form. For edit/view action
      * the default values are retrieved from the database
@@ -75,11 +78,17 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         $this->assign       ( 'welcome_name'  , $this->get('welcome_name'));
         if ( $this->_name == 'Personal' ) {
             $this->addDefaultButtons(ts('Save & Continue'), 'next', null);
+        } else if ( $this->_name == 'Submit' ) {
+            $this->addDefaultButtons( ts('Submit Application') );
         } else {
-            $this->addDefaultButtons(ts('Save & Continue'));
+            $this->addDefaultButtons( ts('Save & Continue') );
         }
-    }
 
+        if ( $this->get( 'action' ) & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
+
+    }
        
     /**
      * process the form after the input has been submitted and validated
@@ -115,7 +124,6 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         $dao->status_detail = serialize( $data['valid'] );
 
         $dao->save( );
-        
     }//end of function
 
     /**

@@ -49,7 +49,6 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
     protected $_incomeID;
     protected $_totalIncome;
     protected $_deleteButtonName = null;
-    static    $action; 
     /**
      * Function to set variables up before form is built
      *
@@ -63,7 +62,6 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         $this->_contactId = $this->get('contact_id');
         $this->_incomeID  = CRM_Utils_Array::value( 'incomeID', $this->_options );
         $this->_personID  = CRM_Utils_Array::value( 'personID', $this->_options );
-        $this->action = $this->get('mode');
     }
 
     /**
@@ -155,9 +153,6 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             $this->add( 'submit', $this->_deleteButtonName, ts( 'Delete this Income Source' ) );
         }
         
-        if( $this->action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
         parent::buildQuickForm();
             
     }//end of function
@@ -181,7 +176,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     {
-        if ($this->action !=  CRM_Core_Action::VIEW ) {
+        if ($this->_action !=  CRM_Core_Action::VIEW ) {
             // check if the delete button has been submitted
             $buttonName = $this->controller->getButtonName( );
             if ( $buttonName == $this->_deleteButtonName ) {

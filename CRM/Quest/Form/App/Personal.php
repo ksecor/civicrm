@@ -49,7 +49,6 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 
     protected $_contactId;
     protected $_studentId;
-    static $action;
 
     /**
      * Function to set variables up before form is built
@@ -61,7 +60,6 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
     {
         parent::preProcess();
         $this->_contactId = $this->get( 'contact_id' );
-        $this->action = $this->get('mode');
         
     }
 
@@ -214,9 +212,6 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
                          CRM_Core_OptionGroup::values('home_area') );
 
         $this->addFormRule(array('CRM_Quest_Form_App_Personal', 'formRule'));
-        if($this->action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
         
         parent::buildQuickForm( );
     }
@@ -254,7 +249,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-        if ($this->action !=  CRM_Core_Action::VIEW ) {
+        if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
             
             require_once 'CRM/Quest/BAO/Student.php';

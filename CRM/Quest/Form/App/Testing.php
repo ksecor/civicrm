@@ -51,7 +51,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
     protected $_multiTests;
     protected $_sections;
     protected $_parts;
-    static    $action;
 
     /**
      * Function to set variables up before form is built
@@ -62,7 +61,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-        $this->action = $this->get('mode');
     }
 
     /**
@@ -180,7 +178,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $this->_sections = array( 'English'          => 1,
                                   'Reading'          => 1,
                                   'CriticalReading'  => 6,
-                                  'Writing'          => 6,//was 7
+                                  'Writing'          => 6,
                                   'Math'             => 7,
                                   'Science'          => 1,
                                   'Composite'        => 1,
@@ -197,9 +195,11 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         foreach ( $this->_tests as $testName => $testValue ) {
             foreach ( $this->_sections as $name => $value ) {
                 if ( $value & $testValue ) {
+                    $fieldName = $name;
+                    $fieldName = ( $name == "CriticalReading" ) ? "Critical Reading" : $name;
                     $this->addElement( 'text',
                                        $testName . '_' . strtolower( $name ),
-                                       ts( $name . ' Score' ),
+                                       ts( $fieldName . ' Score' ),
                                        $attributes['score_english'] );
                     $this->addRule( $testName . '_' . strtolower( $name ), ts( strtolower( $name ).' score not valid.'),'integer');
                 }
@@ -266,10 +266,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
 
         $this->addFormRule(array('CRM_Quest_Form_App_Testing', 'formRule'));
        
-        if( $this->action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
-        
         parent::buildQuickForm( );
     }
 
@@ -352,7 +348,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-        if ($this->action !=  CRM_Core_Action::VIEW ) {
+        if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
             
             $testSet1 = array('act','psat','sat','pact');

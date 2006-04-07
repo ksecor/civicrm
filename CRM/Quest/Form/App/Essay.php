@@ -47,7 +47,6 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
 {
 
     protected $_essayID = null;
-    static    $action;
 
     /**
      * Function to set variables up before form is built
@@ -58,7 +57,6 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-        $this->action = $this->get('mode');
     }
     
     /**
@@ -103,9 +101,6 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
 
         $this->addElement('text', 'word_count', ts( 'Word Counter' ), 'readonly');
 
-        if( $this->action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
         parent::buildQuickForm();
 
 
@@ -124,7 +119,7 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
 
   public function postProcess() 
     {
-        if ($this->action !=  CRM_Core_Action::VIEW ) {
+        if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
             
             require_once 'CRM/Quest/BAO/Essay.php';

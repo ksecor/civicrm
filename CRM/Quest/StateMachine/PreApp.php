@@ -105,16 +105,9 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                                        'SchoolOther' => array( 'Personal'  => 1 ),
                                        'Academic'    => array( 'Personal'  => 1 ),
                                        'Testing'     => array( 'Personal'  => 1 ),
-                                       'Essay'       => array( 'Personal'  => 1 ) );
-            $names = array_keys( self::$_dependency );
-            self::$_dependency['Submit'] = array( );
-            foreach ( $names as $name ) {
-                // skip School Other since it is option
-                if ( $name == 'SchoolOther' ) {
-                    continue;
-                }
-                self::$_dependency['Submit'][$name] = 1;
-            }
+                                       'Essay'       => array( 'Personal'  => 1 ),
+                                       'Submit'      => array( 'Personal'  => 1 )
+                                       );
         }
 
         return self::$_dependency;
@@ -141,6 +134,20 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                                                                            "_qf_{$name}_display=1" ) );
                     }
                 }
+            }
+        }
+    }
+
+    public function checkApplication( &$controller ) {
+        $data =& $controller->container( );
+
+        foreach ( $this->_pageNames as $pageName ) {
+            if ( ! $data['valid'][$pageName] ) {
+                $title = $controller->_pages[$pageName]->getCompleteTitle( );
+                $session =& CRM_Core_Session::singleton( );
+                $session->setStatus( "The $title section must be completed before you can submit the application" );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/preapp',
+                                                                   "_qf_{$pageName}_display=1" ) );
             }
         }
     }

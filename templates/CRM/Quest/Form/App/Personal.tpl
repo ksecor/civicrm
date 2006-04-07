@@ -9,7 +9,7 @@
         <label for="first_name">{ts}Legal Name{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel" width="70%">
         {$form.first_name.html}<br />
-        {$form.first_name.label}</td>
+        {hlp}{$form.first_name.label}{/hlp}</td>
 </tr>
 <tr>
     <td class="fieldlabel">

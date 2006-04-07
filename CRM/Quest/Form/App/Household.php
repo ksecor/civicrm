@@ -45,8 +45,6 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
 {
-    static $action;
-    
     /**
      * Function to set variables up before form is built
      *
@@ -56,7 +54,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-        $this->action = $this->get('mode');
     }
     
     /**
@@ -163,10 +160,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
 
         $this->addFormRule(array('CRM_Quest_Form_App_Household', 'formRule'));
         
-        if( $this->action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
-        
         parent::buildQuickForm( );
 
     }//end of function
@@ -245,7 +238,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     { 
-        if ($this->action !=  CRM_Core_Action::VIEW ) {
+        if ($this->_action !=  CRM_Core_Action::VIEW ) {
             // get all the relevant details so we can decide the detailed information we need
             $params  = $this->controller->exportValues( 'Household' );
             $relationship = CRM_Core_OptionGroup::values( 'relationship' );

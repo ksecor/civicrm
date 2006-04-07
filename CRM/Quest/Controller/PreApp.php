@@ -44,39 +44,27 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
         parent::__construct( $title, $modal );
         
-        $cid = CRM_Utils_Request::retrieve('id', $form);
-        $mode = CRM_Utils_Request::retrieve('action', $form);
-        
+        $cid    = CRM_Utils_Request::retrieve('id', $this);
+        $action = CRM_Utils_Request::retrieve('action', $this, false, 'edit');
+        $this->assign( 'action', $action );
+
         $session =& CRM_Core_Session::singleton( );
         $uid = $session->get( 'userID' );
         
-        require_once 'CRM/Core/Action.php';
-        if ( $mode == 'edit' ) {
-            $this->set('mode',CRM_Core_Action::UPDATE);
-        }  else if ( $mode == 'view') {
-            $this->set('mode',CRM_Core_Action::VIEW);
-        } 
-        
-        $act = $this->get('mode');
-            
         if ( $cid ) {
             require_once 'CRM/Contact/BAO/Contact.php';
             require_once 'CRM/Utils/System.php';
-            if ( ( $cid != $uid ) && ($act & CRM_Core_Action::UPDATE) ) {
+            if ( ( $cid != $uid ) && ($action & CRM_Core_Action::UPDATE) ) {
                 if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) {
                     CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Application.') );
                 } 
-            } else if (($cid != $uid ) && ($act & CRM_Core_Action::VIEW) ) {
+            } else if (($cid != $uid ) && ($action & CRM_Core_Action::VIEW) ) {
                 if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) {
                     CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Application.') );
                 }
             }
-        }
-        
-        
-        if ( $cid ) {
             $this->set( 'contact_id',$cid );
-         }
+        }
         
         // set contact id and welcome name
         if ( ! $this->get( 'contact_id' ) ) {
@@ -284,6 +272,10 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
 
         $this->_pages = array( );
         $this->addPages( $this->_stateMachine );
+    }
+
+    function checkApplication( ) {
+        $this->_stateMachine->checkApplication( $this );
     }
 
 }

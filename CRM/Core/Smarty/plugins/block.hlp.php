@@ -21,84 +21,33 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | at http://www.openngo.org/faqs/licensing.html                       |
  +--------------------------------------------------------------------+
 */
 
-
 /**
- * Personal Information Form Page
+ * CiviCRM's Smarty help plugin
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
+ * @author Piotr Szotkowski <shot@caltha.pl>
+ * @author Michal Mach <mover@artnet.org>
  * @copyright Donald A. Lobo (c) 2005
  * $Id$
+ */
+
+/** 
+ * Smarty block function providing help display support
  *
+ * @param array $params   template call's parameters
+ * @param string $text    {ts} block contents from the template
+ * @param object $smarty  the Smarty object
+ *
+ * @return string  the string, translated by gettext
  */
-
-require_once 'CRM/Quest/Form/App.php';
-require_once 'CRM/Core/OptionGroup.php';
-
-/**
- * This class generates form components for relationship
- * 
- */
-class CRM_Quest_Form_App_Submit extends CRM_Quest_Form_App
+function smarty_block_hlp($params, $text, &$smarty)
 {
-    /**
-     * This function sets the default values for the form. Relationship that in edit/view action
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return void
-     */
-    function setDefaultValues( ) 
-    {
-        $defaults = array( );
-        return $defaults;
-    }
-    
-
-    /**
-     * Function to actually build the form
-     *
-     * @return void
-     * @access public
-     */
-    public function buildQuickForm( ) 
-    {
-        $this->add( 'checkbox', "approve", ts( "" ), ts( "" ), true );
-
-        parent::buildQuickForm();
-    }//end of function
-
-    
-    /**
-     * process the form after the input has been submitted and validated
-     *
-     * @access public
-     * @return void
-     */
-    public function postProcess() 
-    {
-        // make sure that all forms are valid at this stage
-        // if not jump to that page
-        $this->controller->checkApplication( );
-
-        parent::postProcess( );
-    }//end of function
-
-
-    /**
-     * Return a descriptive name for the page, used in wizard header
-     *
-     * @return string
-     * @access public
-     */
-    public function getTitle()
-    {
-        return ts('Complete Application');
-    }
+    $action = $smarty->_tpl_vars['action'];
+    return ( $action == 1 || $action == 2 ) ? $text : null;
 }
 
 ?>

@@ -46,7 +46,6 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
 {
     static $_honorIds;
-    static $action;
     
     /**
      * Function to set variables up before form is built
@@ -70,8 +69,8 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $this->_honorIds[$count] = $dao->id;
         }
         $this->set( 'honorIds', $this->_honorIds);
-        $this->action = $this->get('mode');
     }
+
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -178,10 +177,6 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         // Assign showHide links to tpl
         $this->assign( 'honor', $honor );
 
-        if( $this->action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
-        
         parent::buildQuickForm( );
     }
 
@@ -193,7 +188,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-        if ($this->action !=  CRM_Core_Action::VIEW ) {
+        if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $honorParams = $params = $this->controller->exportValues( $this->_name );
             $values = $this->controller->exportValues( 'Personal' );
             $params = array_merge( $params,$values );

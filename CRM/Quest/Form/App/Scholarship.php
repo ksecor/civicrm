@@ -45,7 +45,6 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
 {
-    static $action;
     /**
      * Function to set variables up before form is built
      *
@@ -55,7 +54,6 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-        $this->action = $this->get('mode');
     }
     
     
@@ -119,9 +117,6 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
 
         $this->addFormRule(array('CRM_Quest_Form_App_Scholarship', 'formRule'));
         
-        if($this->action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
         parent::buildQuickForm();
     }//end of function
 
@@ -154,7 +149,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-        if ($this->action !=  CRM_Core_Action::VIEW ) {
+        if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
             
             $values = $this->controller->exportValues( 'Personal' );

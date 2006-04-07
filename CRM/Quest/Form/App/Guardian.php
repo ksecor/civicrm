@@ -47,7 +47,6 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 {
     protected $_personID;
     protected $_relationshipID;
-    static    $action;
 
     const INDUSTRY_UNEMPLOYED = 47;
 
@@ -62,7 +61,6 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         parent::preProcess();
         $this->_personID        = $this->_options['personID'];
         $this->_relationshipID  = $this->_options['relationshipID'];
-        $this->action = $this->get('mode');
     }
    
     /**
@@ -211,10 +209,6 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 
         $this->addFormRule(array('CRM_Quest_Form_App_Guardian', 'formRule'));
 
-        if( $this->action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
-
         parent::buildQuickForm();
     }//end of function
     
@@ -243,7 +237,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     {
-        if ($this->action !=  CRM_Core_Action::VIEW ) {
+        if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params  = $this->controller->exportValues( $this->_name );
             
             $params['relationship_id'] = $this->_relationshipID;
