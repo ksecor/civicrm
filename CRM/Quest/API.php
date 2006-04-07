@@ -111,7 +111,6 @@ class CRM_Quest_API {
 
         require_once 'api/Search.php';
         list( $result, $options ) = crm_contact_search( $params, $returnProperties );
-        CRM_Core_Error::debug( 'r', $result );
 
         if ( ! empty( $result ) ) {
             return array_pop( $result );
