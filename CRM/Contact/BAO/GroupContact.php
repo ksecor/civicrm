@@ -408,12 +408,12 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $groupDAO =& new CRM_Contact_DAO_Group();
         $groupDAO->id = $group->id;
         if ( ! $groupDAO->find( true ) ) {
-            return CRM_Core_Error::fatal( "Could not locate group with id: $id" );
+            return CRM_Core_Error::createError( "Could not locate group with id: $id" );
         }
         
         // make sure user has got permission to view this group
          if ( ! CRM_Contact_BAO_Group::checkPermission( $groupDAO->id, $groupDAO->title ) ) {
-            return CRM_Core_Error::fatal( "You do not have permission to access group with id: $id" );
+             return CRM_Core_Error::createError( "You do not have permission to access group with id: $id" );
         }
         
         $query = '';

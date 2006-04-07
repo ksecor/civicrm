@@ -466,6 +466,12 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         CRM_Core_Error::debug( 'backTrace', $message );
     }
 
+    static function createError( $message, $code = 8000, $level = 'Fatal', $params = null ) {
+        $error =& CRM_Core_Error::singleton( );
+        $error->push( $code, $level, array( $params ), $message );
+        return $error;
+    }
+
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');

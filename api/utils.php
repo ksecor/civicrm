@@ -41,9 +41,7 @@ require_once 'CRM/Utils/Array.php';
 
 function _crm_error( $message, $code = 8000, $level = 'Fatal', $params = null)
 {
-    $error =& CRM_Core_Error::singleton( );
-    $error->push( $code, $level, array( $params ), $message );
-    return $error;
+    return CRM_Core_Error::createError( $message, $code, $level, $params );
 }
 
 function _crm_store_values( &$fields, &$params, &$values ) {
