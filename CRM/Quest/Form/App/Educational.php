@@ -87,8 +87,12 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
                     $defaults[$field][$v] = 1;
                 }
             }
+            $grouping = array();
+            // retrieve the grouping property
+            $grouping = CRM_Core_OptionGroup::values( $field, true, true );
+            $this->assign( $field . '_grouping', $grouping); 
         }
-       
+
         return $defaults;
     }
     

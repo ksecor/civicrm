@@ -69,7 +69,7 @@
                 {if $countCI is not odd}
                 <tr>
                 {/if}
-                <td class="optionlist">{$form.college_interest.$key.html}</td>
+                <td class="optionlist"><span{if $college_interest_grouping.$key} {$college_interest_grouping.$key}{/if}>{$form.college_interest.$key.html}</span></td>
                 {if $countCI is not even}
                 </tr>
                 {/if}

@@ -41,14 +41,11 @@
 class CRM_Core_OptionGroup {
     static $_values = array( );
 
-    static function &values( $name, $flip = false ) {
-
-        if ( ! CRM_Utils_Array::value( $name, self::$_values ) ) {
-            self::$_values[$name] = array( );
-
-            $domainID = CRM_Core_Config::domainID( );
-            $query = "
-SELECT v.name as name, v.title as title ,v.id as id
+    static function &values( $name, $flip = false, $grouping = false ) {
+        self::$_values[$name] = array( );
+        $domainID = CRM_Core_Config::domainID( );
+        $query = "
+SELECT v.name as name, v.title as title ,v.id as id, v.grouping as grouping
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id
@@ -56,14 +53,21 @@ WHERE  v.option_group_id = g.id
   AND  g.name            = '$name'
   AND  v.is_active       = 1 
   AND  g.is_active       = 1 
-ORDER BY v.grouping, v.weight;
+ORDER BY v.weight;
 ";
             
-            $dao =& CRM_Core_DAO::executeQuery( $query );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
            
-            while ( $dao->fetch( ) ) {
-                if ( $flip ) {
+        while ( $dao->fetch( ) ) {
+            if ( $flip ) {
+                if ( $grouping ) {
+                    self::$_values[$name][$dao->id] = $dao->grouping;
+                } else {
                     self::$_values[$name][$dao->title] = $dao->id;
+                }
+            } else {
+                if ( $grouping ) {
+                    self::$_values[$name][$dao->title] = $dao->grouping;
                 } else {
                     self::$_values[$name][$dao->id] = $dao->title;
                 }

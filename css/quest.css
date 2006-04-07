@@ -134,3 +134,7 @@ p.preapp-instruction {
 #crm-container label, .labels, .label {
   font-weight: normal;
 }
+
+#crm-container .partner_college {
+ color: green;
+}
