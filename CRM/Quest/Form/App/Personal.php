@@ -202,6 +202,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         $this->addElement('date', 'high_school_grad_year', ts( 'Year of high school graduation'),
                           CRM_Core_SelectValues::date( 'custom', 1, 2, "Y" ) );
         $this->addRule('high_school_grad_year', ts('Select a valid date.'), 'qfDate');
+        $this->addRule('high_school_grad_year', ts('Select a valid  date.'), 'required');
 
         // did parent graduate from college
         $this->addYesNo( 'parent_grad_college_id',
