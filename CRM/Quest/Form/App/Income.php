@@ -213,7 +213,9 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             }
             
             $params['person_id']   = $this->_personID;
-            
+            $params['amount_1'] = (int)(str_replace(",","",$params['amount_1']));
+            $params['amount_1'] = (int)(str_replace(",","",$params['amount_1']));
+
             $ids = array( 'id' => $this->_incomeID );
             
             require_once 'CRM/Quest/BAO/Income.php';
@@ -234,7 +236,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                 }
             }
             $studValues['household_income_total'] = $income;
-            $id = $this->get('id');
+            $id = $this->get('studId');
             $contact_id = $this->get('contact_id');
             $ids = array();
             $ids['id'] = $id;

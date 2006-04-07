@@ -152,7 +152,7 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
                 $params['college_type']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_type']));
             }
             
-            $id = $this->get('id');
+            $id = $this->get('studId');
             $contact_id = $this->get('contact_id');
             //$ids = array('id'=>$id ,'contact_id' => $contact_id);
             $ids = array();

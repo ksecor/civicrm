@@ -193,7 +193,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $values = $this->controller->exportValues( 'Personal' );
             $params = array_merge( $params,$values );
             
-            $id         = $this->get('id');
+            $id         = $this->get('studId');
             $contact_id = $this->get('contact_id');
             
             $ids = array();

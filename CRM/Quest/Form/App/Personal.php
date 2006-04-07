@@ -277,7 +277,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
             
             $student = CRM_Quest_BAO_Student::create( $params , $ids);
             
-            $this->set( 'id', $student->id );
+            $this->set( 'studId', $student->id );
             $this->set( 'welcome_name', $params['first_name'] );
         
             }

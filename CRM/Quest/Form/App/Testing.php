@@ -201,7 +201,11 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                                        $testName . '_' . strtolower( $name ),
                                        ts( $fieldName . ' Score' ),
                                        $attributes['score_english'] );
-                    $this->addRule( $testName . '_' . strtolower( $name ), ts( strtolower( $name ).' score not valid.'),'integer');
+                    if ( $name == 'Composite') {
+                        $this->addRule( $testName . '_' . strtolower( $name ), ts( strtolower( $name ).' score not valid.'),'numeric');
+                    } else {
+                        $this->addRule( $testName . '_' . strtolower( $name ), ts( strtolower( $name ).' score not valid.'),'integer');
+                    }
                 }
             }
 
@@ -518,7 +522,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                 $values['test_tutoring'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['test_tutoring']));
             }
             
-            $id = $this->get('id');
+            $id = $this->get('studId');
             $contact_id = $this->get('contact_id');
             $ids = array();
             $ids['id'] = $id;
