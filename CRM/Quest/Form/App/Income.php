@@ -148,10 +148,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
 
         $this->_deleteButtonName = $this->getButtonName( 'next'   , 'delete' );
         $this->assign( 'deleteButtonName', $this->_deleteButtonName );
-        if ( ! $this->_options['personID'] ) {
-            // this is a new income form, allow deletion
-            $this->add( 'submit', $this->_deleteButtonName, ts( 'Delete this Income Source' ) );
-        }
+        $this->add( 'submit', $this->_deleteButtonName, ts( 'Delete this Income Source' ) );
         
         parent::buildQuickForm();
             
@@ -180,6 +177,30 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             // check if the delete button has been submitted
             $buttonName = $this->controller->getButtonName( );
             if ( $buttonName == $this->_deleteButtonName ) {
+                // delete the income record
+                if ( $this->_incomeID ) {
+                    require_once 'CRM/Quest/DAO/Income.php'; 
+                    $dao = & new CRM_Quest_DAO_Income();
+                    $dao->id = $this->_incomeID;
+                    $dao->delete( );
+                }
+
+                // if there is a person, delete if not guardian
+                if ( $this->_personID ) {
+                    require_once 'CRM/Quest/DAO/Person.php';
+                    $dao = & new CRM_Quest_DAO_Person( );
+                    $dao->id = $this->_personID;
+                    if ( $dao->find( true ) ) {
+                        if ( ! $dao->is_parent_guardian ) {
+                            $dao->delete( );
+                        } else {
+                            // reset the contributor flag of this guardian
+                            $dao->is_income_source = false;
+                            $dao->save( );
+                        }
+                    }
+                }
+
                 // delete this form from the list of detail pages
                 $details = $this->controller->get( 'incomeDetails' );
                 unset( $details[$this->_name] );
@@ -338,12 +359,13 @@ WHERE  i.person_id = p.id
             $dao =& new CRM_Quest_DAO_Person( );
             $dao->contact_id = $cid;
             $dao->is_parent_guardian = true;
+            $dao->is_income_source   = true;
             $dao->find( );
             while ( $dao->fetch( ) ) {
                 $deceasedYear = CRM_Utils_Date::unformat($dao->deceased_year);
                 $deceasedYear = $deceasedYear['Y'];
                 if ( ! CRM_Utils_Array::value( "Income-{$dao->id}", $details ) &&
-                     $dao->industry_id && $dao->industry_id != CRM_Quest_Form_App_Guardian::INDUSTRY_UNEMPLOYED && (! $dao->is_deceased || $deceasedYear == date("Y"))) {
+                     ! $dao->is_deceased || $deceasedYear == date( 'Y' ) ) {
                     $details[ "Income-{$dao->id}"] =
                         array( 'className' => 'CRM_Quest_Form_App_Income',
                                'title'     => "{$dao->first_name} {$dao->last_name}",
