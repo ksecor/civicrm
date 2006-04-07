@@ -45,7 +45,7 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         parent::__construct( $title, $modal );
         
         $cid    = CRM_Utils_Request::retrieve('id', $this);
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'edit');
+        $action = CRM_Utils_Request::retrieve('action', $this, false, 'update');
         $this->assign( 'action', $action );
 
         $session =& CRM_Core_Session::singleton( );
