@@ -284,3 +284,11 @@ CREATE TABLE civicrm_sms_history (
  
    DROP TABLE IF EXISTS civicrm_module_profile;
 
+
+-- /*******************************************************
+-- *
+-- * update abbreviation for New Hampshire in case it is still wrong
+-- *
+-- *******************************************************/
+
+   UPDATE civicrm_state_province SET abbreviation = 'NH' WHERE id = 1028;
