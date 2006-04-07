@@ -14,7 +14,7 @@
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
-    &nbsp; &nbsp; <a href="{crmURL p='civicrm/quest/preapp' q="reset=1&mode=view&id=$contactId"}">&raquo; {ts}View Preapplication{/ts}</a>
+    &nbsp; &nbsp; <a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View Preapplication{/ts}</a>
     {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
     
     
@@ -126,7 +126,8 @@
     <label>{ts}Rank in Class:{/ts}</label> {$class_rank} of {$class_num_students}
    </div>
    <div class="col2">
-    &nbsp;
+    <label>{ts}Educational Interests:{/ts}</label> {$educational_interest_display}<br />
+    <label>{ts}College Interests:{/ts}</label> {$college_interest_display}<br />
    </div>
    <div class="spacer"></div>
   </fieldset>

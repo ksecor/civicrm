@@ -64,14 +64,17 @@
     <td class="grouplabel">{$form.$custom_3.label}</td>
     <td class="fieldlabel"> {$form.$custom_3.html|crmReplace:class:four}</td>
 </tr>
-<tr>
-    <td colspan=2>{ts}If you attended another high school prior to the one above, click to add another. NOTE: Add another school is TBD (dgg){/ts}
-
-  {assign var=j value=$i+1}
-   <br /><span id="HighSchool_{$j}[show]">{$highschool.$j.show}</span>
-  
-</td>
-
+{if $i LT ($max - 1)}
+   {assign var=j value=$i+1}
+    <tr>
+        <td colspan=2>
+        <span id="HighSchool_{$j}[show]">
+            {$highschool.$j.show}<br /> 
+            {ts}If you attended another high school prior to the one above, click this link to enter information for your prior school.{/ts}
+        </span>
+        </td>
+    </tr>
+{/if}
 </table>
 </div>
 {/section}

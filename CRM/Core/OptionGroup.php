@@ -101,25 +101,31 @@ ORDER BY v.grouping, v.weight;
         foreach ($names as $postName => $value) {
             // See if $params field is in $names array (i.e. is a value that we need to lookup)
             if ( CRM_Utils_Array::value( $postName, $params ) ) {
-                if ( $flip ) {
-                    $select = "v.id";
-                    $lookupBy = "v.title = '" . CRM_Utils_Type::escape( $params[$postName], 'String' )
-                    . "';";
-                } else {
-                    $lookupBy = "v.id = " . CRM_Utils_Type::escape( $params[$postName], 'Integer' ) . ";";
-                    $select = "v.title";
+                // params[$postName] may be a Ctrl+A separated value list
+                $postValues = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $params[$postName]);
+                $newValue = array( );
+                foreach ($postValues as $postValue) {
+                    if ( $flip ) {
+                        $select = "v.id";
+                        $lookupBy = "v.title = '" . CRM_Utils_Type::escape( $postValue, 'String' )
+                        . "';";
+                    } else {
+                        $lookupBy = "v.id = " . CRM_Utils_Type::escape( $postValue, 'Integer' ) . ";";
+                        $select = "v.title";
+                    }
+                    
+                    $query = "
+                        SELECT $select
+                        FROM   civicrm_option_value v,
+                        civicrm_option_group g
+                        WHERE  v.option_group_id = g.id
+                        AND    g.domain_id       = $domainID
+                        AND    g.name            = '{$value['groupName']}'
+                        AND  $lookupBy";
+                    
+                    $newValue[]= CRM_Core_DAO::singleValueQuery( $query );
                 }
-                
-                $query = "
-    SELECT $select
-    FROM   civicrm_option_value v,
-    civicrm_option_group g
-    WHERE  v.option_group_id = g.id
-    AND    g.domain_id       = $domainID
-    AND    g.name            = '{$value['groupName']}'
-    AND  $lookupBy";
-                
-                $params[$value['newName']] = CRM_Core_DAO::singleValueQuery( $query );
+                $params[$value['newName']] = implode(', ', $newValue);
             }
         }
     }

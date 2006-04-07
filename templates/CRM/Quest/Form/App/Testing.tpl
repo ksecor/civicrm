@@ -36,7 +36,7 @@
 </tr>
 </table>
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-<tr><td colspan=2 id="sub-category">{ts}PLAN(Pre-ACT) Test{/ts}</td>
+<tr><td colspan=2 id="sub-category">{ts}PLAN (Pre-ACT) Test{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel"> {$form.pact_english.label}</td>

@@ -99,7 +99,7 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
                           ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
                           array("onkeyup" => "countit();") + $attributes['essay']);
 
-        $this->addElement('text', 'word_count', ts( 'Word Counter' ), 'readonly');
+        $this->addElement('text', 'word_count', ts( 'Current character count' ), 'readonly');
 
         parent::buildQuickForm();
 

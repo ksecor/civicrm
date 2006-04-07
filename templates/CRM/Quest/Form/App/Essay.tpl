@@ -32,11 +32,11 @@
             var formcontent = document.getElementById("essay");
             var contentvalue  = formcontent.value;
             var count = document.getElementById("word_count");
-            count.value = 1500 - contentvalue.length;
-            if (count.value <= 0) {
+            count.value = contentvalue.length;
+            if (count.value >= 1500) {
                 formcontent.value = contentvalue.substr( 0, 1500 );
-                count.value = 0; 
-                alert("You cannot enter any more characters.");
+                count.value = 1500; 
+                alert("You have reached the 1,500 character limit.");
             }
         }
    </script>  
