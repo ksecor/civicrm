@@ -153,6 +153,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
         for ( $i = 2; $i <= 2; $i++ ) {
             if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
                 $this->_showHide->addShow( "HighSchool_$i" );
+                $this->_showHide->addHide( 'HighSchool_' . $i . '[show]' );
             } else {
                 $this->_showHide->addHide( "HighSchool_$i" );
             }

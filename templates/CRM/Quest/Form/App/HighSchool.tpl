@@ -64,7 +64,7 @@
     <td class="grouplabel">{$form.$custom_3.label}</td>
     <td class="fieldlabel"> {$form.$custom_3.html|crmReplace:class:four}</td>
 </tr>
-{if $i LT ($max - 1)}
+{if $i LT ($max-1)}
    {assign var=j value=$i+1}
     <tr>
         <td colspan=2>

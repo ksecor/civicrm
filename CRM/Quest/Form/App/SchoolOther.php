@@ -160,6 +160,7 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         for ( $i = 2; $i <= 5; $i++ ) {
             if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
                 $this->_showHide->addShow( "otherSchool_info_$i" );
+                $this->_showHide->addHide( 'otherSchool_info_' . $i . '[show]' );
             } else {
                 $this->_showHide->addHide( "otherSchool_info_$i" );
             }
@@ -192,8 +193,8 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
             $this->buildAddressBlock( 1, ts( 'Location' ), null, null, null, null, null, "location_$i" );
             $this->addElement('textarea', "note_{$i}", ts( 'School Description' ), array("rows"=>5,"cols"=>60));
             $otherSchool_info[$i] = CRM_Core_ShowHideBlocks::links( $this,"otherSchool_info_$i",
-                                                                    ts('Add another information'),
-                                                                    ts('Hide this information'),
+                                                                    ts('add another Special Program'),
+                                                                    ts('hide this Program'),
                                                                     false );
         }
         $this->assign( 'otherSchool_info', $otherSchool_info );
