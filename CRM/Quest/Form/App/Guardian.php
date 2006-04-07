@@ -134,13 +134,6 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            ts( 'Year Deceased' ),
                            CRM_Core_SelectValues::date( 'custom', 70, 1, "Y" ) );
         
-        /*$this->addElement( 'text', "age",
-                           ts('Age'),
-                           $attributes['age'] );
-        $this->addRule('age',ts('Please enter current Age for this person.'),'required');
-        $this->addRule('age',ts('Please enter a valid number for the Age of this person.'),'integer');*/
-
-        
         $this->addElement('date', 'birth_date',
                           ts(' Birthdate (month/day/year)'),
                           CRM_Core_SelectValues::date('custom', 100, 0, "M\001d\001Y" ),
@@ -177,7 +170,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['job_current_years']);
         $this->addRule('job_current_years',ts('not a valid number'),'integer');
 
-        $extra2 = array( 'onchange' => "showHideByValue('highest_school_level_id', '118|119|120|121|122', 'college_name|college_country|college_grad_year|college_major', '', 'select', false); return showHideByValue('highest_school_level_id', '122', 'prof_school_name|prof_school_degree|prof_grad_year', '', 'select', false);" );
+        $extra2 = array( 'onchange' => "showHideByValue('highest_school_level_id', '118|119|120|121|122|302', 'college_name|college_country|college_grad_year|college_major', '', 'select', false); return showHideByValue('highest_school_level_id', '122|302', 'prof_school_name|prof_school_degree|prof_grad_year', '', 'select', false);" );
         $this->addSelect('highest_school_level', ts('Highest level of schooling'),null,true,$extra2);
         $this->addElement( 'text', 'college_name', ts('College Name'),
                            $attributes['college_name'] );

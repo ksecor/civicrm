@@ -36,10 +36,15 @@
   text-decoration: none;
   font-weight: bold;
 }
-#crm-container ul.wizard-bar-preApp li.past-step {
+#crm-container ul.wizard-bar-preApp li.past-step, #crm-container ul.wizard-bar-preApp li.future-step {
   background-color: #F7F7F7;
   color: #666;
 }
+
+#crm-container ul.wizard-bar-preApp li.not-valid a {
+  color: red;
+}
+
 table#preapp-content td.rightside {
   background-color: #fff;
   margin: 10px 10px 10px 10px;

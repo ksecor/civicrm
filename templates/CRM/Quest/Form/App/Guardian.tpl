@@ -142,7 +142,7 @@
 {* Highest school completed field. College values, then grad school value. *}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="highest_school_level_id"
-    trigger_value       ="118|119|120|121|122"
+    trigger_value       ="118|119|120|121|122|302"
     target_element_id   ="college_name|college_country|college_grad_year|college_major" 
     target_element_type =""
     field_type          ="select"
@@ -150,7 +150,7 @@
 }
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="highest_school_level_id"
-    trigger_value       ="122"
+    trigger_value       ="122|302"
     target_element_id   ="prof_school_name|prof_school_degree|prof_grad_year" 
     target_element_type =""
     field_type          ="select"
