@@ -12,7 +12,7 @@
 <tr id="internet-access-other">
      <td class="grouplabel">&nbsp;</td>
      <td class="fieldlabel">{$form.internet_access_other.html}<br />
-        {ts}Describe your primary internet access method.{/ts}
+        {ts}{hlp}Describe your primary internet access method.{/hlp}{/ts}
     </td>
 </tr>
 <tr>
@@ -25,7 +25,7 @@
 </tr> 
 <tr>
     <td class="grouplabel"> {$form.fed_lunch_id.label}</td>
-    <td class="fieldlabel">{$form.fed_lunch_id.html}</td>
+    <td class="fieldlabel"> {$form.fed_lunch_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel"> {$form.is_take_SAT_ACT.label}</td>
@@ -33,7 +33,15 @@
 </tr>
 <tr>
     <td class="grouplabel"> {$form.study_method_id.label}</td>
-    <td class="fieldlabel">{$form.study_method_id.html}</td>
+    <td class="fieldlabel"> {$form.study_method_id.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel"> {$form.financial_aid_applicant.label}</td>
+    <td class="fieldlabel"> {$form.financial_aid_applicant.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel"> {$form.register_standarized_tests.label}</td>
+    <td class="fieldlabel"> {$form.register_standarized_tests.html} </td>
 </tr>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

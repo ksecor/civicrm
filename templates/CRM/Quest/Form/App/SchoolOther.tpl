@@ -30,13 +30,13 @@
       </tr>
       <tr>
 	{assign var=location value="location_"|cat:$i}
-    	<td class="fieldlabel">{$form.$location.1.address.city.html}<br>{ts}City{/ts}</td>
+    	<td class="fieldlabel">{$form.$location.1.address.city.html}<br>{ts}{hlp}City{/hlp}{/ts}</td>
       </tr>
       <tr>
-    	<td class="fieldlabel">{$form.$location.1.address.state_province_id.html}<br>{ts}State or Province{/ts}</td>
+    	<td class="fieldlabel">{$form.$location.1.address.state_province_id.html}<br>{ts}{hlp}State or Province{/hlp}{/ts}</td>
       </tr>
       <tr>
-    	<td class="fieldlabel">{$form.$location.1.address.country_id.html}<br>{ts}Country{/ts}</td>
+    	<td class="fieldlabel">{$form.$location.1.address.country_id.html}<br>{ts}{hlp}Country{/hlp}{/ts}</td>
       </tr>
       <tr>
 	{assign var=note value="note_"|cat:$i}

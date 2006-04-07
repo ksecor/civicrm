@@ -461,4 +461,18 @@
        <headerPattern>/federal lunch/i</headerPattern>
        <add>1.5</add>
   </foreignKey>
+ <field>
+       <name>financial_aid_applicant</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <comment>Plans to be a financial aid applicant to colleges.</comment>
+       <add>1.5</add>
+  </field>
+ <field>
+       <name>register_standarized_tests</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <comment>Plans to use, or have fee waivers to register for standarized tests.</comment>
+       <add>1.5</add>
+  </field>
 </table>

@@ -114,7 +114,14 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
 
         $this->addSelect( 'study_method',
                           ts( 'If yes, do you plan to study? If so, how?' ));
+        // plan to be a financial aid applican
+        $this->addYesNo( 'financial_aid_applicant',
+                         ts( 'Do you plan to be a financial aid applicant to colleges?' ) ,null,false);
+        // fee waivers to register for standarized tests.
+        $this->addYesNo( 'register_standarized_tests',
+                         ts( 'Do you plan to use, or have you already used, fee waivers to register for standarized tests?' ) ,null,false);
 
+        
         $this->addFormRule(array('CRM_Quest_Form_App_Scholarship', 'formRule'));
         
         parent::buildQuickForm();

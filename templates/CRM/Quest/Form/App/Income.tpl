@@ -17,12 +17,12 @@
         <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel" width="70%">
         {$form.first_name.html}<br />
-        {$form.first_name.label}</td>
+        {hlp}{$form.first_name.label}{/hlp}</td>
 </tr>
 <tr>
     <td class="fieldlabel">
         {$form.last_name.html}<br />
-        {$form.last_name.label}</td>
+        {hlp}{$form.last_name.label}{/hlp}</td>
 </tr> 
 {section name=rowLoop start=1 loop=3}
     {if $smarty.section.rowLoop.index GT 1}
@@ -44,7 +44,7 @@
     </tr>
        {assign var=amount value="amount_"|cat:$smarty.section.rowLoop.index}
        <td class="grouplabel">{$form.$amount.label}</td>
-       <td class="fieldlabel">{$form.$amount.html}<BR>{ts}ONLY enter the US dollars amount (e.g: 10000). DO NOT enter decimal amount. For currency exchange rates <a href="http://finance.yahoo.com/currency" target="_blank">click here</a>{/ts}</td>
+       <td class="fieldlabel">{$form.$amount.html}<BR>{ts}{hlp}ONLY enter the US dollars amount (e.g: 10000). DO NOT enter decimal amount. For currency exchange rates <a href="http://finance.yahoo.com/currency" target="_blank">click here</a>{/hlp}{/ts}</td>
     </tr>
 {/section}
 

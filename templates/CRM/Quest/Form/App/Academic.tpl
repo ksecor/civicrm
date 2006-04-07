@@ -7,7 +7,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.gpa_id.label}</td>
-    <td class="fieldlabel">{$form.gpa_id.html} <br/> Please give your GPA on an unweighted, 4.0 scale</td>
+    <td class="fieldlabel">{$form.gpa_id.html} <br/>{ts} {hlp}Please give your GPA on an unweighted, 4.0 scale{/hlp}{/ts}</td>
 </tr> 
 <tr>
     <td class="grouplabel">{$form.is_class_ranking.label}</td>
@@ -15,7 +15,7 @@
 </tr> 
 <tr id="class_rank">
     <td class="grouplabel">{$form.class_rank.label}</td>
-    <td class="fieldlabel">{$form.class_rank.html}  {$form.class_num_students.html}<br/>Your rank   &nbsp;&nbsp;&nbsp;Total number students in your class</td>
+    <td class="fieldlabel">{$form.class_rank.html}  {$form.class_num_students.html}<br/>{ts}{hlp}Your rank   &nbsp;&nbsp;&nbsp;Total number students in your class{/hlp}{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.class_rank_percent_id.label}</td>
@@ -26,7 +26,7 @@
     <td class="fieldlabel">{$form.gpa_explanation.html}</td>
 </tr>
 <tr>
-    <td colspan=2 id="category">{ts}Academic Honors{/ts}</td>
+    <td colspan=2 id="category">{ts}{hlp}Academic Honors{/hlp}{/ts}</td>
 <tr>
 <tr>
     <td colspan=2><p class="preapp-instruction">{ts}Describe any honors you have been awarded since you entered high school.{/ts}</p></td>
@@ -40,7 +40,7 @@
      <tr>
         {assign var=description value="description_"|cat:$i}
         <td class="grouplabel">{$form.$description.label}</td>
-        <td class="fieldlabel" width="75%"> {$form.$description.html}<br />{ts}Honor title or description{/ts}</td>
+        <td class="fieldlabel" width="75%"> {$form.$description.html}<br />{ts}{hlp}Honor title or description{/hlp}{/ts}</td>
     </tr>
     <tr>
         {assign var=award_date value="award_date_"|cat:$i}

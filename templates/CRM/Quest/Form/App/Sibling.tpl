@@ -10,11 +10,11 @@
 </tr>    
 <tr>
      <td class="fieldlabel">{$form.first_name.html}<br/>
-                            {$form.first_name.label}</td>
+                            {hlp}{$form.first_name.label}{/hlp}</td>
 </tr> 
 <tr>
     <td class="fieldlabel"> {$form.last_name.html}<br/>
-                            {$form.last_name.label}</td>
+                            {hlp}{$form.last_name.label}{/hlp}</td>
 </tr> 
 <tr>
     <td class="grouplabel">{$form.sibling_relationship_id.label}</td>
@@ -23,10 +23,12 @@
 <tr>
     <td class="grouplabel">{$form.birth_date.label} <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.birth_date.html}
+{hlp}
      <div class="description"> 
         {include file="CRM/common/calendar/desc.tpl"}
      </div>
         {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear}
+{/hlp}
     </td>
 </tr>
 <tr>
@@ -87,7 +89,7 @@
     <td class="grouplabel">{$form.description.label}</td>
     <td class="fieldlabel">
         {$form.description.html}<br />
-        {ts}If important information regarding your relationship with this sibling is not captured above, please enter it here.{/ts}
+        {ts}{hlp}If important information regarding your relationship with this sibling is not captured above, please enter it here.{/hlp}{/ts}
     </td>
 </tr>
 </table>

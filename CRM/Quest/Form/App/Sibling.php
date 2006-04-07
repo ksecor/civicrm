@@ -191,6 +191,11 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
             
             $ids = array();
             $ids['id'] = $this->_siblingID;
+
+            require_once 'CRM/Utils/Date.php';
+            $params['college_grad_year'] = CRM_Utils_Date::format($params['college_grad_year']) ;
+            $params['prof_grad_year']    = CRM_Utils_Date::format($params['prof_grad_year']) ;
+
             
             $sibling = CRM_Quest_BAO_Person::create( $params , $ids);
             
@@ -199,7 +204,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
             $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']}";
             $details[$this->_name]['options']['siblingID'] = $sibling->id;
             $this->controller->set( 'siblingDetails', $details );
-        }
+        }//print_r($params);
         parent::postProcess( );
     }
 
