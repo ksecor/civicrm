@@ -366,13 +366,13 @@ INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `g
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (333, 30, 'Application', '1', NULL, 1, 1, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (334, 30, 'Submit Application', '2', NULL, 0, 2, NULL, 0, 2, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (335, 30, 'Review Application', '3', NULL, 0, 3, NULL, 0, 3, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (336, 6, 'Separated', '3', NULL, 0, 3, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (337, 10, 'Half-Sister', '5', NULL, 0, 5, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (338, 10, 'Half-Brother', '6', NULL, 0, 6, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (336, 6, 'Separated', '3', NULL, 0, 3, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (337, 7, 'Retired', '62', NULL, 0, 62, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (338, 13, 'I don\'t know', '17', NULL, 0, 17, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (339, 7, 'Disabled', '21', NULL, 0, 21, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (340, 25, 'PACT', '6', NULL, 0, 6, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (339, 7, 'Retired', '62', NULL, 0, 62, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (340, 13, 'I don\'t know', '17', NULL, 0, 17, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (341, 7, 'Disabled', '21', NULL, 0, 21, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (342, 25, 'PACT', '6', NULL, 0, 6, NULL, 0, 0, 1);
 
 --
 -- Dumping data for table `civicrm_group`  
