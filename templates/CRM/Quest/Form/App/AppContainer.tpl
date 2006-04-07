@@ -18,7 +18,7 @@
         <tr>
            <td class="preapp-message" colspan=2>
              {ts}
-               Please note: the application deadline is May 15, 2006. ( * = required field)
+               Please note: the application deadline is May 15, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' or 'Previous' to save your changes.
              {/ts}
            </td>
         </tr>
@@ -39,11 +39,20 @@
 {/if}
 
 {if $context EQ 'end'}
+    
     <div class="crm-submit-buttons">
         {$form.buttons.html}
     </div>
     </td>
     </tr>
+    </table>
+    <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
+        <tr>
+           <td class="preapp-message" colspan=2>
+             {ts}
+               You must click 'Save &amp; Continue' or 'Previous' to save your changes.
+             {/ts}
+           </td>
     </table>
     </div>
     {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
