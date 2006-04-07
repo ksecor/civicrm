@@ -64,12 +64,12 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                 }
             }
             $this->set( 'contact_id',$cid );
+        } else {
+            $cid = $uid;
         }
         
         // set contact id and welcome name
         if ( ! $this->get( 'contact_id' ) ) {
-            $session =& CRM_Core_Session::singleton( );
-            $cid = $session->get( 'userID' );
             if ( ! $cid ) {
                 CRM_Core_Error::fatal( ts( "Could not find a valid contact id" ) );
             }

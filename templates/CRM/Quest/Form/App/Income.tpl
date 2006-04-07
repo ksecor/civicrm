@@ -59,11 +59,9 @@
         <td class="grouplabel" colspan="2">{$form.another_income_source.html}</td>
     </tr>
 {/if}
-{if $form.$deleteButtonName.html}
     <tr>
         <td class="grouplabel" colspan="2">{$form.$deleteButtonName.html}</td>
     </tr>
-{/if}
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 

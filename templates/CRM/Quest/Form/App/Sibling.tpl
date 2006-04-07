@@ -92,6 +92,9 @@
         {ts}{hlp}If important information regarding your relationship with this sibling is not captured above, please enter it here.{/hlp}{/ts}
     </td>
 </tr>
+<tr>
+     <td class="grouplabel" colspan="2">{$form.$deleteButtonName.html}</td>
+</tr>
 </table>
 
 

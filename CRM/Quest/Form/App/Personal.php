@@ -255,11 +255,11 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
             
             require_once 'CRM/Quest/BAO/Student.php';
             $params['contact_type'] = 'Individual';
+            $params['contact_sub_type'] = 'Student';
 
             $params['location'][1]['location_type_id'] = 1;
             $params['location'][1]['is_primary'] = 1 ;
             $params['location'][2]['location_type_id'] = 2;
-            
             
             $idParams = array( 'id' => $this->_contactId, 'contact_id' => $this->_contactId );
           
@@ -275,14 +275,17 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
             require_once 'CRM/Utils/Date.php';
             $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
             
-            $student = CRM_Quest_BAO_Student::create( $params , $ids);
+            $student =& CRM_Quest_BAO_Student::create( $params , $ids);
             
+            // also trigger the sibling generation in case number_siblings has changes
+            CRM_Quest_Form_App_Sibling::getPages( $this->controller, true );
+
             $this->set( 'studId', $student->id );
             $this->set( 'welcome_name', $params['first_name'] );
-        
-            }
+        }
+
         parent::postProcess( );
-        
+     
     }//end of function
 
     /**

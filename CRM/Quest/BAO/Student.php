@@ -61,17 +61,15 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
      * @static 
      * @return object
      */
-    static function create(&$params, &$ids) {
+    static function &create(&$params, &$ids) {
         
         $dao = & new CRM_Quest_DAO_Student();
         $dao->copyValues($params);
         if( $ids['id'] ) {
             $dao->id = $ids['id'];
         }
-        $student = $dao->save();
-        return $student;
-       
-                
+        $dao->save();
+        return $dao;
     }
 
     static function retrieve( &$params, &$defaults, &$ids ) {

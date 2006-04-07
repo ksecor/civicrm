@@ -118,20 +118,6 @@ class CRM_Quest_API {
         return null;
     }
 
-    static function setContactSubType( $id, $subType = 'Student' ) {
-        self::initialize( );
-
-        require_once 'CRM/Contact/DAO/Contact.php';
-        $dao =& new CRM_Contact_DAO_Contact( );
-        $dao->id = $id;
-        if ( $dao->find( true ) ) {
-            $dao->contact_sub_type = $subType;
-            $dao->save( );
-            return true;
-        }
-        return false;
-    }
-
 }
 
 ?>

@@ -195,6 +195,9 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                             $dao->delete( );
                         } else {
                             // reset the contributor flag of this guardian
+                            // we do it this way to optimize what we save
+                            $dao = & new CRM_Quest_DAO_Person( );
+                            $dao->id = $this->_personID;
                             $dao->is_income_source = false;
                             $dao->save( );
                         }

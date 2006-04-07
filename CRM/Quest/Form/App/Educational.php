@@ -158,12 +158,10 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
             
             $id = $this->get('studId');
             $contact_id = $this->get('contact_id');
-            //$ids = array('id'=>$id ,'contact_id' => $contact_id);
-            $ids = array();
-            $ids['id'] = $id;
-            $ids['contact_id'] = $contact_id;
-            
-            
+
+            $ids = array( 'id'         => $id,
+                          'contact_id' => $contact_id );
+
             require_once 'CRM/Quest/BAO/Student.php';
             require_once 'CRM/Utils/Date.php';
             $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
