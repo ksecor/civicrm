@@ -433,6 +433,16 @@ INSERT INTO `civicrm_custom_option` (`id`, `entity_table`, `entity_id`, `label`,
 INSERT INTO `civicrm_relationship_type` (`id`, `domain_id`, `name_a_b`, `name_b_a`, `description`, `contact_type_a`, `contact_type_b`, `is_reserved`, `is_active`) VALUES (8, 1, 'Student of', 'School  of', NULL, 'Individual', 'Organization', 1, 1);
 
 -- 
+-- Insert other Suffix options
+-- 
+INSERT INTO `civicrm_individual_suffix` (`id`, `domain_id`, `name`, `weight`, `is_active`) VALUES (4, 1, 'III', 4, 1);
+INSERT INTO `civicrm_individual_suffix` (`id`, `domain_id`, `name`, `weight`, `is_active`) VALUES (5, 1, 'IV', 5, 1);
+INSERT INTO `civicrm_individual_suffix` (`id`, `domain_id`, `name`, `weight`, `is_active`) VALUES (6, 1, 'V', 6, 1);
+INSERT INTO `civicrm_individual_suffix` (`id`, `domain_id`, `name`, `weight`, `is_active`) VALUES (7, 1, 'VI', 7, 1);
+INSERT INTO `civicrm_individual_suffix` (`id`, `domain_id`, `name`, `weight`, `is_active`) VALUES (8, 1, 'VII', 8, 1);
+
+-- 
+-- 
 -- Disable 'Transgender' option
 -- 
 
