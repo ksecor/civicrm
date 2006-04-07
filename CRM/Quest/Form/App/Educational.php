@@ -119,7 +119,7 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
                             false, null,true );
 
         $this->addCheckBox( 'college_interest',
-                            ts( 'Please do some research on the following colleges. Select the ones that you are interested in attending. Schools in green are our current partner colleges. In parentheses, we indicate the state where college is located. By checking a box, your information will be forwarded to the college.' ),
+                            ts( 'Please do some research on the following colleges. Select the ones that you are interested in attending. Schools in green are our current partner colleges. In parentheses, we indicate the state where the college is located. By checking a box, your information will be forwarded to the partner college and may be forwarded to the non-partner college.' ),
                             CRM_Core_OptionGroup::values( 'college_interest', true ),
                             false, null,true);
         

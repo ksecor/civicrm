@@ -208,7 +208,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             // add the date field
             $this->addElement('date', $testName . '_date',
                               ts( 'Date Taken (month/year)' ),
-                              CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
+                              CRM_Core_SelectValues::date( 'custom', 1, 0, "M\001Y" ) );
         }
 
         require_once 'CRM/Core/ShowHideBlocks.php';
@@ -257,7 +257,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $this->assign( 'ap_test', $ap_test );
 
         $this->addYesNo( 'is_test_tutoring',
-                         ts( 'Have you received tutoring for any of the standardized tests above?' ) );
+                         ts( 'Have you received tutoring or taken test prep classes for any of the standardized tests above?' ) );
         
         $this->addCheckBox( 'test_tutoring',
                             ts( 'If yes, for which tests?' ),
