@@ -86,6 +86,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             //for type of income
             $defaults['type_of_income_id_1'] = $defaults['source_1_id'];
             $defaults['type_of_income_id_2'] = $defaults['source_2_id'];
+            $defaults['type_of_income_id_3'] = $defaults['source_3_id'];
         }
 
         if ( $this->_personID ) {
@@ -99,6 +100,17 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             }
         }
 
+        // Assign show and hide blocks lists to the template for optional Academic Honors blocks
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+        for ( $i = 2; $i <= 3; $i++ ) {
+            if ( CRM_Utils_Array::value( "type_of_income_id_$i", $defaults )) {
+                $this->_showHide->addShow( "income_$i" );
+                $this->_showHide->addHide( 'income_' . $i . '[show]' );
+            } else {
+                $this->_showHide->addHide( "income_$i" );
+            }
+        }
+        $this->_showHide->addToTemplate( );
         return $defaults;
     }
 
@@ -121,17 +133,20 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Income');
 
-        for ( $i = 1; $i <= 3; $i++ ) {
+        // Add up to 3 sets of income type fields for this income source
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $income = array();
+        for ( $i = 1; $i <= 4; $i++ ) {
             if ( $i < 2) {
                 $this->addSelect( 'type_of_income', ts( 'Type of Income' ), "_$i" ,true );
                 $this->addElement( 'text', "amount_$i",
-                               ts( 'Total 2005 income from this source' ),
+                               ts( 'Total 2005 Income from this Source' ),
                                $attributes['amount_1'] );
-                $this->addRule("amount_$i","Please enter total 2005 income from this source",'required');
+                $this->addRule("amount_$i","Please enter total 2005 income from this source.",'required');
             } else {
-                $this->addSelect( 'type_of_income', ts( 'Additional Income Source' ), "_$i");
+                $this->addSelect( 'type_of_income', ts( 'Additional Income Type' ), "_$i");
                 $this->addElement( 'text', "amount_$i",
-                               ts( 'Total 2005 income from this source' ),
+                               ts( 'Additional 2005 Income Amount' ),
                                $attributes['amount_1'] );
                 
             }
@@ -139,7 +154,14 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                                ts( 'Job Description (if applicable)' ),
                                $attributes['job_1'] );
             
+            $income[$i] = CRM_Core_ShowHideBlocks::links( $this,"income_$i",
+                                                         ts('add another type of income'),
+                                                         ts('hide this type of income'),
+                                                         false );
         }
+        
+        // Assign showHide links to tpl
+        $this->assign( 'income', $income );
 
         // if this is the last form, add another income source button
         if ( $this->_options['lastSource'] ) {
@@ -212,6 +234,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             
             $params['source_1_id'] = $params['type_of_income_id_1']; 
             $params['source_2_id'] = $params['type_of_income_id_2'];
+            $params['source_3_id'] = $params['type_of_income_id_3'];
             
             if ( ! $this->_personID ) {
                 $personParams = array( );
@@ -229,7 +252,8 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             
             $params['person_id']   = $this->_personID;
             $params['amount_1'] = (int)(str_replace(",","",$params['amount_1']));
-            $params['amount_1'] = (int)(str_replace(",","",$params['amount_1']));
+            $params['amount_2'] = (int)(str_replace(",","",$params['amount_2']));
+            $params['amount_3'] = (int)(str_replace(",","",$params['amount_3']));
 
             $ids = array( 'id' => $this->_incomeID );
             
@@ -238,7 +262,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             
             $totalIncome = $this->get('totalIncome');
             $personId = $this->_personID;
-            $totalIncome[$personId] =  (int)(str_replace(",","",$params['amount_1'])) +(int) (str_replace(",","",$params['amount_2']))   ;
+            $totalIncome[$personId] =  (int)(str_replace(",","",$params['amount_1'])) +(int) (str_replace(",","",$params['amount_2'])) +(int) (str_replace(",","",$params['amount_3']));
             $this->set('totalIncome',  $totalIncome );        
             
             //add total Income in student Table

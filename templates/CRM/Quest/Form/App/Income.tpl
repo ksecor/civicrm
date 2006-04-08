@@ -23,32 +23,50 @@
     <td class="fieldlabel">
         {$form.last_name.html}<br />
         {hlp}{$form.last_name.label}{/hlp}</td>
-</tr> 
-{section name=rowLoop start=1 loop=3}
-    {if $smarty.section.rowLoop.index GT 1}
+</tr>
+<tr><td colspan=2>
+{assign var=maxIncome value=4}
+{section name=rowLoop start=1 loop=$maxIncome}
+    {assign var=i value=$smarty.section.rowLoop.index}
+    <div id="income_{$i}">
+    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
     <tr>
-        <td class="grouplabel" colspan="2">
-            <p class="preapp-instruction">{ts}If this individual has more than one job or source of income, please enter information for the additional source below.{/ts}</p>
-        </td>
-    </tr>
-    {/if}
-    <tr>
-       {assign var=source value="type_of_income_id_"|cat:$smarty.section.rowLoop.index}  
+       {assign var=source value="type_of_income_id_"|cat:$i}  
        <td class="grouplabel">{$form.$source.label}</td>
        <td class="fieldlabel">{$form.$source.html}</td>
     </tr>
     <tr>
-       {assign var=job value="job_"|cat:$smarty.section.rowLoop.index} 
+       {assign var=job value="job_"|cat:$i} 
        <td class="grouplabel">{$form.$job.label}</td>
        <td class="fieldlabel">{$form.$job.html}</td>
     </tr>
-       {assign var=amount value="amount_"|cat:$smarty.section.rowLoop.index}
+       {assign var=amount value="amount_"|cat:$i}
        <td class="grouplabel">{$form.$amount.label}</td>
        <td class="fieldlabel">{$form.$amount.html}<BR>{ts}{hlp}ONLY enter the US dollars amount (e.g: 10000). DO NOT enter decimal amount. For currency exchange rates <a href="http://finance.yahoo.com/currency" target="_blank">click here</a>{/hlp}{/ts}</td>
     </tr>
+    {if $i LT ($maxIncome-1)}
+        {assign var=j value=$i+1}
+        <tr><td colspan="2">
+            <span id="income_{$j}[show]">
+                {$income.$j.show}<br />
+                {ts}Click here to enter additional information if this individual has more than one job or type of income.{/ts}
+            </span>
+            </td>
+        </tr>
+    {/if}
+    </table>
+    </div>
 {/section}
+</td></tr>
+{if $form.$deleteButtonName.html}
+    <tr>
+        <td class="grouplabel" colspan="2">{$form.$deleteButtonName.html}</td>
+    </tr>
+{/if}
+</table>
 
 {if $form.another_income_source.html}
+    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
     <tr>
         <td class="grouplabel" colspan="2">
             <p class="preapp-instruction">{ts}Check the <strong>Add another income source</strong> box to add information for individuals who are not living with you, but who contribute to the household financially.
@@ -58,10 +76,8 @@
     <tr>
         <td class="grouplabel" colspan="2">{$form.another_income_source.html}</td>
     </tr>
+    </table>
 {/if}
-    <tr>
-        <td class="grouplabel" colspan="2">{$form.$deleteButtonName.html}</td>
-    </tr>
-</table>
+
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 

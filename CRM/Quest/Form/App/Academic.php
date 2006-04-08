@@ -107,7 +107,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $defaults["award_date_$count" ] = CRM_Utils_Date::unformat( $dao->award_date,'-' );
         }
 
-        // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
+        // Assign show and hide blocks lists to the template for optional Academic Honors blocks
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
         for ( $i = 2; $i <= 6; $i++ ) {
             if ( CRM_Utils_Array::value( "description_$i", $defaults )) {

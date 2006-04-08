@@ -7,12 +7,14 @@
 
 <div id="HighSchool_{$i}">
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+{if $i EQ 1}
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
     <td colspan=2 class="grouplabel"><p>{ts}We realize our applicants come from a diverse group of secondary schools. Please tell us about your particular school by answering the following questions.{/ts}</p></td>
 </tr>
+{/if}
 <tr>
     {assign var=organization_name value="organization_name_"|cat:$i}
     <td class="grouplabel">{$form.$organization_name.label}</td>
