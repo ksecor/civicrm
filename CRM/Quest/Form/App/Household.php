@@ -297,29 +297,15 @@ WHERE  id = {$value['options']['personID']}
                 }
             }
             
-            // make sure we have a mother and father in there
-            if ( ! CRM_Utils_Array::value( "Guardian-Mother", $details ) ) {
-                $relationshipID = array_search( 'Mother', $relationship );
-                $details["Guardian-Mother"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
-                                                     'title' => "Mother",
-                                                     'options' => array( 'personID'         => null,
-                                                                         'relationshipID'   => $relationshipID,
-                                                                         'relationshipName' => 'Mother' ) );
-            }
-            
-            if ( ! CRM_Utils_Array::value( "Guardian-Father", $details ) ) {
-                $relationshipID = array_search( 'Father', $relationship );
-                $details["Guardian-Father"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
-                                                     'title' => "Father",
-                                                     'options' => array( 'personID'         => null,
-                                                                         'relationshipID'   => $relationshipID,
-                                                                         'relationshipName' => 'Father' ) );
-            }
-            
-            $this->set( 'householdDetails', $details );
+            // reset all parent guardian pages
+            self::getPages( $this->controller, true );
+
+            // also recreate all income pages
+            CRM_Quest_Form_App_Income::getPages( $this->controller, true );
             
             $this->controller->rebuild( );
         }
+
         parent::postProcess( );
     }//end of function 
 
@@ -340,11 +326,9 @@ WHERE  id = {$value['options']['personID']}
         }
 
         if ( CRM_Utils_Array::value( "same_{$i}_{$j}", $params ) ) {
-            foreach ( $details as $name => $value ) {
-                if ( $value['options']['relationshipID'] == $relationshipID ) {
-                    return $value['options']['personID'];
-                }
-            }
+            if ( CRM_Utils_Array::value( $relationshipID, $details ) ) {
+                return $details[$relationshipID];
+            } 
             CRM_Core_Error::fatal( ts( "This should have been trapped in a form rule" ) );
         }
 
@@ -355,6 +339,7 @@ WHERE  id = {$value['options']['personID']}
         $personParams['relationship_id']    = $relationshipID;
         $personParams['contact_id']         = $this->get('contact_id');
         $personParams['is_parent_guardian'] = true;
+        $personParams['is_income_source']   = true;
 
         $ids = array( );
 
@@ -374,16 +359,7 @@ WHERE  id = {$value['options']['personID']}
         $person = CRM_Quest_BAO_Person::create( $personParams , $ids );
         $personID = $person->id;
 
-        if ( $relationshipName == 'Mother' || $relationshipName == 'Father' ) {
-            $pageName = "Guardian-$relationshipName";
-        } else {
-            $pageName = "Guardian-{$personID}";
-        }
-        $details[$pageName] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
-                                     'title' => "$name",
-                                     'options' => array( 'personID'         => $personID,
-                                                         'relationshipID'   => $relationshipID,
-                                                         'relationshipName' => $relationshipName ) );
+        $details[$relationshipID] = $personID;
         return $personID;
     }
 

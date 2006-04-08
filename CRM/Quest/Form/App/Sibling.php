@@ -218,6 +218,9 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                         $saveDAO->id = $dao->id;
                         $saveDAO->number_siblings = $dao->number_siblings - 1;
                         $saveDAO->save( );
+
+                        // we also need to reset the Personal form so we retrieve the right stuff from the db
+                        $this->controller->resetPage( 'Personal', true );
                     }
                 } else {
                     CRM_Core_Error::fatal( "The student table in the database is inconsistent." );
@@ -283,7 +286,8 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
             if ( $dao->find( true ) ) {
                 $totalSiblings = $dao->number_siblings;
             } else {
-                CRM_Core_Error::fatal( "The student table in the database is inconsistent." );
+                // its still too early, so return an empty arrat
+                return array( );
             }
 
             require_once 'CRM/Quest/DAO/Person.php';

@@ -618,6 +618,11 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
                           
 
+    function resetValues( ) {
+        $data =& $this->controller->container( );
+        $data['values'][$this->_name] = array( );
+    }
+
 }
 
 ?>

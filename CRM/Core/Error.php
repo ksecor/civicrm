@@ -220,6 +220,14 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $vars = array( 'message' => $message,
                        'code'    => $code );
 
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->debug &&
+             ( $_REQUEST['backtrace'] ||
+               defined( 'CIVICRM_BACKTRACE' ) ) ) {
+            self::backtrace( );
+        }
+
+        
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( $vars );
         print $template->fetch( 'CRM/error.tpl' );

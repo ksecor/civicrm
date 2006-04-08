@@ -204,16 +204,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                     }
                 }
 
-                // delete this form from the list of detail pages
-                $details = $this->controller->get( 'incomeDetails' );
-                unset( $details[$this->_name] );
-                $last = null;
-                foreach ( $details as $name => $value ) {
-                    $last = $name;
-                    $details[$name]['options']['lastSource'] = false;
-                }
-                $details[$last]['options']['lastSource'] = true;
-                $this->controller->set( 'incomeDetails', $details );
+                self::getPages( $this->controller, true );
                 return;
             }
             
