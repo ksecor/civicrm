@@ -69,15 +69,13 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        $contactID = $this->get( 'contact_id' );
-        if ( $contactID )  {
-            require_once 'CRM/Quest/DAO/Essay.php';
-            $dao = & new CRM_Quest_DAO_Essay();
-            $dao->contact_id = $contactID;
-            if ( $dao->find(true) ) {
-                $defaults['essay'] = $dao->essay;
-                $this->_essayID = $dao->id;
-            }
+
+        require_once 'CRM/Quest/DAO/Essay.php';
+        $dao = & new CRM_Quest_DAO_Essay();
+        $dao->contact_id = $this->_contactID;
+        if ( $dao->find(true) ) {
+            $defaults['essay'] = $dao->essay;
+            $this->_essayID = $dao->id;
         }
         return $defaults;
     }
@@ -124,8 +122,7 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
             
             require_once 'CRM/Quest/BAO/Essay.php';
             
-            $contact_id = $this->get('contact_id');
-            $params['contact_id'] =  $contact_id;
+            $params['contact_id'] =  $this->_contactID;
             
             $ids = array( 'id' => $this->_essayID );
             

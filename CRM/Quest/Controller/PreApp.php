@@ -44,36 +44,36 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
         parent::__construct( $title, $modal );
         
-        $cid    = CRM_Utils_Request::retrieve('id', $this);
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'update');
-        $this->assign( 'action', $action );
+        $cid = $this->get( 'contactID' );
+        if ( ! $cid ) {
+            $cid    = CRM_Utils_Request::retrieve( 'id', $this );
+            $action = CRM_Utils_Request::retrieve('action', $this, false, 'update' );
+            $this->assign( 'action', $action );
+            $session =& CRM_Core_Session::singleton( );
+            $uid     = $session->get( 'userID' );
 
-        $session =& CRM_Core_Session::singleton( );
-        $uid = $session->get( 'userID' );
-        
-        if ( $cid ) {
-            require_once 'CRM/Contact/BAO/Contact.php';
-            require_once 'CRM/Utils/System.php';
-            if ( ( $cid != $uid ) && ($action & CRM_Core_Action::UPDATE) ) {
-                if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) {
-                    CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Application.') );
-                } 
-            } else if (($cid != $uid ) && ($action & CRM_Core_Action::VIEW) ) {
-                if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) {
-                    CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Application.') );
+            if ( $cid ) {
+                require_once 'CRM/Contact/BAO/Contact.php';
+                require_once 'CRM/Utils/System.php';
+                if ( ( $cid != $uid ) && ($action & CRM_Core_Action::UPDATE) ) {
+                    if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) {
+                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Application.') );
+                    } 
+                } else if (($cid != $uid ) && ($action & CRM_Core_Action::VIEW) ) {
+                    if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) {
+                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Application.') );
+                    }
                 }
+            } else {
+                $cid = $uid;
             }
-            $this->set( 'contact_id',$cid );
-        } else {
-            $cid = $uid;
-        }
-        
-        // set contact id and welcome name
-        if ( ! $this->get( 'contact_id' ) ) {
+
             if ( ! $cid ) {
                 CRM_Core_Error::fatal( ts( "Could not find a valid contact id" ) );
             }
-            $this->set( 'contact_id' , $cid );
+            $this->set( 'contactID', $cid );
+
+            // set contact id and welcome name
             require_once 'CRM/Contact/DAO/Individual.php';
             $dao =& new CRM_Contact_DAO_Individual( );
             $dao->contact_id = $cid;
@@ -90,6 +90,16 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                 } else {
                     CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
                 }
+            }
+        }
+
+        $studentID = $this->get( 'studentID' );
+        if ( ! $studentID ) {
+            require_once 'CRM/Quest/DAO/Student.php';
+            $dao =& new CRM_Quest_DAO_Student( );
+            $dao->contact_id = $cid;
+            if ( $dao->find( true ) ) {
+                $this->set( 'studentID', $dao->id );
             }
         }
 

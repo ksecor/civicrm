@@ -80,10 +80,8 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         $testTypes  = array_flip($testTypes);
         $testSet1 = array('act','psat','sat','pact');
 
-        $contactID  = $this->get('contact_id');
-        
         $dao = & new CRM_Quest_DAO_Test();
-        $dao->contact_id = $contactID;
+        $dao->contact_id = $this->_contactID;
         $dao->find();
         while( $dao->fetch() ) {
             if( in_array(strtolower($testTypes[$dao->test_id]),$testSet1 )) {
@@ -132,7 +130,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         }
         require_once 'CRM/Quest/DAO/Student.php';
         $studDAO = & new CRM_Quest_DAO_Student();
-        $studDAO->contact_id =$contactID;
+        $studDAO->contact_id =$this->_contactID;
         $studDAO->find(true);
         if ( $studDAO->test_tutoring ) {
             $selected = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$studDAO->test_tutoring);
@@ -358,7 +356,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $testSet1 = array('act','psat','sat','pact');
             $testSet2 = array('satII','ap');
             
-            $contactId = $this->get('contact_id');
             $testTypes = CRM_Core_OptionGroup::values( 'test' ,true);
             
             $testParams1 = array();
@@ -393,7 +390,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                 }
                 
                 if ( $filled ) {
-                    $testParams1[$testName]['contact_id'] = $contactId;
+                    $testParams1[$testName]['contact_id'] = $this->_contactID;
                     $testParams1[$testName]['test_id']    = $testTypes[strtoupper($testName)];
                 }
             }
@@ -468,7 +465,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     }
                     
                     if ( $filled ) {
-                        $testParams2[$testName][$i]['contact_id'] = $contactId;
+                        $testParams2[$testName][$i]['contact_id'] = $this->_contactID;
                         if ( $testName == 'satII' ) {
                             $testParams2[$testName][$i]['test_id']    = $testTypes[strtoupper('sat II')];
                         } else {
@@ -509,7 +506,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             }
             
             // Insert  Student recornd  
-            $values = $this->controller->exportValues( 'Personal' );
+            $values = array( );
             $values['score_SAT']     =  $totalScore['sat'];
             $values['score_PSAT']    =  $totalScore['psat'];
             $values['score_ACT']     =  $totalScore['act'];
@@ -522,15 +519,10 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                 $values['test_tutoring'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['test_tutoring']));
             }
             
-            $id = $this->get('studId');
-            $contact_id = $this->get('contact_id');
-            $ids = array();
-            $ids['id'] = $id;
-            $ids['contact_id'] = $contact_id;
-
+            $ids = array( 'id'         => $this->_studentID,
+                          'contact_id' => $this->_contactID );
+            
             require_once 'CRM/Quest/BAO/Student.php';
-            require_once 'CRM/Utils/Date.php';
-            $values['high_school_grad_year'] = CRM_Utils_Date::format($values['high_school_grad_year']) ;
             $student = CRM_Quest_BAO_Student::create( $values, $ids);
             
         }         

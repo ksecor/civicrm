@@ -66,14 +66,11 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        $this->_contactId = $this->get( 'contact_id' );
-        if ( $this->_contactId ) {
-            $dao = & new CRM_Quest_DAO_Student();
-            $dao->contact_id = $this->_contactId ;
-            if ($dao->find(true)) {
-                $this->_studentId = $dao->id;
-                CRM_Core_DAO::storeValues( $dao , $defaults );
-            }
+
+        $dao = & new CRM_Quest_DAO_Student();
+        $dao->id = $this->_studentID;
+        if ($dao->find(true)) {
+            CRM_Core_DAO::storeValues( $dao , $defaults );
         }
         
         $fields = array( 'educational_interest','college_type','college_interest' );
@@ -110,9 +107,11 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
         $this->addCheckBox( 'educational_interest',
                             ts( 'Please select all of your educational interests' ),
                             CRM_Core_OptionGroup::values( 'educational_interest', true ),
-                            true, '<br/>',true, array ('onclick' => "return showHideByValue('educational_interest[245]', '1', 'educational_interest_other', '', 'radio', false);") );
+                            true, '<br/>',true,
+                            array ('onclick' => "return showHideByValue('educational_interest[245]', '1', 'educational_interest_other', '', 'radio', false);") );
 
-        $this->addElement('text', 'educational_interest_other', ts( 'Other Educational Interest' ), $attributes['educational_interest_other'] );
+        $this->addElement('text', 'educational_interest_other', ts( 'Other Educational Interest' ),
+                          $attributes['educational_interest_other'] );
 
         $this->addCheckBox( 'college_type',
                             ts( 'Please select the type(s) of college you are interested in attending' ),
@@ -142,8 +141,6 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
     {
         if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
-            $values = $this->controller->exportValues( 'Personal' );
-            $params = array_merge( $params,$values );
             
             if ( $params['educational_interest'] ) {
                 $params['educational_interest'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['educational_interest']));
@@ -156,16 +153,10 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
                 $params['college_type']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_type']));
             }
             
-            $id = $this->get('studId');
-            $contact_id = $this->get('contact_id');
-
-            $ids = array( 'id'         => $id,
-                          'contact_id' => $contact_id );
+            $ids = array( 'id'         => $this->_studentID,
+                          'contact_id' => $this->_contactID );
 
             require_once 'CRM/Quest/BAO/Student.php';
-            require_once 'CRM/Utils/Date.php';
-            $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
-            
             $student = CRM_Quest_BAO_Student::create( $params, $ids);
         }
         parent::postProcess( );

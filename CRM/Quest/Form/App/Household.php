@@ -67,35 +67,32 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     {
         $defaults = array( );
         
-        $this->_contactId = $this->get( 'contact_id' );
-        if ( $this->_contactId ) {
-            $person_1_id = $person_2_id = null;
-            for ( $i = 1; $i <= 2; $i++ ) {
-                require_once 'CRM/Quest/DAO/Household.php';
-                $dao = & new CRM_Quest_DAO_Household();
-                $dao->contact_id     = $this->_contactId ;
-                $dao->household_type = ($i == 1 ) ? 'Current' : 'Previous';
-                if ( $dao->find(true) ) {
-                    $defaults['member_count_'.$i]   = $dao->member_count;
-                    $defaults['years_lived_id_'.$i] = $dao->years_lived_id;
-                    if ( $i == 1 ) {
+        $person_1_id = $person_2_id = null;
+        for ( $i = 1; $i <= 2; $i++ ) {
+            require_once 'CRM/Quest/DAO/Household.php';
+            $dao = & new CRM_Quest_DAO_Household();
+            $dao->contact_id     = $this->_contactID;
+            $dao->household_type = ($i == 1 ) ? 'Current' : 'Previous';
+            if ( $dao->find(true) ) {
+                $defaults['member_count_'.$i]   = $dao->member_count;
+                $defaults['years_lived_id_'.$i] = $dao->years_lived_id;
+                if ( $i == 1 ) {
                     $defaults['description']     = $dao->description;
-                    }
-                    for ( $j = 1; $j <= 2; $j++ ) {
-                        require_once 'CRM/Quest/DAO/Person.php';
-                        $personDAO = & new CRM_Quest_DAO_Person();
-                        $string = "person_{$j}_id"; 
-                        $personDAO->id = $dao->$string;
-                        if ( $personDAO->id && $personDAO->find(true) ) {
-                            $defaults["relationship_id_{$i}_{$j}"] = $personDAO->relationship_id;
-                            $defaults["first_name_{$i}_{$j}"]      = $personDAO->first_name;
-                            $defaults["last_name_{$i}_{$j}"]       = $personDAO->last_name;
-                            if ( $i == 1 ) {
-                                $$string = $personDAO->id;
-                            } else if ( $personDAO->id == $person_1_id ||
-                                        $personDAO->id == $person_2_id ) {
-                                $defaults["same_{$i}_{$j}"] = 1;
-                            }
+                }
+                for ( $j = 1; $j <= 2; $j++ ) {
+                    require_once 'CRM/Quest/DAO/Person.php';
+                    $personDAO = & new CRM_Quest_DAO_Person();
+                    $string = "person_{$j}_id"; 
+                    $personDAO->id = $dao->$string;
+                    if ( $personDAO->id && $personDAO->find(true) ) {
+                        $defaults["relationship_id_{$i}_{$j}"] = $personDAO->relationship_id;
+                        $defaults["first_name_{$i}_{$j}"]      = $personDAO->first_name;
+                        $defaults["last_name_{$i}_{$j}"]       = $personDAO->last_name;
+                        if ( $i == 1 ) {
+                            $$string = $personDAO->id;
+                        } else if ( $personDAO->id == $person_1_id ||
+                                    $personDAO->id == $person_2_id ) {
+                            $defaults["same_{$i}_{$j}"] = 1;
                         }
                     }
                 }
@@ -240,7 +237,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     { 
         if ($this->_action !=  CRM_Core_Action::VIEW ) {
             // get all the relevant details so we can decide the detailed information we need
-            $params  = $this->controller->exportValues( 'Household' );
+            $params  = $this->controller->exportValues( $this->_name );
             $relationship = CRM_Core_OptionGroup::values( 'relationship' );
 
             $details = $this->controller->get( 'householdDetails' );
@@ -249,7 +246,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             // also set the other parent guardians as null
             foreach ( $details as $name => $value ) {
                 if ( $name == "Guardian-Mother" || $name == "Guardian-Father" ) {
-                continue;
+                    continue;
                 }
                 
                 $query = "
@@ -264,7 +261,7 @@ WHERE  id = {$value['options']['personID']}
             
             for ( $i = 1; $i <= 2; $i++ ) {
                 $householdParams = array( );
-                $householdParams['contact_id']      = $this->get('contact_id'); 
+                $householdParams['contact_id']      = $this->_contactID;
                 $householdParams['household_type'] = ( $i == 1 ) ? 'Current' : 'Previous';
                 $householdParams['member_count']   = $params["member_count_$i"];
                 $householdParams['years_lived_id'] = $params["years_lived_id_$i"];
@@ -337,7 +334,7 @@ WHERE  id = {$value['options']['personID']}
         $personParams['first_name']         = $first;
         $personParams['last_name' ]         = $last;
         $personParams['relationship_id']    = $relationshipID;
-        $personParams['contact_id']         = $this->get('contact_id');
+        $personParams['contact_id']         = $this->_contactID;
         $personParams['is_parent_guardian'] = true;
         $personParams['is_income_source']   = true;
 
@@ -346,7 +343,7 @@ WHERE  id = {$value['options']['personID']}
         require_once 'CRM/Quest/BAO/Person.php'; 
 
         $dao = new CRM_Quest_DAO_Person(); 
-        $dao->contact_id      = $this->get('contact_id');
+        $dao->contact_id      = $this->_contactID;
         $dao->relationship_id = $relationshipID;
         $dao->first_name      = $first;
         $dao->last_name       = $last;
@@ -367,15 +364,30 @@ WHERE  id = {$value['options']['personID']}
         $details       = $controller->get( 'householdDetails' );
 
         if ( ! $details || $reset ) {
-            $cid = $controller->get( 'contact_id' ); 
+            $cid = $controller->get( 'contactID' ); 
+
             require_once 'CRM/Quest/DAO/Person.php';
             $dao =& new CRM_Quest_DAO_Person( );
             $dao->contact_id = $cid;
             $dao->is_parent_guardian = true;
             $dao->find( );
+
             $details = array( );
             $relationship = CRM_Core_OptionGroup::values( 'relationship' );
-            $mother = $father = false;
+
+            $relationshipID = array_search( 'Mother', $relationship );
+            $details["Guardian-Mother"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
+                                                 'title' => "Mother",
+                                                 'options' => array( 'personID'         => null,
+                                                                     'relationshipID'   => $relationshipID,
+                                                                     'relationshipName' => 'Mother' ) );
+
+            $relationshipID = array_search( 'Father', $relationship );
+            $details["Guardian-Father"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
+                                                 'title' => "Father",
+                                                 'options' => array( 'personID'         => null,
+                                                                     'relationshipID'   => $relationshipID,
+                                                                     'relationshipName' => 'Father' ) );
             while ( $dao->fetch( ) ) {
                 $relationshipName = trim( CRM_Utils_Array::value( $dao->relationship_id,
                                                                   $relationship ) );
@@ -390,24 +402,6 @@ WHERE  id = {$value['options']['personID']}
                                              'options' => array( 'personID'       => $dao->id,
                                                                  'relationshipID' => $dao->relationship_id,
                                                                  'relationshipName' => $relationshipName ) );
-            }
-
-            if ( ! CRM_Utils_Array::value( "Guardian-Mother", $details ) ) {
-                $relationshipID = array_search( 'Mother', $relationship );
-                $details["Guardian-Mother"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
-                                                     'title' => "Mother",
-                                                     'options' => array( 'personID'         => null,
-                                                                         'relationshipID'   => $relationshipID,
-                                                                         'relationshipName' => 'Mother' ) );
-            }
-
-            if ( ! CRM_Utils_Array::value( "Guardian-Father", $details ) ) {
-                $relationshipID = array_search( 'Father', $relationship );
-                $details["Guardian-Father"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
-                                                     'title' => "Father",
-                                                     'options' => array( 'personID'         => null,
-                                                                         'relationshipID'   => $relationshipID,
-                                                                         'relationshipName' => 'Father' ) );
             }
 
             $controller->set( 'householdDetails', $details );

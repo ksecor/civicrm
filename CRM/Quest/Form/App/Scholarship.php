@@ -68,14 +68,11 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
     {
         $defaults = array( );
 
-        $this->_contactId = $this->get( 'contact_id' );
-
-        $params = array( 'contact_id' => $this->_contactId );
+        $params = array( 'contact_id' => $this->_contactID );
         $ids = array( );
 
         CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
-        $this->_studentId = CRM_Utils_Array::value( 'student_id', $ids );
-        
+
         return $defaults;
     }
     
@@ -159,24 +156,15 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
         if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
             
-            $values = $this->controller->exportValues( 'Personal' );
-            $params = array_merge( $params,$values );
-        
-            $id = $this->get('studId');
-            $contact_id = $this->get('contact_id');
-            //$ids = array('id'=>$id ,'contact_id' => $contact_id);
-            $ids = array();
-            $ids['id'] = $id;
-            $ids['contact_id'] = $contact_id;
-
-            
-            require_once 'CRM/Quest/BAO/Student.php';
+            $ids = array( 'id'         => $this->_studentID,
+                          'contact_id' => $this->_contactID );
             
             require_once 'CRM/Utils/Date.php';
             $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
             
             $student = CRM_Quest_BAO_Student::create( $params, $ids);
         }
+
         parent::postProcess( );
     }//end of function
 

@@ -59,9 +59,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
     {
         parent::preProcess();
 
-        $this->_contactId = $this->get('contact_id');
         $this->_siblingID  = CRM_Utils_Array::value( 'siblingID', $this->_options );
-        
     }
     
     /**
@@ -208,20 +206,17 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
                 }
 
                 // also decrement total sibling count by 1
-                require_once 'CRM/Quest/DAO/Student.php';
-                $dao = & new CRM_Quest_DAO_Student( );
-                $dao->contact_id = $this->_contactId;
-                if ( $dao->find( true ) ) {
-                    $number_siblings = $dao->number_siblings - 1;
-                    if ( $dao->number_siblings > 0 ) {
-                        $saveDAO = & new CRM_Quest_DAO_Student( );
-                        $saveDAO->id = $dao->id;
-                        $saveDAO->number_siblings = $dao->number_siblings - 1;
-                        $saveDAO->save( );
+                $number_siblings = CRM_Core_DAO::getFieldValue( 'CRM_Quest_DAO_Student',
+                                                                $this->_studentID,
+                                                                'number_siblings' );
+                if ( $number_siblings > 0 ) {
+                    $dao = & new CRM_Quest_DAO_Student( );
+                    $dao->id = $this->_studentID;
+                    $dao->number_siblings = $number_siblings - 1;
+                    $dao->save( );
 
-                        // we also need to reset the Personal form so we retrieve the right stuff from the db
-                        $this->controller->resetPage( 'Personal', true );
-                    }
+                    // we also need to reset the Personal form so we retrieve the right stuff from the db
+                    $this->controller->resetPage( 'Personal', true );
                 } else {
                     CRM_Core_Error::fatal( "The student table in the database is inconsistent." );
                 }
@@ -235,7 +230,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
             $params  = $this->controller->exportValues( $this->_name );
             
             $params['relationship_id'] = $params['sibling_relationship_id'];
-            $params['contact_id']      = $this->get('contact_id'); 
+            $params['contact_id']      = $this->_contactID;
             $params['is_sibling']      = true;
             $params['birth_date']      = CRM_Utils_Date::format( $params['birth_date'] );
             
@@ -278,11 +273,12 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
     static function &getPages( &$controller, $reset = false ) {
         $details = $controller->get( 'siblingDetails' );
         if ( ! $details || $reset ) {
+            $cid = $controller->get( 'contactID' );
             // now adjust the ones that have a record in them
             $i = 1;
             require_once 'CRM/Quest/DAO/Student.php';
             $dao =& new CRM_Quest_DAO_Student( );
-            $dao->contact_id = $controller->get( 'contact_id' );
+            $dao->contact_id = $cid;
             if ( $dao->find( true ) ) {
                 $totalSiblings = $dao->number_siblings;
             } else {
@@ -292,7 +288,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
 
             require_once 'CRM/Quest/DAO/Person.php';
             $dao = & new CRM_Quest_DAO_Person();
-            $dao->contact_id = $controller->get( 'contact_id' );
+            $dao->contact_id = $cid;
             $dao->is_sibling = true;
             $dao->find();
 

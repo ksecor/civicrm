@@ -49,6 +49,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
     protected $_incomeID;
     protected $_totalIncome;
     protected $_deleteButtonName = null;
+
     /**
      * Function to set variables up before form is built
      *
@@ -59,7 +60,6 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
     {
         parent::preProcess();
 
-        $this->_contactId = $this->get('contact_id');
         $this->_incomeID  = CRM_Utils_Array::value( 'incomeID', $this->_options );
         $this->_personID  = CRM_Utils_Array::value( 'personID', $this->_options );
     }
@@ -240,7 +240,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                 $personParams = array( );
                 $personParams['first_name'] = $params['first_name'];
                 $personParams['last_name']  = $params['last_name'];
-                $personParams['contact_id'] = $this->get( 'contact_id' );
+                $personParams['contact_id'] = $this->_contactID;
                 $relationship = CRM_Core_OptionGroup::values( 'relationship' );
                 $personParams['relationship_id'] = array_search( 'Other', $relationship );
                 
@@ -262,29 +262,23 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
             
             $totalIncome = $this->get('totalIncome');
             $personId = $this->_personID;
-            $totalIncome[$personId] =  (int)(str_replace(",","",$params['amount_1'])) +(int) (str_replace(",","",$params['amount_2'])) +(int) (str_replace(",","",$params['amount_3']));
+            $totalIncome[$personId] =  
+                (int) (str_replace(",","",$params['amount_1'])) +
+                (int) (str_replace(",","",$params['amount_2'])) +
+                (int) (str_replace(",","",$params['amount_3']));
             $this->set('totalIncome',  $totalIncome );        
             
             //add total Income in student Table
-            $studValues = $this->controller->exportValues( 'Personal' );
+            $studValues = array( );
             $income = null;
-            $totalIncome = $this->get('totalIncome');
-            if ( is_array( $totalIncome ) )  {
-                foreach( $totalIncome as $value ) {
-                    $income = $income + $value;
-                }
+            foreach( $totalIncome as $value ) {
+                $income = $income + $value;
             }
             $studValues['household_income_total'] = $income;
-            $id = $this->get('studId');
-            $contact_id = $this->get('contact_id');
-            $ids = array();
-            $ids['id'] = $id;
-            $ids['contact_id'] = $contact_id;
-            
-            require_once 'CRM/Quest/BAO/Student.php';
+            $ids = array( 'id'         => $this->_studentID,
+                          'contact_id' => $this->_contactID );
 
-            require_once 'CRM/Utils/Date.php';
-            $studValues['high_school_grad_year'] = CRM_Utils_Date::format($studValues['high_school_grad_year']) ;
+            require_once 'CRM/Quest/BAO/Student.php';
             $student = CRM_Quest_BAO_Student::create( $studValues, $ids);
             
             $details = $this->controller->get( 'incomeDetails' );
@@ -334,7 +328,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         $details = $controller->get( 'incomeDetails' );
         
         if ( ! $details || $reset ) {
-            $cid = $controller->get( 'contact_id' ); 
+            $cid = $controller->get( 'contactID' ); 
             $last = null;
             require_once 'CRM/Quest/DAO/Income.php';
             $query = "

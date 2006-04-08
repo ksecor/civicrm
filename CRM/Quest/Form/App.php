@@ -49,7 +49,12 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         TEST_PSAT = 2,
         TEST_SAT  = 4;
 
+    protected $_contactID;
+    protected $_studentID;
+
     function preProcess( ) {
+        $this->_contactID = $this->get( 'contactID' );
+        $this->_studentID = $this->get( 'studentID' );
     }
 
     /**

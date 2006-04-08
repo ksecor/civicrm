@@ -237,7 +237,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
             $relationshipName = trim( CRM_Utils_Array::value( $this->_relationshipID,
                                                               $relationship ) );
             
-            $params['contact_id']         = $this->get('contact_id'); 
+            $params['contact_id']         = $this->_contactID;
             $params['is_parent_guardian'] = true;
             $params['is_income_source'  ] = true;
 

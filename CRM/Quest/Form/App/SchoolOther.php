@@ -56,19 +56,19 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
      */
     public function preProcess()
     {
+        parent::preProcess( );
+
         require_once 'CRM/Contact/DAO/RelationshipType.php';
         $dao = & new CRM_Contact_DAO_RelationshipType();
         $dao->name_a_b = 'Student of';
         $dao->find(true);
         $relID  = $dao->id ;
 
-        $contactID = $this->get( 'contact_id' );
-        
         // to get  OrganizationId and Relationship ID's
         require_once 'CRM/Contact/DAO/Relationship.php';
         $dao = & new CRM_Contact_DAO_Relationship();
         $dao->relationship_type_id = $relID;
-        $dao->contact_id_a   	   = $contactID;
+        $dao->contact_id_a   	   = $this->_contactID;
         $dao->find();
         $orgIds = array();
         while( $dao->fetch() ) {
@@ -225,7 +225,6 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
                 $orgParams['location'][1]['location_type_id'] = 1;
                 $orgParams['location'][1]['is_primary'] = 1;
                 
-                $contactID = $this->get('contact_id');
                 $orgParams['contact_type'] = 'Organization';
                 $orgParams['custom_4']     = 'Other School';
                 
@@ -263,9 +262,9 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
                 $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
                 
                 if ( $this->relIDsOther[$key] ) {
-                    $ids = array('contact' =>$contactID,'relationship' => $this->relIDsOther[$key] ,'contactTarget' =>$organizationID);
+                    $ids = array('contact' =>$this->_contactID,'relationship' => $this->relIDsOther[$key] ,'contactTarget' =>$organizationID);
                 } else {
-                    $ids = array('contact' =>$contactID);
+                    $ids = array('contact' =>$this->_contactID);
                 }
                 
                 $organizationID = $org->id;
