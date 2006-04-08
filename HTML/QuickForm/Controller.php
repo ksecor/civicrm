@@ -507,13 +507,13 @@ class HTML_QuickForm_Controller
      * @param  string    name of the page 
      * @return void 
      */ 
-    function resetPage($pageName) 
+    function resetPage($pageName, $valid = null) 
     { 
         $data =& $this->container(); 
         if (isset($data['values'][$pageName]) || 
             isset($data['valid'][$pageName])) { 
             $data['values'][$pageName] = array( ); 
-            $data['valid'][$pageName]  = null; 
+            $data['valid'][$pageName]  = $valid;
         } 
     } 
 
