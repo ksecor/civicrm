@@ -207,6 +207,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                     $dao->delete( );
                 }
 
+                $this->fixTotalIncome( );
                 // if there is a person, delete if not guardian
                 if ( $this->_personID ) {
                     require_once 'CRM/Quest/DAO/Person.php';
@@ -250,37 +251,18 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                 $this->_personID = $person->id;
             }
             
-            $params['person_id']   = $this->_personID;
-            $params['amount_1'] = (int)(str_replace(",","",$params['amount_1']));
-            $params['amount_2'] = (int)(str_replace(",","",$params['amount_2']));
-            $params['amount_3'] = (int)(str_replace(",","",$params['amount_3']));
+            $params['person_id'] = $this->_personID;
+            $params['amount_1']  = (int)(str_replace(",","",$params['amount_1']));
+            $params['amount_2']  = (int)(str_replace(",","",$params['amount_2']));
+            $params['amount_3']  = (int)(str_replace(",","",$params['amount_3']));
 
             $ids = array( 'id' => $this->_incomeID );
             
             require_once 'CRM/Quest/BAO/Income.php';
             $income = CRM_Quest_BAO_Income::create( $params , $ids );
-            
-            $totalIncome = $this->get('totalIncome');
-            $personId = $this->_personID;
-            $totalIncome[$personId] =  
-                (int) (str_replace(",","",$params['amount_1'])) +
-                (int) (str_replace(",","",$params['amount_2'])) +
-                (int) (str_replace(",","",$params['amount_3']));
-            $this->set('totalIncome',  $totalIncome );        
-            
-            //add total Income in student Table
-            $studValues = array( );
-            $income = null;
-            foreach( $totalIncome as $value ) {
-                $income = $income + $value;
-            }
-            $studValues['household_income_total'] = $income;
-            $ids = array( 'id'         => $this->_studentID,
-                          'contact_id' => $this->_contactID );
 
-            require_once 'CRM/Quest/BAO/Student.php';
-            $student = CRM_Quest_BAO_Student::create( $studValues, $ids);
-            
+            $this->fixTotalIncome( );
+
             $details = $this->controller->get( 'incomeDetails' );
             $details[ $this->_name ] =
                 array( 'className' => 'CRM_Quest_Form_App_Income',
@@ -294,12 +276,11 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                                                        'title'     => 'Add an Income Source',
                                                        'options'   => array( 'personID'   => null,
                                                                              'incomeID'   => null,
-                                                                             'lastSource' => true ) );
-            } else {
-                $keys = array_keys( $details );
-                $last = array_pop( $keys );
-                $details[$last]['options']['lastSource'] = true;
+                                                                             'lastSource' => false ) );
             }
+            $keys = array_keys( $details );
+            $last = array_pop( $keys );
+            $details[$last]['options']['lastSource'] = true;
             
             $this->controller->set( 'incomeDetails', $details );
             
@@ -324,6 +305,37 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         return "Income Details: ";
     }
 
+    public function fixTotalIncome( ) {
+        // since we cant depend on the session, retrive all income
+        // objecsts from db and calculate total income
+        $query = "
+SELECT i.amount_1 as amount_1, i.amount_2 as amount_2, i.amount_3 and amount_3
+FROM   quest_income i, quest_person p
+WHERE  i.person_id = p.id
+  AND  p.contact_id = {$this->_contactID}
+";
+        $dao =& CRM_Core_DAO::executeQuery( $query );
+        
+        $totalIncome = 0.0;
+        while ( $dao->fetch( ) ) {
+            for ( $i = 1; $i <= 3; $i++ ) {
+                $field = "amount_$i";
+                if ( $dao->$field ) {
+                    $totalIncome += (float ) $dao->$field;
+                }
+            }
+        }
+        
+        //add total Income in student Table
+        $studValues = array( );
+        $studValues['household_income_total'] = $totalIncome;
+        $ids = array( 'id'         => $this->_studentID,
+                      'contact_id' => $this->_contactID );
+        
+        require_once 'CRM/Quest/BAO/Student.php';
+        $student = CRM_Quest_BAO_Student::create( $studValues, $ids);
+    }
+    
     static function &getPages( &$controller, $reset = false ) {
         $details = $controller->get( 'incomeDetails' );
         
