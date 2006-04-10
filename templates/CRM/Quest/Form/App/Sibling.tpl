@@ -5,6 +5,18 @@
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
+{if $form.$deleteButtonName.html}
+    <tr>
+        <td class="grouplabel" colspan="2">
+            <table cellpadding=2 cellspacing=0 border=1 width="100%" class="app">
+                <tr>
+                    <td class="grouplabel">{ts}If you don't have a sibling to enter information about, click on the delete button{/ts}</td>
+                    <td>{$form.$deleteButtonName.html}</td>
+                </tr>
+             </table>
+        </td>
+    </tr>
+{/if}
 <tr>
     <td rowspan=3 valign=top class="grouplabel" width="30%"><label>{ts}Name{/ts}</label></td>
 </tr>    
@@ -91,9 +103,6 @@
         {$form.description.html}<br />
         {ts}{hlp}If important information regarding your relationship with this sibling is not captured above, please enter it here.{/hlp}{/ts}
     </td>
-</tr>
-<tr>
-     <td class="grouplabel" colspan="2">{$form.$deleteButtonName.html}</td>
 </tr>
 </table>
 
