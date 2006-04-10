@@ -118,13 +118,13 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         $dao =& new CRM_Project_DAO_TaskStatus( );
         $dao->responsible_entity_table = 'civicrm_contact';
         $dao->responsible_entity_id    = $cid;
+        $status =& CRM_Core_OptionGroup::values( 'task_status', true );
         if ( ! $dao->find( true ) ) {
             $dao->task_id             = 2;
             $dao->target_entity_table = 'civicrm_contact';
             $dao->target_entity_id    = $cid;
             $dao->create_date         = date( 'YmdHis' );
             
-            $status =& CRM_Core_OptionGroup::values( 'task_status', true );
             $dao->status_id = $status['Not Started'];
             $dao->save( );
         } else if ( $dao->status_detail ) {
@@ -133,7 +133,7 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         }
 
         $this->set( 'taskStatusID', $dao->id );
-    
+        $this->assign( 'taskStatus', array_search( $dao->status_id, $status ) );
     }
 
     /**
