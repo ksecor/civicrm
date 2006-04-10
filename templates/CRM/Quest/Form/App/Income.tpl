@@ -12,6 +12,18 @@
 <p class="preapp-instruction">An Income Source page will be presented for each individual whom you listed as a Parent or Guardian in the Household section.{/ts}</p>
     </td>
 </tr>
+{if $form.$deleteButtonName.html}
+    <tr>
+        <td class="grouplabel" colspan="2">
+	    <table cellpadding=2 cellspacing=0 border=1 width="100%" class="app">
+                <tr>
+                    <td class="grouplabel">{ts}If this person did not contribute to your household income, click on the delete button{/ts}</td>
+                    <td>{$form.$deleteButtonName.html}</td>
+                </tr>
+             </table>
+	</td>
+    </tr>
+{/if}
 <tr>
     <td rowspan=2 valign=top class="grouplabel" width="30%">
         <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>
@@ -58,11 +70,6 @@
     </div>
 {/section}
 </td></tr>
-{if $form.$deleteButtonName.html}
-    <tr>
-        <td class="grouplabel" colspan="2">{$form.$deleteButtonName.html}</td>
-    </tr>
-{/if}
 </table>
 
 {if $form.another_income_source.html}
@@ -78,6 +85,7 @@
     </tr>
     </table>
 {/if}
+</table>
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
