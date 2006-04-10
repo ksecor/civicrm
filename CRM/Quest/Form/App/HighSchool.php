@@ -114,7 +114,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        if (is_array($this->_orgIDs) ) {
+        if (is_array($this->_orgIDs)) {
             foreach ($this->_orgIDs as $key => $value ) {
                 if ( $value  ) {
                     $ids = array();
@@ -274,6 +274,18 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
     {
         if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
+            
+            //delete all contact entries
+            require_once 'CRM/Contact/BAO/Contact.php';
+           
+            if ( is_array( $this->_orgIDs ) ) {
+                foreach( $this->_orgIDs as $orgID ) {
+                    CRM_Contact_BAO_Contact::deleteContact( $orgID );
+                }
+            }
+            $this->_orgIDs      = null;
+            $this->_relIDs      = null;
+            
             //format parameters
             foreach( $params as $key => $value ) {
                 $keyArray = explode( '_', $key );
@@ -291,7 +303,6 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                 $orgParams['custom_4'] = 'Highschool';
                 
                 $ids = array();
-                $this->_orgIDs = $this->get('orgIDs');
                 
                 if ( $this->_orgIDs[$key] ) {
                     $idParams = array( 'id' => $this->_orgIDs[$key], 'contact_id' => $this->_orgIDs[$key] );
@@ -325,8 +336,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                 $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
                 
                 $organizationID = $org->id;
-                
-                $this->_relIDs = $this->get('relIDs');
+               
                 
                 if ( $this->_relIDs[$key] ) {
                     $ids = array('contact' =>$this->_contactID,'relationship' => $this->_relIDs[$key] ,'contactTarget' =>$organizationID);

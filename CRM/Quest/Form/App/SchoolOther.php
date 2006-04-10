@@ -212,7 +212,17 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
     {
         if ($this->_action !=  CRM_Core_Action::VIEW ) {
             $params = $this->controller->exportValues( $this->_name );
-            
+
+            //delete all contact entries
+            require_once 'CRM/Contact/BAO/Contact.php';
+            if ( ! empty( $this->_orgIDsOther ) ) {
+                foreach( $this->_orgIDsOther as $orgID ) {
+                    CRM_Contact_BAO_Contact::deleteContact( $orgID );
+                }
+            }
+            $this->_orgIDsOther = null;
+            $this->relIDsOther  = null;
+
             foreach( $params as $key => $value ) {
                 $keyArray = explode( '_', $key );
                 $orgnizationParams[$keyArray[count($keyArray)-1]][substr($key, 0, -2)] = $value ;

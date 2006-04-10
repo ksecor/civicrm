@@ -80,6 +80,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
         //$testTypes  = array_flip($testTypes);
         $testSet1 = array('act','psat','sat','pact');
 
+
         $dao = & new CRM_Quest_DAO_Test();
         $dao->contact_id = $this->_contactID;
         $dao->find();
@@ -94,7 +95,8 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                 $this->_testIDs['ap'][$count] = $dao->id;
             }
         }
-
+            
+        
         //set the default values
         $subject = array('english','reading','criticalReading','writing','math','science','composite','total');
         foreach ($this->_testIDs as $test => $value ) {
@@ -476,17 +478,20 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             }
             
             require_once 'CRM/Quest/BAO/Test.php';
+            
+            //delete all the tests records that are previously
+            $dao             = & new CRM_Quest_DAO_Test();
+            $dao->contact_id = $this->_contactID;
+            $dao->delete();
+            
         
             // add data to database
             // for 'act','psat','sat','pact'
             foreach ( $testParams1 as $key => $value ) {
                 $testParam = $value;
                 $ids  = array();
-                if ( $this->_testIDs[$key] ) {
-                    $ids['id'] = $this->_testIDs[$key];
-                }
                 $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
-                $this->_testIDs[$key] = $test->id;
+               
             }
             
             
@@ -496,9 +501,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     foreach ( $value as $k => $v ) {
                         $testParam = $v;
                         $ids  = array();
-                        if ( $this->_testIDs[$key][$k] ) {
-                            $ids['id'] = $this->_testIDs[$key][$k];
-                        }
                         $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
                         $this->_testIDs[$key][$k] = $test->id;
                     }

@@ -209,12 +209,23 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             }
             
             require_once 'CRM/Quest/BAO/Honor.php';
-            $this->_honorIds = $this->get( 'honorIds');
+          
+            // $this->_honorIds = $this->get( 'honorIds');
+            
+            // delete honor 
+            require_once 'CRM/Quest/DAO/Honor.php';
+            if ( is_array($this->_honorIds ) ) {
+                foreach ( $this->_honorIds as $honorID ) {
+                    $dao     = & new CRM_Quest_DAO_Honor();
+                    $dao->id = $honorID;
+                    $dao->delete();
+                }
+            }
+
+            $this->_honorIds = null;
+
             foreach ( $honors as $key => $honor ) {
                 $ids = array();
-                if ( $this->_honorIds[$key] ) {
-                    $ids['id'] = $this->_honorIds[$key];
-                }
                 $honor['contact_id']     = $this->_contactID;
                 $newHonor                = CRM_Quest_BAO_Honor::create( $honor,$ids );
                 $this->_honorIds[$key]   = $newHonor->id;
