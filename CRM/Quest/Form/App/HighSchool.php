@@ -189,9 +189,14 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
             	$this->addElement('text', 'organization_name_'. $i ,
                               	$title,
                               	$attributes['organization_name'] );
-            	//$this->addRule('organization_name_1',ts('Please enter School Name'),'required');
             }
             
+            $this->addElement('text', 'organization_name_'. $i ,
+                              $title,
+                              $attributes['organization_name'] );
+            if ( $i == 1 ) {
+                $this->addRule('organization_name_'. $i ,ts('Please enter School Name'),'required');
+            }
             
             $this->addElement('text', 'custom_1_'.$i,
                               ts( 'School Search Code' ),
@@ -200,11 +205,12 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
             $this->addElement('date', 'date_of_entry_'.$i,
                               ts( 'Dates Attended (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
-	    if ( $i == 1) {
-            	$this->addRule('date_of_entry_'.$i, ts('Select a valid date.'), 'qfDate', 'required' );
-            	//$this->addRule('date_of_entry', ts("Please enter Date of entry"),'required');
-            }            
-            
+            $this->addRule('date_of_entry_'.$i, ts('Select a valid date.'), 'qfDate');
+
+            $this->addElement('date', 'date_of_exit_'.$i, ts( 'Dates attended (month/year)' ),
+                              CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
+            $this->addRule('date_of_exit_'.$i, ts('Select a valid date.'), 'qfDate');
+
             $this->addRadio( 'custom_2_'.$i,
                              ts( 'Your School Is' ),
                              CRM_Core_OptionGroup::values( 'school_type' ) );
@@ -215,10 +221,15 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
             //$this->addRule('custom_3',ts('Please enter Number of Students'),'required');
             $this->addRule('custom_3_'.$i , ts('number of students is not valid value'),'integer');
             
+            if ( $i == 1 ) {
+                $addressRequired = true;
+            } else {
+                $addressRequired = null;
+            }
             $this->buildAddressBlock( 1,
                                       ts( 'School Address' ),
                                       ts( 'School Phone' ) ,
-                                      null,null,null,null,'location_'.$i);
+                                      null,$addressRequired,null,null,'location_'.$i);
             
             require_once 'CRM/Core/ShowHideBlocks.php';
             $highschool[$i] = CRM_Core_ShowHideBlocks::links( $this,"HighSchool_$i",
@@ -227,10 +238,32 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                                                            false );
         }
         $this->assign( 'highschool',$highschool );
-        
+
+        $this->addFormRule(array('CRM_Quest_Form_App_HighSchool', 'formRule'));
+       
         parent::buildQuickForm( );
     }
     
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+      public function formRule(&$params) {
+        $errors = array( );
+        
+        if ( (!$params['date_of_entry_1']['M']) && (!$params['date_of_entry_1']['Y']) 
+             && (!$params['date_of_exit_1']['M']) && (!$params['date_of_exit_1']['Y'])) {
+            $errors["date_of_exit_1"] = "Please enter the date";
+        }
+        
+        return empty($errors) ? true : $errors;
+    }
+
     /**
      * process the form after the input has been submitted and validated
      *

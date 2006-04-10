@@ -30,8 +30,9 @@
 </tr>
 <tr>
     {assign var=date_of_entry value="date_of_entry_"|cat:$i}
+    {assign var=date_of_exit value="date_of_exit_"|cat:$i}
     <td class="grouplabel">{$form.$date_of_entry.label}</td>
-    <td class="fieldlabel">{$form.$date_of_entry.html}</td>
+    <td class="fieldlabel">{$form.$date_of_entry.html} &nbsp;&nbsp; <label>To</label> {$form.$date_of_exit.html} </td>
 </tr>
 <tr>
     {assign var=location value="location_"|cat:$i}

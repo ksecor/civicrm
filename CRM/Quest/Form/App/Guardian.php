@@ -214,9 +214,15 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $errors = array( );
+
         if ((!$params['birth_date']['M']) && (!$params['birth_date']['D']) && (!$params['birth_date']['Y']) ) {
             $errors["birth_date"] = "Please enter the Birthdate for this person.";
         }
+
+        if ( $params['is_deceased'] && empty($params['deceased_year_date']['Y'])) {
+            $errors["deceased_year_date"] = "Please enter the Year Deceased date.";
+        }
+
         return empty($errors) ? true : $errors;
     }
 
