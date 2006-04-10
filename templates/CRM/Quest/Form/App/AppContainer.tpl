@@ -18,7 +18,7 @@
         <tr>
            <td class="preapp-message" colspan=2>
              {ts}
-               Please note: the application deadline is May 15, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' or 'Previous' to save your changes.
+               Please note: the application deadline is May 15, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' to save your changes.
              {/ts}
            </td>
         </tr>
@@ -29,6 +29,10 @@
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
             {include file="CRM/WizardHeader.tpl}
             <br>
+            <div id="application-status">
+            Application Status:<br />
+            &nbsp;&nbsp;<strong>{$taskStatus}</strong>
+            </div>
 			</td>
 
         <!--begin main right cell that contains the application-->
@@ -50,7 +54,7 @@
         <tr>
            <td class="preapp-message" colspan=2>
              {ts}
-               You must click 'Save &amp; Continue' or 'Previous' to save your changes.
+               You must click 'Save &amp; Continue' to save your changes.
              {/ts}
            </td>
     </table>
