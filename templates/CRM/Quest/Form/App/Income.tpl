@@ -7,9 +7,11 @@
 </tr>
 <tr>
     <td colspan=2 class="grouplabel">
-<p>
-<p class="preapp-instruction">{ts}Household Income is the total income coming into your current, primary household. Please list all individuals and other sources of income who contribute financially to your household.</p>
-<p class="preapp-instruction">An Income Source page will be presented for each individual whom you listed as a Parent or Guardian in the Household section.{/ts}</p>
+<p></p>
+<p class="preapp-instruction">{ts}Household Income is the total income coming into your current, primary household.
+Please enter income information for all individuals who contribute financially to your household.</p>
+<p class="preapp-instruction">A Household Income page will be presented for each individual whom you listed as a Parent or Guardian in the Household section.
+    You can record income from people other than your Parents/Guardians by checking the "Add another income source" box on the last Parent/Guardian page.{/ts}</p>
     </td>
 </tr>
 {if $form.$deleteButtonName.html}

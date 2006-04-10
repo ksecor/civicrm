@@ -201,10 +201,13 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $honors = array();
             
             for ( $i = 1; $i <= 6; $i++ ) {
-                if ( ! empty( $params[ "description_$i" ] ) &&
-                     ! CRM_Utils_System::isNull( $params[ "award_date_$i" ] ) ) {
+                if ( ! empty( $params[ "description_$i" ] ) ) {
                     $honors[$i]['description'] = $params[ "description_$i" ];
-                    $honors[$i]['award_date'] = CRM_Utils_Date::format( $params[ "award_date_$i" ] );
+                    if ( ! CRM_Utils_System::isNull( $params[ "award_date_$i" ]) ) {
+                        $honors[$i]['award_date'] = CRM_Utils_Date::format( $params[ "award_date_$i" ] );
+                    } else { 
+                        $honors[$i]['award_date'] = null;
+                    }
                 }
             }
             

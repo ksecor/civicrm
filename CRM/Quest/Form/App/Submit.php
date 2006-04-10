@@ -67,7 +67,7 @@ class CRM_Quest_Form_App_Submit extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
-        $this->add( 'checkbox', "approve", ts( "" ), ts( "" ), true );
+        $this->add( 'checkbox', "approve", ts( "Consent and verification checkbox" ), ts( "" ), true );
 
         parent::buildQuickForm();
     }//end of function

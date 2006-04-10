@@ -129,6 +129,15 @@
     field_type          ="radio"
     invert              = 0
 }
+{* How long lived with *}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="all_life"
+    trigger_value       ="1"
+    target_element_id   ="lived_with_from_age|lived_with_to_age" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 1
+}
 {* Industry field *}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="industry_id"
