@@ -121,7 +121,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['last_name'] );
         $this->addRule('last_name',ts('Please enter Last Name'),'required');
 
-        $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '43|44', 'separated-year', '', 'select', false);" );
+        $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '43|44|336', 'separated-year', '', 'select', false);" );
         $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
 
         $this->addElement( 'date', 'separated_year', 
@@ -143,7 +143,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $extra2 = array ('onclick' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', '', 'radio', true);");
         $choice = array( );
         $choice[] = $this->createElement( 'radio', null, '11', ts( 'All my life' ), '1', $extra2 );
-        $choice[] = $this->createElement( 'radio', null, '11', ts( 'From age' ) , '0', $extra2 );
+        $choice[] = $this->createElement( 'radio', null, '11', ts( 'From' ) , '0', $extra2 );
 
         $this->addGroup( $choice, 'all_life', null );
 
@@ -155,7 +155,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            $attributes['lived_with_to_age']);
         $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'integer');
 
-        $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47', 'job_organization|job_occupation|job_current_years', '', 'select', true);" );
+        $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47|339|301', 'job_organization|job_occupation|job_current_years', '', 'select', true);" );
         $this->addSelect('industry', ts( 'Industry' ),null, true, $extra1 );
 
 
