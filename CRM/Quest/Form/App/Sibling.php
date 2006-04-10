@@ -122,7 +122,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         $extra2 = array ('onchange' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', 'table-row', 'radio', true);");
         $choice = array( );
         $choice[] = $this->createElement( 'radio', null, '11', ts( 'All my life' ), '1', $extra2 );
-        $choice[] = $this->createElement( 'radio', null, '11', ts( 'From age' ) , '0', $extra2 );
+        $choice[] = $this->createElement( 'radio', null, '11', ts( 'From' ) , '0', $extra2 );
 
         $this->addGroup( $choice, 'all_life', null );
 
