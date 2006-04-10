@@ -515,7 +515,7 @@ class CRM_Contact_BAO_Query {
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
             $this->_tables[ 'civicrm_address_' . $index ] = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
-
+            
             $processed[$lName] = $processed[$aName] = 1;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $index++;
@@ -525,18 +525,25 @@ class CRM_Contact_BAO_Query {
                 if ( strpos( $elementName, '-' ) ) {
                     // this is either phone, email or IM
                     list( $elementName, $elementType ) = explode( '-', $elementName );
+
                     $cond = self::getPrimaryCondition( $elementType );
                     if ( ! $cond ) {
                         $cond = "phone_type = '$elementType'";
                     }
                     $elementType = '-' . $elementType;
                 }
-                
+
                 $field = CRM_Utils_Array::value( $elementName, $this->_fields ); 
-               // hack for profile, add location id
+
+                // hack for profile, add location id
                 if ( ! $field ) {
-                    $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
+                    if ( ! is_numeric($elementType) ) { //fix for CRM-882( to handle phone types )
+                        $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
+                    } else {
+                        $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
+                    }
                 }
+
                 if ( $field && isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     $tName = $name . '-' . substr( $tableName, 8 ) . $elementType;
