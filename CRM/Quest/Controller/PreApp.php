@@ -190,12 +190,18 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
 
         $count           = 0;
         
-        $sections = array( 'Guardian' => array( 'title' => 'Parent/Guardian Detail',
-                                                'valid' => true ),
-                           'Sibling'  => array( 'title' => 'Sibling Information',
-                                                'valid' => true ),
-                           'Income'   => array( 'title' => 'Household Income',
-                                                'valid' => true ) );
+        $sections = array( 'Guardian' => array( 'title'     => 'Parent/Guardian Detail',
+                                                'processed' => true,
+                                                'valid'     => true,
+                                                'index'     => 0 ),
+                           'Sibling'  => array( 'title'     =>'Sibling Information',
+                                                'processed' => true,
+                                                'valid'     => true,
+                                                'index'     => 0 ),
+                           'Income'   => array( 'title'     => 'Household Income',
+                                                'processed' => true,
+                                                'valid'     => true,
+                                                'index'     => 0 ) );
 
         $subCount = 0;
         $data =& $this->container( );
@@ -207,9 +213,13 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
             if ( CRM_Utils_Array::value( $subNames[0], $sections ) ) {
                 $step      = false;
                 $collapsed = true;
-                if ( $sections[$subNames[0]]['valid'] ) {
+                if ( $sections[$subNames[0]]['processed'] ) {
                     $count++;
-                    $sections[$subNames[0]]['valid'] = false;
+                    $sections[$subNames[0]]['processed'] = false;
+
+                    // remember the index to fix valid status
+                    $sections[$subNames[0]]['index'] = count( $wizard['steps'] );
+
                     $wizard['steps'][] = array( 'name'       => $name,
                                                 'title'      => $sections[$subNames[0]]['title'],
                                                 'link'       => $link,
@@ -223,12 +233,13 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                     $subCount++;
                     $stepNumber = $count . ".$subCount";
                 }
+                // the section valid is an AND of all subsection valid
+                $sections[$subNames[0]]['valid'] = $valid & $sections[$subNames[0]]['valid'];
             } else {
                 $count++;
                 $stepNumber = $count;
                 $collapsed  = false;
             }
-
             $wizard['steps'][] = array( 'name'       => $name,
                                         'title'      => $page->getTitle( ),
                                         'link'       => $link,
@@ -243,6 +254,11 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                 $wizard['currentStepTitle']  = $page->getTitle( );
                 $wizard['currentStepRootTitle'] = null;
             }
+        }
+
+        // fix valid status of all section heads
+        foreach ( $sections as $name => $value ) {
+            $wizard['steps'][$value['index']]['valid'] = $value['valid'];
         }
 
         $wizard['stepCount']         = $count;

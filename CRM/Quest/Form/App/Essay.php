@@ -92,10 +92,12 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Essay');
 
         // primary method to access internet
-        $this->addElement('textarea',
-                          'essay',
-                          ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
-                          array("onkeyup" => "countit();") + $attributes['essay']);
+        $this->add('textarea',
+                   'essay',
+                   ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
+                   array("onkeyup" => "countit();") + $attributes['essay'],
+                   true);
+        
 
         $this->addElement('text', 'word_count', ts( 'Current character count' ), 'readonly');
 

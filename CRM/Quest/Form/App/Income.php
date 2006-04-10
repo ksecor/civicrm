@@ -242,6 +242,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                 $personParams['first_name'] = $params['first_name'];
                 $personParams['last_name']  = $params['last_name'];
                 $personParams['contact_id'] = $this->_contactID;
+                $personParams['is_income_source'] = true;
                 $relationship = CRM_Core_OptionGroup::values( 'relationship' );
                 $personParams['relationship_id'] = array_search( 'Other', $relationship );
                 

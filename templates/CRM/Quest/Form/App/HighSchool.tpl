@@ -36,7 +36,7 @@
 </tr>
 <tr>
     {assign var=location value="location_"|cat:$i}
-    <td class="grouplabel" rowspan="5"><label>{ts}School Address{/ts}</label></td>
+    <td class="grouplabel" rowspan="5"><label>{ts}School Address{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.$location.1.address.street_address.html}<br />
          {ts}{hlp}Number and Street (including apartment number){/hlp}{/ts}</td>
 </tr>

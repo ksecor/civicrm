@@ -349,7 +349,10 @@ WHERE  id = {$value['options']['personID']}
         $dao->last_name       = $last;
         $personID = null;
         if ( $dao->find(true) ) { 
-            $personID = $dao->id; 
+            $personID = $dao->id;
+
+            // keep the is income source the same value as prior
+            $personParams['is_income_source'] = $dao->is_income_source;
         }
 
         $ids['id'] = $personID;
