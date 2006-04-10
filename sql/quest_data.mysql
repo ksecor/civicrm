@@ -373,6 +373,7 @@ INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `g
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (340, 13, 'I don\'t know', '17', NULL, 0, 17, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (341, 7, 'Disabled', '21', NULL, 0, 21, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (342, 25, 'PACT', '6', NULL, 0, 6, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (343, 3, 'I don\'t plan to study', '5', NULL, 0, 5, NULL, 0, 0, 1);
 
 --
 -- Dumping data for table `civicrm_group`  
@@ -447,6 +448,14 @@ INSERT INTO `civicrm_individual_suffix` (`id`, `domain_id`, `name`, `weight`, `i
 -- 
 
 UPDATE `civicrm_gender` SET `is_active` = 0 WHERE `name` = 'Transgender';
+
+-- 
+-- 
+-- Update civicrm location types 
+-- 
+
+UPDATE `civicrm_location_type` SET `name` = 'Permanent' WHERE `id` = 1;
+UPDATE `civicrm_location_type` SET `name` = 'Mailing' WHERE `id` = 2;
 
 -- 
 -- Dumping data for table `civicrm_project`
