@@ -61,6 +61,7 @@ class CRM_Core_Config {
      * @var int 
      */ 
     public $debug             = 0; 
+    public $backtrace         = 0;
 
     /**
      * the debug level for DB_DataObject
@@ -335,6 +336,13 @@ class CRM_Core_Config {
     public $enableSSL = false;
 
     /**
+     * error template to use for fatal errors
+     *
+     * @var string
+     */
+    public $fatalErrorTemplate = 'CRM/error.tpl';
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -418,6 +426,11 @@ class CRM_Core_Config {
 
         if (defined('CIVICRM_DEBUG') ) {
             $this->debug = CIVICRM_DEBUG;
+
+            // check for backtrace only if debug is enabled
+            if ( defined( 'CIVICRM_BACKTRACE' ) ) {
+                $this->backtrace = CIVICRM_BACKTRACE;
+            }
         }
 
         if (defined('CIVICRM_DAO_DEBUG') ) {
@@ -679,6 +692,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_ENABLE_SSL' ) ) {
             $this->enableSSL = CIVICRM_ENABLE_SSL;
+        }
+
+        if ( defined( 'CIVICRM_FATAL_ERROR_TEMPLATE' ) ) {
+            $this->fatalErrorTemplate = CIVICRM_FATAL_ERROR_TEMPLATE;
         }
 
         require_once 'CRM/Core/Component.php';

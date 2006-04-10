@@ -56,14 +56,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
 
     /**
-     * filename of the error template
-     * @var const
-     */
-    const
-        ERROR_TEMPLATE = 'error.tpl';
-  
-
-    /**
      * We only need one instance of this object. So we use the singleton
      * pattern and cache the instance in this variable
      * @var object
@@ -152,9 +144,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $template =& CRM_Core_Smarty::singleton( );
         $config   =& CRM_Core_Config::singleton( );
 
-        if ( $config->debug &&
-             ( $_REQUEST['backtrace'] ||
-               defined( 'CIVICRM_BACKTRACE' ) ) ) {
+        if ( $config->backtrace ) {
             self::backtrace( );
         }
 
@@ -178,7 +168,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
         $template->assign_by_ref('error', $error);
         
-        $template->assign( 'tplFile', "CRM/" . self::ERROR_TEMPLATE); 
         $content  = $template->fetch( 'CRM/error.tpl' );
         $content .= CRM_Core_Error::debug( 'error', $error, false );
         echo CRM_Utils_System::theme( 'page', $content );
@@ -221,16 +210,15 @@ class CRM_Core_Error extends PEAR_ErrorStack {
                        'code'    => $code );
 
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->debug &&
-             ( $_REQUEST['backtrace'] ||
-               defined( 'CIVICRM_BACKTRACE' ) ) ) {
+        if ( $config->backtrace ) {
             self::backtrace( );
         }
 
         
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( $vars );
-        print $template->fetch( 'CRM/error.tpl' );
+
+        print $template->fetch( $config->fatalErrorTemplate );
         exit( CRM_Core_Error::FATAL_ERROR );
     }
 
