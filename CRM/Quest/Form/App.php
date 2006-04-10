@@ -219,10 +219,10 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         }
 
         $location[$locationId]['address']['supplemental_address_1'] =
-            $this->addElement('text', "{$locationName}[$locationId][address][supplemental_address_1]", ts('Addt\'l Address 1'),
+            $this->addElement('text', "{$locationName}[$locationId][address][supplemental_address_1]", ts('Additional Address 1'),
                               $attributes['supplemental_address_1']);
         $location[$locationId]['address']['supplemental_address_2'] =
-            $this->addElement('text', "{$locationName}[$locationId][address][supplemental_address_2]", ts('Addt\'l Address 2'),
+            $this->addElement('text', "{$locationName}[$locationId][address][supplemental_address_2]", ts('Additional Address 2'),
                               $attributes['supplemental_address_2']);
 
         $location[$locationId]['address']['city']                   =
