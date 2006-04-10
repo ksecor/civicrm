@@ -9,7 +9,7 @@
      <td class="grouplabel"> {$form.internet_access_id.label} </td>
      <td class="fieldlabel">{$form.internet_access_id.html}</td>
 </tr> 
-<tr id="internet-access-other">
+<tr id="internet_access_other">
      <td class="grouplabel">&nbsp;</td>
      <td class="fieldlabel">{$form.internet_access_other.html}<br />
         {ts}{hlp}Describe your primary internet access method.{/hlp}{/ts}
@@ -46,23 +46,12 @@
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
-{literal}
-    <script type="text/javascript">
-    var selectedOption; 
-    selectedOption = document.getElementById('internet_access_id').options[document.getElementById('internet_access_id').selectedIndex].text;
-	if (selectedOption == 'Other') {
-	   show('internet-access-other','table-row');
-	} else {
-	   hide('internet-access-other','table-row');
-	}	
-	
-   	function showTextField() {
-        selectedOption = document.getElementById('internet_access_id').options[document.getElementById('internet_access_id').selectedIndex].text;	
-		if (selectedOption == 'Other') {
-		   show('internet-access-other','table-row');
-		} else {
-		   hide('internet-access-other','table-row');
-		}	
- 	}
-    </script>  
-{/literal}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="internet_access"
+    trigger_value       ="23"
+    target_element_id   ="internet_access_other" 
+    target_element_type =""
+    field_type          ="select"
+    invert              = 0
+}

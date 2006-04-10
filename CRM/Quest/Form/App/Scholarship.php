@@ -86,10 +86,13 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student');
 
         // primary method to access internet
+        
+        $extra1 = array( 'onchange' => "return showHideByValue('internet_access_id','23','internet_access_other','','select',false);");
         $this->addSelectOther('internet_access',
                               ts('What is your primary method of accessing the Internet?'),
                               array('' => ts('- select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
-                              $attributes ,true, array('onChange' =>"showTextField()") );
+                              $attributes ,true, $extra1 );
+        $this->addElement('text','internet_access_other',null,null);
 
         // computer at home
         $this->addYesNo( 'is_home_computer',
