@@ -12,7 +12,7 @@
     <p class="preapp-instruction">     
     {ts}To minimize the risk of losing your work, you may wish to write your essay in another program and then paste it in this box when you are ready.{/ts}
     </p> 
-    <label>{ts}List and describe the factors in your life that have most shaped you (1500 characters max).{/ts} <span class="marker">*</span></label>
+    <label>{ts}We are interested in  learning more about you and the context in which you have grown up, formed your aspirations, and accomplished your academic successes. Please describe the factors that have most shaped your personal life and your personal aspirations. (1500 characters max).{/ts} <span class="marker">*</span></label>
   </td>
 </tr>
 <tr>
