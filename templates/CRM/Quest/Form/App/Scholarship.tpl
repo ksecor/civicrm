@@ -43,12 +43,20 @@
     <td class="grouplabel"> {$form.register_standarized_tests.label}</td>
     <td class="fieldlabel"> {$form.register_standarized_tests.html} </td>
 </tr>
+<tr>
+    <td class="grouplabel"> {$form.award_ranking_1_id.label}</td>
+    <td class="fieldlabel"> {$form.award_ranking_1_id.html}<br/>
+    {$form.award_ranking_2_id.html}<br/>
+    {$form.award_ranking_3_id.html}<br/>
+    {ts}{hlp}Rank the top 3 awards you are interested in receiving, if you are awarded the scholarship.{/hlp}{/ts} 
+    </td>
+</tr>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="internet_access"
+    trigger_field_id    ="internet_access_id"
     trigger_value       ="23"
     target_element_id   ="internet_access_other" 
     target_element_type =""

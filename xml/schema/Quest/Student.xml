@@ -484,4 +484,22 @@
        <comment>Plans to use, or have fee waivers to register for standarized tests.</comment>
        <add>1.5</add>
   </field>
+ <field>
+      <name> award_ranking_1_id</name>
+      <type>int unsigned</type>
+      <comment>Rank the scholarship awards .</comment>
+      <add>1.5</add>
+  </field>
+ <field>
+      <name> award_ranking_2_id</name>
+      <type>int unsigned</type>
+      <comment>Rank the scholarship awards.</comment>
+      <add>1.5</add>
+  </field>
+ <field>
+      <name> award_ranking_3_id</name>
+      <type>int unsigned</type>
+      <comment>Rank the scholarship awards.</comment>
+      <add>1.5</add>
+  </field>
 </table>
