@@ -180,7 +180,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         
         $this->addElement('text', 'number_siblings', ts( 'Number of siblings ' ), $attributes['number_siblings'] );
         $this->addRule('number_siblings', ts("Please enter Number of Siblings "),'required');
-        $this->addRule( "number_siblings", ts('Number not valid.'), 'integer' );
+        $this->addRule( "number_siblings", ts('Number of Siblings not valid.'), 'positiveInteger' );
 
         //Country of Heritage/Nationality
         $this->addCountry( 'nationality_country_id', ts( 'Country of Heritage/Nationality' ),true);

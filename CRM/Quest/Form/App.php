@@ -238,12 +238,12 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         if( $addressRequired ){
             $this->addRule("{$locationName}[$locationId][address][postal_code]" , ts("Please enter the Zip/Postal Code for %1." , array( 1 => $title)),'required');
         }
-        $this->addRule( "{$locationName}[$locationId][address][postal_code]", ts("Zip/Postal Code not valid for %1.", array( 1 => $title)), 'integer' );
+        $this->addRule( "{$locationName}[$locationId][address][postal_code]", ts("Zip/Postal Code not valid for %1.", array( 1 => $title)), 'positiveInteger' );
         
         $location[$locationId]['address']['postal_code_suffix']            =
             $this->addElement('text', "{$locationName}[$locationId][address][postal_code_suffix]", ts('Add-on Code'),
                               array( 'size' => 4, 'maxlength' => 12 ));
-        $this->addRule( "{$locationName}[$locationId][address][postal_code_suffix]", ts('Zip-Plus not valid.'), 'integer' );
+        $this->addRule( "{$locationName}[$locationId][address][postal_code_suffix]", ts('Zip-Plus not valid.'), 'positiveInteger' );
 
         $location[$locationId]['address']['state_province_id']      =
              $this->addElement('select', "{$locationName}[$locationId][address][state_province_id]", ts('State / Province'),
@@ -266,6 +266,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
              if($phoneRequired) {
                  $this->addRule("{$locationName}[$locationId][phone][1][phone]",ts("Please enter a value for $phone"),'required');
              }
+             $this->addRule("{$locationName}[$locationId][phone][1][phone]",ts("Please enter a valid number for $phone"),'phone');
          }
 
          if ( $alternatePhone ) {
@@ -278,6 +279,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
              if ($alternatePhoneRequired) {
                  $this->addRule("{$locationName}[$locationId][phone][2][phone]",ts("Please enter a value for $alternatePhone"),'required');
              }
+             $this->addRule("{$locationName}[$locationId][phone][2][phone]",ts("Please enter a valid number for $alternatePhone"),'phone');
          }
     }
 

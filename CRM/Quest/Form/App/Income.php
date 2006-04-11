@@ -143,12 +143,13 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                                ts( 'Total 2005 Income from this Source' ),
                                $attributes['amount_1'] );
                 $this->addRule("amount_$i","Please enter total 2005 income from this source.",'required');
+                $this->addRule("amount_$i","Please enter a valid income.",'numeric');
             } else {
                 $this->addSelect( 'type_of_income', ts( 'Additional Income Type' ), "_$i");
                 $this->addElement( 'text', "amount_$i",
                                ts( 'Additional 2005 Income Amount' ),
                                $attributes['amount_1'] );
-                
+                $this->addRule("amount_$i","Please enter a valid income.",'numeric');
             }
             $this->addElement( 'text', "job_$i",
                                ts( 'Job Description (if applicable)' ),

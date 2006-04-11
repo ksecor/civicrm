@@ -129,7 +129,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                 $this->addRule( "member_count_$i",ts('Please enter the number of people who live with you.'),'required');
                 $this->addRule( "years_lived_id_$i", ts( 'Please select a value for years lived in this household.' ), 'required' );
             }
-            $this->addRule('member_count_'.$i,ts('Not a valid number.'),'integer');
+            $this->addRule('member_count_'.$i,ts('Not a valid number.'),'positiveInteger');
 
             for ( $j = 1; $j <= 2; $j++ ) {
                 $this->addSelect( "relationship",

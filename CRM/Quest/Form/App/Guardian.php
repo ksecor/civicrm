@@ -149,11 +149,11 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 
         $this->add( 'text', "lived_with_from_age", ts( 'From Age' ),
                            $attributes['lived_with_from_age']);
-        $this->addRule('lived_with_from_age',ts('Please enter a valid number for From Age.'),'integer');
+        $this->addRule('lived_with_from_age',ts('Please enter a valid number for From Age.'),'positiveInteger');
 
         $this->add( 'text', "lived_with_to_age", ts( 'To Age' ),
                            $attributes['lived_with_to_age']);
-        $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'integer');
+        $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'positiveInteger');
 
         $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47|339|301', 'job_organization|job_occupation|job_current_years', '', 'select', true);" );
         $this->addSelect('industry', ts( 'Industry' ),null, true, $extra1 );
@@ -168,7 +168,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $this->addElement( 'text', 'job_current_years',
                            ts('Number of years in current occupation'),
                            $attributes['job_current_years']);
-        $this->addRule('job_current_years',ts('not a valid number'),'integer');
+        $this->addRule('job_current_years',ts('not a valid number'),'positiveInteger');
 
         $extra2 = array( 'onchange' => "showHideByValue('highest_school_level_id', '118|119|120|121|122|302', 'college_name|college_country|college_grad_year|college_major', '', 'select', false); return showHideByValue('highest_school_level_id', '122|302', 'prof_school_name|prof_school_degree|prof_grad_year', '', 'select', false);" );
         $this->addSelect('highest_school_level', ts('Highest level of schooling'),null,true,$extra2);
