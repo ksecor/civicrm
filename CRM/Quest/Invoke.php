@@ -58,7 +58,7 @@ class CRM_Quest_Invoke {
             $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
 
             require_once 'CRM/Quest/Controller/PreApp.php';
-            $controller =& new CRM_Quest_Controller_PreApp( null,$mode, false );
+            $controller =& new CRM_Quest_Controller_PreApp( null, null, false );
             return $controller->run( );
         }
 

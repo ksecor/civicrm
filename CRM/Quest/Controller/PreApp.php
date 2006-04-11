@@ -38,6 +38,8 @@ require_once 'CRM/Core/Controller.php';
 
 class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
 
+    protected $_action;
+
     /**
      * class constructor
      */
@@ -45,8 +47,8 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         parent::__construct( $title, $modal );
         
         $cid = $this->get( 'contactID' );
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'update' );
-        $this->assign( 'action', $action );
+        $this->_action = CRM_Utils_Request::retrieve('action', $this, false, 'update' );
+        $this->assign( 'action', $this->_action );
         if ( ! $cid ) {
             $cid    = CRM_Utils_Request::retrieve( 'id', $this );
             $session =& CRM_Core_Session::singleton( );
@@ -55,11 +57,11 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
             if ( $cid ) {
                 require_once 'CRM/Contact/BAO/Contact.php';
                 require_once 'CRM/Utils/System.php';
-                if ( ( $cid != $uid ) && ($action & CRM_Core_Action::UPDATE) ) {
+                if ( ( $cid != $uid ) && ($this->_action & CRM_Core_Action::UPDATE) ) {
                     if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) {
                         CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Application.') );
                     } 
-                } else if (($cid != $uid ) && ($action & CRM_Core_Action::VIEW) ) {
+                } else if (($cid != $uid ) && ($this->_action & CRM_Core_Action::VIEW) ) {
                     if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) {
                         CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Application.') );
                     }
@@ -104,10 +106,10 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         }
 
         require_once 'CRM/Quest/StateMachine/PreApp.php';
-        $this->_stateMachine =& new CRM_Quest_StateMachine_PreApp( $this, $action );
+        $this->_stateMachine =& new CRM_Quest_StateMachine_PreApp( $this, $this->_action );
 
         // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $action );
+        $this->addPages( $this->_stateMachine, $this->_action );
 
         // add all the actions
         $config =& CRM_Core_Config::singleton( );
@@ -149,6 +151,11 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
      *
      */
     function run( ) {
+        // early escape if we are previewing the application
+        if ( $this->_action == CRM_Core_Action::PREVIEW ) {
+            return $this->preview( );
+        }
+
         // the names of the action and page should be saved
         // note that this is split into two, because some versions of
         // php 5.x core dump on the triple assignment :)
@@ -162,15 +169,15 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
             }
         }
 
-        // note that based on action, control might not come back!!
-        // e.g. if action is a valid JUMP, u basically do a redirect
-        // to the appropriate place
-        $this->wizardHeader( $pageName );
-
         // check dependency first
         // if dependency fails, this does not return, but does a redirect
         $this->_stateMachine->checkDependency( $this, $this->_pages[$pageName] );
 
+        $this->wizardHeader( $pageName );
+
+        // note that based on action, control might not come back!!
+        // e.g. if action is a valid JUMP, u basically do a redirect
+        // to the appropriate place
         $this->_pages[$pageName]->handle($action);
 
         return $pageName;
@@ -304,6 +311,27 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
 
     function checkApplication( ) {
         $this->_stateMachine->checkApplication( $this );
+    }
+
+    function preview( ) {
+        // lets switch to print mode
+        $this->_print = true;
+        
+        // also set the current superAction to preview
+        $this->assign( 'superAction', CRM_Core_Action::PREVIEW );
+        // we need to run each form and display it
+        $pageNames = array_keys( $this->_pages );
+        $html = '';
+        foreach ( $pageNames as $name ) {
+            // build the form and then display it
+            $this->_pages[$name]->setAction( CRM_Core_Action::VIEW );
+            $this->_pages[$name]->buildForm( );
+
+            $formHtml = $this->_pages[$name]->handle( 'display' );
+            $html .= $formHtml;
+        }
+
+        return $html;
     }
 
 }

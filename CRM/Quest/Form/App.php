@@ -101,7 +101,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
             }
         }
 
-        if ( $this->get( 'action' ) & CRM_Core_Action::VIEW ) {
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze();
         }
 

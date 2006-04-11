@@ -4,6 +4,7 @@
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
 
 {if $context EQ 'begin'}
+  {if $superAction != 1024}
     <div id="preapp-content">
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
@@ -23,33 +24,36 @@
            </td>
         </tr>
      </table>
+   {/if}
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
-         	<td valign=top nowrap id="preapp-left-nav">
+          {if $superAction != 1024}
+            <td valign=top nowrap id="preapp-left-nav">
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
             {include file="CRM/WizardHeader.tpl}
             <br>
             <div id="application-status">
-            Application Status:<br />
-            &nbsp;&nbsp;<strong>{$taskStatus}</strong>
+              Application Status:<br />
+              &nbsp;&nbsp;<strong>{$taskStatus}</strong>
             </div>
-			</td>
-
+	    </td>
+          {/if}
         <!--begin main right cell that contains the application-->
         <td valign=top class="rightside">
         {include file="CRM/common/status.tpl"}
         {include file="CRM/Form/body.tpl"}
-
 {/if}
 
 {if $context EQ 'end'}
-    
+  {if $superAction != 1024}
     <div class="crm-submit-buttons">
         {$form.buttons.html}
     </div>
+  {/if}
     </td>
     </tr>
     </table>
+  {if $superAction != 1024}
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
            <td class="preapp-message" colspan=2>
@@ -58,7 +62,10 @@
              {/ts}
            </td>
     </table>
+  {/if}
     </div>
+  {if $superAction != 1024}
     {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
     {include file="CRM/common/showHide.tpl"}
+  {/if}
 {/if}
