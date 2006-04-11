@@ -155,6 +155,8 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         // ethnicity 
         $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" );
         $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_2" );
+        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1", 'required' );
+
         require_once 'CRM/Core/ShowHideBlocks.php';
         CRM_Core_ShowHideBlocks::links( $this,"ethnicity_id_2", ts('add another Race/Ethnicity'), ts('hide this Race/Ethnicity field'));
        
