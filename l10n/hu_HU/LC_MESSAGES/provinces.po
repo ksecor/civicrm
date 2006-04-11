@@ -10836,7 +10836,7 @@ msgstr "Michigan"
 
 #. name for MX-MOR
 #, fuzzy
-msgid "Moreloa"
+msgid "Morelos"
 msgstr "Moldova"
 
 #. name for MX-NAY

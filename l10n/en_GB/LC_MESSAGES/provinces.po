@@ -9852,7 +9852,8 @@ msgid "Michoacin"
 msgstr "Michoacin"
 
 #. name for MX-MOR
-msgid "Moreloa"
+#, fuzzy
+msgid "Morelos"
 msgstr "Moreloa"
 
 #. name for MX-NAY

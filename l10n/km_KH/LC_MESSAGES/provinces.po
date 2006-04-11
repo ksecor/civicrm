@@ -9839,7 +9839,7 @@ msgid "Michoacin"
 msgstr ""
 
 #. name for MX-MOR
-msgid "Moreloa"
+msgid "Morelos"
 msgstr ""
 
 #. name for MX-NAY

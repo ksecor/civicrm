@@ -10827,8 +10827,9 @@ msgid "Michoacin"
 msgstr ""
 
 #. name for MX-MOR
-msgid "Moreloa"
-msgstr ""
+#, fuzzy
+msgid "Morelos"
+msgstr "Turchia"
 
 #. name for MX-NAY
 msgid "Nayarit"
@@ -17113,4 +17114,3 @@ msgstr "Finlandia"
 #, fuzzy
 #~ msgid "Fes"
 #~ msgstr "Colori"
-

@@ -10041,7 +10041,8 @@ msgid "Michoacin"
 msgstr "Michoacin"
 
 #. name for MX-MOR
-msgid "Moreloa"
+#, fuzzy
+msgid "Morelos"
 msgstr "Moreloa"
 
 #. name for MX-NAY
@@ -15747,4 +15748,3 @@ msgstr "Midlands"
 
 #~ msgid "Lansi-Suomen Laani"
 #~ msgstr "Lansi-Suomen Laani"
-

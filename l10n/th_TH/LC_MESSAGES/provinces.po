@@ -10395,8 +10395,9 @@ msgid "Michoacin"
 msgstr ""
 
 #. name for MX-MOR
-msgid "Moreloa"
-msgstr ""
+#, fuzzy
+msgid "Morelos"
+msgstr "คณิตศาสตร์"
 
 #. name for MX-NAY
 msgid "Nayarit"
