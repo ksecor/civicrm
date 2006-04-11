@@ -419,6 +419,15 @@
       <add>1.5</add>
   </field>
   <field>
+      <name>score_PLAN</name>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <headerPattern>/ACT score/i</headerPattern>
+      <comment>Combined highest reported scores (PLAN).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
        <name>test_tutoring</name>
        <type>varchar</type>
        <length>255</length>
