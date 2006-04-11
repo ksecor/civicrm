@@ -98,7 +98,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             
         
         //set the default values
-        $subject = array('english','reading','criticalReading','writing','math','science','composite','total');
+        $subject = array('english','reading','criticalReading','writing','math','science');
         foreach ($this->_testIDs as $test => $value ) {
             if ( ! is_array($value) ) {
                 $dao = & new CRM_Quest_DAO_Test();
@@ -110,9 +110,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     if ( $sub == 'criticalReading' ) {
                         $defaults["{$test}_criticalreading"] = $dao->score_reading;
                     }
-                }
-                if ( $sub == 'total' && ( $test =='psat' || $test =='sat'  )) {
-                    $defaults["{$test}_total"] = $dao->score_composite;
                 }
                 $defaults["{$test}_date"] = CRM_Utils_Date::unformat( $dao->test_date , '-' );
             } else {
@@ -180,9 +177,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                                   'CriticalReading'  => 6,
                                   'Writing'          => 6,
                                   'Math'             => 7,
-                                  'Science'          => 1,
-                                  'Composite'        => 1,
-                                  'Total'            => 6 );
+                                  'Science'          => 1 );
 
         $this->_tests = array( 'act'  => 1,
                                'psat' => 2,
@@ -361,7 +356,6 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $testTypes = CRM_Core_OptionGroup::values( 'test' ,true);
             
             $testParams1 = array();
-            $totalScore = array();
             
             require_once 'CRM/Utils/Date.php';
             
@@ -373,9 +367,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                         $value = $params[$key];
                         if ( ! empty( $value ) ) {
                             $filled = true;
-                            if ( $name == 'Total' ) {
-                                $testParams1[$testName]["score_composite"] = $value;
-                            } else if ($name == 'CriticalReading') {
+                            if ($name == 'CriticalReading') {
                                 $testParams1[$testName]["score_reading"] = $value;
                             } else {
                                 $testParams1[$testName]["score_" . strtolower( $name )] = $value;
@@ -402,35 +394,30 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             if( is_array( $testParams1 ) ) {
                 foreach( $testParams1 as $test => $score ) {
                     if ( $test == 'act' ) {
-                        $totalScore[$test] = $score['score_composite'];
                         $totalACT = $score['score_reading']+ $score['score_english']+$score['score_science']+$score['score_math'] ;
                     } else if($test == 'psat') {
-                        $totalScore[$test] = ( $score['score_math'] + $score['score_reading']) * 10;
                         $totalPSAT         =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
                     } else if ( $test == 'sat' ) {
-                        $totalScore[$test] = ( $score['score_math'] + $score['score_reading']);
                         $totalSAT         =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
                     } else if ( $test == 'pact' ) {
-                        $totalScore[$test] = $score['score_composite'];
                         $totalPACT = $score['score_reading']+ $score['score_english']+$score['score_science']+$score['score_math'] ;
                     }
 
                 }
             }
             
-            //echo $totalACT;
             // calcuate(composite & total score)
-            if ( $totalACT > 0 && ! $testParams1['act']['score_composite'] && is_array($testParams1['act'])) {
-                $testParams1['act']['score_composite'] = $totalACT/4;
+            if ( $totalACT > 0 && is_array($testParams1['act'])) {
+                $testParams1['act']['score_composite'] = round($totalACT/4);
             }
-            if (! $testParams1['psat']['score_composite'] && is_array($testParams1['psat'])) {
+            if ( is_array($testParams1['psat'])) {
                 $testParams1['psat']['score_composite'] = $totalPSAT;
             }
-            if (! $testParams1['sat']['score_composite'] && is_array($testParams1['sat'])) {
+            if (is_array($testParams1['sat'])) {
                 $testParams1['sat']['score_composite']  = $totalSAT;
             }
-           if ( $totalPACT > 0 && ! $testParams1['pact']['score_composite'] && is_array($testParams1['pact'])) {
-                $testParams1['pact']['score_composite'] = $totalPACT/4;
+            if ( $totalPACT > 0 && is_array($testParams1['pact'])) {
+                $testParams1['pact']['score_composite'] = round($totalPACT/4);
             }
             
 
@@ -509,10 +496,14 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             
             // Insert  Student recornd  
             $values = array( );
-            $values['score_SAT']     =  $totalScore['sat'];
-            $values['score_PSAT']    =  $totalScore['psat'];
-            $values['score_ACT']     =  $totalScore['act'];
-            $values['score_PACT']     =  $totalScore['pact'];
+            $values['score_SAT']     =  $totalSAT;
+            $values['score_PSAT']    =  $totalPSAT;
+            if ( $totalACT > 0) {
+                $values['score_ACT'] =  round( $totalACT/4 );
+            }
+            if ( $totalPACT > 0) {
+                $values['score_PLAN'] = round( $totalPACT/4 );
+            }
             
             if ( CRM_Utils_Array::value( 'test_tutoring', $params ) &&
                  is_array( $params['test_tutoring'] ) &&

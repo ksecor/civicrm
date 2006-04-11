@@ -25,11 +25,6 @@
     <td class="grouplabel">{$form.psat_writing.label}</td>
     <td class="fieldlabel">{$form.psat_writing.html}</td>  
 </tr>
-<tr> 
-    <td class="grouplabel">{$form.psat_total.label}</td>
-    <td class="fieldlabel">{$form.psat_total.html}</td>
-</tr>
-
 <tr>
     <td class="grouplabel">{$form.psat_date.label}</td>
     <td class="fieldlabel">{$form.psat_date.html}</td>
@@ -57,10 +52,6 @@
 <tr>
     <td class="grouplabel">{$form.pact_science.label}</td>
     <td class="fieldlabel">{$form.pact_science.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.pact_composite.label}</td>
-    <td class="fieldlabel">{$form.pact_composite.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.pact_date.label}</td>
@@ -91,10 +82,6 @@
     <td class="fieldlabel">{$form.act_science.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.act_composite.label}</td>
-    <td class="fieldlabel">{$form.act_composite.html}</td>
-</tr>
-<tr>
     <td class="grouplabel">{$form.act_date.label}</td>
     <td class="fieldlabel">{$form.act_date.html}</td>
 </tr>
@@ -114,10 +101,6 @@
 <tr>
     <td class="grouplabel">{$form.sat_writing.label}</td>
     <td class="fieldlabel">{$form.sat_writing.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.sat_total.label}</td>
-    <td class="fieldlabel">{$form.sat_total.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.sat_date.label}</td>
