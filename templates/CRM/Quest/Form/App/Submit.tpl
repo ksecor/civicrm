@@ -21,10 +21,14 @@ it can be checked again. Thank you.
 </p>
 <p>
 {$form.approve.html}&nbsp;I understand that my application will be
-shared with QuestBridge's partner colleges. I have filled out the
-application to the best of my knowledge and understand any deliberate
-misrepresentation of information will result in forfeiture of any
-scholarships received. 
+shared with QuestBridge's partner colleges and may be shared with 
+non-partner colleges. If I am awarded the scholarship, I grant QuestBridge
+the right to use my name, address (city, state and country only), 
+photograph, biographical and academic information for any publicity, 
+advertising and promotional purposes, except where prohibited by law. I have 
+filled out the application to the best of my knowledge and understand any 
+deliberate misrepresentation of information will result in forfeiture of any 
+scholarship(s) received. 
 </td>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
