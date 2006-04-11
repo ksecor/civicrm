@@ -7,6 +7,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <base href="{$config->resourceBase}" />
   <style type="text/css" media="screen">@import url({$config->resourceBase}css/civicrm.css);</style>
+  <style type="text/css" media="screen">@import url({$config->resourceBase}css/quest.css);</style>
 </head>
 
 <body>
@@ -25,7 +26,7 @@
 {if $mysql_code}
       <p>{ts}Database Error Code:{/ts} {$mysql_code}</p>
 {/if}
-      <p><a href="{$config->userFrameworkBaseURL}" title="{ts}Main Menu{/ts}">{ts}Return to CiviCRM menu.{/ts}</a></p>
+      <p><a href="{$config->userFrameworkBaseURL}" title="{ts}Home Page{/ts}">{ts}Return to QuestBridge Home Page.{/ts}</a></p>
   </dd>
   </dl>
 </div>
