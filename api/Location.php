@@ -220,8 +220,24 @@ function crm_delete_location(&$contact, $location_id) {
     if (!$locationDAO->find()) {
         return _crm_error('invalid $location_id');
     }
+    $locationDAO->fetch();
 
     CRM_Core_BAO_Location::deleteLocationBlocks($locationId);
+    // if we're deleting primary, lets change another one to primary
+    if ($locationDAO->is_primary) {
+        $otherLocationDAO =& new CRM_Core_DAO_Location();
+        $otherLocationDAO->entity_table = 'civicrm_contact';
+        $otherLocationDAO->entity_id    = $contact->id;
+        $otherLocationDAO->whereAdd("id != $locationId");
+        $otherLocationDAO->orderBy('id');
+        if ($otherLocationDAO->find()) {
+            $otherLocationDAO->fetch();
+            $otherLocationDAO->is_primary = 1;
+            $otherLocationDAO->save();
+        }
+    }
+    $locationDAO->delete();
+
     return null;
 }
 
