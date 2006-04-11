@@ -203,7 +203,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         }
 
         // we first get the primary location due to the order by clause
-        $location->orderBy( 'is_primary desc' );
+        $location->orderBy( 'is_primary desc, id' );
         $location->find( );
         $locations = array( );
         for ($i = 0; $i < $locationCount; $i++) {
