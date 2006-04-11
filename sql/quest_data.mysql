@@ -377,7 +377,7 @@ INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `g
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (344, 31, 'Full scholarships to college summer programs', '1', NULL, 0, 1, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (345, 31, 'Expense-paid college visits to our partner colleges', '2', NULL, 0, 2, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (346, 31, 'SAT prep courses and materials from the Princeton Review', '3', NULL, 0, 3, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (346, 31, 'New laptop computers (Intel-based with 512 MB RAM and a 40 GB hard drive)', '4', NULL, 0, 4, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (346, 31, 'New laptop computers (Intel-based)', '4', NULL, 0, 4, NULL, 0, 0, 1);
 
 --
 -- Dumping data for table `civicrm_group`  
