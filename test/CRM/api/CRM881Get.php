@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfCRM881 extends UnitTestCase
+class TestOfCRM881Get extends UnitTestCase
 {   
     function setUp()
     {
@@ -30,7 +30,7 @@ class TestOfCRM881 extends UnitTestCase
     {
     }
     
-    function testCRM881( )
+    function testCRM881Get( )
     {
         $params    = array('contact_id' => '101');
         $contact   = crm_get_contact($params);

@@ -194,44 +194,37 @@ function crm_update_location(&$contact, $location_type, $params) {
  * Deletes a contact location.
  * 
  * @param object $contact        A valid Contact object (passed by reference).
- * @param string $location_type   Valid context name for location to be deleted.
+ * @param string $location_id    A valid location ID.
  *
- * @return  null, if successful. CRM error object, if 'contact' or 'location_type' is invalid, permissions are insufficient, etc.
+ * @return  null, if successful. CRM error object, if 'contact' or 'location_id' is invalid, permissions are insufficient, etc.
  *
  * @access public
  *
  */
-function crm_delete_location(&$contact,$location_type) {
+function crm_delete_location(&$contact, $location_id) {
     _crm_initialize( );
     
     if( ! isset( $contact->id ) ) {
         return _crm_error('$contact is not valid contact datatype');
     } 
     
-    if( ! isset($location_type) ) {
-        return _crm_error('$location_type is not set');
+    $locationId = (int) $location_id;
+    if ($locationId == 0) {
+        return _crm_error('missing or invalid $location_id');
     }
     
-    $locationTypeDAO = & new CRM_Core_DAO_LocationType();
-    $locationTypeDAO->name = $location_type;
-    $locationTypeDAO->find();
-    $locationTypeDAO->fetch();
-    $locationTypeId = $locationTypeDAO->id;
-    if(! isset($locationTypeId) ) {
-        return _crm_error('$location_type is not valid one');
+    $locationDAO =& new CRM_Core_DAO_Location();
+    $locationDAO->entity_table = 'civicrm_contact';
+    $locationDAO->entity_id    = $contact->id;
+    $locationDAO->id           = $locationId;
+    if (!$locationDAO->find()) {
+        return _crm_error('invalid $location_id');
     }
-    
-    $locationDAO = & new CRM_Core_DAO_Location();
-    $locationDAO->entity_id        = $contact->id;
-    $locationDAO->location_type_id = $locationTypeId;
-    $locationDAO->find();
-    $locationDAO->fetch();
-    
-    $locationId = $locationDAO->id;
-    
+
     CRM_Core_BAO_Location::deleteLocationBlocks($locationId);
     return null;
 }
+
 /**
  * Returns array of location(s) for a contact
  * 
@@ -244,7 +237,6 @@ function crm_delete_location(&$contact,$location_type) {
  * @acces public
  *
  */
-
 function crm_get_locations(&$contact, $location_types = null) {
     _crm_initialize( );
     
