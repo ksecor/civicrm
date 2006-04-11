@@ -32,9 +32,17 @@
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
             {include file="CRM/WizardHeader.tpl}
             <br>
-            <div id="application-status">
-              Application Status:<br />
-              &nbsp;&nbsp;<strong>{$taskStatus}</strong>
+            <div id="help-box">
+              <strong>Need Help?</strong><br />
+              &nbsp;&nbsp;<a href="javascript:chatW=window.open('http://www.questbridge.org/support/live_support.html','Support','width=600,height=470,resizable=yes'); chatW.focus()">Talk to a Quest team<br>&nbsp;&nbsp;member</A><br />
+            </div>
+            <div id="help-box">
+              <strong>Application Status</strong><br />
+              &nbsp;&nbsp;{$taskStatus}
+            </div>
+            <div id="help-box">
+              <strong>Navigation Color Guide</strong><br />
+              &nbsp;&nbsp;<IMG SRC="/images/green_box.gif" WIDTH="8" HEIGHT="8"> Section not completed<BR>&nbsp;&nbsp;&nbsp;&nbsp;or section has error(s)
             </div>
 	    </td>
           {/if}
