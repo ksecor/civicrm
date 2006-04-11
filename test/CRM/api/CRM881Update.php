@@ -2,14 +2,13 @@
 
 require_once 'api/crm.php';
 
-class TestOfCRM881 extends UnitTestCase
+class TestOfCRM881Update extends UnitTestCase
 {   
     function setUp()
     {
         $cParams = array('contact_id' => '101');
         $contact = crm_get_contact($cParams);
-#       crm_delete_location($contact, 'Home');
-#       crm_delete_location($contact, 'Work');
+#       crm_delete_location($contact, 92);
 
 #       $lParams = array('location_type' => 'Home', 'street_address' => 'Odynca 1 m. 2');
 #       crm_create_location($contact, $lParams);
@@ -30,23 +29,19 @@ class TestOfCRM881 extends UnitTestCase
     {
     }
     
-    function testCRM881( )
+    function testCRM881Update( )
     {
         $params    = array('contact_id' => '101');
         $contact   = crm_get_contact($params);
 
+        $lParams = array('street_address' => 'Freedom 1 m. 2', 'location_type' => 'Home', 'name' => 'rodzinny', 'is_primary' => true);
+        crm_update_location($contact, 95, $lParams);
+
+        $lParams = array('street_address' => 'Warchlaka 1 m. 2', 'location_type' => 'Home', 'name' => 'private', 'is_primary' => true);
+        crm_update_location($contact, 94, $lParams);
+
         $locations =& crm_get_locations($contact, null);
         print '<h2>all</h2><pre>';
-        print_r($locations);
-        print '</pre>';
-
-        $locations =& crm_get_locations($contact, array('Home'));
-        print '<h2>Home</h2><pre>';
-        print_r($locations);
-        print '</pre>';
-
-        $locations =& crm_get_locations($contact, array('Work'));
-        print '<h2>Work</h2><pre>';
         print_r($locations);
         print '</pre>';
 

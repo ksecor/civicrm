@@ -111,39 +111,45 @@ function crm_create_location(&$contact, $params) {
  *  Update a specified location with the provided property values.
  * 
  *  @param  object  $contact        A valid Contact object (passed by reference).
- *  @param  string  $location_type  Valid label for location to be updated. 
+ *  @param  string  $location_id    Valid (db-level) id for location to be updated. 
  *  @param  Array   $params         Associative array of property name/value pairs to be updated
- *  @param  Array   $return_properties Which properties should be included in the returned updated location object
  *
  *  @return Location object with updated property values
  * 
  *  @access public
  *
  */
-function crm_update_location(&$contact, $location_type, $params) {
+function crm_update_location(&$contact, $location_id, $params) {
     _crm_initialize( );
-    
-    $locationTypeDAO = & new CRM_Core_DAO_LocationType();
-    $locationTypeDAO->name = $location_type;
-    $locationTypeDAO->find(true);
-    $locationTypeId = $locationTypeDAO->id;
-    if(! isset($locationTypeId) ) {
-        return _crm_error('$location_type is not valid one');
-    }
     
     if( ! isset( $contact->id ) ) {
         return _crm_error('$contact is not valid contact datatype');
     } 
-    
-    if( ! isset($location_type) ) {
-        return _crm_error('$location_type is not set');
+
+    $locationId = (int) $location_id;
+    if ($locationId == 0) {
+        return _crm_error('missing or invalid $location_id');
     }
+    
+    // $locationNumber is the contact-level number of the location (1, 2, 3, etc.)
+    $locationNumber = null;
+    $locations =& crm_get_locations($contact);
+    foreach ($locations as $locNumber => $locValue) {
+        if ($locValue->id == $locationId) {
+            $locationNumber = $locNumber;
+            break;
+        }
+    }
+    if (!$locationNumber) {
+        return _crm_error('invalid $location_id');
+    }
+    
     $values = array(
                     'contact_id'    => $contact->id,
-                    'location'      => array(1 => array()),
+                    'location'      => array($locationNumber => array()),
                     );
-    
-    $loc =& $values['location'][1];
+
+    $loc =& $values['location'][$locationNumber];
     
     $loc['address'] = array( );
     
@@ -151,7 +157,7 @@ function crm_update_location(&$contact, $location_type, $params) {
     $fields =& CRM_Core_DAO_Address::fields( );
     _crm_store_values($fields, $params, $loc['address']);
     //$ids = array( 'county', 'country_id', 'state_province_id', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
-    $ids = array( 'county', 'country_id', 'country', 'state_province_id', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
+    $ids = array( 'county', 'country_id', 'country', 'state_province_id', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name', 'street_address' );
     
     foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {
@@ -166,6 +172,25 @@ function crm_update_location(&$contact, $location_type, $params) {
     if (is_numeric($loc['address']['country'])) {
         $loc['address']['country']        = CRM_Core_PseudoConstant::countryIsoCode($loc['address']['country']);
     }
+
+    if (array_key_exists('location_type_id', $params)) {
+        $loc['location_type_id'] = $params['location_type_id'];
+    }
+
+    if (array_key_exists('location_type', $params)) {
+        $locTypes =& CRM_Core_PseudoConstant::locationType();
+        $loc['location_type_id'] = CRM_Utils_Array::key($params['location_type'], $locTypes);
+    }
+
+    if (array_key_exists('name', $params)) {
+        $loc['name'] = $params['name'];
+    }
+
+    if (array_key_exists('is_primary', $params)) {
+        $loc['is_primary'] = (int) $params['is_primary'];
+    }
+
+    $loc['id'] = $locationId;
     
     $blocks = array( 'Email', 'Phone', 'IM' );
     foreach ( $blocks as $block ) {
@@ -179,13 +204,12 @@ function crm_update_location(&$contact, $location_type, $params) {
         }
     }
     
-    $loc['location_type_id'] = $locationTypeId;
     $par = array('id' => $contact->id,'contact_id' => $contact->id);
     $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
     
     CRM_Contact_BAO_Contact::resolveDefaults($values, true);
     
-    $location = CRM_Core_BAO_Location::add($values, $ids, 1);
+    $location = CRM_Core_BAO_Location::add($values, $ids, $locationNumber);
     return $location;
 }
 
@@ -194,44 +218,53 @@ function crm_update_location(&$contact, $location_type, $params) {
  * Deletes a contact location.
  * 
  * @param object $contact        A valid Contact object (passed by reference).
- * @param string $location_type   Valid context name for location to be deleted.
+ * @param string $location_id    A valid location ID.
  *
- * @return  null, if successful. CRM error object, if 'contact' or 'location_type' is invalid, permissions are insufficient, etc.
+ * @return  null, if successful. CRM error object, if 'contact' or 'location_id' is invalid, permissions are insufficient, etc.
  *
  * @access public
  *
  */
-function crm_delete_location(&$contact,$location_type) {
+function crm_delete_location(&$contact, $location_id) {
     _crm_initialize( );
     
     if( ! isset( $contact->id ) ) {
         return _crm_error('$contact is not valid contact datatype');
     } 
     
-    if( ! isset($location_type) ) {
-        return _crm_error('$location_type is not set');
+    $locationId = (int) $location_id;
+    if ($locationId == 0) {
+        return _crm_error('missing or invalid $location_id');
     }
     
-    $locationTypeDAO = & new CRM_Core_DAO_LocationType();
-    $locationTypeDAO->name = $location_type;
-    $locationTypeDAO->find();
-    $locationTypeDAO->fetch();
-    $locationTypeId = $locationTypeDAO->id;
-    if(! isset($locationTypeId) ) {
-        return _crm_error('$location_type is not valid one');
+    $locationDAO =& new CRM_Core_DAO_Location();
+    $locationDAO->entity_table = 'civicrm_contact';
+    $locationDAO->entity_id    = $contact->id;
+    $locationDAO->id           = $locationId;
+    if (!$locationDAO->find()) {
+        return _crm_error('invalid $location_id');
     }
-    
-    $locationDAO = & new CRM_Core_DAO_Location();
-    $locationDAO->entity_id        = $contact->id;
-    $locationDAO->location_type_id = $locationTypeId;
-    $locationDAO->find();
     $locationDAO->fetch();
-    
-    $locationId = $locationDAO->id;
-    
+
     CRM_Core_BAO_Location::deleteLocationBlocks($locationId);
+    // if we're deleting primary, lets change another one to primary
+    if ($locationDAO->is_primary) {
+        $otherLocationDAO =& new CRM_Core_DAO_Location();
+        $otherLocationDAO->entity_table = 'civicrm_contact';
+        $otherLocationDAO->entity_id    = $contact->id;
+        $otherLocationDAO->whereAdd("id != $locationId");
+        $otherLocationDAO->orderBy('id');
+        if ($otherLocationDAO->find()) {
+            $otherLocationDAO->fetch();
+            $otherLocationDAO->is_primary = 1;
+            $otherLocationDAO->save();
+        }
+    }
+    $locationDAO->delete();
+
     return null;
 }
+
 /**
  * Returns array of location(s) for a contact
  * 
@@ -244,7 +277,6 @@ function crm_delete_location(&$contact,$location_type) {
  * @acces public
  *
  */
-
 function crm_get_locations(&$contact, $location_types = null) {
     _crm_initialize( );
     

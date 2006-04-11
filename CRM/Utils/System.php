@@ -86,6 +86,7 @@ class CRM_Utils_System {
                                                 'im'                 => 'IM',
                                                 'improvider'         => 'IMProvider',
                                                 'locationtype'       => 'LocationType',
+                                                'managepremiums'     => 'ManagePremiums',
                                                 'mapfield'           => 'MapField',
                                                 'mobileprovider'     => 'MobileProvider',
                                                 'pseudoconstant'     => 'PseudoConstant',
