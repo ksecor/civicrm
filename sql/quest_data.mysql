@@ -46,6 +46,7 @@ INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `i
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (28, 1, 'task_status', 'Status options for Task Status records', 1, 1);
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (29, 1, 'priority', 'Task priority values', 1, 1);
 INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (30, 1, 'task_type', 'Types of tasks', 1, 1);
+INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (31, 1, 'award_ranking', 'Please rank the scholarship awards you are interested in', 1, 1);
 
 -- 
 -- Dumping data for table `civicrm_option_value`
@@ -315,7 +316,7 @@ INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `g
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (263, 21, 'Harvey Mudd College (CA)', '12', NULL, 0, 12, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (264, 21, 'Howard University (DC)', '14', NULL, 0, 14, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (265, 21, 'Northwestern University (IL)', '15', NULL, 0, 15, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (266, 21, 'Oberlin College (OH)', '16', NULL, 0, 16, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (266, 21, 'Oberlin College (OH)', '16', 'class="partner_college"', 0, 16, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (267, 21, 'Pomona College (CA)', '17', 'class="partner_college"', 0, 17, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (268, 21, 'Princeton University (NJ)', '18', 'class="partner_college"', 0, 18, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (269, 21, 'Rice College (TX)', '19', 'class="partner_college"', 0, 19, NULL, 0, 0, 1);
@@ -373,6 +374,10 @@ INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `g
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (341, 7, 'Disabled', '21', NULL, 0, 21, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (342, 25, 'PACT', '6', NULL, 0, 6, NULL, 0, 0, 1);
 INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (343, 3, 'I don\'t plan to study', '5', NULL, 0, 5, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (344, 31, 'Full scholarships to college summer programs', '1', NULL, 0, 1, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (345, 31, 'Expense-paid college visits to our partner colleges', '2', NULL, 0, 2, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (346, 31, 'SAT prep courses and materials from the Princeton Review', '3', NULL, 0, 3, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (346, 31, 'New laptop computers (Intel-based with 512 MB RAM and a 40 GB hard drive)', '4', NULL, 0, 4, NULL, 0, 0, 1);
 
 --
 -- Dumping data for table `civicrm_group`  
