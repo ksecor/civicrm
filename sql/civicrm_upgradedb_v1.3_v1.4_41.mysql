@@ -283,3 +283,12 @@ CREATE TABLE civicrm_sms_history (
 
    UPDATE civicrm_state_province SET abbreviation = 'NH' WHERE id = 1028;
 
+
+
+-- /*******************************************************
+-- *
+-- * update the name of the Mexican state of Morelos
+-- *
+-- *******************************************************/
+
+   UPDATE civicrm_state_province SET name = 'Morelos' WHERE id = 3819;
