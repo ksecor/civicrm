@@ -182,6 +182,14 @@ function crm_update_location(&$contact, $location_id, $params) {
         $loc['location_type_id'] = CRM_Utils_Array::key($params['location_type'], $locTypes);
     }
 
+    if (array_key_exists('name', $params)) {
+        $loc['name'] = $params['name'];
+    }
+
+    if (array_key_exists('is_primary', $params)) {
+        $loc['is_primary'] = (int) $params['is_primary'];
+    }
+
     $loc['id'] = $locationId;
     
     $blocks = array( 'Email', 'Phone', 'IM' );

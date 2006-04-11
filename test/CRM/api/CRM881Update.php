@@ -34,9 +34,11 @@ class TestOfCRM881Update extends UnitTestCase
         $params    = array('contact_id' => '101');
         $contact   = crm_get_contact($params);
 
-        $lParams = array('street_address' => 'Freedom 1 m. 2', 'location_type' => 'Home');
-
+        $lParams = array('street_address' => 'Freedom 1 m. 2', 'location_type' => 'Home', 'name' => 'rodzinny', 'is_primary' => true);
         crm_update_location($contact, 95, $lParams);
+
+        $lParams = array('street_address' => 'Warchlaka 1 m. 2', 'location_type' => 'Home', 'name' => 'private', 'is_primary' => true);
+        crm_update_location($contact, 94, $lParams);
 
         $locations =& crm_get_locations($contact, null);
         print '<h2>all</h2><pre>';
