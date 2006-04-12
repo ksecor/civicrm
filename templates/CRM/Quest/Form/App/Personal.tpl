@@ -172,7 +172,6 @@
 <tr>
     <td class="grouplabel">
         {$form.ethnicity_id_1.label}
-        {ts}{hlp}Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list. Completion of this information is appreciated, but not required.{/hlp}{/ts}
     </td>
     <td class="fieldlabel">
         {$form.ethnicity_id_1.html}
@@ -181,6 +180,7 @@
             {$form.ethnicity_id_2.html}
             <span id="ethnicity_id_2[hide]">{hlp}{$ethnicity_id_2.hide}{/hlp}</span>
         </div>
+        {ts}{hlp}Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list. Completion of this information is appreciated, but not required.{/hlp}{/ts}
     </td>
 </tr>
 <tr>
