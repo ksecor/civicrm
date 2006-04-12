@@ -45,7 +45,7 @@
               &nbsp;&nbsp;<IMG SRC="themes/quest/green_box.gif" WIDTH="8" HEIGHT="8"> Section not completed<BR>&nbsp;&nbsp;&nbsp;&nbsp;or section has error(s)
             </div>
 	    </td>
-          {/if}
+        {/if}
         <!--begin main right cell that contains the application-->
         <td valign=top class="rightside">
         {include file="CRM/common/status.tpl"}
@@ -53,7 +53,7 @@
 {/if}
 
 {if $context EQ 'end'}
-  {if $superAction != 1024}
+  {if ! ( $action & 1024 )}
     <div class="crm-submit-buttons">
         {$form.buttons.html}
     </div>
@@ -61,7 +61,7 @@
     </td>
     </tr>
     </table>
-  {if $superAction != 1024}
+  {if ! ( $action & 1024 )}
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
            <td class="preapp-message" colspan=2>
