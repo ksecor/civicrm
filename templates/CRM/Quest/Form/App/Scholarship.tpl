@@ -51,6 +51,16 @@
     {ts}{hlp}Rank the top 3 awards you are interested in receiving, if you are awarded the scholarship.{/hlp}{/ts} 
     </td>
 </tr>
+<tr>
+    <td class="grouplabel"> {ts}List 3 sophmores that would be ideal candidates for the QuestBridge 2007 application.{/ts}</td>
+    <td class="fieldlabel"> {$form.sophomores_name_1.label} &nbsp;{$form.sophomores_name_1.html} &nbsp;
+			    {$form.sophomores_email_1.label} &nbsp;{$form.sophomores_email_1.html} <br/>
+			    {$form.sophomores_name_2.label} &nbsp;{$form.sophomores_name_2.html} &nbsp;
+			    {$form.sophomores_email_2.label} &nbsp;{$form.sophomores_email_2.html} <br/>
+			    {$form.sophomores_name_3.label} &nbsp;{$form.sophomores_name_3.html} &nbsp;
+			    {$form.sophomores_email_3.label} &nbsp;{$form.sophomores_email_3.html} <br/>
+    </td>
+</tr>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 

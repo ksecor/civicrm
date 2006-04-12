@@ -45,6 +45,7 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
 {
+    static $_referralIDs;
     /**
      * Function to set variables up before form is built
      *
@@ -54,6 +55,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
+        $this->_referralIDs = array();
     }
     
     
@@ -71,6 +73,19 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
         $params = array( 'contact_id' => $this->_contactID );
         $ids = array( );
         CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
+
+        require_once 'CRM/Quest/DAO/Referral.php';
+        $dao = & new CRM_Quest_DAO_Referral();
+        $dao->contact_id = $this->_contactID;
+        $dao->find();
+        $count = 0;
+        while ( $dao->fetch() ) {
+            $count++;
+            $defaults["sophomores_name_$count"] = $dao->name;
+            $defaults["sophomores_email_$count"] = $dao->email;
+            $this->_referralIDs[] = $dao->id;
+        }
+        
         return $defaults;
     }
     
@@ -124,7 +139,13 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
                               array('' => ts('- select -')) + CRM_Core_OptionGroup::values( 'award_ranking' )
                               );
        }
-        $this->addFormRule(array('CRM_Quest_Form_App_Scholarship', 'formRule'));
+
+       for($i=1;$i<=3;$i++) {
+           $this->addElement('text', 'sophomores_name_'.$i, ts('Name:'), null );
+           $this->addElement('text', 'sophomores_email_'.$i, ts('Email:'), null );
+       }
+       
+       $this->addFormRule(array('CRM_Quest_Form_App_Scholarship', 'formRule'));
         
         parent::buildQuickForm();
     }//end of function
@@ -140,7 +161,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
      * @static
      */
     public function formRule(&$params) {
-        
+
         $errors = array( );
         if ( $params['internet_access_id'] == 23 && $params['internet_access_other'] == '') {
             $errors["internet_access_other"] = "Please describe your other method for accessing the internet.";
@@ -158,12 +179,33 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
+        require_once 'CRM/Quest/BAO/Referral.php';
+
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
             
             $ids = array( 'id'         => $this->_studentID,
                           'contact_id' => $this->_contactID );
             $student = CRM_Quest_BAO_Student::create( $params, $ids);
+
+            if ( is_array($this->_referralIDs) ) {
+                foreach ( $this->_referralIDs as $key => $referralID ) {
+                    $dao     = & new CRM_Quest_DAO_Referral();
+                    $dao->id = $referralID;
+                    $dao->delete();
+                }
+            }
+            
+            for ($i=1;$i<=3;$i++) {  
+                $ids = array();
+                $referralParams = array();
+                $referralParams['contact_id'] = $this->_contactID;
+                if ($params['sophomores_name_'.$i] || $params['sophomores_email_'.$i]) {
+                    $referralParams['name'] = $params['sophomores_name_'.$i];
+                    $referralParams['email'] = $params['sophomores_email_'.$i];
+                    $referral = CRM_Quest_BAO_Referral::create( $referralParams, $ids );
+                }
+            }
         }
         parent::postProcess( );
     }//end of function
