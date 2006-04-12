@@ -31,12 +31,12 @@ Please enter income information for all individuals who contribute financially t
         <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel" width="70%">
         {$form.first_name.html}<br />
-        {hlp}{$form.first_name.label}{/hlp}</td>
+        {edit}{$form.first_name.label}{/edit}</td>
 </tr>
 <tr>
     <td class="fieldlabel">
         {$form.last_name.html}<br />
-        {hlp}{$form.last_name.label}{/hlp}</td>
+        {edit}{$form.last_name.label}{/edit}</td>
 </tr>
 <tr><td colspan=2>
 {section name=rowLoop start=1 loop=$maxIncome}
@@ -55,7 +55,7 @@ Please enter income information for all individuals who contribute financially t
     </tr>
        {assign var=amount value="amount_"|cat:$i}
        <td class="grouplabel">{$form.$amount.label}</td>
-       <td class="fieldlabel">{$form.$amount.html}<BR>{ts}{hlp}ONLY enter the US dollars amount (e.g: 10000). DO NOT enter decimal amount. For currency exchange rates <a href="http://finance.yahoo.com/currency" target="_blank">click here</a>{/hlp}{/ts}</td>
+       <td class="fieldlabel">{$form.$amount.html}<BR>{ts}{edit}ONLY enter the US dollars amount (e.g: 10000). DO NOT enter decimal amount. For currency exchange rates <a href="http://finance.yahoo.com/currency" target="_blank">click here</a>{/edit}{/ts}</td>
     </tr>
     {if $i LT ($maxIncome-1)}
         {assign var=j value=$i+1}

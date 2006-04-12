@@ -12,7 +12,7 @@
 <tr id="internet_access_other">
      <td class="grouplabel">&nbsp;</td>
      <td class="fieldlabel">{$form.internet_access_other.html}<br />
-        {ts}{hlp}Describe your primary internet access method.{/hlp}{/ts}
+        {ts}{edit}Describe your primary internet access method.{/edit}{/ts}
     </td>
 </tr>
 <tr>
@@ -48,17 +48,15 @@
     <td class="fieldlabel"> {$form.award_ranking_1_id.html}<br/>
     {$form.award_ranking_2_id.html}<br/>
     {$form.award_ranking_3_id.html}<br/>
-    {ts}{hlp}Rank the top 3 awards you are interested in receiving, if you are awarded the scholarship.{/hlp}{/ts} 
+    {ts}{edit}Rank the top 3 awards you are interested in receiving, if you are awarded the scholarship.{/edit}{/ts} 
     </td>
 </tr>
 <tr>
     <td class="grouplabel"> {ts}List 3 sophmores that would be ideal candidates for the QuestBridge 2007 application.{/ts}</td>
-    <td class="fieldlabel"> {$form.sophomores_name_1.label} &nbsp;{$form.sophomores_name_1.html} &nbsp;
-			    {$form.sophomores_email_1.label} &nbsp;{$form.sophomores_email_1.html} <br/>
-			    {$form.sophomores_name_2.label} &nbsp;{$form.sophomores_name_2.html} &nbsp;
-			    {$form.sophomores_email_2.label} &nbsp;{$form.sophomores_email_2.html} <br/>
-			    {$form.sophomores_name_3.label} &nbsp;{$form.sophomores_name_3.html} &nbsp;
-			    {$form.sophomores_email_3.label} &nbsp;{$form.sophomores_email_3.html} <br/>
+    <td class="fieldlabel" nowrap> 
+            {$form.sophomores_name_1.label}&nbsp;{$form.sophomores_name_1.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_1.label}&nbsp;{$form.sophomores_email_1.html}&nbsp;<br/>
+            {$form.sophomores_name_2.label}&nbsp;{$form.sophomores_name_2.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_2.label}&nbsp;{$form.sophomores_email_2.html}&nbsp;<br/>
+            {$form.sophomores_name_3.label}&nbsp;{$form.sophomores_name_3.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_3.label}&nbsp;{$form.sophomores_email_3.html}&nbsp;<br/>
     </td>
 </tr>
 </table>

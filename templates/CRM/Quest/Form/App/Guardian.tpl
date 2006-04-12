@@ -11,12 +11,12 @@
         <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel" width="70%">
         {$form.first_name.html}<br />
-        {hlp}{$form.first_name.label}{/hlp}</td>
+        {edit}{$form.first_name.label}{/edit}</td>
 </tr>
 <tr>
     <td class="fieldlabel">
         {$form.last_name.html}<br />
-        {hlp}{$form.last_name.label}{/hlp}</td>
+        {edit}{$form.last_name.label}{/edit}</td>
 </tr> 
 <tr>
     <td class="grouplabel">{$form.marital_status_id.label}</td>
@@ -37,12 +37,12 @@
 <tr>
     <td class="grouplabel">{$form.birth_date.label} <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.birth_date.html}
-{hlp}
+{edit}
      <div class="description"> 
         {include file="CRM/common/calendar/desc.tpl"}
      </div>
         {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear}
-{/hlp}
+{/edit}
     </td>
 </tr>
 <tr>

@@ -25,7 +25,7 @@
     <td class="grouplabel">{$form.$custom_1.label}</td>
     <td class="fieldlabel">
         {$form.$custom_1.html|crmReplace:class:six}<br />
-        <a href="javascript:popUp('http://questscholars.stanford.edu/help_popup/ceeb.html')">{ts}{hlp}Click here</a> to locate your CEEB school code.{/hlp}{/ts}
+        <a href="javascript:popUp('http://questscholars.stanford.edu/help_popup/ceeb.html')">{ts}{edit}Click here</a> to locate your CEEB school code.{/edit}{/ts}
     </td>
 </tr>
 <tr>
@@ -38,20 +38,20 @@
     {assign var=location value="location_"|cat:$i}
     <td class="grouplabel" rowspan="5"><label>{ts}School Address{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.$location.1.address.street_address.html}<br />
-         {ts}{hlp}Number and Street (including apartment number){/hlp}{/ts}</td>
+         {ts}{edit}Number and Street (including apartment number){/edit}{/ts}</td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.$location.1.address.city.html}<br/>{ts}{hlp}City{/hlp}{/ts}</td>
+    <td class="fieldlabel">{$form.$location.1.address.city.html}<br/>{ts}{edit}City{/edit}{/ts}</td>
 </tr>
 <tr>
-   <td class="fieldlabel">{$form.$location.1.address.state_province_id.html}<br/>{ts}{hlp}State or Province{/hlp}{/ts}</td>
+   <td class="fieldlabel">{$form.$location.1.address.state_province_id.html}<br/>{ts}{edit}State or Province{/edit}{/ts}</td>
 </tr>
 <tr>
    <td class="fieldlabel">{$form.$location.1.address.postal_code.html} - {$form.$location.1.address.postal_code_suffix.html}<br />
-        {ts}{hlp}USA Zip Code (Zip Plus 4 if available) OR International Postal Code{/hlp}{/ts}</td>
+        {ts}{edit}USA Zip Code (Zip Plus 4 if available) OR International Postal Code{/edit}{/ts}</td>
 </tr>
 <tr>
-   <td class="fieldlabel">{$form.$location.1.address.country_id.html}<br />{ts}{hlp}Country{/hlp}{/ts}</td>
+   <td class="fieldlabel">{$form.$location.1.address.country_id.html}<br />{ts}{edit}Country{/edit}{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.$location.1.phone.1.phone.label}</td>

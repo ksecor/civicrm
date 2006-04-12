@@ -209,7 +209,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     if ( $name == 'Composite') {
                         $this->addRule( $testName . '_' . strtolower( $name ), ts( strtolower( $name ).' score not valid.'),'numeric');
                     } else {
-                        $this->addRule( $testName . '_' . strtolower( $name ), ts( strtolower( $name ).' score not valid.'),'integer');
+                        $this->addRule( $testName . '_' . strtolower( $name ), ts( strtoupper( $testName ).' '.$name.' score must be a whole number.'),'integer');
                     }
                 }
             }
