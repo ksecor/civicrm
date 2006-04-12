@@ -256,9 +256,9 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
                                         'collapsed'  => $collapsed );
 
             if ( $name == $currentPageName ) {
-                $wizard['currentStepNumber'] = $stepNumber;
-                $wizard['currentStepName']   = $name;
-                $wizard['currentStepTitle']  = $page->getTitle( );
+                $wizard['currentStepNumber']    = $stepNumber;
+                $wizard['currentStepName']      = $name;
+                $wizard['currentStepTitle']     = $page->getTitle( );
                 $wizard['currentStepRootTitle'] = null;
             }
         }
@@ -317,18 +317,18 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         // lets switch to print mode
         $this->_print = true;
         
-        // also set the current superAction to preview
-        $this->assign( 'superAction', CRM_Core_Action::PREVIEW );
         // we need to run each form and display it
         $pageNames = array_keys( $this->_pages );
         $html = '';
         foreach ( $pageNames as $name ) {
             // build the form and then display it
-            $this->_pages[$name]->setAction( CRM_Core_Action::VIEW );
+            $this->_pages[$name]->setAction( CRM_Core_Action::VIEW | CRM_Core_Action::PREVIEW );
             $this->_pages[$name]->buildForm( );
+            $this->wizardHeader( $name );
 
             $formHtml = $this->_pages[$name]->handle( 'display' );
             $html .= $formHtml;
+            break;
         }
 
         return $html;

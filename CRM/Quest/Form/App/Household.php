@@ -235,8 +235,8 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     { 
-        if ($this->_action !=  CRM_Core_Action::VIEW ) {
-            // get all the relevant details so we can decide the detailed information we need
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) { 
+           // get all the relevant details so we can decide the detailed information we need
             $params  = $this->controller->exportValues( $this->_name );
             $relationship = CRM_Core_OptionGroup::values( 'relationship' );
 

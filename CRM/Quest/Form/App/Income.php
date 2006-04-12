@@ -196,7 +196,7 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     {
-        if ($this->_action !=  CRM_Core_Action::VIEW ) {
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             // check if the delete button has been submitted
             $buttonName = $this->controller->getButtonName( );
             if ( $buttonName == $this->_deleteButtonName ) {

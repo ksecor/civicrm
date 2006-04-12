@@ -46,7 +46,7 @@ class CRM_Quest_Menu {
                              'path'    => 'civicrm/quest/preapp', 
                              'qs'      => 'reset=1',
                              'title'   => ts( 'Quest PreApplication Form' ), 
-                             'access'  => true,
+                             'access'  => CRM_Utils_System::checkPermission( 'access Quest Pre-Application' ),
                              'type'    => CRM_Utils_Menu::CALLBACK,  
                              'crmType' => CRM_Utils_Menu::CALLBACK,
                              'weight'  => 0, 

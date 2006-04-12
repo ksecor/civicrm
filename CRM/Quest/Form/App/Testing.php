@@ -72,92 +72,102 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
-        $defaults   = array( );
-        require_once 'CRM/Utils/Date.php';
+        static $defaults   = null;
 
-        $this->_testIDs = array();
-        $testTypes  = CRM_Core_OptionGroup::values( 'test');
-        //$testTypes  = array_flip($testTypes);
-        $testSet1 = array('act','psat','sat','pact');
+        // to fix the view tempalte, we call this from
+        // buildQF during view, hence we cache the result
+        // and do all the db intensive work only once
+        if ( ! $defaults ) {
+            $defaults = array( );
+            require_once 'CRM/Utils/Date.php';
 
-
-        $dao = & new CRM_Quest_DAO_Test();
-        $dao->contact_id = $this->_contactID;
-        $dao->find();
-        while( $dao->fetch() ) {
-            if( in_array(strtolower($testTypes[$dao->test_id]),$testSet1 )) {
-                $this->_testIDs[strtolower($testTypes[$dao->test_id])] = $dao->id;
-            } else if ( $testTypes[$dao->test_id] == 'SAT II' ){
-                $count = count($this->_testIDs['satII']) + 1;
-                $this->_testIDs['satII'][$count] = $dao->id;
-            } else {
-                $count = count($this->_testIDs['ap']) + 1;
-                $this->_testIDs['ap'][$count] = $dao->id;
-            }
-        }
+            $this->_testIDs = array();
             
-        
-        //set the default values
-        $subject = array('english','reading','criticalReading','writing','math','science');
-        foreach ($this->_testIDs as $test => $value ) {
-            if ( ! is_array($value) ) {
-                $dao = & new CRM_Quest_DAO_Test();
-                $dao->id = $value;
-                $dao->find(true);
-                foreach ( $subject as $sub ) {
-                    $field = "score_$sub";
-                    $defaults["{$test}_$sub"] = $dao->$field;
-                    if ( $sub == 'criticalReading' ) {
-                        $defaults["{$test}_criticalreading"] = $dao->score_reading;
-                    }
+            $testTypes  = CRM_Core_OptionGroup::values( 'test');
+            $testSet1 = array('act','psat','sat','pact');
+            
+            
+            $dao = & new CRM_Quest_DAO_Test();
+            $dao->contact_id = $this->_contactID;
+            $dao->find();
+            while( $dao->fetch() ) {
+                if( in_array(strtolower($testTypes[$dao->test_id]),$testSet1 )) {
+                    $this->_testIDs[strtolower($testTypes[$dao->test_id])] = $dao->id;
+                } else if ( $testTypes[$dao->test_id] == 'SAT II' ){
+                    $count = count($this->_testIDs['satII']) + 1;
+                    $this->_testIDs['satII'][$count] = $dao->id;
+                } else {
+                    $count = count($this->_testIDs['ap']) + 1;
+                    $this->_testIDs['ap'][$count] = $dao->id;
                 }
-                $defaults["{$test}_date"] = CRM_Utils_Date::unformat( $dao->test_date , '-' );
-            } else {
-                foreach ( $value as $k => $v ) {
+            }
+            
+            
+            //set the default values
+            $subject = array('english','reading','criticalReading','writing','math','science');
+            foreach ($this->_testIDs as $test => $value ) {
+                if ( ! is_array($value) ) {
                     $dao = & new CRM_Quest_DAO_Test();
-                    $dao->id = $v;
+                    $dao->id = $value;
                     $dao->find(true);
-                    $defaults["{$test}_subject_id_$k"] = $dao->subject;
-                    if ( $test != 'ap') {
-                        $defaults["{$test}_score_$k"]   = $dao->score_composite;
-                    } else {
-                        $defaults["{$test}_score_id_$k"]   = $dao->score_composite;
+                    foreach ( $subject as $sub ) {
+                        $field = "score_$sub";
+                        $defaults["{$test}_$sub"] = $dao->$field;
+                        if ( $sub == 'criticalReading' ) {
+                            $defaults["{$test}_criticalreading"] = $dao->score_reading;
+                        }
                     }
-                    $defaults["{$test}_date_$k"]    = CRM_Utils_Date::unformat( $dao->test_date , '-' );
+                    $defaults["{$test}_date"] = CRM_Utils_Date::unformat( $dao->test_date , '-' );
+                } else {
+                    foreach ( $value as $k => $v ) {
+                        $dao = & new CRM_Quest_DAO_Test();
+                        $dao->id = $v;
+                        $dao->find(true);
+                        $defaults["{$test}_subject_id_$k"] = $dao->subject;
+                        if ( $test != 'ap') {
+                            $defaults["{$test}_score_$k"]   = $dao->score_composite;
+                        } else {
+                            $defaults["{$test}_score_id_$k"]   = $dao->score_composite;
+                        }
+                        $defaults["{$test}_date_$k"]    = CRM_Utils_Date::unformat( $dao->test_date , '-' );
+                    }
                 }
             }
-        }
-        require_once 'CRM/Quest/DAO/Student.php';
-        $studDAO = & new CRM_Quest_DAO_Student();
-        $studDAO->contact_id =$this->_contactID;
-        $studDAO->find(true);
-        if ( $studDAO->test_tutoring ) {
-            $selected = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$studDAO->test_tutoring);
-            foreach ($selected as $val ) {
-                $defSeleted[$val] = 1;
+            
+            require_once 'CRM/Quest/DAO/Student.php';
+            $studDAO = & new CRM_Quest_DAO_Student();
+            $studDAO->contact_id =$this->_contactID;
+            $studDAO->find(true);
+            if ( $studDAO->test_tutoring ) {
+                $selected = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$studDAO->test_tutoring);
+                foreach ($selected as $val ) {
+                    $defSeleted[$val] = 1;
+                }
+                $defaults['test_tutoring']    = $defSeleted;
+                $defaults['is_test_tutoring'] = 1;
             }
-            $defaults['test_tutoring']    = $defSeleted;
-            $defaults['is_test_tutoring'] = 1;
-        }
-
-        // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-        for ( $i = 2; $i <= 5; $i++ ) {
-            if ( CRM_Utils_Array::value( "satII_score_$i", $defaults )) {
-                $this->_showHide->addShow( "satII_test_$i" );
-            } else {
-                $this->_showHide->addHide( "satII_test_$i" );
+            
+            if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+                // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
+                $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+                for ( $i = 2; $i <= 5; $i++ ) {
+                    if ( CRM_Utils_Array::value( "satII_score_$i", $defaults )) {
+                        $this->_showHide->addShow( "satII_test_$i" );
+                    } else {
+                        $this->_showHide->addHide( "satII_test_$i" );
+                    }
+                }
+                for ( $i = 2; $i <= 32; $i++ ) {
+                    if ( CRM_Utils_Array::value( "ap_score_$i", $defaults )) {
+                        $this->_showHide->addShow( "ap_test_$i" );
+                    } else {
+                        $this->_showHide->addHide( "ap_test_$i" );
+                    }
+                }
+            
+                $this->_showHide->addToTemplate( );
             }
         }
-        for ( $i = 2; $i <= 32; $i++ ) {
-            if ( CRM_Utils_Array::value( "ap_score_$i", $defaults )) {
-                $this->_showHide->addShow( "ap_test_$i" );
-            } else {
-                $this->_showHide->addHide( "ap_test_$i" );
-            }
-        }
-
-        $this->_showHide->addToTemplate( );
         return $defaults;
     }
     
@@ -210,10 +220,29 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                               CRM_Core_SelectValues::date( 'custom', 1, 0, "M\001Y" ) );
         }
 
+        $maxSatIITests = 5;
+        $maxAPTests    = 32;
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+            $defaults = $this->setDefaultValues( );
+            $maxSatIITests = 1;
+            for ( $i = 2; $i <= 5; $i++ ) {
+                if ( CRM_Utils_Array::value( "satII_score_$i", $defaults )) {
+                    $maxSatIITests++;
+                }
+            }
+            
+            $maxAPTests = 1;
+            for ( $i = 2; $i <= 32; $i++ ) {
+                if ( CRM_Utils_Array::value( "ap_score_$i", $defaults )) {
+                    $maxAPTests++;
+                }
+            }
+        }
+
         require_once 'CRM/Core/ShowHideBlocks.php';
         // add 5 Sat II tests
         $satII_test = array( );
-        for ( $i = 1; $i <= 5; $i++ ) {
+        for ( $i = 1; $i <= $maxSatIITests; $i++ ) {
             $this->addSelect( 'satII_subject',
                                ts( 'Subject' ),
                               "_$i" );
@@ -225,35 +254,38 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $this->addElement('date', 'satII_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
-            $satII_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"satII_test_$i",
-                                                           ts('Add another SAT II test score'),
-                                                           ts('Hide this SAT II test'),
-                                                           false );
+            if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+                $satII_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"satII_test_$i",
+                                                                  ts('Add another SAT II test score'),
+                                                                  ts('Hide this SAT II test'),
+                                                                  false );
+            }
         }
         $this->assign( 'satII_test', $satII_test );
+        $this->assign( 'maxSAT', $maxSatIITests + 1 );
 
         // add 32 AP test
         $ap_test = array( );
-        for ( $i = 1; $i <= 32; $i++ ) {
+        for ( $i = 1; $i <= $maxAPTests; $i++ ) {
             $this->addSelect( 'ap_subject',
                                ts( 'Subject' ),
                               "_$i" );
-            //  $this->addElement( 'text',
-            //        'ap_score_' . $i,
-                                   //            ts( 'Score' ),
-            //    $attributes['score_english'] );
+
             $this->addSelect( 'ap_score' , ts( 'Score' ), "_$i" );
- 
             $this->addRule( 'ap_score_id_' . $i, ts( 'AP Test score not valid.'),'integer');
             $this->addElement('date', 'ap_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
-            $ap_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"ap_test_$i",
-                                                           ts('add another AP test score'),
-                                                           ts('hide this AP test'),
-                                                           false );
+            if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+                $ap_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"ap_test_$i",
+                                                               ts('add another AP test score'),
+                                                               ts('hide this AP test'),
+                                                               false );
+            }
+
         }
         $this->assign( 'ap_test', $ap_test );
+        $this->assign( 'maxAP', $maxAPTests + 1 );
 
         $this->addYesNo( 'is_test_tutoring',
                          ts( 'Have you received tutoring or taken test prep classes for any of the standardized tests above?' ) );
@@ -347,7 +379,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-        if ($this->_action !=  CRM_Core_Action::VIEW ) {
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
             
             $testSet1 = array('act','psat','sat','pact');

@@ -234,7 +234,7 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     {
-        if ($this->_action !=  CRM_Core_Action::VIEW ) {
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params  = $this->controller->exportValues( $this->_name );
             
             $params['relationship_id'] = $this->_relationshipID;

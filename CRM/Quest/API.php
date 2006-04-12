@@ -79,7 +79,9 @@ class CRM_Quest_API {
 
         $task =& self::getTaskStatus( $id );
         if ( ! $task ) {
-            return null;
+            $result = array( );
+            $result['status'] = ts( 'Not Started' );
+            return $result;
         }
 
         require_once 'CRM/Core/OptionGroup.php';

@@ -4,12 +4,12 @@
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
 
 {if $context EQ 'begin'}
-  {if $superAction != 1024}
+  {if ! ( $action & 1024 ) }
     <div id="preapp-content">
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
             <td class="greeting">
-            	Welcome,&nbsp;{$welcome_name}</td>
+            	Welcome,&nbsp;{$welcome_name} {$action}</td>
             <td class="save">
             <div class="crm-submit-buttons">
                 {$form.buttons.html}
@@ -27,7 +27,7 @@
    {/if}
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
-          {if $superAction != 1024}
+          {if ! ( $action & 1024 )}
             <td valign=top nowrap id="preapp-left-nav">
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
             {include file="CRM/WizardHeader.tpl}
@@ -72,8 +72,6 @@
     </table>
   {/if}
     </div>
-  {if $superAction != 1024}
     {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
     {include file="CRM/common/showHide.tpl"}
-  {/if}
 {/if}
