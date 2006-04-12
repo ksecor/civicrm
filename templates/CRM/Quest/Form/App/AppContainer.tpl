@@ -42,7 +42,7 @@
             </div>
             <div id="help-box">
               <strong>Navigation Color Guide</strong><br />
-              &nbsp;&nbsp;<IMG SRC="/images/green_box.gif" WIDTH="8" HEIGHT="8"> Section not completed<BR>&nbsp;&nbsp;&nbsp;&nbsp;or section has error(s)
+              &nbsp;&nbsp;<IMG SRC="http://questbridge.org/images/green_box.gif" WIDTH="8" HEIGHT="8"> Section not completed<BR>&nbsp;&nbsp;&nbsp;&nbsp;or section has error(s)
             </div>
 	    </td>
           {/if}
