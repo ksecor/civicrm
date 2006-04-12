@@ -56,6 +56,7 @@ class CRM_Utils_System {
                                                 'addtohousehold'     => 'AddToHousehold',
                                                 'addtoorganization'  => 'AddToOrganization',
                                                 'addtotag'           => 'AddToTag',
+                                                'addproduct'         => 'AddProduct',
                                                 'api'                => 'API',
                                                 'at'                 => 'AT',
                                                 'activitytype'       => 'ActivityType',

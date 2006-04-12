@@ -438,7 +438,10 @@ class CRM_Core_PseudoConstant {
             $limitIds = array();
             foreach ($limitCodes as $code) {
                 $tmpArray   = array_keys($countryIsoCodes, $code);
-                $limitIds[] = array_shift($tmpArray);
+
+                if (!empty($tmpArray)) {
+                    $limitIds[] = array_shift($tmpArray);
+                }
             }
             $whereClause = 'country_id IN (' . implode(', ', $limitIds) . ')';
 

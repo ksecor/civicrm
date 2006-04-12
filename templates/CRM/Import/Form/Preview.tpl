@@ -99,7 +99,7 @@
 </div>
 
 <div id="tag" class="data-group">
-    <a href="#" onclick="hide('tag'); show('tag[show]'); return false;">&raquo; <label>{ts}Tag imported contact(s){/ts}</label></a> 
+    <a href="#" onclick="hide('tag'); show('tag[show]'); return false;">&raquo; <label>{ts}Tag imported contact(s){/ts}</label></a>
     <dl>
         <dt></dt><dd class="listing-box" style="margin-bottom: 0em; width: 15em;">
         {foreach from=$form.tag item="tag_val"} 
