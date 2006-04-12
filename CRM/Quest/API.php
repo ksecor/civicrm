@@ -52,7 +52,7 @@ class CRM_Quest_API {
         require_once 'CRM/Project/DAO/TaskStatus.php';
         $dao =& new CRM_Project_DAO_TaskStatus( );
         $dao->responsible_entity_table = 'civicrm_contact';
-        $dao->responsible_entity_id    = $cid;
+        $dao->responsible_entity_id    = $id;
         $dao->task_id                  = 2;
         
         if ( $dao->find( true ) ) {

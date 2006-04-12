@@ -50,7 +50,6 @@
 function smarty_block_edit($params, $text, &$smarty)
 {
     $action = $smarty->_tpl_vars['action'];
-    CRM_Core_Error::debug($action, $text);
     return ( $action & 3 ) ? $text : null;
 }
 
