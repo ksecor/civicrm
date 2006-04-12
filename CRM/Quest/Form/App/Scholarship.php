@@ -143,6 +143,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
        for($i=1;$i<=3;$i++) {
            $this->addElement('text', 'sophomores_name_'.$i, ts('Name:'), null );
            $this->addElement('text', 'sophomores_email_'.$i, ts('Email:'), null );
+           $this->addRule('sophomores_email_'.$i, ts('Email not valid'), 'email' );
        }
        
        $this->addFormRule(array('CRM_Quest_Form_App_Scholarship', 'formRule'));
