@@ -94,7 +94,7 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
         // primary method to access internet
         $this->add('textarea',
                    'essay',
-                   ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
+                   ts( 'List and describe the factors in your life that have most shaped you (3000 characters max).' ),
                    array("onkeyup" => "countit();") + $attributes['essay'],
                    true);
         
