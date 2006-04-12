@@ -26,7 +26,10 @@
 */
 
 /**
- * CiviCRM's Smarty help plugin
+ * CiviCRM's Smarty edit-block plugin
+ *
+ * Template elements tagged {edit}...{/edit} are hidden unless action is create
+ * or update (this facilitates using form templates for read-only display).
  *
  * @package CRM
  * @author Piotr Szotkowski <shot@caltha.pl>
@@ -36,18 +39,19 @@
  */
 
 /** 
- * Smarty block function providing help display support
+ * Smarty block function providing edit-only display support
  *
  * @param array $params   template call's parameters
- * @param string $text    {ts} block contents from the template
+ * @param string $text    {edit} block contents from the template
  * @param object $smarty  the Smarty object
  *
  * @return string  the string, translated by gettext
  */
-function smarty_block_hlp($params, $text, &$smarty)
+function smarty_block_edit($params, $text, &$smarty)
 {
     $action = $smarty->_tpl_vars['action'];
-    return ( $action == 1 || $action == 2 ) ? $text : null;
+    CRM_Core_Error::debug($action, $text);
+    return ( $action & 3 ) ? $text : null;
 }
 
 ?>
