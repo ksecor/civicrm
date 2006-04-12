@@ -217,7 +217,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             // add the date field
             $this->addElement('date', $testName . '_date',
                               ts( 'Date Taken (month/year)' ),
-                              CRM_Core_SelectValues::date( 'custom', 1, 0, "M\001Y" ) );
+                              CRM_Core_SelectValues::date( 'custom', 6, 0, "M\001Y" ) );
         }
 
         $maxSatIITests = 5;
@@ -253,7 +253,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $this->addRule( 'satII_score_' . $i, ts( 'SAT II score not valid.'),'integer');
             $this->addElement('date', 'satII_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
-                              CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
+                              CRM_Core_SelectValues::date( 'custom', 6, 0, "M\001Y" ) );
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
                 $satII_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"satII_test_$i",
                                                                   ts('Add another SAT II test score'),
@@ -275,7 +275,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             $this->addRule( 'ap_score_id_' . $i, ts( 'AP Test score not valid.'),'integer');
             $this->addElement('date', 'ap_date_' . $i,
                               ts( 'Date Taken (month/year)' ),
-                              CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
+                              CRM_Core_SelectValues::date( 'custom', 6, 0, "M\001Y" ) );
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
                 $ap_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"ap_test_$i",
                                                                ts('add another AP test score'),
