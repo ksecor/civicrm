@@ -317,21 +317,37 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         // lets switch to print mode
         $this->_print = true;
         
+        // cache a display object
+        $display =& new CRM_Core_QuickForm_Action_Display( $this->_stateMachine );
+
         // we need to run each form and display it
         $pageNames = array_keys( $this->_pages );
-        $html = '';
+        $html = array( );
         foreach ( $pageNames as $name ) {
             // build the form and then display it
             $this->_pages[$name]->setAction( CRM_Core_Action::VIEW | CRM_Core_Action::PREVIEW );
             $this->_pages[$name]->buildForm( );
             $this->wizardHeader( $name );
+            $title = $this->_pages[$name]->getCompleteTitle( );
 
-            $formHtml = $this->_pages[$name]->handle( 'display' );
-            $html .= $formHtml;
-            break;
+            $html[$title] = $display->renderForm( $this->_pages[$name], true );
         }
 
-        return $html;
+        CRM_Core_Controller::$_template->assign( 'pageTitle', '2006 College Prep Scholarship Application' );
+        CRM_Core_Controller::$_template->assign_by_ref( 'pageHTML', $html );
+
+        echo CRM_Core_Controller::$_template->fetch( "CRM/Quest/Page/View/Preview.tpl" );
+        exit( );
+    }
+
+    function getTemplateFile( ) {
+        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+            return 'CRM/common/printBody.tpl';
+        } else if ( $this->getPrint( ) ) {
+            return 'CRM/common/print.tpl';
+        } else {
+            return 'CRM/index.tpl';
+        }
     }
 
 }

@@ -9,7 +9,7 @@
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
             <td class="greeting">
-            	Welcome,&nbsp;{$welcome_name} {$action}</td>
+            	Welcome,&nbsp;{$welcome_name}</td>
             <td class="save">
             <div class="crm-submit-buttons">
                 {$form.buttons.html}

@@ -25,7 +25,7 @@
 <div id="crm-container">
 
 {foreach from=$pageHTML key=pageTitle item=page}
-    {include file=$page}
+    {$page}
     <hr size=1 noshade>
 {/foreach}
 

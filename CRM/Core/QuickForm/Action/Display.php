@@ -102,8 +102,7 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
             $page->validate();
         }
 
-        $f = $this->_renderForm($page);
-        return $f;
+        return $this->renderForm($page);
     }
 
     /**
@@ -111,11 +110,12 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
      * system
      *
      * @param object  $page the CRM_Core_Form page
+     * @param boolean $ret  should we echo or return output
      *
      * @return void
      * @access public
      */
-    function _renderForm(&$page) {
+    function renderForm(&$page, $ret = false) {
         $this->_setRenderTemplates($page);
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'form'   ,  $page->toSmarty());
@@ -129,12 +129,14 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
         $template->assign( 'action' , $page->getAction( ) );
         $template->assign( 'tplFile', $page->getTemplateFileName() ); 
 
-        if ( $controller->getPrint( ) ) {
-            $content = $template->fetch( 'CRM/print.tpl' );
-        } else {
-            $content = $template->fetch( 'CRM/index.tpl' );
+        $content = $template->fetch( $controller->getTemplateFile( ) );
+
+        $html = CRM_Utils_System::theme( 'page', $content, null, $controller->getPrint( ) );
+        if ( $ret ) {
+            return $html;
         }
-        echo CRM_Utils_System::theme( 'page', $content, null, $controller->getPrint( ) );
+
+        echo $html;
         return;
     }
 
