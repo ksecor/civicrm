@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-04 08:41+0200\n"
+"POT-Creation-Date: 2006-04-12 09:29+0200\n"
 "PO-Revision-Date: 2006-04-01 18:59+0200\n"
 "Last-Translator: paolo mereu <maolo.pereu@tiscali.it>\n"
 "Language-Team: none\n"
@@ -1334,7 +1334,9 @@ msgstr ""
 msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.)"
-msgstr "Campi contatto richiesti mancanti (Dovrebbero essere Nome e Cognome o email primaria o nome, cognome e email primaria)"
+msgstr ""
+"Campi contatto richiesti mancanti (Dovrebbero essere Nome e Cognome o email "
+"primaria o nome, cognome e email primaria)"
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
@@ -2024,7 +2026,9 @@ msgstr "La chiamata telefonica selezionata è stata eliminata con successo."
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Phone Call \"%1\" has been logged to Activity History."
-msgstr " La chiamata telefonica \"%1\" è stata registrata nello storico delle attività"
+msgstr ""
+" La chiamata telefonica \"%1\" è stata registrata nello storico delle "
+"attività"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Phone Call \"%1\" has been saved."
@@ -9779,7 +9783,10 @@ msgstr ""
 #: templates/CRM/History/Import/Form/UploadFile.tpl
 msgid ""
 "The Activity History Import Wizard allows you to easily upload activity "
-"history from other applications into CiviCRM."
+"history from other applications into CiviCRM. Contacts must already exist in "
+"your CiviCRM database prior to importing activity history. Use Import "
+"Contacts to create contact records first, if necessary. Then you can match "
+"activities to contacts by Name and Email, or by Contact ID."
 msgstr ""
 
 #: templates/CRM/History/Import/Form/UploadFile.tpl
@@ -10751,4 +10758,3 @@ msgstr ""
 
 #~ msgid "Process Mailing Queue"
 #~ msgstr "Coda di processo Mailing"
-

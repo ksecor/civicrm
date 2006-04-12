@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-04 08:41+0200\n"
+"POT-Creation-Date: 2006-04-12 09:29+0200\n"
 "PO-Revision-Date: 2006-02-24 19:35+0100\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -10549,13 +10549,13 @@ msgid "Rows which are duplicates of existing CiviCRM activity history records."
 msgstr "Linhas as quais são duplicatas de registros de contatos no CiviCRM."
 
 #: templates/CRM/History/Import/Form/UploadFile.tpl
-#, fuzzy
 msgid ""
 "The Activity History Import Wizard allows you to easily upload activity "
-"history from other applications into CiviCRM."
+"history from other applications into CiviCRM. Contacts must already exist in "
+"your CiviCRM database prior to importing activity history. Use Import "
+"Contacts to create contact records first, if necessary. Then you can match "
+"activities to contacts by Name and Email, or by Contact ID."
 msgstr ""
-"O Assistente de Importação de Contribuição permite carregar facilmente "
-"contribuições de outros aplicativos para o CiviCRM."
 
 #: templates/CRM/History/Import/Form/UploadFile.tpl
 #, fuzzy
@@ -11670,6 +11670,14 @@ msgstr "Mensagem capturada por filtro ed conteúdo."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Erro na transação do SMTP"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Activity History Import Wizard allows you to easily upload activity "
+#~ "history from other applications into CiviCRM."
+#~ msgstr ""
+#~ "O Assistente de Importação de Contribuição permite carregar facilmente "
+#~ "contribuições de outros aplicativos para o CiviCRM."
 
 #~ msgid "Do not call"
 #~ msgstr "Não telefonar"

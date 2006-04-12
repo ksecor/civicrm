@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-04 08:41+0200\n"
+"POT-Creation-Date: 2006-04-12 09:29+0200\n"
 "PO-Revision-Date: 2006-03-12 14:45+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
@@ -10467,13 +10467,13 @@ msgid "Rows which are duplicates of existing CiviCRM activity history records."
 msgstr "Rijen die identiek zijn aan reeds bestaande CiviCRM bijdrage records"
 
 #: templates/CRM/History/Import/Form/UploadFile.tpl
-#, fuzzy
 msgid ""
 "The Activity History Import Wizard allows you to easily upload activity "
-"history from other applications into CiviCRM."
+"history from other applications into CiviCRM. Contacts must already exist in "
+"your CiviCRM database prior to importing activity history. Use Import "
+"Contacts to create contact records first, if necessary. Then you can match "
+"activities to contacts by Name and Email, or by Contact ID."
 msgstr ""
-"De Bijdrage Import Wizard stelt u in staat, om bijdragen die uit een andere "
-"applicatie komen, te importeren in CiviCRM."
 
 #: templates/CRM/History/Import/Form/UploadFile.tpl
 #, fuzzy
@@ -11594,6 +11594,14 @@ msgstr "Bericht is onderschept door een contentfilter."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fout in SMTP transactie"
+
+#, fuzzy
+#~ msgid ""
+#~ "The Activity History Import Wizard allows you to easily upload activity "
+#~ "history from other applications into CiviCRM."
+#~ msgstr ""
+#~ "De Bijdrage Import Wizard stelt u in staat, om bijdragen die uit een "
+#~ "andere applicatie komen, te importeren in CiviCRM."
 
 #~ msgid "Do not call"
 #~ msgstr "niet bellen"
