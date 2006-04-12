@@ -141,7 +141,8 @@ p.preapp-instruction {
 }
 
 #crm-container .partner_college {
- color: green;
+ color: blue;
+ font-style: italic;
 }
 
 #application-status {
