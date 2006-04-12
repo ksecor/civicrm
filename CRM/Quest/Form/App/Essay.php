@@ -99,8 +99,9 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
                    true);
         
 
-        $this->addElement('text', 'word_count', ts( 'Current character count' ), 'readonly');
-
+        if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+            $this->addElement('text', 'word_count', ts( 'Current character count' ), 'readonly');
+        }
         parent::buildQuickForm();
 
 

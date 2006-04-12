@@ -99,18 +99,20 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                 $defaults['last_name']  = $dao->last_name;
             }
         }
-
+        
         // Assign show and hide blocks lists to the template for optional Academic Honors blocks
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-        for ( $i = 2; $i <= 3; $i++ ) {
-            if ( CRM_Utils_Array::value( "type_of_income_id_$i", $defaults )) {
-                $this->_showHide->addShow( "income_$i" );
-                $this->_showHide->addHide( 'income_' . $i . '[show]' );
-            } else {
-                $this->_showHide->addHide( "income_$i" );
+        if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+            $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+            for ( $i = 2; $i <= 3; $i++ ) {
+                if ( CRM_Utils_Array::value( "type_of_income_id_$i", $defaults )) {
+                    $this->_showHide->addShow( "income_$i" );
+                    $this->_showHide->addHide( 'income_' . $i . '[show]' );
+                } else {
+                    $this->_showHide->addHide( "income_$i" );
+                }
             }
+            $this->_showHide->addToTemplate( );
         }
-        $this->_showHide->addToTemplate( );
         return $defaults;
     }
 
@@ -155,14 +157,29 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
                                ts( 'Job Description (if applicable)' ),
                                $attributes['job_1'] );
             
-            $income[$i] = CRM_Core_ShowHideBlocks::links( $this,"income_$i",
-                                                         ts('add another type of income'),
-                                                         ts('hide this type of income'),
-                                                         false );
+            if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+                $income[$i] = CRM_Core_ShowHideBlocks::links( $this,"income_$i",
+                                                              ts('add another type of income'),
+                                                              ts('hide this type of income'),
+                                                              false );
+            }
         }
         
+        $maxIncome = 3;
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+            $defaults = $this->setDefaultValues( );
+            $maxIncome = 0;
+            for ( $i = 1; $i <= 4; $i++ ) {
+                if ( CRM_Utils_Array::value( "type_of_income_id_$i", $defaults )) {
+                    $maxIncome++;
+                }
+            }
+        }
+        
+
         // Assign showHide links to tpl
         $this->assign( 'income', $income );
+        $this->assign( 'maxIncome', $maxIncome + 1 );
 
         // if this is the last form, add another income source button
         if ( $this->_options['lastSource'] ) {

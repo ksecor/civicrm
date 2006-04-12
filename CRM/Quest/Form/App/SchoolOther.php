@@ -156,17 +156,18 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
         require_once 'CRM/Core/DAO.php';
           
         // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-        for ( $i = 2; $i <= 5; $i++ ) {
-            if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
-                $this->_showHide->addShow( "otherSchool_info_$i" );
-                $this->_showHide->addHide( 'otherSchool_info_' . $i . '[show]' );
-            } else {
-                $this->_showHide->addHide( "otherSchool_info_$i" );
+        if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+            $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+            for ( $i = 2; $i <= 5; $i++ ) {
+                if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
+                    $this->_showHide->addShow( "otherSchool_info_$i" );
+                    $this->_showHide->addHide( 'otherSchool_info_' . $i . '[show]' );
+                } else {
+                    $this->_showHide->addHide( "otherSchool_info_$i" );
+                }
             }
+            $this->_showHide->addToTemplate( );
         }
-
-        $this->_showHide->addToTemplate( );
         return $defaults;
     }
     
@@ -192,11 +193,25 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
                               CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
             $this->buildAddressBlock( 1, ts( 'Location' ), null, null, null, null, null, "location_$i" );
             $this->addElement('textarea', "note_{$i}", ts( 'School Description' ), array("rows"=>5,"cols"=>60));
-            $otherSchool_info[$i] = CRM_Core_ShowHideBlocks::links( $this,"otherSchool_info_$i",
-                                                                    ts('add another Special Program'),
-                                                                    ts('hide this Program'),
-                                                                    false );
+            if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+                $otherSchool_info[$i] = CRM_Core_ShowHideBlocks::links( $this,"otherSchool_info_$i",
+                                                                        ts('add another Special Program'),
+                                                                        ts('hide this Program'),
+                                                                        false );
+            }
         }
+        $maxOtherSchool = 5;
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+            $defaults = $this->setDefaultValues( );
+            $maxOtherSchool = 0;
+            for ( $i = 1; $i <= 5; $i++ ) {
+                if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
+                    $maxOtherSchool++;
+                }
+            }
+        }
+        
+        $this->assign( 'maxOtherSchool', $maxOtherSchool + 1 );
         $this->assign( 'otherSchool_info', $otherSchool_info );
         
         parent::buildQuickForm( );

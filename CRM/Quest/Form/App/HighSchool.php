@@ -145,23 +145,24 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                     $defaults[$k."_".$key] = $value;
                 }
             }
-
+            
         }
         // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-        for ( $i = 2; $i <= 2; $i++ ) {
-            if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
-                $this->_showHide->addShow( "HighSchool_$i" );
-                $this->_showHide->addHide( 'HighSchool_' . $i . '[show]' );
-            } else {
-                $this->_showHide->addHide( "HighSchool_$i" );
+        if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+            require_once 'CRM/Core/ShowHideBlocks.php';
+            $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+            for ( $i = 2; $i <= 2; $i++ ) {
+                if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
+                    $this->_showHide->addShow( "HighSchool_$i" );
+                    $this->_showHide->addHide( 'HighSchool_' . $i . '[show]' );
+                } else {
+                    $this->_showHide->addHide( "HighSchool_$i" );
+                }
             }
+            
+            $this->_showHide->addToTemplate( );
         }
         
-        $this->_showHide->addToTemplate( );
-        
-
         return $defaults;
     }
     
@@ -232,13 +233,26 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                                       null,$addressRequired,null,null,'location_'.$i);
             
             require_once 'CRM/Core/ShowHideBlocks.php';
-            $highschool[$i] = CRM_Core_ShowHideBlocks::links( $this,"HighSchool_$i",
-                                                           ts('add another High School '),
-                                                           ts('hide this High School'),
-                                                           false );
+            if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+                $highschool[$i] = CRM_Core_ShowHideBlocks::links( $this,"HighSchool_$i",
+                                                                  ts('add another High School '),
+                                                                  ts('hide this High School'),
+                                                                  false );
+            }
         }
+        $maxHighschool = 2;
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+             $defaults = $this->setDefaultValues( );
+             $maxHighschool = 0;
+             for ( $i = 1; $i < 3; $i++ ) {
+                 if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
+                     $maxHighschool++;
+                 }
+             }
+        }
+       
         $this->assign( 'highschool',$highschool );
-
+        $this->assign( 'max', $maxHighschool + 1);
         $this->addFormRule(array('CRM_Quest_Form_App_HighSchool', 'formRule'));
        
         parent::buildQuickForm( );

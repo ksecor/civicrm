@@ -1,7 +1,7 @@
 {* Quest Pre-application: High School Information section *}
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
-{assign var=max value=3}
+
 {section name=rowLoop start=1 loop=$max}
 {assign var=i value=$smarty.section.rowLoop.index}
 

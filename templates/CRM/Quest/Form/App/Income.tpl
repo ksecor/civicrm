@@ -39,7 +39,6 @@ Please enter income information for all individuals who contribute financially t
         {hlp}{$form.last_name.label}{/hlp}</td>
 </tr>
 <tr><td colspan=2>
-{assign var=maxIncome value=4}
 {section name=rowLoop start=1 loop=$maxIncome}
     {assign var=i value=$smarty.section.rowLoop.index}
     <div id="income_{$i}">

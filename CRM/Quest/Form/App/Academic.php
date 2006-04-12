@@ -105,17 +105,19 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $defaults["description_$count"] = $dao->description;
             $defaults["award_date_$count" ] = CRM_Utils_Date::unformat( $dao->award_date,'-' );
         }
-
+        
         // Assign show and hide blocks lists to the template for optional Academic Honors blocks
-        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-        for ( $i = 2; $i <= 6; $i++ ) {
-            if ( CRM_Utils_Array::value( "description_$i", $defaults )) {
-                $this->_showHide->addShow( "honor_$i" );
-            } else {
-                $this->_showHide->addHide( "honor_$i" );
+        if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+            $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+            for ( $i = 2; $i <= 6; $i++ ) {
+                if ( CRM_Utils_Array::value( "description_$i", $defaults )) {
+                    $this->_showHide->addShow( "honor_$i" );
+                } else {
+                    $this->_showHide->addHide( "honor_$i" );
+                }
             }
+            $this->_showHide->addToTemplate( );
         }
-        $this->_showHide->addToTemplate( );
         return $defaults;
     }
     
@@ -168,12 +170,26 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
             $this->addElement('date', 'award_date_' . $i,
                               null,
                               CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
+            if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
             $honor[$i] = CRM_Core_ShowHideBlocks::links( $this,"honor_$i",
                                                               ts('add another honor'),
                                                               ts('hide this honor'),
                                                               false );
+            }
         }
         // Assign showHide links to tpl
+        $maxHonors = 6;
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+            $defaults = $this->setDefaultValues( );
+            $maxHonors = 0;
+            for ( $i = 1; $i <= 6; $i++ ) {
+                if ( CRM_Utils_Array::value( "description_$i", $defaults )) {
+                    $maxHonors++;
+                }
+            }
+        }
+        
+        $this->assign( 'maxHonors', $maxHonors + 1 );
         $this->assign( 'honor', $honor );
 
         parent::buildQuickForm( );

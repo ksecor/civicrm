@@ -233,7 +233,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
             
             $maxAPTests = 1;
             for ( $i = 2; $i <= 32; $i++ ) {
-                if ( CRM_Utils_Array::value( "ap_score_$i", $defaults )) {
+                if ( CRM_Utils_Array::value( "ap_score_id_$i", $defaults )) {
                     $maxAPTests++;
                 }
             }

@@ -32,7 +32,7 @@
     <td colspan=2><p class="preapp-instruction">{ts}Describe any honors you have been awarded since you entered high school.{/ts}</p></td>
 </tr>
 <tr><td colspan=2>
-{assign var=maxHonors value=7}
+
 {section name=rowLoop start=1 loop=$maxHonors}
     {assign var=i value=$smarty.section.rowLoop.index}
     <div id="honor_{$i}">
