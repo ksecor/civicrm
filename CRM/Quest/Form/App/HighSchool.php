@@ -138,6 +138,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                     $relDAO->id = $this->_relIDs[$key]; 
                     if ( $relDAO->find(true) ) {
                         $orgDefaults['date_of_entry'] =  CRM_Utils_Date::unformat( $relDAO->start_date , '-' );;
+                        $orgDefaults['date_of_exit'] =  CRM_Utils_Date::unformat( $relDAO->end_date , '-' );;
                     }
                     
                 }
@@ -347,6 +348,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                 
                 $relationshipParams['relationship_type_id'] = $relID.'_a_b';
                 $relationshipParams['start_date']           = $orgParams['date_of_entry'];
+                $relationshipParams['end_date']             = $orgParams['date_of_exit'];
                 $relationshipParams['contact_check']        = array("$org->id" => 1 ); 
                 
                 $organizationID = $org->id;
