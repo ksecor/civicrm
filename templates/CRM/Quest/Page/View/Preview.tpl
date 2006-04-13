@@ -7,11 +7,26 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <base href="{$config->resourceBase}" />
   <style type="text/css" media="screen, print">@import url({$config->resourceBase}css/civicrm.css);</style>
-  <style type="text/css" media="print">@import url({$config->resourceBase}css/print.css);</style>
+{*  <style type="text/css" media="print">@import url({$config->resourceBase}css/print.css);</style> *}
+  <style type="text/css" media="all">@import url({$config->resourceBase}css/quest.css);</style>
+  <style type="text/css" media="all">@import "{$config->userFrameworkBaseURL}themes/quest/style.css";</style> 
+  <style type="text/css" media="all">@import "{$config->userFrameworkBaseURL}themes/quest/style_preapp.css";</style>
 </head>
 
 <body>
-
+<div id="header">
+<table width=900 cellpadding=0 cellspacing=0 border=0>
+<tr>
+  <td background="{$config->userFrameworkBaseURL}themes/quest/appbanner4.png" height=72>
+   <p>&nbsp;</p>
+  </td>
+</tr>
+<tr>
+  <td background="http://www.questbridge.org/images/shadow.gif" height=7></td>
+</tr>
+</table>
+</div>
+<p>
 {if $smarty.get.smartyDebug}
 {debug}
 {/if}
@@ -26,7 +41,7 @@
 
 {foreach from=$pageHTML key=pageTitle item=page}
     {$page}
-    <hr size=1 noshade>
+    <br />
 {/foreach}
 
 </div> {* end crm-container div *}
