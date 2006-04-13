@@ -431,7 +431,7 @@ class CRM_Utils_System {
      */
     static function postURL( $action ) {
         $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userFrameworkClass . '::postURL( "' . $action  . '" ); ' );
+        return eval( 'return ' . $config->userFrameworkClass . '::postURL( $action  ); ' );
     }
 
     /**

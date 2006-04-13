@@ -155,9 +155,9 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         if ($action & (CRM_Core_Action::VIEW | CRM_Core_Action::ADD | CRM_Core_Action::UPDATE | CRM_Core_Action::DELETE)) {
             $this->edit($action, $id);                               // use edit form for view, add or update or delete
         } else if ($action & CRM_Core_Action::DISABLE) {
-            eval($this->getBAOName( ) . "::setIsActive( $id, 0 );"); //disable
+            eval($this->getBAOName( ) . '::setIsActive( $id, 0 );'); //disable
         } else if ( $action & CRM_Core_Action::ENABLE ) {
-            eval($this->getBAOName( ) . "::setIsActive( $id, 1 );"); // enable
+            eval($this->getBAOName( ) . '::setIsActive( $id, 1 );'); // enable
         } 
 
         // finally browse (list) the page
