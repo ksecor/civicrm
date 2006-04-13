@@ -85,6 +85,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             array('Radio' => 'Radio'),
             array('StateProvince' => 'Select State/Province'),
             array('Country' => 'Select Country'),
+            array('File' => 'File')
     );
     
     private static $_dataToLabels = null;
@@ -123,6 +124,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 array('Radio' => ts('Radio')),
                 array('StateProvince' => ts('Select State/Province')),
                 array('Country' => ts('Select Country')),
+                array('File' => ts('Select File')),
             );
         }
 
@@ -734,7 +736,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // need the FKEY - custom group id
         $customField->custom_group_id = $this->_gid;
-
+        
         $customField->save();
 
         //Start Storing the values of Option field if the selected option is Multi Select

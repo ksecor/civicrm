@@ -180,6 +180,7 @@ class CRM_Core_SelectValues {
                 'Money'   => ts('Money'),
                 'Text'    => ts('Memo'),
                 'Date'    => ts('Date'),
+                'File'    => ts('File'),
                 'Boolean' => ts('Yes/No')
             );
         }
@@ -202,6 +203,7 @@ class CRM_Core_SelectValues {
                 'Radio'                   => ts('Radio buttons'),
                 'Checkbox'                => ts('Checkbox(es)'),
                 'Select Date'             => ts('Date selector'),
+                'File'                    => ts('File'),
                 'Select State / Province' => ts('State / Province selector'),
                 'Select Country'          => ts('Country selector')
             );

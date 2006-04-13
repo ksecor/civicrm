@@ -84,6 +84,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 'Boolean'       => ts('Yes or No'),
                 'StateProvince' => ts('State/Province'),
                 'Country'       => ts('Country'),
+                'File'          => ts('File'),
             );
         }
         return self::$_dataType;
@@ -430,6 +431,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             }
             break;
             
+        case 'File':
+            $element =& $qf->add(strtolower($field->html_type), $elementName, $label,
+                                 $field->attributes, (($useRequired || $field->is_required) && !$search));
+            break;
+
         case 'Select State/Province':
             //Add State
             if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
