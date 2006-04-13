@@ -1720,4 +1720,25 @@ function _crm_initialize( ) {
     $config =& CRM_Core_Config::singleton( );
 }
 
+function &_crm_get_pseudo_constant_names( ) {
+    $table = array(
+                   'location_type'       => 'locationType',
+                   'activity_type'       => 'activityType',
+                   'individual_prefix'   => 'individualPrefix',
+                   'individual_suffix'   => 'individualSuffix',
+                   'gender'              => 'gender',
+                   'im_provider'         => 'IMProvider',
+                   'state_province'      => 'stateProvince',
+                   'state_province_abbr' => 'stateProvinceAbbreviation',
+                   'country'             => 'country',
+                   'country_iso'         => 'countryIsoCode',
+                   'tag'                 => 'tag',
+                   'all_group'           => 'allGroup',
+                   'group'               => 'group',
+                   'uf_group'            => 'ufGroup',
+                   'relationship_type'   => 'relationshipType',
+                   );
+    return $table;
+}
+
 ?>

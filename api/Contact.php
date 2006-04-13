@@ -94,7 +94,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * 'im_service', etc). If an unrecognized value is passed, an error
  * will be returned.</li> 
  *
- * <li>Modules may invoke crm_get_option_values($property_name) to
+ * <li>Modules may invoke crm_get_property_values($property_name) to
  * retrieve a list of currently available values for a given
  * property.</li> 
  *
@@ -569,5 +569,18 @@ function crm_fix_address($object) {
     }
 }
 
+function &crm_get_property_values( $name ) {
+    static $nameLookup = null;
+
+    if ( ! $nameLookup ) {
+        $nameLookup =& _crm_get_pseudo_constant_names( );
+    }
+    
+    if ( ! CRM_Utils_Array::value( $name, $nameLookup ) ) {
+        return null;
+    }
+    
+    return eval( 'return CRM_Core_PseudoConstant::' . $nameLookup[$name] . '( );' );
+}
 
 ?>
