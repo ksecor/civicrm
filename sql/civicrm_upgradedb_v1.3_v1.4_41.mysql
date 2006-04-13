@@ -292,3 +292,12 @@ CREATE TABLE civicrm_sms_history (
 -- *******************************************************/
 
    UPDATE civicrm_state_province SET name = 'Morelos' WHERE id = 3819;
+
+
+-- /*******************************************************
+-- *
+-- * update the custom fields set options per line if it is null
+-- *
+-- *******************************************************/
+	
+   UPDATE civicrm_custom_field SET  options_per_line=0  WHERE options_per_line IS NULL;
