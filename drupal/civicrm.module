@@ -441,7 +441,7 @@ function civicrm_view_data($user )
             }
         }
         
-        if ($setLink  && CRM_Utils_System::checkPermission( 'access CiviCRM' )) {
+        if ($setLink  && CRM_Core_Permission::check( 'access CiviCRM' )) {
             if ( $config->userFrameworkVersion >= 4.7 ) { 
                 $item = array( 'title' => '',
                                'value' => $contactURL );

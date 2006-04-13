@@ -77,7 +77,7 @@ class CRM_Core_Permission_Drupal {
 
             $groups =& CRM_Core_PseudoConstant::allGroup( );
 
-            if ( CRM_Utils_System::checkPermission( 'edit all contacts' ) ) {
+            if ( self::check( 'edit all contacts' ) ) {
                 // this is the most powerful permission, so we return
                 // immediately rather than dilute it further
                 self::$_editAdminUser          = self::$_viewAdminUser  = true;
@@ -85,18 +85,18 @@ class CRM_Core_Permission_Drupal {
                 self::$_editPermissionedGroups = $groups;
                 self::$_viewPermissionedGroups = $groups;
                 return self::$_viewPermissionedGroups;
-            } else if ( CRM_Utils_System::checkPermission( 'view all contacts' ) ) {
+            } else if ( self::check( 'view all contacts' ) ) {
                 self::$_viewAdminUser          = true;
                 self::$_viewPermission         = true;
                 self::$_viewPermissionedGroups = $groups;
             }
 
             foreach ( $groups as $id => $title ) {
-                if ( CRM_Utils_System::checkPermission( CRM_Core_Permission::EDIT_GROUPS . $title ) ) {
+                if ( self::check( CRM_Core_Permission::EDIT_GROUPS . $title ) ) {
                     self::$_editPermissionedGroups[$id] = $title;
                     self::$_viewPermissionedGroups[$id] = $title;
                     self::$_editPermission      = true;
-                } else if ( CRM_Utils_System::checkPermission( CRM_Core_Permission::VIEW_GROUPS . $title ) ) {
+                } else if ( self::check( CRM_Core_Permission::VIEW_GROUPS . $title ) ) {
                     self::$_viewPermissionedGroups[$id] = $title;
                     self::$_viewPermission      = true;
                 } 
@@ -206,6 +206,18 @@ class CRM_Core_Permission_Drupal {
         return self::groupClause( $type, $tables, $whereTables );
     }
 
+    /**
+     * given a permission string, check for access requirements
+     *
+     * @param string $str the permission to check
+     *
+     * @return boolean true if yes, else false
+     * @static
+     * @access public
+     */
+    static function check( $str ) {
+        return user_access( $str ) ? true : false;
+    }
 
 }
 

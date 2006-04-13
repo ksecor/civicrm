@@ -52,19 +52,6 @@ class CRM_Utils_System_Drupal {
     }
 
     /**
-     * given a permission string, check for access requirements
-     *
-     * @param string $str the permission to check
-     *
-     * @return boolean true if yes, else false
-     * @static
-     * @access public
-     */
-    static function checkPermission( $str ) {
-        return user_access( $str ) ? true : false;
-    }
-
-    /**
      * Append an additional breadcrumb tag to the existing breadcrumb
      *
      * @param string $bc the new breadcrumb to be appended

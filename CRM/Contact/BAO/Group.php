@@ -208,13 +208,13 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @static
      */
     static function checkPermission( $id, $title ) {
-        if ( CRM_Utils_System::checkPermission( 'edit all contacts' ) ||
-             CRM_Utils_System::checkPermission( CRM_Core_Permission::EDIT_GROUPS . $title ) ) {
+        if ( CRM_Core_Permission::check( 'edit all contacts' ) ||
+             CRM_Core_Permission::check( CRM_Core_Permission::EDIT_GROUPS . $title ) ) {
             return CRM_Core_Permission::EDIT;
         }
 
-        if ( CRM_Utils_System::checkPermission( 'view all contacts' ) ||
-             CRM_Utils_System::checkPermission( CRM_Core_Permission::VIEW_GROUPS . $title ) ) {
+        if ( CRM_Core_Permission::check( 'view all contacts' ) ||
+             CRM_Core_Permission::check( CRM_Core_Permission::VIEW_GROUPS . $title ) ) {
             return CRM_Core_Permission::VIEW;
         }
 

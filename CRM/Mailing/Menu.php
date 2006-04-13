@@ -43,7 +43,7 @@ class CRM_Mailing_Menu {
                        array(
                              'path'    => 'civicrm/mailing',
                              'title'   => ts('CiviMail'),
-                             'access'  => CRM_Utils_System::checkPermission( 'access CiviMail' ),
+                             'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                              'type'    => CRM_Utils_Menu::CALLBACK,
                              'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
                              'weight'  => 600,
@@ -52,7 +52,7 @@ class CRM_Mailing_Menu {
                        array(
                              'path'    => 'civicrm/mailing/component',
                              'title'   => ts('Mailing Header / Footer'),
-                             'access'  => CRM_Utils_System::checkPermission( 'access CiviMail' ),
+                             'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                              'type'    => CRM_Utils_Menu::CALLBACK,
                              'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
                              'weight'  => 610,
@@ -61,7 +61,7 @@ class CRM_Mailing_Menu {
                        array(
                              'path'    => 'civicrm/mailing/send',
                              'title'   => ts('Send Mailing'),
-                             'access'  => CRM_Utils_System::checkPermission( 'access CiviMail' ),
+                             'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                              'type'    => CRM_Utils_Menu::CALLBACK,
                              'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
                              'weight'  => 620,
@@ -70,7 +70,7 @@ class CRM_Mailing_Menu {
                        array(
                              'path'    => 'civicrm/mailing/browse',
                              'title'   => ts( 'Browse Sent Mailings' ),
-                             'access'  => CRM_Utils_System::checkPermission( 'access CiviMail' ),
+                             'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                              'type'    => CRM_Utils_Menu::CALLBACK, 
                              'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
                              'weight'  => 630, 

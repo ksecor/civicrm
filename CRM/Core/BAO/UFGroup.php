@@ -652,7 +652,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
 
             if ( $field['visibility'] == "Public User Pages and Listings" &&
-                 CRM_Utils_System::checkPermission( 'profile listings and forms' ) ) {
+                 CRM_Core_Permission::check( 'profile listings and forms' ) ) {
                 
                 if ( CRM_Utils_System::isNull( $params[$index] ) ) {
                     $params[$index] = $values[$index];

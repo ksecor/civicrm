@@ -314,7 +314,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $admin = false;
             $session  =& CRM_Core_Session::singleton( );
             // show all fields that are visibile: if we are a admin or the same user or in registration mode
-            if ( CRM_Utils_System::checkPermission( 'administer users' ) ||
+            if ( CRM_Core_Permission::check( 'administer users' ) ||
                  $this->_id == $session->get( 'userID' )                 ) {
                 $admin = true;
             }

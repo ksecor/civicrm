@@ -102,8 +102,8 @@ class CRM_Utils_Menu {
                             'path'    => 'civicrm/admin',
                             'title'   => ts('Administer CiviCRM'),
                             'qs'      => 'reset=1',
-                            'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
-                                         CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                         CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'    => self::CALLBACK,
                             'crmType' => self::NORMAL_ITEM,
                             'weight'  => 40,
@@ -310,7 +310,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'     => 'civicrm',
                             'title'    => ts('CiviCRM'),
-                            'access'   => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'access'   => CRM_Core_Permission::check( 'access CiviCRM' ),
                             'callback' => 'civicrm_invoke',
                             'type'     => self::NORMAL_ITEM,
                             'crmType'  => self::CALLBACK,
@@ -332,7 +332,7 @@ class CRM_Utils_Menu {
                             'qs'      => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::ROOT_LOCAL_TASK,
-                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
                             'weight'  => 10,
                             ),
         
@@ -342,7 +342,7 @@ class CRM_Utils_Menu {
                             'qs'      => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
-                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
                             'weight'  => 0
                             ),
 
@@ -358,8 +358,8 @@ class CRM_Utils_Menu {
                             'path'   => 'civicrm/contact/addI',
                             'title'  => ts('New Individual'),
                             'qs'     => 'reset=1',
-                            'access' => CRM_Utils_System::checkPermission('add contacts') &&
-                                        CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'access' => CRM_Core_Permission::check('add contacts') &&
+                                        CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             'weight' => 1
@@ -369,8 +369,8 @@ class CRM_Utils_Menu {
                             'path'   => 'civicrm/contact/addO',
                             'title'  => ts('New Organization'),
                             'qs'     => 'reset=1',
-                            'access' => CRM_Utils_System::checkPermission('add contacts') &&
-                                        CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'access' => CRM_Core_Permission::check('add contacts') &&
+                                        CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             'weight' => 1
@@ -380,8 +380,8 @@ class CRM_Utils_Menu {
                             'path'   => 'civicrm/contact/addH',
                             'title'  => ts('New Household'),
                             'qs'     => 'reset=1',
-                            'access' => CRM_Utils_System::checkPermission('add contacts') &&
-                                        CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'access' => CRM_Core_Permission::check('add contacts') &&
+                                        CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             'weight' => 1
@@ -463,7 +463,7 @@ class CRM_Utils_Menu {
                             'qs'     => 'reset=1',
                             'type'   => self::CALLBACK,
                             'crmType'=> self::NORMAL_ITEM,
-                            'access' => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
                             'weight' => 20,
                             ),
 
@@ -477,8 +477,8 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/group/add',
                             'title'   => ts('Create New Group'),
-                            'access' => CRM_Utils_System::checkPermission('edit groups') &&
-                            CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'access' => CRM_Core_Permission::check('edit groups') &&
+                            CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'    => self::CALLBACK,
                             'crmType' => self::CALLBACK,
                             'weight'  => 0,
@@ -488,8 +488,8 @@ class CRM_Utils_Menu {
                             'path'   => 'civicrm/import',
                             'title'  => ts( 'Import' ),
                             'qs'     => 'reset=1',
-                            'access' => CRM_Utils_System::checkPermission('administer CiviCRM') &&
-                                        CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'access' => CRM_Core_Permission::check('administer CiviCRM') &&
+                                        CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'   =>  CRM_Utils_Menu::CALLBACK,
                             'crmType'=>  CRM_Utils_Menu::NORMAL_ITEM,
                             'weight' =>  400,
@@ -498,8 +498,8 @@ class CRM_Utils_Menu {
                              'path'    => 'civicrm/import/contact',
                              'qs'      => 'reset=1',
                              'title'   => ts( 'Contacts' ), 
-                             'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
-                                          CRM_Utils_System::checkPermission( 'access CiviCRM' ), 
+                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                          CRM_Core_Permission::check( 'access CiviCRM' ), 
                              'type'    => CRM_Utils_Menu::CALLBACK,  
                              'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
                              'weight'  => 410,
@@ -508,8 +508,8 @@ class CRM_Utils_Menu {
                              'path'    => 'civicrm/import/activityHistory', 
                              'qs'      => 'reset=1',
                              'title'   => ts( 'Activity History' ), 
-                             'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
-                                          CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                          CRM_Core_Permission::check( 'access CiviCRM' ),
                              'type'    => CRM_Utils_Menu::CALLBACK,  
                              'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
                              'weight'  => 420,  
@@ -550,7 +550,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/profile',
                             'title'   => ts( 'Contact Information' ),
-                            'access'  => CRM_Utils_System::checkPermission( 'profile listings and forms'),
+                            'access'  => CRM_Core_Permission::check( 'profile listings and forms'),
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0, 
@@ -559,7 +559,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/profile/create',
                             'title'   => ts( 'Add Contact Information' ),
-                            'access'  => CRM_Utils_System::checkPermission( 'profile listings and forms'),
+                            'access'  => CRM_Core_Permission::check( 'profile listings and forms'),
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0,
@@ -568,7 +568,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/profile/note',
                             'title'   => ts( 'Notes about the Person' ),
-                            'access'  => CRM_Utils_System::checkPermission( 'profile listings and forms'),
+                            'access'  => CRM_Core_Permission::check( 'profile listings and forms'),
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0,

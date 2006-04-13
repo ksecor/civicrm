@@ -370,20 +370,6 @@ class CRM_Utils_System {
     }
 
     /**
-     * given a permission string, check for access requirements
-     *
-     * @param string $str the permission to check
-     *
-     * @return boolean true if yes, else false
-     * @static
-     * @access public
-     */
-    static function checkPermission( $str ) {
-        $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userFrameworkClass . '::checkPermission( $str ); ' );
-    }
-
-    /**
      * redirect to another url
      *
      * @param string $url the url to goto
@@ -539,7 +525,7 @@ class CRM_Utils_System {
 
     static function accessCiviContribute( ) {
         $config =& CRM_Core_Config::singleton( );
-        if ( CRM_Utils_System::checkPermission( 'access CiviContribute' ) && 
+        if ( CRM_Core_Permission::check( 'access CiviContribute' ) && 
              in_array( 'CiviContribute', $config->enableComponents ) ) {
             return true;
         }

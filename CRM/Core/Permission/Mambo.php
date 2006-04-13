@@ -89,6 +89,23 @@ class CRM_Core_Permission_Mambo {
         return CRM_Core_PseudoConstant::allSavedSearch( );
     }
     
+    /**
+     * given a permission string, check for access requirements
+     *
+     * @param string $str the permission to check
+     *
+     * @return boolean true if yes, else false
+     * @static
+     * @access public
+     */
+    static function check( $str ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFrameworkFrontend && $str == 'administer users' ) {
+            return false;
+        }
+        return true;
+    }
+
 }
 
 ?>

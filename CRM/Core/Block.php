@@ -150,7 +150,7 @@ class CRM_Core_Block {
         foreach ( self::properties() as $id => $value ) {
              if ( $value['active'] ) {
                  if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
-                      ( ! CRM_Utils_System::checkPermission('add contacts') ) && ( ! CRM_Utils_System::checkPermission('edit groups') ) ) {
+                      ( ! CRM_Core_Permission::check('add contacts') ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
                      continue;
                  }
                 $block[$id]['info'] = $value['info'];
@@ -202,7 +202,7 @@ class CRM_Core_Block {
         static $shortCuts = array( );
         
         if (!($shortCuts)) {
-            if (CRM_Utils_System::checkPermission('add contacts')) {
+            if (CRM_Core_Permission::check('add contacts')) {
                 $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
                                            'qs'    => 'c_type=Individual&reset=1',
                                            'title' => ts('New Individual') ),
@@ -215,13 +215,13 @@ class CRM_Core_Block {
                                     );
             }
 
-            if( CRM_Utils_System::checkPermission('edit groups')) {
+            if( CRM_Core_Permission::check('edit groups')) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
                                                                    'qs'    => 'reset=1',
                                                                    'title' => ts('New Group') ) ));
             }
 
-            if (! CRM_Utils_System::checkPermission( 'add contacts' )  &&  ! CRM_Utils_System::checkPermission('edit groups')) {
+            if (! CRM_Core_Permission::check( 'add contacts' )  &&  ! CRM_Core_Permission::check('edit groups')) {
                 return null;
             }
 
@@ -367,7 +367,7 @@ class CRM_Core_Block {
         }
 
          if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
-              ( ! CRM_Utils_System::checkPermission( 'add contacts' ) ) && ( ! CRM_Utils_System::checkPermission('edit groups') ) ) {
+              ( ! CRM_Core_Permission::check( 'add contacts' ) ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
              return null;
          }
 

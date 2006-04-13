@@ -109,7 +109,7 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
             // make sure we dont expose all fields based on permission
             $admin = false; 
             $session  =& CRM_Core_Session::singleton( ); 
-            if ( CRM_Utils_System::checkPermission( 'administer users' ) || 
+            if ( CRM_Core_Permission::check( 'administer users' ) || 
                  $this->_id == $session->get( 'userID' ) ) { 
                 $admin = true; 
             }
