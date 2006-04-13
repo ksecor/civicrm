@@ -193,15 +193,23 @@ class CRM_Utils_System {
      * @param string  $content the content that will be themed
      * @param array   $args    the args for the themeing function if any
      * @param boolean $print   are we displaying to the screen or bypassing theming?
+     * @param boolean $ret  should we echo or return output
      * 
      * @return void           prints content on stdout
      * @access public
      */
-    function theme( $type, &$content, $args = null, $print = false ) {
+    function theme( $type, &$content, $args = null, $print = false, $ret = false ) {
+        
         if ( function_exists( 'theme' ) && ! $print ) {
-            print theme( $type, $content, $args );
+            $out = theme( $type, $content, $args );
         } else {
-            print $content;
+            $out = $content;
+        }
+        
+        if ( $ret ) {
+            return $out;
+        } else {
+            print $out;
         }
     }
 

@@ -131,13 +131,10 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
 
         $content = $template->fetch( $controller->getTemplateFile( ) );
 
-        $html = CRM_Utils_System::theme( 'page', $content, null, $controller->getPrint( ) );
+        $html = CRM_Utils_System::theme( 'page', $content, null, $controller->getPrint( ), $ret );
         if ( $ret ) {
             return $html;
         }
-
-        echo $html;
-        return;
     }
 
     /**

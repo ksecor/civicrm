@@ -333,10 +333,11 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
             $html[$title] = $display->renderForm( $this->_pages[$name], true );
         }
 
-        CRM_Core_Controller::$_template->assign( 'pageTitle', '2006 College Prep Scholarship Application' );
-        CRM_Core_Controller::$_template->assign_by_ref( 'pageHTML', $html );
-
-        echo CRM_Core_Controller::$_template->fetch( "CRM/Quest/Page/View/Preview.tpl" );
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( 'pageTitle', '2006 College Prep Scholarship Application' );
+        $template->assign_by_ref( 'pageHTML', $html );
+        
+        echo $template->fetch( "CRM/Quest/Page/View/Preview.tpl" );
         exit( );
     }
 
