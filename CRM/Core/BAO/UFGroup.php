@@ -396,6 +396,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
             if ( $reset ) {
                 // hack to make sure we do not process this form
+                $oldQFDefault = $_POST['_qf_default'];
                 unset( $_POST['_qf_default'] );
                 unset( $_REQUEST['_qf_default'] );
                 $controller->reset( );
@@ -405,7 +406,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $controller->process( );
             $controller->setEmbedded( true );
             $controller->run( );
-            
+
+            // we are done processing so restore the POST/REQUEST vars
+            if ( $reset ) {
+                $_POST['_qf_default'] = $_REQUEST['_qf_default'] = $oldQFDefault;
+            }
+
             $template =& CRM_Core_Smarty::singleton( );
             return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
         } else {

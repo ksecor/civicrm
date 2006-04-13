@@ -304,13 +304,22 @@ class CRM_Utils_Date {
         }
 
         if ($dateString) {
-
-            $year   = (int) substr($dateString,  0, 4);
-            $month  = (int) substr($dateString,  5, 2);
-            $day    = (int) substr($dateString,  8, 2);
-            $hour24 = (int) substr($dateString, 11, 2);
-            $minute = (int) substr($dateString, 14, 2);
-
+            if ( strpos($dateString, '-') ) {
+                $year   = (int) substr($dateString,  0, 4);
+                $month  = (int) substr($dateString,  5, 2);
+                $day    = (int) substr($dateString,  8, 2);
+                
+                $hour24 = (int) substr($dateString, 11, 2);
+                $minute = (int) substr($dateString, 14, 2);
+            } else {
+                $year   = (int) substr($dateString,  0, 4);
+                $month  = (int) substr($dateString,  4, 2);
+                $day    = (int) substr($dateString,  6, 2);
+                
+                $hour24 = (int) substr($dateString, 9, 2);
+                $minute = (int) substr($dateString, 12, 2);
+            }
+            
             if     ($day % 10 == 1 and $day != 11) $suffix = 'st';
             elseif ($day % 10 == 2 and $day != 12) $suffix = 'nd';
             elseif ($day % 10 == 3 and $day != 13) $suffix = 'rd';
