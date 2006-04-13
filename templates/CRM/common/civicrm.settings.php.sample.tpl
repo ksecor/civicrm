@@ -535,6 +535,12 @@ define( 'CIVICRM_SMS_AGGREGATOR', 'CRM_SMS_Protocol_Clickatell' );
 define( 'CIVICRM_UF_FRONTEND', %%frontEnd%% );
 
 /**
+ * Template Customization:
+ *
+ */
+define( 'CIVICRM_FATAL_ERROR_TEMPLATE', 'CRM/error.tpl' );
+
+/**
  * 
  * Do not change anything below this line. Keep as is
  *
