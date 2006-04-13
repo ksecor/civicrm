@@ -7,13 +7,16 @@
 </tr>
 <tr>
     <td colspan=2 class="grouplabel">
-<p></p>
-<p class="preapp-instruction">{ts}Household Income is the total income coming into your current, primary household.
-Please enter income information for all individuals who contribute financially to your household.</p>
-<p class="preapp-instruction">A Household Income page will be presented for each individual whom you listed as a Parent or Guardian in the Household section.
+    <p></p>
+    <p class="preapp-instruction">{ts}Household Income is the total income coming into your current, primary household.
+    Please enter income information for all individuals who contribute financially to your household.</p>
+    {edit}
+    <p class="preapp-instruction">A Household Income page will be presented for each individual whom you listed as a Parent or Guardian in the Household section.
     You can record income from people other than your Parents/Guardians by checking the "Add another income source" box on the last Parent/Guardian page.{/ts}</p>
+    {/edit}
     </td>
 </tr>
+{edit}
 {if $form.$deleteButtonName.html}
     <tr>
         <td class="grouplabel" colspan="2">
@@ -26,6 +29,7 @@ Please enter income information for all individuals who contribute financially t
 	</td>
     </tr>
 {/if}
+{/edit}
 <tr>
     <td rowspan=2 valign=top class="grouplabel" width="30%">
         <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>
@@ -73,6 +77,7 @@ Please enter income information for all individuals who contribute financially t
 </td></tr>
 </table>
 
+{edit}
 {if $form.another_income_source.html}
     <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
     <tr>
@@ -86,6 +91,7 @@ Please enter income information for all individuals who contribute financially t
     </tr>
     </table>
 {/if}
+{/edit}
 </table>
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

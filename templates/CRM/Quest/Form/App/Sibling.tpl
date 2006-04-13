@@ -5,6 +5,7 @@
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
+{edit}
 {if $form.$deleteButtonName.html}
     <tr>
         <td class="grouplabel" colspan="2">
@@ -17,6 +18,7 @@
         </td>
     </tr>
 {/if}
+{/edit}
 <tr>
     <td rowspan=3 valign=top class="grouplabel" width="30%"><label>{ts}Name{/ts}</label></td>
 </tr>    

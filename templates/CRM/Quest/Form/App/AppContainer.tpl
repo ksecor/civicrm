@@ -1,11 +1,12 @@
 {* Quest Pre-application: Display container for application pages. *}
 
-{* Including the javascript source code from the Individual.js *}
- <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
+{edit}
+{/edit}
 
 {if $context EQ 'begin'}
-  {if ! ( $action & 1024 ) }
-    <div id="preapp-content">
+  <div id="preapp-content">
+  {if ! ( $action & 1024 ) }{* We skip greeting and nav buttons and .js for preview action, but include them for edit and view actions. *}
+    <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
             <td class="greeting">
@@ -71,7 +72,9 @@
            </td>
     </table>
   {/if}
-    </div>
+  </div>
+  {edit}
     {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
     {include file="CRM/common/showHide.tpl"}
+  {/edit}
 {/if}
