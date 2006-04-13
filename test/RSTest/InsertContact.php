@@ -38,8 +38,8 @@
  * $Id$
  *
  */
-require_once '../../modules/config.inc.php';
-require_once '../../CRM/Core/Config.php';
+require_once '../../civicrm.config.php';
+require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/I18n.php';
 require_once 'test/RSTest/Common.php';

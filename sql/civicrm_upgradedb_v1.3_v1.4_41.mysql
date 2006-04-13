@@ -257,6 +257,17 @@ CREATE TABLE civicrm_sms_history (
 
 -- /*******************************************************
 -- *
+-- * update civicrm_uf_field with the default values (also fix label)
+-- *
+-- *******************************************************/
+
+   UPDATE civicrm_uf_field SET is_searchable = 1 WHERE in_selector = 1 AND visibility = 'Public User Pages and Listings';
+
+   UPDATE civicrm_uf_field SET label=field_name, field_type='Individual';
+
+
+-- /*******************************************************
+-- *
 -- * Drop Old Tables
 -- *
 -- *******************************************************/
@@ -264,3 +275,29 @@ CREATE TABLE civicrm_sms_history (
    DROP TABLE IF EXISTS civicrm_module_profile;
 
 
+-- /*******************************************************
+-- *
+-- * update abbreviation for New Hampshire in case it is still wrong
+-- *
+-- *******************************************************/
+
+   UPDATE civicrm_state_province SET abbreviation = 'NH' WHERE id = 1028;
+
+
+
+-- /*******************************************************
+-- *
+-- * update the name of the Mexican state of Morelos
+-- *
+-- *******************************************************/
+
+   UPDATE civicrm_state_province SET name = 'Morelos' WHERE id = 3819;
+
+
+-- /*******************************************************
+-- *
+-- * update the custom fields set options per line if it is null
+-- *
+-- *******************************************************/
+	
+   UPDATE civicrm_custom_field SET  options_per_line=0  WHERE options_per_line IS NULL;

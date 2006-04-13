@@ -137,7 +137,7 @@ class CRM_Core_SelectValues {
         static $privacy = null;
         if (!$privacy) {
             $privacy = array(
-                'do_not_phone' => ts('Do not call'),
+                'do_not_phone' => ts('Do not phone'),
                 'do_not_email' => ts('Do not email'),
                 'do_not_mail'  => ts('Do not mail'),
                 'do_not_trade' => ts('Do not trade')
@@ -180,6 +180,7 @@ class CRM_Core_SelectValues {
                 'Money'   => ts('Money'),
                 'Text'    => ts('Memo'),
                 'Date'    => ts('Date'),
+                'File'    => ts('File'),
                 'Boolean' => ts('Yes/No')
             );
         }
@@ -202,6 +203,7 @@ class CRM_Core_SelectValues {
                 'Radio'                   => ts('Radio buttons'),
                 'Checkbox'                => ts('Checkbox(es)'),
                 'Select Date'             => ts('Date selector'),
+                'File'                    => ts('File'),
                 'Select State / Province' => ts('State / Province selector'),
                 'Select Country'          => ts('Country selector')
             );
@@ -264,6 +266,7 @@ class CRM_Core_SelectValues {
                 'User Registration' => ts('User Registration'),
                 'User Account'      => ts('View/Edit User Account'),
                 'Profile'           => ts('Profile'),
+                'Search Profile'    => ts('Search Profile'),
             );
         }
         return $ufGroupType;

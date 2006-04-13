@@ -65,6 +65,11 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      */
     protected $_title = null;
 
+    /**
+     * The options passed into this form
+     * @var mixed
+     */
+    protected $_options = null;
 
     /**
      * The mode of operation for this form
@@ -375,13 +380,24 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *
      * @param string $title the title of the form
      *
-     * @return string
+     * @return void
      * @access public
      */     
     function setTitle( $title ) {
         $this->_title = $title;
     }
-	
+
+    /**
+     * Setter function for options
+     * @param mixed 
+     *
+     * @return void
+     * @access public
+     */
+    function setOptions( $options ) {
+        $this->_options = $options;
+    }
+
     /**
      * getter function for link.
      *
@@ -389,7 +405,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */     
     function getLink( ) {
-        return '';
+        $config =& CRM_Core_Config::singleton( );
+        return CRM_Utils_System::url( $_GET[$config->userFrameworkURLVar],
+                                      '_qf_' . $this->_name . '_display=true' );
     }
 	
     /**
@@ -563,12 +581,12 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addGroup($options, $name, $title );
     }
 
-    function addYesNo( $id, $title, $dontKnow = null ,$required = null) {
+    function addYesNo( $id, $title, $dontKnow = null ,$required = null, $attribute = null) {
         $choice = array( );
-        $choice[] = $this->createElement( 'radio', null, '', ts( 'Yes' ), '1' );
-        $choice[] = $this->createElement( 'radio', null, '', ts( 'No' ) , '0' );
+        $choice[] = $this->createElement( 'radio', null, '11', ts( 'Yes' ), '1', $attribute );
+        $choice[] = $this->createElement( 'radio', null, '11', ts( 'No' ) , '0', $attribute );
         if ( $dontKnow ) {
-            $choice[] = $this->createElement( 'radio', null, '', ts( "Don't Know" ), '2' );
+            $choice[] = $this->createElement( 'radio', null, '22', ts( "Don't Know" ), '2', $attribute );
         }
         $this->addGroup( $choice, $id, $title );
         if ( $required ) {
@@ -576,12 +594,20 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
     }
 
-    function addCheckBox( $id, $title, $values, $other, $attributes ,$required = null) {
+    function addCheckBox( $id, $title, $values, $other, $attributes ,$required = null, $javascriptMethod = null) {
         $options = array( );
-        foreach ( $values as $key => $var ) {
-            $options[] = HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+
+        if ($javascriptMethod) {
+            foreach ( $values as $key => $var ) {
+                $options[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key, $javascriptMethod );
+            }
+        } else {
+            foreach ( $values as $key => $var ) {
+                $options[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+            }
         }
-        $this->addGroup($options, $id, $title );
+
+        $this->addGroup($options, $id, $title, '<br/>' );
 
         if ( $other ) {
             $this->addElement( 'text', $id . '_other', ts( 'Other' ), $attributes[$id . '_other'] );
@@ -591,6 +617,11 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
     }
                           
+
+    function resetValues( ) {
+        $data =& $this->controller->container( );
+        $data['values'][$this->_name] = array( );
+    }
 
 }
 

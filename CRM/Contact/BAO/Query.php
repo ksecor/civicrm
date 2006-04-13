@@ -202,6 +202,14 @@ class CRM_Contact_BAO_Query {
     protected $_customQuery;
 
     /**
+     * should we enable the distinct clause, used if we are including
+     * more than one group
+     *
+     * @var boolean
+     */
+    protected $_useDistinct = false;
+
+    /**
      * The tables which have a dependency on location and/or address
      *
      * @var array
@@ -255,6 +263,7 @@ class CRM_Contact_BAO_Query {
             
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
+            unset( $fields['contact_id']);
             $this->_fields = array_merge( $this->_fields, $fields );
         }
 
@@ -357,7 +366,16 @@ class CRM_Contact_BAO_Query {
         
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
-   
+        
+        //format privacy options
+        if ( is_array($this->_params['privacy']) ) {
+            foreach ($this->_params['privacy'] as $key => $value) {
+                if ($value) {
+                    $this->_params[$key] = 1;
+                }
+            }
+        }
+
         foreach ($this->_fields as $name => $field) {
             $value = CRM_Utils_Array::value( $name, $this->_params );
             // if we need to get the value for this param or we need all values
@@ -497,7 +515,7 @@ class CRM_Contact_BAO_Query {
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
             $this->_tables[ 'civicrm_address_' . $index ] = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
-
+            
             $processed[$lName] = $processed[$aName] = 1;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $index++;
@@ -507,18 +525,25 @@ class CRM_Contact_BAO_Query {
                 if ( strpos( $elementName, '-' ) ) {
                     // this is either phone, email or IM
                     list( $elementName, $elementType ) = explode( '-', $elementName );
+
                     $cond = self::getPrimaryCondition( $elementType );
                     if ( ! $cond ) {
                         $cond = "phone_type = '$elementType'";
                     }
                     $elementType = '-' . $elementType;
                 }
-                
+
                 $field = CRM_Utils_Array::value( $elementName, $this->_fields ); 
-               // hack for profile, add location id
+
+                // hack for profile, add location id
                 if ( ! $field ) {
-                    $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
+                    if ( ! is_numeric($elementType) ) { //fix for CRM-882( to handle phone types )
+                        $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
+                    } else {
+                        $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
+                    }
                 }
+
                 if ( $field && isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     $tName = $name . '-' . substr( $tableName, 8 ) . $elementType;
@@ -569,13 +594,21 @@ class CRM_Contact_BAO_Query {
      */ 
     function query( $count = false, $sortByChar = false, $groupContacts = false ) {
         if ( $count ) {
-            $select = 'SELECT count(civicrm_contact.id)'; 
+            if ( $this->_useDistinct ) {
+                $select = 'SELECT count(DISTINCT civicrm_contact.id)';
+            } else {
+                $select = 'SELECT count(civicrm_contact.id)'; 
+            }
             $from = $this->_simpleFromClause;
         } else if ( $sortByChar ) {  
             $select = 'SELECT DISTINCT UPPER(LEFT(civicrm_contact.sort_name, 1)) as sort_name';
             $from = $this->_simpleFromClause;
         } else if ( $groupContacts ) { 
-            $select  = 'SELECT civicrm_contact.id as id'; 
+            if ( $this->_useDistinct ) { 
+                $select  = 'SELECT DISTINCT(civicrm_contact.id) as id'; 
+            } else {
+                $select  = 'SELECT civicrm_contact.id as id'; 
+            }
             $from = $this->_simpleFromClause;
         } else {
             if ( CRM_Utils_Array::value( 'group', $this->_params ) ) {
@@ -587,6 +620,9 @@ class CRM_Contact_BAO_Query {
                     $this->_element['status']               = 1;
                 }
                 $this->_tables['civicrm_group_contact'] = 1;
+            }
+            if ( $this->_useDistinct ) {
+                $this->_select['contact_id'] = 'DISTINCT(civicrm_contact.id) as contact_id';
             }
             $select = 'SELECT ' . implode( ', ', $this->_select );
             $from = $this->_fromClause;
@@ -1067,7 +1103,8 @@ class CRM_Contact_BAO_Query {
                 if ( $mode & self::MODE_CONTRIBUTE ) {
                     $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
                 } else {
-                    $from .= " $side JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
+                    // keep it INNER for now, at some point we might make it a left join
+                    $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
                 }
                 continue;
 
@@ -1152,6 +1189,10 @@ class CRM_Contact_BAO_Query {
     function group( ) {
         if ( ! CRM_Utils_Array::value( 'group', $this->_params ) ) {
             return;
+        }
+
+        if ( count( $this->_params['group'] ) > 1 ) {
+            $this->_useDistinct = true;
         }
 
         $groupClause = 'civicrm_group_contact.group_id IN (' . 
@@ -1239,7 +1280,7 @@ class CRM_Contact_BAO_Query {
             $this->_tables['civicrm_group_contact'] =  
                 "civicrm_contact.id = civicrm_group_contact.contact_id AND civicrm_group_contact.group_id IN (" .
                 implode(',', array_keys($this->_params['group'])) . ')'; 
-            $this->_tables['civicrm_group_contact'] = $this->_whereTables['civicrm_group_contact'];
+            $this->_whereTables['civicrm_group_contact'] = $this->_tables['civicrm_group_contact'];
             return implode(' OR ', $ssWhere);
         }
         return null;
@@ -1760,6 +1801,7 @@ class CRM_Contact_BAO_Query {
             // regenerate fromClause since permission might have added tables
             if ( $permission ) {
                 $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation, $this->_mode ); 
+                $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
             }
         }
 

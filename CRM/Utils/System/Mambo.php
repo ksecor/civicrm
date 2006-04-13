@@ -90,6 +90,19 @@ class CRM_Utils_System_Mambo {
     }
 
     /**
+     * Append a string to the head of the html file
+     *
+     * @param string $head the new string to be appended
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function addHTMLHead( $head ) {
+      return;
+    }
+
+    /**
      * Generate an internal CiviCRM URL
      *
      * @param $path     string   The path being linked to, such as "civicrm/add"

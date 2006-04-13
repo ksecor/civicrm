@@ -45,8 +45,8 @@ class CRM_Quest_Menu {
                        array( 
                              'path'    => 'civicrm/quest/preapp', 
                              'qs'      => 'reset=1',
-                             'title'   => ts( 'Quest PreApplication Form' ), 
-                             'access'  => true,
+                             'title'   => ts( '2006 College Prep Scholarship Application' ), 
+                             'access'  => CRM_Utils_System::checkPermission( 'edit Quest Application' ),
                              'type'    => CRM_Utils_Menu::CALLBACK,  
                              'crmType' => CRM_Utils_Menu::CALLBACK,
                              'weight'  => 0, 

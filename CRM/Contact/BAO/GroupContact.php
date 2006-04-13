@@ -132,7 +132,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         require_once 'CRM/Utils/Hook.php';
         
-        CRM_Utils_Hook::pre( 'create', 'GroupContact', $contactIds, $groupId ); 
+        CRM_Utils_Hook::pre( 'create', 'GroupContact', $groupId, $contactIds ); 
                 
         $date = date('YmdHis');
         $numContactsAdded    = 0;
@@ -144,7 +144,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $groupContact->contact_id = $contactId;
             // check if the selected contact id already a member
             // if not a member add to groupContact else keep the count of contacts that are not added
-            if (  ! $groupContact->find( )) {
+            if (  ! $groupContact->find( true )) {
                 // add the contact to group
                 $historyParams = array(
                     'contact_id' => $contactId, 
@@ -159,7 +159,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $groupContact->save( );
                 $numContactsAdded++;
             } else {
-                $groupContact->fetch();
                 if ($groupContact->status == 'Added') {
                     $numContactsNotAdded++;
                 } else {
@@ -179,7 +178,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             }
         }
 
-        CRM_Utils_Hook::post( 'create', 'GroupContact', $contactIds, $groupId ); 
+        CRM_Utils_Hook::post( 'create', 'GroupContact', $groupId, $contactIds );
 
         return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
     }
@@ -202,7 +201,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
 
         require_once 'CRM/Utils/Hook.php';
-        CRM_Utils_Hook::pre( 'edit', 'GroupContact', $contactIds, $groupId ); 
+        CRM_Utils_Hook::pre( 'delete', 'GroupContact', $groupId, $contactIds );
 
         $date = date('YmdHis');
         $numContactsRemoved    = 0;
@@ -236,7 +235,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             }
         }
 
-        CRM_Utils_Hook::post( 'edit', 'GroupContact', $contactIds, $groupId ); 
+        CRM_Utils_Hook::post( 'delete', 'GroupContact', $groupId, $contactIds );
 
         return array( count($contactIds), $numContactsRemoved, $numContactsNotRemoved );
     }
@@ -408,22 +407,22 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $groupDAO =& new CRM_Contact_DAO_Group();
         $groupDAO->id = $group->id;
         if ( ! $groupDAO->find( true ) ) {
-            return CRM_Core_Error::fatal( "Could not locate group with id: $id" );
+            return CRM_Core_Error::createError( "Could not locate group with id: $id" );
         }
         
         // make sure user has got permission to view this group
          if ( ! CRM_Contact_BAO_Group::checkPermission( $groupDAO->id, $groupDAO->title ) ) {
-            return CRM_Core_Error::fatal( "You do not have permission to access group with id: $id" );
+             return CRM_Core_Error::createError( "You do not have permission to access group with id: $id" );
         }
         
         $query = '';
         if ( empty($returnProperties) ) {
-            //$query = "SELECT civicrm_contact.id as contact_id,(fixed for broken api crm_get_group_contacts )
-            //            civicrm_email.email as email";
-            $query = "SELECT *,civicrm_contact.id as contact_id,
-                        civicrm_email.email as email";
+            $query = "SELECT civicrm_contact.id as contact_id,
+                      civicrm_email.email as email";
+            //$query = "SELECT *,civicrm_contact.id as contact_id, (talk to lobo before re-enabling this)
+            //civicrm_email.email as email";
         } else {
-            $query  = "SELECT civicrm_contact.id as civicrm_contact_id ,";
+            $query  = "SELECT civicrm_contact.id as contact_id ,";
             $query .= implode( ',', $returnProperties );
         }
         
@@ -442,7 +441,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             CRM_Core_BAO_Email::getTableName() => true,
             CRM_Contact_BAO_Contact::getTableName() => true, 
             CRM_Contact_BAO_Group::getTableName() => true,
-            CRM_Contact_BAO_SubscriptionHistory::getTableName() => true,
         );
 
         $inner = array( );

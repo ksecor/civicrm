@@ -46,6 +46,17 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
 {
     /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        parent::preProcess();
+    }
+    
+    /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
      * 
@@ -55,6 +66,30 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+
+        $dao = & new CRM_Quest_DAO_Student();
+        $dao->id = $this->_studentID;
+        if ($dao->find(true)) {
+            CRM_Core_DAO::storeValues( $dao , $defaults );
+        }
+        
+        $fields = array( 'educational_interest','college_type','college_interest' );
+        foreach( $fields as $field ) {
+            if ( $defaults[$field] ) {
+                $value = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
+            }
+            $defaults[$field] = array();
+            if ( is_array( $value ) ) {
+                foreach( $value as $v ) {
+                    $defaults[$field][$v] = 1;
+                }
+            }
+            $grouping = array();
+            // retrieve the grouping property
+            $grouping = CRM_Core_OptionGroup::values( $field, true, true );
+            $this->assign( $field . '_grouping', $grouping); 
+        }
+
         return $defaults;
     }
     
@@ -72,7 +107,11 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
         $this->addCheckBox( 'educational_interest',
                             ts( 'Please select all of your educational interests' ),
                             CRM_Core_OptionGroup::values( 'educational_interest', true ),
-                            true, null,true );
+                            true, '<br/>',true,
+                            array ('onclick' => "return showHideByValue('educational_interest[245]', '1', 'educational_interest_other', '', 'radio', false);") );
+
+        $this->addElement('text', 'educational_interest_other', ts( 'Other Educational Interest' ),
+                          $attributes['educational_interest_other'] );
 
         $this->addCheckBox( 'college_type',
                             ts( 'Please select the type(s) of college you are interested in attending' ),
@@ -80,7 +119,7 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
                             false, null,true );
 
         $this->addCheckBox( 'college_interest',
-                            ts( 'Please do some research on the following colleges. Select the ones that you are interested in attending. Schools in green are our current partner colleges. In parentheses, we indicate the state where college is located.' ),
+                            ts( 'Please check the colleges that you are interested in attending. If you check a QuestBridge partner college\'s box, your information will be forwarded to that partner college. If you check other (non-partner) colleges\' boxes, your information may be forwarded to that college. Partner colleges are listed in blue and italics.' ),
                             CRM_Core_OptionGroup::values( 'college_interest', true ),
                             false, null,true);
         
@@ -100,32 +139,27 @@ class CRM_Quest_Form_App_Educational extends CRM_Quest_Form_App
       */
     public function postProcess() 
     {
-        $params = $this->controller->exportValues( $this->_name );
-        $values = $this->controller->exportValues( 'Personal' );
-        $params = array_merge( $params,$values );
-        
-        if ( $params['educational_interest'] ) {
-            $params['educational_interest'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['educational_interest']));
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+            $params = $this->controller->exportValues( $this->_name );
+            
+            if ( $params['educational_interest'] ) {
+                $params['educational_interest'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['educational_interest']));
+            }
+            if ( $params['college_interest'] ) {
+                $params['college_interest']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_interest']));
+            }
+            
+            if ( $params['college_type'] ) {
+                $params['college_type']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_type']));
+            }
+            
+            $ids = array( 'id'         => $this->_studentID,
+                          'contact_id' => $this->_contactID );
+
+            require_once 'CRM/Quest/BAO/Student.php';
+            $student = CRM_Quest_BAO_Student::create( $params, $ids);
         }
-        if ( $params['college_interest'] ) {
-            $params['college_interest']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_interest']));
-        }
-
-        if ( $params['college_type'] ) {
-            $params['college_type']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['college_type']));
-        }
-        
-        $id = $this->get('id');
-        $contact_id = $this->get('contact_id');
-        //$ids = array('id'=>$id ,'contact_id' => $contact_id);
-        $ids = array();
-        $ids['id'] = $id;
-        $ids['contact_id'] = $contact_id;
-
-
-        require_once 'CRM/Quest/BAO/Student.php';
-        $student = CRM_Quest_BAO_Student::create( $params, $ids);
-
+        parent::postProcess( );
     }
     /**
      * Return a descriptive name for the page, used in wizard header

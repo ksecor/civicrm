@@ -118,6 +118,27 @@ function crm_uf_get_profile_html  ( $userID, $title, $action = null, $register =
     return CRM_Core_BAO_UFGroup::getEditHTML( $userID, $title, $action, $register, $reset );
 }
 
+/** 
+ * get the html for the form that represents this particular group 
+ * 
+ * @param int     $userID    the user id that we are actually editing 
+ * @param int     $profileID the id of the group we are interested in 
+ * @param int     $action    the action of the form 
+ * @param boolean $register  is this the registration form 
+ * @param boolean $reset     should we reset the form? 
+ * 
+ * @return string            the html for the form 
+ * @static 
+ * @access public 
+ */ 
+function crm_uf_get_profile_html_by_id  ( $userID,
+                                          $profileID,
+                                          $action = null,
+                                          $register = false,
+                                          $reset = false ) {
+    return CRM_Core_BAO_UFGroup::getEditHTML( $userID, null, $action, $register, $reset, $profileID );
+}
+
  
 /**  
  * get the html for the form for profile creation

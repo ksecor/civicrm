@@ -49,6 +49,13 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         TEST_PSAT = 2,
         TEST_SAT  = 4;
 
+    protected $_contactID;
+    protected $_studentID;
+
+    function preProcess( ) {
+        $this->_contactID = $this->get( 'contactID' );
+        $this->_studentID = $this->get( 'studentID' );
+    }
 
     /**
      * This function sets the default values for the form. For edit/view action
@@ -72,9 +79,33 @@ class CRM_Quest_Form_App extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $this->addDefaultButtons(ts('Save & Continue'));        
-    }
+        $this->assign       ( 'displayRecent' , false );
+        $this->assign       ( 'welcome_name'  , $this->get('welcome_name'));
+        if ( $this->_name == 'Personal' ) {
+            if ( $this->_action & CRM_Core_Action::VIEW ) {
+                $this->addDefaultButtons(ts('Continue'), 'next', null);
+            } else {
+                $this->addDefaultButtons(ts('Save & Continue'), 'next', null);
+            }
+        } else if ( $this->_name == 'Submit' ) {
+            if ( $this->_action & CRM_Core_Action::VIEW ) {
+                $this->addDefaultButtons( ts('Continue') );
+            } else {
+                $this->addDefaultButtons( ts('Submit Application') );
+            }
+        } else {
+            if ( $this->_action & CRM_Core_Action::VIEW ) {
+                $this->addDefaultButtons( ts('Continue') );
+            } else {
+                $this->addDefaultButtons( ts('Save & Continue') );
+            }
+        }
 
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+            $this->freeze();
+        }
+
+    }
        
     /**
      * process the form after the input has been submitted and validated
@@ -84,6 +115,32 @@ class CRM_Quest_Form_App extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        // update the task record
+        require_once 'CRM/Project/DAO/TaskStatus.php';
+        $dao =& new CRM_Project_DAO_TaskStatus( );
+        $dao->id = $this->get( 'taskStatusID' );
+        if ( ! $dao->find( true ) ) {
+            CRM_Core_Error::fatal( "The task status table is inconsistent" );
+        }
+        
+        $status =& CRM_Core_OptionGroup::values( 'task_status', true );
+        if ( $this->_name != 'Submit' ) {
+            $dao->status_id = $status['In Progress'];
+        } else {
+            $dao->status_id = $status['Completed'];
+        }
+
+        $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
+        $dao->modified_date = date( 'YmdHis' );
+        
+        // this prevent Databject from destroying this field
+        // $dao->create_date   = 'NULL';
+
+        // now save all the valid values to fool QFC
+        $data =& $this->controller->container( );
+        $dao->status_detail = serialize( $data['valid'] );
+
+        $dao->save( );
     }//end of function
 
     /**
@@ -96,28 +153,31 @@ class CRM_Quest_Form_App extends CRM_Core_Form
      * @access public
      */
     function addDefaultButtons( $title, $nextType = 'next', $backType = 'back' ) {
-        $this->addButtons( array(
-                                 array ( 'type'      => $nextType,
-                                         'name'      => $title,
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => $backType,
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
+        $buttons = array();
+        if ( $backType != null ) {
+            $buttons[] = array ( 'type'      => $backType,
+                                 'name'      => ts('Previous'));
+        }
+        if ( $nextType != null ) {
+            $buttons[] = array ( 'type'      => $nextType,
+                                 'name'      => $title,
+                                 'isDefault' => true   );
+        }
+        $this->addButtons( $buttons );
     }
 
-    function addSelect( $id, $label, $prefix = null, $required = null ) {
+    function addSelect( $name, $label, $prefix = null, $required = null, $extra = null ) {
         if ($prefix) {
-            $this->addElement('select', $id . '_id' . $prefix , $label,
-                              array('' => ts('- Select -')) + CRM_Core_OptionGroup::values($id) );
+            $this->addElement('select', $name . '_id' . $prefix , $label,
+                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values($name), $extra );
             if ( $required) {
-                $this->addRule($id . '_id' . $prefix, ts("Please select $label"),'required');
+                $this->addRule($name . '_id' . $prefix, ts("Please select $label"),'required');
             }
         } else {
-            $this->addElement('select', $id. '_id' , $label,
-                              array('' => ts('- Select -')) + CRM_Core_OptionGroup::values($id) );
+            $this->addElement('select', $name. '_id' , $label,
+                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values($name), $extra );
             if ( $required) {
-                $this->addRule($id. '_id' , ts("Please select $label"),'required');
+                $this->addRule($name. '_id' , ts("Please select $label"),'required');
             }
 
         }
@@ -126,99 +186,109 @@ class CRM_Quest_Form_App extends CRM_Core_Form
 
     function addCountry( $id, $title ,$required = null ) {
         $this->addElement('select', $id, $title,
-                          array('' => ts('- Select -')) + CRM_Core_PseudoConstant::country( ) );
+                          array('' => ts('- select -')) + CRM_Core_PseudoConstant::country( ) );
         if( $required ) {
             $this->addRule($id , ts("Please select $title"),'required');
         }
 
     }
 
-    function addSelectOther( $id, $label, $options, &$attributes ,$required = null) {
+    function addSelectOther( $name, $label, $options, &$attributes ,$required = null, $javascriptMethod = null) {
         
-        $this->addElement('select', $id , $label, $options );
+        $this->addElement('select', $name . '_id' , $label, $options, $javascriptMethod);
+        
         if( $required ) {
-            $this->addRule($id,ts("Please select $label "),'required');
+            $this->addRule($name . '_id' ,ts("Please select $label "),'required');
         }
 
-        $this->addElement( 'text', $id . 'other', $label, $attributes[$id . 'other'] );
+        $this->addElement( 'text', $name . '_other', $label, $attributes[$name . '_other'] );
     }
 
-    function buildAddressBlock( $locationId, $title, $phone, $alternatePhone  = null,$required = null ) {
+    function buildAddressBlock( $locationId, $title, $phone, $alternatePhone  = null, $addressRequired = null, $phoneRequired = null, $altPhoneRequired = null ,$locationName = null ) {
+        if ( ! $locationName ) {
+            $locationName = "location";
+        }
+        
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
 
         $location[$locationId]['address']['street_address']         =
-            $this->addElement('text', "location[$locationId][address][street_address]", $title,
+            $this->addElement('text', "{$locationName}[$locationId][address][street_address]", $title,
                               $attributes['street_address']);
-        //  $this->addRule('location[1][address][street_address]' , ts("Please enter the street address"),'required');
+        if( $addressRequired ){
+            $this->addRule("{$locationName}[$locationId][address][street_address]" , ts("Please enter the Street Address for %1." , array( 1 => $title)),'required');
+        }
 
         $location[$locationId]['address']['supplemental_address_1'] =
-            $this->addElement('text', "location[$locationId][address][supplemental_address_1]", ts('Addt\'l Address 1'),
+            $this->addElement('text', "{$locationName}[$locationId][address][supplemental_address_1]", ts('Additional Address 1'),
                               $attributes['supplemental_address_1']);
         $location[$locationId]['address']['supplemental_address_2'] =
-            $this->addElement('text', "location[$locationId][address][supplemental_address_2]", ts('Addt\'l Address 2'),
+            $this->addElement('text', "{$locationName}[$locationId][address][supplemental_address_2]", ts('Additional Address 2'),
                               $attributes['supplemental_address_2']);
 
         $location[$locationId]['address']['city']                   =
-            $this->addElement('text', "location[$locationId][address][city]", ts('City'),
+            $this->addElement('text', "{$locationName}[$locationId][address][city]", ts('City'),
                               $attributes['city']);
-        $this->addRule('location[1][address][city]' , ts("Please enter the city"),'required');
-
+        if( $addressRequired ){
+            $this->addRule("{$locationName}[$locationId][address][city]" , ts("Please enter the City for %1." , array( 1 => $title)),'required');
+        }
+        
         $location[$locationId]['address']['postal_code']            =
-            $this->addElement('text', "location[$locationId][address][postal_code]", ts('Zip / Postal Code'),
+            $this->addElement('text', "{$locationName}[$locationId][address][postal_code]", ts('Zip / Postal Code'),
                               $attributes['postal_code']);
-        //   $this->addRule('location[1][address][postal_code]' , ts("Please enter the Zip/Postal"),'required');
-        $this->addRule( "location[$locationId][address][postal_code]", ts('Zip/Postal not valid.'), 'integer' );
-
+        if( $addressRequired ){
+            $this->addRule("{$locationName}[$locationId][address][postal_code]" , ts("Please enter the Zip/Postal Code for %1." , array( 1 => $title)),'required');
+        }
+        $this->addRule( "{$locationName}[$locationId][address][postal_code]", ts("Zip/Postal Code not valid for %1.", array( 1 => $title)), 'positiveInteger' );
+        
         $location[$locationId]['address']['postal_code_suffix']            =
-            $this->addElement('text', "location[$locationId][address][postal_code_suffix]", ts('Add-on Code'),
+            $this->addElement('text', "{$locationName}[$locationId][address][postal_code_suffix]", ts('Add-on Code'),
                               array( 'size' => 4, 'maxlength' => 12 ));
-        $this->addRule( "location[$locationId][address][postal_code_suffix]", ts('Zip-Plus not valid.'), 'integer' );
+        $this->addRule( "{$locationName}[$locationId][address][postal_code_suffix]", ts('Zip-Plus not valid.'), 'positiveInteger' );
 
-         $location[$locationId]['address']['state_province_id']      =
-             $this->addElement('select', "location[$locationId][address][state_province_id]", ts('State / Province'),
+        $location[$locationId]['address']['state_province_id']      =
+             $this->addElement('select', "{$locationName}[$locationId][address][state_province_id]", ts('State / Province'),
                                array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
-         //$this->addRule('location[1][address][state_province_id]' , ts("Please select the state"),'required');
 
-         $location[$locationId]['address']['country_id']             =
-             $this->addElement('select', "location[$locationId][address][country_id]", ts('Country'),
+        $location[$locationId]['address']['country_id']             =
+             $this->addElement('select', "{$locationName}[$locationId][address][country_id]", ts('Country'),
                                array('' => ts('- select -')) + CRM_Core_PseudoConstant::country());
-           $this->addRule('location[1][address][country_id]' , ts("Please select the country"),'required');
-
+        if( $addressRequired ){
+            $this->addRule("{$locationName}[$locationId][address][country_id]" , ts("Please select the Country for %1." , array( 1 => $title)),'required');
+        }
+        
 
          if ( $phone ) {
-             $location[$locationId]['phone'][1]['phone_type'] = $this->addElement('select',
-                                                                                  "location[$locationId][phone][1][phone_type]",
-                                                                                  null,
-                                                                                  CRM_Core_SelectValues::phoneType());
-             
              $location[$locationId]['phone'][1]['phone']      = $this->addElement('text',
-                                                                                  "location[$locationId][phone][1][phone]", 
+                                                                                  "{$locationName}[$locationId][phone][1][phone]", 
                                                                                   $phone,
                                                                                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                                                                              'phone'));
-             if($required) {
-                 $this->addRule("location[$locationId][phone][1][phone]",ts("Please Enter value for $phone"),'required');
+             if($phoneRequired) {
+                 $this->addRule("{$locationName}[$locationId][phone][1][phone]",ts("Please enter a value for $phone"),'required');
              }
-             $this->addRule("location[$locationId][phone][1][phone]",ts("Please Enter a valid number"),'phone');
+             $this->addRule("{$locationName}[$locationId][phone][1][phone]",ts("Please enter a valid number for $phone"),'phone');
          }
 
          if ( $alternatePhone ) {
-             $location[$locationId]['phone'][2]['phone_type'] = $this->addElement('select',
-                                                                                  "location[$locationId][phone][2][phone_type]",
-                                                                                  null,
-                                                                                  CRM_Core_SelectValues::phoneType());
-             
-             
              $location[$locationId]['phone'][2]['phone']      = $this->addElement('text',
-                                                                                  "location[$locationId][phone][2][phone]", 
+                                                                                  "{$locationName}[$locationId][phone][2][phone]", 
                                                                                   $phoneTitle,
                                                                                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                                                                              
                                                                                                    'phone'));
-             if ($required) {
-                 $this->addRule("location[$locationId][phone][2][phone]",ts("Please Enter value for $alternatePhone"),'required');
+             if ($alternatePhoneRequired) {
+                 $this->addRule("{$locationName}[$locationId][phone][2][phone]",ts("Please enter a value for $alternatePhone"),'required');
              }
+             $this->addRule("{$locationName}[$locationId][phone][2][phone]",ts("Please enter a valid number for $alternatePhone"),'phone');
          }
+    }
+
+    public function getRootTitle( ) {
+        return null;
+    }
+
+    public function getCompleteTitle( ) {
+        return $this->getRootTitle( ) . $this->getTitle( );
     }
 
 }

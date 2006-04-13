@@ -79,6 +79,17 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         // add text box for last name, first name, street name, city
         $this->addElement('text', 'sort_name', ts('Find...'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        
+        // add search profiles
+        require_once 'CRM/Core/BAO/UFGroup.php';
+        $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Search Profile', 1);
+        $searchProfiles = array ( );
+        foreach ($ufGroups as $key => $var) {
+            $searchProfiles[$key] = $var['title'];
+        }
+        
+        $this->addElement('select', 'uf_group_id', ts('Search Views'),  array('' => ts('- default view -')) + $searchProfiles);
+
         $this->addElement('text', 'street_address', ts('Street Address'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'street_address'));
         $this->addElement('text', 'city', ts('City'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'city'));
 
@@ -98,6 +109,16 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->addElement('text', 'postal_code_high', ts('To'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'postal_code') );
 
         $this->addElement('text', 'location_name', ts('Location Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name') );
+
+        // checkboxes for DO NOT phone, email, mail
+        // we take labels from SelectValues
+        $t = CRM_Core_SelectValues::privacy();
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_phone', null, $t['do_not_phone']);
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_email', null, $t['do_not_email']);
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_mail' , null, $t['do_not_mail']);
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_trade', null, $t['do_not_trade']);
+        
+        $this->addGroup($privacy, 'privacy', ts('Privacy'), '&nbsp;');
 
         // checkboxes for location type
         $location_type = array();
@@ -124,6 +145,18 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             CRM_Contribute_Form_Search::buildQuickFormCommon( $this );
         }
 
+        //relationsship fileds
+        
+        require_once 'CRM/Contact/BAO/Relationship.php';
+        require_once 'CRM/Core/PseudoConstant.php';
+        $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
+        $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
+        $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
+        $allRelationshipType =array();
+        $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
+        $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+        $this->addElement('select', 'relation_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $allRelationshipType);
+        $this->addElement('text', 'target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         //Custom data Search Fields
         $this->customDataSearch();
         
@@ -258,6 +291,14 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         // get it from controller only if form has been submitted, else preProcess has set this
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name);
+            
+            // set the group if group is submitted
+            if ($this->_formValues['uf_group_id']) {
+                $session->set( 'id', $this->_formValues['uf_group_id'] ); 
+            } else {
+                $session->set( 'id', '' ); 
+            }
+            
             // also reset the sort by character 
             $this->_sortByCharacter = null; 
             $this->set( 'sortByCharacter', null ); 

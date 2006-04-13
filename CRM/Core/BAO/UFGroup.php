@@ -295,7 +295,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                     if ($field->phone_type) {
                         $name      .= '-'.$field->phone_type;
-                        if ($field->phone_type != ts('Phone')) { // this hack is to prevent Phone Phone (work)
+                        if ($field->phone_type != 'Phone') { // this hack is to prevent Phone Phone (work)
                             $phoneType  = '-' . $field->phone_type;
                         }
                     }
@@ -319,7 +319,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                               'options_per_line' => $importableFields[$field->field_name]['options_per_line'],
                               'location_type_id' => $field->location_type_id,
                               'phone_type'       => $field->phone_type,
-                              'group_id'         => $group->id  
+                              'group_id'         => $group->id,
+                              'add_to_group_id'  => $group->add_to_group_id
                               );
                 }
             }
@@ -372,23 +373,30 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * get the html for the form that represents this particular group
      *
-     * @param int     $userID   the user id that we are actually editing
-     * @param string  $title    the title of the group we are interested in
-     * @param int     $action   the action of the form
-     * @param boolean $register is this the registration form
-     * @param boolean $reset    should we reset the form?
+     * @param int     $userID    the user id that we are actually editing
+     * @param string  $title     the title of the group we are interested in
+     * @param int     $action    the action of the form
+     * @param boolean $register  is this the registration form
+     * @param boolean $reset     should we reset the form?
+     * @param int     $profileID do we have the profile ID?
      *
      * @return string       the html for the form on success, otherwise empty string
      * @static
      * @access public
      */
-    static function getEditHTML( $userID, $title, $action = null, $register = false, $reset = false ) {
+    static function getEditHTML( $userID,
+                                 $title,
+                                 $action = null,
+                                 $register = false,
+                                 $reset = false,
+                                 $profileID = null ) {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
             if ( $reset ) {
                 // hack to make sure we do not process this form
+                $oldQFDefault = $_POST['_qf_default'];
                 unset( $_POST['_qf_default'] );
                 unset( $_REQUEST['_qf_default'] );
                 $controller->reset( );
@@ -398,23 +406,34 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $controller->process( );
             $controller->setEmbedded( true );
             $controller->run( );
-            
+
+            // we are done processing so restore the POST/REQUEST vars
+            if ( $reset ) {
+                $_POST['_qf_default'] = $_REQUEST['_qf_default'] = $oldQFDefault;
+            }
+
             $template =& CRM_Core_Smarty::singleton( );
             return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
         } else {
-            // make sure we have a valid group
-            $group =& new CRM_Core_DAO_UFGroup( );
-            
-            $group->title     = $title;
-            $group->domain_id = CRM_Core_Config::domainID( );
-            
-            if ( $group->find( true ) ) {
+            if ( ! $profileID ) {
+                // make sure we have a valid group
+                $group =& new CRM_Core_DAO_UFGroup( );
+                
+                $group->title     = $title;
+                $group->domain_id = CRM_Core_Config::domainID( );
+
+                if ( $group->find( true ) ) {
+                    $profileID = $group->id;
+                }
+            }
+
+            if ( $profileID ) {
                 require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
                 if ( $reset ) {
                     $controller->reset( );
                 }
-                $controller->set( 'gid'     , $group->id );
+                $controller->set( 'gid'     , $profileID );
                 $controller->set( 'id'      , $userID );
                 $controller->set( 'register', 0 );
                 $controller->process( );
@@ -563,7 +582,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 //to handle custom data (checkbox) to be written
                 // to handle gender / suffix / prefix
                 if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix' ) ) ) {
-                    $params[$index] = $values[$index] = $details->$name;
+                    $values[$index] = $details->$name;
+                    $name = $name . '_id';
+                    $params[$index] = $details->$name ;
                 } else if ( in_array( $name, array( 'state_province', 'country' ) ) ) {
                     $values[$index] = $details->$name;
                     $idx = $name . '_id';
@@ -772,6 +793,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function add(&$params, &$ids) {
         $params['is_active'              ] = CRM_Utils_Array::value('is_active', $params, false);
         $params['limit_listings_group_id'] = CRM_Utils_Array::value('group', $params);
+        $params['add_to_group_id'] = CRM_Utils_Array::value('add_contact_to_group', $params);
     
         $ufGroup             =& new CRM_Core_DAO_UFGroup();
         $ufGroup->domain_id  = CRM_Core_Config::domainID( );

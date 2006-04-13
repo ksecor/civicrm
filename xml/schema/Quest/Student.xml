@@ -192,19 +192,10 @@
       <name>parent_grad_college_id</name>
       <type>int unsigned</type>
       <default>NULL</default>
-      <comment>Has any parent or guardian graduated from a 4-year college? FK to civicrm_option_value.</comment>
+      <comment>Has any parent or guardian graduated from a 4-year college?</comment>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>parent_grad_college_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <export>true</export>
-       <import>true</import>
-       <headerPattern>/parent college graduate/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
-  <field>
+   <field>
        <name>internet_access_id</name>
        <type>int unsigned</type>
        <comment>How do they access the internet. FK to civicrm_option_value.</comment>
@@ -233,7 +224,6 @@
        <name>is_home_computer</name>
        <type>boolean</type>
        <default>NULL</default>
-       <default>0</default>
        <export>true</export>
        <import>true</import>
        <headerPattern>/home computer/i</headerPattern>
@@ -243,7 +233,7 @@
   <field>
        <name>is_home_internet</name>
        <type>boolean</type>
-       <default>0</default>
+       <default>NULL</default>
        <export>true</export>
        <import>true</import>
        <headerPattern>/home internet/i</headerPattern>
@@ -253,8 +243,8 @@
   <field>
        <name>is_take_SAT_ACT</name>
        <type>boolean</type>
-        <default>0</default>
-        <export>true</export>
+       <default>NULL</default>
+       <export>true</export>
        <import>true</import>
        <headerPattern>/take SAT/i</headerPattern>
        <comment>Plans on taking SAT or ACT test.</comment>
@@ -323,7 +313,7 @@
        <type>text</type>
        <htmlType>textarea</htmlType>
        <rows>4</rows>
-       <cols>60</cols>
+       <cols>40</cols>
        <export>true</export>
        <import>true</import>
        <headerPattern>/other college/i</headerPattern>
@@ -346,6 +336,16 @@
        <headerPattern>/gpa/i</headerPattern>
        <add>1.5</add>
   </foreignKey>
+  <field>
+       <name>is_class_ranking</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/class ranking/i</headerPattern>
+       <comment>Does students class have rankings.</comment>
+       <add>1.5</add>
+  </field>
   <field>
       <name>class_rank</name>
       <type>int unsigned</type>
@@ -419,6 +419,15 @@
       <add>1.5</add>
   </field>
   <field>
+      <name>score_PLAN</name>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <headerPattern>/ACT score/i</headerPattern>
+      <comment>Combined highest reported scores (PLAN).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
        <name>test_tutoring</name>
        <type>varchar</type>
        <length>255</length>
@@ -461,4 +470,36 @@
        <headerPattern>/federal lunch/i</headerPattern>
        <add>1.5</add>
   </foreignKey>
+ <field>
+       <name>financial_aid_applicant</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <comment>Plans to be a financial aid applicant to colleges.</comment>
+       <add>1.5</add>
+  </field>
+ <field>
+       <name>register_standarized_tests</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <comment>Plans to use, or have fee waivers to register for standarized tests.</comment>
+       <add>1.5</add>
+  </field>
+ <field>
+      <name> award_ranking_1_id</name>
+      <type>int unsigned</type>
+      <comment>Rank the scholarship awards .</comment>
+      <add>1.5</add>
+  </field>
+ <field>
+      <name> award_ranking_2_id</name>
+      <type>int unsigned</type>
+      <comment>Rank the scholarship awards.</comment>
+      <add>1.5</add>
+  </field>
+ <field>
+      <name> award_ranking_3_id</name>
+      <type>int unsigned</type>
+      <comment>Rank the scholarship awards.</comment>
+      <add>1.5</add>
+  </field>
 </table>

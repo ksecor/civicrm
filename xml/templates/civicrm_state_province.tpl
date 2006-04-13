@@ -2443,7 +2443,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (3816, 1140, "JAL", "Jalisco"),
 (3817, 1140, "MEX", "Mexico"),
 (3818, 1140, "MIC", "Michoacin"),
-(3819, 1140, "MOR", "Moreloa"),
+(3819, 1140, "MOR", "Morelos"),
 (3820, 1140, "NAY", "Nayarit"),
 (3821, 1140, "NLE", "Nuevo Leon"),
 (3822, 1140, "OAX", "Oaxaca"),

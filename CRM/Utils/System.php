@@ -56,6 +56,7 @@ class CRM_Utils_System {
                                                 'addtohousehold'     => 'AddToHousehold',
                                                 'addtoorganization'  => 'AddToOrganization',
                                                 'addtotag'           => 'AddToTag',
+                                                'addproduct'         => 'AddProduct',
                                                 'api'                => 'API',
                                                 'at'                 => 'AT',
                                                 'activitytype'       => 'ActivityType',
@@ -86,6 +87,7 @@ class CRM_Utils_System {
                                                 'im'                 => 'IM',
                                                 'improvider'         => 'IMProvider',
                                                 'locationtype'       => 'LocationType',
+                                                'managepremiums'     => 'ManagePremiums',
                                                 'mapfield'           => 'MapField',
                                                 'mobileprovider'     => 'MobileProvider',
                                                 'pseudoconstant'     => 'PseudoConstant',
@@ -191,15 +193,23 @@ class CRM_Utils_System {
      * @param string  $content the content that will be themed
      * @param array   $args    the args for the themeing function if any
      * @param boolean $print   are we displaying to the screen or bypassing theming?
+     * @param boolean $ret  should we echo or return output
      * 
      * @return void           prints content on stdout
      * @access public
      */
-    function theme( $type, &$content, $args = null, $print = false ) {
+    function theme( $type, &$content, $args = null, $print = false, $ret = false ) {
+        
         if ( function_exists( 'theme' ) && ! $print ) {
-            print theme( $type, $content, $args );
+            $out = theme( $type, $content, $args );
         } else {
-            print $content;
+            $out = $content;
+        }
+        
+        if ( $ret ) {
+            return $out;
+        } else {
+            print $out;
         }
     }
 
@@ -405,6 +415,20 @@ class CRM_Utils_System {
     }
 
     /**
+     * Append a string to the head of the html file
+     *
+     * @param string $head the new string to be appended
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function addHTMLHead( $bc ) {
+        $config   =& CRM_Core_Config::singleton( );
+        return eval( 'return ' . $config->userFrameworkClass . '::addHTMLHead( $bc );' );
+    }
+
+    /**
      * figure out the post url for the form
      *
      * @param the default action if one is pre-specified
@@ -415,7 +439,7 @@ class CRM_Utils_System {
      */
     static function postURL( $action ) {
         $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userFrameworkClass . '::postURL( "' . $action  . '" ); ' );
+        return eval( 'return ' . $config->userFrameworkClass . '::postURL( $action  ); ' );
     }
 
     /**
@@ -558,7 +582,20 @@ class CRM_Utils_System {
         $vModules = self:: parsePHPModules();
         return $vModules[$pModuleName][$pSetting];
     }
-    
+  
+    static function memory( $title = null ) {
+        static $pid = null;
+        if ( ! $pid ) {
+            $pid = posix_getpid( );
+        }
+
+        $memory = str_replace("\n", '', shell_exec("ps -p $pid -o rss="));
+        if ( $title ) {
+            CRM_Core_Error::debug( $title, $memory );
+        }
+        return $memory;
+    }
+
 }
 
 ?>

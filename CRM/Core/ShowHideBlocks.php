@@ -183,7 +183,7 @@ class CRM_Core_ShowHideBlocks {
      * @return void
      * @access public
      */
-    function links( &$form, $prefix, $showLinkText, $hideLinkText ) {
+     function links( &$form, $prefix, $showLinkText, $hideLinkText, $assign = true ) {
         $showCode = "show('${prefix}'); hide('${prefix}[show]'); return false;";
         $hideCode = "hide('${prefix}'); show('${prefix}[show]'); return false;";
         
@@ -192,7 +192,11 @@ class CRM_Core_ShowHideBlocks {
         $values['show'] = self::linkHtml("${prefix}[show]", "#${prefix}", self::$_showIcon . $showLinkText, "onclick=\"$showCode\"");
         $values['hide'] = self::linkHtml("${prefix}[hide]", "#${prefix}", self::$_hideIcon . $hideLinkText, "onclick=\"$hideCode\"");
         
-        $form->assign( $prefix, $values);
+        if ( $assign ) {
+            $form->assign( $prefix, $values);
+        } else {
+            return $values;
+        }
     }
 
     /**

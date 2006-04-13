@@ -53,10 +53,12 @@ class CRM_Quest_Invoke {
             return;
         }
 
-        
         if ( $args[2] == 'preapp' ) {
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+
             require_once 'CRM/Quest/Controller/PreApp.php';
-            $controller =& new CRM_Quest_Controller_PreApp( );
+            $controller =& new CRM_Quest_Controller_PreApp( null, null, false );
             return $controller->run( );
         }
 

@@ -96,20 +96,20 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Group', 'description'));
 
         // get the group id for the saved search
+        $groupId = null;
         if ( isset( $this->_id ) ) { 
             $params = array( 'saved_search_id' => $this->_id );
             CRM_Contact_BAO_Group::retrieve( $params, $values );
             $groupId = $values['id'];
-            
-            $this->addRule( 'title', ts('Name already exists in Database.'),
-                            'objectExists', array( 'CRM_Contact_DAO_Group', $groupId, 'title' ) );
-        }
-        
-        if ( isset( $this->_id ) ) {
+
             $this->addDefaultButtons( ts('Update Smart Group') );
         } else {
             $this->addDefaultButtons( ts('Save Smart Group') );
         }
+
+        $this->addRule( 'title', ts('Name already exists in Database.'),
+                        'objectExists', array( 'CRM_Contact_DAO_Group', $groupId, 'title' ) );
+
     }
 
     /**

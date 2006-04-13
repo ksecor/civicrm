@@ -45,6 +45,20 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
 {
+
+    protected $_essayID = null;
+
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        parent::preProcess();
+    }
+    
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -55,6 +69,14 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+
+        require_once 'CRM/Quest/DAO/Essay.php';
+        $dao = & new CRM_Quest_DAO_Essay();
+        $dao->contact_id = $this->_contactID;
+        if ( $dao->find(true) ) {
+            $defaults['essay'] = $dao->essay;
+            $this->_essayID = $dao->id;
+        }
         return $defaults;
     }
     
@@ -70,10 +92,16 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Essay');
 
         // primary method to access internet
-        $this->addElement('textarea',
-                          'essay',
-                          ts( 'List and describe the factors in your life that have most shaped you (1500 characters max).' ),
-                          $attributes['essay'] );
+        $this->add('textarea',
+                   'essay',
+                   ts( 'List and describe the factors in your life that have most shaped you (3000 characters max).' ),
+                   array("onkeyup" => "countit();") + $attributes['essay'],
+                   true);
+        
+
+        if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+            $this->addElement('text', 'word_count', ts( 'Current character count' ), 'readonly');
+        }
         parent::buildQuickForm();
 
 
@@ -92,16 +120,18 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
 
   public function postProcess() 
     {
-        $params = $this->controller->exportValues( $this->_name );
-      
-        require_once 'CRM/Quest/BAO/Essay.php';
-     
-        $contact_id = $this->get('contact_id');
-        $params['contact_id'] =  $contact_id;
-        //$essay = CRM_Quest_BAO_Essay::create( $params,$id);
-        $this->set('id', $essay->id );
-        $this->set('contact_id',$essay->contact_id );
-      
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+            $params = $this->controller->exportValues( $this->_name );
+            
+            require_once 'CRM/Quest/BAO/Essay.php';
+            
+            $params['contact_id'] =  $this->_contactID;
+            
+            $ids = array( 'id' => $this->_essayID );
+            
+            CRM_Quest_BAO_Essay::create( $params, $ids);
+        }
+        parent::postProcess( );
     }//end of function
 
 

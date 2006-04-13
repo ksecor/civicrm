@@ -149,7 +149,6 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      */
     function run( ) {
-
         // the names of the action and page should be saved
         // note that this is split into two, because some versions of
         // php 5.x core dump on the triple assignment :)
@@ -166,7 +165,6 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         // note that based on action, control might not come back!!
         // e.g. if action is a valid JUMP, u basically do a redirect
         // to the appropriate place
-
         $this->wizardHeader( $pageName );
         $this->_pages[$pageName]->handle($action);
 
@@ -218,15 +216,17 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
         foreach ($names as $name => $classPath) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, $classPath) . '.php');
-            $this->addAction( $name,new $classPath( $this->_stateMachine ) );
+            $action =& new $classPath( $this->_stateMachine );
+            $this->addAction( $name, $action );
         }
     
         if ( ! empty( $uploadDirectory ) ) {
             require_once 'CRM/Core/QuickForm/Action/Upload.php';
-            $this->addAction('upload' ,
-                            new CRM_Core_QuickForm_Action_Upload ($this->_stateMachine,
-                                                                   $uploadDirectory,
-                                                                   $uploadNames));
+            $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
+                                                              $uploadDirectory,
+                                                              $uploadNames );
+
+            $this->addAction('upload' , $action );
         }
     
     }
@@ -265,12 +265,13 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      * @access public
      *
      */
-    function addPages( $stateMachine, $action = CRM_Core_Action::NONE ) {
+    function addPages( &$stateMachine, $action = CRM_Core_Action::NONE ) {
         $pages = $stateMachine->getPages( );
 
         foreach ( $pages as $name => $value ) {
-            $className   = CRM_Utils_Array::value( 'className', $value, $name );
-            $title       = CRM_Utils_Array::value( 'title'    , $value );
+            $className   = CRM_Utils_Array::value( 'className' , $value, $name );
+            $title       = CRM_Utils_Array::value( 'title'     , $value );
+            $options     = CRM_Utils_Array::value( 'options'   , $value );
             $stateName   = CRM_Utils_String::getClassName($className);
             if ( CRM_Utils_Array::value( 'className', $value ) ) {
                 $formName = $name;
@@ -281,6 +282,9 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
             $$stateName =& new $className( $stateMachine->find( $className ), $action, 'post', $formName );
             if ( $title ) {
                 $$stateName->setTitle( $title );
+            }
+            if ( $options ) {
+                $$stateName->setOptions( $options );
             }
             $this->addPage( $$stateName );
             $this->addAction( $stateName, new HTML_QuickForm_Action_Direct( ) );
@@ -392,6 +396,9 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
                                   'stepPrefixCurrent' => '&raquo;',
                                   'stepPrefixPast' => '&radic;',
                                   'stepPrefixFuture' => ' ',
+                                  'subStepPrefixCurrent' => '&nbsp;&nbsp;',
+                                  'subStepPrefixPast' => '&nbsp;&nbsp;',
+                                  'subStepPrefixFuture' => '&nbsp;&nbsp;',
                                   'showTitle' => 1 );
     }
 
@@ -450,6 +457,14 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      */
     function getPrint( ) {
         return $this->_print;
+    }
+
+    function getTemplateFile( ) {
+        if ( $this->getPrint( ) ) {
+            return 'CRM/common/print.tpl';
+        } else {
+            return 'CRM/index.tpl';
+        }
     }
 
 }

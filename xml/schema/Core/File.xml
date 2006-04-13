@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>File</class>
+  <name>civicrm_file</name>
+  <comment>Data store for each extended properties.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique ID</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>custom_field_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Foreign key to civicrm_custom_field.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>custom_field_id</name>
+       <table>civicrm_custom_field</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>entity_table</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>physical tablename for entity being extended by this data, e.g. civicrm_contact</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>entity_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to record in the entity table specified by entity_table column.</comment>
+      <add>1.5</add>
+  </field>
+  <index>
+       <name>index_entity</name>
+       <fieldName>entity_table</fieldName>
+       <fieldName>entity_id</fieldName>
+       <add>1.5</add>
+  </index>
+  <field>
+     <name>mime_type</name>
+     <type>varchar</type>
+     <length>255</length>
+     <comment>mime type of the document</comment>
+     <add>1.5</add>
+  </field>
+  <field>
+     <name>uri</name>
+     <type>varchar</type>
+     <length>255</length>
+     <comment>uri of the file on disk</comment>
+     <add>1.5</add>
+  </field>
+  <field>
+     <name>document</name>
+     <type>mediumblob</type>
+     <comment>contents of the document</comment>
+     <add>1.5</add>
+  </field>
+</table>

@@ -2,7 +2,7 @@
 <legend>
 {ts}Choose Relationship Type and Target Organization{/ts}
 </legend>
-<br>
+<br />
 {include file="CRM/Contact/Form/Task.tpl"}
          <div class="form-item">
             <dl>

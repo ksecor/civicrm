@@ -16,6 +16,9 @@
                     {ts}Complete OR partial contact name OR email.{/ts}
                 </div>
             </td>
+            <td>
+                {$form.uf_group_id.label} {$form.uf_group_id.html}
+            </td>
             <td class="label">{$form.buttons.html}</td>       
         </tr>
 		<tr>
@@ -41,6 +44,10 @@
                 </div>
             </td>
 		</tr>
+        <tr>
+            <td><br />{$form.privacy.label}</td>
+            <td><br />{$form.privacy.html}</td>
+        </tr>
     </table>
     <fieldset><legend>{ts}Location{/ts}</legend>
     <table class="form-layout">
@@ -113,6 +120,28 @@
     </fieldset>
     </div>
     {/if}
+
+    <div id="relationship[show]" class="data-group">   
+    <fieldset><legend>{ts}Relationship{/ts}</legend>    
+      <table class="form-layout">
+         <tr>
+            <td class="label">
+                {$form.relation_type_id.label}
+            </td>
+            <td>
+                {$form.relation_type_id.html}
+            </td>
+            <td class="label">
+                {$form.target_name.label}
+            </td>
+            <td>
+                {$form.target_name.html}
+            </td>    
+        </tr>
+      </table>         
+    </fieldset>
+    </div>
+
 
     <table class="form-layout">
     <tr>

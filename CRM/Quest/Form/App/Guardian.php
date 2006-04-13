@@ -45,9 +45,9 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
 {
-    static $_personID;
-    static $_personCount = 0 ;
-    
+    protected $_personID;
+    protected $_relationshipID;
+
     /**
      * Function to set variables up before form is built
      *
@@ -57,21 +57,8 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-        require_once 'CRM/Core/OptionGroup.php';
-        $relationships = CRM_Core_OptionGroup::values( 'relationship' );
-        foreach ( $relationships as $key=> $value ) {
-            if ( trim($value) == trim($this->_name) ) {
-                $relationshipID = $key;
-            }
-        }
-
-        require_once 'CRM/Quest/DAO/Person.php';
-        $dao = new CRM_Quest_DAO_Person();
-        $dao->contact_id      = $this->get('contact_id');
-        $dao->relationship_id = $relationshipID;
-        if ( $dao->find(true) ) {
-            $this->_personID = $dao->id;
-        }
+        $this->_personID        = $this->_options['personID'];
+        $this->_relationshipID  = $this->_options['relationshipID'];
     }
    
     /**
@@ -84,6 +71,32 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        if ( $this->_personID ) {
+            $dao = & new CRM_Quest_DAO_Person();
+            $dao->id = $this->_personID ;
+            if ($dao->find(true)) {
+                CRM_Core_DAO::storeValues( $dao , $defaults );
+            }
+            
+            // format date
+            require_once 'CRM/Utils/Date.php';
+            $dateFields = array('deceased_year','separated_year','college_grad_year','prof_grad_year','birth_date');
+            foreach( $dateFields as $field ) {
+                $date = CRM_Utils_Date::unformat( $defaults[$field],'-' );  
+                if (! empty( $date) ) {
+                    $defaults[$field] = $date;
+                } else {
+                    $defaults[$field] = '';
+                }
+            }
+        }
+        //fix for deceased_year
+        $defaults['deceased_year_date']= $defaults['deceased_year'] ;
+        if ( !$defaults['lived_with_from_age'] &&  ! $defaults['lived_with_to_age'] ) {
+            $defaults['all_life'] = 1;
+        } else {
+            $defaults['all_life'] = 0;
+        }
         return $defaults;
     }
     
@@ -101,44 +114,51 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $this->addElement( 'text', "first_name",
                            ts('First Name'),
                            $attributes['first_name'] );
-        $this->addRule('first_name',ts('Please Enter First Name'),'required');
+        $this->addRule('first_name',ts('Please enter First Name'),'required');
 
         $this->addElement( 'text', "last_name",
                            ts('Last Name'),
                            $attributes['last_name'] );
-        $this->addRule('last_name',ts('Please Enter  Last Name'),'required');
+        $this->addRule('last_name',ts('Please enter Last Name'),'required');
 
-        
-        $this->addSelect('marital_status', ts( 'Marital Status?' ) );
+        $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '43|44|336', 'separated-year', '', 'select', false);" );
+        $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
 
         $this->addElement( 'date', 'separated_year', 
                            ts( 'Year your parents separated or divorced' ),
                            CRM_Core_SelectValues::date( 'custom', 30, 1, "Y" ) );
         
-        $this->addYesNo( 'is_deceased', ts( 'Deceased?' ),null,true );
+        $this->addYesNo( 'is_deceased', ts( 'Deceased?' ), null,true, array ('onchange' => "return showHideByValue('is_deceased', '1', 'deceased_year_date', 'table-row', 'radio', false);"));
 
         $this->addElement( 'date', 'deceased_year_date', 
                            ts( 'Year Deceased' ),
-                           CRM_Core_SelectValues::date( 'custom', 50, 1, "Y" ) );
+                           CRM_Core_SelectValues::date( 'custom', 70, 1, "Y" ) );
         
-        $this->addElement( 'text', "age",
-                           ts('Age'),
-                           $attributes['age'] );
-        $this->addRule('age',ts('Please Enter Age'),'required');
-        $this->addRule('age',ts('age not valid'),'integer');
-        
-        $this->addRadio( 'lived_with_period_id',
-                         ts( 'How long have you lived with this person?' ),
-                         CRM_Core_OptionGroup::values( 'lived_with_period' ) );
-        $this->addElement( 'text', "lived_with_from_age", ts( 'From Age' ),
-                           $attributed['lived_with_from_age'] );
-        $this->addRule('lived_with_from_age',ts('age not valid'),'integer');
+        $this->addElement('date', 'birth_date',
+                          ts(' Birthdate (month/day/year)'),
+                          CRM_Core_SelectValues::date('custom', 100, 0, "M\001d\001Y" ),
+                          true);
+        $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
 
-        $this->addElement( 'text', "lived_with_to_age", ts( 'To Age' ),
-                           $attributed['lived_with_to_age'] );
-        $this->addRule('lived_with_to_age',ts('age not valid'),'integer');
+        $extra2 = array ('onclick' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', '', 'radio', true);");
+        $choice = array( );
+        $choice[] = $this->createElement( 'radio', null, '11', ts( 'All my life' ), '1', $extra2 );
+        $choice[] = $this->createElement( 'radio', null, '11', ts( 'From' ) , '0', $extra2 );
 
-        $this->addSelect('industry', ts( 'Industry' ),null );
+        $this->addGroup( $choice, 'all_life', null );
+
+        $this->add( 'text', "lived_with_from_age", ts( 'From Age' ),
+                           $attributes['lived_with_from_age']);
+        $this->addRule('lived_with_from_age',ts('Please enter a valid number for From Age.'),'positiveInteger');
+
+        $this->add( 'text', "lived_with_to_age", ts( 'To Age' ),
+                           $attributes['lived_with_to_age']);
+        $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'positiveInteger');
+
+        $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47|339|301', 'job_organization|job_occupation|job_current_years', '', 'select', true);" );
+        $this->addSelect('industry', ts( 'Industry' ),null, true, $extra1 );
+
+
         $this->addElement( 'text', "job_organization",
                            ts( 'Name of business or organization' ),
                            $attributes['job_organization'] );
@@ -148,18 +168,17 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
         $this->addElement( 'text', 'job_current_years',
                            ts('Number of years in current occupation'),
                            $attributes['job_current_years']);
-        $this->addRule('job_current_years',ts('not a valid number'),'integer');
+        $this->addRule('job_current_years',ts('not a valid number'),'positiveInteger');
 
-        $this->addSelect('highest_school_level', ts('Highest level of schooling'),null);
+        $extra2 = array( 'onchange' => "showHideByValue('highest_school_level_id', '118|119|120|121|122|302', 'college_name|college_country|college_grad_year|college_major', '', 'select', false); return showHideByValue('highest_school_level_id', '122|302', 'prof_school_name|prof_school_degree|prof_grad_year', '', 'select', false);" );
+        $this->addSelect('highest_school_level', ts('Highest level of schooling'),null,true,$extra2);
         $this->addElement( 'text', 'college_name', ts('College Name'),
                            $attributes['college_name'] );
         $this->addCountry( 'college_country_id', ts('Which country is the college located in?'));
-        $this->addElement( 'text',
+        $this->addElement( 'date',
                            'college_grad_year',
                            ts('Year of college completion'),
-                           $attributes['college_grad_year'] );
-        //$this->addRule('college_grad_year',ts('not a valid year'),'numberOfDigit');
-
+                           CRM_Core_SelectValues::date( 'custom', 50, 1, "Y" ) ); 
 
         $this->addElement( 'text',
                            'college_major',
@@ -169,10 +188,10 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
                            'prof_school_name',
                            ts('Name of professional or graduate school'),
                            $attributes['prof_school_name'] );
-        $this->addElement( 'text',
+        $this->addElement( 'date',
                            'prof_grad_year',
                            ts('Year in which graduate degree was received'),
-                           $attributes['prof_grad_year'] );
+                           CRM_Core_SelectValues::date( 'custom', 50, 1, "Y" ) );
         $this->addSelect( 'prof_school_degree', ts('Degree received in professional or graduate school ') );
         $this->addElement( 'textarea',
                            'description',
@@ -194,18 +213,14 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
      * @static
      */
     public function formRule(&$params) {
-        //print_r($params);
         $errors = array( );
-        if ($params['college_grad_year']) {
-            if (! CRM_Utils_Rule::numberOfDigit($params['college_grad_year'], 4)) {
-                $errors["college_grad_year"] = "year not valid";
-            }
+
+        if ((!$params['birth_date']['M']) && (!$params['birth_date']['D']) && (!$params['birth_date']['Y']) ) {
+            $errors["birth_date"] = "Please enter the Birthdate for this person.";
         }
 
-        if ($params['prof_grad_year']) {
-            if (! CRM_Utils_Rule::numberOfDigit($params['prof_grad_year'], 4)) {
-                $errors["prof_grad_year"] = "year not valid";
-            }
+        if ( $params['is_deceased'] && empty($params['deceased_year_date']['Y'])) {
+            $errors["deceased_year_date"] = "Please enter the Year Deceased date.";
         }
 
         return empty($errors) ? true : $errors;
@@ -219,79 +234,71 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     {
-        $params  = $this->controller->exportValues( $this->_name );
-        $householdInfo  = $this->controller->exportValues( 'Household' );
-        $ids = array();
-        
-        //code to get relationship id
-        require_once 'CRM/Core/OptionGroup.php';
-        $relationships = CRM_Core_OptionGroup::values( 'relationship' );
-        foreach ( $relationships as $key=> $value ) {
-            if ( trim($value) == trim($this->_name) ) {
-                $relationshipID = $key;
-            }
-        }
-        
-        $params['relationship_id'] = $relationshipID;
-        $params['contact_id']      = $this->get('contact_id'); 
-        
-        //code to find lived_with_period_id
-        foreach ( $householdInfo as $key => $value ) {
-            if (substr($key, 0, 15) == 'relationship_id' && $value == $relationshipID) {
-                $idArray = explode( '_' , $key );
-                $params['lived_with_period_id'] = $householdInfo['years_lived_id_'.$idArray[2]];
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+            $params  = $this->controller->exportValues( $this->_name );
+            
+            $params['relationship_id'] = $this->_relationshipID;
+            
+            $relationship = CRM_Core_OptionGroup::values( 'relationship' );
+            $relationshipName = trim( CRM_Utils_Array::value( $this->_relationshipID,
+                                                              $relationship ) );
+            
+            $params['contact_id']         = $this->_contactID;
+            $params['is_parent_guardian'] = true;
+            $params['is_income_source'  ] = true;
+
+            $ids['id'] = $this->_personID;
+            $deceasedYear = $params['deceased_year_date']['Y'];
+
+            // format date
+            require_once 'CRM/Utils/Date.php';
+            $dateFields = array('deceased_year_date','separated_year','college_grad_year','prof_grad_year','birth_date');
+            foreach( $dateFields as $field ) {
+                $date = CRM_Utils_Date::format( $params[$field]);  
+                if (! empty( $date) ) {
+                    $params[$field] = $date;  
+                } else {
+                    $params[$field] = '';
+                }
             }
             
+            //fix for deceased_year
+            $params['deceased_year'] = $params['deceased_year_date'];
+            
+            require_once 'CRM/Quest/BAO/Person.php';
+            $person = CRM_Quest_BAO_Person::create( $params , $ids );
+            
+            // fix the details array
+            $details = $this->controller->get( 'householdDetails' );
+            $details[$this->_name]['title']   = "{$params['first_name']} {$params['last_name']}";
+            $details[$this->_name]['options']['personID'] = $person->id;
+            $details[$this->_name]['options']['relationshipID'] = $this->_relationshipID;
+            $details[$this->_name]['options']['relationshipName'] = $relationshipName;
+            $this->set( 'householdDetails', $details );
+            
+            //Household Income: if someone is deceased, they should not appear unless they died this year.
+            if ( ! $params['is_deceased'] || $deceasedYear == date("Y")  ) {
+                // add an income form for this person
+                $incomeDetails = $this->controller->get( 'incomeDetails' );
+                $incomeID = null;
+                if ( CRM_Utils_Array::value( "Income-{$person->id}", $incomeDetails ) ) {
+                    $incomeID = $incomeDetails[ "Income-{$person->id}" ]['options']['incomeID'];
+                }
+                $incomeDetails[ "Income-{$person->id}" ] =
+                    array( 'className' => 'CRM_Quest_Form_App_Income',
+                           'title'     => "{$params['first_name']} {$params['last_name']}",
+                           'options'   => array( 'personID'   => $person->id,
+                                                 'incomeID'   => $incomeID,
+                                                 'lastSource' => false ) );
+                $keys = array_keys( $incomeDetails );
+                $last = array_pop( $keys );
+                $incomeDetails[$last]['options']['lastSource'] = true;
+                $this->controller->set( 'incomeDetails', $incomeDetails );
+            }
         }
-        
-        if( $this->_personID ) {
-            $ids['id'] = $this->_personID;
-        }
-
-        require_once 'CRM/Quest/BAO/Person.php';
-        $person = CRM_Quest_BAO_Person::create( $params , $ids );
-              
-        //need to update household record
-        $householdParams                    = array();
-        $householdType                      = $this->get( 'householdType');
-              
-        require_once 'CRM/Quest/DAO/Household.php';
-        $dao = & new CRM_Quest_DAO_Household();
-        $dao->contact_id = $this->get('contact_id');
-        $dao->household_type = $householdType[$relationshipID];
-        if ( $dao->find(true) ) {
-            $householdID = $dao->id;
-        }
-        if ( $householdID ) {
-            $householdParams['person_2_id']     = $person->id;
-        } else {
-            $householdParams['person_1_id']     = $person->id;
-        }
-        $householdParams['contact_id']      = $this->get('contact_id'); 
-        if ($householdType[$relationshipID] == 'current' ) {
-            $householdParams['years_lived_id']  = $householdInfo['years_lived_id_1'];
-        } else {
-            $householdParams['years_lived_id']  = $householdInfo['years_lived_id_2'];
-        }
-        $householdParams['description']     = $householdInfo['household_note'];
-        $householdParams['household_type']  = $householdType[$relationshipID];
-        if ($householdType[$relationshipID] == 'current' ) {
-            $householdParams['member_count']    = $householdInfo['member_count_1'];
-        } else {
-            $householdParams['member_count']    = $householdInfo['member_count_2'];
-        }
-        $ids = array();
-        if ( $householdID ) {
-            $ids['id'] = $householdID;
-        }
-        
-        require_once 'CRM/Quest/BAO/Household.php';
-        $household = CRM_Quest_BAO_Household::create( $householdParams , $ids );
-        //$this->_personID[$person->id] = $person ;
-        
-        
+        parent::postProcess( );
     }
-
+    
     /**
      * Return a descriptive name for the page, used in wizard header
      *
@@ -301,6 +308,10 @@ class CRM_Quest_Form_App_Guardian extends CRM_Quest_Form_App
     public function getTitle()
     {
         return $this->_title ? $this->_title : ts('Parent/Guardian Detail');
+    }
+
+    public function getRootTitle( ) {
+        return "Parent/Guardian Detail: ";
     }
 
 }

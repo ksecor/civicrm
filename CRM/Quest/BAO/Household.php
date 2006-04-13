@@ -74,6 +74,35 @@ class CRM_Quest_BAO_Household extends CRM_Quest_DAO_Household {
         return $student;
         
     }
+
+    /**
+     * function to get person ids (households)
+     *
+     * @param int  $params reference array contains the values submitted by the form
+     *
+     * @access public
+     * @static 
+     * @return array of ids
+     */
+    static function getHouseholdsIds( $conatcID ) {
+        $personIds = array();
+        require_once 'CRM/Quest/DAO/Household.php';
+        $dao = & new CRM_Quest_DAO_Household();
+        $dao->contact_id = $conatcID;
+        $dao->find( );
+        while ( $dao->fetch() )  {
+            if ( $dao->person_1_id ) {
+                $personIds[$dao->person_1_id] = $dao->person_1_id;
+            }
+            if ( $dao->person_2_id ) {
+                $personIds[$dao->person_2_id] = $dao->person_2_id;
+            }
+        }
+
+        return $personIds;
+    }
+
+
 }
     
 ?>

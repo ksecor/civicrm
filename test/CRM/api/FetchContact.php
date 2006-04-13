@@ -81,7 +81,7 @@ class TestOfGetContactAPI extends UnitTestCase
         $this->assertEqual($contact->phone, '222222');
         $this->assertEqual($contact->email, 'manish01@yahoo.com');
     }
-    
+
     function testGetContactHouseHold() 
     {
         $params = array('id' => $this->_household->id);

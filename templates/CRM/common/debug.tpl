@@ -3,7 +3,7 @@
 {/if}
 
 {if $smarty.get.sessionReset}
-{$session->reset()}
+{$session->reset($smarty.get.sessionReset)}
 {/if}
 
 {if $smarty.get.sessionDebug}

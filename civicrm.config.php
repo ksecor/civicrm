@@ -59,7 +59,7 @@ function conf_init() {
   $httpHost = array_key_exists( 'HTTP_HOST', $_SERVER ) ? $_SERVER['HTTP_HOST'] : '';
 
   $uri    = explode('/', $phpSelf );
-  $server = explode('.', rtrim($httpHost, '.'));
+  $server = explode('.', implode('.', array_reverse(explode(':', rtrim($httpHost, '.')))));
   for ($i = count($uri) - 1; $i > 0; $i--) {
       for ($j = count($server); $j > 0; $j--) {
           $dir = implode('.', array_slice($server, -$j)) . implode('.', array_slice($uri, 0, $i));

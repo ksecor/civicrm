@@ -88,7 +88,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         if ( $location->is_primary ) {
             // reset all other locations with the same entity table entity id
             $sql = "UPDATE " . self::getTableName( ) . "
- SET is_primary = false WHERE 
+ SET is_primary = 0 WHERE 
  entity_table = '{$location->entity_table}' AND
  entity_id    = '{$location->entity_id}' ";
             CRM_Core_DAO::executeQuery( $sql );
@@ -203,7 +203,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         }
 
         // we first get the primary location due to the order by clause
-        $location->orderBy( 'is_primary desc' );
+        $location->orderBy( 'is_primary desc, id' );
         $location->find( );
         $locations = array( );
         for ($i = 0; $i < $locationCount; $i++) {

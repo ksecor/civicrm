@@ -68,6 +68,11 @@ class CRM_Core_Invoke {
             CRM_Core_Mambo::sidebarLeft( );
         }
 
+	// set active Component
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( 'activeComponent', 'CiviCRM' );
+        $template->assign( 'formTpl'        , 'default' );
+
         switch ( $args[1] ) {
 
         case 'contact'  : 
@@ -258,8 +263,16 @@ class CRM_Core_Invoke {
                 return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
             
             default:
-                require_once 'CRM/Contact/Page/View/Basic.php';
-                $view =& new CRM_Contact_Page_View_Basic( );
+                $nullObject = null;
+                $id = CRM_Utils_Request::retrieve( 'cid', $nullObject );
+                $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
+                if ( $contact_sub_type == 'Student' ) {
+                    require_once 'CRM/Quest/Page/View/Student.php';
+                    $view =& new CRM_Quest_Page_View_Student( );
+                } else {
+                    require_once 'CRM/Contact/Page/View/Basic.php';
+                    $view =& new CRM_Contact_Page_View_Basic( );
+                }
                 break;
             }
             return $view->run( );
@@ -308,6 +321,11 @@ class CRM_Core_Invoke {
             $mode  = CRM_Core_Action::BASIC;
             $title = ts('Search');
             $url   = 'civicrm/contact/search/basic';
+        }
+
+        $id = CRM_Utils_Request::retrieve('id', $form, false, 0, 'GET');
+        if ($id) {
+            $session->set('id', $id);
         }
         require_once 'CRM/Contact/Controller/Search.php';
         $controller =& new CRM_Contact_Controller_Search($title, $mode);
@@ -576,7 +594,7 @@ class CRM_Core_Invoke {
         }
 
         
-        if ( $secondArg == 'edit' ) {
+        if ( $secondArg == 'edit' || $secondArg == 'create' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton(); 
             $session->pushUserContext( CRM_Utils_System::url('civicrm/profile/edit', 'reset=1' ) ); 
@@ -610,7 +628,7 @@ class CRM_Core_Invoke {
             $wrapper =& new CRM_Utils_Wrapper( );  
             return $wrapper->run( 'CRM_Profile_Form_Dojo', ts( 'Create Profile' ), CRM_Core_Action::ADD ); 
         } 
-
+        
         require_once 'CRM/Profile/Page/Listings.php';
         $page =& new CRM_Profile_Page_Listings( );
         return $page->run( );

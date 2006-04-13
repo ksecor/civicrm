@@ -57,7 +57,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             $adminPanel[$group] = array( );
             foreach ( $items as $item ) {
                 if ( $config->userFramework == 'Mambo' &&
-                     $item['path'] == 'admin/access' ) {
+                     $item['path'] == 'civicrm/admin/access' ) {
                     // access control not yet implemented for mambo
                     continue;
                 }
@@ -67,7 +67,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
                                     'url'   => CRM_Utils_System::url( $item['path'],
                                                                       CRM_Utils_Array::value( 'qs', $item ) ),
                                     'icon'  => $item['icon'],
-                                    'extra' => $item['extra']);
+                                    'extra' => CRM_Utils_Array::value( 'extra', $item ) );
                     $adminPanel[$group][$item['weight'] . '.' . $item['title']] = $value;
                 }
             }

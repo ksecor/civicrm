@@ -98,6 +98,11 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $groupContact->group_id = $id;
         $groupContact->delete();
 
+        // make all the 'add_to_group_id' field of 'civicrm_uf_group table', pointing to this group, as null
+        $query = "update civicrm_uf_group SET `add_to_group_id`= NULL where `add_to_group_id`= ".$id;
+        $dao =new CRM_Core_DAO();
+        $dao->query($query);
+
         // delete from group table
         $group =& new CRM_Contact_DAO_Group( );
         $group->id = $id;

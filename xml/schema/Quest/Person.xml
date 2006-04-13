@@ -51,6 +51,20 @@
        <add>1.5</add>
   </field>
   <field>
+       <name>is_income_source</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this person an income source</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_sibling</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this person a parent or guardian (primary caregiver)?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
        <name>first_name</name>
        <type>varchar</type>
        <length>64</length>
@@ -97,25 +111,11 @@
        <add>1.5</add>
   </field>
   <field>
-      <name>age</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Persons age (years).</comment>
+      <name>birth_date</name>
+      <type>date</type>
+      <comment>Persons birth date .</comment>
       <add>1.5</add>
   </field>
-  <field>
-      <name>lived_with_period_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Period student lived with this person.</comment>
-      <add>1.5</add>
-  </field>
-  <foreignKey>
-       <name>lived_with_period_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <add>1.5</add>
-  </foreignKey>
   <field>
       <name>lived_with_from_age</name>
       <type>int unsigned</type>

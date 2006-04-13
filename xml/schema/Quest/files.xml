@@ -9,5 +9,6 @@
 <xi:include href="Person.xml"        parse="xml" />
 <xi:include href="Household.xml"     parse="xml" />
 <xi:include href="Income.xml"        parse="xml" />
+<xi:include href="Referral.xml"      parse="xml" />
 
 </tables>

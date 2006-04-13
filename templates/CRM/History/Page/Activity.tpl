@@ -1,9 +1,9 @@
 Error Calling
-<hr>
+<hr />
 Module       = {$module}
-<br>
+<br />
 Callback     = {$callback}
-<br>
+<br />
 ActivityId   = {$activityId}
-<hr>
+<hr />
 Error  = {$errorString}

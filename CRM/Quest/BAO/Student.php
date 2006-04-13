@@ -51,8 +51,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         parent::__construct( );
     }
 
-    
-
     /**
      * function to add/update student Information
      *
@@ -63,18 +61,37 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
      * @static 
      * @return object
      */
-    static function create(&$params, &$ids) {
+    static function &create(&$params, &$ids) {
         
         $dao = & new CRM_Quest_DAO_Student();
         $dao->copyValues($params);
         if( $ids['id'] ) {
             $dao->id = $ids['id'];
         }
-        $student = $dao->save();
-        return $student;
-       
-                
+        $dao->save();
+        return $dao;
     }
+
+    static function retrieve( &$params, &$defaults, &$ids ) {
+        $dao = & new CRM_Quest_DAO_Student();
+        $dao->contact_id = $params['contact_id'];
+        if ( $dao->find( true ) ) {
+            CRM_Core_DAO::storeValues( $dao, $defaults );
+            $ids['student_id'] = $dao->id;
+            $names = array( 'citizenship_status_id' => array('newName'=>'citizenship_status','groupName' => 'citizenship_status'),
+                            'gpa_id'                => array('newName' => 'gpa', 'groupName' => 'gpa'),
+                            'ethnicity_id_1'        => array('newName' => 'ethnicity_1', 'groupName' => 'ethnicity'),
+                            'ethnicity_id_2'        => array('newName' => 'ethnicity_2', 'groupName' => 'ethnicity'),
+                            'parent_grad_college_id'=> array('newName' => 'parent_grad_college', 'groupName' => 'parent_grad_college'),
+                            'educational_interest'  => array('newName' => 'educational_interest_display', 'groupName' => 'educational_interest'),
+                            'college_interest'      => array('newName' => 'college_interest_display', 'groupName' => 'college_interest'),
+                            'fed_lunch_id'          => array('newName' => 'fed_lunch', 'groupName' => 'fed_lunch')
+                            );
+            require_once 'CRM/Core/OptionGroup.php';
+            CRM_Core_OptionGroup::lookupValues( $defaults, $names, false );
+        }
+    }
+
 }
     
 ?>

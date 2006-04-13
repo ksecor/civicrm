@@ -34,6 +34,8 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which profiles are presented when there are more than one. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
     <dt>{$form.group.label}</dt><dd>{$form.group.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a group if are using the profile for search and listings, AND you want to limit the listings to members of a specific group.{/ts}</dd>
+    <dt>{$form.add_contact_to_group.label}</dt><dd>{$form.add_contact_to_group.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select a group if using the profile for adding new contacts to a particular group.{/ts}</dd>
     <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}&nbsp;</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of the fieldset.{/ts}</dd>
     <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>

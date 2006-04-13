@@ -147,7 +147,7 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
     /**
      * Function to get title of the option group 
      * 
-     * @param  int  $optionGroupId     Id of the Option Group to be deleted.
+     * @param  int  $optionGroupId     Id of the Option Group.
      * 
      * @return String title
      * 
@@ -162,8 +162,7 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
         return $optionGroup->name;
         
     }
-  
-    
+      
 }
 
 ?>

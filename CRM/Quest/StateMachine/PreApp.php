@@ -42,6 +42,8 @@ require_once 'CRM/Core/StateMachine.php';
  */
 class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
 
+    static $_dependency = null;
+
     /**
      * class constructor
      *
@@ -53,6 +55,13 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
     function __construct( &$controller, $action = CRM_Core_Action::NONE ) {
         parent::__construct( $controller, $action );
 
+        $this->rebuild( $controller, $action );
+    }
+
+    public function rebuild( &$controller, $action = CRM_Core_Action::NONE ) {
+        // ensure the states array is reset
+        $this->_states = array( );
+
         $firstPages = array(
                             'CRM_Quest_Form_App_Personal'     => null,
                             'CRM_Quest_Form_App_Scholarship'  => null,
@@ -60,29 +69,13 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                             'CRM_Quest_Form_App_Household'    => null,
                             );
 
-        $householdDetails  = $controller->get( 'householdDetails' );
-        if ( ! $householdDetails ) {
-            $householdDetails = array( 'Mother' => 'Mother Details',
-                                       'Father' => 'Father Details' );
-            $controller->set( 'householdDetails', $householdDetails );
+        $dynamic = array( 'Household', 'Sibling', 'Income' );
+        $dynamicPages = array( );
+        foreach ( $dynamic as $d ) {
+            require_once "CRM/Quest/Form/App/$d.php";
+            eval( '$pages =& CRM_Quest_Form_App_' . $d . '::getPages( $controller );' );
+            $dynamicPages = array_merge( $dynamicPages, $pages );
         }
-
-        $householdDetailPages = array( );
-        foreach ( $householdDetails as $name => $title ) {
-            $householdDetailPages[$name] = array( 'className' => 'CRM_Quest_Form_App_Guardian',
-                                                  'title'     => $title );
-        }
-
-        $totalSiblings = $controller->exportValue( 'Personal', 'number_siblings' );
-        $siblingPages = array( );
-        if ( is_numeric( $totalSiblings ) && $totalSiblings > 0 ) {
-            for ( $i = 1; $i <= $totalSiblings; $i++ ) {
-                $siblingPages["Sibling $i"] = array( 'className' => 'CRM_Quest_Form_App_Sibling',
-                                                     'title'     => "Sibling $i" );
-            }
-        }
-
-        $incomePages  = array( );
 
         $lastPages = array(
                            'CRM_Quest_Form_App_HighSchool'   => null,
@@ -90,11 +83,92 @@ class CRM_Quest_StateMachine_PreApp extends CRM_Core_StateMachine {
                            'CRM_Quest_Form_App_Academic'     => null,
                            'CRM_Quest_Form_App_Testing'      => null,
                            'CRM_Quest_Form_App_Essay'        => null,
+                           'CRM_Quest_Form_App_Submit'       => null,
                            );
 
-        $this->_pages = array_merge( $firstPages, $householdDetailPages, $siblingPages, $incomePages, $lastPages );
+        $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages );
 
         $this->addSequentialPages( $this->_pages, $action );
+    }
+
+    public function &getDependency( ) {
+        if ( self::$_dependency == null ) {
+            self::$_dependency = array(
+                                       'Personal'    => array( ),
+                                       'Scholarship' => array( 'Personal'  => 1 ),
+                                       'Educational' => array( 'Personal'  => 1 ),
+                                       'Household'   => array( 'Personal'  => 1 ),
+                                       'Guardian'    => array( 'Household' => 1 ),
+                                       'Sibling'     => array( 'Personal'  => 1 ),
+                                       'Income'      => array( 'Personal'  => 1 ),
+                                       'HighSchool'  => array( 'Personal'  => 1 ),
+                                       'SchoolOther' => array( 'Personal'  => 1 ),
+                                       'Academic'    => array( 'Personal'  => 1 ),
+                                       'Testing'     => array( 'Personal'  => 1 ),
+                                       'Essay'       => array( 'Personal'  => 1 ),
+                                       'Submit'      => array( 'Personal'  => 1 )
+                                       );
+        }
+
+        return self::$_dependency;
+    }
+
+    public function checkDependency( &$controller, &$form ) {
+        $dependency =& $this->getDependency( );
+
+        $name = explode( '-', $form->getName( ) );
+        $formName = $name[0];
+        
+        $data =& $controller->container( );
+
+        foreach ( $dependency[$formName] as $name => $value ) {
+            // for each name check that all pages are valid
+            foreach ( $this->_pageNames as $pageName ) {
+                if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
+                    if ( ! $data['valid'][$pageName] ) {
+                        $title = $form->getCompleteTitle( );
+                        $otherTitle = $controller->_pages[$pageName]->getCompleteTitle( );
+                        $session =& CRM_Core_Session::singleton( );
+                        $session->setStatus( "The $otherTitle section must be completed before you can go to $title ." );
+                        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/preapp',
+                                                                           "_qf_{$name}_display=1" ) );
+                    }
+                }
+            }
+        }
+    }
+
+    public function checkApplication( &$controller ) {
+        $data =& $controller->container( );
+
+        foreach ( $this->_pageNames as $pageName ) {
+            if ( ! $data['valid'][$pageName] ) {
+                $title = $controller->_pages[$pageName]->getCompleteTitle( );
+                $session =& CRM_Core_Session::singleton( );
+                $session->setStatus( "The $title section must be completed before you can submit the application" );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/preapp',
+                                                                   "_qf_{$pageName}_display=1" ) );
+            }
+        }
+    }
+
+    public function validPage( $name, &$valid ) {
+        $dependency =& $this->getDependency( );
+
+        $name = explode( '-', $name );
+        $formName = $name[0];
+        
+        foreach ( $dependency[$formName] as $name => $value ) {
+            // for each name check that all pages are valid
+            foreach ( $this->_pageNames as $pageName ) {
+                if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
+                    if ( ! $valid[$pageName] ) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 }

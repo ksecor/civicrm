@@ -3,17 +3,38 @@
 <div id="wizard-steps">
    <ul class="wizard-bar{if $wizard.style.barClass}-{$wizard.style.barClass}{/if}">
     {section name=step loop=$wizard.steps}
-        {if $wizard.currentStepNumber > $smarty.section.step.iteration}
-            {assign var="stepClass" value="past-step"}
-            {assign var="stepPrefix" value=$wizard.style.stepPrefixPast}
-        {elseif $wizard.currentStepNumber == $smarty.section.step.iteration}
-            {assign var="stepClass" value="current-step"}
-            {assign var="stepPrefix" value=$wizard.style.stepPrefixCurrent}
-        {else}
-            {assign var="stepClass" value="future-step"}
-            {assign var="stepPrefix" value=$wizard.style.stepPrefixFuture}
+        {* Show each wizard link unless collapsed value is true. *}
+        {if !$wizard.steps[step].collapsed}
+            {assign var=i value=$smarty.section.step.iteration}
+            {if $wizard.currentStepNumber > $wizard.steps[step].stepNumber}
+                {assign var="stepClass" value="past-step"}
+                {if $wizard.steps[step].step}
+                    {assign var="stepPrefix" value=$wizard.style.stepPrefixPast|cat:$wizard.steps[step].stepNumber|cat:". "}
+                {else}
+                    {assign var="stepPrefix" value=$wizard.style.subStepPrefixPast}
+                {/if}
+            {elseif $wizard.currentStepNumber == $wizard.steps[step].stepNumber}
+                {assign var="stepClass" value="current-step"}
+                {if $wizard.steps[step].step}
+                    {assign var="stepPrefix" value=$wizard.style.stepPrefixCurrent|cat:$wizard.steps[step].stepNumber|cat:". "}
+                {else}
+                    {assign var="stepPrefix" value=$wizard.style.subStepPrefixCurrent}
+                {/if}
+            {else}
+                {assign var="stepClass" value="future-step"}
+                {if $wizard.steps[step].step}
+                    {assign var="stepPrefix" value=$wizard.style.stepPrefixFuture|cat:$wizard.steps[step].stepNumber|cat:". "}
+                {else}
+                    {assign var="stepPrefix" value=$wizard.style.subStepPrefixFuture}
+                {/if}
+            {/if}
+            {if !$wizard.steps[step].valid}
+                {assign var="stepClass" value="$stepClass not-valid"}
+            {/if}
+            {* This code w/in link will submit current form...need to define targetPage hidden field on all forms. onclick="submitCurrentForm('{$form.formName}','{$wizard.steps[step].link}'); return false;" *}
+            {* wizard.steps[step].link value is passed for wizards/steps which allow clickable navigation *} 
+            <li class="{$stepClass}">{$stepPrefix}{if $wizard.steps[step].link}<a href="{$wizard.steps[step].link}">{/if}{$wizard.steps[step].title}{if $wizard.steps[step].link}</a>{/if}</li>
         {/if} 
-        <li class="{$stepClass}">{$stepPrefix} {$smarty.section.step.iteration}. {$wizard.steps[step].title}</li>
     {/section}
    </ul>
 </div>

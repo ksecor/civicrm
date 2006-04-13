@@ -2,7 +2,7 @@
 <div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
 
 {if $mode eq 8 || $mode eq 1}
-{include file="CRM/common/form_body.tpl"}
+{include file="CRM/Form/body.tpl"}
 {/if}
     {strip}
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
@@ -32,7 +32,7 @@
     
     {assign var=n value=$field.name}
 
-    {if $field.options_per_line > 1}
+    {if $field.options_per_line}
 	<tr>
         <td class="option-label">{$form.$n.label}</td>
         <td>
@@ -69,6 +69,9 @@
             <tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
         {/if}
     {/foreach}
+        {if $addToGroupId}
+	        <tr><td class="label">{$form.group[$addToGroupId].label}</td><td>{$form.group[$addToGroupId].html}</td></tr>
+	{/if}
     </table>
 {if $field.groupHelpPost}
     <div class="messages help">{$field.groupHelpPost}</div>
