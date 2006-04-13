@@ -280,7 +280,7 @@ function civicrm_quickreg( )
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) 
 {
-
+    
 	if ( $type == 'load' ) {
         return;
     }
@@ -296,10 +296,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
 
     case 'register':
         $config =& CRM_Core_Config::singleton( );
-        if ( empty( $_POST ) || $config->userFrameworkVersion < 4.7 ) {
-            return civicrm_register_data($edit, $user, $category, true);
-        }
-        return;
+        return civicrm_register_data($edit, $user, $category, true);
 
     case 'insert':
         return civicrm_register_data($edit, $user, $category, false);
