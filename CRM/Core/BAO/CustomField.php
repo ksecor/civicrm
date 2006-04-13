@@ -194,7 +194,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      */
     public static function &getFields($contactType = 'Individual', $showAll = false ) {
-        
         if ( ! self::$_importFields || ! CRM_Utils_Array::value( $contactType, self::$_importFields ) ) { 
             
             if ( ! self::$_importFields ) {
@@ -238,7 +237,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $crmDAO =& new CRM_Core_DAO();
             $crmDAO->query($query);
             $result = $crmDAO->getDatabaseResult();
-            self::$_importFields = array();
         
             $fields = array( );
             while (($row = $result->fetchRow()) != null) {

@@ -5,6 +5,7 @@
   <class>Individual</class>
   <name>civicrm_individual</name>
   <comment>Define contact-individual specific properties. Extends civicrm_contact.</comment>
+  <log>true</log>
   <add>1.1</add>
   <field>
       <name>id</name>

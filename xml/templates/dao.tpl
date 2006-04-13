@@ -81,13 +81,22 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
       static $_import = null;
 
       /**
-      * static instance to hold the values that can
-      * be exported / apu
-      *
-      * @var array
-      * @static
-      */
+       * static instance to hold the values that can
+       * be exported / apu
+       *
+       * @var array
+       * @static
+       */
       static $_export = null;
+
+      /**
+       * static value to see if we should log any modifications to
+       * this table in the civicrm_log table
+       *
+       * @var boolean
+       * @static
+       */
+      static $_log = {$table.log};
 
 {foreach from=$table.fields item=field}
     /**
@@ -195,6 +204,16 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
        */
       function getTableName( ) {ldelim}
           return self::$_tableName;
+      {rdelim}
+
+      /**
+       * returns if this table needs to be logged
+       *
+       * @access public
+       * @return boolean
+       */
+      function getLog( ) {ldelim}
+          return self::$_log;
       {rdelim}
 
       /**

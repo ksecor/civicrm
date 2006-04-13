@@ -483,10 +483,10 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'objectName' => $klass,
                     'labelName'  => substr($name, 8),
                     'className'  => $classNames[$name],
-                    //'attributes' => trim($database['tableAttributes']),
                     'attributes_simple' => trim($database['tableAttributes_simple']),
                     'attributes_modern' => trim($database['tableAttributes_modern']),
-                    'comment'    => value( 'comment', $tableXML ) );
+                    'comment'    => value( 'comment', $tableXML ),
+                    'log'        => value( 'log', $tableXML, 'false' ) );
     
     $fields  = array( );
     foreach ( $tableXML->field as $fieldXML ) {

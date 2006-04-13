@@ -247,11 +247,40 @@ class CRM_Core_DAO extends DB_DataObject {
     function save( ) {
         if ($this->id) {
             $this->update();
+            $this->log( false );
         } else {
             $this->insert();
+            $this->log( true );
         }
+
         return $this;
     }
+
+    function log( $created = false ) {
+        static $cid = null;
+
+        if ( ! $this->getLog( ) ) {
+            return;
+        }
+
+        if ( ! $cid ) {
+            $session =& CRM_Core_Session::singleton( );
+            $cid = $session->get( 'userID' );
+        }
+        
+        // return is we dont have handle to FK
+        if ( ! $cid ) {
+            return;
+        }
+
+        require_once 'CRM/Core/DAO/Log.php';
+        $dao =& new CRM_Core_DAO_Log( );
+        $dao->entity_table  = $this->getTableName( );
+        $dao->entity_id     = $this->id;
+        $dao->modified_id   = $cid;
+        $dao->modified_date = date( "YmdHis" );
+        $dao->insert( );
+   }
 
     /**
      * Given an associative array of name/value pairs, extract all the values

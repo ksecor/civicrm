@@ -6,6 +6,7 @@
   <name>civicrm_household</name>
   <comment>Define household specific properties</comment>
   <add>1.1</add>
+  <log>true</log>
   <field>
       <name>id</name>
       <type>int unsigned</type>
