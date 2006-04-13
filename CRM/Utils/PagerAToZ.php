@@ -79,7 +79,6 @@ class CRM_Utils_PagerAToZ
         while ($result->fetch()) { 
             $dynamicAlphabets[] = $result->sort_name;
         }
-
         return $dynamicAlphabets;
     }
 
@@ -100,7 +99,6 @@ class CRM_Utils_PagerAToZ
 
         $AToZBar = array_merge ( $AToZBar, $dynamicAlphabets );
         $AToZBar = array_unique( $AToZBar );
-        
         //get the current path
         $path = CRM_Utils_System::currentPath() ;
 
@@ -118,7 +116,8 @@ class CRM_Utils_PagerAToZ
                     $klass = 'class="active"';
                 }
                 $element['item']  = sprintf('<a href="%s" %s>%s</a>',
-                                            CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=$link" ),
+                                            CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=$link",
+                                                                   true, null, false),
                                             $klass,
                                             $link );
             } else {
