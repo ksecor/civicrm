@@ -42,9 +42,9 @@
             </div>
             <div id="help-box">
               <strong>Navigation Color Guide</strong><br />
-              &nbsp;&nbsp;<B>Green</B>: Section not completed or section has error(s)
-              &nbsp;&nbsp;<B>Blue</B>: Section has been completed or is available for editing
-              &nbsp;&nbsp;<B>Gray</B>: Section is not available for editing             
+              &nbsp;&nbsp;<B>Green</B>: Section not completed or section has error(s)<BR>
+              &nbsp;&nbsp;<B>Blue</B>: Section has been completed or is available for editing<BR>
+              &nbsp;&nbsp;<B>Gray</B>: Section is not available for editing<BR>
             </div>
 	    </td>
         {/if}
