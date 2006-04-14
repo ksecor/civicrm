@@ -182,6 +182,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         $showHide =& new CRM_Core_ShowHideBlocks('','');
         
+        $showHide->addHide( 'relationship' );
+        $showHide->addShow( 'relationship[show]' );
+        
         foreach ($groupTitle as $key => $title) {
             $showBlocks = $title . '[show]' ;
             $hideBlocks = $title;
@@ -194,7 +197,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $showHide->addHide( 'contributeForm' );
             $showHide->addShow( 'contributeForm[show]' );
         }
-
+        
         $showHide->addToTemplate();
     }
 
