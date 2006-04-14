@@ -483,10 +483,4 @@ function civicrm_validate_data($edit, &$user, $title)
     return;
 }
 
-function myfatal( $args ) {
-	echo "Dieing in myfatal<p>";
-	print_r( $args );
-return true;
-}
-
 ?>

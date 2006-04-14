@@ -347,7 +347,7 @@ class CRM_Core_Config {
      *
      * @var string
      */
-    public $fatalErrorHandler = 'myfatal';
+    public $fatalErrorHandler = null;
 
     /**
      * the domainID for this instance. 
