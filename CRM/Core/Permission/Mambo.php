@@ -76,20 +76,6 @@ class CRM_Core_Permission_Mambo {
     }
 
     /**
-     * Get all saved searches from database, filtered by permissions
-     * for this user
-     *
-     * @access public
-     * @static
-     *
-     * @return array - array reference of all filtered saved searches
-     *
-     */
-    public static function &savedSearch( ) {
-        return CRM_Core_PseudoConstant::allSavedSearch( );
-    }
-    
-    /**
      * given a permission string, check for access requirements
      *
      * @param string $str the permission to check
