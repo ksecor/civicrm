@@ -220,7 +220,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        return ts('Scholarship Information');
+        return ts('Additional Information');
     }
 }
 
