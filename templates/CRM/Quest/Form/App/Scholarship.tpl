@@ -45,18 +45,18 @@
 </tr>
 <tr>
     <td class="grouplabel"> {$form.award_ranking_1_id.label}</td>
-    <td class="fieldlabel"> {$form.award_ranking_1_id.html}<br/>
-    {$form.award_ranking_2_id.html}<br/>
-    {$form.award_ranking_3_id.html}<br/>
-    {ts}{edit}Rank the top 3 awards you are interested in receiving, if you are awarded the scholarship.{/edit}{/ts} 
+    <td nowrap class="fieldlabel"> 1. {$form.award_ranking_1_id.html}<br/>
+    2. {$form.award_ranking_2_id.html}<br/>
+    3. {$form.award_ranking_3_id.html}<br/>
     </td>
 </tr>
 <tr>
-    <td class="grouplabel"> {ts}List 3 sophmores that would be ideal candidates for the QuestBridge 2007 application.{/ts}</td>
+    <td class="grouplabel"> {ts}Please enter contact information for current sophomores you think would be strong applicants for next year.{/ts}</td>
     <td class="fieldlabel" nowrap> 
             {$form.sophomores_name_1.label}&nbsp;{$form.sophomores_name_1.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_1.label}&nbsp;{$form.sophomores_email_1.html}&nbsp;<br/>
             {$form.sophomores_name_2.label}&nbsp;{$form.sophomores_name_2.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_2.label}&nbsp;{$form.sophomores_email_2.html}&nbsp;<br/>
             {$form.sophomores_name_3.label}&nbsp;{$form.sophomores_name_3.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_3.label}&nbsp;{$form.sophomores_email_3.html}&nbsp;<br/>
+      {ts}We have found that fellow students are the best source of information in identifying deserving applicants<BR>for next year's application cycle. Enter 3 fellow student's full name and email address.{/ts}
     </td>
 </tr>
 </table>
