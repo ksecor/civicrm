@@ -188,6 +188,25 @@ class CRM_Core_Component {
         return $from;
     }
 
+    static function &defaultReturnProperties( $mode ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        $properties = null;
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( '$properties =& ' . $className . '::defaultReturnProperties( $mode );' );
+                if ( $properties ) {
+                    return $properties;
+                }
+            }
+        }
+        return $properties;
+    }
+
 }
 
 ?>

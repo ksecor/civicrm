@@ -204,8 +204,8 @@ class CRM_Contribute_BAO_Query {
         return $from;
     }
 
-    static function returnProperties( $mode ) {
-        $properties = array( );
+    static function defaultReturnProperties( $mode ) {
+        $properties = null;
         if ( $mode & CRM_Contact_BAO_Query::MODE_CONTRIBUTE ) {
             $properties = array(  
                                 'contact_type'           => 1, 

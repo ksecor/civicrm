@@ -1516,84 +1516,39 @@ class CRM_Contact_BAO_Query {
      */
     static function &defaultReturnProperties( $mode = 1 ) {
         if ( ! isset( self::$_defaultReturnProperties ) ) {
-            self::$_defaultReturnProperties = array( );
-            if ( $mode & self::MODE_CONTACTS ) {
-                $properties = array( 
-                                    'home_URL'               => 1, 
-                                    'image_URL'              => 1, 
-                                    'legal_identifier'       => 1, 
-                                    'external_identifier'    => 1,
-                                    'contact_type'           => 1,
-                                    'sort_name'              => 1,
-                                    'display_name'           => 1,
-                                    'nick_name'              => 1, 
-                                    'first_name'             => 1, 
-                                    'middle_name'            => 1, 
-                                    'last_name'              => 1, 
-                                    'prefix'                 => 1, 
-                                    'suffix'                 => 1,
-                                    'birth_date'             => 1,
-                                    'gender'                 => 1,
-                                    'street_address'         => 1, 
-                                    'supplemental_address_1' => 1, 
-                                    'supplemental_address_2' => 1, 
-                                    'city'                   => 1, 
-                                    'postal_code'            => 1, 
-                                    'postal_code_suffix'     => 1, 
-                                    'state_province'         => 1, 
-                                    'country'                => 1,
-                                    'geo_code_1'             => 1,
-                                    'geo_code_2'             => 1,
-                                    'email'                  => 1, 
-                                    'phone'                  => 1, 
-                                    'im'                     => 1, 
-                                    ); 
-                self::$_defaultReturnProperties = array_merge( self::$_defaultReturnProperties,
-                                                               $properties );
-            }
+            self::$_defaultReturnProperties = CRM_Core_Component::defaultReturnProperties( $mode );
 
-            if ( $mode & self::MODE_CONTRIBUTE ) {
-                $properties = array(  
-                                    'contact_type'           => 1, 
-                                    'sort_name'              => 1, 
-                                    'display_name'           => 1,
-                                    'contribution_type'      => 1,
-                                    'source'                 => 1,
-                                    'receive_date'           => 1,
-                                    'thankyou_date'          => 1,
-                                    'cancel_date'            => 1,
-                                    'total_amount'           => 1,
-                                    'accounting_code'        => 1,
-                                    'payment_instrument'     => 1,
-                                    'non_deductible_amount'  => 1,
-                                    'fee_amount'             => 1,
-                                    'net_amount'             => 1,
-                                    'trxn_id'                => 1,
-                                    'invoice_id'             => 1,
-                                    'currency'               => 1,
-                                    'cancel_date'            => 1,
-                                    'cancel_reason'          => 1,
-                                    'receipt_date'           => 1,
-                                    'thankyou_date'          => 1,
-                                    'source'                 => 1,
-                                    'note'                   => 1,
-                                    'name'                   => 1,
-                                    'sku'                    => 1,
-                                    'product_option'         => 1,
-                                    'fulfilled_date'         => 1,
-                                    'start_date'             => 1,
-                                    'end_date'               => 1,
-                                    );
-
-                // also get all the custom contribution properties
-                $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Contribution');
-                if ( ! empty( $fields ) ) {
-                    foreach ( $fields as $name => $dontCare ) {
-                        $properties[$name] = 1;
-                    }
-                }
-                self::$_defaultReturnProperties = array_merge( self::$_defaultReturnProperties,
-                                                               $properties );
+            if ( empty( self::$_defaultReturnProperties ) ) {
+                self::$_defaultReturnProperties = array( 
+                                                        'home_URL'               => 1, 
+                                                        'image_URL'              => 1, 
+                                                        'legal_identifier'       => 1, 
+                                                        'external_identifier'    => 1,
+                                                        'contact_type'           => 1,
+                                                        'sort_name'              => 1,
+                                                        'display_name'           => 1,
+                                                        'nick_name'              => 1, 
+                                                        'first_name'             => 1, 
+                                                        'middle_name'            => 1, 
+                                                        'last_name'              => 1, 
+                                                        'prefix'                 => 1, 
+                                                        'suffix'                 => 1,
+                                                        'birth_date'             => 1,
+                                                        'gender'                 => 1,
+                                                        'street_address'         => 1, 
+                                                        'supplemental_address_1' => 1, 
+                                                        'supplemental_address_2' => 1, 
+                                                        'city'                   => 1, 
+                                                        'postal_code'            => 1, 
+                                                        'postal_code_suffix'     => 1, 
+                                                        'state_province'         => 1, 
+                                                        'country'                => 1,
+                                                        'geo_code_1'             => 1,
+                                                        'geo_code_2'             => 1,
+                                                        'email'                  => 1, 
+                                                        'phone'                  => 1, 
+                                                        'im'                     => 1, 
+                                                        ); 
             }
         }
         return self::$_defaultReturnProperties;
