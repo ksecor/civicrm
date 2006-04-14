@@ -47,19 +47,22 @@ class CRM_Core_Component {
                                                             'url'     => 'contribute',
                                                             'perm'    => array( 'access CiviContribute',
                                                                                 'edit contributions',
-                                                                                'make online contributions' ) ),
+                                                                                'make online contributions' ),
+                                                            'search'  => 1 ),
                                  'CiviMail'       => array( 'title'   => 'CiviCRM Mailing Engine',
                                                             'path'    => 'CRM_Mailing_',
                                                             'url'     => 'mailing',
-                                                            'perm'    => array( 'access CiviMail' ) ),
+                                                            'perm'    => array( 'access CiviMail' ),
+                                                            'search'  => 0 ),
                                  'Quest'          => array( 'title'   => 'Quest Application Process',
                                                             'path'    => 'CRM_Quest_',
                                                             'url'     => 'quest',
                                                             'perm'    => array( 'edit Quest Application'  ,
                                                                                 'view Quest Application'   ),
+                                                            'search'  => 0,
                                                             'metaTpl' => 'quest',
                                                             'formTpl' => 'quest',
-                                                            'css'     => 'quest.css' ),
+                                                            'css'     => 'quest.css'),
                                  );
         }
         return self::$_info;
@@ -133,6 +136,56 @@ class CRM_Core_Component {
             }
         }
         return;
+    }
+
+    static function &getQueryFields( ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        $fields = array( );
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( '$flds =& ' . $className . '::getFields( );' );
+                $fields = array_merge( $fields, $flds );
+            }
+        }
+        return $fields;
+    }
+
+    static function &alterQuery( &$query, $fnName ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( $className . '::' . $fnName . '( $query );' );
+            }
+        }
+    }
+
+    static function from( $fieldName, $mode, $side ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        $from = null;
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( '$from = ' . $className . '::from( $fieldName, $mode, $side );' );
+                if ( $from ) {
+                    return $from;
+                }
+            }
+        }
+        return $from;
     }
 
 }

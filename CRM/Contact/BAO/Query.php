@@ -73,21 +73,21 @@ class CRM_Contact_BAO_Query {
      * 
      * @var array 
      */ 
-    protected $_params;
+    public $_params;
 
     /** 
      * the set of output params
      * 
      * @var array 
      */ 
-    protected $_returnProperties;
+    public $_returnProperties;
 
     /** 
      * the select clause 
      * 
      * @var array 
      */
-    protected $_select;
+    public $_select;
 
     /** 
      * the name of the elements that are in the select clause 
@@ -95,28 +95,28 @@ class CRM_Contact_BAO_Query {
      * 
      * @var array 
      */ 
-    protected $_element;
+    public $_element;
  
     /**  
      * the tables involved in the query 
      *  
      * @var array  
      */  
-    protected $_tables;
+    public $_tables;
 
     /**
      * the table involved in the where clause
      *
      * @var array
      */
-    protected $_whereTables;
+    public $_whereTables;
 
     /**  
      * the where clause  
      *  
      * @var array  
      */  
-    protected $_where;
+    public $_where;
 
     /**   
      * the where string
@@ -124,7 +124,7 @@ class CRM_Contact_BAO_Query {
      * @var string
      *
      */
-    protected $_whereClause;
+    public $_whereClause;
 
     /**    
      * the from string 
@@ -132,7 +132,7 @@ class CRM_Contact_BAO_Query {
      * @var string 
      * 
      */ 
-    protected $_fromClause;
+    public $_fromClause;
 
     /**
      * the from clause for the simple select and alphabetical
@@ -140,14 +140,14 @@ class CRM_Contact_BAO_Query {
      *
      * @var string
      */
-    protected $_simpleFromClause;
+    public $_simpleFromClause;
 
     /** 
      * The english language version of the query 
      *   
      * @var array   
      */  
-    protected $_qill;
+    public $_qill;
 
     /**
      * All the fields that could potentially be involved in
@@ -169,37 +169,37 @@ class CRM_Contact_BAO_Query {
      *
      * @var boolean
      */
-    protected $_search = true;
+    public $_search = true;
 
     /**
      * are we in strict mode (use equality over LIKE)
      *
      * @var boolean
      */
-    protected $_strict = false;
+    public $_strict = false;
 
-    protected $_mode = 1;
+    public $_mode = 1;
 
     /** 
      * Should we only search on primary location
      *    
      * @var boolean
      */  
-    protected $_primaryLocation = true;
+    public $_primaryLocation = true;
 
     /**
      * are contact ids part of the query
      *
      * @var boolean
      */
-    protected $_includeContactIds = false;
+    public $_includeContactIds = false;
 
     /**
      * reference to the query object for custom values
      *
      * @var Object
      */
-    protected $_customQuery;
+    public $_customQuery;
 
     /**
      * should we enable the distinct clause, used if we are including
@@ -207,7 +207,7 @@ class CRM_Contact_BAO_Query {
      *
      * @var boolean
      */
-    protected $_useDistinct = false;
+    public $_useDistinct = false;
 
     /**
      * the default set of return properties
@@ -269,10 +269,9 @@ class CRM_Contact_BAO_Query {
         } else {
             require_once 'CRM/Contact/BAO/Contact.php';
             $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All', false, true );
-            
-            require_once 'CRM/Contribute/BAO/Contribution.php';
-            $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
-            unset( $fields['contact_id']);
+
+            require_once 'CRM/Core/Component.php';
+            $fields =& CRM_Core_Component::getQueryFields( );
             $this->_fields = array_merge( $this->_fields, $fields );
         }
 
@@ -303,13 +302,6 @@ class CRM_Contact_BAO_Query {
         $this->_tables['civicrm_contact'] = 1;
         $this->_whereTables['civicrm_contact'] = 1;
 
-        if ( $this->_mode & self::MODE_CONTRIBUTE ) {
-            $this->_select['contribution_id'] = "civicrm_contribution.id as contribution_id";
-            $this->_element['contribution_id'] = 1;
-            $this->_tables['civicrm_contribution'] = 1;
-            $this->_whereTables['civicrm_contribution'] = 1;
-        }
-
         $this->selectClause( ); 
         $this->_whereClause      = $this->whereClause( ); 
         $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode ); 
@@ -333,28 +325,6 @@ class CRM_Contact_BAO_Query {
         }
     }
 
-    /** 
-     * if contributions are involved, add the specific contribute fields
-     * 
-     * @return void  
-     * @access public  
-     */
-    function addContributeFields( ) {
-        if ( ! ( $this->_mode & self::MODE_CONTRIBUTE ) ) {
-            return;
-        }
-
-        // get contribution_type
-        if ( CRM_Utils_Array::value( 'contribution_type', $this->_returnProperties ) ) {
-            $this->_select['contribution_type']  = "civicrm_contribution_type.name as contribution_type";
-            $this->_element['contribution_type'] = 1;
-            $this->_tables['civicrm_contribution'] = 1;
-            $this->_tables['civicrm_contribution_type'] = 1;
-            $this->_whereTables['civicrm_contribution'] = 1;
-            $this->_whereTables['civicrm_contribution_type'] = 1;
-        }
-    }
-
     /**
      * Given a list of conditions in params and a list of desired
      * return Properties generate the required select and from
@@ -371,8 +341,8 @@ class CRM_Contact_BAO_Query {
 
         $this->addSpecialFields( );
 
-        $this->addContributeFields( );
-        
+        CRM_Core_Component::alterQuery( $this, 'select' );
+
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
         
@@ -689,7 +659,7 @@ class CRM_Contact_BAO_Query {
 
         $this->includeContactIds( );
 
-        $this->contribution( );
+        CRM_Core_Component::alterQuery( $this, 'where' );
 
         //CRM_Core_Error::debug( 'p', $this->_params );
         //CRM_Core_Error::debug( 'f', $this->_fields );
@@ -1110,41 +1080,12 @@ class CRM_Contact_BAO_Query {
                 $from .= " $side JOIN civicrm_gender ON civicrm_individual.gender_id = civicrm_gender.id ";
                 continue;
 
-            case 'civicrm_contribution':
-                if ( $mode & self::MODE_CONTRIBUTE ) {
-                    $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
-                } else {
-                    // keep it INNER for now, at some point we might make it a left join
-                    $from .= " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
-                }
-                continue;
-
             case 'civicrm_relationship':
                 if( self::$_relType == 'a') {
                     $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_a = civicrm_contact.id )";
                 } else {
                     $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = civicrm_contact.id )";
                 }
-                continue;
-
-            case 'civicrm_contribution_type':
-                if ( $mode & self::MODE_CONTRIBUTE ) {
-                    $from .= " INNER JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
-                } else {
-                    $from .= " $side JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
-                }
-                continue;
-
-            case 'civicrm_contribution_product':
-                $from .= " $side  JOIN civicrm_contribution_product ON civicrm_contribution_product.contribution_id = civicrm_contribution.id";
-                continue;
-                
-            case 'civicrm_product':
-                $from .= " $side  JOIN civicrm_product ON civicrm_contribution_product.product_id =civicrm_product.id ";
-                continue;
-             
-            case 'civicrm_payment_instrument':
-                $from .= " $side  JOIN civicrm_payment_instrument ON civicrm_contribution.payment_instrument_id =civicrm_payment_instrument.id ";
                 continue;
 
             case 'civicrm_entity_tag':
@@ -1163,9 +1104,11 @@ class CRM_Contact_BAO_Query {
             case 'civicrm_group':
                 $from .= " $side  JOIN civicrm_group ON civicrm_group_contact.group_id = civicrm_group.id ";
                 continue; 
+
+            default:
+                $from .= CRM_Core_Component::from( $name, $mode, $side );
+                continue;
             }
-
-
         }
         return $from;
     }
@@ -1564,112 +1507,6 @@ class CRM_Contact_BAO_Query {
        
     }
 
-
-    function contribution( ) {
-        $config =& CRM_Core_Config::singleton( ); 
-        if (  ! in_array( 'CiviContribute', $config->enableComponents) ) {
-            return;
-        }
-
-        // process to / from date
-        $this->dateQueryBuilder( 'civicrm_contribution', 'contribution_date', 'receive_date', 'Contribution Date' );
-        $qill = array( );
-        if ( isset( $this->_params['contribution_date_from'] ) ) { 
-            $revDate = array_reverse( $this->_params['contribution_date_from'] ); 
-            $date    = CRM_Utils_Date::format( $revDate ); 
-            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) ); 
-            if ( $date ) { 
-                $this->_where[] = "civicrm_contribution.receive_date >= '$date'";  
-                $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1; 
-                $qill[] = ts( 'greater than "%1"', array( 1 => $format ) ); 
-            } 
-        }  
- 
-        if ( isset( $this->_params['contribution_date_to'] ) ) { 
-            $revDate = array_reverse( $this->_params['contribution_date_to'] ); 
-            $date    = CRM_Utils_Date::format( $revDate ); 
-            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) ); 
-            if ( $date ) { 
-                $this->_where[] = " ( civicrm_contribution.receive_date <= '$date' ) ";  
-                $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;  
-                $qill[] = ts( 'less than "%1"', array( 1 => $format ) ); 
-            } 
-        } 
-         
-        if ( ! empty( $qill ) ) { 
-            $this->_qill[] = ts('Contribution Date - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) ); 
-        } 
-
-        // process min/max amount
-        $qill = array( ); 
-        if ( isset( $this->_params['contribution_min_amount'] ) ) {  
-            $amount = $this->_params['contribution_min_amount'];
-            if ( $amount > 0 ) {
-                $this->_where[] = "civicrm_contribution.total_amount >= $amount";
-                $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;  
-                $qill[] = ts( 'greater than "%1"', array( 1 => $amount ) );
-            } 
-        }
-    
-        if ( isset( $this->_params['contribution_max_amount'] ) ) {  
-            $amount = $this->_params['contribution_max_amount'];
-            if ( $amount > 0 ) {
-                $this->_where[] = "civicrm_contribution.total_amount <= $amount";
-                $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;   
-                $qill[] = ts( 'less than "%1"', array( 1 => $amount ) );
-            }
-        }
-
-        if ( ! empty( $qill ) ) {  
-            $this->_qill[] = ts('Contribution Amount - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );  
-        }  
-
-        if ( CRM_Utils_Array::value( 'contribution_thankyou_date_isnull', $this->_params ) ) {
-            $this->_where[] = "civicrm_contribution.thankyou_date is null";
-            $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;
-            $this->_qill[] = ts( 'Contribution Thank-you date is null' );
-        }
-
-        if ( CRM_Utils_Array::value( 'contribution_receipt_date_isnull', $this->_params ) ) {
-            $this->_where[] = "civicrm_contribution.receipt_date is null";
-            $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;
-            $this->_qill[] = ts( 'Contribution Receipt date is null' );
-        }
-
-        if ( CRM_Utils_Array::value( 'contribution_type_id', $this->_params ) ) {
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $cType = $this->_params['contribution_type_id'];
-            $types = CRM_Contribute_PseudoConstant::contributionType( );
-            $this->_where[] = "civicrm_contribution.contribution_type_id = $cType";
-            $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;
-            $this->_qill[] = ts( 'Contribution Type - %1', array( 1 => $types[$cType] ) );
-        }
-
-        if ( CRM_Utils_Array::value( 'payment_instrument_id', $this->_params ) ) {
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $pi = $this->_params['payment_instrument_id'];
-            $pis = CRM_Contribute_PseudoConstant::paymentInstrument( );
-            $this->_where[] = "civicrm_contribution.payment_instrument_id = $pi";
-            $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;
-            $this->_qill[] = ts( 'Paid By - %1', array( 1 => $pis[$pi] ) );
-        }
-
-        if ( isset( $this->_params['contribution_status'] ) ) {
-            switch( $this->_params['contribution_status'] ) {
-            case 'Valid':
-                $this->_where[] = "civicrm_contribution.cancel_date is null";
-                $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;
-                $this->_qill[]  = ts( 'Contribution Status - Valid' );
-                break;
-
-            case 'Cancelled':
-                $this->_where[] = "civicrm_contribution.cancel_date is not null";
-                $this->_tables['civicrm_contribution'] = $this->_whereTables['civicrm_contribution'] = 1;
-                $this->_qill[]  = ts( 'Contribution Status - Cancelled' );
-                break;
-            }
-        }
-    }
 
     /**
      * default set of return properties
