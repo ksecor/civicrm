@@ -210,6 +210,15 @@ class CRM_Contact_BAO_Query {
     protected $_useDistinct = false;
 
     /**
+     * the default set of return properties
+     *
+     * @var array
+     * @static
+     */
+    static $_relType;
+    
+
+    /**
      * The tables which have a dependency on location and/or address
      *
      * @var array
@@ -675,6 +684,8 @@ class CRM_Contact_BAO_Query {
         $this->postalCode( );
 
         $this->activity( );
+        
+        $this->relationship();
 
         $this->includeContactIds( );
 
@@ -1108,6 +1119,14 @@ class CRM_Contact_BAO_Query {
                 }
                 continue;
 
+            case 'civicrm_relationship':
+                if( self::$_relType == 'a') {
+                    $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_a = civicrm_contact.id )";
+                } else {
+                    $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = civicrm_contact.id )";
+                }
+                continue;
+
             case 'civicrm_contribution_type':
                 if ( $mode & self::MODE_CONTRIBUTE ) {
                     $from .= " INNER JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
@@ -1499,6 +1518,52 @@ class CRM_Contact_BAO_Query {
 
         $this->dateQueryBuilder( 'civicrm_activity_history', 'activity_date', 'activity_date', 'Activity Date' );
     }
+    
+    /**
+     * where / qill clause for relationship
+     *
+     * @return void
+     * @access public
+     */
+    function relationship( ) {
+        if ( CRM_Utils_Array::value( 'relation_type_id', $this->_params ) &&
+             CRM_Utils_Array::value( 'target_name', $this->_params ) ) {
+            
+            $name = trim($this->_params['target_name']); 
+            $queryString = "SELECT id , sort_name  FROM civicrm_contact WHERE  LOWER( sort_name ) LIKE '%" . strtolower( $name ) . "%'";
+            $dao =& CRM_Core_DAO::executeQuery( $queryString );
+            $dao->fetch(true);
+            $sortName = $dao->sort_name ? $dao->sort_name :  $this->_params['target_name'];
+            if ( $dao->id ) {
+                $rel = explode( '_' , $this->_params['relation_type_id']);
+                self::$_relType = $rel[1];
+                if ( $rel[1] == 'a') {
+                    $this->_where[] = 'civicrm_relationship.contact_id_b ='.$dao->id;
+                    $this->_where[] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
+                } else if ( $rel[1] == 'b')  {
+                    $this->_where[] = 'civicrm_relationship.contact_id_a ='.$dao->id;
+                    $this->_where[] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
+                    
+                }
+                $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
+               
+            } else {
+                $this->_where[] = "civicrm_relationship.contact_id_b =  NULL";
+                $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
+                
+            }
+            require_once 'CRM/Contact/BAO/Relationship.php';
+            $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
+            $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
+            $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
+            $allRelationshipType =array();
+            $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
+            $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+            $this->_qill[]  = ts( $allRelationshipType[$this->_params['relation_type_id']] ." ". $sortName );
+        }
+       
+    }
+
 
     function contribution( ) {
         $config =& CRM_Core_Config::singleton( ); 
