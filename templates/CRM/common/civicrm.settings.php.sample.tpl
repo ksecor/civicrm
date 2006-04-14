@@ -505,7 +505,6 @@ define('CIVICRM_DOMAIN_ID' , 1 );
 define( 'CIVICRM_DEBUG',     0 );
 define( 'CIVICRM_BACKTRACE', 0 );
  
-
 /**
  * Additional CiviMail Settings:
  *
@@ -535,10 +534,25 @@ define( 'CIVICRM_SMS_AGGREGATOR', 'CRM_SMS_Protocol_Clickatell' );
 define( 'CIVICRM_UF_FRONTEND', %%frontEnd%% );
 
 /**
- * Template Customization:
+ * Error Handling Customization:
  *
+ * You can define your own template for displaying fatal errors by changing the
+ * default value for FATAL_ERROR_TEMPLATE. The template file must be located under
+ * $civicrm_root/templates. Use a relative path to the file.
+ *      define( 'CIVICRM_FATAL_ERROR_TEMPLATE', 'CRM/myFatalError.tpl' );
+ * The following smarty variables may be assigned to these template (refer to the default
+ * file - CRM/error.tpl - for display example).
+ *      $message        - The error message. Always defined.
+ *      $code           - An error code. Conditionally defined.
+ *      $mysql_code     - A MySQL (DB) error code. Conditionally defined.
+ *
+ * You can also replace the default fatal error handling function with a custom function:
+ *      define( 'CIVICRM_FATAL_ERROR_HANDLER',  'myFatalErrorHandler');
+ * The function must be loaded by an enabled module. CiviCRM will pass an array with the
+ * errors ($message, $code, $mysql_code) as an argument to the function.
  */
 define( 'CIVICRM_FATAL_ERROR_TEMPLATE', 'CRM/error.tpl' );
+define( 'CIVICRM_FATAL_ERROR_HANDLER',  '');
 
 /**
  * 
