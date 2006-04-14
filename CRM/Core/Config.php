@@ -343,6 +343,13 @@ class CRM_Core_Config {
     public $fatalErrorTemplate = 'CRM/error.tpl';
 
     /**
+     * fatal error handler
+     *
+     * @var string
+     */
+    public $fatalErrorHandler = 'myfatal';
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -696,6 +703,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_FATAL_ERROR_TEMPLATE' ) ) {
             $this->fatalErrorTemplate = CIVICRM_FATAL_ERROR_TEMPLATE;
+        }
+
+        if ( defined( 'CIVICRM_FATAL_ERROR_HANDLER' ) ) {
+            $this->fatalErrorTemplate = CIVICRM_FATAL_ERROR_HANDLER;
         }
 
         require_once 'CRM/Core/Component.php';
