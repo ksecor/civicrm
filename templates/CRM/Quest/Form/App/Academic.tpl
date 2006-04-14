@@ -29,7 +29,7 @@
     <td colspan=2 id="category">{ts}{edit}Academic Honors{/edit}{/ts}</td>
 <tr>
 <tr>
-    <td colspan=2><p class="preapp-instruction">{ts}Describe any honors you have been awarded since you entered high school.{/ts}</p></td>
+    <td colspan=2><p class="preapp-instruction">{ts}Describe the top 6 honors you have been awarded since you entered high school.{/ts}</p></td>
 </tr>
 <tr><td colspan=2>
 
