@@ -96,6 +96,8 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     protected $_addToGroupID;
     
+    protected $_countryPresent;
+
     /** 
      * pre processing work done here. 
      * 
@@ -131,7 +133,7 @@ class CRM_Profile_Form extends CRM_Core_Form
 
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm', 'reset=1' ) );
         }
-        //print_r($this->_fields);
+
         if ( $this->_id ) {
             $defaults = array( );
 
@@ -188,6 +190,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                         $defaults[$name] = $value['state_province_id'];
                                     } else if ( $nameValue[0] == 'country' ) {
                                         $defaults[$name] = $value['country_id'];
+                                        $this->_countryPresent = 1;
                                     } else if ( $nameValue[0] == 'phone' ) {
                                         if ($nameValue[2]) {
                                             $defaults[$name] = $value['phone'][$nameValue[2]];
@@ -209,6 +212,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
             }
+
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
@@ -246,7 +250,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $country =& CRM_Core_PseudoConstant::country( );
                     if ( $this->_contact->country ) {
                         $defaults[$name] = array_search( $this->_contact->country, $country );
-                    }
+                    } 
                 } else if ( $objName == 'gender' ) {
                     if ($this->_contact->gender_id) {
                         $defaults[$name] = $this->_contact->gender_id;
@@ -266,6 +270,18 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
+        
+        if (! $this->_countryPresent) {
+            foreach ($this->_fields as $name => $field ) {
+                $config =& CRM_Core_Config::singleton();
+                if ( $config->defaultContactCountry && (substr($field['name'],0,7) === 'country') ) {
+                    $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
+                    $defaultID = array_search($config->defaultContactCountry, $countryIsoCodes); 
+                    $defaults[$name] = $defaultID;
+                }
+            }
+        }
+        
         return $defaults;
     }
 
