@@ -41,7 +41,7 @@ require_once 'CRM/Core/BAO/CustomOption.php';
 require_once 'CRM/Utils/Recent.php';
 
 require_once 'CRM/Contact/BAO/Contact.php';
-require_once 'CRM/Utils/Menu.php';
+require_once 'CRM/Core/Menu.php';
 
 /**
  * Main page for viewing contact.
@@ -127,7 +127,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
                                $this->_contactId );
         
         // also add the cid params to the Menu array
-        CRM_Utils_Menu::addParam( 'cid', $this->_contactId );
+        CRM_Core_Menu::addParam( 'cid', $this->_contactId );
 
         
         $this->assign('viewForm',$form);
@@ -137,7 +137,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         //------------
         // create menus ..
-        $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
+        $startWeight = CRM_Core_Menu::getMaxWeight('civicrm/contact/view');
         $startWeight++;
         CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($this->_contactId), 'civicrm/contact/view/cd', $startWeight);
 

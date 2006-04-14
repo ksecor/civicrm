@@ -42,8 +42,8 @@ require_once 'CRM/Core/Page.php';
 class CRM_Admin_Page_Admin extends CRM_Core_Page
 {
     function run ( ) {
-        require_once 'CRM/Utils/Menu.php';
-        $items =& CRM_Utils_Menu::items( );
+        require_once 'CRM/Core/Menu.php';
+        $items =& CRM_Core_Menu::items( );
 
         $config =& CRM_Core_Config::singleton( );
 

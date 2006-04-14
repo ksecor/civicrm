@@ -180,8 +180,8 @@ function civicrm_block($op='list', $delta='0')
 function civicrm_menu($may_cache)
 {
     if ( $may_cache ) {
-        require_once 'CRM/Utils/Menu.php';
-        $items = CRM_Utils_Menu::items( );
+        require_once 'CRM/Core/Menu.php';
+        $items = CRM_Core_Menu::items( );
         return $items;
     } else {
         return array( );

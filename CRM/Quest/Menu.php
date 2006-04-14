@@ -36,7 +36,7 @@
  *
  */
 
-require_once 'CRM/Utils/Menu.php';
+require_once 'CRM/Core/Menu.php';
 
 class CRM_Quest_Menu {
 
@@ -47,8 +47,8 @@ class CRM_Quest_Menu {
                              'qs'      => 'reset=1',
                              'title'   => ts( '2006 College Prep Scholarship Application' ), 
                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
-                             'type'    => CRM_Utils_Menu::CALLBACK,  
-                             'crmType' => CRM_Utils_Menu::CALLBACK,
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 0, 
                              ),
                        );

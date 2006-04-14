@@ -34,7 +34,7 @@
  *
  */
 
-require_once 'CRM/Utils/Menu.php';
+require_once 'CRM/Core/Menu.php';
 
 /**
  * defines a simple implemenation of a drupal block.
@@ -275,7 +275,7 @@ class CRM_Core_Block {
      */
     private function setTemplateMenuValues( ) {
         $config =& CRM_Core_Config::singleton( );
-        $items  =& CRM_Utils_Menu::items( );
+        $items  =& CRM_Core_Menu::items( );
         $values =  array( );
 
         foreach ( $items as $item ) {
@@ -283,8 +283,8 @@ class CRM_Core_Block {
                 continue;
             }
 
-            if ( ( $item['crmType'] &  CRM_Utils_Menu::NORMAL_ITEM ) &&
-                 ( $item['crmType'] >= CRM_Utils_Menu::NORMAL_ITEM ) &&
+            if ( ( $item['crmType'] &  CRM_Core_Menu::NORMAL_ITEM ) &&
+                 ( $item['crmType'] >= CRM_Core_Menu::NORMAL_ITEM ) &&
                  $item['access'] ) {
                 $value = array( );
                 $value['url'  ]  = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'qs', $item ) );

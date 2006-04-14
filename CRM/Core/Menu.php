@@ -37,7 +37,7 @@
 
 require_once 'CRM/Core/I18n.php';
 
-class CRM_Utils_Menu {
+class CRM_Core_Menu {
     /**
      * the list of menu items
      * 
@@ -490,8 +490,8 @@ class CRM_Utils_Menu {
                             'qs'     => 'reset=1',
                             'access' => CRM_Core_Permission::check('administer CiviCRM') &&
                                         CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'type'   =>  CRM_Utils_Menu::CALLBACK,
-                            'crmType'=>  CRM_Utils_Menu::NORMAL_ITEM,
+                            'type'   =>  CRM_Core_Menu::CALLBACK,
+                            'crmType'=>  CRM_Core_Menu::NORMAL_ITEM,
                             'weight' =>  400,
                             ),
                       array( 
@@ -500,8 +500,8 @@ class CRM_Utils_Menu {
                              'title'   => ts( 'Contacts' ), 
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                                           CRM_Core_Permission::check( 'access CiviCRM' ), 
-                             'type'    => CRM_Utils_Menu::CALLBACK,  
-                             'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                              'weight'  => 410,
                              ),
                        array( 
@@ -510,8 +510,8 @@ class CRM_Utils_Menu {
                              'title'   => ts( 'Activity History' ), 
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                                           CRM_Core_Permission::check( 'access CiviCRM' ),
-                             'type'    => CRM_Utils_Menu::CALLBACK,  
-                             'crmType' => CRM_Utils_Menu::NORMAL_ITEM,  
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                              'weight'  => 420,  
                              ),
 

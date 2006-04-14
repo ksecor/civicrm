@@ -537,8 +537,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $menu['path']    = $path;
             $menu['title']   = "$customGroupDAO->title";
             $menu['qs']      = 'reset=1&gid=' . $customGroupDAO->id . '&cid=%%cid%%';
-            $menu['type']    = CRM_Utils_Menu::CALLBACK;
-            $menu['crmType'] = CRM_Utils_Menu::LOCAL_TASK;
+            $menu['type']    = CRM_Core_Menu::CALLBACK;
+            $menu['crmType'] = CRM_Core_Menu::LOCAL_TASK;
             $menu['weight']  = $startWeight++;
             $menu['extra' ]  = array( 'gid' => $customGroupDAO->id );
             $menus[] = $menu;
@@ -546,7 +546,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         
         if ( is_array($menus) ) {
             foreach($menus as $menu) {
-                CRM_Utils_Menu::add($menu);
+                CRM_Core_Menu::add($menu);
             }
         }
     }
