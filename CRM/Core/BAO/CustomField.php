@@ -237,7 +237,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $crmDAO =& new CRM_Core_DAO();
             $crmDAO->query($query);
             $result = $crmDAO->getDatabaseResult();
-            self::$_importFields = array();
         
             $fields = array( );
             while (($row = $result->fetchRow()) != null) {
