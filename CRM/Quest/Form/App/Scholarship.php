@@ -135,7 +135,7 @@ class CRM_Quest_Form_App_Scholarship extends CRM_Quest_Form_App
                          ts( 'Do you plan to use, or have you already used, fee waivers to register for standarized tests?' ) ,null,false);
        for($i=1;$i<=3;$i++) {
            $this->addElement('select','award_ranking_'.$i.'_id',
-                              ts('Rank the scholarship awards you are interested in'),
+                              ts('Rank the 3 awards you are interested in receiving, if you are awarded the scholarship'),
                               array('' => ts('- select -')) + CRM_Core_OptionGroup::values( 'award_ranking' )
                               );
        }
