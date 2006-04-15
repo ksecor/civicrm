@@ -9,20 +9,17 @@
     <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
-            <td class="greeting">
-            	Welcome,&nbsp;{$welcome_name}</td>
-            <td class="save">
+            <td class="greeting">Welcome,&nbsp;{$welcome_name}</td>
+            <td class="preapp-message" align="center">
+             {ts}
+               Please note: the application deadline is May 15, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' to save your changes.
+             {/ts}
+            </td>           	
+            <td nowrap class="save">
             <div class="crm-submit-buttons">
                 {$form.buttons.html}
             </div>
             </td>	    	
-        </tr>
-        <tr>
-           <td class="preapp-message" colspan=2>
-             {ts}
-               Please note: the application deadline is May 15, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' to save your changes.
-             {/ts}
-           </td>
         </tr>
      </table>
    {/if}
@@ -33,17 +30,21 @@
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
             {include file="CRM/WizardHeader.tpl}
             <br>
+<!--
             <div id="help-box">
               <strong>Need Help?</strong><br />
               &nbsp;&nbsp;<a href="javascript:chatW=window.open('http://www.questbridge.org/support/live_support.html','Support','width=600,height=470,resizable=yes'); chatW.focus()">Talk to a Quest team<br>&nbsp;&nbsp;member</A><br />
             </div>
+//-->
             <div id="help-box">
               <strong>Application Status</strong><br />
               &nbsp;&nbsp;{$taskStatus}
             </div>
             <div id="help-box">
               <strong>Navigation Color Guide</strong><br />
-              &nbsp;&nbsp;<IMG SRC="themes/quest/green_box.gif" WIDTH="8" HEIGHT="8"> Section not completed<BR>&nbsp;&nbsp;&nbsp;&nbsp;or section has error(s)
+              <B>Green</B>: Section not<BR>completed or section<br>has error(s)<BR>
+              <B>Blue</B>: Section has been<BR>completed or is available<BR>for editing<BR>
+              <B>Gray</B>: Section is not<br>available for editing<BR>
             </div>
 	    </td>
         {/if}

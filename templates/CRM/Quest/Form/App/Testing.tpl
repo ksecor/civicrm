@@ -8,7 +8,7 @@
 </tr>
 <tr>
   <td colspan="2" class="grouplabel">
-    <p class="preapp-instruction">{ts}Enter your test scores and dates for any of the tests below which you have taken. Please enter all test component scores and the test date for each completed test.{/ts}</p>
+    <p class="preapp-instruction">{ts}Enter your test scores and dates for any of the tests below which you have taken. Please enter all test component scores and the test date for each completed test. For each test, list the top score received.{/ts}</p>
   </td>
 </tr>
 <tr><td colspan=2 id="sub-category">{ts}PSAT Test{/ts}</td>

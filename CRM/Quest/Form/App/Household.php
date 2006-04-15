@@ -45,6 +45,8 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
 {
+    protected $_personIDs = null;
+
     /**
      * Function to set variables up before form is built
      *
@@ -66,14 +68,17 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        
+        $this->_personIDs = array( );
+
         $person_1_id = $person_2_id = null;
         for ( $i = 1; $i <= 2; $i++ ) {
+            $this->_personIDs[$i] = array( );
             require_once 'CRM/Quest/DAO/Household.php';
             $dao = & new CRM_Quest_DAO_Household();
             $dao->contact_id     = $this->_contactID;
             $dao->household_type = ($i == 1 ) ? 'Current' : 'Previous';
             if ( $dao->find(true) ) {
+                CRM_Core_Error::debug( "dao", $dao );
                 $defaults['member_count_'.$i]   = $dao->member_count;
                 $defaults['years_lived_id_'.$i] = $dao->years_lived_id;
                 if ( $i == 1 ) {
@@ -85,6 +90,8 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                     $string = "person_{$j}_id"; 
                     $personDAO->id = $dao->$string;
                     if ( $personDAO->id && $personDAO->find(true) ) {
+                        $this->_personIDs[$i][$j] = $personDAO->id;
+                        CRM_Core_Error::debug( "$i, $j", $personDAO );
                         $defaults["relationship_id_{$i}_{$j}"] = $personDAO->relationship_id;
                         $defaults["first_name_{$i}_{$j}"]      = $personDAO->first_name;
                         $defaults["last_name_{$i}_{$j}"]       = $personDAO->last_name;
@@ -98,7 +105,6 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                 }
             }
         }
-        
         return $defaults;
     }
     
@@ -342,15 +348,22 @@ WHERE  id = {$value['options']['personID']}
 
         require_once 'CRM/Quest/BAO/Person.php'; 
 
-        $dao = new CRM_Quest_DAO_Person(); 
-        $dao->contact_id      = $this->_contactID;
-        $dao->relationship_id = $relationshipID;
-        $dao->first_name      = $first;
-        $dao->last_name       = $last;
-        $personID = null;
+        // check if the person already has an if
+        $personID = CRM_Utils_Array::value( $j, $this->_personIDs[$i] );
+
+        $dao =& new CRM_Quest_DAO_Person(); 
+        if ( $personID ) {
+            $dao->id = $personID;
+        } else {
+            $dao->contact_id      = $this->_contactID;
+            $dao->relationship_id = $relationshipID;
+            $dao->first_name      = $first;
+            $dao->last_name       = $last;
+        }
+
         if ( $dao->find(true) ) { 
             $personID = $dao->id;
-
+            
             // keep the is income source the same value as prior
             $personParams['is_income_source'] = $dao->is_income_source;
         }

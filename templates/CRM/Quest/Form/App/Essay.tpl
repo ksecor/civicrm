@@ -15,7 +15,7 @@
     </p> 
     {/edit}
 
-    <label>{ts}We are interested in  learning more about you and the context in which you have grown up, formed your aspirations, and accomplished your academic successes. Please describe the factors that have most shaped your personal life and your personal aspirations. (3000 characters max).{/ts} <span class="marker">*</span></label>
+    <label>{ts}We are interested in  learning more about you and the context in which you have grown up, formed your aspirations, and accomplished your academic successes. Please describe the factors that have most shaped your personal life and your personal aspirations. (3000 characters max, spaces count).{/ts} <span class="marker">*</span></label>
   </td>
 </tr>
 <tr>

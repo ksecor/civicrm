@@ -20,6 +20,7 @@
     <td class="grouplabel">{$form.$organization_name.label}</td>
     <td class="fieldlabel">{$form.$organization_name.html}</td>
 </tr>
+<!--
 <tr>
     {assign var=custom_1 value="custom_1_"|cat:$i}
     <td class="grouplabel">{$form.$custom_1.label}</td>
@@ -28,6 +29,7 @@
         <a href="javascript:popUp('http://questscholars.stanford.edu/help_popup/ceeb.html')">{ts}{edit}Click here</a> to locate your CEEB school code.{/edit}{/ts}
     </td>
 </tr>
+//-->
 <tr>
     {assign var=date_of_entry value="date_of_entry_"|cat:$i}
     {assign var=date_of_exit value="date_of_exit_"|cat:$i}

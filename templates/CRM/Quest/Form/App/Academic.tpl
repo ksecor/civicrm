@@ -7,7 +7,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.gpa_id.label}</td>
-    <td class="fieldlabel">{$form.gpa_id.html} <br/>{ts} {edit}Please give your GPA on an unweighted, 4.0 scale{/edit}{/ts}</td>
+    <td class="fieldlabel">{$form.gpa_id.html} <br/>{ts} {edit}Please give your GPA on an unweighted, 4.0 scale{/edit}. View instructions for <A HREF="http://www.asfdn.org/content.cfm?page=scholarships_programs_GPA2" TARGET="_blank">calculating an unweighted score</A>{/ts}</td>
 </tr> 
 <tr>
     <td class="grouplabel">{$form.is_class_ranking.label}</td>
@@ -29,7 +29,7 @@
     <td colspan=2 id="category">{ts}{edit}Academic Honors{/edit}{/ts}</td>
 <tr>
 <tr>
-    <td colspan=2><p class="preapp-instruction">{ts}Describe any honors you have been awarded since you entered high school.{/ts}</p></td>
+    <td colspan=2><p class="preapp-instruction">{ts}Describe the top 6 honors you have been awarded since you entered high school.{/ts}</p></td>
 </tr>
 <tr><td colspan=2>
 
