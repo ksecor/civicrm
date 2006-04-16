@@ -139,7 +139,11 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         
         // add group id to params if a uf group belong to a any group
         if ($groupId) {
-            $this->_params['group'] = array($groupId => 1);
+            if ( CRM_Utils_Array::value('group', $this->_params ) ) {
+                $this->_params['group'][$groupId] = 1;
+            } else {
+                $this->_params['group'] = array($groupId => 1);
+            }
         }
 
         $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
