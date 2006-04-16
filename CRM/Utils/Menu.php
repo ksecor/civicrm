@@ -213,7 +213,7 @@ class CRM_Utils_Menu {
                       array(
                             'path'    => 'civicrm/contact/domain',
                             'title'   => ts('Edit Domain Information'),
-                            'qs'     => 'reset=1',
+                            'qs'     => 'reset=1&action=update',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),

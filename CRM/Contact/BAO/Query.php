@@ -1296,7 +1296,11 @@ class CRM_Contact_BAO_Query {
         if ( ! CRM_Utils_Array::value( 'tag', $this->_params ) ) { 
             return; 
         } 
- 
+
+        if ( count( $this->_params['tag'] ) > 1 ) {
+            $this->_useDistinct = true;
+        }
+
         $names = array( );
         $tagNames =& CRM_Core_PseudoConstant::tag();
         foreach ( $this->_params['tag'] as $id => $dontCare ) {
