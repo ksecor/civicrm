@@ -270,7 +270,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
             $query =  "SELECT * FROM civicrm_uf_field $where ORDER BY weight, field_name"; 
 
-            $field =& CRM_Core_DAO::executeQuery( $query );
+            $field =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             
             if ( !$showAll ) {
                 $importableFields =& CRM_Contact_BAO_Contact::importableFields( "All");
@@ -1023,24 +1023,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function getWeight ( $ufGroupId = null ) 
     {
         //calculate the weight
-        require_once 'CRM/Core/DAO.php';
-        $dao =& new CRM_Core_DAO( );
+        $p = array( );
         if ( !$ufGroupId ) {
             $queryString = "SELECT ( MAX(civicrm_uf_join.weight)+1) as new_weight
                             FROM civicrm_uf_join 
-                            WHERE module='User Registration' OR module='User Account' OR module='Profile'";
+                            WHERE module = 'User Registration' OR module = 'User Account' OR module = 'Profile'";
         } else {
             $queryString = "SELECT MAX(civicrm_uf_join.weight) as new_weight
                             FROM civicrm_uf_join
-                            WHERE civicrm_uf_join.uf_group_id = " . CRM_Utils_Type::escape($ufGroupId, 'Integer'); 
-
-            /*  ." 
-                              AND (civicrm_uf_join.module='User Registration'
-                                    OR civicrm_uf_join.module='User Account'
-                                    OR civicrm_uf_join.module='Profile')";*/
+                            WHERE civicrm_uf_join.uf_group_id = %1";
+            $p[1] = array( $ufGroupId, 'Integer' );
         }
         
-        $dao->query($queryString);
+        $dao =& CRM_Core_DAO::executeQuery( $queryString, $p );
         $dao->fetch();
         return ($dao->new_weight) ? $dao->new_weight : 1; 
     }
@@ -1065,14 +1060,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                civicrm_uf_join.weight as weight, civicrm_uf_group.is_active as is_active
                         FROM civicrm_uf_group
                         LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
-                        WHERE civicrm_uf_group.domain_id = ' . CRM_Core_Config::domainID( ); 
+                        WHERE civicrm_uf_group.domain_id = %1';
+        $p = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
         if ($moduleName) {
             $queryString .= ' AND civicrm_uf_group.is_active = 1 
-                              AND civicrm_uf_join.module ="' . CRM_Utils_Type::escape($moduleName, 'String') .'" ';
+                              AND civicrm_uf_join.module = %2';
+            $p[2] = array( $moduleName, 'String' );
         }
         
         $queryString .= ' ORDER BY civicrm_uf_join.weight, civicrm_uf_group.title';
-        $dao->query($queryString);
+        $dao =& CRM_Core_DAO::executeQuery($queryString, $p);
 
         $ufGroups = array( );
         while ($dao->fetch( )) {
@@ -1097,7 +1094,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function updateWeight($weight, $ufGroupId) 
     {
-
         //get the current uf group records in uf join table
         $ufJoin =& new CRM_Core_DAO_UFJoin();
         $ufJoin->uf_group_id = $ufGroupId;
@@ -1113,14 +1109,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         if ( $weight != $oldWeight )  {
             $check++;
             // get the groups whose weight is less than new/updated group
-            $daoObj =& new CRM_Core_DAO();
             $query = "SELECT id
                       FROM civicrm_uf_join
                       WHERE (module = 'User Registration' OR module='User Account' OR module='Profile')
+                        AND weight = %1";
+            $p =array( 1 => array( $weight, 'Integer' ) );
 
-                        AND weight = ". CRM_Utils_Type::escape($weight, 'Integer');
-
-            $daoObj->query($query);
+            $daoObj =& CRM_Core_DAO::executeQuery($query, $p);
             while ($daoObj->fetch()) {
                 $check = 0;
             }
@@ -1132,9 +1127,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $query = "SELECT id
                       FROM civicrm_uf_join
                       WHERE (module = 'User Registration' OR module='User Account' OR module='Profile')
+                        AND weight >= %1";
+            $p =array( 1 => array( $weight, 'Integer' ) );
 
-                        AND weight >= ". CRM_Utils_Type::escape($weight, 'Integer');
-            $dao->query($query);
+            $dao =& CRM_Core_DAO::executeQuery($query, $p); 
             
             $fieldIds = array();                
             while ($dao->fetch()) {
@@ -1143,19 +1139,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             //update the record with weight + 1
             if ( !empty($fieldIds) ) {
-                $ufDAO =& new CRM_Core_DAO();
-                $updateSql = "UPDATE civicrm_uf_join SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
-                $ufDAO->query($updateSql);
+                $sql = "UPDATE civicrm_uf_join SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
+                CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
             }
         }
         
         //set the weight for the current uf group
         if ( !empty($ufJoinRecords) ) {
-            $ufJoinDAO =& new CRM_Core_DAO();
-            $queryString = "UPDATE civicrm_uf_join SET weight = ". CRM_Utils_Type::escape($weight, 'Integer')."
-                          WHERE id IN ( ".implode(",", $ufJoinRecords)." ) ";
-            $ufJoinDAO->query($queryString);
+            $query = "UPDATE civicrm_uf_join SET weight = %1
+                       WHERE id IN ( ".implode(",", $ufJoinRecords)." ) ";
+            $p =array( 1 => array( $weight, 'Integer' ) ); 
+            CRM_Core_DAO::executeQuery($query, $p);
         }
     }
 }
+
 ?>

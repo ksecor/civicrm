@@ -118,10 +118,11 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
                                 civicrm_location.is_primary = 1 )
 LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
                                 civicrm_email.is_primary = 1    )
-SET civicrm_email.email = '" . $user->$mail . "' WHERE civicrm_contact.id = " .
-                    CRM_Utils_Type::escape( $ufmatch->contact_id, 'Integer' );
-                
-                CRM_Core_DAO::executeQuery( $query );
+SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
+
+                $p = array( 1 => array( $user->$mail        , 'String'  ),
+                            2 => array( $ufmatch->contact_id, 'Integer' ) );
+                CRM_Core_DAO::executeQuery( $query, $p );
             }
         }
     }
@@ -162,10 +163,11 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
                                 civicrm_contact.id  = civicrm_location.entity_id AND 
                                 civicrm_location.is_primary = 1 )
 LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
-WHERE     civicrm_email.email = '"  . CRM_Utils_Type::escape($mail, 'String') . "' AND civicrm_contact.domain_id = " . CRM_Core_Config::domainID( );  
+WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
+            $p = array( 1 => array( $mail, 'String' ),
+                        2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
 
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
+            $dao =& CRM_Core_DAO::executeQuery( $query, $p );
             if ( $dao->fetch( ) ) {
                 $ufmatch->contact_id = $dao->contact_id;
                 $ufmatch->domain_id  = $dao->domain_id ;
@@ -213,11 +215,11 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
                                 civicrm_location.is_primary = 1 )
 LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
                                 civicrm_email.is_primary = 1    )
-WHERE     civicrm_contact.id = " 
-                            . CRM_Utils_Type::escape($contactId, 'Integer');
+WHERE     civicrm_contact.id = %1";
+        $p = array( 1 => array( $contactId, 'Integer' ) );
 
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $query );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+        
         if ( ! $dao->fetch( ) || ! $dao->email ) {
             // if we can't find a primary email, return
             return;
@@ -269,17 +271,16 @@ WHERE     civicrm_contact.id = "
             if (trim($contactDetails[1])) {
                 //update if record is found
                 $query ="UPDATE  civicrm_contact, civicrm_location,civicrm_email
-                     SET email = '". CRM_Utils_Type::escape($emailAddress, 'String') ."'
+                     SET email = %1
                      WHERE civicrm_location.entity_table = 'civicrm_contact' 
                        AND civicrm_contact.id  = civicrm_location.entity_id 
                        AND civicrm_location.is_primary = 1 
                        AND civicrm_location.id = civicrm_email.location_id 
                        AND civicrm_email.is_primary = 1   
-                       AND civicrm_contact.id =  "  . CRM_Utils_Type::escape($contactId, 'Integer');
-
-                $dao =& new CRM_Core_DAO( );
-                $dao->query( $query );
-
+                       AND civicrm_contact.id =  %2";
+                $p = array( 1 => array( $emailAddress, 'String'  ),
+                            2 => array( $contactId   , 'Integer' ) );
+                $dao =& CRM_Core_DAO::executeQuery( $query, $p );
             } else {
                 //else insert a new email record
                 $email =& new CRM_Core_DAO_Email();

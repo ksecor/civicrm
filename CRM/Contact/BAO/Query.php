@@ -1473,8 +1473,9 @@ class CRM_Contact_BAO_Query {
              CRM_Utils_Array::value( 'target_name', $this->_params ) ) {
             
             $name = trim($this->_params['target_name']); 
-            $queryString = "SELECT id , sort_name  FROM civicrm_contact WHERE  LOWER( sort_name ) LIKE '%" . strtolower( $name ) . "%'";
-            $dao =& CRM_Core_DAO::executeQuery( $queryString );
+            $queryString = "SELECT id , sort_name  FROM civicrm_contact WHERE  LOWER( sort_name ) LIKE %1";
+            $params = array( 1 => array( '%' . strtolower( $name ) . '%', 'String' ) );
+            $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
             $dao->fetch(true);
             $sortName = $dao->sort_name ? $dao->sort_name :  $this->_params['target_name'];
             if ( $dao->id ) {
@@ -1489,11 +1490,9 @@ class CRM_Contact_BAO_Query {
                     
                 }
                 $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
-               
             } else {
                 $this->_where[] = "civicrm_relationship.contact_id_b =  NULL";
                 $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
-                
             }
             require_once 'CRM/Contact/BAO/Relationship.php';
             $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
@@ -1610,7 +1609,7 @@ class CRM_Contact_BAO_Query {
             $sql .= " LIMIT $offset, $row_count ";
         }
 
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
 
         $values = array( );
         while ( $dao->fetch( ) ) {

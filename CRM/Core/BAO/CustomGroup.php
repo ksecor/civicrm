@@ -371,7 +371,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                    WHERE  civicrm_custom_value.custom_field_id = civicrm_custom_field.id AND
                           civicrm_custom_field.custom_group_id = %1";
          $params = array( 1 => array( $groupId, 'Integer' ) );
-         return CRM_Core_DAO::singleValueQuery( $query );
+         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
 

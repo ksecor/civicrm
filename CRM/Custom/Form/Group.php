@@ -304,6 +304,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $group->id = $this->_id;
         }
         $group->save();
+
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Core_Session::setStatus(ts('Your Group "%1" has been saved.', array(1 => $group->title)));
         } else {

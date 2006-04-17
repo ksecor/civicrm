@@ -139,16 +139,15 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
      */
     static function getphoneNumber ( $contactId ) 
     {
-        $phone =& new CRM_Core_DAO( );
-        
-        $strQuery = "SELECT civicrm_phone.id as phone_id, civicrm_phone.phone as phone 
-                     FROM civicrm_phone, civicrm_location 
-                     WHERE civicrm_phone.location_id = civicrm_location.id
-                       AND civicrm_location.entity_table = 'civicrm_contact'
-                       AND civicrm_location.entity_id = " .
-                       CRM_Utils_Type::escape($contactId, 'Integer');
-        
-        $phone->query($strQuery);
+        $strQuery = "
+SELECT civicrm_phone.id as phone_id, civicrm_phone.phone as phone 
+FROM   civicrm_phone, civicrm_location 
+WHERE  civicrm_phone.location_id = civicrm_location.id
+  AND  civicrm_location.entity_table = 'civicrm_contact'
+  AND  civicrm_location.entity_id = %1";
+        $params = array( 1 => array( $contactId, 'Integer' ) );
+                         
+        $phone =& CRM_Core_DAO::executeQuery($strQuery);
         
         $contactPhones = array( );
         while($phone->fetch()) {

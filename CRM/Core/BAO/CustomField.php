@@ -161,10 +161,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $cvTable = CRM_Core_DAO_CustomValue::getTableName();
         $query = "SELECT count(*) 
                   FROM   $cvTable 
-                  WHERE  $cvTable.custom_field_id = " .
-                  CRM_Utils_Type::escape($fieldId, 'Integer');
+                  WHERE  $cvTable.custom_field_id = %1";
+        $p = array( 1 => array( $fieldId, 'Integer' ) );
 
-        return CRM_Core_DAO::singleValueQuery( $query );
+        return CRM_Core_DAO::singleValueQuery( $query, $p );
     }
     
     /**
@@ -221,21 +221,17 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                      FROM $cfTable
                      INNER JOIN $cgTable
                      ON $cfTable.custom_group_id = $cgTable.id
-                     WHERE ";
+                     WHERE ( 1 ) ";
 
             if (! $showAll) {
-                $query .="$cfTable.is_active = 1
-                          AND $cgTable.is_active = 1";
-            } else {
-                $query .=" 1 ";
-            } 
+                $query .= " AND $cfTable.is_active = 1 AND $cgTable.is_active = 1 ";
+            }
             
-            $query .=" $extends
-                       ORDER BY $cgTable.weight, $cgTable.title,
-                                $cfTable.weight, $cfTable.label";
+            $query .= " $extends
+                        ORDER BY $cgTable.weight, $cgTable.title,
+                                 $cfTable.weight, $cfTable.label";
          
-            $crmDAO =& new CRM_Core_DAO();
-            $crmDAO->query($query);
+            $crmDAO =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             $result = $crmDAO->getDatabaseResult();
         
             $fields = array( );

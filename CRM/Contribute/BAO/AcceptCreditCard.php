@@ -134,9 +134,8 @@ class CRM_Contribute_BAO_AcceptCreditCard extends CRM_Contribute_DAO_AcceptCredi
         $acceptCreditCard->copyValues( $params );;
         
         if ($params['is_default']) {
-            $unsetDefault =& new CRM_Contribute_DAO();
-            $query = 'UPDATE civicrm_accept_credit_card SET is_default = 0';
-            $unsetDefault->query($query);
+            $query = "UPDATE civicrm_accept_credit_card SET is_default = 0 WHERE domain_id = {$acceptCreditCard->domain_id}";
+            CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
         }
         
         $acceptCreditCard->id = CRM_Utils_Array::value( 'acceptCreditCard', $ids );

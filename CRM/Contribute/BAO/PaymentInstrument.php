@@ -134,9 +134,8 @@ class CRM_Contribute_BAO_PaymentInstrument extends CRM_Contribute_DAO_PaymentIns
         $paymentInstrument->copyValues( $params );;
         
         if ($params['is_default']) {
-            $unsetDefault =& new CRM_Contribute_DAO();
-            $query = 'UPDATE civicrm_payment_instrument SET is_default = 0';
-            $unsetDefault->query($query);
+            $query = "UPDATE civicrm_payment_instrument SET is_default = 0 WHERE {$paymentInstrument->domain_id}";
+            CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
         }
         
         $paymentInstrument->id = CRM_Utils_Array::value( 'paymentInstrument', $ids );
