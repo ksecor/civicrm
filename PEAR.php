@@ -18,9 +18,9 @@
  * @author     Stig Bakken <ssb@php.net>
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: PEAR.php,v 1.96 2005/09/21 00:12:35 cellog Exp $
+ * @version    CVS: $Id: PEAR.php,v 1.98 2006/01/23 05:38:05 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -91,9 +91,9 @@ $GLOBALS['_PEAR_error_handler_stack']    = array();
  * @author     Stig Bakken <ssb@php.net>
  * @author     Tomas V.V. Cox <cox@idecnet.com>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.5
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @see        PEAR_Error
  * @since      Class available since PHP 4.0.2
@@ -247,6 +247,12 @@ class PEAR
     */
     function registerShutdownFunc($func, $args = array())
     {
+        // if we are called statically, there is a potential
+        // that no shutdown func is registered.  Bug #6445
+        if (!isset($GLOBALS['_PEAR_SHUTDOWN_REGISTERED'])) {
+            register_shutdown_function("_PEAR_call_destructors");
+            $GLOBALS['_PEAR_SHUTDOWN_REGISTERED'] = true;
+        }
         $GLOBALS['_PEAR_shutdown_funcs'][] = array($func, $args);
     }
 
@@ -800,9 +806,9 @@ function _PEAR_call_destructors()
  * @author     Stig Bakken <ssb@php.net>
  * @author     Tomas V.V. Cox <cox@idecnet.com>
  * @author     Gregory Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.5
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/manual/en/core.pear.pear-error.php
  * @see        PEAR::raiseError(), PEAR::throwError()
  * @since      Class available since PHP 4.0.2

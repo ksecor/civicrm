@@ -15,9 +15,9 @@
  * @author     Stig Bakken <ssb@php.net>
  * @author     Tomas V. V. Cox <cox@idecnet.com>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Registry.php,v 1.143 2005/10/31 05:06:43 cellog Exp $
+ * @version    CVS: $Id: Registry.php,v 1.150.2.2 2006/03/11 04:16:48 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -41,9 +41,9 @@ define('PEAR_REGISTRY_ERROR_CHANNEL_FILE', -6);
  * @author     Stig Bakken <ssb@php.net>
  * @author     Tomas V. V. Cox <cox@idecnet.com>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.5
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -536,6 +536,9 @@ class PEAR_Registry extends PEAR
             return false;
         }
         $channel = $this->_getChannel($channel);
+        if (PEAR::isError($channel)) {
+            return $channel;
+        }
         return $channel->getAlias();
     }    
     // }}}
@@ -690,7 +693,7 @@ class PEAR_Registry extends PEAR
     {
         $fp = @fopen($this->filemap, 'r');
         if (!$fp) {
-            return $this->raiseError('PEAR_Registry: could not open filemap', PEAR_REGISTRY_ERROR_FILE, null, null, $php_errormsg);
+            return $this->raiseError('PEAR_Registry: could not open filemap "' . $this->filemap . '"', PEAR_REGISTRY_ERROR_FILE, null, null, $php_errormsg);
         }
         clearstatcache();
         $rt = get_magic_quotes_runtime();
@@ -836,6 +839,9 @@ class PEAR_Registry extends PEAR
                 return false;
             }
             $checker = $this->_getChannel($channel->getName());
+            if (PEAR::isError($checker)) {
+                return $checker;
+            }
             if ($channel->getAlias() != $checker->getAlias()) {
                 @unlink($this->_getChannelAliasFileName($checker->getAlias()));
             }
@@ -1063,7 +1069,11 @@ class PEAR_Registry extends PEAR
             if ($ent{0} == '.' || substr($ent, -4) != '.reg') {
                 continue;
             }
-            $channellist[] = substr($ent, 0, -4);
+            if ($ent == '__uri.reg') {
+                $channellist[] = '__uri';
+                continue;
+            }
+            $channellist[] = str_replace('_', '/', substr($ent, 0, -4));
         }
         closedir($dp);
         if (!in_array('pear.php.net', $channellist)) {
@@ -1284,19 +1294,29 @@ class PEAR_Registry extends PEAR
     /**
      * @param string channel name
      * @param bool whether to strictly retrieve channel names
-     * @return PEAR_ChannelFile|false
+     * @return PEAR_ChannelFile|PEAR_Error
      * @access private
      */
     function &_getChannel($channel, $noaliases = false)
     {
         $ch = false;
         if ($this->_channelExists($channel, $noaliases)) {
-            if (!class_exists('PEAR_ChannelFile')) {
-                require_once 'PEAR/ChannelFile.php';
+            $chinfo = $this->_channelInfo($channel, $noaliases);
+            if ($chinfo) {
+                if (!class_exists('PEAR_ChannelFile')) {
+                    require_once 'PEAR/ChannelFile.php';
+                }
+                $ch = &PEAR_ChannelFile::fromArrayWithErrors($chinfo);
             }
-            $ch = &PEAR_ChannelFile::fromArray($this->_channelInfo($channel, $noaliases));
         }
         if ($ch) {
+            if ($ch->validate()) {
+                return $ch;
+            }
+            foreach ($ch->getErrors(true) as $err) {
+                $message = $err['message'] . "\n";
+            }
+            $ch = PEAR::raiseError($message);
             return $ch;
         }
         if ($this->_getChannelFromAlias($channel) == 'pear.php.net') {
@@ -1650,6 +1670,9 @@ class PEAR_Registry extends PEAR
         $ret = $this->_updatePackage($package, $info, $merge);
         $this->_unlock();
         if ($ret) {
+            if (!class_exists('PEAR_PackageFile_v1')) {
+                require_once 'PEAR/PackageFile/v1.php';
+            }
             $pf = new PEAR_PackageFile_v1;
             $pf->setConfig($this->_config);
             $pf->fromArray($this->packageInfo($package));
@@ -1687,7 +1710,7 @@ class PEAR_Registry extends PEAR
     /**
      * @param string channel name
      * @param bool whether to strictly return raw channels (no aliases)
-     * @return PEAR_ChannelFile|false
+     * @return PEAR_ChannelFile|PEAR_Error
      */
     function &getChannel($channel, $noaliases = false)
     {
@@ -1695,6 +1718,9 @@ class PEAR_Registry extends PEAR
             return $e;
         }
         $ret = &$this->_getChannel($channel, $noaliases);
+        if (!$ret) {
+            return PEAR::raiseError('Unknown channel: ' . $channel);
+        }
         $this->_unlock();
         return $ret;
     }
@@ -1769,7 +1795,7 @@ class PEAR_Registry extends PEAR
     function &getChannelValidator($channel)
     {
         $chan = $this->getChannel($channel);
-        if (!$chan) {
+        if (PEAR::isError($chan)) {
             return $chan;
         }
         $val = $chan->getValidationObject();
@@ -1788,7 +1814,11 @@ class PEAR_Registry extends PEAR
             return $e;
         }
         foreach ($this->_listChannels() as $channel) {
-            $ret[] = &$this->_getChannel($channel);
+            $e = &$this->_getChannel($channel);
+            if (!$e || PEAR::isError($e)) {
+                continue;
+            }
+            $ret[] = $e;
         }
         $this->_unlock();
         return $ret;
