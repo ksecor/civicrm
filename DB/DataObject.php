@@ -972,8 +972,6 @@ class DB_DataObject extends DB_DataObject_Overload
                 $rightq .=  $value;
                 continue;
             }
-            
-            
 
             if (is_string($this->$k) && (strtolower($this->$k) === 'null') && !($v & DB_DATAOBJECT_NOTNULL)) {
                 $rightq .= " NULL ";
@@ -1001,9 +999,9 @@ class DB_DataObject extends DB_DataObject_Overload
                     )) . " ";
                 continue;
             }
-
+            
             if ($v & DB_DATAOBJECT_TXT) {          
-                $settings .= "$kSql = " . $this->_quote((string) $this->$k ) . ' '; 
+                $rightq .= $this->_quote((string) $this->$k ) . ' '; 
                 continue;                             
             } 
 
@@ -1023,8 +1021,7 @@ class DB_DataObject extends DB_DataObject_Overload
         }
         
         // not sure why we let empty insert here.. - I guess to generate a blank row..
-        
-        
+
         if ($leftq || $useNative) {
             $table = ($quoteIdentifiers ? $DB->quoteIdentifier($this->__table)    : $this->__table);
             
