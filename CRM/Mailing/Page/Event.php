@@ -60,13 +60,19 @@ class CRM_Mailing_Page_Event extends CRM_Core_Page {
      */ 
     function run( ) {
         require_once 'CRM/Mailing/Selector/Event.php';
-        $selector =& new CRM_Mailing_Selector_Event( 
-            CRM_Utils_Request::retrieve('event', $this),
-            CRM_Utils_Request::retrieve('distinct', $this),
-            CRM_Utils_Request::retrieve('mid', $this),
-            CRM_Utils_Request::retrieve('jid', $this),
-            CRM_Utils_Request::retrieve('uid', $this)
-        );
+        $selector =&
+            new CRM_Mailing_Selector_Event( 
+                      CRM_Utils_Request::retrieve('event', 'String',
+                                                  $this),
+                      CRM_Utils_Request::retrieve('distinct', 'Boolean',
+                                                  $this),
+                      CRM_Utils_Request::retrieve('mid', 'Positive',
+                                                  $this),
+                      CRM_Utils_Request::retrieve('jid', 'Positive', 
+                                                  $this),
+                      CRM_Utils_Request::retrieve('uid', 'Positive', 
+                                                  $this)
+                      );
         
         CRM_Utils_System::setTitle($selector->getTitle());
         

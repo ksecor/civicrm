@@ -66,7 +66,8 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
     function preProcess( ) {
         
         $this->_id = CRM_Core_Config::domainID();
-        $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'view' );
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
+                                                      $this, false, 'view' );
         
     }
     

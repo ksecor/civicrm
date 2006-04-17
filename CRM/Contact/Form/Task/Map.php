@@ -57,8 +57,10 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      * @access public
      */
     function preProcess( ) {
-        $cid = CRM_Utils_Request::retrieve( 'cid', $this, false );
-        $lid = CRM_Utils_Request::retrieve( 'lid', $this, false );
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                            $this, false );
+        $lid = CRM_Utils_Request::retrieve( 'lid', 'Positive',
+                                            $this, false );
         if ( $cid ) {
             $this->_contactIds = array( $cid );
             $this->_single     = true;

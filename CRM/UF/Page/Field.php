@@ -218,7 +218,8 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
     function run()
     {
         // get the group id
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0);
+        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                                  $this, false, 0);
         if ($this->_gid) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             $groupTitle = CRM_Core_BAO_UFGroup::getTitle($this->_gid);
@@ -228,12 +229,14 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         }
 
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false, 'browse'); // default to 'browse'
 
         // assign vars to templates
         $this->assign('action', $action);
 
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          $this, false, 0);
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE)) {

@@ -114,7 +114,8 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
         if ( ! $this->_gid ) {
-            $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET');
+            $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                                      $this, false, 0, 'GET');
         }
 
         // if we dont have a gid use the default, else just use that specific gid

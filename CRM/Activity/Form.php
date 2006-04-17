@@ -97,7 +97,8 @@ class CRM_Activity_Form extends CRM_Core_Form
         if ($this->_action != CRM_Core_Action::ADD) {
             $this->_id = $this->get('id');
         }
-        $this->_status = CRM_Utils_Request::retrieve( 'status', $this, false );
+        $this->_status = CRM_Utils_Request::retrieve( 'status', 'String',
+                                                      $this, false );
     }
 
     /**

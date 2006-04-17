@@ -74,7 +74,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         $this->_contactId      = $this->get('contactId');
         $this->_relationshipId = $this->get('id');
-        $this->_rtype          = CRM_Utils_Request::retrieve( 'rtype', $this );
+        $this->_rtype          = CRM_Utils_Request::retrieve( 'rtype', 'String',
+                                                              $this );
     }
 
     /**

@@ -67,7 +67,8 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
      * @access public
      */
     function preProcess( ) {
-        $cid = CRM_Utils_Request::retrieve( 'cid', $this, false );
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                            $this, false );
 
         if ( $cid ) {
             // not sure why this is needed :(
@@ -204,7 +205,8 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $emailAddress = $this->controller->exportValue( 'Email', 'emailAddress' );
 
             // for adding the email-id to the primary address
-            $cid = CRM_Utils_Request::retrieve( 'cid', $this, false );
+            $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                                $this, false );
             if ( $cid ) {
                 $location =& CRM_Contact_BAO_Contact::getEmailDetails($cid);
                 if ( $location[3] ) {

@@ -95,22 +95,28 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     function preProcess( ) {
         
         $this->_search = true;
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET');
+        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                                  $this, false, 0, 'GET');
         
-        $search = CRM_Utils_Request::retrieve('search', $this, false, 0, 'GET');
+        $search = CRM_Utils_Request::retrieve('search', 'Boolean',
+                                              $this, false, 0, 'GET');
         if( isset( $search ) && $search == 0) {
             $this->_search = false;
         }
         
         require_once 'CRM/Core/BAO/UFGroup.php';
-        $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
-                                                                 CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY, false, $this->_gid );
+        $this->_fields =
+            CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
+                                                    CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
+                                                    false, $this->_gid );
 
-        $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
+        $this->_customFields =
+            CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
 
         $this->_params   = array( );
         foreach ( $this->_fields as $name => $field ) {
-            $value = CRM_Utils_Request::retrieve( $name, $this, false, null, 'REQUEST' );
+            $value = CRM_Utils_Request::retrieve( $name, 'String',
+                                                  $this, false, null, 'REQUEST' );
             if ( ( $name == 'group' || $name == 'tag' ) && ! empty( $value ) && ! is_array( $value ) ) {
                 $v = explode( ',', $value );
                 $value = array( );

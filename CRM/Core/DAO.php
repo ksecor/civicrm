@@ -45,6 +45,11 @@ require_once 'CRM/Core/PseudoConstant.php';
 
 class CRM_Core_DAO extends DB_DataObject {
 
+    /**
+     * a null object so we can pass it as reference if / when needed
+     */
+    static $_nullObject = null;
+
     const
         NOT_NULL       =   1,
         IS_NULL        =   2,

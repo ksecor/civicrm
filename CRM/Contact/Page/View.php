@@ -90,16 +90,19 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
      */
     function preProcess( )
     {
-        $this->_id = CRM_Utils_Request::retrieve( 'id', $this );
+        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                                  $this );
         $this->assign( 'id', $this->_id );
         
-        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $this, true );
+        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                                         $this, true );
         if ( ! $this->_contactId ) {
             CRM_Utils_System::statusBounce( ts( 'We could not find a contact id.' ) );
         }
         $this->assign( 'contactId', $this->_contactId );
 
-        $this->_action = CRM_Utils_Request::retrieve('action', $this, false, 'browse');
+        $this->_action = CRM_Utils_Request::retrieve('action', 'String',
+                                                     $this, false, 'browse');
         $this->assign( 'action', $this->_action);
 
         // check for permissions

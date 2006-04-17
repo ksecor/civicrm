@@ -1084,7 +1084,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         foreach ($groupTree as $group) {
             foreach( $group['fields'] as $key => $field) {
                 $fieldName = 'custom_' . $key;
-                $value = CRM_Utils_Request::retrieve( $fieldName, $form );
+                $value = CRM_Utils_Request::retrieve( $fieldName, 'String',
+                                                      $form );
 
                 if ( $value ) {
                     if ( ! in_array( $customFields[$key][3], $htmlType ) ||

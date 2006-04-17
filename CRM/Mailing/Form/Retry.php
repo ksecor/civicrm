@@ -44,7 +44,8 @@ require_once 'CRM/Core/Form.php';
 class CRM_Mailing_Form_Retry extends CRM_Core_Form
 {
     function preProcess( ) {
-        $mailing_id     = CRM_Utils_Request::retrieve('mid', $this, null);
+        $mailing_id     = CRM_Utils_Request::retrieve('mid', 'Positive',
+                                                      $this, null);
 
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing =& new CRM_Mailing_BAO_Mailing();

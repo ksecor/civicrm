@@ -110,7 +110,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
 
         // current contribution page id 
-        $this->_id = CRM_Utils_Request::retrieve( 'id', $this );
+        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                                  $this );
         if ( ! $this->_id ) {
             $pastContributionId = $session->get( 'pastContributionId' );
             if ( ! $pastContributionId ) {
@@ -126,7 +127,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->assign       ( 'displayRecent' , false );
 
         // action
-        $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'add' );
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
+                                                      $this, false, 'add' );
         $this->assign( 'action'  , $this->_action   ); 
 
         // current mode

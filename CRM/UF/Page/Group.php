@@ -131,11 +131,14 @@ class CRM_UF_Page_Group extends CRM_Core_Page
     function run()
     {
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false,
+                                              'browse'); // default to 'browse'
         
         // assign vars to templates
         $this->assign('action', $action);
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          $this, false, 0);
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE)) {
@@ -167,7 +170,8 @@ class CRM_UF_Page_Group extends CRM_Core_Page
      */
     function profile( ) 
     {
-        $gid = CRM_Utils_Request::retrieve('gid', $this, false, 0, 'GET');
+        $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                           $this, false, 0, 'GET');
 
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create'), CRM_Core_Action::ADD ); 
         $controller->reset( );

@@ -399,18 +399,20 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * we allow the controller to set force/reset externally, useful when we are being
          * driven by the wizard framework
          */
-        $nullObject = null;
-        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', $nullObject );
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
+                                                       CRM_Core_DAO::$_nullObject );
 
-        $this->_force   = CRM_Utils_Request::retrieve( 'force', $this, false );
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
+                                                       CRM_Core_DAO::$_nullObject );
 
-        // we only force stuff once :)
-        $this->set( 'force', false );
-
-        $this->_groupID         = CRM_Utils_Request::retrieve( 'gid'            , $this );
-        $this->_amtgID          = CRM_Utils_Request::retrieve( 'amtgID'         , $this );
-        $this->_ssID            = CRM_Utils_Request::retrieve( 'ssID'           , $this );
-        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter', $this );
+        $this->_groupID         = CRM_Utils_Request::retrieve( 'gid'            , 'Positive',
+                                                               $this );
+        $this->_amtgID          = CRM_Utils_Request::retrieve( 'amtgID'         , 'Positive',
+                                                               $this );
+        $this->_ssID            = CRM_Utils_Request::retrieve( 'ssID'           , 'Positive',
+                                                               $this );
+        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter', 'String'  ,
+                                                               $this );
 
         // get user submitted values 
         // get it from controller only if form has been submitted, else preProcess has set this 
@@ -435,7 +437,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         /*
          * assign context to drive the template display, make sure context is valid
          */
-        $this->_context = CRM_Utils_Request::retrieve( 'context', $this, false, 'search' );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                       $this, false, 'search' );
         if ( ! CRM_Utils_Array::value( $this->_context, self::validContext() ) ) {
             $this->_context = 'search';
             $this->set( 'context', $this->_context );

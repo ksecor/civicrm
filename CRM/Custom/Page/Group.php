@@ -127,13 +127,15 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
     function run()
     {
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false, 'browse'); // default to 'browse'
         
         if ($action & CRM_Core_Action::DELETE) {
             $session = & CRM_Core_Session::singleton();
             $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/', 'action=browse'));
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Custom_Form_DeleteGroup',"Delete Cutom Group", $mode );
-            $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+            $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                              $this, false, 0);
             $controller->set('id', $id);
             $controller->setEmbedded( true );
             $controller->process( );
@@ -141,7 +143,8 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         }
         // assign vars to templates
         $this->assign('action', $action);
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          $this, false, 0);
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {

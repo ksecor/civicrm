@@ -113,11 +113,13 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
     function run()
     {
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false, 'browse'); // default to 'browse'
 
         // assign vars to templates
         $this->assign('action', $action);
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          $this, false, 0);
         
         // what action to take ?
         //if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
@@ -143,7 +145,8 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
         // get all custom groups sorted by weight
         $premiums = array();
         require_once 'CRM/Contribute/DAO/Product.php';
-        $pageID = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $pageID = CRM_Utils_Request::retrieve('id', 'Positive',
+                                              $this, false, 0);
         $dao =& new CRM_Contribute_DAO_Premium();
         $dao->entity_table = 'civicrm_contribution_page';
         $dao->entity_id = $pageID; 

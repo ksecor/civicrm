@@ -143,16 +143,16 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
          * we allow the controller to set force/reset externally, useful when we are being 
          * driven by the wizard framework 
          */ 
-        $nullObject = null; 
-        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', $nullObject ); 
-        $this->_force   = CRM_Utils_Request::retrieve( 'force', $this, false ); 
-        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', $this );
-        $this->_context = CRM_Utils_Request::retrieve( 'context', $this );
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
+                                                       self::$_nullObject ); 
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
+                                                       self::$_nullObject, false ); 
+        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
+                                                       $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                       $this );
 
         $this->assign( 'limit', $this->_limit );
-
-        // we only force stuff once :) 
-        $this->set( 'force', false ); 
 
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
@@ -404,8 +404,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             return;
         }
 
-        $nullObject = null;
-        $status = CRM_Utils_Request::retrieve( 'status', $nullObject );
+        $status = CRM_Utils_Request::retrieve( 'status', 'String',
+                                               CRM_Core_DAO::$_nullObject );
         if ( $status ) {
             switch ( $status ) {
             case 'Valid':
@@ -417,7 +417,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             }
         }
 
-        $cid = CRM_Utils_Request::retrieve( 'cid', $nullObject );
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                            CRM_Core_DAO::$_nullObject );
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {
@@ -430,7 +431,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             }
         }
 
-        $fromDate = CRM_Utils_Request::retrieve( 'start', $nullObject );
+        $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
+                                                 CRM_Core_DAO::$_nullObject );
         if ( $fromDate ) {
             $fromDate = CRM_Utils_Type::escape( $fromDate, 'Timestamp' );
             $date = CRM_Utils_Date::unformat( $fromDate, '' );
@@ -438,7 +440,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->_defaults['contribution_date_from'] = $date;
         }
 
-        $toDate= CRM_Utils_Request::retrieve( 'end', $nullObject ); 
+        $toDate= CRM_Utils_Request::retrieve( 'end', 'Date',
+                                              CRM_Core_DAO::$_nullObject );
         if ( $toDate ) { 
             $toDate = CRM_Utils_Type::escape( $toDate, 'Timestamp' ); 
             $date = CRM_Utils_Date::unformat( $toDate, '' );
@@ -449,7 +452,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->_formValues['contribution_date_to']['s'] = 59;
         }
 
-        $this->_limit = CRM_Utils_Request::retrieve( 'limit', $this );
+        $this->_limit = CRM_Utils_Request::retrieve( 'limit', 'Positive',
+                                                     $this );
     }
 
 }

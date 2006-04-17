@@ -133,7 +133,8 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         $this->preProcess( );
 
         // get selector type ? open or closed activities ?
-        $history = CRM_Utils_Request::retrieve('history', $this );
+        $history = CRM_Utils_Request::retrieve('history', 'Boolean',
+                                               $this );
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $url     = 'civicrm/contact/view/activity';

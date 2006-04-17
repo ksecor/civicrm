@@ -60,6 +60,7 @@ class CRM_Utils_Request {
      * get the variable information from the request (GET/POST/SESSION
      *
      * @param $name    name of the variable to be retrieved
+     * @param $type    type of the variable (see CRM_Utils_Type for details)
      * @param $store   session scope where variable is stored
      * @param $abort   is this variable required
      * @param $default default value of the variable if not present
@@ -70,7 +71,14 @@ class CRM_Utils_Request {
      * @static
      *
      */
-    static function retrieve( $name, &$store, $abort = false, $default = null, $method = 'GET' ) {
+    static function retrieve( $name, $type, &$store, $abort = false, $default = null, $method = 'GET' ) {
+
+        // hack to detect stuff not yet converted to new style
+        if ( ! is_string( $type ) ) {
+            CRM_Core_Error::backtrace( );
+            CRM_Utils_Error::fatal( "Please convert retrieve call to use new function signature" );
+        }
+
         $value = null;
         switch ( $method ) {
         case 'GET':
@@ -86,6 +94,12 @@ class CRM_Utils_Request {
             break;
         }
 
+        if ( isset( $value ) &&
+             ( CRM_Utils_Type::validate( $value, $type, $abort ) === null ) ) {
+            $value = null;
+            unset( $value );
+        }
+        
         if ( ! isset( $value ) && $store ) {
             $value = $store->get( $name );
         }
@@ -98,11 +112,12 @@ class CRM_Utils_Request {
             $value = $default;
         }
         
+        // minor hack for action
+        if ( $name == 'action' && is_string( $value ) ) {
+            $value = CRM_Core_Action::resolve( $value );
+        }
+
         if ( isset( $value ) && $store ) {
-            // minor hack for action
-            if ( $name == 'action' && is_string( $value ) ) {
-                $value = CRM_Core_Action::resolve( $value );
-            }
             $store->set( $name, $value );
         }
 

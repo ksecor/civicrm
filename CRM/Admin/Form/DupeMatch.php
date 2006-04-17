@@ -59,7 +59,8 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
     function preProcess( ) 
     {
         $this->_BAOName = CRM_Admin_Page_DupeMatch::getBAOName();
-        $this->_advanced = CRM_Utils_Request::retrieve( 'advance', $this, false );
+        $this->_advanced = CRM_Utils_Request::retrieve( 'advance', 'Boolean',
+                                                        $this, false );
         $dupematch               =& new CRM_Core_DAO_DupeMatch( );
         $dupematch->domain_id    = CRM_Core_Config::domainID( );
         $dupematch-> find(true);

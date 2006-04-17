@@ -47,10 +47,12 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
         parent::__construct( $title, $modal );
         
         $cid = $this->get( 'contactID' );
-        $this->_action = CRM_Utils_Request::retrieve('action', $this, false, 'update' );
+        $this->_action = CRM_Utils_Request::retrieve('action', 'String',
+                                                     $this, false, 'update' );
         $this->assign( 'action', $this->_action );
         if ( ! $cid ) {
-            $cid    = CRM_Utils_Request::retrieve( 'id', $this );
+            $cid    = CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                                   $this );
             $session =& CRM_Core_Session::singleton( );
             $uid     = $session->get( 'userID' );
 

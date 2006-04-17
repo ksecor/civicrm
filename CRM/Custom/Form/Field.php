@@ -107,8 +107,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             self::$_dataTypeValues = array_values(CRM_Core_BAO_CustomField::dataType());
         }
 
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
-        $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
+        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                                  $this);
+        $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive',
+                                                  $this);
         if (self::$_dataToLabels == null) {
             self::$_dataToLabels = array(
                 array('Text' => ts('Text'), 'Select' => ts('Select'), 

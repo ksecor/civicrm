@@ -122,11 +122,13 @@ class CRM_Admin_Page_OptionGroup extends CRM_Core_Page_Basic
     function run()
     {
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false, 'browse'); // default to 'browse'
 
         // assign vars to templates
         $this->assign('action', $action);
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          $this, false, 0);
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {

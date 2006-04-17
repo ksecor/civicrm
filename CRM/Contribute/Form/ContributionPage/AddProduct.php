@@ -58,7 +58,8 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         parent::preProcess();
       
         $this->_products = CRM_Contribute_PseudoConstant::products($this->_id);
-        $this->_pid      = CRM_Utils_Request::retrieve('pid', $this, false, 0);
+        $this->_pid      = CRM_Utils_Request::retrieve('pid', 'Positive',
+                                                       $this, false, 0);
 
         if ( $this->_pid  ) {
             $dao =& new CRM_Contribute_DAO_PremiumsProduct();
@@ -91,7 +92,8 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             $defaults['sort_position'] = $dao->sort_position;
         }
         if( ! $defaults['sort_position']) {
-            $pageID    = CRM_Utils_Request::retrieve('id', $this, false, 0);
+            $pageID    = CRM_Utils_Request::retrieve('id', 'Positive',
+                                                     $this, false, 0);
             require_once 'CRM/Contribute/DAO/Premium.php';
             $dao =& new CRM_Contribute_DAO_Premium();
             $dao->entity_table = 'civicrm_contribution_page';
@@ -122,7 +124,8 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             $session =& CRM_Core_Session::singleton();
             $url = CRM_Utils_System::url('/civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium'); 
             $session->pushUserContext( $url );
-            if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
+            if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
+                                            CRM_Core_DAO::$_nullObject, '', '', 'GET') ) {
                 require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
                 $dao =& new CRM_Contribute_DAO_PremiumsProduct();
                 $dao->id = $this->_pid;
@@ -196,7 +199,8 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
     {
         // get the submitted form values.
         $params    = $this->controller->exportValues( $this->_name );
-        $pageID    = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $pageID    = CRM_Utils_Request::retrieve('id', 'Positive',
+                                                 $this, false, 0);
         
         if($this->_action & CRM_Core_Action::PREVIEW) {
             $session =& CRM_Core_Session::singleton();

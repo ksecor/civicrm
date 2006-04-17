@@ -60,7 +60,8 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
      * @access public 
      */ 
     function preProcess( ) { 
-        $cid = CRM_Utils_Request::retrieve( 'cid', $this, false ); 
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                            $this, false ); 
 
          if ( $cid ) { 
              // not sure why this is needed :(

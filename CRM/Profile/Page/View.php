@@ -51,8 +51,10 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
      */
     function preProcess( )
     {
-        $id = CRM_Utils_Request::retrieve('cid', $this, true);
-        $gid = CRM_Utils_Request::retrieve('gid', $this);
+        $id = CRM_Utils_Request::retrieve('cid', 'Positive',
+                                          $this, true);
+        $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                           $this);
 
         if ($gid) {
             require_once 'CRM/Profile/Page/Dynamic.php';

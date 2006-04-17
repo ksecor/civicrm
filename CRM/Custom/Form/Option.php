@@ -67,8 +67,10 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $this->_fid = CRM_Utils_Request::retrieve('fid', $this);
-        $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
+        $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
+                                                  $this);
+        $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive',
+                                                  $this);
     }
 
     /**

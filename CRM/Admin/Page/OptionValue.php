@@ -118,13 +118,16 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
     {
 
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false, 'browse'); // default to 'browse'
 
         // assign vars to templates
         $this->assign('action', $action);
         
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0);
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          $this, false, 0);
+        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                                  $this, false, 0);
         $this->assign('gid' , $this->_gid );
 
         if ($this->_gid) {

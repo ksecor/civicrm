@@ -100,8 +100,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
-        $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
+        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                                  $this);
+        $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive',
+                                                  $this);
 
         if($this->_action & CRM_Core_Action::UPDATE) {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true, true);

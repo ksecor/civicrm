@@ -128,7 +128,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
 
         if ( $this->_action == CRM_Core_Action::ADD ) {
-            $this->_contactType = CRM_Utils_Request::retrieve( 'c_type', $this, true, null, 'REQUEST' );
+            $this->_contactType = CRM_Utils_Request::retrieve( 'c_type', 'String',
+                                                               $this, true, null, 'REQUEST' );
             $this->_contactId = null;
         } else {
             // this is update mode, first get the id from the session

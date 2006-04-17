@@ -74,7 +74,8 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
     {      
         require_once 'CRM/Core/BAO/UFGroup.php';
         $flag = false;
-        $field = CRM_Utils_Request::retrieve('field', $this, true , 0);
+        $field = CRM_Utils_Request::retrieve('field', 'Boolean',
+                                             $this, true , 0);
        
         $fid             = $this->get( 'fieldId' ); 
         $this->_gid      = $this->get( 'id' );

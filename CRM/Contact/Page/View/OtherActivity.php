@@ -52,14 +52,16 @@ class CRM_Contact_Page_View_OtherActivity extends CRM_Contact_Page_View
     function edit( )
     {
         //set the path depending on open activity or activity history (view mode)
-        $history = CRM_Utils_Request::retrieve( 'history', $this ); 
+        $history = CRM_Utils_Request::retrieve( 'history', 'String',
+                                                $this ); 
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
         $url = CRM_Utils_System::url('civicrm/contact/view/activity', 'show=1&action=browse&reset=1&history='.$history.'&cid='.$this->_contactId );
         $session->pushUserContext( $url );
         
-        if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
+        if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
+                                        CRM_Core_DAO::$_nullObject );
             require_once 'CRM/Core/BAO/OtherActivity.php';
             CRM_Core_BAO_OtherActivity::del( $this->_id);
             CRM_Utils_System::redirect($url);
@@ -89,8 +91,10 @@ class CRM_Contact_Page_View_OtherActivity extends CRM_Contact_Page_View
     {
         $this->preProcess( );
 
-        $pid = CRM_Utils_Request::retrieve( 'pid', $this ); 
-        $log = CRM_Utils_Request::retrieve( 'log', $this ); 
+        $pid = CRM_Utils_Request::retrieve( 'pid', 'Positive',
+                                            $this ); 
+        $log = CRM_Utils_Request::retrieve( 'log', 'String',
+                                            $this ); 
         
         if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE) ) {
             $this->edit( );

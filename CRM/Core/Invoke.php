@@ -38,7 +38,7 @@
  */
 
 class CRM_Core_Invoke {
-    
+
     /**
      * This is the main function that is called on every click action and based on the argument
      * respective functions are called
@@ -211,8 +211,10 @@ class CRM_Core_Invoke {
                 break;
 
             case 'activity':
-                $activityId = CRM_Utils_Request::retrieve('activity_id', $form);
-                $show = CRM_Utils_Request::retrieve('show', $form);
+                $activityId = CRM_Utils_Request::retrieve('activity_id', 'Positive',
+                                                          CRM_Core_DAO::$_nullObject );
+                $show = CRM_Utils_Request::retrieve('show', 'Boolean',
+                                                    CRM_Core_DAO::$_nullObject );
 
                 $session =& CRM_Core_Session::singleton();
                 
@@ -231,7 +233,8 @@ class CRM_Core_Invoke {
                     require_once 'CRM/Contact/Page/View/Phonecall.php';
                     $view =& new CRM_Contact_Page_View_Phonecall( );
                 } elseif($activityId == 3) {
-                    $details = CRM_Utils_Request::retrieve('details', $form);
+                    $details = CRM_Utils_Request::retrieve('details', 'String',
+                                                           CRM_Core_DAO::$_nullObject );
                     if ($details) {
                         require_once 'CRM/Contact/Page/View/Email.php';
                         $view =& new CRM_Contact_Page_View_Email('View Email Details'); 
@@ -263,8 +266,8 @@ class CRM_Core_Invoke {
                 return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
             
             default:
-                $nullObject = null;
-                $id = CRM_Utils_Request::retrieve( 'cid', $nullObject );
+                $id = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                                   CRM_Core_DAO::$_nullObject ); 
                 $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
                 if ( $contact_sub_type == 'Student' ) {
                     require_once 'CRM/Quest/Page/View/Student.php';
@@ -323,10 +326,12 @@ class CRM_Core_Invoke {
             $url   = 'civicrm/contact/search/basic';
         }
 
-        $id = CRM_Utils_Request::retrieve('id', $form, false, 0, 'GET');
-        if ($id) {
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          CRM_Core_DAO::$_nullObject, false, 0, 'GET');
+        if ( $id ) {
             $session->set('id', $id);
         }
+
         require_once 'CRM/Contact/Controller/Search.php';
         $controller =& new CRM_Contact_Controller_Search($title, $mode);
         $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
@@ -701,14 +706,33 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function server( $args ) {
+        
+        $server = null;
 
         //this code is for state country widget
-        if ($args[2] == 'stateCountry') {
+        switch ( $args[2] ) {
+        case 'stateCountry':
             require_once 'CRM/Contact/Page/StateCountryServer.php';
             $server =& new CRM_Contact_Page_StateCountryServer( );
-            $set = CRM_Utils_Request::retrieve('set', $form);
-            if ($set) {
-                $path = CRM_Utils_Request::retrieve('path', $form );
+            break;
+
+        case 'search':
+            require_once 'CRM/Contact/Page/SearchServer.php';
+            $server =& new CRM_Contact_Page_SearchServer( );
+            break;
+
+        case 'uf':
+            require_once 'CRM/UF/Page/UFServer.php';
+            $server =& new CRM_UF_Page_UFServer( );
+            break;
+        }
+
+        if ( $server ) {
+            $set = CRM_Utils_Request::retrieve('set', 'Boolean',
+                                               CRM_Core_DAO::$_nullObject );
+            if ( $set ) {
+                $path = CRM_Utils_Request::retrieve('path', 'String',
+                                                    CRM_Core_DAO::$_nullObject );
                 $path= '?q='.$path;
                 $session =& CRM_Core_Session::singleton( );
                 $session->set('path', $path);
@@ -716,33 +740,6 @@ class CRM_Core_Invoke {
             return $server->run( $set );
         }
 
-        //this code is for search widget
-        if ($args[2] == 'search') {
-            require_once 'CRM/Contact/Page/SearchServer.php';
-            $server =& new CRM_Contact_Page_SearchServer( );
-            $set = CRM_Utils_Request::retrieve('set', $form);
-            if ($set) {
-                $path = CRM_Utils_Request::retrieve('path', $form );
-                $path= '?q='.$path;
-                $session =& CRM_Core_Session::singleton( ); 
-                $session->set('path', $path);
-            }
-            return $server->run( $set );
-        }
-
-        //this code is for uf help text
-        if ($args[2] == 'uf') {
-            require_once 'CRM/UF/Page/UFServer.php';
-            $server =& new CRM_UF_Page_UFServer( );
-            $set = CRM_Utils_Request::retrieve('set', $form);
-            if ($set) {
-                $path = CRM_Utils_Request::retrieve('path', $form );
-                $path= '?q='.$path;
-                $session =& CRM_Core_Session::singleton( ); 
-                $session->set('path', $path);
-            }
-            return $server->run( $set );
-        }
     }
 
     static function onlySSL( $args ) {

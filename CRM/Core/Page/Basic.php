@@ -144,11 +144,13 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     function run()
     {
         // what action do we want to perform ? (store it for smarty too.. :) 
-        $action = CRM_Utils_Request::retrieve( 'action', $this, false, 'browse' );
+        $action = CRM_Utils_Request::retrieve( 'action', 'String',
+                                               $this, false, 'browse' );
         $this->assign( 'action', $action );
 
         // get 'id' if present
-        $id  = CRM_Utils_Request::retrieve( 'id', $this, false, 0 );
+        $id  = CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                            $this, false, 0 );
 
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
 

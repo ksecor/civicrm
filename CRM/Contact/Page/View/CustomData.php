@@ -71,7 +71,8 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
     { 
         parent::preProcess( );
 
-        $this->_groupId = CRM_Utils_Request::retrieve( 'gid', $this, true ); 
+        $this->_groupId = CRM_Utils_Request::retrieve( 'gid', 'Positive',
+                                                       $this, true ); 
         $this->assign( 'groupId', $this->_groupId );
     }
 
