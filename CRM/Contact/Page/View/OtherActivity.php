@@ -61,7 +61,7 @@ class CRM_Contact_Page_View_OtherActivity extends CRM_Contact_Page_View
         $session->pushUserContext( $url );
         
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
-                                        CRM_Core_DAO::$_nullObject );
+                                        CRM_Core_DAO::$_nullObject )){
             require_once 'CRM/Core/BAO/OtherActivity.php';
             CRM_Core_BAO_OtherActivity::del( $this->_id);
             CRM_Utils_System::redirect($url);
