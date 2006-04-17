@@ -14,9 +14,9 @@
  * @package    PEAR
  * @author     Tomas V. V. Cox <cox@idecnet.com>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: DependencyDB.php,v 1.29 2005/09/15 20:10:11 cellog Exp $
+ * @version    CVS: $Id: DependencyDB.php,v 1.30 2006/01/06 04:47:36 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -33,9 +33,9 @@ require_once 'PEAR/Config.php';
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
  * @author     Tomas V.V.Cox <cox@idec.net.com>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.5
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */

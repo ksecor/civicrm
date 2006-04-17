@@ -14,9 +14,9 @@
  * @package    PEAR
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: RunTest.php,v 1.15 2005/09/13 15:20:42 cellog Exp $
+ * @version    CVS: $Id: RunTest.php,v 1.20 2006/02/03 02:08:11 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.3.3
  */
@@ -42,9 +42,9 @@ putenv("PHP_PEAR_RUNTESTS=1");
  * @package    PEAR
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.5
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.3.3
  */
@@ -76,6 +76,18 @@ class PEAR_RunTest
         $cwd = getcwd();
         $conf = &PEAR_Config::singleton();
         $php = $conf->get('php_bin');
+        if (isset($this->_options['phpunit'])) {
+            $cmd = "$php$ini_settings -f $file";
+            if (isset($this->_logger)) {
+                $this->_logger->log(2, 'Running command "' . $cmd . '"');
+            }
+    
+            $savedir = getcwd(); // in case the test moves us around
+            chdir(dirname($file));
+            echo `$cmd`;
+            chdir($savedir);
+            return 'PASSED'; // we have no way of knowing this information so assume passing
+        }
         //var_dump($php);exit;
         global $log_format, $info_params, $ini_overwrites;
 
@@ -88,6 +100,7 @@ class PEAR_RunTest
             'SKIPIF'  => '',
             'GET'     => '',
             'ARGS'    => '',
+            'CLEAN'   => '',
         );
 
         $file = realpath($file);
@@ -202,6 +215,13 @@ class PEAR_RunTest
             $returnfail = false;
         }
         chdir($savedir);
+
+        if ($section_text['CLEAN']) {
+            // perform test cleanup
+            $this->save_text($clean = $tmp . uniqid('/phpt.'), $section_text['CLEAN']);
+            `$php $clean`;
+            @unlink($clean);
+        }
         // Does the output match what is expected?
         $output = trim($out);
         $output = preg_replace('/\r\n/', "\n", $output);

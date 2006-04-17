@@ -32,7 +32,7 @@
  * @author     Martin Jansen <mj@php.net>
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1999-2001 Edd Dumbill, 2001-2005 The PHP Group
- * @version    CVS: $Id: Server.php,v 1.30 2005/09/07 04:06:20 danielc Exp $
+ * @version    CVS: $Id: Server.php,v 1.33 2006/01/14 22:30:31 danielc Exp $
  * @link       http://pear.php.net/package/XML_RPC
  */
 
@@ -270,7 +270,7 @@ function XML_RPC_Server_debugmsg($m)
  * @author     Martin Jansen <mj@php.net>
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1999-2001 Edd Dumbill, 2001-2005 The PHP Group
- * @version    Release: 1.4.4
+ * @version    Release: 1.4.8
  * @link       http://pear.php.net/package/XML_RPC
  */
 class XML_RPC_Server
@@ -391,7 +391,23 @@ class XML_RPC_Server
         if (!$this->server_headers) {
             $this->createServerHeaders();
         }
-        header($this->server_headers);
+
+        /*
+         * $server_headers needs to remain a string for compatibility with
+         * old scripts using this package, but PHP 4.4.2 no longer allows
+         * line breaks in header() calls.  So, we split each header into
+         * an individual call.  The initial replace handles the off chance
+         * that someone composed a single header with multiple lines, which
+         * the RFCs allow.
+         */
+        $this->server_headers = preg_replace("/[\r\n]+[ \t]+/", ' ',
+                                             trim($this->server_headers));
+        $headers = preg_split("/[\r\n]+/", $this->server_headers);
+        foreach ($headers as $header)
+        {
+            header($header);
+        }
+
         print $this->server_payload;
     }
 

@@ -13,9 +13,9 @@
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: rw.php,v 1.12 2005/09/27 03:34:02 cellog Exp $
+ * @version    CVS: $Id: rw.php,v 1.15 2006/01/28 17:35:11 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a8
  */
@@ -27,9 +27,9 @@ require_once 'PEAR/PackageFile/v2.php';
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.5
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a8
  */
@@ -240,7 +240,7 @@ class PEAR_PackageFile_v2_rw extends PEAR_PackageFile_v2
                 $this->_packageInfo[$role] = array_values($this->_packageInfo[$role]);
             }
         }
-        $this->addMaintainer($newrole, $handle, $name, $email);
+        $this->addMaintainer($newrole, $handle, $name, $email, $active);
         $this->_isValid = 0;
     }
 
@@ -1508,7 +1508,7 @@ class PEAR_PackageFile_v2_rw extends PEAR_PackageFile_v2
             'stability' =>
                 $this->getStability(),
             'date' => $this->getDate(),
-            'license' => $this->getLicense(),
+            'license' => $this->getLicense(true),
             'notes' => $notes ? $notes : $this->getNotes()
             );
     }

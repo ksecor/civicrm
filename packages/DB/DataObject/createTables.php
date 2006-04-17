@@ -16,7 +16,7 @@
 // | Author:  Alan Knowles <alan@akbkhome.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: createTables.php,v 1.23 2005/05/04 14:13:57 alan_k Exp $
+// $Id: createTables.php,v 1.24 2006/01/13 01:27:55 alan_k Exp $
 //
 
 // since this version doesnt use overload, 
@@ -24,6 +24,7 @@
 
 define('DB_DATAOBJECT_NO_OVERLOAD',1);
 
+//require_once 'DB/DataObject/Generator.php';
 require_once 'DB/DataObject/Generator.php';
 
 if (!ini_get('register_argc_argv')) {
@@ -49,7 +50,10 @@ if (empty($options)) {
     exit;
 }
 set_time_limit(0);
-DB_DataObject::debugLevel(1);
+
+// use debug level from file if set..
+DB_DataObject::debugLevel(isset($options['debug']) ? $options['debug'] : 1);
+
 $generator = new DB_DataObject_Generator;
 $generator->start();
  

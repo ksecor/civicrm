@@ -14,9 +14,9 @@
  * @package    PEAR
  * @author     Stig Bakken <ssb@php.net>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Remote.php,v 1.74 2005/09/11 18:00:20 cellog Exp $
+ * @version    CVS: $Id: Remote.php,v 1.76 2006/03/02 18:14:13 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -38,9 +38,9 @@ require_once 'PEAR/Config.php';
  * @package    PEAR
  * @author     Stig Bakken <ssb@php.net>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.5
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -151,7 +151,7 @@ class PEAR_Remote extends PEAR
 
         $server_channel = $this->config->get('default_channel');
         $channel = $this->_registry->getChannel($server_channel);
-        if ($channel) {
+        if (!PEAR::isError($channel)) {
             $mirror = $this->config->get('preferred_mirror');
             if ($channel->getMirror($mirror)) {
                 if ($channel->supports('xmlrpc', $method, $mirror)) {
@@ -277,7 +277,7 @@ class PEAR_Remote extends PEAR
         } while (false);
         $server_channel = $this->config->get('default_channel');
         $channel = $this->_registry->getChannel($server_channel);
-        if ($channel) {
+        if (!PEAR::isError($channel)) {
             $mirror = $this->config->get('preferred_mirror');
             if ($channel->getMirror($mirror)) {
                 if ($channel->supports('xmlrpc', $method, $mirror)) {
