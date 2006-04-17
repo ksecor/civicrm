@@ -14,7 +14,7 @@ class TestOfCRM755 extends UnitTestCase
     
     function testCRM755() 
     {
-        $params = array( 'id' => 102 );
+        $params = array( 'id' => 101 );
         $returnProperties = array( 'first_name' => 1,
                                    'last_name'  => 1,
                                    'street_address' => 1,

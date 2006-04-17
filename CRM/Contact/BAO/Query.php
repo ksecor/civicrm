@@ -264,12 +264,13 @@ class CRM_Contact_BAO_Query {
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $fields = CRM_Contribute_BAO_Contribution::exportableFields( );
             unset( $fields['contact_id']);
+            unset( $fields['note'] );
             $this->_fields = array_merge( $this->_fields, $fields );
         }
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        //CRM_Core_Error::debug( 'q', $this );
+        // CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
