@@ -29,13 +29,13 @@ they are currently causing sporadic failures in insert and delete - so commentin
     {else}
         <dl>
         <dt>{$form.field_name.label}</dt><dd>&nbsp;{$form.field_name.html}</dd>
-        {if $action neq 4}
-        <dt> </dt><dd class="description">&nbsp;{ts}Select the type of CiviCRM record and the field you want to include in this Profile.{/ts}</dd>
-        {/if}
+        {edit}
+            <dt> </dt><dd class="description">&nbsp;{ts}Select the type of CiviCRM record and the field you want to include in this Profile.{/ts}</dd>
+        {/edit}
         <dt>{$form.label.label}</dt><dd>&nbsp;{$form.label.html}</dd>       
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
         {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Are users required to complete this field?{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Are users required to complete this field?{/ts}</dd>
         {/if}
         <dt>{$form.is_view.label}</dt><dd>&nbsp;{$form.is_view.html}</dd>
         {if $action neq 4}

@@ -81,30 +81,25 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * warning is returned if an exact match is found for all passed input
  * values.
  *
+ * Tips - Creating Contacts
  * 
- * <b>Tips - Creating Contacts</b>
- * <ul>
- * <li>The Contact data objects may include both identifying
+ * The Contact data objects may include both identifying
  * information (e.g. last_name, organization name, etc.) and primary
  * communications data (e.g. primary email, primary phone, primary
- * postal address...).</li> 
+ * postal address...). 
  *
- * <li>Properties which have administratively assigned sets of values
+ * Properties which have administratively assigned sets of values
  * (ENUM types) are passed as strings (e.g. mobile_service_provider',
  * 'im_service', etc). If an unrecognized value is passed, an error
- * will be returned.</li> 
+ * will be returned. 
  *
- * <li>Modules may invoke crm_get_property_values($property_name) to
+ * Modules may invoke crm_get_property_values($property_name) to
  * retrieve a list of currently available values for a given
- * property.</li> 
+ * property.
  *
- * <li>Invoke crm_create_option_value($property_name) to add new
- * option values for a property.</li>
- * </ul>
- *
- * <i>EXAMPLE: If the available values for mobile_service_provider are
+ * EXAMPLE: If the available values for mobile_service_provider are
  * 'Working Assets', 'Sprint', 'Verizon' - and a value of 'Foobar' is passed,
- * an error is returned.</i>
+ * an error is returned.
  *
  * @param array  $params       Associative array of property name/value
  *                             pairs to insert in new contact.

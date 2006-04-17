@@ -7,8 +7,20 @@
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
         <dt>{$form.contact_name.label}</dt><dd>{$form.contact_name.html}</dd>
         <dt>{$form.email_domain.label}</dt><dd>{$form.email_domain.html}</dd>
+        {edit}
+        <dt>&nbsp;</dt><dd class="description">(e.g. example.org)</dd>
+        {/edit}
         <dt>{$form.email_return_path.label}</dt><dd>{$form.email_return_path.html}</dd>
-        <dt>&nbsp;</dt>
+        {edit}
+            <dt>&nbsp;</dt>
+            <dd class="description">
+                {ts}Use this field to populate the RETURN-PATH mail header element with a fixed value.
+                Enter a fully qualified email address which belongs to a valid SMTP account in your domain.
+                If this field is left blank, the FROM email address will be used as the RETURN-PATH.
+                <p>NOTE: This setting is only used for the built-in "Send Email to Contacts" feature. It is
+                is NOT used by the CiviMail component.</p>{/ts}
+            </dd>
+        {/edit}
     </dl>
     </fieldset>
 {include file="CRM/Contact/Form/Location.tpl"}
