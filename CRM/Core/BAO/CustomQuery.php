@@ -137,7 +137,7 @@ class CRM_Core_BAO_CustomQuery {
         $tmpArray = array_keys( $this->_ids );
         $query = 'select * from civicrm_custom_field where is_active = 1 AND id IN ( ' .
             implode( ',', $tmpArray ) . ' ) ';
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $optionIds = array( );
         while ( $dao->fetch( ) ) {
             // get the group dao to figure which class this custom field extends
@@ -166,7 +166,7 @@ class CRM_Core_BAO_CustomQuery {
         if ( ! empty( $optionIds ) ) {
             $query = 'select entity_id, label, value from civicrm_custom_option where entity_id IN ( ' .
                 implode( ',', $optionIds ) . ' ) AND entity_table = \'civicrm_custom_field\''; 
-            $dao =& CRM_Core_DAO::executeQuery( $query );
+            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             while ( $dao->fetch( ) ) {
                 $this->_options[$dao->entity_id][$dao->value] = $dao->label;
             }

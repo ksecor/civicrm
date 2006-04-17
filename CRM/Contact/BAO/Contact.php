@@ -110,10 +110,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $query = "
 SELECT count(DISTINCT civicrm_contact.id) 
        $from
-WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') . 
-            " AND $permission";
+WHERE civicrm_contact.id = %1 AND $permission";
+        $params = array( 1 => array( $id, 'Integer' ) );
 
-        return ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) ? true : false;
+        return ( CRM_Core_DAO::singleValueQuery( $query, $params ) > 0 ) ? true : false;
     }
     
     /**
@@ -136,7 +136,7 @@ WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') .
 
         list( $select, $from, $where ) = $query->query( ); 
         $sql = "$select $from $where"; 
-        $dao = CRM_Core_DAO::executeQuery( $sql );
+        $dao = CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
         if ($dao->fetch()) {
             if (isset($dao->country)) {
                 // the query returns the untranslated country name
@@ -165,12 +165,14 @@ WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') .
         $query  = "SELECT DISTINCT civicrm_contact.id as id";
         $query .= CRM_Contact_BAO_Query::fromClause( $tables );
         $query .= " WHERE $matchClause ";
+        $params = array( );
         if ( $id ) {
-            $query .= " AND civicrm_contact.id != " . CRM_Utils_Type::escape($id, 'Integer') ;
+            $query .= " AND civicrm_contact.id != %1";
+            $params[1] = array( $id, 'Integer' );
         }
 
         $ids = array( );
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         while ( $dao->fetch( ) ) {
             $ids[] = $dao->id;
         }
@@ -199,12 +201,13 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
 LEFT JOIN civicrm_location_type ON ( civicrm_location.location_type_id = civicrm_location_type.id )
 LEFT JOIN civicrm_email ON ( civicrm_location.id = civicrm_email.location_id )
 WHERE
-  civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') . "
+  civicrm_contact.id = %1
 ORDER BY
   civicrm_location.is_primary DESC, civicrm_email.is_primary DESC";
-        
+        $params = array( 1 => array( $id, 'Integer' ) );
+
         $emails = array( );
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         while ( $dao->fetch( ) ) {
             $emails[$dao->email] = array( 'locationType' => $dao->locationType,
                                           'is_primary'   => $dao->is_primary );
@@ -239,12 +242,13 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
 LEFT JOIN civicrm_location_type ON ( civicrm_location.location_type_id = civicrm_location_type.id )
 LEFT JOIN civicrm_phone ON ( civicrm_location.id = civicrm_phone.location_id $cond )
 WHERE
-  civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer') . "
+  civicrm_contact.id = %1
 ORDER BY
   civicrm_location.is_primary DESC, civicrm_phone.is_primary DESC";
+        $params = array( 1 => array( $id, 'Integer' ) );
         
         $numbers = array( );
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         while ( $dao->fetch( ) ) {
             $numbers[$dao->phone] = array( 'locationType' => $dao->locationType,
                                            'is_primary'   => $dao->is_primary );
@@ -1281,29 +1285,29 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
     static function getNumOpenActivity($id) {
 
         // this is not sufficient way to do.
-        $id = CRM_Utils_Type::escape($id, 'Integer');
+        $params = array( 1 => array( $id, 'Integer' ) );
 
         $query = "SELECT count(*) FROM civicrm_meeting 
                   WHERE (civicrm_meeting.target_entity_table = 'civicrm_contact' 
-                  AND target_entity_id = $id
-                  OR source_contact_id = $id)
+                  AND target_entity_id = %1
+                  OR source_contact_id = %1 )
                   AND status != 'Completed'";
-        $rowMeeting = CRM_Core_DAO::singleValueQuery( $query );
+        $rowMeeting = CRM_Core_DAO::singleValueQuery( $query, $params );
         
         $query = "SELECT count(*) FROM civicrm_phonecall 
                   WHERE (civicrm_phonecall.target_entity_table = 'civicrm_contact' 
-                  AND target_entity_id = $id
-                  OR source_contact_id = $id)
+                  AND target_entity_id = %1
+                  OR source_contact_id = %1)
                   AND status != 'Completed'";
-        $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query ); 
+        $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query, $params ); 
         
         $query = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type 
                   WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' 
-                  AND target_entity_id = $id
-                  OR source_contact_id = $id )
+                  AND target_entity_id = %1
+                  OR source_contact_id = %1 )
                   AND civicrm_activity_type.id = civicrm_activity.activity_type_id 
                   AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
-        $rowActivity = CRM_Core_DAO::singleValueQuery( $query ); 
+        $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
 
         return  $rowMeeting + $rowPhonecall + $rowActivity;
     }
@@ -1680,34 +1684,6 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
            }
        }
        return array( null, null, null );
-    }
-
-    /**
-     * function to get all the tags for a contact
-     *
-     * @param  int    $contactId id of the contact
-     *
-     * @return string  returns the comma separated tag names for a contact
-     * @static
-     * @access public
-     */
-    static function getAllContactTags( $contactId ) {
-        $query = "SELECT GROUP_CONCAT(civicrm_tag.name) AS tags
-                  FROM civicrm_contact, civicrm_entity_tag, civicrm_tag
-                  WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($contactId, 'Integer') . "
-                    AND civicrm_contact.id = civicrm_entity_tag.entity_id
-                    AND civicrm_entity_tag.tag_id = civicrm_tag.id
-                  GROUP BY civicrm_contact.id";
-
-
-        echo CRM_Core_DAO::singleValueQuery( $query );
-        echo "============";
-    
-        // $dao =& new CRM_Core_DAO( );
-    //         $dao->query( $sql );
-        
-//         $dao->
-        
     }
     
 }

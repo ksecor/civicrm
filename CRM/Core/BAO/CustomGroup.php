@@ -167,10 +167,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
             " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)";
 
+        $params = array( );
         if ($groupId > 0) {
             // since we want a specific group id we add it to the where clause
-            $strWhere .= " AND civicrm_custom_group.style = 'Tab' AND civicrm_custom_group.id = " 
-                      .  CRM_Utils_Type::escape($groupId, 'Integer');
+            $strWhere .= " AND civicrm_custom_group.style = 'Tab' AND civicrm_custom_group.id = %1";
+            $params[1] = array( $groupId, 'Integer' );
         } else if ($groupId == 0){
             // since groupId is 0 we need to show all Inline groups
             $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
@@ -181,7 +182,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
 
         // dummy dao needed
-        $crmDAO =& CRM_Core_DAO::executeQuery( $queryString );
+        $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
         // process records
         while($crmDAO->fetch()) {
@@ -368,9 +369,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
          $query = "SELECT count(*) 
                    FROM   civicrm_custom_value, civicrm_custom_field 
                    WHERE  civicrm_custom_value.custom_field_id = civicrm_custom_field.id AND
-                          civicrm_custom_field.custom_group_id = " 
-                 . CRM_Utils_Type::escape($groupId, 'Integer');
-
+                          civicrm_custom_field.custom_group_id = %1";
+         $params = array( 1 => array( $groupId, 'Integer' ) );
          return CRM_Core_DAO::singleValueQuery( $query );
     }
 
@@ -430,15 +430,15 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             }
         }
         $select = 'SELECT ' . implode( ', ', $s );
-
+        $params     = array( );
         // from, where, order by
         $from = " FROM civicrm_custom_field, civicrm_custom_group";
         $where = " WHERE civicrm_custom_field.custom_group_id = civicrm_custom_group.id
                             AND civicrm_custom_group.is_active = 1
                             AND civicrm_custom_field.is_active = 1 ";
         if ( $groupId ) {
-            $where .= " AND civicrm_custom_group.id = " .
-                            CRM_Utils_Type::escape($groupId, 'Integer');
+            $params[1] = array( $groupId, 'Integer' );
+            $where .= " AND civicrm_custom_group.id = %1";
         }
 
         if ( $searchable ) {
@@ -459,8 +459,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $queryString = $select . $from . $where . $orderBy;
 
         // dummy dao needed
-        $crmDAO =& new CRM_Core_DAO();
-        $crmDAO->query($queryString);
+        $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
         // process records
         while($crmDAO->fetch()) {
@@ -774,6 +773,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     }
 
     static function postProcess( &$groupTree, &$params ) {
+
+        // CRM_Core_Error::debug( 'g', $groupTree );
+        // CRM_Core_Error::debug( 'p', $params );
 
         // Get the Custom form values and groupTree        
         // first reset all checkbox and radio data

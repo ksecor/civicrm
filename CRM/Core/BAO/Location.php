@@ -89,17 +89,21 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             // reset all other locations with the same entity table entity id
             $sql = "UPDATE " . self::getTableName( ) . "
  SET is_primary = 0 WHERE 
- entity_table = '{$location->entity_table}' AND
- entity_id    = '{$location->entity_id}' ";
-            CRM_Core_DAO::executeQuery( $sql );
+ entity_table = %1 AND
+ entity_id    = %2 ";
+            $sqlParams = array( 1 => array( $location->entity_table, 'String' ),
+                                2 => array( $location->entity_id   , 'Integer' ) );
+            CRM_Core_DAO::executeQuery( $sql, $sqlParams );
         } else {
             // make sure there is at once location with is_primary set
             $sql = "SELECT count( " . self::getTableName( ) . ".id )
  FROM " . self::getTableName( ) . " WHERE
- entity_table = '{$location->entity_table}' AND
- entity_id    = '{$location->entity_id}'    AND
+ entity_table = %1 AND
+ entity_id    = %2 AND
  is_primary   = 1";
-            $count = CRM_Core_DAO::singleValueQuery( $sql );
+            $sqlParams = array( 1 => array( $location->entity_table, 'String' ),
+                                2 => array( $location->entity_id   , 'Integer' ) );
+            $count = CRM_Core_DAO::singleValueQuery( $sql, $sqlParams );
             if ( $count == 0 ) {
                 $location->is_primary = true;
             }

@@ -144,9 +144,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
          * driven by the wizard framework 
          */ 
         $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
-                                                       self::$_nullObject ); 
+                                                       CRM_Core_DAO::$_nullObject ); 
         $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
-                                                       self::$_nullObject, false ); 
+                                                       CRM_Core_DAO::$_nullObject, false ); 
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
                                                        $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',

@@ -1700,11 +1700,11 @@ class CRM_Contact_BAO_Query {
         }
         
         if ( $count ) {
-            return CRM_Core_DAO::singleValueQuery( $query );
+            return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
         // CRM_Core_Error::debug( 'q', $query );
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         if ( $groupContacts ) {
             $ids = array( );
             while ( $dao->fetch( ) ) {
