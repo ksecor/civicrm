@@ -219,17 +219,17 @@ class CRM_Contribute_Payment_Moneris extends CRM_Contribute_Payment {
 
         if ( empty( $config->paymentKey[$mode] ) ) {
             if ( $mode == 'live' ) {
-                $error[] = ts( "CIVICRM_PAYMENT_KEY is not set in the config file." ); 
+                $error[] = ts( "CIVICRM_CONTRIBUTE_PAYMENT_KEY is not set in the config file." ); 
             } else {
-                $error[] = ts( "CIVICRM_PAYMENT_TEST_KEY is not set in the config file." ); 
+                $error[] = ts( "CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY is not set in the config file." ); 
             }
         }
         
         if ( empty( $config->paymentPassword[$mode] ) ) {
             if ( $mode == 'live' ) {
-                $error[] = ts( "CIVICRM_PAYMENT_PASSWORD is not set in the config file." );
+                $error[] = ts( "CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD is not set in the config file." );
             } else {
-                $error[] = ts( "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file." );
+                $error[] = ts( "CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD is not set in the config file." );
             }
         }
 
