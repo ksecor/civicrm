@@ -90,15 +90,14 @@ function crm_uf_get_profile_title ( $id ) {
  * @param int $id       the id of the UF group 
  * @param int $register are we interested in registration fields 
  * @param int $action   what action are we doing 
- * @param int $match    are we interested in match fields 
  * @param string $visibility visibility of fields we are interested in 
  * 
  * @return array the fields that belong to this title 
  * @static 
  * @access public 
  */ 
-function crm_uf_get_profile_fields ( $id, $register = false, $action = null, $match = false, $visibility = null ) {
-    return CRM_Core_BAO_UFGroup::getFields( $id, $register, $action, $match, $visibility );
+function crm_uf_get_profile_fields ( $id, $register = false, $action = null, $visibility = null ) {
+    return CRM_Core_BAO_UFGroup::getFields( $id, $register, $action, null, $visibility );
 }
 
 /** 

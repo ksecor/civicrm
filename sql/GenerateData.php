@@ -1152,6 +1152,7 @@ class CRM_GCD {
             $group->domain_id  = 1;
             $group->name       = $this->group[$i];
             $group->title      = $this->group[$i];
+            $group->visibility = 'Public User Pages and Listings';
             $group->is_active  = 1;
             $this->_insert($group);
         }

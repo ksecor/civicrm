@@ -81,7 +81,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         $this->_gid      = $this->get( 'id' );
         
         if ($field) {
-            $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, false, null, null, true);
+            $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true);
         } else {
             $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid );
         }

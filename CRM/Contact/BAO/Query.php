@@ -272,12 +272,13 @@ class CRM_Contact_BAO_Query {
 
             require_once 'CRM/Core/Component.php';
             $fields =& CRM_Core_Component::getQueryFields( );
+            unset( $fields['note'] );
             $this->_fields = array_merge( $this->_fields, $fields );
         }
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        //CRM_Core_Error::debug( 'q', $this );
+        // CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -1258,7 +1259,11 @@ class CRM_Contact_BAO_Query {
         if ( ! CRM_Utils_Array::value( 'tag', $this->_params ) ) { 
             return; 
         } 
- 
+
+        if ( count( $this->_params['tag'] ) > 1 ) {
+            $this->_useDistinct = true;
+        }
+
         $names = array( );
         $tagNames =& CRM_Core_PseudoConstant::tag();
         foreach ( $this->_params['tag'] as $id => $dontCare ) {

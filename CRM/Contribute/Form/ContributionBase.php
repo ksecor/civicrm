@@ -105,7 +105,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         // make sure we have a valid payment class, else abort
         if ( ! $config->paymentClass ) {
-            CRM_Utils_System::setUFMessage( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file.' ) );
+            CRM_Utils_System::setUFMessage( ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR') ) );
             CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
         }
 

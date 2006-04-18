@@ -160,7 +160,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */ 
     static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null ,$searchable =null ) {
         if ($ufGroupId) {
-            $subset = self::getFields( $ufGroupId, false, $action, false, $visibility ,$searchable);
+            $subset = self::getFields( $ufGroupId, false, $action, $visibility, $searchable);
             if ($considerSelector) {
                 // drop the fields not meant for the selector
                 foreach ($subset as $name => $field) {
@@ -175,7 +175,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             $fields = array( ); 
             foreach ( $ufGroups as $id => $title ) { 
-                $subset = self::getFields( $id, false, $action, false, $visibility ,$searchable);
+                $subset = self::getFields( $id, false, $action, $visibility ,$searchable);
                 if ($considerSelector) {
                     // drop the fields not meant for the selector
                     foreach ($subset as $name => $field) {
@@ -219,7 +219,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @param int      $id           the id of the UF group
      * @param int      $register     are we interested in registration fields
      * @param int      $action       what action are we doing
-     * @param int      $match        are we interested in match fields
      * @param int      $visibility   visibility of fields we are interested in
      * @param          $searchable
      * @param boolean  $showall
@@ -229,7 +228,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function getFields( $id, $register = false, $action = null, $match = false,
+    static function getFields( $id, $register = false, $action = null,
                                $visibility = null , $searchable = null, $showAll= false ) {
         //get location type
         $locationType = array( );
@@ -458,70 +457,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
         }
         return '';
-    }
-
-    /**
-     * Get the UF match clause 
-     *
-     * @param array   $params  the list of values to be used in the where clause
-     * @param boolean $flatten should we flatten the input params
-     * @param  array $tables (reference ) add the tables that are needed for the select clause
-     *
-     * @return string the where clause to include in a sql query
-     * @static
-     * @access public
-     */
-    static function getMatchClause( $params, &$tables, $flatten = false ) {
-        if ( $flatten && is_array( $params['location'] ) ) {
-            $params['email'] = array();
-            $params['phone'] = array();
-            $params['im']    = array();
-            
-            foreach($params['location'] as $loc) {
-                foreach (array('email', 'phone', 'im') as $key) {
-                    if (is_array($loc[$key])) {
-                        foreach ($loc[$key] as $value) {
-                            if ( ! empty( $value[$key] ) ) {
-                                $value[$key] = strtolower( $value[$key] );
-                                $params[$key][] = 
-                                    '"' . addslashes($value[$key]) . '"';
-                            }
-                        }
-                    }
-                }
-            }
-            
-            foreach (array('email', 'phone', 'im') as $key) {
-                if (count($params[$key]) == 0) {
-                    unset($params[$key]);
-                }
-            }
-            
-            foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
-                             'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
-                if ( ! empty( $params['location'][1]['address'][$fld] ) ) {
-                    $params[$fld] = $params['location'][1]['address'][$fld];
-                }
-            }
-        }
-        
-        if ( ! self::$_matchFields ) {
-            $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
-
-            self::$_matchFields = array( );
-            foreach ( $ufGroups as $id => $title ) {
-                $subset = self::getFields( $id, false, CRM_Core_Action::VIEW, true );
-                self::$_matchFields = array_merge( self::$_matchFields, $subset );
-            }
-        }
-
-        if ( empty( self::$_matchFields ) ) {
-            return null;
-        }
-        
-        require_once 'CRM/Contact/BAO/Query.php';
-        $whereTables = array( );
-        return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchFields, $tables, $whereTables, true );
     }
 
     /**
