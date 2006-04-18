@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-12 09:29+0200\n"
-"PO-Revision-Date: 2006-04-12 09:37+0200\n"
+"POT-Creation-Date: 2006-04-18 08:33+0200\n"
+"PO-Revision-Date: 2006-04-18 08:35+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -1186,6 +1186,11 @@ msgstr "Dzień rozpoczęcia stałego okresu"
 msgid "Duration Unit"
 msgstr "Jednostka czasu trwania"
 
+#: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Payment/Moneris.php
+#: CRM/Contribute/Payment/PayPal.php
+msgid "%1 is not set in the config file."
+msgstr "W pliku konfiguracyjnym nie podano %1."
+
 #: CRM/Contribute/Form/Contribution/Confirm.php CRM/Import/Form/Preview.php
 msgid "Processing"
 msgstr "Przetwarzanie"
@@ -1489,22 +1494,6 @@ msgstr "Podejrzyj dodatek"
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Disable Premium"
 msgstr "Wyłącz dodatek"
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_KEY is not set in the config file."
-msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_KEY."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_KEY is not set in the config file."
-msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_TEST_KEY."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
-msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_PASSWORD."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
-msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_TEST_PASSWORD."
 
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -3598,11 +3587,6 @@ msgid "The Credit Card \"%1\" has been saved."
 msgstr "Karta kredytowa „%1” została zapisana."
 
 #: CRM/Contribute/Form/ContributionBase.php
-msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
-msgstr ""
-"W pliku konfiguracyjnym nie podano CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR."
-
-#: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
@@ -4221,17 +4205,6 @@ msgstr "Na pewno usunąć ten produkt z tej strony?"
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Remove"
 msgstr "Usuń"
-
-#: CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_CERT_PATH is not set in the config file."
-msgstr ""
-"Opcja CIVICRM_PAYMENT_CERT_PATH nie została podana w pliku konfiguracyjnym."
-
-#: CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_CERT_PATH is not set in the config file."
-msgstr ""
-"Opcja CIVICRM_PAYMENT_TEST_CERT_PATH nie została podana w pliku "
-"konfiguracyjnym."
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -10380,7 +10353,11 @@ msgid ""
 "Contacts to create contact records first, if necessary. Then you can match "
 "activities to contacts by Name and Email, or by Contact ID."
 msgstr ""
-"Kreator importu historii zdarzeń pozwala łatwo wgrać do CiviCRM-a historię zdarzeń z innego programu. Przed rozpoczęciem importu, w bazie muszą się już znajdować odpowiednie kontakty; jeśli to konieczne, skorzystaj z Importu kontaktów by je utworzyć. Zdarzenia można do kontaktów dopasowywać za pomocą identyfikatora kontaktu lub nazwy i adresu email."
+"Kreator importu historii zdarzeń pozwala łatwo wgrać do CiviCRM-a historię "
+"zdarzeń z innego programu. Przed rozpoczęciem importu, w bazie muszą się już "
+"znajdować odpowiednie kontakty; jeśli to konieczne, skorzystaj z Importu "
+"kontaktów by je utworzyć. Zdarzenia można do kontaktów dopasowywać za pomocą "
+"identyfikatora kontaktu lub nazwy i adresu email."
 
 #: templates/CRM/History/Import/Form/UploadFile.tpl
 msgid ""
@@ -11503,6 +11480,40 @@ msgstr "Wiadomość złapana w filtr treści"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Błąd w transakcji SMTP"
+
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_KEY is not set in the config file."
+#~ msgstr "W pliku konfiguracyjnym nie podano CIVICRM_CONTRIBUTE_PAYMENT_KEY."
+
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY is not set in the config file."
+#~ msgstr ""
+#~ "W pliku konfiguracyjnym nie podano CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY."
+
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD is not set in the config file."
+#~ msgstr ""
+#~ "W pliku konfiguracyjnym nie podano CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD."
+
+#~ msgid ""
+#~ "CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD is not set in the config file."
+#~ msgstr ""
+#~ "W pliku konfiguracyjnym nie podano "
+#~ "CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD."
+
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
+#~ msgstr ""
+#~ "W pliku konfiguracyjnym nie podano CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR."
+
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH is not set in the config file."
+#~ msgstr ""
+#~ "W pliku konfiguracyjnym nie podano CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH."
+
+#~ msgid ""
+#~ "CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH is not set in the config file."
+#~ msgstr ""
+#~ "W pliku konfiguracyjnym nie podano "
+#~ "CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH."
+
+#~ msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
+#~ msgstr "W pliku konfiguracyjnym nie podano CIVICRM_PAYMENT_PASSWORD."
 
 #~ msgid ""
 #~ "The Activity History Import Wizard allows you to easily upload activity "

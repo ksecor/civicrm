@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-12 09:29+0200\n"
+"POT-Creation-Date: 2006-04-18 08:33+0200\n"
 "PO-Revision-Date: 2006-03-12 14:45+0100\n"
 "Last-Translator: JW R <jwr@jeware.demon.nl>\n"
 "Language-Team: none\n"
@@ -1194,6 +1194,12 @@ msgstr ""
 msgid "Duration Unit"
 msgstr "Duur"
 
+#: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Payment/Moneris.php
+#: CRM/Contribute/Payment/PayPal.php
+#, fuzzy
+msgid "%1 is not set in the config file."
+msgstr "CIVICRM_PAYMENT_KEY is niet ingesteld in het configuratiebestand."
+
 #: CRM/Contribute/Form/Contribution/Confirm.php CRM/Import/Form/Preview.php
 msgid "Processing"
 msgstr "Afhandeling"
@@ -1504,23 +1510,6 @@ msgstr "Voorvertoning %1"
 #, fuzzy
 msgid "Disable Premium"
 msgstr "Disable groep"
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_KEY is not set in the config file."
-msgstr "CIVICRM_PAYMENT_KEY is niet ingesteld in het configuratiebestand."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_KEY is not set in the config file."
-msgstr "CIVICRM_PAYMENT_TEST_KEY is niet ingesteld in het configuratiebestand."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
-msgstr "CIVICRM_PAYMENT_PASSWORD is niet ingesteld in het configuratiebestand."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
-msgstr ""
-"CIVICRM_PAYMENT_TEST_PASSWORD is niet ingesteld in het configuratiebestand."
 
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -3655,11 +3644,6 @@ msgid "The Credit Card \"%1\" has been saved."
 msgstr "Creditcard %1 is opgeslagen"
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
-msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
-msgstr "CIVICRM_PAYMENT_PASSWORD is niet ingesteld in het configuratiebestand."
-
-#: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
@@ -4301,15 +4285,6 @@ msgstr "Weet U zeker, dat U de Bijdrage Pagina wilt verwijderen?"
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Remove"
 msgstr "Verwijder"
-
-#: CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_CERT_PATH is not set in the config file."
-msgstr "CIVICRM_PAYMENT_CERT_PATH komt niet voor in het configuratie bestand."
-
-#: CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_CERT_PATH is not set in the config file."
-msgstr ""
-"CIVICRM_PAYMENT_TEST_CERT_PATH komt niet voor in het configuratie bestand"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -11594,6 +11569,48 @@ msgstr "Bericht is onderschept door een contentfilter."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fout in SMTP transactie"
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_KEY is not set in the config file."
+#~ msgstr ""
+#~ "CIVICRM_PAYMENT_PASSWORD is niet ingesteld in het configuratiebestand."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY is not set in the config file."
+#~ msgstr ""
+#~ "CIVICRM_PAYMENT_TEST_KEY is niet ingesteld in het configuratiebestand."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD is not set in the config file."
+#~ msgstr ""
+#~ "CIVICRM_PAYMENT_PASSWORD is niet ingesteld in het configuratiebestand."
+
+#, fuzzy
+#~ msgid ""
+#~ "CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD is not set in the config file."
+#~ msgstr ""
+#~ "CIVICRM_PAYMENT_TEST_PASSWORD is niet ingesteld in het "
+#~ "configuratiebestand."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
+#~ msgstr ""
+#~ "CIVICRM_PAYMENT_PASSWORD is niet ingesteld in het configuratiebestand."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH is not set in the config file."
+#~ msgstr ""
+#~ "CIVICRM_PAYMENT_CERT_PATH komt niet voor in het configuratie bestand."
+
+#, fuzzy
+#~ msgid ""
+#~ "CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH is not set in the config file."
+#~ msgstr ""
+#~ "CIVICRM_PAYMENT_TEST_CERT_PATH komt niet voor in het configuratie bestand"
+
+#~ msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
+#~ msgstr ""
+#~ "CIVICRM_PAYMENT_PASSWORD is niet ingesteld in het configuratiebestand."
 
 #, fuzzy
 #~ msgid ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-12 09:29+0200\n"
+"POT-Creation-Date: 2006-04-18 08:33+0200\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "Language-Team: none\n"
@@ -1196,6 +1196,12 @@ msgstr ""
 msgid "Duration Unit"
 msgstr "Kesto"
 
+#: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Payment/Moneris.php
+#: CRM/Contribute/Payment/PayPal.php
+#, fuzzy
+msgid "%1 is not set in the config file."
+msgstr "CIVICRM_PAYMENT_KEY ei ole asetettuna config tiedostossa."
+
 #: CRM/Contribute/Form/Contribution/Confirm.php CRM/Import/Form/Preview.php
 msgid "Processing"
 msgstr "Suorita"
@@ -1505,23 +1511,6 @@ msgstr "Näytä %1"
 #, fuzzy
 msgid "Disable Premium"
 msgstr "Poista ryhmä näkyvistä."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_KEY is not set in the config file."
-msgstr "CIVICRM_PAYMENT_KEY ei ole asetettuna config tiedostossa."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_KEY is not set in the config file."
-msgstr "CIVICRM_PAYMENT_TEST_KEY ei ole asetettuna config tiedostossa."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
-msgstr "CIVICRM_PAYMENT_PASSWORD ei ole asetettuna config tiedostossa."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
-msgstr ""
-"CIVICRM_PAYMENT_TEST_PASSWORD ei ole asetettuna in the config tiedostossa."
 
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -3690,11 +3679,6 @@ msgid "The Credit Card \"%1\" has been saved."
 msgstr "Luottokortti \"%1\" on tallennettu."
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
-msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
-msgstr "CIVICRM_PAYMENT_PASSWORD ei ole asetettuna config tiedostossa."
-
-#: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
@@ -4342,14 +4326,6 @@ msgstr "Oletko varma, että haluat poistaa tämän lahjoitussivun?"
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Remove"
 msgstr ""
-
-#: CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_CERT_PATH is not set in the config file."
-msgstr "CIVICRM_PAYMENT_CERT_PATH ei ole asetettuna config-tiedostoon.."
-
-#: CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_CERT_PATH is not set in the config file."
-msgstr "CIVICRM_PAYMENT_TEST_CERT_PATH ei ole asetettuna config -tiedostoon."
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -11069,6 +11045,41 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_KEY is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_PASSWORD ei ole asetettuna config tiedostossa."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_TEST_KEY ei ole asetettuna config tiedostossa."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_PASSWORD ei ole asetettuna config tiedostossa."
+
+#, fuzzy
+#~ msgid ""
+#~ "CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD is not set in the config file."
+#~ msgstr ""
+#~ "CIVICRM_PAYMENT_TEST_PASSWORD ei ole asetettuna in the config tiedostossa."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_PASSWORD ei ole asetettuna config tiedostossa."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_CERT_PATH ei ole asetettuna config-tiedostoon.."
+
+#, fuzzy
+#~ msgid ""
+#~ "CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH is not set in the config file."
+#~ msgstr ""
+#~ "CIVICRM_PAYMENT_TEST_CERT_PATH ei ole asetettuna config -tiedostoon."
+
+#~ msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_PASSWORD ei ole asetettuna config tiedostossa."
 
 #~ msgid "Do not call"
 #~ msgstr "Älä soita"

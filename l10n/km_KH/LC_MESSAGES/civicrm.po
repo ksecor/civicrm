@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-12 09:29+0200\n"
+"POT-Creation-Date: 2006-04-18 08:33+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: none\n"
@@ -1218,6 +1218,11 @@ msgstr ""
 msgid "Duration Unit"
 msgstr "រយៈពេល"
 
+#: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Payment/Moneris.php
+#: CRM/Contribute/Payment/PayPal.php
+msgid "%1 is not set in the config file."
+msgstr ""
+
 #: CRM/Contribute/Form/Contribution/Confirm.php CRM/Import/Form/Preview.php
 msgid "Processing"
 msgstr ""
@@ -1539,22 +1544,6 @@ msgstr "មុខ​តំណែង"
 #, fuzzy
 msgid "Disable Premium"
 msgstr "លុប​ក្រុម"
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_KEY is not set in the config file."
-msgstr ""
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_KEY is not set in the config file."
-msgstr ""
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
-msgstr ""
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
-msgstr ""
 
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -3740,10 +3729,6 @@ msgid "The Credit Card \"%1\" has been saved."
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
-msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
@@ -4405,14 +4390,6 @@ msgstr ""
 #: CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Remove"
-msgstr ""
-
-#: CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_CERT_PATH is not set in the config file."
-msgstr ""
-
-#: CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_CERT_PATH is not set in the config file."
 msgstr ""
 
 #: CRM/Contribute/Selector/Search.php

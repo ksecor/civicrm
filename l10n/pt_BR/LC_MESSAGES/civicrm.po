@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-12 09:29+0200\n"
+"POT-Creation-Date: 2006-04-18 08:33+0200\n"
 "PO-Revision-Date: 2006-04-13 22:56+0200\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -1189,6 +1189,12 @@ msgstr ""
 msgid "Duration Unit"
 msgstr "Duração Unidade"
 
+#: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Payment/Moneris.php
+#: CRM/Contribute/Payment/PayPal.php
+#, fuzzy
+msgid "%1 is not set in the config file."
+msgstr "CIVICRM_PAYMENT_KEY ausente do arquivo config."
+
 #: CRM/Contribute/Form/Contribution/Confirm.php CRM/Import/Form/Preview.php
 msgid "Processing"
 msgstr "Processando"
@@ -1493,22 +1499,6 @@ msgstr "Pré-visualizar Prêmio"
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Disable Premium"
 msgstr "Desabilitar Prêmio"
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_KEY is not set in the config file."
-msgstr "CIVICRM_PAYMENT_KEY ausente do arquivo config."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_KEY is not set in the config file."
-msgstr "CIVICRM_PAYMENT_TEST_KEY ausente do arquivo config."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
-msgstr "CIVICRM_PAYMENT_PASSWORD ausente do arquivo config."
-
-#: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_PASSWORD is not set in the config file."
-msgstr "CIVICRM_PAYMENT_TEST_PASSWORD ausente do arquivo config."
 
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -3631,10 +3621,6 @@ msgid "The Credit Card \"%1\" has been saved."
 msgstr "O Cartão de Crédito \"%1\" foi salvo."
 
 #: CRM/Contribute/Form/ContributionBase.php
-msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
-msgstr "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR ausente do arquivo config."
-
-#: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
@@ -4260,14 +4246,6 @@ msgstr "Quer mesmo excluir esta página de Contribuição?"
 msgid "Remove"
 msgstr "Removido"
 
-#: CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_CERT_PATH is not set in the config file."
-msgstr "CIVICRM_PAYMENT_CERT_PATH nao esta no arquivo de configuracao"
-
-#: CRM/Contribute/Payment/PayPal.php
-msgid "CIVICRM_PAYMENT_TEST_CERT_PATH is not set in the config file."
-msgstr "CIVICRM_PAYMENT_TEST_CERT_PATH nao esta no arquivo de configuracao"
-
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "View Contribution"
@@ -4841,18 +4819,15 @@ msgstr "Expressão Regular Não Idêntica"
 
 #: CRM/Core/Form/Date.php
 msgid "yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)"
-msgstr "aaaa-mm-dd OU 1111mmdd"
-"(1998-12-25 OU 19981225)"
+msgstr "aaaa-mm-dd OU 1111mmdd(1998-12-25 OU 19981225)"
 
 #: CRM/Core/Form/Date.php
 msgid "mm/dd/yy OR mm-dd-yy (12/25/98 OR 12-25-98)"
-msgstr "mm/dd/aa OU mm-dd-aa"
-"(12/25/98 OU 12-25-98)"
+msgstr "mm/dd/aa OU mm-dd-aa(12/25/98 OU 12-25-98)"
 
 #: CRM/Core/Form/Date.php
 msgid "mm/dd/yyyy OR mm-dd-yyyy (12/25/1998 OR 12-25-1998)"
-msgstr "mm/dd/aaaa OR mm-dd-aaaa "
-"(12/25/1998 OR 12-25-1998)"
+msgstr "mm/dd/aaaa OR mm-dd-aaaa (12/25/1998 OR 12-25-1998)"
 
 #: CRM/Core/Form/Date.php
 msgid "Month dd, yyyy (December 12, 1998)"
@@ -7132,12 +7107,11 @@ msgid ""
 "\"%3\">Affero General Public License (AGPL)</a>. <a href=\"%4\">Download "
 "source</a>. <a href=\"%5\">View issues and report bugs</a>. <a href=\"%6"
 "\">Online documentation</a>."
-msgstr "O software CiviCRM é aberto a qualquer pessoa ou organização sob os termos da "
-"<a href=\"%3\">Licença Pública Geral Affero (AGPL)</a>. O código-fontepode "
-"ser baixado de nosso <href=\"%4\">site para downloads</a>."
-""
-"<a href=\"%6"
-"\">Documentação Online</a>."
+msgstr ""
+"O software CiviCRM é aberto a qualquer pessoa ou organização sob os termos "
+"da <a href=\"%3\">Licença Pública Geral Affero (AGPL)</a>. O código-"
+"fontepode ser baixado de nosso <href=\"%4\">site para downloads</a>.<a href="
+"\"%6\">Documentação Online</a>."
 
 #: templates/CRM/common/form_body.tpl
 msgid "Please correct the following errors in the form fields below:"
@@ -7576,7 +7550,10 @@ msgstr ""
 msgid ""
 "Your setup enforces SMTP authentication, but does not provide SMTP username "
 "and/or password. Please fix your civicrm.settings.php file."
-msgstr "Sua configuaração força autenticação SMTP, mas não fornece um usuário e senha para SMTP. Por favor corrija suas configurações no arquivo civicrm.settings.php"
+msgstr ""
+"Sua configuaração força autenticação SMTP, mas não fornece um usuário e "
+"senha para SMTP. Por favor corrija suas configurações no arquivo civicrm."
+"settings.php"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
@@ -8273,7 +8250,9 @@ msgstr ""
 msgid ""
 "This is a preview of this product as it will appear on your Contributions "
 "page(s)."
-msgstr "Esta é a pré-visualização de como este produto aparecerá na(s) página(s) de contribuição."
+msgstr ""
+"Esta é a pré-visualização de como este produto aparecerá na(s) página(s) de "
+"contribuição."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 #, fuzzy
@@ -8310,7 +8289,9 @@ msgstr ""
 msgid ""
 "Weight controls the order that premiums are displayed on the Contribution "
 "Page."
-msgstr "O peso controla a ordem em que os prêmios são mostrados na página de contribuição."
+msgstr ""
+"O peso controla a ordem em que os prêmios são mostrados na página de "
+"contribuição."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -11579,6 +11560,38 @@ msgid "Error in SMTP transaction"
 msgstr "Erro na transação do SMTP"
 
 #, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_KEY is not set in the config file."
+#~ msgstr "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR ausente do arquivo config."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_TEST_KEY ausente do arquivo config."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD is not set in the config file."
+#~ msgstr "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR ausente do arquivo config."
+
+#, fuzzy
+#~ msgid ""
+#~ "CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_TEST_PASSWORD ausente do arquivo config."
+
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file."
+#~ msgstr "CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR ausente do arquivo config."
+
+#, fuzzy
+#~ msgid "CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_CERT_PATH nao esta no arquivo de configuracao"
+
+#, fuzzy
+#~ msgid ""
+#~ "CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_TEST_CERT_PATH nao esta no arquivo de configuracao"
+
+#~ msgid "CIVICRM_PAYMENT_PASSWORD is not set in the config file."
+#~ msgstr "CIVICRM_PAYMENT_PASSWORD ausente do arquivo config."
+
+#, fuzzy
 #~ msgid ""
 #~ "The Activity History Import Wizard allows you to easily upload activity "
 #~ "history from other applications into CiviCRM."
@@ -12258,4 +12271,3 @@ msgstr "Erro na transação do SMTP"
 
 #~ msgid "Where is this field displayed?"
 #~ msgstr "Onde este campo é mostrado ?"
-
