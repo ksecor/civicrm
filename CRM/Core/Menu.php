@@ -506,15 +506,6 @@ class CRM_Core_Menu {
                             'crmType'=>  CRM_Core_Menu::NORMAL_ITEM,
                             'weight' =>  400,
                             ),
-                      array(
-                            'path'   => 'civicrm/petition',
-                            'title'  => ts( 'Petition' ),
-                            'qs'     => 'reset=1',
-                            'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'type'   => CRM_Core_Menu::CALLBACK,
-                            'crmType'=> CRM_Core_Menu::NORMAL_ITEM,
-                            'weight' => 430,
-                            ),
                       array( 
                              'path'    => 'civicrm/import/contact',
                              'qs'      => 'reset=1',
