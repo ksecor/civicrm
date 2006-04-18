@@ -36,11 +36,9 @@
     	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	    <dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
 	
-        {if $action neq 4}
+        {edit}      {*if $action neq 4*}{*Commented for crm-914*}
             <dt>&nbsp;</dt><dd class="description">{ts}Activity will be moved to Activity History when status is 'Completed'.{/ts}</dd>
-
-
-        {/if}
+        {/edit}     {*/if*}
 
         <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
 

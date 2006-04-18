@@ -57,7 +57,8 @@
             <th></th>
         </tr>
         {foreach from=$rows item=row}
-        <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+        <tr class="{cycle values="odd-row,even-row"} {$row.class}
+        {if NOT $row.is_active}disabled{/if}">
             <td>{$row.title}</td>
             <td>{$row.id}</td>
             <td>{$row.module}</td>
@@ -68,7 +69,7 @@
         {/foreach}
         </table>
         
-        {if NOT ($action eq 1 or $action eq 2) }
+        {if NOT ($action eq 1 or $action eq 2)}
         <p></p>
         <div class="action-link">
         <a href="{crmURL p='civicrm/admin/uf/group' q="action=add&reset=1"}">&raquo; {ts}New CiviCRM Profile{/ts}</a>
@@ -77,16 +78,15 @@
             <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1&action=profile"}">&raquo;  {ts}Get HTML for All Active Profiles{/ts}</a>
         </div> *}
         {/if}
-
-        {/strip}
+         {/strip}
         </div>
     </div>
     {else}
-       {if $action ne 1} {* When we are adding an item, we should not display this message *}
+    {if $action ne 1} {* When we are adding an item, we should not display this message *}
        <div class="messages status">
        <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/> &nbsp;
          {capture assign=crmURL}{crmURL p='civicrm/admin/uf/group' q='action=add&reset=1'}{/capture}{ts 1=$crmURL}No CiviCRM Profiles have been created yet. You can <a href="%1">add one now</a>.{/ts}
        </div>
-       {/if}
+    {/if}
     {/if}
 {/if}

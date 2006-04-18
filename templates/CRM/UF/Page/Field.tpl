@@ -21,7 +21,7 @@
             <th>&nbsp;</th>
         </tr>
         {foreach from=$ufField item=row}
-        <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
+        <tr class="{cycle values="odd-row,even-row"}{if NOT $row.is_active}disabled{/if}">
             <td>{$row.field_name}</td>
             <td>{$row.visibility_display}</td>
             <td>{if $row.is_searchable   eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
@@ -36,15 +36,15 @@
         </table>
         {/strip}
         
-        {if not ($action eq 2 or $action eq 1)}
+{if not ($action eq 2 or $action eq 1)}
             <div class="action-link">
             <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New CiviCRM Profile Field{/ts}</a>
             </div>
-        {/if}
+{/if}
         </div>
      </div>
     {else}
-        {if $action eq 16}
+        {if $action eq 16}}
         {capture assign=crmURL}{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}{/capture}
         <div class="messages status">
         <dl>

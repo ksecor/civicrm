@@ -9,7 +9,7 @@
 {if $rows}
 <div id="group">
 <p></p>
-{if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}
+{if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}  
    {strip}
    <table>
    <tr class="columnheader">
@@ -19,7 +19,7 @@
     <th></th>
    </tr>
    {foreach from=$rows item=row}
-     <tr class="{cycle values="odd-row,even-row"}{if NOT $row.is_active} disabled{/if}">
+     <tr class="{cycle values="odd-row,even-row"}{if NOT $row.is_active}disabled{/if}">
         <td>{$row.title}</td>	
         <td>
             {$row.description|mb_truncate:80:"...":true}
@@ -30,9 +30,9 @@
    {/foreach}
    </table>
    {/strip}
-{/if} {* browse action *}
+{/if}{* browse action *}
 
-{if $action eq 1 or $action eq 2}
+{if $action eq 1 or $action eq 2} 
    {include file="CRM/Group/Form/Edit.tpl"}
 {/if}
 {if $action eq 8}

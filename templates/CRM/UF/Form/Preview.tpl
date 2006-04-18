@@ -21,10 +21,11 @@
            {if $mode ne 8}
               </fieldset>
            {/if}
+            
         {/if}
-        {if $mode ne 8}
+       {if $mode ne 8}
             <fieldset><legend>{$field.groupTitle}</legend>
-        {/if}
+       {/if}
         {assign var=fieldset  value=`$field.groupTitle`}
         {assign var=groupHelpPost  value=`$field.groupHelpPost`}
         {if $field.groupHelpPre}

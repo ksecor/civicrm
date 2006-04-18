@@ -1,4 +1,4 @@
-{if ! empty( $row )}
+{if ! empty( $row )} 
 <div id="crm-container">
 <fieldset>
 <table class="form-layout-compressed">                               
@@ -8,4 +8,5 @@
 </table>
 </fieldset>
 </div>
-{/if} {* fields array is not empty *}
+{/if} 
+{* fields array is not empty *}

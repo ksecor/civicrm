@@ -34,37 +34,43 @@ they are currently causing sporadic failures in insert and delete - so commentin
         {/edit}
         <dt>{$form.label.label}</dt><dd>&nbsp;{$form.label.html}</dd>       
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
-        {if $action neq 4}
+        {edit}
             <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Are users required to complete this field?{/ts}</dd>
-        {/if}
+        {/edit}
         <dt>{$form.is_view.label}</dt><dd>&nbsp;{$form.is_view.html}</dd>
-        {if $action neq 4}
+        {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}If checked, users can view but not edit this field.{/ts}</dd>
-        {/if}
+        {/edit}
         <dt>{$form.visibility.label}</dt><dd>&nbsp;{$form.visibility.html}</dd>
-        {if $action neq 4}
+        {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field hidden from other users ('User and User Admin Only'), or is it visible to others ('Public User Pages')? Select 'Public User Pages and Listings' to make the field searchable (in the Profile Search form). When visibility is 'Public User Pages and Listings', users can also click the field value when viewing a contact in order to locate other contacts with the same value(s) (i.e. other contacts who live in Poland).{/ts}</dd>
-        {/if}
+        {/edit}
         <dt>{$form.in_selector.label}</dt><dd>&nbsp;{$form.in_selector.html}</dd>
-        {if $action neq 4}
+        {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field visible in the selector table displayed in profile searches? This setting applies only to fields with 'Public User Pages and Listings' visibility.{/ts}</dd>
-        {/if}
+        {/edit}
         <dt>{$form.weight.label}</dt><dd>&nbsp;{$form.weight.html}</dd>
-        {if $action neq 4}
+        {*if $action neq 4*} {*Commented for crm-914*}
+        {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Weight controls the order in which fields are displayed within a profile. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
-        {/if}
+        {/edit}
+        {edit}
         <dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
-        {if $action neq 4}
+        {/edit}
+        {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Do you want to include this field in the profile's search form?{/ts}</dd>
-        {/if}
+        {/edit}
+        {edit}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}</dd>
-        {if $action neq 4}
+        {/edit}
+        {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Explanatory text displayed to users for this field.{/ts}</dd>
-        {/if}
+        {/edit}
+    `   {edit}
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
-	    </dl>
+	    {/edit}
+        </dl>
     </div>
-    
     <div id="crm-submit-buttons" class="form-item">
     <dl>
     {/if}

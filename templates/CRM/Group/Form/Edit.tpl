@@ -10,7 +10,10 @@
 <div class="form-item">
 <fieldset><legend>{ts}Group Settings{/ts}</legend>
     <dl>
-        <dt>{$form.title.label}</dt><dd>{$form.title.html}{if $group.saved_search_id}&nbsp;({ts}Smart Group{/ts}){/if}</dd>
+        <dt>{$form.title.label}</dt>
+            <dd>{$form.title.html}{if $group.saved_search_id}&nbsp;({ts}Smart Group{/ts})
+            {/if}
+            </dd>
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
         <dt>{$form.visibility.label}</dt><dd>{$form.visibility.html}</dd>
         <dt>&nbsp;</dt>
@@ -22,7 +25,7 @@
 </div>
 <div class="action-link">
     <a href="{$crmURL}">&raquo; {ts}Show Group Members{/ts}</a>
-    {if $group.saved_search_id}
+    {if $group.saved_search_id} 
         <br /><a href="{crmURL p="civicrm/contact/search/advanced" q="reset=1&force=1&ssID=`$group.saved_search_id`"}">&raquo; {ts}Edit Smart Group Criteria{/ts}</a>
     {/if}
 <div>

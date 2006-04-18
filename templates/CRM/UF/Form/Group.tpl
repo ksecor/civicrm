@@ -47,7 +47,6 @@
     
     </dl>
     {/if}
-
     {if $action ne 4}
         <dt></dt>
         <dd>
@@ -60,9 +59,10 @@
     {/if} {* $action ne view *}			
     </fieldset>
 </div>
-{if $action eq 2 or $action eq 4} {* Update or View*}
+{if $action eq 2 or $action eq 4 } {* Update or View*}
     <p></p>
     <div class="action-link">
     <a href="{crmURL p='civicrm/admin/uf/group/field' q="action=browse&reset=1&gid=$gid"}">&raquo;  {ts}View or Edit Fields for this Profile{/ts}</a>
     </div>
 {/if}
+

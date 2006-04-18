@@ -1,6 +1,6 @@
 {if ! empty( $fields )}                                           
     {strip} 
-    {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if} 
+   {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if} 
     {assign var=zeroField value="Initial Non Existent Fieldset"} 
     {assign var=fieldset  value=$zeroField} 
     {foreach from=$fields item=field key=name} 
@@ -73,10 +73,13 @@
      {$form.buttons.html} 
 </div> 
 {/if} 
-    {if $mode ne 8} 
+  {if $mode ne 8} 
     </fieldset> 
-    {/if} 
-    {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>{/if} 
+  {/if} 
+     
+        {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>
+        {/if} 
     {/strip} 
  
 {/if} {* fields array is not empty *} 
+
