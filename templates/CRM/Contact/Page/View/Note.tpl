@@ -4,6 +4,7 @@
         <fieldset>
           <legend>{ts}View Note{/ts}</legend>
           <div class="form-item">
+            <label>{ts}Subject:{/ts}</label> {$note.subject} <br>
             <label>{ts}Date:{/ts}</label> {$note.modified_date|crmDate}
             <p>{$note.note}</p>
             <input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view/note' q='action=browse'}';"/>        
@@ -14,6 +15,8 @@
     <p></p>
     <fieldset><legend>{if $action eq 1}{ts}New Note{/ts}{else}{ts}Edit Note{/ts}{/if}</legend>
     <div class="form-item">
+        {$form.subject.label} {$form.subject.html} 
+        <br/><br/>
         {$form.note.html}
         <br/>
         {$form.buttons.html}
@@ -38,6 +41,7 @@
         <table>
         <tr class="columnheader">
 	        <th>{ts}Note{/ts}</th>
+	        <th>{ts}Subject{/ts}</th>
 	        <th>{ts}Date{/ts}</th>
 	        <th>{ts}Created By{/ts}</th>
 	        <th></th>
@@ -52,6 +56,7 @@
 		        <a href="{crmURL p='civicrm/contact/view/note' q="action=view&reset=1&cid=`$contactId`&id=`$note.id`"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
+            <td>{$note.subject}</td>
             <td>{$note.modified_date|crmDate}</td>
             <td>
                 <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$note.contact_id`"}">{$note.createdBy}</a>

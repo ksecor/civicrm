@@ -62,6 +62,20 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
     }
     
     /**
+     * given a note id, retrieve the note subject
+     * 
+     * @param int  $id   id of the note to retrieve
+     * 
+     * @return string   the note subject or null if note not found
+     * 
+     * @access public
+     * @static
+     */
+    static function getNoteSubject( $id ) {
+        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $id, 'subject' );
+    }
+
+    /**
      * takes an associative array and creates a note object
      *
      * the function extract all the params it needs to initialize the create a

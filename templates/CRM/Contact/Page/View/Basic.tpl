@@ -409,9 +409,10 @@
        {strip}
        <table>
        <tr class="columnheader">
-    	<th>{ts}Note{/ts}</th>
-	    <th>{ts}Date{/ts}</th>
-	    <th></th>
+    	   <th>{ts}Note{/ts}</th>
+	   <th>{ts}Subject{/ts}</th>
+	   <th>{ts}Date{/ts}</th>
+	   <th></th>
        </tr>
        {foreach from=$note item=note}
        <tr class="{cycle values="odd-row,even-row"}">
@@ -423,6 +424,7 @@
                     <a href="{crmURL p='civicrm/contact/view/note' q="id=`$note.id`&action=view&cid=$contactId"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
+            <td>{$note.subject}</td>
             <td>{$note.modified_date|crmDate}</td>
             <td>
                 {if $permission EQ 'edit'}<a href="{crmURL p='civicrm/contact/view/note' q="id=`$note.id`&action=update&cid=$contactId"}">{ts}Edit{/ts}</a>{/if}

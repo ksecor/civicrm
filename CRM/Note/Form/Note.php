@@ -87,6 +87,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             if ( isset( $this->_id ) ) {
                 $defaults['note'] = CRM_Core_BAO_Note::getNoteText( $this->_id );
+                $defaults['subject'] = CRM_Core_BAO_Note::getNoteSubject( $this->_id );
             }
         }
 
@@ -101,8 +102,6 @@ class CRM_Note_Form_Note extends CRM_Core_Form
      */
     public function buildQuickForm( ) {
        
-        
-        
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
@@ -115,6 +114,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
             return;
         }
 
+        $this->add('text', 'subject' , ts('Subject:') , array('size' => 20));
         $this->add('textarea', 'note', ts('Notes'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note', 'note' ) );
         $this->addRule( 'note', ts('Please enter note text.'), 'required' );
         
@@ -146,6 +146,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         // action is taken depending upon the mode
         $note                =& new CRM_Core_DAO_Note( );
         $note->note          = $params['note'];
+        $note->subject       = $params['subject'];
         $note->contact_id    = $session->get( 'userID' );
         if ( ! $note->contact_id ) {
             CRM_Utils_System::statusBounce(ts('We could not find your logged in user ID'));
