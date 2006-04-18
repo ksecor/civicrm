@@ -456,7 +456,12 @@ class CRM_Core_Invoke {
             require_once 'CRM/Admin/Page/Tag.php';
             $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
             break;
-
+        
+        case 'mapping':
+            require_once 'CRM/Admin/Page/Mapping.php';
+            $view =& new CRM_Admin_Page_Mapping(ts('View Mapping'));
+            break;
+            
         case 'prefix':
             require_once 'CRM/Admin/Page/IndividualPrefix.php';
             $view =& new CRM_Admin_Page_IndividualPrefix(ts('View Individual Prefix'));

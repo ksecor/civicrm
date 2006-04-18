@@ -210,7 +210,18 @@ class CRM_Core_Menu {
                             'icon'    => 'admin/11.png',
                             'weight'  => 260
                             ),
-
+                      
+                      array(
+                            'path'    => 'civicrm/admin/mapping',
+                            'title'   => ts('Import/Export Mapping'),
+                            'qs'     => 'reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => ts('Configure'),
+                            'icon'    => 'admin/11.png',
+                            'weight'  => 290
+                            ),
+                      
                       array(
                             'path'    => 'civicrm/contact/domain',
                             'title'   => ts('Edit Domain Information'),
@@ -494,6 +505,15 @@ class CRM_Core_Menu {
                             'type'   =>  CRM_Core_Menu::CALLBACK,
                             'crmType'=>  CRM_Core_Menu::NORMAL_ITEM,
                             'weight' =>  400,
+                            ),
+                      array(
+                            'path'   => 'civicrm/petition',
+                            'title'  => ts( 'Petition' ),
+                            'qs'     => 'reset=1',
+                            'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
+                            'type'   => CRM_Core_Menu::CALLBACK,
+                            'crmType'=> CRM_Core_Menu::NORMAL_ITEM,
+                            'weight' => 430,
                             ),
                       array( 
                              'path'    => 'civicrm/import/contact',
