@@ -254,6 +254,23 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 }
             }
         }
+
+        
+        $uploadNames = array();
+        foreach ($groupTree as $key1 => $group) { 
+            foreach ($group['fields'] as $key2 => $field) {
+                if ( $field['data_type'] == 'File' ) {
+                    $fieldId          = $field['id'];                 
+                    $elementName      = 'custom_' . $fieldId;
+                    $uploadNames[]    = $elementName; 
+                }
+            }
+        }
+        
+        //hack for field type File
+        $session = & CRM_Core_Session::singleton( );
+        $session->set('uploadNames', $uploadNames);
+        
         return $groupTree;
     }
 
@@ -342,6 +359,23 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     case 'Date':
                         $customValueDAO->date_data = $data;
                         break;
+                    case 'File':
+                        require_once 'CRM/Core/DAO/File.php';
+                        $config = & CRM_Core_Config::singleton();
+                        
+                        $filename = $data;
+                        $mimeType = $_FILES['custom_'.$field['id']]['type'];
+                        $customValueDAO->char_data = $data;
+ 
+                        $fileDAO =& new CRM_Core_DAO_File();
+                        $fileDAO->entity_table            = $tableName;
+                        $fileDAO->entity_id               = $entityId;
+                        $fileDAO->custom_field_id  = $fieldId;
+                        $fileDAO->uri              = $filename;
+                        $fileDAO->mime_type        = $mimeType; 
+                        $fileDAO->save();
+                        break;
+                        
                     }
 
                     // insert/update of custom value
@@ -773,7 +807,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     }
 
     static function postProcess( &$groupTree, &$params ) {
-
         // CRM_Core_Error::debug( 'g', $groupTree );
         // CRM_Core_Error::debug( 'p', $params );
 
@@ -840,7 +873,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     }*/
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
                     break;
-                    
                 default:
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
                     break;
@@ -862,7 +894,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      */
     static function buildQuickForm( &$form, &$groupTree, $showName = 'showBlocks', $hideName = 'hideBlocks' ) {
-        
         //this is fix for calendar for date field
         foreach ($groupTree as $key1 => $group) { 
             foreach ($group['fields'] as $key2 => $field) {
@@ -872,8 +903,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $groupTree[$key1]['fields'][$key2]['skip_calendar'] = true;
                     }
                 }
+              
             }
         }
+        
         $form->assign_by_ref( 'groupTree', $groupTree );
         $sBlocks = array( );
         $hBlocks = array( );

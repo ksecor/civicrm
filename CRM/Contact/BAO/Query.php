@@ -1501,7 +1501,7 @@ class CRM_Contact_BAO_Query {
             $allRelationshipType =array();
             $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
             $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
-            $this->_qill[]  = ts( $allRelationshipType[$this->_params['relation_type_id']] ." ". $sortName );
+            $this->_qill[]  = ts( $allRelationshipType[$this->_params['relation_type_id']] ." ". $name );
         }
     }
 

@@ -147,7 +147,7 @@ WHERE  civicrm_phone.location_id = civicrm_location.id
   AND  civicrm_location.entity_id = %1";
         $params = array( 1 => array( $contactId, 'Integer' ) );
                          
-        $phone =& CRM_Core_DAO::executeQuery($strQuery);
+        $phone =& CRM_Core_DAO::executeQuery($strQuery, $params);
         
         $contactPhones = array( );
         while($phone->fetch()) {

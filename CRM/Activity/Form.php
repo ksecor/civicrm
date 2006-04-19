@@ -190,8 +190,16 @@ class CRM_Activity_Form extends CRM_Core_Form
                                );
 
         } else {
+            $session = & CRM_Core_Session::singleton( );
+            $uploadNames = $session->get( 'uploadNames' );
+            if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+                $buttonType = 'upload';
+            } else {
+                $buttonType = 'next';
+            }
+            
             $this->addButtons( array(
-                                     array ( 'type'      => 'next',
+                                     array ( 'type'      => $buttonType,
                                              'name'      => ts('Save'),
                                              'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',

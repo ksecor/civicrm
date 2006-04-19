@@ -41,7 +41,8 @@ class CRM_Utils_Type {
         T_MONEY     =  1024,
         T_EMAIL     =  2048,
         T_URL       =  4096,
-        T_CCNUM     =  8192;
+        T_CCNUM     =  8192,
+        T_MEDIUMBLOB     =  16384;
 
     const
         TWO          =  2,
@@ -84,6 +85,7 @@ class CRM_Utils_Type {
         case 1024: $string = 'Money'    ; break;
         case 2048: $string = 'Date'     ; break;
         case 4096: $string = 'Email'    ; break;
+        case 16384: $string = 'Mediumblob'    ; break;    
         }
         
         return $string;

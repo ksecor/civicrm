@@ -120,9 +120,19 @@ class CRM_Core_Config {
     public $imageUploadDir   ='./persist/contribute/';
     
     /**
+     * The directory to store uploaded  files in custom data 
+     */
+    public $customFileUploadDir   ='./persist/custom/';
+    
+    /**
      * The url that we can use to display the uploaded images
      */
     public $imageUploadURL   = null;
+
+    /**
+     * The url that we can use to display the uploaded files through custom fields
+     */
+    public $customFileUploadURL   = null;
     
     /**
      * Are we generating clean url's and using mod_rewrite
@@ -485,6 +495,16 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
             $this->imageUploadURL = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADURL, '/' );
+        }
+        
+        if ( defined( 'CIVICRM_CUSTOM_FILE_UPLOADDIR' ) ) {
+            $this->customFileUploadDir = self::addTrailingSlash( CIVICRM_CUSTOM_FILE_UPLOADDIR );
+
+            CRM_Utils_File::createDir( $this->customFileUploadDir );
+        }
+
+        if ( defined( 'CIVICRM_CUSTOM_FILE_UPLOADURL' ) ) {
+            $this->customFileUploadURL = self::addTrailingSlash( CIVICRM_CUSTOM_FILE_UPLOADURL, '/' );
         }
 
         if ( defined( 'CIVICRM_CLEANURL' ) ) {

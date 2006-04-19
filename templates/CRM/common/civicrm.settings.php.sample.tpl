@@ -104,6 +104,10 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
 define( 'CIVICRM_UPLOADDIR'          , '%%uploadDir%%'  );
 define( 'CIVICRM_IMAGE_UPLOADDIR'    , '%%imageUploadDir%%');
 
+define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%'');
+define( 'CIVICRM_CUSTOM_FILE_UPLOADURL'    , '%%customFileUploadURL%%'' );
+
+
 /**
  * Site URLs:
  *
