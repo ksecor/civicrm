@@ -110,7 +110,7 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
         $session->pushUserContext( $url );
 
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
-                                        CRM_Core_DAO::$_nullObject );
+                                        CRM_Core_DAO::$_nullObject ) ) {
             CRM_Contact_BAO_Relationship::del( $this->_id);
             CRM_Utils_System::redirect($url);
         }

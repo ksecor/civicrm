@@ -108,9 +108,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $permission = CRM_Core_Permission::whereClause( $type, $tables, $temp );
         $from       = CRM_Contact_BAO_Query::fromClause( $tables );
         $query = "
-SELECT count(DISTINCT civicrm_contact.id) 
+SELECT count(DISTINCT contact_a.id) 
        $from
-WHERE civicrm_contact.id = %1 AND $permission";
+WHERE contact_a.id = %1 AND $permission";
         $params = array( 1 => array( $id, 'Integer' ) );
 
         return ( CRM_Core_DAO::singleValueQuery( $query, $params ) > 0 ) ? true : false;
@@ -162,12 +162,12 @@ WHERE civicrm_contact.id = %1 AND $permission";
      */
     static function matchContact( $matchClause, &$tables, $id = null ) {
         $config =& CRM_Core_Config::singleton( );
-        $query  = "SELECT DISTINCT civicrm_contact.id as id";
+        $query  = "SELECT DISTINCT contact_a.id as id";
         $query .= CRM_Contact_BAO_Query::fromClause( $tables );
         $query .= " WHERE $matchClause ";
         $params = array( );
         if ( $id ) {
-            $query .= " AND civicrm_contact.id != %1";
+            $query .= " AND contact_a.id != %1";
             $params[1] = array( $id, 'Integer' );
         }
 

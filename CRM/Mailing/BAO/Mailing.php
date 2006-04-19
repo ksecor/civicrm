@@ -110,7 +110,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailingGroup->query(
             "CREATE TEMPORARY TABLE X_$job_id 
             (contact_id int primary key) 
-            TYPE=HEAP"
+            ENGINE=HEAP"
         );
 
         /* Add all the members of groups excluded from this mailing to the temp
@@ -192,7 +192,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailingGroup->query(
             "CREATE TEMPORARY TABLE I_$job_id 
             (email_id int, contact_id int primary key)
-            TYPE=HEAP"
+            ENGINE=HEAP"
         );
         
         /* Get the group contacts, but only those which are not in the

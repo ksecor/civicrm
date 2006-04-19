@@ -263,7 +263,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $where .= " AND civicrm_group.id = civicrm_group_contact.group_id 
                         AND civicrm_group_contact.contact_id = " 
                     . CRM_Utils_Type::escape($contactId, 'Integer');
-        } else {
         }
 
         $orderby = " ORDER BY civicrm_group.name";
@@ -306,14 +305,12 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                     civicrm_subscription_history.method as method';
         }
 
-        $where  = ' WHERE civicrm_contact.id = ' 
-                . CRM_Utils_Type::escape($contactId, 'Integer') 
-                ." AND civicrm_group.is_active = '1' ";
+        $where  = " WHERE contact_a.id = %1 AND civicrm_group.is_active = 1 ";
 
-        $params = array( );
+        $params = array( 1 => array( $contactId, 'Integer' ) );
         if ( ! empty( $status ) ) {
-            $where .= ' AND civicrm_group_contact.status = %1';
-            $params[1] = array( $status, 'String' );
+            $where .= ' AND civicrm_group_contact.status = %2';
+            $params[2] = array( $status, 'String' );
         }
         $tables     = array( 'civicrm_group_contact'        => 1,
                              'civicrm_group'                => 1,

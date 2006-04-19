@@ -48,7 +48,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
      */
     function __construct() 
     {
-        parent::__construct();
+        CRM_Contact_DAO_Individual::__construct();
     }
     
     /**

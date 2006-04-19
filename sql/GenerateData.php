@@ -1372,7 +1372,7 @@ VALUES
     (1, 92, 1, 1, '2005-09-08 00:00:00', 0.00, 10.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
     (1, 34, 1, 1, '2005-10-22 00:00:00', 0.00, 250.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins');
 ";
-    CRM_Core_DAO::executeQuery( $query );
+    CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
     $query = "
 INSERT INTO civicrm_activity_history
@@ -1388,7 +1388,7 @@ VALUES
     ('civicrm_contact', 92, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 8, '10.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-09-08 00:00:00'),
     ('civicrm_contact', 34, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 9, '250.00 USD - Donation (from import on Tue, 29 Nov 2005 13:36:16)', '2005-10-22 00:00:00');
 ";
-    CRM_Core_DAO::executeQuery( $query );
+    CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
 }
 

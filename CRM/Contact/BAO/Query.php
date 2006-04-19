@@ -298,7 +298,7 @@ class CRM_Contact_BAO_Query {
 
         $this->_customQuery = null; 
  
-        $this->_select['contact_id']      = 'civicrm_contact.id as contact_id';
+        $this->_select['contact_id']      = 'contact_a.id as contact_id';
         $this->_element['contact_id']     = 1; 
         $this->_tables['civicrm_contact'] = 1;
         $this->_whereTables['civicrm_contact'] = 1;
@@ -320,7 +320,7 @@ class CRM_Contact_BAO_Query {
         static $special = array( 'contact_type', 'sort_name', 'display_name' );
         foreach ( $special as $name ) {
             if ( CRM_Utils_Array::value( $name, $this->_returnProperties ) ) { 
-                $this->_select[$name]  = "civicrm_contact.{$name} as $name";
+                $this->_select[$name]  = "contact_a.{$name} as $name";
                 $this->_element[$name] = 1;
             }
         }
@@ -396,8 +396,12 @@ class CRM_Contact_BAO_Query {
 
                         if ( $name == 'state_province' ) {
                             $this->_select [$name]              = "civicrm_state_province.abbreviation as `$name`";
+                        } else if ( $tName == 'contact' ) {
+                            if ( $fieldName != 'id' ) {
+                                $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
+                            }
                         } else {
-                            $this->_select [$name]              = $field['where'] . " as `$name`";
+                            $this->_select [$name]              = "{$field['where']} as `$name`";
                         }
                         $this->_element[$name]             = 1;
 
@@ -479,7 +483,7 @@ class CRM_Contact_BAO_Query {
             $tName = "$name-location";
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
-            $this->_tables[ 'civicrm_location_' . $index ] = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = civicrm_contact.id AND $lCond )";
+            $this->_tables[ 'civicrm_location_' . $index ] = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = contact_a.id AND $lCond )";
 
             $tName  = "$name-location_type";
             $ltName ="`$name-location_type`";
@@ -575,19 +579,19 @@ class CRM_Contact_BAO_Query {
     function query( $count = false, $sortByChar = false, $groupContacts = false ) {
         if ( $count ) {
             if ( $this->_useDistinct ) {
-                $select = 'SELECT count(DISTINCT civicrm_contact.id)';
+                $select = 'SELECT count(DISTINCT contact_a.id)';
             } else {
-                $select = 'SELECT count(civicrm_contact.id)'; 
+                $select = 'SELECT count(contact_a.id)'; 
             }
             $from = $this->_simpleFromClause;
         } else if ( $sortByChar ) {  
-            $select = 'SELECT DISTINCT UPPER(LEFT(civicrm_contact.sort_name, 1)) as sort_name';
+            $select = 'SELECT DISTINCT UPPER(LEFT(contact_a.sort_name, 1)) as sort_name';
             $from = $this->_simpleFromClause;
         } else if ( $groupContacts ) { 
             if ( $this->_useDistinct ) { 
-                $select  = 'SELECT DISTINCT(civicrm_contact.id) as id'; 
+                $select  = 'SELECT DISTINCT(contact_a.id) as id'; 
             } else {
-                $select  = 'SELECT civicrm_contact.id as id'; 
+                $select  = 'SELECT contact_a.id as id'; 
             }
             $from = $this->_simpleFromClause;
         } else {
@@ -602,7 +606,7 @@ class CRM_Contact_BAO_Query {
                 $this->_tables['civicrm_group_contact'] = 1;
             }
             if ( $this->_useDistinct ) {
-                $this->_select['contact_id'] = 'DISTINCT(civicrm_contact.id) as contact_id';
+                $this->_select['contact_id'] = 'DISTINCT(contact_a.id) as contact_id';
             }
             $select = 'SELECT ' . implode( ', ', $this->_select );
             $from = $this->_fromClause;
@@ -629,7 +633,7 @@ class CRM_Contact_BAO_Query {
         //CRM_Core_Error::debug( 'p', $this->_params );
         // domain id is always part of the where clause
         $config  =& CRM_Core_Config::singleton( ); 
-        $this->_where[] = 'civicrm_contact.domain_id = ' . $config->domainID( );
+        $this->_where[] = 'contact_a.domain_id = ' . $config->domainID( );
         
         // check for both id and contact_id
         $id = CRM_Utils_Array::value( 'id', $this->_params );
@@ -637,7 +641,7 @@ class CRM_Contact_BAO_Query {
             $id = CRM_Utils_Array::value( 'contact_id', $this->_params );
         }
         if ( $id ) {
-            $this->_where[] = "civicrm_contact.id = $id";
+            $this->_where[] = "contact_a.id = $id";
         }
         
         $this->contactType( );
@@ -879,7 +883,7 @@ class CRM_Contact_BAO_Query {
      */
     static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) {
        
-        $from = ' FROM civicrm_contact ';
+        $from = ' FROM civicrm_contact contact_a';
         if ( empty( $tables ) ) {
             return $from;
         }
@@ -983,20 +987,20 @@ class CRM_Contact_BAO_Query {
             switch ( $name ) {
 
             case 'civicrm_individual':
-                $from .= " $side JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id) ";
+                $from .= " $side JOIN civicrm_individual ON (contact_a.id = civicrm_individual.contact_id) ";
                 continue;
 
             case 'civicrm_household':
-                $from .= " $side JOIN civicrm_household ON (civicrm_contact.id = civicrm_household.contact_id) ";
+                $from .= " $side JOIN civicrm_household ON (contact_a.id = civicrm_household.contact_id) ";
                 continue;
 
             case 'civicrm_organization':
-                $from .= " $side JOIN civicrm_organization ON (civicrm_contact.id = civicrm_organization.contact_id) ";
+                $from .= " $side JOIN civicrm_organization ON (contact_a.id = civicrm_organization.contact_id) ";
                 continue;
 
             case 'civicrm_location':
                 $from .= " $side JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                                                           civicrm_contact.id = civicrm_location.entity_id ";
+                                                           contact_a.id = civicrm_location.entity_id ";
                 if ( $primaryLocation ) {
                     $from .= "AND civicrm_location.is_primary = 1";
                 }
@@ -1040,27 +1044,27 @@ class CRM_Contact_BAO_Query {
                 continue;
 
             case 'civicrm_group_contact':
-                $from .= " $side JOIN civicrm_group_contact ON civicrm_contact.id = civicrm_group_contact.contact_id ";
+                $from .= " $side JOIN civicrm_group_contact ON contact_a.id = civicrm_group_contact.contact_id ";
                 continue;
 
             case 'civicrm_entity_tag':
                 $from .= " $side JOIN civicrm_entity_tag ON ( civicrm_entity_tag.entity_table = 'civicrm_contact' AND
-                                                             civicrm_contact.id = civicrm_entity_tag.entity_id ) ";
+                                                             contact_a.id = civicrm_entity_tag.entity_id ) ";
                 continue;
 
             case 'civicrm_note':
                 $from .= " $side JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_contact' AND
-                                                        civicrm_contact.id = civicrm_note.entity_id ) "; 
+                                                        contact_a.id = civicrm_note.entity_id ) "; 
                 continue; 
 
             case 'civicrm_activity_history':
                 $from .= " $side JOIN civicrm_activity_history ON ( civicrm_activity_history.entity_table = 'civicrm_contact' AND  
-                                                               civicrm_contact.id = civicrm_activity_history.entity_id ) ";
+                                                               contact_a.id = civicrm_activity_history.entity_id ) ";
                 continue;
 
             case 'civicrm_custom_value':
                 $from .= " $side JOIN civicrm_custom_value ON ( civicrm_custom_value.entity_table = 'civicrm_contact' AND
-                                                          civicrm_contact.id = civicrm_custom_value.entity_id )";
+                                                          contact_a.id = civicrm_custom_value.entity_id )";
                 continue;
                 
             case 'civicrm_subscription_history':
@@ -1083,15 +1087,17 @@ class CRM_Contact_BAO_Query {
 
             case 'civicrm_relationship':
                 if( self::$_relType == 'a') {
-                    $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_a = civicrm_contact.id )";
+                    $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = contact_a.id )";
+                    $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_relationship.contact_id_a = contact_b.id )";
                 } else {
-                    $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = civicrm_contact.id )";
+                    $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_a = contact_a.id )";
+                    $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_relationship.contact_id_b = contact_b.id )";
                 }
                 continue;
 
             case 'civicrm_entity_tag':
                 $from .= " $side  JOIN  civicrm_entity_tag  ON ( civicrm_entity_tag.entity_table = 'civicrm_contact' 
-                                                                  AND civicrm_contact.id = civicrm_entity_tag.entity_id )";
+                                                                  AND contact_a.id = civicrm_entity_tag.entity_id )";
                 continue; 
                 
             case 'civicrm_tag':
@@ -1099,7 +1105,7 @@ class CRM_Contact_BAO_Query {
                 continue; 
                 
             case 'civicrm_group_contact':
-                $from .= " $side  JOIN  civicrm_group_contact ON civicrm_contact.id = civicrm_group_contact.contact_id ";
+                $from .= " $side  JOIN  civicrm_group_contact ON contact_a.id = civicrm_group_contact.contact_id ";
                 continue; 
                 
             case 'civicrm_group':
@@ -1138,7 +1144,7 @@ class CRM_Contact_BAO_Query {
         }
         
         if ( !empty($clause) ) { //fix for CRM-771
-            $this->_where[] = 'civicrm_contact.contact_type IN (' . implode( ',', $clause ) . ')';
+            $this->_where[] = 'contact_a.contact_type IN (' . implode( ',', $clause ) . ')';
             $this->_qill[]  = ts('Contact Type -') . ' ' . implode( ' ' . ts('or') . ' ', $clause );
         }
     }
@@ -1221,8 +1227,8 @@ class CRM_Contact_BAO_Query {
                     $smarts =& CRM_Contact_BAO_Contact::searchQuery($sfv, 0, 0, null,  
                                                                     false, false, false, true, true);
                     $ssWhere[] = " 
-                            (civicrm_contact.id IN ($smarts)  
-                            AND civicrm_contact.id NOT IN ( 
+                            (contact_a.id IN ($smarts)  
+                            AND contact_a.id NOT IN ( 
                             SELECT contact_id FROM civicrm_group_contact 
                             WHERE civicrm_group_contact.group_id = "  
                         . CRM_Utils_Type::escape($group_id, 'Integer')
@@ -1241,7 +1247,7 @@ class CRM_Contact_BAO_Query {
         }
         if ( ! empty( $ssWhere ) ) {
             $this->_tables['civicrm_group_contact'] =  
-                "civicrm_contact.id = civicrm_group_contact.contact_id AND civicrm_group_contact.group_id IN (" .
+                "contact_a.id = civicrm_group_contact.contact_id AND civicrm_group_contact.group_id IN (" .
                 implode(',', array_keys($this->_params['group'])) . ')'; 
             $this->_whereTables['civicrm_group_contact'] = $this->_tables['civicrm_group_contact'];
             return implode(' OR ', $ssWhere);
@@ -1291,7 +1297,7 @@ class CRM_Contact_BAO_Query {
         $sub  = array( ); 
         // if we have a comma in the string, search for the entire string 
         if ( strpos( $name, ',' ) !== false ) { 
-            $sub[] = " ( LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%' )"; 
+            $sub[] = " ( LOWER(contact_a.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%' )"; 
             $sub[] = " ( LOWER(civicrm_email.email)       LIKE '%" . strtolower(addslashes($name)) . "%' )"; 
             $this->_tables['civicrm_location'] = $this->_whereTables['civicrm_location'] = 1;
             $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
@@ -1299,7 +1305,7 @@ class CRM_Contact_BAO_Query {
             // split the string into pieces 
             $pieces =  explode( ' ', $name ); 
             foreach ( $pieces as $piece ) { 
-                $sub[] = " ( LOWER(civicrm_contact.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%' ) "; 
+                $sub[] = " ( LOWER(contact_a.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%' ) "; 
                 $sub[] = " ( LOWER(civicrm_email.email)       LIKE '%" . strtolower(addslashes(trim($piece))) . "%' )"; 
             } 
             $this->_tables['civicrm_location'] = $this->_whereTables['civicrm_location'] = 1;
@@ -1321,7 +1327,7 @@ class CRM_Contact_BAO_Query {
         }
 
         $name = trim( $this->_params['sortByCharacter'] );
-        $cond = " LOWER(civicrm_contact.sort_name) LIKE '" . strtolower(addslashes($name)) . "%'"; 
+        $cond = " LOWER(contact_a.sort_name) LIKE '" . strtolower(addslashes($name)) . "%'"; 
         $this->_where[] = $cond;
         $this->_qill[]  = ts( 'Restricted to Contacts starting with: "%1"', array( 1 => $name ) );
     }
@@ -1344,7 +1350,7 @@ class CRM_Contact_BAO_Query {
             } 
         } 
         if ( ! empty( $contactIds ) ) { 
-            $this->_where[] = " ( civicrm_contact.id in (" . implode( ',', $contactIds ) . " ) ) "; 
+            $this->_where[] = " ( contact_a.id in (" . implode( ',', $contactIds ) . " ) ) "; 
             $this->_whereClause = implode( ' AND ', $this->_where );
         }
     }
@@ -1476,29 +1482,18 @@ class CRM_Contact_BAO_Query {
     function relationship( ) {
         if ( CRM_Utils_Array::value( 'relation_type_id', $this->_params ) &&
              CRM_Utils_Array::value( 'target_name', $this->_params ) ) {
-            
             $name = trim($this->_params['target_name']); 
-            $queryString = "SELECT id , sort_name  FROM civicrm_contact WHERE  LOWER( sort_name ) LIKE %1";
-            $params = array( 1 => array( '%' . strtolower( $name ) . '%', 'String' ) );
-            $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
-            $dao->fetch(true);
-            $sortName = $dao->sort_name ? $dao->sort_name :  $this->_params['target_name'];
-            if ( $dao->id ) {
-                $rel = explode( '_' , $this->_params['relation_type_id']);
-                self::$_relType = $rel[1];
-                if ( $rel[1] == 'a') {
-                    $this->_where[] = 'civicrm_relationship.contact_id_b ='.$dao->id;
-                    $this->_where[] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
-                } else if ( $rel[1] == 'b')  {
-                    $this->_where[] = 'civicrm_relationship.contact_id_a ='.$dao->id;
-                    $this->_where[] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
-                    
-                }
-                $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
-            } else {
-                $this->_where[] = "civicrm_relationship.contact_id_b =  NULL";
-                $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
+            $rel = explode( '_' , $this->_params['relation_type_id']);
+            self::$_relType = $rel[1];
+            if ( $rel[1] == 'a') {
+                $this->_where[] = "LOWER( contact_b.sort_name ) LIKE '%" . strtolower( addslashes( $name ) ) . "%'";
+                $this->_where[] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
+            } else if ( $rel[1] == 'b')  {
+                $this->_where[] = "LOWER( contact_b.sort_name ) LIKE '%" . strtolower( addslashes( $name ) ) . "%'";
+                $this->_where[] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
             }
+            $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
+
             require_once 'CRM/Contact/BAO/Relationship.php';
             $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
             $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
@@ -1508,7 +1503,6 @@ class CRM_Contact_BAO_Query {
             $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
             $this->_qill[]  = ts( $allRelationshipType[$this->_params['relation_type_id']] ." ". $sortName );
         }
-       
     }
 
 
@@ -1687,7 +1681,7 @@ class CRM_Contact_BAO_Query {
                     $order = " ORDER BY $orderBy";
                 }
             } else if ($sortByChar) { 
-                $order = " ORDER BY LEFT(civicrm_contact.sort_name, 1) ";
+                $order = " ORDER BY LEFT(contact_a.sort_name, 1) ";
             }
 
             if ( $rowCount > 0 && $offset >= 0 ) {
