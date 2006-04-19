@@ -106,7 +106,7 @@
 		      }	
 		   } else {
 		      for (var j = 0; j < field.length; j++) {		
-			  document.getElementById(field[j]+"2_"+(i+1)).value = null;
+			  document.getElementById(field[j]+"2_"+(i+1)).value = '';
 		      }	
 		   }
 	     }
