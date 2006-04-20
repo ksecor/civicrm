@@ -218,7 +218,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                              CRM_Core_OptionGroup::values( 'school_type' ) );
             
             $this->addElement('text', 'custom_3_'.$i,
-                              ts( 'Number of students in your enter school (all classes)' ),
+                              ts( 'Number of students in your entire school (all classes)' ),
                               $attributes['organization_name'] );
             //$this->addRule('custom_3',ts('Please enter Number of Students'),'required');
             $this->addRule('custom_3_'.$i , ts('number of students is not valid value'),'integer');
