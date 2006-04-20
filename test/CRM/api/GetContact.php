@@ -15,7 +15,6 @@ class TestOfGetContactAPI extends UnitTestCase
     function tearDown( ) 
     {
     }
-    
     function testCreateIndividual() 
     {
         $params = array('first_name'    => 'manish01',
