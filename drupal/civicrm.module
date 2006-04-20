@@ -142,7 +142,9 @@ function civicrm_perm()
 
 function civicrm_block($op='list', $delta='0')
 {
-    if ( ( arg(0) != 'civicrm' && arg(0) != 'admin' ) || ( ! user_access( 'access CiviCRM' ) ) ) {
+    if ( ( arg(0) != 'civicrm' && arg(0) != 'admin' ) ||
+         ( $op == 'configure' ) || 
+         ( ! user_access( 'access CiviCRM' ) ) ) {
         return;
     }
 
