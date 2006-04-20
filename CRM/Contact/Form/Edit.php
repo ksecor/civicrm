@@ -362,13 +362,21 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->addElement('submit', 
                           $this->_duplicateButtonName,
                           ts( 'Save Duplicate Contact' ) );
-        
+
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $buttonType = 'upload';
+        } else {
+            $buttonType = 'next';
+        }
+       
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => $buttonType,
                                          'name'      => ts('Save'),
                                          'subName'   => 'view',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => $buttonType,
                                          'name'      => ts('Save and New'),
                                          'subName'   => 'new' ),
                                  array ( 'type'       => 'cancel',

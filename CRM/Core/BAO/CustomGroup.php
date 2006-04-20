@@ -251,6 +251,16 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 case 'Date':
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_date_data;
                     break;
+                case 'File':
+                    //$groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_char_data;
+                    require_once 'CRM/Core/DAO/File.php';
+                    $fileDAO =& new CRM_Core_DAO_File();
+                    $fileDAO->custom_field_id = $fieldId;
+                    $fileDAO->entity_id       = $entityId; 
+                    $fileDAO->find(true);
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $fileDAO->uri;
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']  = $fileDAO->id;
+                    break; 
                 }
             }
         }
@@ -270,7 +280,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         //hack for field type File
         $session = & CRM_Core_Session::singleton( );
         $session->set('uploadNames', $uploadNames);
-        
         return $groupTree;
     }
 
@@ -360,19 +369,24 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customValueDAO->date_data = $data;
                         break;
                     case 'File':
+                        $customValueDAO->char_data = $data;
+                        
                         require_once 'CRM/Core/DAO/File.php';
                         $config = & CRM_Core_Config::singleton();
                         
-                        $filename = $data;
+                        $path = explode( '/', $data );
+                        $filename = $path[count($path) - 1];
                         $mimeType = $_FILES['custom_'.$field['id']]['type'];
-                        $customValueDAO->char_data = $data;
- 
+                        
                         $fileDAO =& new CRM_Core_DAO_File();
-                        $fileDAO->entity_table            = $tableName;
-                        $fileDAO->entity_id               = $entityId;
-                        $fileDAO->custom_field_id  = $fieldId;
-                        $fileDAO->uri              = $filename;
-                        $fileDAO->mime_type        = $mimeType; 
+                        if (isset($field['customValue']['fid'])) {
+                            $fileDAO->id = $field['customValue']['fid'];
+                        }
+                        $fileDAO->entity_table      = $tableName;
+                        $fileDAO->entity_id         = $entityId;
+                        $fileDAO->custom_field_id   = $fieldId;
+                        $fileDAO->uri               = $config->customFileUploadURL.$filename;
+                        $fileDAO->mime_type         = $mimeType; 
                         $fileDAO->save();
                         break;
                         

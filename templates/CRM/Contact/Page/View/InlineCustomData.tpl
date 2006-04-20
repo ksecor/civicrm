@@ -52,8 +52,14 @@
 		            {else}
                         {assign var="name" value=`$cd_value.name`} 
                         {assign var="element_name" value="custom_"|cat:$field_id}
-                        <dt>{$cd_value.label}</dt>
-                        <dd class="html-adjust">{$viewForm.$element_name.html}&nbsp;</dd> 
+                         <dt>{$cd_value.label}</dt>
+                         {if $groupTree.$group_id.fields.$field_id.data_type == 'File'}
+                            {if $viewForm.$element_name.html}
+                                 <dd class="html-adjust"><a href="javascript:popUp('{$viewForm.$element_name.html}')">Attachment</a></dd>
+                            {/if}
+                         {else}
+                         <dd class="html-adjust">{$viewForm.$element_name.html}&nbsp;
+                         {/if}
                     {/if}
                     {/foreach}
                     </dl>
@@ -70,5 +76,14 @@
     var hideBlocks1 = new Array({$hideBlocks1});
 
     on_load_init_blocks( showBlocks1, hideBlocks1 );
-</script>
 
+{literal}
+
+
+function popUp(URL) {
+day = new Date();
+id = day.getTime();
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=640,height=420,left = 202,top = 184');");
+}
+{/literal}
+</script>
