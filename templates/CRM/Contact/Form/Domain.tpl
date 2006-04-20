@@ -14,11 +14,7 @@
         {edit}
             <dt>&nbsp;</dt>
             <dd class="description">
-                {ts}Use this field to populate the RETURN-PATH mail header element with a fixed value.
-                Enter a fully qualified email address which belongs to a valid SMTP account in your domain.
-                If this field is left blank, the FROM email address will be used as the RETURN-PATH.
-                <p>NOTE: This setting is only used for the built-in "Send Email to Contacts" feature. It is
-                is NOT used by the CiviMail component.</p>{/ts}
+                {ts}Use this field to populate the RETURN-PATH mail header element with a fixed value. Enter a fully qualified email address which belongs to a valid SMTP account in your domain. If this field is left blank, the FROM email address will be used as the RETURN-PATH.{/ts}
             </dd>
         {/edit}
     </dl>
