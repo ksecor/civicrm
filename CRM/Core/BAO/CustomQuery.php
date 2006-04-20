@@ -197,7 +197,7 @@ class CRM_Core_BAO_CustomQuery {
             $this->_element[$fieldName]   = 1;
             if ( $field['extends'] == 'civicrm_contact' ) {
                 $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
-                    " AND $name.entity_table = 'civicrm_contact' AND $name.entity_id = civicrm_contact.id ";
+                    " AND $name.entity_table = 'civicrm_contact' AND $name.entity_id = contact_a.id ";
             } else if ( $field['extends'] == 'civicrm_contribution' ) {
                 $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
                     " AND $name.entity_table = 'civicrm_contribution' AND $name.entity_id = civicrm_contribution.id ";
