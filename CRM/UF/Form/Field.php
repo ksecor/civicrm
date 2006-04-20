@@ -187,6 +187,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
 
+        require_once 'CRM/Quest/BAO/Student.php';
+        $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
+
         $contribFields =& CRM_Contribute_BAO_Contribution::getContributionFields();
         if ( ! empty( $contribFields ) ) {
             $fields['Contribution'] =& $contribFields;
@@ -198,7 +201,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                 $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
             }
         }
-        
+
         require_once 'CRM/Core/BAO/LocationType.php';
         $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
         
@@ -214,8 +217,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $this->_location_types = array($defaultLocationType->id => $defaultLocation) +  $this->_location_types;
         }
         
-        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();
-        
+        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
+
+        $sel1['Student'] = 'Students';
         if ( ! empty( $contribFields ) ) {
             $sel1['Contribution'] = 'Contributions';
         }
@@ -248,7 +252,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                 }
             }
         }
-        
+
         $this->_defaults = array();
         $js = "<script type='text/javascript'>\n";
         $formName = "document.{$this->_name}";

@@ -41,7 +41,7 @@
        <name>citizenship_status_id</name>
        <table>civicrm_option_value</table>
        <key>id</key>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/citizenship status/i</headerPattern>
        <add>1.5</add>
@@ -57,7 +57,6 @@
        <name>citizenship_country_id</name>
        <table>civicrm_country</table>
        <key>id</key>
-       <export>true</export>
        <import>true</import>
        <headerPattern>/citizenship country/i</headerPattern>
        <add>1.5</add>
@@ -66,13 +65,12 @@
       <name>growup_country_id</name>
       <type>int unsigned</type>
       <comment>Country where person grew up.</comment>
-       <add>1.5</add>
+      <add>1.5</add>
   </field>
   <foreignKey>
        <name>growup_country_id</name>
        <table>civicrm_country</table>
        <key>id</key>
-       <export>true</export>
        <import>true</import>
        <headerPattern>/growup country/i</headerPattern>
        <add>1.5</add>
@@ -88,7 +86,6 @@
        <name>nationality_country_id</name>
        <table>civicrm_country</table>
        <key>id</key>
-       <export>true</export>
        <import>true</import>
        <headerPattern>/nationality/i</headerPattern>
        <add>1.5</add>
@@ -96,6 +93,8 @@
   <field>
       <name>ethnicity_id_1</name>
       <type>int unsigned</type>
+      <export>true</export>
+      <title>Ethnicity 1</title>
       <comment>FK to civicrm_option_value.</comment>
       <add>1.5</add>
   </field>
@@ -103,7 +102,6 @@
        <name>ethnicity_id_1</name>
        <table>civicrm_option_value</table>
        <key>id</key>
-       <export>true</export>
        <import>true</import>
        <headerPattern>/ethnicity/i</headerPattern>
        <add>1.5</add>
@@ -118,7 +116,7 @@
        <name>ethnicity_id_2</name>
        <table>civicrm_option_value</table>
        <key>id</key>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/ethnicity/i</headerPattern>
        <add>1.5</add>
@@ -133,7 +131,7 @@
        <name>home_area_id</name>
        <table>civicrm_option_value</table>
        <key>id</key>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/home area/i</headerPattern>
        <add>1.5</add>
@@ -142,7 +140,7 @@
       <name>years_in_us</name>
       <type>int unsigned</type>
       <required>true</required>
-      <export>true</export>
+      <export>false</export>
       <import>true</import>
       <headerPattern>/years us/i</headerPattern>
       <comment>Number of years person has lived in the United States.</comment>
@@ -152,7 +150,7 @@
        <name>first_language</name>
        <type>varchar</type>
        <length>128</length>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/first language/i</headerPattern>
        <comment>First language spoken by this person.</comment>
@@ -162,7 +160,7 @@
        <name>primary_language</name>
        <type>varchar</type>
        <length>128</length>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/primary language/i</headerPattern>
        <comment>Primary language spoken at home.</comment>
@@ -172,7 +170,7 @@
        <name>is_partner_share</name>
        <type>boolean</type>
        <default>0</default>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/partner share/i</headerPattern>
        <comment>OK to share this persons info with partner schools.</comment>
@@ -182,7 +180,7 @@
        <name>high_school_grad_year</name>
        <type>date</type>
        <default>NULL</default>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/graduate/i</headerPattern>
        <comment>Year of high school graduation (only YYYY is significant).</comment>
@@ -205,7 +203,7 @@
        <name>internet_access_id</name>
        <table>civicrm_option_value</table>
        <key>id</key>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/internet access/i</headerPattern>
        <add>1.5</add>
@@ -214,7 +212,7 @@
        <name>internet_access_other</name>
        <type>varchar</type>
        <length>255</length>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/other internet access/i</headerPattern>
        <comment>Alternate response for how they access the internet.</comment>
@@ -224,7 +222,7 @@
        <name>is_home_computer</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/home computer/i</headerPattern>
        <comment>Has a computer at home.</comment>
@@ -234,7 +232,7 @@
        <name>is_home_internet</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/home internet/i</headerPattern>
        <comment>Has internet access at home.</comment>
@@ -244,7 +242,7 @@
        <name>is_take_SAT_ACT</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/take SAT/i</headerPattern>
        <comment>Plans on taking SAT or ACT test.</comment>
@@ -260,7 +258,7 @@
        <name>study_method_id</name>
        <table>civicrm_option_value</table>
        <key>id</key>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/study method/i</headerPattern>
        <add>1.5</add>
@@ -270,7 +268,7 @@
        <type>varchar</type>
        <length>255</length>
        <default>NULL</default>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/educational interest/i</headerPattern>
        <comment>Which educational areas are they interested in. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = educational_interest.</comment>
@@ -280,7 +278,7 @@
        <name>educational_interest_other</name>
        <type>varchar</type>
        <length>255</length>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/other educational interest/i</headerPattern>
        <comment>Which other educational area are they interested in.</comment>
@@ -291,7 +289,7 @@
        <type>varchar</type>
        <length>255</length>
        <default>NULL</default>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/college type/i</headerPattern>
        <comment>Types of college they are interested in attending. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = college_type.</comment>
@@ -302,7 +300,7 @@
        <type>varchar</type>
        <length>255</length>
        <default>NULL</default>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/college interest/i</headerPattern>
        <comment>Which colleges are they interested in. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = college_interest.</comment>
@@ -314,7 +312,7 @@
        <htmlType>textarea</htmlType>
        <rows>4</rows>
        <cols>40</cols>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/other college/i</headerPattern>
        <comment>Which other colleges are they interested in.</comment>
@@ -324,6 +322,8 @@
       <name>gpa_id</name>
       <type>int unsigned</type>
       <default>NULL</default>
+      <export>true</export>
+      <title>GPA</title>
       <comment>Grade Point Average (GPA) range. FK to civicrm_option_value.</comment>
       <add>1.5</add>
   </field>
@@ -331,7 +331,6 @@
        <name>gpa_id</name>
        <table>civicrm_option_value</table>
        <key>id</key>
-       <export>true</export>
        <import>true</import>
        <headerPattern>/gpa/i</headerPattern>
        <add>1.5</add>
@@ -340,7 +339,7 @@
        <name>is_class_ranking</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/class ranking/i</headerPattern>
        <comment>Does students class have rankings.</comment>
@@ -349,7 +348,7 @@
   <field>
       <name>class_rank</name>
       <type>int unsigned</type>
-      <export>true</export>
+      <export>false</export>
       <import>true</import>
       <headerPattern>/class rank/i</headerPattern>
       <comment>Class rank (numeric value).</comment>
@@ -365,7 +364,7 @@
        <name>class_rank_percent_id</name>
        <table>civicrm_option_value</table>
        <key>id</key>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/class rank percent/i</headerPattern>
        <add>1.5</add>
@@ -373,7 +372,7 @@
   <field>
       <name>class_num_students</name>
       <type>int unsigned</type>
-      <export>true</export>
+      <export>false</export>
       <import>true</import>
       <headerPattern>/number students/i</headerPattern>
       <comment>Total number of students in this persons class.</comment>
@@ -385,7 +384,7 @@
        <htmlType>textarea</htmlType>
        <rows>4</rows>
        <cols>60</cols>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/gpa explanation/i</headerPattern>
        <comment>Descriptive comments about students GPA.</comment>
@@ -403,7 +402,7 @@
   <field>
       <name>score_PSAT</name>
       <type>int unsigned</type>
-      <export>true</export>
+      <export>false</export>
       <import>true</import>
       <headerPattern>/PSAT score/i</headerPattern>
       <comment>Combined highest reported scores (PSAT).</comment>
@@ -421,7 +420,7 @@
   <field>
       <name>score_PLAN</name>
       <type>int unsigned</type>
-      <export>true</export>
+      <export>false</export>
       <import>true</import>
       <headerPattern>/ACT score/i</headerPattern>
       <comment>Combined highest reported scores (PLAN).</comment>
@@ -431,7 +430,7 @@
        <name>test_tutoring</name>
        <type>varchar</type>
        <length>255</length>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/tutoring/i</headerPattern>
        <comment>Which tests have they received tutoring for. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = test.</comment>
@@ -449,7 +448,7 @@
   <field>     
        <name>number_siblings</name>  
        <type>int</type>  
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/number siblings/i</headerPattern>
        <comment>Number of siblings this student has.</comment>
@@ -465,7 +464,7 @@
        <name>fed_lunch_id</name>
        <table>civicrm_option_value</table>
        <key>id</key>
-       <export>true</export>
+       <export>false</export>
        <import>true</import>
        <headerPattern>/federal lunch/i</headerPattern>
        <add>1.5</add>

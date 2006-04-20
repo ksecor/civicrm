@@ -135,6 +135,9 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         $fields =& CRM_Contact_BAO_Contact::exportableFields( 'All', false, true );
         $fields = array_merge(CRM_Contribute_BAO_Contribution::getContributionFields(), $fields);
         
+        require_once 'CRM/Quest/BAO/Student.php';
+        $fields = array_merge(CRM_Quest_BAO_Student::exportableFields(), $fields);
+
         $select = array( );
         foreach ($fields as $name => $field ) {
             if ( $name ) {

@@ -92,6 +92,11 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
+    static function exportableFields( ) {
+        $fields = CRM_Quest_DAO_Student::export( );
+        return $fields;
+    }
+
 }
     
 ?>
