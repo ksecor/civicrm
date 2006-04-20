@@ -669,7 +669,7 @@ class CRM_Contact_BAO_Query {
         //CRM_Core_Error::debug( 'p', $this->_params );
         //CRM_Core_Error::debug( 'f', $this->_fields );
 
-        static $skipFields = array( 'postal_code', 'location_type');
+        static $skipFields = array( 'postal_code', 'location_type', 'id');
         foreach ( $this->_fields as $name => $field ) { 
             if ( empty( $name ) ||
                  in_array( $name, $skipFields ) ) {
@@ -785,7 +785,7 @@ class CRM_Contact_BAO_Query {
                         $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
                     }
                 }
-            }           
+            }
 
             list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
             if ( isset( $tableName ) ) { 
