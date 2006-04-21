@@ -96,15 +96,15 @@
    	function copyNames(cbName, index) 
     {
         if (document.getElementsByName(cbName)[0].checked) {
-		    for (j in field) {
-                var currentElement = document.getElementById(field[j]+"2_"+parseInt(index));
-                var previousElement = document.getElementById(field[j]+"1_"+parseInt(index));
+		    for (var j=0; j<field.length; j++) {
+                var currentElement = document.getElementById(field[j]+"2_"+index);
+                var previousElement = document.getElementById(field[j]+"1_"+index);
                 
                 currentElement.value = previousElement.value;
 		    }
         } else {
-		    for (j in field) {
-                var currentElement = document.getElementById(field[j]+"2_"+parseInt(index));
+		    for (var j=0; j<field.length; j++) {
+                var currentElement = document.getElementById(field[j]+"2_"+index);
 			    currentElement.value = '';
 		    }
         }

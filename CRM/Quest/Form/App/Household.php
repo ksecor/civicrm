@@ -151,7 +151,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                 
                 if ( $i == 2 ) {
                     $checkboxName = "same_".$i."_".$j;
-                    $this->addElement( 'checkbox', $checkboxName, null, null, array('onclick' => "copyNames(\"$checkboxName\",\"$j\");") );
+                    $this->addElement( 'checkbox', $checkboxName, null, null, array('onclick' => "copyNames(\"$checkboxName\",$j);") );
                 }
             }
 
