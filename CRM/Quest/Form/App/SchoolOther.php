@@ -190,7 +190,7 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
             $this->addElement('date', 'date_of_entry_'.$i, ts( 'Dates Attended' ), 
                               CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
             $this->addElement('date', 'date_of_exit_'.$i, ts( 'Dates Attended' ), 
-                              CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
+                              CRM_Core_SelectValues::date( 'custom', 7, 2, "M\001Y" ) );
             $this->buildAddressBlock( 1, ts( 'Location' ), null, null, null, null, null, "location_$i" );
             $this->addElement('textarea', "note_{$i}", ts( 'School Description' ), array("rows"=>5,"cols"=>60));
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
