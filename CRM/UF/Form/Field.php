@@ -113,6 +113,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         
         $this->_fields = array_merge (CRM_Contribute_BAO_Contribution::getContributionFields(), $this->_fields);
 
+        require_once 'CRM/Quest/BAO/Student.php';
+        $this->_fields = array_merge (CRM_Quest_BAO_Student::exportableFields(), $this->_fields);
+
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
             // lets skip note for now since we dont support it

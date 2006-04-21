@@ -137,10 +137,13 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         if ( $this->_id ) {
             $defaults = array( );
-
+            
             // get the contact details (hier)
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $this->_id, $this->_fields );
             $this->_contact = $details = $contactDetails[$this->_id];
+
+            require_once 'CRM/Quest/BAO/Student.php';
+            CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
 
             //start of code to set the default values
             foreach ($this->_fields as $name => $field ) {
@@ -410,8 +413,16 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->add('select', 'payment_instrument', ts( 'Paid By' ),
                            array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
             } else if ($field['name'] == 'contribution_type' ) {
-                $this->add('select', 'contribution_type', ts( 'Contribution Type' ), 
+                $this->add('select', 'contribution_type', ts( 'Contribution Type' ),
                            array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+            } else if ($field['name'] == 'gpa_id' ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                $this->add('select', 'gpa_id', ts( $field['title'] ), 
+                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('gpa'), $required);
+            } else if ($field['name'] == 'ethnicity_id_1' ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                $this->add('select', 'ethnicity_id_1', ts( $field['title'] ),
+                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('ethnicity'), $required);
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required );
             }
@@ -845,6 +856,18 @@ class CRM_Profile_Form extends CRM_Core_Form
             $contactIds = array($contact->id);
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $this->_addToGroupID );
         }
+
+        //to update student record
+        require_once 'CRM/Quest/DAO/Student.php';
+        require_once 'CRM/Quest/BAO/Student.php';
+        $ids = array();
+        $dao = & new CRM_Quest_DAO_Student();
+        $dao->contact_id = $contact->id;
+        if ($dao->find(true)) {
+            $ids['id'] = $dao->id;
+        }
+        $params['contact_id'] = $contact->id;
+        CRM_Quest_BAO_Student::create( $params, $ids);
     }
 }
 
