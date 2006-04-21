@@ -210,7 +210,7 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
             $this->addRule('date_of_entry_'.$i, ts('Select a valid date.'), 'qfDate');
 
             $this->addElement('date', 'date_of_exit_'.$i, ts( 'Dates attended (month/year)' ),
-                              CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
+                              CRM_Core_SelectValues::date( 'custom', 7, 2, "M\001Y" ) );
             $this->addRule('date_of_exit_'.$i, ts('Select a valid date.'), 'qfDate');
 
             $this->addRadio( 'custom_2_'.$i,
