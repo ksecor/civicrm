@@ -32,7 +32,7 @@
             <br>
             <div id="help-box">
               <strong>Need Help?</strong><br />
-              <A HREF="mailto:questions@questbridge.org">Email us</A> for help with the<BR>application.<br />
+              <A HREF="mailto:techsupport@questbridge.org">Email us</A> for help with the<BR>application.<br />
             </div>
 <!--
             <div id="help-box">
