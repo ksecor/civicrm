@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: iso-codes 0.18\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-03-07 08:29-0500\n"
-"PO-Revision-Date: 2006-01-06 18:34-0300\n"
+"PO-Revision-Date: 2006-04-15 21:14-0300\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: Portuguese Brazilian <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr "República de Angola"
 # AI
 #. name for AIA
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 # AQ
 #. name for ATA
@@ -125,7 +125,7 @@ msgstr "Austrália"
 # AT
 #. name for AUT
 msgid "Austria"
-msgstr "Austria"
+msgstr "Áustria"
 
 #. official_name for AUT
 msgid "Republic of Austria"
@@ -181,7 +181,7 @@ msgstr "Barbados"
 # fuzzy
 #. name for BLR
 msgid "Belarus"
-msgstr ""
+msgstr "Belarus"
 
 #. official_name for BLR
 msgid "Republic of Belarus"
@@ -276,7 +276,7 @@ msgstr "Território Britânico no Oceano Índico"
 # BN
 #. name for BRN
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunei Darussalam"
 
 # BG
 #. name for BGR
@@ -290,12 +290,12 @@ msgstr "República da Bulgária"
 # BF
 #. name for BFA
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 # BI
 #. name for BDI
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
 #. official_name for BDI
 msgid "Republic of Burundi"
@@ -503,7 +503,7 @@ msgstr "República de Djíbuti"
 # fuzzy
 #. name for DMA
 msgid "Dominica"
-msgstr ""
+msgstr "Dominica"
 
 #. official_name for DMA
 msgid "Commonwealth of Dominica"
@@ -944,7 +944,7 @@ msgstr "República do Quênia"
 # KI
 #. name for KIR
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
 #. official_name for KIR
 msgid "Republic of Kiribati"
@@ -1014,7 +1014,7 @@ msgstr "República Libanesa"
 # LS
 #. name for LSO
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesotho"
 
 #. official_name for LSO
 msgid "Kingdom of Lesotho"
@@ -1041,7 +1041,7 @@ msgstr "República Socialista Popular Árabe Jamahiriya da Líbia"
 # LI
 #. name for LIE
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #. official_name for LIE
 msgid "Principality of Liechtenstein"
@@ -1070,7 +1070,7 @@ msgstr "Grão-Ducado de Luxemburgo"
 # fuzzy
 #. name for MAC
 msgid "Macao"
-msgstr ""
+msgstr "Macau"
 
 #. official_name for MAC
 msgid "Macao Special Administrative Region of China"
@@ -1099,7 +1099,7 @@ msgstr "República de Madagascar"
 # fuzzy
 #. name for MWI
 msgid "Malawi"
-msgstr ""
+msgstr "Malawi"
 
 # KR
 # fuzzy
@@ -1127,7 +1127,7 @@ msgstr "República de Maldivas"
 # fuzzy
 #. name for MLI
 msgid "Mali"
-msgstr ""
+msgstr "Mali"
 
 # KR
 # fuzzy
@@ -1185,7 +1185,7 @@ msgstr "Repũblica de Maurício"
 # YT
 #. name for MYT
 msgid "Mayotte"
-msgstr ""
+msgstr "Mayotte"
 
 # MX
 #. name for MEX
@@ -1233,7 +1233,7 @@ msgstr "Mongólia"
 # MS
 #. name for MSR
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 # MA
 #. name for MAR
@@ -1257,7 +1257,7 @@ msgstr "República de Moçambique"
 # fuzzy
 #. name for MMR
 msgid "Myanmar"
-msgstr ""
+msgstr "Myanmar"
 
 # MM
 # fuzzy
@@ -1356,7 +1356,7 @@ msgstr "República Federal da Nigéria"
 # NU
 #. name for NIU
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 # KR
 # fuzzy
@@ -1473,7 +1473,7 @@ msgstr "República das Filipinas"
 # PN
 #. name for PCN
 msgid "Pitcairn"
-msgstr ""
+msgstr "Pitcairn"
 
 # PL
 #. name for POL
@@ -1515,7 +1515,7 @@ msgstr "Estado do Qatar"
 # RE
 #. name for REU
 msgid "Reunion"
-msgstr ""
+msgstr "Reunion"
 
 # RO
 #. name for ROU
@@ -1547,14 +1547,12 @@ msgstr "Santa Helena"
 # KN
 # fuzzy
 #. name for KNA
-#, fuzzy
 msgid "Saint Kitts and Nevis"
-msgstr "St Kitts e Nevis"
+msgstr "Saint Kitts e Nevis"
 
 # LC
 # fuzzy
 #. name for LCA
-#, fuzzy
 msgid "Saint Lucia"
 msgstr "Santa Lúcia"
 
@@ -1565,7 +1563,6 @@ msgstr "São Pedro e Miquelon"
 # VC
 # fuzzy
 #. name for VCT
-#, fuzzy
 msgid "Saint Vincent and the Grenadines"
 msgstr "São Vicente e Grenadines"
 
@@ -1617,7 +1614,7 @@ msgstr "Repũblica do Senegal"
 # SC
 #. name for SYC
 msgid "Seychelles"
-msgstr ""
+msgstr "Seychelles"
 
 #. official_name for SYC
 msgid "Republic of Seychelles"
@@ -1732,7 +1729,7 @@ msgstr "República do Suriname"
 # SJ
 #. name for SJM
 msgid "Svalbard and Jan Mayen"
-msgstr ""
+msgstr "Svalbard e Jan Mayen"
 
 # SZ
 # fuzzy
@@ -1813,7 +1810,7 @@ msgstr "Reino da Tailândia"
 # TG
 #. name for TGO
 msgid "Togo"
-msgstr ""
+msgstr "Togo"
 
 # CZ
 # fuzzy
@@ -1824,12 +1821,12 @@ msgstr "República do Togo"
 # TK
 #. name for TKL
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
 # TO
 #. name for TON
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #. official_name for TON
 msgid "Kingdom of Tonga"
@@ -1878,7 +1875,7 @@ msgstr "Ilhas Turks e Caicos"
 # TV
 #. name for TUV
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 # UG
 # fuzzy
@@ -1969,9 +1966,8 @@ msgstr "República Bolivariana da Venezuela"
 # VN
 # fuzzy
 #. name for VNM
-#, fuzzy
 msgid "Viet Nam"
-msgstr "Vietnã"
+msgstr "Vietnã\" "
 
 #. official_name for VNM
 msgid "Socialist Republic of Viet Nam"
@@ -2003,7 +1999,7 @@ msgstr "Ilhas Virgens dos Estados Unidos"
 # WF
 #. name for WLF
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "Wallis e Futuna"
 
 # EH
 #. name for ESH
