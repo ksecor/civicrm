@@ -478,7 +478,7 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_RESOURCEBASE' ) ) {
-            $this->resourceBase = self::addTrailingSlash( CIVICRM_RESOURCEBASE );
+            $this->resourceBase = self::addTrailingSlash( CIVICRM_RESOURCEBASE, '/' );
         }
 
         if ( defined( 'CIVICRM_UPLOADDIR' ) ) {

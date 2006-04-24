@@ -68,13 +68,14 @@ class TestOfGetContactAPI extends UnitTestCase
         $this->assertEqual($contact->contact_type, 'Organization');
         $this->_organization = $contact;
     }
-       
+     
     function testGetContactIndividualByContactID() 
     {
         $params = array('contact_id' => $this->_individual->id);
         $contact =& crm_get_contact($params);
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
         $this->assertEqual($contact->id, $this->_individual->id);
+        $this->assertEqual($contact->contact_id, $this->_individual->id);
         $this->assertEqual($contact->location[1]->phone[1]->phone, '222222');
         $this->assertEqual($contact->location[1]->email[1]->email, 'manish01@yahoo.com');
     }
@@ -161,6 +162,7 @@ class TestOfGetContactAPI extends UnitTestCase
         $contact =& crm_get_contact($params, $returnValues);
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
         $this->assertEqual($contact->id, $this->_household->id);
+        $this->assertEqual($contact->contact_id, $this->_household->id);
         $this->assertEqual($contact->contact_type_object->household_name, 'Zope01 House');
         $this->assertEqual($contact->nick_name, 'Z01 House');
         $this->assertEqual($contact->location[1]->email[1]->email, 'household@yahoo.com');
@@ -205,6 +207,7 @@ class TestOfGetContactAPI extends UnitTestCase
                                    'im', 'im_provider');
         $contact =& crm_get_contact($params, $return_properties);
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
+        $this->assertEqual($contact->contact_id, $this->_organization->id);
         $this->assertEqual($contact->contact_type, 'Organization');
         $this->assertEqual($contact->contact_type_object->organization_name, 'Zope01 Pvt. Ltd.');
         $this->assertEqual($contact->nick_name, 'Zope01 Companies');

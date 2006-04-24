@@ -442,6 +442,8 @@ ORDER BY
 
             CRM_Contact_DAO_Contact::addDisplayEnums($values);
 
+            $contact->contact_id = $contact->id;
+
             return $contact;
         }
         return null;
