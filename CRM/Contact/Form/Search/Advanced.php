@@ -138,12 +138,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->add('date', 'activity_date_to', ts('To'), CRM_Core_SelectValues::date('relative'));
         $this->addRule('activity_date_to', ts('Select a valid date.'), 'qfDate');
 
-        $this->assign( 'validCiviContribute', false );
-        if ( CRM_Utils_System::accessCiviContribute( ) ) {
-            $this->assign( 'validCiviContribute', true );
-            require_once 'CRM/Contribute/Form/Search.php';
-            CRM_Contribute_Form_Search::buildQuickFormCommon( $this );
-        }
+        require_once 'CRM/Core/Component.php';
+        CRM_Core_Component::buildSearchForm( $this );
 
         //relationsship fileds
         
@@ -193,11 +189,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $showHide->addShow($showBlocks);
         }
 
-        if ( CRM_Utils_System::accessCiviContribute( ) ) {
-            $showHide->addHide( 'contributeForm' );
-            $showHide->addShow( 'contributeForm[show]' );
-        }
-        
+        CRM_Core_Component::addShowHide( $showHide );
+
         $showHide->addToTemplate();
     }
 

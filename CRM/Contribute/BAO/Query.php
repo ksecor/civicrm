@@ -75,56 +75,9 @@ class CRM_Contribute_BAO_Query {
     static function where( &$query ) {
         // process to / from date
         $query->dateQueryBuilder( 'civicrm_contribution', 'contribution_date', 'receive_date', 'Contribution Date' );
-        $qill = array( );
-        if ( isset( $query->_params['contribution_date_from'] ) ) { 
-            $revDate = array_reverse( $query->_params['contribution_date_from'] ); 
-            $date    = CRM_Utils_Date::format( $revDate ); 
-            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) ); 
-            if ( $date ) { 
-                $query->_where[] = "civicrm_contribution.receive_date >= '$date'";  
-                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1; 
-                $qill[] = ts( 'greater than "%1"', array( 1 => $format ) ); 
-            } 
-        }  
- 
-        if ( isset( $query->_params['contribution_date_to'] ) ) { 
-            $revDate = array_reverse( $query->_params['contribution_date_to'] ); 
-            $date    = CRM_Utils_Date::format( $revDate ); 
-            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) ); 
-            if ( $date ) { 
-                $query->_where[] = " ( civicrm_contribution.receive_date <= '$date' ) ";  
-                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;  
-                $qill[] = ts( 'less than "%1"', array( 1 => $format ) ); 
-            } 
-        } 
-         
-        if ( ! empty( $qill ) ) { 
-            $query->_qill[] = ts('Contribution Date - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) ); 
-        } 
 
         // process min/max amount
-        $qill = array( ); 
-        if ( isset( $query->_params['contribution_min_amount'] ) ) {  
-            $amount = $query->_params['contribution_min_amount'];
-            if ( $amount > 0 ) {
-                $query->_where[] = "civicrm_contribution.total_amount >= $amount";
-                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;  
-                $qill[] = ts( 'greater than "%1"', array( 1 => $amount ) );
-            } 
-        }
-    
-        if ( isset( $query->_params['contribution_max_amount'] ) ) {  
-            $amount = $query->_params['contribution_max_amount'];
-            if ( $amount > 0 ) {
-                $query->_where[] = "civicrm_contribution.total_amount <= $amount";
-                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;   
-                $qill[] = ts( 'less than "%1"', array( 1 => $amount ) );
-            }
-        }
-
-        if ( ! empty( $qill ) ) {  
-            $query->_qill[] = ts('Contribution Amount - %1', array( 1 => implode( ' ' . ts('and') . ' ', $qill ) ) );  
-        }  
+        $query->numberRangeBuilder( 'civicrm_contribution', 'contribution_amount', 'total_amount', 'Contribution Amount' );
 
         if ( CRM_Utils_Array::value( 'contribution_thankyou_date_isnull', $query->_params ) ) {
             $query->_where[] = "civicrm_contribution.thankyou_date is null";
@@ -178,7 +131,7 @@ class CRM_Contribute_BAO_Query {
         switch ( $name ) {
 
         case 'civicrm_contribution':
-            $from = " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = civicrm_contact.id ";
+            $from = " INNER JOIN civicrm_contribution ON civicrm_contribution.contact_id = contact_a.id ";
             break;
             
         case 'civicrm_contribution_type':
@@ -249,6 +202,77 @@ class CRM_Contribute_BAO_Query {
             }
         }
         return $properties;
+    }
+
+
+    /**
+     * add all the elements shared between contribute search and advnaced search
+     *
+     * @access public 
+     * @return void
+     * @static
+     */ 
+    static function buildSearchForm( &$form ) {
+        // Date selects for date 
+        $form->add('date', 'contribution_date_from', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('contribution_date_from', ts('Select a valid date.'), 'qfDate'); 
+ 
+        $form->add('date', 'contribution_date_to', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('contribution_date_to', ts('Select a valid date.'), 'qfDate'); 
+
+        $form->add('text', 'contribution_amount_low', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->addRule( 'contribution_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
+
+        $form->add('text', 'contribution_amount_high', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->addRule( 'contribution_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $form->add('select', 'contribution_type_id', 
+                   ts( 'Contribution Type' ),
+                   array( '' => ts( '- select -' ) ) +
+                   CRM_Contribute_PseudoConstant::contributionType( ) );
+        
+        $form->add('select', 'payment_instrument_id', 
+                   ts( 'Payment Instrument' ), 
+                   array( '' => ts( '- select -' ) ) +
+                   CRM_Contribute_PseudoConstant::paymentInstrument( ) );
+
+        $status = array( );
+        $status[] = $form->createElement( 'radio', null, null, ts( 'Valid' )    , 'Valid'     );
+        $status[] = $form->createElement( 'radio', null, null, ts( 'Cancelled' ), 'Cancelled' );
+        $status[] = $form->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
+
+        $form->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
+        $form->setDefaults(array('contribution_status' => 'All'));
+
+        // add null checkboxes for thank you and receipt
+        $form->addElement( 'checkbox', 'contribution_thankyou_date_isnull', ts( 'Thank-you date not set?' ) );
+        $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt date not set?' ) );
+
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Contribution' ) );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('contributeGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
+
+        $form->assign( 'validCiviContribute', true );
+    }
+
+    static function addShowHide( &$showHide ) {
+        $showHide->addHide( 'contributeForm' );
+        $showHide->addShow( 'contributeForm[show]' );
     }
 
 }

@@ -50,7 +50,8 @@ class CRM_Contact_BAO_Query {
     const
         MODE_CONTACTS   = 1,
         MODE_CONTRIBUTE = 2,
-        MODE_ALL        = 3;
+        MODE_QUEST      = 4,
+        MODE_ALL        = 7;
 
     /**
      * the default set of return properties
@@ -1825,6 +1826,28 @@ class CRM_Contact_BAO_Query {
                 $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
                 $qill[] = ts( 'less than "%1"', array( 1 => $format ) );
             }
+        }
+
+        if ( ! empty( $qill ) ) {
+            $this->_qill[] = $fieldTitle . ' - ' . implode( ' ' . ts('and') . ' ', $qill );
+        }
+    }
+
+    function numberRangeBuilder( $tableName, $fieldName, $dbFieldName, $fieldTitle ) {
+        $qill = array( );
+
+        $name = $fieldName . '_low';
+        if ( $this->_params[$name] ) {
+            $this->_where[] = "{$tableName}.{$dbFieldName} >= {$this->_params[$name]}";
+            $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
+            $qill[] = ts( 'greater than "%1"', array( 1 => $this->_params[$name] ) );
+        }
+
+        $name = $fieldName . '_high';
+        if ( $this->_params[$name] ) {
+            $this->_where[] = "{$tableName}.{$dbFieldName} <= {$this->_params[$name]}";
+            $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
+            $qill[] = ts( 'less than "%1"', array( 1 => $this->_params[$name] ) );
         }
 
         if ( ! empty( $qill ) ) {

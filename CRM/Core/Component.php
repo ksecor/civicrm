@@ -59,7 +59,7 @@ class CRM_Core_Component {
                                                             'url'     => 'quest',
                                                             'perm'    => array( 'edit Quest Application'  ,
                                                                                 'view Quest Application'   ),
-                                                            'search'  => 0,
+                                                            'search'  => 1,
                                                             'metaTpl' => 'quest',
                                                             'formTpl' => 'quest',
                                                             'css'     => 'quest.css'),
@@ -98,8 +98,8 @@ class CRM_Core_Component {
                   $styleSheets .= '<style type="text/css">@import url(' . "{$config->resourceBase}css/{$info[$name]['css']});</style>";
                   CRM_Utils_System::addHTMLHead( $styleSheet );
                 }
-         	drupal_set_html_head( $styleSheets );
-
+                drupal_set_html_head( $styleSheets );
+            
                 $className = $info[$name]['path'] . 'Invoke';
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
                 eval( $className . '::main( $args );' );
@@ -205,6 +205,34 @@ class CRM_Core_Component {
             }
         }
         return $properties;
+    }
+
+    static function &buildSearchForm( &$form ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( $className . '::buildSearchForm( $form );' );
+            }
+        }
+    }
+
+    static function &addShowHide( &$showHide ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( $className . '::addShowHide( $showHide );' );
+            }
+        }
     }
 
 }
