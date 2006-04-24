@@ -199,7 +199,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
 
         if ( $defaults['contact_type'] == 'Individual' ) {
             // is there any demographics data?
-            if ( CRM_Utils_Array::value( 'gender_id'     , $defaults ) ||
+            if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
                  CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
                  CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
                 $showHide->addShow( 'demographics' );

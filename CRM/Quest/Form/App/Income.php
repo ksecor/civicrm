@@ -330,10 +330,11 @@ class CRM_Quest_Form_App_Income extends CRM_Quest_Form_App
         $query = "
 SELECT i.amount_1 as amount_1, i.amount_2 as amount_2, i.amount_3 and amount_3
 FROM   quest_income i, quest_person p
-WHERE  i.person_id = p.id
-  AND  p.contact_id = {$this->_contactID}
+WHERE  i.person_id  = p.id
+  AND  p.contact_id = %1
 ";
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $p = array( 1 => array( $this->_contactID, 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
         
         $totalIncome = 0.0;
         while ( $dao->fetch( ) ) {
@@ -366,10 +367,10 @@ WHERE  i.person_id = p.id
 SELECT i.id as id, i.person_id as person_id
 FROM   quest_income i, quest_person p
 WHERE  i.person_id = p.id
-  AND  p.contact_id = $cid
+  AND  p.contact_id = %1
 ";
-
-            $dao =& CRM_Core_DAO::executeQuery( $query );
+            $p = array( 1 => array( $cid, 'Integer' ) );
+            $dao =& CRM_Core_DAO::executeQuery( $query, $p );
 
             $details = array( );
             while ( $dao->fetch( ) ) {

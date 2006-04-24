@@ -50,13 +50,13 @@ FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id
   AND  g.domain_id       = $domainID
-  AND  g.name            = '$name'
+  AND  g.name            = %1
   AND  v.is_active       = 1 
   AND  g.is_active       = 1 
 ORDER BY v.weight;
 ";
-            
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $p = array( 1 => array( $name, 'String' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
            
         while ( $dao->fetch( ) ) {
             if ( $flip ) {
@@ -110,24 +110,26 @@ ORDER BY v.weight;
                 $newValue = array( );
                 foreach ($postValues as $postValue) {
                     if ( $flip ) {
-                        $select = "v.id";
-                        $lookupBy = "v.title = '" . CRM_Utils_Type::escape( $postValue, 'String' )
-                        . "';";
+                        $p = array( 1 => array( $postValue, 'String' ) );
+                        $lookupBy = 'v.title = %1';
+                        $select   = "v.id";
                     } else {
-                        $lookupBy = "v.id = " . CRM_Utils_Type::escape( $postValue, 'Integer' ) . ";";
-                        $select = "v.title";
+                        $p = array( 1 => array( $postValue, 'Integer' ) );
+                        $lookupBy = 'v.id = %1';
+                        $select   = "v.title";
                     }
                     
+                    $p[2] = array( $value['groupName'], 'String' );
                     $query = "
                         SELECT $select
                         FROM   civicrm_option_value v,
                         civicrm_option_group g
                         WHERE  v.option_group_id = g.id
                         AND    g.domain_id       = $domainID
-                        AND    g.name            = '{$value['groupName']}'
+                        AND    g.name            = %2
                         AND  $lookupBy";
                     
-                    $newValue[]= CRM_Core_DAO::singleValueQuery( $query );
+                    $newValue[]= CRM_Core_DAO::singleValueQuery( $query, $p );
                 }
                 $params[$value['newName']] = implode(', ', $newValue);
             }
