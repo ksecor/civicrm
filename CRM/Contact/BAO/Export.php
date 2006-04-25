@@ -157,10 +157,11 @@ class CRM_Contact_BAO_Export {
         }
         
         if ( CRM_Utils_Array::value( 'tags', $returnProperties ) || CRM_Utils_Array::value( 'groups', $returnProperties ) ) { 
-            $queryString .= " GROUP BY civicrm_contact.id";
+            $queryString .= " GROUP BY contact_a.id";
         }
         
-        $dao =& CRM_Core_DAO::executeQuery($queryString);
+        $temp = array( );
+        $dao =& CRM_Core_DAO::executeQuery($queryString, $temp);
         $header = false;
 
         $contactDetails = array( );
