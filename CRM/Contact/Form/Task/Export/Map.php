@@ -126,6 +126,8 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             $mappingLocation = array();
             $mappingContactType = array();
             $mappingPhoneType = array();
+
+            $colCnt = 0;
             while($mapping->fetch()) {
                 if ($mapping->name) {
                     $mappingName[]        = $mapping->name;
@@ -139,6 +141,11 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                 if ( !empty( $mapping->phone_type ) ) {
                     $mappingPhoneType[$mapping->column_number] = $mapping->phone_type;
                 }
+                $colCnt++;
+            }
+            //updated for CRM-927
+            if ( $colCnt > $this->_columnCount ) {
+                $this->_columnCount  = $colCnt;
             }
 
             $this->assign('loadedMapping', $this->_loadedMappingId);
@@ -150,7 +157,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             while($getMappingName->fetch()) {
                 $mapperName = $getMappingName->name;
             }
-
+            
             $this->assign('savedName', $mapperName);
 
             $this->add('hidden','mappingId',$this->_loadedMappingId);
