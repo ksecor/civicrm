@@ -79,7 +79,14 @@ class CRM_Quest_BAO_Query {
                 $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
             }
         }
-
+        
+        foreach ( self::$_ids as $index => $name ) {
+            if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
+                $query->_select[$name] = "quest_student.$name as $name";
+                $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
+            }
+        }
+        
     }
 
     static function where( &$query ) {

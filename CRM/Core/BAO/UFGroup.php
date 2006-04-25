@@ -503,6 +503,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     if ($details->$name) {
                         $values[$index] = '[ x ]';
                     }
+                } else if ( $name == 'ethnicity_id_1' || $name == 'gpa_id' ) {  
+                    require_once 'CRM/Core/OptionGroup.php';
+                    $paramName = explode('_',$name);
+                    $nameArray = CRM_Core_OptionGroup::values($paramName[0]);
+                    if ( $nameArray[$details->$name] ) {
+                        $values[$index] = $nameArray[$details->$name];
+                    } 
                 } else if ( $name == 'group' ) {
                     $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $cid, 'Added' );
                     $title = array( );
