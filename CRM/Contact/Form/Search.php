@@ -328,10 +328,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         //commented ajax autocomplete
         // $this->add('text', 'sort_name', ts('Name or email'), 'onkeyup="getSearchResult(this,event, false);"  onblur="getSearchResult(this,event, false);" autocomplete="off"' );
 
-        require_once 'CRM/Utils/CAPTCHA.php';
-        $captcha =& CRM_Utils_CAPTCHA::singleton( );
-        $captcha->add( $this );
-
         $this->buildQuickFormCommon( );
     }
 
