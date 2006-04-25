@@ -866,7 +866,6 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         //to update student record
-
         if ($this->_studentFieldPresent) {
             require_once 'CRM/Quest/DAO/Student.php';
             require_once 'CRM/Quest/BAO/Student.php';
@@ -876,7 +875,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ($dao->find(true)) {
                 $ids['id'] = $dao->id;
             }
-            $params['contact_id'] = $contact->id;
+            $params['contact_id'] = $this->_id;
             CRM_Quest_BAO_Student::create( $params, $ids);
         }
     }
