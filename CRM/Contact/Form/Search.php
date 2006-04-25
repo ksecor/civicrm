@@ -161,6 +161,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     protected $_sortByCharacter;
 
+    /**
+     * The profile group id used for display
+     *
+     * @var integer
+     * @access protected
+     */
+    protected $_ufGroupID;
+
     /*
      * csv - common search values
      *
@@ -413,6 +421,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                                $this );
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter', 'String'  ,
                                                                $this );
+        $this->_ufGroupID       = CRM_Utils_Request::retrieve( 'id'             , 'Positive',
+                                                               $this );
 
         // get user submitted values 
         // get it from controller only if form has been submitted, else preProcess has set this 
@@ -429,9 +439,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues = $this->get( 'formValues' );
         }
 
-        // we only retrieve the saved search values if out current values are null
-        if ( empty( $this->_formValues ) && isset( $this->_ssID ) ) {
-            $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
+        if ( empty( $this->_formValues ) ) {
+            if ( isset( $this->_ssID ) ) {
+                // we only retrieve the saved search values if out current values are null
+                $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
+            } else if ( isset( $this->_ufGroupID ) ) {
+                // also set the uf group id if not already present
+                $this->_formValues['uf_group_id'] = $this->_ufGroupID;
+            }
         }
 
         /*
@@ -451,6 +466,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                            CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
         $controller->setEmbedded( true );
+
         if ( $this->_force ) {
 
             $this->postProcess( );
@@ -573,6 +589,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
         }
             
+        if ( isset( $this->_ufGroupID ) && ! CRM_Utils_Array::value( 'uf_group_id', $this->_formValues ) ) { 
+            $this->_formValues['uf_group_id'] = $this->_ufGroupID;
+        }
+
         $this->set( 'type'      , $this->_action );
         $this->set( 'formValues', $this->_formValues );
         
@@ -587,7 +607,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         } else {
             // do export stuff
             if ( $buttonName == $this->_exportButtonName ) {
-                //$output = CRM_Core_Selector_Controller::EXPORT;
                 return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/export/contact') );
             } else {
                 $output = CRM_Core_Selector_Controller::SESSION;

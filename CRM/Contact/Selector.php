@@ -111,7 +111,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * 
      * @var int 
      */ 
-    protected $_groupId; 
+    protected $_ufGroupID; 
     
     /**
      * the public visible fields to be shown to the user
@@ -141,14 +141,15 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // type of selector
         $this->_action = $action;
         
-        $session =& CRM_Core_Session::singleton();
-        $this->_groupId = $session->get('id');
+        $this->_ufGroupID = $this->_formValues['uf_group_id'];
 
-        if ($this->_groupId ) {
+        if ( $this->_ufGroupID ) {
             $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
                                                                      CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
                                                                      CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
-                                                                     false, $this->_groupId );
+                                                                     false, $this->_ufGroupID );
+            self::$_columnHeaders = null;
+
             //CRM_Core_Error::debug( 'f', $this->_fields );
             
             $this->_customFields =& CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
@@ -161,7 +162,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             
             require_once 'CRM/Core/Page.php';
             $page =& new CRM_Core_Page();
-            $page->assign('id', $this->_groupId);
+            $page->assign('id', $this->_ufGroupID);
             
         } else {
             $this->_query =& new CRM_Contact_BAO_Query( $this->_formValues );
@@ -250,43 +251,42 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 }
             }
             return $csvHeaders;
-        } else {
-            if ($this->_groupId ) {
-                static $skipFields = array( 'group', 'tag' );
-                $direction = CRM_Utils_Sort::ASCENDING;
-                $empty = true;
-                if ( ! isset( self::$_columnHeaders ) ) {
-                    
-                    self::$_columnHeaders = array( array( 'name' => '' ),
-                                                   array(
-                                                         'name'      => ts('Name'),
-                                                         'sort'      => 'sort_name',
-                                                         'direction' => CRM_Utils_Sort::ASCENDING,
-                                                         )
-                                                   );
-                    foreach ( $this->_fields as $name => $field ) { 
-                        if ( $field['in_selector'] &&
-                             ! in_array( $name, $skipFields ) ) {
-                            self::$_columnHeaders[] = array( 'name'      => $field['title'],
-                                                             'sort'      => $name,
-                                                             'direction' => $direction );
-                            $direction = CRM_Utils_Sort::DONTCARE;
-                            $empty = false;
-                        }
-                    }
-                    
-                    // if we dont have any valid columns, dont add the implicit ones
-                    // this allows the template to check on emptiness of column headers
-                    if ( $empty ) {
-                        self::$_columnHeaders = array( );
-                    } else {
-                        self::$_columnHeaders[] = array('desc' => ts('Actions'));
+        } else if ( $this->_ufGroupID ) {
+            // we dont use the cached value of column headers
+            // since it potentially changed because of the profile selected
+            static $skipFields = array( 'group', 'tag' );
+            $direction = CRM_Utils_Sort::ASCENDING;
+            $empty = true;
+            if ( ! self::$_columnHeaders ) {
+                self::$_columnHeaders = array( array( 'name' => '' ),
+                                               array(
+                                                     'name'      => ts('Name'),
+                                                     'sort'      => 'sort_name',
+                                                     'direction' => CRM_Utils_Sort::ASCENDING,
+                                                     )
+                                               );
+                foreach ( $this->_fields as $name => $field ) { 
+                    if ( $field['in_selector'] &&
+                         ! in_array( $name, $skipFields ) ) {
+                        self::$_columnHeaders[] = array( 'name'      => $field['title'],
+                                                         'sort'      => $name,
+                                                         'direction' => $direction );
+                        $direction = CRM_Utils_Sort::DONTCARE;
+                        $empty = false;
                     }
                 }
-                return self::$_columnHeaders;
-            } else {
-                return self::_getColumnHeaders();
+                    
+                // if we dont have any valid columns, dont add the implicit ones
+                // this allows the template to check on emptiness of column headers
+                if ( $empty ) {
+                    self::$_columnHeaders = array( );
+                } else {
+                    self::$_columnHeaders[] = array('desc' => ts('Actions'));
+                }
             }
+            return self::$_columnHeaders;
+        } else {
+            return self::_getColumnHeaders();
         }
     }
 
@@ -345,7 +345,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $session =& CRM_Core_Session::singleton();
         $context = $session->get('context', 'CRM_Contact_Controller_Search');
 
-        if ($this->_groupId ) {
+        if ($this->_ufGroupID ) {
             
             // CRM_Core_Error::debug( 'p', self::$_properties );
             require_once 'CRM/Core/PseudoConstant.php';

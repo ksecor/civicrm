@@ -281,7 +281,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     function postProcess() 
     {
         $session =& CRM_Core_Session::singleton();
-        $session ->set('isAdvanced','1');
+        $session->set('isAdvanced', '1');
 
         // get user submitted values
         // get it from controller only if form has been submitted, else preProcess has set this
@@ -290,9 +290,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             
             // set the group if group is submitted
             if ($this->_formValues['uf_group_id']) {
-                $session->set( 'id', $this->_formValues['uf_group_id'] ); 
+                $this->set( 'id', $this->_formValues['uf_group_id'] ); 
             } else {
-                $session->set( 'id', '' ); 
+                $this->set( 'id', '' ); 
             }
             
             // also reset the sort by character 
