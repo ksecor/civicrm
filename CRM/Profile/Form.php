@@ -98,6 +98,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     
     protected $_countryPresent;
 
+    protected $_studentFieldPresent;
     /** 
      * pre processing work done here. 
      * 
@@ -342,6 +343,7 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         require_once "CRM/Contribute/PseudoConstant.php";
         // add the form elements
+        $this->_studentFieldPresent = 0;
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
             if ( ! $admin && $field['visibility'] == 'User and User Admin Only' ) {
@@ -349,6 +351,12 @@ class CRM_Profile_Form extends CRM_Core_Form
                 continue;
             }
            
+            
+            if (in_array($name, array( 'ethnicity_id_1', 'gpa_id', 'score_SAT', 'household_income_total'))) {
+                $this->_studentFieldPresent = 1;
+            }
+            
+
             // since the CMS manages the email field, suppress the email display if in
             // register mode which occur within the CMS form
             if ( $this->_mode == self::MODE_REGISTER &&
@@ -858,16 +866,19 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         //to update student record
-        require_once 'CRM/Quest/DAO/Student.php';
-        require_once 'CRM/Quest/BAO/Student.php';
-        $ids = array();
-        $dao = & new CRM_Quest_DAO_Student();
-        $dao->contact_id = $contact->id;
-        if ($dao->find(true)) {
-            $ids['id'] = $dao->id;
+
+        if ($this->_studentFieldPresent) {
+            require_once 'CRM/Quest/DAO/Student.php';
+            require_once 'CRM/Quest/BAO/Student.php';
+            $ids = array();
+            $dao = & new CRM_Quest_DAO_Student();
+            $dao->contact_id = $contact->id;
+            if ($dao->find(true)) {
+                $ids['id'] = $dao->id;
+            }
+            $params['contact_id'] = $contact->id;
+            CRM_Quest_BAO_Student::create( $params, $ids);
         }
-        $params['contact_id'] = $contact->id;
-        CRM_Quest_BAO_Student::create( $params, $ids);
     }
 }
 

@@ -199,6 +199,14 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             } else if ($field['name'] == 'contribution_type' ) {
                 $this->add('select', 'contribution_type', ts( 'Contribution Type' ), 
                            array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+            } else if ($field['name'] == 'gpa_id' ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                $this->add('select', 'gpa_id', ts( $field['title'] ), 
+                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('gpa'), $required);
+            } else if ($field['name'] == 'ethnicity_id_1' ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                $this->add('select', 'ethnicity_id_1', ts( $field['title'] ),
+                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('ethnicity'), $required);
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required);
             }
