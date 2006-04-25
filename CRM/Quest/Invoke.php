@@ -61,7 +61,10 @@ class CRM_Quest_Invoke {
             $controller =& new CRM_Quest_Controller_PreApp( null, null, false );
             return $controller->run( );
         }
+    }
 
+    static function admin( &$args ) {
+        return;
     }
 
 }

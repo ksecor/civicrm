@@ -146,6 +146,19 @@ class CRM_Utils_File {
         }
     }
 
+    static function put( $name, $contents ) {
+        if ( ! function_exists( 'file_put_contents' ) ) {
+            if ( ! $file = fopen( $name, 'w' ) ) {
+                return false;
+            }
+            $n = fwrite( $file, $contents );
+            fclose( $file );
+            return $n ? $n : false;
+        } else {
+            return file_put_contents( $name, $contents );
+        }
+    }
+
 }
 
 ?>

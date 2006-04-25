@@ -129,6 +129,10 @@ class CRM_Mailing_Invoke {
         return $view->run( );
     }
 
+    static function admin( &$args ) {
+        return;
+    }
+    
 }
 
 ?>

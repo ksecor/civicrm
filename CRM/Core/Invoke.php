@@ -68,7 +68,7 @@ class CRM_Core_Invoke {
             CRM_Core_Mambo::sidebarLeft( );
         }
 
-	// set active Component
+        // set active Component
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'activeComponent', 'CiviCRM' );
         $template->assign( 'formTpl'        , 'default' );
@@ -113,7 +113,7 @@ class CRM_Core_Invoke {
 
         default         :
             require_once 'CRM/Core/Component.php';
-            if ( CRM_Core_Component::invoke( $args ) ) {
+            if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
             }
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
@@ -512,11 +512,11 @@ class CRM_Core_Invoke {
             break;
             
             
-        case 'contribute':
-            require_once 'CRM/Contribute/Invoke.php';
-            return CRM_Contribute_Invoke::admin( $args );
-            
         default:
+            require_once 'CRM/Core/Component.php';
+            if ( CRM_Core_Component::invoke( $args, 'admin' ) ) {
+                break;
+            }
             require_once 'CRM/Admin/Page/Admin.php';
             $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
             break;
