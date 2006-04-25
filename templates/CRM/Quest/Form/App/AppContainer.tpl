@@ -30,6 +30,11 @@
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
             {include file="CRM/WizardHeader.tpl}
             <br>
+            <div id="help-box">
+              <strong>Need Help?</strong><br />
+              <A HREF="http://www.questbridge.org/recruitment/support_student_view.html" TARGET="_blank">Chat</A> with a Quest staff member.<br />
+<!--              <A HREF="mailto:techsupport@questbridge.org">Email us</A> for help with the<BR>application.<br /> //-->
+            </div>
 <!--
             <div id="help-box">
               <strong>Need Help?</strong><br />

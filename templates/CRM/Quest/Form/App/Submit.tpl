@@ -25,10 +25,8 @@ shared with QuestBridge's partner colleges and may be shared with
 non-partner colleges. If I am awarded the scholarship, I grant QuestBridge
 the right to use my name, address (city, state and country only), 
 photograph, biographical and academic information for any publicity, 
-advertising and promotional purposes, except where prohibited by law. I have 
-filled out the application to the best of my knowledge and understand any 
-deliberate misrepresentation of information will result in forfeiture of any 
-scholarship(s) received.{/ts}
+advertising and promotional purposes, except where prohibited by law. By submitting this application, I understand I am also giving QuestBridge written permission to find out where I ultimately enroll in college. I also give them permission to find out from its partner colleges whether I have been offered admission. I have filled out the application to the best of my knowledge and understand any deliberate misrepresentation of information will result in forfeiture of any scholarship(s) received.
+{/ts}
 </td>
 </table>
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

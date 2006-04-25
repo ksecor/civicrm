@@ -78,7 +78,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
             $dao->contact_id     = $this->_contactID;
             $dao->household_type = ($i == 1 ) ? 'Current' : 'Previous';
             if ( $dao->find(true) ) {
-                CRM_Core_Error::debug( "dao", $dao );
+                //CRM_Core_Error::debug( "dao", $dao );
                 $defaults['member_count_'.$i]   = $dao->member_count;
                 $defaults['years_lived_id_'.$i] = $dao->years_lived_id;
                 if ( $i == 1 ) {
@@ -91,7 +91,7 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                     $personDAO->id = $dao->$string;
                     if ( $personDAO->id && $personDAO->find(true) ) {
                         $this->_personIDs[$i][$j] = $personDAO->id;
-                        CRM_Core_Error::debug( "$i, $j", $personDAO );
+                        //CRM_Core_Error::debug( "$i, $j", $personDAO );
                         $defaults["relationship_id_{$i}_{$j}"] = $personDAO->relationship_id;
                         $defaults["first_name_{$i}_{$j}"]      = $personDAO->first_name;
                         $defaults["last_name_{$i}_{$j}"]       = $personDAO->last_name;
@@ -150,7 +150,8 @@ class CRM_Quest_Form_App_Household extends CRM_Quest_Form_App
                                    $attributes['last_name'] );
                 
                 if ( $i == 2 ) {
-                    $this->addElement( 'checkbox', "same_".$i."_".$j, null, null, array('onClick' =>"copyNames()") );
+                    $checkboxName = "same_".$i."_".$j;
+                    $this->addElement( 'checkbox', $checkboxName, null, null, array('onclick' => "copyNames(\"$checkboxName\",$j);") );
                 }
             }
 
