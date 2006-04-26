@@ -55,7 +55,6 @@
   <index>
     <name>UI_name</name>
     <fieldName>name</fieldName>
-    <unique>true</unique>
       <add>1.2</add>
   </index>
 </table>
