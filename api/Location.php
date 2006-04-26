@@ -75,7 +75,7 @@ function crm_create_location(&$contact, $params) {
             $loc['address'][$id] = $params[$id];
         }
     }
-    
+     
     if (is_numeric($loc['address']['state_province'])) {
         $loc['address']['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc['address']['state_province']);
     }
@@ -86,6 +86,19 @@ function crm_create_location(&$contact, $params) {
     
     $blocks = array( 'Email', 'Phone', 'IM' );
     foreach ( $blocks as $block ) {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block) . ".php");
+        eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' );
+        $name = strtolower($block);
+        $loc[$name]    = array( );
+        if ( $params[$name] ){
+            $count = 1;
+            foreach ( $params[$name] as $val) {
+                _crm_store_values($fields, $val, $loc[$name][$count++]);
+            }
+        }
+    }
+    /*
+    foreach ( $blocks as $block ) {
         $name = strtolower($block);
         $loc[$name]    = array( );
         if ( $params[$name] ){
@@ -95,7 +108,7 @@ function crm_create_location(&$contact, $params) {
             }
         }
     }
-        
+    */
     $ids = array();
     require_once 'CRM/Core/BAO/Location.php';
     
@@ -194,6 +207,19 @@ function crm_update_location(&$contact, $location_id, $params) {
     
     $blocks = array( 'Email', 'Phone', 'IM' );
     foreach ( $blocks as $block ) {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block) . ".php");
+        eval( '$fields =& CRM_Core_DAO_' . $block . '::fields( );' );
+        $name = strtolower($block);
+        $loc[$name]    = array( );
+        if ( $params[$name] ){
+            $count = 1;
+            foreach ( $params[$name] as $val) {
+                _crm_store_values($fields, $val, $loc[$name][$count++]);
+            }
+        }
+    }
+    /*
+    foreach ( $blocks as $block ) {
         $name = strtolower($block);
         $loc[$name]    = array( );
         if ( $params[$name] ){
@@ -203,7 +229,7 @@ function crm_update_location(&$contact, $location_id, $params) {
             }
         }
     }
-    
+    */
     $par = array('id' => $contact->id,'contact_id' => $contact->id);
     $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
     

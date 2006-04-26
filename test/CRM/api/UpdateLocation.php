@@ -34,50 +34,49 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         
         $this->_individual = $contact;
     }
-    
     function testCreateLocationIndividual()
     {
-        $workPhone  = & new CRM_Core_DAO_Phone();
-        $workPhone->phone       = '91-20-276048';
-        $workPhone->phone_type  = 'Phone';
+        //$workPhone  = & new CRM_Core_DAO_Phone();
+        $workPhone = array( 'phone' => '91-20-276048',
+                            'phone_type'  => 'Phone');
         
-        $workMobile =& new CRM_Core_DAO_Phone();
-        $workMobile->phone           = '91-20-9890848585';
-        $workMobile->phone_type      = 'Mobile';
-        $workMobile->mobile_provider = 'Sprint';
+        //$workMobile =& new CRM_Core_DAO_Phone();
+        $workMobile = array('phone' => '91-20-9890848585',
+                            'phone_type' => 'Mobile',
+                            'mobile_provider' => 'Sprint');
         
-        $workFax    =& new CRM_Core_DAO_Phone();
-        $workFax->phone         = '91-20-234-657686';
-        $workFax->phone_type    = 'Fax';
-        $workFax->is_primary    = TRUE;
+        //$workFax    =& new CRM_Core_DAO_Phone();
+        $workFax = array('phone' => '91-20-234-657686',
+                         'phone_type' => 'Fax',
+                         'is_primary' => TRUE);
         
         $phone     = array ($workPhone, $workMobile, $workFax);
         
-        $workIMFirst  =& new CRM_Core_DAO_IM();
-        $workIMFirst->name = 'mlzope';
-        $workIMFirst->provider_id    = '1';
-        $workIMFirst->is_primary    = FALSE;
+        //$workIMFirst  =& new CRM_Core_DAO_IM();
+        $workIMFirst = array('name' => 'mlzope',
+                             'provider_id' => '1',
+                             'is_primary' => FALSE);
         
-        $workIMSecond =& new CRM_Core_DAO_IM();
-        $workIMSecond->name = 'mlzope';
-        $workIMSecond->provider_id    = '3';
-        $workIMSecond->is_primary    = FALSE;
+        //$workIMSecond =& new CRM_Core_DAO_IM();
+        $workIMSecond = array('name' => 'mlzope',
+                             'provider_id' => '3',
+                             'is_primary' => FALSE);
         
-        $workIMThird  =& new CRM_Core_DAO_IM();
-        $workIMThird->name = 'mlzope';
-        $workIMThird->provider_id    = '5';
-        $workIMThird->is_primary    = TRUE;
+        //$workIMThird  =& new CRM_Core_DAO_IM();
+        $workIMThird = array('name' => 'mlzope',
+                             'provider_id' => '5',
+                             'is_primary' => TRUE);
         
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
         
-        $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'manish@indiatimes.com';
+        //$workEmailFirst  =& new CRM_Core_DAO_Email();
+        $workEmailFirst = array('email' => 'manish@5.com');
         
-        $workEmailSecond =& new CRM_Core_DAO_Email();
-        $workEmailSecond->email = 'manish@hotmail.com';
+        //$workEmailSecond =& new CRM_Core_DAO_Email();
+        $workEmailSecond = array('email' => 'manish@hotmail.com');
         
-        $workEmailThird =& new CRM_Core_DAO_Email();
-        $workEmailThird->email = 'manish@sify.com';
+        //$workEmailThird =& new CRM_Core_DAO_Email();
+        $workEmailThird = array('email' => 'manish@sify.com');
         
         $email = array($workEmailFirst, $workEmailSecond, $workEmailThird);
         
@@ -93,12 +92,13 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         
         $contact = $this->_individual;
         $newLocation =& crm_create_location($contact, $params);
+        
         $this->assertIsA($newLocation, 'CRM_Core_BAO_Location');
-        $this->_locationI[$newLocation->id] = $params['location_type'];
+        $this->_locationI['id'] = $newLocation->id;
         
         $this->assertEqual($newLocation->phone[3]->phone, '91-20-234-657686');
         $this->assertEqual($newLocation->phone[1]->phone_type, 'Phone');
-        //$this->assertEqual($newLocation->phone[2]->mobile_provider_id, 1);
+        $this->assertNull($newLocation->phone[2]->mobile_provider_id, 'Sprint');
         $this->assertEqual($newLocation->im[1]->name, 'mlzope');
         $this->assertEqual($newLocation->im[2]->provider_id, 3);
         $this->assertEqual($newLocation->email[3]->email, 'manish@sify.com');
@@ -106,18 +106,18 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     
     function testUpdateLocationIndividual()
     {
-        $workPhone  = & new CRM_Core_DAO_Phone();
-        $workPhone->phone             = '02327276048';
-        $workPhone->phone_type        = 'Phone';
-        $workPhone->Mobile_Provider   = 'Sprint';
+        //$workPhone  = & new CRM_Core_DAO_Phone();
+        $workPhone =array('phone' => '02327276048',
+                          'phone_type' => 'Phone',
+                          'Mobile_Provider' => 'Sprint');
         
         $phones = array ($workPhone);
         
-        $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'Anil@indiatimes.com';
+        //$workEmailFirst  =& new CRM_Core_DAO_Email();
+        $workEmailFirst = array('email' => 'Anil@indiatimes.com');
         
-        $workEmailSecond =& new CRM_Core_DAO_Email();
-        $workEmailSecond->email = 'manish@hotmail.com';
+        //$workEmailSecond =& new CRM_Core_DAO_Email();
+        $workEmailSecond = array('email' => 'manish@hotmail.com');
         
         $emails = array($workEmailFirst,$workEmailSecond);
         
@@ -126,11 +126,10 @@ class TestOfUpdateLocationAPI extends UnitTestCase
                         'city'             => 'Mumabi',
                         'email'            => $emails
                         );
-        $newLocationType = 'Main';
         
+        //$newLocationType = 'Main';
         $contact = $this->_individual;
-        $location =& crm_update_location($contact, $newLocationType, $params);
-        
+        $location =& crm_update_location($contact, $this->_locationI['id'], $params);
         $this->assertIsA($location, 'CRM_Core_BAO_Location');
         $this->assertEqual($location->phone[1]->phone, '02327276048');
         $this->assertEqual($location->phone[1]->phone_type, 'Phone');
@@ -154,47 +153,47 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     
     function testCreateLocationHousehold()
     {
-        $workPhone  = & new CRM_Core_DAO_Phone();
-        $workPhone->phone       = '91-20-276048';
-        $workPhone->phone_type  = 'Phone';
+        //$workPhone  = & new CRM_Core_DAO_Phone();
+        $workPhone = array('phone' => '91-20-276048',
+                           'phone_type' => 'Phone');
         
-        $workMobile =& new CRM_Core_DAO_Phone();
-        $workMobile->phone           = '91-20-9890848585';
-        $workMobile->phone_type      = 'Mobile';
-        $workMobile->mobile_provider = 'Sprint';
+        //$workMobile =& new CRM_Core_DAO_Phone();
+        $workMobile = array('phone' => '91-20-9890848585',
+                            'phone_type' => 'Mobile',
+                            'mobile_provider' => 'Sprint');
         
-        $workFax    =& new CRM_Core_DAO_Phone();
-        $workFax->phone         = '91-20-234-657686';
-        $workFax->phone_type    = 'Fax';
-        $workFax->is_primary    = TRUE;
+        //$workFax    =& new CRM_Core_DAO_Phone();
+        $workFax = array('phone' => '91-20-234-657686',
+                        'phone_type' => 'Fax',
+                        'is_primary' => TRUE);
         
         $phone     = array ($workPhone, $workMobile, $workFax);
         
-        $workIMFirst  =& new CRM_Core_DAO_IM();
-        $workIMFirst->name = 'mlzope';
-        $workIMFirst->provider_id    = '1';
-        $workIMFirst->is_primary    = FALSE;
+        //$workIMFirst  =& new CRM_Core_DAO_IM();
+        $workIMFirst = array('name' => 'mlzope',
+                            'provider_id' => '1',
+                            'is_primary' => FALSE);
         
-        $workIMSecond =& new CRM_Core_DAO_IM();
-        $workIMSecond->name = 'mlzope';
-        $workIMSecond->provider_id    = '3';
-        $workIMSecond->is_primary    = FALSE;
+        //$workIMSecond =& new CRM_Core_DAO_IM();
+        $workIMSecond = array('name' => 'mlzope',
+                              'provider_id' => '3',
+                              'is_primary' => FALSE);
         
-        $workIMThird  =& new CRM_Core_DAO_IM();
-        $workIMThird->name = 'mlzope';
-        $workIMThird->provider_id    = '5';
-        $workIMThird->is_primary    = TRUE;
+        //$workIMThird  =& new CRM_Core_DAO_IM();
+        $workIMThird = array('name' => 'mlzope',
+                             'provider_id' => '5',
+                             'is_primary' => TRUE);
         
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
         
-        $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'manish@indiatimes.com';
+        //$workEmailFirst  =& new CRM_Core_DAO_Email();
+        $workEmailFirst = array( 'email' => 'manish@indiatimes.com');
         
-        $workEmailSecond =& new CRM_Core_DAO_Email();
-        $workEmailSecond->email = 'manish@hotmail.com';
+        //$workEmailSecond =& new CRM_Core_DAO_Email();
+        $workEmailSecond = array( 'email' => 'manish@hotmail.com');
         
-        $workEmailThird =& new CRM_Core_DAO_Email();
-        $workEmailThird->email = 'manish@sify.com';
+        //$workEmailThird =& new CRM_Core_DAO_Email();
+        $workEmailThird = array( 'email' => 'manish@sify.com');
         
         $email = array($workEmailFirst, $workEmailSecond, $workEmailThird);
         
@@ -211,8 +210,7 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         $contact = $this->_individual;
         $newLocation =& crm_create_location($contact, $params);
         $this->assertIsA($newLocation, 'CRM_Core_BAO_Location');
-        $this->_locationH[$newLocation->id] = $params['location_type'];
-        
+        $this->_locationH['id'] = $newLocation->id;
         $this->assertEqual($newLocation->phone[3]->phone, '91-20-234-657686');
         $this->assertEqual($newLocation->phone[1]->phone_type, 'Phone');
         //$this->assertEqual($newLocation->phone[2]->mobile_provider_id, 1);
@@ -223,17 +221,17 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     
     function testUpdateLocationHousehold()
     {
-        $workPhone  = & new CRM_Core_DAO_Phone();
-        $workPhone->phone             = '02327276048';
-        $workPhone->phone_type        = 'Phone';
-        $workPhone->Mobile_Provider   = 'Sprint';
+        //$workPhone  = & new CRM_Core_DAO_Phone();
+        $workPhone = array('phone' => '02327276048',
+                           'phone_type' => 'Phone',
+                           'mobile_provider' => 'Sprint');
         
         $phones = array ($workPhone);
         
-        $workEmailFirst  =& new CRM_Core_DAO_Email();
+        //$workEmailFirst  =& new CRM_Core_DAO_Email();
         $workEmailFirst->email = 'Anil@indiatimes.com';
         
-        $workEmailSecond =& new CRM_Core_DAO_Email();
+        //$workEmailSecond =& new CRM_Core_DAO_Email();
         $workEmailSecond->email = 'manish@hotmail.com';
         
         $emails = array($workEmailFirst,$workEmailSecond);
@@ -243,10 +241,10 @@ class TestOfUpdateLocationAPI extends UnitTestCase
                         'city'             => 'Mumabi',
                         'email'            => $emails
                         );
-        $newLocationType = 'Main';
+        
         
         $contact = $this->_household;
-        $location =& crm_update_location($contact, $newLocationType, $params);
+        $location =& crm_update_location($contact, $this->_locationH['id'], $params);
         
         $this->assertIsA($location, 'CRM_Core_BAO_Location');
         $this->assertEqual($location->phone[1]->phone, '02327276048');
@@ -271,47 +269,47 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     
     function testCreateLocationOrganization()
     {
-        $workPhone  = & new CRM_Core_DAO_Phone();
-        $workPhone->phone       = '91-20-276048';
-        $workPhone->phone_type  = 'Phone';
+        //$workPhone  = & new CRM_Core_DAO_Phone();
+        $workPhone = array ('phone' => '91-20-276048',
+                            'phone_type'  => 'Phone');
         
-        $workMobile =& new CRM_Core_DAO_Phone();
-        $workMobile->phone           = '91-20-9890848585';
-        $workMobile->phone_type      = 'Mobile';
-        $workMobile->mobile_provider = 'Sprint';
+        //$workMobile =& new CRM_Core_DAO_Phone();
+        $workMobile = array('phone' => '91-20-9890848585',
+                            'phone_type' => 'Mobile',
+                            'mobile_provider' => 'Sprint');
         
-        $workFax    =& new CRM_Core_DAO_Phone();
-        $workFax->phone         = '91-20-234-657686';
-        $workFax->phone_type    = 'Fax';
-        $workFax->is_primary    = TRUE;
+        //$workFax    =& new CRM_Core_DAO_Phone();
+        $workFax = array('phone' => '91-20-234-657686',
+                         'phone_type' => 'Fax',
+                         'is_primary' => TRUE);
         
         $phone     = array ($workPhone, $workMobile, $workFax);
         
-        $workIMFirst  =& new CRM_Core_DAO_IM();
-        $workIMFirst->name = 'mlzope';
-        $workIMFirst->provider_id    = '1';
-        $workIMFirst->is_primary    = FALSE;
+        //$workIMFirst  =& new CRM_Core_DAO_IM();
+        $workIMFirst = array('name' => 'mlzope',
+                             'provider_id' => '1',
+                             'is_primary'  => FALSE);
         
-        $workIMSecond =& new CRM_Core_DAO_IM();
-        $workIMSecond->name = 'mlzope';
-        $workIMSecond->provider_id    = '3';
-        $workIMSecond->is_primary    = FALSE;
+        //$workIMSecond =& new CRM_Core_DAO_IM();
+        $workIMSecond = array('name' => 'mlzope',
+                              'provider_id' => '3',
+                              'is_primary'  => FALSE);
         
-        $workIMThird  =& new CRM_Core_DAO_IM();
-        $workIMThird->name = 'mlzope';
-        $workIMThird->provider_id    = '5';
-        $workIMThird->is_primary    = TRUE;
+        //$workIMThird  =& new CRM_Core_DAO_IM();
+        $workIMThird = array('name' => 'mlzope',
+                             'provider_id' => '5',
+                             'is_primary'  => TRUE);
         
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
         
-        $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'manish@indiatimes.com';
+        //$workEmailFirst  =& new CRM_Core_DAO_Email();
+        $workEmailFirst = array('email' => 'manish@indiatimes.com');
         
-        $workEmailSecond =& new CRM_Core_DAO_Email();
-        $workEmailSecond->email = 'manish@hotmail.com';
+        //$workEmailSecond =& new CRM_Core_DAO_Email();
+        $workEmailSecond = array('email' => 'manish@hotmail.com');
         
-        $workEmailThird =& new CRM_Core_DAO_Email();
-        $workEmailThird->email = 'manish@sify.com';
+        //$workEmailThird =& new CRM_Core_DAO_Email();
+        $workEmailThird = array('email' => 'manish@sify.com');
         
         $email = array($workEmailFirst, $workEmailSecond, $workEmailThird);
         
@@ -328,8 +326,7 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         $contact = $this->_organization;
         $newLocation =& crm_create_location($contact, $params);
         $this->assertIsA($newLocation, 'CRM_Core_BAO_Location');
-        $this->_locationO[$newLocation->id] = $params['location_type'];
-        
+        $this->_locationO['id'] = $newLocation->id;
         $this->assertEqual($newLocation->phone[3]->phone, '91-20-234-657686');
         $this->assertEqual($newLocation->phone[1]->phone_type, 'Phone');
         //$this->assertEqual($newLocation->phone[2]->mobile_provider_id, 1);
@@ -337,21 +334,21 @@ class TestOfUpdateLocationAPI extends UnitTestCase
         $this->assertEqual($newLocation->im[2]->provider_id, 3);
         $this->assertEqual($newLocation->email[3]->email, 'manish@sify.com');
     }
-
+    
     function testUpdateLocationOrganization()
     {
-        $workPhone  = & new CRM_Core_DAO_Phone();
-        $workPhone->phone             = '02327276048';
-        $workPhone->phone_type        = 'Phone';
-        $workPhone->Mobile_Provider   = 'Sprint';
+        //$workPhone  = & new CRM_Core_DAO_Phone();
+        $workPhone = array('phone' => '02327276048',
+                           'phone_type' => 'Phone',
+                           'mobile_provider' => 'Sprint');
         
         $phones = array ($workPhone);
         
-        $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'Anil@indiatimes.com';
+        //$workEmailFirst  =& new CRM_Core_DAO_Email();
+        $workEmailFirst =array('email' => 'Anil@indiatimes.com');
         
-        $workEmailSecond =& new CRM_Core_DAO_Email();
-        $workEmailSecond->email = 'manish@hotmail.com';
+        //$workEmailSecond =& new CRM_Core_DAO_Email();
+        $workEmailSecond = array('email' => 'manish@hotmail.com');
         
         $emails = array($workEmailFirst,$workEmailSecond);
         
@@ -360,10 +357,9 @@ class TestOfUpdateLocationAPI extends UnitTestCase
                         'city'             => 'Mumabi',
                         'email'            => $emails
                         );
-        $newLocationType = 'Main';
         
         $contact = $this->_household;
-        $location =& crm_update_location($contact, $newLocationType, $params);
+        $location =& crm_update_location($contact, $this->_locationO['id'], $params);
         
         $this->assertIsA($location, 'CRM_Core_BAO_Location');
         $this->assertEqual($location->phone[1]->phone, '02327276048');
@@ -379,6 +375,7 @@ class TestOfUpdateLocationAPI extends UnitTestCase
             $contact  = $this->_individual;
             $location_type = $locationType; 
             $result =& crm_delete_location($contact, $location_type);
+            $this->assertNull($result);
         }
     }
     

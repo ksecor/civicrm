@@ -148,12 +148,12 @@ class CRM_Utils_Type {
             break;
             
         default:
-            CRM_Utils_Error::fatal( "Cannot recognize $type for $data" );
+            CRM_Core_Error::fatal( "Cannot recognize $type for $data" );
             break;
         }
 
         if ( $abort ) {
-            CRM_Utils_Error::fatal( "$data is not of the type $type" );
+            CRM_Core_Error::fatal( "$data is not of the type $type" );
         }
         return null;
     }
@@ -213,12 +213,12 @@ class CRM_Utils_Type {
             break;
             
         default:
-            CRM_Utils_Error::fatal( "Cannot recognize $type for $data" );
+            CRM_Core_Error::fatal( "Cannot recognize $type for $data" );
             break;
         }
 
         if ( $abort ) {
-            CRM_Utils_Error::fatal( "$data is not of the type $type" );
+            CRM_Core_Error::fatal( "$data is not of the type $type" );
         }
 
         return null;
