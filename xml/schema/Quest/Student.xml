@@ -402,7 +402,7 @@
   <field>
       <name>score_PSAT</name>
       <type>int unsigned</type>
-      <export>false</export>
+      <export>true</export>
       <import>true</import>
       <headerPattern>/PSAT score/i</headerPattern>
       <comment>Combined highest reported scores (PSAT).</comment>
@@ -420,7 +420,7 @@
   <field>
       <name>score_PLAN</name>
       <type>int unsigned</type>
-      <export>false</export>
+      <export>true</export>
       <import>true</import>
       <headerPattern>/ACT score/i</headerPattern>
       <comment>Combined highest reported scores (PLAN).</comment>

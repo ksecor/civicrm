@@ -172,24 +172,22 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     
     protected function setShowHide(&$groupTitle)
     {
-        if ( empty( $groupTitle ) ) {
-            return;
-        }
-
         $showHide =& new CRM_Core_ShowHideBlocks('','');
         
         $showHide->addHide( 'relationship' );
         $showHide->addShow( 'relationship[show]' );
         
-        foreach ($groupTitle as $key => $title) {
-            $showBlocks = $title . '[show]' ;
-            $hideBlocks = $title;
-            
-            $showHide->addHide($hideBlocks);
-            $showHide->addShow($showBlocks);
-        }
-
         CRM_Core_Component::addShowHide( $showHide );
+
+        if ( ! empty( $groupTitle ) ) {
+            foreach ($groupTitle as $key => $title) {
+                $showBlocks = $title . '[show]' ;
+                $hideBlocks = $title;
+                
+                $showHide->addHide($hideBlocks);
+                $showHide->addShow($showBlocks);
+            }
+        }
 
         $showHide->addToTemplate();
     }
