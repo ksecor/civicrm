@@ -262,7 +262,7 @@ class CRM_Core_BAO_CustomQuery {
                 if ( $field['is_search_range'] ) {
                     $this->searchRange( $field['id'], $field['label'], 'int_data', $value );
                 } else {
-                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Int' );
+                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Integer' );
                     $this->_qill[]  = $field['label'] . " - $value";
                 }
                 continue;
@@ -270,7 +270,7 @@ class CRM_Core_BAO_CustomQuery {
             case 'Boolean':
                 $value = (int ) $value;
                 $value = ( $value == 1 ) ? 1 : 0;
-                $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Int' );
+                $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Integer' );
                 $value = $value ? ts('Yes') : ts('No');
                 $this->_qill[]  = $field['label'] . " - $value";
                 continue;
