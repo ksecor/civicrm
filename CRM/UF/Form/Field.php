@@ -157,6 +157,13 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFField::retrieve($params, $defaults);
+            
+            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
+
+            if ( !$defaults['location_type_id'] && in_array($defaults['field_name'], $specialFields)  ) {
+                $defaults['location_type_id'] = ' ';
+            }
+            
             $defaults[ 'field_name' ] = array ($defaults['field_type'], $defaults['field_name'], $defaults['location_type_id'], $defaults['phone_type']);
             $this->_gid = $defaults['uf_group_id'];
         } else {
@@ -220,6 +227,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $this->_location_types = array($defaultLocationType->id => $defaultLocation) +  $this->_location_types;
         }
         
+        $this->_location_types = array (' ' => 'Primary') + $this->_location_types;
+
         $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
 
         $sel1['Student'] = 'Students';
@@ -262,7 +271,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
       
         $sel =& $this->addElement('hierselect', "field_name", ts('Field Name'), 'onclick="showLabel();"');  
         $formValues = array();
-       
         
         //$formValues = $this->controller->exportValues( $this->_name );
         $formValues = $_POST; // using $_POST since export values don't give values on first submit

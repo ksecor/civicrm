@@ -257,6 +257,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $importableFields['tag'  ]['title'] = ts('Tag(s)');
             $importableFields['tag'  ]['where'] = null;
 
+            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
+
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
                     $name  = $title = $locType = $phoneType = '';
@@ -266,7 +268,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     if ($field->location_type_id) {
                         $name    .= '-'.$field->location_type_id;
                         $locType  = ' (' . $locationType[$field->location_type_id] . ') ';
+                    } else {                                                           
+                        if ( in_array($field->field_name, $specialFields))  {
+                            $name    .= '-Primary';
+                            $locType  = ' ( Primary ) ';
+                        }
                     }
+
                     if ($field->phone_type) {
                         $name      .= '-'.$field->phone_type;
                         if ($field->phone_type != 'Phone') { // this hack is to prevent Phone Phone (work)

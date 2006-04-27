@@ -653,25 +653,39 @@ class CRM_Profile_Form extends CRM_Core_Form
         $count = 1;
         if ($this->_id ) {
             $primaryLocationType = CRM_Contact_BAO_Contact::getPrimaryLocationType($this->_id);
+        } else {
+            require_once "CRM/Core/BAO/LocationType.php";
+            $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
+            $defaultLocationId = $defaultLocation->id;
         }
-        
-
+                
         $phoneLoc = 0;
         foreach ($params as $key => $value) {
-            $keyValue = explode('-', $key);
-            if (is_numeric($keyValue[1])) {
-                if (!in_array($keyValue[1], $locationType)) {
-                    $locationType[$count] = $keyValue[1];
+            //$keyValue = explode('-', $key);
+            list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $key);
+
+            if ($locTypeId == 'Primary') {
+                if ( $this->_id ) {
+                    $locTypeId = $primaryLocationType; 
+                } else {
+                    $locTypeId = $defaultLocationId;
+                }
+            }
+            
+            if ( is_numeric($locTypeId) ) {
+                if (!in_array($locTypeId, $locationType) ) {
+                    $locationType[$count] = $locTypeId;
                     $count++;
                 }
                 
                 require_once 'CRM/Utils/Array.php';
-                $loc = CRM_Utils_Array::key($keyValue[1], $locationType);
-
-                $data['location'][$loc]['location_type_id'] = $keyValue[1];
+                $loc = CRM_Utils_Array::key($locTypeId, $locationType);
+                
+                $data['location'][$loc]['location_type_id'] = $locTypeId;
+                
                 if ($this->_id) {
                     //get the primary location type
-                    if ($keyValue[1] == $primaryLocationType) {
+                    if ($locTypeId == $primaryLocationType) {
                         $data['location'][$loc]['is_primary'] = 1;
                     } 
                 } else {
@@ -679,30 +693,31 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $data['location'][$loc]['is_primary'] = 1;
                     }
                 }
-                if ($keyValue[0] == 'name') {
+                
+                if ($fieldName == 'name') {
                     $data['location'][$loc]['name'] = $value;
-                } else if ($keyValue[0] == 'phone') {
+                } else if ($fieldName == 'phone') {
                     $phoneLoc++;
-                    if ( $keyValue[2] ) {
-                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = $keyValue[2];
+                    if ( $phoneTypeId ) {
+                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = $phoneTypeId;
                     } else {
                         $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = '';
                         $data['location'][$loc]['phone'][$phoneLoc]['is_primary'] = 1;
                     }
                     $data['location'][$loc]['phone'][$phoneLoc]['phone'] = $value;
-                } else if ($keyValue[0] == 'email') {
+                } else if ($fieldName == 'email') {
                     $data['location'][$loc]['email'][1]['email'] = $value;
                     $data['location'][$loc]['email'][1]['is_primary'] = 1;
-                } else if ($keyValue[0] == 'im') {
+                } else if ($fieldName == 'im') {
                     $data['location'][$loc]['im'][1]['name'] = $value;
                     $data['location'][$loc]['im'][1]['is_primary'] = 1;
                 } else {
-                    if ($keyValue[0] === 'state_province') {
+                    if ($fieldName === 'state_province') {
                         $data['location'][$loc]['address']['state_province_id'] = $value;
-                    } else if ($keyValue[0] === 'country') {
+                    } else if ($fieldName === 'country') {
                         $data['location'][$loc]['address']['country_id'] = $value;
                     } else {
-                        $data['location'][$loc]['address'][$keyValue[0]] = $value;
+                        $data['location'][$loc]['address'][$fieldName] = $value;
                     }
                 }
             } else {
@@ -845,7 +860,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );
         }
-
+        
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
 
