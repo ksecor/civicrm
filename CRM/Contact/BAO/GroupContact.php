@@ -195,11 +195,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @static
      */
     static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Removed',$tracking = null) {
-       
+        
         if ( ! is_array( $contactIds ) ) {
             return array( 0, 0, 0 );
         }
-
+        
         require_once 'CRM/Utils/Hook.php';
         
         if ($status == 'Removed') {
@@ -209,15 +209,15 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
         
         CRM_Utils_Hook::pre( $op, 'GroupContact', $groupId, $contactIds );
-
+        
         $date = date('YmdHis');
         $numContactsRemoved    = 0;
         $numContactsNotRemoved = 0;
-
+        
         $group =& new CRM_Contact_DAO_Group();
         $group->id = $groupId;
         $group->find(true);
-
+        
         foreach ( $contactIds as $contactId ) {
             $groupContact =& new CRM_Contact_DAO_GroupContact( );
             $groupContact->group_id   = $groupId;
@@ -241,9 +241,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $numContactsNotRemoved++;
             }
         }
-
-        CRM_Utils_Hook::post( 'delete', 'GroupContact', $groupId, $contactIds );
-
+        
+        CRM_Utils_Hook::post( $op, 'GroupContact', $groupId, $contactIds );
+        
         return array( count($contactIds), $numContactsRemoved, $numContactsNotRemoved );
     }
 
