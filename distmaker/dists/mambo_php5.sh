@@ -61,7 +61,7 @@ cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
-echo "1.3.$REV Mambo PHP5" > $TRG/civicrm-version.txt
+echo "1.4.$REV Mambo PHP5" > $TRG/civicrm-version.txt
 
 
 # gen zip file
