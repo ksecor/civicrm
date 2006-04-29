@@ -851,11 +851,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             CRM_Core_BAO_Address::setOverwrite( false );
         }
         
-        //print_r($ids);
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
-
-        //exit();
 
         // Process group and tag  
         if ( CRM_Utils_Array::value('group', $this->_fields )) {
@@ -875,8 +872,6 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         //to update student record
         if ($this->_studentFieldPresent) {
-            require_once 'CRM/Quest/DAO/Student.php';
-            require_once 'CRM/Quest/BAO/Student.php';
             $ids = array();
             $dao = & new CRM_Quest_DAO_Student();
             $dao->contact_id = $contact->id;
