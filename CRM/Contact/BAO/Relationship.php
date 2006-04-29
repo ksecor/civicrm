@@ -62,8 +62,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     static function create( &$params, &$ids ) 
     {
         $valid = $invalid = $duplicate = $saved = 0;
-
+        
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::pre( 'create', 'Relationship', $relationshipId, $ids['contact'] );
+        
         if ( ! $relationshipId ) {
             // creating a new relationship
             $dataExists = self::dataExists( $params );
@@ -77,7 +80,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 // step 1: check if the relationship is valid if not valid skip and keep the count
                 // step 2: check the if two contacts already have a relationship if yes skip and keep the count
                 // step 3: if valid relationship then add the relation and keep the count
-
+                
                 $errors = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $key ); // step 1
                 if ( $errors ) {
                     $invalid++;
@@ -95,8 +98,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 $relationshipIds[] = $relationship->id;
                 $valid++;
             }
-        
-            return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
+            
+            //return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
         } else { //editing the relationship
             
             // check for duplicate relationship
@@ -104,20 +107,24 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                                                                            CRM_Utils_Array::value( 'contact', $ids ),
                                                                            $ids['contactTarget'],
                                                                            $relationshipId ) 
-                                                                          ) { 
+                 ) { 
                 $duplicate++;
                 return array( $valid, $invalid, $duplicate );
             }
-
+            
             // editing an existing relationship
             $relationship = self::add( $params, $ids, $ids['contactTarget'] );
             $relationshipIds[] = $relationship->id;
             $saved++;
-            return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
+            //return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
         }
+        
+        CRM_Utils_Hook::post( 'create', 'Relationship', $relationshipId, $ids['contact'] );
+        return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
+        
     }
-
-
+    
+    
     /**
      * This is the function that check/add if the relationship created is valid
      *
@@ -260,11 +267,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function del ( $id ) 
     {
+        $tmp = array();
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::pre( 'delete', 'Relationship', $id );
         // delete from relationship table
         $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->id = $id;
         $relationship->delete();
         CRM_Core_Session::setStatus( ts('Selected Relationship has been Deleted Successfuly.') );
+        CRM_Utils_Hook::post( 'delete', 'Relationship', $id, $tmp );
     }
 
     /**
