@@ -477,9 +477,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     public static function getValues( $cid, &$fields, &$values ) {
         $options = array( );
-
+      
         // get the contact details (hier)
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
+       
         $params  = array( 'id' => $cid );
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
         $options =& $query->_options;
@@ -553,6 +554,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
             } else if ( strpos( $name, '-' ) !== false ) {
                 list( $fieldName, $id, $type ) = explode( '-', $name );
+                
+                if ($id == 'Primary') {
+                    $id = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
+                }
+
                 $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
                 if ( ! $locationTypeName ) {
                     continue;

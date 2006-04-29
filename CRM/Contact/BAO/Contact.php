@@ -1559,7 +1559,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         $params  = array( 'id' => $contactId );
         $options = array( );
                 
-        $returnProperties =& self::makeHierReturnProperties( $fields );
+        $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );
 
         return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
     }
@@ -1569,12 +1569,13 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * for query to use and crete the right sql
      *
      * @param array $properties a flat return properties name value array
+     * @param int   $contactId contact id
      * 
      * @return array a hierarchical property tree if appropriate
      * @access public
      * @static
      */
-    static function &makeHierReturnProperties( $fields ) {
+    static function &makeHierReturnProperties( $fields, $contactId = null ) {
 
         require_once 'CRM/Core/PseudoConstant.php';
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
@@ -1584,6 +1585,11 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         foreach ( $fields as $name => $dontCare ) {
             if ( strpos( $name, '-' ) !== false ) {
                 list( $fieldName, $id, $type ) = explode( '-', $name );
+
+                if ($id == 'Primary') {
+                    $id = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId ); 
+                }
+
                 $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
                 if ( ! $locationTypeName ) {
                   continue;

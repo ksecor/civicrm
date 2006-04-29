@@ -279,7 +279,7 @@ class CRM_Contact_BAO_Query {
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        // CRM_Core_Error::debug( 'q', $this );
+        //CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -500,7 +500,7 @@ class CRM_Contact_BAO_Query {
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
             $this->_tables[ 'civicrm_address_' . $index ] = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
-            
+
             $processed[$lName] = $processed[$aName] = 1;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $index++;
@@ -524,8 +524,14 @@ class CRM_Contact_BAO_Query {
                 if ( ! $field ) {
                     if ( ! is_numeric($elementType) ) { //fix for CRM-882( to handle phone types )
                         $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
+                        if ( ! $field ) {
+                            $field =& CRM_Utils_Array::value( $elementName . "-Primary$elementType", $this->_fields );
+                        }
                     } else {
                         $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
+                        if ( ! $field ) {
+                            $field =& CRM_Utils_Array::value( $elementName . "-Primary", $this->_fields );
+                        }
                     }
                 }
 

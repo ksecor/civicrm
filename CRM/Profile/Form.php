@@ -112,6 +112,8 @@ class CRM_Profile_Form extends CRM_Core_Form
     function preProcess() 
     { 
         require_once 'CRM/Core/BAO/UFGroup.php';
+        require_once 'CRM/Quest/BAO/Student.php';
+
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
         if ( ! $this->_gid ) {
@@ -138,12 +140,11 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         if ( $this->_id ) {
             $defaults = array( );
-            
+
             // get the contact details (hier)
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $this->_id, $this->_fields );
             $this->_contact = $details = $contactDetails[$this->_id];
-
-            require_once 'CRM/Quest/BAO/Student.php';
+            
             CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
 
             //start of code to set the default values
@@ -157,59 +158,42 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $defaults[$name] = $details['individual_prefix_id'];
                     } else if ($name == 'individual_suffix') {
                         $defaults[$name] = $details['individual_suffix_id'];
-                    } else if ( substr($name, 0, 6) == 'custom') { 
-                        /*
-                        $cfID = CRM_Core_BAO_CustomField::getKeyID($name);
-                        $cf =& new CRM_Core_BAO_CustomField();
-                        $cf->id = $cfID;
-                        if ( $cf->find( true ) ) {
-                            switch($cf->html_type) {
-                            case 'Select Date':
-                                $defaults[$name] = CRM_Utils_Date::unformat( $details[$name], '-');
-                                break;
-                            case 'CheckBox':
-                                $data = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name]);
-                                if (is_array($data)) {
-                                    foreach($data as $key) {
-                                        $checked[$key] = 1;
-                                    }
-                                    $defaults[$name] = $checked;
-                                }
-                                break;
-                            default:
-                                $defaults[$name] = $details[$name];
-                            }
-                        }                 */
                     } else{
                         $defaults[$name] = $details[$name];
                     }
                    
                 } else {
-                    $nameValue = explode( '-' , $name );
+                    //$nameValue = explode( '-' , $name );
+                    list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $name);
+
                     foreach ($details as $key => $value) {
-                        if (is_numeric($nameValue[1])) {//fixed for CRM-665
-                            if ($nameValue[1] == $value['location_type_id'] ) {
-                                if (CRM_Utils_Array::value($nameValue[0], $value )) {
+                        if ($locTypeId == 'Primary') {
+                            $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $this->_id ); 
+                        }
+
+                        if (is_numeric($locTypeId)) {//fixed for CRM-665
+                            if ($locTypeId == $value['location_type_id'] ) {
+                                if (CRM_Utils_Array::value($fieldName, $value )) {
                                     //to handle stateprovince and country
-                                    if ( $nameValue[0] == 'state_province' ) {
+                                    if ( $fieldName == 'state_province' ) {
                                         $defaults[$name] = $value['state_province_id'];
-                                    } else if ( $nameValue[0] == 'country' ) {
+                                    } else if ( $fieldName == 'country' ) {
                                         $defaults[$name] = $value['country_id'];
                                         $this->_countryPresent = 1;
-                                    } else if ( $nameValue[0] == 'phone' ) {
-                                        if ($nameValue[2]) {
-                                            $defaults[$name] = $value['phone'][$nameValue[2]];
+                                    } else if ( $fieldName == 'phone' ) {
+                                        if ($phoneTypeId) {
+                                            $defaults[$name] = $value['phone'][$phoneTypeId];
                                         } else {
                                             $defaults[$name] = $value['phone'][1];
                                         }
-                                    } else if ( $nameValue[0] == 'email' ) {
+                                    } else if ( $fieldName == 'email' ) {
                                         //adding the first email (currently we don't support multiple emails of same location type)
                                         $defaults[$name] = $value['email'][1];
-                                    } else if ( $nameValue[0] == 'im' ) {
+                                    } else if ( $fieldName == 'im' ) {
                                         //adding the first email (currently we don't support multiple ims of same location type)
                                         $defaults[$name] = $value['im'][1];
                                     } else {
-                                        $defaults[$name] = $value[$nameValue[0]];
+                                        $defaults[$name] = $value[$fieldName];
                                     }
                                 }
                             }
@@ -350,12 +334,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                 unset( $this->_fields[$name] );
                 continue;
             }
-           
             
             if (in_array($name, array( 'ethnicity_id_1', 'gpa_id', 'score_SAT', 'household_income_total'))) {
                 $this->_studentFieldPresent = 1;
             }
-            
 
             // since the CMS manages the email field, suppress the email display if in
             // register mode which occur within the CMS form
@@ -519,19 +501,24 @@ class CRM_Profile_Form extends CRM_Core_Form
             $count = 1;
             $primaryLocation = 0;
             foreach ($fields as $key => $value) {
-                $keyValue = explode('-', $key);
-                if (is_numeric($keyValue[1])) {
-                    if (!in_array($keyValue[1], $locationType)) {
-                        $locationType[$count] = $keyValue[1];
+                list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $key);
+                
+                if ($locTypeId == 'Primary') {
+                    $locTypeId = $primaryLocationType; 
+                }
+
+                if (is_numeric($locTypeId)) {
+                    if (!in_array($locTypeId, $locationType)) {
+                        $locationType[$count] = $locTypeId;
                         $count++;
                     }
                     require_once 'CRM/Utils/Array.php';
-                    $loc = CRM_Utils_Array::key($keyValue[1], $locationType);
+                    $loc = CRM_Utils_Array::key($locTypeId, $locationType);
                      
-                    $data['location'][$loc]['location_type_id'] = $keyValue[1];
+                    $data['location'][$loc]['location_type_id'] = $locTypeId;
                 
                     // if we are getting in a new primary email, dont overwrite the new one
-                    if ($keyValue[1] == $primaryLocationType) {
+                    if ($locTypeId == $primaryLocationType) {
                         if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $fields ) ) {
                             $data['location'][$loc]['email'][$loc]['email'] = $fields['email-' . $primaryLocationType];
                         } else {
@@ -543,24 +530,24 @@ class CRM_Profile_Form extends CRM_Core_Form
                     if ($loc == 1 ) {
                         $data['location'][$loc]['is_primary'] = 1;
                     }                   
-                    if ($keyValue[0] == 'phone') {
-                        if ( $keyValue[2] ) {
-                            $data['location'][$loc]['phone'][$loc]['phone_type'] = $keyValue[2];
+                    if ($fieldName == 'phone') {
+                        if ( $phoneTypeId ) {
+                            $data['location'][$loc]['phone'][$loc]['phone_type'] = $phoneTypeId;
                         } else {
                             $data['location'][$loc]['phone'][$loc]['phone_type'] = '';
                         }
                         $data['location'][$loc]['phone'][$loc]['phone'] = $value;
-                    } else if ($keyValue[0] == 'email') {
+                    } else if ($fieldName == 'email') {
                         $data['location'][$loc]['email'][$loc]['email'] = $value;
-                    } elseif ($keyValue[0] == 'im') {
+                    } elseif ($fieldName == 'im') {
                         $data['location'][$loc]['im'][$loc]['name'] = $value;
                     } else {
-                        if ($keyValue[0] === 'state_province') {
+                        if ($fieldName === 'state_province') {
                             $data['location'][$loc]['address']['state_province_id'] = $value;
-                        } else if ($keyValue[0] === 'country') {
+                        } else if ($fieldName === 'country') {
                             $data['location'][$loc]['address']['country_id'] = $value;
                         } else {
-                            $data['location'][$loc]['address'][$keyValue[0]] = $value;
+                            $data['location'][$loc]['address'][$fieldName] = $value;
                         }
                     }
                 } else {
@@ -793,37 +780,40 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         if ($this->_id) {
-            $objects = array( 'contact_id', 'individual_id', 'location_id', 'address_id'  );
+            $objects = array( 'contact_id'    => 'contact',
+                              'individual_id' => 'individual',
+                              'location_id'   => 'location',
+                              'address_id'    => 'address'
+                              );
             $ids = array( ); 
 
-            $phoneLoc = 0;
-            foreach ($this->_fields as $name => $field ) {
-                $nameValue = explode( '-' , $name );
-                foreach ($this->_contact as $key => $value) {
-                    if (in_array($key, $objects)) {
-                        $ids[substr($key,0, (strlen($key)-3))] = $value;
-                    } else if(is_array($value)){ //fixed for CRM-665
-                        if ($nameValue[1] == $value['location_type_id'] ) {
-                            $locations[$value['location_type_id']] = 1;
-                            $loc_no = count($locations);
-                            if ($nameValue[0] == 'phone') {
-                                $phoneLoc++;
-                                if ( isset( $nameValue[2] ) ) {
-                                    $ids['location'][$loc_no]['phone'][$phoneLoc] = $value['phone'][$nameValue[2] . '_id'];
-                                } else {
-                                    $ids['location'][$loc_no]['phone'][$phoneLoc] = $value['phone']['1_id'];
-                                }
-                            } else if ($nameValue[0] == 'im') {
-                                $ids['location'][$loc_no]['im'][1] = $value['im']['1_id'];
-                            } else if ($nameValue[0] == 'email') {
-                                $ids['location'][$loc_no]['email'][1] = $value['email']['1_id'];
+            $locNo = 1;
+            foreach ($this->_contact as $key => $value) {
+                if ( array_key_exists($key, $objects) ) {
+                    //add non location ids
+                    $ids[$objects[$key]] = $value;
+                } else if (is_array($value)) {
+                    foreach ($value as $k => $v) {
+                        if ( array_key_exists($k, $objects)) {
+                            if ($k == 'location_id') {
+                                $ids['location'][$locNo]['id'] = $v;
                             } else {
-                                $ids['location'][$loc_no]['address'] = $value['address_id'];
+                                $ids['location'][$locNo][$objects[$k]] = $v;
+                            }
+                        } else if (is_array($v)) {
+                            //build phone/email/im ids
+                            if ( in_array ($k, array('phone', 'email', 'im')) ) {
+                                $no = 1;
+                                foreach ($v as $k1 => $v1) {
+                                    if (substr($k1, strlen($k1) - 2, strlen($k1)) == "id") {
+                                        $ids['location'][$locNo][$k][$no] = $v1;
+                                        $no++;
+                                    }                                    
+                                }
                             } 
-                            $ids['location'][$loc_no]['id'] = $value['location_id'];
                         }
                     }
-                    
+                    $locNo++;
                 }
             }
         }
@@ -861,8 +851,11 @@ class CRM_Profile_Form extends CRM_Core_Form
             CRM_Core_BAO_Address::setOverwrite( false );
         }
         
+        //print_r($ids);
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
+
+        //exit();
 
         // Process group and tag  
         if ( CRM_Utils_Array::value('group', $this->_fields )) {
