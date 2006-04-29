@@ -64,8 +64,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $valid = $invalid = $duplicate = $saved = 0;
         
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
-        require_once 'CRM/Utils/Hook.php';
-        CRM_Utils_Hook::pre( 'create', 'Relationship', $relationshipId, $ids['contact'] );
         
         if ( ! $relationshipId ) {
             // creating a new relationship
@@ -119,7 +117,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             //return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
         }
         
-        CRM_Utils_Hook::post( 'create', 'Relationship', $relationshipId, $ids['contact'] );
         return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
         
     }
@@ -138,16 +135,23 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function add ( &$params, &$ids, $contactId ) 
     {
+        require_once 'CRM/Utils/Hook.php';
+        if ( CRM_Utils_Array::value( 'relationship', $ids ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Relationship', $ids['relationship'], $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', 'Relationship', null, $params ); 
+        }
+        
         require_once 'CRM/Contact/BAO/Household.php';
         $relationshipTypes = CRM_Utils_Array::value( 'relationship_type_id', $params );
-
+        
         // expolode the string with _ to get the relationship type id and to know which contact has to be inserted in
         // contact_id_a and which one in contact_id_b
         list( $type, $first, $second ) = explode( '_', $relationshipTypes );
-
+        
         ${'contact_' . $first}  = CRM_Utils_Array::value( 'contact', $ids );
         ${'contact_' . $second} = $contactId;
-
+        
         //check if the relationship type is Head of Household then update the household's primary contact with this contact.
         if ($type == 6) {
             CRM_Contact_BAO_Household::updatePrimaryContact($contact_b, $contact_a );
@@ -162,13 +166,19 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         if ( ! $relationship->start_date ) {
             $relationship->start_date = 'NULL';
         }
-
+        
         $relationship->end_date             = CRM_Utils_Date::format( CRM_Utils_Array::value( 'end_date'  , $params ) );
         if ( ! $relationship->end_date ) {
             $relationship->end_date = 'NULL';
         }
-
+        
         $relationship->id = CRM_Utils_Array::value( 'relationship', $ids );
+        
+        if ( CRM_Utils_Array::value( 'relationship', $ids ) ) {
+            CRM_Utils_Hook::post( 'edit', 'Relationship', $relationship->id, $relationship );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Contribution', $relationship->id, $relationship );
+        }
         
         return  $relationship->save( );
     }
@@ -267,15 +277,17 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function del ( $id ) 
     {
-        $tmp = array();
+        // delete from relationship table
+        
         require_once 'CRM/Utils/Hook.php';
         CRM_Utils_Hook::pre( 'delete', 'Relationship', $id );
-        // delete from relationship table
+        
         $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->id = $id;
         $relationship->delete();
         CRM_Core_Session::setStatus( ts('Selected Relationship has been Deleted Successfuly.') );
-        CRM_Utils_Hook::post( 'delete', 'Relationship', $id, $tmp );
+        
+        CRM_Utils_Hook::post( 'delete', 'Relationship', $relationship->id, $relationship );
     }
 
     /**

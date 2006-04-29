@@ -205,7 +205,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ($status == 'Removed') {
             $op = 'delete';
         } else {
-            $op = 'create';
+            $op = 'edit';
         }
         
         CRM_Utils_Hook::pre( $op, 'GroupContact', $groupId, $contactIds );
