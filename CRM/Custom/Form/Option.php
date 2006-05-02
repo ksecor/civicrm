@@ -214,18 +214,21 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
         $optionLabel = CRM_Utils_Type::escape( $fields['label'], 'String' );
         $optionValue = CRM_Utils_Type::escape( $fields['value'], 'String' );
+        $temp = array();
         if ( empty($fields['optionId'])) {
             $fieldId = $fields['fieldId'];
             
             //check label duplicates within a custom field
             $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND label = '$optionLabel'";
-            if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) { 
+           
+            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) { 
                 $errors['label'] = 'There is an entry with the same label.';
             }
             
             //check value duplicates within a custom field
             $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND value = '$optionValue'";
-            if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) {  
+            
+            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {  
                 $errors['value'] = 'There is an entry with the same value.';
             }
                 
@@ -237,13 +240,14 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
             //check label duplicates within a custom field
             $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND id != '$optionId' AND label = '$optionLabel'";
-            if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) {   
+            
+            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {   
                 $errors['label'] = 'There is an entry with same label.';
             }
             
             //check value duplicates within a custom field
             $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_custom_field' AND id != '$optionId' AND value = '$optionValue'";
-            if ( CRM_Core_DAO::singleValueQuery( $query ) > 0 ) {   
+            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {   
                 $errors['value'] = 'There is an entry with same value';
             }
         }
@@ -284,7 +288,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                 if( !empty($fields["value"]) ) {
                     $fieldCountry = addslashes( $fields['value'] );
                     $query = "SELECT count(*) FROM civicrm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
-                    if ( CRM_Core_DAO::singleValueQuery( $query ) <= 0 ) {
+                    if ( CRM_Core_DAO::singleValueQuery( $query,$temp ) <= 0 ) {
                         $errors['value'] = ts( 'Invalid default value for country.' );
                     }
                 }
@@ -294,7 +298,8 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                 if( !empty($fields["value"]) ) {
                     $fieldStateProvince = addslashes( $fields['value'] );
                     $query = "SELECT count(*) FROM civicrm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
-                    if ( CRM_Core_DAO::singleValueQuery( $query ) <= 0 ) {
+            
+                    if ( CRM_Core_DAO::singleValueQuery( $query ,$temp) <= 0 ) {
                         $errors['value'] = ts( 'The invalid value for State/Province data type' );
                     }
                 }

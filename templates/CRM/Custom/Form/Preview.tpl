@@ -48,7 +48,8 @@
         {/if}
 	{else}
         {assign var="name" value=`$element.name`} 
-        {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}
+        {*assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
+        {assign var="element_name" value="custom_"|cat:$field_id}  
         <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}
 	       {if $element.data_type eq 'Date'}
 	        {if $element.skip_calendar NEQ true } 
