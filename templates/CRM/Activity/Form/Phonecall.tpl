@@ -44,8 +44,12 @@
     
 
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
-
-    {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}			
+    {if $action eq 4} 
+      {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+    {else}
+      {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+    {/if}
+    
 {/if}
     {if $action eq 8 }
     <div class="status">{ts} Are you sure you want to delete "{$delName}" ?{/ts}</div>

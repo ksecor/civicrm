@@ -102,7 +102,11 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         
         
         //CRM_Core_Error::debug( 'g', $this->_groupTree );
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        if ($this->_action & CRM_Core_Action::VIEW ) { 
+            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+        } else {
+            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        }
         $this->assign('groupTree', $this->_groupTree); 
 
     }

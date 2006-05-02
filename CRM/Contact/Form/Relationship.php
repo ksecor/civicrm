@@ -215,8 +215,16 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Search'), array( 'class' => 'form-submit' ) );
         $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );
 
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $buttonType = 'upload';
+        } else {
+            $buttonType = 'next';
+        }
+        
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => $buttonType,
                                          'name'      => ts('Save Relationship'),
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',

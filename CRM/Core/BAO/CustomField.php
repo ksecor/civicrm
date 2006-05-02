@@ -501,6 +501,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $customValue->custom_field_id = $id;
         $customValue->delete();
         
+         //delete first all custon values for file related data
+        require_once 'CRM/Core/DAO/File.php';
+        $customFile = & new CRM_Core_DAO_File();
+        $customFile->custom_field_id = $id;
+        $customFile->delete();
+
+
         //delete first all custom option
         $customOption = & new CRM_Core_DAO_CustomOption();
         $customOption->entity_id    = $id;

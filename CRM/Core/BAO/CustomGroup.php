@@ -252,7 +252,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_date_data;
                     break;
                 case 'File':
-                    //$groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_char_data;
+
+                    //get file name 
+                    
                     require_once 'CRM/Core/DAO/File.php';
                     $fileDAO =& new CRM_Core_DAO_File();
                     $fileDAO->custom_field_id = $fieldId;
@@ -260,6 +262,14 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     $fileDAO->find(true);
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $fileDAO->uri;
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']  = $fileDAO->id;
+
+                    $fileName = explode('/',$fileDAO->uri);
+                    $fileName = $fileName[count($fileName)-1];
+                    $fileName = explode('.', $fileName, -1);
+                    $fileName = implode('.', $fileName);
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']  = $fileName;
+
+                    
                     break; 
                 }
             }
@@ -341,7 +351,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     // especially true in the case of radio buttons where we are using the values
                     // 1 - true and 0 for false.
                     if (! strlen(trim($data) ) ) {
-                        $customValueDAO->delete();
+                        if($field['data_type'] != 'File') {
+                            $customValueDAO->delete();
+                        }
                         continue;
                     }
                     

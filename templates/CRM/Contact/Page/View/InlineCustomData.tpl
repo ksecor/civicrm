@@ -55,7 +55,7 @@
                          <dt>{$cd_value.label}</dt>
                          {if $groupTree.$group_id.fields.$field_id.data_type == 'File'}
                             {if $viewForm.$element_name.html}
-                                 <dd class="html-adjust"><a href="javascript:popUp('{$viewForm.$element_name.html}')">Attachment</a></dd>
+                                 <dd class="html-adjust"><a href="javascript:popUp('{$viewForm.$element_name.html}')">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a></dd>
                             {/if}
                          {else}
                          <dd class="html-adjust">{$viewForm.$element_name.html}&nbsp;

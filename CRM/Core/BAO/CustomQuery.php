@@ -238,7 +238,7 @@ class CRM_Core_BAO_CustomQuery {
             if ( ! is_array( $value ) ) {
                 $value = addslashes(trim($value));
             }
-
+            
             switch ( $field['data_type'] ) {
 
             case 'String':
@@ -354,9 +354,16 @@ class CRM_Core_BAO_CustomQuery {
                     $this->_qill[]  = $field['label'] . " - {$countries[$value]}";
                 }
                 continue;
+            case 'File':
+                $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
+                $this->_where[] = self::PREFIX . $field['id'] . ".char_data LIKE '%{$val}%'";
+                $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $value));
+                continue;
+               
             }
+            
         }
-        // CRM_Core_Error::debug( 'w', $this->_where );
+        //CRM_Core_Error::debug( 'w', $this->_where );
     }
 
     /**
