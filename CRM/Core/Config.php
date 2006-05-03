@@ -501,6 +501,9 @@ class CRM_Core_Config {
             $this->customFileUploadDir = self::addTrailingSlash( CIVICRM_CUSTOM_FILE_UPLOADDIR );
 
             CRM_Utils_File::createDir( $this->customFileUploadDir );
+        } else {
+            $this->customFileUploadDir = $this->uploadDir;
+            
         }
 
         if ( defined( 'CIVICRM_CUSTOM_FILE_UPLOADURL' ) ) {
