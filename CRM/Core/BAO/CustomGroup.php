@@ -353,7 +353,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     if (! strlen(trim($data) ) ) {
                         if($field['data_type'] != 'File') {
                             $customValueDAO->delete();
-                        }
+                        } 
                         continue;
                     }
                     
@@ -384,6 +384,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customValueDAO->char_data = $data;
                         
                         require_once 'CRM/Core/DAO/File.php';
+                        $fileDAO =& new CRM_Core_DAO_File();
+                        $fileDAO->custom_field_id   = $fieldId;
+                        $fileDAO->find(true);
+                        if ( $fileDAO0->id ) {
+                            $fileId = $fileDAO0->id;
+                                }
                         $config = & CRM_Core_Config::singleton();
                         
                         $path = explode( '/', $data );
@@ -393,6 +399,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $fileDAO =& new CRM_Core_DAO_File();
                         if (isset($field['customValue']['fid'])) {
                             $fileDAO->id = $field['customValue']['fid'];
+                        }
+                        if( $fileId ) {
+                            echo $fileDAO->id = $fileId;
                         }
                         $fileDAO->entity_table      = $tableName;
                         $fileDAO->entity_id         = $entityId;

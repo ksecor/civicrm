@@ -178,6 +178,9 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             case "Country":
                 $action -= CRM_Core_Action::BROWSE;
                 break;
+            case "File":
+                $action -= CRM_Core_Action::BROWSE;
+                break;
             }
             
             $customFieldDataType = CRM_Core_BAO_CustomField::dataType();

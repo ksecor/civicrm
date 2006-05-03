@@ -1,3 +1,4 @@
+
 {strip}
 {foreach from=$groupTree item=cd_edit key=group_id}
     <div id="{$cd_edit.title}[show]" class="data-group">
@@ -46,10 +47,20 @@
               <dt>{$form.$element_name.label}</dt>
               <dd class="html-adjust">
               <span>{$form.$element_name.html}</span>
+              {if $element.data_type eq 'File'}
+                {if $element.customValue.data}
+                <span class="html-adjust">
+                   &nbsp;Attached File : &nbsp
+                   <a href="javascript:popUp('{$element.customValue.data}')">
+                        {$element.customValue.fileName}
+                   </a>
+                </span>  
+               {/if} 
+              {/if}
               {if $element.data_type eq 'Date'}
 	          {if $element.skip_calendar NEQ true } 
               <span>
-                   
+               
 		      {include file="CRM/common/calendar/desc.tpl"}
 		      {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years}
 		      </span>
@@ -81,5 +92,17 @@
  
 {* hide and display the appropriate blocks as directed by the php code *} 
     on_load_init_blocks( showBlocks, hideBlocks ); 
+
+
+{literal}
+
+
+function popUp(URL) {
+day = new Date();
+id = day.getTime();
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=640,height=420,left = 202,top = 184');");
+}
+{/literal}
+
  </script> 
  
