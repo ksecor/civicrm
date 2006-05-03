@@ -419,7 +419,8 @@ WHERE  domain_id = $domainID AND $whereCond
 
         require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
         while ( $contribution->fetch( ) ) {
-            self::deleteContributionSubobjects($contribution->id);
+            self::deleteContribution($contribution->id);
+            //self::deleteContributionSubobjects($contribution->id);
             $contribution->delete( );
         }
     }
@@ -431,15 +432,13 @@ WHERE  domain_id = $domainID AND $whereCond
         $dao->contribution_id = $id;
         $dao->delete();;
 
-
         $contribution =& new CRM_Contribute_DAO_Contribution( ); 
         $contribution->id = $id;
         if ( $contribution->find( true ) ) {
             self::deleteContributionSubobjects($id);
             $contribution->delete( ); 
         }
- 
-        
+         
         return true;
     }
 
