@@ -183,8 +183,9 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             CRM_Core_Session::setStatus( ts('The Group "%1" has been deleted.', array(1 => $this->_title)) );        
         } else {
             // store the submitted values in an array
-            $params = $this->exportValues();
-
+            //$params = $this->exportValues();
+            $params = $this->controller->exportValues( $this->_name );
+            
             $params['domain_id'] = CRM_Core_Config::domainID( );
             $params['is_active'] = 1;
             
