@@ -471,7 +471,7 @@ WHERE  domain_id = $domainID AND $whereCond
      * @access public
      * static
      */
-    static function checkDuplicate( &$params, &$duplicates ) {
+    static function checkDuplicate( $params, &$duplicates ) {
         $id         = CRM_Utils_Array::value( 'id'        , $params );
         $trxn_id    = CRM_Utils_Array::value( 'trxn_id'   , $params );
         $invoice_id = CRM_Utils_Array::value( 'invoice_id', $params );
