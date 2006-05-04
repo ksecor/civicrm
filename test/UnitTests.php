@@ -68,7 +68,7 @@ class UnitTests extends GroupTest {
         // location api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetLocation.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateLocation.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateLocation.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteLocation.php'    );
 
         // history api
@@ -110,6 +110,8 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFField.php'    );
         
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Token.php' );
+
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateProfileContact.php'    );
     }
 
 }

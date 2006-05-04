@@ -1693,6 +1693,283 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
        }
        return array( null, null, null );
     }
+
+    /**
+     * function to add/edit/register contacts through profile.
+     *
+     * @params  array  $params       Array of profile fields to be edited/added.
+     * @params  int    $contactID    contact_id of the contact to be edited/added.
+     * @params  array  $fields       array of fields from UFGroup
+     * @params  int    addToGroupID  specifies the default group to which contact is added.
+     *
+     * @return null
+     * @static
+     * @access public
+     */
+    static function createProfileContact( &$params, &$fields, $contactID = null, $addToGroupID = null ) {
+        
+        $data = array( );
+        $data['contact_type'] = 'Individual';
+       
+        // get the contact details (hier)
+        if ( $contactID ) {
+            list($details, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactID, $fields );
+            $contactDetails = $details[$contactID];
+        }
+
+        //get the custom fields for the contact
+        $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );
+        
+        $locationType = array( );
+        $count = 1;
+        if ( $contactID ) {
+            $primaryLocationType = CRM_Contact_BAO_Contact::getPrimaryLocationType($contactID);
+        } else {
+            require_once "CRM/Core/BAO/LocationType.php";
+            $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
+            $defaultLocationId = $defaultLocation->id;
+        }
+        
+        $phoneLoc = 0;
+        foreach ($params as $key => $value) {
+            list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $key);
+            
+            if ($locTypeId == 'Primary') {
+                if ( $contactID ) {
+                    $locTypeId = $primaryLocationType; 
+                } else {
+                    $locTypeId = $defaultLocationId;
+                }
+            }
+            
+            if ( is_numeric($locTypeId) ) {
+                if (!in_array($locTypeId, $locationType) ) {
+                    $locationType[$count] = $locTypeId;
+                    $count++;
+                }
+                
+                require_once 'CRM/Utils/Array.php';
+                $loc = CRM_Utils_Array::key($locTypeId, $locationType);
+                
+                $data['location'][$loc]['location_type_id'] = $locTypeId;
+                
+                if ($contactID) {
+                    //get the primary location type
+                    if ($locTypeId == $primaryLocationType) {
+                        $data['location'][$loc]['is_primary'] = 1;
+                    } 
+                } else {
+                    if ($loc == 1 ) {
+                        $data['location'][$loc]['is_primary'] = 1;
+                    }
+                }
+                
+                if ($fieldName == 'name') {
+                    $data['location'][$loc]['name'] = $value;
+                } else if ($fieldName == 'phone') {
+                    $phoneLoc++;
+                    if ( $phoneTypeId ) {
+                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = $phoneTypeId;
+                    } else {
+                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = '';
+                        $data['location'][$loc]['phone'][$phoneLoc]['is_primary'] = 1;
+                    }
+                    $data['location'][$loc]['phone'][$phoneLoc]['phone'] = $value;
+                } else if ($fieldName == 'email') {
+                    $data['location'][$loc]['email'][1]['email'] = $value;
+                    $data['location'][$loc]['email'][1]['is_primary'] = 1;
+                } else if ($fieldName == 'im') {
+                    $data['location'][$loc]['im'][1]['name'] = $value;
+                    $data['location'][$loc]['im'][1]['is_primary'] = 1;
+                } else {
+                    if ($fieldName === 'state_province') {
+                        $data['location'][$loc]['address']['state_province_id'] = $value;
+                    } else if ($fieldName === 'country') {
+                        $data['location'][$loc]['address']['country_id'] = $value;
+                    } else {
+                        $data['location'][$loc]['address'][$fieldName] = $value;
+                    }
+                }
+            } else {
+                if ($key === 'individual_suffix') { 
+                    $data['suffix_id'] = $value;
+                } else if ($key === 'individual_prefix') { 
+                    $data['prefix_id'] = $value;
+                } else if ($key === 'gender') { 
+                    $data['gender_id'] = $value;
+                } else if (substr($key, 0, 6) === 'custom') {
+                    if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+                        //fix checkbox
+                        if ( $customFields[$customFieldID][3] == 'CheckBox' ) {
+                            $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
+                        }
+                        // fix the date field 
+                        if ( $customFields[$customFieldID][2] == 'Date' ) {
+                            $date =CRM_Utils_Date::format( $value );
+                            if ( ! $date ) {
+                                $date = '';
+                            }
+                            $value = $date;
+                        }
+                        
+                        //to add the id of custom value if exits
+                        //$this->_contact['custom_value_5_id'] = 123; 
+                        
+                        $str = 'custom_value_' . $customFieldID . '_id';
+                        if ($contactDetails[$str]) {
+                            $id = $contactDetails[$str];
+                        }
+                        
+                        
+                        $data['custom'][$customFieldID] = array( 
+                                                                'id'      => $id,
+                                                                'value'   => $value,
+                                                                'extends' => $customFields[$customFieldID][3],
+                                                                'type'    => $customFields[$customFieldID][2],
+                                                                'custom_field_id' => $customFieldID,
+                                                                );
+                    }
+                } else if ($key == 'edit') {
+                    continue;
+                } else {
+                    $data[$key] = $value;
+                }
+            }
+        }
+        
+        $studentFieldPresent = 0;
+        // fix all the custom field checkboxes which are empty
+        foreach ($fields as $name => $field ) {
+            // check if student fields present
+            if ( (!$studentFieldPresent) && in_array($name, array( 'ethnicity_id_1', 'gpa_id', 'score_SAT', 'household_income_total')) ) {
+                $studentFieldPresent = 1;
+            }
+            $cfID = CRM_Core_BAO_CustomField::getKeyID($name); 
+            // if there is a custom field of type checkbox and it has not been set
+            // then set it to null, thanx to html protocol
+            if ( $cfID &&
+                 $customFields[$cfID][3] == 'CheckBox' &&
+                 CRM_Utils_Array::value( 'custom', $data ) &&
+                 ! CRM_Utils_Array::value( $cfID, $data['custom'] ) ) {
+                
+                $str = 'custom_value_' . $cfID . '_id'; 
+                if ($contactDetails[$str]) { 
+                    $id = $contactDetails[$str]; 
+                }
+                
+                $data['custom'][$cfID] = array(  
+                                               'id'      => $id, 
+                                               'value'   => '',
+                                               'extends' => $customFields[$cfID][3], 
+                                               'type'    => $customFields[$cfID][2], 
+                                               'custom_field_id' => $cfID,
+                                               ); 
+            }
+        }
+        
+        if ($contactID) {
+            $objects = array( 'contact_id'    => 'contact',
+                              'individual_id' => 'individual',
+                              'location_id'   => 'location',
+                              'address_id'    => 'address'
+                              );
+            $ids = array( ); 
+            
+            $locNo = 1;
+            if (is_array($contactDetails)) {
+                foreach ($contactDetails as $key => $value) {
+                    if ( array_key_exists($key, $objects) ) {
+                        //add non location ids
+                        $ids[$objects[$key]] = $value;
+                    } else if (is_array($value)) {
+                        foreach ($value as $k => $v) {
+                            if ( array_key_exists($k, $objects)) {
+                                if ($k == 'location_id') {
+                                    $ids['location'][$locNo]['id'] = $v;
+                                } else {
+                                    $ids['location'][$locNo][$objects[$k]] = $v;
+                                }
+                            } else if (is_array($v)) {
+                                //build phone/email/im ids
+                                if ( in_array ($k, array('phone', 'email', 'im')) ) {
+                                    $no = 1;
+                                    foreach ($v as $k1 => $v1) {
+                                        if (substr($k1, strlen($k1) - 2, strlen($k1)) == "id") {
+                                            $ids['location'][$locNo][$k][$no] = $v1;
+                                            $no++;
+                                        }                                    
+                                    }
+                                } 
+                            }
+                        }
+                        $locNo++;
+                    }
+                }
+                
+            }
+            
+        }
+        
+        //set the values for checkboxes (do_not_email, do_not_mail, do_not_trade, do_not_phone)
+        $privacy = CRM_Core_SelectValues::privacy( );
+        foreach ($privacy as $key => $value) {
+            if (array_key_exists($key, $fields)) {
+                if ($params[$key]) {
+                    $data[$key] = $params[$key];
+                } else {
+                    $data[$key] = 0;
+                }
+            }
+        }
+        
+        // manage is_opt_out
+        if (array_key_exists('is_opt_out', $fields)) {
+            $wasOptOut = $contactDetails['is_opt_out'] ? true : false;
+            $isOptOut  = $params['is_opt_out']         ? true : false;
+            $data['is_opt_out'] = $isOptOut;
+            // on change, create new civicrm_subscription_history entry
+            if ($wasOptOut != $isOptOut) {
+                $shParams = array(
+                                  'contact_id' => $contactDetails['contact_id'],
+                                  'status'     => $isOptOut ? 'Removed' : 'Added',
+                                  'method'     => 'Web',
+                                  );
+                CRM_Contact_BAO_SubscriptionHistory::create($shParams);
+            }
+        }
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
+        
+        // Process group and tag  
+        if ( CRM_Utils_Array::value('group', $fields )) {
+            CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
+        }
+        
+        if ( CRM_Utils_Array::value('tag', $fields )) {
+            require_once 'CRM/Core/BAO/EntityTag.php';
+            CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
+        } 
+        
+        //to add profile in default group
+        if ($addToGroupID ) {
+            $contactIds = array($contact->id);
+            CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $addToGroupID );
+        }
+        
+        //to update student record
+        if ($studentFieldPresent) {
+            $ids = array();
+            $dao = & new CRM_Quest_DAO_Student();
+            $dao->contact_id = $contact->id;
+            if ($dao->find(true)) {
+                $ids['id'] = $dao->id;
+            }
+            $params['contact_id'] = $contactID;
+            CRM_Quest_BAO_Student::create( $params, $ids);
+        }
+        // check if the contact type
+    }
     
 }
 
