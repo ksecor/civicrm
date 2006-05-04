@@ -78,7 +78,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         if ( $dao->find( true ) ) {
             CRM_Core_DAO::storeValues( $dao, $defaults );
             $ids['student_id'] = $dao->id;
-            $names = array( 'citizenship_status_id' => array('newName'=>'citizenship_status','groupName' => 'citizenship_status'),
+            $names = array( 'citizenship_status_id' => array('newName' => 'citizenship_status','groupName' => 'citizenship_status'),
                             'gpa_id'                => array('newName' => 'gpa', 'groupName' => 'gpa'),
                             'ethnicity_id_1'        => array('newName' => 'ethnicity_1', 'groupName' => 'ethnicity'),
                             'ethnicity_id_2'        => array('newName' => 'ethnicity_2', 'groupName' => 'ethnicity'),
@@ -96,6 +96,97 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $fields = CRM_Quest_DAO_Student::export( );
         return $fields;
     }
+
+   
+
+    static function getStudentDetails( $contactId ,&$defaults ) {
+        
+        $indvidualDetails = array();
+        $studentDetails   = array();  
+        // get student ID
+        $dao             = & new CRM_Quest_DAO_Student();
+        $dao->contact_id = $contactId;
+        if ( $dao->find(true) ) {
+            $studentID = $dao->contact_id;
+        } else {
+            return null;
+        }
+        
+        $params = array( 'contact_id' => $contactId,
+                         'id'         => $contactId);
+
+        $ids = array();
+        
+        CRM_Contact_BAO_Contact::retrieve( &$params, &$indvidualDetails, &$ids );
+
+        $defaults['Individual'] = $indvidualDetails;
+        CRM_Core_DAO::storeValues( $dao, $studentDetails);
+
+        $names = array( 'citizenship_status_id'  => array('newName' => 'citizenship_status','groupName' => 'citizenship_status'),
+                        'home_area_id'           => array('newName' => 'home_area', 'groupName' => 'home_area'),
+                        'parent_grad_college_id' => array('newName' => 'parent_grad_college', 'groupName' => 'parent_grad_college'),
+                        'internet_access_id'     => array('newName' => 'internet_access', 'groupName' => 'internet_access'),
+                        'study_method_id'        => array('newName' => 'study_method', 'groupName' => 'study_method'),
+                        'educational_interest'   => array('newName' => 'educational_interest_display', 'groupName' => 'educational_interest'),
+                        'college_type'           => array('newName' => 'college_type_display', 'groupName' => 'college_type'),
+                        'college_interest'       => array('newName' => 'college_interest_display', 'groupName' => 'college_interest'),
+
+                        'gpa_id'                => array('newName' => 'gpa', 'groupName' => 'gpa'),
+                        'ethnicity_id_1'        => array('newName' => 'ethnicity_1', 'groupName' => 'ethnicity'),
+                        'ethnicity_id_2'        => array('newName' => 'ethnicity_2', 'groupName' => 'ethnicity'),
+                        'fed_lunch_id'          => array('newName' => 'fed_lunch', 'groupName' => 'fed_lunch'),
+                        'class_rank_percent_id' => array('newName' => 'class_rank_percent', 'groupName' => 'class_rank_percent'),
+                        'class_rank_percent_id' => array('newName' => 'class_rank_percent', 'groupName' => 'class_rank_percent'),
+
+                        
+                        );
+        
+        CRM_Core_OptionGroup::lookupValues( $studentDetails, $names, false);
+       
+        //guardian details
+        $defaults['Student']    = $studentDetails;
+
+        $guardianDetails = array();
+        $guardian             = new CRM_Quest_DAO_Person();
+        $guardian->contact_id = $contactId;
+        $guardian->is_sibling = 0;
+        $guardian->find();
+        while( $guardian->fetch() ) {
+            CRM_Core_DAO::storeValues( $guardian, $guardianDetails[$guardian->id]);
+            $names = array('relationship_id'                => array('newName' => 'relationship','groupName' => 'relationship'),
+                           'marital_status_id'              => array('newName' => 'marital_status','groupName' => 'marital_status'),               
+                           'industry_id'                    => array('newName' => 'industry','groupName' => 'industry_id'),
+                           'highest_school_level_id'        => array('newName' => 'highest_school_level','groupName' => 'highest_school_level'),
+                           
+                           );
+            CRM_Core_OptionGroup::lookupValues( $guardianDetails[$guardian->id], $names, false);
+        }
+        $defaults['Guardian'] = $guardianDetails;
+
+        //siblings details
+
+        $siblingDetails = array();;
+        $sibling        = new CRM_Quest_DAO_Person();
+        $sibling->contact_id = $contactId;
+        $sibling->is_sibling = 1;
+        $sibling->find();
+        while( $sibling->fetch() ) {
+            CRM_Core_DAO::storeValues( $sibling, $siblingDetails[$sibling->id]);
+            $names = array('relationship_id'                => array('newName' => 'relationship','groupName' => 'relationship'),
+                           'marital_status_id'              => array('newName' => 'marital_status','groupName' => 'marital_status'),               
+                           'industry_id'                    => array('newName' => 'industry','groupName' => 'industry_id'),
+                           'highest_school_level_id'        => array('newName' => 'highest_school_level','groupName' => 'highest_school_level'),
+                           
+                           );
+            CRM_Core_OptionGroup::lookupValues( $siblingDetails[$sibling->id], $names, false);
+        }
+        $defaults['Sibling'] = $siblingDetails;
+
+        
+    }
+
+
+
 
 }
     
