@@ -125,6 +125,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
         $this->set( 'searchDone', 0 );
         if ( CRM_Utils_Array::value( '_qf_AddToHousehold_refresh', $_POST ) ) {
             $searchParams['contact_type'] = array('Household' => 'Household');
+            $searchParams['name']         = $params['name'];
             CRM_Contact_Form_Relationship::search( $searchParams );
             $this->set( 'searchDone', 1 );
             return;

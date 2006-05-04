@@ -107,6 +107,7 @@ class CRM_Utils_Type {
         require_once 'CRM/Utils/Rule.php';
         switch($type) {
         case 'Integer':
+        case 'Int':
             if (CRM_Utils_Rule::integer($data)) {
                 return $data;
             }
