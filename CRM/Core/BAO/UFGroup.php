@@ -528,7 +528,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $values[$index] = '[ x ]';
                     }
                 } else if ( $name == 'group' ) {
-                    $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $cid, 'Added' );
+                    $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $cid, 'Added', null, false, true );
                     $title = array( );
                     $ids   = array( );
                     foreach ( $groups as $g ) {
