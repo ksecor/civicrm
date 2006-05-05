@@ -90,6 +90,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             require_once 'CRM/Core/OptionGroup.php';
             CRM_Core_OptionGroup::lookupValues( $defaults, $names, false );
         }
+     
     }
 
     static function exportableFields( ) {
@@ -98,11 +99,21 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
     }
 
    
-
+     /**
+     * function retrieve student Information
+     *
+     * @param Int $contactId conatct id
+     * @param array $defaults   reference array contains all student Information
+     * 
+     * @access public
+     * @static 
+     * @return void
+     */
     static function getStudentDetails( $contactId ,&$defaults ) {
         
         $indvidualDetails = array();
-        $studentDetails   = array();  
+        $studentDetails   = array();
+        require_once 'CRM/Quest/DAO/Student.php';
         // get student ID
         $dao             = & new CRM_Quest_DAO_Student();
         $dao->contact_id = $contactId;
@@ -114,9 +125,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         
         $params = array( 'contact_id' => $contactId,
                          'id'         => $contactId);
-
         $ids = array();
-        
         CRM_Contact_BAO_Contact::retrieve( &$params, &$indvidualDetails, &$ids );
 
         $defaults['Individual'] = $indvidualDetails;
@@ -137,15 +146,26 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                         'fed_lunch_id'          => array('newName' => 'fed_lunch', 'groupName' => 'fed_lunch'),
                         'class_rank_percent_id' => array('newName' => 'class_rank_percent', 'groupName' => 'class_rank_percent'),
                         'class_rank_percent_id' => array('newName' => 'class_rank_percent', 'groupName' => 'class_rank_percent'),
-
-                        
+                        'award_ranking_1_id'    => array('newName' => 'award_ranking_1', 'groupName' => 'award_ranking'),
+                        'award_ranking_2_id'    => array('newName' => 'award_ranking_2', 'groupName' => 'award_ranking'),
+                        'award_ranking_3_id'    => array('newName' => 'award_ranking_3', 'groupName' => 'award_ranking'),
+                        'test_tutoring'         => array('newName' => 'test_tutoring_display', 'groupName' => 'test'), 
                         );
         
         CRM_Core_OptionGroup::lookupValues( $studentDetails, $names, false);
+        //fix for country
+        $countryIds = array('citizenship_country'=>'citizenship_country_id','growup_country'=>'growup_country_id','nationality_country'=>'nationality_country_id');
+        require_once 'CRM/Core/PseudoConstant.php'; 
+        foreach( $countryIds as $key => $val ) {
+            if( $val ) {
+                $studentDetails[$key] = CRM_Core_PseudoConstant::country($studentDetails[$val]);
+            }
+        }
        
-        //guardian details
         $defaults['Student']    = $studentDetails;
 
+        //guardian details
+       
         $guardianDetails = array();
         $guardian             = new CRM_Quest_DAO_Person();
         $guardian->contact_id = $contactId;
@@ -182,11 +202,87 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
         $defaults['Sibling'] = $siblingDetails;
 
+        //income detials
+        require_once 'CRM/Quest/DAO/Income.php';
         
+        $incomeDetials = array();
+        $dao =& new CRM_Quest_DAO_Person( );
+        $dao->contact_id = $contactId;
+        $dao->is_income_source   = true;
+        $dao->find( );
+        while( $dao->fetch() ) {
+            $incomeDAO =& new CRM_Quest_DAO_Income( );
+            $incomeDAO->person_id = $dao->id;
+            $incomeDAO->find(true);
+            CRM_Core_DAO::storeValues( $incomeDAO, $incomeDetials[$incomeDAO->id]);
+            $incomeDetials[$incomeDAO->id]['first_name'] = $dao->first_name;
+            $incomeDetials[$incomeDAO->id]['last_name']  = $dao->last_name;
+            $names = array('source_1_id' => array('newName' => 'source_1','groupName' => 'type_of_income'),
+                           'source_2_id' => array('newName' => 'source_2','groupName' => 'type_of_income'),
+                           'source_3_id' => array('newName' => 'source_3','groupName' => 'type_of_income'),
+                           );
+            CRM_Core_OptionGroup::lookupValues( $incomeDetials[$incomeDAO->id], $names, false);
+        }
+        $defaults['Income'] = $incomeDetials;
+
+        //highschool & ohereschool details 
+        
+        $highschoolDetials  = array();
+        $otherschoolDetails = array();
+        $organization      = array(); 
+        require_once 'CRM/Contact/BAO/Relationship.php';
+        require_once  'CRM/Core/BAO/CustomGroup.php';
+        $relationship  = CRM_Contact_BAO_Relationship::getRelationship( $contactId );
+       
+        foreach( $relationship as $key => $value ) {
+            if ($value['relation'] == 'Student of' ) {
+                $params = array( 'contact_id' => $value['cid'],
+                                 'id'         => $value['cid']);
+                $ids = array();
+                $orgDetails = array();
+                CRM_Contact_BAO_Contact::retrieve( &$params, &$orgDetails, &$ids );
+                $groupTree = & CRM_Core_BAO_CustomGroup::getTree('Organization',$value['cid'],0);
+                CRM_Core_BAO_CustomGroup::setDefaults( $groupTree,$orgDetails, true, false );
+                $organization[$key] = $orgDetails;
+            }
+        }
+        
+        foreach( $organization as $key => $value ) {
+            if ( $value['custom_4'] == 'Highschool' ){
+                $highschoolDetials[] = $value;
+            } else {
+                $otherschoolDetails[] = $value;
+            }
+        }
+        $defaults['HighSchool' ]  = $highschoolDetials;
+        $defaults['OtherSchool'] = $otherschoolDetails;
+
+        //test details
+        $testDetails = array();
+        
+        require_once 'CRM/Quest/DAO/Test.php';
+        $testDAO = & new CRM_Quest_DAO_Test();
+        $testDAO->contact_id = $contactId;
+        $testDAO->find( );
+        while( $testDAO->fetch() ) {
+            CRM_Core_DAO::storeValues( $testDAO, $testDetails[$testDAO->id]);
+            $names = array('test_id'         => array('newName' => 'test','groupName' => 'test'),
+                           'score_composite' => array('newName' => 'score','groupName' => 'ap_score'),
+                           );
+            CRM_Core_OptionGroup::lookupValues( $testDetails[$testDAO->id] , $names, false);
+        }
+        $defaults['Test'] = $testDetails;
+        
+        //essay 
+        require_once 'CRM/Quest/DAO/Essay.php';
+        $essay = array();
+        $essayDAO = & new CRM_Quest_DAO_Essay();
+        $essayDAO->contact_id;
+        if ( $essayDAO->find(true) ) {
+            $essay[] = $essayDAO->essay;
+        }
+        $defaults['Essay'] = $essay;
     }
-
-
-
 
 }
     
