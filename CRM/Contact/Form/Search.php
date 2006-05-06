@@ -214,6 +214,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     function buildQuickFormCommon()
     {
         $permission = CRM_Core_Permission::getPermission( );
+
         // some tasks.. what do we want to do with the selected contacts ?
         $tasks = array( '' => ts('- more actions -') ) + CRM_Contact_Task::permissionedTasks( $permission );
         if ( isset( $this->_ssID ) ) {
@@ -281,7 +282,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         //$this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
         
         $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName().");" ) );
-        
+
+        require_once 'CRM/Utils/CAPTCHA.php';
+        $captcha =& CRM_Utils_CAPTCHA::singleton( );
+        $captcha->add( $this );
+
         /*
          * add form checkboxes for each row. This is needed out here to conform to QF protocol
          * of all elements being declared in builQuickForm
