@@ -56,16 +56,12 @@ class CRM_Quest_Page_View_PDF extends CRM_Contact_Page_View {
         $this->preProcess( );
 
         // build the values array
-        $params   = array( );
         $defaults = array( );
-        $ids      = array( );
-
-        $params['id'] = $params['contact_id'] = $this->_contactId;
-        $contact =& CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
 
         require_once 'CRM/Quest/BAO/Student.php';
-        $student =& CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
-        CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
+        CRM_Quest_BAO_Student::studentDetails( $this->_contactId, $defaults );
+        CRM_Core_Error::debug( 'd', $defaults );
+        exit( );
 
         require_once 'CRM/Utils/PDFlib.php';
         $config =& CRM_Core_Config::singleton( );

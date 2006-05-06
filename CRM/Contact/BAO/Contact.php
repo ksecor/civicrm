@@ -770,17 +770,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             }
         } 
 
-        if ( CRM_Utils_Array::value( 'prefix', $defaults ) ) {
-            self::lookupValue( $defaults, 'prefix', CRM_Core_PseudoConstant::individualPrefix(), $reverse );
-        }  
-
-        if ( CRM_Utils_Array::value( 'suffix', $defaults ) ) {
-            self::lookupValue( $defaults, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), $reverse );
-        }  
-
-        if ( CRM_Utils_Array::value( 'gender', $defaults ) ) {
-            self::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
-        }
+        self::lookupValue( $defaults, 'prefix', CRM_Core_PseudoConstant::individualPrefix(), $reverse );
+        self::lookupValue( $defaults, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), $reverse );
+        self::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
 
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];

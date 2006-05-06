@@ -99,6 +99,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     protected $_countryPresent;
 
     protected $_studentFieldPresent;
+
     /** 
      * pre processing work done here. 
      * 
