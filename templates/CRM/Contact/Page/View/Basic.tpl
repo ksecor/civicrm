@@ -53,7 +53,7 @@
    {foreach from=$loc.email item=email}
       {if $email.email}
         {if $email.is_primary eq 1}<strong>{/if}
-        {ts}Email:{/ts} {$email.email}
+        {ts}Email:{/ts} <a href="mailto:{$email.email}">{$email.email}</a>
         {if $email.is_primary eq 1}</strong>{/if}
         <br />
       {/if}

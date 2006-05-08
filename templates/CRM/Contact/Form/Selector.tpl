@@ -64,7 +64,7 @@
             <td>{$row.state_province}</td>
             <td>{$row.postal_code}</td>
             <td>{$row.country}</td>
-            <td>{$row.email|mb_truncate:17:"...":true}</td>
+            <td><a href="mailto:{$row.email}">{$row.email|mb_truncate:17:"...":true}</a></td>
             <td>{$row.phone}</td>
             <td>{$row.action}</td>
          </tr>

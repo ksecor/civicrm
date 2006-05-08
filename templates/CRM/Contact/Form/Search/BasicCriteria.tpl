@@ -34,9 +34,6 @@
             <td class="label">{$form.sort_name.label}</td>
             <td colspan={if $context EQ 'smog'}"7"{else}"5"{/if}>{$form.sort_name.html}</td>
         </tr>
-        <tr>
-            <td class="label">{$form.captcha_image.html}</td><td>{$form.captcha_phrase.html}</td>
-        </tr>
         <tr><td></td>
             <td colspan={if $context EQ 'smog'}"6"{else}"4"{/if}>
                 <div class="description font-italic">
