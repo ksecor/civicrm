@@ -449,6 +449,62 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
+    static function deleteStudent( $contactID ) {
+
+        //delete civicrm_student record
+        $dao = & new CRM_Quest_DAO_Student();
+        $dao->contact_id = $contactID;
+        $dao->delete();
+
+        //delete civicrm_essay record
+        require_once 'CRM/Quest/DAO/Essay.php';
+        $essayDAO = & new CRM_Quest_DAO_Essay();
+        $essayDAO->contact_id = $contactID;
+        $essayDAO->delete();
+
+        //delete civicrm_test record
+        require_once 'CRM/Quest/DAO/Test.php';
+        $testDAO = & new CRM_Quest_DAO_Test();
+        $testDAO->contact_id = $contactID;
+        $testDAO->delete();
+
+        //delete civicrm_referral record
+        require_once 'CRM/Quest/DAO/Referral.php';
+        $refDAO = & new CRM_Quest_DAO_Referral();
+        $refDAO->contact_id = $contactID;
+        $refDAO->delete();
+
+        //delete civicrm_household record
+        require_once 'CRM/Quest/DAO/Household.php';
+        $houseDAO = & new CRM_Quest_DAO_Household();
+        $houseDAO->contact_id = $contactID;
+        $houseDAO->delete();
+
+        //delete civicrm_income record
+        require_once 'CRM/Quest/DAO/Person.php';
+        require_once 'CRM/Quest/DAO/Income.php';
+        $personDAO =& new CRM_Quest_DAO_Person( );
+        $personDAO->contact_id = $contactID;
+        $personDAO->is_income_source   = true;
+        $personDAO->find();
+        while ($personDAO->fetch()) {
+            $incomeDAO =& new CRM_Quest_DAO_Income( );
+            $incomeDAO->person_id = $personDAO->id;
+            $incomeDAO->delete();
+        }
+
+        //delete civicrm_person record
+        $personDAO =& new CRM_Quest_DAO_Person( );
+        $personDAO->contact_id = $contactID;
+        $personDAO->delete();
+        
+        //delete civicrm_honor record
+        require_once 'CRM/Quest/DAO/Honor.php';
+        $honorDAO = & new CRM_Quest_DAO_Honor();
+        $honorDAO->contact_id = $contactID;
+        $honorDAO->delete();
+    }
+
 }
     
 ?>
