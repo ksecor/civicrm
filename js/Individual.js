@@ -48,11 +48,12 @@
  * @return none
  */
 function location_is_primary_onclick(formname, locid, maxLocs) {
+    /*
     if (locid == 1) {
-        // don't need to confirm selecting 1st location as primary
+	// don't need to confirm selecting 1st location as primary
         return;
     }
-    
+    */
     var changedKey = 'location[' + locid + '][is_primary]';
     var notPrimary = [];
     for (var j = 1; j <= maxLocs; j++) {
