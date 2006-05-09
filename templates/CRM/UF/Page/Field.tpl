@@ -44,7 +44,7 @@
         </div>
      </div>
     {else}
-        {if $action eq 16}}
+        {if $action eq 16}
         {capture assign=crmURL}{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}{/capture}
         <div class="messages status">
         <dl>
