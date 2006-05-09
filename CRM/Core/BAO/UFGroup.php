@@ -626,14 +626,24 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
         
         //check wheter this group is used by any module(check uf join records)
-        require_once 'CRM/Core/DAO/UFJoin.php';
-        $ufJoin = & new CRM_Core_DAO_UFJoin();
-        $ufJoin->uf_group_id = $id;
-        $ufJoin->find();
-        while($ufJoin->fetch()) {
+        $sql = "SELECT id
+                FROM civicrm_uf_join
+                WHERE civicrm_uf_join.module 
+                   NOT IN ( 'User Registration','User Account','Profile','Search Profile' )
+                   AND civicrm_uf_join.uf_group_id =" . CRM_Utils_Type::escape($id, 'Integer'); 
+        
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $sql );
+        if ( $dao->fetch( ) ) { 
             return 0;
         }
         
+        //delete records from uf join table
+        require_once 'CRM/Core/DAO/UFJoin.php';
+        $ufJoin = & new CRM_Core_DAO_UFJoin();
+        $ufJoin->uf_group_id = $id; 
+        $ufJoin->delete();
+
         //delete profile group
         $group = & new CRM_Core_DAO_UFGroup();
         $group->id = $id; 
