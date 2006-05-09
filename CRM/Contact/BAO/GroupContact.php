@@ -288,17 +288,20 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
    /**
      * function to get the list of groups for contact based on status of membership
      *
-     * @param int     $contactId       contact id 
-     * @param string  $status          state of membership
-     * @param int     $numGroupContact number of groups for a contact that should be shown
-     * @param boolean $count           true if we are interested only in the count
+     * @param int     $contactId         contact id 
+     * @param string  $status            state of membership
+     * @param int     $numGroupContact   number of groups for a contact that should be shown
+     * @param boolean $count             true if we are interested only in the count
+     * @param boolean $ignorePermission  true if we should ignore permissions for the current user
+     *                                   useful in profile where permissions are limited for the user
      *
      * @return array (reference )|int $values the relevant data object values for the contact or
                                       the total count when $count is true
      *
      * $access public
      */
-    static function &getContactGroup( $contactId, $status = null, $numGroupContact = null, $count = false ) {
+    static function &getContactGroup( $contactId, $status = null, $numGroupContact = null, $count = false,
+                                      $ignorePermission = false ) {
         if ( $count ) {
             $select = 'SELECT count(DISTINCT civicrm_group_contact.id)';
         } else {
@@ -323,7 +326,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                              'civicrm_group'                => 1,
                              'civicrm_subscription_history' => 1 );
         $whereTables = array( );
-        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables, $whereTables ); 
+        if ( $ignorePermission ) {
+            $permission = ' ( 1 ) ';
+        } else {
+            $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables, $whereTables ); 
+        }
         $where .= " AND $permission ";
         
         $from = CRM_Contact_BAO_Query::fromClause( $tables );

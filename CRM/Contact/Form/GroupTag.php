@@ -130,7 +130,7 @@ Class CRM_Contact_Form_GroupTag
         $type = (int ) $type; 
         if ( $type & CRM_Contact_Form_GroupTag::GROUP ) { 
             require_once 'CRM/Contact/BAO/GroupContact.php';
-            $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added' );  
+            $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $id, 'Added', null, false, true );  
             if ( $contactGroup ) {  
                 foreach ( $contactGroup as $group ) {  
                     $defaults['group'][$group['group_id']] = 1;  
