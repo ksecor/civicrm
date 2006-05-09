@@ -39,8 +39,8 @@ class WebTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminPaymentInstrument.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminAcceptedCreditCards.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminManagePremiums.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminImportExport.php' );
-
+        // $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminImportExport.php' );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/AdminOptionGroupValue.php' );
 
         // Manage Groups
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/web/ManageGroups.php' );
