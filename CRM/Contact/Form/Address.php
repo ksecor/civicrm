@@ -74,20 +74,26 @@ class CRM_Contact_Form_Address
         $location[$locationId]['address']['postal_code_suffix']            =
             $form->addElement('text', "location[$locationId][address][postal_code_suffix]", ts('Add-on Code'),
                               array( 'size' => 4, 'maxlength' => 12 ));
-         $location[$locationId]['address']['state_province_id']      =
-             $form->addElement('select', "location[$locationId][address][state_province_id]", ts('State / Province'),
-                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
-         $location[$locationId]['address']['country_id']             =
-             $form->addElement('select', "location[$locationId][address][country_id]", ts('Country'),
-                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::country());
+        $location[$locationId]['address']['state_province_id']      =
+            $form->addElement('select', "location[$locationId][address][state_province_id]", ts('State / Province'),
+                              array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
+         if ($form->getAction() & ( CRM_Core_Action::UPDATE )) {
+             $location[$locationId]['address']['country_id']             =
+                 $form->addElement('select', "location[$locationId][address][country_id]", ts('Country'),
+                                   array('' => ts('- select -')) + CRM_Core_PseudoConstant::country());
+         } else {
+             $location[$locationId]['address']['country_id']             =
+                 $form->addElement('select', "location[$locationId][address][country_id]", ts('Country'),
+                                   CRM_Core_PseudoConstant::country());
+         }
 
-        $location[$locationId]['address']['geo_code_1']             =
+         $location[$locationId]['address']['geo_code_1']             =
             $form->addElement('text', "location[$locationId][address][geo_code_1]", ts('Latitude'), array('size' => 4, 'maxlength' => 8));
-        $location[$locationId]['address']['geo_code_2']             =
-            $form->addElement('text', "location[$locationId][address][geo_code_2]", ts('Longitude'), array('size' => 4, 'maxlength' => 8));
+         $location[$locationId]['address']['geo_code_2']             =
+             $form->addElement('text', "location[$locationId][address][geo_code_2]", ts('Longitude'), array('size' => 4, 'maxlength' => 8));
     }
-
-
+    
+    
 
     /**
      * check for correct state / country mapping.
