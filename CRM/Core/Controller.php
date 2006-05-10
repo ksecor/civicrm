@@ -368,13 +368,18 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     function wizardHeader( $currentPageName ) {
         $wizard          = array( );
         $wizard['steps'] = array( );
-
         $count           = 0;
         foreach ( $this->_pages as $name => $page ) {
             $count++;
-            $wizard['steps'][] = array( 'name'  => $name,
-                                        'title' => $page->getTitle( ),
-                                        'link'  => $page->getLink ( ) );
+            $wizard['steps'][] = array( 'name'      => $name,
+                                        'title'     => $page->getTitle( ),
+                                        //'link'      => $page->getLink ( ),
+                                        'link'      => null,
+                                        'step'      => true,
+                                        'valid'     => true,
+                                        'stepNumber'=> $count,
+                                        'collapsed' => false,
+                                        );
 
             if ( $name == $currentPageName ) {
                 $wizard['currentStepNumber'] = $count;
