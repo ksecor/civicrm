@@ -148,6 +148,19 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $otherAct = CRM_Core_PseudoConstant::activityType(false);
         $activityNum = count($otherAct);
         $this->assign('showOtherActivityLink',$activityNum);
+        
+        $config =& CRM_Core_Config::singleton( );
+        
+        //add link to CMS user
+        if ( $uid = CRM_Core_BAO_UFMatch::getUFId( $this->_contactId ) ) {
+            if ($config->userFramework == 'Drupal') {
+                $url = CRM_Utils_System::url( 'user/' . $uid );
+            } else {
+                //$url = CRM_Utils_System::url( 'option=com_users&task=editA&hidemainmenu=1&id=' . $uid );
+                $url = $config->userFrameworkBaseURL . 'index2.php?option=com_users&task=editA&hidemainmenu=1&id=' . $uid;
+            }
+            $this->assign( 'url', $url );
+        }
     }
 
 
