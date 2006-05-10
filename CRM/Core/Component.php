@@ -84,7 +84,7 @@ class CRM_Core_Component {
 
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) &&
-                 $info[$name]['url'] === $args[1] ) {
+                 ( $info[$name]['url'] === $args[1] || $info[$name]['url'] === $args[2] ) ) {
                 
                 $className = $info[$name]['path'] . 'Invoke';
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
@@ -101,10 +101,11 @@ class CRM_Core_Component {
                     }
                     if ( CRM_Utils_Array::value( 'css', $info[$name] ) ) {
                         $styleSheets .= '<style type="text/css">@import url(' . "{$config->resourceBase}css/{$info[$name]['css']});</style>";
+
                         CRM_Utils_System::addHTMLHead( $styleSheet );
                     }
                     drupal_set_html_head( $styleSheets );
-                }            
+                }
                 eval( $className . '::' . $type . '( $args );' );
                 return true;
             }
