@@ -141,12 +141,12 @@ class CRM_Core_Invoke {
         }
 
         $session =& CRM_Core_Session::singleton();
-        
+
         $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' );
-       if ($session->get('isAdvanced')) {
-           $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
-       }
-       
+        if ($session->get('isAdvanced')) {
+            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
+        }
+        
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Search Results') . '</a>';
        
         if ( $args[1] !== 'contact' ) {
@@ -271,16 +271,23 @@ class CRM_Core_Invoke {
                 break;
                 
             default:
-                $id = CRM_Utils_Request::retrieve( 'cid', 'Positive',
-                                                   CRM_Core_DAO::$_nullObject ); 
+                $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject ); 
+
                 $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
-                if ( $contact_sub_type == 'Student' ) {
-                    require_once 'CRM/Quest/Page/View/Student.php';
-                    $view =& new CRM_Quest_Page_View_Student( );
+                $contact_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type' );
+                $config =& CRM_Core_Config::singleton( );
+                
+                if( file_exists($config->contact_subType['fileName']) ) {
+                    require_once $config->contact_subType['fileName'];
+                    $view =& new $config->contact_subType['className'].'( )';
+                } elseif ( file_exists( 'CRM/Contact/Page/View/' . $contact_type . '.php' ) ) {
+                    require_once 'CRM/Contact/Page/View/' . $contact_type . '.php';
+                    eval('$view =& new CRM_Contact_Page_View_' . $contact_type . '( );');
                 } else {
                     require_once 'CRM/Contact/Page/View/Basic.php';
                     $view =& new CRM_Contact_Page_View_Basic( );
                 }
+                
                 break;
             }
             return $view->run( );

@@ -360,6 +360,13 @@ class CRM_Core_Config {
     public $fatalErrorHandler = null;
 
     /**
+     * Array of filename & classname
+     *
+     * @var array
+     */
+    public $contact_subType = array();
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -730,6 +737,14 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_FATAL_ERROR_HANDLER' ) ) {
             $this->fatalErrorTemplate = CIVICRM_FATAL_ERROR_HANDLER;
+        }
+
+        if ( defined( 'STUDENT_FILENAME' ) ) {
+            $this->contact_subType['fileName'] = STUDENT_FILENAME;
+        }
+
+        if ( defined( 'STUDENT_CLASSNAME' ) ) {
+            $this->contact_subType['className'] = STUDENT_CLASSNAME;
         }
 
         require_once 'CRM/Core/Component.php';
