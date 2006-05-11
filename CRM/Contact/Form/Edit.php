@@ -219,7 +219,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
         
         // use most recently posted values if any to display show hide blocks
-        $params = $this->controller->exportValues( $this->_name );
+        //$params = $this->controller->exportValues( $this->_name );
+        
+        $params = $_POST;  //fix for CRM-907
+
         if ( ! empty( $params ) ) {
             $this->setShowHide( $params, true );
         } else {
@@ -251,7 +254,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     function setShowHide( &$defaults, $force ) {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
                                                          '') ;
-
         if ( $this->_contactType == 'Individual' ) {
             $this->_showHide->addShow( 'demographics[show]' );
             $this->_showHide->addHide( 'demographics' );
