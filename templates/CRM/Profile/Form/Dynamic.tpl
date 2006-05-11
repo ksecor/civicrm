@@ -14,14 +14,29 @@
     {foreach from=$fields item=field key=name}
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
+            {if $addCAPTCHA }
+              <tr>
+               <td></td>
+               <td>{$form.captcha_image.html}</td>
+             </tr>
+             <tr> 
+               <td></td>   
+               <td>{$form.captcha_phrase.html}
+                 <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
+                </td>
+             </tr>
+           {/if}   
            </table>
            {if $groupHelpPost}
               <div class="messages help">{$groupHelpPost}</div>
            {/if}
+
            {if $mode ne 8}
               </fieldset>
            {/if}
         {/if}
+
+
         {if $mode ne 8} 
             <fieldset><legend>{$field.groupTitle}</legend>
         {/if}
@@ -70,10 +85,26 @@
         {* Show explanatory text for field if not in 'view' mode *}
         {if $field.help_post && $action neq 4}<tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
         {/if}
+
     {/foreach}
         {if $addToGroupId}
 	        <tr><td class="label">{$form.group[$addToGroupId].label}</td><td>{$form.group[$addToGroupId].html}</td></tr>
 	    {/if}
+        
+        {if $mode eq 8 || $mode eq 4}
+            {if $addCAPTCHA }
+              <tr>
+               <td></td>
+               <td>{$form.captcha_image.html}</td>
+             </tr>
+             <tr> 
+               <td></td>   
+               <td>{$form.captcha_phrase.html}
+                 <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
+                </td>
+             </tr>
+           {/if}   
+        {/if}
     </table>
 {if $field.groupHelpPost}
     <div class="messages help">{$field.groupHelpPost}</div>

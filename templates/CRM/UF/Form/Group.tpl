@@ -42,8 +42,9 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the end of the fieldset.{/ts}</dd>
     <dt>{$form.post_URL.label}</dt><dd>{$form.post_URL.html}</dd>  
     <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL after they've submitted the form - enter the complete URL here. If this field is left blank, the profile form will be redisplayed with a generic status message - 'Your contact information has been saved.'{/ts}</dd>
+    <dt></dt><dd>{$form.add_captcha.html} {$form.add_captcha.label}</dd> 
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
-   
+        
     
     </dl>
     {/if}

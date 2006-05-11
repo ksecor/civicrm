@@ -71,6 +71,18 @@
             <tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
         {/if}
     {/foreach}
+    {if $addCAPTCHA }
+              <tr>
+               <td></td>
+               <td>{$form.captcha_image.html}</td>
+             </tr>
+             <tr> 
+               <td></td>   
+               <td>{$form.captcha_phrase.html}
+                 <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
+                </td>
+             </tr>
+    {/if}   
     </table>
     {if $field.groupHelpPost}
     <div class="messages help">{$field.groupHelpPost}</div>

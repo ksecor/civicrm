@@ -212,6 +212,17 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             }
         }
      
+        require_once 'CRM/Core/DAO/UFGroup.php';
+        $dao = new CRM_Core_DAO_UFGroup();
+        $dao->id = $this->_gid;
+        $dao->find(true);
+        if ( $dao->add_captcha ) {
+            require_once 'CRM/Utils/CAPTCHA.php';
+            $captcha =& CRM_Utils_CAPTCHA::singleton( );
+            $captcha->add( $this );
+            $this->assign( 'addCAPTCHA' , true );
+        }
+        
         $this->addButtons(array(
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Done with Preview'),

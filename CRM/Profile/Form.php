@@ -429,7 +429,17 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-
+        
+        $dao = new CRM_Core_DAO_UFGroup();
+        $dao->id = $this->_gid;
+        $dao->find(true);
+        if ( $dao->add_captcha ) {
+            require_once 'CRM/Utils/CAPTCHA.php';
+            $captcha =& CRM_Utils_CAPTCHA::singleton( );
+            $captcha->add( $this );
+            $this->assign( 'addCAPTCHA' , true );
+        }
+        
         if ($addToGroupId) {
             $this->add('hidden', "group[$addToGroupId]", 1 );
             $this->assign( 'addToGroupId' , $addToGroupId );

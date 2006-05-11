@@ -146,6 +146,10 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
 
         //group where new contacts are directed.
         $this->addElement('select', 'add_contact_to_group', ts('Add Contacts to Group'), $group);
+        
+         // add CAPTCHA To this group ?
+        $this->addElement('checkbox', 'add_captcha', ts('Add CAPTCHA for this Profile?') );
+
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',

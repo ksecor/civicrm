@@ -732,7 +732,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @return object
      */
     static function add(&$params, &$ids) {
-        $params['is_active'              ] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['is_active'   ] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['add_captcha' ] = CRM_Utils_Array::value('add_captcha', $params, false);
+        
         $params['limit_listings_group_id'] = CRM_Utils_Array::value('group', $params);
         $params['add_to_group_id'] = CRM_Utils_Array::value('add_contact_to_group', $params);
     

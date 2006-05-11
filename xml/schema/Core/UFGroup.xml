@@ -106,5 +106,12 @@
        <name>add_to_group_id</name> 
        <table>civicrm_group</table> 
        <key>id</key> 
-  </foreignKey> 
+  </foreignKey>
+   <field>
+       <name>add_captcha</name>
+       <type>boolean</type>
+        <default>0</default>
+       <comment>Is this form contains CAPTHA.</comment>
+       <add>1.1</add>
+  </field>
 </table>
