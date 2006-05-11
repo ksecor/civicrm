@@ -4,7 +4,7 @@
 ** HTML elements
 */
 body {
-  background: #fff url(druplicon-watermark.png) no-repeat top right;
+  background: #fff;
   font-family: arial, helvetica, sans-serif;
 }
 a:link {
