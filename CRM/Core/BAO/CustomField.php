@@ -694,11 +694,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             }
         }
 
-        //set defaults if mode is registration 
-        if (!trim($value) && $mode == CRM_Profile_Form::MODE_REGISTER ) {
+        //set defaults if mode is registration / edit
+        if (!trim($value) && ($mode != CRM_Profile_Form::MODE_SEARCH) ) {
             $value = $customField->default_value;
         }
-        
+
         switch ($customField->html_type) {
             
         case 'CheckBox':
