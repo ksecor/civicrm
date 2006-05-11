@@ -39,6 +39,8 @@
 class CRM_Core_Component {
     static $_info = null;
 
+    static $_contactSubTypes = null;
+
     static function &info( ) {
         if ( self::$_info == null ) {
             self::$_info = array( 
@@ -62,7 +64,8 @@ class CRM_Core_Component {
                                                             'search'  => 1,
                                                             'metaTpl' => 'quest',
                                                             'formTpl' => 'quest',
-                                                            'css'     => 'quest.css'),
+                                                            'css'     => 'quest.css' ),
+
                                  );
         }
         return self::$_info;
@@ -236,6 +239,29 @@ class CRM_Core_Component {
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
                 eval( $className . '::addShowHide( $showHide );' );
             }
+        }
+    }
+
+    static function &contactSubTypes( ) {
+        if ( self::$_contactSubTypes == null ) {
+            self::$_contactSubTypes =
+                array(
+                      'Student' =>
+                      array( 'View' => 
+                             array( 'file'  => 'CRM/Quest/Page/View/Student.php',
+                                    'class' => 'CRM_Quest_Page_View_Student' ),
+                             )
+                      );
+        }
+        return self::$_contactSubTypes;
+    }
+
+    
+    static function &contactSubTypeProperties( $subType, $op ) {
+        $properties =& self::contactSubTypes( );
+        if ( array_key_exists( $subType, $properties ) &&
+             array_key_exists( $op, $properties[$subType] ) ) {
+            return $properties[$subType][$op];
         }
     }
 

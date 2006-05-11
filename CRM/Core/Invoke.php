@@ -275,14 +275,14 @@ class CRM_Core_Invoke {
 
                 $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
                 $contact_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type' );
-                $config =& CRM_Core_Config::singleton( );
-                
-                if( file_exists($config->contact_subType['fileName']) ) {
-                    require_once $config->contact_subType['fileName'];
-                    $view =& new $config->contact_subType['className'].'( )';
+
+                $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'View' );
+                if( $properties ) {
+                    require_once $properties['file'];
+                    eval( '$view =& new ' . $properties['class'] . '( );' );
                 } elseif ( file_exists( 'CRM/Contact/Page/View/' . $contact_type . '.php' ) ) {
                     require_once 'CRM/Contact/Page/View/' . $contact_type . '.php';
-                    eval('$view =& new CRM_Contact_Page_View_' . $contact_type . '( );');
+                    eval( '$view =& new CRM_Contact_Page_View_' . $contact_type . '( );' );
                 } else {
                     require_once 'CRM/Contact/Page/View/Basic.php';
                     $view =& new CRM_Contact_Page_View_Basic( );

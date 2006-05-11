@@ -559,13 +559,6 @@ define( 'CIVICRM_FATAL_ERROR_TEMPLATE', 'CRM/error.tpl' );
 define( 'CIVICRM_FATAL_ERROR_HANDLER',  '');
 
 /**
- *
- */
-
-define( 'STUDENT_FILENAME'  , 'CRM/Quest/Page/View/Student.php' );
-define( 'STUDENT_CLASSNAME' , 'CRM_Quest_Page_View_Student'     );
-
-/**
  * 
  * Do not change anything below this line. Keep as is
  *
