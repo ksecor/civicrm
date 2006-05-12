@@ -18,6 +18,11 @@
             <td nowrap class="save">
             <div class="crm-submit-buttons">
                 {$form.buttons.html}
+                {if $userContext} 
+                    <div>
+                        <a href="{$userContext}">&raquo; {ts}Back to Branner{/ts}</a>   
+                    </div>
+                {/if}
             </div>
             </td>	    	
         </tr>
@@ -63,9 +68,11 @@
   {if ! ( $action & 1024 )}
     <div class="crm-submit-buttons">
         {$form.buttons.html}
-    </div>
-    <div>
-       {if $userContext} &nbsp; &nbsp; <a href="{$userContext}">&raquo; {ts}Back to Branner{/ts}</a> {/if}       
+        {if $userContext} 
+            <div>
+                <a href="{$userContext}">&raquo; {ts}Back to Branner{/ts}</a>   
+            </div>
+        {/if}
     </div>
   {/if}
     </td>
