@@ -273,7 +273,14 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
             $student =& CRM_Quest_BAO_Student::create( $params , $ids);
             
             $this->set( 'studentID', $student->id );
-            $this->set( 'welcome_name', $params['first_name'] ); 
+            //$this->set( 'welcome_name', $params['first_name'] ); 
+            
+            $dao =& new CRM_Contact_DAO_Contact( );
+            $dao->id = $this->_contactID;
+            if ( $dao->find( true ) ) {
+                $this->set( 'welcome_name',
+                            $dao->display_name );
+            }
 
             // also trigger the sibling generation in case number_siblings has changes
             CRM_Quest_Form_App_Sibling::getPages( $this->controller, true );

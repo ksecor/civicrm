@@ -78,23 +78,16 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
             $this->set( 'contactID', $cid );
 
             // set contact id and welcome name
-            require_once 'CRM/Contact/DAO/Individual.php';
-            $dao =& new CRM_Contact_DAO_Individual( );
-            $dao->contact_id = $cid;
+       
+            $dao =& new CRM_Contact_DAO_Contact( );
+            $dao->id = $cid;
             if ( $dao->find( true ) ) {
                 $this->set( 'welcome_name',
-                            $dao->first_name );
+                             $dao->display_name );
             } else {
-                // make sure contact exists
-                $dao =& new CRM_Contact_DAO_Contact( );
-                $dao->id = $cid;
-                if ( $dao->find( true ) ) {
-                    $this->set( 'welcome_name',
-                                $dao->display_name );
-                } else {
-                    CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
-                }
+                CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
             }
+       
         }
 
         $studentID = $this->get( 'studentID' );
@@ -138,6 +131,11 @@ class CRM_Quest_Controller_PreApp extends CRM_Core_Controller {
 
         $this->set( 'taskStatusID', $dao->id );
         $this->assign( 'taskStatus', array_search( $dao->status_id, $status ) );
+
+        //set user context
+        $session =& CRM_Core_Session::singleton();
+        $userContext = $session->readUserContext( );
+        $this->assign( 'userContext', $userContext );
     }
 
     /**

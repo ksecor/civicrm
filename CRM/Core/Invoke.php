@@ -272,7 +272,8 @@ class CRM_Core_Invoke {
                 
             default:
                 $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject ); 
-
+                $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/basic', 'reset=1&cid='.$id ) );
+                
                 $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
                 $contact_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type' );
 
