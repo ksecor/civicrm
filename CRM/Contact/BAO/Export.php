@@ -74,10 +74,11 @@ class CRM_Contact_BAO_Export {
         } else {
             $primary = true;
             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
-            
             foreach ($fields as $key => $var) { 
                 if ($key) {
-                    $returnProperties[$key] = 1;
+                    if ( substr($key,0, 6) !=  'custom' ) { //for CRM=952
+                        $returnProperties[$key] = 1;
+                    }
                 }
             }
         }
