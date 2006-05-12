@@ -542,7 +542,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $attributes =& $option['attributes'];
         $html_type  =  $attributes['html_type'];
         $data_type  =  $attributes['data_type'];
-        $index = $attributes['label'];
+        $index      =  $attributes['label'];
 
         $display = $value;
 
@@ -560,6 +560,18 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $display = $option[$value];
             break;
                     
+        case "Multi-Select":
+            $v = array( );
+            $p = array( );
+            foreach ( $value as $dontCare => $val ) {
+                $p[] = $val;
+                $v[] = $option[$val];
+            }
+            if ( ! empty( $v ) ) {
+                $display = implode( ', ', $v );
+            }
+            break;
+
         case "CheckBox":
             if ( is_array( $value ) ) {
                 $checkedData = array_keys( $value );

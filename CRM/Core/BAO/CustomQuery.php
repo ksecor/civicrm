@@ -157,7 +157,7 @@ class CRM_Core_BAO_CustomQuery {
             $this->_options[$dao->id]['attributes'] = array( 'label'     => $dao->label,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
-            if ( $dao->html_type == 'CheckBox' || $dao->html_type == 'Radio' || $dao->html_type == 'Select' ) {
+            if ( $dao->html_type == ('CheckBox' || 'Radio' || 'Select' || 'Multi-Select') ) {
                 $optionIds[] = $dao->id;
             }
         }
@@ -238,15 +238,20 @@ class CRM_Core_BAO_CustomQuery {
             if ( ! is_array( $value ) ) {
                 $value = addslashes(trim($value));
             }
-            
+
             switch ( $field['data_type'] ) {
 
             case 'String':
                 $sql = 'LOWER(' . self::PREFIX . $field['id'] . '.char_data) LIKE ';
                 // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
-                if ( $field['html_type'] == 'CheckBox' && is_array( $value ) ) { 
-                    $this->_where[] = $sql . "'%" . implode( '%', array_keys( $value ) ) . "%'";
-                    $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
+                if ( is_array( $value ) ) { 
+                    if ($field['html_type'] == 'CheckBox') {
+                        $this->_where[] = $sql . "'%" . implode( '%', array_keys( $value ) ) . "%'";
+                        $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
+                    } else { // for multi select
+                        $this->_where[] = $sql . "'%" . implode( '%',  $value ) . "%'";
+                        $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
+                    }                    
                 } else {
                     if ( $field['is_search_range'] ) {
                         $this->searchRange( $field['id'], $field['label'], 'char_data', $value );
