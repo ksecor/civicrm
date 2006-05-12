@@ -184,6 +184,24 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household', false, true);
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization', false, true);
 
+        // add component fields
+        $compArray = array();
+        require_once 'CRM/Quest/BAO/Student.php';
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        $config = CRM_Core_Config::singleton();
+        $enabledComponent = $config->enableComponents;
+      
+        if (is_array( $enabledComponent )) {
+            foreach( $enabledComponent as $component ) {
+                if ($component == 'Quest') {
+                    $fields['Student'] =& CRM_Quest_BAO_Student::exportableFields();
+                    $compArray['Student'] = 'Student';
+                } else if ( $component == 'CiviContribute') {
+                    $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
+                    $compArray['Contribution'] = 'Contribution';
+                }
+            }
+        }
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 $this->_mapperFields[$key][$key1] = $value1['title'];
@@ -209,7 +227,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                 $this->_location_types;
         }
         
-        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();
+        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType() + $compArray;
         
         foreach($sel1 as $key=>$sel ) {
             if($key) {
