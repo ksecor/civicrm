@@ -833,6 +833,17 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $defaults[$elementName] = CRM_Utils_Date::unformat( $value, '-' );
                     }
                     break;
+                    
+                case 'Select Country':
+                    if ( $value ) {
+                        $defaults[$elementName] = $value;
+                    } else {
+                        $config          =& CRM_Core_Config::singleton( );
+                        $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
+                        $defaultCountryId = array_search($config->defaultContactCountry, $countryIsoCodes);
+                        $defaults[$elementName] = $defaultCountryId;
+                    }
+                    break;
 
                 default:
                     if ($field['data_type'] == "Float") {

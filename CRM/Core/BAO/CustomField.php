@@ -444,9 +444,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             //Add Country
             if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
                 $countryOption = array('' => ts('')) + CRM_Core_PseudoConstant::country();
-            } else if ($qf->getAction() & ( CRM_Core_Action::ADD )) {
-                $countryOption = CRM_Core_PseudoConstant::country();
-            } else {
+	    } else {
                 $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
             }
             $qf->add('select', $elementName, $label, $countryOption, (($useRequired || $field->is_required) && !$search));
