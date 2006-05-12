@@ -54,62 +54,23 @@ class CRM_Contact_BAO_Export {
         $primary = false;
  
         if ($fields) {
-            $location = array();
-            $locationType = array("Work"=>array(),"Home"=>array(),"Main"=>array(),"Other"=>array());
-            $returnFields = $fields;
+            //construct return properties 
+            $locationTypes =& CRM_Core_PseudoConstant::locationType();
+            
+            foreach ( $fields as $key => $value) {
+                list($contactType, $fieldName, $locTypeId, $phoneTypeId) =  $value;
 
-            foreach($returnFields as $key => $field) {
-                $flag = true ;
-                $phone_type = "";
-                $phoneFlag = false;
-                if( $field[3] && $field[1] == 'phone' ) {
-                   
-                    if($field[3] == 'Phone') {
-                        $phone_type = $field[1]."-"."Phone";
-                    } else if($field[3] == 'Mobile') {
-                        $phone_type = $field[1]."-"."Mobile";
-                    } else if($field[3] == 'Fax') {
-                        $phone_type = $field[1]."-"."Fax";
-                    } else if($field[3] == 'Pager') {
-                        $phone_type = $field[1]."-"."Pager";
+                if ($locTypeId) {
+                    if ($phoneTypeId) {
+                        $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
+                    } else {
+                        $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
                     }
-                    
-                    $phoneFlag = true ;
-                }
-                if( $field[2] ) {
-                    if ($field[2] == 1) {
-                        if ($phoneFlag) {
-                            $locationType["Home"][$phone_type] = 1;
-                        } else {
-                            $locationType["Home"][$field[1]] = 1;  
-                        }
-                    }else if ($field[2] == 2) {
-                        if ($phoneFlag) {
-                            $locationType["Work"][$phone_type] = 1;
-                        } else {
-                            $locationType["Work"][$field[1]] = 1;
-                        }
-                    }else if ($field[2] == 3) {
-                        if ($phoneFlag) {
-                            $locationType["Main"][$phone_type] = 1;
-                        } else {
-                            $locationType["Main"][$field[1]] = 1;
-                        }
-                    }else if ($field[2] == 4) {
-                        if ($phoneFlag) {
-                            $locationType["Other"][$phone_type] = 1;
-                        } else {
-                            $locationType["Other"][$field[1]] = 1;
-                        }
-                    }
-                    $flag = false;   
-                } 
-                
-                if ($flag) {
-                    $returnProperties[$field[1]] = 1; 
+                } else {
+                    $returnProperties[$fieldName] = 1;
                 }
             }
-            $returnProperties['location'] = $locationType;
+            
         } else {
             $primary = true;
             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
@@ -143,7 +104,10 @@ class CRM_Contact_BAO_Export {
                 $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields, true );         
             } else {
                 $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, true );         
+
             }
+
+            
         }
 
         list( $select, $from, $where ) = $query->query( );
