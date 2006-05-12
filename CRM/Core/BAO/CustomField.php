@@ -561,14 +561,16 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             break;
                     
         case "Multi-Select":
-            $v = array( );
-            $p = array( );
-            foreach ( $value as $dontCare => $val ) {
-                $p[] = $val;
-                $v[] = $option[$val];
-            }
-            if ( ! empty( $v ) ) {
-                $display = implode( ', ', $v );
+            if (is_array($value)) {
+                $v = array( );
+                $p = array( );
+                foreach ( $value as $dontCare => $val ) {
+                    $p[] = $val;
+                    $v[] = $option[$val];
+                }
+                if ( ! empty( $v ) ) {
+                    $display = implode( ', ', $v );
+                }
             }
             break;
 
