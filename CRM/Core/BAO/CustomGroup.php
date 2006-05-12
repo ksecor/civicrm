@@ -835,7 +835,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     break;
 
                 default:
-                    $defaults[$elementName] = $value;
+                    if ($field['data_type'] == "Float") {
+                        $defaults[$elementName] = (float)$value;
+                    } else { 
+                        $defaults[$elementName] = $value;
+                    }
                 } 
             }
         }
@@ -1059,8 +1063,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                                 }
                             }
                         } else {
-
-                            $form[$elementName]['html'] = $field['customValue']['data'];
+                            if ($field['data_type'] == "Float") {
+                                $form[$elementName]['html'] = (float)$field['customValue']['data'];
+                            } else {
+                                $form[$elementName]['html'] = $field['customValue']['data'];
+                            }
                         }
                     }
                 } else {
@@ -1100,7 +1107,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                             }
                             $form[$elementName]['html'] = CRM_Utils_Date::customFormat($field['customValue']['data'],$format);
                             break;
-                            
+
                         default:
                             $form[$elementName]['html'] = $field['customValue']['data'];
                         }                    
