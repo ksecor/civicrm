@@ -90,8 +90,8 @@
         {if $addToGroupId}
 	        <tr><td class="label">{$form.group[$addToGroupId].label}</td><td>{$form.group[$addToGroupId].html}</td></tr>
 	    {/if}
-        
-        {if $mode eq 8 || $mode eq 4}
+       
+        {if $mode eq 8 || $mode eq 4 || $mode eq 1}
             {if $addCAPTCHA }
               <tr>
                <td></td>

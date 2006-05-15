@@ -356,7 +356,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     function &exportableFields( ) {
         require_once 'CRM/Contribute/DAO/Product.php';
         require_once 'CRM/Contribute/DAO/ContributionProduct.php';
-        $impFields = self::importableFields( );
+        //$impFields = self::importableFields( );
+        $impFields = CRM_Contribute_DAO_Contribution::import( );
         $expFieldProduct = CRM_Contribute_DAO_Product::export( );
         $expFieldsContrib = CRM_Contribute_DAO_ContributionProduct::export( );
         $typeField = CRM_Contribute_DAO_ContributionType::export( );

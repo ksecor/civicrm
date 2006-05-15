@@ -343,7 +343,7 @@ class CRM_Contact_BAO_Query {
 
         $this->addSpecialFields( );
 
-        CRM_Core_Component::alterQuery( $this, 'select' );
+        //CRM_Core_Component::alterQuery( $this, 'select' );
 
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
@@ -431,9 +431,13 @@ class CRM_Contact_BAO_Query {
                 }
             }
         }
-
+        
+        
         // add location as hierarchical elements
         $this->addHierarchicalElements( );
+
+        //fix for CRM-951
+        CRM_Core_Component::alterQuery( $this, 'select' );
 
         if ( ! empty( $cfIDs ) ) {
             //CRM_Core_Error::debug( 'cfIDs', $cfIDs );
