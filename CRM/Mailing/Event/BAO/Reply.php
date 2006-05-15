@@ -201,11 +201,13 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
         /* TODO: do we need reply tokens? */
         if ($eq->format == 'HTML' ||  $eq->format == 'Both') {
             $html = $component->body_html;
+            require_once 'CRM/Utils/Token.php';
             $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
             $message->setHTMLBody($html);
         }
         if (!$html || $eq->format == 'Text' ||  $eq->format == 'Both') {
             $text = $component->body_text;
+            require_once 'CRM/Utils/Token.php';
             $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
             $message->setTxtBody($text);
         }
