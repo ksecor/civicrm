@@ -36,12 +36,14 @@
 
 require_once 'CRM/Core/DAO/Mapping.php';
 
-class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping {
+class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping 
+{
 
     /**
      * class constructor
      */
-    function __construct( ) {
+    function __construct( ) 
+    {
         parent::__construct( );
     }
 
@@ -59,7 +61,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping {
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults ) {
+    static function retrieve( &$params, &$defaults ) 
+    {
         $mapping =& new CRM_Core_DAO_Mapping( );
         $mapping->copyValues( $params );
         if ( $mapping->find( true ) ) {
@@ -79,7 +82,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping {
      * @static
      *
      */
-    static function del ( $id ) {
+    static function del ( $id ) 
+    {
         // delete from mapping_field table
         require_once "CRM/Core/DAO/MappingField.php";
         $mappingField =& new CRM_Core_DAO_MappingField( );
@@ -112,7 +116,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping {
      * @access public
      * @static
      */
-    static function add( &$params, &$ids ) {
+    static function add( &$params, &$ids ) 
+    {
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
@@ -137,12 +142,81 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping {
      * @access public
      * @static
      */
-    static function dataExists( &$params ) {
+    static function dataExists( &$params ) 
+    {
         if ( !empty( $params['name'] ) ) {
             return true;
         }
         
         return false;
     }
+
+    /**
+     * function to get the list of mappings
+     * 
+     * @params string  $mappingType  mapping type 
+     *
+     * @return array $mapping array of mapping name 
+     * @access public
+     * @static
+     */
+    static function getMappings($mappingType)
+    {
+        $mappingArray = array();
+        $mappingDAO =&  new CRM_Core_DAO_Mapping();
+        $mappingDAO->domain_id = CRM_Core_Config::domainID( );
+        $mappingDAO->mapping_type = $mappingType;
+        $mappingDAO->find();
+        
+        while ($mappingDAO->fetch()) {
+            $mappingArray[$mappingDAO->id] = $mappingDAO->name;
+        }
+        
+        return $mappingArray;
+    }
+
+    /**
+     * function to get the mapping fields
+     *
+     * @params int $mappingId  mapping id
+     *
+     * @return array $mappingFields array of mapping fields
+     * @access public
+     * @static
+     *
+     */
+    static function getMappingFields( $mappingId )
+    {
+        //mapping is to be loaded from database
+        $mapping =& new CRM_Core_DAO_MappingField();
+        $mapping->mapping_id = $mappingId;
+        $mapping->orderBy('column_number');
+        $mapping->find();
+        
+        $mappingName = array();
+        $mappingLocation = array();
+        $mappingContactType = array();
+        $mappingPhoneType = array();
+        $mappingRelation = array();
+        while($mapping->fetch()) {
+            $mappingName[$mapping->column_number] = $mapping->name;
+            $mappingContactType[] = $mapping->contact_type;                
+            
+            if ( !empty($mapping->location_type_id ) ) {
+                $mappingLocation[$mapping->column_number] = $mapping->location_type_id;
+            }
+            
+            if ( !empty( $mapping->phone_type ) ) {
+                $mappingPhoneType[$mapping->column_number] = $mapping->phone_type;
+            }
+            
+            if ( !empty($mapping->relationship_type_id) ) {
+                $mappingRelation[$mapping->column_number] = $mapping->relationship_type_id;
+            }
+        }
+        
+        return array ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  );   
+    }
+
 }
 ?>
