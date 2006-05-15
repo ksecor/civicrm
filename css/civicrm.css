@@ -199,6 +199,7 @@ div.spacer {
 }
 
 #crm-container .form-layout td.label, #crm-container .form-layout-compressed td.label, #crm-container .selector td.label {
+  display: inline;
   text-align: right;
   padding: 0em 0.50em 0em 0.75em;
 }
@@ -310,6 +311,7 @@ div.spacer {
 
 #crm-container label, .labels, .label {
   font-weight: bold;
+  display: inline;
 }
 
 #crm-container .font-light {

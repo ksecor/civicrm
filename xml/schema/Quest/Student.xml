@@ -351,7 +351,7 @@
        <type>boolean</type>
        <default>NULL</default>
        <export>true</export>
-       <title>Class Ranking</title>
+       <title>Has Class Ranking</title>
        <import>true</import>
        <headerPattern>/class ranking/i</headerPattern>
        <comment>Does students class have rankings.</comment>

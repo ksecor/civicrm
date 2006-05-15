@@ -111,7 +111,7 @@
        <name>add_captcha</name>
        <type>boolean</type>
         <default>0</default>
-       <comment>Is this form contains CAPTHA.</comment>
+       <comment>Should a CAPTCHA widget be included this Profile form.</comment>
        <add>1.1</add>
   </field>
 </table>
