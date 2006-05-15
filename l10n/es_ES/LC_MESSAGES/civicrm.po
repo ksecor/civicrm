@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-18 08:33+0200\n"
-"PO-Revision-Date: 2006-05-09 23:49+0200\n"
+"PO-Revision-Date: 2006-05-12 17:23+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -3853,7 +3853,7 @@ msgstr "No se pudo abrir el fichero %1 para escritura"
 msgid ""
 "Your %1 value is: \"%2\". This value must be entered in the Payment "
 "Processor section of the CiviCRM configuration file."
-msgstr ""
+msgstr "Tu %1 valor es: \"%2\". Este valor se debe introducir en la sección Proceso de Pago del fichero de configuración CiviCRM."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Please enter a product name."
@@ -3936,42 +3936,35 @@ msgid ""
 "configured to use default thumbnail image. If you have a local thumbnail "
 "image you can upload it separately and input the thumbnail URL by editing "
 "this premium."
-msgstr ""
+msgstr "ADVERTENCIA: No se crearon miniaturas de esta imagen porque la librería de imagenes GD no está compilada en la instalación de PHP. El producto está configurado para usar la imagen en miniatura por defecto. Si tienes una miniatura, puedes subirla de forma separada e introducir la URL de la miniatura editando esta característica."
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "The Premium Product  \"%1\" has been saved."
-msgstr "La Etiqueta \"%1\" ha sido guardada."
+msgstr "El Producto Premio \"%1\" ha sido guardado."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "Please enter a valid Payment Instrument name."
-msgstr "Por Favor, introduce un nombre válido."
+msgstr "Por Favor, introduce un medio de pago válido."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "Selected Payment Instrument has been deleted."
-msgstr "La Cita seleccionada ha sido borrada"
+msgstr "El medio de pago seleccionado ha sido borrado."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "The Payment Instrument \"%1\" has been saved."
-msgstr "El sexo \"%1\" ha sido guardado."
+msgstr "El Medio de Pago \"%1\" ha sido guardado."
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Contributor"
-msgstr "Continuar"
+msgstr "Contribuyente"
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Contribution Dates - From"
-msgstr "Fechas de Actividades - Desde"
+msgstr "Fechas de Contribuciones - Desde"
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Valid"
-msgstr "Filas Válidas"
+msgstr "Válido"
 
 #: CRM/Contribute/Form/Search.php
 msgid "All"
@@ -3979,164 +3972,138 @@ msgstr "Todo"
 
 #: CRM/Contribute/Form/Search.php
 msgid "Contribution Status"
-msgstr ""
+msgstr "Estado de la Aportación"
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Thank-you date not set?"
-msgstr "Pié de página del mailing"
+msgstr "¿Fecha de agradecimiento no ajustada?"
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Receipt date not set?"
-msgstr "Destinatarios"
+msgstr "¿Fecha de recibo no indicada?"
 
 #: CRM/Contribute/Form/Task/Delete.php
-#, fuzzy
 msgid "Deleted Contribution(s): %1"
-msgstr "Contacto(s) Eliminado(s): %1"
+msgstr "Contribuyente(s) Eliminado(s): %1"
 
 #: CRM/Contribute/Form/Task/Delete.php
-#, fuzzy
 msgid "Total Selected Contribution(s): %1"
-msgstr "Contacto(s) Seleccionados en Total: %1"
+msgstr "Contribuyente(s) Seleccionado(s) en Total: %1"
 
 #: CRM/Contribute/Form/Task/Export.php
 msgid "Contribution ID"
-msgstr ""
+msgstr "ID del Contribuyente"
 
 #: CRM/Contribute/Form/Task/Export.php
-#, fuzzy
 msgid "CiviCRM Contributions"
-msgstr "Accesos Directos CiviCRM"
+msgstr "Contribuyentes CiviCRM"
 
 #: CRM/Contribute/Form/Task/Print.php
-#, fuzzy
 msgid "Print Contributions"
-msgstr "Imprimir listado de contactos"
+msgstr "Imprimir listado de contribuyentes"
 
 #: CRM/Contribute/Import/Parser.php
-#, fuzzy
 msgid "View Contribution URL"
-msgstr "Ver URL de Contacto"
+msgstr "Ver URL de Contribución"
 
 #: CRM/Contribute/Invoke.php
 msgid "Accept Credit Cards"
-msgstr ""
+msgstr "Aceptar Tarjetas de Crédito"
 
 #: CRM/Contribute/Invoke.php
-#, fuzzy
 msgid "Create PPD"
-msgstr "Crear"
+msgstr "Crear PPD"
 
 #: CRM/Contribute/Invoke.php templates/CRM/Contribute/Form/Preview.tpl
-#, fuzzy
 msgid "Contribution Page"
 msgstr "Página de Donaciones"
 
 #: CRM/Contribute/Invoke.php
 msgid "DashBoard"
-msgstr ""
+msgstr "Cuadro de Mandos"
 
 #: CRM/Contribute/Menu.php
-#, fuzzy
 msgid "CiviContribute"
-msgstr "Continuar"
+msgstr "CiviContribuir"
 
 #: CRM/Contribute/Menu.php
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Tarjetas de Crédito Aceptadas"
 
 #: CRM/Contribute/Menu.php templates/CRM/Contribute/Form/Search.tpl
-#, fuzzy
 msgid "Find Contributions"
 msgstr "Encontrar Contactos"
 
 #: CRM/Contribute/Menu.php templates/CRM/Contribute/Form/CreatePPD.tpl
-#, fuzzy
 msgid "Create PayPal API Profile"
-msgstr "Crear Perfil"
+msgstr "Crear Perfil API PayPal"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
-#, fuzzy
 msgid ""
 "Are you sure you want to disable this Credit Card? Your contributors will no "
 "longer be able to use this card type for online contributions."
-msgstr ""
-"¿Estás seguro que quieres deshabilitar este sexo?\n"
-"\n"
-"Los usuarios no serán capaces de elejirlo cuando añadan o editen el sexo."
+msgstr "¿Estás seguro que quieres deshabilitar esta tarjeta de crédito? Los contribuyentes no serán capaces de elejirla en aportaciones online."
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid "Edit Credit Card"
-msgstr ""
+msgstr "Editar Tarjeta de Crédito"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
-#, fuzzy
 msgid "Disable Credit Card"
-msgstr "Deshabilitar sexo"
+msgstr "Deshabilitar Tarjeta de Crédito"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
-#, fuzzy
 msgid "Enable Credit Card"
-msgstr "Habilitar sexo"
+msgstr "Habilitar Tarjeta de Crédito"
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 msgid "Delete Accepted Credit Card"
-msgstr ""
+msgstr "Borrar Tarjeta de Crédito Aceptada"
 
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
-msgstr ""
+msgstr "Configurar Página de Donaciones"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Are you sure you want to disable this Contribution page?"
-msgstr "¿Estás seguro que quieres deshabilitar esta relación?"
+msgstr "¿Estás seguro que quieres deshabilitar esta página de Donaciones?"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Are you sure you want to delete this Contribution page?"
-msgstr "¿Estás seguro que quieres borrar esta nota?"
+msgstr "¿Estás seguro que quieres borrar esta página de Donaciones?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Test-drive"
-msgstr ""
+msgstr "Unidad-de-chequeo"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "New Online Contribution Page"
 msgstr "Nueva página de donación"
 
 #: CRM/Contribute/Page/ContributionType.php
-#, fuzzy
 msgid "Are you sure you want to disable this contribution type?"
-msgstr "¿Estás seguro que quieres deshabilitar este componente?"
+msgstr "¿Estás seguro que quieres deshabilitar este tipo de aportación?"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
-#, fuzzy
 msgid "Edit Contribution Type"
-msgstr "Editar tipo de localidad"
+msgstr "Editar tipo de aportación"
 
 #: CRM/Contribute/Page/ContributionType.php
-#, fuzzy
 msgid "Disable Contribution Type"
-msgstr "Deshabilitar tipo de localidad"
+msgstr "Deshabilitar tipo de aportación"
 
 #: CRM/Contribute/Page/ContributionType.php
-#, fuzzy
 msgid "Enable Contribution Type"
-msgstr "Habilitar tipo de localidad"
+msgstr "Habilitar tipo de aportación"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
-#, fuzzy
 msgid "Delete Contribution Type"
-msgstr "Borrar tipo de localidad"
+msgstr "Borrar tipo de aportación"
 
 #: CRM/Contribute/Page/ManagePremiums.php
 msgid ""
@@ -4144,45 +4111,41 @@ msgid ""
 "premium from any contribution pages that currently offer it. However it will "
 "not delete the premium record - so you can re-enable it and add it back to "
 "your contribution page(s) at a later time."
-msgstr ""
+msgstr "¿Estás seguro que quieres deshabilitar esta prima? Esta acción quitará la prima de cualquier página de donaciones que actualmente la ofrezca. En cambio, no borrará el registro de la prima, por lo que podrás volverla a habilitar y añadirla a las páginas de aportaciones posteriormente."
 
 #: CRM/Contribute/Page/ManagePremiums.php
-#, fuzzy
 msgid "Enable Premium"
-msgstr "Habilitar Grupo"
+msgstr "Habilitar Prima"
 
 #: CRM/Contribute/Page/ManagePremiums.php
-#, fuzzy
 msgid "Delete Premium"
-msgstr "Borrar Grupo"
+msgstr "Borrar Prima"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
-#, fuzzy
 msgid "Are you sure you want to disable this Payment Instrument?"
-msgstr "¿Estás seguro que quieres deshabilitar este componente?"
+msgstr "¿Estás seguro que quieres deshabilitar este Instrumento de Pago?"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "Edit Payment Instrument"
-msgstr ""
+msgstr "Editar Instrumento de Pago"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 msgid "Disable Payment Instrument"
-msgstr ""
+msgstr "Deshabilitar Instrumento de Pago"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 msgid "Enable Payment Instrument"
-msgstr ""
+msgstr "Habilitar Instrumento de Pago"
 
 #: CRM/Contribute/Page/PaymentInstrument.php
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "Delete Payment Instrument"
-msgstr ""
+msgstr "Borrar Instrumento de Pago"
 
 #: CRM/Contribute/Page/Premium.php
-#, fuzzy
 msgid "Are you sure you want to remove this product form this page?"
-msgstr "¿Estás seguro que quieres borrar esta nota?"
+msgstr "¿Estás seguro que quieres borrar esta página de formulario de producto?"
 
 #: CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
@@ -4191,26 +4154,22 @@ msgstr "Eliminar"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "View Contribution"
-msgstr "Ver Contacto"
+msgstr "Ver Contribuyente"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "Edit Contribution"
-msgstr "Editar Opción"
+msgstr "Editar Aportación"
 
 #: CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "Delete Contribution"
-msgstr "Borrar contacto"
+msgstr "Borrar Aportación"
 
 #: CRM/Contribute/Selector/Search.php
-#, fuzzy
 msgid "CiviCRM Contribution Search"
-msgstr "Buscar Contacto CiviCRM"
+msgstr "Buscar Aportación CiviCRM"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Alphanumeric"
@@ -4234,12 +4193,10 @@ msgid "From"
 msgstr "De"
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 From must be an integer (whole number)."
 msgstr "%1 debe ser un entero."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 To must be an integer (whole number)."
 msgstr "%1 debe ser un entero."
 
@@ -4248,12 +4205,10 @@ msgid "%1 must be an integer (whole number)."
 msgstr "%1 debe ser un entero."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 From is not a valid date."
 msgstr "%1 no es una fecha válida."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 To is not a valid date."
 msgstr "%1 no es una fecha válida."
 
@@ -4262,12 +4217,10 @@ msgid "%1 is not a valid date."
 msgstr "%1 no es una fecha válida."
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 From must be a number (with or without decimal point)."
 msgstr "%1 debe ser un número (con o sin punto decimal)"
 
 #: CRM/Core/BAO/CustomField.php
-#, fuzzy
 msgid "%1 To must be a number (with or without decimal point)."
 msgstr "%1 debe ser un número (con o sin punto decimal)"
 
@@ -4283,13 +4236,13 @@ msgstr "%1 como - %2"
 msgid ""
 "We could not find the backup sql script. Check %1 in the CiviCRM root "
 "directory."
-msgstr ""
+msgstr "No hemos podido encontrar el script de backup de sql. Comprueba %1 en el directorio raíz de CiviCRM."
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
 "We could not find the mysqldump program. Check the configuration variable "
 "CIVICRM_MYSQL_PATH in your CiviCRM config file."
-msgstr ""
+msgstr "No hemos podido encontrar el programa mysqldump. comprueba la configuración de la variable CIVICRM_MYSQL_PATH en el fichero de configuración CiviCRM."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Synchronize Users to Contacts completed."
@@ -4347,7 +4300,7 @@ msgstr "La Etiqueta \"%1\" ha sido guardada."
 
 #: CRM/Core/BAO/UFField.php
 msgid "Cannot enable this UF field since the used custom field is disabled."
-msgstr ""
+msgstr "No se puede habilitar este campo desde que el uso de campos personalizados está deshabilitado."
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Dynamic Form Creator"
@@ -4386,7 +4339,6 @@ msgid "Deny"
 msgstr "Denegar"
 
 #: CRM/Core/DAO/ACL.php
-#, fuzzy
 msgid "Operation"
 msgstr "Operación"
 
@@ -4407,14 +4359,12 @@ msgid "Revoke"
 msgstr "Revocar"
 
 #: CRM/Core/DAO/ActivityHistory.php
-#, fuzzy
 msgid "Callback Method"
-msgstr "Retrollamada"
+msgstr "Método de devolución de llamada"
 
 #: CRM/Core/DAO/ActivityHistory.php
-#, fuzzy
 msgid "Activity ID"
-msgstr "Actividades"
+msgstr "ID de Actividad"
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Activity Summary"
@@ -4445,7 +4395,6 @@ msgid "Street Number Postdirectional"
 msgstr "Número de la Calle Postdireccional"
 
 #: CRM/Core/DAO/Address.php
-#, fuzzy
 msgid "Street Unit"
 msgstr "Calle"
 
@@ -4518,28 +4467,24 @@ msgid "Javascript"
 msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Start Date Years"
-msgstr "Fecha Inicial"
+msgstr "Año de comienzo"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "End Date Years"
-msgstr "Fecha Final"
+msgstr "Año de Finalización"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Date Parts"
-msgstr "Dato Fecha"
+msgstr "Partes de la Fecha"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Note Columns"
-msgstr ""
+msgstr "Columnas de notas"
 
 #: CRM/Core/DAO/CustomField.php
-#, fuzzy
 msgid "Note Rows"
-msgstr "Filas Totales"
+msgstr "Filas de Notas"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "String"
@@ -4551,7 +4496,7 @@ msgstr "Entero"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Float"
-msgstr "Flotante"
+msgstr "Decimal"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Boolean"
@@ -4574,12 +4519,10 @@ msgid "Collapse Display"
 msgstr "Plegar Display"
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Activity"
-msgstr "Actividades"
+msgstr "Actividad"
 
 #: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Phonecall"
 msgstr "Llamada"
 
@@ -4600,33 +4543,28 @@ msgid "Char Data"
 msgstr "Dato Carácter"
 
 #: CRM/Core/DAO/CustomValue.php
-#, fuzzy
 msgid "Date Data"
-msgstr "Dato Flotante"
+msgstr "Dato Fecha"
 
 #: CRM/Core/DAO/CustomValue.php
 msgid "Memo Data"
 msgstr "Dato Memo"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Contact Name"
 msgstr "Nombre del Contacto"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Domain"
 msgstr "Dominio del Email"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Return Path"
-msgstr "Email enviado"
+msgstr "Ruta de devolución del Email"
 
 #: CRM/Core/DAO/DupeMatch.php
-#, fuzzy
 msgid "Rule"
-msgstr "Módulo"
+msgstr "Regla"
 
 #: CRM/Core/DAO/Email.php
 msgid "On Hold"
@@ -4697,7 +4635,6 @@ msgid "Individual Suffix"
 msgstr "Sufijo Individual"
 
 #: CRM/Core/DAO/LocationType.php
-#, fuzzy
 msgid "Location Type"
 msgstr "Tipos de Localización"
 
@@ -4734,9 +4671,8 @@ msgid "Form Type"
 msgstr "Tipo de Formulario"
 
 #: CRM/Core/DAO/UFGroup.php
-#, fuzzy
 msgid "Post Url"
-msgstr "Postal"
+msgstr "URL Posterior"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Parameters"
@@ -4751,9 +4687,8 @@ msgid "Positive Integer"
 msgstr "Entero Positivo"
 
 #: CRM/Core/DAO/Validation.php
-#, fuzzy
 msgid "Variable Name"
-msgstr "Nombre del perfil"
+msgstr "Nombre de la variable"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Range"
@@ -4769,37 +4704,35 @@ msgstr "No coincidencia de Expresión Regular"
 
 #: CRM/Core/Form/Date.php
 msgid "yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)"
-msgstr ""
+msgstr "yyyy-mm-dd O yyymmdd (1998-12-25 O 19981225)"
 
 #: CRM/Core/Form/Date.php
 msgid "mm/dd/yy OR mm-dd-yy (12/25/98 OR 12-25-98)"
-msgstr ""
+msgstr "mm/dd/yy O mm-dd-yy (12/25/98 O 12-25-98)"
 
 #: CRM/Core/Form/Date.php
 msgid "mm/dd/yyyy OR mm-dd-yyyy (12/25/1998 OR 12-25-1998)"
-msgstr ""
+msgstr "mm/dd/yyyy O mm-dd-yyyy (12/25/1998 O 12-25-1998)"
 
 #: CRM/Core/Form/Date.php
 msgid "Month dd, yyyy (December 12, 1998)"
-msgstr ""
+msgstr "Mes dd, yyyy (Diciembre 12, 1998)"
 
 #: CRM/Core/Form/Date.php
 msgid "dd-mon-yy (25-Dec-98)"
-msgstr ""
+msgstr "dd-mes-yy (25-Dic-98)"
 
 #: CRM/Core/Form/Date.php
-#, fuzzy
 msgid "Date Format"
-msgstr "Dato Fecha"
+msgstr "Formato de Fecha"
 
 #: CRM/Core/Invoke.php
 msgid "Test Ajax Page"
 msgstr "Página Test Ajax"
 
 #: CRM/Core/Invoke.php
-#, fuzzy
 msgid "Domain Information Page"
-msgstr "Añadir Información de Contacto"
+msgstr "Página de Información del Dominio"
 
 #: CRM/Core/Invoke.php
 msgid "Email a Contact"
@@ -4810,9 +4743,8 @@ msgid "Delete Contact"
 msgstr "Borrar contacto"
 
 #: CRM/Core/Invoke.php
-#, fuzzy
 msgid "YMap Contact"
-msgstr "Mapa de Contactos"
+msgstr "Contacto YMap"
 
 #: CRM/Core/Invoke.php
 msgid "View Location Types"
@@ -4879,7 +4811,7 @@ msgid ""
 "We could not move the uploaded file %1 to the upload directory %2. Please "
 "verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path which "
 "is writable by your web server."
-msgstr ""
+msgstr "No se ha podido mover el fichero %1 al directorio de subidas %2. Por favor, verifica que CIVICRM_IMAGE_UPLOADDIR apunta a una ruta válida y con permisos de escritura por tu servidor web."
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [first] [last]"
@@ -4910,7 +4842,6 @@ msgid "Postal Mail"
 msgstr "Correo Postal"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Do not phone"
 msgstr "No telefonear"
 
@@ -4983,31 +4914,26 @@ msgid "Country selector"
 msgstr "Selector de Pais"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "- All Contacts -"
 msgstr "- Todos los contactos -"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Phonecalls"
-msgstr "Llamada"
+msgstr "Llamadas"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Meetings"
-msgstr "Cita"
+msgstr "Citas"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "User Registration"
-msgstr "Registro"
+msgstr "Registro de Usuario"
 
 #: CRM/Core/SelectValues.php
 msgid "View/Edit User Account"
-msgstr ""
+msgstr "Ver/Editar Cuenta de Usuario"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Profile"
 msgstr "Nombre del perfil"
 
@@ -5020,24 +4946,20 @@ msgid "Static"
 msgstr "Estático"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Reply Auto-responder"
-msgstr "Auto-Responder"
+msgstr "contestación de Auto-Respuesta"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Subscription Message to organization"
-msgstr "Encontrar Organización Destino"
+msgstr "Mensaje de suscripción a la organización"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Welcome Message"
-msgstr "Mensaje de la Izquierda"
+msgstr "Mensaje de Bienvenida"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Farewell Message"
-msgstr "Mensaje del Mailing"
+msgstr "Mensaje de Despedida"
 
 #: CRM/Core/ShowHideBlocks.php templates/CRM/Custom/Form/Optionfields.tpl
 msgid "show field or section"
@@ -5077,37 +4999,35 @@ msgstr "Tipo de campo de entrada de Datos"
 
 #: CRM/Custom/Form/Field.php
 msgid "Dates may be up to"
-msgstr ""
+msgstr "Las fechas pueden estar hasta"
 
 #: CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
-msgstr ""
+msgstr "El Valor debería ser un número positivo"
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Month"
-msgstr "- mes -"
+msgstr "Mes"
 
 #: CRM/Custom/Form/Field.php
 msgid "Day"
-msgstr ""
+msgstr "Dia"
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Year"
-msgstr "- año -"
+msgstr "Año"
 
 #: CRM/Custom/Form/Field.php
 msgid "Included date parts"
-msgstr ""
+msgstr "partes de fecha incluidas"
 
 #: CRM/Custom/Form/Field.php
 msgid "Width (columns)"
-msgstr ""
+msgstr "Ancho (columnas)"
 
 #: CRM/Custom/Form/Field.php
 msgid "Height (rows)"
-msgstr ""
+msgstr "Alto (filas)"
 
 #: CRM/Custom/Form/Field.php
 msgid " must be a numeric value"
@@ -5118,9 +5038,8 @@ msgid "Is this Field Searchable?"
 msgstr "¿Se puede buscar con este campo?"
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Search by Range?"
-msgstr "Buscar Resultados"
+msgstr "¿Buscar Por Rangos?"
 
 #: CRM/Custom/Form/Field.php
 msgid "Please enter a valid integer as default value."
@@ -5219,7 +5138,6 @@ msgid "Option Value"
 msgstr "Valor Opcional"
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid value for this field."
 msgstr "Por Favor, introduce un valor válido para este campo."
 
@@ -5228,31 +5146,24 @@ msgid "Default"
 msgstr "Por Defecto"
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid integer value."
 msgstr "Por Favor, introduce un entero válido."
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid number value."
 msgstr "Por Favor, introduce un número válido."
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter a valid date using YYYY-MM-DD format. Example: 2004-12-31."
-msgstr ""
-"Por Favor, introduce una fecha válida como valor por defecto usando el "
-"formato AAA-MM-DD.Por ejemplo:2004-12-31"
+msgstr "Por Favor, introduce una fecha válida usando el formato AAAA-MM-DD. Por ejemplo:2004-12-31"
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "Please enter 1 or 0 as value."
-msgstr "Por Favor, introduce 1 o 0 como valor por defecto."
+msgstr "Por Favor, introduce 1 o 0 como valor."
 
 #: CRM/Custom/Form/Option.php
-#, fuzzy
 msgid "The invalid value for State/Province data type"
-msgstr "Valor por defecto no válido para el tipo de dato Provincia"
+msgstr "Valor no válido para el tipo de dato Provincia"
 
 #: CRM/Custom/Form/Option.php
 msgid "Your multiple choice option has been deleted"
@@ -5268,10 +5179,8 @@ msgstr ""
 "¿Estás seguro que quieres deshabilitar este campo de datos personalizado?"
 
 #: CRM/Custom/Page/Field.php
-#, fuzzy
 msgid "Are you sure you want to delete this custom data field?"
-msgstr ""
-"¿Estás seguro que quieres deshabilitar este campo de datos personalizado?"
+msgstr "¿Estás seguro que quieres borrar este campo de datos personalizado?"
 
 #: CRM/Custom/Page/Field.php
 msgid "Edit Field"
@@ -5314,13 +5223,10 @@ msgid "%1 - Custom Fields"
 msgstr "%1 - Campos Personalizados"
 
 #: CRM/Custom/Page/Group.php
-#, fuzzy
 msgid ""
 "Are you sure you want to disable this custom data group? Any profile fields "
 "that are linked to custom fields of this group will be disabled."
-msgstr ""
-"¿Estás seguro que quieres deshabilitar esta opción de dato personalizado de "
-"multiple elección?"
+msgstr "¿Estás seguro que quieres deshabilitar este grupo de datos personalizado? Cualquier campo de perfil que esté enlazado a campos personalizados de este grupo se deshabilitarán."
 
 #: CRM/Custom/Page/Group.php
 msgid "View and Edit Custom Fields"
@@ -5390,9 +5296,8 @@ msgid "Confirm Group Delete"
 msgstr "Confirmar borrado de Grupo"
 
 #: CRM/Group/Form/Edit.php
-#, fuzzy
 msgid "Group Settings: %1"
-msgstr "Parámetros de Grupos"
+msgstr "Parámetros de Grupo: %1"
 
 #: CRM/Group/Form/Edit.php
 msgid "Group name is required."
@@ -5436,9 +5341,8 @@ msgid "Smart Group"
 msgstr "Grupo inteligente"
 
 #: CRM/History/Import/Parser.php
-#, fuzzy
 msgid "View Activity History URL"
-msgstr "Nuevo Historial de Actividad"
+msgstr "Ver Historial de Actividad"
 
 #: CRM/History/Page/Activity.php
 msgid "Cannot find class \"%1\""
@@ -5449,9 +5353,8 @@ msgid "Cannot find method \"%1\" for class \"%2\""
 msgstr "No puedo encontrar el método \"%1\" para la clase \"%2\""
 
 #: CRM/History/Page/Activity.php
-#, fuzzy
 msgid "Cannot find function \"%1\""
-msgstr "No puedo encontrar la clase \"%1\""
+msgstr "No puedo encontrar la función \"%1\""
 
 #: CRM/History/Selector/Activity.php
 msgid "Are you sure you want to delete this Activity History record?"
@@ -5482,9 +5385,8 @@ msgid "Join new contacts to existing group(s)"
 msgstr "Añadir nuevos contactos a grupo(s) existente(s)"
 
 #: CRM/Import/Form/Preview.php
-#, fuzzy
 msgid "Group \"%1\" already exists."
-msgstr "Grupo '%1' ya existía."
+msgstr "Grupo \"%1\" ya existe."
 
 #: CRM/Import/Form/Summary.php
 msgid "These records have been replaced with the imported data."
@@ -5642,9 +5544,8 @@ msgid "Include group(s)"
 msgstr "Incluir grupo(s)"
 
 #: CRM/Mailing/Form/Group.php
-#, fuzzy
 msgid "Please select a group to be mailed."
-msgstr "Por favor, selecciona el grupo."
+msgstr "Por favor, selecciona el grupo para el mailing."
 
 #: CRM/Mailing/Form/Group.php
 msgid "Exclude group(s)"
@@ -5672,11 +5573,11 @@ msgstr "Seleccionar recipientes de correo"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same groups in Include group(s) and Exclude group(s). "
-msgstr ""
+msgstr "No pueden haber los mismos grupos en grupos de exclusión y grupos de inclusión."
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same mail in Include mailing(s) and Exclude mailing(s)."
-msgstr ""
+msgstr "No puede haber la misma dirección de correo en listas de correo de inclusión y listas de correo de exclusión."
 
 #: CRM/Mailing/Form/Name.php
 msgid "Name Your Mailing"
@@ -5791,9 +5692,8 @@ msgid "Opt-out Message"
 msgstr "mensaje opcional de salida"
 
 #: CRM/Mailing/Form/Upload.php
-#, fuzzy
 msgid "Please provide at least the text message."
-msgstr "Por Favor, selecciona al menos un estado de miembro"
+msgstr "Por Favor, selecciona al menos el texto del mensaje."
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Missing required token"
@@ -5816,9 +5716,8 @@ msgid "Forward Mailing"
 msgstr "Reenviar Correo"
 
 #: CRM/Mailing/Invoke.php
-#, fuzzy
 msgid "The mailing queue has been processed."
-msgstr "El componente de correo \"%1\" ha sido guardado."
+msgstr "La cola de correo ha sido procesada."
 
 #: CRM/Mailing/Menu.php
 msgid "CiviMail"
@@ -5958,13 +5857,13 @@ msgstr "Reenviar"
 
 #: CRM/Profile/Form.php
 msgid "This feature is not currently available."
-msgstr ""
+msgstr "Esta característica no está disponible todavía."
 
 #: CRM/Profile/Form.php
 msgid ""
 "This Profile includes fields for contact types other than 'Individuals' and "
 "can not be used to create/update contacts."
-msgstr ""
+msgstr "Este perfil incluye campos para tipos de contactos distintos de 'Individuos' y no puede ser usado para crear/actualizar contactos."
 
 #: CRM/Profile/Form.php
 msgid "An account already exists with the same information."
@@ -5988,32 +5887,27 @@ msgstr "Listados de perfil CiviCRM"
 
 #: CRM/SMS/BAO/History.php
 msgid "SMS Sent"
-msgstr ""
+msgstr "SMS Enviado"
 
 #: CRM/SMS/BAO/History.php
-#, fuzzy
 msgid "To: %1; Message: %2"
-msgstr "A: %1; Asunto: %2"
+msgstr "A: %1; Mensaje: %2"
 
 #: CRM/SMS/Form/Task/SMS.php
-#, fuzzy
 msgid "Your user record does not have a valid SMS number"
-msgstr "Tu usuario no tiene un ID de usuario válido"
+msgstr "Tu usuario no tiene un número para SMS válido"
 
 #: CRM/SMS/Form/Task/SMS.php
-#, fuzzy
 msgid "Send SMS"
-msgstr "Enviar Correo"
+msgstr "Enviar SMS"
 
 #: CRM/SMS/Form/Task/SMS.php
-#, fuzzy
 msgid "SMS sent to contact(s): %1"
-msgstr "Email enviado a contacto(s): %1"
+msgstr "SMS enviado a contacto(s): %1"
 
 #: CRM/SMS/Form/Task/SMS.php
-#, fuzzy
 msgid "SMS not sent to contact(s): %1"
-msgstr "Email no enviado a contacto(s): %1"
+msgstr "SMS no enviado a contacto(s): %1"
 
 #: CRM/Tag/Form/Tag.php
 msgid "Update Tags"
@@ -6043,9 +5937,8 @@ msgstr ""
 "listado de usuarios."
 
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
-#, fuzzy
 msgid "Searchable?"
-msgstr "Inaccesible"
+msgstr "¿Buscable?"
 
 #: CRM/UF/Form/Field.php
 msgid "View Only?"
@@ -6057,16 +5950,15 @@ msgstr "El campo del perfil seleccionado ha sido borrado."
 
 #: CRM/UF/Form/Field.php
 msgid "The selected field was not added. It already exists in this profile."
-msgstr ""
+msgstr "El campo seleccionado no se añadió. Ya existe en este perfil."
 
 #: CRM/UF/Form/Field.php
 msgid "Your civicrm profile field \"%1\" has been saved."
 msgstr "Tu campo de perfil CiviCRM \"%1\" ha sido guardado."
 
 #: CRM/UF/Form/Group.php
-#, fuzzy
 msgid "Profile Settings - %1"
-msgstr "Parámetros de Grupos"
+msgstr "Parámetros de Perfil - %1"
 
 #: CRM/UF/Form/Group.php
 msgid "New CiviCRM Profile Group"
@@ -6086,16 +5978,15 @@ msgstr "¿Está este Perfil CiviCRM activo?"
 
 #: CRM/UF/Form/Group.php
 msgid "Redirect URL"
-msgstr ""
+msgstr "Redirigir URL"
 
 #: CRM/UF/Form/Group.php
-#, fuzzy
 msgid "Enter a valid URL."
-msgstr "Por Favor, introduce un nombre válido."
+msgstr "Por Favor, introduce una URL válida."
 
 #: CRM/UF/Form/Group.php
 msgid "This profile cannot be deleted since it is used for other modules."
-msgstr ""
+msgstr "Este perfil no se puede borrar desde que se usa por otros módulos."
 
 #: CRM/UF/Form/Group.php
 msgid ""
@@ -6128,9 +6019,8 @@ msgid "Edit CiviCRM Profile Field"
 msgstr "Editar campo de perfil CiviCRM"
 
 #: CRM/UF/Page/Field.php
-#, fuzzy
 msgid "Preview CiviCRM Profile Field"
-msgstr "Ver campo de perfil CiviCRM"
+msgstr "Previsualizar campo de perfil CiviCRM"
 
 #: CRM/UF/Page/Field.php
 msgid "Disable CiviCRM Profile Field"
@@ -6173,19 +6063,16 @@ msgid "Delete CiviCRM Profile Group"
 msgstr "Borrar Grupo de perfil CiviCRM"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Standalone Form"
-msgstr "Formulario de Perfil Independiente"
+msgstr "Formulario Independiente"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "Standalone Form for Profile Group"
-msgstr "Formulario de Perfil Independiente"
+msgstr "Formulario Independiente para Grupo de Perfil"
 
 #: CRM/UF/Page/Group.php
-#, fuzzy
 msgid "CiviCRM Profile Group Preview"
-msgstr "Grupo de Perfil CiviCRM"
+msgstr "Previsualización de Grupo de Perfil CiviCRM"
 
 #: CRM/Utils/Menu.php templates/CRM/Admin/Form/DrupalUser.tpl
 msgid "Synchronize Users to Contacts:"
@@ -6262,9 +6149,8 @@ msgid "Tags (Categories)"
 msgstr "Etiquetas (Categorías)"
 
 #: CRM/Utils/Menu.php templates/CRM/Contact/Form/Domain.tpl
-#, fuzzy
 msgid "Edit Domain Information"
-msgstr "Añadir Información de Contacto"
+msgstr "Editar Información del Dominio"
 
 #: CRM/Utils/Menu.php
 msgid "Relationship Types"
@@ -6338,9 +6224,8 @@ msgid "Sent Email Message"
 msgstr "Email enviado"
 
 #: CRM/Utils/Menu.php
-#, fuzzy
 msgid "Contact Information"
-msgstr "Añadir Información de Contacto"
+msgstr "Información de Contacto"
 
 #: CRM/Utils/Menu.php
 msgid "Add Contact Information"
@@ -6627,24 +6512,20 @@ msgid "Synchronize Drupal Users"
 msgstr "Sincronizar usuarios Drupal"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-#, fuzzy
 msgid "Advanced Duplicate Matching Rule"
-msgstr "Etiqueta de opción duplicada"
+msgstr "Regla avanzada de coincidencia de duplicados"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-#, fuzzy
 msgid "Delete Duplicate Matching Rule"
-msgstr "Etiqueta de opción duplicada"
+msgstr "Borrar regla de coincidencia de duplicados"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-#, fuzzy
 msgid "Configure Duplicate Matching Rule"
-msgstr "Etiqueta de opción duplicada"
+msgstr "Configurar regla de coincidencia de duplicados"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-#, fuzzy
 msgid "Are you sure you want to delete this Duplicate Matching Rule?"
-msgstr "¿Estás seguro que quieres borrar esta nota?"
+msgstr "¿Estás seguro que quieres borrar esta regla de coincidencia de duplicados?"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
