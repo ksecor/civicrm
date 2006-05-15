@@ -30,7 +30,11 @@
  *
  */
 
-include_once conf_init( ) . '/civicrm.settings.php';
+if ( function_exists( 'conf_path' ) ) {
+    include_once conf_path( ) . '/civicrm.settings.php';
+} else {
+    include_once conf_init( ) . '/civicrm.settings.php';
+}
 
 /**
  * Provides a link to the CSS stylesheet associated with this module.
