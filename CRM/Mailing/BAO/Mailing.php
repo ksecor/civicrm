@@ -990,6 +990,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                     'unique' => $mailing->unique_clicks,
                                     'rate'   => $report['event_totals']['delivered'] ? (100.0 * $mailing->unique_clicks) / $report['event_totals']['delivered'] : 0
                                 );
+        }
+
         $report['event_totals']['links'] = array(
             'clicks' => CRM_Utils_System::url(
                             'civicrm/mailing/event',
@@ -1028,10 +1030,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             "reset=1&event=opened&mid=$mailing_id"
             ),
         );
-        }
+
         $report['retry'] = CRM_Utils_System::url(
                             'civicrm/mailing/retry',
                             "reset=1&mid=$mailing_id");
+
         return $report;
     }
 
