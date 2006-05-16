@@ -109,7 +109,9 @@ class CRM_Quest_API {
                                    'state_province' => 1,
                                    'country' => 1,
                                    'phone' => 1,
-                                   'email' => 1 );
+                                   'email' => 1,
+                                   'contact_sub_type' => 1
+                                   );
 
         require_once 'api/Search.php';
         list( $result, $options ) = crm_contact_search( $params, $returnProperties );

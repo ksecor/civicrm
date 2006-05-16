@@ -216,7 +216,9 @@ class CRM_Core_Permission_Drupal {
      * @access public
      */
     static function check( $str ) {
-        return user_access( $str ) ? true : false;
+        if (function_exists( 'user_access')) {
+            return user_access( $str ) ? true : false;
+        }
     }
 
 }
