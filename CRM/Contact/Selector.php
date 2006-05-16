@@ -337,7 +337,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
         $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
 
-        $mapMask = 4095; // mask value to hide map link if there are not lat/long
+        $mapMask = $mask & 4095; // mask value to hide map link if there are not lat/long
         
         $gc = CRM_Core_SelectValues::groupContactStatus();
 
