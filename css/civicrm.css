@@ -199,7 +199,6 @@ div.spacer {
 }
 
 #crm-container .form-layout td.label, #crm-container .form-layout-compressed td.label, #crm-container .selector td.label {
-  display: inline;
   text-align: right;
   padding: 0em 0.50em 0em 0.75em;
 }
@@ -309,9 +308,14 @@ div.spacer {
   margin: 1em 0em 1em;
 }
 
-#crm-container label, .labels, .label {
+/* Set display: inline to over-ride drupal.css which sets label tags to display:block */
+#crm-container label {
   font-weight: bold;
   display: inline;
+}
+
+#crm-container .labels, .label {
+  font-weight: bold;
 }
 
 #crm-container .font-light {
