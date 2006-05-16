@@ -292,6 +292,11 @@ div.spacer {
   padding-left: 3em;
 }
 
+/* For our menu block. Drupal displays an extraneous li bullet without this. */
+.menu li.no-display {
+  list-style-type: none;
+}
+
 /*
 ** Styles for formating of text
 */
