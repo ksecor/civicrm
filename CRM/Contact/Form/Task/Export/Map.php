@@ -91,15 +91,10 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         Require_once 'CRM/Core/DAO/Mapping.php';
         require_once 'CRM/Contact/BAO/Contact.php';
         require_once 'CRM/Core/BAO/LocationType.php';
-        $mappingDAO =&  new CRM_Core_DAO_Mapping();
-        $mappingDAO->domain_id = CRM_Core_Config::domainID( );
-        $mappingDAO->mapping_type = 'Export';
-        $mappingDAO->find();
+    
+        require_once "CRM/Core/BAO/Mapping.php";
+        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Export');
         
-        $mappingArray = array();
-        while ($mappingDAO->fetch()) {
-            $mappingArray[$mappingDAO->id] = $mappingDAO->name;
-        }
 
         if ( !empty($mappingArray) ) {
             $this->assign('savedMapping',$mappingArray);
@@ -117,48 +112,24 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             $this->add('text','saveMappingDesc',ts('Description'));
         } else {
             //mapping is to be loaded from database
-            $mapping =& new CRM_Core_DAO_MappingField();
-            $mapping->mapping_id = $this->_loadedMappingId;
-            $mapping->orderBy('column_number');
-            $mapping->find();
-
-            $mappingName = array();
-            $mappingLocation = array();
-            $mappingContactType = array();
-            $mappingPhoneType = array();
-
             $colCnt = 0;
-            while($mapping->fetch()) {
-                if ($mapping->name) {
-                    $mappingName[]        = $mapping->name;
-                }
-                if ($mapping->contact_type) {
-                    $mappingContactType[] = $mapping->contact_type;
-                }
-                if ( !empty($mapping->location_type_id ) ) {
-                    $mappingLocation[$mapping->column_number] = $mapping->location_type_id;
-                }
-                if ( !empty( $mapping->phone_type ) ) {
-                    $mappingPhoneType[$mapping->column_number] = $mapping->phone_type;
-                }
-                $colCnt++;
-            }
+            $mapping = $this->_loadedMappingId;
+            
+            list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($mapping);
+            $colCnt=count($mappingName);
+            
             //updated for CRM-927
             if ( $colCnt > $this->_columnCount ) {
-                $this->_columnCount  = $colCnt;
-            }
+                 $this->_columnCount  = $colCnt;
+             }
 
             $this->assign('loadedMapping', $this->_loadedMappingId);
-
-            $getMappingName =&  new CRM_Core_DAO_Mapping();
-            $getMappingName->id = $savedMapping;
-            $getMappingName->mapping_type = 'Export';
-            $getMappingName->find();
-            while($getMappingName->fetch()) {
-                $mapperName = $getMappingName->name;
-            }
-            
-            $this->assign('savedName', $mapperName);
+             
+            $params = array('id' =>  $this->_loadedMappingId);
+            $temp   = array ();
+            $mappingDetails = CRM_Core_BAO_Mapping::retrieve($params, $temp);
+        
+            $this->assign('savedName',$mappingDetails->name);
 
             $this->add('hidden','mappingId',$this->_loadedMappingId);
 
@@ -368,11 +339,8 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = "Name is required to save Export Mapping";
             } else {
-                $importMappingName =& new CRM_Core_DAO_Mapping();
-                $importMappingName->name = $nameField;
-                $importMappingName->domain_id = CRM_Core_Config::domainID( );
-                if ( $importMappingName->find( true ) ) {
-                    $errors['saveMappingName'] = "Duplicate Export Mapping Name ";
+               if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Export')){
+                     $errors['saveMappingName'] = ts('Duplicate Export Mapping Name');
                 }
             }
         }
@@ -469,13 +437,14 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         
         //Saving Mapping Details and Records
         if ( CRM_Utils_Array::value('saveMapping', $params)) {
-            $saveMapping =& new CRM_Core_DAO_Mapping();
-            $saveMapping->domain_id = CRM_Core_Config::domainID( );
-            $saveMapping->name = $params['saveMappingName'];
-            $saveMapping->description = $params['saveMappingDesc'];
-            $saveMapping->mapping_type = 'Export';
-            $saveMapping->save();
             
+            $mappingParams = array('name'         => $params['saveMappingName'],
+                                   'description'  => $params['saveMappingDesc'],
+                                   'mapping_type' => 'Export');
+            
+            $temp = array();
+            $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+         
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {
                 if ( !empty($mapperKeys[$i][0]) ) {
                     $saveMappingFields =& new CRM_Core_DAO_MappingField();

@@ -215,8 +215,29 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             }
         }
         
-        return array ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  );   
+        return array ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation);   
     }
 
+    /**
+     *function to check Duplicate Mapping Name
+     *
+     * @params $nameField  string mapping Name
+     *
+     * @params $mapType string mapping Type
+     *
+     * @return boolean
+     * 
+     */
+    static function checkMapping($nameField,$mapType)
+    {
+         $mappingName =& new CRM_Core_DAO_Mapping();
+         $mappingName->name = $nameField;
+         $mappingName->mapping_type = $mapType;
+         if($mappingName->find(true)){
+             return true;
+         }else{
+             return false;
+         }
+    }
 }
 ?>

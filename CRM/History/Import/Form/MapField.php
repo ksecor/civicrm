@@ -200,15 +200,9 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
     public function buildQuickForm()
     {
         //get the saved mapping details
-        $mappingDAO =&  new CRM_Core_DAO_Mapping();
-        $mappingDAO->domain_id = CRM_Core_Config::domainID( );
-        $mappingDAO->mapping_type = 'Import Activity History';
-        $mappingDAO->find();
-        
-        $mappingArray = array();
-        while ($mappingDAO->fetch()) {
-            $mappingArray[$mappingDAO->id] = $mappingDAO->name;
-        }
+    
+        require_once "CRM/Core/BAO/Mapping.php";
+        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import Activity History');
 
         $this->assign('savedMapping',$mappingArray);
         $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
@@ -222,27 +216,16 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
         } else {
             $savedMapping = $this->get('savedMapping');
             //mapping is to be loaded from database
-            $mapping =& new CRM_Core_DAO_MappingField();
-            $mapping->mapping_id = $savedMapping;
-            $mapping->orderBy('column_number');
-            $mapping->find();
-
-            $mappingName = array();
-            while($mapping->fetch()) {
-                $mappingName[$mapping->column_number] = $mapping->name;
-            }
+ 
+            list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($savedMapping);
 
             $this->assign('loadedMapping', $savedMapping);
 
-            $getMappingName =&  new CRM_Core_DAO_Mapping();
-            $getMappingName->id = $savedMapping;
-            $getMappingName->mapping_type = 'Import Activity History';
-            $getMappingName->find();
-            while($getMappingName->fetch()) {
-                $mapperName = $getMappingName->name;
-            }
+            $params = array('id' => $savedMapping);
+            $temp   = array ();
+            $mappingDetails = CRM_Core_BAO_Mapping::retrieve($params, $temp);
 
-            $this->assign('savedName', $mapperName);
+            $this->assign('savedName', $mappingDetails->name);
 
             $this->add('hidden','mappingId',$savedMapping);
 
@@ -464,12 +447,8 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
-                $mappingName =& new CRM_Core_DAO_Mapping();
-                $mappingName->name = $nameField;
-                $mappingName->domain_id = CRM_Core_Config::domainID( );
-                $mappingName->mapping_type = 'Import Activity History';
-                if ( $mappingName->find( true ) ) {
-                    $errors['saveMappingName'] = ts('Duplicate Import Mapping Name');
+                if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import Activity History')){
+                     $errors['saveMappingName'] = ts('Duplicate Import Mapping Name');
                 }
             }
         }
@@ -568,13 +547,12 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
         
         //Saving Mapping Details and Records
         if ( CRM_Utils_Array::value('saveMapping', $params)) {
-            $saveMapping =& new CRM_Core_DAO_Mapping();
-            $saveMapping->domain_id = CRM_Core_Config::domainID( );
-            $saveMapping->name = $params['saveMappingName'];
-            $saveMapping->description = $params['saveMappingDesc'];
-            $saveMapping->mapping_type = 'Import Activity History';
-            $saveMapping->save();
+            $mappingParams = array('name'         => $params['saveMappingName'],
+                                   'description'  => $params['saveMappingDesc'],
+                                   'mapping_type' => 'Import Activity History');
             
+            $temp = array();
+            $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
 
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {                  
                 
