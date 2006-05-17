@@ -21,12 +21,11 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | at http://www.openngo.org/faqs/licensing.html                       |
  +--------------------------------------------------------------------+
 */
 
 /**
- * Class to handle capthca related image and verification
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -35,37 +34,65 @@
  *
  */
 
-require_once 'CRM/Contact/Page/View.php';
+require_once 'CRM/Contact/Form/Task.php';
 
 /**
- * Main page for generating the PDF for a student record
- *
+ * This class provides the functionality to save a search
+ * Saved Searches are used for saving frequently used queries
  */
-class CRM_Quest_Page_View_PDF extends CRM_Contact_Page_View {
+class CRM_Quest_Form_Task_XML extends CRM_Contact_Form_Task {
 
     /**
-     * Heart of the viewing process. The runner gets all the meta data for
-     * the contact and calls the appropriate type of page to view.
+     * build all the data structures needed to build the form
      *
      * @return void
      * @access public
-     *
      */
-    function run( )
+    function preProcess()
     {
-        $this->preProcess( );
+        parent::preProcess( );
 
+        echo '<students>\n';
         require_once 'CRM/Quest/BAO/Student.php';
-        echo '<pre>' . CRM_Quest_BAO_Student::xml( $this->_contactId ) . '</pre>';
-        exit( );
-
-        require_once 'CRM/Utils/PDFlib.php';
-        $config =& CRM_Core_Config::singleton( );
-        CRM_Utils_PDFlib::compose( 'collegePrepApplication.pdf',
-                                   $config->templateDir . '/Quest/pdf/',
-                                   $defaults );
+        foreach ( $this->_contactIds as $cid ) {
+            $xml =& CRM_Quest_BAO_Student::xml( $cid );
+            echo $xml;
+        }
+        echo '</students>\n';
     }
 
-}
 
+    /**
+     * Build the form - it consists of
+     *    - displaying the QILL (query in local language)
+     *    - displaying elements for saving the search
+     *
+     * @access public
+     * @return void
+     */
+    function buildQuickForm()
+    {
+        //
+        // just need to add a javacript to popup the window for printing
+        // 
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => ts('Print XML File'),
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'back',
+                                         'name'      => ts('Done') ),
+                                 )
+                           );
+    }
+
+    /**
+     * process the form after the input has been submitted and validated
+     *
+     * @access public
+     * @return void
+     */
+    public function postProcess()
+    {
+    }
+}
 ?>

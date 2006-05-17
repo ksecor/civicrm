@@ -100,9 +100,9 @@ class CRM_Quest_BAO_Query
     {
         //self::initialize( );
         $fields = self::getFields();
-        foreach ( $fields as $name => $title ) {
+        foreach ( $fields as $name => $record ) {
             if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
-                $query->numberRangeBuilder( 'quest_student', $name, $name, $title );
+                $query->numberRangeBuilder( 'quest_student', $name, $name, $record['title'] );
             }
         }
     }

@@ -117,31 +117,31 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
      * @static 
      * @return void
      */
-    static function studentDetails( $contactID ,&$details ) {
+    static function studentDetails( $id ,&$details ) {
         
         require_once 'CRM/Quest/DAO/Student.php';
 
-        self::individual( $contactID, $details );
+        self::individual( $id, $details );
         
-        self::student( $contactID, $details );
+        self::student( $id, $details );
 
-        self::guardian( $contactID, $details, true );
+        self::guardian( $id, $details, true );
 
-        self::guardian( $contactID, $details, false );
+        self::guardian( $id, $details, false );
 
-        self::income( $contactID, $details );
+        self::income( $id, $details );
 
-        self::school( $contactID, $details );
+        self::school( $id, $details );
 
-        self::test( $contactID, $details );
+        self::test( $id, $details );
 
-        self::essay( $contactID, $details );
+        self::essay( $id, $details );
 
     }
 
-    static function individual( $contactID, &$details ) {
-        $params = array( 'contact_id' => $contactID,
-                         'id'         => $contactID );
+    static function individual( $id, &$details ) {
+        $params = array( 'contact_id' => $id,
+                         'id'         => $id );
         $ids = array();
         $individual = array();
 
@@ -171,11 +171,11 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
-    static function student( $contactID, &$details ) {
+    static function student( $id, &$details ) {
         $dao             = & new CRM_Quest_DAO_Student();
-        $dao->contact_id = $contactID;
+        $dao->contact_id = $id;
         if ( ! $dao->find(true) ) {
-            CRM_Core_Error::fatal( ts( "Student with id %1 does not exist", array( 1 => $contactID ) ) );
+            CRM_Core_Error::fatal( ts( "Student with id %1 does not exist", array( 1 => $id ) ) );
         }
 
         $studentDetails    = array();
@@ -260,11 +260,11 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
     }
 
 
-    static function guardian( $contactID, &$details, $isGuardian ) {
+    static function guardian( $id, &$details, $isGuardian ) {
 
         require_once 'CRM/Quest/DAO/Person.php';
         $person             =& new CRM_Quest_DAO_Person();
-        $person->contact_id =  $contactID;
+        $person->contact_id =  $id;
         $person->is_sibling =  $isGuardian ? 0 : 1;
         $person->orderby( 'relationship_id asc' );
         $person->find();
@@ -321,12 +321,12 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
-    static function income( $contactID, &$details ) {
+    static function income( $id, &$details ) {
 
         require_once 'CRM/Quest/DAO/Income.php';
 
         $dao =& new CRM_Quest_DAO_Person( );
-        $dao->contact_id = $contactID;
+        $dao->contact_id = $id;
         $dao->is_income_source   = true;
         $dao->find( );
         
@@ -364,7 +364,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
-    static function school( $contactID, &$details ) {
+    static function school( $id, &$details ) {
 
         $highSchoolDetails  = array();
         $otherSchoolDetails = array();
@@ -372,7 +372,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         require_once 'CRM/Contact/BAO/Relationship.php';
         require_once  'CRM/Core/BAO/CustomGroup.php';
-        $relationship  = CRM_Contact_BAO_Relationship::getRelationship( $contactID );
+        $relationship  = CRM_Contact_BAO_Relationship::getRelationship( $id );
        
         foreach( $relationship as $key => $value ) {
             if ($value['relation'] == 'Student of' ) {
@@ -409,14 +409,14 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
-    static function test( $contactID, &$details ) {
+    static function test( $id, &$details ) {
         //test details
         $testDetails = array();
         
         require_once 'CRM/Quest/DAO/Test.php';
   
         $testDAO = & new CRM_Quest_DAO_Test();
-        $testDAO->contact_id = $contactID;
+        $testDAO->contact_id = $id;
         $testDAO->find( );
         
         $count = 1;
@@ -437,7 +437,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         
     }
 
-    static function essay( $contactID, &$details ) {
+    static function essay( $id, &$details ) {
         require_once 'CRM/Quest/DAO/Essay.php';
         $essay = array();
         $essayDAO = & new CRM_Quest_DAO_Essay();
@@ -449,42 +449,42 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
-    static function deleteStudent( $contactID ) {
+    static function deleteStudent( $id ) {
 
         //delete civicrm_student record
         $dao = & new CRM_Quest_DAO_Student();
-        $dao->contact_id = $contactID;
+        $dao->contact_id = $id;
         $dao->delete();
 
         //delete civicrm_essay record
         require_once 'CRM/Quest/DAO/Essay.php';
         $essayDAO = & new CRM_Quest_DAO_Essay();
-        $essayDAO->contact_id = $contactID;
+        $essayDAO->contact_id = $id;
         $essayDAO->delete();
 
         //delete civicrm_test record
         require_once 'CRM/Quest/DAO/Test.php';
         $testDAO = & new CRM_Quest_DAO_Test();
-        $testDAO->contact_id = $contactID;
+        $testDAO->contact_id = $id;
         $testDAO->delete();
 
         //delete civicrm_referral record
         require_once 'CRM/Quest/DAO/Referral.php';
         $refDAO = & new CRM_Quest_DAO_Referral();
-        $refDAO->contact_id = $contactID;
+        $refDAO->contact_id = $id;
         $refDAO->delete();
 
         //delete civicrm_household record
         require_once 'CRM/Quest/DAO/Household.php';
         $houseDAO = & new CRM_Quest_DAO_Household();
-        $houseDAO->contact_id = $contactID;
+        $houseDAO->contact_id = $id;
         $houseDAO->delete();
 
         //delete civicrm_income record
         require_once 'CRM/Quest/DAO/Person.php';
         require_once 'CRM/Quest/DAO/Income.php';
         $personDAO =& new CRM_Quest_DAO_Person( );
-        $personDAO->contact_id = $contactID;
+        $personDAO->contact_id = $id;
         $personDAO->is_income_source   = true;
         $personDAO->find();
         while ($personDAO->fetch()) {
@@ -495,14 +495,23 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         //delete civicrm_person record
         $personDAO =& new CRM_Quest_DAO_Person( );
-        $personDAO->contact_id = $contactID;
+        $personDAO->contact_id = $id;
         $personDAO->delete();
         
         //delete civicrm_honor record
         require_once 'CRM/Quest/DAO/Honor.php';
         $honorDAO = & new CRM_Quest_DAO_Honor();
-        $honorDAO->contact_id = $contactID;
+        $honorDAO->contact_id = $id;
         $honorDAO->delete();
+    }
+
+    static function &xml( $id ) {
+        $details = array( );
+
+        self::studentDetails( $id, $details );
+
+        $xml = "<student>\n" . CRM_Utils_Array::xml( $details ) . "</student>\n";
+        return $xml;
     }
 
 }

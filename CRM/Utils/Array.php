@@ -79,6 +79,21 @@ class CRM_Utils_Array {
         return null;
     }
 
+    static function &xml( &$list, $depth = 1, $seperator = "\n" ) {
+        $xml = '';
+        foreach( $list as $name => $value ) {
+            $xml .= str_repeat( ' ', $depth * 4 );
+            if ( is_array( $value ) ) {
+                $xml .= "<{$name}>{$seperator}";
+                $xml .= self::xml( $value, $depth + 1, $seperator );
+                $xml .= str_repeat( ' ', $depth * 4 );
+                $xml .= "</{$name}>{$seperator}";
+            } else {
+                $xml .= "<{$name}>$value</{$name}>{$seperator}";
+            }
+        }
+        return $xml;
+    }
 }
 
 ?>
