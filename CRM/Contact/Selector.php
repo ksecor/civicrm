@@ -157,13 +157,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
             $returnProperties['contact_type'] = 1;
             $returnProperties['sort_name'   ] = 1;
-            $this->_query   =& new CRM_Contact_BAO_Query( $this->_formValues, $returnProperties, $this->_fields );
+            $this->_query   =& new CRM_Contact_BAO_Query( $this->_formValues, $returnProperties );
             $this->_options =& $this->_query->_options;
-            
-            require_once 'CRM/Core/Page.php';
-            $page =& new CRM_Core_Page();
-            $page->assign('id', $this->_ufGroupID);
-            
         } else {
             $this->_query =& new CRM_Contact_BAO_Query( $this->_formValues );
         }

@@ -435,7 +435,12 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
             // also reset the sort by character  
             $this->_sortByCharacter = null;  
-            $this->set( 'sortByCharacter', null );  
+            $this->set( 'sortByCharacter', null );
+
+            // also get the uf group id directly from the post value
+            $this->_ufGroupID = CRM_Utils_Array::value( 'uf_group_id', $_POST );
+            $this->_formValues['uf_group_id'] = $this->_ufGroupID;
+            $this->set( 'id', $this->_ufGroupID );
         } else {
             $this->_formValues = $this->get( 'formValues' );
         }
@@ -449,6 +454,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                 $this->_formValues['uf_group_id'] = $this->_ufGroupID;
             }
         }
+        $this->assign( 'id', CRM_Utils_Array::value( 'uf_group_id', $this->_formValues ) );
 
         /*
          * assign context to drive the template display, make sure context is valid
