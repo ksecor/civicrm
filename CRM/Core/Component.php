@@ -176,7 +176,7 @@ class CRM_Core_Component {
         }
     }
 
-    static function from( $fieldName, $mode, $side ) {
+    static function from( $fieldName, $mode, $side, &$query ) {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 
@@ -186,7 +186,7 @@ class CRM_Core_Component {
                  $value['search'] ) {
                 $className = $info[$name]['path'] . 'BAO_Query';
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
-                eval( '$from = ' . $className . '::from( $fieldName, $mode, $side );' );
+                eval( '$from = ' . $className . '::from( $fieldName, $mode, $side, $query );' );
                 if ( $from ) {
                     return $from;
                 }

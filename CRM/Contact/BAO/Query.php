@@ -892,8 +892,8 @@ class CRM_Contact_BAO_Query {
      * @access public
      * @static
      */
-    static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) {
-       
+    function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) {
+        
         $from = ' FROM civicrm_contact contact_a';
         if ( empty( $tables ) ) {
             return $from;
@@ -1124,7 +1124,7 @@ class CRM_Contact_BAO_Query {
                 continue; 
 
             default:
-                $from .= CRM_Core_Component::from( $name, $mode, $side );
+                $from .= CRM_Core_Component::from( $name, $mode, $side, $this );
                 continue;
             }
         }

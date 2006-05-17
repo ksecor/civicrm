@@ -35,12 +35,14 @@
  * 
  */ 
 
-class CRM_Quest_BAO_Query {
+class CRM_Quest_BAO_Query 
+{
     static $_terms = null;
 
     static $_ids = null;
 
-    static function initialize( ) {
+    static function initialize( ) 
+    {
         if ( ! self::$_terms ) {
             self::$_terms = array( 'score_SAT'  => 'SAT Score',
                                    'score_ACT'  => 'ACT Score',
@@ -50,7 +52,8 @@ class CRM_Quest_BAO_Query {
         }
     }
 
-    static function &getFields( ) {
+    static function &getFields( ) 
+    {
         require_once 'CRM/Quest/BAO/Student.php';
         $fields =& CRM_Quest_BAO_Student::exportableFields( );
         unset( $fields['contact_id']);
@@ -63,8 +66,8 @@ class CRM_Quest_BAO_Query {
      * @return void  
      * @access public  
      */
-    static function select( &$query ) {
-
+    static function select( &$query ) 
+    {
         // if contribute mode add contribution id
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_QUEST ) {
             $query->_select['student_id'] = "quest_student.id as student_id";
@@ -72,38 +75,65 @@ class CRM_Quest_BAO_Query {
             $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
         }
 
-        self::initialize( );
-        foreach ( self::$_terms as $name => $title ) {
-            if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
-                $query->_select[$name] = "quest_student.$name as $name";
-                $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
-            }
-        }
+        //self::initialize( );
+        $fields = self::getFields();
         
-        foreach ( self::$_ids as $index => $name ) {
+        foreach ( $fields as $name => $title ) {
             if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
-                $query->_select[$name] = "quest_student.$name as $name";
-                $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
+                //$query->_select[$name] = "quest_student.$name as $name";
+                //$query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
+                if ( substr($name,( strlen($name) - 10), strlen($name) ) == 'country_id' ) { 
+                    $query->_select[$name] = "civicrm_country.name as $name";
+                    $query->_select[$name] = "civicrm_country.name as $name";
+                }  elseif (substr($name,( strlen($name) - 2), strlen($name)) == 'id') {
+                    $tName = "civicrm_option_value-" . $name;
+                    $query->_select[$name] = "`$tName`.title as $name";
+                }  else {
+                    $query->_select[$name] = "quest_student.$name as $name";
+                    $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
+                }
             }
-        }
-        
-    }
-
-    static function where( &$query ) {
-        self::initialize( );
-        foreach ( self::$_terms as $name => $title ) {
-            $query->numberRangeBuilder( 'quest_student', $name, $name, $title );
         }
     }
 
-    static function from( $name, $mode, $side ) {
+    static function where( &$query ) 
+    {
+        //self::initialize( );
+        $fields = self::getFields();
+        foreach ( $fields as $name => $title ) {
+            if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
+                $query->numberRangeBuilder( 'quest_student', $name, $name, $title );
+            }
+        }
+    }
+
+    static function from( $name, $mode, $side, &$query ) 
+    {
+        
         if ( $name == 'quest_student' ) {
-            return " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id ";
+            $from = " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id " ;
+            $fields = self::getFields();
+
+            foreach ( $fields as $name => $title ) {
+                if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
+                    if ( substr($name,( strlen($name) - 10), strlen($name) ) == 'country_id' ) { 
+                        $from .= " LEFT JOIN  civicrm_country ON (quest_student.$name = civicrm_country.id )";
+                    } elseif (substr($name,( strlen($name) - 2), strlen($name)) == 'id') {
+                        $tName = "civicrm_option_value-" . $name;
+                        $from .= " LEFT JOIN  civicrm_option_value as `$tName` ON (quest_student.$name = `$tName`.id )";
+                    }
+                }
+            }
+
+            return $from;
+            //return " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id ";
         }
+
         return null;
     }
 
-    static function defaultReturnProperties( $mode ) {
+    static function defaultReturnProperties( $mode ) 
+    {
         $properties = null;
         if ( $mode & CRM_Contact_BAO_Query::MODE_QUEST ) {
             $properties = array(  
@@ -120,7 +150,8 @@ class CRM_Quest_BAO_Query {
         return $properties;
     }
 
-    static function buildSearchForm( &$form ) {
+    static function buildSearchForm( &$form ) 
+    {
         $form->assign( 'validQuest', true );
         self::initialize( );
         foreach ( self::$_terms as $name => $title ) {
@@ -129,11 +160,12 @@ class CRM_Quest_BAO_Query {
         }
     }
 
-    static function addShowHide( &$showHide ) {
+    static function addShowHide( &$showHide ) 
+    {
         $showHide->addHide( 'questForm' );
         $showHide->addShow( 'questForm[show]' ); 
     }
-
+    
 }
 
 ?>
