@@ -117,7 +117,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             
             list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($mapping);
             $colCnt=count($mappingName);
-            
+           
             //updated for CRM-927
             if ( $colCnt > $this->_columnCount ) {
                  $this->_columnCount  = $colCnt;
@@ -407,13 +407,13 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                     $mappingFieldsId[$mappingFields->column_number] = $mappingFields->id;
                 }
             }
-
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {
                 if ( !empty($mapperKeys[$i][0]) ) {
                     $updateMappingFields =& new CRM_Core_DAO_MappingField();
                     $updateMappingFields->id = $mappingFieldsId[$i];
                     $updateMappingFields->mapping_id = $params['mappingId'];
                     $updateMappingFields->name = $this->_mapperFields[$mapperKeys[$i][0]][$mapperKeys[$i][1]];
+                    $updateMappingFields->contact_type =  $mapperKeys[$i][0];
                     $updateMappingFields->column_number = $i;
                     
                     $locationId = $mapperKeys[$i][2];
