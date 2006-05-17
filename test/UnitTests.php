@@ -108,10 +108,11 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFGroup.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFField.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFField.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM966.php'    );
         
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Token.php' );
 
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateProfileContact.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateProfileContact.php'    );
     }
 
 }
