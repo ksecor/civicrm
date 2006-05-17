@@ -109,27 +109,12 @@ class CRM_Quest_BAO_Query
 
     static function from( $name, $mode, $side, &$query ) 
     {
-        
+        $from = null;
         if ( $name == 'quest_student' ) {
-            $from = " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id " ;
-            $fields = self::getFields();
-
-            foreach ( $fields as $name => $title ) {
-                if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
-                    if ( substr($name,( strlen($name) - 10), strlen($name) ) == 'country_id' ) { 
-                        $from .= " LEFT JOIN  civicrm_country ON (quest_student.$name = civicrm_country.id )";
-                    } elseif (substr($name,( strlen($name) - 2), strlen($name)) == 'id') {
-                        $tName = "civicrm_option_value-" . $name;
-                        $from .= " LEFT JOIN  civicrm_option_value as `$tName` ON (quest_student.$name = `$tName`.id )";
-                    }
-                }
-            }
-
-            return $from;
-            //return " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id ";
+            $from = " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id ";
         }
 
-        return null;
+        return $from;
     }
 
     static function defaultReturnProperties( $mode ) 

@@ -1128,6 +1128,7 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
         }
+
         return $from;
     }
 
