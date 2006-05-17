@@ -40,28 +40,36 @@ $groupNotCompleted = $groupNotCompleted[0];
 if ( ! $groupNotCompleted ) {
     $groupNotCompleted = crm_create_group($params);
  }
-$cotactIDs  =  crm_get_contacts();
-require_once  'CRM/Contact/DAO/Contact.php';
-foreach ( $cotactIDs as $id ) {
-    echo ".";
-    $contact = CRM_Quest_API::getContactInfo($id);
-    if ( $contact['contact_sub_type'] && $contact['contact_sub_type'] == 'Student' ) {
-       $applicationStatus = CRM_Quest_API::getApplicationStatus( $id );
-       if ( $applicationStatus == 'Completed' ) {
-           $con1 = & new CRM_Contact_DAO_Contact();
-           $con1->contact_id = $id;
-           $completedContacts[] =  $con1;
-           crm_add_group_contacts( $groupCompleted , $completedContacts);
-           crm_delete_group_contacts($groupNotCompleted, $completedContacts);
-       } else if ( $applicationStatus == 'In Progress' ) {
-           $con2 = & new CRM_Contact_DAO_Contact();
-           $con2->contact_id = $id;
-           $incompletContacts[] = $con2;
-           crm_add_group_contacts(  $groupNotCompleted, $incompletContacts);
-           crm_delete_group_contacts($groupCompleted, $incompletContacts);
-       }
 
+/* Grab all the applicable task_status records */
+require_once  'CRM/Core/DAO.php';
+$completedContacts = array();
+$incompleteContacts = array();
+
+$query = "
+SELECT target_entity_id AS contact_id, status_id
+FROM civicrm_task_status
+WHERE task_id = 2";
+
+$p = array();
+$dao =& CRM_Core_DAO::executeQuery( $query, $p );
+while ( $dao->fetch( ) ) {
+    echo $dao->contact_id . "\n";
+    $con = & new CRM_Contact_DAO_Contact();
+    $con->contact_id = $dao->contact_id;
+    if ($dao->status_id == 328) {
+        $completedContacts[] = $con;
+    } else {
+        $incompleteContacts[] = $con;
     }
 }
-    
+
+echo 'Adding completed applicants to completed group' . "\n";
+crm_add_group_contacts( $groupCompleted , $completedContacts);
+crm_delete_group_contacts($groupNotCompleted, $completedContacts);
+
+echo 'Adding not-completed applicants to incomplete group' . "\n";
+crm_add_group_contacts(  $groupNotCompleted, $incompleteContacts);
+crm_delete_group_contacts($groupCompleted, $incompleteContacts);
+
 ?>

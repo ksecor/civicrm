@@ -122,6 +122,10 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
             $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
         }
 
+        // get the Student application status (pre-application for now)
+        require_once 'CRM/Quest/API.php';
+        $this->assign( 'preapplicationStatus', CRM_Quest_API::getApplicationStatus( $this->_contactId ));
+        
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();
         // get categories for the contact id

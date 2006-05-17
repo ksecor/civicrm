@@ -528,7 +528,7 @@ class CRM_Core_Invoke {
         default:
             require_once 'CRM/Core/Component.php';
             if ( CRM_Core_Component::invoke( $args, 'admin' ) ) {
-                break;
+                return;
             }
             require_once 'CRM/Admin/Page/Admin.php';
             $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));

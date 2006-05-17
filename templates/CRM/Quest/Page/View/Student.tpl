@@ -14,14 +14,14 @@
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
-    &nbsp; &nbsp; <a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View Preapplication{/ts}</a>
+    &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View Preapp{/ts}</a></span>
     {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=edit&id=$contactId"}">&raquo; {ts}Edit Preapplication{/ts}</a>
+        &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=edit&id=$contactId"}">&raquo; {ts}Edit Preapp{/ts}</a></span>
     {/if}
-    {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
+    {if $url } &nbsp; &nbsp; <span class="nowrap"><a href="{$url}">&raquo; {ts}View User Record{/ts}</a></span>{/if}
     
-    
-    {if $contactTag}<br />{ts}Tags{/ts}:&nbsp;{$contactTag}{/if}
+    {if $preapplicationStatus}<div class="status"><label>{ts}Preapplication Status{/ts}:</label>&nbsp;<strong>{$preapplicationStatus}</strong></div>{/if}
+    {if $contactTag}<label>{ts}Tags{/ts}:</label>&nbsp;{$contactTag}{/if}
    </div>
 </div>
 

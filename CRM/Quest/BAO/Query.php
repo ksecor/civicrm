@@ -124,7 +124,7 @@ class CRM_Quest_BAO_Query {
         $form->assign( 'validQuest', true );
         self::initialize( );
         foreach ( self::$_terms as $name => $title ) {
-            $form->add( 'text', $name . '_low' , ts( "$name - From" ) );
+            $form->add( 'text', $name . '_low' , ts( "$title - From" ) );
             $form->add( 'text', $name . '_high', ts( "To" ) );
         }
     }
