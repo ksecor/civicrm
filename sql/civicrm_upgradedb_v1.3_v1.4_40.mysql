@@ -177,6 +177,15 @@ CREATE TABLE civicrm_sms_history (
 
 -- /*******************************************************
 -- *
+-- * Modify the civicrm_contact  Table Structure
+-- *
+-- *******************************************************/
+
+    ALTER TABLE `civicrm_contact` MODIFY `preferred_mail_format` enum('Text', 'HTML', 'Both')   DEFAULT 'Both';
+
+
+-- /*******************************************************
+-- *
 -- * Modify the civicrm_contribution  Table Structure
 -- *
 -- *******************************************************/
