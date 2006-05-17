@@ -80,17 +80,17 @@ class CRM_Quest_BAO_Query
         
         foreach ( $fields as $name => $title ) {
             if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
-                //$query->_select[$name] = "quest_student.$name as $name";
-                //$query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
-                if ( substr($name,( strlen($name) - 10), strlen($name) ) == 'country_id' ) { 
+                if ( substr( $name, -10 ) == 'country_id' ) {
                     $query->_select[$name] = "civicrm_country.name as $name";
-                    $query->_select[$name] = "civicrm_country.name as $name";
-                }  elseif (substr($name,( strlen($name) - 2), strlen($name)) == 'id') {
-                    $tName = "civicrm_option_value-" . $name;
-                    $query->_select[$name] = "`$tName`.title as $name";
+                    $query->_tables['civicrm_country'] = 1;
+                }  elseif ( strpos( $name, '_id' ) !== false ) {
+                    $tName = "`civicrm_option_value-{$name}`";
+                    $query->_select[$name] = "$tName.title as $name";
+                    $query->_tables['quest_student'] = 1;
+                    $query->_tables[$tName] = "LEFT JOIN civicrm_option_value $tName ON {$tName}.id = quest_student.{$name}";
                 }  else {
                     $query->_select[$name] = "quest_student.$name as $name";
-                    $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
+                    $query->_tables['quest_student'] = 1;
                 }
             }
         }
