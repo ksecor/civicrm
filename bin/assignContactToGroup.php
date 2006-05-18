@@ -54,7 +54,6 @@ WHERE task_id = 2";
 $p = array();
 $dao =& CRM_Core_DAO::executeQuery( $query, $p );
 while ( $dao->fetch( ) ) {
-    echo $dao->contact_id . "\n";
     $con = & new CRM_Contact_DAO_Contact();
     $con->contact_id = $dao->contact_id;
     if ($dao->status_id == 328) {

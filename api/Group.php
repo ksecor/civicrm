@@ -279,10 +279,10 @@ function crm_delete_group_contacts(&$group, $contacts, $method = 'Admin') {
 
     $contactID = array( );
     foreach ( $contacts as $contact ) {
-        if ( ! isset($contact->id)) {
+        if ( ! isset($contact->contact_id)) {
             return _crm_error( 'Invalid contact object passed in' );
         }
-        $contactID[] = $contact->id;
+        $contactID[] = $contact->contact_id;
     }
 
     if ( ! empty( $contactID ) ) {
