@@ -202,7 +202,7 @@
       <name>parent_grad_college_id</name>
       <type>int unsigned</type>
       <default>NULL</default>
-      <export>true</export>
+      <export>false</export>
       <title>Parent Graduation College</title>
       <comment>Has any parent or guardian graduated from a 4-year college?</comment>
       <add>1.5</add>

@@ -1848,7 +1848,8 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         // fix all the custom field checkboxes which are empty
         foreach ($fields as $name => $field ) {
             // check if student fields present
-            if ( (!$studentFieldPresent) && in_array($name, array( 'ethnicity_id_1', 'gpa_id', 'score_SAT', 'household_income_total')) ) {
+            //print_r($studentFields);
+            if ( (!$studentFieldPresent) && array_key_exists($name, CRM_Quest_BAO_Query::getFields()) ) {
                 $studentFieldPresent = 1;
             }
             $cfID = CRM_Core_BAO_CustomField::getKeyID($name); 

@@ -145,8 +145,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             // get the contact details (hier)
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $this->_id, $this->_fields );
             $this->_contact = $details = $contactDetails[$this->_id];
-            
-            CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
 
             //start of code to set the default values
             foreach ($this->_fields as $name => $field ) {
@@ -166,35 +164,36 @@ class CRM_Profile_Form extends CRM_Core_Form
                 } else {
                     //$nameValue = explode( '-' , $name );
                     list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $name);
-
-                    foreach ($details as $key => $value) {
-                        if ($locTypeId == 'Primary') {
-                            $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $this->_id ); 
-                        }
-
-                        if (is_numeric($locTypeId)) {//fixed for CRM-665
-                            if ($locTypeId == $value['location_type_id'] ) {
-                                if (CRM_Utils_Array::value($fieldName, $value )) {
-                                    //to handle stateprovince and country
-                                    if ( $fieldName == 'state_province' ) {
-                                        $defaults[$name] = $value['state_province_id'];
-                                    } else if ( $fieldName == 'country' ) {
-                                        $defaults[$name] = $value['country_id'];
-                                        $this->_countryPresent = 1;
-                                    } else if ( $fieldName == 'phone' ) {
-                                        if ($phoneTypeId) {
-                                            $defaults[$name] = $value['phone'][$phoneTypeId];
+                    if ( is_array($details) ) {   
+                        foreach ($details as $key => $value) {
+                            if ($locTypeId == 'Primary') {
+                                $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $this->_id ); 
+                            }
+                            
+                            if (is_numeric($locTypeId)) {//fixed for CRM-665
+                                if ($locTypeId == $value['location_type_id'] ) {
+                                    if (CRM_Utils_Array::value($fieldName, $value )) {
+                                        //to handle stateprovince and country
+                                        if ( $fieldName == 'state_province' ) {
+                                            $defaults[$name] = $value['state_province_id'];
+                                        } else if ( $fieldName == 'country' ) {
+                                            $defaults[$name] = $value['country_id'];
+                                            $this->_countryPresent = 1;
+                                        } else if ( $fieldName == 'phone' ) {
+                                            if ($phoneTypeId) {
+                                                $defaults[$name] = $value['phone'][$phoneTypeId];
+                                            } else {
+                                                $defaults[$name] = $value['phone'][1];
+                                            }
+                                        } else if ( $fieldName == 'email' ) {
+                                            //adding the first email (currently we don't support multiple emails of same location type)
+                                            $defaults[$name] = $value['email'][1];
+                                        } else if ( $fieldName == 'im' ) {
+                                            //adding the first email (currently we don't support multiple ims of same location type)
+                                            $defaults[$name] = $value['im'][1];
                                         } else {
-                                            $defaults[$name] = $value['phone'][1];
+                                            $defaults[$name] = $value[$fieldName];
                                         }
-                                    } else if ( $fieldName == 'email' ) {
-                                        //adding the first email (currently we don't support multiple emails of same location type)
-                                        $defaults[$name] = $value['email'][1];
-                                    } else if ( $fieldName == 'im' ) {
-                                        //adding the first email (currently we don't support multiple ims of same location type)
-                                        $defaults[$name] = $value['im'][1];
-                                    } else {
-                                        $defaults[$name] = $value[$fieldName];
                                     }
                                 }
                             }
@@ -202,6 +201,9 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
             }
+
+            //set student defaults
+            CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
 
             $this->setDefaults( $defaults );       
             //end of code to set the default values
@@ -401,22 +403,14 @@ class CRM_Profile_Form extends CRM_Core_Form
             } else if ($field['name'] == 'contribution_type' ) {
                 $this->add('select', 'contribution_type', ts( 'Contribution Type' ),
                            array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
-            } else if ($field['name'] == 'gpa_id' ) {
-                require_once 'CRM/Core/OptionGroup.php';
-                $this->add('select', 'gpa_id', ts( $field['title'] ), 
-                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('gpa'), $required);
-            } else if ($field['name'] == 'ethnicity_id_1' ) {
-                require_once 'CRM/Core/OptionGroup.php';
-                $this->add('select', 'ethnicity_id_1', ts( $field['title'] ),
-                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('ethnicity'), $required);
-            } else {
+            } else if ( ! CRM_Quest_BAO_Student::buildStudentForm( $field, $this ) ) {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required );
             }
             
             if ( in_array($field['name'], array('non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' )) ) {
                 $this->addRule($field['name'], ts('Please enter a valid amount.'), 'money');
             }
-
+            
             if ($field['add_to_group_id']) {
                 $addToGroupId = $field['add_to_group_id'];
             }
