@@ -1588,7 +1588,13 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                 list( $fieldName, $id, $type ) = explode( '-', $name );
 
                 if ($id == 'Primary') {
-                    $id = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId ); 
+                    if ( $contactId ) {
+                        $id = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId ); 
+                    } else { //fix to display default primary location
+                        require_once "CRM/Core/BAO/LocationType.php";
+                        $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
+                        $id = $defaultLocation->id;
+                    }
                 }
 
                 $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );

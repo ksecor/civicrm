@@ -353,6 +353,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                      ! in_array( $key, $skipFields ) ) { 
                     if ( strpos( $key, '-' ) !== false ) {
                         list( $fieldName, $id, $type ) = explode( '-', $key );
+
+                        if ($id == 'Primary') { //fix to display default primary location
+                            require_once "CRM/Core/BAO/LocationType.php";
+                            $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
+                            $id = $defaultLocation->id;
+                        }
+
                         $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
                         if ( ! $locationTypeName ) {
                             continue;
