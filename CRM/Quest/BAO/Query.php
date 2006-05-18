@@ -75,7 +75,7 @@ class CRM_Quest_BAO_Query
         }
 
         self::initialize( );
-        $fields = self::getFields();
+        $fields =& self::getFields();
         
         foreach ( $fields as $name => $title ) {
             if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
@@ -108,7 +108,7 @@ class CRM_Quest_BAO_Query
         }
     }
 
-    static function from( $name, $mode, $side, &$query ) 
+    static function from( $name, $mode, $side ) 
     {
         $from = null;
         if ( $name == 'quest_student' ) {

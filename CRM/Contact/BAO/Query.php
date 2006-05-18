@@ -891,7 +891,7 @@ class CRM_Contact_BAO_Query {
      * @access public
      * @static
      */
-    function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) {
+    static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) {
         
         $from = ' FROM civicrm_contact contact_a';
         if ( empty( $tables ) ) {
@@ -1121,9 +1121,9 @@ class CRM_Contact_BAO_Query {
             case 'civicrm_group':
                 $from .= " $side  JOIN civicrm_group ON civicrm_group_contact.group_id = civicrm_group.id ";
                 continue; 
-
+                
             default:
-                $from .= CRM_Core_Component::from( $name, $mode, $side, $this );
+                $from .= CRM_Core_Component::from( $name, $mode, $side );
                 continue;
             }
         }
