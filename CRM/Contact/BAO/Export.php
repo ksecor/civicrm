@@ -124,6 +124,10 @@ class CRM_Contact_BAO_Export {
         if ( CRM_Utils_Array::value( 'tags', $returnProperties ) || CRM_Utils_Array::value( 'groups', $returnProperties ) ) { 
             $queryString .= " GROUP BY contact_a.id";
         }
+        //hack for student data
+        require_once 'CRM/Core/OptionGroup.php';
+        require_once 'CRM/Quest/BAO/Student.php';
+        $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         
         $temp = array( );
         $dao =& CRM_Core_DAO::executeQuery($queryString, $temp);
@@ -154,10 +158,21 @@ class CRM_Contact_BAO_Export {
                     $flag = true;
                 }
                 
+
                 if ($flag) {
                     if ( isset( $varValue ) && $varValue != '' ) {
                         if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
                             $row[$key] = CRM_Core_BAO_CustomField::getDisplayValue( $varValue, $cfID, $query->_options );
+                        } else if ( array_key_exists($key ,$multipleSelectFields ) ){
+                            $paramsNew = array($key => $varValue );
+                            if ( $key == 'test_tutoring') {
+                                $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
+                            } else {
+                                $name = array( $key => array('newName' => $key ,'groupName' => $key ));
+                            }
+                            CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
+                            $row[$key] = $paramsNew[$key];
+                            
                         } else {
                             $row[$key] = $varValue;
                         }

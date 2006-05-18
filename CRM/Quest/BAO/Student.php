@@ -43,6 +43,13 @@ require_once 'CRM/Quest/DAO/Student.php';
 
 class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
+    /**
+     * array that contains student fields that takes multiple options.
+     *
+     */
+    static $multipleSelectFields = array ('educational_interest' => 1,  'college_type' => 1,'college_interest' => 1, 'test_tutoring' => 1);
+    
+    
     
     /**
      * class constructor
