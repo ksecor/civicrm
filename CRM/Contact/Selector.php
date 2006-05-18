@@ -386,6 +386,11 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $names = self::$_properties;
         }
 
+        //hack for student data (checkboxs)
+        require_once 'CRM/Core/OptionGroup.php';
+        require_once 'CRM/Quest/BAO/Student.php';
+        $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+
         while ($result->fetch()) {
             $row = array();
 
@@ -397,6 +402,17 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($property)) {
                     $row[$property] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$property, $cfID, $this->_options );
+                }  else if ( array_key_exists($property, $multipleSelectFields ) ){ //fix to display student checkboxes
+                    $key = $property;
+                    $paramsNew = array($key => $result->$property );
+                    if ( $key == 'test_tutoring') {
+                        $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
+                    } else {
+                        $name = array( $key => array('newName' => $key ,'groupName' => $key ));
+                    }
+                    CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
+                    $row[$key] = $paramsNew[$key]; 
+                    
                 } else {
                     $row[$property] = $result->$property;
                 }
