@@ -95,6 +95,7 @@ class CRM_Utils_System {
                                                 'paymentinstrument'  => 'PaymentInstrument',
                                                 'relationshiptype'   => 'RelationshipType',
                                                 'removefromgroup'    => 'RemoveFromGroup',
+                                                'removefromtag'      => 'RemoveFromTag',
                                                 'savedsearch'        => 'SavedSearch',
                                                 'savesearch'         => 'SaveSearch',
                                                 'selectvalues'       => 'SelectValues',
