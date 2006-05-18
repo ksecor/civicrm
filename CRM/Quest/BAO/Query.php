@@ -68,14 +68,13 @@ class CRM_Quest_BAO_Query
      */
     static function select( &$query ) 
     {
-        // if contribute mode add contribution id
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_QUEST ) {
             $query->_select['student_id'] = "quest_student.id as student_id";
             $query->_element['student_id'] = 1;
             $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
         }
 
-        //self::initialize( );
+        self::initialize( );
         $fields = self::getFields();
         
         foreach ( $fields as $name => $title ) {
@@ -98,10 +97,12 @@ class CRM_Quest_BAO_Query
 
     static function where( &$query ) 
     {
-        //self::initialize( );
-        $fields = self::getFields();
+        self::initialize( );
+        $fields =& self::getFields();
         foreach ( $fields as $name => $record ) {
-            if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
+            if ( CRM_Utils_Array::value( $name          , $query->_params ) ||
+                 CRM_Utils_Array::value( $name . '_low' , $query->_params ) ||
+                 CRM_Utils_Array::value( $name . '_high', $query->_params ) ) {
                 $query->numberRangeBuilder( 'quest_student', $name, $name, $record['title'] );
             }
         }

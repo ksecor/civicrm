@@ -274,6 +274,7 @@ class CRM_Contact_BAO_Query {
             require_once 'CRM/Core/Component.php';
             $fields =& CRM_Core_Component::getQueryFields( );
             unset( $fields['note'] );
+
             $this->_fields = array_merge( $this->_fields, $fields );
         }
 
@@ -342,8 +343,6 @@ class CRM_Contact_BAO_Query {
         $cfIDs      = array( );
 
         $this->addSpecialFields( );
-
-        //CRM_Core_Component::alterQuery( $this, 'select' );
 
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
