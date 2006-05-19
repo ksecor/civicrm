@@ -1122,6 +1122,14 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             $logDAO->modified_id = $id;
             $logDAO->delete();
         }
+
+        // delete task status here 
+        require_once 'CRM/Project/DAO/TaskStatus.php';
+        $taskDAO =& new CRM_Project_DAO_TaskStatus(); 
+        $taskDAO->responsible_entity_id = $id;
+        $taskDAO->responsible_entity_table = 'civicrm_contact';
+        $taskDAO->delete();
+
         CRM_Mailing_Event_BAO_Subscribe::deleteContact( $id );
 
         CRM_Contact_BAO_GroupContact::deleteContact( $id );
