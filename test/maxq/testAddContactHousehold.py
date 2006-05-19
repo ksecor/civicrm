@@ -27,9 +27,9 @@ class testAddContactHousehold(PyHttpTestCase):
         commonAPI.login(self)
 
         params = [
-            ('''c_type''', '''Household'''),
+            ('''ct''', '''Household'''),
             ('''reset''', '''1'''),]
-        url = "%s/civicrm/contact/addH" % drupal_path
+        url = "%s/civicrm/contact/add" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -106,7 +106,7 @@ class testAddContactHousehold(PyHttpTestCase):
             ('''location[2][address][country_id]''', ''''''),
             ('''note''', '''This is Zope House. '''),
             ('''_qf_Edit_next''', '''Save'''),]
-        url = "%s/civicrm/contact/addH" % drupal_path
+        url = "%s/civicrm/contact/add" % drupal_path
         self.msg("Testing URL: %s" % url)
         
         queryID = "select id from civicrm_contact where sort_name=\'%s\'" % params[1][1]

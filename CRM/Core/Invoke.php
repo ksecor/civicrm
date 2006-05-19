@@ -153,7 +153,7 @@ class CRM_Core_Invoke {
             return;
         }
 
-        if ( substr( $args[2], 0, 3 ) == 'add' ) {
+        if ( $args[2] == 'add' ) {
             return self::form( CRM_Core_Action::ADD );
         }
         

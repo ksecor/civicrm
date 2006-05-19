@@ -13,7 +13,7 @@ class TestOfNoteAPI extends UnitTestCase
     {
     }
 
-    /* Test cases for crm_get_location for Individual contact */ 
+    /* Test cases for CRUD for Notes  */ 
     
     function testCreateNote()
     {

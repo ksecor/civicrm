@@ -174,7 +174,7 @@ class CRM_Core_Block {
         } else if ( $id == self::ADD ) {
             require_once 'CRM/Core/BAO/LocationType.php';
             $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
-            $values = array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&amp;c_type=Individual' ), 
+            $values = array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&amp;ct=Individual' ), 
                              'primaryLocationType' => $defaultLocation->id ); 
             self::setProperty( self::ADD,
                                'templateValues',
@@ -203,14 +203,14 @@ class CRM_Core_Block {
         
         if (!($shortCuts)) {
             if (CRM_Core_Permission::check('add contacts')) {
-                $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
-                                           'qs'    => 'c_type=Individual&reset=1',
+                $shortCuts = array( array( 'path'  => 'civicrm/contact/add',
+                                           'qs'    => 'ct=Individual&reset=1',
                                            'title' => ts('New Individual') ),
-                                    array( 'path'  => 'civicrm/contact/addO',
-                                           'qs'    => 'c_type=Organization&reset=1',
+                                    array( 'path'  => 'civicrm/contact/add',
+                                           'qs'    => 'ct=Organization&reset=1',
                                            'title' => ts('New Organization') ),
-                                    array( 'path'  => 'civicrm/contact/addH',
-                                           'qs'    => 'c_type=Household&reset=1',
+                                    array( 'path'  => 'civicrm/contact/add',
+                                           'qs'    => 'ct=Household&reset=1',
                                            'title' => ts('New Household') ),
                                     );
             }

@@ -27,9 +27,9 @@ class addIndividual_complete(PyHttpTestCase):
         commonAPI.login(self)
 
         params = [
-            ('''c_type''', '''Individual'''),
+            ('''ct''', '''Individual'''),
             ('''reset''', '''1'''),]
-        url = "%s/civicrm/contact/addI" % drupal_path
+        url = "%s/civicrm/contact/add" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -131,7 +131,7 @@ class addIndividual_complete(PyHttpTestCase):
             ('''birth_date[Y]''', '''1981'''),
             ('''note''', '''hi this is manish  from india team working on civiCRM nice to meet you'''),
             ('''_qf_Edit_next_view''', '''Save'''),]
-        url = "%s/civicrm/contact/addI" % drupal_path
+        url = "%s/civicrm/contact/add" % drupal_path
         self.msg("Testing URL: %s" % url)
         
         queryID = "select id from civicrm_contact where sort_name=\'%s, %s\'" % (params[4][1], params[2][1])

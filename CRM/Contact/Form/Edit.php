@@ -128,8 +128,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
 
         if ( $this->_action == CRM_Core_Action::ADD ) {
-            $this->_contactType = CRM_Utils_Request::retrieve( 'c_type', 'String',
+            $this->_contactType = CRM_Utils_Request::retrieve( 'ct', 'String',
                                                                $this, true, null, 'REQUEST' );
+            CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactType ) ) );
             $this->_contactId = null;
         } else {
             // this is update mode, first get the id from the session
@@ -434,7 +435,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                    CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ),
                                    $contactImage,
                                    $contact->id );
-            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add' . $contact->contact_type[0], 'reset=1&c_type=' . $contact->contact_type ) );
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add', 'reset=1&ct=' . $contact->contact_type ) );
         } else {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
         }

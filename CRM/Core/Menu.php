@@ -366,9 +366,10 @@ class CRM_Core_Menu {
                             'crmType' => self::LOCAL_TASK,
                             'weight'  => 1
                             ),
+
                       array(
-                            'path'   => 'civicrm/contact/addI',
-                            'title'  => ts('New Individual'),
+                            'path'   => 'civicrm/contact/add',
+                            'title'  => ts('New Contact'),
                             'qs'     => 'reset=1',
                             'access' => CRM_Core_Permission::check('add contacts') &&
                                         CRM_Core_Permission::check( 'access CiviCRM' ),
@@ -376,29 +377,7 @@ class CRM_Core_Menu {
                             'crmType'=> self::CALLBACK,
                             'weight' => 1
                             ),
-        
-                      array(
-                            'path'   => 'civicrm/contact/addO',
-                            'title'  => ts('New Organization'),
-                            'qs'     => 'reset=1',
-                            'access' => CRM_Core_Permission::check('add contacts') &&
-                                        CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
-                            'weight' => 1
-                            ),
-        
-                      array(
-                            'path'   => 'civicrm/contact/addH',
-                            'title'  => ts('New Household'),
-                            'qs'     => 'reset=1',
-                            'access' => CRM_Core_Permission::check('add contacts') &&
-                                        CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::CALLBACK,
-                            'weight' => 1
-                            ),
-        
+                
                       array(
                             'path'    => 'civicrm/contact/view',
                             'qs'      => 'reset=1&cid=%%cid%%',

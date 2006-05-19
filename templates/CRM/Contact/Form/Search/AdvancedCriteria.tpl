@@ -153,7 +153,7 @@
                 {$form.target_name.label}
             </td>
             <td>
-                {$form.target_name.html}
+                {$form.target_name.html|crmReplace:class:large}
             </td>    
         </tr>
       </table>         
