@@ -216,10 +216,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $permission = CRM_Core_Permission::getPermission( );
 
         // some tasks.. what do we want to do with the selected contacts ?
-        $tasks = array( '' => ts('- more actions -') ) + CRM_Contact_Task::permissionedTasks( $permission );
+        $tasks = array( '' => ts('- more actions -') ) + CRM_Contact_Task::permissionedTaskTitles( $permission );
         if ( isset( $this->_ssID ) ) {
             if ( $permission == CRM_Core_Permission::EDIT ) {
-                $tasks = $tasks + CRM_Contact_Task::optionalTasks();
+                $tasks = $tasks + CRM_Contact_Task::optionalTaskTitle();
             }
 
             $savedSearchValues = array( 'id' => $this->_ssID,

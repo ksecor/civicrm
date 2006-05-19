@@ -583,6 +583,27 @@ class CRM_Utils_System {
         return $memory;
     }
 
+    static function download( $name, $mimeType, &$buffer ) {
+        $now       = gmdate('D, d M Y H:i:s') . ' GMT';
+
+        header('Content-Type: ' . $mimeType); 
+        header('Expires: ' . $now);
+        
+        // lem9 & loic1: IE need specific headers
+        $isIE = strstr( $_SERVER['HTTP_USER_AGENT'], 'MSIE' );
+        if ( $isIE ) {
+            header('Content-Disposition: inline; filename="' . $name . '"');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+        } else {
+            header('Content-Disposition: attachment; filename="' . $name . '"');
+            header('Pragma: no-cache');
+        }
+    
+        print $buffer;
+        exit( );
+    }
+
 }
 
 ?>

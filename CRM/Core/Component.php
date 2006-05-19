@@ -64,8 +64,10 @@ class CRM_Core_Component {
                                                             'search'  => 1,
                                                             'metaTpl' => 'quest',
                                                             'formTpl' => 'quest',
-                                                            'css'     => 'quest.css' ),
-
+                                                            'css'     => 'quest.css' ,
+                                                            'task'    => array( '32' => array( 'title'  => 'Export XML',
+                                                                                               'class'  => 'CRM_Quest_Form_Task_XML',
+                                                                                               'result' => false ) ) ),
                                  );
         }
         return self::$_info;
@@ -263,6 +265,18 @@ class CRM_Core_Component {
              array_key_exists( $op, $properties[$subType] ) ) {
             return $properties[$subType][$op];
         }
+    }
+
+    static function &taskList( ) {
+        $info =& self::info( );
+        
+        $tasks = array( );
+        foreach ( $info as $name => $value ) {
+            if ( CRM_Utils_Array::value( 'task', $info[$name] ) ) {
+                $tasks += $info[$name]['task'];
+            }
+        }
+        return $tasks;
     }
 
 }

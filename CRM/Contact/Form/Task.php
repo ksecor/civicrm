@@ -78,7 +78,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
         }
         
         $this->_task = $values['task'];
-        $crmContactTaskTasks = CRM_Contact_Task::tasks();
+        $crmContactTaskTasks = CRM_Contact_Task::taskTitles();
         $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] );
 
         // all contacts or action = save a search

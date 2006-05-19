@@ -52,13 +52,15 @@ class CRM_Quest_Form_Task_XML extends CRM_Contact_Form_Task {
     {
         parent::preProcess( );
 
-        echo '<students>\n';
+        $xml = "<Students>\n";
         require_once 'CRM/Quest/BAO/Student.php';
         foreach ( $this->_contactIds as $cid ) {
-            $xml =& CRM_Quest_BAO_Student::xml( $cid );
-            echo $xml;
+            $xml .= CRM_Quest_BAO_Student::xml( $cid, 1 );
         }
-        echo '</students>\n';
+        $xml .= "</Students>\n";
+
+        // now echo this as a file
+        CRM_Utils_System::download( 'student.xml', 'text/xml', $xml );
     }
 
 

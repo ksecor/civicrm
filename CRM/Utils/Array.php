@@ -89,7 +89,9 @@ class CRM_Utils_Array {
                 $xml .= str_repeat( ' ', $depth * 4 );
                 $xml .= "</{$name}>{$seperator}";
             } else {
-                $xml .= "<{$name}>$value</{$name}>{$seperator}";
+                if ( ! empty( $value ) ) {
+                    $xml .= "<{$name}>$value</{$name}>{$seperator}";
+                }
             }
         }
         return $xml;

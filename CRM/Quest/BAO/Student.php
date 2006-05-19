@@ -133,7 +133,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         self::individual( $id, $details );
         
-        self::student( $id, $details );
+        // make sure student exists, else early abort
+        if ( ! self::student( $id, $details ) ) {
+            return false;
+        }
 
         self::guardian( $id, $details, true );
 
@@ -147,6 +150,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         self::essay( $id, $details );
 
+        return true;
     }
 
     static function individual( $id, &$details ) {
@@ -157,7 +161,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         CRM_Contact_BAO_Contact::retrieve( $params, $individual, $ids );
         CRM_Contact_BAO_Contact::resolveDefaults( $individual );
-        // CRM_Core_Error::debug( 'i', $individual );
 
         $details['Individual'] = array( );
         
@@ -185,7 +188,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $dao             = & new CRM_Quest_DAO_Student();
         $dao->contact_id = $id;
         if ( ! $dao->find(true) ) {
-            CRM_Core_Error::fatal( ts( "Student with id %1 does not exist", array( 1 => $id ) ) );
+            return false;
         }
 
         $studentDetails    = array();
@@ -266,7 +269,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         // BUG: we need to deal with this
         $multiSelectElements = array( 'educational_interest', 'college_type', 'college_interest' );
-                                      
+
+        return true;
     }
 
 
@@ -518,10 +522,12 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
     static function &xml( $id ) {
         $details = array( );
 
-        self::studentDetails( $id, $details );
+        if ( self::studentDetails( $id, $details ) ) {
+            $xml = "<StudentDetail>\n" . CRM_Utils_Array::xml( $details ) . "</StudentDetail>\n";
+            return $xml;
+        }
 
-        $xml = "<student>\n" . CRM_Utils_Array::xml( $details ) . "</student>\n";
-        return $xml;
+        return null;
     }
 
     static function buildStudentForm( $field, &$form ) {
