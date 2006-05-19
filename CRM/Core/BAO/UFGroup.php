@@ -477,7 +477,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     public static function getValues( $cid, &$fields, &$values ) {
         $options = array( );
-
+        //studnet fields ( check box ) 
+        require_once 'CRM/Quest/BAO/Student.php';
+        $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         // get the contact details (hier)
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
        
@@ -536,6 +538,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                     $values[$index] = implode( ', ', $title );
                     $params[$index] = implode( ',' , $entityTags );
+                } else if (array_key_exists( $name ,$studentFields ) ) {
+                    require_once 'CRM/Core/OptionGroup.php';
+                    $paramsNew = array($name => $details->$name );
+                    
+                    if ( $name == 'test_tutoring') {
+                        $names = array( $name => array('newName' => $name ,'groupName' => 'test' ));
+                    } else {
+                        $names = array( $name => array('newName' => $name ,'groupName' => $name ));
+                    }
+                    CRM_Core_OptionGroup::lookupValues( $paramsNew, $names, false );
+                    $values[$index] = $paramsNew[$name];
                 } else {
                     require_once 'CRM/Core/BAO/CustomField.php';
                     if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {

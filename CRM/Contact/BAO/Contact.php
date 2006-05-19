@@ -1947,6 +1947,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
+        
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
         
         // Process group and tag  
@@ -1974,6 +1975,14 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                 $ids['id'] = $dao->id;
             }
             $params['contact_id'] = $contactID;
+            //fixed for check boxes
+            $fields = array( 'educational_interest','college_type','college_interest','test_tutoring' );
+            foreach( $fields as $field ) {
+                if ( $params[$field] ) {
+                    $params[$field] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params[$field]));
+                }
+            }
+            // print_r($params);
             CRM_Quest_BAO_Student::create( $params, $ids);
         }
         // check if the contact type

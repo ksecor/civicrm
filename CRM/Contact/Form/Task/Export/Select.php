@@ -77,7 +77,8 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
         } 
          
         $this->_task = $values['task']; 
-        $crmContactTaskTasks = CRM_Contact_Task::tasks(); 
+        require_once 'CRM/Contact/Task.php';
+        $crmContactTaskTasks = CRM_Contact_Task::taskTitles(); 
         $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] ); 
  
         // all contacts or action = save a search 
