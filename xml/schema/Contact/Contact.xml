@@ -128,7 +128,7 @@
   <field>
        <name>preferred_communication_method</name>
        <type>enum</type>
-       <values>Phone, Email, Post</values>
+       <values>Phone, Email, Post, SMS, Fax</values>
        <import>true</import>
        <headerPattern>/(communication|method)/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>

@@ -105,7 +105,9 @@ class CRM_Core_SelectValues {
                 ''      => ts('- no preference -'),
                 'Phone' => ts('Phone'),
                 'Email' => ts('Email'), 
-                'Post'  => ts('Postal Mail')
+                'Post'  => ts('Postal Mail'),
+                'SMS'  => ts('SMS'),
+                'Fax'   => ts('Fax')
             );
         }
         return $pcm;
@@ -120,9 +122,9 @@ class CRM_Core_SelectValues {
         static $pmf = null;
         if (!$pmf) {
             $pmf = array(
-                'Text' => ts('Text'),
-                'HTML' => ts('HTML'), 
-                'Both' => ts('Both')
+                'Both' => ts('Both'),
+                'HTML' => ts('HTML'),
+                'Text' => ts('Text')
             );
         }
         return $pmf;

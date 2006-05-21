@@ -22,7 +22,7 @@
         <td>
             {$form.preferred_mail_format.html}
             <div class="description font-italic">
-                {ts}Select the preferred format of emails sent to this contact.{/ts}
+                {ts}Select the email format preferred by this contact. Select 'Both' to send HTML and Text formats.{/ts}
             </div>
         </td>
     </tr>
