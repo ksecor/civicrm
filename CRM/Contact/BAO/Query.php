@@ -545,7 +545,7 @@ class CRM_Contact_BAO_Query {
                     if ( isset( $tableName ) ) {
                         $this->_select["{$tName}_id"]                   = "`$tName`.id as `{$tName}_id`";
                         $this->_element["{$tName}_id"]                  = 1;
-                        if ( $tName == 'civicrm_state_province' ) {
+                        if ( substr( $tName, -15 ) == '-state_province' ) {
                             $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.abbreviation as `{$name}-{$elementFullName}`";
                         } else {
                             $this->_select["{$name}-{$elementFullName}"]  = "`$tName`.$fieldName as `{$name}-{$elementFullName}`";

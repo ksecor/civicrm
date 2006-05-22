@@ -246,7 +246,7 @@ class CRM_Core_Invoke {
                 } elseif ($activityId == 4 ) {
                     require_once 'CRM/Contact/Page/View/SMS.php';
                     $view =& new CRM_Contact_Page_View_SMS( );
-                } elseif ($activityId > 3 ) {
+                } elseif ($activityId > 4 ) {
                     require_once 'CRM/Contact/Page/View/OtherActivity.php';
                     $view =& new CRM_Contact_Page_View_OtherActivity( );
                 } else {

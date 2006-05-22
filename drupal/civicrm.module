@@ -283,7 +283,6 @@ function civicrm_quickreg( )
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) 
 {
-
 	if ( $type == 'load' ) {
         return;
     }
