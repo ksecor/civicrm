@@ -4,10 +4,12 @@
 {if $context EQ "baseData"}
     set @domain_id = {$civicrmDomainId};
 {else}
-    select max(id) + 1 from civicrm_domain into @domain_id;
+    -- This syntax apparently doesn't work in 4.0 and some 4.1 versions
+    -- select max(id) + 1 from civicrm_domain into @domain_id;
+    SELECT @domain_id := max(id) + 1 from civicrm_domain;
 {/if}
 
-set @domain_name = CONCAT('Domain Name ',@domain_id);
+SET @domain_name := CONCAT('Domain Name ',@domain_id);
 
 INSERT INTO civicrm_domain( id, name, contact_name, email_domain ) 
     VALUES ( @domain_id, @domain_name, 'Domain Contact Name', 'FIXME.ORG' );
