@@ -266,7 +266,7 @@ function checkPerformAction (fldPrefix, form, taskButton) {
     
     else if (document.forms[form].task.selectedIndex) {
         // Doesn't matter if any rows are checked for New/Update Saved Search tasks
-        if (document.forms[form].task.value == 16 || document.forms[form].task.value == 32) {
+        if (document.forms[form].task.value == 13 || document.forms[form].task.value == 14) {
             return true;
         }
         gotTask = 1;
