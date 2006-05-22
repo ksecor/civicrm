@@ -25,18 +25,13 @@
  +--------------------------------------------------------------------+
 */
 
-// /**
-//  * Definition of the Contact part of the CRM API. 
-//  * More detailed documentation can be found 
-//  * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
-//  * here}
-//  *
-//  * @package CRM
-//  * @author Donald A. Lobo <lobo@yahoo.com>
-//  * @copyright Donald A. Lobo 01/15/2005
-//  * $Id$
-//  *
-//  */
+/**
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
 
 /**
  * Files required for this package
@@ -46,7 +41,16 @@ require_once 'api/utils.php';
 require_once 'CRM/Core/BAO/Note.php';
 
 /**
+ * Creates a new note
  *
+ * This api is used to create a note record for an existing contact.
+ * Atleast one of 'entity_table', 'entity_id', 'note', or 'contact_id' is the required parameter.
+ * 
+ * @param array $params  Associative array of property name/value pairs with new values to be created.
+ * 
+ * @return Note object with new property values.
+ *
+ * @access public
  */
 
 function &crm_create_note( &$params ) {
@@ -65,6 +69,19 @@ function &crm_create_note( &$params ) {
     $note->save( );
     return $note;
 }
+
+/**
+ * Retrieves required note properties, if exists 
+ *
+ * This api is used to retrieve details of an existing note record.
+ * Atleast one of 'id', 'entity_id', or 'entity_table' is the required parameter.
+ *
+ * @param array $params  Associative array of property name/value pairs, sufficient to retrieve the required note properties. 
+ * 
+ * @return A Note object.
+ *
+ * @access public
+ */
 
 function &crm_get_note( &$params ) {
     
@@ -94,6 +111,19 @@ function &crm_get_note( &$params ) {
         }
     }
 }
+
+/**
+ * Deletes a note record. 
+ *
+ * This api is used to delete an existing note record.
+ * Atleast one of 'id', 'entity_id', or 'entity_table' is the required parameter.
+ *
+ * @param array $params  Associative array of property name/value pairs, sufficient to delete a note. 
+ * 
+ * @return Null if successfull or CRM_Error otherwise.
+ *
+ * @access public
+ */
 
 function &crm_delete_note( &$params ) {
     
@@ -132,6 +162,18 @@ function &crm_delete_note( &$params ) {
     }
 }
 
+/**
+ * Updates a note record. 
+ *
+ * This api is used to update an existing note record.
+ * 'id' of the note-record to be updated is the required parameter.
+ *
+ * @param array $params  Associative array of property name/value pairs with new values to be updated with. 
+ * 
+ * @return An updated note object.
+ *
+ * @access public
+ */
 function &crm_update_note( &$params ) {
     
     if (empty( $params )) {
