@@ -2026,6 +2026,24 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         }
         // check if the contact type
     }
+
+    /**
+     * Function to check if the contact exits in the db
+     * 
+     * @params $contactId contact id
+     * @return $contact  CRM_Contact_DAO_Contact object if the contact id exists else null
+     * @static
+     */
+    static function check_contact_exists($contactId)
+    {
+       require_once "CRM/Contact/DAO/Contact.php";
+       $contact =& new CRM_Contact_DAO_Contact();
+       $contact->id = $contactId;
+       if ($contact->find()) {
+          return $contact;
+       } 
+       return null;
+    } 
     
 }
 
