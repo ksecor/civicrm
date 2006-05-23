@@ -216,7 +216,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
             }
-            
+
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
@@ -388,8 +388,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                            array('' => ts('- select -')) + CRM_Core_SelectValues::pcm());
             } else if ($field['name'] === 'preferred_mail_format') {
                 $this->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
-            } else if ( substr($field['name'], 0, 3) === 'is_' or substr($field['name'], 0, 7) === 'do_not_' ) {  
-                $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
             } else if ( $field['name'] === 'group' ) {
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
@@ -416,7 +414,11 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->add('select', 'contribution_type', ts( 'Contribution Type' ),
                            array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
             } else if ( ! CRM_Quest_BAO_Student::buildStudentForm( $field, $this ) ) {
-                $this->add('text', $name, $field['title'], $field['attributes'], $required );
+                if ( substr($field['name'], 0, 3) === 'is_' or substr($field['name'], 0, 7) === 'do_not_' ) {
+                    $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
+                } else {
+                    $this->add('text', $name, $field['title'], $field['attributes'], $required );
+                }
             }
             
             if ( in_array($field['name'], array('non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' )) ) {

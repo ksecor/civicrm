@@ -510,10 +510,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $values[$index] = $details->$name;
                     $idx = $name . '_id';
                     $params[$index] = $details->$idx;
-                } else if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
-                    if ($details->$name) {
-                        $values[$index] = '[ x ]';
-                    }
                 } else if ( $name == 'group' ) {
                     $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $cid, 'Added', null, false, true );
                     $title = array( );
@@ -549,13 +545,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $names, false );
                     $values[$index] = $paramsNew[$name];
-                } else {
-                    require_once 'CRM/Core/BAO/CustomField.php';
-                    if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                        $params[$index] = $details->$name;
-                        $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                } else if ( ! CRM_Quest_BAO_Student::getValues( $field, $details, $values ) ) {
+                    if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
+                        if ($details->$name) {
+                            $values[$index] = '[ x ]';
+                        }
                     } else {
-                        $values[$index] = $details->$name;
+                        require_once 'CRM/Core/BAO/CustomField.php';
+                        if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
+                            $params[$index] = $details->$name;
+                            $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                        } else {
+                            $values[$index] = $details->$name;
+                        }
                     }
                 }
             } else if ( strpos( $name, '-' ) !== false ) {

@@ -633,6 +633,29 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
+    /**
+     * function to set values for the radio fields to be displayed in profile-view
+     * 
+     * @param array $field    profile fields of interest
+     * @param array $values   the values for the above fields
+     * @param array $details  contains all student Information
+     * 
+     * @access public
+     * @static 
+     * @return true if relevent field found, otherwise false
+     */
+    
+    static function getValues( &$field, &$details, &$values ) {
+        if ( substr($field['name'], 0, 3) === 'is_' or $field['name'] === 'financial_aid_applicant' or
+             $field['name'] === 'register_standarized_tests') {  
+            if ($details->$field['name'] == 1) {
+                $values[$field['title']] = 'Yes';
+            } 
+            return true;
+        } else {
+            return false;
+        }       
+    }
 }
     
 ?>
