@@ -68,7 +68,6 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
         $rule = $dupematch->rule;
         $tokens = preg_split('/[\s]+/',$rule,-1, PREG_SPLIT_NO_EMPTY );
         $rule = explode(' ' , $rule);
-       
         if(count($tokens) > 9 ) {
             $this->_advanced = true;
         }
@@ -123,6 +122,7 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
     {
         require_once 'CRM/Core/BAO/DupeMatch.php';        
         $params = $this->exportValues();
+
         if( ! $this->_advanced) {
             $rule = array();
             for ( $count = 1; $count <= 5 ; $count++ ) { 
@@ -130,9 +130,12 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
                     $rule[] = $params['match_on_'.$count] ;
                 }
             }
-            
-            if( count($rule)>=1 ) {
-                $rule = implode(' AND ',$rule)            ;
+            //updated for CRM-974
+            if(count($rule)==0){
+                $rule = 'none';
+                $dupematch = CRM_Core_BAO_DupeMatch::add($rule);
+            } else {
+                $rule = implode(' AND ',$rule);
                 $dupematch = CRM_Core_BAO_DupeMatch::add($rule);
             }
         } else {
@@ -159,7 +162,6 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
             if(($openParen != $closeParen) || ( $fieldCount-1 != ( $andCount+$orCount )) ) {
                 $inValid = true;
             }    
-            
             // need to do proper validation
             $fields =& CRM_Contact_BAO_Contact::importableFields('Individual', 1);
             $ruleFields = preg_split('/[ANDOR()\s]+/',$rule,-1, PREG_SPLIT_NO_EMPTY );
@@ -191,9 +193,9 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
      */
     static function formRule( &$fields ) 
     {
+        
         $dupRecords = array();
         $errors     = array();
-        
         foreach ( $fields as $key => $value ) {
             if ( array_key_exists( $value, $dupRecords ) ) {
                 $errors[$key] = 'Duplicate value(s) not allowed';

@@ -70,7 +70,6 @@ class CRM_Core_BAO_DupeMatch extends CRM_Core_DAO_DupeMatch {
     static function retrieve( &$params, &$defaults ) {
         $dupematch =& new CRM_Core_DAO_DupeMatch( );
         $dupematch->copyValues( $params );
-        
         if ( $dupematch->find( true ) ) {
             //CRM_Core_DAO::storeValues( $dupematch, $defaults );
             $defaults['match_on'] = $dupematch->rule;
@@ -127,7 +126,7 @@ class CRM_Core_BAO_DupeMatch extends CRM_Core_DAO_DupeMatch {
         $dupematch               =& new CRM_Core_DAO_DupeMatch( );
         $dupematch->domain_id    = CRM_Core_Config::domainID( );
         $dupematch->id           = $id;  
-        $dupematch->entity_table = 'civicrm_individul';
+        $dupematch->entity_table = 'civicrm_individual';
         $dupematch->rule         = $rule;
        
         $dupematch->save( );

@@ -129,7 +129,6 @@ WHERE contact_a.id = %1 AND $permission";
         if ( ! $id ) {
             return null;
         }
-
         $params = array( 'id' => CRM_Utils_Type::escape($id, 'Integer') );
         $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, false, false ); 
         $options = $query->_options;
@@ -161,24 +160,33 @@ WHERE contact_a.id = %1 AND $permission";
      * @access public
      */
     static function matchContact( $matchClause, &$tables, $id = null ) {
-        $config =& CRM_Core_Config::singleton( );
-        $query  = "SELECT DISTINCT contact_a.id as id";
-        $query .= CRM_Contact_BAO_Query::fromClause( $tables );
-        $query .= " WHERE $matchClause ";
-        $params = array( );
-        if ( $id ) {
-            $query .= " AND contact_a.id != %1";
-            $params[1] = array( $id, 'Integer' );
+        // check whether rule is empty or none
+        // if not empty then matchContact other wise skip matchcontact
+        // updated for CRM-974
+        require_once 'CRM/Core/DAO/DupeMatch.php';
+        $dupeMatchDAO = & new CRM_Core_DAO_DupeMatch();
+        $dupeMatchDAO->find(true);
+        if (!($dupeMatchDAO->rule == 'none')){
+            $config =& CRM_Core_Config::singleton( );
+            $query  = "SELECT DISTINCT contact_a.id as id";
+            $query .= CRM_Contact_BAO_Query::fromClause( $tables );
+            $query .= " WHERE $matchClause ";
+            $params = array( );
+            if ( $id ) {
+                $query .= " AND contact_a.id != %1";
+                $params[1] = array( $id, 'Integer' );
+            }
+            $ids = array( );
+            $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+            while ( $dao->fetch( ) ) {
+                $ids[] = $dao->id;
+            }
+            return implode( ',', $ids );
+        } else {
+             return null;
         }
-
-        $ids = array( );
-        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-        while ( $dao->fetch( ) ) {
-            $ids[] = $dao->id;
-        }
-        return implode( ',', $ids );
-    }
-
+     }
+    
     /**
      * Get all the emails for a specified contact_id, with the primary email being first
      *
@@ -465,7 +473,6 @@ ORDER BY
      */
     static function &create(&$params, &$ids, $maxLocationBlocks) {
         require_once 'CRM/Utils/Hook.php';
-
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $ids['contact'], $params );
         } else {
