@@ -1091,6 +1091,21 @@ function _crm_add_formatted_param(&$values, &$params) {
         return true;
     }
     
+    if (isset($values['preferred_communication_method'])) {
+        require_once 'CRM/Core/OptionGroup.php';
+        $preffComm = $comm = array();
+        $preffComm    = explode(',' , $values['preferred_communication_method']);
+        $optionValues = CRM_Core_OptionGroup::values('preferred_communication_method',true);
+        foreach( $preffComm as $v ) {
+            if(array_key_exists( trim($v) ,$optionValues )) {
+                $comm[trim($v)] = $optionValues[trim($v)];
+            }
+        }
+        $params['preferred_communication_method'] = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $comm );
+        return true;
+    }
+    
+    
     if (isset($values['location_type_id'])) {
         /* find and/or initialize the correct location block in $params */
         $locBlock = null;

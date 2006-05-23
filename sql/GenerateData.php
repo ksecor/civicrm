@@ -123,7 +123,7 @@ class CRM_GCD {
      *********************************/
     
     // enum's from database
-    private $preferredCommunicationMethod = array('Phone', 'Email', 'Post');
+    private $preferredCommunicationMethod = array('1', '2', '3','4','5');
     private $greetingType = array('Formal', 'Informal', 'Honorific', 'Custom', 'Other');
     private $contactType = array('Individual', 'Household', 'Organization');
     private $phoneType = array('Phone', 'Mobile', 'Fax', 'Pager');    

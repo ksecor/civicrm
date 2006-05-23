@@ -784,12 +784,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                         self::addToErrorMsg('Gender', $errorMessage);
                     }
                     break;
-                case 'preferred_communication_method':
-                    if(!array_key_exists(strtolower($value),array_change_key_case(CRM_Core_SelectValues::pcm(), CASE_LOWER))) {
-                        //return _crm_error('Invalid value for field  : Preferred Communication Method');
-                        self::addToErrorMsg('Preferred Communication Method', $errorMessage);
-                    }
-                    break;
+                // case 'preferred_communication_method':
+//                     if(!array_key_exists(strtolower($value),array_change_key_case(CRM_Core_SelectValues::pcm(), CASE_LOWER))) {
+//                         //return _crm_error('Invalid value for field  : Preferred Communication Method');
+//                         self::addToErrorMsg('Preferred Communication Method', $errorMessage);
+//                     }
+//                     break;
                 case 'preferred_mail_format':
                     if(!array_key_exists(strtolower($value),array_change_key_case(CRM_Core_SelectValues::pmf(), CASE_LOWER))) {
                         //return _crm_error('Invalid value for field  : Preferred Communication Method');

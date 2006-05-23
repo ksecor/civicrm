@@ -127,8 +127,8 @@
   </field>
   <field>
        <name>preferred_communication_method</name>
-       <type>enum</type>
-       <values>Phone, Email, Post, SMS, Fax</values>
+       <type>varchar</type>
+       <length>255</length>
        <import>true</import>
        <headerPattern>/(communication|method)/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>

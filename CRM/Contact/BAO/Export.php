@@ -128,6 +128,7 @@ class CRM_Contact_BAO_Export {
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Quest/BAO/Student.php';
         $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+        $multipleSelectFields = array_merge( $multipleSelectFields,array("preferred_communication_method" => 1));
         
         $temp = array( );
         $dao =& CRM_Core_DAO::executeQuery($queryString, $temp);

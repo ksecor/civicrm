@@ -309,7 +309,12 @@ ORDER BY
         $contact =& new CRM_Contact_BAO_Contact();
         
         $contact->copyValues($params);
-        
+        //fix for preffered communication method
+        $preffComm = CRM_Utils_Array::value('preferred_communication_method', $params, array());
+        if(is_array($preffComm)) {
+            $preffComm = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($preffComm));
+            $contact->preferred_communication_method = $preffComm;
+        }
         $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
         
@@ -437,16 +442,35 @@ ORDER BY
             $ids['domain' ] = $contact->domain_id;
 
             CRM_Core_DAO::storeValues( $contact, $values );
-
+                        
             $privacy = array( );
             foreach ( self::$_commPrefs as $name ) {
                 if ( isset( $contact->$name ) ) {
                     $privacy[$name] = $contact->$name;
                 }
             }
+            
             if ( !empty($privacy) ) {
                 $values['privacy'] = $privacy;
             }
+            
+            // communication Prefferance
+            $preffComm = $comm = array();
+            $comm =explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$contact->preferred_communication_method);
+            foreach( $comm as $value ) {
+                $preffComm[$value] = 1; 
+            }
+            $temp  = array('preferred_communication_method' => $contact->preferred_communication_method );
+            
+            $names = array('preferred_communication_method' => array('newName'   => 'preferred_communication_method_display',
+                                                                     'groupName' => 'preferred_communication_method'));
+            
+            require_once 'CRM/Core/OptionGroup.php';
+            CRM_Core_OptionGroup::lookupValues( $temp, $names, false );                
+                            
+
+            $values['preferred_communication_method']          = $preffComm;
+            $values['preferred_communication_method_display']  = $temp['preferred_communication_method_display'];
 
             CRM_Contact_DAO_Contact::addDisplayEnums($values);
 
