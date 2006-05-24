@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-18 08:33+0200\n"
-"PO-Revision-Date: 2006-05-12 17:23+0200\n"
+"PO-Revision-Date: 2006-05-20 22:21+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2165,7 +2165,7 @@ msgstr "Editar Regla"
 
 #: CRM/Admin/Page/DupeMatch.php
 msgid "Edit DupeMatch"
-msgstr ""
+msgstr "Editar Duplicado"
 
 #: CRM/Admin/Page/Gender.php
 msgid "Are you sure you want to disable this Gender?"
@@ -6533,7 +6533,7 @@ msgid ""
 "contact to existing contact records for duplicate matching. If some of the "
 "fields in your matching rule are OPTIONAL, then all <strong>non-empty</"
 "strong> fields in the incoming data are used."
-msgstr ""
+msgstr "Selecciona hasta cinco campo(s) cuando compares un nuevo contacto con uno ya existente para buscar duplicados. Si alguno de los campos de tu regla de coincidencia son OPCIONALES, entonces todos los campos <strong>no vacíos<strong> de los datos de entrada se rán usados."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
@@ -6542,12 +6542,11 @@ msgid ""
 "database. Now someone tries to add a new contact with the same email address "
 "and leaves the first and last name blank. The new contact will be flagged as "
 "a potential duplicate."
-msgstr ""
+msgstr "Por ejemplo, usando la regla de coincidencias de <strong>Email Y Nombre Y Apellidos</strong>... Jane Doe jane.doe@example.org existe en tu base de datos. Ahora alguien intenta añadir un nuevo contacto con la misma dirección de Email y deja el nombre y los apellidos en blanco. El nuevo contacto se marcará como un potencial duplicado."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
-#, fuzzy
 msgid "Advanced Configuration"
-msgstr "Añadir Información de Contacto"
+msgstr "Configuración Avanzada"
 
 #: templates/CRM/Admin/Form/Gender.tpl templates/CRM/Admin/Page/Gender.tpl
 msgid "New Gender Option"
@@ -6713,13 +6712,14 @@ msgstr ""
 msgid ""
 "A newer version of CiviCRM is available: %1 (this site is currently running %"
 "2)."
-msgstr ""
+msgstr "Una nueva versión de CiviCRM está disponible: %1 (este sitio está ejecutando actualmente %2)."
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
 "Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
 "\">download it here</a>."
-msgstr ""
+msgstr "Lee sobre la nueva versión en <a href=\"%1\">nuestra web</a> y <a href=\"%2"
+"\">descárgala aquí</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid ""
@@ -6730,12 +6730,12 @@ msgid ""
 "updating an existing contact, and importing contacts with the Import Wizard. "
 "Click <a href=\"%1\">Edit Rule</a> to modify the set of contact fields used "
 "for identifying duplicate contacts."
-msgstr ""
+msgstr "CiviCRM usa una regla de coincidencias duplicadas configurable para determinar cuando un nuevo contacto se debe marcar como un potencial duplicado de un registro existente. La configuración por defecto compara la dirección de email Y el apellido. Esta regla se usa cuando se crea un nuevo contacto, se actualiza uno existente y cuando se importan contactos con el asistente."
+"Haz Clic en <a href=\"%1\">Editar Regla</a>  para modificar los ajustes de contactos para identificar contactos duplicados."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
-#, fuzzy
 msgid "Duplicate Matching Rule"
-msgstr "Etiqueta de opción duplicada"
+msgstr "Regla de coincidencia de duplicados"
 
 #: templates/CRM/Admin/Page/Gender.tpl
 msgid ""
@@ -6886,9 +6886,8 @@ msgid "Relationship B to A"
 msgstr "Relación B a A"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
-#, fuzzy
 msgid "All Contacts"
-msgstr "- Todos los contactos -"
+msgstr "Todos los contactos"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Admin/Page/Tag.tpl
@@ -6942,7 +6941,10 @@ msgid ""
 "\"%3\">Affero General Public License (AGPL)</a>. <a href=\"%4\">Download "
 "source</a>. <a href=\"%5\">View issues and report bugs</a>. <a href=\"%6"
 "\">Online documentation</a>."
-msgstr ""
+msgstr "Powered by CiviCRM %1 rev%2."
+"CiviCRM está disponible bajo licencia <a href="
+"\"%3\">Affero General Public License (AGPL)</a>. <a href=\"%4\">Descargar Fuentes</a>. <a href=\"%5\">Ver y reportar fallos</a>. <a href=\"%6"
+"\">Documentación Online</a>."
 
 #: templates/CRM/common/form_body.tpl
 msgid "Please correct the following errors in the form fields below:"
@@ -6984,9 +6986,8 @@ msgid "Select the preferred method of communicating with this contact."
 msgstr "Selecciona el método preferido para comunicarse con este contacto."
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
-#, fuzzy
 msgid "Select the preferred format of emails sent to this contact."
-msgstr "Selecciona el método preferido para comunicarse con este contacto."
+msgstr "Selecciona el formato de Email preferido para este contacto."
 
 #: templates/CRM/Contact/Form/CustomData.tpl
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -7020,9 +7021,8 @@ msgid "close section"
 msgstr "cerrar sección"
 
 #: templates/CRM/Contact/Form/Domain.tpl
-#, fuzzy
 msgid "Domain Information"
-msgstr "Añadir Información de Contacto"
+msgstr "Información de Dominio"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
@@ -7172,7 +7172,7 @@ msgid ""
 "Location search uses the PRIMARY location for each contact by default. To "
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
-msgstr ""
+msgstr "La búsqueda por localidad usa la localidad PRIMARIA en cada contacto por defecto. Para buscar por localidades específicas (p.e. Hogar, Trabajo...), marca una o más casillas encima."
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 msgid "Edit %1 Smart Group Criteria"
@@ -7187,13 +7187,11 @@ msgid "(for %1)"
 msgstr "(por %1)"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
-#, fuzzy
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name, "
 "enter 'lastname, firstname'. Example: 'Doe, Jane'."
-msgstr ""
-"Nombre de Contacto Completo O Parcial O Email. Para encontrar contactos por "
-"nombre Y apellidos,<br> introduce 'apellidos, nombre'. Ejemplo 'Lopez "
+msgstr "Nombre de Contacto Completo O Parcial O Email. Para encontrar contactos por "
+"nombre Y apellidos, introduce 'apellidos, nombre'. Ejemplo: 'Lopez "
 "Garcia, Antonio'."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -7210,7 +7208,6 @@ msgid "No matches found for:"
 msgstr "No se encontraron coincidencias para:"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid "No matches found."
 msgstr "No se encontraron coincidencias"
 
@@ -7384,7 +7381,7 @@ msgstr ""
 msgid ""
 "Your setup enforces SMTP authentication, but does not provide SMTP username "
 "and/or password. Please fix your civicrm.settings.php file."
-msgstr ""
+msgstr "Tu configuración requiere autenticación SMTP, pero no se han definido usuario/contraseña. Por favor, revisa el fichero civicrm.settings.php."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
@@ -7398,8 +7395,8 @@ msgid ""
 msgid_plural ""
 "Email will NOT be sent to %count contacts - communication preferences "
 "specify DO NOT EMAIL."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "El email no se enviará a %count contacto - Las preferencias de comunicación indican NO ENVIAR EMAIL."
+msgstr[1] "El email no se enviará a %count contactos - Las preferencias de comunicación indican NO ENVIAR EMAIL."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -7407,11 +7404,10 @@ msgid "Recipient(s)"
 msgstr "Destinatario(s)"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
-#, fuzzy
 msgid "Email will NOT be sent to %count contact."
 msgid_plural "Email will NOT be sent to %count contacts."
-msgstr[0] "Email enviado a contacto(s): %1"
-msgstr[1] "Email enviado a contacto(s): %1"
+msgstr[0] "El email NO se enviará a %count contacto."
+msgstr[1] "El email NO se enviará a %count contactos."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
@@ -7489,7 +7485,6 @@ msgstr[0] "Un registro seleccionado para exportar."
 msgstr[1] "%count registros seleccionados para exportar."
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
-#, fuzzy
 msgid "Select a Different Mapping"
 msgstr "Selecciona una concordancia de campos diferentes"
 
@@ -7501,9 +7496,8 @@ msgid "Load Saved Field Mapping"
 msgstr "Cargar la asignación de campos guardados"
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
-#, fuzzy
 msgid "Using Field Mapping: %1"
-msgstr "Asignación de campos guardada: %1"
+msgstr "Usando coincidencia de campos: %1"
 
 #: templates/CRM/Contact/Form/Task/Export/table.tpl
 msgid "Fields to Include in Export File"
@@ -7523,9 +7517,8 @@ msgid "Remove Members"
 msgstr "Quitar miembros"
 
 #: templates/CRM/Contact/Form/Task/RemoveFromTag.tpl
-#, fuzzy
 msgid "Tag Contact(s) (Remove)"
-msgstr "Etiqeta de Contacto(s)"
+msgstr "Etiqeta de Contacto(s) (Quitar)"
 
 #: templates/CRM/Contact/Form/Task.tpl
 msgid "Number of selected contacts: %1"
@@ -7589,7 +7582,7 @@ msgstr "Otras Actividades"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "View User Record"
-msgstr ""
+msgstr "Ver campo de usuario"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "(primary location)"
@@ -7625,17 +7618,15 @@ msgstr "Privacidad:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "DO NOT SEND BULK EMAIL"
-msgstr ""
+msgstr "NO ENVIES EMAIL MASIVOS"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Communication Preference:"
-msgstr "Preferencias de Comunicación"
+msgstr "Preferencias de Comunicación:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Mail Format Preference:"
-msgstr "Preferencias de Comunicación"
+msgstr "Preferencias del formato de correo:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Gender:"
@@ -7651,39 +7642,34 @@ msgstr "Fecha de Nacimiento:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Total Contributed"
-msgstr ""
+msgstr "Aportación Total"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 msgid "# Contributions"
-msgstr ""
+msgstr "# Contribuyentes"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
 msgid ""
 "There are no contributions recorded for this contact. You can <a href=\"%1"
 "\">enter one now</a>."
-msgstr ""
-"No hay Relaciones para este contacto. Puedes <a href=\"%1\">añadir una</a>."
+msgstr "No hay Donaciones para este contacto. Puedes <a href=\"%1\">añadir una</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
 msgid "There are no contributions recorded for this contact."
-msgstr "No hay Relaciones para este contacto."
+msgstr "No hay Donaciones para este contacto."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Contributions (3 of %1)"
-msgstr "Notas (3 de %1)"
+msgstr "Donaciones (3 de %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 #: templates/CRM/Contribute/Form/Contribution.tpl
-#, fuzzy
 msgid "New Contribution"
-msgstr "Nueva Organización"
+msgstr "Nueva donación"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/History/Selector/Activity.tpl
@@ -7961,37 +7947,35 @@ msgstr ""
 "Estas Relaiones se han marcado como deshabilitadas (ya no están activas)."
 
 #: templates/CRM/Contact/Page/View/SMS.tpl
-#, fuzzy
 msgid "Sent SMS Message"
-msgstr "Email enviado"
+msgstr "SMS enviado"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid "New Credit Card"
-msgstr ""
+msgstr "Nueva Tarjeta de Crédito"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
-#, fuzzy
 msgid "Delete Credit Card"
-msgstr "Borrar contacto"
+msgstr "Borrar Tarjeta de Crédito"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
 "WARNING: If you delete this option, contributors will not be able to use "
 "this credit card type on your Online Contribution pages."
-msgstr ""
+msgstr "ADVERTENCIA: Si borras esta opción, los donantes no serán capaces de usar este tipo de tarjeta de crédito en tus páginas de donación Online."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
 "The name for this credit card type as it should be provided to your payment "
 "processor."
-msgstr ""
+msgstr "El nombre para este tipo de tarjeta de crédito como debe ser proporcionado a tu gestor de pago."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
 "The name for this credit card type as it is displayed to contributors. This "
 "may be the same value as the Name above, or a localised title."
-msgstr ""
+msgstr "El nombre para este tipo de tarjeta de crédito como debe ser mostrado a los contribuyentes. Debe ser el mismo valor que el nombre de encima, o un título localizado."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
