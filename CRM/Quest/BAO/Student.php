@@ -455,7 +455,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Quest/DAO/Essay.php';
         $essay = array();
         $essayDAO = & new CRM_Quest_DAO_Essay();
-        $essayDAO->contact_id;
+        $essayDAO->contact_id = $id;
+
         if ( $essayDAO->find(true) ) {
             $details['Essay'] = $essayDAO->essay;
         } else {
@@ -525,6 +526,18 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         if ( self::studentDetails( $id, $details ) ) {
             $xml = "<StudentDetail>\n" . CRM_Utils_Array::xml( $details ) . "</StudentDetail>\n";
             return $xml;
+        }
+
+        return null;
+    }
+
+    static function &xmlFlatValues( $id ) {
+        $details = array( );
+
+        if ( self::studentDetails( $id, $details ) ) {
+            $flat = array( );
+            CRM_Utils_Array::flatten( $details, $flat );
+            return $flat;
         }
 
         return null;

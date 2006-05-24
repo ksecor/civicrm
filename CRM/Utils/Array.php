@@ -96,6 +96,20 @@ class CRM_Utils_Array {
         }
         return $xml;
     }
+
+    static function &flatten( &$list, &$flat, $prefix = '', $seperator = "." ) {
+        foreach( $list as $name => $value ) {
+            $newPrefix = ( $prefix ) ? $prefix . $seperator . $name : $name;
+            if ( is_array( $value ) ) {
+                self::flatten( $value, $flat, $newPrefix, $seperator );
+            } else {
+                if ( ! empty( $value ) ) {
+                    $flat[$newPrefix] = $value;
+                }
+            }
+        }
+    }
+
 }
 
 ?>

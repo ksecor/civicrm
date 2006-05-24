@@ -41,6 +41,11 @@
        <comment>Email address</comment>
        <add>1.1</add>
   </field>
+  <index>
+     <name>UI_email</name>
+     <fieldName>email</fieldName>
+     <add>1.5</add>
+  </index>
   <field>
        <name>is_primary</name>
        <type>boolean</type>

@@ -98,7 +98,7 @@
   </field> 
   <index>
     <name>UI_task_status_responsible</name>
-    <fieldName>id</fieldName>
+    <fieldName>task_id</fieldName>
     <fieldName>responsible_entity_table</fieldName>
     <fieldName>responsible_entity_id</fieldName>
     <unique>true</unique>
@@ -106,7 +106,7 @@
   </index>
   <index>
     <name>UI_task_status_target</name>
-    <fieldName>id</fieldName>
+    <fieldName>task_id</fieldName>
     <fieldName>target_entity_table</fieldName>
     <fieldName>target_entity_id</fieldName>
     <unique>true</unique>

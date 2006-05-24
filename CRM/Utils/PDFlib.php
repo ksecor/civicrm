@@ -45,6 +45,7 @@ class CRM_Utils_PDFlib {
                              $title   = '2006 College Prep Scholarship Application' ) {
         try {
             $pdf = new PDFlib( );
+            $pdf->set_parameter( "compatibility", "1.6");
 
             if ( $pdf->begin_document( '', '' ) == 0 ) {
                 CRM_Utils_Error::statusBounce( "PDFlib Error: " . $pdf->get_errmsg( ) );
@@ -67,31 +68,33 @@ class CRM_Utils_PDFlib {
                 CRM_Utils_System::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );
             }
 
-            $page = $pdf->open_pdi_page( $blockContainer, 1, '' );
-            if ( $page == 0 ) {
-                CRM_Utils_System::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );
-            }
-
-            $pdf->begin_page_ext( 20, 20, '' ); /* dummy page size */
-
-            /* This will adjust the page size to the block container's size. */
-            $pdf->fit_pdi_page( $page, 0, 0, 'adjustpage' );
-
-            $status = array( );
-            /* Fill all text blocks with dynamic data */
-            foreach ( $values as $key => $value ) {
-                if ( is_array( $value ) ) {
-                    continue;
+            for ( $i = 1; $i  <= 6; $i++ ) {
+                $page = $pdf->open_pdi_page( $blockContainer, $i, '' );
+                if ( $page == 0 ) {
+                    CRM_Utils_System::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );
                 }
-
-                $pdf->fill_textblock( $page,
-                                      $key,
-                                      $value,
-                                      'embedding encoding=winansi' );
+                
+                $pdf->begin_page_ext( 20, 20, '' ); /* dummy page size */
+                
+                /* This will adjust the page size to the block container's size. */
+                $pdf->fit_pdi_page( $page, 0, 0, 'adjustpage' );
+                
+                $status = array( );
+                /* Fill all text blocks with dynamic data */
+                foreach ( $values as $key => $value ) {
+                    if ( is_array( $value ) ) {
+                        continue;
+                    }
+                    
+                    $pdf->fill_textblock( $page,
+                                          $key,
+                                          $value,
+                                          'embedding encoding=winansi' );
+                }
+                
+                $pdf->end_page_ext( '' );
+                $pdf->close_pdi_page( $page );
             }
-
-            $pdf->end_page_ext( '' );
-            $pdf->close_pdi_page( $page );
 
             $pdf->end_document( '' );
             $pdf->close_pdi( $blockContainer );

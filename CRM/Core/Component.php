@@ -67,6 +67,9 @@ class CRM_Core_Component {
                                                             'css'     => 'quest.css' ,
                                                             'task'    => array( '32' => array( 'title'  => 'Export XML',
                                                                                                'class'  => 'CRM_Quest_Form_Task_XML',
+                                                                                               'result' => false ),
+                                                                                '33' => array( 'title'  => 'Export PDF',
+                                                                                               'class'  => 'CRM_Quest_Form_Task_PDF',
                                                                                                'result' => false ) ) ),
                                  );
         }
