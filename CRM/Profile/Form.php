@@ -284,15 +284,15 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->assign( 'action'  , $this->_action   );
         $this->assign( 'fields'  , $this->_fields   );
         $this->assign( 'fieldset', $this->_fieldset ); 
-
-        if ($this->_mode & self::MODE_EDIT) {
+        
+        /*  if ($this->_mode & self::MODE_EDIT) {
             $group =& new CRM_Core_DAO_UFGroup();
             $group->id = $this->_gid;
             if ($group->find(true)) {
                 $this->assign('help_pre',  $group->help_pre);
                 $this->assign('help_post', $group->help_post);
             }
-        }
+        }*/
 
         // do we need inactive options ?
         if ($this->_action & CRM_Core_Action::VIEW ) {
@@ -379,6 +379,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required, false, $field['title']);
                 CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id , $this->_mode);
+                
             } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
                 $this->addRule($field['name'], ts('Select a valid date.'), 'qfDate');
@@ -664,6 +665,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                         //fix checkbox
                         if ( $customFields[$customFieldID][3] == 'CheckBox' ) {
                             $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
+                        } if ( $customFields[$customFieldID][3] == 'Multi-Select' ) {
+                            $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                         }
                         // fix the date field 
                         if ( $customFields[$customFieldID][2] == 'Date' ) {
