@@ -130,7 +130,8 @@
     {/if}
    </div>
    <div class="col2">
-    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}
+    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}<br />
+    <label>{ts}Date of Deceased:{/ts}</label> {$deceased_date|crmDate}
    </div>
    <div class="spacer"></div>
   </fieldset>

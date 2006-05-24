@@ -173,6 +173,14 @@
        <add>1.1</add>
   </field>
   <field>
+       <name>deceased_date</name>
+       <type>date</type>
+       <import>true</import>
+       <export>true</export>
+       <comment>Date of deceased</comment>
+       <add>1.5</add>
+  </field>
+  <field>
       <name>phone_to_household_id</name>
       <type>int unsigned</type>
       <comment>OPTIONAL FK to civicrm_contact_household record. If NOT NULL, direct phone communications to household rather than individual location.</comment>

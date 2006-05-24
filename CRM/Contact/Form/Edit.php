@@ -294,7 +294,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->_showHide->addShow( 'demographics' );
             $this->_showHide->addHide( 'demographics[show]' );
         }
-
         if ( $force ) {
             $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
@@ -354,7 +353,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         //Custom Group Inline Edit form
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId);
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-
+          
         $config  =& CRM_Core_Config::singleton( );
         CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
 
@@ -404,6 +403,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
+
         // action is taken depending upon the mode
         $ids = array();
         if ($this->_action & CRM_Core_Action::UPDATE) {
@@ -413,8 +413,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         $params['contact_type'] = $this->_contactType;
+        if( !$params['is_deceased'] == 1){ 
+            $params['deceased_date'] = null;
+        }
+      
         $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
-
+       
         //add contact to gruoup
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 

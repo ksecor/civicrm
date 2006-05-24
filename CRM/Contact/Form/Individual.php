@@ -91,7 +91,11 @@ class CRM_Contact_Form_Individual {
         }
         $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
         
-        $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'));
+        $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate(this)"));
+
+
+        $form->addElement('date', 'deceased_date', ts('Date of deceased'), CRM_Core_SelectValues::date('birth'));
+        $form->addRule('deceased_date', ts('Select a valid date.'), 'qfDate');
         
         $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
         $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
