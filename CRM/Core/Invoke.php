@@ -629,6 +629,13 @@ class CRM_Core_Invoke {
                 $controller->process( );
                 return $controller->run( );
             } else {
+                $buttonType = CRM_Utils_Request::retrieve('_qf_Edit_cancel',$val,false,null,'POST');
+                if ( $buttonType == 'Cancel' ) {
+                    $calcelURL = CRM_Utils_Request::retrieve('cancelURL',$val,false,null,'POST');
+                    if ( $calcelURL ) {
+                        CRM_Utils_System::redirect( $calcelURL );
+                    }
+                }
                 $wrapper =& new CRM_Utils_Wrapper( ); 
                 return $wrapper->run( 'CRM_Profile_Form_Edit', ts( 'Create Profile' ), CRM_Core_Action::ADD );
             } 

@@ -114,4 +114,12 @@
        <comment>Should a CAPTCHA widget be included this Profile form.</comment>
        <add>1.1</add>
   </field>
+<field>
+       <name>cancel_URL</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Redirect to URL when Cancle button clik .</comment>
+       <add>1.4</add>
+  </field>
+
 </table>

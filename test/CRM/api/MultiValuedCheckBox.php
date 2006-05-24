@@ -2,13 +2,11 @@
 
 require_once 'api/crm.php';
 
-class MultiValuedCheckBox extends UnitTestCase 
+class TestMultiValuedCheckBox extends UnitTestCase
 {
     protected $_individual    = array();
     protected $_customFieldC1 = array();
     protected $_customFieldC2 = array();
-
-    
     
     function setUp() 
     {
@@ -17,7 +15,7 @@ class MultiValuedCheckBox extends UnitTestCase
     function tearDown() 
     {
     }
-        
+    
     function testCreateIndividual() 
     {
         $params = array('first_name'    => 'abc1',
@@ -33,7 +31,6 @@ class MultiValuedCheckBox extends UnitTestCase
     
     function testCreateCheckBoxes() 
     {
-
         $params = array('domain_id' => 1,
                         'title' => 'Custom Group',
                         'name'  => 'new_group',
@@ -69,7 +66,7 @@ class MultiValuedCheckBox extends UnitTestCase
                                );
         $option1 =& crm_create_option_value($paramsOption1, $customField2); 
         $this->assertIsA($option1, 'CRM_Core_BAO_CustomOption');
-
+        
         $paramsOption2 = array('value' => 'hello 2',
                                'label' => 'XYZ',
                                'is_active' => 1,
@@ -77,16 +74,16 @@ class MultiValuedCheckBox extends UnitTestCase
                                );
         $option2 =& crm_create_option_value($paramsOption2, $customField2); 
         $this->assertIsA($option2, 'CRM_Core_BAO_CustomOption');
-
+        
         $paramsOption3 = array('value' => 'hello 3',
                                'label' => 'MNO',
                                'is_active' => 1,
                                'weight' => 6
                                );
-      
+        
         $option3 =& crm_create_option_value($paramsOption3, $customField2); 
         $this->assertIsA($option3, 'CRM_Core_BAO_CustomOption');
-    
+        
     }
     
     function testAddCheckBoxeValues() 
@@ -95,5 +92,5 @@ class MultiValuedCheckBox extends UnitTestCase
         $customValue2 = crm_create_custom_value('civicrm_contact', $this->_individual->id, $this->_customFieldC2, $value2, ',');
         $this->assertIsA($customValue2, 'CRM_Core_BAO_CustomValue');
     }
-    
 }
+?>

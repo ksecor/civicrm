@@ -157,7 +157,7 @@ class CRM_Core_BAO_CustomQuery {
             $this->_options[$dao->id]['attributes'] = array( 'label'     => $dao->label,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
-            if ( $dao->html_type == ('CheckBox' || 'Radio' || 'Select' || 'Multi-Select') ) {
+            if ( $dao->html_type == 'CheckBox' || $dao->html_type == 'Radio' || $dao->html_type == 'Select' || $dao->html_type == 'Multi-Select') {
                 $optionIds[] = $dao->id;
             }
         }

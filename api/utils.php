@@ -1600,10 +1600,8 @@ function &_crm_duplicate_formatted_contact(&$params) {
         }
 
         if ( $contact->find( true ) ) {
-            if ( $ids =& $contact->contact_id ) {
-                $error =& _crm_error( "Found matching contacts: $ids", CRM_Core_Error::DUPLICATE_CONTACT, 'Fatal', $ids );
-                return $error;
-            }
+            $error =& _crm_error( "Found matching contacts: {$contact->contact_id}", CRM_Core_Error::DUPLICATE_CONTACT, 'Fatal', $contact->contact_id );
+            return $error;
         }
         return true;
     }    
