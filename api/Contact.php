@@ -182,8 +182,9 @@ function &crm_replace_contact_formatted($contactId, &$params) {
 }
 
 function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) {
-    $contact = crm_get_contact(array('contact_id' => $contactId));
-    if ( ! $contact || is_a( $contact, 'CRM_Core_Error' ) ) {
+    //$contact = crm_get_contact(array('contact_id' => $contactId));
+    $contact =& CRM_Contact_BAO_Contact::check_contact_exists($contactId); 
+    if ( !is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
         return _crm_error("Could not find valid contact for: $contactId");
     }
     return _crm_update_contact($contact, $params, $overwrite);
