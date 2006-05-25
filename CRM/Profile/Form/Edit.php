@@ -103,7 +103,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         $ufGroup->find(true);
         
         $postURL   = CRM_Utils_Array::value( 'postURL', $_POST );
-        $cancelURL = CRM_Utils_Array::value( 'cancelURL', $_POST );
+        
 
         if ( ! $postURL ) {
             $postURL = $ufGroup->post_URL;
@@ -112,18 +112,13 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
             $postURL = CRM_Utils_System::url('civicrm/profile/edit', '&amp;gid='.$this->_gid.'&amp;reset=1' );
         }
 
-        if ( ! $cancelURL ) {
-            $cancelURL = $ufGroup->cancel_URL;
-        } 
-       
+               
         // we do this gross hack since qf also does entity replacement
         $postURL = str_replace( '&amp;', '&', $postURL   );
-        $cancelURL = str_replace( '&amp;', '&', $cancelURL );
+       
        
         $this->addElement( 'hidden', 'postURL', $postURL );
-        if ( $cancelURL ) {
-            $this->addElement( 'hidden', 'cancelURL', $cancelURL );
-        }
+       
         // also retain error URL if set
         $errorURL = CRM_Utils_Array::value( 'errorURL', $_POST );
         if ( $errorURL ) {

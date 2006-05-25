@@ -138,8 +138,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
 
         $this->addElement('text', 'post_URL', ts('Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'post_URL') );
         $this->addRule('post_URL', ts('Enter a valid URL.'), 'url');
-
-        $this->addElement('text', 'cancel_URL', ts('Cancel Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'cancel_URL') );
+        
         $this->addRule('post_URL', ts('Enter a valid URL.'), 'url');
         // add select for groups
         $group               = array('' => ts('- any group -')) + $this->_group;
