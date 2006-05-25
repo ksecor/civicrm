@@ -44,71 +44,82 @@ require_once 'CRM/Core/BAO/Note.php';
  * Creates a new note
  *
  * This api is used to create a note record for an existing contact.
- * Atleast one of 'entity_table', 'entity_id', 'note', or 'contact_id' is the required parameter.
+ * 'entity_table', 'entity_id', 'note' and 'contact_id' are the required parameters.
  * 
- * @param array $params  Associative array of property name/value pairs with new values to be created.
+ * @param array $params  Associative array of name/value property.
  * 
- * @return Note object with new property values.
+ * @return Array of all Note property values.
  *
  * @access public
  */
 
 function &crm_create_note( &$params ) {
-
-    if ( empty( $params ) || empty($params['entity_table']) || empty($params['entity_id'])
-         || empty($params['note']) || empty($params['contact_id']) ) {
-        return _crm_error( 'Required Parameter(s) empty' );
+    if ( !is_array($params) ) {
+        return _crm_error( 'params is not an array' );
     }
-    $note =& new CRM_Core_DAO_Note( );
+    if ( !isset($params['entity_table']) || 
+         !isset($params['entity_id'])    || 
+         !isset($params['note'])         || 
+         !isset($params['contact_id'] ) ) {
+        return _crm_error( 'Required Parameter(s) missing.' );
+    }
+    $noteBAO =& new CRM_Core_BAO_Note( );
     
-    if (!$params['modified_date']) {
+    if ( !isset($params['modified_date']) ) {
         $params['modified_date']  = date("Ymd");
     }
     
-    $note->copyValues( $params );
-    $note->save( );
-    return $note;
+    $noteBAO->copyValues( $params );
+    $noteBAO->save( );
+    
+    $properties = array('id', 'entity_table', 'entity_id', 'note', 'contact_id', 'modified_date', 'subject');
+    foreach ($properties as $name) {
+        if ( array_key_exists($name, $noteBAO) ) {
+            $createdNote[$name] = $noteBAO->$name;
+        }
+    }
+    return $createdNote;
 }
 
 /**
  * Retrieves required note properties, if exists 
  *
  * This api is used to retrieve details of an existing note record.
- * Atleast one of 'id', 'entity_id', or 'entity_table' is the required parameter.
+ * Required Parameters :
+ *      1. id OR
+ *      2. entity_id and entity_table
  *
- * @param array $params  Associative array of property name/value pairs, sufficient to retrieve the required note properties. 
+ * @param array $params  Associative array of name/value property
  * 
- * @return A Note object.
- *
+ * @return Array of requierd Note object(s)
  * @access public
  */
 
 function &crm_get_note( &$params ) {
-    
-    if (empty( $params )) {
-        return _crm_error( 'Required Parameter(s) not available' );
+    if ( ! is_array($params) ) {
+        return _crm_error( 'Params is not an array.' );
     }
     
-    if ($params['id']) {
-        $note =& new CRM_Core_DAO_Note( );
-        $note->id = $params['id'];
-        if ($note->find(true)) {
-            return $note;
+    if ( ! isset($params['id']) && ( ! isset($params['entity_id']) || ! isset($params['entity_table']) ) ) {
+        return _crm_error( 'Required parameters missing.' );
+    }
+    $noteBAO =& new CRM_Core_BAO_Note( );
+    
+    $properties = array('id', 'entity_table', 'entity_id', 'note', 'contact_id', 'modified_date', 'subject');
+    
+    foreach ($properties as $name) {
+        if ( array_key_exists($name, $params) ) {
+            $noteBAO->$name = $params[$name];
         }
+    }
+    
+    if ( $noteBAO->find() ) {
+        while ($noteBAO->fetch()) {
+            $noteArray[] = clone($noteBAO);
+        }
+        return $noteArray;
     } else {
-        if ($params['entity_table'] || $params['entity_id']) {
-            $noteArray = array();
-            $note =& new CRM_Core_DAO_Note( );
-            $note->entity_table = $params['entity_table'];
-            $note->entity_id = $params['entity_id'];
-            $note->find();
-            while ($note->fetch()) {
-                $noteArray[] = clone($note);
-            }
-            return $noteArray;
-        } else {
-            return _crm_error( 'Required Parameter(s) not available' );
-        }
+        return _crm_error( 'Exact match not found.' );
     }
 }
 
@@ -116,49 +127,43 @@ function &crm_get_note( &$params ) {
  * Deletes a note record. 
  *
  * This api is used to delete an existing note record.
- * Atleast one of 'id', 'entity_id', or 'entity_table' is the required parameter.
- *
+ * 
+ * Required Parameters :
+ *      1. id OR
+ *      2. entity_id and entity_table
+ * 
  * @param array $params  Associative array of property name/value pairs, sufficient to delete a note. 
  * 
- * @return Null if successfull or CRM_Error otherwise.
- *
+ * @return number of notes deleted if successfull or CRM_Core_Error otherwise.
+ * 
  * @access public
  */
 
 function &crm_delete_note( &$params ) {
     
-    if (empty( $params )) {
-        return _crm_error( 'Required Parameter(s) not available' );
+    if ( ! is_array( $params )) {
+        return _crm_error( 'Params is not an array' );
     }
     
-    if ($params['id']) {
-        $deletedNotes = array();
-        $note =& new CRM_Core_BAO_Note( );
-        $note->id = $params['id'];
-        if ($note->find(true)) {
-            $deletedNotes[] = $note->id;
-            $note->delete();
+    if ( !isset($params['id']) && ( !isset($params['entity_id']) || !isset($params['entity_table']) ) ) {
+        return _crm_error( 'Required parameter(s) missing' );
+    }
+    
+    $noteBAO =& new CRM_Core_BAO_Note( );
+    
+    $properties = array('id', 'entity_table', 'entity_id', 'note', 'contact_id', 'modified_date', 'subject');
+    
+    foreach ($properties as $name) {
+        if ( array_key_exists($name, $params) ) {
+            $noteBAO->$name = $params[$name];
         }
-        $deletedNotes['number'] = 1;
-        return $deletedNotes;
+    }
+    
+    if ( $noteBAO->find() ) {
+        $notesDeleted = $noteBAO->delete();
+        return $notesDeleted;
     } else {
-        if ($params['entity_table'] || $params['entity_id']) {
-            $number = 0;
-            $deletedNotes = array();
-            $note =& new CRM_Core_BAO_Note( );
-            $note->entity_table = $params['entity_table'];
-            $note->entity_id = $params['entity_id'];
-            $note->find();
-            while ($note->fetch()) {
-                $deletedNotes[] = $note->id;
-                $note->delete();
-                $number++;
-            }
-            $deletedNotes['number'] = $number;
-            return $deletedNotes;
-        } else {
-            return _crm_error( 'Required Parameter(s) not available' );
-        }
+        return _crm_error( 'Exact match not found.' );
     }
 }
 
@@ -170,30 +175,35 @@ function &crm_delete_note( &$params ) {
  *
  * @param array $params  Associative array of property name/value pairs with new values to be updated with. 
  * 
- * @return An updated note object.
+ * @return Array of all Note property values (updated).
  *
  * @access public
  */
 function &crm_update_note( &$params ) {
-    
-    if (empty( $params )) {
-        return _crm_error( 'Required Parameter(s) not available' );
+    if ( !is_array( $params ) ) {
+        return _crm_error( 'Params is not an array' );
     }
     
-    if ($params['id']) {
-        $note =& new CRM_Core_BAO_Note( );
-        $note->id = $params['id'];
-        if ($note->find(true)) {
-            $note->copyValues( $params );
-            if (!$params['modified_date']) {
-                $note->modified_date = date("Ymd");
-            }
-            $note->save();
+    if ( !isset($params['id']) ) {
+        return _crm_error( 'Required parameter missing' );
+    }
+    
+    $noteBAO =& new CRM_Core_BAO_Note( );
+    $noteBAO->id = $params['id'];
+    if ($noteBAO->find(true)) {
+        $noteBAO->copyValues( $params );
+        if ( !$params['modified_date'] && !$noteBAO->modified_date) {
+            $noteBAO->modified_date = date("Ymd");
         }
-        return $note;
-    } else {
-        return _crm_error( 'note-id not available' );
+        $noteBAO->save();
     }
+    
+    $properties = array('id', 'entity_table', 'entity_id', 'note', 'contact_id', 'modified_date', 'subject');
+    foreach ($properties as $name) {
+        if ( array_key_exists($name, $noteBAO) ) {
+            $updatedNote[$name] = $noteBAO->$name;
+        }
+    }
+    return $updatedNote;
 }
-
 ?>

@@ -4,19 +4,17 @@ require_once 'api/crm.php';
 
 class TestOfNoteAPI extends UnitTestCase 
 {
-    
     function setUp() 
     {
     }
-
+    
     function tearDown() 
     {
     }
-
-    /* Test cases for CRUD for Notes  */ 
     
+    /* Test cases for CRUD for Notes  */ 
     function testCreateNote()
-    {
+     {
         $noteParams = array(
                             'entity_id'     => 154,
                             'entity_table'  => 'civicrm_relationship',
@@ -25,37 +23,87 @@ class TestOfNoteAPI extends UnitTestCase
                             'modified_date' =>'20060318'
                             );
         $note =& crm_create_note($noteParams);
-        //print_r($note);
-    }
-        
+        CRM_Core_Error::debug('Create Note', $note);
+     }
+    
     function testGetNote()
     {
-        $noteParams = array('id'=>109,
-                            //'entity_id'     => 152,
-                            //'entity_table'  => 'civicrm_relationship'
+        $noteParams1 = array(
+                            'entity_id'     => 14,
+                            'entity_table'  => 'civicrm_relationship',
+                            'note'          => 'aaaaaaaaaaaa',
+                            'contact_id'    => 100,
+                            'modified_date' =>'20060318'
+                            );
+        $note1 =& crm_create_note($noteParams1);
+        
+        $noteParams2 = array(
+                            'entity_id'     => 14,
+                            'entity_table'  => 'civicrm_relationship',
+                            'note'          => 'aaaaaaaaaaaa2',
+                            'contact_id'    => 100,
+                            'modified_date' =>'20060318'
+                            );
+        $note2 =& crm_create_note($noteParams2);
+        
+        $noteParams = array(//'id'=>26,
+                            'entity_id'     => 154,
+                            'entity_table'  => 'civicrm_relationship'
                             );
         $note =& crm_get_note($noteParams);
-        print_r($note);
+        CRM_Core_Error::debug('Get Note', $note);
     }
-
+    
     function testDeleteNote()
     {
-        $noteParams = array('id'=>110,
-                            //'entity_id'     => 152,
-                            //'entity_table'  => 'civicrm_relationship'
+        $noteParams1 = array(
+                            'entity_id'     => 14,
+                            'entity_table'  => 'civicrm_relationship',
+                            'note'          => 'aaaaaaaaaaaa',
+                            'contact_id'    => 100,
+                            'modified_date' =>'20060318'
+                            );
+        $note1 =& crm_create_note($noteParams1);
+        
+        $noteParams2 = array(
+                            'entity_id'     => 14,
+                            'entity_table'  => 'civicrm_relationship',
+                            'note'          => 'aaaaaaaaaaaa2',
+                            'contact_id'    => 100,
+                            'modified_date' =>'20060318'
+                            );
+        $note2 =& crm_create_note($noteParams2);
+        
+        
+        $noteParams = array(//'id'=>$note1->id,
+                            'entity_id'     => 14,
+                            'entity_table'  => 'civicrm_relationship',
+                            'contact_id'    => 100
                             );
         $note =& crm_delete_note($noteParams);
-        print_r($note);
+        CRM_Core_Error::debug('Number of Notes Deleted', $note);
     }
-
+    
     function testUpdateNote()
     {
-        $noteParams = array('id' => 109,
+        $noteParams1 = array(
+                            'entity_id'     => 14,
+                            'entity_table'  => 'civicrm_relationship',
+                            'note'          => 'aaaaaaaaaaaa',
+                            'contact_id'    => 100,
+                            'modified_date' =>'20060318'
+                            );
+        $note1 =& crm_create_note($noteParams1);
+        CRM_Core_Error::debug('Created Note', $note1);
+        
+        $noteParams = array('id'            => $note1['id'],
                             'entity_id'     => 152,
-                            'entity_table'  => 'civicrm_rela'
+                            'entity_table'  => 'civicrm_contact',
+                            'note'          => 'bbbbbbbb',
                             );
         $note =& crm_update_note($noteParams);
-        print_r($note);
+        CRM_Core_Error::debug('Updated Note', $note);
     }
+       
 }
 ?>
