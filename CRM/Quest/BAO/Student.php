@@ -269,8 +269,11 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $details['Student'][$key] = $studentDetails[$key];
         }
 
-        // BUG: we need to deal with this
         $multiSelectElements = array( 'educational_interest', 'college_type', 'college_interest' );
+        foreach ( $multiSelectElements as $key ) {
+            $details['Student']["{$key}_ids"] = $studentDetails[$key];
+        }
+            
 
         return true;
     }
@@ -417,6 +420,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $details[$prefix] = array( );
             $details[$prefix]['organization_name'] = $value['organization_name'];
 
+            for ( $i =1; $i <= 4; $i++ ) {
+                $details[$prefix]["custom_{$i}"] = $value["custom_{$i}"];
+            }
+
             foreach ( $address as $key ) {
                 $details[$prefix][$key] = $value['location'][1]['address'][$key];
             }
@@ -462,6 +469,23 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $details['Essay'] = $essayDAO->essay;
         } else {
             $details['Essay'] = null;
+        }
+    }
+
+    static function honor( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/Honor.php';
+
+        $honor = array();
+        $honorDAO = & new CRM_Quest_DAO_Honor();
+        $honorDAO->contact_id = $id;
+        $honorDAO->find( );
+
+        $count = 1;
+        while ( $honorDAO->fetch( ) ) {
+            $name = "Honor_$count";
+            $details[$name]['name' ] = $honorDAO->name;
+            $details[$name]['email'] = $honorDAO->email;
+            $count++;
         }
     }
 
