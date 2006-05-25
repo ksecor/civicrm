@@ -1888,6 +1888,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         foreach ($fields as $name => $field ) {
             // check if student fields present
             //print_r($studentFields);
+            require_once 'CRM/Quest/BAO/Query.php';
             if ( (!$studentFieldPresent) && array_key_exists($name, CRM_Quest_BAO_Query::getFields()) ) {
                 $studentFieldPresent = 1;
             }

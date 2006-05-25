@@ -629,9 +629,9 @@ class CRM_Core_Invoke {
                 $controller->process( );
                 return $controller->run( );
             } else {
-                $buttonType = CRM_Utils_Request::retrieve('_qf_Edit_cancel',$val,false,null,'POST');
+                $buttonType = $_POST['_qf_Edit_cancel'];
                 if ( $buttonType == 'Cancel' ) {
-                    $calcelURL = CRM_Utils_Request::retrieve('cancelURL',$val,false,null,'POST');
+                    $calcelURL = CRM_Utils_Request::retrieve('cancelURL','String', CRM_Core_DAO::$_nullObject,false,null,$_POST );
                     if ( $calcelURL ) {
                         CRM_Utils_System::redirect( $calcelURL );
                     }
