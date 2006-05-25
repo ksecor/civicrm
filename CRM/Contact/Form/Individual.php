@@ -91,7 +91,7 @@ class CRM_Contact_Form_Individual {
         }
         $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
         
-        $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate(this)"));
+        $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
 
 
         $form->addElement('date', 'deceased_date', ts('Date of deceased'), CRM_Core_SelectValues::date('birth'));

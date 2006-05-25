@@ -146,7 +146,7 @@
         {$form.is_deceased.html}
         {$form.is_deceased.label}
     </div>
-	<div id="showDate" class="form-item">
+	<div id="showDeceasedDate" class="form-item">
         <span class="labels">
         {$form.deceased_date.label}
         </span>
@@ -215,19 +215,24 @@
 <div class="crm-submit-buttons">
     {$form.buttons.html}
 </div>
-{literal}
-<script type="text/javascript">
-    hide('showDate');
-    function showDeceasedDate(chkbox)
-    {
-        if (chkbox.checked) {
-      	    document.getElementById("showDate").style.display = "block";
-        } else {
-           	document.getElementById("showDate").style.display = "none"; 
-       	}
-    }
-</script>
-{/literal}	     
 
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
 {include file="CRM/common/showHide.tpl"}
+{literal}
+<script type="text/javascript">
+    if (document.getElementsByName("is_deceased")[0].checked) {
+      	    show('showDeceasedDate');
+    } else {
+           	hide('showDeceasedDate');
+    }
+        
+    function showDeceasedDate()
+    {
+        if (document.getElementsByName("is_deceased")[0].checked) {
+      	    show('showDeceasedDate');
+        } else {
+           	hide('showDeceasedDate');
+        }
+    }
+</script>
+{/literal}
