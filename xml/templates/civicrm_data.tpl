@@ -213,16 +213,10 @@ INSERT INTO civicrm_mailing_bounce_pattern
     (11, 'syntax error in from address'),
     (11, 'unknown smtp code');
 
-INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (1, 1, 'preferred_communication_method', 'Option for contact preferred communication method property.', NULL, 1);# Affected rows: 1
+INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (32, 1, 'preferred_communication_method', 'Option for contact preferred communication method property.', 1, 1);
 
-
-
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (1, 1, 'Phone', 'Phone', NULL, 0, NULL, 1, NULL, NULL, 0, 1);# Affected rows: 1
-
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (2, 1, 'Email', 'Email', NULL, 0, NULL, 2, NULL, NULL, 0, 1);# Affected rows: 1
-
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (3, 1, 'Postal Mail', 'Post', NULL, 0, NULL, 3, NULL, NULL, 0, 1);# Affected rows: 1
-
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (4, 1, 'SMS', 'SMS', NULL, 0, NULL, 4, NULL, NULL, 0, 1);# Affected rows: 1
-
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (5, 1, 'Fax', 'Fax', NULL, 0, NULL, 5, NULL, NULL, 0, 1);# Affected rows: 1
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (348, 32, 'Phone', '1', NULL, 0, NULL, 1, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (349, 32, 'Email', '2', NULL, 0, NULL, 2, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (350, 32, 'Postal Mail', '3', NULL, 0, NULL, 3, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (351, 32, 'SMS', '4', NULL, 0, NULL, 4, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `title`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (352, 32, 'Fax', '5', NULL, 0, NULL, 5, NULL, 0, 0, 1);
