@@ -150,6 +150,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         self::essay( $id, $details );
 
+        self::referral( $id, $details );
+
         return true;
     }
 
@@ -285,7 +287,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         $prefix = $isGuardian ? 'Guardian' : 'Sibling';
 
-        $properties = array( 'first_name', 'last_name', 'is_deceased',
+        $properties = array( 'id', 'first_name', 'last_name', 'is_deceased',
                              'job_organization', 'job_occupation', 'job_current_years',
                              'college_name', 'college_grad_year', 'college_major',
                              'prof_school_name' );
@@ -303,7 +305,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         if ( ! $isGuardian ) {
             $names['relationship_id']['groupName'] = 'sibling_relationship';
         }
-
 
         $count = 1;
         while( $person->fetch() ) {
@@ -352,7 +353,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                                'groupName' => 'type_of_income' ),
                        );
 
-        $properties = array( 'job_1', 'job_2', 'job_3', 'amount_1', 'amount_2', 'amount_3' );
+        $properties = array( 'id', 'job_1', 'job_2', 'job_3', 'amount_1', 'amount_2', 'amount_3' );
 
         $count = 1;
         while( $dao->fetch() ) {
@@ -464,6 +465,23 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
+    static function referral( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/Referral.php';
+
+        $referral = array();
+        $referralDAO = & new CRM_Quest_DAO_Referral();
+        $referralDAO->contact_id = $id;
+        $referralDAO->find( );
+
+        $count = 1;
+        while ( $referralDAO->fetch( ) ) {
+            $name = "Referral_$count";
+            $details[$name]['name' ] = $referralDAO->name;
+            $details[$name]['email'] = $referralDAO->email;
+            $count++;
+        }
+    }
+        
     static function deleteStudent( $id ) {
 
         //delete civicrm_student record
