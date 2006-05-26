@@ -90,8 +90,7 @@
   <field>
       <name>file_id</name>
       <type>int unsigned</type>
-      <required>true</required>
-      <comment>FK to civicrm_file</comment>
+          <comment>FK to civicrm_file</comment>
        <add>1.5</add>
   </field>
   <foreignKey>
