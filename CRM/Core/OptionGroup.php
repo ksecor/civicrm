@@ -111,12 +111,12 @@ ORDER BY v.weight;
                 foreach ($postValues as $postValue) {
                     if ( $flip ) {
                         $p = array( 1 => array( $postValue, 'String' ) );
-                        $lookupBy = 'v.title = %1';
+                        $lookupBy = 'v.label= %1';
                         $select   = "v.id";
                     } else {
                         $p = array( 1 => array( $postValue, 'Integer' ) );
                         $lookupBy = 'v.id = %1';
-                        $select   = "v.title";
+                        $select   = "v.label";
                     }
                     
                     $p[2] = array( $value['groupName'], 'String' );
