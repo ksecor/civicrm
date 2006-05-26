@@ -115,7 +115,7 @@ function &crm_get_note( &$params ) {
     
     if ( $noteBAO->find() ) {
         while ($noteBAO->fetch()) {
-            $noteArray[] = clone($noteBAO);
+            $noteArray[$noteBAO->id] = clone($noteBAO);
         }
         return $noteArray;
     } else {
@@ -138,9 +138,7 @@ function &crm_get_note( &$params ) {
  * 
  * @access public
  */
-
 function &crm_delete_note( &$params ) {
-    
     if ( ! is_array( $params )) {
         return _crm_error( 'Params is not an array' );
     }
