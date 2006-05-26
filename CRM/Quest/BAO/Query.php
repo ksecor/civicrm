@@ -48,7 +48,8 @@ class CRM_Quest_BAO_Query
                                    'score_ACT'  => 'ACT Score',
                                    'score_PLAN' => 'PLAN Score',
                                    'household_income_total' => 'Total Household Income' );
-            self::$_ids   = array( 'ethnicity_id_1', 'gpa_id' );
+            //self::$_ids   = array( 'ethnicity_id_1', 'gpa_id' );
+            self::$_ids   = array( 'college_interest' => 'College Interest' );
         }
     }
 
@@ -98,12 +99,19 @@ class CRM_Quest_BAO_Query
     static function where( &$query ) 
     {
         self::initialize( );
+	require_once "CRM/Core/OptionGroup.php";
         $fields =& self::getFields();
         foreach ( $fields as $name => $record ) {
             if ( CRM_Utils_Array::value( $name          , $query->_params ) ||
                  CRM_Utils_Array::value( $name . '_low' , $query->_params ) ||
                  CRM_Utils_Array::value( $name . '_high', $query->_params ) ) {
-                $query->numberRangeBuilder( 'quest_student', $name, $name, $record['title'] );
+	      if (CRM_Utils_Array::value($name, self::$_ids) ) {
+		$optionGroups = array( );
+                $optionGroups =  CRM_Core_OptionGroup::values( $name ); 
+		$key = $query->_params[$name];
+		$query->_qill[] = $record['title'] . ' like "' . $optionGroups[$key] . '"';
+	      }
+	      $query->numberRangeBuilder( 'quest_student', $name, $name, $record['title'] );
             }
         }
     }
@@ -144,6 +152,11 @@ class CRM_Quest_BAO_Query
             $form->add( 'text', $name . '_low' , ts( "$title - From" ) );
             $form->add( 'text', $name . '_high', ts( "To" ) );
         }
+	
+        require_once "CRM/Core/OptionGroup.php";
+	foreach ( self::$_ids as $name => $title ) {
+	    $form->add('select', $name, $title, CRM_Core_OptionGroup::values( $name ) );
+	}
     }
 
     static function addShowHide( &$showHide ) 

@@ -42,7 +42,14 @@
                   {$form.household_income_total_high.label} {$form.household_income_total_high.html} 
             </td> 
         </tr>
-
+        <tr>
+            <td class="label">
+                 {$form.college_interest.label} 
+            </td> 
+            <td>
+                 {$form.college_interest.html} 
+            </td>
+        </tr> 
 
 
 
