@@ -154,7 +154,9 @@ class CRM_Core_Invoke {
         }
 
         if ( $args[2] == 'add' ) {
-            return self::form( CRM_Core_Action::ADD );
+            $contactType    = CRM_Utils_Request::retrieve('ct','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
+            $contactSubType = CRM_Utils_Request::retrieve('cst','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
+            return self::form( CRM_Core_Action::ADD, $contactType, $contactSubType );
         }
         
         if ( $args[2] == 'domain' ) {
@@ -276,12 +278,12 @@ class CRM_Core_Invoke {
                 
                 $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
                 $contact_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type' );
-
+                
                 $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'View' );
                 if( $properties ) {
                     require_once $properties['file'];
                     eval( '$view =& new ' . $properties['class'] . '( );' );
-                } elseif ( file_exists( 'CRM/Contact/Page/View/' . $contact_type . '.php' ) ) {
+                } elseif ( realpath ('../drupal/modules/civicrm/CRM/Contact/Page/View/'.$contact_type.'.php') ) {
                     require_once 'CRM/Contact/Page/View/' . $contact_type . '.php';
                     eval( '$view =& new CRM_Contact_Page_View_' . $contact_type . '( );' );
                 } else {
@@ -359,10 +361,20 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function form( $action ) {
+    static function form( $action, $contact_type, $contact_sub_type ) {
         CRM_Utils_System::setUserContext( array( 'civicrm/contact/search/basic', 'civicrm/contact/view' ) );
         $wrapper =& new CRM_Utils_Wrapper( );
-        $wrapper->run( 'CRM_Contact_Form_Edit', ts('Contact Page'), $action );
+
+        $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'Edit' );
+        if( $properties ) {
+            $wrapper->run( $properties['class'], ts( 'New '.$contact_sub_type ), $action );
+        } elseif ( file_exists( 'CRM/Contact/Form/' . $contact_type . '.php' )) {
+//         } elseif ( realpath ('../drupal/modules/civicrm/CRM/Contact/Form/' . $contact_type . '.php') ) {
+// file_exists doesn't work since it's not a relative path. use realpath to solve the problem. realpath has been commented to avoid showing error.
+            $wrapper->run( 'CRM_Contact_Form_'.$contact_type, ts( 'New '.$contact_type ), $action );
+        } else {
+            $wrapper->run( 'CRM_Contact_Form_Edit', ts( 'New Contact' ), $action );
+        }
     }
     
     /**

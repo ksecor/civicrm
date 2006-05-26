@@ -81,6 +81,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     protected $_contactType;
 
     /**
+     * The contact type of the form
+     *
+     * @var string
+     */
+    protected $_contactSubType;
+
+    /**
      * The contact id, used when editing the form
      *
      * @var int
@@ -130,7 +137,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( $this->_action == CRM_Core_Action::ADD ) {
             $this->_contactType = CRM_Utils_Request::retrieve( 'ct', 'String',
                                                                $this, true, null, 'REQUEST' );
-            CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactType ) ) );
+            $this->_contactSubType = CRM_Utils_Request::retrieve( 'cst','String', 
+                                                           CRM_Core_DAO::$_nullObject,false,null,'GET' );
+            if ( $this->_contactSubType ) {
+                CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactSubType ) ) );
+            } else {
+                CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactType ) ) );
+            }
             $this->_contactId = null;
         } else {
             // this is update mode, first get the id from the session
