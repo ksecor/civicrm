@@ -138,6 +138,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             return false;
         }
 
+        self::household( $id, $details );
+
         self::guardian( $id, $details, true );
 
         self::guardian( $id, $details, false );
@@ -153,6 +155,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         self::referral( $id, $details );
 
         self::honor( $id, $details );
+
+        CRM_Core_Error::debug( 'd', $details );
+        exit( );
 
         return true;
     }
@@ -265,11 +270,15 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                              'educational_interest_other', 'college_interest_other',
                              'is_class_ranking', 'class_rank', 'class_num_students',
                              'gpa_explanation', 'test_tutoring', 'household_income_total',
+                             'high_school_grad_year',
                              'number_siblings', 'financial_aid_applicant',
                              'register_standarized_tests' );
         foreach ( $properties as $key ) {
             $details['Student'][$key] = $studentDetails[$key];
         }
+
+        // fix parent_grad_college which is a boolean
+        $details['Student']['parent_grad_college'] = $studentDetails['parent_grad_college_id'];
 
         $multiSelectElements = array( 'educational_interest', 'college_type', 'college_interest' );
         foreach ( $multiSelectElements as $key ) {
@@ -280,6 +289,43 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         return true;
     }
 
+    static function household( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/Household.php';
+        $dao = & new CRM_Quest_DAO_Household();
+        $dao->contact_id = $id;
+        $dao->find( );
+
+        $names = array( 'years_lived_id' => array( 'newName'   => 'years_lived',
+                                                   'groupName' => 'years_lived' ) );
+
+        $properties = array( 'member_count', 'description', 'years_lived' );
+        $people     = array( 'id', 'first_name', 'last_name' );
+
+        require_once 'CRM/Quest/DAO/Person.php';
+        while ( $dao->fetch( ) ) {
+            $prefix = "Household_{$dao->household_type}";
+
+            $defaults = array( );
+            CRM_Core_DAO::storeValues( $dao, $defaults );
+
+            CRM_Core_OptionGroup::lookupValues( $defaults, $names );
+
+            foreach ( $properties as $prop ) {
+                $details[$prefix][$prop] = $defaults[$prop];
+            }
+
+            for ( $j = 1; $j <= 2; $j++ ) {
+                $personDAO = & new CRM_Quest_DAO_Person();
+                $string = "person_{$j}_id";
+                $personDAO->id = $dao->$string;
+                if ( $personDAO->id && $personDAO->find(true) ) {
+                    foreach ( $people as $prop ) {
+                        $details[$prefix]["Person_$j"][$prop] = $personDAO->$prop;
+                    }
+                }
+            }
+        }
+    }
 
     static function guardian( $id, &$details, $isGuardian ) {
 
@@ -295,7 +341,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $properties = array( 'id', 'first_name', 'last_name', 'is_deceased',
                              'job_organization', 'job_occupation', 'job_current_years',
                              'college_name', 'college_grad_year', 'college_major',
-                             'prof_school_name' );
+                             'prof_school_name', 'lived_with_from_age', 'lived_with_to_age' );
+
         $dates = array( 'birth_date', 'deceased_year', 'college_grad_year', 'prof_grad_year' );
 
         $names = array('relationship_id'                => array( 'newName' => 'relationship',
@@ -303,9 +350,13 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                        'marital_status_id'              => array( 'newName' => 'marital_status',
                                                                   'groupName' => 'marital_status' ),               
                        'industry_id'                    => array( 'newName' => 'industry',
-                                                                  'groupName' => 'industry_id' ),
+                                                                  'groupName' => 'industry' ),
                        'highest_school_level_id'        => array( 'newName' => 'highest_school_level',
                                                                   'groupName' => 'highest_school_level' ),
+                       'current_school_level_id'        => array( 'newName' => 'current_school_level',
+                                                                  'groupName' => 'current_school_level' ),
+                       'prof_school_degree_id'          => array( 'newName'   => 'prof_school_degree',
+                                                                  'groupName' => 'prof_school_degree' ),
                        );
         if ( ! $isGuardian ) {
             $names['relationship_id']['groupName'] = 'sibling_relationship';
@@ -324,7 +375,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             }
 
             foreach ( $dates as $date ) {
-                $details["{$prefix}_$count"][$key] = CRM_Utils_Date::format( $personDetails[$key], '-' );
+                $details["{$prefix}_$count"][$date] = $personDetails[$date];
             }
 
             if ( $personDetails['college_country_id'] ) {
@@ -425,6 +476,13 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             for ( $i =1; $i <= 4; $i++ ) {
                 $details[$prefix]["custom_{$i}"] = $value["custom_{$i}"];
             }
+            if ( $value['note'] ) {
+                foreach( $value['note'] as $k1 => $v1) {
+                    $details[$prefix]['note'] = $v1['note'];
+                }
+            } else {
+                $details[$prefix]['note'] = null;
+            }
 
             foreach ( $address as $key ) {
                 $details[$prefix][$key] = $value['location'][1]['address'][$key];
@@ -444,15 +502,25 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $testDAO->find( );
         
         $count = 1;
+        $names = array('test_id'         => array( 'newName' => 'test',
+                                                   'groupName' => 'test' ),
+                       'score_composite' => array( 'newName' => 'score',
+                                                   'groupName' => 'ap_score' ),
+                       'subject_id'      => array( 'newName' => 'subject',
+                                                   'groupName' => 'ap_subject' ),
+                       );
         while( $testDAO->fetch() ) {
             $prefix = "test_$count";
             $details[$prefix] = array( );
             CRM_Core_DAO::storeValues( $testDAO, $details[$prefix] );
-            $names = array('test_id'         => array( 'newName' => 'test',
-                                                       'groupName' => 'test' ),
-                           'score_composite' => array( 'newName' => 'score',
-                                                       'groupName' => 'ap_score' ),
-                           );
+
+            if ( $details[$prefix]['test_id'] == 291 ) {
+                $names['subject_id']['groupName'] = 'satII_subject';
+            } else {
+                $names['subject_id']['groupName'] = 'ap_subject';
+            }
+            $details[$prefix]['subject_id'] = $details[$prefix]['subject'];
+
             CRM_Core_OptionGroup::lookupValues( $details[$prefix] , $names, false);
 
             $count++;
