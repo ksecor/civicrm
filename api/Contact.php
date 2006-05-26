@@ -468,11 +468,14 @@ function crm_delete_contact( &$contact ) {
  * @access public 
  * 
  */ 
-function crm_get_contacts() {
+function crm_get_contacts( $contactType = null ) {
    $config =& CRM_Core_Config::singleton();
    $domainID = $config->domainID();
-   $query = "SELECT * FROM civicrm_contact WHERE domain_id = $domainID";
-   
+   if ( $contactType ) {
+       $query = "SELECT id FROM civicrm_contact WHERE domain_id = $domainID and  contact_type ='".$contactType."'";
+   } else {
+       $query = "SELECT * FROM civicrm_contact WHERE domain_id = $domainID";
+   }
    $dao =& new CRM_Core_DAO( );
    $dao->query( $query );
    $contacts = array();

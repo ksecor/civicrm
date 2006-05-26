@@ -261,7 +261,8 @@ UPDATE quest_person
 SET    is_parent_guardian = 0
 WHERE  id = {$value['options']['personID']}
 ";
-                CRM_Core_DAO::executeQuery( $query );
+                $par = array();
+                CRM_Core_DAO::executeQuery( $query,$par );
                 
                 unset( $details[$name] );
             }
