@@ -115,6 +115,7 @@
        <name>index_option_group_id_value</name>
        <fieldName>option_group_id</fieldName>
        <fieldName>value</fieldName>
-       <add>1.1</add>
+       <unique>true</unique>
+       <add>1.5</add>
   </index>
 </table>
