@@ -87,4 +87,17 @@
      <comment>data for ext property data_type = memo.</comment>
        <add>1.1</add>
   </field>
+  <field>
+      <name>file_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to civicrm_file</comment>
+       <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>file_id</name>
+       <table>civicrm_file</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
 </table>

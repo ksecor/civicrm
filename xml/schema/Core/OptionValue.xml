@@ -30,7 +30,7 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-       <name>title</name>
+       <name>label</name>
        <title>Option Label</title>
        <type>varchar</type>
        <required>true</required>
@@ -39,11 +39,19 @@
        <add>1.5</add>
   </field>
   <field>
+      <name>value</name>
+      <title>Option Value</title>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>The actual value stored (as a foreign key) in the data record. Functions which need lookup option_value.title should use civicrm_option_value.option_group_id plus civicrm_option_value.value as the key.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
        <name>name</name>
-       <title>Option Value</title>
+       <title>Option Name</title>
        <type>varchar</type>
        <length>64</length>
-       <comment>May be used to store an option value that is different from the title. One use case is when a non-translated value needs to be set / sent to another application.</comment>
+       <comment>May be used to store an option string that is different from the display title. One use case is when a non-translated value needs to be set / sent to another application (e.g. for Credit Card type).</comment>
        <add>1.5</add>
   </field>
   <field>
@@ -103,4 +111,10 @@
        <comment>Is this option active?</comment>
        <add>1.5</add>
   </field>
+  <index>
+       <name>index_option_group_id_value</name>
+       <fieldName>option_group_id</fieldName>
+       <fieldName>value</fieldName>
+       <add>1.1</add>
+  </index>
 </table>

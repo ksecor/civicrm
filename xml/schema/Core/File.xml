@@ -4,7 +4,7 @@
   <base>CRM/Core</base>
   <class>File</class>
   <name>civicrm_file</name>
-  <comment>Data store for each extended properties.</comment>
+  <comment>Data store for uploaded (attached) files (pointer to file on disk OR blob). Maybe be joined to entities via custom_value.file_id or entity_file table.</comment>
   <add>1.5</add>
   <field>
       <name>id</name>
@@ -18,38 +18,18 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>custom_field_id</name>
+      <name>file_type_id</name>
       <type>int unsigned</type>
-      <required>true</required>
-      <comment>Foreign key to civicrm_custom_field.</comment>
+      <required>false</required>
+      <comment>Type of file (e.g. Transcript, Income Tax Return, etc). FK to civicrm_option_value.</comment>
       <add>1.5</add>
   </field>
   <foreignKey>
-       <name>custom_field_id</name>
-       <table>civicrm_custom_field</table>
+       <name>file_type_id</name>
+       <table>civicrm_option_value</table>
        <key>id</key>
        <add>1.5</add>
   </foreignKey>
-  <field>
-       <name>entity_table</name>
-       <type>varchar</type>
-       <length>64</length>
-       <comment>physical tablename for entity being extended by this data, e.g. civicrm_contact</comment>
-       <add>1.5</add>
-  </field>
-  <field>
-      <name>entity_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>FK to record in the entity table specified by entity_table column.</comment>
-      <add>1.5</add>
-  </field>
-  <index>
-       <name>index_entity</name>
-       <fieldName>entity_table</fieldName>
-       <fieldName>entity_id</fieldName>
-       <add>1.5</add>
-  </index>
   <field>
      <name>mime_type</name>
      <type>varchar</type>
@@ -69,5 +49,18 @@
      <type>mediumblob</type>
      <comment>contents of the document</comment>
      <add>1.5</add>
+  </field>
+  <field>
+       <name>description</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Additional descriptive text regarding this attachment (optional).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>upload_date</name>
+       <type>datetime</type>
+       <comment>Date and time that this attachment was uploaded or written to server.</comment>
+       <add>1.5</add>
   </field>
 </table>
