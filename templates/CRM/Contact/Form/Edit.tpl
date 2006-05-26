@@ -161,6 +161,26 @@
 
   </fieldset>
  </div>
+
+{literal}
+<script type="text/javascript">
+    if (document.getElementsByName("is_deceased")[0].checked) {
+      	    show('showDeceasedDate');
+    } else {
+           	hide('showDeceasedDate');
+    }
+        
+    function showDeceasedDate()
+    {
+        if (document.getElementsByName("is_deceased")[0].checked) {
+      	    show('showDeceasedDate');
+        } else {
+           	hide('showDeceasedDate');
+        }
+    }
+</script>
+{/literal}
+
 {/if}  
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
@@ -218,21 +238,3 @@
 
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
 {include file="CRM/common/showHide.tpl"}
-{literal}
-<script type="text/javascript">
-    if (document.getElementsByName("is_deceased")[0].checked) {
-      	    show('showDeceasedDate');
-    } else {
-           	hide('showDeceasedDate');
-    }
-        
-    function showDeceasedDate()
-    {
-        if (document.getElementsByName("is_deceased")[0].checked) {
-      	    show('showDeceasedDate');
-        } else {
-           	hide('showDeceasedDate');
-        }
-    }
-</script>
-{/literal}
