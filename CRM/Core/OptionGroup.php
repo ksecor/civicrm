@@ -45,7 +45,7 @@ class CRM_Core_OptionGroup {
         self::$_values[$name] = array( );
         $domainID = CRM_Core_Config::domainID( );
         $query = "
-SELECT v.name as name, v.title as title ,v.id as id, v.grouping as grouping
+SELECT v.name as name, v.label as title ,v.id as id, v.grouping as grouping
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id
