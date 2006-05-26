@@ -106,9 +106,17 @@ ORDER BY v.weight;
             // See if $params field is in $names array (i.e. is a value that we need to lookup)
             if ( CRM_Utils_Array::value( $postName, $params ) ) {
                 // params[$postName] may be a Ctrl+A separated value list
+                if ( strpos( $params[$postName], CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) ) {
+                    // eliminate the ^A frm the beginning and end
+                    $params[$postName] = substr( $params[$postName], 1, -1 );
+                }
                 $postValues = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $params[$postName]);
                 $newValue = array( );
                 foreach ($postValues as $postValue) {
+                    if ( ! $postValue ) {
+                        continue;
+                    }
+
                     if ( $flip ) {
                         $p = array( 1 => array( $postValue, 'String' ) );
                         $lookupBy = 'v.label= %1';
@@ -128,7 +136,7 @@ ORDER BY v.weight;
                         AND    g.domain_id       = $domainID
                         AND    g.name            = %2
                         AND  $lookupBy";
-                    
+
                     $newValue[]= CRM_Core_DAO::singleValueQuery( $query, $p );
                 }
                 $params[$value['newName']] = implode(', ', $newValue);

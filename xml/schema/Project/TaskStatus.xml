@@ -97,19 +97,17 @@
       <add>1.5</add> 
   </field> 
   <index>
-    <name>UI_task_status_responsible</name>
+    <name>index_task_status_responsible</name>
     <fieldName>task_id</fieldName>
     <fieldName>responsible_entity_table</fieldName>
     <fieldName>responsible_entity_id</fieldName>
-    <unique>true</unique>
     <add>1.5</add> 
   </index>
   <index>
-    <name>UI_task_status_target</name>
+    <name>index_task_status_target</name>
     <fieldName>task_id</fieldName>
     <fieldName>target_entity_table</fieldName>
     <fieldName>target_entity_id</fieldName>
-    <unique>true</unique>
     <add>1.5</add> 
   </index>
 </table>
