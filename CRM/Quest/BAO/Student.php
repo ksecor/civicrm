@@ -152,6 +152,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         self::referral( $id, $details );
 
+        self::honor( $id, $details );
+
         return true;
     }
 
@@ -482,9 +484,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         $count = 1;
         while ( $honorDAO->fetch( ) ) {
-            $name = "Honor_$count";
-            $details[$name]['name' ] = $honorDAO->name;
-            $details[$name]['email'] = $honorDAO->email;
+            $name = "Honor_{$count}";
+            $details[$name]['description'] = $honorDAO->description;
+            $details[$name]['award_date' ] = $honorDAO->award_date;
             $count++;
         }
     }
