@@ -25,7 +25,7 @@ if [ -d $TRG ] ; then
 fi
 
 # copy generated files first
-for E in CRM api modules; do
+for E in CRM api drupal; do
 	echo $E
 	[ -d $DM_GENFILESDIR/$E ] && $RSYNCCOMMAND $DM_GENFILESDIR/$E $TRG
 done
