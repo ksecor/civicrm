@@ -58,6 +58,10 @@ function crm_create_file($params)
         return _crm_error('Params is not an array.');
     }
     
+    if ( ! isset($params['file_type_id']) ) {
+        return _crm_error('Required parameter missing.');
+    }
+    
     if ( !isset($params['upload_date']) ) {
         $params['upload_date'] = date("Ymd");
     }
