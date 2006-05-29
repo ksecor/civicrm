@@ -97,6 +97,12 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * the CIVICRM_IMAGE_UPLOADDIR would be:
  *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/joomla/media/civicrm/persist/' );
  *
+ * the CIVICRM_CUSTOM_FILE_UPLOADDIR would be:
+ *      define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR', '/var/www/htdocs/joomla/media/civicrm/custom/' );
+ * 
+ * the CIVICRM_CUSTOM_FILE_UPLOADURL would be:
+ *      define( 'CIVICRM_CUSTOM_FILE_UPLOADURL', 'http://www.example.com/civicspace/files/civicrm/custom/' );
+ * 
  */
 global $civicrm_root;
 $civicrm_root = '%%crmRoot%%';
