@@ -57,7 +57,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM922.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM966.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM980.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM983.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM983.php'    );
                 
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/MultiValuedCheckBox.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Note.php'    );
@@ -92,7 +92,13 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetCustomField.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetCustomOptionValue.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateDeleteCustomOption.php');
-                
+         
+        //note api
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateNote.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetNote.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateNote.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteNote.php');
+
         // relationship api
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationship.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetRelationship.php');
@@ -109,7 +115,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetEntitiesByTag.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetTag.php');
-
+        
         // UFGroup api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFGroup.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFGroup.php'    );
