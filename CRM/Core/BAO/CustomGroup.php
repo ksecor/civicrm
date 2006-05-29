@@ -134,7 +134,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // since we have an entity id, lets get it's custom values too.
         if ($entityId) {
-            $tableData['civicrm_custom_value'] = array('id', 'int_data', 'float_data', 'decimal_data', 'char_data', 'date_data', 'memo_data');
+            $tableData['civicrm_custom_value'] = array('id', 'int_data', 'float_data', 'decimal_data', 'char_data', 'date_data', 'memo_data','file_id');
         }
 
         // create select
@@ -252,13 +252,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_date_data;
                     break;
                 case 'File':
-
-                    //get file name 
-                    
                     require_once 'CRM/Core/DAO/File.php';
                     $fileDAO =& new CRM_Core_DAO_File();
-                    $fileDAO->custom_field_id = $fieldId;
-                    $fileDAO->entity_id       = $entityId; 
+                    $fileDAO->id = $crmDAO->civicrm_custom_value_file_id;
                     $fileDAO->find(true);
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $fileDAO->uri;
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']  = $fileDAO->id;
@@ -381,15 +377,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customValueDAO->date_data = $data;
                         break;
                     case 'File':
-                        $customValueDAO->char_data = $data;
-                        
                         require_once 'CRM/Core/DAO/File.php';
-                        $fileDAO =& new CRM_Core_DAO_File();
-                        $fileDAO->custom_field_id   = $fieldId;
-                        $fileDAO->find(true);
-                        if ( $fileDAO0->id ) {
-                            $fileId = $fileDAO0->id;
-                                }
+                        $customValueDAO->char_data = $data;
                         $config = & CRM_Core_Config::singleton();
                         
                         $path = explode( '/', $data );
@@ -400,15 +389,28 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         if (isset($field['customValue']['fid'])) {
                             $fileDAO->id = $field['customValue']['fid'];
                         }
-                        if( $fileId ) {
-                            echo $fileDAO->id = $fileId;
-                        }
-                        $fileDAO->entity_table      = $tableName;
-                        $fileDAO->entity_id         = $entityId;
-                        $fileDAO->custom_field_id   = $fieldId;
+                        
+                        $fileDAO->file_type_id      = 348;
                         $fileDAO->uri               = $config->customFileUploadURL.$filename;
                         $fileDAO->mime_type         = $mimeType; 
                         $fileDAO->save();
+                        
+                        $customValueDAO->file_id    = $fileDAO->id;
+
+                        // need to add/update civicrm_entity_file
+                        require_once 'CRM/Core/DAO/EntityFile.php'; 
+                        $entityFileDAO =& new CRM_Core_DAO_EntityFile();
+                        
+                        if ( isset($field['customValue']['fid'] )) {
+                            $entityFileDAO->file_id = isset($field['customValue']['fid'] );
+                            $entityFileDAO->find(true);
+                        }
+                        
+                        $entityFileDAO->entity_table = $tableName;
+                        $entityFileDAO->entity_id    = $entityId;
+                        $entityFileDAO->file_id      = $fileDAO->id;
+                        $entityFileDAO->save();
+                        
                         break;
                         
                     }
