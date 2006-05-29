@@ -283,7 +283,7 @@ class CRM_Core_Invoke {
                 if( $properties ) {
                     require_once $properties['file'];
                     eval( '$view =& new ' . $properties['class'] . '( );' );
-                } elseif ( realpath ('../drupal/modules/civicrm/CRM/Contact/Page/View/'.$contact_type.'.php') ) {
+                } elseif ( realpath ( dirname( __FILE__ ) . "../Contact/Page/View/{$contact_type}.php" ) ) {
                     require_once 'CRM/Contact/Page/View/' . $contact_type . '.php';
                     eval( '$view =& new CRM_Contact_Page_View_' . $contact_type . '( );' );
                 } else {
