@@ -389,10 +389,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         if (isset($field['customValue']['fid'])) {
                             $fileDAO->id = $field['customValue']['fid'];
                         }
-                        
+                       
                         $fileDAO->file_type_id      = 348;
                         $fileDAO->uri               = $config->customFileUploadURL.$filename;
                         $fileDAO->mime_type         = $mimeType; 
+                        $fileDAO->upload_date       = date('Ymd'); 
                         $fileDAO->save();
                         
                         $customValueDAO->file_id    = $fileDAO->id;
