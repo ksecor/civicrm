@@ -14,7 +14,7 @@ class TestOfCRM983 extends UnitTestCase
     
     function testCRM983CreateFile()
     {
-        $create = array('file_type_id' => 2,
+        $create = array('file_type_id' => 350,
                         'uri' => 'file://home/guest/pic.jpg',
                         'description'  => 'Do Not know what is happeing.');
         $this->fileCreate = crm_create_file($create);
@@ -25,7 +25,7 @@ class TestOfCRM983 extends UnitTestCase
     {
         $update = array(
                         'id' => $this->fileCreate->id,
-                        'file_type_id' => 2,
+                        'file_type_id' => 350,
                         'uri' => 'file://home/guest/new.rm',
                         'description'  => 'Do Not know what is happeing.'
                         );
@@ -36,7 +36,7 @@ class TestOfCRM983 extends UnitTestCase
     function testCRM983DeleteFile()
     {
         $delete = array(//'id' => 23,
-                        'file_type_id' => 2,
+                        'file_type_id' => 350,
                         'description'  => 'Do Not know what is happeing.'
                         );
         $this->fileDelete = crm_delete_file($delete);
@@ -45,7 +45,7 @@ class TestOfCRM983 extends UnitTestCase
     
     function testCRM983GetFile()
     {
-        $get = array('file_type_id' => 2,
+        $get = array('file_type_id' => 350,
                      'description'  => 'Do Not know what is happeing.'
                      );
         $this->fileGet = crm_get_file($get);
@@ -54,7 +54,7 @@ class TestOfCRM983 extends UnitTestCase
     
     function testCRM983CreateEntityFile()
     {
-        $create = array('file_type_id' => 2,
+        $create = array('file_type_id' => 350,
                         'uri' => 'file://home/guest/pic.jpg',
                         'description'  => 'Do Not know what is happeing.');
         $fileCreate = crm_create_file($create);
