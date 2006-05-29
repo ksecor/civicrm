@@ -1848,6 +1848,8 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                         //fix checkbox
                         if ( $customFields[$customFieldID][3] == 'CheckBox' ) {
                             $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
+                        } if ( $customFields[$customFieldID][3] == 'Multi-Select' ) {
+                            $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
                         }
                         // fix the date field 
                         if ( $customFields[$customFieldID][2] == 'Date' ) {

@@ -543,9 +543,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $index      =  $attributes['label'];
 
         $display = $value;
-
+     
         switch ( $html_type ) {
-
+           
         case "Radio":
             if ( $data_type == 'Boolean' ) {
                 $display = $value ? ts('Yes') : ts('No');
@@ -557,22 +557,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case "Select":
             $display = $option[$value];
             break;
-                    
-        case "Multi-Select":
-            if (is_array($value)) {
-                $v = array( );
-                $p = array( );
-                foreach ( $value as $dontCare => $val ) {
-                    $p[] = $val;
-                    $v[] = $option[$val];
-                }
-                if ( ! empty( $v ) ) {
-                    $display = implode( ', ', $v );
-                }
-            }
-            break;
-
+        
         case "CheckBox":
+        case "Multi-Select":
             if ( is_array( $value ) ) {
                 $checkedData = array_keys( $value );
             } else {
