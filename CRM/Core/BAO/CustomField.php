@@ -577,7 +577,20 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             break;
 
         case "Select Date":
-            $display = CRM_Utils_Date::customFormat($value);
+            $dao = & new CRM_Core_DAO_CustomField();
+            $dao->id = $id;
+            $dao->find(true);
+            if ( $dao->date_parts ) {
+                $parts = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$dao->date_parts);
+                foreach($parts as $v ) {
+                    $format = $format." %".$v ;
+                }
+                $format = str_replace('M','B',$format);
+                $display = CRM_Utils_Date::customFormat($value,$format);
+                
+            } else {
+                $display = CRM_Utils_Date::customFormat($value);
+            }
             break;
 
         case 'Select State/Province':
