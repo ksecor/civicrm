@@ -203,7 +203,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $defaults['note_columns'] = 60;
             $defaults['note_rows']    = 4;
         }
-        
+
         return $defaults;
     }
 
@@ -232,7 +232,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         }
         $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), 'onClick="custom_option_html_type(this.form)"; onBlur="custom_option_html_type(this.form)";', '&nbsp;&nbsp;&nbsp;' );
         $sel->setOptions(array($dt, $it));
-        if ($this->_action == CRM_Core_Action::UPDATE) {
+
+        $Options = CRM_Core_BAO_CustomOption::getCustomOption($this->_id);
+        if ($this->_action == CRM_Core_Action::UPDATE && (! empty($Options))) {
             $this->freeze('data_type');
         }
         
