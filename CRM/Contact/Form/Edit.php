@@ -426,7 +426,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         $params['contact_type'] = $this->_contactType;
-        if( !$params['is_deceased'] == 1){ 
+        if( ! $params['is_deceased'] == 1 ) { 
             $params['deceased_date'] = null;
         }
       

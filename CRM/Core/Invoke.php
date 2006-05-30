@@ -273,6 +273,7 @@ class CRM_Core_Invoke {
                 break;
                 
             default:
+                /**
                 $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject ); 
                 $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/basic', 'reset=1&cid='.$id ) );
                 
@@ -290,7 +291,9 @@ class CRM_Core_Invoke {
                     require_once 'CRM/Contact/Page/View/Basic.php';
                     $view =& new CRM_Contact_Page_View_Basic( );
                 }
-                
+                **/
+                require_once 'CRM/Contact/Page/View/Basic.php'; 
+                $view =& new CRM_Contact_Page_View_Basic( );
                 break;
             }
             return $view->run( );
