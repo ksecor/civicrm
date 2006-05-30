@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-18 08:33+0200\n"
-"PO-Revision-Date: 2006-05-29 10:42+0200\n"
+"PO-Revision-Date: 2006-05-29 20:12+0200\n"
 "Last-Translator: Oliver Moldenhauer <oliver@attac.de>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -952,7 +952,7 @@ msgstr "Kontaktseite"
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Contributions"
-msgstr "Beiträge"
+msgstr "Zuwendungen"
 
 #: CRM/Contact/Page/View/CustomData.php CRM/Utils/Menu.php
 msgid "Custom Data"
@@ -1026,7 +1026,7 @@ msgstr "Kontakte exportieren"
 #: CRM/Contribute/BAO/Contribution.php CRM/Contribute/Selector/Search.php
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Contribution"
-msgstr "Beitrag"
+msgstr "Zuwendung"
 
 #: CRM/Contribute/BAO/Contribution.php CRM/Core/BAO/History.php
 msgid "- Contribution Fields -"
@@ -1146,7 +1146,7 @@ msgstr "Jahr"
 #: CRM/UF/Form/Preview.php templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 msgid "Contribution Type"
-msgstr "Art des Beitrags"
+msgstr "Art der Zuwendung"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
@@ -1314,7 +1314,7 @@ msgstr "Lösche Zuwendungen"
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
 #: CRM/Core/DAO/Mapping.php
 msgid "Export Contributions"
-msgstr "Exportiere Beiträge"
+msgstr "Exportiere Zuwendungen"
 
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
@@ -1457,7 +1457,7 @@ msgstr "Grund"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
-msgstr "Beitragsarten"
+msgstr "Zuwendungsarten"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Payment Instruments"
@@ -1469,11 +1469,11 @@ msgstr "Premium-Spender verwalten"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php CRM/Core/DAO/Mapping.php
 msgid "Import Contributions"
-msgstr "Beiträge importieren"
+msgstr "Zuwendungen importieren"
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
 msgid "Configure Online Contribution Pages"
-msgstr "Online-Beitrag-Seiten konfigurieren"
+msgstr "Online-Zuwendungs-Seiten konfigurieren"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Custom/Form/DeleteField.php
 #: CRM/Custom/Page/Field.php
@@ -1501,7 +1501,7 @@ msgstr "Typ"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
-msgstr "Zahl"
+msgstr "ganze Zahl (\"Integer\")"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php
@@ -2503,7 +2503,7 @@ msgstr "Zahlung per - %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contribution Status - Valid"
-msgstr "Status des Beitrags - i.O."
+msgstr "Status der Zuwendung - i.O."
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contribution Status - Cancelled"
@@ -3407,7 +3407,7 @@ msgstr "\"Dankschön\"Datum"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Contribution Source"
-msgstr "BeitragsQuelle"
+msgstr "ZuwendungsQuelle"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Product Option"
@@ -3440,7 +3440,7 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Next Sched Contribution"
-msgstr "Nächster ?? Beitrag"
+msgstr "Nächste geplante Zuwendung"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Count"
@@ -3504,7 +3504,7 @@ msgstr "Premium Kontakt Telefon"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Display Min Contribution"
-msgstr "Premiums Anzeige Minimalbeitrag"
+msgstr "Premiums Anzeige Minimalzuwendung"
 
 #: CRM/Contribute/DAO/PremiumsProduct.php
 msgid "Sort Position"
@@ -3528,7 +3528,7 @@ msgstr "Preis"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Minimum Contribution"
-msgstr "Minimalbeitrag"
+msgstr "Minimalzuwendung"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Cost"
@@ -3573,13 +3573,13 @@ msgstr "Die Kreditkarte \"%1\" wurde gespeichert."
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
-msgstr "Wir konnten keine Beitragsdetails für Ihre Anfrage finden. Bitte starten Sie die Anfrage erneut."
+msgstr "Wir konnten keine Zuwendungsdetails für Ihre Anfrage finden. Bitte starten Sie die Anfrage erneut."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This contribution has already been submitted. Click <a href=\"%1\">here</a> "
 "if you want to make another contribution."
-msgstr "Dieser Beitrag wurde bereits übermittelt. <a href=\"%1\">Hier klicken</a> "
+msgstr "Diese Zuwendung wurde bereits übermittelt. <a href=\"%1\">Hier klicken</a> "
 "wenn Sie einen weitere Spende tätigen möchten."
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -3668,9 +3668,8 @@ msgid "Select the Product"
 msgstr "Bundesland auswählen"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
-#, fuzzy
 msgid "Please enter integer value for weight"
-msgstr "Bitte geben Sie einen gültigen Namen ein."
+msgstr "Bitte geben Sie einen ganzzahligen Wert für das Gewicht ein."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 #, fuzzy
