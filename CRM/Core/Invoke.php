@@ -273,12 +273,11 @@ class CRM_Core_Invoke {
                 break;
                 
             default:
-                /**
-                $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject ); 
+                $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject, true ); 
                 $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/basic', 'reset=1&cid='.$id ) );
                 
                 $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
-                $contact_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type' );
+                $contact_type     = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type'     );
                 
                 $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'View' );
                 if( $properties ) {
@@ -291,7 +290,7 @@ class CRM_Core_Invoke {
                     require_once 'CRM/Contact/Page/View/Basic.php';
                     $view =& new CRM_Contact_Page_View_Basic( );
                 }
-                **/
+
                 require_once 'CRM/Contact/Page/View/Basic.php'; 
                 $view =& new CRM_Contact_Page_View_Basic( );
                 break;
@@ -371,10 +370,8 @@ class CRM_Core_Invoke {
         $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'Edit' );
         if( $properties ) {
             $wrapper->run( $properties['class'], ts( 'New '.$contact_sub_type ), $action );
-        } elseif ( file_exists( 'CRM/Contact/Form/' . $contact_type . '.php' )) {
-//         } elseif ( realpath ('../drupal/modules/civicrm/CRM/Contact/Form/' . $contact_type . '.php') ) {
-// file_exists doesn't work since it's not a relative path. use realpath to solve the problem. realpath has been commented to avoid showing error.
-            $wrapper->run( 'CRM_Contact_Form_'.$contact_type, ts( 'New '.$contact_type ), $action );
+        } elseif ( realpath (dirname( __FILE__ ) . "../Contact/Form/{$contact_type}.php" ) ) {
+            $wrapper->run( "CRM_Contact_Form_{$contact_type}", ts( "New {$contact_type}" ), $action );
         } else {
             $wrapper->run( 'CRM_Contact_Form_Edit', ts( 'New Contact' ), $action );
         }

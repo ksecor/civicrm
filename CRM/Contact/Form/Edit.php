@@ -131,6 +131,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      */
     function preProcess( ) {
+
+        // reset action from the session
+        $this->_action              = CRM_Utils_Request::retrieve('action', 'String', 
+                                                                  $this, false, 'add' );
+
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
 
@@ -151,7 +156,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $ids = $this->get('ids');
             $this->_contactId = CRM_Utils_Array::value( 'contact', $ids );
             if ( ! $this->_contactId ) {
-                $this->_contactId   = CRM_Utils_Array::value( 'cid', $_REQUEST );
+                $this->_contactId   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
             }
 
             if ( $this->_contactId ) {
@@ -167,6 +172,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this contact.') );
                 }
 
+                list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
+                CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
                 return;
             }
             CRM_Utils_System::statusBounce( ts('Could not get a contact_id and/or contact_type') );
