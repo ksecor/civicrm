@@ -186,7 +186,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 $details["Address_$i"][$key] = $individual['location'][$i]['address'][$key];
             }
             $details["Email_$i"] = $individual['location'][$i]['email'][1]['email'];
-            $details["Phone_$i"] = $individual['location'][$i]['phone'][1]['phone'];
+            $details["Phone_{$i}_Main"] = $individual['location'][$i]['phone'][1]['phone'];
+            $details["Phone_{$i}_Alt" ] = $individual['location'][$i]['phone'][2]['phone'];
         }
     }
 
@@ -282,7 +283,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $details['Student']["{$key}_ids"] = $studentDetails[$key];
         }
             
-
         return true;
     }
 
@@ -338,8 +338,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $properties = array( 'id', 'first_name', 'last_name', 'is_deceased',
                              'job_organization', 'job_occupation', 'job_current_years',
                              'college_name', 'college_grad_year', 'college_major',
-                             'prof_school_name', 'lived_with_from_age', 'lived_with_to_age' );
-
+                             'prof_school_name', 'lived_with_from_age', 'lived_with_to_age',
+                             'description' );
+        
         $dates = array( 'birth_date', 'deceased_year', 'college_grad_year', 'prof_grad_year' );
 
         $names = array('relationship_id'                => array( 'newName' => 'relationship',
@@ -441,7 +442,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Contact/BAO/Relationship.php';
         require_once  'CRM/Core/BAO/CustomGroup.php';
         $relationship  = CRM_Contact_BAO_Relationship::getRelationship( $id );
-       
+
         foreach( $relationship as $key => $value ) {
             if ($value['relation'] == 'Student of' ) {
                 $params = array( 'contact_id' => $value['cid'],
@@ -452,12 +453,19 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 CRM_Contact_BAO_Contact::resolveDefaults( $orgDetails );
                 $groupTree = & CRM_Core_BAO_CustomGroup::getTree( 'Organization', $value['cid'], 0 );
                 CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $orgDetails, true, false );
+
+                $orgDetails['start_date'] = $value['start_date'];
+                $orgDetails['end_date'  ] = $value['end_date'  ];
+
                 $organization[$key] = $orgDetails;
             }
         }
 
         $address = array( 'street_address', 'city', 'state_province', 'postal_code', 'postal_code_suffix', 'country' );
         $highCount = $otherCount = 1;
+
+        $map = array( 310 => 'Public', 311 => 'Private', 312 => 'Parochial' );
+
         foreach( $organization as $key => $value ) {
             if ( $value['custom_4'] == 'Highschool' ) {
                 $prefix = "HighSchool_" . $highCount;
@@ -468,11 +476,20 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             }
 
             $details[$prefix] = array( );
+
             $details[$prefix]['organization_name'] = $value['organization_name'];
 
             for ( $i =1; $i <= 4; $i++ ) {
-                $details[$prefix]["custom_{$i}"] = $value["custom_{$i}"];
+                if ( $i == 2 ) {
+                    $details[$prefix]["custom_{$i}"] = $map[$value["custom_{$i}"]];
+                } else {
+                    $details[$prefix]["custom_{$i}"] = $value["custom_{$i}"];
+                }
             }
+
+            $details[$prefix]['start_date'] = $value['start_date'];
+            $details[$prefix]['end_date'  ] = $value['end_date'  ];
+
             if ( $value['note'] ) {
                 foreach( $value['note'] as $k1 => $v1) {
                     $details[$prefix]['note'] = $v1['note'];
