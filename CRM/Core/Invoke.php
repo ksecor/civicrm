@@ -290,9 +290,6 @@ class CRM_Core_Invoke {
                     require_once 'CRM/Contact/Page/View/Basic.php';
                     $view =& new CRM_Contact_Page_View_Basic( );
                 }
-
-                require_once 'CRM/Contact/Page/View/Basic.php'; 
-                $view =& new CRM_Contact_Page_View_Basic( );
                 break;
             }
             return $view->run( );

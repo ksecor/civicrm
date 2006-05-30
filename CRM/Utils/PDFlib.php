@@ -36,9 +36,10 @@
  */
 
 class CRM_Utils_PDFlib {
-    static function compose( $fileName,
+    static function &compose( $fileName,
                              $searchPath,
                              &$values,
+                             $echo    = true,
                              $output  = 'College_Prep_App',
                              $creator = 'CiviCRM',
                              $author  = 'http://www.civicrm.org/',
@@ -102,11 +103,15 @@ class CRM_Utils_PDFlib {
             $buf = $pdf->get_buffer();
             $len = strlen($buf);
 
-            header('Content-type: application/pdf');
-            header("Content-Length: $len");
-            header("Content-Disposition: inline; filename={$output}.pdf");
-            echo $buf;
-            exit( );
+            if ( $echo ) {
+                header('Content-type: application/pdf');
+                header("Content-Length: $len");
+                header("Content-Disposition: inline; filename={$output}.pdf");
+                echo $buf;
+                exit( );
+            } else {
+                return $buf;
+            }
         }
         catch ( PDFlibException $excp ) {
             CRM_Utils_System::statusBounce( 'PDFlib Error: Exception' .

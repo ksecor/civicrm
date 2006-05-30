@@ -156,6 +156,11 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         self::honor( $id, $details );
 
+        /**
+        CRM_Core_Error::debug( $id, $details );
+        exit( );
+        **/
+
         return true;
     }
 
@@ -164,7 +169,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                          'id'         => $id );
         $ids = array();
         $individual = array();
-
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
         CRM_Contact_BAO_Contact::retrieve( $params, $individual, $ids );
         CRM_Contact_BAO_Contact::resolveDefaults( $individual );
 

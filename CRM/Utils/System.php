@@ -577,6 +577,7 @@ class CRM_Utils_System {
         }
 
         $memory = str_replace("\n", '', shell_exec("ps -p $pid -o rss="));
+        $memory .= ", " . time( );
         if ( $title ) {
             CRM_Core_Error::debug( $title, $memory );
         }
