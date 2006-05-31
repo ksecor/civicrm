@@ -164,7 +164,38 @@ class CRM_Quest_BAO_Query
         $showHide->addHide( 'questForm' );
         $showHide->addShow( 'questForm[show]' ); 
     }
-    
+
+    static function searchAction( &$actions, $id ) {
+        static $viewLink = null;
+        static $editLink = null;
+
+        // add links only if student
+        $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' ); 
+        if ( $contact_sub_type != 'Student' ) {
+            return;
+        }
+
+        if ( ! $viewLink ) {
+            $viewLink = sprintf('<a href="%s">%s</a>',
+                                CRM_Utils_System::url( 'civicrm/quest/preapp',
+                                                       'reset=1&action=view&id=%%id%%' ),
+                                ts( 'View Preapp' ) );
+            $editLink = sprintf('<a href="%s">%s</a>',
+                                CRM_Utils_System::url( 'civicrm/quest/preapp',
+                                                       'reset=1&action=edit&id=%%id%%' ),
+                                ts( 'Edit Preapp' ) );
+        }
+
+        if ( CRM_Core_Permission::check( 'view Quest Application' ) ) {
+            $actions .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$viewLink}" );
+        }
+
+        if ( CRM_Core_Permission::check( 'edit Quest Application' ) ) {
+            $actions .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$editLink}" );
+        }
+
+    }
+
 }
 
 ?>

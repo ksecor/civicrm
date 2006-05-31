@@ -272,11 +272,6 @@ class CRM_Core_Invoke {
                 $wrapper =& new CRM_Utils_Wrapper( ); 
                 return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
 
-            case 'pdf':
-                require_once 'CRM/Quest/Page/View/PDF.php';
-                $view =& new CRM_Quest_Page_View_PDF( );
-                break;
-                
             default:
                 $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject, true ); 
                 $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/basic', 'reset=1&cid='.$id ) );

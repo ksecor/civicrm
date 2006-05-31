@@ -175,7 +175,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         CRM_Contact_BAO_Contact::resolveDefaults( $individual );
 
         $details['Individual'] = array( );
-        
+        $details['Individual']['contact_id'] = $id;
+
         $properties = array( 'sort_name', 'display_name', 'nick_name',
                              'prefix', 'suffix',
                              'first_name', 'middle_name', 'last_name',

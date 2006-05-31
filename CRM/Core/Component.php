@@ -247,6 +247,20 @@ class CRM_Core_Component {
         }
     }
 
+    static function &searchAction( &$actions, $id ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( $className . '::searchAction( $actions, $id );' );
+            }
+        }
+    }
+
     static function &contactSubTypes( ) {
         if ( self::$_contactSubTypes == null ) {
             self::$_contactSubTypes =

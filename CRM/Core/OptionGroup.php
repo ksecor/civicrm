@@ -34,10 +34,6 @@
  *
  */
 
-/**
- * State machine for managing different states of the Quest process.
- *
- */
 class CRM_Core_OptionGroup {
     static $_values = array( );
 

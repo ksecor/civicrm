@@ -390,6 +390,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Quest/BAO/Student.php';
         $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+        $links =& self::links( );
 
         while ($result->fetch()) {
             $row = array();
@@ -402,7 +403,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($property)) {
                     $row[$property] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$property, $cfID, $this->_options );
-                }  else if ( array_key_exists($property, $multipleSelectFields ) ){ //fix to display student checkboxes
+                }  else if ( array_key_exists($property, $multipleSelectFields ) ) { //fix to display student checkboxes
                     $key = $property;
                     $paramsNew = array($key => $result->$property );
                     if ( $key == 'test_tutoring') {
@@ -440,11 +441,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
 
                 if ( is_numeric( CRM_Utils_Array::value( 'geo_code_1', $row ) ) ) {
-                    $row['action']   = CRM_Core_Action::formLink( self::links(), $mask, array( 'id' => $result->contact_id ) );
+                    $row['action']   = CRM_Core_Action::formLink( $links, $mask   , array( 'id' => $result->contact_id ) );
                 } else {
-                    $row['action']   = CRM_Core_Action::formLink( self::links(), $mapMask, array( 'id' => $result->contact_id ) );
+                    $row['action']   = CRM_Core_Action::formLink( $links, $mapMask, array( 'id' => $result->contact_id ) );
                 }
-                
+
+                // allow components to add more actions
+                CRM_Core_Component::searchAction( $row['action'], $result->contact_id );
+
                 $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {
                 case 'Individual' :
