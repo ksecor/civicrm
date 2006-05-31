@@ -49,7 +49,7 @@ require_once 'api/utils.php';
  * This API is used for creating a file
  * 
  * @param   array  $params  an associative array of name/value property values of civicrm_file
- * @return object of newly created file.
+ * @return array of newly created file property values.
  * @access public
  */
 function crm_create_file($params) 
@@ -78,18 +78,22 @@ function crm_create_file($params)
     }
     
     $fileDAO->save();
-    return $fileDAO;
+    
+    $file = array();
+    _crm_object_to_array($fileDAO, $file);
+    
+    return $file;
 }
 
 /**
  * Get a file.
  * 
  * This api is used for finding an existing file.
- * Required parameters : id of a file
+ * Required parameters : id OR file_type_id of a file
  * 
  * @params  array $params  an associative array of name/value property values of civicrm_file
  *
- * @return  Array of all found file objects.
+ * @return  Array of all found file object property values.
  * @access public
  */
 function crm_get_file($params) 
@@ -97,7 +101,8 @@ function crm_get_file($params)
     if ( ! is_array($params) ) {
         return _crm_error('params is not an array.');
     }
-    if ( ! isset($params['id']) ) {
+    
+    if ( ! isset($params['id']) && ! isset($params['file_type_id']) ) {
         return _crm_error('Required parameters missing.');
     }
     
@@ -113,9 +118,13 @@ function crm_get_file($params)
     }
     
     if ( $fileDAO->find() ) {
+        $file = array();
         while ( $fileDAO->fetch() ) {
-            $files[$fileDAO->id] = clone($fileDAO);
+            _crm_object_to_array( clone($fileDAO), $file );
+            $files[$fileDAO->id] = $file;
         }
+    } else {
+        return _crm_error('Exact match not found');
     }
     return $files;
 }
@@ -128,7 +137,7 @@ function crm_get_file($params)
  * 
  * @param  Array   $params  an associative array of name/value property values of civicrm_file
  * 
- * @return updated file object
+ * @return array of updated file object property values
  * @access public
  */
 function &crm_update_file( &$params ) {
@@ -150,7 +159,9 @@ function &crm_update_file( &$params ) {
         }
         $fileDAO->save();
     }
-    return $fileDAO;
+    $file = array();
+    _crm_object_to_array( clone($fileDAO), $file );
+    return $file;
 }
 
 /**
@@ -188,59 +199,85 @@ function &crm_delete_file( $fileId ) {
 /**
  * Assigns an entity to a file
  *
- * @param object  $file            valid file object
- * @param object  $entity          valid entity object
+ * @param object  $file            id of a file
+ * @param object  $entity          id of a entity
  * @param string  $entity_table    
  *
- * @return object of newly created entity-file object
+ * @return array of newly created entity-file object properties
  * @access public
  */
-function crm_create_entity_file(&$file, &$entity, $entity_table = 'civicrm_contact')
+function crm_create_entity_file(&$fileID, &$entityID, $entity_table = 'civicrm_contact')
 {
     require_once 'CRM/Core/DAO/EntityFile.php';
     
-    if ( ! isset($file->id) || ! isset($entity->id)) {
+    if ( ! $fileID || ! $entityID ) {
         return _crm_error('Required parameters missing');
     }
     
-    $params = array('entity_id'    => $entity->id,
-                    'file_id'      => $file->id,
+    $params = array('entity_id'    => $entityID,
+                    'file_id'      => $fileID,
                     'entity_table' => $entity_table
                     );
     
     $entityFileDAO =& new CRM_Core_DAO_EntityFile( );
     $entityFileDAO->copyValues( $params );
     $entityFileDAO->save( );
-    return $entityFileDAO;
+    
+    $entityFile = array();
+    _crm_object_to_array( $entityFileDAO, $entityFile );
+    
+    return $entityFile;
 }
 
 /**
  * Returns all files assigned to a single entity instance.
  *
- * @param object $entity         Valid object of one of the supported entity types.
+ * @param object $entityID         id of the supported entity.
  * @param string $entity_table   
  *
- * @return array of entity-file objects.
+ * @return array   nested array of entity-file property values.
  * @access public
  */
-function crm_get_files_by_entity(&$entity, $entity_table = 'civicrm_contact')
+function crm_get_files_by_entity(&$entityID, $entity_table = 'civicrm_contact')
 {
-    require_once 'CRM/Core/DAO/EntityFile.php';
-    
-    if (! isset($entity->id)) {
+    if ( ! $entityID ) {
         return _crm_error('Required parameters missing');
     }
     
+    require_once 'CRM/Core/DAO/EntityFile.php';
     $entityFileDAO =& new CRM_Core_DAO_EntityFile();
+    require_once 'CRM/Core/DAO/File.php';
+    $fileDAO =& new CRM_Core_DAO_File();
+    require_once 'CRM/Core/BAO/OptionValue.php';
+    $optionValueBAO =& new CRM_Core_BAO_OptionValue();
+    
     $entityFileDAO->entity_table = $entity_table;
     $entityFileDAO->entity_id = $entity->id;
     if ( $entityFileDAO->find() ) {
+        $entityFile = array();
         while ($entityFileDAO->fetch()) {
-            $files[$entityFileDAO->file_id] = $entityFileDAO;
+            _crm_object_to_array( clone($entityFileDAO), $entityFile );
+            $files[$entityFileDAO->file_id] = $entityFile;
+            
+            if ( array_key_exists( 'file_id', $files[$entityFileDAO->file_id] ) ) {
+                $files[$entityFileDAO->file_id]['file_id'] = array();
+                $fileDAO->id = $entityFile['file_id'];
+                $fileDAO->find(true);
+                _crm_object_to_array($fileDAO, $files[$entityFileDAO->file_id]['file_id']);
+            }
+            
+            if ( array_key_exists( 'file_type_id', $files[$entityFileDAO->file_id]['file_id'] ) ) {
+                $optionValueBAO->id = $files[$entityFileDAO->file_id]['file_id']['file_type_id'];
+                $optionValueBAO->find(true);
+                $files[$entityFileDAO->file_id]['file_id']['file_type_id'] = array( 'id'        => $optionValueBAO->id ,
+                                                                                    'file_type' => $optionValueBAO->label);
+            }
         }
+        
     } else {
         return _crm_error('Exact match not found');
     }
+    
     return $files;
 }
 
@@ -271,5 +308,4 @@ function crm_delete_entity_file(&$params)
     
     return $entityFileDAO->delete() ? null : _crm_error('Error while deleting');
 }
-
 ?>

@@ -24,7 +24,7 @@ class TestOfCRM983 extends UnitTestCase
     function testCRM983UpdateFile()
     {
         $update = array(
-                        'id' => $this->fileCreate->id,
+                        'id' => $this->fileCreate['id'],
                         'file_type_id' => 350,
                         'uri' => 'file://home/guest/new.rm',
                         'description'  => 'Do Not know what is happeing.'
@@ -35,9 +35,9 @@ class TestOfCRM983 extends UnitTestCase
     // Delete File
     function testCRM983DeleteFile()
     {
-        $this->fileDelete = crm_delete_file($this->fileCreate->id);
+        $this->fileDelete = crm_delete_file($this->fileCreate['id']);
         CRM_Core_Error::debug('Delete File', $this->fileDelete);
-    }
+        }
     // Get File
     function testCRM983GetFile()
     {
@@ -46,7 +46,7 @@ class TestOfCRM983 extends UnitTestCase
                         'description'  => 'Do Not know what is happeing.');
         $this->fileCreate = crm_create_file($create);
         
-        $get = array('id' => $this->fileCreate->id);
+        $get = array('file_type_id' => $this->fileCreate['file_type_id']);
         $this->fileGet = crm_get_file($get);
         CRM_Core_Error::debug('Get File', $this->fileGet);
     }
@@ -60,8 +60,7 @@ class TestOfCRM983 extends UnitTestCase
         
         $contact = array('contact_id' => 2);
         $this->entity = crm_get_contact($contact);
-        
-        $this->createEntityFile = crm_create_entity_file($fileCreate, $this->entity);
+        $this->createEntityFile = crm_create_entity_file($fileCreate['id'], $this->entity->contact_id);
         
         CRM_Core_Error::debug('Create Entity File', $this->createEntityFile);
     }
@@ -75,7 +74,7 @@ class TestOfCRM983 extends UnitTestCase
     // Delete Entity Files
     function testCRM983DeleteEntityFile()
     {
-        $delete = array('id'           => $this->createEntityFile->id,
+        $delete = array('id'           => $this->createEntityFile['id'],
                         'entity_id'    => $this->entity->id,
                         'entity_table' => 'civicrm_contact'
                         );
