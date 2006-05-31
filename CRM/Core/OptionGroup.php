@@ -45,7 +45,7 @@ class CRM_Core_OptionGroup {
         self::$_values[$name] = array( );
         $domainID = CRM_Core_Config::domainID( );
         $query = "
-SELECT v.name as name, v.label as title ,v.id as id, v.grouping as grouping
+SELECT  v.label as label ,v.value as value, v.grouping as grouping
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id
@@ -61,21 +61,21 @@ ORDER BY v.weight;
         while ( $dao->fetch( ) ) {
             if ( $flip ) {
                 if ( $grouping ) {
-                    self::$_values[$name][$dao->id] = $dao->grouping;
+                    self::$_values[$name][$dao->value] = $dao->grouping;
                 } else {
-                    self::$_values[$name][$dao->title] = $dao->id;
+                    self::$_values[$name][$dao->label] = $dao->value;
                 }
             } else {
                 if ( $grouping ) {
-                    self::$_values[$name][$dao->title] = $dao->grouping;
+                    self::$_values[$name][$dao->label] = $dao->grouping;
                 } else {
-                    self::$_values[$name][$dao->id] = $dao->title;
+                    self::$_values[$name][$dao->value] = $dao->label;
                 }
             }
         }
         return self::$_values[$name];
     }
-
+    
 /**
  * Function to lookup titles OR ids for a set of option_value populated fields. The retrieved value
  * is assigned a new fieldname by id or id's by title  
@@ -120,10 +120,10 @@ ORDER BY v.weight;
                     if ( $flip ) {
                         $p = array( 1 => array( $postValue, 'String' ) );
                         $lookupBy = 'v.label= %1';
-                        $select   = "v.id";
+                        $select   = "v.value";
                     } else {
                         $p = array( 1 => array( $postValue, 'Integer' ) );
-                        $lookupBy = 'v.id = %1';
+                        $lookupBy = 'v.value = %1';
                         $select   = "v.label";
                     }
                     
@@ -131,11 +131,11 @@ ORDER BY v.weight;
                     $query = "
                         SELECT $select
                         FROM   civicrm_option_value v,
-                        civicrm_option_group g
+                               civicrm_option_group g
                         WHERE  v.option_group_id = g.id
                         AND    g.domain_id       = $domainID
                         AND    g.name            = %2
-                        AND  $lookupBy";
+                        AND    $lookupBy";
 
                     $newValue[]= CRM_Core_DAO::singleValueQuery( $query, $p );
                 }
