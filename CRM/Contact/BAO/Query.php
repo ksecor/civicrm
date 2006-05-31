@@ -319,7 +319,7 @@ class CRM_Contact_BAO_Query {
      * @access public 
      */
     function addSpecialFields( ) {
-        static $special = array( 'contact_type', 'sort_name', 'display_name' );
+        static $special = array( 'contact_type', 'contact_sub_type', 'sort_name', 'display_name' );
         foreach ( $special as $name ) {
             if ( CRM_Utils_Array::value( $name, $this->_returnProperties ) ) { 
                 $this->_select[$name]  = "contact_a.{$name} as $name";
@@ -1537,6 +1537,7 @@ class CRM_Contact_BAO_Query {
                                                         'legal_identifier'       => 1, 
                                                         'external_identifier'    => 1,
                                                         'contact_type'           => 1,
+                                                        'contact_sub_type'       => 1,
                                                         'sort_name'              => 1,
                                                         'display_name'           => 1,
                                                         'nick_name'              => 1, 

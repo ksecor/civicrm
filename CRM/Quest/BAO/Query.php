@@ -132,6 +132,7 @@ class CRM_Quest_BAO_Query
         if ( $mode & CRM_Contact_BAO_Query::MODE_QUEST ) {
             $properties = array(  
                                 'contact_type'           => 1, 
+                                'contact_sub_type'       => 1,
                                 'sort_name'              => 1, 
                                 'display_name'           => 1,
                                 );
@@ -165,13 +166,12 @@ class CRM_Quest_BAO_Query
         $showHide->addShow( 'questForm[show]' ); 
     }
 
-    static function searchAction( &$actions, $id ) {
+    static function searchAction( &$row, $id ) {
         static $viewLink = null;
         static $editLink = null;
 
         // add links only if student
-        $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' ); 
-        if ( $contact_sub_type != 'Student' ) {
+        if ( $row['contact_sub_type'] != 'Student' ) {
             return;
         }
 
@@ -187,11 +187,11 @@ class CRM_Quest_BAO_Query
         }
 
         if ( CRM_Core_Permission::check( 'view Quest Application' ) ) {
-            $actions .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$viewLink}" );
+            $row['action'] .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$viewLink}" );
         }
 
         if ( CRM_Core_Permission::check( 'edit Quest Application' ) ) {
-            $actions .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$editLink}" );
+            $row['action'] .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$editLink}" );
         }
 
     }

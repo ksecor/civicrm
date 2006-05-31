@@ -247,7 +247,7 @@ class CRM_Core_Component {
         }
     }
 
-    static function &searchAction( &$actions, $id ) {
+    static function &searchAction( &$row, $id ) {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 
@@ -256,7 +256,7 @@ class CRM_Core_Component {
                  $value['search'] ) {
                 $className = $info[$name]['path'] . 'BAO_Query';
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
-                eval( $className . '::searchAction( $actions, $id );' );
+                eval( $className . '::searchAction( $row, $id );' );
             }
         }
     }

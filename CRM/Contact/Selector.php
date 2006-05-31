@@ -74,7 +74,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @var array
      * @static
      */
-    static $_properties = array('contact_id', 'contact_type', 'sort_name', 'street_address',
+    static $_properties = array('contact_id', 'contact_type', 'contact_sub_type', 
+                                'sort_name', 'street_address',
                                 'city', 'state_province', 'postal_code', 'country',
                                 'geo_code_1', 'geo_code_2',
                                 'email', 'phone', 'status' );
@@ -156,6 +157,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
             $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
             $returnProperties['contact_type'] = 1;
+            $returnProperties['contact_sub_type'] = 1;
             $returnProperties['sort_name'   ] = 1;
             $this->_query   =& new CRM_Contact_BAO_Query( $this->_formValues, $returnProperties );
             $this->_options =& $this->_query->_options;
@@ -447,7 +449,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 }
 
                 // allow components to add more actions
-                CRM_Core_Component::searchAction( $row['action'], $result->contact_id );
+                CRM_Core_Component::searchAction( $row, $result->contact_id );
 
                 $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {
