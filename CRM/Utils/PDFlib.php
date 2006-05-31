@@ -86,16 +86,11 @@ class CRM_Utils_PDFlib {
                     if ( is_array( $value ) ) {
                         continue;
                     }
-                    if ( $key != "Essay" ) {
-                        continue;
-                    }
                     
-                    if ( $pdf->fill_textblock( $page,
-                                               $key,
-                                               $value,
-                                               'embedding encoding=winansi' ) == 0 ) {
-                        printf("Warning: %s\n ", $pdf->get_errmsg());
-                    }
+                    $pdf->fill_textblock( $page,
+                                          $key,
+                                          $value,
+                                          'embedding encoding=winansi' );
                 }
                 
                 $pdf->end_page_ext( '' );
