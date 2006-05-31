@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-18 08:33+0200\n"
-"PO-Revision-Date: 2006-05-29 20:12+0200\n"
+"PO-Revision-Date: 2006-05-31 12:52+0200\n"
 "Last-Translator: Oliver Moldenhauer <oliver@attac.de>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1408,7 +1408,7 @@ msgstr "Die Datei muss kleiner als %1 MBytes sein (%2 bytes)"
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
-msgstr "Eingabedatei im CSV Format!"
+msgstr "Eingabedatei muss im CSV-Format sein! (Häufiger Fehler: Kodierung von Sonderzeichen wie Umlauten ist nicht UTF-8, bitte bei Erstellung der csv eingeben, zumindest OpenOffice 2.0 kann das.)"
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
@@ -4060,14 +4060,12 @@ msgid "Contribution ID"
 msgstr ""
 
 #: CRM/Contribute/Form/Task/Export.php
-#, fuzzy
 msgid "CiviCRM Contributions"
-msgstr "CiviCRM Tastenkürzel"
+msgstr "CiviCRM Zuwendungen"
 
 #: CRM/Contribute/Form/Task/Print.php
-#, fuzzy
 msgid "Print Contributions"
-msgstr "Kontaktliste ausdrucken"
+msgstr "Zuwendungen drucken"
 
 #: CRM/Contribute/Import/Parser.php
 #, fuzzy
@@ -4102,9 +4100,8 @@ msgid "Accepted Credit Cards"
 msgstr ""
 
 #: CRM/Contribute/Menu.php templates/CRM/Contribute/Form/Search.tpl
-#, fuzzy
 msgid "Find Contributions"
-msgstr "Kontakte finden"
+msgstr "Zuwendungen finden"
 
 #: CRM/Contribute/Menu.php templates/CRM/Contribute/Form/CreatePPD.tpl
 #, fuzzy
@@ -7922,8 +7919,7 @@ msgstr "Offene Aktivitäten"
 msgid ""
 "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
 "href=\"%2\">call</a>."
-msgstr ""
-"Keien offenen Aktivitäten. Sie können ein <a href=\"%1\">Treffen</a> planen "
+msgstr "Keine offenen Aktivitäten. Sie können ein <a href=\"%1\">Treffen</a> planen "
 "oder ein <a href=\"%2\">Telefongespräch</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -9422,9 +9418,8 @@ msgid ""
 "the documentation for your application if you're not sure how to do this. "
 "Save this file to your local hard drive (or an accessible drive on your "
 "network) - and you are now ready for step 1 (Upload Data)."
-msgstr ""
-"Die Dateien die importiert werden sollen müssen in dem 'comma-separated-"
-"values' Format (CSV) vorliegen. Die meisten Applikationen können ein solches "
+msgstr "Die Dateien die importiert werden sollen müssen in dem 'comma-separated-"
+"values' Format (CSV), Sonderzeichen wie Umlaute kodiert als UTF-8 vorliegen. Die meisten Applikationen können ein solches "
 "Format exportieren. Wenn Sie sich nicht sicher sind, ob das der Fall ist, "
 "und wie es funktioniert, lesen Sie die Hilfeseit Ihrer Anwendung. Speichern "
 "Sie die Datei auf der lokalen Festplatte. Dann sind Sie bereit für den "
@@ -9439,7 +9434,7 @@ msgstr "Datei hochladen"
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/History/Import/Form/UploadFile.tpl
 msgid "File format must be comma-separated-values (CSV)."
-msgstr "Die Datei muss im CSV-Format sein."
+msgstr "Die Datei muss im CSV-Format sein. (Häufiger Fehler: Kodierung von Umlauten ist nicht UTF-8.)"
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/History/Import/Form/UploadFile.tpl
@@ -10489,7 +10484,7 @@ msgstr ""
 msgid ""
 "File format must be comma-separated-values (CSV). File must be UTF8 encoded "
 "if it contains special characters (e.g. accented letters, etc.)."
-msgstr ""
+msgstr "Datei-Format muss \"comma-separated-values\" (CSV) sein. Die Datei muss UTF-8-kodiert sein, wenn sie 'Sonderzeichen' wie z.B. Umlaute enthält."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
