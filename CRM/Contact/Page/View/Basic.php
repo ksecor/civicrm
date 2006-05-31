@@ -137,6 +137,11 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         $this->assign( $defaults );
         $this->setShowHide( $defaults );        
 
+        // also assign the last modifed details
+        require_once 'CRM/Core/BAO/Log.php';
+        $lastModified =& CRM_Core_BAO_Log::lastModified( $this->_contactId, 'civicrm_contact' );
+        $this->assign_by_ref( 'lastModified', $lastModified );
+        
         // get the contributions, new style of doing stuff
         // do the below only if the person has access to contributions
         $config =& CRM_Core_Config::singleton( );

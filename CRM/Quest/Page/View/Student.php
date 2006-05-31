@@ -143,6 +143,11 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
         $this->assign( $defaults );
         $this->setShowHide( $defaults );        
+
+        // also assign the last modifed details
+        require_once 'CRM/Core/BAO/Log.php';
+        $lastModified =& CRM_Core_BAO_Log::lastModified( $this->_contactId, 'civicrm_contact' );
+        $this->assign_by_ref( 'lastModified', $lastModified );
     }
 
 

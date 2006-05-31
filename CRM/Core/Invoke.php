@@ -207,6 +207,11 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View_Tag( );
                 break;
             
+            case 'log':
+                require_once 'CRM/Contact/Page/View/Log.php';
+                $view =& new CRM_Contact_Page_View_Log( );
+                break;
+            
             case 'cd':
                 require_once 'CRM/Contact/Page/View/CustomData.php';
                 $view =& new CRM_Contact_Page_View_CustomData( );

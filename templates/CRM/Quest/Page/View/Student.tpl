@@ -8,12 +8,13 @@
     {if $contact_type eq 'Individual' && $job_title}&nbsp;&nbsp;{ts}Job Title{/ts}:&nbsp;{$job_title}
     {elseif $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
     {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}';"/>
+        &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
     {/if}
     &nbsp; &nbsp; <input type="button" value="{ts}vCard{/ts}" name="vCard_export" onclick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';"/>
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
+    {if $lastModified} Last Modified By: &nbsp; &nbsp; <a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$lastModified.id`"}">{$lastModified.name}</a>{/if}
     &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View Preapp{/ts}</a></span>
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=edit&id=$contactId"}">&raquo; {ts}Edit Preapp{/ts}</a></span>
