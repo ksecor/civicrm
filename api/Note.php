@@ -72,13 +72,9 @@ function &crm_create_note( &$params ) {
     $noteBAO->copyValues( $params );
     $noteBAO->save( );
     
-    $properties = array('id', 'entity_table', 'entity_id', 'note', 'contact_id', 'modified_date', 'subject');
-    foreach ($properties as $name) {
-        if ( array_key_exists($name, $noteBAO) ) {
-            $createdNote[$name] = $noteBAO->$name;
-        }
-    }
-    return $createdNote;
+    $note = array();
+    _crm_object_to_array( $noteBAO, $note);
+    return $note;
 }
 
 /**
@@ -114,8 +110,10 @@ function &crm_get_note( &$params ) {
     }
     
     if ( $noteBAO->find() ) {
+        $note = array();
         while ($noteBAO->fetch()) {
-            $noteArray[$noteBAO->id] = clone($noteBAO);
+            _crm_object_to_array( clone($noteBAO), $note);
+            $noteArray[$noteBAO->id] = $note;
         }
         return $noteArray;
     } else {
@@ -193,15 +191,11 @@ function &crm_update_note( &$params ) {
         if ( !$params['modified_date'] && !$noteBAO->modified_date) {
             $noteBAO->modified_date = date("Ymd");
         }
-        $noteBAO->save();
     }
+    $noteBAO->save();
     
-    $properties = array('id', 'entity_table', 'entity_id', 'note', 'contact_id', 'modified_date', 'subject');
-    foreach ($properties as $name) {
-        if ( array_key_exists($name, $noteBAO) ) {
-            $updatedNote[$name] = $noteBAO->$name;
-        }
-    }
-    return $updatedNote;
+    $note = array();
+    _crm_object_to_array( $noteBAO, $note);
+    return $note;
 }
 ?>

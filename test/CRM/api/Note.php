@@ -19,7 +19,7 @@ class TestOfNoteAPI extends UnitTestCase
                             'entity_id'     => 154,
                             'entity_table'  => 'civicrm_relationship',
                             'note'          => 'aaaaaaaaaaaa',
-                            'contact_id'    => 101,
+                            'contact_id'    => 100,
                             'modified_date' =>'20060318'
                             );
         $note =& crm_create_note($noteParams);
@@ -97,7 +97,7 @@ class TestOfNoteAPI extends UnitTestCase
         CRM_Core_Error::debug('Created Note', $note1);
         
         $noteParams = array('id'            => $note1['id'],
-                            'entity_id'     => 152,
+                            'entity_id'     => 100,
                             'entity_table'  => 'civicrm_contact',
                             'note'          => 'bbbbbbbb',
                             );
