@@ -190,11 +190,11 @@
   <field>
     <name>is_opt_out</name>
     <type>boolean</type>
-    <title>Is Opt-out?</title>
+    <title>No Bulk Mail (Opted-out)</title>
     <default>0</default>
     <import>true</import>
     <required>true</required>
-    <comment>Has the contact opted out from the org?</comment>
+    <comment>Has the contact opted out from receiving all bulk email from the organization or site domain?</comment>
     <add>1.1</add>
   </field>
 </table>

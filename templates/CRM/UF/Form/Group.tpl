@@ -42,9 +42,9 @@
     <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the end of the fieldset.{/ts}</dd>
     <dt>{$form.post_URL.label}</dt><dd>{$form.post_URL.html}</dd>  
-    <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL after they've submitted the form - enter the complete URL here. If this field is left blank, the profile form will be redisplayed with a generic status message - 'Your contact information has been saved.'{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL after they've submitted the form - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed with a generic status message - 'Your contact information has been saved.'{/ts}</dd>
     <dt>{$form.cancel_URL.label}</dt><dd>{$form.cancel_URL.html}</dd>  
-    <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL after they've clik on Cancel button on form - enter the complete URL here. If this field is left blank, the profile form will be redisplayed .'{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL if they click the Cancel button - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed.{/ts}</dd>
     <dt></dt><dd>{$form.add_captcha.html} {$form.add_captcha.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}When CAPTCHA is included in an add / edit profile form, users are required to read an image with letters and numbers and enter the value in a field. This helps prevent abuse by automated scripts.{/ts}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
