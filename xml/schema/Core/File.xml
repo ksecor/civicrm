@@ -20,7 +20,6 @@
   <field>
       <name>file_type_id</name>
       <type>int unsigned</type>
-      <required>false</required>
       <comment>Type of file (e.g. Transcript, Income Tax Return, etc). FK to civicrm_option_value.</comment>
       <add>1.5</add>
   </field>
