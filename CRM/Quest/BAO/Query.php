@@ -85,9 +85,9 @@ class CRM_Quest_BAO_Query
                     $query->_tables['civicrm_country'] = 1;
                 }  elseif ( strpos( $name, '_id' ) !== false ) {
                     $tName = "`civicrm_option_value-{$name}`";
-                    $query->_select[$name] = "$tName.title as $name";
+                    $query->_select[$name] = "$tName.label as $name";
                     $query->_tables['quest_student'] = 1;
-                    $query->_tables[$tName] = "LEFT JOIN civicrm_option_value $tName ON {$tName}.id = quest_student.{$name}";
+                    $query->_tables[$tName] = "LEFT JOIN civicrm_option_value $tName ON {$tName}.value = quest_student.{$name}";
                 }  else {
                     $query->_select[$name] = "quest_student.$name as $name";
                     $query->_tables['quest_student'] = 1;
