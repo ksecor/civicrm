@@ -23,7 +23,7 @@
         <td>{$row.sort_name}</td>
         <td>{$row.street_address}</td>
         <td>{$row.city}</td>
-        <td>{$row.state}</td>
+        <td>{$row.state_province}</td>
         <td>{$row.postal_code}</td>
         <td>{$row.country}</td>
         <td>{$row.email}</td>
