@@ -1,16 +1,11 @@
 <?php
 
 ini_set( 'include_path', ".:../packages:.." );
-//require_once '/home/kurund/public_html/drupal/sites/default/civicrm.settings.php';
+
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
-require_once 'CRM/Quest/API.php';
-require_once 'api/crm.php';
 
-
-//code need to be removed
-$groupParams = array( 'name'        => 'Preapplication_Completed');
-$groupCompleted = crm_get_groups( $groupParams );
+$config =& CRM_Core_Config::singleton( );
 
 //get relationship records
 require_once  'CRM/Core/DAO.php';
