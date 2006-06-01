@@ -6,6 +6,14 @@ require_once 'CRM/Core/Config.php';
 require_once 'CRM/Quest/API.php';
 require_once 'api/crm.php';
 
+function user_access( $str ) {
+    return true;
+}
+
+function module_list( ) {
+    return array( );
+}
+
 //create Group if Not Exists already
 $params = array(
                 'name'        => 'Preapplication_Completed',  
