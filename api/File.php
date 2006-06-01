@@ -238,7 +238,7 @@ function crm_create_entity_file(&$fileID, &$entityID, $entity_table = 'civicrm_c
  * @return array   nested array of entity-file property values.
  * @access public
  */
-function crm_get_files_by_entity(&$entityID, $entity_table = 'civicrm_contact')
+function crm_get_files_by_entity($entityID, $entity_table = 'civicrm_contact')
 {
     if ( ! $entityID ) {
         return _crm_error('Required parameters missing');

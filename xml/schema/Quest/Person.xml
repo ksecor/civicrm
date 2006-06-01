@@ -40,7 +40,7 @@
   <foreignKey>
        <name>relationship_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <field>
@@ -89,7 +89,7 @@
   <foreignKey>
        <name>marital_status_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <field>
@@ -137,7 +137,7 @@
   <foreignKey>
        <name>industry_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <field>
@@ -169,7 +169,7 @@
   <foreignKey>
        <name>highest_school_level_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <field>
@@ -181,7 +181,7 @@
   <foreignKey>
        <name>current_school_level_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <field>
@@ -232,7 +232,7 @@
   <foreignKey>
        <name>prof_school_degree_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <field>

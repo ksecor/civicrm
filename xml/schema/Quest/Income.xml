@@ -40,7 +40,7 @@
   <foreignKey>
        <name>source_1_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <field>
@@ -52,7 +52,7 @@
   <foreignKey>
        <name>source_2_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <field>
@@ -64,7 +64,7 @@
   <foreignKey>
        <name>source_3_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <field>

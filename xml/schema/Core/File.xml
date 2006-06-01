@@ -26,7 +26,7 @@
   <foreignKey>
        <name>file_type_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <field>

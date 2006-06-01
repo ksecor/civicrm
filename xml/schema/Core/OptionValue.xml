@@ -113,8 +113,8 @@
   </field>
   <index>
        <name>index_option_group_id_value</name>
-       <fieldName>option_group_id</fieldName>
        <fieldName>value</fieldName>
+       <fieldName>option_group_id</fieldName>
        <unique>true</unique>
        <add>1.5</add>
   </index>

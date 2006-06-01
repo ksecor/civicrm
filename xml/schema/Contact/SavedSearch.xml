@@ -30,6 +30,7 @@
        <table>civicrm_domain</table>
        <key>id</key>
        <add>1.1</add>
+       <drop>1.5</drop>
   </foreignKey>
   <field>
        <name>query</name>

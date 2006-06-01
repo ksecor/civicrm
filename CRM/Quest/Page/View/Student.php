@@ -148,6 +148,14 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
         require_once 'CRM/Core/BAO/Log.php';
         $lastModified =& CRM_Core_BAO_Log::lastModified( $this->_contactId, 'civicrm_contact' );
         $this->assign_by_ref( 'lastModified', $lastModified );
+        
+        // check for attached files for this contact and assign to template
+        require_once 'api/File.php';
+        $attachments =& crm_get_files_by_entity( $this->_contactId );
+        if ( !is_a( $attachments, CRM_Core_Error ) ) {
+            $this->assign( 'attachments', $attachments );
+        }
+
     }
 
 
