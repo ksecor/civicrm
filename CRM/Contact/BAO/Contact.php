@@ -1894,12 +1894,12 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             if ( (!$studentFieldPresent) && array_key_exists($name, CRM_Quest_BAO_Query::getFields()) ) {
                 $studentFieldPresent = 1;
             }
-            $cfID = CRM_Core_BAO_CustomField::getKeyID($name); 
-            // if there is a custom field of type checkbox and it has not been set
+            $cfID = CRM_Core_BAO_CustomField::getKeyID($name);
+            // if there is a custom field of type checkbox,multi-select and it has not been set
             // then set it to null, thanx to html protocol
             if ( $cfID &&
-                 $customFields[$cfID][3] == 'CheckBox' &&
-                 CRM_Utils_Array::value( 'custom', $data ) &&
+                 ($customFields[$cfID][3] == 'CheckBox' || $customFields[$cfID][3] == 'Multi-Select')&&
+                 //CRM_Utils_Array::value( 'custom', $data ) &&
                  ! CRM_Utils_Array::value( $cfID, $data['custom'] ) ) {
                 
                 $str = 'custom_value_' . $cfID . '_id'; 
@@ -2024,7 +2024,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                     $params[$field] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params[$field]));
                 }
             }
-            // print_r($params);
+            
             CRM_Quest_BAO_Student::create( $params, $ids);
         }
         // check if the contact type
