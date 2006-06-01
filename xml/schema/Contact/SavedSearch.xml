@@ -23,6 +23,7 @@
        <required>true</required>
        <comment>which organization/domain owns this search</comment>
        <add>1.1</add>
+       <drop>1.5</drop>
   </field>
   <foreignKey>
        <name>domain_id</name>
@@ -37,6 +38,7 @@
        <import>true</import>
        <comment>SQL query for this search</comment>
        <add>1.1</add>
+       <drop>1.5</drop>
   </field>
   <field>
        <name>form_values</name>
@@ -51,5 +53,18 @@
        <type>boolean</type>
        <comment>Is this entry active?</comment>
        <add>1.1</add>
+       <drop>1.5</drop>
   </field>
+  <field>
+       <name>mapping_id</name>
+       <type>int unsigned</type>
+       <comment>Foreign key to civicrm_mapping used for saved search-builder searches.</comment>
+       <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>mapping_id</name>
+       <table>civicrm_mapping</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
 </table>

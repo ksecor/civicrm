@@ -122,7 +122,7 @@ class CRM_Core_Config {
     /**
      * The directory to store uploaded  files in custom data 
      */
-    public $customFileUploadDir   ='./persist/custom/';
+    public $customFileUploadDir   = null;
     
     /**
      * The url that we can use to display the uploaded images
