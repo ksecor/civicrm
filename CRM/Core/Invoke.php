@@ -690,6 +690,7 @@ class CRM_Core_Invoke {
             return; 
         } 
 
+	require_once 'CRM/Core/Page/File.php';
         $page =& new CRM_Core_Page_File( );
         return $page->run( );
     }

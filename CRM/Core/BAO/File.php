@@ -51,12 +51,12 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         $entityFileDAO->entity_table = $entityTable;
         $entityFileDAO->entity_id    = $entityID;
         $entityFileDAO->file_id      = $fileID;
-        
-        if ( $$entityFileDAO->find( true ) ) {
+
+        if ( $entityFileDAO->find( true ) ) {
             require_once 'CRM/Core/DAO/File.php'; 
             $fileDAO =& new CRM_Core_DAO_File( );
             $fileDAO->id = $fileID;
-            if ( $fileDAO->fetch( ) ) {
+            if ( $fileDAO->find( true ) ) {
                 $config =& CRM_Core_Config::singleton( );
                 $path = $config->customFileUploadDir . $fileDAO->uri;
                 if ( file_exists( $path ) && is_readable( $path ) ) {
