@@ -303,7 +303,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         $multiSelectElements = array( 'educational_interest', 'college_type', 'college_interest' );
         foreach ( $multiSelectElements as $key ) {
-            $details['Student']["{$key}_ids"] = $studentDetails[$key];
+            $details['Student']["{$key}_ids"] = str_replace( "\001", ",", $studentDetails[$key] );
 
             $elements = explode( ',', $details['Student']["{$key}_display"] );
             foreach ( $elements as $el ) {

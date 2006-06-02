@@ -255,16 +255,16 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     require_once 'CRM/Core/DAO/File.php';
                     $fileDAO =& new CRM_Core_DAO_File();
                     $fileDAO->id = $crmDAO->civicrm_custom_value_file_id;
-                    $fileDAO->find(true);
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $fileDAO->uri;
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']  = $fileDAO->id;
-
-                    $fileName = explode('/',$fileDAO->uri);
-                    $fileName = $fileName[count($fileName)-1];
-                    $fileName = explode('.', $fileName, -1);
-                    $fileName = implode('.', $fileName);
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']  = $fileName;
-
+                    if ( $fileDAO->find(true) ) {
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $fileDAO->uri;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']  = $fileDAO->id;
+                        
+                        $fileName = explode('/',$fileDAO->uri);
+                        $fileName = $fileName[count($fileName)-1];
+                        $fileName = explode('.', $fileName, -1);
+                        $fileName = implode('.', $fileName);
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']  = $fileName;
+                    }
                     
                     break; 
                 }

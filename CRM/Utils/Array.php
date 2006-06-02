@@ -89,11 +89,26 @@ class CRM_Utils_Array {
                 $xml .= str_repeat( ' ', $depth * 4 );
                 $xml .= "</{$name}>{$seperator}";
             } else {
+                // make sure we escape value
+                $value = self::escapeXML( $value );
                 $xml .= "<{$name}>$value</{$name}>{$seperator}";
             }
         }
         return $xml;
     }
+
+    static function escapeXML( $value ) {
+        static $src = null;
+        static $dst = null;
+
+        if ( ! $src ) {
+            $src = array( '&'    , '<'   , '>'    );
+            $dst = array( '&amp;', '&lt;', '&gt;' );
+        }
+
+        return str_replace( $src, $dst, $value );
+    }
+
 
     static function &flatten( &$list, &$flat, $prefix = '', $seperator = "." ) {
         foreach( $list as $name => $value ) {
