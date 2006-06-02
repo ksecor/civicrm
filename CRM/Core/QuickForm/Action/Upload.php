@@ -88,7 +88,10 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
             if ($element->isUploadedFile()) {
                 // rename the uploaded file with a unique number at the end
                 $value = $element->getValue();
-                $newName = uniqid( "${value['name']}." );
+                $uniqID = md5(uniqid(rand(), true));
+                $info   = pathinfo($value['name']);
+                $basename = substr($info['basename'], 0, -(strlen($info['extension']) + ($info['extension'] == '' ? 0 : 1)));
+                $newName = $basename . "_{$uniqID}." . $info['extension'];
                 $status = $element->moveUploadedFile( $this->_uploadDir, $newName );
                 if ( ! $status ) {
                     CRM_Utils_System::statusBounce( ts( 'We could not move the uploaded file %1 to the upload directory %2. Please verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path which is writable by your web server.', array( 1 => $value['name'], 2 => $this->_uploadDir ) ) );

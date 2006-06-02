@@ -106,7 +106,11 @@ class CRM_Core_Invoke {
         case 'profile'  : 
             self::profile ( $args );
             break;
-        
+
+        case 'file':
+            self::file( $args );
+            break;
+
         case 'server'   : 
             self::server ( $args );
             break;
@@ -670,6 +674,23 @@ class CRM_Core_Invoke {
         
         require_once 'CRM/Profile/Page/Listings.php';
         $page =& new CRM_Profile_Page_Listings( );
+        return $page->run( );
+    }
+
+    /** 
+     * This function contains the actions for file arguments
+     * 
+     * @param $args array this array contains the arguments of the url 
+     * 
+     * @static 
+     * @access public 
+     */ 
+    static function file( $args ) { 
+        if ( $args[1] !== 'file' ) { 
+            return; 
+        } 
+
+        $page =& new CRM_Core_Page_File( );
         return $page->run( );
     }
 

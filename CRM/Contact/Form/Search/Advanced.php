@@ -184,8 +184,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                 $showBlocks = $title . '[show]' ;
                 $hideBlocks = $title;
                 
-                $showHide->addHide($hideBlocks);
-                $showHide->addShow($showBlocks);
+                $showHide->addShow($hideBlocks);
+                $showHide->addHide($showBlocks);
             }
         }
 
