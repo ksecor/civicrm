@@ -154,7 +154,7 @@ WHERE  v.option_group_id = g.id
   AND  v.value           = %2
 ";
 
-        $p = array( 1 => array( $name , 'String' ),
+        $p = array( 1 => array( $groupName , 'String' ),
                     2 => array( $value, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
         if ( $dao->fetch( ) ) {
