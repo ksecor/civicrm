@@ -265,8 +265,8 @@ function crm_get_files_by_entity($entityID, $entity_table = 'civicrm_contact')
             
             if ( array_key_exists( 'file_type_id', $files[$entityFileDAO->file_id] ) ) {
                 $files[$entityFileDAO->file_id]['file_type'] =
-                    CRM_Core_OptionGroup::lookupValue( 'file_type',
-                                                       $files[$entityFileDAO->file_id]['file_type_id'] );
+                    CRM_Core_OptionGroup::getLabel( 'file_type',
+                                                    $files[$entityFileDAO->file_id]['file_type_id'] );
             }
         }
     } else {

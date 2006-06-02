@@ -266,8 +266,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $title = $field->label;
 
                     if ($field->location_type_id) {
-                        $name    .= '-'.$field->location_type_id;
-                        $locType  = ' (' . $locationType[$field->location_type_id] . ') ';
+                        $name    .= "-{$field->location_type_id}";
+                        $locType  = " ( {$locationType[$field->location_type_id]} ) ";
                     } else {                                                           
                         if ( in_array($field->field_name, $specialFields))  {
                             $name    .= '-Primary';
@@ -276,9 +276,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
 
                     if ($field->phone_type) {
-                        $name      .= '-'.$field->phone_type;
-                        if ($field->phone_type != 'Phone') { // this hack is to prevent Phone Phone (work)
-                            $phoneType  = '-' . $field->phone_type;
+                        $name      .= "-{$field->phone_type}";
+                        if ( $field->phone_type != 'Phone' ) { // this hack is to prevent Phone Phone (work)
+                            $phoneType  = "-{$field->phone_type}";
                         }
                     }
                     

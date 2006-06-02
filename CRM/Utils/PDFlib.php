@@ -52,7 +52,8 @@ class CRM_Utils_PDFlib {
                 CRM_Utils_Error::statusBounce( "PDFlib Error: " . $pdf->get_errmsg( ) );
             }
 
-            $pdf->set_parameter( 'resourcefile', '/home/lobo/svn/trunk/templates/Quest/pdf/pdflib.upr' );
+            $config =& CRM_Core_Config::singleton( );
+            $pdf->set_parameter( 'resourcefile', $config->templateDir . '/Quest/pdf/pdflib.upr' );
 
             /* Set the search path for fonts and PDF files */
             $pdf->set_parameter( 'SearchPath', $searchPath );

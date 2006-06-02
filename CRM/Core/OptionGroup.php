@@ -103,8 +103,10 @@ WHERE  v.option_group_id = g.id
             if ( CRM_Utils_Array::value( $postName, $params ) ) {
                 // params[$postName] may be a Ctrl+A separated value list
                 if ( strpos( $params[$postName], CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) ) {
-                    // eliminate the ^A frm the beginning and end
-                    $params[$postName] = substr( $params[$postName], 1, -1 );
+                    // eliminate the ^A frm the beginning and end if present
+                    if ( substr( $params[$postName], 0, 1 ) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) {
+                        $params[$postName] = substr( $params[$postName], 1, -1 );
+                    }
                 }
                 $postValues = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $params[$postName]);
                 $newValue = array( );
@@ -133,14 +135,14 @@ WHERE  v.option_group_id = g.id
                         AND    g.name            = %2
                         AND    $lookupBy";
 
-                    $newValue[]= CRM_Core_DAO::singleValueQuery( $query, $p );
+                    $newValue[] = CRM_Core_DAO::singleValueQuery( $query, $p );
                 }
                 $params[$value['newName']] = implode(', ', $newValue);
             }
         }
     }
 
-    static function lookupValue( $groupName, $value ) {
+    static function getLabel( $groupName, $value ) {
         $domainID = CRM_Core_Config::domainID( );
         $query = "
 SELECT  v.label as label ,v.value as value
@@ -159,6 +161,29 @@ WHERE  v.option_group_id = g.id
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
         if ( $dao->fetch( ) ) {
             return $dao->label;
+        }
+        return null;
+    }
+
+    static function getValue( $groupName, $label ) {
+        $domainID = CRM_Core_Config::domainID( );
+        $query = "
+SELECT  v.label as label ,v.value as value
+FROM   civicrm_option_value v, 
+       civicrm_option_group g 
+WHERE  v.option_group_id = g.id 
+  AND  g.domain_id       = $domainID 
+  AND  g.name            = %1 
+  AND  v.is_active       = 1  
+  AND  g.is_active       = 1  
+  AND  v.label           = %2
+";
+
+        $p = array( 1 => array( $groupName , 'String' ),
+                    2 => array( $label     , 'String' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+        if ( $dao->fetch( ) ) {
+            return $dao->value;
         }
         return null;
     }

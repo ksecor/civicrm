@@ -185,6 +185,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $details['Individual'][$key] = $individual[$key];
         }
 
+        if ( $individual['gender'] ) {
+            $details['Individual']['gender_' . strtolower( $individual['gender'] )] = 'x';
+        }
+
         // get address information
         $properties = array( 'street_address', 'city', 'state_province', 'postal_code', 'postal_code_suffix', 'country' );
         for ( $i = 1; $i <= 2; $i++ ) {
@@ -254,6 +258,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $details['Student'][$value['newName']] = $studentDetails[$value['newName']];
         }
 
+        if ( $studentDetails['home_area'] ) {
+            $details['Student']['home_area_' . strtolower( $studentDetails['home_area'] )] = 'x';
+        }
+
         //fix for country
         $countryIds = array( 'citizenship_country' => 'citizenship_country_id',
                              'growup_country'      => 'growup_country_id',
@@ -284,12 +292,31 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         // fix parent_grad_college which is a boolean
         $details['Student']['parent_grad_college'] = $studentDetails['parent_grad_college_id'];
+        if ( $studentDetails['parent_grad_college_id'] == '1' ) {
+            $details['Student']['parent_grad_college_yes'] = 'x';
+        } else if ( $studentDetails['parent_grad_college_id'] == '0' ) {
+            $details['Student']['parent_grad_college_no'] = 'x'; 
+        } else {
+            $details['Student']['parent_grad_college_dont_know'] = 'x';
+        }
+
 
         $multiSelectElements = array( 'educational_interest', 'college_type', 'college_interest' );
         foreach ( $multiSelectElements as $key ) {
             $details['Student']["{$key}_ids"] = $studentDetails[$key];
+
+            $elements = explode( ',', $details['Student']["{$key}_display"] );
+            foreach ( $elements as $el ) {
+                $el = trim( $el );
+                if ( empty( $el ) ) {
+                    continue;
+                }
+                $el = strtolower( $el );
+                $el = str_replace( ' ', '_', $el );
+                $details['Student']["{$key}_{$el}"] = "x";
+            }
         }
-            
+
         return true;
     }
 
@@ -379,6 +406,12 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 $details["{$prefix}_$count"][$key] = $personDetails[$key];
             }
 
+            if ( $details["{$prefix}_$count"]['is_deceased'] ) {
+                $details["{$prefix}_$count"]['deceased_yes'] = 'x';
+            } else {
+                $details["{$prefix}_$count"]['deceased_no'] = 'x';
+            }
+
             foreach ( $dates as $date ) {
                 $details["{$prefix}_$count"][$date] = $personDetails[$date];
             }
@@ -424,19 +457,18 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             
             $incomeDetails = array( );
             CRM_Core_DAO::storeValues( $incomeDAO, $incomeDetails );
-
-            $details["Income_$count"]['first_name'] = $dao->first_name;
-            $details["Income_$count"]['last_name']  = $dao->last_name;
-
-            foreach ( $properties as $key ) {
-                $details["Income_$count"][$key] = $incomeDetails[$key];
-            }
-
             CRM_Core_OptionGroup::lookupValues( $incomeDetails, $names, false);
-            foreach ( $names as $key => $value ) {
-                $details["Income_$count"][$value['newName']] = $incomeDetails[$value['newName']];
+
+            for ( $i = 1; $i <= 3; $i++ ) {
+                if ( ! empty( $incomeDetails["amount_$i"] ) ) {
+                    $details["Income_$count"]['first_name'] = $dao->first_name;
+                    $details["Income_$count"]['last_name']  = $dao->last_name;
+                    $details["Income_$count"]['job']        = $incomeDetails["job_$i"];
+                    $details["Income_$count"]['amount']     = $incomeDetails["amount_$i"];
+                    $details["Income_$count"]['source']     = $incomeDetails["source_$i"];
+                    $count++;
+                }
             }
-            $count++;
         }
     }
 
@@ -513,9 +545,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
     }
 
     static function test( $id, &$details ) {
-        //test details
-        $testDetails = array();
-        
         require_once 'CRM/Quest/DAO/Test.php';
   
         $testDAO = & new CRM_Quest_DAO_Test();
@@ -530,24 +559,34 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                        'subject_id'      => array( 'newName' => 'subject',
                                                    'groupName' => 'ap_subject' ),
                        );
-        while( $testDAO->fetch() ) {
-            $prefix = "test_$count";
-            $details[$prefix] = array( );
-            CRM_Core_DAO::storeValues( $testDAO, $details[$prefix] );
 
-            if ( $details[$prefix]['test_id'] == 291 ) {
+        $apCount = $satIICount = 0;
+        while( $testDAO->fetch() ) {
+            //test details
+            $testDetails = array();
+        
+            CRM_Core_DAO::storeValues( $testDAO, $testDetails );
+
+            if ( $testDetails['test_id'] == 291 ) {
                 $names['subject_id']['groupName'] = 'satII_subject';
-            } else {
+            } else if ( $testDetails['test_id'] == 292 ) {
                 $names['subject_id']['groupName'] = 'ap_subject';
             }
-            $details[$prefix]['subject_id'] = $details[$prefix]['subject'];
 
-            CRM_Core_OptionGroup::lookupValues( $details[$prefix] , $names, false);
+            $testDetails['subject_id'] = $testDetails['subject'];
 
-            $count++;
+            CRM_Core_OptionGroup::lookupValues( $testDetails , $names, false);
+
+            $prefix = 'test_' . $testDetails['test'];
+            if ( $testDetails['test_id'] == 291 ) {
+                $satIICount++;
+                $prefix .= "_{$satIICount}";
+            } else if ( $testDetails['test_id'] == 292 ) {
+                $apCount++;
+                $prefix .= "_{$apCount}";
+            }
+            $details[$prefix] = $testDetails;
         }
-        $defaults['Test'] = $testDetails;
-        
     }
 
     static function essay( $id, &$details ) {
