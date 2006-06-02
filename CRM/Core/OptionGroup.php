@@ -49,7 +49,7 @@ WHERE  v.option_group_id = g.id
   AND  g.name            = %1
   AND  v.is_active       = 1 
   AND  g.is_active       = 1 
-ORDER BY v.weight;
+  ORDER BY v.weight; 
 ";
         $p = array( 1 => array( $name, 'String' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
@@ -139,6 +139,30 @@ ORDER BY v.weight;
             }
         }
     }
+
+    static function lookupValue( $groupName, $value ) {
+        $domainID = CRM_Core_Config::domainID( );
+        $query = "
+SELECT  v.label as label ,v.value as value
+FROM   civicrm_option_value v, 
+       civicrm_option_group g 
+WHERE  v.option_group_id = g.id 
+  AND  g.domain_id       = $domainID 
+  AND  g.name            = %1 
+  AND  v.is_active       = 1  
+  AND  g.is_active       = 1  
+  AND  v.value           = %2
+";
+
+        $p = array( 1 => array( $name , 'String' ),
+                    2 => array( $value, 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+        if ( $dao->fetch( ) ) {
+            return $dao->label;
+        }
+        return null;
+    }
+
 }
 
 ?>

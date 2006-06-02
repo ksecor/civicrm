@@ -245,35 +245,30 @@ function crm_get_files_by_entity($entityID, $entity_table = 'civicrm_contact')
     }
     
     require_once 'CRM/Core/DAO/EntityFile.php';
-    $entityFileDAO =& new CRM_Core_DAO_EntityFile();
     require_once 'CRM/Core/DAO/File.php';
-    $fileDAO =& new CRM_Core_DAO_File();
-    require_once 'CRM/Core/BAO/OptionValue.php';
-    $optionValueBAO =& new CRM_Core_BAO_OptionValue();
     
+    $entityFileDAO =& new CRM_Core_DAO_EntityFile();
     $entityFileDAO->entity_table = $entity_table;
     $entityFileDAO->entity_id = $entity->id;
     if ( $entityFileDAO->find() ) {
         $entityFile = array();
         while ($entityFileDAO->fetch()) {
-            _crm_object_to_array( clone($entityFileDAO), $entityFile );
+            _crm_object_to_array( $entityFileDAO, $entityFile );
             $files[$entityFileDAO->file_id] = $entityFile;
             
             if ( array_key_exists( 'file_id', $files[$entityFileDAO->file_id] ) ) {
-                $files[$entityFileDAO->file_id]['file_id'] = array();
+                $fileDAO =& new CRM_Core_DAO_File();
                 $fileDAO->id = $entityFile['file_id'];
                 $fileDAO->find(true);
-                _crm_object_to_array($fileDAO, $files[$entityFileDAO->file_id]['file_id']);
+                _crm_object_to_array( $fileDAO, $files[$entityFileDAO->file_id] );
             }
             
-            if ( array_key_exists( 'file_type_id', $files[$entityFileDAO->file_id]['file_id'] ) ) {
-                $optionValueBAO->id = $files[$entityFileDAO->file_id]['file_id']['file_type_id'];
-                $optionValueBAO->find(true);
-                $files[$entityFileDAO->file_id]['file_id']['file_type_id'] = array( 'id'        => $optionValueBAO->id ,
-                                                                                    'file_type' => $optionValueBAO->label);
+            if ( array_key_exists( 'file_type_id', $files[$entityFileDAO->file_id] ) ) {
+                $files[$entityFileDAO->file_id]['file_type'] =
+                    CRM_Core_OptionGroup::lookupValue( 'file_type',
+                                                       $files[$entityFileDAO->file_id]['file_type_id'] );
             }
         }
-        
     } else {
         return _crm_error('Exact match not found');
     }
