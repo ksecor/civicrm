@@ -278,6 +278,8 @@ function crm_get_files_by_entity($entityID, $entity_table = 'civicrm_contact')
 
 /**
  * Deletes an existing entity file assignment.
+ * Required parameters : 1.  id of an entity-file
+ *                       2.  entity_id and entity_table of an entity-file
  *
  * @param   array $params   an associative array of name/value property values of civicrm_entity_file.
  * 
@@ -288,7 +290,8 @@ function crm_delete_entity_file(&$params)
 {
     require_once 'CRM/Core/DAO/EntityFile.php';
     
-    if ( ! isset($params['id']) && ( !isset($params['entity_id']) || !isset($params['entity_file']) ) ) {
+    //if ( ! isset($params['id']) && ( !isset($params['entity_id']) || !isset($params['entity_file']) ) ) {
+    if ( ! isset($params['id']) && ( !isset($params['entity_id']) || !isset($params['entity_table']) ) ) {
         return _crm_error('Required parameters missing');
     }
     
