@@ -308,10 +308,10 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
 
-        $this->assign( 'mode'    , $this->_mode     );
-        $this->assign( 'action'  , $this->_action   );
-        $this->assign( 'fields'  , $this->_fields   );
-        $this->assign( 'fieldset', $this->_fieldset ); 
+        $this->assign( 'mode'        , $this->_mode     );
+        $this->assign( 'action'      , $this->_action   );
+        $this->assign( 'fields'      , $this->_fields   );
+        $this->assign( 'fieldset'    , $this->_fieldset ); 
         
         /*  if ($this->_mode & self::MODE_EDIT) {
             $group =& new CRM_Core_DAO_UFGroup();
@@ -342,6 +342,9 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         require_once "CRM/Contribute/PseudoConstant.php";
+
+        $search = ( $this->_mode == self::MODE_SEARCH ) ? true : false;
+
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
@@ -403,7 +406,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                               null, $field['title'] );
             } else if (substr($field['name'], 0, 6) === 'custom') {
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
-                CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required, false, $field['title']);
+                CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required, $search, $field['title']);
                 CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id , $this->_mode);
                 
             } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
