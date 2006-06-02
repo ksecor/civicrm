@@ -249,7 +249,7 @@ function crm_get_files_by_entity($entityID, $entity_table = 'civicrm_contact')
     
     $entityFileDAO =& new CRM_Core_DAO_EntityFile();
     $entityFileDAO->entity_table = $entity_table;
-    $entityFileDAO->entity_id = $entity->id;
+    $entityFileDAO->entity_id = $entityID;
     if ( $entityFileDAO->find() ) {
         $entityFile = array();
         while ($entityFileDAO->fetch()) {

@@ -174,13 +174,15 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
                                                          'relationships[show]'  => 1,
                                                          'groups[show]'         => 1,
                                                          'openActivities[show]' => 1,
-                                                         'activityHx[show]'     => 1 ),
+                                                         'activityHx[show]'     => 1,
+                                                         'attachments[show]'    => 1),
                                                   array( 'notes'                => 1,
                                                          'academic[show]'       => 1,
                                                          'relationships'        => 1,
                                                          'groups'               => 1,
                                                          'openActivities'       => 1,
-                                                         'activityHx'           => 1 ) );
+                                                         'activityHx'           => 1,
+                                                         'attachments'          => 1) );
 
         $config =& CRM_Core_Config::singleton( ); 
 

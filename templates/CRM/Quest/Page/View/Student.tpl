@@ -137,6 +137,43 @@
   </fieldset>
  </div>
 
+{* Supplementary Documents (attachments) *}
+ <div id="attachments[show]" class="data-group">
+  {if $attachments}
+    <a href="#" onclick="hide('attachments[show]'); show('attachments'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Supplementary Documents{/ts}</label><br />
+  {else}
+    <dl><dt>{ts}Documents{/ts}</dt>
+    <dd>
+        {ts}No supplementary documents have been submitted by this student.{/ts}
+    </dd>
+    </dl>    
+  {/if}  
+ </div>
+
+ <div id="attachments">
+ {if $attachments}
+  <fieldset>
+   <legend><a href="#" onclick="hide('attachments'); show('attachments[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Supplementary Documents{/ts}</legend>
+    {strip}
+        <table>
+        <tr class="columnheader">
+            <th>{ts}Type{/ts}</th>
+            <th>{ts}File{/ts}</th>
+            <th>{ts}Upload Date{/ts}</th>
+        </tr>
+
+        {foreach from=$attachments item=att}
+            <tr class="{cycle values="odd-row,even-row"}">
+                <td><a href="{crmURL p='civicrm/file' q="action=view&cid=$contactId&id=`$att.file_id`"}">{$att.file_type}</a></td>
+                <td><a href="{crmURL p='civicrm/file' q="action=view&cid=$contactId&id=`$att.file_id`"}">{$att.uri}</a></td>
+                <td>{$att.upload_date|crmDate}</td>
+            </tr>  
+        {/foreach}
+        </table>
+	{/strip}
+ {/if}
+ </div>
+
 <div id="relationships[show]" class="data-group">
   {if $relationship.totalCount}
     <a href="#" onclick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Relationships{/ts}</label> ({$relationship.totalCount})<br />
