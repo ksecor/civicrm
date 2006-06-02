@@ -59,8 +59,6 @@ class CRM_Quest_Form_Task_XML extends CRM_Contact_Form_Task {
         }
         $xml .= "</Students>\n";
 
-        CRM_Core_Error::debug( 'x', $xml );
-
         // now echo this as a file
         CRM_Utils_System::download( 'student.xml', 'text/xml', $xml );
     }
