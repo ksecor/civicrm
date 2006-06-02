@@ -164,8 +164,8 @@
 
         {foreach from=$attachments item=att}
             <tr class="{cycle values="odd-row,even-row"}">
-                <td><a href="{crmURL p='civicrm/file' q="action=view&cid=$contactId&id=`$att.file_id`"}">{$att.file_type}</a></td>
-                <td><a href="{crmURL p='civicrm/file' q="action=view&cid=$contactId&id=`$att.file_id`"}">{$att.uri}</a></td>
+                <td><a href="{crmURL p='civicrm/file' q="action=view&eid=$contactId&id=`$att.file_id`"}">{$att.file_type}</a></td>
+                <td><a href="{crmURL p='civicrm/file' q="action=view&eid=$contactId&id=`$att.file_id`"}">{$att.uri}</a></td>
                 <td>{$att.upload_date|crmDate}</td>
             </tr>  
         {/foreach}

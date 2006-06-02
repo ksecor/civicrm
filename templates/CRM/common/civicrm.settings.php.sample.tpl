@@ -66,8 +66,12 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * CIVICRM_IMAGE_UPLOADDIR is the file system path where image files are uploaded
  * (e.g. premium product images).
  *
- * IMPORTANT: The COMPILEDIR, UPLOADDIR and IMAGE_UPLOADDIR directories must exist,
+ * CIVICRM_CUSTOM_FILE_UPLOADDIR is the file system path where files are uploaded which need to be
+ * secure/privacy-protected. This directory SHOULD NOT BE LOCATED UNDER YOUR WEBROOT.
+ *
+ * IMPORTANT: The COMPILEDIR, UPLOADDIR, IMAGE_UPLOADDIR, and CUSTOM_FILE_UPLOADDIR directories must exist,
  * and your web server must have write access to these directories.
+ *
  *
  * EXAMPLE - CivicSpace / Drupal:
  * If the path to the CivicSpace or Drupal home directory is /var/www/htdocs/civicspace
@@ -83,6 +87,9 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * the CIVICRM_IMAGE_UPLOADDIR would be:
  *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/persist/' );
  *
+ * the CIVICRM_CUSTOM_FILE_UPLOADDIR could be:
+ *      define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR', '/var/crm_docs/' );
+ *
  * EXAMPLE - Joomla/Mambo Installations:
  * If the path to the Joomla home directory is /var/www/htdocs/joomla
  * the $civicrm_root setting would be:
@@ -97,12 +104,8 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * the CIVICRM_IMAGE_UPLOADDIR would be:
  *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/joomla/media/civicrm/persist/' );
  *
- * the CIVICRM_CUSTOM_FILE_UPLOADDIR would be:
- *      define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR', '/var/www/htdocs/joomla/media/civicrm/custom/' );
- * 
- * the CIVICRM_CUSTOM_FILE_UPLOADURL would be:
- *      define( 'CIVICRM_CUSTOM_FILE_UPLOADURL', 'http://www.example.com/civicspace/files/civicrm/custom/' );
- * 
+ * the CIVICRM_CUSTOM_FILE_UPLOADDIR could be:
+ *      define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR', '/var/crm_docs/' );
  */
 global $civicrm_root;
 $civicrm_root = '%%crmRoot%%';
@@ -111,8 +114,6 @@ define( 'CIVICRM_UPLOADDIR'          , '%%uploadDir%%'  );
 define( 'CIVICRM_IMAGE_UPLOADDIR'    , '%%imageUploadDir%%');
 
 define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
-define( 'CIVICRM_CUSTOM_FILE_UPLOADURL'    , '%%customFileUploadURL%%' );
-
 
 /**
  * Site URLs:
