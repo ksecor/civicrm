@@ -13,7 +13,8 @@ if( isset( $GLOBALS['_SERVER']['DM_GENFILESDIR'] ) ) {
     // backward compatibility
     $targetDir = $GLOBALS['_SERVER']['HOME'] . '/dist';
 }
-
+//$sourceCheckoutDir ='/home/anil/svn/crm';
+//$targetDir         ='/home/anil/svn/crm4';  
 require_once "$sourceCheckoutDir/civicrm.config.php";
 require_once 'PHP/Beautifier.php';
 
@@ -70,8 +71,7 @@ class PHP_DownGrade {
                 $this->tokens[$i][0] = self::T_SELF;
             }
         }
-
-
+       
         //To find wich file to be need for require once.
         $flag = 0;
         for($j=0;$j<count($this->tokens);$j++)
@@ -387,31 +387,26 @@ class PHP_DownGrade {
         $i++;
         
         $value = '';
-        // echo $class;
-         while($this->tokens[$i][1] != ';') {
-              
+        while($this->tokens[$i][1] != ';') {
+            if($this->tokens[$i+1][1] == "::") {
+                $this->tokens[$i][1] = strtoupper($this->tokens[$i][1]);  
+            }
             
-              if($this->tokens[$i+1][1] == "::") {
-                 $this->tokens[$i][1] = strtoupper($this->tokens[$i][1]);  
-             }
-             
-             if($this->tokens[$i][0] == self::T_SELF) {
-                 $this->tokens[$i][1] = strtoupper($class);
-             } 
-             if($this->tokens[$i][1] == "::") {
-                 
-                  $this->tokens[$i][1] = "_";
-             }
-             
-             $value .= $this->tokens[$i][1];
-             $this->tokens[$i][1] = '';
+            if($this->tokens[$i][0] == self::T_SELF) {
+                $this->tokens[$i][1] = strtoupper($class);
+            } 
+            if($this->tokens[$i][1] == "::") {
+                $this->tokens[$i][1] = "_";
+            }
+            $value .= $this->tokens[$i][1];
+            $this->tokens[$i][1] = '';
             
-             $i++;
-         }
-         $this->statics[$class][$name] = $value;
-         $this->statvar[$this->staticcount]=$name;
-         $this->staticcount++;
-     
+            $i++;
+        }
+        $this->statics[$class][$name] = $value;
+        $this->statvar[$this->staticcount]=$name;
+        $this->staticcount++;
+        
          
       
         return $i;
@@ -458,7 +453,8 @@ class PHP_DownGrade {
                 $i++;
                 break;
 
-                case 373:
+                case 375:
+                    //case 373:    
                 // make sure the previous and next tokens are strings
                 if ( $this->tokens[$i-1][0] == T_STRING && $this->tokens[$i+1][0] == T_STRING ) {
                     // make sure the following token are not open paran and hence a function call
@@ -475,6 +471,7 @@ class PHP_DownGrade {
                     if ( $func ) {
                         break;
                     }
+                    
                     if($this->tokens[$i-1][1]!=""){
                         if($this->tokens[$i-1][1] =="parent"){
                             // $this->tokens[$i-1][1] = strtoupper($this->tokens[$i-1][1]) . '_' . $this->tokens[$i+1][1];
@@ -489,7 +486,7 @@ class PHP_DownGrade {
                              $this->tokens[$i+1][1] = '';
                              $flag=0;
                          }
-                }
+                     }
                 case T_FUNCTION:
                   $i++;
                 while($this->tokens[$i][1]==T_WHITESPACE)
@@ -581,11 +578,12 @@ class PHP_DownGrade {
     {
         global $sourceCheckoutDir;
         
-        $classNames = array('CRM_Core_SelectValues', 'CRM_Core_Custom_Field','CRM_Contact_Task','CRM_Core_BAO_CustomField');
+        $classNames = array('CRM_Core_SelectValues', 'CRM_Core_Custom_Field','CRM_Contact_Task','CRM_Core_BAO_CustomField','CRM_Core_DAO','CRM_Quest_BAO_Student');
         //To Replace SelectValues
          for($i=0; $i < count($this->tokens); $i++) {
              foreach($classNames as $string) {
                  if($this->tokens[$i][1] == $string ) {
+                     if ($this->tokens[$i+1][1] == "::") {
                      $j = $i+1;
                      $count = 2;
                      $str = $string;
@@ -601,12 +599,13 @@ class PHP_DownGrade {
                      $this->tokens[$i][1]="";
                      $i++;
                      $this->tokens[$i][1]="";
+                     }
 
                  }
              }
          }
          
-  
+        
         //To remove abstact keyword     
         for($j=0;$j<count($this->tokens);$j++)
             {
@@ -701,8 +700,8 @@ class PHP_DownGrade {
                                  }
                          }
                  }
-
-
+        
+       
         //To change calls of parent constructor and constant variable
         for($j=0;$j<count($this->tokens);$j++)
             {
