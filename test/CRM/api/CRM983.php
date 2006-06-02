@@ -14,7 +14,7 @@ class TestOfCRM983 extends UnitTestCase
     // Create File
     function testCRM983CreateFile()
     {
-        $create = array('file_type_id' => 350,
+        $create = array('file_type_id' => 1,
                         'uri' => 'file://home/guest/pic.jpg',
                         'description'  => 'Do Not know what is happeing.');
         $this->fileCreate = crm_create_file($create);
@@ -25,7 +25,7 @@ class TestOfCRM983 extends UnitTestCase
     {
         $update = array(
                         'id' => $this->fileCreate['id'],
-                        'file_type_id' => 350,
+                        'file_type_id' => 1,
                         'uri' => 'file://home/guest/new.rm',
                         'description'  => 'Do Not know what is happeing.'
                         );
@@ -41,7 +41,7 @@ class TestOfCRM983 extends UnitTestCase
     // Get File
     function testCRM983GetFile()
     {
-        $create = array('file_type_id' => 350,
+        $create = array('file_type_id' => 1,
                         'uri' => 'file://home/guest/pic.jpg',
                         'description'  => 'Do Not know what is happeing.');
         $this->fileCreate = crm_create_file($create);
@@ -53,7 +53,7 @@ class TestOfCRM983 extends UnitTestCase
     // Create Entity File
     function testCRM983CreateEntityFile()
     {
-        $create = array('file_type_id' => 350,
+        $create = array('file_type_id' => 1,
                         'uri' => 'file://home/guest/pic.jpg',
                         'description'  => 'Do Not know what is happeing.');
         $fileCreate = crm_create_file($create);
@@ -67,7 +67,7 @@ class TestOfCRM983 extends UnitTestCase
     // Get Files By Entity
     function testCRM983GetFileByEntity()
     {
-        $getFilesByEntity = crm_get_files_by_entity($this->entity);
+        $getFilesByEntity = crm_get_files_by_entity($this->entity->id);
         
         CRM_Core_Error::debug('Get Files By Entity', $getFilesByEntity);
     }
