@@ -75,8 +75,8 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'title' ) );
-        $this->addRule( 'title', ts('Please enter a valid Option Group title.'), 'required' );
+        $this->add('text', 'label', ts('Title'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'label' ) );
+        $this->addRule( 'label', ts('Please enter a valid Option Group title.'), 'required' );
         
 
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ) );
@@ -127,7 +127,7 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
             }
             
             $optionValue = CRM_Core_BAO_OptionValue::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The Option Value "%1" has been saved.', array( 1 => $optionValue->title )) );
+            CRM_Core_Session::setStatus( ts('The Option Value "%1" has been saved.', array( 1 => $optionValue->label )) );
         }
         
     }
