@@ -454,7 +454,7 @@ class PHP_DownGrade {
                 break;
 
                 case 375:
-                    //case 373:    
+                case 373:    
                 // make sure the previous and next tokens are strings
                 if ( $this->tokens[$i-1][0] == T_STRING && $this->tokens[$i+1][0] == T_STRING ) {
                     // make sure the following token are not open paran and hence a function call
