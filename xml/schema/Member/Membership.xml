@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Member</base>
+  <class>MembershipType</class>
+  <name>civicrm_membership</name>
+  <comment>Membership</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Membership Id</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+      <name>id</name>
+      <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>member_of_entity_table</name>
+      <type>varchar</type>
+      <length>64</length>
+      <comment>Entity Table for Membership Type</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>member_of_entity_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>member_of_entity_id</name> 
+      <table>civicrm_contact</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>member_entity_table</name>
+      <type>varchar</type>
+      <length>128</length>
+      <comment>Member Table for Membership Type</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>member_entity_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>member_entity_id</name> 
+      <table>civicrm_contact</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>membership_type_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Membership Type</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>membership_type_id</name> 
+      <table>civicrm_membership_type</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>  
+      <name>join_date</name>  
+      <type>Date</type>   
+      <import>true</import>
+      <headerPattern>/birth/i</headerPattern>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Beginning of initial membership period</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>start_date</name>  
+      <type>date</type>   
+      <headerPattern>/birth/i</headerPattern>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Latest membership period start/renew date</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>end_date</name>  
+      <type>date</type>
+      <headerPattern>/birth/i</headerPattern>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>                 
+      <comment>Latest membership period expire date</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>source</name>     
+      <title>Source</title>
+      <type>varchar</type>
+      <length>128</length>
+      <add>1.5</add>  
+  </field> 
+  <field>
+      <name>calculated_status_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Membership Status</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>calculated_status_id</name> 
+      <table>civicrm_membership_status</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>admin_status_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Membership Status</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+      <name>admin_status_id</name> 
+      <table>civicrm_membership_status</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+</table>

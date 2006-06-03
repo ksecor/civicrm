@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Member</base>
+  <class>MembershipType</class>
+  <name>civicrm_membership_type</name>
+  <comment>A Membership Types encode the rules needed to set start and end (expire) dates when a member signs up for that type</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Membership Id</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+      <name>id</name>
+      <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>name</name>
+      <type>varchar</type>
+      <length>128</length>
+      <comment>Name of Membership Type</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>description</name>
+      <type>varchar</type>
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
+      <length>255</length>
+      <comment>Description of Membership Type</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>member_of_entity_table</name>
+      <type>varchar</type>
+      <length>64</length>
+      <comment>Entity Table for Membership Type</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>member_of_entity_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contac ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>member_of_entity_id</name> 
+      <table>civicrm_contact</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>contribution_type_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contribution Type ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>contribution_type_id</name> 
+      <table>civicrm_contribution_type</table> 
+      <key>id</key> 
+      <add>1.5</add>
+  </foreignKey>
+  <field>  
+      <name>minimum_fee</name>  
+      <type>decimal</type>                  
+      <comment>Free/complimentary memberships</comment>  
+      <default>0</default>
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>duration_unit</name>  
+      <type>varchar</type>                  
+      <length>64</length>
+      <comment>Duration of this Membership</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>duration_unit</name>  
+      <type>decimal</type>                  
+      <comment>units in the duration</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>period_type</name>  
+      <type>Date</type>   
+      <headerPattern>/birth/i</headerPattern>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Period Type at date of payment</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>fixed_period_start_day</name>  
+      <type>date</type>   
+      <import>true</import>
+      <headerPattern>/birth/i</headerPattern>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Fixed period on which subscription/membership will start</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>fixed_period_rollover_day</name>  
+      <type>date</type>
+      <import>true</import>
+      <headerPattern>/birth/i</headerPattern>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>                 
+      <comment>Fixed Membership Payments after this date</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>is_household_membership</name>     
+      <title>Is HouseHold Membeship</title>
+      <type>boolean</type>
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>visibility</name>     
+      <title>Visible</title>
+      <type>varchar</type>
+      <length>64</length>
+      <add>1.5</add>  
+  </field>
+  <field> 
+      <name>is_default</name>     
+      <title>Is Default</title>
+      <type>boolean</type>
+      <default>0</default>              
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>weight</name>     
+      <title>Weight</title>
+      <type>int</type>
+      <add>1.5</add>  
+  </field>
+  <field> 
+      <name>is_active</name>     
+      <title>Is Active</title>
+      <type>boolean</type>
+      <default>1</default>
+      <comment>Is this membership_type enabled</comment>                
+      <add>1.5</add>  
+  </field> 
+</table>

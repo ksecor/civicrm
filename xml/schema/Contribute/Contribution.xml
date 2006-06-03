@@ -241,10 +241,28 @@
     <comment>Conditional foreign key to civicrm_contribution_recur id. Each contribution made in connection with a recurring contribution carries a foreign key to the recurring contribution record. This assumes we can track these processor initiated events.</comment> 
     <add>1.4</add> 
   </field> 
- <foreignKey> 
+  <foreignKey> 
     <name>recur_contribution_id</name> 
     <table>civicrm_contribution_recur</table> 
     <key>id</key> 
     <add>1.4</add> 
+  </foreignKey>
+  <field>
+    <name>pay_for_entity_table</name> 
+    <type>varchar</type>
+    <length>64</length>
+    <add>1.5</add> 
+  </field>
+  <field>
+      <name>pay_for_entity_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Membership</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+    <name>pay_for_entity_id</name> 
+    <table>civicrm_membership</table> 
+    <key>id</key> 
+    <add>1.5</add>
   </foreignKey> 
 </table>

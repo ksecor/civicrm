@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Member</base>
+  <class>MembershipType</class>
+  <name>civicrm_membership_status</name>
+  <comment>A Membership Status stores admin configurable status options and rules</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Membership Id</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+       <name>name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Name for Membership Status</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>start_event</name>
+       <type>enum</type>
+       <values>start_date, end_date, join_date</values>
+       <comment>Event when this status starts</comment>  
+       <add>1.5</add>
+  </field>
+  <field>  
+      <name>start_event_adjust_unit</name>  
+      <type>datetime</type>                  
+      <comment>Unit used for adjusting</comment>  
+      <add>1.5</add>  
+  </field>
+  <field> 
+      <name>start_event_adjust_interval</name>  
+      <type>int</type>                  
+      <comment>Range begins this many units from start_event</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>end_event</name>
+      <type>enum</type>
+      <values>start_date, end_date, join_date</values>
+      <comment>Event after which this status ends</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>end_event_adjust_unit</name>  
+      <type>datetime</type>                  
+      <comment>Unit used for adjusting from the ending event </comment>  
+      <add>1.5</add>     
+  </field> 
+ <field>  
+      <name>end_event_adjust_interval</name>  
+      <type>int</type>                  
+      <comment>Range ends this many units from end_event</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>is_current_member</name>     
+      <title>Is Current Members</title>
+      <type>boolean</type>
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>is_admin</name>     
+      <title>Is Admin/Mannual</title>
+      <type>boolean</type>
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>weight</name>     
+      <title>Weight</title>
+      <type>int</type>
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>is_active</name>     
+      <title>Is Active</title>
+      <type>boolean</type>
+      <default>1</default>
+      <comment>Is this membership_type enabled</comment>                
+      <add>1.5</add>  
+  </field> 
+</table>
