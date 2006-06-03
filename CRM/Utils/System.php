@@ -113,6 +113,8 @@ class CRM_Utils_System {
                                                 'individualsuffix'   => 'IndividualSuffix',
                                                 'versioncheck'       => 'VersionCheck',
                                                 'thankyou'           => 'ThankYou',
+                                                'optiongroup'        => 'Optiongroup',
+                                                'optionvalue'        => 'OptionValue',
                                                 );
     
     /**
