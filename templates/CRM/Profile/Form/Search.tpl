@@ -1,10 +1,9 @@
 {if ! empty( $fields )}
 <p>
     <table class="form-layout-compressed">
-    {assign var=custom value=$customFields}
     {foreach from=$fields item=field key=name}
         {assign var=n value=$field.name}
-	{if $custom.$n.is_search_range}
+	{if $field.is_search_range}
 	   {assign var=from value=$field.name|cat:'_from'}
 	   {assign var=to value=$field.name|cat:'_to'}
 	        <tr>

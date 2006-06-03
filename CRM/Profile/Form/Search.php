@@ -109,9 +109,6 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
                                        'isDefault' => true ), 
                                 ) ); 
 
-        $customFields = CRM_Core_BAO_CustomField::getFieldsForImport();
-        $this->assign( 'customFields', $customFields    ); 
-
         parent::buildQuickForm( );
      }
 

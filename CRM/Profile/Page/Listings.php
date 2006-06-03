@@ -110,13 +110,29 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                                                     CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
                                                     false, $this->_gid );
 
-        $this->_customFields =
-            CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
-
+        $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
         $this->_params   = array( );
+        
         foreach ( $this->_fields as $name => $field ) {
-            $value = CRM_Utils_Request::retrieve( $name, 'String',
-                                                  $this, false, null, 'REQUEST' );
+            if ( (substr($name, 0, 6) == 'custom') && $field['is_search_range']) {
+                $from = CRM_Utils_Request::retrieve( $name.'_from', 'String',
+                                                     $this, false, null, 'REQUEST' );
+                $to = CRM_Utils_Request::retrieve( $name.'_to', 'String',
+                                                   $this, false, null, 'REQUEST' );
+                $value = array();
+                if ( $from && $to ) {
+                    $value['from'] = $from;
+                    $value['to']   = $to;
+                } else if ( $from ) {
+                    $value['from'] = $from;
+                } else if ( $to ) {
+                    $value['to'] = $to;
+                }
+            } else {
+                $value = CRM_Utils_Request::retrieve( $name, 'String',
+                                                      $this, false, null, 'REQUEST' );
+            }
+            
             if ( ( $name == 'group' || $name == 'tag' ) && ! empty( $value ) && ! is_array( $value ) ) {
                 $v = explode( ',', $value );
                 $value = array( );
@@ -124,6 +140,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                     $value[$item] = 1;
                 }
             }
+            
             $customField = CRM_Utils_Array::value( $name, $this->_customFields );
             if ( ! empty( $_POST ) && ! CRM_Utils_Array::value( $name, $_POST ) ) {
                 if ( $customField ) {

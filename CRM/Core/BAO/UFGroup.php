@@ -211,6 +211,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         $fields = array( );
 
+        $customFields = CRM_Core_BAO_CustomField::getFieldsForImport();
+
         $group =& new CRM_Core_DAO_UFGroup( );
         $group->id = $id;
         if ( $group->find( true ) ) {
@@ -281,7 +283,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                             $phoneType  = "-{$field->phone_type}";
                         }
                     }
-                    
+
                     $fields[$name] =
                         array('name'             => $name,
                               'groupTitle'       => $group->title,
@@ -304,6 +306,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                               'group_id'         => $group->id,
                               'add_to_group_id'  => $group->add_to_group_id
                               );
+                    //adding custom field property 
+                    if ( substr($name, 0, 6) == 'custom' ) {
+                        $fields[$name]['is_search_range'] = $customFields[$name]['is_search_range'];
+                    }
                 }
             }
         }
