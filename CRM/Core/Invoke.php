@@ -338,6 +338,12 @@ class CRM_Core_Invoke {
 
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Task_YMap', ts('YMap Contact'),  null );
+        } else if ( $thirdArg == 'builder' ) {
+	    $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/builder' ) );
+
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Search_Builder', ts('Search Builder'),  null );
         } else {
             $mode  = CRM_Core_Action::BASIC;
             $title = ts('Search');

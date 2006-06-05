@@ -119,7 +119,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
     static function add( &$params, &$ids ) 
     {
         if ( ! self::dataExists( $params ) ) {
-            return null;
+	  //return null;
         }
         
         $mapping               =& new CRM_Core_DAO_Mapping( );
@@ -127,8 +127,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $mapping->copyValues( $params );
         $mapping->id = CRM_Utils_Array::value( 'mapping', $ids );
         $mapping->save( );
-        
-        CRM_Core_Session::setStatus( ts('The mapping "%1" has been saved.', array(1 => $mapping->name)) );
+
+        //CRM_Core_Session::setStatus( ts('The mapping "%1" has been saved.', array(1 => $mapping->name)) );
         
         return $mapping;
     }
@@ -145,7 +145,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
     static function dataExists( &$params ) 
     {
         if ( !empty( $params['name'] ) ) {
-            return true;
+	   return true;
         }
         
         return false;
