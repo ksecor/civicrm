@@ -81,9 +81,12 @@
     </div>
 </div>
   {* Existing Group *}
+{if $form.groups}
 <div id="existingGroup[show]" class="data-group">
     <a href="#" onclick="hide('existingGroup[show]'); show('existingGroup'); return false;">&raquo; {$form.groups.label}</a>
 </div>
+{/if}
+
 <div id="existingGroup" class="data-group">
     <a href="#" onclick="hide('existingGroup'); show('existingGroup[show]'); return false;">&raquo; {$form.groups.label}</a>
     <div class="form-item">
@@ -92,6 +95,7 @@
         </dl>
     </div>
 </div>
+
 
   {* Tag Imported Contact *}
 <div id="tag[show]" class="data-group">
