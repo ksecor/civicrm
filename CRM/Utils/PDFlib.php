@@ -87,7 +87,10 @@ class CRM_Utils_PDFlib {
                     if ( is_array( $value ) ) {
                         continue;
                     }
-                    
+
+                    // pdflib does like the forward slash character, hence convert
+                    $value = str_replace( '/', '_', $value );
+
                     $pdf->fill_textblock( $page,
                                           $key,
                                           $value,
