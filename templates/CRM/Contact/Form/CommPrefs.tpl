@@ -11,7 +11,29 @@
     <tr>
         <td>{$form.preferred_communication_method.label}</td>
         <td>
-            {$form.preferred_communication_method.html}
+           {assign var="count" value="1"}
+           {strip}
+             <table class="form-layout-compressed">
+              <tr>
+               {assign var="index" value="1"}
+               {foreach name=outer key=key item=item from=$form.preferred_communication_method}
+                  {if $index < 10}
+                    {assign var="index" value=`$index+1`}
+                  {else}
+                   <td class="labels font-light">{$form.preferred_communication_method.$key.html}</td>
+                    {if $count == 5}
+                    </tr>
+                    <tr>
+                    {assign var="count" value="1"}
+                    {else}
+                    {assign var="count" value=`$count+1`}
+                    {/if}
+                   {/if}
+              {/foreach}
+              {*{$form.preferred_communication_method[1].html}*}
+              </tr>
+            </table>
+           {/strip}
             <div class="description font-italic">
                 {ts}Select the preferred method of communicating with this contact.{/ts}
             </div>
