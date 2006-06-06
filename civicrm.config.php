@@ -74,6 +74,9 @@ function conf_init() {
   return $conf;
 }
 
+// force PHP to auto-detect Mac line endings
+ini_set('auto_detect_line_endings', '1');
+
 include_once conf_init( ) . '/civicrm.settings.php';
 
 ?>
