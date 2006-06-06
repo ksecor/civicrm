@@ -221,24 +221,25 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         // find all objects
         $object->find();
         while ($object->fetch()) {
-            $permission = CRM_Core_Permission::EDIT;
-            if ( $key ) {
-                $permission = $this->checkPermission( $object->id, $object->$key );
-            }
-            if ( $permission ) {
-                $values[$object->id] = array( );
-                CRM_Core_DAO::storeValues( $object, $values[$object->id]);
-                
-                CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
-                
-                // populate action links
-                self::action( $object, $action, $values[$object->id], $links, $permission );
+            if($object->mapping_type != "Search Builder") {
+                $permission = CRM_Core_Permission::EDIT;
+                if ( $key ) {
+                    $permission = $this->checkPermission( $object->id, $object->$key );
+                }
+                if ( $permission ) {
+                    $values[$object->id] = array( );
+                    CRM_Core_DAO::storeValues( $object, $values[$object->id]);
+                    
+                    CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
+                    
+                    // populate action links
+                    self::action( $object, $action, $values[$object->id], $links, $permission );
+                }
+                $this->assign( 'rows', $values );
             }
         }
-        
-        $this->assign( 'rows', $values );
     }
-
+    
     /**
      * Given an object, get the actions that can be associated with this
      * object. Check the is_active and is_required flags to display valid
