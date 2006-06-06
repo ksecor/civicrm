@@ -63,7 +63,7 @@ class CRM_Contact_Page_View_SMS extends CRM_Core_Page {
         
         $dao =& new CRM_Core_DAO_ActivityHistory();
         $dao->activity_id   = $id;
-        $dao->activity_type = 'SMS Sent';
+        $dao->activity_type = ts( 'SMS Sent' );
         if ( $dao->find(true) ) {
             $cid = $dao->entity_id;
         }
