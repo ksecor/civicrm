@@ -133,7 +133,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         if ( ! empty( $groups ) ) {
             $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => true, 'size' => 5));
         }
-        
+
+        //display new tag
+        $this->addElement( 'checkbox', 'newTag', ts('Create a new tag from imported records'));
+        $this->addElement( 'text', 'newTagName', ts('Name for new Tag'));
+        $this->addElement( 'text', 'newTagDesc', ts('Description of new tag'));
+        // $this->addFormRule(array('CRM_Import_Form_Preview','newTagRule'));    
+    
         $tag =& $this->get('tag');
         if (! empty($tag) ) {
             foreach ($tag as $tagID => $tagName) {
@@ -172,6 +178,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
+       
         $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
         $invalidRowCount    = $this->get('invalidRowCount');
@@ -182,7 +189,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $newGroupDesc       = $this->controller->exportValue( $this->_name, 'newGroupDesc');
         $groups             = $this->controller->exportValue( $this->_name, 'groups');
         $allGroups          = $this->get('groups');
-        $tagForContact      = $this->controller->exportValue( $this->_name, 'tag');
+        $newTag             = $this->controller->exportValue( $this->_name, 'newTag');
+        $newTagName         = $this->controller->exportValue( $this->_name, 'newTagName');
+        $newTagDesc         = $this->controller->exportValue( $this->_name, 'newTagDesc');
+        $tag                = $this->controller->exportValue( $this->_name, 'tag');
         $allTags            = $this->get('tag');
         $seperator = ',';
         
@@ -197,7 +207,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $mapperRelatedContactLocType = array();
         $mapperRelatedContactPhoneType = array();
         
-       
         foreach ($mapper as $key => $value) {
             $mapperKeys[$key] = $mapper[$key][0];
             if (is_numeric($mapper[$key][1])) {
@@ -237,7 +246,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                                   $mapperRelatedContactPhoneType);
         
         $mapFields = $this->get('fields');
-        
+      
         $locationTypes  = CRM_Core_PseudoConstant::locationType();
         $phoneTypes = CRM_Core_SelectValues::phoneType();
         
@@ -282,7 +291,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
         // add the new contacts to selected groups
         $contactIds =& $parser->getImportedContacts();
-        
+      
         // add the new related contacts to selected groups
         $relatedContactIds =& $parser->getRelatedImportedContacts();
         
@@ -330,20 +339,44 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $this->set('groupAdditions', $groupAdditions);
         }
         
-        if (is_array($tagForContact)) {
-            $tagAddition = array();
+        $newTagId = null;
+        if ($newTagName) {
+            /* Create a new group */
+            $tParams = array(
+                             'domain_id'     => CRM_Core_Config::domainID(),
+                             'name'          => $newTagName,
+                             'title'         => $newTagName,
+                             'description'   => $newTagDesc,
+                             'is_active'     => true,
+                             );
+            require_once 'CRM/Core/BAO/Tag.php';
+            $tag1 =& CRM_Core_BAO_Tag::add($tParams,$tag1->id);
+            $tag[] = $newTagId = $tag1->id;
+        }
+        //add Tag to Import        
+        if(is_array($tag)) {
+            $tagAdditions = array();
             require_once "CRM/Core/BAO/EntityTag.php";
-            foreach ($tagForContact as $tagId => $selected) {
-                $taggedContacts = CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
-                
-                $tagName    = $allTags[$tagId]; 
-                
+            foreach ($tag as $tagId) {
+                $addTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
+                if ( !empty($relatedContactIds) ) {
+                    $addRelTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
+                }
+                $totalTagCount = $addTagCount[1] + $addRelTagCount[1];
+                if ($tagId == $newTagId) {
+                    $tagName = $newTagName;
+                } else {
+                    $tagName = $allTags[$tagId];
+                }
                 $tagAdditions[] = array(
+                                        'url'      => CRM_Utils_System::url( 'civicrm/contact/search',
+                                                                               'reset=1&force=1&context=smog&id=' . $tagId ),
                                         'name'     => $tagName,
-                                        'added'    => $taggedContacts[1],
-                                        'notAdded' => $taggedContacts[2],
+                                        'added'    => $totalTagCount,
+                                        'notAdded' => $addTagCount[2]
                                         );
             }
+           
             $this->set('tagAdditions', $tagAdditions);
         }
         
@@ -412,6 +445,37 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                         array( 1 => $params['newGroupName']));
             }
 //         }
+        }
+        return empty($errors) ? true : $errors;
+    }
+
+    /**
+     * function for validation
+     *
+     * @param array $params (reference) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    static function newTagRule( &$params ) {
+        if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST)) {
+            return true;
+        }
+        
+        /* If we're not creating a new group, accept */
+        if (! $params['newTagName']) {
+            return true;
+        }
+        
+        $errors = array();
+        
+        if ($params['newTagName']) {
+            if (!CRM_Utils_Rule::objectExists(trim($params['newTagName']),array('CRM_Core_DAO_Tag')))
+            {
+                $errors['newTagName'] = ts( 'Tag "%1" already exists.',
+                        array( 1 => $params['newTagName']));
+            }
         }
         return empty($errors) ? true : $errors;
     }
