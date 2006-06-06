@@ -626,10 +626,12 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // lets recompute the aToZ bar without the sortByCharacter
             // we need this in most cases except when just pager or sort values change, which
             // we'll ignore for now
-            $query =& $selector->getQuery( );
-            $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $query, $this->_sortByCharacter );
-            $this->set( 'AToZBar', $aToZBar );
-
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->includeAlphabeticalPager ) {
+                $query =& $selector->getQuery( );
+                $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $query, $this->_sortByCharacter );
+                $this->set( 'AToZBar', $aToZBar );
+            }
 
             $sortID = null;
             if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {

@@ -381,6 +381,13 @@ class CRM_Core_Config {
      */
     private static $_singleton = null;
 
+    /**
+     * Optimization related variables
+     */
+    public $includeEmailInSearch     = 1;
+    public $includeAlphabeticalPager = 1;
+    public $includeOrderByClause     = 1;
+    public $includeDomainID          = 1;
 
     /**
      * singleton function used to manage this object

@@ -77,9 +77,16 @@
       <add>1.1</add>
   </field>
   <index>
+       <name>index_sort_name_domain</name>
+       <fieldName>sort_name</fieldName>
+       <fieldName>domain_id</fieldName>
+       <add>1.5</add>
+  </index>
+  <index>
        <name>index_sort_name</name>
        <fieldName>sort_name</fieldName>
        <add>1.1</add>
+       <drop>1.5</drop>
   </index>
   <field>
        <name>display_name</name>

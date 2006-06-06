@@ -592,7 +592,9 @@ class CRM_Contact_BAO_Query {
             if ( $this->_useDistinct ) {
                 $select = 'SELECT count(DISTINCT contact_a.id)';
             } else {
-                $select = 'SELECT count(contact_a.id)'; 
+                // $select = 'SELECT count(contact_a.id)'; 
+                // using count(*) since we've heard this is slightly faster :)
+                $select = 'SELECT count(*)'; 
             }
             $from = $this->_simpleFromClause;
         } else if ( $sortByChar ) {  
@@ -642,9 +644,12 @@ class CRM_Contact_BAO_Query {
      */ 
     function whereClause( ) {
         //CRM_Core_Error::debug( 'p', $this->_params );
+
         // domain id is always part of the where clause
         $config  =& CRM_Core_Config::singleton( ); 
-        $this->_where[] = 'contact_a.domain_id = ' . $config->domainID( );
+        if ( $config->includeDomainID ) {
+            $this->_where[] = 'contact_a.domain_id = ' . $config->domainID( );
+        }
         
         // check for both id and contact_id
         $id = CRM_Utils_Array::value( 'id', $this->_params );
@@ -1309,25 +1314,37 @@ class CRM_Contact_BAO_Query {
 
         $name = trim($this->_params['sort_name']); 
 
+        $config =& CRM_Core_Config::singleton( );
+
         $sub  = array( ); 
         // if we have a comma in the string, search for the entire string 
         if ( strpos( $name, ',' ) !== false ) { 
-            $sub[] = " ( LOWER(contact_a.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%' )"; 
-            $sub[] = " ( LOWER(civicrm_email.email)       LIKE '%" . strtolower(addslashes($name)) . "%' )"; 
-            $this->_tables['civicrm_location'] = $this->_whereTables['civicrm_location'] = 1;
-            $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
+            $sub[] = " ( LOWER(contact_a.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%' )";
+            if ( $config->includeEmailInSearch ) {
+                $sub[] = " ( LOWER(civicrm_email.email)       LIKE '%" . strtolower(addslashes($name)) . "%' )"; 
+                $this->_tables['civicrm_location'] = $this->_whereTables['civicrm_location'] = 1;
+                $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
+            }
         } else { 
             // split the string into pieces 
             $pieces =  explode( ' ', $name ); 
             foreach ( $pieces as $piece ) { 
                 $sub[] = " ( LOWER(contact_a.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%' ) "; 
-                $sub[] = " ( LOWER(civicrm_email.email)       LIKE '%" . strtolower(addslashes(trim($piece))) . "%' )"; 
+                if ( $config->includeEmailInSearch ) {
+                    $sub[] = " ( LOWER(civicrm_email.email)       LIKE '%" . strtolower(addslashes(trim($piece))) . "%' )"; 
+                }
             } 
-            $this->_tables['civicrm_location'] = $this->_whereTables['civicrm_location'] = 1;
-            $this->_tables['civicrm_email']    = $this->_whereTables['civicrm_email'] = 1; 
+            if ( $config->includeEmailInSearch ) {
+                $this->_tables['civicrm_location'] = $this->_whereTables['civicrm_location'] = 1;
+                $this->_tables['civicrm_email']    = $this->_whereTables['civicrm_email'] = 1; 
+            }
         } 
         $this->_where[] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
-        $this->_qill[]  = ts( 'Name or Email like - "%1"', array( 1 => $name ) );
+        if ( $config->includeEmailInSearch ) {
+            $this->_qill[]  = ts( 'Name or Email like - "%1"', array( 1 => $name ) );
+        } else {
+            $this->_qill[]  = ts( 'Name like - "%1"', array( 1 => $name ) );
+        }            
     }
 
     /**
@@ -1691,13 +1708,16 @@ class CRM_Contact_BAO_Query {
         $order = $limit = '';
 
         if ( ! $count ) {
-            if ($sort) {
-                $orderBy = trim( $sort->orderBy() );
-                if ( ! empty( $orderBy ) ) {
-                    $order = " ORDER BY $orderBy";
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->includeOrderByClause ) {
+                if ($sort) {
+                    $orderBy = trim( $sort->orderBy() );
+                    if ( ! empty( $orderBy ) ) {
+                        $order = " ORDER BY $orderBy";
+                    }
+                } else if ($sortByChar) { 
+                    $order = " ORDER BY LEFT(contact_a.sort_name, 1) ";
                 }
-            } else if ($sortByChar) { 
-                $order = " ORDER BY LEFT(contact_a.sort_name, 1) ";
             }
 
             if ( $rowCount > 0 && $offset >= 0 ) {
@@ -1717,7 +1737,6 @@ class CRM_Contact_BAO_Query {
             return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
-        // CRM_Core_Error::debug( 'q', $query );
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         if ( $groupContacts ) {
             $ids = array( );
