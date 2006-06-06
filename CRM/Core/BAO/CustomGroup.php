@@ -256,14 +256,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     $fileDAO =& new CRM_Core_DAO_File();
                     $fileDAO->id = $crmDAO->civicrm_custom_value_file_id;
                     if ( $fileDAO->find(true) ) {
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $fileDAO->uri;
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']  = $fileDAO->id;
-                        
-                        $fileName = explode('/',$fileDAO->uri);
-                        $fileName = $fileName[count($fileName)-1];
-                        $fileName = explode('.', $fileName, -1);
-                        $fileName = implode('.', $fileName);
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']  = $fileName;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data']      = $fileDAO->uri;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']       = $fileDAO->id;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL']   = 
+                            CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid=$entityId" );
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']  = basename( $fileDAO->uri );
                     }
                     
                     break; 
@@ -378,11 +375,18 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         break;
                     case 'File':
                         require_once 'CRM/Core/DAO/File.php';
-                        $customValueDAO->char_data = $data;
                         $config = & CRM_Core_Config::singleton();
                         
                         $path = explode( '/', $data );
                         $filename = $path[count($path) - 1];
+
+                        // rename this file to go into the secure directory
+                        if ( ! rename( $data, $config->customFileUploadDir . $filename ) ) {
+                            CRM_Utils_System::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
+                            break;
+                        }
+                        
+                        $customValueDAO->char_data = $config->customFileUploadDir . $filename;
                         $mimeType = $_FILES['custom_'.$field['id']]['type'];
                         
                         $fileDAO =& new CRM_Core_DAO_File();
@@ -390,10 +394,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                             $fileDAO->id = $field['customValue']['fid'];
                         }
                        
-                        // $fileDAO->file_type_id      = 348;
-                        $fileDAO->uri               = $config->customFileUploadURL.$filename;
+                        $fileDAO->uri               = $filename;
                         $fileDAO->mime_type         = $mimeType; 
-                        $fileDAO->upload_date       = date('Ymd'); 
+                        $fileDAO->upload_date       = date('Ymdhis'); 
                         $fileDAO->save();
                         
                         $customValueDAO->file_id    = $fileDAO->id;
