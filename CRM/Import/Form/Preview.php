@@ -138,7 +138,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $this->addElement( 'checkbox', 'newTag', ts('Create a new tag from imported records'));
         $this->addElement( 'text', 'newTagName', ts('Name for new Tag'));
         $this->addElement( 'text', 'newTagDesc', ts('Description of new tag'));
-        // $this->addFormRule(array('CRM_Import_Form_Preview','newTagRule'));    
+        $this->addFormRule(array('CRM_Import_Form_Preview','newTagRule'));    
     
         $tag =& $this->get('tag');
         if (! empty($tag) ) {
@@ -341,46 +341,50 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
         $newTagId = null;
         if ($newTagName) {
-            /* Create a new group */
-            $tParams = array(
-                             'domain_id'     => CRM_Core_Config::domainID(),
-                             'name'          => $newTagName,
-                             'title'         => $newTagName,
-                             'description'   => $newTagDesc,
-                             'is_active'     => true,
-                             );
+            /* Create a new Tag */
+            $tagParams = array(
+                               'domain_id'     => CRM_Core_Config::domainID(),
+                               'name'          => $newTagName,
+                               'title'         => $newTagName,
+                               'description'   => $newTagDesc,
+                               'is_active'     => true,
+                               );
             require_once 'CRM/Core/BAO/Tag.php';
-            $tag1 =& CRM_Core_BAO_Tag::add($tParams,$tag1->id);
-            $tag[] = $newTagId = $tag1->id;
+            $id = array();
+            $addedTag =& CRM_Core_BAO_Tag::add($tagParams,$id);
+            $tag = array($addedTag->id => 1) ;            
         }
-        //add Tag to Import        
+        //add Tag to Import   
+        
         if(is_array($tag)) {
+            
             $tagAdditions = array();
             require_once "CRM/Core/BAO/EntityTag.php";
-            foreach ($tag as $tagId) {
+            foreach ($tag as $tagId =>$val) {
                 $addTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
                 if ( !empty($relatedContactIds) ) {
                     $addRelTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
                 }
                 $totalTagCount = $addTagCount[1] + $addRelTagCount[1];
-                if ($tagId == $newTagId) {
+                if ($tagId == $addedTag->id) {
                     $tagName = $newTagName;
+                    $new = true;
                 } else {
                     $tagName = $allTags[$tagId];
+                    $new = false;
                 }
                 $tagAdditions[] = array(
                                         'url'      => CRM_Utils_System::url( 'civicrm/contact/search',
-                                                                               'reset=1&force=1&context=smog&id=' . $tagId ),
+                                                                             'reset=1&force=1&context=smog&id=' . $tagId ),
                                         'name'     => $tagName,
                                         'added'    => $totalTagCount,
-                                        'notAdded' => $addTagCount[2]
+                                        'notAdded' => $addTagCount[2],
+                                        'new'      => $new
                                         );
             }
-           
             $this->set('tagAdditions', $tagAdditions);
         }
-        
-        
+               
         // add all the necessary variables to the form
         $parser->set( $this, CRM_Import_Parser::MODE_IMPORT );
         
@@ -463,7 +467,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             return true;
         }
         
-        /* If we're not creating a new group, accept */
+        /* If we're not creating a new Tag, accept */
         if (! $params['newTagName']) {
             return true;
         }
