@@ -56,6 +56,12 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
      * @static
      */
     public static function getTrackerURL($url, $mailing_id, $queue_id) {
+
+        // hack for basic CRM-1014 compliance: let's not replace possible image URLs
+        if (preg_match('/\.(png|jpg|jpeg|gif)$/i', $url)) {
+            return $url;
+        }
+
         $config =& CRM_Core_Config::singleton( );
         
         $tracker =& new CRM_Mailing_BAO_TrackableURL();
