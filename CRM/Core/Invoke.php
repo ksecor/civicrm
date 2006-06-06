@@ -324,6 +324,13 @@ class CRM_Core_Invoke {
             $mode  = CRM_Core_Action::ADVANCED;
             $title = ts('Advanced Search');
             $url   = 'civicrm/contact/search/advanced';
+        } else if ( $thirdArg == 'simple' ) {
+            // set the userContext stack
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/simple' ) );
+
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Search_Simple', ts('Simple Search'),  null );
         } else if ( $thirdArg == 'map' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton();
