@@ -41,7 +41,7 @@ require_once 'CRM/Core/DAO/Phone.php';
 require_once 'CRM/Core/DAO/Email.php'; 
 
 class CRM_Contact_BAO_Query {
-
+  
     /**
      * The various search modes
      *
@@ -52,7 +52,7 @@ class CRM_Contact_BAO_Query {
         MODE_CONTRIBUTE = 2,
         MODE_QUEST      = 4,
         MODE_ALL        = 7;
-
+    
     /**
      * the default set of return properties
      *
@@ -250,7 +250,7 @@ class CRM_Contact_BAO_Query {
     function __construct( $params = null, $returnProperties = null, $fields = null,
                           $includeContactIds = false, $strict = false, $mode = 1 ) {
         require_once 'CRM/Contact/BAO/Contact.php';
-
+      
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );
         $this->_params =& $params;
@@ -367,6 +367,7 @@ class CRM_Contact_BAO_Query {
                     $value = CRM_Utils_Array::value( $name, $this->_params );
                     $cfIDs[$cfID] = $value;
                 } else if ( isset( $field['where'] ) ) {
+		  /*
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) { 
                         if ( CRM_Utils_Array::value( $tableName, self::$_dependencies ) ) {
@@ -407,6 +408,7 @@ class CRM_Contact_BAO_Query {
                         $this->_element[$name]             = 1;
 
                     }
+		  */
                 } elseif ($name === 'tags') {
                     $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_tag.name)) AS tags";
                     $this->_tables['civicrm_tag'       ] = 1;
@@ -644,7 +646,7 @@ class CRM_Contact_BAO_Query {
      */ 
     function whereClause( ) {
         //CRM_Core_Error::debug( 'p', $this->_params );
-
+	  
         // domain id is always part of the where clause
         $config  =& CRM_Core_Config::singleton( ); 
         if ( $config->includeDomainID ) {
@@ -797,7 +799,22 @@ class CRM_Contact_BAO_Query {
                         $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( str_replace( "\"", "", $value)  ) . '"';  
                         $this->_qill[]  = ts( '%1 = "%2"', array( 1 => $field['title'], 2 => $value ) );
                     } else {
-                        $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
+		      //$this->_where[] = 'LOWER(' . $field['where']
+		      //. ') LIKE "%' . strtolower( addslashes( $value
+		      //) ) . '%"';  
+		      if (is_numeric($locType[1])) {
+			list($tbName, $fldName) = explode("." , $field['where']);
+			
+			//get the location name //kurund
+			$locationType =& CRM_Core_PseudoConstant::locationType();
+			
+			$tName = $locationType[$locType[1]] . "-" . $name;
+			$where = "`$tName`.$fldName";
+			$this->_where[] = 'LOWER(' . $where . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';
+			//$this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';
+		      } else {
+			$this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';
+		      }
                         
 			if ( $name != 'college_interest') { //temporary fix.. needs to be changed
 			  $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
@@ -806,11 +823,11 @@ class CRM_Contact_BAO_Query {
                 }
             }
 
-            list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
-            if ( isset( $tableName ) ) { 
-                $this->_tables[$tableName] = 1;  
-                $this->_whereTables[$tableName] = 1;  
-            }
+//             list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
+//             if ( isset( $tableName ) ) { 
+// 	      $this->_tables[$tableName] = 1;  
+// 	      $this->_whereTables[$tableName] = 1;  
+//             }
             // CRM_Core_Error::debug( 'f', $field );
             // CRM_Core_Error::debug( $value, $this->_qill );
         }
@@ -901,7 +918,7 @@ class CRM_Contact_BAO_Query {
      * @static
      */
     static function fromClause( &$tables , $inner = null, $right = null, $primaryLocation = true, $mode = 1 ) {
-        
+
         $from = ' FROM civicrm_contact contact_a';
         if ( empty( $tables ) ) {
             return $from;
@@ -1136,7 +1153,6 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
         }
-
         return $from;
     }
 

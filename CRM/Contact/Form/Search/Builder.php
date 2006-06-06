@@ -40,7 +40,8 @@ require_once 'CRM/Core/DAO/MappingField.php';
 /**
  * This class if for search builder processing
  */
-class CRM_Contact_Form_Search_Builder extends CRM_Core_Form {
+class CRM_Contact_Form_Search_Builder extends CRM_Core_Form 
+{
     
     /**
      * mapper fields
@@ -99,18 +100,18 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form {
         
         $contactId = array();
         $fields    = array();
-
+        
         $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual', false, true);
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household', false, true);
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization', false, true);
-
+        
         // add component fields
         $compArray = array();
         require_once 'CRM/Quest/BAO/Student.php';
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $config = CRM_Core_Config::singleton();
         $enabledComponent = $config->enableComponents;
-	
+        
         if (is_array( $enabledComponent )) {
             foreach( $enabledComponent as $component ) {
                 if ($component == 'Quest') {
@@ -130,7 +131,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form {
         }
         
         $mapperKeys      = array_keys( $this->_mapperFields );
-
+        
         $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
         
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
@@ -190,75 +191,75 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form {
         //used to warn for mismatch column count or mismatch mapping 
         $warning = 0;
         for ( $x = 1; $x < 3; $x++ ) {
-	  if ( $x == 1 ) {
-	    $cnt = $this->_columnCount1;
-	  } else {
-	    $cnt = $this->_columnCount2;
-	  }
-	  
-	  for ( $i = 0; $i < $cnt; $i++ ) {
-
-            $sel =& $this->addElement('hierselect', "mapper{$x}[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
-            $jsSet = false;
-	
-	    $formValues = $this->controller->exportValues( $this->_name );
-	    if (empty($formValues)) {
-	      $formValues = $_POST; // using $_POST since export values don't give values on first submit
-	    } 
-	    //print_r($formValues);
+            if ( $x == 1 ) {
+                $cnt = $this->_columnCount1;
+            } else {
+                $cnt = $this->_columnCount2;
+            }
+            
+            for ( $i = 0; $i < $cnt; $i++ ) {
+                
+                $sel =& $this->addElement('hierselect', "mapper{$x}[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
+                $jsSet = false;
+                
+                $formValues = $this->controller->exportValues( $this->_name );
+                if (empty($formValues)) {
+                    $formValues = $_POST; // using $_POST since export values don't give values on first submit
+                } 
+                //print_r($formValues);
+                
+                /*
+	              if ( ! $jsSet && empty( $formValues ) ) {
+	               for ( $k = 1; $k < 4; $k++ ) {
+              		$js .= "{$formName}['mapper{$x}[$i][$k]'].style.display = 'none';\n"; 
+	                 }
+	                }
+                */
 	    
-	    /*
-	    if ( ! $jsSet && empty( $formValues ) ) {
-	      for ( $k = 1; $k < 4; $k++ ) {
-		$js .= "{$formName}['mapper{$x}[$i][$k]'].style.display = 'none';\n"; 
-	      }
-	    }
-	    */
-	    
-	    if ( ! $jsSet ) {
-	      if ( empty( $formValues ) ) {
-		for ( $k = 1; $k < 4; $k++ ) {
-		  $js .= "{$formName}['mapper" .$x. "[$i][$k]'].style.display = 'none';\n"; 
-		}
-	      } else {
-		foreach ( $formValues['mapper' . $x] as $value) {
-		  //print_r($value);
-		  if ($value[0])  {
-		    for ( $k = 1; $k < 4; $k++ ) {
-		      if (!trim($value[$k])) {
-			$js .= "{$formName}['mapper" .$x. "[$i][$k]'].style.display = 'none';\n"; 
-		      }
-		    }
-		  } else {
-		    $js .= "{$formName}['mapper" .$x. "[$i][1]'].style.display = 'none';\n"; 
-		  }
-		}
-	      }
-	    }
-	    
-	    
-	    //$js .= "{$formName}['mapper1[0][1]'].style.display = '';\n"; 
-	    //$js .= "{$formName}['mapper1[0][2]'].style.display = '';\n"; 
-
-	    $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
-
-	    $operatorArray = array ('=' => '=', '!=' => '!=', '>' => '>', '<' => '<', '>=' => '>=', '<=' => '<=', 'IN' => 'IN', 'NOT IN' => 'NOT IN', 'LIKE' => 'LIKE', 'NOT LIKE' => 'NOT LIKE');
-
-            $this->add('select',"operator{$x}[$i]",'', $operatorArray);
-	    $this->add('text',"value{$x}[$i]",'');
-	  }
-
-	  $this->addElement( 'submit', 'addMore'.$x, ts('another search field'), array( 'class' => 'form-submit' ) );
-
-	}
-
+                if ( ! $jsSet ) {
+                    if ( empty( $formValues ) ) {
+                        for ( $k = 1; $k < 4; $k++ ) {
+                            $js .= "{$formName}['mapper" .$x. "[$i][$k]'].style.display = 'none';\n"; 
+                        }
+                    } else {
+                        foreach ( $formValues['mapper' . $x] as $value) {
+                            //print_r($value);
+                            if ($value[0])  {
+                                for ( $k = 1; $k < 4; $k++ ) {
+                                    if (!trim($value[$k])) {
+                                        $js .= "{$formName}['mapper" .$x. "[$i][$k]'].style.display = 'none';\n"; 
+                                    }
+                                }
+                            } else {
+                                $js .= "{$formName}['mapper" .$x. "[$i][1]'].style.display = 'none';\n"; 
+                            }
+                        }
+                    }
+                }
+                
+                
+                //$js .= "{$formName}['mapper1[0][1]'].style.display = '';\n"; 
+                //$js .= "{$formName}['mapper1[0][2]'].style.display = '';\n"; 
+                
+                $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
+        
+                $operatorArray = array ('=' => '=', '!=' => '!=', '>' => '>', '<' => '<', '>=' => '>=', '<=' => '<=', 'IN' => 'IN', 'NOT IN' => 'NOT IN', 'LIKE' => 'LIKE', 'NOT LIKE' => 'NOT LIKE');
+        
+                $this->add('select',"operator{$x}[$i]",'', $operatorArray);
+                $this->add('text',"value{$x}[$i]",'');
+            }
+            
+            $this->addElement( 'submit', 'addMore'.$x, ts('another search field'), array( 'class' => 'form-submit' ) );
+            
+        }
+        
         $js .= "</script>\n";
-
+        
         $this->assign('initHideBoxes', $js);
         $this->assign('columnCount1', $this->_columnCount1);
         $this->assign('columnCount2', $this->_columnCount2);
-
-       
+        
+        
         $this->setDefaults($defaults);
         
         $this->setDefaultAction( 'refresh' );
@@ -266,10 +267,10 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form {
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Search')
-					 ))
+                                         ))
                            );
     }
-
+    
 
     /**
      * global validation rules for the form
@@ -280,9 +281,9 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form {
      * @static
      * @access public
      */
-
+    
     static function formRule( &$fields ) {
-
+        
     }    
 
 
@@ -303,87 +304,87 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form {
             $this->set( 'columnCount2', $this->_columnCount2 );
             return;
         }
-
+        
         $checkEmpty = 0;
         foreach ($params['mapper1'] as $value) {
             if ($value[0]) {
                 $checkEmpty++;
             }
         }
-	
-	if (!$checkEmpty) {
-	  foreach ($params['mapper2'] as $value) {
-            if ($value[0]) {
-	      $checkEmpty++;
+        
+        if (!$checkEmpty) {
+            foreach ($params['mapper2'] as $value) {
+                if ($value[0]) {
+                    $checkEmpty++;
+                }
             }
-	  }
-	}
-
+        }
+        
         if (!$checkEmpty ) {
             require_once 'CRM/Utils/System.php';            
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/builder', '_qf_Builder_display=true' ) );
         }
-	
-	//save the record in mapping table
-	$mappingParams = array('mapping_type' => 'Search Builder');
-	
-	$temp = array();
-	require_once "CRM/Core/BAO/Mapping.php";
-	$saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
-	
-	//save mapping fields
-	for ( $i = 0; $i < $this->_columnCount1; $i++ ) {
-	  if ( !empty($params['mapper1'][$i][0]) ) {
-	    $saveMappingFields =& new CRM_Core_DAO_MappingField();
-	    $saveMappingFields->mapping_id = $saveMapping->id;
-	    $saveMappingFields->name =  $this->_mapperFields[$params['mapper1'][$i][0]][$mapperKeys1[$i][1]];
-	    $saveMappingFields->contact_type =  $params['mapper1'][$i][0];
-	    $saveMappingFields->operator = $params['operator1'][$i];
-	    $saveMappingFields->value    = $params['value2'][$i];
+        
+        //save the record in mapping table
+        $mappingParams = array('mapping_type' => 'Search Builder');
+        
+        $temp = array();
+        require_once "CRM/Core/BAO/Mapping.php";
+        $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+        
+        //save mapping fields
+        for ( $i = 0; $i < $this->_columnCount1; $i++ ) {
+            if ( !empty($params['mapper1'][$i][0]) ) {
+                $saveMappingFields =& new CRM_Core_DAO_MappingField();
+                $saveMappingFields->mapping_id = $saveMapping->id;
+                $saveMappingFields->name =  $this->_mapperFields[$params['mapper1'][$i][0]][$mapperKeys1[$i][1]];
+                $saveMappingFields->contact_type =  $params['mapper1'][$i][0];
+                $saveMappingFields->operator = $params['operator1'][$i];
+                $saveMappingFields->value    = $params['value2'][$i];
 	    
-	    $locationId = $params['mapper1'][$i][2];
-	    $saveMappingFields->location_type_id = isset($locationId) ? $locationId : null;
+                $locationId = $params['mapper1'][$i][2];
+                $saveMappingFields->location_type_id = isset($locationId) ? $locationId : null;
 	    
-	    $saveMappingFields->phone_type = $params['mapper1'][$i][3];
+                $saveMappingFields->phone_type = $params['mapper1'][$i][3];
 	    
-	    $relation = $params['mapper1'][$i][1];
-	    list($id, $first, $second) = explode('_', $relation);
-	    if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-	      $saveMappingFields->relationship_type_id = $id;
-	    } else {
-	      $saveMappingFields->relationship_type_id = null;
-	    }
+                $relation = $params['mapper1'][$i][1];
+                list($id, $first, $second) = explode('_', $relation);
+                if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
+                    $saveMappingFields->relationship_type_id = $id;
+                } else {
+                    $saveMappingFields->relationship_type_id = null;
+                }
 	    
-	    $saveMappingFields->save();
-	  }
-	}
+                $saveMappingFields->save();
+            }
+        }
 
-	for ( $i = 0; $i < $this->_columnCount2; $i++ ) {
-	  if ( !empty($params['mapper2'][$i][0]) ) {
-	    $saveMappingFields =& new CRM_Core_DAO_MappingField();
-	    $saveMappingFields->mapping_id = $saveMapping->id;
-	    $saveMappingFields->name =  $this->_mapperFields[$params['mapper2'][$i][0]][$mapperKeys2[$i][1]];
-	    $saveMappingFields->contact_type =  $params['mapper2'][$i][0];
-	    $saveMappingFields->grouping = 1;
-	    $saveMappingFields->operator = $params['operator1'][$i];
-	    $saveMappingFields->value    = $params['value2'][$i];
+        for ( $i = 0; $i < $this->_columnCount2; $i++ ) {
+            if ( !empty($params['mapper2'][$i][0]) ) {
+                $saveMappingFields =& new CRM_Core_DAO_MappingField();
+                $saveMappingFields->mapping_id = $saveMapping->id;
+                $saveMappingFields->name =  $this->_mapperFields[$params['mapper2'][$i][0]][$mapperKeys2[$i][1]];
+                $saveMappingFields->contact_type =  $params['mapper2'][$i][0];
+                $saveMappingFields->grouping = 1;
+                $saveMappingFields->operator = $params['operator1'][$i];
+                $saveMappingFields->value    = $params['value2'][$i];
 	    
-	    $locationId = $params['mapper2'][$i][2];
-	    $saveMappingFields->location_type_id = isset($locationId) ? $locationId : null;
+                $locationId = $params['mapper2'][$i][2];
+                $saveMappingFields->location_type_id = isset($locationId) ? $locationId : null;
 	    
-	    $saveMappingFields->phone_type = $params['mapper2'][$i][3];
+                $saveMappingFields->phone_type = $params['mapper2'][$i][3];
 	    
-	    $relation = $params['mapper2'][$i][1];
-	    list($id, $first, $second) = explode('_', $relation);
-	    if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-	      $saveMappingFields->relationship_type_id = $id;
-	    } else {
-	      $saveMappingFields->relationship_type_id = null;
-	    }
+                $relation = $params['mapper2'][$i][1];
+                list($id, $first, $second) = explode('_', $relation);
+                if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
+                    $saveMappingFields->relationship_type_id = $id;
+                } else {
+                    $saveMappingFields->relationship_type_id = null;
+                }
 	    
-	    $saveMappingFields->save();
-	  }
-	}
+                $saveMappingFields->save();
+            }
+        }
     }
     
 }
