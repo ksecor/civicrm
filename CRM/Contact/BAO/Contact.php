@@ -1661,6 +1661,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                 $returnProperties[$name] = 1;
             }
         }
+
         return $returnProperties;
     }
     

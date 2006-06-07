@@ -281,7 +281,7 @@ class CRM_Contact_BAO_Query {
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        //CRM_Core_Error::debug( 'q', $this );
+        // CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -358,16 +358,23 @@ class CRM_Contact_BAO_Query {
         }
 
         foreach ($this->_fields as $name => $field) {
+
+            // if this is a hierarchical name, we ignore it
+            $names = explode( '-', $name );
+            if ( count( $names > 1 ) && is_numeric( $names[1] ) ) {
+                continue;
+            }
+
             $value = CRM_Utils_Array::value( $name, $this->_params );
             // if we need to get the value for this param or we need all values
             if ( ! CRM_Utils_System::isNull( $value ) || 
                  CRM_Utils_Array::value( $name, $this->_returnProperties ) ) {
+
                 $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
                 if ( $cfID ) {
                     $value = CRM_Utils_Array::value( $name, $this->_params );
                     $cfIDs[$cfID] = $value;
                 } else if ( isset( $field['where'] ) ) {
-		  /*
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) { 
                         if ( CRM_Utils_Array::value( $tableName, self::$_dependencies ) ) {
@@ -408,7 +415,6 @@ class CRM_Contact_BAO_Query {
                         $this->_element[$name]             = 1;
 
                     }
-		  */
                 } elseif ($name === 'tags') {
                     $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_tag.name)) AS tags";
                     $this->_tables['civicrm_tag'       ] = 1;
@@ -434,7 +440,6 @@ class CRM_Contact_BAO_Query {
             }
         }
         
-        
         // add location as hierarchical elements
         $this->addHierarchicalElements( );
 
@@ -442,7 +447,6 @@ class CRM_Contact_BAO_Query {
         CRM_Core_Component::alterQuery( $this, 'select' );
 
         if ( ! empty( $cfIDs ) ) {
-            //CRM_Core_Error::debug( 'cfIDs', $cfIDs );
             require_once 'CRM/Core/BAO/CustomQuery.php';
             $this->_customQuery = new CRM_Core_BAO_CustomQuery( $cfIDs );
             $this->_customQuery->query( );
@@ -472,6 +476,7 @@ class CRM_Contact_BAO_Query {
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
         $processed     = array( );
         $index = 0;
+
         foreach ( $this->_returnProperties['location'] as $name => $elements ) {
             $index++;
             $lName = "`$name-location`";
@@ -487,10 +492,14 @@ class CRM_Contact_BAO_Query {
                 $lCond = "$lName.location_type_id = $locationTypeId";
             }
 
+            $locationJoin = $locationTypeJoin = $addressJoin = $locationIndex = null;
+
             $tName = "$name-location";
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
-            $this->_tables[ 'civicrm_location_' . $index ] = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = contact_a.id AND $lCond )";
+            $locationJoin = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = contact_a.id AND $lCond )"; 
+            $this->_tables[ 'civicrm_location_' . $index ] = $locationJoin;
+            $locationIndex = $index;
 
             $tName  = "$name-location_type";
             $ltName ="`$name-location_type`";
@@ -498,14 +507,15 @@ class CRM_Contact_BAO_Query {
             $this->_select["{$tName}"    ]  = "`$tName`.name as `{$tName}`"; 
             $this->_element["{$tName}_id"]  = 1;
             $this->_element["{$tName}"   ]  = 1;  
-            $this->_tables[ 'civicrm_location_type_' . $index ] = "\nLEFT JOIN civicrm_location_type $ltName ON ($lName.location_type_id = $ltName.id )";
-
+            $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ($lName.location_type_id = $ltName.id )";
+            $this->_tables[ 'civicrm_location_type_' . $index ] = $locationTypeJoin;
 
             $aName = "`$name-address`";
             $tName = "$name-address";
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
-            $this->_tables[ 'civicrm_address_' . $index ] = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
+            $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
+            $this->_tables[ 'civicrm_address_' . $index ] = $addressJoin;
 
             $processed[$lName] = $processed[$aName] = 1;
             foreach ( $elements as $elementFullName => $dontCare ) {
@@ -541,6 +551,15 @@ class CRM_Contact_BAO_Query {
                     }
                 }
 
+                // check if there is a value, if so also add to where Clause
+                $addWhere = false;
+                $value = CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_params );
+                if ( ! CRM_Utils_System::isNull( $value ) ) {
+                    $addWhere = true;
+                    $this->_whereTables[ "civicrm_location_{$locationIndex}" ] = $locationJoin;
+                    $this->_whereTables[ "civicrm_location_type_{$locationIndex}" ] = $locationTypeJoin;
+                }
+                
                 if ( $field && isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     $tName = $name . '-' . substr( $tableName, 8 ) . $elementType;
@@ -556,20 +575,30 @@ class CRM_Contact_BAO_Query {
                         $this->_element["{$name}-{$elementFullName}"] = 1;
                         if ( ! CRM_Utils_Array::value( "`$tName`", $processed ) ) {
                             $processed["`$tName`"] = 1;
+                            $newName = $tableName . '_' . $index;
                             switch ( $tableName ) {
                             case 'civicrm_phone':
                             case 'civicrm_email':
                             case 'civicrm_im':
-                                $this->_tables[$tableName . '_' . $index] = "\nLEFT JOIN $tableName `$tName` ON $lName.id = `$tName`.location_id AND `$tName`.$cond";
+                                $this->_tables[$newName] = "\nLEFT JOIN $tableName `$tName` ON $lName.id = `$tName`.location_id AND `$tName`.$cond";
                                 break;
 
                             case 'civicrm_state_province':
-                                $this->_tables[$tableName . '_' . $index] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.state_province_id";
+                                $this->_tables[$newName] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.state_province_id";
+                                if ( $addWhere ) {
+                                    $this->_whereTables[ "civicrm_address_{$locationIndex}" ] = $addressJoin;
+                                }
                                 break;
 
                             case 'civicrm_country':
-                                $this->_tables[$tableName . '_' . $index] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.country_id";
+                                $this->_tables[$newName] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.country_id";
+                                if ( $addWhere ) {
+                                    $this->_whereTables[ "civicrm_address_{$locationIndex}" ] = $addressJoin;
+                                }
                                 break;
+                            }
+                            if ( $addWhere ) {
+                                $this->_whereTables[$newName] = $this->_tables[$newName];
                             }
                         }
                     }
@@ -709,10 +738,10 @@ class CRM_Contact_BAO_Query {
             $locType = array( );
             $locType = explode('-', $name);
             
-            if (is_numeric($locType[1])) {
-                $this->_params['location_type'] = array($locType[1] => 1);
-                $lType = $this->locationTypeAndName( true );
-            }
+            // if (is_numeric($locType[1])) {
+            // $this->_params['location_type'] = array($locType[1] => 1);
+            // $lType = $this->locationTypeAndName( true );
+            // }
             
             //add phone type if exists
             if ($locType[2]) {

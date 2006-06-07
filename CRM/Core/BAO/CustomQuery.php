@@ -119,15 +119,15 @@ class CRM_Core_BAO_CustomQuery {
     function __construct( $ids ) {
         $this->_ids    =& $ids;
 
-        $this->_select  = array( ); 
-        $this->_element = array( ); 
-        $this->_tables  = array( ); 
+        $this->_select       = array( ); 
+        $this->_element      = array( ); 
+        $this->_tables       = array( ); 
         $this->_whereTables  = array( ); 
-        $this->_where   = array( );
-        $this->_qill    = array( );
-        $this->_options = array( );
+        $this->_where        = array( );
+        $this->_qill         = array( );
+        $this->_options      = array( );
 
-        $this->_fields  = array( );
+        $this->_fields       = array( );
 
         if ( empty( $this->_ids ) ) {
             return;
@@ -198,13 +198,17 @@ class CRM_Core_BAO_CustomQuery {
             if ( $field['extends'] == 'civicrm_contact' ) {
                 $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
                     " AND $name.entity_table = 'civicrm_contact' AND $name.entity_id = contact_a.id ";
+                if ( $this->_params[$id] ) {
+                    $this->_whereTables[$name] = $this->_tables[$name];
+                }
             } else if ( $field['extends'] == 'civicrm_contribution' ) {
                 $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
                     " AND $name.entity_table = 'civicrm_contribution' AND $name.entity_id = civicrm_contribution.id ";
                 $this->_tables['civicrm_contribution'] = 1;
-                $this->_whereTables['civicrm_contribution'] = 1;
+                if ( $this->_params[$id] ) {
+                    $this->_whereTables['civicrm_contribution'] = 1;
+                }
             }
-            $this->_whereTables[$name] = $this->_tables[$name];
         }
 
     }
