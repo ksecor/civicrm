@@ -130,7 +130,7 @@ class CRM_Utils_Token {
         if (! $value) {
             $value = '$3';
         }
-        $str = preg_replace("/([^\{])?$token/", "$1$value", $str);
+        $str = preg_replace("/([^\{])?$token/", "\${1}$value", $str);
         return $str;
     }
     
