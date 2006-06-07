@@ -2,7 +2,7 @@
 
 <table>
   <base>CRM/Member</base>
-  <class>MembershipType</class>
+  <class>MembershipStatus</class>
   <name>civicrm_membership_status</name>
   <comment>A Membership Status stores admin configurable status options and rules</comment>
   <add>1.5</add>

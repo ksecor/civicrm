@@ -2,7 +2,7 @@
 
 <table>
   <base>CRM/Member</base>
-  <class>MembershipType</class>
+  <class>Membership</class>
   <name>civicrm_membership</name>
   <comment>Membership</comment>
   <add>1.5</add>
