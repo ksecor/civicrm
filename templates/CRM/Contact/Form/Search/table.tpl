@@ -1,4 +1,7 @@
 {* template for search builder *}
+ <fieldset>
+     {$form.name.label}&nbsp;{$form.name.html}
+ </fieldset>
  <div id="map-field">
   {strip}
    <fieldset><legend>{ts}Include contacts where{/ts}</legend>

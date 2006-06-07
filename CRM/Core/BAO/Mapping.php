@@ -239,5 +239,43 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
              return false;
          }
     }
+
+
+    /**
+     * Function returns associated array of elements, that will be passed for search
+     *
+     * @params int $smartGroupId smart group id 
+     *
+     * @return $returnFields  associated array of elements
+     *
+     * @static
+     * @public
+     */
+    static function getFormatedFields($smartGroupId) 
+    {
+        $returnFields = array();
+
+        //get the fields from mapping table
+        $dao =& new CRM_Core_DAO_MappingField( );
+        $dao->mapping_id = $smartGroupId;
+        $dao->find();
+        while ( $dao->fetch( ) ) {
+            $fldName = $dao->name;
+            if ($dao->location_type_id) {
+                $fldName .= "-{$dao->location_type_id}";
+            }
+            if ($dao->phone_type) {
+                $fldName .= "-{$dao->phone_type}" ;
+            }
+            $returnFields[$fldName]['value'   ] = $dao->value;
+            $returnFields[$fldName]['op'      ] = $dao->operator;
+            $returnFields[$fldName]['grouping'] = $dao->grouping;
+
+        }
+
+        //print_r($returnFields);
+        return $returnFields;
+    }
+
 }
 ?>

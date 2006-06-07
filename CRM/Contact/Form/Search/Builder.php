@@ -81,7 +81,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
         } else {
             $this->_columnCount1 = $this->_columnCount1 + 1;
         }
-
+        
         if (! $this->_columnCount2 ) {
             $this->_columnCount2 = 1;
         } else {
@@ -92,8 +92,14 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
     }
     
     public function buildQuickForm( ) {
+
         require_once 'CRM/Contact/BAO/Contact.php';
         require_once 'CRM/Core/BAO/LocationType.php';
+        require_once 'CRM/Contact/DAO/Group.php';
+        
+        //add name
+        $this->add("text", "name", ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ));
+        $this->addRule( 'name', ts('Please enter a valid name.'), 'required' );
         
         $this->_defaults = array( );
         $hasLocationTypes= array();
@@ -155,10 +161,10 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
                 $sel2[$key] = $this->_mapperFields[$key];
             }
         }
-       
+        
         $sel3[''] = null;
         $phoneTypes = CRM_Core_SelectValues::phoneType();
-
+        
         foreach($sel1 as $k=>$sel ) {
             if($k) {
                 foreach ($this->_location_types as $key => $value) {                        
@@ -170,9 +176,9 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
         foreach($sel1 as $k=>$sel ) {
             if($k) {
                 foreach ($this->_mapperFields[$k]  as $key=>$value) {
-                   
+                    
                     if ($hasLocationTypes[$k][$key]) {
-                       
+                        
                         $sel3[$k][$key] = $this->_location_types;
                     } else {
                         $sel3[$key] = null;
@@ -180,13 +186,12 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
                 }
             }
         }
-
-        // print_r($sel3);
-
+        
+        
         $this->_defaults = array();
         $js = "<script type='text/javascript'>\n";
         $formName = "document.{$this->_name}";
-
+        
     
         //used to warn for mismatch column count or mismatch mapping 
         $warning = 0;
@@ -209,13 +214,13 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
                 //print_r($formValues);
                 
                 /*
-	              if ( ! $jsSet && empty( $formValues ) ) {
-	               for ( $k = 1; $k < 4; $k++ ) {
-              		$js .= "{$formName}['mapper{$x}[$i][$k]'].style.display = 'none';\n"; 
-	                 }
-	                }
+                if ( ! $jsSet && empty( $formValues ) ) {
+                    for ( $k = 1; $k < 4; $k++ ) {
+                        $js .= "{$formName}['mapper{$x}[$i][$k]'].style.display = 'none';\n"; 
+                    }
+                }
                 */
-	    
+                
                 if ( ! $jsSet ) {
                     if ( empty( $formValues ) ) {
                         for ( $k = 1; $k < 4; $k++ ) {
@@ -237,12 +242,8 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
                     }
                 }
                 
-                
-                //$js .= "{$formName}['mapper1[0][1]'].style.display = '';\n"; 
-                //$js .= "{$formName}['mapper1[0][2]'].style.display = '';\n"; 
-                
                 $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
-        
+                
                 $operatorArray = array ('=' => '=', '!=' => '!=', '>' => '>', '<' => '<', '>=' => '>=', '<=' => '<=', 'IN' => 'IN', 'NOT IN' => 'NOT IN', 'LIKE' => 'LIKE', 'NOT LIKE' => 'NOT LIKE');
         
                 $this->add('select',"operator{$x}[$i]",'', $operatorArray);
@@ -263,7 +264,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
         $this->setDefaults($defaults);
         
         $this->setDefaultAction( 'refresh' );
-
+        
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Search')
@@ -271,7 +272,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
                            );
     }
     
-
+    
     /**
      * global validation rules for the form
      *
@@ -285,8 +286,8 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
     static function formRule( &$fields ) {
         
     }    
-
-
+    
+    
     /**
      * Process the uploaded file
      *
@@ -337,10 +338,11 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
             if ( !empty($params['mapper1'][$i][0]) ) {
                 $saveMappingFields =& new CRM_Core_DAO_MappingField();
                 $saveMappingFields->mapping_id = $saveMapping->id;
-                $saveMappingFields->name =  $this->_mapperFields[$params['mapper1'][$i][0]][$mapperKeys1[$i][1]];
+                //$saveMappingFields->name =  $this->_mapperFields[$params['mapper1'][$i][0]][$params['mapper1'][$i][1]];
+                $saveMappingFields->name =  $params['mapper1'][$i][1];
                 $saveMappingFields->contact_type =  $params['mapper1'][$i][0];
                 $saveMappingFields->operator = $params['operator1'][$i];
-                $saveMappingFields->value    = $params['value2'][$i];
+                $saveMappingFields->value    = $params['value1'][$i];
 	    
                 $locationId = $params['mapper1'][$i][2];
                 $saveMappingFields->location_type_id = isset($locationId) ? $locationId : null;
@@ -363,10 +365,11 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
             if ( !empty($params['mapper2'][$i][0]) ) {
                 $saveMappingFields =& new CRM_Core_DAO_MappingField();
                 $saveMappingFields->mapping_id = $saveMapping->id;
-                $saveMappingFields->name =  $this->_mapperFields[$params['mapper2'][$i][0]][$mapperKeys2[$i][1]];
+                //$saveMappingFields->name =  $this->_mapperFields[$params['mapper2'][$i][0]][$params['mapper2'][$i][1]];
+                $saveMappingFields->name =  $params['mapper2'][$i][1];
                 $saveMappingFields->contact_type =  $params['mapper2'][$i][0];
                 $saveMappingFields->grouping = 1;
-                $saveMappingFields->operator = $params['operator1'][$i];
+                $saveMappingFields->operator = $params['operator2'][$i];
                 $saveMappingFields->value    = $params['value2'][$i];
 	    
                 $locationId = $params['mapper2'][$i][2];
@@ -385,6 +388,24 @@ class CRM_Contact_Form_Search_Builder extends CRM_Core_Form
                 $saveMappingFields->save();
             }
         }
+        
+        
+        // save the search
+        require_once "CRM/Contact/BAO/SavedSearch.php";
+        $savedSearch =& new CRM_Contact_BAO_SavedSearch();
+        $savedSearch->mapping_id   = $saveMapping->id;
+        $savedSearch->save();
+        
+        // also create a group that is associated with this saved search only if new saved search
+        $groupParams = array( );
+        $groupParams['domain_id'  ]     = CRM_Core_Config::domainID( );
+        $groupParams['title'      ]     = $params['name'];
+        $groupParams['visibility' ]     = 'User and User Admin Only';
+        $groupParams['saved_search_id'] = $savedSearch->id;
+        $groupParams['is_active']       = 1;
+        
+        $group =& CRM_Contact_BAO_Group::create( $groupParams );
+
     }
     
 }
