@@ -116,14 +116,14 @@
       <add>1.5</add>
   </foreignKey>
   <field>
-      <name>admin_status_id</name>
+      <name>override_status_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to Membership Status</comment>
+      <comment>Admin users may set a manual status which overrides the calculated status. FK to Membership Status</comment>
       <add>1.5</add>
   </field>
   <foreignKey>
-      <name>admin_status_id</name> 
+      <name>override_status_id</name> 
       <table>civicrm_membership_status</table> 
       <key>id</key>
       <add>1.5</add>
