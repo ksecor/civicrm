@@ -121,16 +121,4 @@
        <comment>Redirect to URL when Cancle button clik .</comment>
        <add>1.4</add>
   </field>
-  <field>
-       <name>membership_type_id</name>
-       <type>int unsigned</type>
-       <comment>FK To Membership Type ID</comment>
-       <add>1.5</add>
-  </field>
-  <foreignKey>
-       <name>membership_type_id</name>
-       <table>civicrm_membership_type</table>
-       <key>id</key>
-       <add>1.5</add>
-  </foreignKey>
 </table>
