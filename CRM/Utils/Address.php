@@ -78,11 +78,7 @@ class CRM_Utils_Address {
         // the value is not empty, otherwise drop the whole {fooTOKENbar}
         foreach ($replacements as $token => $value) {
             if ($value) {
-                // note: we have to use the bogus (and empty) \99 backreference,
-                // otherwise a '00-666' postal code would get glued to
-                // \1 backreference producing \10 backreference followed
-                // by '0-666' string; FIXME if there is Another Way(tm)
-                $formatted = preg_replace("/{([^{}]*){$token}([^{}]*)}/u", "\\1\\99{$value}\\2", $formatted);
+                $formatted = preg_replace("/{([^{}]*){$token}([^{}]*)}/u", "\${1}{$value}\${2}", $formatted);
             } else {
                 $formatted = preg_replace("/{[^{}]*{$token}[^{}]*}/u", '', $formatted);
             }
