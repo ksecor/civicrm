@@ -675,11 +675,12 @@ class CRM_Contact_BAO_Query {
      */ 
     function whereClause( ) {
         //CRM_Core_Error::debug( 'p', $this->_params );
-	  
+        $this->_where[0] = array( );
+
         // domain id is always part of the where clause
         $config  =& CRM_Core_Config::singleton( ); 
         if ( $config->includeDomainID ) {
-            $this->_where[] = 'contact_a.domain_id = ' . $config->domainID( );
+            $this->_where[0][] = 'contact_a.domain_id = ' . $config->domainID( );
         }
         
         // check for both id and contact_id
@@ -688,7 +689,7 @@ class CRM_Contact_BAO_Query {
             $id = CRM_Utils_Array::value( 'contact_id', $this->_params );
         }
         if ( $id ) {
-            $this->_where[] = "contact_a.id = $id";
+            $this->_where[0][] = "contact_a.id = $id";
         }
         
         $this->contactType( );
@@ -724,7 +725,7 @@ class CRM_Contact_BAO_Query {
             }
 
             $op       = ' = ';
-            $grouping = 'Default Set';
+            $grouping = 1;
             $value    = CRM_Utils_Array::value( $name, $this->_params );
             $wildcard = 1;
 
@@ -743,6 +744,10 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
 
+            if ( ! CRM_Utils_Array::value( $grouping, $this->_where ) ) {
+                $this->_where[$grouping] = array( );
+            }
+
             //check if the location type exits for fields
             $lType = '';
             $locType = array( );
@@ -755,7 +760,7 @@ class CRM_Contact_BAO_Query {
             
             //add phone type if exists
             if ($locType[2]) {
-                $this->_where[] = "civicrm_phone.phone_type ='".$locType[2]."'";
+                $this->_where[$grouping][] = "civicrm_phone.phone_type = '{$locType[2]}'";
             }
 
             // FIXME: the LOWER/strtolower pairs below most probably won't work
@@ -772,7 +777,7 @@ class CRM_Contact_BAO_Query {
                 if ( is_numeric( $value ) ) {
                     $value  =  $states[(int ) $value];
                 }
-                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
+                $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
                 if (!$lType) {
                     $this->_qill[] = ts('State - "%1"', array( 1 => $value ) );         
                 } else {
@@ -783,7 +788,7 @@ class CRM_Contact_BAO_Query {
                 if ( is_numeric( $value ) ) { 
                     $value     =  $countries[(int ) $value]; 
                 }
-                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
+                $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
                 if (!$lType) {
                     $this->_qill[] = ts('Country - "%1"', array( 1 => $value ) );
                 } else {
@@ -795,33 +800,33 @@ class CRM_Contact_BAO_Query {
                 if ( is_numeric( $value ) ) { 
                     $value     =  $individualPrefixs[(int ) $value];  
                 }
-                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
+                $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
                 $this->_qill[] = ts('Individual Prefix - "%1"', array( 1 => $value ) );
             } else if ( $name === 'individual_suffix' ) {
                 $individualSuffixs =& CRM_Core_PseudoConstant::individualsuffix( ); 
                 if ( is_numeric( $value ) ) { 
                     $value     =  $individualSuffixs[(int ) $value];  
                 }
-                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
+                $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
                 $this->_qill[] = ts('Individual Suffix - "%1"', array( 1 => $value ) );
             } else if ( $name === 'gender' ) {
                 $genders =& CRM_Core_PseudoConstant::gender( );  
                 if ( is_numeric( $value ) ) {  
                     $value     =  $genders[(int ) $value];  
                 }
-                $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
+                $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
                 $this->_qill[] = ts('Gender - "%1"', array( 1 => $value ) ); 
             } else if ( $name === 'birth_date' ) {
                 $date = CRM_Utils_Date::format( $value );
                 if ( ! $date ) {
                     continue;
                 }
-                $this->_where[] = $field['where'] . " $op $date";
+                $this->_where[$grouping][] = $field['where'] . " $op $date";
                 $date = CRM_Utils_Date::customFormat( $value );
                 $this->_qill[]  = "$field[title] - \"$date\"";
             } else if ( $name === 'contact_id' ) {
                 if ( is_int( $value ) ) {
-                    $this->_where[] = $field['where'] . " $op $value";
+                    $this->_where[$grouping][] = $field['where'] . " $op $value";
                     $this->_qill[]  = ts( "%1 $op %2", array( 1 => $field['title'], 2 => $value ) );
                 }
             } else if ( $name === 'name' ) {
@@ -829,7 +834,7 @@ class CRM_Contact_BAO_Query {
                 if ( $wildcard ) {
                     $value = "%$value%"; 
                 }
-                $this->_where[] = "LOWER( {$field['where']} ) $op '$value'";
+                $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
                 $this->_qill[]  = ts( '%1 $op "%2"', array( 1 => $field['title'], 2 => $value ) );
             } else {
                 // sometime the value is an array, need to investigate and fix
@@ -843,7 +848,7 @@ class CRM_Contact_BAO_Query {
                         $value = "%$value%"; 
                     }
                     if ( $this->_strict ) {
-                        $this->_where[] = "LOWER( {$field['where']} ) $op '$value'";
+                        $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
                         $this->_qill[]  = ts( '%1 $op "%2"', array( 1 => $field['title'], 2 => $value ) );
                     } else {
                         if (is_numeric($locType[1])) {
@@ -853,9 +858,9 @@ class CRM_Contact_BAO_Query {
                             $locationType =& CRM_Core_PseudoConstant::locationType();
                             $tName = $locationType[$locType[1]] . "-" . $name;
                             $where = "`$tName`.$fldName";
-                            $this->_where[] = "LOWER( $where ) $op '$value'";
+                            $this->_where[$grouping][] = "LOWER( $where ) $op '$value'";
                         } else {
-                            $this->_where[] = "LOWER( {$field['where']} ) $op '$value'";
+                            $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
                         }
                         
                         if ( $name != 'college_interest') { //temporary fix.. needs to be changed
@@ -873,7 +878,17 @@ class CRM_Contact_BAO_Query {
             $this->_where = array_merge( $this->_where  , $this->_customQuery->_where );
             $this->_qill  = array_merge( $this->_qill   , $this->_customQuery->_qill  );
         }
-        return  implode( ' AND ', $this->_where );
+
+        $clauses = array( );
+        foreach ( $this->_where as $grouping => $values ) {
+            $clauses[$grouping] = implode( ' AND ', $values );
+            if ( $grouping > 0 && ! empty( $clauses[$grouping] ) ) {
+                $clauses[$grouping] .= " AND {$clauses[0]}";
+            }
+        }
+
+        unset( $clauses[0] );
+        return  implode( ' OR ', $clauses );
     }
 
     /**

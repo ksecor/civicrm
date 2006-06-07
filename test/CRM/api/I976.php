@@ -14,10 +14,16 @@ class TestOfCRM755 extends UnitTestCase
     
     function testCRM755() 
     {
-        $params = array( 'email' => array( 'op'       => 'LIKE',
-                                           'value'    => 'yahoo',
-                                           'grouping' => 1,
-                                           'wildcard' => 1 ) );
+        $params = array( 'first_name' => array( 'op'       => '=',
+                                                'value'    => 'Donald',
+                                                'grouping' => 1,
+                                                'wildcard' => 0 ),
+                         'email' => array( 'op'       => 'LIKE',
+                                           'value'    => 'hotmail',
+                                           'grouping' => 2,
+                                           'wildcard' => 1 ),
+                         );
+                         
 
         $returnProperties = array( 'first_name' => 1,
                                    'last_name'  => 1,
