@@ -723,8 +723,18 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
 
-            $value = CRM_Utils_Array::value( $name, $this->_params );
-                
+            $op       = ' = ';
+            $grouping = 'Default Set';
+            $value    = CRM_Utils_Array::value( $name, $this->_params );
+            $wildcard = 1;
+
+            if ( is_array( $value ) ) {
+                $op       = $value['op'];
+                $grouping = $value['grouping'];
+                $wildcard = CRM_Utils_Array::value( 'wildcard', $value, 0 );
+                $value    = $value['value'];
+            }
+
             if ( ! isset( $value ) || $value == null ) {
                 continue;
             }
@@ -806,17 +816,21 @@ class CRM_Contact_BAO_Query {
                 if ( ! $date ) {
                     continue;
                 }
-                $this->_where[] = $field['where'] . " = $date";
+                $this->_where[] = $field['where'] . " $op $date";
                 $date = CRM_Utils_Date::customFormat( $value );
-                $this->_qill[]  = "$field[title] \"$date\"";
+                $this->_qill[]  = "$field[title] - \"$date\"";
             } else if ( $name === 'contact_id' ) {
                 if ( is_int( $value ) ) {
-                    $this->_where[] = $field['where'] . " = $value";
-                    $this->_qill[]  = ts( '%1 is equal to %2', array( 1 => $field['title'], 2 => $value ) );
+                    $this->_where[] = $field['where'] . " $op $value";
+                    $this->_qill[]  = ts( "%1 $op %2", array( 1 => $field['title'], 2 => $value ) );
                 }
             } else if ( $name === 'name' ) {
-                $this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';  
-                $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
+                $value = strtolower( addslashes( $value ) );
+                if ( $wildcard ) {
+                    $value = "%$value%"; 
+                }
+                $this->_where[] = "LOWER( {$field['where']} ) $op '$value'";
+                $this->_qill[]  = ts( '%1 $op "%2"', array( 1 => $field['title'], 2 => $value ) );
             } else {
                 // sometime the value is an array, need to investigate and fix
                 if ( is_array( $value ) ) {
@@ -824,39 +838,33 @@ class CRM_Contact_BAO_Query {
                 }
 
                 if ( ! empty( $field['where'] ) ) {
+                    $value = strtolower( addslashes( $value ) );
+                    if ( $wildcard ) {
+                        $value = "%$value%"; 
+                    }
                     if ( $this->_strict ) {
-                        $this->_where[] = 'LOWER(' . $field['where'] . ') = "' . strtolower( str_replace( "\"", "", $value)  ) . '"';  
-                        $this->_qill[]  = ts( '%1 = "%2"', array( 1 => $field['title'], 2 => $value ) );
+                        $this->_where[] = "LOWER( {$field['where']} ) $op '$value'";
+                        $this->_qill[]  = ts( '%1 $op "%2"', array( 1 => $field['title'], 2 => $value ) );
                     } else {
-		      //$this->_where[] = 'LOWER(' . $field['where']
-		      //. ') LIKE "%' . strtolower( addslashes( $value
-		      //) ) . '%"';  
-		      if (is_numeric($locType[1])) {
-			list($tbName, $fldName) = explode("." , $field['where']);
-			
-			//get the location name //kurund
-			$locationType =& CRM_Core_PseudoConstant::locationType();
-			
-			$tName = $locationType[$locType[1]] . "-" . $name;
-			$where = "`$tName`.$fldName";
-			$this->_where[] = 'LOWER(' . $where . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';
-			//$this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';
-		      } else {
-			$this->_where[] = 'LOWER(' . $field['where'] . ') LIKE "%' . strtolower( addslashes( $value ) ) . '%"';
-		      }
+                        if (is_numeric($locType[1])) {
+                            list($tbName, $fldName) = explode("." , $field['where']);
+                            
+                            //get the location name //kurund
+                            $locationType =& CRM_Core_PseudoConstant::locationType();
+                            $tName = $locationType[$locType[1]] . "-" . $name;
+                            $where = "`$tName`.$fldName";
+                            $this->_where[] = "LOWER( $where ) $op '$value'";
+                        } else {
+                            $this->_where[] = "LOWER( {$field['where']} ) $op '$value'";
+                        }
                         
-			if ( $name != 'college_interest') { //temporary fix.. needs to be changed
-			  $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
-			}
+                        if ( $name != 'college_interest') { //temporary fix.. needs to be changed
+                            $this->_qill[]  = ts( '%1 like "%2"', array( 1 => $field['title'], 2 => $value ) );
+                        }
                     }
                 }
             }
-
-//             list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
-//             if ( isset( $tableName ) ) { 
-// 	      $this->_tables[$tableName] = 1;  
-// 	      $this->_whereTables[$tableName] = 1;  
-//             }
+            
             // CRM_Core_Error::debug( 'f', $field );
             // CRM_Core_Error::debug( $value, $this->_qill );
         }
