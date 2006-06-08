@@ -47,11 +47,15 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
 
         $config =& CRM_Core_Config::singleton( );
 
-        $groups     = array( ts('Manage'), ts('Configure'), ts('Setup') );       
+        $groups     = array( ts('Manage'), ts('Configure'), ts('Setup') );
         if ( in_array("CiviContribute", $config->enableComponents) ) {
             $groups[] = 'CiviContribute';
         }
         
+        if ( in_array("CiviMember", $config->enableComponents) ) {
+            $groups[] = 'CiviMember';
+        }
+
         $adminPanel = array( );
         foreach ( $groups as $group ) {
             $adminPanel[$group] = array( );

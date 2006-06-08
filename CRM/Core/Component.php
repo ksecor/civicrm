@@ -51,6 +51,13 @@ class CRM_Core_Component {
                                                                                 'edit contributions',
                                                                                 'make online contributions' ),
                                                             'search'  => 1 ),
+                                 'CiviMember'     => array( 'title'   => 'CiviCRM Membership Engine',
+                                                            'path'    => 'CRM_Member_',
+                                                            'url'     => 'member',
+                                                            'perm'    => array( 'access CiviMember',
+                                                                                'edit members',
+                                                                                'view members' ),
+                                                            'search'  => 0 ),
                                  'CiviMail'       => array( 'title'   => 'CiviCRM Mailing Engine',
                                                             'path'    => 'CRM_Mailing_',
                                                             'url'     => 'mailing',
@@ -203,7 +210,6 @@ class CRM_Core_Component {
     static function &defaultReturnProperties( $mode ) {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
-
         $properties = null;
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) &&
