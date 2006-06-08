@@ -89,8 +89,8 @@
   </field> 
   <field>  
       <name>fixed_period_start_day</name>  
-      <type>date</type>   
-      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <type>int</type>   
+      <default>0101</default>
       <comment>Fixed period on which subscription/membership will start</comment>  
       <add>1.5</add>  
   </field> 
