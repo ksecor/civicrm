@@ -563,7 +563,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             if ( is_array( $value ) ) {
                 $checkedData = array_keys( $value );
             } else {
-                $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             }
             $v = array( );
             $p = array( );
@@ -629,7 +629,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         switch ( $html_type ) {
 
         case "CheckBox":
-            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             $default = array( );
             foreach ( $checkedData as $val ) {
                 $default[$val] = 1;
@@ -719,7 +719,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
 
             $defaults[$elementName] = array();
 
-            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             foreach($customOption as $val) {
                 if ( in_array($val['value'], $checkedValue) ) {
                     $defaults[$elementName][$val['value']] = 1;
@@ -733,7 +733,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case 'Multi-Select':
             $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
             $defaults[$elementName] = array();
-            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             foreach($customOption as $val) {
                 if ( in_array($val['value'], $checkedValue) ) {
                     $defaults[$elementName][$val['value']] = $val['value'];

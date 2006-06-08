@@ -758,7 +758,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
-                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
@@ -775,7 +775,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $defaults[$elementName] = array();
                         if (isset($field['customValue']['data'])) {
-                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,substr($field['customValue']['data'],1,-1));
                             foreach($customOption as $val) {
                                 if (in_array($val['value'], $checkedData)) {
                                     $defaults[$elementName][$val['value']] = 1;
@@ -784,7 +784,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                                 }
                             }
                         } else {
-                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                             foreach($customOption as $val) {
                                 if ( in_array($val['value'], $checkedValue) ) {
                                     $defaults[$elementName][$val['value']] = 1;
@@ -801,7 +801,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
-                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
@@ -816,7 +816,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $defaults[$elementName] = array();
                         if (isset($field['customValue']['data'])) {
-                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($field['customValue']['data'],1,-1));
                             foreach($customOption as $val) {
                                 if (in_array($val['value'], $checkedData)) {
                                     //$defaults[$elementName][$val['value']] = 1;
@@ -824,7 +824,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                                 } 
                             }
                         } else {
-                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                             foreach($customOption as $val) {
                                 if ( in_array($val['value'], $checkedValue) ) {
                                     $defaults[$elementName][$val['value']] = $val['value'];
@@ -898,7 +898,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     if ( ! empty( $v ) ) {
                         $customValue = array_keys( $v );
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
+                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -915,7 +915,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     }
                     if ( ! empty( $v ) ) {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $v);
+                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $v).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }

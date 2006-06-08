@@ -494,8 +494,9 @@ class CRM_GCD {
         }
 
         // custom data - gotv
+        require_once 'CRM/Core/BAO/CustomOption.php';
         foreach ($sampleData->gotv->status as $status) {
-            $this->gotv[] = trim($status); 
+            $this->gotv[] = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.trim($status).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR; 
         }
 
         // custom data - marital_status

@@ -394,7 +394,7 @@ function _crm_format_params( &$params, &$values ) {
                         }
                     }
                 }
-                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
 
             } else if( $customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
@@ -530,7 +530,7 @@ function _crm_format_contrib_params( &$params, &$values ) {
                         }
                     }
                 }
-                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else if( $customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
@@ -1101,7 +1101,7 @@ function _crm_add_formatted_param(&$values, &$params) {
                 $comm[trim($v)] = $optionValues[trim($v)];
             }
         }
-        $params['preferred_communication_method'] = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $comm );
+        $params['preferred_communication_method'] = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $comm ).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
         return true;
     }
     
@@ -1275,7 +1275,7 @@ function _crm_add_formatted_param(&$values, &$params) {
                         }
                     }
                 }
-                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
@@ -1364,7 +1364,7 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
                         }
                     }
                 }
-                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
@@ -1700,7 +1700,7 @@ function _crm_add_formatted_history_param(&$values, &$params) {
                         }
                     }
                 }
-                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {

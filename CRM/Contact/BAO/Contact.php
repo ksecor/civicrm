@@ -1848,9 +1848,9 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                     if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                         //fix checkbox
                         if ( $customFields[$customFieldID][3] == 'CheckBox' ) {
-                            $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
+                            $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                         } if ( $customFields[$customFieldID][3] == 'Multi-Select' ) {
-                            $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                            $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                         }
                         // fix the date field 
                         if ( $customFields[$customFieldID][2] == 'Date' ) {
@@ -1990,7 +1990,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
-        
+                
         $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
         
         // Process group and tag  
