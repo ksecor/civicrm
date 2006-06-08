@@ -43,7 +43,6 @@ class CRM_Member_Invoke {
         if ( $args[1] !== 'admin' && $args[2] !== 'member' ) {
             return;
         }
-
         $view = null;
 
         switch ( CRM_Utils_Array::value( 3, $args, '' ) ) {
@@ -59,9 +58,9 @@ class CRM_Member_Invoke {
             break;
             
         default:
-//             require_once 'CRM/Member/Page/ContributionPage.php'; 
-//             $view =& new CRM_Member_Page_ContributionPage(ts('Contribution Page'));  
-//             break;
+            require_once 'CRM/Member/Page/MembershipType.php';
+            $view =& new CRM_Member_Page_MembershipType(ts('Contribution Types'));
+            break;
         }
 
         if ( $view ) {
@@ -83,11 +82,6 @@ class CRM_Member_Invoke {
         if ( $args[1] !== 'member' ) {  
             return;  
         }  
-        
-        require_once 'CRM/Member/Page/MembershipType.php';
-        $page =& new CRM_Member_Page_MembershipType( );
-        return $page->run( );
-        
     }
     
 }
