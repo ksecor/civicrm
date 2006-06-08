@@ -35,21 +35,14 @@
       <add>1.5</add>
   </field>
   <field>
-      <name>member_of_entity_table</name>
-      <type>varchar</type>
-      <length>64</length>
-      <comment>Entity Table for Membership Type</comment>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>member_of_entity_id</name>
+      <name>member_of_contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to Contac ID</comment>
       <add>1.5</add>
   </field>
   <foreignKey> 
-      <name>member_of_entity_id</name> 
+      <name>member_of_contact_id</name> 
       <table>civicrm_contact</table> 
       <key>id</key>
       <add>1.5</add>
@@ -76,30 +69,27 @@
   </field> 
   <field>  
       <name>duration_unit</name>  
-      <type>varchar</type>                  
-      <length>64</length>
+      <type>enum</type>
+      <values>day, month, year, lifetime</values>
       <comment>Duration of this Membership</comment>  
       <add>1.5</add>  
   </field> 
   <field>  
-      <name>duration_unit</name>  
-      <type>decimal</type>                  
+      <name>duration_interval</name>  
+      <type>int</type>                  
       <comment>units in the duration</comment>  
       <add>1.5</add>  
   </field> 
   <field>  
       <name>period_type</name>  
-      <type>Date</type>   
-      <headerPattern>/birth/i</headerPattern>
-      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <type>enum</type>
+      <values>rolling, fixed</values>
       <comment>Period Type at date of payment</comment>  
       <add>1.5</add>  
   </field> 
   <field>  
       <name>fixed_period_start_day</name>  
       <type>date</type>   
-      <import>true</import>
-      <headerPattern>/birth/i</headerPattern>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
       <comment>Fixed period on which subscription/membership will start</comment>  
       <add>1.5</add>  
@@ -107,18 +97,22 @@
   <field>  
       <name>fixed_period_rollover_day</name>  
       <type>date</type>
-      <import>true</import>
-      <headerPattern>/birth/i</headerPattern>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>                 
       <comment>Fixed Membership Payments after this date</comment>  
       <add>1.5</add>  
   </field> 
-  <field>  
-      <name>is_household_membership</name>     
-      <title>Is HouseHold Membeship</title>
-      <type>boolean</type>
-      <add>1.5</add>  
-  </field> 
+  <field>
+      <name>relationship_type_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Relationship Type ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>relationship_type_id</name> 
+      <table>civicrm_relationship_type</table> 
+      <key>id</key> 
+      <add>1.5</add>
+  </foreignKey>
   <field>  
       <name>visibility</name>     
       <title>Visible</title>

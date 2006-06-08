@@ -18,42 +18,16 @@
       <name>id</name>
       <autoincrement>true</autoincrement>
   </primaryKey>
+
   <field>
-      <name>member_of_entity_table</name>
-      <type>varchar</type>
-      <length>64</length>
-      <comment>Entity Table for Membership Type</comment>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>member_of_entity_id</name>
+      <name>contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to Contact ID</comment>
       <add>1.5</add>
   </field>
   <foreignKey> 
-      <name>member_of_entity_id</name> 
-      <table>civicrm_contact</table> 
-      <key>id</key>
-      <add>1.5</add>
-  </foreignKey>
-  <field>
-      <name>member_entity_table</name>
-      <type>varchar</type>
-      <length>128</length>
-      <comment>Member Table for Membership Type</comment>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>member_entity_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>FK to Contact ID</comment>
-      <add>1.5</add>
-  </field>
-  <foreignKey> 
-      <name>member_entity_id</name> 
+      <name>contact_id</name> 
       <table>civicrm_contact</table> 
       <key>id</key>
       <add>1.5</add>
@@ -73,9 +47,7 @@
   </foreignKey>
   <field>  
       <name>join_date</name>  
-      <type>Date</type>   
-      <import>true</import>
-      <headerPattern>/birth/i</headerPattern>
+      <type>date</type>   
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
       <comment>Beginning of initial membership period</comment>  
       <add>1.5</add>  
@@ -83,15 +55,13 @@
   <field>  
       <name>start_date</name>  
       <type>date</type>   
-      <headerPattern>/birth/i</headerPattern>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
       <comment>Latest membership period start/renew date</comment>  
       <add>1.5</add>  
-  </field> 
-  <field>  
+  </field>
+  <field> 
       <name>end_date</name>  
       <type>date</type>
-      <headerPattern>/birth/i</headerPattern>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>                 
       <comment>Latest membership period expire date</comment>  
       <add>1.5</add>  
@@ -119,7 +89,6 @@
   <field>
       <name>override_status_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Admin users may set a manual status which overrides the calculated status. FK to Membership Status</comment>
       <add>1.5</add>
   </field>
