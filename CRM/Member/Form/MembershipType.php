@@ -113,17 +113,15 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             CRM_Member_BAO_MembershipType::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected membership type has been deleted.') );
         } else { 
-            echo "==================";
             $params = $ids = array( );
             // store the submitted values in an array
             $params = $this->exportValues();
-            print_r($params);
+
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $ids['membershipType'] = $this->_id;
             }
             $ids['memberOfContact'] = 101;
             $ids['contributionType'] = 1;
-//             $params['member_of_entity_table'] = 'civicrm_contact';
             $membershipType = CRM_Member_BAO_MembershipType::add($params, $ids);
             CRM_Core_Session::setStatus( ts('The membership type "%1" has been saved.', array( 1 => $membershipType->name )) );
         }
