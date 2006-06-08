@@ -96,8 +96,8 @@
   </field> 
   <field>  
       <name>fixed_period_rollover_day</name>  
-      <type>date</type>
-      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>                 
+      <type>int</type>
+      <default>1231</default>
       <comment>Fixed Membership Payments after this date</comment>  
       <add>1.5</add>  
   </field> 
