@@ -167,6 +167,42 @@ class CRM_Core_SelectValues {
     }
 
     /**
+     * various pre defined duration units
+     * @static
+     */
+    static function &durationUnit()
+    {
+        static $durationUnit = null;
+        if (!$durationUnit) {
+            $durationUnit = array(
+                 ''             => ts('- select -'),
+                 'Day'          => ts('Day'),
+                 'Month'        => ts('Month'),
+                 'Year'         => ts('Year'),
+                 'Life_time'    => ts('Life time')
+             );
+        }
+        return $durationUnit;
+    }
+
+    /**
+     * various pre defined period types
+     * @static
+     */
+    static function &periodType()
+    {
+        static $periodType = null;
+        if (!$periodType) {
+            $periodType = array(
+                 ''             => ts('- select -'),
+                 'Rolling'      => ts('Rolling'),
+                 'Fixed'        => ts('Fixed')
+             );
+        }
+        return $periodType;
+    }
+
+    /**
      * Extended property (custom field) data types
      * @static
      */

@@ -51,6 +51,7 @@ class CRM_Contact_BAO_Query {
         MODE_CONTACTS   = 1,
         MODE_CONTRIBUTE = 2,
         MODE_QUEST      = 4,
+        MODE_MEMBER     = 6,
         MODE_ALL        = 7;
     
     /**
