@@ -593,4 +593,7 @@ if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' 
     define( 'CIVICRM_CLEANURL', 0 );
 }
 
+// force PHP to auto-detect Mac line endings
+ini_set('auto_detect_line_endings', '1');
+
 ?>
