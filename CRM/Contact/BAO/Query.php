@@ -887,7 +887,9 @@ class CRM_Contact_BAO_Query {
             }
         }
 
-        unset( $clauses[0] );
+        if ( count( $clauses ) > 1 ) {
+            unset( $clauses[0] );
+        }
         return  implode( ' OR ', $clauses );
     }
 
@@ -1232,7 +1234,7 @@ class CRM_Contact_BAO_Query {
         }
         
         if ( !empty($clause) ) { //fix for CRM-771
-            $this->_where[] = 'contact_a.contact_type IN (' . implode( ',', $clause ) . ')';
+            $this->_where[0][] = 'contact_a.contact_type IN (' . implode( ',', $clause ) . ')';
             $this->_qill[]  = ts('Contact Type -') . ' ' . implode( ' ' . ts('or') . ' ', $clause );
         }
     }
@@ -1291,7 +1293,7 @@ class CRM_Contact_BAO_Query {
             }
         }
         
-        $this->_where[] = $groupClause;
+        $this->_where[0][] = $groupClause;
     }
 
     /**
@@ -1365,7 +1367,7 @@ class CRM_Contact_BAO_Query {
         }
         $this->_qill[]  = ts('Tagged as -') . ' ' . implode( ' ' . ts('or') . ' ', $names ); 
 
-        $this->_where[] = 'tag_id IN (' . implode( ',', array_keys( $this->_params['tag'] ) ) . ')';
+        $this->_where[0][] = 'tag_id IN (' . implode( ',', array_keys( $this->_params['tag'] ) ) . ')';
         $this->_tables['civicrm_entity_tag'] = $this->_whereTables['civicrm_entity_tag'] = 1;
     } 
 
@@ -1407,7 +1409,7 @@ class CRM_Contact_BAO_Query {
                 $this->_tables['civicrm_email']    = $this->_whereTables['civicrm_email'] = 1; 
             }
         } 
-        $this->_where[] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
+        $this->_where[0][] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
         if ( $config->includeEmailInSearch ) {
             $this->_qill[]  = ts( 'Name or Email like - "%1"', array( 1 => $name ) );
         } else {
@@ -1428,7 +1430,7 @@ class CRM_Contact_BAO_Query {
 
         $name = trim( $this->_params['sortByCharacter'] );
         $cond = " LOWER(contact_a.sort_name) LIKE '" . strtolower(addslashes($name)) . "%'"; 
-        $this->_where[] = $cond;
+        $this->_where[0][] = $cond;
         $this->_qill[]  = ts( 'Restricted to Contacts starting with: "%1"', array( 1 => $name ) );
     }
 
@@ -1450,7 +1452,7 @@ class CRM_Contact_BAO_Query {
             } 
         } 
         if ( ! empty( $contactIds ) ) { 
-            $this->_where[] = " ( contact_a.id in (" . implode( ',', $contactIds ) . " ) ) "; 
+            $this->_where[0][] = " ( contact_a.id in (" . implode( ',', $contactIds ) . " ) ) "; 
             $this->_whereClause = implode( ' AND ', $this->_where );
         }
     }
@@ -1475,7 +1477,7 @@ class CRM_Contact_BAO_Query {
             $pcArray   = array(); 
  
             if ($this->_params['postal_code']) { 
-                $this->_where[] = 'civicrm_address.postal_code = "' .
+                $this->_where[0][] = 'civicrm_address.postal_code = "' .
                     CRM_Utils_Type::escape( $this->_params['postal_code'], 'String' ) .
                     '"'; 
                 $this->_tables['civicrm_location'] = $this->_tables['civicrm_address' ] = 1;
@@ -1496,7 +1498,7 @@ class CRM_Contact_BAO_Query {
                     $qill[] = ts( 'less than "%1"', array( 1 => $this->_params['postal_code_high'] ) );
                 }
                 if ( !empty( $pcArray ) ) {
-                    $this->_where[] = '(' . implode( ' AND ', $pcArray ) . ')';
+                    $this->_where[0][] = '(' . implode( ' AND ', $pcArray ) . ')';
                     $this->_tables['civicrm_location'] = $this->_tables['civicrm_address' ] = 1;
                     $this->_whereTables['civicrm_location'] = $this->_whereTables['civicrm_address' ] = 1;
 
@@ -1515,7 +1517,7 @@ class CRM_Contact_BAO_Query {
     function locationTypeAndName( $status = null ) {
         if ( CRM_Utils_Array::value( 'location_type', $this->_params ) ) {
             if (is_array($this->_params['location_type'])) {
-                $this->_where[] = 'civicrm_location.location_type_id IN (' .
+                $this->_where[0][] = 'civicrm_location.location_type_id IN (' .
                     implode( ',', array_keys( $this->_params['location_type'] ) ) .
                     ')';
                 $this->_tables['civicrm_location'] = 1;
@@ -1539,7 +1541,7 @@ class CRM_Contact_BAO_Query {
 
         // do the same for location name
         if ( CRM_Utils_Array::value( 'location_name', $this->_params ) ) {
-            $this->_where[] = "civicrm_location.name LIKE '%" .
+            $this->_where[0][] = "civicrm_location.name LIKE '%" .
                 strtolower(addslashes(trim($this->_params['location_name']))) . "%'";
             $this->_tables['civicrm_location'] = 1;
             $this->_whereTables['civicrm_location'] = 1;
@@ -1563,7 +1565,7 @@ class CRM_Contact_BAO_Query {
             foreach ( $pieces as $piece ) { 
                 $sub[] = " LOWER(civicrm_activity_history.activity_type) LIKE '%" . strtolower(addslashes(trim($piece))) . "%'"; 
             } 
-            $this->_where[] = ' ( ' . implode( '  OR ', $sub ) . ' ) ';
+            $this->_where[0][] = ' ( ' . implode( '  OR ', $sub ) . ' ) ';
             $this->_tables['civicrm_activity_history'] = $this->_whereTables['civicrm_activity_history'] = 1; 
             $this->_qill[]  = ts('Activity Type like - "%1"', array( 1 => $name ) );
         }
@@ -1586,11 +1588,11 @@ class CRM_Contact_BAO_Query {
             $rel = explode( '_' , $this->_params['relation_type_id']);
             self::$_relType = $rel[1];
             if ( $rel[1] == 'a') {
-                $this->_where[] = "LOWER( contact_b.sort_name ) LIKE '%" . strtolower( addslashes( $name ) ) . "%'";
-                $this->_where[] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
+                $this->_where[0][] = "LOWER( contact_b.sort_name ) LIKE '%" . strtolower( addslashes( $name ) ) . "%'";
+                $this->_where[0][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
             } else if ( $rel[1] == 'b')  {
-                $this->_where[] = "LOWER( contact_b.sort_name ) LIKE '%" . strtolower( addslashes( $name ) ) . "%'";
-                $this->_where[] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
+                $this->_where[0][] = "LOWER( contact_b.sort_name ) LIKE '%" . strtolower( addslashes( $name ) ) . "%'";
+                $this->_where[0][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
             }
             $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
 
@@ -1913,7 +1915,7 @@ class CRM_Contact_BAO_Query {
             $date    = CRM_Utils_Date::format( $revDate ); 
             $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
             if ( $date ) {
-                $this->_where[] = $tableName . '.' . $dbFieldName . " >= '$date'";
+                $this->_where[0][] = $tableName . '.' . $dbFieldName . " >= '$date'";
                 $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
                 $qill[] = ts( 'greater than "%1"', array( 1 => $format ) );
             }
@@ -1924,7 +1926,7 @@ class CRM_Contact_BAO_Query {
             $date    = CRM_Utils_Date::format( $revDate ); 
             $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
             if ( $date ) {
-                $this->_where[] = $tableName . '.' . $dbFieldName . " <= '$date'";
+                $this->_where[0][] = $tableName . '.' . $dbFieldName . " <= '$date'";
                 $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
                 $qill[] = ts( 'less than "%1"', array( 1 => $format ) );
             }
@@ -1940,14 +1942,14 @@ class CRM_Contact_BAO_Query {
 
         $name = $fieldName . '_low';
         if ( $this->_params[$name] ) {
-            $this->_where[] = "{$tableName}.{$dbFieldName} >= {$this->_params[$name]}";
+            $this->_where[0][] = "{$tableName}.{$dbFieldName} >= {$this->_params[$name]}";
             $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
             $qill[] = ts( 'greater than "%1"', array( 1 => $this->_params[$name] ) );
         }
 
         $name = $fieldName . '_high';
         if ( $this->_params[$name] ) {
-            $this->_where[] = "{$tableName}.{$dbFieldName} <= {$this->_params[$name]}";
+            $this->_where[0][] = "{$tableName}.{$dbFieldName} <= {$this->_params[$name]}";
             $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
             $qill[] = ts( 'less than "%1"', array( 1 => $this->_params[$name] ) );
         }
