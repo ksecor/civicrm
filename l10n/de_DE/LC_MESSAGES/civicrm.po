@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-18 08:33+0200\n"
-"PO-Revision-Date: 2006-05-31 12:52+0200\n"
+"PO-Revision-Date: 2006-06-04 19:50+0200\n"
 "Last-Translator: Oliver Moldenhauer <oliver@attac.de>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -4948,18 +4948,16 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "default - Dear [first] [last]"
-msgstr "standard - Sehr geehrte [vorname] [nachname]"
+msgstr "standard - Liebe/r [vorname] [nachname]"
 
 #: CRM/Core/SelectValues.php
 msgid "Dear [first]"
-msgstr "Sehr geehrte [vorname]"
+msgstr "Liebe/r [vorname]"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Dear [prefix] [last]"
-msgstr "Sehr geehrte [titel][nachname]"
+msgstr "Sehr geehrte/r [titel][nachname]"
 
 #: CRM/Core/SelectValues.php
 msgid "Customized"
