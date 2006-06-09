@@ -153,110 +153,6 @@ CREATE TABLE civicrm_project (
      FOREIGN KEY (status_id) REFERENCES civicrm_option_value(value)
   
 )  TYPE=InnoDB  ;
-
--- /*******************************************************
--- *
--- * civicrm_membership
--- *
--- * Contact Membership records.
--- *
--- *******************************************************/
-CREATE TABLE civicrm_membership (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
-     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
-     membership_type_id int unsigned NOT NULL   COMMENT 'FK to Membership Type',
-     join_date date    COMMENT 'Beginning of initial membership period',
-     start_date date    COMMENT 'Latest membership period start/renew date',
-     end_date date    COMMENT 'Latest membership period expire date',
-     source varchar(128)    ,
-     calculated_status_id int unsigned NOT NULL   COMMENT 'FK to Membership Status',
-     override_status_id int unsigned    COMMENT 'Admin users may set a manual status which overrides the calculated status. FK to Membership Status' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      INDEX FKEY_contact_id ( contact_id ) ,  
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-,      INDEX FKEY_membership_type_id ( membership_type_id ) ,  
-     FOREIGN KEY (membership_type_id) REFERENCES civicrm_membership_type(id)
-,      INDEX FKEY_calculated_status_id ( calculated_status_id ) ,  
-     FOREIGN KEY (calculated_status_id) REFERENCES civicrm_membership_status(id)
-,      INDEX FKEY_override_status_id ( override_status_id ) ,  
-     FOREIGN KEY (override_status_id) REFERENCES civicrm_membership_status(id)
-  
-)  TYPE=InnoDB  ;
-
--- /*******************************************************
--- *
--- * civicrm_membership_type
--- *
--- * A Membership Types encode the rules needed to set start and end (expire) dates when a member signs up for that type
--- *
--- *******************************************************/
-CREATE TABLE civicrm_membership_type (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
-     name varchar(128)    COMMENT 'Name of Membership Type',
-     description varchar(255)    COMMENT 'Description of Membership Type',
-     member_of_contact_id int unsigned NOT NULL   COMMENT 'FK to Contac ID',
-     contribution_type_id int unsigned NOT NULL   COMMENT 'FK to Contribution Type ID',
-     minimum_fee decimal(20,2)   DEFAULT 0 COMMENT 'Free/complimentary memberships',
-     duration_unit enum('day', 'month', 'year', 'lifetime')    COMMENT 'Duration of this Membership',
-     duration_interval int    COMMENT 'units in the duration',
-     period_type enum('rolling', 'fixed')    COMMENT 'Period Type at date of payment',
-     fixed_period_start_day int   DEFAULT 0101 COMMENT 'Fixed period on which subscription/membership will start',
-     fixed_period_rollover_day int   DEFAULT 1231 COMMENT 'Fixed Membership Payments after this date',
-     relationship_type_id int unsigned    COMMENT 'FK to Relationship Type ID',
-     visibility varchar(64)    ,
-     is_default tinyint   DEFAULT 0 ,
-     weight int    ,
-     is_active tinyint   DEFAULT 1 COMMENT 'Is this membership_type enabled' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      INDEX FKEY_member_of_contact_id ( member_of_contact_id ) ,  
-     FOREIGN KEY (member_of_contact_id) REFERENCES civicrm_contact(id)
-,      INDEX FKEY_contribution_type_id ( contribution_type_id ) ,  
-     FOREIGN KEY (contribution_type_id) REFERENCES civicrm_contribution_type(id)
-,      INDEX FKEY_relationship_type_id ( relationship_type_id ) ,  
-     FOREIGN KEY (relationship_type_id) REFERENCES civicrm_relationship_type(id)
-  
-)  TYPE=InnoDB  ;
-
--- /*******************************************************
--- *
--- * civicrm_membership_status
--- *
--- * A Membership Status stores admin configurable status options and rules
--- *
--- *******************************************************/
-CREATE TABLE civicrm_membership_status (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
-     name varchar(128)    COMMENT 'Name for Membership Status',
-     start_event enum('start_date', 'end_date', 'join_date')    COMMENT 'Event when this status starts',
-     start_event_adjust_unit enum('day', 'month', 'year')    COMMENT 'Unit used for adjusting',
-     start_event_adjust_interval int    COMMENT 'Range begins this many units from start_event',
-     end_event enum('start_date', 'end_date', 'join_date')    COMMENT 'Event after which this status ends',
-     end_event_adjust_unit enum('day', 'month', 'year')    COMMENT 'Unit used for adjusting from the ending event ',
-     end_event_adjust_interval int    COMMENT 'Range ends this many units from end_event',
-     is_current_member tinyint    ,
-     is_admin tinyint    ,
-     weight int    ,
-     is_active tinyint   DEFAULT 1 COMMENT 'Is this membership_type enabled' 
-,
-    PRIMARY KEY ( id )
- 
- 
- 
-)  TYPE=InnoDB  ;
-
-
 -- /*******************************************************
 -- *
 -- * civicrm_log
@@ -373,6 +269,117 @@ CREATE TABLE civicrm_task_status (
   
 )  TYPE=InnoDB  ;
 
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership_type
+-- *
+-- * A Membership Types encode the rules needed to set start and end (expire) dates when a member signs up for that type
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership_type (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
+     name varchar(128)    COMMENT 'Name of Membership Type',
+     description varchar(255)    COMMENT 'Description of Membership Type',
+     member_of_contact_id int unsigned NOT NULL   COMMENT 'FK to Contac ID',
+     contribution_type_id int unsigned NOT NULL   COMMENT 'FK to Contribution Type ID',
+     minimum_fee decimal(20,2)   DEFAULT 0 COMMENT 'Free/complimentary memberships',
+     duration_unit enum('day', 'month', 'year', 'lifetime')    COMMENT 'Duration of this Membership',
+     duration_interval int    COMMENT 'units in the duration',
+     period_type enum('rolling', 'fixed')    COMMENT 'Period Type at date of payment',
+     fixed_period_start_day int   DEFAULT 0101 COMMENT 'Fixed period on which subscription/membership will start',
+     fixed_period_rollover_day int   DEFAULT 1231 COMMENT 'Fixed Membership Payments after this date',
+     relationship_type_id int unsigned    COMMENT 'FK to Relationship Type ID',
+     visibility varchar(64)    ,
+     is_default tinyint   DEFAULT 0 ,
+     weight int    ,
+     is_active tinyint   DEFAULT 1 COMMENT 'Is this membership_type enabled' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      INDEX FKEY_member_of_contact_id ( member_of_contact_id ) ,  
+     FOREIGN KEY (member_of_contact_id) REFERENCES civicrm_contact(id)
+,      INDEX FKEY_contribution_type_id ( contribution_type_id ) ,  
+     FOREIGN KEY (contribution_type_id) REFERENCES civicrm_contribution_type(id)
+,      INDEX FKEY_relationship_type_id ( relationship_type_id ) ,  
+     FOREIGN KEY (relationship_type_id) REFERENCES civicrm_relationship_type(id)
+  
+)  TYPE=InnoDB  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership_status
+-- *
+-- * A Membership Status stores admin configurable status options and rules
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership_status (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
+     name varchar(128)    COMMENT 'Name for Membership Status',
+     start_event enum('start_date', 'end_date', 'join_date')    COMMENT 'Event when this status starts',
+     start_event_adjust_unit enum('day', 'month', 'year')    COMMENT 'Unit used for adjusting',
+     start_event_adjust_interval int    COMMENT 'Range begins this many units from start_event',
+     end_event enum('start_date', 'end_date', 'join_date')    COMMENT 'Event after which this status ends',
+     end_event_adjust_unit enum('day', 'month', 'year')    COMMENT 'Unit used for adjusting from the ending event ',
+     end_event_adjust_interval int    COMMENT 'Range ends this many units from end_event',
+     is_current_member tinyint    ,
+     is_admin tinyint    ,
+     weight int    ,
+     is_active tinyint   DEFAULT 1 COMMENT 'Is this membership_type enabled' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+ 
+)  TYPE=InnoDB  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership
+-- *
+-- * Contact Membership records.
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
+     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
+     membership_type_id int unsigned NOT NULL   COMMENT 'FK to Membership Type',
+     join_date date    COMMENT 'Beginning of initial membership period',
+     start_date date    COMMENT 'Latest membership period start/renew date',
+     end_date date    COMMENT 'Latest membership period expire date',
+     source varchar(128)    ,
+     calculated_status_id int unsigned NOT NULL   COMMENT 'FK to Membership Status',
+     override_status_id int unsigned    COMMENT 'Admin users may set a manual status which overrides the calculated status. FK to Membership Status' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      INDEX FKEY_contact_id ( contact_id ) ,  
+     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
+,      INDEX FKEY_membership_type_id ( membership_type_id ) ,  
+     FOREIGN KEY (membership_type_id) REFERENCES civicrm_membership_type(id)
+,      INDEX FKEY_calculated_status_id ( calculated_status_id ) ,  
+     FOREIGN KEY (calculated_status_id) REFERENCES civicrm_membership_status(id)
+,      INDEX FKEY_override_status_id ( override_status_id ) ,  
+     FOREIGN KEY (override_status_id) REFERENCES civicrm_membership_status(id)
+  
+)  TYPE=InnoDB  ;
+
+
+
+-- /*******************************************************
+-- *
+-- * Modify the civicrm_individual  Table Structure
+-- *******************************************************/
+
+	 ALTER TABLE `civicrm_individual` ADD deceased_date date;
 
 -- /*******************************************************
 -- *
@@ -508,10 +515,10 @@ CREATE TABLE civicrm_task_status (
 -- *
 -- *******************************************************/
 
-	UPDATE civicrm_custom_value SET	 char_data= "^a"char_data"^a" 
-        WHERE custom_field_id IN
-	  	    	      (SELECT id from civicrm_custom_field
-                               WHERE civicrm_custom_value.custom_field_id = civicrm_custom_field.id
-  			       AND html_type IN ("Multi-Select", "CheckBox"))
+	UPDATE `civicrm_custom_value` SET `char_data` = CONCAT("^A",`char_data`,"^A")
+        WHERE `custom_field_id` IN
+	  	    	      (SELECT `id` from `civicrm_custom_field`
+                               WHERE `civicrm_custom_value`.`custom_field_id` = `civicrm_custom_field`.`id`
+  			       AND `html_type` IN ('Multi-Select', 'CheckBox'));
 
  

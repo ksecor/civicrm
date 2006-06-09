@@ -119,40 +119,6 @@ CREATE TABLE civicrm_entity_file (
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
--- /*******************************************************
--- *
--- * civicrm_membership
--- *
--- * Contact Membership records.
--- *
--- *******************************************************/
-CREATE TABLE civicrm_membership (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
-     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
-     membership_type_id int unsigned NOT NULL   COMMENT 'FK to Membership Type',
-     join_date date    COMMENT 'Beginning of initial membership period',
-     start_date date    COMMENT 'Latest membership period start/renew date',
-     end_date date    COMMENT 'Latest membership period expire date',
-     source varchar(128)    ,
-     calculated_status_id int unsigned NOT NULL   COMMENT 'FK to Membership Status',
-     override_status_id int unsigned    COMMENT 'Admin users may set a manual status which overrides the calculated status. FK to Membership Status' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-,      
-     FOREIGN KEY (membership_type_id) REFERENCES civicrm_membership_type(id)
-,      
-     FOREIGN KEY (calculated_status_id) REFERENCES civicrm_membership_status(id)
-,      
-     FOREIGN KEY (override_status_id) REFERENCES civicrm_membership_status(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
 
 -- /*******************************************************
 -- *
@@ -222,6 +188,39 @@ CREATE TABLE civicrm_membership_status (
  
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
+-- /*******************************************************
+-- *
+-- * civicrm_membership
+-- *
+-- * Contact Membership records.
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
+     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
+     membership_type_id int unsigned NOT NULL   COMMENT 'FK to Membership Type',
+     join_date date    COMMENT 'Beginning of initial membership period',
+     start_date date    COMMENT 'Latest membership period start/renew date',
+     end_date date    COMMENT 'Latest membership period expire date',
+     source varchar(128)    ,
+     calculated_status_id int unsigned NOT NULL   COMMENT 'FK to Membership Status',
+     override_status_id int unsigned    COMMENT 'Admin users may set a manual status which overrides the calculated status. FK to Membership Status' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      
+     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
+,      
+     FOREIGN KEY (membership_type_id) REFERENCES civicrm_membership_type(id)
+,      
+     FOREIGN KEY (calculated_status_id) REFERENCES civicrm_membership_status(id)
+,      
+     FOREIGN KEY (override_status_id) REFERENCES civicrm_membership_status(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
 -- /*******************************************************
 -- *
@@ -378,323 +377,12 @@ CREATE TABLE civicrm_project (
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
-
 -- /*******************************************************
 -- *
--- * quest_essay
--- *
--- * Essay question responses linked to a civicrm_contact record (expected usage is for student applicants).
--- *
+-- * Modify the civicrm_individual  Table Structure
 -- *******************************************************/
-CREATE TABLE quest_essay (
 
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Essay ID',
-     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
-     essay text NOT NULL   COMMENT 'Essay question response.' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
--- * quest_honor
--- *
--- * Academic honors linked to a civicrm_contact record (expected usage is for student applicants).
--- *
--- *******************************************************/
-CREATE TABLE quest_honor (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Honor ID',
-     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
-     description varchar(255) NOT NULL   ,
-     award_date date    COMMENT 'Date that the honor was awarded (month and year are significant).' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
--- * quest_student
--- *
--- * Quest Student objects are defined by a civicrm_contact, and related civicrm_individual and quest_student records.
--- *
--- *******************************************************/
-CREATE TABLE quest_student (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Student ID',
-     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
-     citizenship_status_id int unsigned NOT NULL   COMMENT 'FK to civicrm_option_value.',
-     citizenship_country_id int unsigned NOT NULL   COMMENT 'Country of citizenship.',
-     growup_country_id int unsigned    COMMENT 'Country where person grew up.',
-     nationality_country_id int unsigned NOT NULL   COMMENT 'Country of persons nationality.',
-     ethnicity_id_1 int unsigned    COMMENT 'FK to civicrm_option_value.',
-     ethnicity_id_2 int unsigned    COMMENT 'FK to civicrm_option_value.',
-     home_area_id int unsigned    COMMENT 'Type of area primary home is in (e.g. Rural, Suburban). FK to civicrm_option_value.',
-     years_in_us int unsigned NOT NULL   COMMENT 'Number of years person has lived in the United States.',
-     first_language varchar(128)    COMMENT 'First language spoken by this person.',
-     primary_language varchar(128)    COMMENT 'Primary language spoken at home.',
-     is_partner_share tinyint   DEFAULT 0 COMMENT 'OK to share this persons info with partner schools.',
-     high_school_grad_year date   DEFAULT NULL COMMENT 'Year of high school graduation (only YYYY is significant).',
-     parent_grad_college_id int unsigned   DEFAULT NULL COMMENT 'Has any parent or guardian graduated from a 4-year college?',
-     internet_access_id int unsigned    COMMENT 'How do they access the internet. FK to civicrm_option_value.',
-     internet_access_other varchar(255)    COMMENT 'Alternate response for how they access the internet.',
-     is_home_computer tinyint   DEFAULT NULL COMMENT 'Has a computer at home.',
-     is_home_internet tinyint   DEFAULT NULL COMMENT 'Has internet access at home.',
-     is_take_SAT_ACT tinyint   DEFAULT NULL COMMENT 'Plans on taking SAT or ACT test.',
-     study_method_id int unsigned    COMMENT 'How they plan on studying for SAT or ACT test. FK to civicrm_option_value.',
-     educational_interest varchar(255)   DEFAULT NULL COMMENT 'Which educational areas are they interested in. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = educational_interest.',
-     educational_interest_other varchar(255)    COMMENT 'Which other educational area are they interested in.',
-     college_type varchar(255)   DEFAULT NULL COMMENT 'Types of college they are interested in attending. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = college_type.',
-     college_interest varchar(255)   DEFAULT NULL COMMENT 'Which colleges are they interested in. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = college_interest.',
-     college_interest_other text    COMMENT 'Which other colleges are they interested in.',
-     gpa_id int unsigned   DEFAULT NULL COMMENT 'Grade Point Average (GPA) range. FK to civicrm_option_value.',
-     is_class_ranking tinyint   DEFAULT NULL COMMENT 'Does students class have rankings.',
-     class_rank int unsigned    COMMENT 'Class rank (numeric value).',
-     class_rank_percent_id int unsigned    COMMENT 'Class rank percent range. FK to civicrm_option_value.',
-     class_num_students int unsigned    COMMENT 'Total number of students in this persons class.',
-     gpa_explanation text    COMMENT 'Descriptive comments about students GPA.',
-     score_SAT int unsigned    COMMENT 'Combined highest reported scores (SAT).',
-     score_PSAT int unsigned    COMMENT 'Combined highest reported scores (PSAT).',
-     score_ACT int unsigned    COMMENT 'Combined highest reported scores (ACT).',
-     score_PLAN int unsigned    COMMENT 'Combined highest reported scores (PLAN).',
-     test_tutoring varchar(255)    COMMENT 'Which tests have they received tutoring for. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = test.',
-     household_income_total decimal(20,2)    COMMENT 'Calculated annual income total from all reported sources.',
-     number_siblings int    COMMENT 'Number of siblings this student has.',
-     fed_lunch_id int unsigned    COMMENT 'Federal lunch program eligibility. FK to civicrm_option_value.',
-     financial_aid_applicant tinyint   DEFAULT NULL COMMENT 'Plans to be a financial aid applicant to colleges.',
-     register_standarized_tests tinyint   DEFAULT NULL COMMENT 'Plans to use, or have fee waivers to register for standarized tests.',
-     award_ranking_1_id int unsigned    COMMENT 'Rank the scholarship awards .',
-     award_ranking_2_id int unsigned    COMMENT 'Rank the scholarship awards.',
-     award_ranking_3_id int unsigned    COMMENT 'Rank the scholarship awards.' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-,      
-     FOREIGN KEY (citizenship_status_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (citizenship_country_id) REFERENCES civicrm_country(id)
-,      
-     FOREIGN KEY (growup_country_id) REFERENCES civicrm_country(id)
-,      
-     FOREIGN KEY (nationality_country_id) REFERENCES civicrm_country(id)
-,      
-     FOREIGN KEY (ethnicity_id_1) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (ethnicity_id_2) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (home_area_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (internet_access_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (study_method_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (gpa_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (class_rank_percent_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (fed_lunch_id) REFERENCES civicrm_option_value(value)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
--- * quest_test
--- *
--- * Test results linked to a civicrm_contact record (expected usage is for student applicants).
--- *
--- *******************************************************/
-CREATE TABLE quest_test (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Test Result ID',
-     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
-     test_id int unsigned NOT NULL   COMMENT 'Test being reported (e.g. SAT, PSAT, etc). FK to civicrm_option_value.',
-     score_composite float NOT NULL   COMMENT 'Composite or total score for this test.',
-     score_english int unsigned    COMMENT 'English score if applicable for this test.',
-     score_reading int unsigned    COMMENT 'Reading score if applicable for this test.',
-     score_writing int unsigned    COMMENT 'Writing score if applicable for this test.',
-     score_math int unsigned    COMMENT 'Math score if applicable for this test.',
-     score_science int unsigned    COMMENT 'Science score if applicable for this test.',
-     subject varchar(255)    COMMENT 'Test subject (for subject-specific tests e.g. AP and SAT II).',
-     test_date date    COMMENT 'Date that the test was taken (month and year are significant).' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-,      
-     FOREIGN KEY (test_id) REFERENCES civicrm_option_value(value)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
--- * quest_person
--- *
--- * Stores people related to Quest Students (parents, guardians, siblings).
--- *
--- *******************************************************/
-CREATE TABLE quest_person (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Person ID',
-     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
-     relationship_id int unsigned NOT NULL   COMMENT 'Relationship to Student (e.g. Mother, Father, Sister...). FK to civicrm_option_value.',
-     is_parent_guardian tinyint   DEFAULT 0 COMMENT 'Is this person a parent or guardian (primary caregiver)?',
-     is_income_source tinyint   DEFAULT 0 COMMENT 'Is this person an income source',
-     is_sibling tinyint   DEFAULT 0 COMMENT 'Is this person a parent or guardian (primary caregiver)?',
-     first_name varchar(64) NOT NULL   COMMENT 'First Name.',
-     last_name varchar(64) NOT NULL   COMMENT 'Last Name.',
-     marital_status_id int unsigned    COMMENT 'FK to civicrm_option_value.',
-     separated_year date    COMMENT 'Year parents separated or divorced (only YYYY is significant).',
-     is_deceased tinyint    COMMENT 'True / False / Dont Know',
-     deceased_year date    COMMENT 'Year deceased (only YYYY is significant).',
-     birth_date date    COMMENT 'Persons birth date .',
-     lived_with_from_age int unsigned    COMMENT 'Age of student when they began living with this person.',
-     lived_with_to_age int unsigned    COMMENT 'Age of student when they stopped living with this person.',
-     industry_id int unsigned    COMMENT 'Industry person works in (or unemployed).',
-     job_organization varchar(128)    COMMENT 'Name of business or organization where person works.',
-     job_occupation varchar(128)    COMMENT 'Occupation or job title.',
-     job_current_years int unsigned    COMMENT 'Number of years working in current job.',
-     highest_school_level_id int unsigned    COMMENT 'Highest level of schooling completed by this person (used for Parents/Guardians).',
-     current_school_level_id int unsigned    COMMENT 'Current school level of this person (used for Siblings).',
-     college_name varchar(128)    COMMENT 'Name of college attended.',
-     college_country_id int unsigned    COMMENT 'Country of where person attended college.',
-     college_grad_year date    COMMENT 'Year completed college (only YYYY is significant).',
-     college_major varchar(128)    COMMENT 'Area of concentration or major in college.',
-     prof_school_name varchar(128)    COMMENT 'Name of professional or graduate school attended.',
-     prof_school_degree_id int unsigned    COMMENT 'Professional or graduate school degree type.',
-     prof_grad_year date    COMMENT 'Year completed professional or graduate school (only YYYY is significant).',
-     description text    COMMENT 'Additional information about this person (comments for Siblings).' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-,      
-     FOREIGN KEY (relationship_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (marital_status_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (industry_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (highest_school_level_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (current_school_level_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (college_country_id) REFERENCES civicrm_country(id)
-,      
-     FOREIGN KEY (prof_school_degree_id) REFERENCES civicrm_option_value(value)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
--- * quest_household
--- *
--- * Quest Student Households.
--- *
--- *******************************************************/
-CREATE TABLE quest_household (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Household ID',
-     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
-     household_type enum('Current', 'Previous') NOT NULL   COMMENT 'Quest collects current and (optionally) previous household info.',
-     member_count int unsigned NOT NULL   COMMENT 'Number of people living in household (excluding student).',
-     person_1_id int unsigned NOT NULL   COMMENT 'First primary caregiver in household. FK to quest_person.',
-     person_2_id int unsigned    COMMENT 'Second primary caregiver in household. FK to quest_person.',
-     years_lived_id int unsigned NOT NULL   COMMENT 'Years student has lived in this household (descriptive range).',
-     description text    COMMENT 'Description of additional household circumstances.' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-,      
-     FOREIGN KEY (person_1_id) REFERENCES quest_person(id)
-,      
-     FOREIGN KEY (person_2_id) REFERENCES quest_person(id)
-,      
-     FOREIGN KEY (years_lived_id) REFERENCES civicrm_option_value(value)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
--- * quest_income
--- *
--- * Income sources for Quest Students. Income sources are linked to Quest Person records.
--- *
--- *******************************************************/
-CREATE TABLE quest_income (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Income Source ID',
-     person_id int unsigned NOT NULL   COMMENT 'FK to Person ID',
-     source_1_id int unsigned NOT NULL   COMMENT 'Income source type. FK to civicrm_option_value.',
-     source_2_id int unsigned    COMMENT 'Income source type (second source). FK to civicrm_option_value.',
-     source_3_id int unsigned    COMMENT 'Income source type (second source). FK to civicrm_option_value.',
-     job_1 varchar(128)    COMMENT 'Job description.',
-     job_2 varchar(128)    COMMENT 'Job description (second source).',
-     job_3 varchar(128)    COMMENT 'Job description.',
-     amount_1 decimal(20,2) NOT NULL   COMMENT 'Total annual income from source 1.',
-     amount_2 decimal(20,2)    COMMENT 'Total annual income from source 2.',
-     amount_3 decimal(20,2)    COMMENT 'Total annual income from source 3.' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (person_id) REFERENCES quest_person(id)
-,      
-     FOREIGN KEY (source_1_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (source_2_id) REFERENCES civicrm_option_value(value)
-,      
-     FOREIGN KEY (source_3_id) REFERENCES civicrm_option_value(value)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
--- * quest_referral
--- *
--- *******************************************************/
-CREATE TABLE quest_referral (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Referral ID',
-     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
-     name varchar(64) NOT NULL   ,
-     email varchar(64) NOT NULL    
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+	 ALTER TABLE `civicrm_individual` ADD deceased_date date;
 
 -- /*******************************************************
 -- *
@@ -834,10 +522,10 @@ CREATE TABLE quest_referral (
 -- *
 -- *******************************************************/
 
-	UPDATE civicrm_custom_value SET char_data= ''+`char_data`+'' 
-	WHERE custom_field_id IN
-			      (SELECT id from civicrm_custom_field
-			       WHERE civicrm_custom_value.custom_field_id = civicrm_custom_field.id
-			       AND html_type IN ('Multi-Select','CheckBox'));
+	UPDATE `civicrm_custom_value` SET `char_data` = CONCAT("^A",`char_data`,"^A")
+	WHERE `custom_field_id` IN
+			      (SELECT `id` from `civicrm_custom_field`
+			       WHERE `civicrm_custom_value`.`custom_field_id` = `civicrm_custom_field`.`id`
+			       AND `html_type` IN ('multi-Select','CheckBox'));
 
 
