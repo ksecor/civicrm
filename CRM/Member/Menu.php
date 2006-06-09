@@ -67,6 +67,48 @@ class CRM_Member_Menu {
                              'icon'    => 'admin/payment_instruments.png',
                              'weight'  => 380
                              ),
+
+                       array( 
+                             'path'    => 'civicrm/contact/view/member', 
+                             'qs'      => 'reset=1&force=1&cid=%%cid%%', 
+                             'access'  => CRM_Core_Permission::check('access CiviMember'),
+                             'title'   => ts('Membership'), 
+                             'type'    => CRM_Core_Menu::CALLBACK, 
+                             'crmType' => CRM_Core_Menu::LOCAL_TASK, 
+                             'weight'  => 2
+                             ),
+
+
+                        array( 
+                             'path'    => 'civicrm/member', 
+                             'qs'      => 'reset=1',
+                             'title'   => ts( 'CiviMember' ), 
+                             'access'  => CRM_Core_Permission::check( 'access CiviMember'), 
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,
+                             'weight'  => 700,  
+                             ),
+
+                       array( 
+                             'path'    => 'civicrm/member/search',
+                             'qs'      => 'reset=1',
+                             'title'   => ts( 'Find Member' ), 
+                             'access'  => CRM_Core_Permission::check( 'access CiviMember'), 
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'weight'  => 710,  
+                             ),
+                       array( 
+                             'path'    => 'civicrm/member/import', 
+                             'qs'      => 'reset=1',
+                             'title'   => ts( 'Import Members' ), 
+                             'access' => CRM_Core_Permission::check('administer CiviCRM') &&
+                             CRM_Core_Permission::check( 'access CiviMember' ),
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'weight'  => 720,  
+                             ),
+                       
                        );
 
         return $items;

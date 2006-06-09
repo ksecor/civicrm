@@ -81,7 +81,19 @@ class CRM_Member_Invoke {
     static function main( &$args ) {  
         if ( $args[1] !== 'member' ) {  
             return;  
-        }  
+        }
+        
+        $session =& CRM_Core_Session::singleton( );
+        $config  =& CRM_Core_Config::singleton ( );
+        if ($args[2] == 'search') {
+            
+        } elseif ($args[2] == 'import') {
+            
+        } else {
+            require_once 'CRM/Member/Page/DashBoard.php';
+            $view =& new CRM_Member_Page_DashBoard( ts('DashBoard') );
+            return $view->run( );
+        }
     }
     
 }
