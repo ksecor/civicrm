@@ -1,0 +1,201 @@
+<?php 
+/* 
+ +--------------------------------------------------------------------+ 
+ | CiviCRM version 1.4                                                | 
+ +--------------------------------------------------------------------+ 
+ | Copyright (c) 2005 Donald A. Lobo                                  | 
+ +--------------------------------------------------------------------+ 
+ | This file is a part of CiviCRM.                                    | 
+ |                                                                    | 
+ | CiviCRM is free software; you can copy, modify, and distribute it  | 
+ | under the terms of the Affero General Public License Version 1,    | 
+ | March 2002.                                                        | 
+ |                                                                    | 
+ | CiviCRM is distributed in the hope that it will be useful, but     | 
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         | 
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               | 
+ | See the Affero General Public License for more details.            | 
+ |                                                                    | 
+ | You should have received a copy of the Affero General Public       | 
+ | License along with this program; if not, contact the Social Source | 
+ | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have | 
+ | questions about the Affero General Public License or the licensing | 
+ | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   | 
+ | at http://www.openngo.org/faqs/licensing.html                      | 
+ +--------------------------------------------------------------------+ 
+*/ 
+ 
+/** 
+ * 
+ * 
+ * @package CRM 
+ * @author Donald A. Lobo <lobo@yahoo.com> 
+ * @copyright Donald A. Lobo (c) 2005 
+ * $Id$ 
+ * 
+ */ 
+
+class CRM_Quest_BAO_Query 
+{
+    static $_terms = null;
+
+    static $_ids = null;
+
+    static function initialize( ) 
+    {
+        if ( ! self::$_terms ) {
+            self::$_terms = array( 'score_SAT'  => 'SAT Score',
+                                   'score_ACT'  => 'ACT Score',
+                                   'score_PLAN' => 'PLAN Score',
+                                   'household_income_total' => 'Total Household Income' );
+            //self::$_ids   = array( 'ethnicity_id_1', 'gpa_id' );
+            self::$_ids   = array( 'college_interest' => 'College Interest' );
+        }
+    }
+
+    static function &getFields( ) 
+    {
+        require_once 'CRM/Quest/BAO/Student.php';
+        $fields =& CRM_Quest_BAO_Student::exportableFields( );
+        unset( $fields['contact_id']);
+        return $fields;
+    }
+
+    /** 
+     * if student is involved, add explicit student fields
+     * 
+     * @return void  
+     * @access public  
+     */
+    static function select( &$query ) 
+    {
+        if ( $query->_mode & CRM_Contact_BAO_Query::MODE_QUEST ) {
+            $query->_select['student_id'] = "quest_student.id as student_id";
+            $query->_element['student_id'] = 1;
+            $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
+        }
+
+        self::initialize( );
+        $fields =& self::getFields();
+        
+        foreach ( $fields as $name => $title ) {
+            if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
+                if ( substr( $name, -10 ) == 'country_id' ) {
+                    $query->_select[$name] = "civicrm_country.name as $name";
+                    $query->_tables['civicrm_country'] = 1;
+                }  elseif ( strpos( $name, '_id' ) !== false ) {
+                    $tName = "`civicrm_option_value-{$name}`";
+                    $query->_select[$name] = "$tName.label as $name";
+                    $query->_tables['quest_student'] = 1;
+                    $query->_tables[$tName] = "LEFT JOIN civicrm_option_value $tName ON {$tName}.value = quest_student.{$name}";
+                }  else {
+                    $query->_select[$name] = "quest_student.$name as $name";
+                    $query->_tables['quest_student'] = 1;
+                }
+            }
+        }
+    }
+
+    static function where( &$query ) 
+    {
+        self::initialize( );
+	require_once "CRM/Core/OptionGroup.php";
+        $fields =& self::getFields();
+        foreach ( $fields as $name => $record ) {
+            if ( CRM_Utils_Array::value( $name          , $query->_params ) ||
+                 CRM_Utils_Array::value( $name . '_low' , $query->_params ) ||
+                 CRM_Utils_Array::value( $name . '_high', $query->_params ) ) {
+	      if (CRM_Utils_Array::value($name, self::$_ids) ) {
+		$optionGroups = array( );
+                $optionGroups =  CRM_Core_OptionGroup::values( $name ); 
+		$key = $query->_params[$name];
+		$query->_qill[] = $record['title'] . ' like "' . $optionGroups[$key] . '"';
+	      }
+	      $query->numberRangeBuilder( 'quest_student', $name, $name, $record['title'] );
+            }
+        }
+    }
+
+    static function from( $name, $mode, $side ) 
+    {
+        $from = null;
+        if ( $name == 'quest_student' ) {
+            $from = " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id ";
+        }
+
+        return $from;
+    }
+
+    static function defaultReturnProperties( $mode ) 
+    {
+        $properties = null;
+        if ( $mode & CRM_Contact_BAO_Query::MODE_QUEST ) {
+            $properties = array(  
+                                'contact_type'           => 1, 
+                                'contact_sub_type'       => 1,
+                                'sort_name'              => 1, 
+                                'display_name'           => 1,
+                                );
+
+            self::initialize( );
+            foreach ( self::$_terms as $name => $title ) {
+                $properties[$name] = 1;
+            }
+        }
+        return $properties;
+    }
+
+    static function buildSearchForm( &$form ) 
+    {
+        $form->assign( 'validQuest', true );
+        self::initialize( );
+        foreach ( self::$_terms as $name => $title ) {
+            $form->add( 'text', $name . '_low' , ts( "$title - From" ) );
+            $form->add( 'text', $name . '_high', ts( "To" ) );
+        }
+	
+        require_once "CRM/Core/OptionGroup.php";
+	foreach ( self::$_ids as $name => $title ) {
+	    $form->add('select', $name, $title, CRM_Core_OptionGroup::values( $name ) );
+	}
+    }
+
+    static function addShowHide( &$showHide ) 
+    {
+        $showHide->addHide( 'questForm' );
+        $showHide->addShow( 'questForm[show]' ); 
+    }
+
+    static function searchAction( &$row, $id ) {
+        static $viewLink = null;
+        static $editLink = null;
+
+        // add links only if student
+        if ( $row['contact_sub_type'] != 'Student' ) {
+            return;
+        }
+
+        if ( ! $viewLink ) {
+            $viewLink = sprintf('<a href="%s">%s</a>',
+                                CRM_Utils_System::url( 'civicrm/quest/preapp',
+                                                       'reset=1&action=view&id=%%id%%' ),
+                                ts( 'View Preapp' ) );
+            $editLink = sprintf('<a href="%s">%s</a>',
+                                CRM_Utils_System::url( 'civicrm/quest/preapp',
+                                                       'reset=1&action=edit&id=%%id%%' ),
+                                ts( 'Edit Preapp' ) );
+        }
+
+        if ( CRM_Core_Permission::check( 'view Quest Application' ) ) {
+            $row['action'] .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$viewLink}" );
+        }
+
+        if ( CRM_Core_Permission::check( 'edit Quest Application' ) ) {
+            $row['action'] .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$editLink}" );
+        }
+
+    }
+
+}
+
+?>

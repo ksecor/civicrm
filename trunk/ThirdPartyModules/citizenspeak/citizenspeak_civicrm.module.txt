@@ -1,0 +1,309 @@
+<?php
+// $Id: citizenspeak.module,v 1.15 2006/03/18 16:41:31 georgehotelling Exp $
+
+/**
+ * @file The main CitizenSpeak module file
+ *
+ * @author George Hotelling <http://george.hotelling.net/>
+ *
+ * @todo Create SimpleTest tests.
+ *
+ * @todo Create CiviCRM integration
+ */
+
+require_once(dirname(__FILE__) . '/citizenspeak.node.php');
+require_once(dirname(__FILE__) . '/citizenspeak.theme.php');
+require_once(dirname(__FILE__) . '/citizenspeak.lib.php');
+require_once(dirname(__FILE__) . '/citizenspeak.reports.php');
+require_once(dirname(__FILE__) . '/citizenspeak.user.php');
+
+/**
+ * Implementation of hook_help().
+ *
+ * @param $section
+ *   Section which section of the site we're displaying help
+ * @return 
+ *   Help text for section
+ */
+ 
+function citizenspeak_help($section) {
+  switch ($section) {
+    case 'admin/modules#description':
+      // This description is shown in the listing at admin/modules.
+      return t('Allows email action campaigns to be created');
+    case 'node/add#citizenspeak':
+      // This description shows up when users click "create content."
+      return t('A CitizenSpeak campaign is a form that allows people to send pre-made emails to a specific address.');
+  }
+} // function citizenspeak_help
+
+/**
+ * Implementation of hook_menu().
+ *
+ * Creates:
+ * A menu item to add a campaign at node/add/citizenspeak
+ * A local task for citizenspeak_report() at node/###/report
+ * A menu callback for citizenspeak_send() at node/###/send
+ * A menu callback for citizenspeak_thank_you() at node/###/thank_you
+ */
+function citizenspeak_menu($may_cache) {
+  $items = array();
+
+  if ($may_cache) {
+    $items[] = array('path' => 'node/add/citizenspeak', 
+      'title' => t('citizenspeak campaign'),
+      'access' => user_access('create campaigns'));
+    $items[] = array('path' => 'citizenspeak',
+      'title' => t('all citizenspeak campaigns'),
+      'access' => user_access('access content'),
+      'callback' => 'citizenspeak_page', 
+      'type' => MENU_SUGGESTED_ITEM);
+  } 
+  else {
+    if (arg(0) == 'node' && is_numeric(arg(1))) {
+      $node = node_load(array('nid' => arg(1)));
+      if ($node->type == 'citizenspeak') {
+        global $user;
+      
+        $items[] = array('path' => 'node/'.arg(1).'/report', 
+          'title' => t('view campaign reports'),
+          'callback' => 'citizenspeak_report',
+          'callback arguments' => arg(1),
+          'access' =>  ($node->uid == $user->uid) && user_access('collect contact information'),
+          'weight' => 3,
+          'type' => MENU_LOCAL_TASK);
+        
+        $items[] = array('path' => 'node/'.arg(1).'/send', 
+          'title' => t('send citizenspeak response'),
+          'callback' => 'citizenspeak_send',
+          'callback arguments' => arg(1),
+          'access' => user_access('participate in campaigns'),
+          'type' => MENU_CALLBACK);
+        
+        $items[] = array('path' => 'node/'.arg(1).'/thank_you', 
+          'title' => t('thank you'),
+          'callback' => 'citizenspeak_thank_you',
+          'callback arguments' => arg(1),
+          'access' => user_access('participate in campaigns'),
+          'type' => MENU_CALLBACK);
+      }
+    }
+  }
+
+  return $items;
+} // function citizenspeak_menu
+
+/**
+ * Implementation of hook_perm().
+ *
+ * @return An array of valid permissions for the citizenspeak module
+ */
+function citizenspeak_perm() {
+  return array('create campaigns', 'edit own campaigns', 'participate in campaigns', 'collect contact information', 'customize thank you page', 'administer citizenspeak');
+} // function citizenspeak_perm
+
+/**
+ * Implementation of hook_link().
+ */
+function citizenspeak_link($type, $node = 0, $main) {
+  $links = array();
+
+  if ($type == 'node' && $node->type == 'citizenspeak') {
+    // Don't display a redundant edit link if they are node administrators.
+    if (citizenspeak_access('update', $node) && !user_access('administer nodes')) {
+      $links[] = l(t('edit this citizenspeak campaign'), "node/$node->nid/edit");
+    }
+  }
+
+  return $links;
+} // function citizenspeak_link
+
+define("CITIZENSPEAK_DEFAULT_REMINDER_SUBJECT", t('Reminder about your campaign'));
+define("CITIZENSPEAK_DEFAULT_REMINDER_TEMPLATE", t('Your campaign "%title" has received %count responses.  You can download reports about your campaign at %url'));
+
+/**
+ * Implementation of hook_settings().
+ *
+ * Module configuration settings
+ * @return settings HTML or deny access
+ */
+function citizenspeak_settings() {
+  $output = '';
+  
+  $output .= form_checkbox(t('Turn on debugging?'), 'citizenspeak_debug', 1, variable_get('citizenspeak_debug', 0), t('When debugging is on, campaign messages will be displayed on the screen instead of emailed to the recipient.'));
+  
+  $output .= form_textarea(t('Email Signature'), 'citizenspeak_signature', variable_get('citizenspeak_signature', ""), 60, 6, t('If set, "-- " and this message will be added to the end of every campaign message sent.  These variables will be replaced with information about the campaign: %title, %url, %nid'));
+
+  $output .= form_checkbox(t('Show recipient?'), 'citizenspeak_show_to', 1, variable_get('citizenspeak_show_to', 1), t('Should the campaign display where it will be sent?'));
+  
+  // Reminder email settings
+  $reminders = form_checkbox(t('Remind user to download report after 15 participants'), 'citizenspeak_remind_15', 1, variable_get('citizenspeak_remind_15', 0));
+  $reminders .= form_checkbox(t('Remind user to download report after 50 participants'), 'citizenspeak_remind_50', 1, variable_get('citizenspeak_remind_50', 0));
+  $reminders .= form_checkbox(t('Remind user to download report after 100 participants'), 'citizenspeak_remind_100', 1, variable_get('citizenspeak_remind_100', 0));
+  $reminders .= form_textfield(t('Reminder email subject'), 'citizenspeak_reminder_subject', variable_get('citizenspeak_reminder_subject', CITIZENSPEAK_DEFAULT_REMINDER_SUBJECT), '', '');
+  $reminders .= form_textarea(t('Reminder email template'), 'citizenspeak_reminder_template', variable_get('citizenspeak_reminder_template', CITIZENSPEAK_DEFAULT_REMINDER_TEMPLATE), 60, 6, t('These variables will be replaced with information about the campaign: %title, %count, %url'));
+  
+  $output .= form_group(t("Reminder Emails"), $reminders, t("Campaign creators can be sent emails to remind them to download their reports."));
+  
+  return $output;
+} // function citizenspeak_settings
+
+/**
+ * Implementation of hook_user().
+ * 
+ * @param $op 
+ *   What kind of action is being performed
+ * @param $edit 
+ *   The array of form values submitted by the user
+ * @param $user 
+ *   The user object on which the operation is being performed
+ * @param $category 
+ *   The active category of user information being edited
+ * @return see hook_user() docs.
+ */
+function citizenspeak_user($op, &$edit, &$user, $category = false) {
+  $function = "citizenspeak_user_" . $op;
+  if (function_exists($function)) {
+    return call_user_func_array($function, array($edit, $user, $category));
+  }
+}
+
+/**
+ * Implementation of hook_block().
+ *
+ * @param $op 
+ *   The operation from the URL
+ * @param $delta 
+ *   Offset
+ * @return block list array or block content array
+ */
+function citizenspeak_block($op = 'list', $delta = 0) {
+  // listing of blocks, such as on the admin/block page
+  if ($op == "list") {
+    $block[0]["info"] = t('popular citizenspeak campaigns');
+    return $block;
+  } 
+  else {
+    $most_popular = db_query(db_rewrite_sql('SELECT n.nid, n.title, COUNT(*) AS participants FROM {node} n LEFT JOIN citizenspeak_participants AS cp ON n.nid = cp.nid WHERE n.type = \'citizenspeak\' AND DATE_SUB(CURDATE(), INTERVAL 1 MONTH) < cp.sent_at AND n.promote = 1 AND n.status = 1 GROUP BY n.nid ORDER BY participants DESC LIMIT 5'));
+    if (db_num_rows($most_popular)) {
+      $block['subject'] = t('popular campaigns');
+      
+      while($campaign = db_fetch_object($most_popular)) {
+        $campaigns[] = l($campaign->title, "node/$campaign->nid");
+      }
+      
+      $block['content'] = theme('item_list', $campaigns) . l(t("all campaigns"), "citizenspeak");
+      return $block;
+    }
+  }
+} // end citizenspeak_block
+
+/**
+ * Handles sending the campaign participation
+ *
+ * @param $nid
+ *   Node ID of the campaign
+ */
+function citizenspeak_send($nid) {
+  $edit = $_POST['edit'];
+  
+  // Validate form
+  if (!_citizenspeak_validate_participation($edit)) {
+    drupal_goto('node/'.$nid);
+  }
+  
+  //start of code to insert data into civicrm
+
+  require_once 'api/crm.php';
+
+  $name = explode(" ", $edit['name']);
+  $params = array( 'first_name'     => $name[0],
+                   'last_name'      => $name[1],
+                   'email'          => $edit['email'],
+                   'street_address' => $edit['address'],
+                   'city'           => $edit['city'],
+                   'state_province' => $edit['state'],
+                   'postal_code'    => $edit['zip']
+                   );
+  
+  $contact =& crm_create_contact($params);
+  
+  $locationId = $contact->location[1]->id;
+
+  $phone = array ('phone'      => $edit['phone'],
+                  'phone_type' => 'Phone'
+                  );
+  
+  $fax = array ('phone'      => $edit['fax'],
+                'phone_type' => 'Fax',
+                );
+  
+  $phoneFax  = array ($phone, $fax);
+  
+  $paramsPhone = array ('phone' => $phoneFax );
+  
+  $location =& crm_update_location($contact, $locationId, $paramsPhone);
+  
+  //end of code to insert data into civicrm
+  
+  // Log response
+  $id = db_next_id('citizenspeak_participants');
+  db_query("INSERT INTO {citizenspeak_participants} (nid, id, name, organization, email, address, city, state, zip, phone, fax, personal_statement, sent_at) VALUES (%d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%05d', '%s', '%s', '%s', NOW())", $nid, $id, $edit['name'], $edit['organization'], $edit['email'], $edit['address'], $edit['city'], $edit['state'], $edit['zip'], $edit['phone'], $edit['fax'], $edit['personal_statement']); 
+
+   // Make email content
+  $node = node_load(array("nid" => $nid));
+  $participant = db_fetch_object(db_query("SELECT * FROM {citizenspeak_participants} WHERE id = %d", $id));
+  $message = theme("citizenspeak_message", $node, $participant);
+  $headers = theme("citizenspeak_message_headers", $node, $participant);
+  
+  // Send reminder emails if necessary
+  _citizenspeak_send_reminders($node);
+  
+  // Call hook_citizenspeak_send
+  module_invoke_all("citizenspeak_send", $node, $participant);
+  
+  // Send email (or display debugging page)
+  if (!variable_get('citizenspeak_debug', 0)) {
+    mail($node->email_recipients, $node->title, $message, $headers);
+    // Redirect to thank you page
+    drupal_goto("node/". $nid."/thank_you");
+  }
+  else {
+    echo theme('page', theme('citizenspeak_debug_page', $node, $message, $headers));
+  }
+}
+
+/**
+ * Displays the campaign thank you page
+ *
+ * @param $nid
+ *   Node ID of the campaign
+ */
+function citizenspeak_thank_you($nid) {
+    $node = node_load(array("nid" => $nid));
+    $owner = user_load(array("uid" => $node->uid));
+    if ($owner->use_redirect) {
+      header("Location: ". $node->redirect_url);
+      exit();
+    }
+    $output = theme('citizenspeak_thank_you', $node, $owner);
+    echo theme('page', $output);
+}
+
+/**
+ * Displays all published campaigns on the site
+ */
+function citizenspeak_page() {
+  drupal_set_title(t('all citizenspeak campaigns'));
+  $result = pager_query(db_rewrite_sql("SELECT n.nid, n.sticky, n.created FROM {node} n WHERE n.promote = 1 AND n.status = 1 AND n.type = 'citizenspeak' ORDER BY n.sticky DESC, n.created DESC"), variable_get('default_nodes_main', 10)); 
+
+  $output = '';
+  if (db_num_rows($result)) {
+    while ($node = db_fetch_object($result)) { 
+      $output .= node_view(node_load(array('nid' => $node->nid)), 1); 
+    } 
+    $output .= theme('pager', NULL, variable_get('default_nodes_main', 10));
+  }
+  print theme('page', $output);
+}
+?>

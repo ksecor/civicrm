@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Member</base>
+  <class>Membership</class>
+  <name>civicrm_membership</name>
+  <log>true</log>
+  <comment>Contact Membership records.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Membership Id</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+      <name>id</name>
+      <autoincrement>true</autoincrement>
+  </primaryKey>
+
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>contact_id</name> 
+      <table>civicrm_contact</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>membership_type_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Membership Type</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>membership_type_id</name> 
+      <table>civicrm_membership_type</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>  
+      <name>join_date</name>  
+      <type>date</type>   
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Beginning of initial membership period</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>start_date</name>  
+      <type>date</type>   
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Latest membership period start/renew date</comment>  
+      <add>1.5</add>  
+  </field>
+  <field> 
+      <name>end_date</name>  
+      <type>date</type>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>                 
+      <comment>Latest membership period expire date</comment>  
+      <add>1.5</add>  
+  </field> 
+  <field>  
+      <name>source</name>     
+      <title>Source</title>
+      <type>varchar</type>
+      <length>128</length>
+      <add>1.5</add>  
+  </field> 
+  <field>
+      <name>calculated_status_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Membership Status</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+      <name>calculated_status_id</name> 
+      <table>civicrm_membership_status</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>override_status_id</name>
+      <type>int unsigned</type>
+      <comment>Admin users may set a manual status which overrides the calculated status. FK to Membership Status</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+      <name>override_status_id</name> 
+      <table>civicrm_membership_status</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
+</table>

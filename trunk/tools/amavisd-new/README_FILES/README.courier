@@ -1,0 +1,55 @@
+Debian Note:  Rename the start links of amavisd-new to S21, or you
+risk trouble. See the last paragraph of this text for more information.
+
+
+How To Use AMaViS with Courier
+******************************
+
+by Martin Orr
+
+SECURITY
+
+You will have to run amavisd with the same group as courier, in order to
+allow courier to write to its socket.  In addition, you must either make the
+/var/lib/courier/filters (or equivalent) directory group-writable, or start
+amavisd as root.  If you choose the latter course, you should definitely use
+$user in amavisd.conf so that amavisd will drop privileges after creating
+the socket.
+
+CONFIGURATION
+
+In amavisd.conf:
+- uncomment the lines setting $forward_method and $notify_method for courier
+- set $user, $group (see under heading SECURITY)
+- set $unix_socket_protocol to 'courier'
+
+You will have to decide whether to make amavis a mandatory filter, in which
+case all mail passing through your server will be filtered, or an optional
+filter, in which case only mail to local users will be filtered, and your
+users will have the option of overriding filtering (you will almost
+certainly want a mandatory filter).
+You should see the courierfilter manpage for more details, and also for the
+appropriate directories on your system (these may be
+/var/lib/courier/allfilters for mandatory filters and
+/var/lib/courier/filters for optional filters).
+Set $unix_socketname to DIR/amavisd, where DIR is the correct courierfilter
+directory.
+
+Also of course set up any other options in amavisd.conf you require.
+
+Make sure that /etc/courier/enablefiltering exists and contains "esmtp".
+
+RUNNING AMAVISD
+
+You should make sure amavisd starts as soon as possible after courier, as
+mails which arrive after courier starts but before amavisd will not be
+filtered.  However, starting amavisd before courier will unfortunately not
+work.  You will also need to restart amavisd as soon as possible if you
+restart courier.  Finally, if you wish to disable virus checking you must
+not only stop amavisd but also remove the socket - courier will refuse to
+accept any mail while the socket exists but amavisd is not running.
+
+
+=========
+See also the PerlStalker's SysAdmin Notes and Tools: Courier+amavisd-new
+by Randall B. Smith, http://perlstalker.amigo.net/courier/amavisd-new.phtml

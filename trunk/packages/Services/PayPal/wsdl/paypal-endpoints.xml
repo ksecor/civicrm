@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<paypal:endpoints xmlns:paypal="http://www.paypal.com/wsdl/">
+	<paypal:wsdl min-version="1.00" max-version="2.00">
+		<paypal:environment name="live">
+			<paypal:port name="PayPalAPI">https://api.paypal.com/2.0/</paypal:port>
+			<paypal:port name="PayPalAPIAA">https://api-aa.paypal.com/2.0/</paypal:port>
+		</paypal:environment>
+		<paypal:environment name="sandbox">
+			<paypal:port name="PayPalAPI">https://api.sandbox.paypal.com/2.0/</paypal:port>
+			<paypal:port name="PayPalAPIAA">https://api-aa.sandbox.paypal.com/2.0/</paypal:port>
+		</paypal:environment>
+		<paypal:environment name="beta-sandbox">
+			<paypal:port name="PayPalAPI">https://api.beta-sandbox.paypal.com/2.0/</paypal:port>
+			<paypal:port name="PayPalAPIAA">https://api-aa.beta-sandbox.paypal.com/2.0/</paypal:port>
+		</paypal:environment>
+	</paypal:wsdl>
+</paypal:endpoints>

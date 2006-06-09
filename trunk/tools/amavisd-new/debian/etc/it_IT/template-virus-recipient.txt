@@ -1,0 +1,28 @@
+# This is a template for VIRUS/BANNED RECIPIENTS NOTIFICATIONS.
+# For syntax and customization instructions see README.customize.
+# Note that only valid header fields are allowed; non-standard header
+# field heads must begin with "X-" .
+#
+# $Id: template-virus-recipient.txt,v 1.1 2004/07/31 19:38:12 hmh Exp $
+Date: %d
+From: %f
+Subject: [? %#V |[? %#F ||NOME INTERDETTO]|VIRUS (%V)]#
+ IN UNA MAIL PER TE (da [?%o|(?)|<%o>])
+To: [? %#T |undisclosed-recipients: ;|[<%T>|, ]]
+[? %#C |#|Cc: [<%C>|, ]]
+Message-ID: <VR%n@%h>
+
+[? %#V |[? %#F ||AVVISO DI NOME INTERDETTO]|AVVISO DI VIRUS]
+
+Il nostro controllore di contenuti ha trovato
+[? %#V |#|    [? %#V |virus|virus|virus]: %V]
+[? %#F |#|    banned [? %#F |nomi|nome|nomi]: %F]
+[? %#X |#|\n[%X\n]]
+in una email indirizzata a te [? %S |da un mittente sconosciuto:|da:]
+
+   %o
+
+[? %q |Non messo in quarantena.|Il messaggio e` stato messo in quarantena come:
+   %q]
+
+Contatta il tuo amministratore di sistema per i dettagli perfavore.

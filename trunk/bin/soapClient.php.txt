@@ -1,0 +1,15 @@
+<?php
+
+$client =& new SoapClient(null, array(
+                                      'location' => 'http://civicrm1.electricembers.net/~lobo/drupal/modules/civicrm/extern/soap.php',
+                                      'uri' => 'urn:civicrm', 'trace' => 1 )
+                          );
+
+$key = $client->authenticate( USER_NAME, USER_PASSWORD );
+$params = array('contact_id' => 101);
+$returnProperties = null;
+$result =& $client->get_contact( $key, $params, $returnProperties );
+
+print_r($result);
+
+?>

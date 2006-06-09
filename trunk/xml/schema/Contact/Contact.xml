@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Contact</base>
+  <class>Contact</class>
+  <name>civicrm_contact</name>
+  <comment>Three types of contacts are defined: Individual, Organization and Household. Contact objects are defined by a civicrm_contact record plus a related civicrm_contact_type record.</comment>
+  <add>1.1</add>
+  <log>true</log>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <title>Internal Contact ID</title>
+      <import>true</import>
+      <required>true</required>
+      <comment>Unique Contact ID</comment>
+      <add>1.1</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+      <add>1.1</add>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+       <add>1.1</add>
+  </foreignKey>
+  <field>
+       <name>contact_type</name>
+       <type>enum</type>
+       <values>Individual, Organization, Household</values>
+       <comment>Type of Contact.</comment>
+      <add>1.1</add>
+  </field>
+  <field>
+       <name>contact_sub_type</name>
+       <type>varchar</type>
+       <length>64</length>
+       <import>true</import>
+       <headerPattern>/^(sub-type|subtype)/i</headerPattern>
+       <comment>May be used to over-ride contact view and edit templates.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>legal_identifier</name>
+       <type>varchar</type>
+       <length>32</length>
+       <import>true</import>
+       <headerPattern>/legal\s?id/i</headerPattern>
+       <dataPattern>/\w+?\d{5,}/</dataPattern>
+       <comment>May be used for SSN, EIN/TIN, Household ID (census) or other applicable unique legal/government ID.</comment>
+      <add>1.1</add>
+  </field>
+  <field>
+       <name>external_identifier</name>
+       <type>varchar</type>
+       <length>32</length>
+       <import>true</import>
+       <headerPattern>/external\s?id/i</headerPattern>
+       <dataPattern>/^\d{11,}$/</dataPattern>
+       <comment>Unique trusted external ID (generally from a legacy app/datasource). Particularly useful for deduping operations.</comment>
+      <add>1.1</add>
+  </field>
+  <field>
+       <name>sort_name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Name used for sorting different contact types</comment>
+      <add>1.1</add>
+  </field>
+  <index>
+       <name>index_sort_name_domain</name>
+       <fieldName>sort_name</fieldName>
+       <fieldName>domain_id</fieldName>
+       <add>1.5</add>
+  </index>
+  <index>
+       <name>index_sort_name</name>
+       <fieldName>sort_name</fieldName>
+       <add>1.1</add>
+       <drop>1.5</drop>
+  </index>
+  <field>
+       <name>display_name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Formatted name representing preferred format for display/print/other output.</comment>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>nick_name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <import>true</import>
+       <headerPattern>/^nick|(n(ick\s)?name)$/i</headerPattern>
+       <dataPattern>/^\w+$/</dataPattern>
+       <comment>Nick Name.</comment>
+       <fulltext/>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>home_URL</name>
+       <rule>url</rule>
+       <title>Home URL</title>
+       <type>varchar</type>
+       <length>128</length>
+       <import>true</import>
+       <headerPattern>/^(url|web|site)/i</headerPattern>
+       <dataPattern>/^[\w\/\:\.]+$/</dataPattern>
+       <comment>optional "home page" URL for this contact.</comment>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>image_URL</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>optional URL for preferred image (photo, logo, etc.) to display for this contact.</comment>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>source</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>where domain_id contact come from, e.g. import, donate module insert...</comment>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>preferred_communication_method</name>
+       <type>varchar</type>
+       <length>255</length>
+       <import>true</import>
+       <headerPattern>/(communication|method)/i</headerPattern>
+       <dataPattern>/^\w+$/</dataPattern>
+       <comment>What is the preferred mode of communication.</comment>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>preferred_mail_format</name>
+       <type>enum</type>
+       <values>Text, HTML, Both</values>
+       <default>"Both"</default>
+       <import>true</import>
+       <comment>What is the preferred mode of sending an email.</comment>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>do_not_phone</name>
+       <type>boolean</type>
+       <default>0</default>
+       <import>true</import>
+       <headerPattern>/do not phone$/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>do_not_email</name>
+       <type>boolean</type>
+       <import>true</import>
+       <headerPattern>/do not email$/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
+       <default>0</default>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>do_not_mail</name>
+       <type>boolean</type>
+       <import>true</import>
+       <headerPattern>/mail$/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
+       <default>0</default>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>do_not_trade</name>
+       <type>boolean</type>
+       <import>true</import>
+       <headerPattern>/trade$/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
+       <default>0</default>
+       <add>1.1</add>
+  </field>
+  <field>
+      <name>hash</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Key for validating requests related to this contact.</comment>
+      <add>1.1</add>
+  </field>
+  <field>
+    <name>is_opt_out</name>
+    <type>boolean</type>
+    <title>No Bulk Mail (Opted-out)</title>
+    <default>0</default>
+    <import>true</import>
+    <required>true</required>
+    <comment>Has the contact opted out from receiving all bulk email from the organization or site domain?</comment>
+    <add>1.1</add>
+  </field>
+</table>

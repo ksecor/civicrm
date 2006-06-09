@@ -1,0 +1,42 @@
+# This is a template for SPAM ADMINISTRATOR NOTIFICATIONS.
+# For syntax and customization instructions see README.customize.
+# Note that only valid header fields are allowed; non-standard header
+# field heads must begin with "X-" .
+#
+# $Id: template-spam-admin.txt,v 1.1 2004/07/31 19:38:12 hmh Exp $
+Date: %d
+From: %f
+Subject: SPAM DA[?%l|| LOCALE] [?%o|(?)|<%o>]
+To: [? %#T |undisclosed-recipients: ;|[<%T>|, ]]
+[? %#C |#|Cc: [<%C>|, ]]
+[? %#B |#|Bcc: [<%B>|, ]]
+Message-ID: <SA%n@%h>
+
+Email non richiesta \
+[? %o |da mittente sconosciuto o modificato.|from:
+   %o]
+Subject: %j
+
+[? %t |#|In base alla traccia di 'Received:', il messaggio e` stato originato a:
+   %t
+]
+[? %#D ||Il messaggio VERRA` consegnato a:[
+%D]
+
+]#
+[? %#N ||Il messaggio NON VERRA` consegnato a:[
+%N]
+
+]#
+[? %q |Non messo in quarantena.|Il messaggio e` stato messo in quarantena come:
+   %q]
+
+SpamAssassin report:
+[%A
+]\
+
+------------------------- BEGIN HEADERS -----------------------------
+Return-Path: %s
+[%H
+]\
+-------------------------- END HEADERS ------------------------------

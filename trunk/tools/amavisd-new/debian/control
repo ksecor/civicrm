@@ -1,0 +1,39 @@
+Source: amavisd-new
+Section: mail
+Priority: extra
+Maintainer: Brian May <bam@debian.org>
+Uploaders: Henrique de Moraes Holschuh <hmh@debian.org>
+Build-Depends: debhelper (>> 4.0.0), libmilter-dev
+Standards-Version: 3.6.1
+
+Package: amavisd-new
+Architecture: all
+Depends: adduser (>= 3.34), file, libmime-perl (>=5.313), libconvert-tnef-perl (>=0.06), libconvert-uulib-perl, libcompress-zlib-perl (>=1.14), libarchive-tar-perl, libarchive-zip-perl, libmailtools-perl, libunix-syslog-perl, libnet-perl (>= 1:1.12), libnet-server-perl, libtime-hires-perl, libdigest-md5-perl, libmime-base64-perl, ${perl:Depends}
+Provides: amavis
+Conflicts: amavis
+Replaces: amavis
+Suggests: spamassassin, clamav, clamav-daemon, lha, arj, unrar, zoo, nomarch, cpio, lzop, apt-listchanges (>= 2.35)
+Description: Interface between MTA and virus scanner/content filters
+ AMaViSd-new is a script that interfaces a mail transport agent (MTA) with
+ zero or more virus scanners, and spamassassin (optional).
+ .
+ AMaViSd-new supports all MTAs through its generic SMTP filter mode (ideal
+ for postfix and exim).  It is faster and safer to use the SMTP filter mode
+ than using the AMaViS pipe client.
+ .
+ When in doubt about which amavis-* package to use, try this one
+
+Package: amavisd-new-milter
+Architecture: any
+Depends: ${shlibs:Depends}, amavisd-new (= ${Source-Version})
+Description: Interface between sendmail-milter and amavisd-new
+ AMaViSd-new is a script that interfaces a mail transport agent (MTA) with
+ zero or more virus scanners, and spamassassin (optional).
+ .
+ AMaViSd-new supports all MTAs through its generic SMTP filter mode (ideal
+ for postfix and exim).  It can also talk to sendmail milter using
+ this package.
+ .
+ This package has not received extensive testing. It is possible that
+ amavis-ng might be a better option for milter users.  Regardless, I 
+ think this package should still work.

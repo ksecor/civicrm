@@ -1,0 +1,5 @@
+$Id: TODO,v 1.14 2004/07/05 15:21:16 hmh Exp $
+
+* Update pt_BR templates to the new ones in p9-1
+* Improve locking on milter to lock before fork, use the new code
+  in rng-tools mt.3 or above

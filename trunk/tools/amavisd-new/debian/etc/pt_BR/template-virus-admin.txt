@@ -1,0 +1,52 @@
+#
+# =============================================================================
+# This is a template for VIRUS ADMINISTRATOR NOTIFICATIONS.
+# For syntax and customization instructions see README.customize
+#
+# $Id: template-virus-admin.txt,v 1.3 2003/04/23 21:26:16 hmh Exp $
+Date: %d
+From: %f
+Subject: [? %#V |[? %#F ||ARQUIVO PROIBIDO (%F)]|VIRUS (%V)]#
+ DE[?%l|| (ENVIO LOCAL)] [?%o|(?)|<%o>]
+To: [? %#T |destinatarios-desconhecidos: ;|[<%T>|, ]]
+[? %#C |#|Cc: [<%C>|, ]]
+Message-ID: <VA%n@%h>
+
+[? %#V |Nenhum vírus foi encontrado.
+|Um vírus foi encontrado (%V).
+|Duas viroses foram encontradas (%V).
+|%#V viroses foram encontradas (%V).
+]
+[? %#F
+|#|Um nome de arquivo proibido foi encontrado (%F).
+|Dois nomes de arquivos proibidos foram encontrados (%F).
+|%#F nomes de arquivos banidos foram encontrados (%F).
+]
+[? %#W |#
+|Scanner que detectou vírus: %W
+|Scanners que detectaram vírus: %W
+]
+A email veio de: <%o>
+
+[? %t |#|Segundo a trilha de cabeçalhos 'Received:', a mensagem originou-se em:
+   %t
+]
+[? %#S |Notificação para o remetente não será enviada.
+|Remetente notificado: %S
+]#
+[? %#D |#|A mensagem SERÁ entregue para:[
+%D]
+]
+[? %#N |#|A mensagem NÃO SERÁ entregue para:[
+%N]
+]
+[? %#V |#|[? %#v |#|Saída do Virus scanner:[
+   %v]
+]]
+[? %q  |A mensagem não foi posta em quarentena.|A mensagem foi posta em quarentena em:
+   %q
+]
+------------------------- BEGIN HEADERS -----------------------------
+[%H
+]\
+-------------------------- END HEADERS ------------------------------
