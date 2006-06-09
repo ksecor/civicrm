@@ -176,13 +176,13 @@ class CRM_Core_SelectValues {
         if (!$unitList) {
             $unitList = array(
                               ''             => ts('- select -'),
-                              'Day'          => ts('Day'),
-                              'Month'        => ts('Month'),
-                              'Year'         => ts('Year')
+                              'day'          => ts('day'),
+                              'month'        => ts('month'),
+                              'year'         => ts('year')
                               );
             if ( $unitType == 'duration' ) {
                 $unitAdd = array(
-                                 'Life_time'      => ts('Life time')
+                                 'life_time'      => ts('life time')
                                  );
                 $unitList = array_merge( $unitList, $unitAdd);
             }
@@ -200,8 +200,8 @@ class CRM_Core_SelectValues {
         if (!$periodType) {
             $periodType = array(
                  ''             => ts('- select -'),
-                 'Rolling'      => ts('Rolling'),
-                 'Fixed'        => ts('Fixed')
+                 'rolling'      => ts('rolling'),
+                 'fixed'        => ts('fixed')
              );
         }
         return $periodType;
@@ -217,9 +217,9 @@ class CRM_Core_SelectValues {
         if (!$eventDate) {
             $eventDate = array(
                  ''             => ts('- select -'),
-                 'Start_date'   => ts('Start Date'),
-                 'End_date'     => ts('End Date'),
-                 'Join_date'    => ts('Join Date')
+                 'start_date'   => ts('start Date'),
+                 'end_date'     => ts('end Date'),
+                 'join_date'    => ts('join Date')
              );
         }
         return $eventDate;

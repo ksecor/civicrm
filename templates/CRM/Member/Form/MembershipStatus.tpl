@@ -13,21 +13,21 @@
       </div>
      {else}
       <dl>
- 	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
- 	<dt>{$form.start_event.label}</dt><dd>{$form.start_event.html}</dd>
- 	<dt>{$form.start_event_adjust_unit.label}</dt><dd>{$form.start_event_adjust_unit.html}</dd>
- 	<dt>{$form.start_event_adjust_interval.label}</dt><dd>{$form.start_event_adjust_interval.html}</dd>
- 	<dt>{$form.end_event.label}</dt><dd>{$form.end_event.html}</dd>
- 	<dt>{$form.end_event_adjust_unit.label}</dt><dd>{$form.end_event_adjust_unit.html}</dd>
- 	<dt>{$form.end_event_adjust_interval.label}</dt><dd>{$form.end_event_adjust_interval.html}</dd>
-        <dt>{$form.is_current_member.label}</dt><dd>{$form.is_current_member.html}</dd>
-        <dt>{$form.is_admin.label}</dt><dd>{$form.is_admin.html}</dd>
-        <dt>{$form.is_default.label}</dt><dd>{$form.is_default.html}</dd>
-        <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+ 	<dt>{$form.name.label}</dt><dd class="html-adjust">{$form.name.html}</dd>
+ 	<dt>{$form.start_event.label}</dt><dd class="html-adjust">{$form.start_event.html}</dd>
+ 	<dt>{$form.start_event_adjust_unit.label}</dt><dd class="html-adjust">{$form.start_event_adjust_unit.html}</dd>
+ 	<dt>{$form.start_event_adjust_interval.label}</dt><dd class="html-adjust">{$form.start_event_adjust_interval.html}</dd>
+ 	<dt>{$form.end_event.label}</dt><dd class="html-adjust">{$form.end_event.html}</dd>
+ 	<dt>{$form.end_event_adjust_unit.label}</dt><dd class="html-adjust">{$form.end_event_adjust_unit.html}</dd>
+ 	<dt>{$form.end_event_adjust_interval.label}</dt><dd class="html-adjust">{$form.end_event_adjust_interval.html}</dd>
+        <dt>{$form.is_current_member.label}</dt><dd class="html-adjust">{$form.is_current_member.html}</dd>
+        <dt>{$form.is_admin.label}</dt><dd class="html-adjust">{$form.is_admin.html}</dd>
+        <dt>{$form.is_default.label}</dt><dd class="html-adjust">{$form.is_default.html}</dd>
+        <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
       </dl> 
      {/if}
     <dl>   
-      <dt></dt><dd>{$form.buttons.html}</dd>
+      <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
     </dl>
 </fieldset>
 </div>

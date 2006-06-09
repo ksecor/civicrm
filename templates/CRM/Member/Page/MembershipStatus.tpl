@@ -43,6 +43,7 @@
     </div>
 </div>
 {else}
+  {if $action ne 1}
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
@@ -50,4 +51,5 @@
         <dd>{ts 1=$crmURL}There are no custom membership status entered. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    
+  {/if}
 {/if}

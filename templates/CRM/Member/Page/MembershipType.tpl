@@ -15,6 +15,7 @@
         <tr class="columnheader">
             <th>{ts}Name{/ts}</th>
             <th>{ts}Description{/ts}</th>
+            <th>{ts}Minimum Fee{/ts}</th>
             <th>{ts}Duration Unit{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
@@ -23,6 +24,7 @@
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.description}</td>
+	        <td>{$row.minimum_fee}</td>
 	        <td>{$row.duration_unit}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
@@ -39,6 +41,7 @@
     </div>
 </div>
 {else}
+  {if $action ne 1}
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
@@ -46,4 +49,5 @@
         <dd>{ts 1=$crmURL}There are no custom membership types entered. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    
+  {/if}
 {/if}
