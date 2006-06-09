@@ -32,7 +32,7 @@
 
     {strip}
     <table>
-    {if $loadedMapping}
+    {if $loadedMapping} 
         <tr class="columnheader-dark"><th colspan="4">{ts 1=$savedName}Saved Field Mapping: %1{/ts}</td></tr>
     {/if}
         <tr class="columnheader">
@@ -62,7 +62,8 @@
                 {/section}
 
                 {* Display mapper <select> field for 'Map Fields', and mapper value for 'Preview' *}
-                <td class="form-item even-row{if $wizard.currentStepName == 'Preview'} labels{/if}">
+                <td class="form-item even-row
+                    {if $wizard.currentStepName == 'Preview'}labels{/if}">
                     {if $wizard.currentStepName == 'Preview'}
                         {$mapper[$i]}
                     {else}

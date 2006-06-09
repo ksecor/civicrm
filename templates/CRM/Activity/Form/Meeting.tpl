@@ -31,12 +31,17 @@
     {/if}
 	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
-    {if $action neq 4}
+    {edit}      {*if $action neq 4*} {* Commented for crm-914*}
         <dt>&nbsp;</dt><dd class="description">{ts}Meeting will be moved to Activity History when status is 'Completed'.{/ts}</dd>
-    {/if}
+    {/edit}     {*/if*}
 
     <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
-	 {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+     {if $action eq 4} 
+      {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+     {else}
+      {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+    {/if}
+     
    {/if}
     {if $action eq 8 }
     <div class="status">{ts 1=$delName}Are you sure you want to delete "%1"?{/ts}</div>

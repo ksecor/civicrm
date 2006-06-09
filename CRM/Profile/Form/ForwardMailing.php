@@ -43,9 +43,12 @@ class CRM_Profile_Form_ForwardMailing extends CRM_Core_Form
 
     function preProcess( ) 
     {
-        $job_id     = CRM_Utils_Request::retrieve('jid', $this, null);
-        $queue_id   = CRM_Utils_Request::retrieve('qid', $this, null);
-        $hash       = CRM_Utils_Request::retrieve('h', $this, null);
+        $job_id     = CRM_Utils_Request::retrieve('jid', 'Positive',
+                                                  $this, null);
+        $queue_id   = CRM_Utils_Request::retrieve('qid', 'Positive',
+                                                  $this, null);
+        $hash       = CRM_Utils_Request::retrieve('h', 'String',
+                                                  $this, null);
 
         $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
 

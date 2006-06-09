@@ -113,17 +113,35 @@
       <label>{ts}Contributions{/ts}</label>
     </div>
     <div id="contributeForm">
-    <fieldset><legend><a href="#" onClick="hide('contributeForm','contributeForm[hide]'); show('contributeForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Contributions{/ts}</legend>
+    <fieldset><legend><a href="#" onClick="hide('contributeForm'); show('contributeForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Contributions{/ts}</legend>
     <table class="form-layout"> 
        {include file="CRM/Contribute/Form/Search/Common.tpl"}
     </table>
     </fieldset>
     </div>
     {/if}
-
-    <div id="relationship[show]" class="data-group">   
-    <fieldset><legend>{ts}Relationship{/ts}</legend>    
-      <table class="form-layout">
+        
+    {if $validQuest}
+    <div id="questForm[show]" class="data-group">
+      <a href="#" onClick="hide('questForm[show]'); show('questForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a>
+      <label>{ts}Quest Student{/ts}</label>
+    </div>
+    <div id="questForm">
+    <fieldset><legend><a href="#" onClick="hide('questForm'); show('questForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Quest Student{/ts}</legend>
+    <table class="form-layout"> 
+       {include file="CRM/Quest/Form/Search/Common.tpl"}
+    </table>
+    </fieldset>
+    </div>
+    {/if}
+        
+    <div id="relationship[show]" class="data-group">
+      <a href="#" onClick="hide('relationship[show]'); show('relationship'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a>
+      <label>{ts}Relationship{/ts}</label>
+    </div>
+    <div id="relationship">
+    <fieldset><legend><a href="#" onClick="hide('relationship'); show('relationship[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Relationship{/ts}</legend>
+    <table class="form-layout">
          <tr>
             <td class="label">
                 {$form.relation_type_id.label}
@@ -135,7 +153,7 @@
                 {$form.target_name.label}
             </td>
             <td>
-                {$form.target_name.html}
+                {$form.target_name.html|crmReplace:class:large}
             </td>    
         </tr>
       </table>         

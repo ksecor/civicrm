@@ -356,7 +356,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     function &exportableFields( ) {
         require_once 'CRM/Contribute/DAO/Product.php';
         require_once 'CRM/Contribute/DAO/ContributionProduct.php';
-        $impFields = self::importableFields( );
+        //$impFields = self::importableFields( );
+        $impFields = CRM_Contribute_DAO_Contribution::import( );
         $expFieldProduct = CRM_Contribute_DAO_Product::export( );
         $expFieldsContrib = CRM_Contribute_DAO_ContributionProduct::export( );
         $typeField = CRM_Contribute_DAO_ContributionType::export( );
@@ -395,7 +396,7 @@ FROM   civicrm_contribution
 WHERE  domain_id = $domainID AND $whereCond
 ";
 
-        $dao = CRM_Core_DAO::executeQuery( $query );
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         if ( $dao->fetch( ) ) {
             return array( 'amount' => $dao->total_amount,
                           'count'  => $dao->total_count );
@@ -419,7 +420,8 @@ WHERE  domain_id = $domainID AND $whereCond
 
         require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
         while ( $contribution->fetch( ) ) {
-            self::deleteContributionSubobjects($contribution->id);
+            self::deleteContribution($contribution->id);
+            //self::deleteContributionSubobjects($contribution->id);
             $contribution->delete( );
         }
     }
@@ -431,15 +433,13 @@ WHERE  domain_id = $domainID AND $whereCond
         $dao->contribution_id = $id;
         $dao->delete();;
 
-
         $contribution =& new CRM_Contribute_DAO_Contribution( ); 
         $contribution->id = $id;
         if ( $contribution->find( true ) ) {
             self::deleteContributionSubobjects($id);
             $contribution->delete( ); 
         }
- 
-        
+         
         return true;
     }
 
@@ -471,19 +471,22 @@ WHERE  domain_id = $domainID AND $whereCond
      * @access public
      * static
      */
-    static function checkDuplicate( &$params, &$duplicates ) {
+    static function checkDuplicate( $params, &$duplicates ) {
         $id         = CRM_Utils_Array::value( 'id'        , $params );
         $trxn_id    = CRM_Utils_Array::value( 'trxn_id'   , $params );
         $invoice_id = CRM_Utils_Array::value( 'invoice_id', $params );
 
         $clause = array( );
+        $params = array( );
 
         if ( $trxn_id ) {
-            $clause[] = "trxn_id = '" . CRM_Utils_Type::escape( $trxn_id, 'String' ) . "'";
+            $clause[]  = "trxn_id = %1";
+            $params[1] = array( $trxn_id, 'String' );
         }
 
         if ( $invoice_id ) {
-            $clause[] = "invoice_id = '" . CRM_Utils_Type::escape( $invoice_id, 'String' ) . "'";
+            $clause[]  = "invoice_id = %2";
+            $params[2] = array( $invoice_id, 'String' );
         }
 
         if ( empty( $clause ) ) {
@@ -492,11 +495,12 @@ WHERE  domain_id = $domainID AND $whereCond
 
         $clause = implode( ' OR ', $clause );
         if ( $id ) {
-            $clause = "( $clause ) AND id != " . CRM_Utils_Type::escape( $id, 'Integer' );
+            $clause = "( $clause ) AND id != %3";
+            $params[3] = array( $id, 'Integer' );
         }
 
         $query = "SELECT id FROM civicrm_contribution WHERE $clause";
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         $result = false;
         while ( $dao->fetch( ) ) {
             $duplicates[] = $dao->id;

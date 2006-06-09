@@ -210,11 +210,22 @@ class CRM_Core_Error extends PEAR_ErrorStack {
                        'code'    => $code );
 
         $config =& CRM_Core_Config::singleton( );
+
+        if ( $config->fatalErrorHandler &&
+             function_exists( $config->fatalErrorHandler ) ) {
+            $name = $config->fatalErrorHandler;
+            $ret = $name( $vars );
+            if ( $ret ) {
+                // the call has been successfully handled
+                // so we just exit
+                exit( CRM_Core_Error::FATAL_ERROR );
+            }
+        }
+
         if ( $config->backtrace ) {
             self::backtrace( );
         }
 
-        
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( $vars );
 

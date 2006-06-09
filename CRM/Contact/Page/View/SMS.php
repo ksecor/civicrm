@@ -56,12 +56,14 @@ class CRM_Contact_Page_View_SMS extends CRM_Core_Page {
     function run()
     {
         // get the callback, module and activity id
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse');
-        $id     = CRM_Utils_Request::retrieve('id', $this);
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false, 'browse');
+        $id     = CRM_Utils_Request::retrieve('id', 'Positive',
+                                              $this);
         
         $dao =& new CRM_Core_DAO_ActivityHistory();
         $dao->activity_id   = $id;
-        $dao->activity_type = 'SMS Sent';
+        $dao->activity_type = ts( 'SMS Sent' );
         if ( $dao->find(true) ) {
             $cid = $dao->entity_id;
         }
@@ -87,12 +89,12 @@ class CRM_Contact_Page_View_SMS extends CRM_Core_Page {
             
             CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
 
-            require_once 'CRM/Utils/Menu.php';
+            require_once 'CRM/Core/Menu.php';
             // also add the cid params to the Menu array
-            CRM_Utils_Menu::addParam( 'cid',  $cid);
+            CRM_Core_Menu::addParam( 'cid',  $cid);
           
             // create menus ..
-            $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
+            $startWeight = CRM_Core_Menu::getMaxWeight('civicrm/contact/view');
             $startWeight++;
             require_once 'CRM/Core/BAO/CustomGroup.php';
             CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($cid), 'civicrm/contact/view/cd', $startWeight);

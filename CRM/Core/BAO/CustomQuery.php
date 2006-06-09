@@ -119,15 +119,15 @@ class CRM_Core_BAO_CustomQuery {
     function __construct( $ids ) {
         $this->_ids    =& $ids;
 
-        $this->_select  = array( ); 
-        $this->_element = array( ); 
-        $this->_tables  = array( ); 
+        $this->_select       = array( ); 
+        $this->_element      = array( ); 
+        $this->_tables       = array( ); 
         $this->_whereTables  = array( ); 
-        $this->_where   = array( );
-        $this->_qill    = array( );
-        $this->_options = array( );
+        $this->_where        = array( );
+        $this->_qill         = array( );
+        $this->_options      = array( );
 
-        $this->_fields  = array( );
+        $this->_fields       = array( );
 
         if ( empty( $this->_ids ) ) {
             return;
@@ -137,7 +137,7 @@ class CRM_Core_BAO_CustomQuery {
         $tmpArray = array_keys( $this->_ids );
         $query = 'select * from civicrm_custom_field where is_active = 1 AND id IN ( ' .
             implode( ',', $tmpArray ) . ' ) ';
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $optionIds = array( );
         while ( $dao->fetch( ) ) {
             // get the group dao to figure which class this custom field extends
@@ -157,7 +157,7 @@ class CRM_Core_BAO_CustomQuery {
             $this->_options[$dao->id]['attributes'] = array( 'label'     => $dao->label,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
-            if ( $dao->html_type == 'CheckBox' || $dao->html_type == 'Radio' || $dao->html_type == 'Select' ) {
+            if ( $dao->html_type == 'CheckBox' || $dao->html_type == 'Radio' || $dao->html_type == 'Select' || $dao->html_type == 'Multi-Select') {
                 $optionIds[] = $dao->id;
             }
         }
@@ -166,7 +166,7 @@ class CRM_Core_BAO_CustomQuery {
         if ( ! empty( $optionIds ) ) {
             $query = 'select entity_id, label, value from civicrm_custom_option where entity_id IN ( ' .
                 implode( ',', $optionIds ) . ' ) AND entity_table = \'civicrm_custom_field\''; 
-            $dao =& CRM_Core_DAO::executeQuery( $query );
+            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             while ( $dao->fetch( ) ) {
                 $this->_options[$dao->entity_id][$dao->value] = $dao->label;
             }
@@ -197,14 +197,18 @@ class CRM_Core_BAO_CustomQuery {
             $this->_element[$fieldName]   = 1;
             if ( $field['extends'] == 'civicrm_contact' ) {
                 $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
-                    " AND $name.entity_table = 'civicrm_contact' AND $name.entity_id = civicrm_contact.id ";
+                    " AND $name.entity_table = 'civicrm_contact' AND $name.entity_id = contact_a.id ";
+                if ( $this->_params[$id] ) {
+                    $this->_whereTables[$name] = $this->_tables[$name];
+                }
             } else if ( $field['extends'] == 'civicrm_contribution' ) {
                 $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
                     " AND $name.entity_table = 'civicrm_contribution' AND $name.entity_id = civicrm_contribution.id ";
                 $this->_tables['civicrm_contribution'] = 1;
-                $this->_whereTables['civicrm_contribution'] = 1;
+                if ( $this->_params[$id] ) {
+                    $this->_whereTables['civicrm_contribution'] = 1;
+                }
             }
-            $this->_whereTables[$name] = $this->_tables[$name];
         }
 
     }
@@ -242,18 +246,23 @@ class CRM_Core_BAO_CustomQuery {
             switch ( $field['data_type'] ) {
 
             case 'String':
-                $sql = 'LOWER(' . self::PREFIX . $field['id'] . '.char_data) LIKE ';
+                $sql = 'LOWER(' . self::PREFIX . $field['id'] . '.char_data) ';
                 // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
-                if ( $field['html_type'] == 'CheckBox' && is_array( $value ) ) { 
-                    $this->_where[] = $sql . "'%" . implode( '%', array_keys( $value ) ) . "%'";
-                    $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
+                if ( is_array( $value ) ) { 
+                    if ($field['html_type'] == 'CheckBox') {
+                        $this->_where[] = $sql . "LIKE '%" . implode( '%', array_keys( $value ) ) . "%'";
+                        $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
+                    } else { // for multi select
+                        $this->_where[] = $sql . "LIKE '%" . implode( '%',  $value ) . "%'";
+                        $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
+                    }                    
                 } else {
                     if ( $field['is_search_range'] ) {
                         $this->searchRange( $field['id'], $field['label'], 'char_data', $value );
                     } else {
                         $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
-                        $this->_where[] = "$sql '%{$val}%'";
-                        $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $qillValue));
+                        $this->_where[] = "$sql = '$val'";
+                        $this->_qill[] = ts('%1 - %2', array(1 => $field['label'], 2 => $qillValue));
                     }
                 } 
                 continue;
@@ -262,7 +271,7 @@ class CRM_Core_BAO_CustomQuery {
                 if ( $field['is_search_range'] ) {
                     $this->searchRange( $field['id'], $field['label'], 'int_data', $value );
                 } else {
-                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Int' );
+                    $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Integer' );
                     $this->_qill[]  = $field['label'] . " - $value";
                 }
                 continue;
@@ -270,7 +279,7 @@ class CRM_Core_BAO_CustomQuery {
             case 'Boolean':
                 $value = (int ) $value;
                 $value = ( $value == 1 ) ? 1 : 0;
-                $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Int' );
+                $this->_where[] = self::PREFIX . $field['id'] . '.int_data = ' . CRM_Utils_Type::escape( $value, 'Integer' );
                 $value = $value ? ts('Yes') : ts('No');
                 $this->_qill[]  = $field['label'] . " - $value";
                 continue;
@@ -354,9 +363,16 @@ class CRM_Core_BAO_CustomQuery {
                     $this->_qill[]  = $field['label'] . " - {$countries[$value]}";
                 }
                 continue;
+            case 'File':
+                $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
+                $this->_where[] = self::PREFIX . $field['id'] . ".char_data LIKE '%{$val}%'";
+                $this->_qill[] = ts('%1 like - %2', array(1 => $field['label'], 2 => $value));
+                continue;
+               
             }
+            
         }
-        // CRM_Core_Error::debug( 'w', $this->_where );
+        //CRM_Core_Error::debug( 'w', $this->_where );
     }
 
     /**

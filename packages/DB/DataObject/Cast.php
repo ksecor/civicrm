@@ -15,7 +15,7 @@
  * @category   Database
  * @package    DB_DataObject
  * @author     Alan Knowles <alan@akbkhome.com>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id: Cast.php,v 1.15 2005/07/07 05:30:53 alan_k Exp $
  * @link       http://pear.php.net/package/DB_DataObject

@@ -54,8 +54,13 @@
                            {assign var="name" value=`$cd_value.name`} 
                            {assign var="element_name" value="custom_"|cat:$field_id}
                            <dt>{$cd_value.label}</dt>
-                           {*<dd>{$viewForm.$element_name.html}&nbsp;</dd> *}
-                           <dd class="html-adjust">{$form.$element_name.html}</dd> 
+                         {if $groupTree.$group_id.fields.$field_id.data_type == 'File'}
+                            {if $form.$element_name.html}
+                                 <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a></dd>
+                            {/if}
+                         {else}
+                           <dd class="html-adjust">{$form.$element_name.html}&nbsp;
+                         {/if}
                         {/if}
                     {/foreach}
                     </dl>

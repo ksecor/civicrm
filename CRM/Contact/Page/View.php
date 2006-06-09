@@ -41,7 +41,7 @@ require_once 'CRM/Core/BAO/CustomOption.php';
 require_once 'CRM/Utils/Recent.php';
 
 require_once 'CRM/Contact/BAO/Contact.php';
-require_once 'CRM/Utils/Menu.php';
+require_once 'CRM/Core/Menu.php';
 
 /**
  * Main page for viewing contact.
@@ -90,16 +90,19 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
      */
     function preProcess( )
     {
-        $this->_id = CRM_Utils_Request::retrieve( 'id', $this );
+        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                                  $this );
         $this->assign( 'id', $this->_id );
         
-        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $this, true );
+        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                                         $this, true );
         if ( ! $this->_contactId ) {
             CRM_Utils_System::statusBounce( ts( 'We could not find a contact id.' ) );
         }
         $this->assign( 'contactId', $this->_contactId );
 
-        $this->_action = CRM_Utils_Request::retrieve('action', $this, false, 'browse');
+        $this->_action = CRM_Utils_Request::retrieve('action', 'String',
+                                                     $this, false, 'browse');
         $this->assign( 'action', $this->_action);
 
         // check for permissions
@@ -127,7 +130,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
                                $this->_contactId );
         
         // also add the cid params to the Menu array
-        CRM_Utils_Menu::addParam( 'cid', $this->_contactId );
+        CRM_Core_Menu::addParam( 'cid', $this->_contactId );
 
         
         $this->assign('viewForm',$form);
@@ -137,7 +140,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         //------------
         // create menus ..
-        $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
+        $startWeight = CRM_Core_Menu::getMaxWeight('civicrm/contact/view');
         $startWeight++;
         CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($this->_contactId), 'civicrm/contact/view/cd', $startWeight);
 
@@ -145,6 +148,19 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $otherAct = CRM_Core_PseudoConstant::activityType(false);
         $activityNum = count($otherAct);
         $this->assign('showOtherActivityLink',$activityNum);
+        
+        $config =& CRM_Core_Config::singleton( );
+        
+        //add link to CMS user
+        if ( $uid = CRM_Core_BAO_UFMatch::getUFId( $this->_contactId ) ) {
+            if ($config->userFramework == 'Drupal') {
+                $url = CRM_Utils_System::url( 'user/' . $uid );
+            } else {
+                //$url = CRM_Utils_System::url( 'option=com_users&task=editA&hidemainmenu=1&id=' . $uid );
+                $url = $config->userFrameworkBaseURL . 'index2.php?option=com_users&task=editA&hidemainmenu=1&id=' . $uid;
+            }
+            $this->assign( 'url', $url );
+        }
     }
 
 

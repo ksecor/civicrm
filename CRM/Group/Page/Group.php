@@ -239,7 +239,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         $object->orderBy ( 'title asc' );
         $object->find();
         
-        $groupPermission = CRM_Utils_System::checkPermission( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
+        $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
         
         while ($object->fetch()) {

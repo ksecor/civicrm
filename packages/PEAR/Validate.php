@@ -13,9 +13,9 @@
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Validate.php,v 1.44 2005/11/14 14:07:43 cellog Exp $
+ * @version    CVS: $Id: Validate.php,v 1.46 2006/01/23 17:16:35 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -36,9 +36,9 @@ require_once 'PEAR/Validator/PECL.php';
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.5
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -286,6 +286,13 @@ class PEAR_Validate
             case 'beta' :
                 // check for a package that extends a package,
                 // like Foo and Foo2
+                if ($this->_state == PEAR_VALIDATE_PACKAGING) {
+                    if (substr($versioncomponents[2], 1, 2) == 'rc') {
+                        $this->_addFailure('version', 'Release Candidate versions ' .
+                            'must have capital RC, not lower-case rc');
+                        return false;
+                    }
+                }
                 if (!$this->_packagexml->getExtends()) {
                     if ($versioncomponents[0] == '1') {
                         if ($versioncomponents[2]{0} == '0') {

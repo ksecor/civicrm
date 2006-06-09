@@ -35,6 +35,10 @@
  */
 
 require_once 'Mail/mime.php';
+
+require_once 'CRM/Contact/BAO/SavedSearch.php';
+require_once 'CRM/Contact/BAO/Query.php';
+
 require_once 'CRM/Mailing/DAO/Mailing.php';
 require_once 'CRM/Mailing/DAO/Group.php';
 require_once 'CRM/Mailing/Event/BAO/Queue.php';
@@ -106,7 +110,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailingGroup->query(
             "CREATE TEMPORARY TABLE X_$job_id 
             (contact_id int primary key) 
-            TYPE=HEAP"
+            ENGINE=HEAP"
         );
 
         /* Add all the members of groups excluded from this mailing to the temp
@@ -188,7 +192,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailingGroup->query(
             "CREATE TEMPORARY TABLE I_$job_id 
             (email_id int, contact_id int primary key)
-            TYPE=HEAP"
+            ENGINE=HEAP"
         );
         
         /* Get the group contacts, but only those which are not in the
@@ -264,10 +268,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                     $mg.group_type = 'Include'
                         AND         $mg.mailing_id = {$this->id}
                         AND         $group.saved_search_id IS NOT null");
+
+        $whereTables = array( );
         while ($ss->fetch()) {
             $tables = array($contact => 1, $location => 1, $email => 1);
             $where = CRM_Contact_BAO_SavedSearch::whereClause(
-                                    $ss->saved_search_id, $tables);
+                                                              $ss->saved_search_id,
+                                                              $tables,
+                                                              $whereTables
+                                                              );
             $from = CRM_Contact_BAO_Query::fromClause($tables);
             $ssq = "INSERT IGNORE INTO  I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
@@ -351,19 +360,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     FROM I_$job_id 
                     ORDER BY contact_id, email_id");
         
-//         while ($mailingGroup->fetch()) {
-//             $results[] =    
-//                 array(  'email_id'  => $mailingGroup->email_id,
-//                         'contact_id'=> $mailingGroup->contact_id
-//                 );
-//         }
-        
         /* Delete the temp table */
         $mailingGroup->reset();
         $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
         $mailingGroup->query("DROP TEMPORARY TABLE I_$job_id");
 
-//         return $results;
         return $eq;
     }
 
@@ -993,6 +994,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                     'unique' => $mailing->unique_clicks,
                                     'rate'   => $report['event_totals']['delivered'] ? (100.0 * $mailing->unique_clicks) / $report['event_totals']['delivered'] : 0
                                 );
+        }
+
         $report['event_totals']['links'] = array(
             'clicks' => CRM_Utils_System::url(
                             'civicrm/mailing/event',
@@ -1031,10 +1034,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             "reset=1&event=opened&mid=$mailing_id"
             ),
         );
-        }
+
         $report['retry'] = CRM_Utils_System::url(
                             'civicrm/mailing/retry',
                             "reset=1&mid=$mailing_id");
+
         return $report;
     }
 

@@ -60,23 +60,6 @@ class CRM_Utils_System_Mambo {
     }
 
     /**
-     * given a permission string, check for access requirements
-     *
-     * @param string $str the permission to check
-     *
-     * @return boolean true if yes, else false
-     * @static
-     * @access public
-     */
-    static function checkPermission( $str ) {
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFrameworkFrontend && $str == 'administer users' ) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Append an additional breadcrumb tag to the existing breadcrumb
      *
      * @param string $bc the new breadcrumb to be appended

@@ -81,9 +81,12 @@
     </div>
 </div>
   {* Existing Group *}
+{if $form.groups}
 <div id="existingGroup[show]" class="data-group">
     <a href="#" onclick="hide('existingGroup[show]'); show('existingGroup'); return false;">&raquo; {$form.groups.label}</a>
 </div>
+{/if}
+
 <div id="existingGroup" class="data-group">
     <a href="#" onclick="hide('existingGroup'); show('existingGroup[show]'); return false;">&raquo; {$form.groups.label}</a>
     <div class="form-item">
@@ -93,16 +96,31 @@
     </div>
 </div>
 
-  {* Tag Imported Contact *}
+{* Tag options *}
+{* New Tag *}
+<div id="newTag[show]" class="data-group">
+    <a href="#" onclick="hide('newTag[show]'); show('newTag'); return false;">&raquo; {$form.newTag.label}</a>
+</div> 
+<div id="newTag" class="data-group">
+    <a href="#" onclick="hide('newTag'); show('newTag[show]'); return false;">&raquo; {$form.newTag.label}</a>
+        <div class="form-item">
+        <dl>
+	    <dt class="description">{$form.newTagName.label}</dt><dd>{$form.newTagName.html}</dd>
+	    <dt class="description">{$form.newTagDesc.label}</dt><dd>{$form.newTagDesc.html}</dd>
+        </dl>
+    </div>
+</div>
+{* Existing Tag Imported Contact *}
+
 <div id="tag[show]" class="data-group">
-    <a href="#" onclick="hide('tag[show]'); show('tag'); return false;">&raquo; <label>{ts}Tag imported contact(s){/ts}</label></a>
+    <a href="#" onclick="hide('tag[show]'); show('tag'); return false;">&raquo; <label>{ts}Tag imported{/ts}</label></a>
 </div>
 
 <div id="tag" class="data-group">
-    <a href="#" onclick="hide('tag'); show('tag[show]'); return false;">&raquo; <label>{ts}Tag imported contact(s){/ts}</label></a>
+    <a href="#" onclick="hide('tag'); show('tag[show]'); return false;">&raquo; <label>{ts}Tag imported{/ts}</label></a>
     <dl>
         <dt></dt><dd class="listing-box" style="margin-bottom: 0em; width: 15em;">
-        {foreach from=$form.tag item="tag_val"} 
+       {foreach from=$form.tag item="tag_val"} 
         <div>{$tag_val.html}</div>
         {/foreach}
         </dd>
@@ -116,5 +134,6 @@
 <script type="text/javascript">
 hide('newGroup');
 hide('existingGroup');
+hide('newTag');
 hide('tag');
 </script>

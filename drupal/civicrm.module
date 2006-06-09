@@ -30,7 +30,11 @@
  *
  */
 
-include_once conf_init( ) . '/civicrm.settings.php';
+if ( function_exists( 'conf_path' ) ) {
+    include_once conf_path( ) . '/civicrm.settings.php';
+} else {
+    include_once conf_init( ) . '/civicrm.settings.php';
+}
 
 /**
  * Provides a link to the CSS stylesheet associated with this module.
@@ -87,7 +91,7 @@ function civicrm_help($section)
       return $output;
      case 'admin/modules#description':
          // This description is shown in the listing at admin/modules.
-         return t('Constituent Relationship Management (CRM). Allows sites to manage contacts, relationships and groups, and track contact activities.');
+         return t('Constituent Relationship Management (CRM - v1.5). Allows sites to manage contacts, relationships and groups, and track contact activities.');
     }
 }
 
@@ -142,7 +146,9 @@ function civicrm_perm()
 
 function civicrm_block($op='list', $delta='0')
 {
-    if ( ( arg(0) != 'civicrm' && arg(0) != 'admin' ) || ( ! user_access( 'access CiviCRM' ) ) ) {
+    if ( ( arg(0) != 'civicrm' && arg(0) != 'admin' ) ||
+         ( $op == 'configure' ) || 
+         ( ! user_access( 'access CiviCRM' ) ) ) {
         return;
     }
 
@@ -180,8 +186,8 @@ function civicrm_block($op='list', $delta='0')
 function civicrm_menu($may_cache)
 {
     if ( $may_cache ) {
-        require_once 'CRM/Utils/Menu.php';
-        $items = CRM_Utils_Menu::items( );
+        require_once 'CRM/Core/Menu.php';
+        $items = CRM_Core_Menu::items( );
         return $items;
     } else {
         return array( );
@@ -277,7 +283,6 @@ function civicrm_quickreg( )
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) 
 {
-
 	if ( $type == 'load' ) {
         return;
     }
@@ -387,7 +392,9 @@ function civicrm_form_data($edit, &$user, $category, $reset)
     }
 
     // at this point we better have a valid userID
-    // else we hopefully aborted earlier
+	if ( ! $userID ) {
+        CRM_Core_Error::fatal( ts( "Could not get valid contact id for drupal user: %1", array( 1 => $user->uid ) ) );
+    }
 
     // get all the data for this specific category
     $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset );
@@ -441,7 +448,7 @@ function civicrm_view_data($user )
             }
         }
         
-        if ($setLink  && CRM_Utils_System::checkPermission( 'access CiviCRM' )) {
+        if ($setLink  && CRM_Core_Permission::check( 'access CiviCRM' )) {
             if ( $config->userFrameworkVersion >= 4.7 ) { 
                 $item = array( 'title' => '',
                                'value' => $contactURL );

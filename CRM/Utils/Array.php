@@ -79,6 +79,50 @@ class CRM_Utils_Array {
         return null;
     }
 
+    static function &xml( &$list, $depth = 1, $seperator = "\n" ) {
+        $xml = '';
+        foreach( $list as $name => $value ) {
+            $xml .= str_repeat( ' ', $depth * 4 );
+            if ( is_array( $value ) ) {
+                $xml .= "<{$name}>{$seperator}";
+                $xml .= self::xml( $value, $depth + 1, $seperator );
+                $xml .= str_repeat( ' ', $depth * 4 );
+                $xml .= "</{$name}>{$seperator}";
+            } else {
+                // make sure we escape value
+                $value = self::escapeXML( $value );
+                $xml .= "<{$name}>$value</{$name}>{$seperator}";
+            }
+        }
+        return $xml;
+    }
+
+    static function escapeXML( $value ) {
+        static $src = null;
+        static $dst = null;
+
+        if ( ! $src ) {
+            $src = array( '&'    , '<'   , '>'    );
+            $dst = array( '&amp;', '&lt;', '&gt;' );
+        }
+
+        return str_replace( $src, $dst, $value );
+    }
+
+
+    static function &flatten( &$list, &$flat, $prefix = '', $seperator = "." ) {
+        foreach( $list as $name => $value ) {
+            $newPrefix = ( $prefix ) ? $prefix . $seperator . $name : $name;
+            if ( is_array( $value ) ) {
+                self::flatten( $value, $flat, $newPrefix, $seperator );
+            } else {
+                if ( ! empty( $value ) ) {
+                    $flat[$newPrefix] = $value;
+                }
+            }
+        }
+    }
+
 }
 
 ?>

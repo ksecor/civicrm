@@ -34,7 +34,6 @@
        <title>Location Type</title>
        <type>varchar</type>
        <length>64</length>
-       <import>true</import>
        <comment>Location Type Name.</comment>
        <add>1.1</add>
   </field>

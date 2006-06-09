@@ -45,6 +45,12 @@ require_once 'CRM/Core/PseudoConstant.php';
 
 class CRM_Core_DAO extends DB_DataObject {
 
+    /**
+     * a null object so we can pass it as reference if / when needed
+     */
+    static $_nullObject = null;
+    static $_nullArray  = array( );
+
     const
         NOT_NULL       =   1,
         IS_NULL        =   2,
@@ -247,11 +253,40 @@ class CRM_Core_DAO extends DB_DataObject {
     function save( ) {
         if ($this->id) {
             $this->update();
+            $this->log( false );
         } else {
             $this->insert();
+            $this->log( true );
         }
+
         return $this;
     }
+
+    function log( $created = false ) {
+        static $cid = null;
+
+        if ( ! $this->getLog( ) ) {
+            return;
+        }
+
+        if ( ! $cid ) {
+            $session =& CRM_Core_Session::singleton( );
+            $cid = $session->get( 'userID' );
+        }
+        
+        // return is we dont have handle to FK
+        if ( ! $cid ) {
+            return;
+        }
+
+        require_once 'CRM/Core/DAO/Log.php';
+        $dao =& new CRM_Core_DAO_Log( );
+        $dao->entity_table  = $this->getTableName( );
+        $dao->entity_id     = $this->id;
+        $dao->modified_id   = $cid;
+        $dao->modified_date = date( "YmdHis" );
+        $dao->insert( );
+   }
 
     /**
      * Given an associative array of name/value pairs, extract all the values
@@ -555,9 +590,10 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      * @access public
      */
-    static function &executeQuery( $query ) {
+    static function &executeQuery( $query, &$params, $abort = true ) {
+        $queryStr = self::composeQuery( $query, $params, $abort );
         $dao =& new CRM_Core_DAO( );
-        $dao->query( $query );
+        $dao->query( $queryStr );
         return $dao;
     }
 
@@ -570,9 +606,10 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static 
      * @access public 
      */ 
-    static function singleValueQuery( $query ) {
+    static function singleValueQuery( $query, &$params, $abort = true ) {
+        $queryStr = self::composeQuery( $query, $params, $abort );
         $dao =& new CRM_Core_DAO( ); 
-        $dao->query( $query ); 
+        $dao->query( $queryStr ); 
         
         $result = $dao->getDatabaseResult();
         if ( $result ) {
@@ -582,6 +619,23 @@ class CRM_Core_DAO extends DB_DataObject {
             }
         }
         return null;
+    }
+
+    static function composeQuery( $query, &$params, $abort = true ) {
+        $tr = array( );
+        foreach ( $params as $key => $item ) {
+            if ( is_numeric( $key ) ) {
+                if ( CRM_Utils_Type::validate( $item[0], $item[1] ) !== null ) {
+                    if ( $item[1] == 'String' ) {
+                        $item[0] = "'{$item[0]}'";
+                    }
+                    $tr['%' . $key] = $item[0];
+                } else if ( $abort ) {
+                    CRM_Core_Error::fatal( "{$item[0]} if not of type {$item[1]}" );
+                }
+            }
+        }
+        return strtr( $query, $tr );
     }
 
 }

@@ -6,6 +6,7 @@
   <name>civicrm_contact</name>
   <comment>Three types of contacts are defined: Individual, Organization and Household. Contact objects are defined by a civicrm_contact record plus a related civicrm_contact_type record.</comment>
   <add>1.1</add>
+  <log>true</log>
   <field>
       <name>id</name>
       <type>int unsigned</type>
@@ -76,9 +77,16 @@
       <add>1.1</add>
   </field>
   <index>
+       <name>index_sort_name_domain</name>
+       <fieldName>sort_name</fieldName>
+       <fieldName>domain_id</fieldName>
+       <add>1.5</add>
+  </index>
+  <index>
        <name>index_sort_name</name>
        <fieldName>sort_name</fieldName>
        <add>1.1</add>
+       <drop>1.5</drop>
   </index>
   <field>
        <name>display_name</name>
@@ -126,8 +134,8 @@
   </field>
   <field>
        <name>preferred_communication_method</name>
-       <type>enum</type>
-       <values>Phone, Email, Post</values>
+       <type>varchar</type>
+       <length>255</length>
        <import>true</import>
        <headerPattern>/(communication|method)/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
@@ -189,11 +197,11 @@
   <field>
     <name>is_opt_out</name>
     <type>boolean</type>
-    <title>Is Opt-out?</title>
+    <title>No Bulk Mail (Opted-out)</title>
     <default>0</default>
     <import>true</import>
     <required>true</required>
-    <comment>Has the contact opted out from the org?</comment>
+    <comment>Has the contact opted out from receiving all bulk email from the organization or site domain?</comment>
     <add>1.1</add>
   </field>
 </table>

@@ -225,6 +225,7 @@ class Validate
               ((?:/(?:%[0-9a-f]{2}|[-a-z0-9_.!~*\'():@\&=+$,;])+)+/?)? # 6. path
               (?:\?([^#]*))?                                          # 7. query
               (?:\#((?:%[0-9a-f]{2}|[-a-z0-9_.!~*\'();/?:@\&=+$,])*))? # 8. fragment
+              (?:/?)
               $&xi', $url, $matches)) {
             $scheme = isset($matches[1]) ? $matches[1] : '';
             $authority = isset($matches[3]) ? $matches[3] : '' ;

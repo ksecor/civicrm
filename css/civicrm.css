@@ -292,6 +292,11 @@ div.spacer {
   padding-left: 3em;
 }
 
+/* For our menu block. Drupal displays an extraneous li bullet without this. */
+.menu li.no-display {
+  list-style-type: none;
+}
+
 /*
 ** Styles for formating of text
 */
@@ -308,7 +313,13 @@ div.spacer {
   margin: 1em 0em 1em;
 }
 
-#crm-container label, .labels, .label {
+/* Set display: inline to over-ride drupal.css which sets label tags to display:block */
+#crm-container label {
+  font-weight: bold;
+  display: inline;
+}
+
+#crm-container .labels, .label {
   font-weight: bold;
 }
 

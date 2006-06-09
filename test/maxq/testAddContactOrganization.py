@@ -27,9 +27,9 @@ class testAddContactOrganization(PyHttpTestCase):
         commonAPI.login(self)
         
         params = [
-            ('''c_type''', '''Organization'''),
+            ('''ct''', '''Organization'''),
             ('''reset''', '''1'''),]
-        url = "%s/civicrm/contact/addO" % drupal_path
+        url = "%s/civicrm/contact/add" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -119,7 +119,7 @@ class testAddContactOrganization(PyHttpTestCase):
             ('''location[2][address][geo_code_2]''', ''''''),
             ('''note''', '''Zope Companies Welcomes you'''),
             ('''_qf_Edit_next_view''', '''Save'''),]
-        url = "%s/civicrm/contact/addO" % drupal_path
+        url = "%s/civicrm/contact/add" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)

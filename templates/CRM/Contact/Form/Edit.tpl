@@ -146,8 +146,41 @@
         {$form.is_deceased.html}
         {$form.is_deceased.label}
     </div>
+	<div id="showDeceasedDate" class="form-item">
+        <span class="labels">
+        {$form.deceased_date.label}
+        </span>
+        <span class="fields">
+		{$form.deceased_date.html}
+                <div class="description"> 
+                   {include file="CRM/common/calendar/desc.tpl"}
+                </div>
+        </span>
+        {include file="CRM/common/calendar/body.tpl" dateVar=deceased_date startDate=1905 endDate=currentYear}
+    </div>
+
   </fieldset>
  </div>
+
+{literal}
+<script type="text/javascript">
+    if (document.getElementsByName("is_deceased")[0].checked) {
+      	    show('showDeceasedDate');
+    } else {
+           	hide('showDeceasedDate');
+    }
+        
+    function showDeceasedDate()
+    {
+        if (document.getElementsByName("is_deceased")[0].checked) {
+      	    show('showDeceasedDate');
+        } else {
+           	hide('showDeceasedDate');
+        }
+    }
+</script>
+{/literal}
+
 {/if}  
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}

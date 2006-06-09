@@ -82,6 +82,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 CRM_Utils_System::setTitle( ts('Confirm Group Delete') );
             }
         } else {
+            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Group',$this->_id,0);
             if ( isset($this->_id) ) {
                 $params   = array( 'id' => $this->_id );
                 CRM_Contact_BAO_Group::retrieve( $params, $defaults );
@@ -147,8 +148,17 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
             $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true ); 
             
+            $session = & CRM_Core_Session::singleton( );
+            $uploadNames = $session->get( 'uploadNames' );
+            if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+                $buttonType = 'upload';
+            } else {
+                $buttonType = 'next';
+            }
+            
+            
             $this->addButtons( array(
-                                     array ( 'type'      => 'next',
+                                     array ( 'type'      => $buttonType,
                                              'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
                                              'isDefault' => true   ),
                                      array ( 'type'       => 'cancel',
@@ -156,7 +166,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                                      )
                                );
 
-            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Group',$this->_id,0);
+            
             CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }
     }
@@ -173,8 +183,9 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             CRM_Core_Session::setStatus( ts('The Group "%1" has been deleted.', array(1 => $this->_title)) );        
         } else {
             // store the submitted values in an array
-            $params = $this->exportValues();
-
+            //$params = $this->exportValues();
+            $params = $this->controller->exportValues( $this->_name );
+            
             $params['domain_id'] = CRM_Core_Config::domainID( );
             $params['is_active'] = 1;
             

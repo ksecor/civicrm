@@ -247,13 +247,10 @@ class CRM_Utils_Rule {
     }
 
     static function positiveInteger($value) {
-        if ( is_int($value)) {
-            return true;
+        if ( is_int($value) ) {
+            return ( $value < 0 ) ? false : true;
         }
-        
-        if (($value < 0)) {
-            return false;
-        }
+
         if (is_numeric($value) && preg_match('/^\d+$/', $value)) {
             return true;
         }

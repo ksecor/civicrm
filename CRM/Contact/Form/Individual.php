@@ -91,7 +91,11 @@ class CRM_Contact_Form_Individual {
         }
         $form->addGroup($genderOptions, 'gender_id', ts('Gender'));
         
-        $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'));
+        $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'), array('onclick' =>"showDeceasedDate()"));
+
+
+        $form->addElement('date', 'deceased_date', ts('Deceased date'), CRM_Core_SelectValues::date('birth'));
+        $form->addRule('deceased_date', ts('Select a valid date.'), 'qfDate');
         
         $form->addElement('date', 'birth_date', ts('Date of birth'), CRM_Core_SelectValues::date('birth'));
         $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
@@ -140,7 +144,7 @@ class CRM_Contact_Form_Individual {
                 $urls = array( );
                 foreach ( explode( ',', $ids ) as $id ) {
                     $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
-                    $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&action=update&cid=' . $id ) .
+                    $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
                         '">' . $displayName . '</a>';
                 }
                 $url = implode( ', ',  $urls );

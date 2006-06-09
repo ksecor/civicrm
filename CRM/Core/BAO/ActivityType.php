@@ -124,9 +124,11 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType
      */
     static function &getActivityDescription() 
     {
-        $query = "SELECT id ,description FROM civicrm_activity_type WHERE is_active = 1 AND id > 3 ORDER BY name";
-        $dao   =& new CRM_Core_DAO_ActivityType();
-        $dao->query($query);
+        $config   =& CRM_Core_Config::singleton( );
+        $domainID =  $config->domainID( );
+        $query =
+            "SELECT id ,description FROM civicrm_activity_type WHERE is_active = 1 AND id > 3 AND domain_id = $domainID ORDER BY name";
+        $dao   =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $description =array();
         while($dao->fetch()) {
             $description[ $dao->id] = $dao->description;
@@ -160,9 +162,8 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType
         $activityType->copyValues( $params );;
         
         if ($params['is_default']) {
-            $unsetDefault =& new CRM_Core_DAO();
-            $query = 'UPDATE civicrm_activity_type SET is_default = 0';
-            $unsetDefault->query($query);
+            $query = "UPDATE civicrm_activity_type SET is_default = 0 WHERE domain_id = {$activityType->domain_id}";
+            CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
         }
         
         $activityType->id = CRM_Utils_Array::value( 'activityType', $ids );

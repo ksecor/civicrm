@@ -34,10 +34,6 @@
  *
  */
 
-/**
- * State machine for managing different states of the Quest process.
- *
- */
 class CRM_Core_OptionGroup {
     static $_values = array( );
 
@@ -45,37 +41,37 @@ class CRM_Core_OptionGroup {
         self::$_values[$name] = array( );
         $domainID = CRM_Core_Config::domainID( );
         $query = "
-SELECT v.name as name, v.title as title ,v.id as id, v.grouping as grouping
+SELECT  v.label as label ,v.value as value, v.grouping as grouping
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id
   AND  g.domain_id       = $domainID
-  AND  g.name            = '$name'
+  AND  g.name            = %1
   AND  v.is_active       = 1 
   AND  g.is_active       = 1 
-ORDER BY v.weight;
+  ORDER BY v.weight; 
 ";
-            
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $p = array( 1 => array( $name, 'String' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
            
         while ( $dao->fetch( ) ) {
             if ( $flip ) {
                 if ( $grouping ) {
-                    self::$_values[$name][$dao->id] = $dao->grouping;
+                    self::$_values[$name][$dao->value] = $dao->grouping;
                 } else {
-                    self::$_values[$name][$dao->title] = $dao->id;
+                    self::$_values[$name][$dao->label] = $dao->value;
                 }
             } else {
                 if ( $grouping ) {
-                    self::$_values[$name][$dao->title] = $dao->grouping;
+                    self::$_values[$name][$dao->label] = $dao->grouping;
                 } else {
-                    self::$_values[$name][$dao->id] = $dao->title;
+                    self::$_values[$name][$dao->value] = $dao->label;
                 }
             }
         }
         return self::$_values[$name];
     }
-
+    
 /**
  * Function to lookup titles OR ids for a set of option_value populated fields. The retrieved value
  * is assigned a new fieldname by id or id's by title  
@@ -106,33 +102,92 @@ ORDER BY v.weight;
             // See if $params field is in $names array (i.e. is a value that we need to lookup)
             if ( CRM_Utils_Array::value( $postName, $params ) ) {
                 // params[$postName] may be a Ctrl+A separated value list
+                if ( strpos( $params[$postName], CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) ) {
+                    // eliminate the ^A frm the beginning and end if present
+                    if ( substr( $params[$postName], 0, 1 ) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) {
+                        $params[$postName] = substr( $params[$postName], 1, -1 );
+                    }
+                }
                 $postValues = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $params[$postName]);
                 $newValue = array( );
                 foreach ($postValues as $postValue) {
+                    if ( ! $postValue ) {
+                        continue;
+                    }
+
                     if ( $flip ) {
-                        $select = "v.id";
-                        $lookupBy = "v.title = '" . CRM_Utils_Type::escape( $postValue, 'String' )
-                        . "';";
+                        $p = array( 1 => array( $postValue, 'String' ) );
+                        $lookupBy = 'v.label= %1';
+                        $select   = "v.value";
                     } else {
-                        $lookupBy = "v.id = " . CRM_Utils_Type::escape( $postValue, 'Integer' ) . ";";
-                        $select = "v.title";
+                        $p = array( 1 => array( $postValue, 'Integer' ) );
+                        $lookupBy = 'v.value = %1';
+                        $select   = "v.label";
                     }
                     
+                    $p[2] = array( $value['groupName'], 'String' );
                     $query = "
                         SELECT $select
                         FROM   civicrm_option_value v,
-                        civicrm_option_group g
+                               civicrm_option_group g
                         WHERE  v.option_group_id = g.id
                         AND    g.domain_id       = $domainID
-                        AND    g.name            = '{$value['groupName']}'
-                        AND  $lookupBy";
-                    
-                    $newValue[]= CRM_Core_DAO::singleValueQuery( $query );
+                        AND    g.name            = %2
+                        AND    $lookupBy";
+
+                    $newValue[] = CRM_Core_DAO::singleValueQuery( $query, $p );
                 }
                 $params[$value['newName']] = implode(', ', $newValue);
             }
         }
     }
+
+    static function getLabel( $groupName, $value ) {
+        $domainID = CRM_Core_Config::domainID( );
+        $query = "
+SELECT  v.label as label ,v.value as value
+FROM   civicrm_option_value v, 
+       civicrm_option_group g 
+WHERE  v.option_group_id = g.id 
+  AND  g.domain_id       = $domainID 
+  AND  g.name            = %1 
+  AND  v.is_active       = 1  
+  AND  g.is_active       = 1  
+  AND  v.value           = %2
+";
+
+        $p = array( 1 => array( $groupName , 'String' ),
+                    2 => array( $value, 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+        if ( $dao->fetch( ) ) {
+            return $dao->label;
+        }
+        return null;
+    }
+
+    static function getValue( $groupName, $label ) {
+        $domainID = CRM_Core_Config::domainID( );
+        $query = "
+SELECT  v.label as label ,v.value as value
+FROM   civicrm_option_value v, 
+       civicrm_option_group g 
+WHERE  v.option_group_id = g.id 
+  AND  g.domain_id       = $domainID 
+  AND  g.name            = %1 
+  AND  v.is_active       = 1  
+  AND  g.is_active       = 1  
+  AND  v.label           = %2
+";
+
+        $p = array( 1 => array( $groupName , 'String' ),
+                    2 => array( $label     , 'String' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+        if ( $dao->fetch( ) ) {
+            return $dao->value;
+        }
+        return null;
+    }
+
 }
 
 ?>

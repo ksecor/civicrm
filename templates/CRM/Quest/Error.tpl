@@ -20,9 +20,10 @@
   <dd>
       {ts}Sorry. A non-recoverable error has occurred.{/ts}
       <p>{$message}</p>
-{if $code}
+{if $code} 
       <p>{ts}Error Code:{/ts} {$code}</p>
 {/if}
+
 {if $mysql_code}
       <p>{ts}Database Error Code:{/ts} {$mysql_code}</p>
 {/if}

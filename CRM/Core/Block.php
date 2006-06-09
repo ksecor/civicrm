@@ -34,7 +34,7 @@
  *
  */
 
-require_once 'CRM/Utils/Menu.php';
+require_once 'CRM/Core/Menu.php';
 
 /**
  * defines a simple implemenation of a drupal block.
@@ -150,7 +150,7 @@ class CRM_Core_Block {
         foreach ( self::properties() as $id => $value ) {
              if ( $value['active'] ) {
                  if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
-                      ( ! CRM_Utils_System::checkPermission('add contacts') ) && ( ! CRM_Utils_System::checkPermission('edit groups') ) ) {
+                      ( ! CRM_Core_Permission::check('add contacts') ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
                      continue;
                  }
                 $block[$id]['info'] = $value['info'];
@@ -174,7 +174,7 @@ class CRM_Core_Block {
         } else if ( $id == self::ADD ) {
             require_once 'CRM/Core/BAO/LocationType.php';
             $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
-            $values = array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&amp;c_type=Individual' ), 
+            $values = array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&amp;ct=Individual' ), 
                              'primaryLocationType' => $defaultLocation->id ); 
             self::setProperty( self::ADD,
                                'templateValues',
@@ -202,26 +202,26 @@ class CRM_Core_Block {
         static $shortCuts = array( );
         
         if (!($shortCuts)) {
-            if (CRM_Utils_System::checkPermission('add contacts')) {
-                $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
-                                           'qs'    => 'c_type=Individual&reset=1',
+            if (CRM_Core_Permission::check('add contacts')) {
+                $shortCuts = array( array( 'path'  => 'civicrm/contact/add',
+                                           'qs'    => 'ct=Individual&reset=1',
                                            'title' => ts('New Individual') ),
-                                    array( 'path'  => 'civicrm/contact/addO',
-                                           'qs'    => 'c_type=Organization&reset=1',
+                                    array( 'path'  => 'civicrm/contact/add',
+                                           'qs'    => 'ct=Organization&reset=1',
                                            'title' => ts('New Organization') ),
-                                    array( 'path'  => 'civicrm/contact/addH',
-                                           'qs'    => 'c_type=Household&reset=1',
+                                    array( 'path'  => 'civicrm/contact/add',
+                                           'qs'    => 'ct=Household&reset=1',
                                            'title' => ts('New Household') ),
                                     );
             }
 
-            if( CRM_Utils_System::checkPermission('edit groups')) {
+            if( CRM_Core_Permission::check('edit groups')) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
                                                                    'qs'    => 'reset=1',
                                                                    'title' => ts('New Group') ) ));
             }
 
-            if (! CRM_Utils_System::checkPermission( 'add contacts' )  &&  ! CRM_Utils_System::checkPermission('edit groups')) {
+            if (! CRM_Core_Permission::check( 'add contacts' )  &&  ! CRM_Core_Permission::check('edit groups')) {
                 return null;
             }
 
@@ -275,7 +275,7 @@ class CRM_Core_Block {
      */
     private function setTemplateMenuValues( ) {
         $config =& CRM_Core_Config::singleton( );
-        $items  =& CRM_Utils_Menu::items( );
+        $items  =& CRM_Core_Menu::items( );
         $values =  array( );
 
         foreach ( $items as $item ) {
@@ -283,8 +283,8 @@ class CRM_Core_Block {
                 continue;
             }
 
-            if ( ( $item['crmType'] &  CRM_Utils_Menu::NORMAL_ITEM ) &&
-                 ( $item['crmType'] >= CRM_Utils_Menu::NORMAL_ITEM ) &&
+            if ( ( $item['crmType'] &  CRM_Core_Menu::NORMAL_ITEM ) &&
+                 ( $item['crmType'] >= CRM_Core_Menu::NORMAL_ITEM ) &&
                  $item['access'] ) {
                 $value = array( );
                 $value['url'  ]  = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'qs', $item ) );
@@ -367,7 +367,7 @@ class CRM_Core_Block {
         }
 
          if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
-              ( ! CRM_Utils_System::checkPermission( 'add contacts' ) ) && ( ! CRM_Utils_System::checkPermission('edit groups') ) ) {
+              ( ! CRM_Core_Permission::check( 'add contacts' ) ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
              return null;
          }
 

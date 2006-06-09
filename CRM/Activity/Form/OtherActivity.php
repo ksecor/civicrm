@@ -64,6 +64,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
             $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
         }
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Activity',$this->_id,0);
     }
 
     /**
@@ -104,8 +105,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         
         $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus(), true );
 
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Activity',$this->_id,0);
-
+        
         if ($this->_action & CRM_Core_Action::VIEW ) { 
             CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
         } else {

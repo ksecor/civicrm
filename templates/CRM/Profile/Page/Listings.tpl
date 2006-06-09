@@ -17,7 +17,7 @@
         </ul>
      </div>
      </p>
-    {/if}
+     {/if}
 
     {strip}
     <table>

@@ -138,12 +138,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->add('date', 'activity_date_to', ts('To'), CRM_Core_SelectValues::date('relative'));
         $this->addRule('activity_date_to', ts('Select a valid date.'), 'qfDate');
 
-        $this->assign( 'validCiviContribute', false );
-        if ( CRM_Utils_System::accessCiviContribute( ) ) {
-            $this->assign( 'validCiviContribute', true );
-            require_once 'CRM/Contribute/Form/Search.php';
-            CRM_Contribute_Form_Search::buildQuickFormCommon( $this );
-        }
+        require_once 'CRM/Core/Component.php';
+        CRM_Core_Component::buildSearchForm( $this );
 
         //relationsship fileds
         
@@ -176,23 +172,21 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     
     protected function setShowHide(&$groupTitle)
     {
-        if ( empty( $groupTitle ) ) {
-            return;
-        }
-
         $showHide =& new CRM_Core_ShowHideBlocks('','');
         
-        foreach ($groupTitle as $key => $title) {
-            $showBlocks = $title . '[show]' ;
-            $hideBlocks = $title;
-            
-            $showHide->addHide($hideBlocks);
-            $showHide->addShow($showBlocks);
-        }
+        $showHide->addHide( 'relationship' );
+        $showHide->addShow( 'relationship[show]' );
+        
+        CRM_Core_Component::addShowHide( $showHide );
 
-        if ( CRM_Utils_System::accessCiviContribute( ) ) {
-            $showHide->addHide( 'contributeForm' );
-            $showHide->addShow( 'contributeForm[show]' );
+        if ( ! empty( $groupTitle ) ) {
+            foreach ($groupTitle as $key => $title) {
+                $showBlocks = $title . '[show]' ;
+                $hideBlocks = $title;
+                
+                $showHide->addShow($hideBlocks);
+                $showHide->addHide($showBlocks);
+            }
         }
 
         $showHide->addToTemplate();
@@ -285,7 +279,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     function postProcess() 
     {
         $session =& CRM_Core_Session::singleton();
-        $session ->set('isAdvanced','1');
+        $session->set('isAdvanced', '1');
 
         // get user submitted values
         // get it from controller only if form has been submitted, else preProcess has set this
@@ -294,9 +288,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             
             // set the group if group is submitted
             if ($this->_formValues['uf_group_id']) {
-                $session->set( 'id', $this->_formValues['uf_group_id'] ); 
+                $this->set( 'id', $this->_formValues['uf_group_id'] ); 
             } else {
-                $session->set( 'id', '' ); 
+                $this->set( 'id', '' ); 
             }
             
             // also reset the sort by character 

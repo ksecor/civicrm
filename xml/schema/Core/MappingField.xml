@@ -83,4 +83,25 @@
        <key>id</key>
       <add>1.2</add>
   </foreignKey>
+  <field>
+        <name>grouping</name>
+        <type>int unsigned</type>
+        <default>0</default>
+        <comment>Used to group mapping_field records into related sets (e.g. for criteria sets in search builder mappings).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>operator</name>
+       <type>enum</type>
+       <values>&#61;, !&#61;, &#62;, &#60;, &#62;&#61;, &#60;&#61;, IN, NOT IN, LIKE, NOT LIKE</values>
+       <comment>SQL WHERE operator for search-builder mapping fields (search criteria).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>value</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>SQL WHERE value for search-builder mapping fields.</comment>
+      <add>1.5</add>
+  </field>
 </table>

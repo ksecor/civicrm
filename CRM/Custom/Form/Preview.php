@@ -140,7 +140,8 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 $fieldId = $field['id'];                
-                $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
+                //$elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
+                 $elementName = 'custom_' . $fieldId;
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, false, $field['is_required']);
             }
         }

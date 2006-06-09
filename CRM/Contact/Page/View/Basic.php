@@ -137,6 +137,11 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         $this->assign( $defaults );
         $this->setShowHide( $defaults );        
 
+        // also assign the last modifed details
+        require_once 'CRM/Core/BAO/Log.php';
+        $lastModified =& CRM_Core_BAO_Log::lastModified( $this->_contactId, 'civicrm_contact' );
+        $this->assign_by_ref( 'lastModified', $lastModified );
+        
         // get the contributions, new style of doing stuff
         // do the below only if the person has access to contributions
         $config =& CRM_Core_Config::singleton( );
@@ -153,17 +158,6 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
             $controller->run( );
         } else {
             $this->assign( 'accessContribution', false );
-        }
-
-        //add link to CMS user
-        if ( $uid = CRM_Core_BAO_UFMatch::getUFId( $this->_contactId ) ) {
-            if ($config->userFramework == 'Drupal') {
-                $url = CRM_Utils_System::url( 'user/' . $uid );
-            } else {
-                //$url = CRM_Utils_System::url( 'option=com_users&task=editA&hidemainmenu=1&id=' . $uid );
-                $url = $config->userFrameworkBaseURL . 'index2.php?option=com_users&task=editA&hidemainmenu=1&id=' . $uid;
-            }
-            $this->assign( 'url', $url );
         }
     }
 
@@ -199,7 +193,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
 
         if ( $defaults['contact_type'] == 'Individual' ) {
             // is there any demographics data?
-            if ( CRM_Utils_Array::value( 'gender_id'     , $defaults ) ||
+            if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
                  CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
                  CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
                 $showHide->addShow( 'demographics' );

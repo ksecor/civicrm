@@ -66,8 +66,12 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * CIVICRM_IMAGE_UPLOADDIR is the file system path where image files are uploaded
  * (e.g. premium product images).
  *
- * IMPORTANT: The COMPILEDIR, UPLOADDIR and IMAGE_UPLOADDIR directories must exist,
+ * CIVICRM_CUSTOM_FILE_UPLOADDIR is the file system path where files are uploaded which need to be
+ * secure/privacy-protected. This directory SHOULD NOT BE LOCATED UNDER YOUR WEBROOT.
+ *
+ * IMPORTANT: The COMPILEDIR, UPLOADDIR, IMAGE_UPLOADDIR, and CUSTOM_FILE_UPLOADDIR directories must exist,
  * and your web server must have write access to these directories.
+ *
  *
  * EXAMPLE - CivicSpace / Drupal:
  * If the path to the CivicSpace or Drupal home directory is /var/www/htdocs/civicspace
@@ -83,6 +87,9 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * the CIVICRM_IMAGE_UPLOADDIR would be:
  *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/civicspace/files/civicrm/persist/' );
  *
+ * the CIVICRM_CUSTOM_FILE_UPLOADDIR could be:
+ *      define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR', '/var/crm_docs/' );
+ *
  * EXAMPLE - Joomla/Mambo Installations:
  * If the path to the Joomla home directory is /var/www/htdocs/joomla
  * the $civicrm_root setting would be:
@@ -97,12 +104,16 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * the CIVICRM_IMAGE_UPLOADDIR would be:
  *      define( 'CIVICRM_IMAGE_UPLOADDIR', '/var/www/htdocs/joomla/media/civicrm/persist/' );
  *
+ * the CIVICRM_CUSTOM_FILE_UPLOADDIR could be:
+ *      define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR', '/var/crm_docs/' );
  */
 global $civicrm_root;
 $civicrm_root = '%%crmRoot%%';
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
 define( 'CIVICRM_UPLOADDIR'          , '%%uploadDir%%'  );
 define( 'CIVICRM_IMAGE_UPLOADDIR'    , '%%imageUploadDir%%');
+
+define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
 
 /**
  * Site URLs:
@@ -505,7 +516,6 @@ define('CIVICRM_DOMAIN_ID' , 1 );
 define( 'CIVICRM_DEBUG',     0 );
 define( 'CIVICRM_BACKTRACE', 0 );
  
-
 /**
  * Additional CiviMail Settings:
  *
@@ -535,10 +545,25 @@ define( 'CIVICRM_SMS_AGGREGATOR', 'CRM_SMS_Protocol_Clickatell' );
 define( 'CIVICRM_UF_FRONTEND', %%frontEnd%% );
 
 /**
- * Template Customization:
+ * Error Handling Customization:
  *
+ * You can define your own template for displaying fatal errors by changing the
+ * default value for FATAL_ERROR_TEMPLATE. The template file must be located under
+ * $civicrm_root/templates. Use a relative path to the file.
+ *      define( 'CIVICRM_FATAL_ERROR_TEMPLATE', 'CRM/myFatalError.tpl' );
+ * The following smarty variables may be assigned to these template (refer to the default
+ * file - CRM/error.tpl - for display example).
+ *      $message        - The error message. Always defined.
+ *      $code           - An error code. Conditionally defined.
+ *      $mysql_code     - A MySQL (DB) error code. Conditionally defined.
+ *
+ * You can also replace the default fatal error handling function with a custom function:
+ *      define( 'CIVICRM_FATAL_ERROR_HANDLER',  'myFatalErrorHandler');
+ * The function must be loaded by an enabled module. CiviCRM will pass an array with the
+ * errors ($message, $code, $mysql_code) as an argument to the function.
  */
 define( 'CIVICRM_FATAL_ERROR_TEMPLATE', 'CRM/error.tpl' );
+define( 'CIVICRM_FATAL_ERROR_HANDLER',  '');
 
 /**
  * 
@@ -567,5 +592,8 @@ if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' 
 } else {
     define( 'CIVICRM_CLEANURL', 0 );
 }
+
+// force PHP to auto-detect Mac line endings
+ini_set('auto_detect_line_endings', '1');
 
 ?>

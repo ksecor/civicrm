@@ -169,9 +169,16 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     public function buildQuickForm()
     {
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks', 'hideBlocks' );
-
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $buttonType = 'upload';
+        } else {
+            $buttonType = 'next';
+        }
+        
         $this->addButtons(array(
-                                array ( 'type'      => 'next',
+                                array ( 'type'      => $buttonType,
                                         'name'      => ts('Save'),
                                         'isDefault' => true   ),
                                 array ( 'type'       => 'cancel',
@@ -181,7 +188,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         
 
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-            $this->freeze();
+             $this->freeze();
         }
     }
     

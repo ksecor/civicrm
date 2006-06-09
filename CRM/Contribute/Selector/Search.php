@@ -276,7 +276,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
 
         // check is the user has view/edit contribution permission
         $permission = CRM_Core_Permission::VIEW;
-        if ( CRM_Utils_System::checkPermission( 'edit contributions' ) ) {
+        if ( CRM_Core_Permission::check( 'edit contributions' ) ) {
             $permission = CRM_Core_Permission::EDIT;
         }
         

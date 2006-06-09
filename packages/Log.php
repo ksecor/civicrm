@@ -1,9 +1,9 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log.php,v 1.51 2005/09/06 05:54:36 jon Exp $
+ * $Header: /repository/pear/Log/Log.php,v 1.52 2005/10/26 05:46:55 jon Exp $
  * $Horde: horde/lib/Log.php,v 1.15 2000/06/29 23:39:45 jon Exp $
  *
- * @version $Revision: 1.51 $
+ * @version $Revision: 1.52 $
  * @package Log
  */
 
@@ -104,8 +104,8 @@ class Log
      *
      * @param int $level        Log messages up to and including this level.
      *
-     * @return object Log       The newly created concrete Log instance, or an
-     *                          false on an error.
+     * @return object Log       The newly created concrete Log instance, or
+     *                          null on an error.
      * @access public
      * @since Log 1.0
      */
@@ -131,7 +131,7 @@ class Log
             return $obj;
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -165,8 +165,8 @@ class Log
      *
      * @param int $level        Log messages up to and including this level.
      *
-     * @return object Log       The newly created concrete Log instance, or an
-     *                          false on an error.
+     * @return object Log       The newly created concrete Log instance, or
+     *                          null on an error.
      * @access public
      * @since Log 1.0
      */

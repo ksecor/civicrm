@@ -5,21 +5,39 @@
 {include file="CRM/Form/body.tpl"}
 {/if}
     {strip}
-    {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
+    {if $help_pre && $action neq 4}
+    <div class="messages help">{$help_pre}
+    </div>
+    {/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}
     {assign var=fieldset  value=$zeroField}
     {foreach from=$fields item=field key=name}
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
+            {if $addCAPTCHA }
+              <tr>
+               <td></td>
+               <td>{$form.captcha_image.html}</td>
+             </tr>
+             <tr> 
+               <td></td>   
+               <td>{$form.captcha_phrase.html}
+                 <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
+                </td>
+             </tr>
+           {/if}   
            </table>
            {if $groupHelpPost}
               <div class="messages help">{$groupHelpPost}</div>
            {/if}
+
            {if $mode ne 8}
               </fieldset>
            {/if}
         {/if}
-        {if $mode ne 8}
+
+
+        {if $mode ne 8} 
             <fieldset><legend>{$field.groupTitle}</legend>
         {/if}
         {assign var=fieldset  value=`$field.groupTitle`}
@@ -28,7 +46,7 @@
             <div class="messages help">{$field.groupHelpPre}</div>
         {/if}
         <table class="form-layout-compressed">
-    {/if}
+     {/if}
     
     {assign var=n value=$field.name}
 
@@ -65,13 +83,28 @@
         <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
 	{/if}
         {* Show explanatory text for field if not in 'view' mode *}
-        {if $field.help_post && $action neq 4}
-            <tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
+        {if $field.help_post && $action neq 4}<tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
         {/if}
+
     {/foreach}
         {if $addToGroupId}
 	        <tr><td class="label">{$form.group[$addToGroupId].label}</td><td>{$form.group[$addToGroupId].html}</td></tr>
-	{/if}
+	    {/if}
+       
+        {if $mode eq 8 || $mode eq 4 || $mode eq 1}
+            {if $addCAPTCHA }
+              <tr>
+               <td></td>
+               <td>{$form.captcha_image.html}</td>
+             </tr>
+             <tr> 
+               <td></td>   
+               <td>{$form.captcha_phrase.html}
+                 <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
+                </td>
+             </tr>
+           {/if}   
+        {/if}
     </table>
 {if $field.groupHelpPost}
     <div class="messages help">{$field.groupHelpPost}</div>
@@ -83,8 +116,8 @@
 {/if}
     {if $mode ne 8}
     </fieldset>
-    {/if}
-    {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>{/if}
+{/if}
+     {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>{/if}
     {/strip}
 
 </div> {* end crm-container div *}

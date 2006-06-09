@@ -1,5 +1,5 @@
 {if $action eq 4}{* when action is view  *}
-    {if $notes}
+   {if $notes} 
         <p>
         <fieldset>
           <legend>{ts}View Note{/ts}</legend>
@@ -10,7 +10,7 @@
           </div>
         </fieldset>
         </p>
-    {/if}
+   {/if}
 {elseif $action eq 1 or $action eq 2} {* action is add or update *}
     <p>
     <fieldset><legend>{if $action eq 1}{ts}New Note{/ts}{else}{ts}Edit Note{/ts}{/if}</legend>
@@ -51,11 +51,11 @@
        </table>
        {/strip}
 
-       {if $action eq 16 or $action eq 4 or $action eq 8}
+       {if $action eq 16 or $action eq 4 or $action eq 8} 
        <div class="action-link">
     	 <a href="{crmURL p='civicrm/profile/note' q="reset=1&cid=`$contactId`&action=add"}">&raquo; {ts}New Note{/ts}</a>
        </div>
-       {/if}
+      {/if}
     </div>
  </p>
 </div>

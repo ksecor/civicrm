@@ -160,7 +160,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */ 
     static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null ,$searchable =null ) {
         if ($ufGroupId) {
-            $subset = self::getFields( $ufGroupId, false, $action, false, $visibility ,$searchable);
+            $subset = self::getFields( $ufGroupId, false, $action, $visibility, $searchable);
             if ($considerSelector) {
                 // drop the fields not meant for the selector
                 foreach ($subset as $name => $field) {
@@ -175,7 +175,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             $fields = array( ); 
             foreach ( $ufGroups as $id => $title ) { 
-                $subset = self::getFields( $id, false, $action, false, $visibility ,$searchable);
+                $subset = self::getFields( $id, false, $action, $visibility ,$searchable);
                 if ($considerSelector) {
                     // drop the fields not meant for the selector
                     foreach ($subset as $name => $field) {
@@ -189,37 +189,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     } 
 
     /**
-     * get the title of the group which contributes the largest number of fields
-     * to the registered entries
-     *
-     * @params null
-     * 
-     * @return string    title of the registered group.
-     * @static
-     * @access public
-     */
-    static function getRegisteredTitle( ) {
-        $ufGroups =& CRM_Core_PseudoConstant::ufGroup( ); 
-
-        $size  = -1;
-        $title = null;
-        foreach ( $ufGroups as $id => $value ) { 
-            $subset = self::getFields( $id, true, $action ); 
-            if ( count( $subset ) > $size ) {
-                $size  = count( $subset );
-                $title = $value;
-            }
-        }
-        return $title;
-    }
-
-    /**
      * get all the fields that belong to the group with the name title
      *
      * @param int      $id           the id of the UF group
      * @param int      $register     are we interested in registration fields
      * @param int      $action       what action are we doing
-     * @param int      $match        are we interested in match fields
      * @param int      $visibility   visibility of fields we are interested in
      * @param          $searchable
      * @param boolean  $showall
@@ -229,13 +203,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function getFields( $id, $register = false, $action = null, $match = false,
+    static function getFields( $id, $register = false, $action = null,
                                $visibility = null , $searchable = null, $showAll= false ) {
         //get location type
         $locationType = array( );
         $locationType =& CRM_Core_PseudoConstant::locationType();
 
         $fields = array( );
+
+        $customFields = CRM_Core_BAO_CustomField::getFieldsForImport();
 
         $group =& new CRM_Core_DAO_UFGroup( );
         $group->id = $id;
@@ -270,7 +246,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
             $query =  "SELECT * FROM civicrm_uf_field $where ORDER BY weight, field_name"; 
 
-            $field =& CRM_Core_DAO::executeQuery( $query );
+            $field =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             
             if ( !$showAll ) {
                 $importableFields =& CRM_Contact_BAO_Contact::importableFields( "All");
@@ -283,6 +259,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $importableFields['tag'  ]['title'] = ts('Tag(s)');
             $importableFields['tag'  ]['where'] = null;
 
+            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
+
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
                     $name  = $title = $locType = $phoneType = '';
@@ -290,16 +268,22 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $title = $field->label;
 
                     if ($field->location_type_id) {
-                        $name    .= '-'.$field->location_type_id;
-                        $locType  = ' (' . $locationType[$field->location_type_id] . ') ';
-                    }
-                    if ($field->phone_type) {
-                        $name      .= '-'.$field->phone_type;
-                        if ($field->phone_type != 'Phone') { // this hack is to prevent Phone Phone (work)
-                            $phoneType  = '-' . $field->phone_type;
+                        $name    .= "-{$field->location_type_id}";
+                        $locType  = " ( {$locationType[$field->location_type_id]} ) ";
+                    } else {                                                           
+                        if ( in_array($field->field_name, $specialFields))  {
+                            $name    .= '-Primary';
+                            $locType  = ' ( Primary ) ';
                         }
                     }
-                    
+
+                    if ($field->phone_type) {
+                        $name      .= "-{$field->phone_type}";
+                        if ( $field->phone_type != 'Phone' ) { // this hack is to prevent Phone Phone (work)
+                            $phoneType  = "-{$field->phone_type}";
+                        }
+                    }
+
                     $fields[$name] =
                         array('name'             => $name,
                               'groupTitle'       => $group->title,
@@ -322,6 +306,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                               'group_id'         => $group->id,
                               'add_to_group_id'  => $group->add_to_group_id
                               );
+                    //adding custom field property 
+                    if ( substr($name, 0, 6) == 'custom' ) {
+                        $fields[$name]['is_search_range'] = $customFields[$name]['is_search_range'];
+                    }
                 }
             }
         }
@@ -461,70 +449,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     }
 
     /**
-     * Get the UF match clause 
-     *
-     * @param array   $params  the list of values to be used in the where clause
-     * @param boolean $flatten should we flatten the input params
-     * @param  array $tables (reference ) add the tables that are needed for the select clause
-     *
-     * @return string the where clause to include in a sql query
-     * @static
-     * @access public
-     */
-    static function getMatchClause( $params, &$tables, $flatten = false ) {
-        if ( $flatten && is_array( $params['location'] ) ) {
-            $params['email'] = array();
-            $params['phone'] = array();
-            $params['im']    = array();
-            
-            foreach($params['location'] as $loc) {
-                foreach (array('email', 'phone', 'im') as $key) {
-                    if (is_array($loc[$key])) {
-                        foreach ($loc[$key] as $value) {
-                            if ( ! empty( $value[$key] ) ) {
-                                $value[$key] = strtolower( $value[$key] );
-                                $params[$key][] = 
-                                    '"' . addslashes($value[$key]) . '"';
-                            }
-                        }
-                    }
-                }
-            }
-            
-            foreach (array('email', 'phone', 'im') as $key) {
-                if (count($params[$key]) == 0) {
-                    unset($params[$key]);
-                }
-            }
-            
-            foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
-                             'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
-                if ( ! empty( $params['location'][1]['address'][$fld] ) ) {
-                    $params[$fld] = $params['location'][1]['address'][$fld];
-                }
-            }
-        }
-        
-        if ( ! self::$_matchFields ) {
-            $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
-
-            self::$_matchFields = array( );
-            foreach ( $ufGroups as $id => $title ) {
-                $subset = self::getFields( $id, false, CRM_Core_Action::VIEW, true );
-                self::$_matchFields = array_merge( self::$_matchFields, $subset );
-            }
-        }
-
-        if ( empty( self::$_matchFields ) ) {
-            return null;
-        }
-        
-        require_once 'CRM/Contact/BAO/Query.php';
-        $whereTables = array( );
-        return CRM_Contact_BAO_Query::getWhereClause( $params, self::$_matchFields, $tables, $whereTables, true );
-    }
-
-    /**
      * searches for a contact in the db with similar attributes
      *
      * @param array $params the list of values to be used in the where clause
@@ -559,9 +483,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     public static function getValues( $cid, &$fields, &$values ) {
         $options = array( );
-
+        //studnet fields ( check box ) 
+        require_once 'CRM/Quest/BAO/Student.php';
+        $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         // get the contact details (hier)
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
+       
         $params  = array( 'id' => $cid );
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
         $options =& $query->_options;
@@ -589,12 +516,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $values[$index] = $details->$name;
                     $idx = $name . '_id';
                     $params[$index] = $details->$idx;
-                } else if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
-                    if ($details->$name) {
-                        $values[$index] = '[ x ]';
-                    }
                 } else if ( $name == 'group' ) {
-                    $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $cid, 'Added' );
+                    $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $cid, 'Added', null, false, true );
                     $title = array( );
                     $ids   = array( );
                     foreach ( $groups as $g ) {
@@ -617,17 +540,39 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                     $values[$index] = implode( ', ', $title );
                     $params[$index] = implode( ',' , $entityTags );
-                } else {
-                    require_once 'CRM/Core/BAO/CustomField.php';
-                    if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                        $params[$index] = $details->$name;
-                        $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                } else if (array_key_exists( $name ,$studentFields ) ) {
+                    require_once 'CRM/Core/OptionGroup.php';
+                    $paramsNew = array($name => $details->$name );
+                    
+                    if ( $name == 'test_tutoring') {
+                        $names = array( $name => array('newName' => $name ,'groupName' => 'test' ));
                     } else {
-                        $values[$index] = $details->$name;
+                        $names = array( $name => array('newName' => $name ,'groupName' => $name ));
+                    }
+                    CRM_Core_OptionGroup::lookupValues( $paramsNew, $names, false );
+                    $values[$index] = $paramsNew[$name];
+                } else if ( ! CRM_Quest_BAO_Student::getValues( $field, $details, $values ) ) {
+                    if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
+                        if ($details->$name) {
+                            $values[$index] = '[ x ]';
+                        }
+                    } else {
+                        require_once 'CRM/Core/BAO/CustomField.php';
+                        if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
+                            $params[$index] = $details->$name;
+                            $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                        } else {
+                            $values[$index] = $details->$name;
+                        }
                     }
                 }
             } else if ( strpos( $name, '-' ) !== false ) {
                 list( $fieldName, $id, $type ) = explode( '-', $name );
+                
+                if ($id == 'Primary') {
+                    $id = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
+                }
+
                 $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
                 if ( ! $locationTypeName ) {
                     continue;
@@ -652,7 +597,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
 
             if ( $field['visibility'] == "Public User Pages and Listings" &&
-                 CRM_Utils_System::checkPermission( 'profile listings and forms' ) ) {
+                 CRM_Core_Permission::check( 'profile listings and forms' ) ) {
                 
                 if ( CRM_Utils_System::isNull( $params[$index] ) ) {
                     $params[$index] = $values[$index];
@@ -695,14 +640,24 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
         
         //check wheter this group is used by any module(check uf join records)
-        require_once 'CRM/Core/DAO/UFJoin.php';
-        $ufJoin = & new CRM_Core_DAO_UFJoin();
-        $ufJoin->uf_group_id = $id;
-        $ufJoin->find();
-        while($ufJoin->fetch()) {
+        $sql = "SELECT id
+                FROM civicrm_uf_join
+                WHERE civicrm_uf_join.module 
+                   NOT IN ( 'User Registration','User Account','Profile','Search Profile' )
+                   AND civicrm_uf_join.uf_group_id =" . CRM_Utils_Type::escape($id, 'Integer'); 
+        
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $sql );
+        if ( $dao->fetch( ) ) { 
             return 0;
         }
         
+        //delete records from uf join table
+        require_once 'CRM/Core/DAO/UFJoin.php';
+        $ufJoin = & new CRM_Core_DAO_UFJoin();
+        $ufJoin->uf_group_id = $id; 
+        $ufJoin->delete();
+
         //delete profile group
         $group = & new CRM_Core_DAO_UFGroup();
         $group->id = $id; 
@@ -791,7 +746,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @return object
      */
     static function add(&$params, &$ids) {
-        $params['is_active'              ] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['is_active'   ] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['add_captcha' ] = CRM_Utils_Array::value('add_captcha', $params, false);
+        
         $params['limit_listings_group_id'] = CRM_Utils_Array::value('group', $params);
         $params['add_to_group_id'] = CRM_Utils_Array::value('add_contact_to_group', $params);
     
@@ -1023,24 +980,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function getWeight ( $ufGroupId = null ) 
     {
         //calculate the weight
-        require_once 'CRM/Core/DAO.php';
-        $dao =& new CRM_Core_DAO( );
+        $p = array( );
         if ( !$ufGroupId ) {
             $queryString = "SELECT ( MAX(civicrm_uf_join.weight)+1) as new_weight
                             FROM civicrm_uf_join 
-                            WHERE module='User Registration' OR module='User Account' OR module='Profile'";
+                            WHERE module = 'User Registration' OR module = 'User Account' OR module = 'Profile'";
         } else {
             $queryString = "SELECT MAX(civicrm_uf_join.weight) as new_weight
                             FROM civicrm_uf_join
-                            WHERE civicrm_uf_join.uf_group_id = " . CRM_Utils_Type::escape($ufGroupId, 'Integer'); 
-
-            /*  ." 
-                              AND (civicrm_uf_join.module='User Registration'
-                                    OR civicrm_uf_join.module='User Account'
-                                    OR civicrm_uf_join.module='Profile')";*/
+                            WHERE civicrm_uf_join.uf_group_id = %1";
+            $p[1] = array( $ufGroupId, 'Integer' );
         }
         
-        $dao->query($queryString);
+        $dao =& CRM_Core_DAO::executeQuery( $queryString, $p );
         $dao->fetch();
         return ($dao->new_weight) ? $dao->new_weight : 1; 
     }
@@ -1065,14 +1017,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                civicrm_uf_join.weight as weight, civicrm_uf_group.is_active as is_active
                         FROM civicrm_uf_group
                         LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
-                        WHERE civicrm_uf_group.domain_id = ' . CRM_Core_Config::domainID( ); 
+                        WHERE civicrm_uf_group.domain_id = %1';
+        $p = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
         if ($moduleName) {
             $queryString .= ' AND civicrm_uf_group.is_active = 1 
-                              AND civicrm_uf_join.module ="' . CRM_Utils_Type::escape($moduleName, 'String') .'" ';
+                              AND civicrm_uf_join.module = %2';
+            $p[2] = array( $moduleName, 'String' );
         }
         
         $queryString .= ' ORDER BY civicrm_uf_join.weight, civicrm_uf_group.title';
-        $dao->query($queryString);
+        $dao =& CRM_Core_DAO::executeQuery($queryString, $p);
 
         $ufGroups = array( );
         while ($dao->fetch( )) {
@@ -1097,7 +1051,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function updateWeight($weight, $ufGroupId) 
     {
-
         //get the current uf group records in uf join table
         $ufJoin =& new CRM_Core_DAO_UFJoin();
         $ufJoin->uf_group_id = $ufGroupId;
@@ -1113,14 +1066,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         if ( $weight != $oldWeight )  {
             $check++;
             // get the groups whose weight is less than new/updated group
-            $daoObj =& new CRM_Core_DAO();
             $query = "SELECT id
                       FROM civicrm_uf_join
                       WHERE (module = 'User Registration' OR module='User Account' OR module='Profile')
+                        AND weight = %1";
+            $p =array( 1 => array( $weight, 'Integer' ) );
 
-                        AND weight = ". CRM_Utils_Type::escape($weight, 'Integer');
-
-            $daoObj->query($query);
+            $daoObj =& CRM_Core_DAO::executeQuery($query, $p);
             while ($daoObj->fetch()) {
                 $check = 0;
             }
@@ -1132,9 +1084,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $query = "SELECT id
                       FROM civicrm_uf_join
                       WHERE (module = 'User Registration' OR module='User Account' OR module='Profile')
+                        AND weight >= %1";
+            $p =array( 1 => array( $weight, 'Integer' ) );
 
-                        AND weight >= ". CRM_Utils_Type::escape($weight, 'Integer');
-            $dao->query($query);
+            $dao =& CRM_Core_DAO::executeQuery($query, $p); 
             
             $fieldIds = array();                
             while ($dao->fetch()) {
@@ -1143,19 +1096,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             //update the record with weight + 1
             if ( !empty($fieldIds) ) {
-                $ufDAO =& new CRM_Core_DAO();
-                $updateSql = "UPDATE civicrm_uf_join SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
-                $ufDAO->query($updateSql);
+                $sql = "UPDATE civicrm_uf_join SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
+                CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
             }
         }
         
         //set the weight for the current uf group
         if ( !empty($ufJoinRecords) ) {
-            $ufJoinDAO =& new CRM_Core_DAO();
-            $queryString = "UPDATE civicrm_uf_join SET weight = ". CRM_Utils_Type::escape($weight, 'Integer')."
-                          WHERE id IN ( ".implode(",", $ufJoinRecords)." ) ";
-            $ufJoinDAO->query($queryString);
+            $query = "UPDATE civicrm_uf_join SET weight = %1
+                       WHERE id IN ( ".implode(",", $ufJoinRecords)." ) ";
+            $p =array( 1 => array( $weight, 'Integer' ) ); 
+            CRM_Core_DAO::executeQuery($query, $p);
         }
     }
 }
+
 ?>

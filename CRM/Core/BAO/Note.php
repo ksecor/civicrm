@@ -62,6 +62,20 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
     }
     
     /**
+     * given a note id, retrieve the note subject
+     * 
+     * @param int  $id   id of the note to retrieve
+     * 
+     * @return string   the note subject or null if note not found
+     * 
+     * @access public
+     * @static
+     */
+    static function getNoteSubject( $id ) {
+        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $id, 'subject' );
+    }
+
+    /**
      * takes an associative array and creates a note object
      *
      * the function extract all the params it needs to initialize the create a
@@ -222,14 +236,21 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      * @access public
      * @static
      */
-    public static function getNote($id)
+    public static function &getNote($id)
     {
         $viewNote = array();
-        $relationshipID = $id;
-        $query = "SELECT id FROM civicrm_note where entity_table = 'civicrm_relationship' and entity_id = $relationshipID  order by modified_date desc";
-        $dao = new CRM_Core_DAO();
-        $dao->query($query);
+
+        $query = "
+SELECT   id FROM civicrm_note
+WHERE    entity_table = 'civicrm_relationship' 
+  AND    entity_id = %1
+ORDER BY modified_date desc";
+        $params = array( 1 => array( $id, 'Integer' ) );
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+
         $dao->fetch();
+
         $note =& new CRM_Core_DAO_Note( );
         $note->id = $dao->id;
         $note->find(true);

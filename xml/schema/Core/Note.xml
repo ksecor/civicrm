@@ -70,4 +70,11 @@
        <comment>When was this note last modified/edited</comment>
        <add>1.1</add>
   </field>
+  <field>
+       <name>subject</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>subject of note description</comment>
+       <add>1.5</add>
+  </field>
 </table>

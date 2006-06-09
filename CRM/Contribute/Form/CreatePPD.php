@@ -111,7 +111,7 @@ class CRM_Contribute_Form_CreatePPD extends CRM_Contribute_Form
         
         $pid = ProfileHandler::generateID();
         $profile =& new APIProfile($pid, $handler);
-        $certFile = "$savePath/$pid.cert";
+        $certFile = "$savePath$pid.cert";
         $fd = fopen( $certFile, "w" );
         if ( ! $fd ) {
             CRM_Core_Error::fatal( ts( "Could not open %1 file for writing", array( 1 => $certFile ) ) );

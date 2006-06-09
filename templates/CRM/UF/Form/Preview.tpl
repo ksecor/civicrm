@@ -21,10 +21,11 @@
            {if $mode ne 8}
               </fieldset>
            {/if}
+            
         {/if}
-        {if $mode ne 8}
+       {if $mode ne 8}
             <fieldset><legend>{$field.groupTitle}</legend>
-        {/if}
+       {/if}
         {assign var=fieldset  value=`$field.groupTitle`}
         {assign var=groupHelpPost  value=`$field.groupHelpPost`}
         {if $field.groupHelpPre}
@@ -70,6 +71,18 @@
             <tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
         {/if}
     {/foreach}
+    {if $addCAPTCHA }
+              <tr>
+               <td></td>
+               <td>{$form.captcha_image.html}</td>
+             </tr>
+             <tr> 
+               <td></td>   
+               <td>{$form.captcha_phrase.html}
+                 <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
+                </td>
+             </tr>
+    {/if}   
     </table>
     {if $field.groupHelpPost}
     <div class="messages help">{$field.groupHelpPost}</div>

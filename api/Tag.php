@@ -79,6 +79,44 @@ function crm_create_tag($params)
 }
 
 /**
+ * Get a Tag.
+ * 
+ * This api is used for finding an existing tag.
+ * Either id or name of tag are required parameters for this api.
+ * 
+ * @params  array $params  an associative array of name/value pairs.
+ *
+ * @return  $tagBAO  object of CRM_Core_BAO_Tag
+ * @access public
+ */
+
+function crm_get_tag($params) 
+{
+    require_once 'CRM/Core/BAO/Tag.php';
+    $tagBAO = new CRM_Core_BAO_Tag();
+    
+    if ( ! is_array($params) ) {
+        return _crm_error('params is not an array.');
+    }
+    if ( ! isset($params['id']) && ! isset($params['name']) ) {
+        return _crm_error('Required parameters missing.');
+    }
+    
+    $properties = array('id', 'domain_id', 'name', 'description', 'parent_id');
+    foreach ( $properties as $name) {
+        if (array_key_exists($name, $params)) {
+            $tagBAO->$name = $params[$name];
+        }
+    }
+    
+    if ( ! $tagBAO->find(true) ) {
+        return _crm_error('Exact match not found.');
+    }
+    
+    return $tagBAO;
+}
+
+/**
  * Deletes an existing Tag
  *
  * @param  object        $tag valid tag object

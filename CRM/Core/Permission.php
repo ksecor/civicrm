@@ -71,6 +71,20 @@ class CRM_Core_Permission {
     }
 
     /**
+     * given a permission string, check for access requirements
+     *
+     * @param string $str the permission to check
+     *
+     * @return boolean true if yes, else false
+     * @static
+     * @access public
+     */
+    static function check( $str ) {
+        $config   =& CRM_Core_Config::singleton( );
+        return eval( 'return ' . $config->userPermissionClass . '::check( $str ); ' );
+    }
+    
+    /**
      * Get the permissioned where clause for the user
      *
      * @param int $type the type of permission needed

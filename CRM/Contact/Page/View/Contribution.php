@@ -112,7 +112,8 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
     }
 
     function setContext( ) {
-        $context = CRM_Utils_Request::retrieve( 'context', $this, false, 'search' );
+        $context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                $this, false, 'search' );
 
         switch ( $context ) {
         case 'basic':

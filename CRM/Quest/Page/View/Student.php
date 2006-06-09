@@ -122,6 +122,10 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
             $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
         }
 
+        // get the Student application status (pre-application for now)
+        require_once 'CRM/Quest/API.php';
+        $this->assign( 'preapplicationStatus', CRM_Quest_API::getApplicationStatus( $this->_contactId ));
+        
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();
         // get categories for the contact id
@@ -140,16 +144,18 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
         $this->assign( $defaults );
         $this->setShowHide( $defaults );        
 
-        //add link to CMS user
-        if ( $uid = CRM_Core_BAO_UFMatch::getUFId( $this->_contactId ) ) {
-            if ($config->userFramework == 'Drupal') {
-                $url = CRM_Utils_System::url( 'user/' . $uid );
-            } else {
-                //$url = CRM_Utils_System::url( 'option=com_users&task=editA&hidemainmenu=1&id=' . $uid );
-                $url = $config->userFrameworkBaseURL . 'index2.php?option=com_users&task=editA&hidemainmenu=1&id=' . $uid;
-            }
-            $this->assign( 'url', $url );
+        // also assign the last modifed details
+        require_once 'CRM/Core/BAO/Log.php';
+        $lastModified =& CRM_Core_BAO_Log::lastModified( $this->_contactId, 'civicrm_contact' );
+        $this->assign_by_ref( 'lastModified', $lastModified );
+        
+        // check for attached files for this contact and assign to template
+        require_once 'api/File.php';
+        $attachments =& crm_get_files_by_entity( $this->_contactId );
+        if ( !is_a( $attachments, CRM_Core_Error ) ) {
+            $this->assign( 'attachments', $attachments );
         }
+
     }
 
 
@@ -168,13 +174,15 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
                                                          'relationships[show]'  => 1,
                                                          'groups[show]'         => 1,
                                                          'openActivities[show]' => 1,
-                                                         'activityHx[show]'     => 1 ),
+                                                         'activityHx[show]'     => 1,
+                                                         'attachments[show]'    => 1),
                                                   array( 'notes'                => 1,
                                                          'academic[show]'       => 1,
                                                          'relationships'        => 1,
                                                          'groups'               => 1,
                                                          'openActivities'       => 1,
-                                                         'activityHx'           => 1 ) );
+                                                         'activityHx'           => 1,
+                                                         'attachments'          => 1) );
 
         $config =& CRM_Core_Config::singleton( ); 
 

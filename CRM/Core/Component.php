@@ -39,6 +39,8 @@
 class CRM_Core_Component {
     static $_info = null;
 
+    static $_contactSubTypes = null;
+
     static function &info( ) {
         if ( self::$_info == null ) {
             self::$_info = array( 
@@ -47,19 +49,35 @@ class CRM_Core_Component {
                                                             'url'     => 'contribute',
                                                             'perm'    => array( 'access CiviContribute',
                                                                                 'edit contributions',
-                                                                                'make online contributions' ) ),
+                                                                                'make online contributions' ),
+                                                            'search'  => 1 ),
+                                 'CiviMember'     => array( 'title'   => 'CiviCRM Membership Engine',
+                                                            'path'    => 'CRM_Member_',
+                                                            'url'     => 'member',
+                                                            'perm'    => array( 'access CiviMember',
+                                                                                'edit members',
+                                                                                'view members' ),
+                                                            'search'  => 0 ),
                                  'CiviMail'       => array( 'title'   => 'CiviCRM Mailing Engine',
                                                             'path'    => 'CRM_Mailing_',
                                                             'url'     => 'mailing',
-                                                            'perm'    => array( 'access CiviMail' ) ),
+                                                            'perm'    => array( 'access CiviMail' ),
+                                                            'search'  => 0 ),
                                  'Quest'          => array( 'title'   => 'Quest Application Process',
                                                             'path'    => 'CRM_Quest_',
                                                             'url'     => 'quest',
                                                             'perm'    => array( 'edit Quest Application'  ,
                                                                                 'view Quest Application'   ),
+                                                            'search'  => 1,
                                                             'metaTpl' => 'quest',
                                                             'formTpl' => 'quest',
-                                                            'css'     => 'quest.css' ),
+                                                            'css'     => 'quest.css' ,
+                                                            'task'    => array( '32' => array( 'title'  => 'Export XML',
+                                                                                               'class'  => 'CRM_Quest_Form_Task_XML',
+                                                                                               'result' => false ),
+                                                                                '33' => array( 'title'  => 'Export PDF',
+                                                                                               'class'  => 'CRM_Quest_Form_Task_PDF',
+                                                                                               'result' => false ) ) ),
                                  );
         }
         return self::$_info;
@@ -75,31 +93,35 @@ class CRM_Core_Component {
         return $comp;
     }
 
-    static function invoke( &$args ) {
+    static function invoke( &$args, $type ) {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
 
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) &&
-                 $info[$name]['url'] === $args[1] ) {
-                // also set the smarty variables to the current component
-                $template =& CRM_Core_Smarty::singleton( );
-                $template->assign( 'activeComponent', $name );
-                if ( CRM_Utils_Array::value( 'metaTpl', $info[$name] ) ) {
-                    $template->assign( 'metaTpl', $info[$name]['metaTpl'] );
-                }
-                if ( CRM_Utils_Array::value( 'formTpl', $info[$name] ) ) {
-                    $template->assign( 'formTpl', $info[$name]['formTpl'] );
-                }
-                if ( CRM_Utils_Array::value( 'css', $info[$name] ) ) {
-                  $styleSheets .= '<style type="text/css">@import url(' . "{$config->resourceBase}css/{$info[$name]['css']});</style>";
-                  CRM_Utils_System::addHTMLHead( $styleSheet );
-                }
-         	drupal_set_html_head( $styleSheets );
-
+                 ( $info[$name]['url'] === $args[1] || $info[$name]['url'] === $args[2] ) ) {
+                
                 $className = $info[$name]['path'] . 'Invoke';
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
-                eval( $className . '::main( $args );' );
+                
+                if ( $type == 'main' ) {
+                    // also set the smarty variables to the current component
+                    $template =& CRM_Core_Smarty::singleton( );
+                    $template->assign( 'activeComponent', $name );
+                    if ( CRM_Utils_Array::value( 'metaTpl', $info[$name] ) ) {
+                        $template->assign( 'metaTpl', $info[$name]['metaTpl'] );
+                    }
+                    if ( CRM_Utils_Array::value( 'formTpl', $info[$name] ) ) {
+                        $template->assign( 'formTpl', $info[$name]['formTpl'] );
+                    }
+                    if ( CRM_Utils_Array::value( 'css', $info[$name] ) ) {
+                        $styleSheets .= '<style type="text/css">@import url(' . "{$config->resourceBase}css/{$info[$name]['css']});</style>";
+
+                        CRM_Utils_System::addHTMLHead( $styleSheet );
+                    }
+                    drupal_set_html_head( $styleSheets );
+                }
+                eval( $className . '::' . $type . '( $args );' );
                 return true;
             }
         }
@@ -133,6 +155,151 @@ class CRM_Core_Component {
             }
         }
         return;
+    }
+
+    static function &getQueryFields( ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        $fields = array( );
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( '$flds =& ' . $className . '::getFields( );' );
+                $fields = array_merge( $fields, $flds );
+            }
+        }
+        return $fields;
+    }
+
+    static function &alterQuery( &$query, $fnName ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( $className . '::' . $fnName . '( $query );' );
+            }
+        }
+    }
+
+    static function from( $fieldName, $mode, $side ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        $from = null;
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( '$from = ' . $className . '::from( $fieldName, $mode, $side );' );
+                if ( $from ) {
+                    return $from;
+                }
+            }
+        }
+        return $from;
+    }
+
+    static function &defaultReturnProperties( $mode ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+        $properties = null;
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( '$properties =& ' . $className . '::defaultReturnProperties( $mode );' );
+                if ( $properties ) {
+                    return $properties;
+                }
+            }
+        }
+        return $properties;
+    }
+
+    static function &buildSearchForm( &$form ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( $className . '::buildSearchForm( $form );' );
+            }
+        }
+    }
+
+    static function &addShowHide( &$showHide ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( $className . '::addShowHide( $showHide );' );
+            }
+        }
+    }
+
+    static function &searchAction( &$row, $id ) {
+        $info =& self::info( );
+        $config =& CRM_Core_Config::singleton( );
+
+        foreach ( $info as $name => $value ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 $value['search'] ) {
+                $className = $info[$name]['path'] . 'BAO_Query';
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
+                eval( $className . '::searchAction( $row, $id );' );
+            }
+        }
+    }
+
+    static function &contactSubTypes( ) {
+        if ( self::$_contactSubTypes == null ) {
+            self::$_contactSubTypes =
+                array(
+                      'Student' =>
+                      array( 'View' => 
+                             array( 'file'  => 'CRM/Quest/Page/View/Student.php',
+                                    'class' => 'CRM_Quest_Page_View_Student' ),
+                             )
+                      );
+        }
+        return self::$_contactSubTypes;
+    }
+
+    
+    static function &contactSubTypeProperties( $subType, $op ) {
+        $properties =& self::contactSubTypes( );
+        if ( array_key_exists( $subType, $properties ) &&
+             array_key_exists( $op, $properties[$subType] ) ) {
+            return $properties[$subType][$op];
+        }
+    }
+
+    static function &taskList( ) {
+        $info =& self::info( );
+        
+        $tasks = array( );
+        foreach ( $info as $name => $value ) {
+            if ( CRM_Utils_Array::value( 'task', $info[$name] ) ) {
+                $tasks += $info[$name]['task'];
+            }
+        }
+        return $tasks;
     }
 
 }

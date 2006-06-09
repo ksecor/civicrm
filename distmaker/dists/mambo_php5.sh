@@ -25,7 +25,7 @@ if [ -d $TRG ] ; then
 fi
 
 # copy all the rest of the stuff
-for CODE in css i js l10n packages PEAR templates bin mambo CRM api modules; do
+for CODE in css i js l10n packages PEAR templates bin mambo CRM api drupal; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
@@ -61,7 +61,7 @@ cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
-echo "1.3.$REV Mambo PHP5" > $TRG/civicrm-version.txt
+echo "1.4.$REV Mambo PHP5" > $TRG/civicrm-version.txt
 
 
 # gen zip file

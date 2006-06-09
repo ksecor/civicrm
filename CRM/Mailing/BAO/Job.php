@@ -84,6 +84,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                 /* Start the job */
                 $job->start_date = date('YmdHis');
                 $job->status = 'Running';
+                // CRM-992 - MySQL can't eat its own dates
+                $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
                 $job->save();
                 CRM_Core_DAO::transaction('COMMIT');
             }
@@ -96,6 +98,9 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             CRM_Core_DAO::transaction('BEGIN');
             $job->end_date = date('YmdHis');
             $job->status = 'Complete';
+            // CRM-992 - MySQL can't eat its own dates
+            $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
+            $job->start_date = CRM_Utils_Date::isoToMysql($job->start_date);
             $job->save();
             $mailing->reset();
             $mailing->id = $job->mailing_id;

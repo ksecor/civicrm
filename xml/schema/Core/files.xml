@@ -45,5 +45,6 @@
 <xi:include href="OptionGroup.xml"      parse="xml" />
 <xi:include href="OptionValue.xml"      parse="xml" />
 <xi:include href="Log.xml"              parse="xml" />
-<xi:include href="File.xml"              parse="xml" />
+<xi:include href="File.xml"             parse="xml" />
+<xi:include href="EntityFile.xml"       parse="xml" />
 </tables>

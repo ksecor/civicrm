@@ -55,7 +55,19 @@ class CRM_Group_Controller extends CRM_Core_Controller {
 
         // add all the actions
         $config =& CRM_Core_Config::singleton( );
-        $this->addActions( );
+        
+        //changes for custom data type File
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        $config =& CRM_Core_Config::singleton( );
+        
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $uplaodArray = $uploadNames;
+            $this->addActions( $config->customFileUploadDir, $uplaodArray );
+            $uploadNames = $session->set( 'uploadNames',null );
+        } else {
+            $this->addActions( );
+        }
     }
 
     function run( ) {

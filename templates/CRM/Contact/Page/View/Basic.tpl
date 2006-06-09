@@ -8,12 +8,13 @@
     {if $contact_type eq 'Individual' && $job_title}&nbsp;&nbsp;{ts}Job Title{/ts}:&nbsp;{$job_title}
     {elseif $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
     {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}';"/>
+        &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
     {/if}
     &nbsp; &nbsp; <input type="button" value="{ts}vCard{/ts}" name="vCard_export" onclick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';"/>
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
+    {if $lastModified} Last Modified: &nbsp; &nbsp; <a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$lastModified.id`"}">{$lastModified.name}</a>{/if}
     {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
     {if $contactTag}<br />{ts}Tags{/ts}:&nbsp;{$contactTag}{/if}
    </div>
@@ -30,8 +31,8 @@
 
  <div id="location[{$locationIndex}][show]" class="data-group">
   <a href="#" onclick="hide('location[{$locationIndex}][show]'); show('location[{$locationIndex}]'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$loc.location_type}{if $loc.name} - {$loc.name}{/if}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}</label>
-  {if $preferred_communication_method eq 'Email'}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Email:{/ts}</label> {$loc.email.1.email}
-  {elseif $preferred_communication_method eq 'Phone'}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Phone:{/ts}</label> {$loc.phone.1.phone}{/if}
+  {if $preferred_communication_method_display eq 'Email'}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Email:{/ts}</label> {$loc.email.1.email}
+  {elseif $preferred_communication_method_display eq 'Phone'}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Phone:{/ts}</label> {$loc.phone.1.phone}{/if}
  </div>
 
  <div id="location[{$locationIndex}]">
@@ -53,7 +54,7 @@
    {foreach from=$loc.email item=email}
       {if $email.email}
         {if $email.is_primary eq 1}<strong>{/if}
-        {ts}Email:{/ts} {$email.email}
+        {ts}Email:{/ts} <a href="mailto:{$email.email}">{$email.email}</a>
         {if $email.is_primary eq 1}</strong>{/if}
         <br />
       {/if}
@@ -130,7 +131,10 @@
     {/if}
    </div>
    <div class="col2">
-    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}
+    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}<br />
+    {if $deceased_date}
+        <label>{ts}Date Deceased:{/ts}</label> {$deceased_date|crmDate}
+    {/if}
    </div>
    <div class="spacer"></div>
   </fieldset>
@@ -409,9 +413,10 @@
        {strip}
        <table>
        <tr class="columnheader">
-    	<th>{ts}Note{/ts}</th>
-	    <th>{ts}Date{/ts}</th>
-	    <th></th>
+    	   <th>{ts}Note{/ts}</th>
+	   <th>{ts}Subject{/ts}</th>
+	   <th>{ts}Date{/ts}</th>
+	   <th></th>
        </tr>
        {foreach from=$note item=note}
        <tr class="{cycle values="odd-row,even-row"}">
@@ -423,6 +428,7 @@
                     <a href="{crmURL p='civicrm/contact/view/note' q="id=`$note.id`&action=view&cid=$contactId"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
+            <td>{$note.subject}</td>
             <td>{$note.modified_date|crmDate}</td>
             <td>
                 {if $permission EQ 'edit'}<a href="{crmURL p='civicrm/contact/view/note' q="id=`$note.id`&action=update&cid=$contactId"}">{ts}Edit{/ts}</a>{/if}

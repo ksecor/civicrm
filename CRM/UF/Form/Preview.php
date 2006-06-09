@@ -74,13 +74,14 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
     {      
         require_once 'CRM/Core/BAO/UFGroup.php';
         $flag = false;
-        $field = CRM_Utils_Request::retrieve('field', $this, true , 0);
+        $field = CRM_Utils_Request::retrieve('field', 'Boolean',
+                                             $this, true , 0);
        
         $fid             = $this->get( 'fieldId' ); 
         $this->_gid      = $this->get( 'id' );
         
         if ($field) {
-            $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, false, null, null, true);
+            $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true);
         } else {
             $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid );
         }
@@ -198,11 +199,30 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             } else if ($field['name'] == 'contribution_type' ) {
                 $this->add('select', 'contribution_type', ts( 'Contribution Type' ), 
                            array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+            } else if ($field['name'] == 'gpa_id' ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                $this->add('select', 'gpa_id', ts( $field['title'] ), 
+                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('gpa'), $required);
+            } else if ($field['name'] == 'ethnicity_id_1' ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                $this->add('select', 'ethnicity_id_1', ts( $field['title'] ),
+                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('ethnicity'), $required);
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $required);
             }
         }
      
+        require_once 'CRM/Core/DAO/UFGroup.php';
+        $dao = new CRM_Core_DAO_UFGroup();
+        $dao->id = $this->_gid;
+        $dao->find(true);
+        if ( $dao->add_captcha ) {
+            require_once 'CRM/Utils/CAPTCHA.php';
+            $captcha =& CRM_Utils_CAPTCHA::singleton( );
+            $captcha->add( $this );
+            $this->assign( 'addCAPTCHA' , true );
+        }
+        
         $this->addButtons(array(
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Done with Preview'),

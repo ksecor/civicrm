@@ -134,7 +134,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // since we have an entity id, lets get it's custom values too.
         if ($entityId) {
-            $tableData['civicrm_custom_value'] = array('id', 'int_data', 'float_data', 'decimal_data', 'char_data', 'date_data', 'memo_data');
+            $tableData['civicrm_custom_value'] = array('id', 'int_data', 'float_data', 'decimal_data', 'char_data', 'date_data', 'memo_data','file_id');
         }
 
         // create select
@@ -167,10 +167,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
             " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)";
 
+        $params = array( );
         if ($groupId > 0) {
             // since we want a specific group id we add it to the where clause
-            $strWhere .= " AND civicrm_custom_group.style = 'Tab' AND civicrm_custom_group.id = " 
-                      .  CRM_Utils_Type::escape($groupId, 'Integer');
+            $strWhere .= " AND civicrm_custom_group.style = 'Tab' AND civicrm_custom_group.id = %1";
+            $params[1] = array( $groupId, 'Integer' );
         } else if ($groupId == 0){
             // since groupId is 0 we need to show all Inline groups
             $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
@@ -181,7 +182,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
 
         // dummy dao needed
-        $crmDAO =& CRM_Core_DAO::executeQuery( $queryString );
+        $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
         // process records
         while($crmDAO->fetch()) {
@@ -250,9 +251,38 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 case 'Date':
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->civicrm_custom_value_date_data;
                     break;
+                case 'File':
+                    require_once 'CRM/Core/DAO/File.php';
+                    $fileDAO =& new CRM_Core_DAO_File();
+                    $fileDAO->id = $crmDAO->civicrm_custom_value_file_id;
+                    if ( $fileDAO->find(true) ) {
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data']      = $fileDAO->uri;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']       = $fileDAO->id;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL']   = 
+                            CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid=$entityId" );
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']  = basename( $fileDAO->uri );
+                    }
+                    
+                    break; 
                 }
             }
         }
+
+        
+        $uploadNames = array();
+        foreach ($groupTree as $key1 => $group) { 
+            foreach ($group['fields'] as $key2 => $field) {
+                if ( $field['data_type'] == 'File' ) {
+                    $fieldId          = $field['id'];                 
+                    $elementName      = 'custom_' . $fieldId;
+                    $uploadNames[]    = $elementName; 
+                }
+            }
+        }
+        
+        //hack for field type File
+        $session = & CRM_Core_Session::singleton( );
+        $session->set('uploadNames', $uploadNames);
         return $groupTree;
     }
 
@@ -314,7 +344,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     // especially true in the case of radio buttons where we are using the values
                     // 1 - true and 0 for false.
                     if (! strlen(trim($data) ) ) {
-                        $customValueDAO->delete();
+                        if($field['data_type'] != 'File') {
+                            $customValueDAO->delete();
+                        } 
                         continue;
                     }
                     
@@ -341,6 +373,50 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     case 'Date':
                         $customValueDAO->date_data = $data;
                         break;
+                    case 'File':
+                        require_once 'CRM/Core/DAO/File.php';
+                        $config = & CRM_Core_Config::singleton();
+                        
+                        $path = explode( '/', $data );
+                        $filename = $path[count($path) - 1];
+
+                        // rename this file to go into the secure directory
+                        if ( ! rename( $data, $config->customFileUploadDir . $filename ) ) {
+                            CRM_Utils_System::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
+                            break;
+                        }
+                        
+                        $customValueDAO->char_data = $config->customFileUploadDir . $filename;
+                        $mimeType = $_FILES['custom_'.$field['id']]['type'];
+                        
+                        $fileDAO =& new CRM_Core_DAO_File();
+                        if (isset($field['customValue']['fid'])) {
+                            $fileDAO->id = $field['customValue']['fid'];
+                        }
+                       
+                        $fileDAO->uri               = $filename;
+                        $fileDAO->mime_type         = $mimeType; 
+                        $fileDAO->upload_date       = date('Ymdhis'); 
+                        $fileDAO->save();
+                        
+                        $customValueDAO->file_id    = $fileDAO->id;
+
+                        // need to add/update civicrm_entity_file
+                        require_once 'CRM/Core/DAO/EntityFile.php'; 
+                        $entityFileDAO =& new CRM_Core_DAO_EntityFile();
+                        
+                        if ( isset($field['customValue']['fid'] )) {
+                            $entityFileDAO->file_id = isset($field['customValue']['fid'] );
+                            $entityFileDAO->find(true);
+                        }
+                        
+                        $entityFileDAO->entity_table = $tableName;
+                        $entityFileDAO->entity_id    = $entityId;
+                        $entityFileDAO->file_id      = $fileDAO->id;
+                        $entityFileDAO->save();
+                        
+                        break;
+                        
                     }
 
                     // insert/update of custom value
@@ -368,10 +444,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
          $query = "SELECT count(*) 
                    FROM   civicrm_custom_value, civicrm_custom_field 
                    WHERE  civicrm_custom_value.custom_field_id = civicrm_custom_field.id AND
-                          civicrm_custom_field.custom_group_id = " 
-                 . CRM_Utils_Type::escape($groupId, 'Integer');
-
-         return CRM_Core_DAO::singleValueQuery( $query );
+                          civicrm_custom_field.custom_group_id = %1";
+         $params = array( 1 => array( $groupId, 'Integer' ) );
+         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
 
@@ -430,15 +505,15 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             }
         }
         $select = 'SELECT ' . implode( ', ', $s );
-
+        $params     = array( );
         // from, where, order by
         $from = " FROM civicrm_custom_field, civicrm_custom_group";
         $where = " WHERE civicrm_custom_field.custom_group_id = civicrm_custom_group.id
                             AND civicrm_custom_group.is_active = 1
                             AND civicrm_custom_field.is_active = 1 ";
         if ( $groupId ) {
-            $where .= " AND civicrm_custom_group.id = " .
-                            CRM_Utils_Type::escape($groupId, 'Integer');
+            $params[1] = array( $groupId, 'Integer' );
+            $where .= " AND civicrm_custom_group.id = %1";
         }
 
         if ( $searchable ) {
@@ -459,8 +534,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $queryString = $select . $from . $where . $orderBy;
 
         // dummy dao needed
-        $crmDAO =& new CRM_Core_DAO();
-        $crmDAO->query($queryString);
+        $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
         // process records
         while($crmDAO->fetch()) {
@@ -537,8 +611,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $menu['path']    = $path;
             $menu['title']   = "$customGroupDAO->title";
             $menu['qs']      = 'reset=1&gid=' . $customGroupDAO->id . '&cid=%%cid%%';
-            $menu['type']    = CRM_Utils_Menu::CALLBACK;
-            $menu['crmType'] = CRM_Utils_Menu::LOCAL_TASK;
+            $menu['type']    = CRM_Core_Menu::CALLBACK;
+            $menu['crmType'] = CRM_Core_Menu::LOCAL_TASK;
             $menu['weight']  = $startWeight++;
             $menu['extra' ]  = array( 'gid' => $customGroupDAO->id );
             $menus[] = $menu;
@@ -546,7 +620,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         
         if ( is_array($menus) ) {
             foreach($menus as $menu) {
-                CRM_Utils_Menu::add($menu);
+                CRM_Core_Menu::add($menu);
             }
         }
     }
@@ -684,7 +758,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
-                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
@@ -701,7 +775,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $defaults[$elementName] = array();
                         if (isset($field['customValue']['data'])) {
-                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,substr($field['customValue']['data'],1,-1));
                             foreach($customOption as $val) {
                                 if (in_array($val['value'], $checkedData)) {
                                     $defaults[$elementName][$val['value']] = 1;
@@ -710,7 +784,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                                 }
                             }
                         } else {
-                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                             foreach($customOption as $val) {
                                 if ( in_array($val['value'], $checkedValue) ) {
                                     $defaults[$elementName][$val['value']] = 1;
@@ -727,7 +801,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
-                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
@@ -742,7 +816,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $defaults[$elementName] = array();
                         if (isset($field['customValue']['data'])) {
-                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($field['customValue']['data'],1,-1));
                             foreach($customOption as $val) {
                                 if (in_array($val['value'], $checkedData)) {
                                     //$defaults[$elementName][$val['value']] = 1;
@@ -750,7 +824,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                                 } 
                             }
                         } else {
-                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value);
+                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                             foreach($customOption as $val) {
                                 if ( in_array($val['value'], $checkedValue) ) {
                                     $defaults[$elementName][$val['value']] = $val['value'];
@@ -765,15 +839,32 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $defaults[$elementName] = CRM_Utils_Date::unformat( $value, '-' );
                     }
                     break;
+                    
+                case 'Select Country':
+                    if ( $value ) {
+                        $defaults[$elementName] = $value;
+                    } else {
+                        $config          =& CRM_Core_Config::singleton( );
+                        $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
+                        $defaultCountryId = array_search($config->defaultContactCountry, $countryIsoCodes);
+                        $defaults[$elementName] = $defaultCountryId;
+                    }
+                    break;
 
                 default:
-                    $defaults[$elementName] = $value;
+                    if ($field['data_type'] == "Float") {
+                        $defaults[$elementName] = (float)$value;
+                    } else { 
+                        $defaults[$elementName] = $value;
+                    }
                 } 
             }
         }
     }
 
     static function postProcess( &$groupTree, &$params ) {
+        // CRM_Core_Error::debug( 'g', $groupTree );
+        // CRM_Core_Error::debug( 'p', $params );
 
         // Get the Custom form values and groupTree        
         // first reset all checkbox and radio data
@@ -807,7 +898,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     if ( ! empty( $v ) ) {
                         $customValue = array_keys( $v );
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue);
+                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -824,7 +915,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     }
                     if ( ! empty( $v ) ) {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $v);
+                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $v).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -838,7 +929,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     }*/
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
                     break;
-                    
                 default:
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
                     break;
@@ -860,7 +950,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      */
     static function buildQuickForm( &$form, &$groupTree, $showName = 'showBlocks', $hideName = 'hideBlocks' ) {
-        
         //this is fix for calendar for date field
         foreach ($groupTree as $key1 => $group) { 
             foreach ($group['fields'] as $key2 => $field) {
@@ -870,8 +959,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $groupTree[$key1]['fields'][$key2]['skip_calendar'] = true;
                     }
                 }
+              
             }
         }
+        
         $form->assign_by_ref( 'groupTree', $groupTree );
         $sBlocks = array( );
         $hBlocks = array( );
@@ -989,8 +1080,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                                 }
                             }
                         } else {
-
-                            $form[$elementName]['html'] = $field['customValue']['data'];
+                            if ($field['data_type'] == "Float") {
+                                $form[$elementName]['html'] = (float)$field['customValue']['data'];
+                            } else {
+                                $form[$elementName]['html'] = $field['customValue']['data'];
+                            }
                         }
                     }
                 } else {
@@ -1030,7 +1124,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                             }
                             $form[$elementName]['html'] = CRM_Utils_Date::customFormat($field['customValue']['data'],$format);
                             break;
-                            
+
                         default:
                             $form[$elementName]['html'] = $field['customValue']['data'];
                         }                    
@@ -1084,7 +1178,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         foreach ($groupTree as $group) {
             foreach( $group['fields'] as $key => $field) {
                 $fieldName = 'custom_' . $key;
-                $value = CRM_Utils_Request::retrieve( $fieldName, $form );
+                $value = CRM_Utils_Request::retrieve( $fieldName, 'String',
+                                                      $form );
 
                 if ( $value ) {
                     if ( ! in_array( $customFields[$key][3], $htmlType ) ||

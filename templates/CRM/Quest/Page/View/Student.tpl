@@ -8,20 +8,21 @@
     {if $contact_type eq 'Individual' && $job_title}&nbsp;&nbsp;{ts}Job Title{/ts}:&nbsp;{$job_title}
     {elseif $home_URL}&nbsp; &nbsp; <a href="{$home_URL}" target="_blank">{$home_URL}</a>{/if}
     {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/view' q="reset=1&action=update&cid=$contactId"}';"/>
+        &nbsp; &nbsp; <input type="button" value="{ts}Edit{/ts}" name="edit_contact_info" onclick="window.location='{crmURL p='civicrm/contact/add' q="reset=1&action=update&cid=$contactId"}';"/>
     {/if}
     &nbsp; &nbsp; <input type="button" value="{ts}vCard{/ts}" name="vCard_export" onclick="window.location='{crmURL p='civicrm/contact/view/vcard' q="reset=1&cid=$contactId"}';"/>
     {if $permission EQ 'edit'}
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
-    &nbsp; &nbsp; <a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View Preapplication{/ts}</a>
+    {if $lastModified} Last Modified By: &nbsp; &nbsp; <a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$lastModified.id`"}">{$lastModified.name}</a>{/if}
+    &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View Preapp{/ts}</a></span>
     {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=edit&id=$contactId"}">&raquo; {ts}Edit Preapplication{/ts}</a>
+        &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=edit&id=$contactId"}">&raquo; {ts}Edit Preapp{/ts}</a></span>
     {/if}
-    {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
+    {if $url } &nbsp; &nbsp; <span class="nowrap"><a href="{$url}">&raquo; {ts}View User Record{/ts}</a></span>{/if}
     
-    
-    {if $contactTag}<br />{ts}Tags{/ts}:&nbsp;{$contactTag}{/if}
+    {if $preapplicationStatus}<div class="status"><label>{ts}Preapplication Status{/ts}:</label>&nbsp;<strong>{$preapplicationStatus}</strong></div>{/if}
+    {if $contactTag}<label>{ts}Tags{/ts}:</label>&nbsp;{$contactTag}{/if}
    </div>
 </div>
 
@@ -134,6 +135,43 @@
    </div>
    <div class="spacer"></div>
   </fieldset>
+ </div>
+
+{* Supplementary Documents (attachments) *}
+ <div id="attachments[show]" class="data-group">
+  {if $attachments}
+    <a href="#" onclick="hide('attachments[show]'); show('attachments'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Supplementary Documents{/ts}</label><br />
+  {else}
+    <dl><dt>{ts}Documents{/ts}</dt>
+    <dd>
+        {ts}No supplementary documents have been submitted by this student.{/ts}
+    </dd>
+    </dl>    
+  {/if}  
+ </div>
+
+ <div id="attachments">
+ {if $attachments}
+  <fieldset>
+   <legend><a href="#" onclick="hide('attachments'); show('attachments[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Supplementary Documents{/ts}</legend>
+    {strip}
+        <table>
+        <tr class="columnheader">
+            <th>{ts}Type{/ts}</th>
+            <th>{ts}File{/ts}</th>
+            <th>{ts}Upload Date{/ts}</th>
+        </tr>
+
+        {foreach from=$attachments item=att}
+            <tr class="{cycle values="odd-row,even-row"}">
+                <td><a href="{crmURL p='civicrm/file' q="action=view&eid=$contactId&id=`$att.file_id`"}">{$att.file_type}</a></td>
+                <td><a href="{crmURL p='civicrm/file' q="action=view&eid=$contactId&id=`$att.file_id`"}">{$att.uri}</a></td>
+                <td>{$att.upload_date|crmDate}</td>
+            </tr>  
+        {/foreach}
+        </table>
+	{/strip}
+ {/if}
  </div>
 
 <div id="relationships[show]" class="data-group">

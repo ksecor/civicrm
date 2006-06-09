@@ -178,6 +178,9 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             case "Country":
                 $action -= CRM_Core_Action::BROWSE;
                 break;
+            case "File":
+                $action -= CRM_Core_Action::BROWSE;
+                break;
             }
             
             $customFieldDataType = CRM_Core_BAO_CustomField::dataType();
@@ -234,15 +237,18 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
        
         require_once 'CRM/Core/BAO/CustomGroup.php';
         // get the group id
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                                  $this);
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false, 'browse'); // default to 'browse'
        
         if ($action & CRM_Core_Action::DELETE) {
             
             $session = & CRM_Core_Session::singleton();
             $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field', 'reset=1&action=browse&gid=' . $this->_gid));
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Custom_Form_DeleteField',"Delete Cutom Field", $mode );
-            $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+            $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                              $this, false, 0);
             $controller->set('id', $id);
             $controller->setEmbedded( true );
             $controller->process( );
@@ -262,7 +268,8 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         // assign vars to templates
         $this->assign('action', $action);
 
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          $this, false, 0);
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {

@@ -213,14 +213,14 @@ class CRM_Quest_Form_App_HighSchool extends CRM_Quest_Form_App
                               CRM_Core_SelectValues::date( 'custom', 7, 2, "M\001Y" ) );
             $this->addRule('date_of_exit_'.$i, ts('Select a valid date.'), 'qfDate');
 
-            $this->addRadio( 'custom_2_'.$i,
+            $schoolTypes = array( 310 => 'Public', 311 => 'Private', 312 => 'Parochial' );
+            $this->addRadio( 'custom_2_'. $i,
                              ts( 'Your School Is' ),
-                             CRM_Core_OptionGroup::values( 'school_type' ) );
+                             $schoolTypes );
             
             $this->addElement('text', 'custom_3_'.$i,
                               ts( 'Number of students in your entire school (all classes)' ),
                               $attributes['organization_name'] );
-            //$this->addRule('custom_3',ts('Please enter Number of Students'),'required');
             $this->addRule('custom_3_'.$i , ts('number of students is not valid value'),'integer');
             
             if ( $i == 1 ) {

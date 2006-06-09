@@ -102,7 +102,7 @@
   <foreignKey>
        <name>status_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.5</add>
   </foreignKey>
   <index>

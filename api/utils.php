@@ -394,7 +394,7 @@ function _crm_format_params( &$params, &$values ) {
                         }
                     }
                 }
-                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
 
             } else if( $customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
@@ -530,7 +530,7 @@ function _crm_format_contrib_params( &$params, &$values ) {
                         }
                     }
                 }
-                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else if( $customFields[$customFieldID][3] == 'Select' || $customFields[$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
@@ -954,7 +954,7 @@ function _crm_update_contribution($contribution, $values, $overwrite = true)
  */
 function _crm_check_history_params(&$params, $type='Activity')
 {
-    static $required = array('entity_id', 'activity_id');
+    static $required = array('entity_id');
     
     // cannot create a contact with empty params
     if (empty($params)) {
@@ -1090,6 +1090,21 @@ function _crm_add_formatted_param(&$values, &$params) {
         $params['gender'] = $values['gender'];
         return true;
     }
+    
+    if (isset($values['preferred_communication_method'])) {
+        require_once 'CRM/Core/OptionGroup.php';
+        $preffComm = $comm = array();
+        $preffComm    = explode(',' , $values['preferred_communication_method']);
+        $optionValues = CRM_Core_OptionGroup::values('preferred_communication_method',true);
+        foreach( $preffComm as $v ) {
+            if(array_key_exists( trim($v) ,$optionValues )) {
+                $comm[trim($v)] = $optionValues[trim($v)];
+            }
+        }
+        $params['preferred_communication_method'] = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $comm ).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+        return true;
+    }
+    
     
     if (isset($values['location_type_id'])) {
         /* find and/or initialize the correct location block in $params */
@@ -1260,7 +1275,7 @@ function _crm_add_formatted_param(&$values, &$params) {
                         }
                     }
                 }
-                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
@@ -1349,7 +1364,7 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
                         }
                     }
                 }
-                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
@@ -1585,10 +1600,8 @@ function &_crm_duplicate_formatted_contact(&$params) {
         }
 
         if ( $contact->find( true ) ) {
-            if ( $ids =& $contact->contact_id ) {
-                $error =& _crm_error( "Found matching contacts: $ids", CRM_Core_Error::DUPLICATE_CONTACT, 'Fatal', $ids );
-                return $error;
-            }
+            $error =& _crm_error( "Found matching contacts: {$contact->contact_id}", CRM_Core_Error::DUPLICATE_CONTACT, 'Fatal', $contact->contact_id );
+            return $error;
         }
         return true;
     }    
@@ -1687,7 +1700,7 @@ function _crm_add_formatted_history_param(&$values, &$params) {
                         }
                     }
                 }
-                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues);
+                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
                 $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
                 foreach( $custuomOption as $v2 ) {
@@ -1720,4 +1733,37 @@ function _crm_initialize( ) {
     $config =& CRM_Core_Config::singleton( );
 }
 
+function &_crm_get_pseudo_constant_names( ) {
+    $table = array(
+                   'location_type'       => 'locationType',
+                   'activity_type'       => 'activityType',
+                   'individual_prefix'   => 'individualPrefix',
+                   'individual_suffix'   => 'individualSuffix',
+                   'gender'              => 'gender',
+                   'im_provider'         => 'IMProvider',
+                   'state_province'      => 'stateProvince',
+                   'state_province_abbr' => 'stateProvinceAbbreviation',
+                   'country'             => 'country',
+                   'country_iso'         => 'countryIsoCode',
+                   'tag'                 => 'tag',
+                   'all_group'           => 'allGroup',
+                   'group'               => 'group',
+                   'uf_group'            => 'ufGroup',
+                   'relationship_type'   => 'relationshipType',
+                   );
+    return $table;
+}
+
+function _crm_object_to_array($dao, &$values)
+{
+    //$class = get_class($dao);
+    
+    $fields = $dao->fields();
+    
+    foreach( $fields as $key => $value ) {
+        if (array_key_exists($key, $dao)) {
+            $values[$key] = $dao->$key;
+        }
+    }
+}
 ?>

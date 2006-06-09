@@ -9,15 +9,20 @@
     <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
         <tr>
-            <td class="greeting">Welcome,&nbsp;{$welcome_name}</td>
+            <td class="greeting">{$welcome_name}</td>
             <td class="preapp-message" align="center">
              {ts}
-               Please note: the application deadline is May 15, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' to save your changes.
+               {*Please note: the application deadline is May 15, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' to save your changes.*}
              {/ts}
             </td>           	
             <td nowrap class="save">
             <div class="crm-submit-buttons">
                 {$form.buttons.html}
+                {if $userContext} 
+                    <div>
+                        <a href="{$userContext}">&raquo; {ts}Back to Branner{/ts}</a>   
+                    </div>
+                {/if}
             </div>
             </td>	    	
         </tr>
@@ -63,6 +68,11 @@
   {if ! ( $action & 1024 )}
     <div class="crm-submit-buttons">
         {$form.buttons.html}
+        {if $userContext} 
+            <div>
+                <a href="{$userContext}">&raquo; {ts}Back to Branner{/ts}</a>   
+            </div>
+        {/if}
     </div>
   {/if}
     </td>

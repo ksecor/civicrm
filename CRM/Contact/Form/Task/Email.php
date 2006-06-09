@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Contact/Form/Task.php';
-require_once 'CRM/Utils/Menu.php';
+require_once 'CRM/Core/Menu.php';
 require_once 'CRM/Core/BAO/CustomGroup.php';
 require_once 'CRM/Contact/BAO/Contact.php';
 /**
@@ -67,15 +67,16 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
      * @access public
      */
     function preProcess( ) {
-        $cid = CRM_Utils_Request::retrieve( 'cid', $this, false );
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                            $this, false );
 
         if ( $cid ) {
             // not sure why this is needed :(
             // also add the cid params to the Menu array
-            CRM_Utils_Menu::addParam( 'cid', $cid );
+            CRM_Core_Menu::addParam( 'cid', $cid );
             
             // create menus ..
-            $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
+            $startWeight = CRM_Core_Menu::getMaxWeight('civicrm/contact/view');
             $startWeight++;
             CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($cid), 'civicrm/contact/view/cd', $startWeight);
 
@@ -204,7 +205,8 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $emailAddress = $this->controller->exportValue( 'Email', 'emailAddress' );
 
             // for adding the email-id to the primary address
-            $cid = CRM_Utils_Request::retrieve( 'cid', $this, false );
+            $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                                $this, false );
             if ( $cid ) {
                 $location =& CRM_Contact_BAO_Contact::getEmailDetails($cid);
                 if ( $location[3] ) {

@@ -141,14 +141,16 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      *
      * @return void
      */
-    function run()
+    function run( $sort = '' )
     {
         // what action do we want to perform ? (store it for smarty too.. :) 
-        $action = CRM_Utils_Request::retrieve( 'action', $this, false, 'browse' );
+        $action = CRM_Utils_Request::retrieve( 'action', 'String',
+                                               $this, false, 'browse' );
         $this->assign( 'action', $action );
 
         // get 'id' if present
-        $id  = CRM_Utils_Request::retrieve( 'id', $this, false, 0 );
+        $id  = CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                            $this, false, 0 );
 
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
 
@@ -161,7 +163,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         } 
 
         // finally browse (list) the page
-        $this->browse();
+        $this->browse(null, $sort);
 
         return parent::run();
     }
@@ -175,7 +177,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      * @return void
      * @access public
      */
-    function browse($action = null) {
+    function browse( $action = null, $sort ) {
         $links =& $this->links();
         if ($action == null) {
             $action = array_sum(array_keys($links));
@@ -186,11 +188,11 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         if ( $action & CRM_Core_Action::ENABLE ) {
             $action -= CRM_Core_Action::ENABLE;
         }
-
+        
         eval( '$object =& new ' . $this->getBAOName( ) . '( );' );
-
+        
         $values = array();
-
+        
         /*
          * lets make sure we get the stuff sorted by name if it exists
          */
@@ -203,36 +205,41 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         } else if ( CRM_Utils_Array::value( 'name', $fields ) ) {
             $key = 'name';
         }
-
+        
         if ( $key ) {
             $object->orderBy ( $key . ' asc' );
         }
-
+        
+        if (trim($sort)) {
+            $object->orderBy ( $sort );
+        }
+        
         // set the domain_id parameter
         $config =& CRM_Core_Config::singleton( );
         $object->domain_id = $config->domainID( );
-
+        
         // find all objects
         $object->find();
         while ($object->fetch()) {
-            $permission = CRM_Core_Permission::EDIT;
-            if ( $key ) {
-                $permission = $this->checkPermission( $object->id, $object->$key );
-            }
-            if ( $permission ) {
-                $values[$object->id] = array( );
-                CRM_Core_DAO::storeValues( $object, $values[$object->id]);
-
-                CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
-
-                // populate action links
-                self::action( $object, $action, $values[$object->id], $links, $permission );
+            if($object->mapping_type != "Search Builder") {
+                $permission = CRM_Core_Permission::EDIT;
+                if ( $key ) {
+                    $permission = $this->checkPermission( $object->id, $object->$key );
+                }
+                if ( $permission ) {
+                    $values[$object->id] = array( );
+                    CRM_Core_DAO::storeValues( $object, $values[$object->id]);
+                    
+                    CRM_Contact_DAO_RelationshipType::addDisplayEnums($values[$object->id]);
+                    
+                    // populate action links
+                    self::action( $object, $action, $values[$object->id], $links, $permission );
+                }
+                $this->assign( 'rows', $values );
             }
         }
-
-        $this->assign( 'rows', $values );
     }
-
+    
     /**
      * Given an object, get the actions that can be associated with this
      * object. Check the is_active and is_required flags to display valid

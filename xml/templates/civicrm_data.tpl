@@ -212,4 +212,3 @@ INSERT INTO civicrm_mailing_bounce_pattern
     (11, 'nonstandard smtp line terminator'),
     (11, 'syntax error in from address'),
     (11, 'unknown smtp code');
-

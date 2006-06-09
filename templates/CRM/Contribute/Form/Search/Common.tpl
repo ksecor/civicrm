@@ -15,13 +15,13 @@
         </tr> 
         <tr> 
             <td class="label"> 
-                {$form.contribution_min_amount.label} 
+                {$form.contribution_amount_low.label} 
             </td> 
             <td>
-                {$form.contribution_min_amount.html}
+                {$form.contribution_amount_low.html}
             </td> 
             <td colspan="2"> 
-                  {$form.contribution_max_amount.label} {$form.contribution_max_amount.html} 
+                  {$form.contribution_amount_high.label} {$form.contribution_amount_high.html} 
             </td> 
         </tr>
         <tr>

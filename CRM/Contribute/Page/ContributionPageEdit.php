@@ -64,11 +64,13 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
     function run()
     {
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false, 'browse'); // default to 'browse'
 
         // assign vars to templates
         $this->assign('action', $action);
-        $this->_id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $this->_id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                                 $this, false, 0);
         
         if ( ! $this->_id ) {
             $dao =& new CRM_Contribute_DAO_ContributionPage( ); 
@@ -80,7 +82,8 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         }
 
         $this->assign( 'id', $this->_id );
-        $subPage = CRM_Utils_Request::retrieve('subPage', $this );
+        $subPage = CRM_Utils_Request::retrieve('subPage', 'String',
+                                               $this );
 
         $this->assign( 'title', CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title'));
         $this->assign( 'is_active', CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'is_active'));

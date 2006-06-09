@@ -38,7 +38,7 @@
  */
 
 class CRM_Core_Invoke {
-    
+
     /**
      * This is the main function that is called on every click action and based on the argument
      * respective functions are called
@@ -68,7 +68,7 @@ class CRM_Core_Invoke {
             CRM_Core_Mambo::sidebarLeft( );
         }
 
-	// set active Component
+        // set active Component
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'activeComponent', 'CiviCRM' );
         $template->assign( 'formTpl'        , 'default' );
@@ -106,14 +106,18 @@ class CRM_Core_Invoke {
         case 'profile'  : 
             self::profile ( $args );
             break;
-        
+
+        case 'file':
+            self::file( $args );
+            break;
+
         case 'server'   : 
             self::server ( $args );
             break;
 
         default         :
             require_once 'CRM/Core/Component.php';
-            if ( CRM_Core_Component::invoke( $args ) ) {
+            if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
             }
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
@@ -141,20 +145,22 @@ class CRM_Core_Invoke {
         }
 
         $session =& CRM_Core_Session::singleton();
-        
+
         $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' );
-       if ($session->get('isAdvanced')) {
-           $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
-       }
-       
+        if ($session->get('isAdvanced')) {
+            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
+        }
+        
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Search Results') . '</a>';
        
         if ( $args[1] !== 'contact' ) {
             return;
         }
 
-        if ( substr( $args[2], 0, 3 ) == 'add' ) {
-            return self::form( CRM_Core_Action::ADD );
+        if ( $args[2] == 'add' ) {
+            $contactType    = CRM_Utils_Request::retrieve('ct','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
+            $contactSubType = CRM_Utils_Request::retrieve('cst','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
+            return self::form( CRM_Core_Action::ADD, $contactType, $contactSubType );
         }
         
         if ( $args[2] == 'domain' ) {
@@ -205,14 +211,21 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View_Tag( );
                 break;
             
+            case 'log':
+                require_once 'CRM/Contact/Page/View/Log.php';
+                $view =& new CRM_Contact_Page_View_Log( );
+                break;
+            
             case 'cd':
                 require_once 'CRM/Contact/Page/View/CustomData.php';
                 $view =& new CRM_Contact_Page_View_CustomData( );
                 break;
 
             case 'activity':
-                $activityId = CRM_Utils_Request::retrieve('activity_id', $form);
-                $show = CRM_Utils_Request::retrieve('show', $form);
+                $activityId = CRM_Utils_Request::retrieve('activity_id', 'Positive',
+                                                          CRM_Core_DAO::$_nullObject );
+                $show = CRM_Utils_Request::retrieve('show', 'Boolean',
+                                                    CRM_Core_DAO::$_nullObject );
 
                 $session =& CRM_Core_Session::singleton();
                 
@@ -231,7 +244,8 @@ class CRM_Core_Invoke {
                     require_once 'CRM/Contact/Page/View/Phonecall.php';
                     $view =& new CRM_Contact_Page_View_Phonecall( );
                 } elseif($activityId == 3) {
-                    $details = CRM_Utils_Request::retrieve('details', $form);
+                    $details = CRM_Utils_Request::retrieve('details', 'String',
+                                                           CRM_Core_DAO::$_nullObject );
                     if ($details) {
                         require_once 'CRM/Contact/Page/View/Email.php';
                         $view =& new CRM_Contact_Page_View_Email('View Email Details'); 
@@ -243,7 +257,7 @@ class CRM_Core_Invoke {
                 } elseif ($activityId == 4 ) {
                     require_once 'CRM/Contact/Page/View/SMS.php';
                     $view =& new CRM_Contact_Page_View_SMS( );
-                } elseif ($activityId > 3 ) {
+                } elseif ($activityId > 4 ) {
                     require_once 'CRM/Contact/Page/View/OtherActivity.php';
                     $view =& new CRM_Contact_Page_View_OtherActivity( );
                 } else {
@@ -261,14 +275,21 @@ class CRM_Core_Invoke {
             case 'delete':
                 $wrapper =& new CRM_Utils_Wrapper( ); 
                 return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
-            
+
             default:
-                $nullObject = null;
-                $id = CRM_Utils_Request::retrieve( 'cid', $nullObject );
+                $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject, true ); 
+                $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/basic', 'reset=1&cid='.$id ) );
+                
                 $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
-                if ( $contact_sub_type == 'Student' ) {
-                    require_once 'CRM/Quest/Page/View/Student.php';
-                    $view =& new CRM_Quest_Page_View_Student( );
+                $contact_type     = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type'     );
+                
+                $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'View' );
+                if( $properties ) {
+                    require_once $properties['file'];
+                    eval( '$view =& new ' . $properties['class'] . '( );' );
+                } elseif ( realpath ( dirname( __FILE__ ) . "../Contact/Page/View/{$contact_type}.php" ) ) {
+                    require_once 'CRM/Contact/Page/View/' . $contact_type . '.php';
+                    eval( '$view =& new CRM_Contact_Page_View_' . $contact_type . '( );' );
                 } else {
                     require_once 'CRM/Contact/Page/View/Basic.php';
                     $view =& new CRM_Contact_Page_View_Basic( );
@@ -303,6 +324,13 @@ class CRM_Core_Invoke {
             $mode  = CRM_Core_Action::ADVANCED;
             $title = ts('Advanced Search');
             $url   = 'civicrm/contact/search/advanced';
+        } else if ( $thirdArg == 'simple' ) {
+            // set the userContext stack
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/simple' ) );
+
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Search_Simple', ts('Simple Search'),  null );
         } else if ( $thirdArg == 'map' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton();
@@ -317,16 +345,24 @@ class CRM_Core_Invoke {
 
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Task_YMap', ts('YMap Contact'),  null );
+        } else if ( $thirdArg == 'builder' ) {
+	    $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/builder' ) );
+
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Search_Builder', ts('Search Builder'),  null );
         } else {
             $mode  = CRM_Core_Action::BASIC;
             $title = ts('Search');
             $url   = 'civicrm/contact/search/basic';
         }
 
-        $id = CRM_Utils_Request::retrieve('id', $form, false, 0, 'GET');
-        if ($id) {
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          CRM_Core_DAO::$_nullObject, false, 0, 'GET');
+        if ( $id ) {
             $session->set('id', $id);
         }
+
         require_once 'CRM/Contact/Controller/Search.php';
         $controller =& new CRM_Contact_Controller_Search($title, $mode);
         $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
@@ -341,10 +377,18 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function form( $action ) {
+    static function form( $action, $contact_type, $contact_sub_type ) {
         CRM_Utils_System::setUserContext( array( 'civicrm/contact/search/basic', 'civicrm/contact/view' ) );
         $wrapper =& new CRM_Utils_Wrapper( );
-        $wrapper->run( 'CRM_Contact_Form_Edit', ts('Contact Page'), $action );
+
+        $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'Edit' );
+        if( $properties ) {
+            $wrapper->run( $properties['class'], ts( 'New '.$contact_sub_type ), $action );
+        } elseif ( realpath (dirname( __FILE__ ) . "../Contact/Form/{$contact_type}.php" ) ) {
+            $wrapper->run( "CRM_Contact_Form_{$contact_type}", ts( "New {$contact_type}" ), $action );
+        } else {
+            $wrapper->run( 'CRM_Contact_Form_Edit', ts( 'New Contact' ), $action );
+        }
     }
     
     /**
@@ -451,7 +495,12 @@ class CRM_Core_Invoke {
             require_once 'CRM/Admin/Page/Tag.php';
             $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
             break;
-
+        
+        case 'mapping':
+            require_once 'CRM/Admin/Page/Mapping.php';
+            $view =& new CRM_Admin_Page_Mapping(ts('View Mapping'));
+            break;
+            
         case 'prefix':
             require_once 'CRM/Admin/Page/IndividualPrefix.php';
             $view =& new CRM_Admin_Page_IndividualPrefix(ts('View Individual Prefix'));
@@ -502,11 +551,11 @@ class CRM_Core_Invoke {
             break;
             
             
-        case 'contribute':
-            require_once 'CRM/Contribute/Invoke.php';
-            return CRM_Contribute_Invoke::admin( $args );
-            
         default:
+            require_once 'CRM/Core/Component.php';
+            if ( CRM_Core_Component::invoke( $args, 'admin' ) ) {
+                return;
+            }
             require_once 'CRM/Admin/Page/Admin.php';
             $view =& new CRM_Admin_Page_Admin(ts('Administer CiviCRM'));
             break;
@@ -606,6 +655,13 @@ class CRM_Core_Invoke {
                 $controller->process( );
                 return $controller->run( );
             } else {
+                $buttonType = $_POST['_qf_Edit_cancel'];
+                if ( $buttonType == 'Cancel' ) {
+                    $calcelURL = CRM_Utils_Request::retrieve('cancelURL','String', CRM_Core_DAO::$_nullObject,false,null,$_POST );
+                    if ( $calcelURL ) {
+                        CRM_Utils_System::redirect( $calcelURL );
+                    }
+                }
                 $wrapper =& new CRM_Utils_Wrapper( ); 
                 return $wrapper->run( 'CRM_Profile_Form_Edit', ts( 'Create Profile' ), CRM_Core_Action::ADD );
             } 
@@ -631,6 +687,24 @@ class CRM_Core_Invoke {
         
         require_once 'CRM/Profile/Page/Listings.php';
         $page =& new CRM_Profile_Page_Listings( );
+        return $page->run( );
+    }
+
+    /** 
+     * This function contains the actions for file arguments
+     * 
+     * @param $args array this array contains the arguments of the url 
+     * 
+     * @static 
+     * @access public 
+     */ 
+    static function file( $args ) { 
+        if ( $args[1] !== 'file' ) { 
+            return; 
+        } 
+
+	require_once 'CRM/Core/Page/File.php';
+        $page =& new CRM_Core_Page_File( );
         return $page->run( );
     }
 
@@ -701,14 +775,33 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function server( $args ) {
+        
+        $server = null;
 
         //this code is for state country widget
-        if ($args[2] == 'stateCountry') {
+        switch ( $args[2] ) {
+        case 'stateCountry':
             require_once 'CRM/Contact/Page/StateCountryServer.php';
             $server =& new CRM_Contact_Page_StateCountryServer( );
-            $set = CRM_Utils_Request::retrieve('set', $form);
-            if ($set) {
-                $path = CRM_Utils_Request::retrieve('path', $form );
+            break;
+
+        case 'search':
+            require_once 'CRM/Contact/Page/SearchServer.php';
+            $server =& new CRM_Contact_Page_SearchServer( );
+            break;
+
+        case 'uf':
+            require_once 'CRM/UF/Page/UFServer.php';
+            $server =& new CRM_UF_Page_UFServer( );
+            break;
+        }
+
+        if ( $server ) {
+            $set = CRM_Utils_Request::retrieve('set', 'Boolean',
+                                               CRM_Core_DAO::$_nullObject );
+            if ( $set ) {
+                $path = CRM_Utils_Request::retrieve('path', 'String',
+                                                    CRM_Core_DAO::$_nullObject );
                 $path= '?q='.$path;
                 $session =& CRM_Core_Session::singleton( );
                 $session->set('path', $path);
@@ -716,33 +809,6 @@ class CRM_Core_Invoke {
             return $server->run( $set );
         }
 
-        //this code is for search widget
-        if ($args[2] == 'search') {
-            require_once 'CRM/Contact/Page/SearchServer.php';
-            $server =& new CRM_Contact_Page_SearchServer( );
-            $set = CRM_Utils_Request::retrieve('set', $form);
-            if ($set) {
-                $path = CRM_Utils_Request::retrieve('path', $form );
-                $path= '?q='.$path;
-                $session =& CRM_Core_Session::singleton( ); 
-                $session->set('path', $path);
-            }
-            return $server->run( $set );
-        }
-
-        //this code is for uf help text
-        if ($args[2] == 'uf') {
-            require_once 'CRM/UF/Page/UFServer.php';
-            $server =& new CRM_UF_Page_UFServer( );
-            $set = CRM_Utils_Request::retrieve('set', $form);
-            if ($set) {
-                $path = CRM_Utils_Request::retrieve('path', $form );
-                $path= '?q='.$path;
-                $session =& CRM_Core_Session::singleton( ); 
-                $session->set('path', $path);
-            }
-            return $server->run( $set );
-        }
     }
 
     static function onlySSL( $args ) {

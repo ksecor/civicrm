@@ -422,8 +422,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                  
             } else {
                 $paramsValues = array('contact_id'=>$params['id']);
-                $contact = crm_get_contact($paramsValues);
-                if (is_a( $contact,CRM_Contact_BAO_Contact )) {
+                //$contact = crm_get_contact($paramsValues);
+                $contact =& CRM_Contact_BAO_Contact::check_contact_exists($params['id']);
+                if (is_a( $contact,CRM_Contact_DAO_Contact )) {
                     if ($formatted['contact_type'] == $contact->contact_type) {
                         $newContact = crm_update_contact_formatted($contact->id, $formatted, true);
                         $this->_retCode = CRM_Import_Parser::VALID;
@@ -784,12 +785,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                         self::addToErrorMsg('Gender', $errorMessage);
                     }
                     break;
-                case 'preferred_communication_method':
-                    if(!array_key_exists(strtolower($value),array_change_key_case(CRM_Core_SelectValues::pcm(), CASE_LOWER))) {
-                        //return _crm_error('Invalid value for field  : Preferred Communication Method');
-                        self::addToErrorMsg('Preferred Communication Method', $errorMessage);
-                    }
-                    break;
+                // case 'preferred_communication_method':
+//                     if(!array_key_exists(strtolower($value),array_change_key_case(CRM_Core_SelectValues::pcm(), CASE_LOWER))) {
+//                         //return _crm_error('Invalid value for field  : Preferred Communication Method');
+//                         self::addToErrorMsg('Preferred Communication Method', $errorMessage);
+//                     }
+//                     break;
                 case 'preferred_mail_format':
                     if(!array_key_exists(strtolower($value),array_change_key_case(CRM_Core_SelectValues::pmf(), CASE_LOWER))) {
                         //return _crm_error('Invalid value for field  : Preferred Communication Method');

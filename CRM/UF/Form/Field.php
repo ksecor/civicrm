@@ -100,8 +100,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
-        $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
+        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                                  $this);
+        $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive',
+                                                  $this);
 
         if($this->_action & CRM_Core_Action::UPDATE) {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true, true);
@@ -110,6 +112,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         }
         
         $this->_fields = array_merge (CRM_Contribute_BAO_Contribution::getContributionFields(), $this->_fields);
+
+        require_once 'CRM/Quest/BAO/Student.php';
+        $this->_fields = array_merge (CRM_Quest_BAO_Student::exportableFields(), $this->_fields);
 
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
@@ -152,6 +157,13 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFField::retrieve($params, $defaults);
+            
+            $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
+
+            if ( !$defaults['location_type_id'] && in_array($defaults['field_name'], $specialFields)  ) {
+                $defaults['location_type_id'] = ' ';
+            }
+            
             $defaults[ 'field_name' ] = array ($defaults['field_type'], $defaults['field_name'], $defaults['location_type_id'], $defaults['phone_type']);
             $this->_gid = $defaults['uf_group_id'];
         } else {
@@ -185,6 +197,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
 
+        require_once 'CRM/Quest/BAO/Student.php';
+        $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
+
         $contribFields =& CRM_Contribute_BAO_Contribution::getContributionFields();
         if ( ! empty( $contribFields ) ) {
             $fields['Contribution'] =& $contribFields;
@@ -196,7 +211,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                 $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
             }
         }
-        
+
         require_once 'CRM/Core/BAO/LocationType.php';
         $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
         
@@ -212,8 +227,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $this->_location_types = array($defaultLocationType->id => $defaultLocation) +  $this->_location_types;
         }
         
-        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();
-        
+        $this->_location_types = array (' ' => 'Primary') + $this->_location_types;
+
+        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
+
+        $sel1['Student'] = 'Students';
         if ( ! empty( $contribFields ) ) {
             $sel1['Contribution'] = 'Contributions';
         }
@@ -246,14 +264,13 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                 }
             }
         }
-        
+
         $this->_defaults = array();
         $js = "<script type='text/javascript'>\n";
         $formName = "document.{$this->_name}";
       
         $sel =& $this->addElement('hierselect', "field_name", ts('Field Name'), 'onclick="showLabel();"');  
         $formValues = array();
-       
         
         //$formValues = $this->controller->exportValues( $this->_name );
         $formValues = $_POST; // using $_POST since export values don't give values on first submit

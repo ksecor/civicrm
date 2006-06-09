@@ -81,30 +81,25 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * warning is returned if an exact match is found for all passed input
  * values.
  *
+ * Tips - Creating Contacts
  * 
- * <b>Tips - Creating Contacts</b>
- * <ul>
- * <li>The Contact data objects may include both identifying
+ * The Contact data objects may include both identifying
  * information (e.g. last_name, organization name, etc.) and primary
  * communications data (e.g. primary email, primary phone, primary
- * postal address...).</li> 
+ * postal address...). 
  *
- * <li>Properties which have administratively assigned sets of values
+ * Properties which have administratively assigned sets of values
  * (ENUM types) are passed as strings (e.g. mobile_service_provider',
  * 'im_service', etc). If an unrecognized value is passed, an error
- * will be returned.</li> 
+ * will be returned. 
  *
- * <li>Modules may invoke crm_get_option_values($property_name) to
+ * Modules may invoke crm_get_property_values($property_name) to
  * retrieve a list of currently available values for a given
- * property.</li> 
+ * property.
  *
- * <li>Invoke crm_create_option_value($property_name) to add new
- * option values for a property.</li>
- * </ul>
- *
- * <i>EXAMPLE: If the available values for mobile_service_provider are
+ * EXAMPLE: If the available values for mobile_service_provider are
  * 'Working Assets', 'Sprint', 'Verizon' - and a value of 'Foobar' is passed,
- * an error is returned.</i>
+ * an error is returned.
  *
  * @param array  $params       Associative array of property name/value
  *                             pairs to insert in new contact.
@@ -187,8 +182,9 @@ function &crm_replace_contact_formatted($contactId, &$params) {
 }
 
 function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) {
-    $contact = crm_get_contact(array('contact_id' => $contactId));
-    if ( ! $contact || is_a( $contact, 'CRM_Core_Error' ) ) {
+    //$contact = crm_get_contact(array('contact_id' => $contactId));
+    $contact =& CRM_Contact_BAO_Contact::check_contact_exists($contactId); 
+    if ( !is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
         return _crm_error("Could not find valid contact for: $contactId");
     }
     return _crm_update_contact($contact, $params, $overwrite);
@@ -472,11 +468,14 @@ function crm_delete_contact( &$contact ) {
  * @access public 
  * 
  */ 
-function crm_get_contacts() {
+function crm_get_contacts( $contactType = null ) {
    $config =& CRM_Core_Config::singleton();
    $domainID = $config->domainID();
-   $query = "SELECT * FROM civicrm_contact WHERE domain_id = $domainID";
-   
+   if ( $contactType ) {
+       $query = "SELECT id FROM civicrm_contact WHERE domain_id = $domainID and  contact_type ='".$contactType."'";
+   } else {
+       $query = "SELECT * FROM civicrm_contact WHERE domain_id = $domainID";
+   }
    $dao =& new CRM_Core_DAO( );
    $dao->query( $query );
    $contacts = array();
@@ -569,5 +568,36 @@ function crm_fix_address($object) {
     }
 }
 
+function &crm_get_property_values( $name ) {
+    static $nameLookup = null;
+
+    if ( ! $nameLookup ) {
+        $nameLookup =& _crm_get_pseudo_constant_names( );
+    }
+    
+    if ( ! CRM_Utils_Array::value( $name, $nameLookup ) ) {
+        return null;
+    }
+    
+    return eval( 'return CRM_Core_PseudoConstant::' . $nameLookup[$name] . '( );' );
+}
+
+/**
+ * function to add/edit/register contacts through profile.
+ *
+ * @params  array  $params       Array of profile fields to be edited/added.
+ * @params  int    $contactID    contact_id of the contact to be edited/added.
+ * @params  array  $fields       array of fields from UFGroup
+ * @params  int    addToGroupID  specifies the default group to which contact is added.
+ *
+ * @return null
+ * @access public
+ */
+
+function crm_create_profile_contact( $params, $fields, $contactID = null, $addToGroupID = null ) {
+    require_once 'CRM/Contact/BAO/Contact.php';
+    CRM_Contact_BAO_Contact::createProfileContact($params, $fields, $contactID, $addToGroupID );
+
+}
 
 ?>

@@ -104,9 +104,8 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
             $locationType->is_default   = $params['is_default'];
             
             if ($params['is_default']) {
-                $unsetDefault =& new CRM_Core_DAO();
-                $query = 'UPDATE civicrm_location_type SET is_default = 0';
-                $unsetDefault->query($query);
+                $query = "UPDATE civicrm_location_type SET is_default = 0 WHERE domain_id = {$locationType->domain_id}";
+                CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
             }
             
             if ($this->_action & CRM_Core_Action::UPDATE ) {

@@ -31,9 +31,9 @@
  * @package    Pager
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
  * @author     Richard Heyes <richard@phpguru.org>
- * @copyright  2003-2005 Lorenzo Alberton, Richard Heyes
+ * @copyright  2003-2006 Lorenzo Alberton, Richard Heyes
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id: Pager.php,v 1.17 2005/07/22 16:28:11 quipo Exp $
+ * @version    CVS: $Id: Pager.php,v 1.18 2006/01/20 13:43:00 quipo Exp $
  * @link       http://pear.php.net/package/Pager
  */
 

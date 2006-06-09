@@ -198,10 +198,11 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
                 $searchWeight->weight = CRM_Utils_Array::value( 'weight', $params, false );
                 
                 if ( $searchWeight->find() ) {                   
-                    
-                    $tempDAO =& new CRM_Core_DAO();
-                    $query = "SELECT id FROM civicrm_uf_field WHERE weight >= ". $searchWeight->weight ." AND uf_group_id = ".$ids['uf_group'];
-                    $tempDAO->query($query);
+
+                    $query = "SELECT id FROM civicrm_uf_field WHERE weight >= %1 AND uf_group_id = %2";
+                    $p = array( 1 => array( $searchWeight->weight, 'Integer' ),
+                                2 => array( $ids['uf_group']     , 'Integer' ) );
+                    $tempDAO =& CRM_Core_DAO::executeQuery($query, $p);
 
                     $fieldIds = array();
                     while($tempDAO->fetch()) {
@@ -209,24 +210,22 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
                     }
                     
                     if ( !empty($fieldIds) ) {
-                        $ufDAO =& new CRM_Core_DAO();
-                        $updateSql = "UPDATE civicrm_uf_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
-                        $ufDAO->query($updateSql);                    
+                        $sql = "UPDATE civicrm_uf_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
+                        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
                     }
                 }
             }                
-             
             $ufField->weight = CRM_Utils_Array::value( 'weight', $params, false );
-            
         } else {
             $uf =& new CRM_Core_DAO_UFField();
             $uf->uf_group_id = $ids['uf_group'];
             $uf->weight = CRM_Utils_Array::value( 'weight', $params, false );
             
             if ( $uf->find() ) {
-                $tempDAO =& new CRM_Core_DAO();
-                $query = "SELECT id FROM civicrm_uf_field WHERE weight >= ". CRM_Utils_Array::value( 'weight', $params, false ) ." AND uf_group_id = ".$ids['uf_group'];
-                $tempDAO->query($query);
+                $query = "SELECT id FROM civicrm_uf_field WHERE weight >= %1 AND uf_group_id = %2";
+                $p = array( 1 => array( $params['weight'], 'Integer' ),
+                            2 => array( $ids['uf_group'] , 'Integer' ) );
+                $tempDAO =& CRM_Core_DAO::executeQuery($query, $p);
 
                 $fieldIds = array();                
                 while($tempDAO->fetch()) {
@@ -234,9 +233,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
                 }                
 
                 if ( !empty($fieldIds) ) {
-                    $ufDAO =& new CRM_Core_DAO();
-                    $updateSql = "UPDATE civicrm_uf_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
-                    $ufDAO->query($updateSql);
+                    $sql = "UPDATE civicrm_uf_field SET weight = weight + 1 WHERE id IN ( ".implode(",", $fieldIds)." ) ";
+                    CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ); 
                 }
             }
 
@@ -309,14 +307,12 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     function setUFFieldStatus ($customGroupId, $is_active) 
     {
         //find the profile id given custom group id
-        $dao =& new CRM_Core_DAO();
-        
         $queryString = "SELECT civicrm_custom_field.id as custom_field_id
-                        FROM  civicrm_custom_field, civicrm_custom_group
-                        WHERE civicrm_custom_field.custom_group_id = civicrm_custom_group.id
-                          AND civicrm_custom_group.id =" . CRM_Utils_Type::escape($customGroupId, 'Integer');
-        
-        $dao->query($queryString);
+                        FROM   civicrm_custom_field, civicrm_custom_group
+                        WHERE  civicrm_custom_field.custom_group_id = civicrm_custom_group.id
+                          AND  civicrm_custom_group.id = %1";
+        $p = array( 1 => array( $customGroupId, 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery($queryString, $p);
         
         while ($dao->fetch()) {
             //enable/ disable profile

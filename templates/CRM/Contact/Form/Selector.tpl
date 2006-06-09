@@ -38,9 +38,17 @@
             {/if}
             <td>{$row.contact_type}</td>
             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
-            {foreach from=$row item=value key=key}
+            {foreach from=$row item=value key=key} 
                {if ($key neq "checkbox") and ($key neq "action") and ($key neq "contact_type") and ($key neq "status") and ($key neq "sort_name") and ($key neq "contact_id")}
-               <td>{$value}&nbsp;</td>
+
+                <td>
+                {if $key EQ "household_income_total" }
+                    {$value|crmMoney}
+                {else}
+                    {$value}
+                {/if}
+                     &nbsp;
+                 </td>
                {/if}   
             {/foreach}
             <td>{$row.action}</td>
@@ -64,7 +72,7 @@
             <td>{$row.state_province}</td>
             <td>{$row.postal_code}</td>
             <td>{$row.country}</td>
-            <td>{$row.email|mb_truncate:17:"...":true}</td>
+            <td><a href="mailto:{$row.email}">{$row.email|mb_truncate:17:"...":true}</a></td>
             <td>{$row.phone}</td>
             <td>{$row.action}</td>
          </tr>

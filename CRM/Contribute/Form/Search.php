@@ -143,16 +143,16 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
          * we allow the controller to set force/reset externally, useful when we are being 
          * driven by the wizard framework 
          */ 
-        $nullObject = null; 
-        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', $nullObject ); 
-        $this->_force   = CRM_Utils_Request::retrieve( 'force', $this, false ); 
-        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', $this );
-        $this->_context = CRM_Utils_Request::retrieve( 'context', $this );
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
+                                                       CRM_Core_DAO::$_nullObject ); 
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
+                                                       CRM_Core_DAO::$_nullObject, false ); 
+        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
+                                                       $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                       $this );
 
         $this->assign( 'limit', $this->_limit );
-
-        // we only force stuff once :) 
-        $this->set( 'force', false ); 
 
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
@@ -203,7 +203,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         // text for sort_name 
         $this->addElement('text', 'sort_name', ts('Contributor'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
-        self::buildQuickFormCommon( $this );
+        require_once 'CRM/Contribute/BAO/Query.php';
+        CRM_Contribute_BAO_Query::buildSearchForm( $this );
 
         /* 
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 
@@ -258,69 +259,6 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                  )         
                            ); 
 
-    }
-
-    /**
-     * add all the elements shared between this and advnaced search
-     *
-     * @access public 
-     * @return void
-     * @static
-     */ 
-    static function buildQuickFormCommon( &$form ) {
-        // Date selects for date 
-        $form->add('date', 'contribution_date_from', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('contribution_date_from', ts('Select a valid date.'), 'qfDate'); 
- 
-        $form->add('date', 'contribution_date_to', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('contribution_date_to', ts('Select a valid date.'), 'qfDate'); 
-
-        $form->add('text', 'contribution_min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $form->addRule( 'contribution_min_amount', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
-
-        $form->add('text', 'contribution_max_amount', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $form->addRule( 'contribution_max_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
-
-
-        $form->add('select', 'contribution_type_id', 
-                   ts( 'Contribution Type' ),
-                   array( '' => ts( '- select -' ) ) +
-                   CRM_Contribute_PseudoConstant::contributionType( ) );
-
-        $form->add('select', 'payment_instrument_id', 
-                   ts( 'Payment Instrument' ), 
-                   array( '' => ts( '- select -' ) ) +
-                   CRM_Contribute_PseudoConstant::paymentInstrument( ) );
-
-        $status = array( );
-        $status[] = $form->createElement( 'radio', null, null, ts( 'Valid' )    , 'Valid'     );
-        $status[] = $form->createElement( 'radio', null, null, ts( 'Cancelled' ), 'Cancelled' );
-        $status[] = $form->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
-
-        $form->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
-        $form->setDefaults(array('contribution_status' => 'All'));
-
-        // add null checkboxes for thank you and receipt
-        $form->addElement( 'checkbox', 'contribution_thankyou_date_isnull', ts( 'Thank-you date not set?' ) );
-        $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt date not set?' ) );
-
-        // add all the custom  searchable fields
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Contribution' ) );
-        if ( $groupDetails ) {
-            require_once 'CRM/Core/BAO/CustomField.php';
-            $form->assign('contributeGroupTree', $groupDetails);
-            foreach ($groupDetails as $group) {
-                foreach ($group['fields'] as $field) {
-                    $fieldId = $field['id'];                
-                    $elementName = 'custom_' . $fieldId;
-                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
-                                                                   $elementName,
-                                                                   $fieldId,
-                                                                   false, false, true );
-                }
-            }
-        }
     }
 
     /**
@@ -404,8 +342,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             return;
         }
 
-        $nullObject = null;
-        $status = CRM_Utils_Request::retrieve( 'status', $nullObject );
+        $status = CRM_Utils_Request::retrieve( 'status', 'String',
+                                               CRM_Core_DAO::$_nullObject );
         if ( $status ) {
             switch ( $status ) {
             case 'Valid':
@@ -417,7 +355,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             }
         }
 
-        $cid = CRM_Utils_Request::retrieve( 'cid', $nullObject );
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                            CRM_Core_DAO::$_nullObject );
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {
@@ -430,7 +369,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             }
         }
 
-        $fromDate = CRM_Utils_Request::retrieve( 'start', $nullObject );
+        $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
+                                                 CRM_Core_DAO::$_nullObject );
         if ( $fromDate ) {
             $fromDate = CRM_Utils_Type::escape( $fromDate, 'Timestamp' );
             $date = CRM_Utils_Date::unformat( $fromDate, '' );
@@ -438,7 +378,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->_defaults['contribution_date_from'] = $date;
         }
 
-        $toDate= CRM_Utils_Request::retrieve( 'end', $nullObject ); 
+        $toDate= CRM_Utils_Request::retrieve( 'end', 'Date',
+                                              CRM_Core_DAO::$_nullObject );
         if ( $toDate ) { 
             $toDate = CRM_Utils_Type::escape( $toDate, 'Timestamp' ); 
             $date = CRM_Utils_Date::unformat( $toDate, '' );
@@ -449,7 +390,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->_formValues['contribution_date_to']['s'] = 59;
         }
 
-        $this->_limit = CRM_Utils_Request::retrieve( 'limit', $this );
+        $this->_limit = CRM_Utils_Request::retrieve( 'limit', 'Positive',
+                                                     $this );
     }
 
 }

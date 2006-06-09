@@ -130,12 +130,14 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
      * @return void
      */
     function run() {
-        $action = CRM_Utils_Request::retrieve( 'action', $this, false, 'browse' );
+        $action = CRM_Utils_Request::retrieve( 'action', 'String',
+                                               $this, false, 'browse' );
 
         $this->assign( 'action', $action );
 
         if ( $action & CRM_Core_Action::DELETE ) {
-            $id  = CRM_Utils_Request::retrieve( 'id', $this, true );
+            $id  = CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                                $this, true );
             $this->delete($id );
         } 
         $this->browse( );

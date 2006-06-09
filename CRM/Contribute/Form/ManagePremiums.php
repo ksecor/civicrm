@@ -132,7 +132,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'name' ) );
         $this->addRule( 'name', ts('Please enter a product name.'), 'required' );
         $this->addRule( 'name', ts('A product with this name already exists. Please select another name.'), 'objectExists', array( 'CRM_Contribute_DAO_Product', $this->_id ) );
-        $this->add('text', 'sku', ts('SKU'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'sku' ),true );
+        $this->add('text', 'sku', ts('SKU'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'sku' ));
 
         $this->add('textarea', 'description', ts('Description'), 'rows=3, cols=60' );
 

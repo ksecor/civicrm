@@ -477,7 +477,7 @@ function crm_create_custom_value($entity_table, $entity_id, &$custom_field, &$da
     if ( $separator ) {
         $values        = explode($separator, $data['value']);
         require_once 'CRM/Core/BAO/CustomOption.php';
-        $data['value'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $values);
+        $data['value'] = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $values).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
     }
     
     $data['type'           ] = $custom_field->data_type;

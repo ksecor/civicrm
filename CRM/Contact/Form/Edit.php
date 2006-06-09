@@ -81,6 +81,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     protected $_contactType;
 
     /**
+     * The contact type of the form
+     *
+     * @var string
+     */
+    protected $_contactSubType;
+
+    /**
      * The contact id, used when editing the form
      *
      * @var int
@@ -124,11 +131,24 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      */
     function preProcess( ) {
+
+        // reset action from the session
+        $this->_action              = CRM_Utils_Request::retrieve('action', 'String', 
+                                                                  $this, false, 'add' );
+
         $this->_dedupeButtonName    = $this->getButtonName( 'refresh', 'dedupe'    );
         $this->_duplicateButtonName = $this->getButtonName( 'next'   , 'duplicate' );
 
         if ( $this->_action == CRM_Core_Action::ADD ) {
-            $this->_contactType = CRM_Utils_Request::retrieve( 'c_type', $this, true, null, 'REQUEST' );
+            $this->_contactType = CRM_Utils_Request::retrieve( 'ct', 'String',
+                                                               $this, true, null, 'REQUEST' );
+            $this->_contactSubType = CRM_Utils_Request::retrieve( 'cst','String', 
+                                                           CRM_Core_DAO::$_nullObject,false,null,'GET' );
+            if ( $this->_contactSubType ) {
+                CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactSubType ) ) );
+            } else {
+                CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactType ) ) );
+            }
             $this->_contactId = null;
         } else {
             // this is update mode, first get the id from the session
@@ -136,7 +156,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $ids = $this->get('ids');
             $this->_contactId = CRM_Utils_Array::value( 'contact', $ids );
             if ( ! $this->_contactId ) {
-                $this->_contactId   = CRM_Utils_Array::value( 'cid', $_REQUEST );
+                $this->_contactId   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
             }
 
             if ( $this->_contactId ) {
@@ -152,6 +172,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this contact.') );
                 }
 
+                list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
+                CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
                 return;
             }
             CRM_Utils_System::statusBounce( ts('Could not get a contact_id and/or contact_type') );
@@ -218,7 +240,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
         
         // use most recently posted values if any to display show hide blocks
-        $params = $this->controller->exportValues( $this->_name );
+        //$params = $this->controller->exportValues( $this->_name );
+        
+        $params = $_POST;  //fix for CRM-907
+
         if ( ! empty( $params ) ) {
             $this->setShowHide( $params, true );
         } else {
@@ -250,7 +275,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     function setShowHide( &$defaults, $force ) {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
                                                          '') ;
-
         if ( $this->_contactType == 'Individual' ) {
             $this->_showHide->addShow( 'demographics[show]' );
             $this->_showHide->addHide( 'demographics' );
@@ -290,7 +314,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->_showHide->addShow( 'demographics' );
             $this->_showHide->addHide( 'demographics[show]' );
         }
-
         if ( $force ) {
             $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
@@ -350,7 +373,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         //Custom Group Inline Edit form
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId);
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-
+          
         $config  =& CRM_Core_Config::singleton( );
         CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
 
@@ -361,13 +384,21 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->addElement('submit', 
                           $this->_duplicateButtonName,
                           ts( 'Save Duplicate Contact' ) );
-        
+
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $buttonType = 'upload';
+        } else {
+            $buttonType = 'next';
+        }
+       
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => $buttonType,
                                          'name'      => ts('Save'),
                                          'subName'   => 'view',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => $buttonType,
                                          'name'      => ts('Save and New'),
                                          'subName'   => 'new' ),
                                  array ( 'type'       => 'cancel',
@@ -392,6 +423,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
+
         // action is taken depending upon the mode
         $ids = array();
         if ($this->_action & CRM_Core_Action::UPDATE) {
@@ -401,8 +433,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         $params['contact_type'] = $this->_contactType;
+        if( ! $params['is_deceased'] == 1 ) { 
+            $params['deceased_date'] = null;
+        }
+      
         $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
-
+       
         //add contact to gruoup
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
@@ -423,7 +459,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                    CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ),
                                    $contactImage,
                                    $contact->id );
-            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add' . $contact->contact_type[0], 'reset=1&c_type=' . $contact->contact_type ) );
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add', 'reset=1&ct=' . $contact->contact_type ) );
         } else {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
         }
@@ -462,7 +498,16 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $form->addGroup($privacy, 'privacy', ts('Privacy'), '&nbsp;');
 
         // preferred communication method 
-        $form->add('select', 'preferred_communication_method', ts('Prefers'), CRM_Core_SelectValues::pcm());
+        require_once 'CRM/Core/OptionGroup.php';
+        //$form->add('select', 'preferred_communication_method', ts('Prefers'), CRM_Core_SelectValues::pcm());
+        //$form->addCheckBox('preferred_communication_method',ts('Prefers'),CRM_Core_OptionGroup::values( 'preferred_communication_method', true ), null, null);
+        $comm = CRM_Core_OptionGroup::values( 'preferred_communication_method', true ); 
+        $commPreff = array();
+        foreach ( $comm as $k => $v ) {
+            $commPreff[] = HTML_QuickForm::createElement('advcheckbox', $v , null, $k );
+        }
+        $form->addGroup($commPreff, 'preferred_communication_method', ts('Prefers'));
+
         $form->add('select', 'preferred_mail_format', ts('Mail Format'), CRM_Core_SelectValues::pmf());
     }
 

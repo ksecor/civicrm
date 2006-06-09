@@ -232,8 +232,10 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
     {
         require_once 'CRM/Core/BAO/CustomField.php';
         // get the field id
-        $this->_fid = CRM_Utils_Request::retrieve('fid', $this, false, 0);
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this, false, 0);
+        $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
+                                                  $this, false, 0);
+        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                                  $this, false, 0);
 
         if ($this->_fid) {
             $fieldTitle = CRM_Core_BAO_CustomField::getTitle($this->_fid);
@@ -243,12 +245,14 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         }
 
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false, 'browse'); // default to 'browse'
 
         // assign vars to templates
         $this->assign('action', $action);
 
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          $this, false, 0);
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE)) {

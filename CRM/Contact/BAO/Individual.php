@@ -80,6 +80,12 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         } else {
             $individual->birth_date = preg_replace('/[^0-9]/', '', $date);
         }
+        $date = CRM_Utils_Array::value('deceased_date', $params);
+        if (is_array($date)) {
+            $individual->deceased_date = CRM_Utils_Date::format( $date );
+        } else {
+            $individual->deceased_date = preg_replace('/[^0-9]/', '', $date);
+        }
         $individual->middle_name = CRM_Utils_Array::value('middle_name', $params);
         // hack to make db_do save a null value to a field
         if ( ! $individual->birth_date ) {

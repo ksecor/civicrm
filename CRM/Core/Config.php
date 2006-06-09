@@ -120,10 +120,15 @@ class CRM_Core_Config {
     public $imageUploadDir   ='./persist/contribute/';
     
     /**
+     * The directory to store uploaded  files in custom data 
+     */
+    public $customFileUploadDir   = null;
+    
+    /**
      * The url that we can use to display the uploaded images
      */
     public $imageUploadURL   = null;
-    
+
     /**
      * Are we generating clean url's and using mod_rewrite
      * @var string
@@ -343,6 +348,13 @@ class CRM_Core_Config {
     public $fatalErrorTemplate = 'CRM/error.tpl';
 
     /**
+     * fatal error handler
+     *
+     * @var string
+     */
+    public $fatalErrorHandler = null;
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -369,6 +381,13 @@ class CRM_Core_Config {
      */
     private static $_singleton = null;
 
+    /**
+     * Optimization related variables
+     */
+    public $includeEmailInSearch     = 1;
+    public $includeAlphabeticalPager = 1;
+    public $includeOrderByClause     = 1;
+    public $includeDomainID          = 1;
 
     /**
      * singleton function used to manage this object
@@ -461,7 +480,7 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_RESOURCEBASE' ) ) {
-            $this->resourceBase = self::addTrailingSlash( CIVICRM_RESOURCEBASE );
+            $this->resourceBase = self::addTrailingSlash( CIVICRM_RESOURCEBASE, '/' );
         }
 
         if ( defined( 'CIVICRM_UPLOADDIR' ) ) {
@@ -478,6 +497,15 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
             $this->imageUploadURL = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADURL, '/' );
+        }
+        
+        if ( defined( 'CIVICRM_CUSTOM_FILE_UPLOADDIR' ) ) {
+            $this->customFileUploadDir = self::addTrailingSlash( CIVICRM_CUSTOM_FILE_UPLOADDIR );
+
+            CRM_Utils_File::createDir( $this->customFileUploadDir );
+        } else {
+            $this->customFileUploadDir = $this->uploadDir;
+            
         }
 
         if ( defined( 'CIVICRM_CLEANURL' ) ) {
@@ -698,6 +726,10 @@ class CRM_Core_Config {
             $this->fatalErrorTemplate = CIVICRM_FATAL_ERROR_TEMPLATE;
         }
 
+        if ( defined( 'CIVICRM_FATAL_ERROR_HANDLER' ) ) {
+            $this->fatalErrorTemplate = CIVICRM_FATAL_ERROR_HANDLER;
+        }
+
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::addConfig( $this );
 
@@ -762,6 +794,11 @@ class CRM_Core_Config {
      */
     static function &getMailer( ) {
         if ( ! isset( self::$_mail ) ) {
+            if ( self::$_singleton->smtpServer == '' ||
+                 self::$_singleton->smtpServer == 'YOUR SMTP SERVER' ) {
+                CRM_Utils_System::fatal( ts( 'CIVICRM_SMTP_SERVER is not set in the config file' ) ); 
+            }
+
             $params['host'] = self::$_singleton->smtpServer;
             $params['port'] = self::$_singleton->smtpPort;
 

@@ -112,9 +112,9 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
         $optionValue->copyValues( $params );;
         
         if ($params['is_default']) {
-            $unsetDefault =& new CRM_Core_DAO();
-            $query = 'UPDATE civicrm_option_value SET is_default = 0 WHERE  option_group_id='.$params['option_group_id'];
-            $unsetDefault->query($query);
+            $query = 'UPDATE civicrm_option_value SET is_default = 0 WHERE  option_group_id = %1';
+            $p = array( 1 => array( $params['option_group_id'], 'Integer' ) );
+            CRM_Core_DAO::executeQuery( $query, $p );
         }
         
         $optionValue->id = CRM_Utils_Array::value( 'optionValue', $ids );

@@ -123,11 +123,13 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
     function run()
     {
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+        $action = CRM_Utils_Request::retrieve('action', 'String',
+                                              $this, false, 'browse'); // default to 'browse'
 
         // assign vars to templates
         $this->assign('action', $action);
-        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                          $this, false, 0);
 
         // set breadcrumb to append to 2nd layer pages
         $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/contribute', 'reset=1' );
@@ -155,7 +157,8 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             return $page->run( );
         } else if ($action & CRM_Core_Action::DELETE) {
-            $subPage = CRM_Utils_Request::retrieve('subPage', $this );
+            $subPage = CRM_Utils_Request::retrieve( 'subPage', 'String',
+                                                    $this );
             if ( $subPage == 'AddProductToPage' ) {
                 require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
                 $page =& new CRM_Contribute_Page_ContributionPageEdit( );
@@ -167,7 +170,8 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_ContributionPage_Delete',
                                                                'Delete Contribution Page',
                                                                $mode );
-                $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
+                $id = CRM_Utils_Request::retrieve('id', 'Positive',
+                                                  $this, false, 0);
                 $controller->set('id', $id);
                 $controller->process( );
                 return $controller->run( );

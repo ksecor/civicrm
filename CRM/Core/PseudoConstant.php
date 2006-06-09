@@ -140,13 +140,6 @@ class CRM_Core_PseudoConstant {
     private static $group;
 
     /**
-     * saved search
-     * @var array
-     * @static
-     */
-    private static $savedSearch;
-
-    /**
      * relationshipType
      * @var array
      * @static
@@ -617,43 +610,6 @@ class CRM_Core_PseudoConstant {
     {
         require_once 'CRM/Core/Permission.php';
         return CRM_Core_Permission::group( );
-    }
-
-    /**
-     * Get all saved searches from database
-     *
-     * The static array saved searched is returned, and if it's
-     * called the first time, the <b>Saved Search DAO</b> is used
-     * to get all the groups.
-     *
-     * Note: any database errors will be trapped by the DAO.
-     *
-     * @access public
-     * @static
-     *
-     * @return array - array reference of all saved searches
-     *
-     */
-    public static function &allSavedSearch()
-    {
-        if (!self::$savedSearch) {
-            self::populate( self::$savedSearch, 'CRM_Contact_DAO_SavedSearch', true, 'title' );
-        }
-        return self::$savedSearch;
-    }
-
-    /**
-     * Get all permissioned saved searched from database
-     *
-     * @access public
-     *
-     * @return array - array reference of all groups.
-     * @static
-     */
-    public static function &savedSearch()
-    {
-        require_once 'CRM/Core/Permission.php';
-        return CRM_Core_Permission::savedSearch( );
     }
 
     /**

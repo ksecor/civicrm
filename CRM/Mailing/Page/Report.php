@@ -82,7 +82,8 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
 
 
     function run() {
-        $this->_mailing_id = CRM_Utils_Request::retrieve('mid', $this);
+        $this->_mailing_id = CRM_Utils_Request::retrieve('mid', 'Positive',
+                                                         $this);
         
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $report =& CRM_Mailing_BAO_Mailing::report($this->_mailing_id);

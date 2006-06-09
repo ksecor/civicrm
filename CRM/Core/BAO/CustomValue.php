@@ -202,6 +202,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
     {
         switch ($type) {
         case 'String':
+        case 'File':
             return 'char_data';
         case 'Boolean':
         case 'Int':

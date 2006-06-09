@@ -24,7 +24,7 @@
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-            <td>{$row.title}</td>
+            <td>{$row.label}</td>
 	        <td>{$row.name}</td>	
 	        <td>{$row.description}</td>
             <td>{$row.weight}</td>
@@ -44,7 +44,7 @@
         {/if}
     </div>
 </div>
-{else}
+{elseif $action ne 1}
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>

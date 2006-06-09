@@ -54,69 +54,31 @@ class CRM_Contact_BAO_Export {
         $primary = false;
  
         if ($fields) {
-            $location = array();
-            $locationType = array("Work"=>array(),"Home"=>array(),"Main"=>array(),"Other"=>array());
-            $returnFields = $fields;
+            //construct return properties 
+            $locationTypes =& CRM_Core_PseudoConstant::locationType();
+            
+            foreach ( $fields as $key => $value) {
+                list($contactType, $fieldName, $locTypeId, $phoneTypeId) =  $value;
 
-            foreach($returnFields as $key => $field) {
-                $flag = true ;
-                $phone_type = "";
-                $phoneFlag = false;
-                if( $field[3] && $field[1] == 'phone' ) {
-                   
-                    if($field[3] == 'Phone') {
-                        $phone_type = $field[1]."-"."Phone";
-                    } else if($field[3] == 'Mobile') {
-                        $phone_type = $field[1]."-"."Mobile";
-                    } else if($field[3] == 'Fax') {
-                        $phone_type = $field[1]."-"."Fax";
-                    } else if($field[3] == 'Pager') {
-                        $phone_type = $field[1]."-"."Pager";
+                if ($locTypeId) {
+                    if ($phoneTypeId) {
+                        $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
+                    } else {
+                        $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
                     }
-                    
-                    $phoneFlag = true ;
-                }
-                if( $field[2] ) {
-                    if ($field[2] == 1) {
-                        if ($phoneFlag) {
-                            $locationType["Home"][$phone_type] = 1;
-                        } else {
-                            $locationType["Home"][$field[1]] = 1;  
-                        }
-                    }else if ($field[2] == 2) {
-                        if ($phoneFlag) {
-                            $locationType["Work"][$phone_type] = 1;
-                        } else {
-                            $locationType["Work"][$field[1]] = 1;
-                        }
-                    }else if ($field[2] == 3) {
-                        if ($phoneFlag) {
-                            $locationType["Main"][$phone_type] = 1;
-                        } else {
-                            $locationType["Main"][$field[1]] = 1;
-                        }
-                    }else if ($field[2] == 4) {
-                        if ($phoneFlag) {
-                            $locationType["Other"][$phone_type] = 1;
-                        } else {
-                            $locationType["Other"][$field[1]] = 1;
-                        }
-                    }
-                    $flag = false;   
-                } 
-                
-                if ($flag) {
-                    $returnProperties[$field[1]] = 1; 
+                } else {
+                    $returnProperties[$fieldName] = 1;
                 }
             }
-            $returnProperties['location'] = $locationType;
+            
         } else {
             $primary = true;
             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
-            
             foreach ($fields as $key => $var) { 
                 if ($key) {
-                    $returnProperties[$key] = 1;
+                    if ( substr($key,0, 6) !=  'custom' ) { //for CRM=952
+                        $returnProperties[$key] = 1;
+                    }
                 }
             }
         }
@@ -143,7 +105,10 @@ class CRM_Contact_BAO_Export {
                 $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields, true );         
             } else {
                 $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, true );         
+
             }
+
+            
         }
 
         list( $select, $from, $where ) = $query->query( );
@@ -157,14 +122,19 @@ class CRM_Contact_BAO_Export {
         }
         
         if ( CRM_Utils_Array::value( 'tags', $returnProperties ) || CRM_Utils_Array::value( 'groups', $returnProperties ) ) { 
-            $queryString .= " GROUP BY civicrm_contact.id";
+            $queryString .= " GROUP BY contact_a.id";
         }
+        //hack for student data
+        require_once 'CRM/Core/OptionGroup.php';
+        require_once 'CRM/Quest/BAO/Student.php';
+        $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+        $multipleSelectFields = array_merge( $multipleSelectFields,array("preferred_communication_method" => 1));
         
-        $dao =& CRM_Core_DAO::executeQuery($queryString);
+        $temp = array( );
+        $dao =& CRM_Core_DAO::executeQuery($queryString, $temp);
         $header = false;
 
         $contactDetails = array( );
-
         while ($dao->fetch()) {
             $row = array( );
             $validRow = false;
@@ -185,10 +155,25 @@ class CRM_Contact_BAO_Export {
                 if (array_key_exists($key, $returnProperties)) {
                     $flag = true;
                 }
+                if ($key == 'contact_id' && array_key_exists( 'id' , $returnProperties)) {
+                    $flag = true;
+                }
+                
+
                 if ($flag) {
                     if ( isset( $varValue ) && $varValue != '' ) {
                         if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
                             $row[$key] = CRM_Core_BAO_CustomField::getDisplayValue( $varValue, $cfID, $query->_options );
+                        } else if ( array_key_exists($key ,$multipleSelectFields ) ){
+                            $paramsNew = array($key => $varValue );
+                            if ( $key == 'test_tutoring') {
+                                $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
+                            } else {
+                                $name = array( $key => array('newName' => $key ,'groupName' => $key ));
+                            }
+                            CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
+                            $row[$key] = $paramsNew[$key];
+                            
                         } else {
                             $row[$key] = $varValue;
                         }
@@ -202,6 +187,8 @@ class CRM_Contact_BAO_Export {
                             $headerRows[] = $query->_fields[$key]['title'];
                         } else if ($key == 'phone_type'){
                             $headerRows[] = 'Phone Type';
+                        } else if ($key == 'contact_id'){
+                            $headerRows[] = $query->_fields['id']['title'];
                         } else {
                             $keyArray = explode('-', $key);
                             $hdr      = $keyArray[0] . "-" . $query->_fields[$keyArray[1]]['title'];

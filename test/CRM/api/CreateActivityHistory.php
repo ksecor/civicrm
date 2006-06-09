@@ -33,14 +33,15 @@ class TestOfCreateHistoryAPI extends UnitTestCase {
 
     function testCreateFull()
     {
-        $params = array('entity_id' => 2, 
-                        'activity_id' => 2,
-                        'entity_table' => 'crm_contact',
-                        'activity_type' => 'Phone Call',
-                        'module' => 'module1',
-                        'callback' => 'callback1',
-                        'activity_summary' => 'summary 1',
-                        'activity_date' => '20041012',
+        $params = array('entity_id' => 19, 
+                        'activity_id' => 0,
+                        'entity_table' => 'civicrm_contact',
+                        'activity_type' => 'Donor Solicitation',
+                        'module' => '',
+                        'callback' => '',
+                        'activity_summary' => 'Form letter and follow-up phone call.',
+                        'activity_date' => '20060422',
+                        'relationship_id' => '151'
                         );
         $history =& crm_create_activity_history($params);
         $this->assertIsA($history, 'CRM_Core_DAO_ActivityHistory');

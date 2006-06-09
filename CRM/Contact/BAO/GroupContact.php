@@ -195,22 +195,29 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @static
      */
     static function removeContactsFromGroup( &$contactIds, $groupId ,$method = 'Admin',$status = 'Removed',$tracking = null) {
-       
+        
         if ( ! is_array( $contactIds ) ) {
             return array( 0, 0, 0 );
         }
-
+        
         require_once 'CRM/Utils/Hook.php';
-        CRM_Utils_Hook::pre( 'delete', 'GroupContact', $groupId, $contactIds );
-
+        
+        if ($status == 'Removed') {
+            $op = 'delete';
+        } else {
+            $op = 'edit';
+        }
+        
+        CRM_Utils_Hook::pre( $op, 'GroupContact', $groupId, $contactIds );
+        
         $date = date('YmdHis');
         $numContactsRemoved    = 0;
         $numContactsNotRemoved = 0;
-
+        
         $group =& new CRM_Contact_DAO_Group();
         $group->id = $groupId;
         $group->find(true);
-
+        
         foreach ( $contactIds as $contactId ) {
             $groupContact =& new CRM_Contact_DAO_GroupContact( );
             $groupContact->group_id   = $groupId;
@@ -234,9 +241,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $numContactsNotRemoved++;
             }
         }
-
-        CRM_Utils_Hook::post( 'delete', 'GroupContact', $groupId, $contactIds );
-
+        
+        CRM_Utils_Hook::post( $op, 'GroupContact', $groupId, $contactIds );
+        
         return array( count($contactIds), $numContactsRemoved, $numContactsNotRemoved );
     }
 
@@ -263,7 +270,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $where .= " AND civicrm_group.id = civicrm_group_contact.group_id 
                         AND civicrm_group_contact.contact_id = " 
                     . CRM_Utils_Type::escape($contactId, 'Integer');
-        } else {
         }
 
         $orderby = " ORDER BY civicrm_group.name";
@@ -282,17 +288,20 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
    /**
      * function to get the list of groups for contact based on status of membership
      *
-     * @param int     $contactId       contact id 
-     * @param string  $status          state of membership
-     * @param int     $numGroupContact number of groups for a contact that should be shown
-     * @param boolean $count           true if we are interested only in the count
+     * @param int     $contactId         contact id 
+     * @param string  $status            state of membership
+     * @param int     $numGroupContact   number of groups for a contact that should be shown
+     * @param boolean $count             true if we are interested only in the count
+     * @param boolean $ignorePermission  true if we should ignore permissions for the current user
+     *                                   useful in profile where permissions are limited for the user
      *
      * @return array (reference )|int $values the relevant data object values for the contact or
                                       the total count when $count is true
      *
      * $access public
      */
-    static function &getContactGroup( $contactId, $status = null, $numGroupContact = null, $count = false ) {
+    static function &getContactGroup( $contactId, $status = null, $numGroupContact = null, $count = false,
+                                      $ignorePermission = false ) {
         if ( $count ) {
             $select = 'SELECT count(DISTINCT civicrm_group_contact.id)';
         } else {
@@ -306,19 +315,22 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                     civicrm_subscription_history.method as method';
         }
 
-        $where  = ' WHERE civicrm_contact.id = ' 
-                . CRM_Utils_Type::escape($contactId, 'Integer') 
-                ." AND civicrm_group.is_active = '1' ";
-        
+        $where  = " WHERE contact_a.id = %1 AND civicrm_group.is_active = 1 ";
+
+        $params = array( 1 => array( $contactId, 'Integer' ) );
         if ( ! empty( $status ) ) {
-            $where .= ' AND civicrm_group_contact.status = "' 
-                    . CRM_Utils_Type::escape($status, 'String') . '"';
+            $where .= ' AND civicrm_group_contact.status = %2';
+            $params[2] = array( $status, 'String' );
         }
         $tables     = array( 'civicrm_group_contact'        => 1,
                              'civicrm_group'                => 1,
                              'civicrm_subscription_history' => 1 );
         $whereTables = array( );
-        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables, $whereTables ); 
+        if ( $ignorePermission ) {
+            $permission = ' ( 1 ) ';
+        } else {
+            $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables, $whereTables ); 
+        }
         $where .= " AND $permission ";
         
         $from = CRM_Contact_BAO_Query::fromClause( $tables );
@@ -335,18 +347,17 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $sql = $select . $from . $where . $order . $limit;
 
         if ( $count ) {
-            return CRM_Core_DAO::singleValueQuery( $sql ); 
+            return CRM_Core_DAO::singleValueQuery( $sql, $params ); 
         } else {
-            $groupContact =& new CRM_Contact_DAO_GroupContact( );
-            $groupContact->query($sql);
+            $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
             $values = array( );
-            while ( $groupContact->fetch() ) {
-                $id                            = $groupContact->civicrm_group_contact_id;
+            while ( $dao->fetch() ) {
+                $id                            = $dao->civicrm_group_contact_id;
                 $values[$id]['id']             = $id;
-                $values[$id]['group_id']       = $groupContact->group_id;
-                $values[$id]['title']          = $groupContact->group_title;
-                $values[$id]['visibility']     = $groupContact->visibility;
-                switch($groupContact->status) { 
+                $values[$id]['group_id']       = $dao->group_id;
+                $values[$id]['title']          = $dao->group_title;
+                $values[$id]['visibility']     = $dao->visibility;
+                switch($dao->status) { 
                 case 'Added': 
                     $prefix = 'in_'; 
                     break; 
@@ -356,8 +367,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 default: 
                     $prefix = 'pending_'; 
                 } 
-                $values[$id][$prefix . 'date']      = $groupContact->date; 
-                $values[$id][$prefix . 'method']    = $groupContact->method; 
+                $values[$id][$prefix . 'date']      = $dao->date; 
+                $values[$id][$prefix . 'method']    = $dao->method; 
             }
             return $values;
         }
@@ -402,8 +413,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     static function getGroupContacts(&$group, $returnProperties = null, $status = 'Added', $sort = null, $offset = null, $row_count= null)
     {
-        $query = "SELECT * FROM civicrm_group WHERE id = " . CRM_Utils_Type::escape($group->id, 'Integer');
-       
         $groupDAO =& new CRM_Contact_DAO_Group();
         $groupDAO->id = $group->id;
         if ( ! $groupDAO->find( true ) ) {
@@ -464,8 +473,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
         // CRM_Core_Error::debug( 'q', $query );
         
-        $dao =& new CRM_Contact_DAO_Contact();
-        $dao->query($query);
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         // this is quite inefficient, we need to change the return
         // values in docs
@@ -494,12 +502,13 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $query = "SELECT * 
 FROM civicrm_group_contact 
 LEFT JOIN civicrm_subscription_history ON (civicrm_group_contact.contact_id = civicrm_subscription_history.contact_id) 
-WHERE civicrm_group_contact.contact_id = ".CRM_Utils_Type::escape($contactId, 'Integer')." 
-AND civicrm_group_contact.group_id = '".CRM_Utils_Type::escape($groupID, 'Integer')."'  
+WHERE civicrm_group_contact.contact_id = %1
+AND civicrm_group_contact.group_id = %2
 AND civicrm_subscription_history.method ='Email' "  ;
-        $dao =& new CRM_Contact_DAO_GroupContact();
-        $dao->query($query);
-        $dao->fetch();
+
+        $params = array( 1 => array( $contactId, 'Integer' ),
+                         2 => array( $groupID  , 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         return $dao;
 
     }
@@ -527,11 +536,12 @@ AND civicrm_subscription_history.method ='Email' "  ;
 
         $query = "UPDATE civicrm_group_contact 
 SET civicrm_group_contact.status = 'Added'
-WHERE civicrm_group_contact.contact_id = " . CRM_Utils_Type::escape($contactId, 'Integer') ." 
-AND civicrm_group_contact.group_id = " . CRM_Utils_Type::escape($groupID, 'Integer');
+WHERE civicrm_group_contact.contact_id = %1
+AND civicrm_group_contact.group_id = %2";
+        $params = array( 1 => array( $contactId, 'Integer' ),
+                         2 => array( $groupID  , 'Integer' ) );
       
-        $dao =& new CRM_Contact_DAO_GroupContact();
-        $dao->query($query);
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
         $params = array('contact_id' => $contactId,
                         'group_id'  => $groupID,

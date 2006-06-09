@@ -105,7 +105,9 @@ class CRM_Core_SelectValues {
                 ''      => ts('- no preference -'),
                 'Phone' => ts('Phone'),
                 'Email' => ts('Email'), 
-                'Post'  => ts('Postal Mail')
+                'Post'  => ts('Postal Mail'),
+                'SMS'  => ts('SMS'),
+                'Fax'   => ts('Fax')
             );
         }
         return $pcm;
@@ -120,9 +122,9 @@ class CRM_Core_SelectValues {
         static $pmf = null;
         if (!$pmf) {
             $pmf = array(
-                'Text' => ts('Text'),
-                'HTML' => ts('HTML'), 
-                'Both' => ts('Both')
+                'Both' => ts('Both'),
+                'HTML' => ts('HTML'),
+                'Text' => ts('Text')
             );
         }
         return $pmf;
@@ -162,6 +164,42 @@ class CRM_Core_SelectValues {
             );
         }
         return $contactType;
+    }
+
+    /**
+     * various pre defined duration units
+     * @static
+     */
+    static function &durationUnit()
+    {
+        static $durationUnit = null;
+        if (!$durationUnit) {
+            $durationUnit = array(
+                 ''             => ts('- select -'),
+                 'Day'          => ts('Day'),
+                 'Month'        => ts('Month'),
+                 'Year'         => ts('Year'),
+                 'Life_time'    => ts('Life time')
+             );
+        }
+        return $durationUnit;
+    }
+
+    /**
+     * various pre defined period types
+     * @static
+     */
+    static function &periodType()
+    {
+        static $periodType = null;
+        if (!$periodType) {
+            $periodType = array(
+                 ''             => ts('- select -'),
+                 'Rolling'      => ts('Rolling'),
+                 'Fixed'        => ts('Fixed')
+             );
+        }
+        return $periodType;
     }
 
     /**
@@ -266,7 +304,7 @@ class CRM_Core_SelectValues {
                 'User Registration' => ts('User Registration'),
                 'User Account'      => ts('View/Edit User Account'),
                 'Profile'           => ts('Profile'),
-                'Search Profile'    => ts('Search Profile'),
+                'Search Profile'    => ts('Search Results'),
             );
         }
         return $ufGroupType;

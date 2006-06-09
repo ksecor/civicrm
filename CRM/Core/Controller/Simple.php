@@ -64,14 +64,27 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
         $this->_stateMachine->addSequentialPages($params, $mode);
 
         $this->addPages( $this->_stateMachine, $mode );
-
-        // always allow a single upload file with same name
+        
+        //changes for custom data type File
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        
         $config =& CRM_Core_Config::singleton( );
-        if ( $imageUpload ) {
-            $this->addActions( $config->imageUploadDir, array( 'uploadFile' ) );
+        
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $uplaodArray = $uploadNames;
+            $this->addActions( $config->customFileUploadDir, $uplaodArray );
+            $uploadNames = $session->set( 'uploadNames',null );
+            
         } else {
-            $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
+            // always allow a single upload file with same name
+            if ( $imageUpload ) {
+                $this->addActions( $config->imageUploadDir, array( 'uploadFile' ));
+            } else {
+                $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
+            }
         }
+        
     }
 }
 

@@ -12,7 +12,7 @@ class UnitTests extends GroupTest {
     
     function UnitTests( ) {
         $this->GroupTest( 'Unit Tests for CRM' );
-
+        
         // contact api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContact.php'    );
@@ -53,7 +53,14 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM878.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM881Get.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM881Delete.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM881Update.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM881Update.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM922.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM966.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM980.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM983.php'    );
+                
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/MultiValuedCheckBox.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Note.php'    );
         
         // group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/AddGroupContact.php'    );
@@ -69,13 +76,13 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetLocation.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateLocation.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteLocation.php'    );
-
+        
         // history api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateActivityHistory.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetActivityHistory.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateActivityHistory.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteActivityHistory.php' );
-
+        
         // custom group api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateCustomGroup.php');
@@ -85,7 +92,22 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetCustomField.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetCustomOptionValue.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateDeleteCustomOption.php');
-                
+         
+        //note api
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateNote.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetNote.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateNote.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteNote.php');
+
+        //file api
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateFile.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetFile.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateFile.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteFile.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateEntityFile.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetFilesByEntity.php');
+        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityFile.php');
+        
         // relationship api
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationship.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetRelationship.php');
@@ -101,6 +123,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/TagsByEntity.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetEntitiesByTag.php');
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityTag.php');
+        //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetTag.php');
         
         // UFGroup api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateUFGroup.php'    );
@@ -109,6 +132,8 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateUFField.php'    );
         
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Token.php' );
+
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateProfileContact.php'    );
     }
 
 }

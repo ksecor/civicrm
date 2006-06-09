@@ -161,6 +161,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     protected $_sortByCharacter;
 
+    /**
+     * The profile group id used for display
+     *
+     * @var integer
+     * @access protected
+     */
+    protected $_ufGroupID;
+
     /*
      * csv - common search values
      *
@@ -206,11 +214,12 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     function buildQuickFormCommon()
     {
         $permission = CRM_Core_Permission::getPermission( );
+
         // some tasks.. what do we want to do with the selected contacts ?
-        $tasks = array( '' => ts('- more actions -') ) + CRM_Contact_Task::permissionedTasks( $permission );
+        $tasks = array( '' => ts('- more actions -') ) + CRM_Contact_Task::permissionedTaskTitles( $permission );
         if ( isset( $this->_ssID ) ) {
             if ( $permission == CRM_Core_Permission::EDIT ) {
-                $tasks = $tasks + CRM_Contact_Task::optionalTasks();
+                $tasks = $tasks + CRM_Contact_Task::optionalTaskTitle();
             }
 
             $savedSearchValues = array( 'id' => $this->_ssID,
@@ -273,7 +282,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         //$this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
         
         $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName().");" ) );
-        
+
         /*
          * add form checkboxes for each row. This is needed out here to conform to QF protocol
          * of all elements being declared in builQuickForm
@@ -399,18 +408,22 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * we allow the controller to set force/reset externally, useful when we are being
          * driven by the wizard framework
          */
-        $nullObject = null;
-        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', $nullObject );
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
+                                                       CRM_Core_DAO::$_nullObject );
 
-        $this->_force   = CRM_Utils_Request::retrieve( 'force', $this, false );
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
+                                                       CRM_Core_DAO::$_nullObject );
 
-        // we only force stuff once :)
-        $this->set( 'force', false );
-
-        $this->_groupID         = CRM_Utils_Request::retrieve( 'gid'            , $this );
-        $this->_amtgID          = CRM_Utils_Request::retrieve( 'amtgID'         , $this );
-        $this->_ssID            = CRM_Utils_Request::retrieve( 'ssID'           , $this );
-        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter', $this );
+        $this->_groupID         = CRM_Utils_Request::retrieve( 'gid'            , 'Positive',
+                                                               $this );
+        $this->_amtgID          = CRM_Utils_Request::retrieve( 'amtgID'         , 'Positive',
+                                                               $this );
+        $this->_ssID            = CRM_Utils_Request::retrieve( 'ssID'           , 'Positive',
+                                                               $this );
+        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter', 'String'  ,
+                                                               $this );
+        $this->_ufGroupID       = CRM_Utils_Request::retrieve( 'id'             , 'Positive',
+                                                               $this );
 
         // get user submitted values 
         // get it from controller only if form has been submitted, else preProcess has set this 
@@ -422,20 +435,32 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
             // also reset the sort by character  
             $this->_sortByCharacter = null;  
-            $this->set( 'sortByCharacter', null );  
+            $this->set( 'sortByCharacter', null );
+
+            // also get the uf group id directly from the post value
+            $this->_ufGroupID = CRM_Utils_Array::value( 'uf_group_id', $_POST );
+            $this->_formValues['uf_group_id'] = $this->_ufGroupID;
+            $this->set( 'id', $this->_ufGroupID );
         } else {
             $this->_formValues = $this->get( 'formValues' );
         }
 
-        // we only retrieve the saved search values if out current values are null
-        if ( empty( $this->_formValues ) && isset( $this->_ssID ) ) {
-            $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
+        if ( empty( $this->_formValues ) ) {
+            if ( isset( $this->_ssID ) ) {
+                // we only retrieve the saved search values if out current values are null
+                $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
+            } else if ( isset( $this->_ufGroupID ) ) {
+                // also set the uf group id if not already present
+                $this->_formValues['uf_group_id'] = $this->_ufGroupID;
+            }
         }
+        $this->assign( 'id', CRM_Utils_Array::value( 'uf_group_id', $this->_formValues ) );
 
         /*
          * assign context to drive the template display, make sure context is valid
          */
-        $this->_context = CRM_Utils_Request::retrieve( 'context', $this, false, 'search' );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                       $this, false, 'search' );
         if ( ! CRM_Utils_Array::value( $this->_context, self::validContext() ) ) {
             $this->_context = 'search';
             $this->set( 'context', $this->_context );
@@ -448,6 +473,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                            CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
         $controller->setEmbedded( true );
+
         if ( $this->_force ) {
 
             $this->postProcess( );
@@ -570,6 +596,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
         }
             
+        if ( isset( $this->_ufGroupID ) && ! CRM_Utils_Array::value( 'uf_group_id', $this->_formValues ) ) { 
+            $this->_formValues['uf_group_id'] = $this->_ufGroupID;
+        }
+
         $this->set( 'type'      , $this->_action );
         $this->set( 'formValues', $this->_formValues );
         
@@ -584,7 +614,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         } else {
             // do export stuff
             if ( $buttonName == $this->_exportButtonName ) {
-                //$output = CRM_Core_Selector_Controller::EXPORT;
                 return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/export/contact') );
             } else {
                 $output = CRM_Core_Selector_Controller::SESSION;
@@ -597,10 +626,12 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // lets recompute the aToZ bar without the sortByCharacter
             // we need this in most cases except when just pager or sort values change, which
             // we'll ignore for now
-            $query =& $selector->getQuery( );
-            $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $query, $this->_sortByCharacter );
-            $this->set( 'AToZBar', $aToZBar );
-
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->includeAlphabeticalPager ) {
+                $query =& $selector->getQuery( );
+                $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $query, $this->_sortByCharacter );
+                $this->set( 'AToZBar', $aToZBar );
+            }
 
             $sortID = null;
             if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {

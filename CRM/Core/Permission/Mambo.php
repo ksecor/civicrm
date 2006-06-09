@@ -76,19 +76,22 @@ class CRM_Core_Permission_Mambo {
     }
 
     /**
-     * Get all saved searches from database, filtered by permissions
-     * for this user
+     * given a permission string, check for access requirements
      *
-     * @access public
+     * @param string $str the permission to check
+     *
+     * @return boolean true if yes, else false
      * @static
-     *
-     * @return array - array reference of all filtered saved searches
-     *
+     * @access public
      */
-    public static function &savedSearch( ) {
-        return CRM_Core_PseudoConstant::allSavedSearch( );
+    static function check( $str ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFrameworkFrontend && $str == 'administer users' ) {
+            return false;
+        }
+        return true;
     }
-    
+
 }
 
 ?>

@@ -104,10 +104,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     public function preProcess()  
     {  
         // action
-        $this->_action = CRM_Utils_Request::retrieve( 'action', $this, false, 'add' );
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
+                                                      $this, false, 'add' );
         $this->assign( 'action'  , $this->_action   ); 
 
-        $this->_id        = CRM_Utils_Request::retrieve( 'id', $this );
+        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                                         $this );
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
@@ -135,7 +137,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             
         }
         
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', $this );
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
+                                                         $this );
 
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0 );
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
@@ -296,8 +299,17 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->add('textarea', 'note', ts('Notes'),array("rows"=>4,"cols"=>60) );
 
+
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $buttonType = 'upload';
+        } else {
+            $buttonType = 'next';
+        }
+        
         $this->addButtons(array( 
-                                array ( 'type'      => 'next', 
+                                array ( 'type'      => $buttonType, 
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'isDefault' => true   ), 
