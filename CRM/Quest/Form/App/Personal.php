@@ -76,7 +76,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
 
         $options = array( );
         $ids = array();
-        $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$defaults, &$ids );
+        $contact =& CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
         
         $ids    = array( );
         CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
