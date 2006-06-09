@@ -116,7 +116,7 @@ class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
                     $orgDefaults = array( );
                     $params  = array('contact_id' => $value ,'contact_type' => 'Organization'); 
                     require_once 'CRM/Contact/BAO/Contact.php';
-                    $contact =& CRM_Contact_BAO_Contact::retrieve( &$params, &$orgDefaults, &$ids );
+                    $contact =& CRM_Contact_BAO_Contact::retrieve( $params, $orgDefaults, $ids );
                     
                     //set custom data defaults
                     require_once 'CRM/Core/BAO/CustomGroup.php';
