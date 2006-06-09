@@ -167,22 +167,27 @@ class CRM_Core_SelectValues {
     }
 
     /**
-     * various pre defined duration units
+     * various pre defined unit list
      * @static
      */
-    static function &durationUnit()
+    static function &unitList($unitType = null)
     {
-        static $durationUnit = null;
-        if (!$durationUnit) {
-            $durationUnit = array(
-                 ''             => ts('- select -'),
-                 'Day'          => ts('Day'),
-                 'Month'        => ts('Month'),
-                 'Year'         => ts('Year'),
-                 'Life_time'    => ts('Life time')
-             );
+        static $unitList = null;
+        if (!$unitList) {
+            $unitList = array(
+                              ''             => ts('- select -'),
+                              'Day'          => ts('Day'),
+                              'Month'        => ts('Month'),
+                              'Year'         => ts('Year')
+                              );
+            if ( $unitType == 'duration' ) {
+                $unitAdd = array(
+                                 'Life_time'      => ts('Life time')
+                                 );
+                $unitList = array_merge( $unitList, $unitAdd);
+            }
         }
-        return $durationUnit;
+        return $unitList;
     }
 
     /**
@@ -200,6 +205,24 @@ class CRM_Core_SelectValues {
              );
         }
         return $periodType;
+    }
+
+    /**
+     * various pre defined event dates
+     * @static
+     */
+    static function &eventDate()
+    {
+        static $eventDate = null;
+        if (!$eventDate) {
+            $eventDate = array(
+                 ''             => ts('- select -'),
+                 'Start_date'   => ts('Start Date'),
+                 'End_date'     => ts('End Date'),
+                 'Join_date'    => ts('Join Date')
+             );
+        }
+        return $eventDate;
     }
 
     /**
