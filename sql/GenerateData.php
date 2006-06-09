@@ -1350,7 +1350,78 @@ class CRM_GCD {
         }
         return array( null, null );
     }
-
+    
+    function addMembershipTypeStatus()
+    {
+        $organizationDAO = new CRM_Contact_DAO_Organization();
+        $organizationDAO->id = 5;
+        $organizationDAO->find(true);
+        $contact_id = $organizationDAO->contact_id;
+        
+        $membershipType = "INSERT INTO civicrm_membership_type
+        (name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, visibility, is_default, weight, is_active)
+        VALUES
+        ('Trainee', 'Register for this membership if you are a trainee', ". $contact_id .", 3, 
+                                              100, 1, 50, 2, 0101, 0104, 7, 'Admin', 0, 1, 1),
+        ('Permanent Employee', 'Register for this membership if you are a permanent employee', ". $contact_id .", 1, 
+                                              500, 3, 30, 1, 0101, 1231, 7, 'Admin', 0, 2, 1),
+        ('Share Holder', 'Register for this membership if you are a share holder', ". $contact_id .", 2, 
+                                             1000, 2, 4, 2, 0101, 0105, 7, 'Public', 0, 3, 1);
+        ";
+        CRM_Core_DAO::executeQuery( $membershipType, CRM_Core_DAO::$_nullArray );
+        
+        $membershipStatus = "INSERT INTO civicrm_membership_status
+        (name, start_event, start_event_adjust_unit, start_event_adjust_interval, end_event, end_event_adjust_unit, end_event_adjust_interval, is_current_member, is_admin, weight, is_active)
+        VALUES
+        ('Temporary', 1, 1, 1, 3, 1, 50, 1, 1, 1, 1),
+        ('Permanent', 3, 3, 0, 2, 3, 30, 1, 1, 1, 1),
+        ('Grace', 2, 1, 0, 3, 2, 10, 1, 1, 1, 1);
+        ";
+        CRM_Core_DAO::executeQuery( $membershipStatus, CRM_Core_DAO::$_nullArray );
+    }
+    
+    function addMembership()
+    {
+        $contact = new CRM_Contact_DAO_Contact();
+        $contact->query("SELECT id FROM civicrm_contact");
+        while ( $contact->fetch() ) {
+            $contacts[] = $contact->id;
+        }
+        shuffle($contacts);
+        $randomContacts = array_slice($contacts, 20, 25);
+        
+        $membership = "
+INSERT INTO civicrm_membership
+        (contact_id, membership_type_id, join_date, start_date, end_date, source, calculated_status_id)
+VALUES
+        ( ". $randomContacts[0]  .", 1, null, '2003-10-21', '2004-01-20', 'Payment', 1),
+        ( ". $randomContacts[1]  .", 2, '2001-01-10', null,'2030-12-09', 'Donation', 2),
+        ( ". $randomContacts[2]  .", 2, null,'2002-03-05', '2003-01-04', 'Check', 3),
+        ( ". $randomContacts[3]  .", 1, null,'1986-10-21', '1987-01-20', 'Payment', 1),
+        ( ". $randomContacts[4]  .", 2, '1956-01-10', null,'1985-12-09', 'Donation', 2),
+        ( ". $randomContacts[5]  .", 2, null,'1962-03-05', '1963-01-04', 'Check', 3),
+        ( ". $randomContacts[6]  .", 1, null, '1863-10-21', '1864-01-20', 'Payment', 1),
+        ( ". $randomContacts[7]  .", 2, '1851-01-10', null,'1880-12-09', 'Donation', 2),
+        ( ". $randomContacts[8]  .", 2, null,'1962-03-05', '1963-01-04', 'Check', 3),
+        ( ". $randomContacts[9]  .", 1, null, '2001-10-21', '2002-01-20', 'Payment', 1),
+        ( ". $randomContacts[10]  .", 2, '2004-01-10', null,'2033-12-09', 'Donation', 2),
+        ( ". $randomContacts[11]  .", 2, null,'2006-03-05', '2007-01-04', 'Check', 3),
+        ( ". $randomContacts[12]  .", 1, null, '1947-10-21', '1948-01-20', 'Payment', 1),
+        ( ". $randomContacts[13]  .", 2, '1940-01-10', null,'1969-12-09', 'Donation', 2),
+        ( ". $randomContacts[14]  .", 2, null,'1956-03-05', '1957-01-04', 'Check', 3),
+        ( ". $randomContacts[15]  .", 1, null, '1978-10-21', '1979-01-20', 'Payment', 1),
+        ( ". $randomContacts[16]  .", 2, '2001-01-10', null,'2030-12-09', 'Donation', 2),
+        ( ". $randomContacts[17]  .", 2, null,'2002-03-05', '2003-01-04', 'Check', 3),
+        ( ". $randomContacts[18]  .", 1, null, '2010-10-21', '2011-01-20', 'Payment', 1),
+        ( ". $randomContacts[19]  .", 2, '1901-01-10', null,'1930-12-09', 'Donation', 2),
+        ( ". $randomContacts[20]  .", 2, null,'1982-03-05', '1983-01-04', 'Check', 3),
+        ( ". $randomContacts[21]  .", 1, null, '2012-10-21', '2013-01-20', 'Payment', 1),
+        ( ". $randomContacts[22]  .", 2, '1976-01-10', null,'2005-12-09', 'Donation', 2),
+        ( ". $randomContacts[23]  .", 2, null,'1962-03-05', '1963-01-04', 'Check', 3),
+        ( ". $randomContacts[24]  .", 2, null,'2002-03-05', '2003-01-04', 'Check', 3);
+";
+        CRM_Core_DAO::executeQuery( $membership, CRM_Core_DAO::$_nullArray );
+    }
 }
 
 function user_access( $str = null ) {
@@ -1410,6 +1481,8 @@ $obj1->addGroup();
 $obj1->addNote();
 $obj1->addActivityHistory();
 add_contributions( );
+$obj1->addMembershipTypeStatus();
+$obj1->addMembership();
 
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
