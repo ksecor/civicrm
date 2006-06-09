@@ -2,7 +2,7 @@
    {include file="CRM/Member/Form/MembershipStatus.tpl"}
 {else}
     <div id="help">
-        <p>{ts}Membership statuss are used to categorize memberships for reporting and accounting purposes. These are also referred to as <strong>Funds</strong>. You may set up as many statuss as needed. Each status can carry an accounting code which can be used to map memberships to codes in your accounting system. Commonly used membership statuss are: Donation, Campaign Membership, Membership Dues...{/ts}</p>
+        <p>{ts}Membership status are used to store status values in the DB to enable searching / segmenting recordsets by status.You can define an unlimited number of status.{/ts}</p>
     </div>
 {/if}
 
