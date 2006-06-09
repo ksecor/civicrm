@@ -692,7 +692,32 @@ class CRM_Contact_BAO_Query {
         if ( $id ) {
             $this->_where[0][] = "contact_a.id = $id";
         }
-        
+
+        foreach ( $this->_params as $id => $values ) {
+            switch ( $values['name'] ) {
+            case 'contact_type':
+                $this->contactType( $this->_params[$id] );
+                break;
+
+            case 'group':
+                $this->group( $this->_params[$id] );
+                break;
+
+            case 'tag':
+                $this->tag( $this->_params[$id] );
+                break;
+
+            case 'sort_name':
+                $this->sortName( $this->_params[$id] );
+                break;
+
+            case 'sortByCharacter':
+                $this->sortName( $this->_params[$id] );
+                break;
+
+case 
+        }
+
         $this->contactType( );
 
         $this->sortName( );
