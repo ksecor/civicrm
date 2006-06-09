@@ -13,23 +13,23 @@
       </div>
      {else}
       <dl>
- 	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
-    	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
-        <dt>{$form.minimum_fee.label}</dt><dd>{$form.minimum_fee.html}</dd>
-        <dt>{$form.duration_unit.label}</dt><dd>{$form.duration_unit.html}</dd>
-        <dt>{$form.duration_interval.label}</dt><dd>{$form.duration_interval.html}</dd>
-        <dt>{$form.period_type.label}</dt><dd>{$form.period_type.html}</dd>
-        <dt>{$form.fixed_period_start_day.label}</dt><dd>{$form.fixed_period_start_day.html}</dd>
-        <dt>{$form.fixed_period_rollover_day.label}</dt><dd>{$form.fixed_period_rollover_day.html}</dd>
-        <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
-        <dt>{$form.relation_type_id.label}</dt><dd>{$form.relation_type_id.html}</dd>
-        <dt>{$form.visibility.label}</dt><dd>{$form.visibility.html}</dd>
-        <dt>{$form.is_default.label}</dt><dd>{$form.is_default.html}</dd>
-        <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+ 	<dt>{$form.name.label}</dt><dd class="html-adjust">{$form.name.html}</dd>
+    	<dt>{$form.description.label}</dt><dd class="html-adjust">{$form.description.html}</dd>
+        <dt>{$form.minimum_fee.label}</dt><dd class="html-adjust">{$form.minimum_fee.html}</dd>
+        <dt>{$form.duration_unit.label}</dt><dd class="html-adjust">{$form.duration_unit.html}</dd>
+        <dt>{$form.duration_interval.label}</dt><dd class="html-adjust">{$form.duration_interval.html}</dd>
+        <dt>{$form.period_type.label}</dt><dd class="html-adjust">{$form.period_type.html}</dd>
+        <dt>{$form.fixed_period_start_day.label}</dt><dd class="html-adjust">{$form.fixed_period_start_day.html}</dd>
+        <dt>{$form.fixed_period_rollover_day.label}</dt><dd class="html-adjust">{$form.fixed_period_rollover_day.html}</dd>
+        <dt>{$form.contribution_type_id.label}</dt><dd class="html-adjust">{$form.contribution_type_id.html}</dd>
+        <dt>{$form.relation_type_id.label}</dt><dd class="html-adjust">{$form.relation_type_id.html}</dd>
+        <dt>{$form.visibility.label}</dt><dd class="html-adjust">{$form.visibility.html}</dd>
+        <dt>{$form.is_default.label}</dt><dd class="html-adjust">{$form.is_default.html}</dd>
+        <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
       </dl> 
      {/if}
     <dl>   
-      <dt></dt><dd>{$form.buttons.html}</dd>
+      <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
     </dl>
 </fieldset>
 </div>

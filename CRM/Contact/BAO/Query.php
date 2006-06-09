@@ -667,6 +667,24 @@ class CRM_Contact_BAO_Query {
         return array( $select, $from, $where );
     }
 
+    static function fixWhereValues( $id, &$values ) {
+        if ( ! is_array( $values ) ) {
+            $tmp = $values;
+            $values = array( );
+            $values['name' ]    = $id;
+            $values['op'   ]    = '=';
+            $values['value']    = $tmp;
+            $values['grouping'] = 0;
+            $values['wildcard'] = 0;
+        }
+            
+        if ( ! array_key_exists( 'name' , $values ) ||
+             ! array_key_exists( 'op'   , $values ) ||
+             ! array_key_exists( 'value', $values ) ) {
+            $values = null;
+        }
+    }
+
     /** 
      * Given a list of conditions in params generate the required
      * where clause
@@ -693,17 +711,44 @@ class CRM_Contact_BAO_Query {
             $this->_where[0][] = "contact_a.id = $id";
         }
 
-        $this->contactType( );
+        foreach ( $this->_params as $id => $values ) {
+            self::fixWhereValues( $id, $values );
 
-        $this->sortName( );
+            if ( ! $values ) {
+                continue;
+            }
 
-        $this->sortByCharacter( );
+            switch ( $values['name'] ) {
+            case 'contact_type':
+                $this->contactType( $this->_params[$id] );
+                break;
+
+            case 'group':
+                $this->group( $this->_params[$id] );
+                break;
+
+            case 'tag':
+                $this->tag( $this->_params[$id] );
+                break;
+
+            case 'sort_name':
+                $this->sortName( $this->_params[$id] );
+                break;
+
+            case 'sortByCharacter':
+                $this->sortName( $this->_params[$id] );
+                break;
+
+            case 'location_name':
+                $this->locationName( $this->_params[$id] ); 
+                break;
+
+            case 'location_type':
+                $this->locationType( $this->_params[$id] ); 
+                break;
+        }
 
         $this->locationTypeAndName( );
-
-        $this->group( );
-
-        $this->tag( );
 
         $this->postalCode( );
 
@@ -753,11 +798,6 @@ class CRM_Contact_BAO_Query {
             $lType = '';
             $locType = array( );
             $locType = explode('-', $name);
-            
-            // if (is_numeric($locType[1])) {
-            // $this->_params['location_type'] = array($locType[1] => 1);
-            // $lType = $this->locationTypeAndName( true );
-            // }
             
             //add phone type if exists
             if ($locType[2]) {
@@ -894,6 +934,7 @@ class CRM_Contact_BAO_Query {
         return  implode( ' OR ', $clauses );
     }
 
+        
     /**
      * Given a result dao, extract the values and return that array
      *
@@ -1510,12 +1551,12 @@ class CRM_Contact_BAO_Query {
     }
 
     /**
-     * where / qill clause for location type and location Name
+     * where / qill clause for location type
      *
      * @return void
      * @access public
      */
-    function locationTypeAndName( $status = null ) {
+    function locationType( $status = null ) {
         if ( CRM_Utils_Array::value( 'location_type', $this->_params ) ) {
             if (is_array($this->_params['location_type'])) {
                 $this->_where[0][] = 'civicrm_location.location_type_id IN (' .
@@ -1539,7 +1580,15 @@ class CRM_Contact_BAO_Query {
                 }
             }
         }
+    }
 
+    /**
+     * where / qill clause for location Name
+     *
+     * @return void
+     * @access public
+     */
+    function locationType( $status = null ) {
         // do the same for location name
         if ( CRM_Utils_Array::value( 'location_name', $this->_params ) ) {
             $this->_where[0][] = "civicrm_location.name LIKE '%" .

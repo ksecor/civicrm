@@ -66,7 +66,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'description' ) );
         $this->add('text', 'minimum_fee', ts('Minimum Fee'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'minimum_fee' ) );
-        $this->add('select', 'duration_unit', ts('Duration Unit') . ' ', CRM_Core_SelectValues::durationUnit( ));
+        $this->add('select', 'duration_unit', ts('Duration Unit') . ' ', CRM_Core_SelectValues::unitList('duration'));
         $this->add('select', 'period_type', ts('Period Type') . ' ', CRM_Core_SelectValues::periodType( ));
         $this->add('text', 'duration_interval', ts('Duration Interval'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'duration_interval' ) );
@@ -93,10 +93,6 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $this->add('checkbox', 'is_default', ts('Default?'));
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
-        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'is_reserved' )) { 
-            $this->freeze(array('name', 'description', 'is_active' ));
-        }
-        
     }
 
        
