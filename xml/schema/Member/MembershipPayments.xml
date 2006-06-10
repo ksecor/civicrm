@@ -7,17 +7,35 @@
   <comment>Membership Payment</comment>
   <add>1.5</add>
   <field>
-      <name>pay_for_entity_table</name>
-      <type>varchar</type>
-      <length>128</length>
-      <comment>Membership Pay</comment>
+      <name>membership_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Membership table</comment>
       <add>1.5</add>
   </field>
- <foreignKey> 
-       <name>pay_for_entity_id</name> 
-       <table>civicrm_membership</table> 
-       <required>true</required>
-       <comment>FK to Membership</comment>
-       <key>id</key> 
-  </foreignKey>
+  <foreignKey> 
+    <name>membership_id</name> 
+    <table>civicrm_membership</table> 
+    <key>id</key> 
+    <add>1.5</add>
+  </foreignKey> 
+  <field>
+      <name>payment_entity_table</name>
+      <type>varchar</type>
+      <length>128</length>
+      <comment>Table being referenced for payment entity.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>payment_entity_id</name>
+      <type>int unsigned</type>
+      <comment>FK to table with payment record (expected usage is civicrm_contribution).</comment>
+      <add>1.5</add>
+  </field>
+  <index>
+       <name>index_payment_entity</name>
+       <fieldName>payment_entity_table</fieldName>
+       <fieldName>payment_entity_id</fieldName>
+       <add>1.5</add>
+  </index>
 </table>
