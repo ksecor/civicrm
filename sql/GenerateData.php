@@ -1359,14 +1359,14 @@ class CRM_GCD {
         $contact_id = $organizationDAO->contact_id;
         
         $membershipType = "INSERT INTO civicrm_membership_type
-        (name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, visibility, is_default, weight, is_active)
+        (name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, visibility, weight, is_active)
         VALUES
         ('Trainee', 'Register for this membership if you are a trainee', ". $contact_id .", 3, 
-                                              100, 1, 50, 2, 0101, 0104, 7, 'Admin', 0, 1, 1),
+                                              100, 1, 50, 2, 0101, 0104, 7, 'Admin', 1, 1),
         ('Permanent Employee', 'Register for this membership if you are a permanent employee', ". $contact_id .", 1, 
-                                              500, 3, 30, 1, 0101, 1231, 7, 'Admin', 0, 2, 1),
+                                              500, 3, 30, 1, 0101, 1231, 7, 'Admin', 2, 1),
         ('Share Holder', 'Register for this membership if you are a share holder', ". $contact_id .", 2, 
-                                             1000, 2, 4, 2, 0101, 0105, 7, 'Public', 0, 3, 1);
+                                             1000, 2, 4, 2, 0101, 0105, 7, 'Public', 3, 1);
         ";
         CRM_Core_DAO::executeQuery( $membershipType, CRM_Core_DAO::$_nullArray );
         
