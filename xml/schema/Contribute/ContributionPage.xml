@@ -176,4 +176,13 @@
        <comment>Text and html allowed. Displayed at the bottom of the first page of the contribution wizard.</comment>
        <add>1.4</add>
   </field>
+  <field>
+       <name>amount_block_is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+       <default>1</default>
+       <add>1.5</add>
+  </field>
+   
+
 </table>

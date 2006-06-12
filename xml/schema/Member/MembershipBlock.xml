@@ -47,7 +47,6 @@
   <field>  
       <name>membership_type_default</name>  
       <type>int unsigned</type>
-      <required>optional</required>
       <comment>Optional foreign key to membership_type</comment>  
       <add>1.5</add>  
   </field>
