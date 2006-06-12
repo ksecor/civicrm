@@ -691,7 +691,14 @@ class CRM_Contact_BAO_Query {
             if ( CRM_Utils_System::isNull( $values ) ) {
                 return null;
             }
-            return array( $id, '=', $values, 0, 0 );
+
+            if ( $id == 'sort_name' ) {
+                return array( $id, 'LIKE', $values, 1, 0 );
+            } else if ( strpos( $values, '%' ) !== false ) {
+                return array( $id, 'LIKE', $values, 0, 0 );
+            } else {
+                return array( $id, '=', $values, 0, 0 );
+            }
         }
             
         if ( ! array_key_exists( 'name' , $values ) ||
@@ -965,7 +972,12 @@ class CRM_Contact_BAO_Query {
                 $this->_qill[$grouping][]  = ts( "%1 $op '%2'", array( 1 => $field['title'], 2 => $value ) );
             }
         }
-            
+
+        list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
+        if ( isset( $tableName ) ) { 
+            $this->_tables[$tableName] = 1;  
+            $this->_whereTables[$tableName] = 1;  
+        }
         // CRM_Core_Error::debug( 'f', $field );
         // CRM_Core_Error::debug( $value, $this->_qill );
     }
