@@ -678,19 +678,23 @@ class CRM_Contact_BAO_Query {
 
     static function &fixWhereValues( $id, &$values ) {
         // skip a few search variables
-        static $skipWhere = null;
-        if  ( ! $skipWhere ) {
-            $skipWhere = array( 'task' => 1, 'radio_ts' => 1, 'uf_group_id' => 1 );
-        }
+        static $skipWhere   = null;
+        static $arrayValues = null;
 
-        if ( CRM_Utils_Array::value( $id, $skipWhere ) ) {
+        if ( CRM_Utils_System::isNull( $values ) ) {
             return null;
         }
 
-        if ( ! is_array( $values ) || $id == 'group' || $id == 'tag' ) {
-            if ( CRM_Utils_System::isNull( $values ) ) {
-                return null;
-            }
+        if  ( ! $skipWhere ) {
+            $skipWhere   = array( 'task', 'radio_ts', 'uf_group_id' );
+            $arrayValues = array( 'group', 'tag', 'contact_type', 'privacy' );
+        }
+
+        if ( in_array( $id, $skipWhere ) ) {
+            return null;
+        }
+
+        if ( in_array( $id, $arrayValues ) || ! is_array( $values ) || CRM_Utils_Date::isDate( $values ) ) {
 
             if ( $id == 'sort_name' ) {
                 return array( $id, 'LIKE', $values, 1, 0 );
@@ -703,8 +707,7 @@ class CRM_Contact_BAO_Query {
             
         if ( ! array_key_exists( 'name' , $values ) ||
              ! array_key_exists( 'op'   , $values ) ||
-             ! array_key_exists( 'value', $values ) ||
-             CRM_Utils_System::isNull( $values ) ) {
+             ! array_key_exists( 'value', $values ) ) {
             return null;
         }
         
@@ -822,7 +825,8 @@ class CRM_Contact_BAO_Query {
         $this->_params = $newParams;
 
         $this->includeContactIds( );
-
+        
+        // CRM_Core_Error::debug( 'p', $this->_params );
         foreach ( array_keys( $this->_params ) as $id ) {
             $this->whereClauseSingle( $this->_params[$id] );
         }
@@ -1658,10 +1662,10 @@ class CRM_Contact_BAO_Query {
     }
     
 
-    function activityDate( $values ) {
-        list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
-        $this->dateQueryBuilder( 'civicrm_activity_history', 'activity_date', 'activity_date', 'Activity Date' );
+    function activityDate( &$values ) {
+        $this->_useDistinct = true;
+        $this->dateQueryBuilder( $values,
+                                 'civicrm_activity_history', 'activity_date', 'activity_date', 'Activity Date' );
     }
 
     /**
@@ -1996,33 +2000,32 @@ class CRM_Contact_BAO_Query {
         return self::$_defaultHierReturnProperties;
     }
 
-    function dateQueryBuilder( $tableName, $fieldName, $dbFieldName, $fieldTitle ) {
-        $qill = array( );
-
-        if ( $this->_params[ $fieldName . '_from' ]['M'] ) {
-            $revDate = array_reverse( $this->_params[ $fieldName . '_from' ] );
-            $date    = CRM_Utils_Date::format( $revDate ); 
-            $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
-            if ( $date ) {
-                $this->_where[$grouping][] = $tableName . '.' . $dbFieldName . " >= '$date'";
-                $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
-                $qill[] = ts( 'greater than "%1"', array( 1 => $format ) );
-            }
+    function dateQueryBuilder( &$values,
+                               $tableName, $fieldName, $dbFieldName, $fieldTitle ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        
+        if ( $name == $fieldName . '_low' ) {
+            $op     = '>=';
+            $phrase = 'greater than';
+        } else if ( $name == $fieldName . '_high' ) {
+            $op     = '<=';
+            $phrase = 'less than';
+        } else if ( $name == $fieldName ) {
+            $op     = '=';
+            $phrase = '=';
+        } else {
+            return;
         }
 
-        if ( $this->_params[ $fieldName . '_to' ]['M'] ) {
-            $revDate = array_reverse( $this->_params[ $fieldName . '_to' ] );
-            $date    = CRM_Utils_Date::format( $revDate ); 
+        if ( $value['M'] ) {
+            $revDate = array_reverse( $value );
+            $date    = CRM_Utils_Date::format( $revDate );
             $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $revDate, '-' ) );
             if ( $date ) {
-                $this->_where[$grouping][] = $tableName . '.' . $dbFieldName . " <= '$date'";
+                $this->_where[$grouping][] = $tableName . '.' . $dbFieldName . " $op '$date'";
                 $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
-                $qill[] = ts( 'less than "%1"', array( 1 => $format ) );
+                $this->_qill[$grouping][]  = ts( '%2 - %3 "%1"', array( 1 => $format, 2 => $fieldTitle, 3 => $phrase ) );
             }
-        }
-
-        if ( ! empty( $qill ) ) {
-            $this->_qill[$grouping][] = $fieldTitle . ' - ' . implode( ' ' . ts('and') . ' ', $qill );
         }
     }
 
