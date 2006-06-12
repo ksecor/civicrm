@@ -77,6 +77,10 @@ class CRM_Contact_BAO_Query {
      */ 
     public $_params;
 
+    public $_cfIDs;
+
+    public $_paramLookup;
+
     /** 
      * the set of output params
      * 
@@ -307,10 +311,61 @@ class CRM_Contact_BAO_Query {
         $this->_tables['civicrm_contact'] = 1;
         $this->_whereTables['civicrm_contact'] = 1;
 
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->oldInputStyle ) {
+            $this->convertParams( );
+        }
+
+        $this->buildParamsLookup( );
+
         $this->selectClause( ); 
         $this->_whereClause      = $this->whereClause( ); 
         $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode ); 
         $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
+    }
+
+    function convertParams( ) {
+        $newParams = array( );
+        if ( $this->_params && ! empty( $this->_params ) ) {
+            // first fix privacy values
+            if ( is_array($this->_params['privacy']) ) { 
+                foreach ($this->_params['privacy'] as $key => $value) { 
+                    if ($value) {
+                        $newParams[] = array( $key, '=', $value, 0, 0 );
+                    }
+                }
+                unset( $this->_params['privacy'] );
+            } 
+
+            foreach ( $this->_params as $id => $values ) {
+                $values =& self::fixWhereValues( $id, $values );
+                if ( ! $values ) {
+                    continue;
+                }
+                $newParams[] = $values;
+            }
+        }
+        $this->_params = $newParams;
+    }
+
+    function buildParamsLookup( ) {
+        $this->_cfIDs       = array( );
+        $this->_paramLookup = array( );
+
+        foreach ( $this->_params as $value ) {
+            $cfID = CRM_Core_BAO_CustomField::getKeyID( $value[0] );
+            if ( $cfID ) {
+                if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
+                    $this->_cfIDs[$cfID] = array( );
+                }
+                $this->_cfIDs[$cfID][] = $value;
+            }
+
+            if ( ! array_key_exists( $value[0], $this->_paramLookup ) ) {
+                $this->_paramLookup[$value[0]] = array( );
+            }
+            $this->_paramLookup[$value[0]][] = $value;
+        }
     }
 
     /**
@@ -349,15 +404,6 @@ class CRM_Contact_BAO_Query {
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
         
-        //format privacy options
-        if ( is_array($this->_params['privacy']) ) {
-            foreach ($this->_params['privacy'] as $key => $value) {
-                if ($value) {
-                    $this->_params[$key] = 1;
-                }
-            }
-        }
-
         foreach ($this->_fields as $name => $field) {
 
             // if this is a hierarchical name, we ignore it
@@ -366,15 +412,12 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
 
-            $value = CRM_Utils_Array::value( $name, $this->_params );
-            // if we need to get the value for this param or we need all values
-            if ( ! CRM_Utils_System::isNull( $value ) || 
+            $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
+            if ( CRM_Utils_Array::value( $name, $this->_paramLookup ) ||
                  CRM_Utils_Array::value( $name, $this->_returnProperties ) ) {
 
-                $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
                 if ( $cfID ) {
-                    $value = CRM_Utils_Array::value( $name, $this->_params );
-                    $cfIDs[$cfID] = $value;
+                    // do nothing
                 } else if ( isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) { 
@@ -427,15 +470,18 @@ class CRM_Contact_BAO_Query {
                 }
             } else if ( CRM_Utils_Array::value( 'is_search_range', $field ) ) {
                 // this is a custom field with range search enabled, so we better check for two/from values
-                $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
                 if ( $cfID ) {
-                    $value = CRM_Utils_Array::value( $name . '_from', $this->_params );
-                    if ( ! CRM_Utils_System::isNull( $value ) ) {
-                        $cfIDs[$cfID]['from'] = $value;
+                    if ( CRM_Utils_Array::value( $name . '_from', $this->_paramLookup ) ) {
+                        if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
+                            $this->_cfIDs[$cfID] = array( );
+                        }
+                        $this->_cfIDs[$cfID][] = $this->_paramLookup[$name . '_from'];
                     }
-                    $value = CRM_Utils_Array::value( $name . '_to', $this->_params );
-                    if ( ! CRM_Utils_System::isNull( $value ) ) {
-                        $cfIDs[$cfID]['to'] = $value;
+                    if ( CRM_Utils_Array::value( $name . '_to', $this->_paramLookup ) ) {
+                        if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
+                            $this->_cfIDs[$cfID] = array( );
+                        }
+                        $this->_cfIDs[$cfID][] = $this->_paramLookup[$name . '_to'];
                     }
                 }
             }
@@ -447,15 +493,15 @@ class CRM_Contact_BAO_Query {
         //fix for CRM-951
         CRM_Core_Component::alterQuery( $this, 'select' );
 
-        if ( ! empty( $cfIDs ) ) {
+        if ( ! empty( $this->_cfIDs ) ) {
             require_once 'CRM/Core/BAO/CustomQuery.php';
-            $this->_customQuery = new CRM_Core_BAO_CustomQuery( $cfIDs );
+            $this->_customQuery = new CRM_Core_BAO_CustomQuery( $this->_cfIDs );
             $this->_customQuery->query( );
-            $this->_select  = array_merge( $this->_select , $this->_customQuery->_select );
-            $this->_element = array_merge( $this->_element, $this->_customQuery->_element);
-            $this->_tables  = array_merge( $this->_tables , $this->_customQuery->_tables );
+            $this->_select       = array_merge( $this->_select , $this->_customQuery->_select );
+            $this->_element      = array_merge( $this->_element, $this->_customQuery->_element);
+            $this->_tables       = array_merge( $this->_tables , $this->_customQuery->_tables );
             $this->_whereTables  = array_merge( $this->_whereTables , $this->_customQuery->_whereTables );
-            $this->_options = $this->_customQuery->_options;
+            $this->_options      = $this->_customQuery->_options;
         }
     }
 
@@ -687,7 +733,7 @@ class CRM_Contact_BAO_Query {
 
         if  ( ! $skipWhere ) {
             $skipWhere   = array( 'task', 'radio_ts', 'uf_group_id' );
-            $arrayValues = array( 'group', 'tag', 'contact_type', 'privacy' );
+            $arrayValues = array( 'group', 'tag', 'contact_type' );
         }
 
         if ( in_array( $id, $skipWhere ) ) {
@@ -811,18 +857,6 @@ class CRM_Contact_BAO_Query {
         if ( $id ) {
             $this->_where[0][] = "contact_a.id = $id";
         }
-
-        $newParams = array( );
-        if ( $this->_params && ! empty( $this->_params ) ) {
-            foreach ( $this->_params as $id => $values ) {
-                $values =& self::fixWhereValues( $id, $values );
-                if ( ! $values ) {
-                    continue;
-                }
-                $newParams[] = $values;
-            }
-        }
-        $this->_params = $newParams;
 
         $this->includeContactIds( );
         

@@ -388,6 +388,7 @@ class CRM_Core_Config {
     public $includeAlphabeticalPager = 1;
     public $includeOrderByClause     = 1;
     public $includeDomainID          = 1;
+    public $oldInputStyle            = 1;
 
     /**
      * singleton function used to manage this object
