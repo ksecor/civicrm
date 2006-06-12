@@ -77,6 +77,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         $this->addGroup( $default, 'default' );
 
+        $this->addElement('checkbox', 'amount_block_is_active', ts('Contribution Amounts Section Enabled') );
+
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
 
         parent::buildQuickForm( );
@@ -104,7 +106,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                 }
             }
         }
-
+        
         return $defaults;
     }
 
@@ -161,7 +163,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $labels  = CRM_Utils_Array::value( 'label'  , $params );
         $values  = CRM_Utils_Array::value( 'value'  , $params );
         $default = CRM_Utils_Array::value( 'default', $params ); 
-
+        $params['amount_block_is_active']  = CRM_Utils_Array::value( 'amount_block_is_active', $params ,false);
         if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values ) ) {
             for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
                 if ( ! empty( $labels[$i] ) && !empty( $values[$i] ) ) {

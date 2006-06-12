@@ -110,7 +110,11 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         case 'AddProductToPage':
             $form = 'CRM_Contribute_Form_ContributionPage_AddProduct';
             break;
-        
+
+        case 'Membership':
+            $form = 'CRM_Member_Form_MembershipBlock';
+            break;
+
         case 'Premium':
             //$form = 'CRM_Contribute_Form_ContributionPage_Premium';
             require_once 'CRM/Contribute/Page/Premium.php';

@@ -9,6 +9,11 @@
 <div class="form-item" id="map-field">
     <fieldset><legend>{ts}Contribution Amounts{/ts}</legend>
     <dl>
+
+    <dt>{$form.amount_block_is_active.label}</dt><dd>{$form.amount_block_is_active.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Uncheck this box of you do not want users to select or enter contribution amounts on this page (e.g. for membership signup forms with fixed membership fees).{/ts}</dd>
+    </dl>
+    
     <dt>{$form.is_allow_other_amount.label}</dt><dd>{$form.is_allow_other_amount.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to give users the option to enter their own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>.{/ts}</dd>
     </dl>

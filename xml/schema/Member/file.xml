@@ -5,4 +5,6 @@
 <xi:include href="MembershipType.xml"          parse="xml" />
 <xi:include href="Membership.xml"              parse="xml" />
 <xi:include href="MembershipStatus.xml"        parse="xml" />
+<xi:include href="MembershipPayment.xml"        parse="xml" />
+<xi:include href="MembershipBlock.xml"        parse="xml" />
 </tables>
