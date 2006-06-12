@@ -667,7 +667,7 @@ class CRM_Contact_BAO_Query {
         return array( $select, $from, $where );
     }
 
-    static function &getWhereValues( $name, $grouping ) {
+    function &getWhereValues( $name, $grouping ) {
         foreach ( $this->_params as $id => $values ) {
             if ( $values[0] == $name && $values[4] == $grouping ) {
                 return $values;
@@ -677,7 +677,17 @@ class CRM_Contact_BAO_Query {
     }
 
     static function &fixWhereValues( $id, &$values ) {
-        if ( ! is_array( $values ) ) {
+        // skip a few search variables
+        static $skipWhere = null;
+        if  ( ! $skipWhere ) {
+            $skipWhere = array( 'task' => 1, 'radio_ts' => 1, 'uf_group_id' => 1 );
+        }
+
+        if ( CRM_Utils_Array::value( $id, $skipWhere ) ) {
+            return null;
+        }
+
+        if ( ! is_array( $values ) || $id == 'group' || $id == 'tag' ) {
             if ( CRM_Utils_System::isNull( $values ) ) {
                 return null;
             }
@@ -697,6 +707,73 @@ class CRM_Contact_BAO_Query {
                       CRM_Utils_Array::value( 'wildcard', $values, 0 ),
                       CRM_Utils_Array::value( 'grouping', $values, 0 ) );
         
+    }
+
+    function whereClauseSingle( &$values ) {
+
+        switch ( $values[0] ) {
+
+        case 'contact_type':
+            $this->contactType( $values );
+            return;
+
+        case 'group':
+            $this->group( $values );
+            return;
+
+        case 'tag':
+            $this->tag( $values );
+            return;
+
+        case 'sort_name':
+            $this->sortName( $values );
+            return;
+
+        case 'sortByCharacter':
+            $this->sortByCharacter( $values );
+            return;
+
+        case 'location_name':
+            $this->locationName( $values ); 
+            return;
+
+        case 'location_type':
+            $this->locationType( $values ); 
+            return;
+
+        case postal_code:
+        case postal_code_low:
+        case postal_code_high:
+            $this->postalCode( $values );
+            return;
+
+        case activity_type:
+            $this->activityType( $values );
+            return;
+
+        case activity_date:
+        case activity_date_low:
+        case activity_date_high:
+            $this->activityDate( $values );
+            return;
+                
+
+        default:
+            // do not process custom fields or prefixed contact ids
+            if ( CRM_Core_BAO_CustomField::getKeyID( $values[0] ) ||
+                 ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ) { 
+                return;
+            }
+            $this->restWhere( $values );
+            return;
+                
+            // $this->relationship();
+                
+
+            // CRM_Core_Component::alterQuery( $this, 'where' );
+
+        }
+
     }
 
     /** 
@@ -735,74 +812,12 @@ class CRM_Contact_BAO_Query {
                 $newParams[] = $values;
             }
         }
-        $this->_params =& $newParams;
+        $this->_params = $newParams;
 
         $this->includeContactIds( );
 
-        foreach ( $this->_params as $id => $values ) {
-            switch ( $values[0] ) {
-
-            case 'contact_type':
-                $this->contactType( $values );
-                break;
-
-            case 'group':
-                $this->group( $values );
-                break;
-
-            case 'tag':
-                $this->tag( $values );
-                break;
-
-            case 'sort_name':
-                $this->sortName( $values );
-                break;
-
-            case 'sortByCharacter':
-                $this->sortByCharacter( $values );
-                break;
-
-            case 'location_name':
-                $this->locationName( $values ); 
-                break;
-
-            case 'location_type':
-                $this->locationType( $values ); 
-                break;
-
-            case postal_code:
-            case postal_code_low:
-            case postal_code_high:
-                $this->postalCode( $values );
-                break;
-
-            case activity_type:
-                $this->activityType( $values );
-                break;
-
-            case activity_date:
-            case activity_date_low:
-            case activity_date_high:
-                $this->activityDate( $values );
-                break;
-                
-
-            default:
-                // do not process custom fields or prefixed contact ids
-                if ( CRM_Core_BAO_CustomField::getKeyID( $values[0] ) ||
-                     ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ) { 
-                    break;
-                }
-                $this->restWhere( $values );
-                break;
-                
-                // $this->relationship();
-                
-
-                // CRM_Core_Component::alterQuery( $this, 'where' );
-
-            }
-
+        foreach ( array_keys( $this->_params ) as $id ) {
+            $this->whereClauseSingle( $this->_params[$id] );
         }
 
         if ( $this->_customQuery ) {
@@ -1325,7 +1340,7 @@ class CRM_Contact_BAO_Query {
         
         $statii    =  array(); 
         $in        =  false; 
-        $gcsValues =& self::getWhereValues( 'group_contact_status', $grouping );
+        $gcsValues =& $this->getWhereValues( 'group_contact_status', $grouping );
 
         if ( $gcsValues &&
              is_array( $gcsValues[2] ) ) {
@@ -1348,7 +1363,7 @@ class CRM_Contact_BAO_Query {
         $this->_qill[$grouping][] = ts('Group Status -') . ' ' . implode( ' ' . ts('or') . ' ', $statii );
 
         if ( $in ) {
-            $ssClause = $this->savedSearch( );
+            $ssClause = $this->savedSearch( $values );
             if ( $ssClause ) {
                 $groupClause = "( ( $groupClause ) OR ( $ssClause ) )";
             }
