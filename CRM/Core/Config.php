@@ -537,6 +537,10 @@ class CRM_Core_Config {
         
         if ( defined( 'CIVICRM_LC_MESSAGES' ) ) {
             $this->lcMessages = CIVICRM_LC_MESSAGES;
+
+            // reset the templateCompileDir to locale-specific and make sure it exists
+            $this->templateCompileDir .= DIRECTORY_SEPARATOR . $this->lcMessages;
+            CRM_Utils_File::createDir( $this->templateCompileDir );
         }
         
         if ( defined( 'CIVICRM_ADDRESS_FORMAT' ) ) {
