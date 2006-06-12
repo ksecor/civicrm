@@ -726,12 +726,14 @@ class CRM_Contact_BAO_Query {
         }
 
         $newParams = array( );
-        foreach ( $this->_params as $id => $values ) {
-            $values =& self::fixWhereValues( $id, $values );
-            if ( ! $values ) {
-                continue;
+        if ( $this->_params && ! empty( $this->_params ) ) {
+            foreach ( $this->_params as $id => $values ) {
+                $values =& self::fixWhereValues( $id, $values );
+                if ( ! $values ) {
+                    continue;
+                }
+                $newParams[] = $values;
             }
-            $newParams[] = $values;
         }
         $this->_params =& $newParams;
 
@@ -757,7 +759,7 @@ class CRM_Contact_BAO_Query {
                 break;
 
             case 'sortByCharacter':
-                $this->sortName( $values );
+                $this->sortByCharacter( $values );
                 break;
 
             case 'location_name':
@@ -771,7 +773,7 @@ class CRM_Contact_BAO_Query {
             case postal_code:
             case postal_code_low:
             case postal_code_high:
-                $this->postal_code( $values );
+                $this->postalCode( $values );
                 break;
 
             case activity_type:
@@ -841,6 +843,11 @@ class CRM_Contact_BAO_Query {
         if ($locType[2]) {
             $locType[2] = addslashes( $locType[2] );
             $this->_where[$grouping][] = "civicrm_phone.phone_type = '{$locType[2]}'";
+        }
+
+        $field = CRM_Utils_Array::value( $name, $this->_fields );
+        if ( ! $field ) {
+            return;
         }
 
         // FIXME: the LOWER/strtolower pairs below most probably won't work
@@ -1567,7 +1574,7 @@ class CRM_Contact_BAO_Query {
             
             $locationType =& CRM_Core_PseudoConstant::locationType();
             $names = array( );
-            foreach ( array_keys( $this->_params['location_type'] ) as $id ) {
+            foreach ( array_keys( $value ) as $id ) {
                 $names[] = $locationType[$id];
             }
             
@@ -1605,24 +1612,31 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    function activityType( ) {
-        if ( CRM_Utils_Array::value( 'activity_type', $this->_params ) ) {
-            $name = trim($this->_params['activity_type']); 
+    function activityType( &$values ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
-            // split the string into pieces 
-            $pieces =  explode( ' ', $name ); 
-            $sub    = array( );
-            foreach ( $pieces as $piece ) { 
-                $sub[] = " LOWER(civicrm_activity_history.activity_type) LIKE '%" . strtolower(addslashes(trim($piece))) . "%'"; 
-            } 
-            $this->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) ';
-            $this->_tables['civicrm_activity_history'] = $this->_whereTables['civicrm_activity_history'] = 1; 
-            $this->_qill[$grouping][]  = ts('Activity Type like - "%1"', array( 1 => $name ) );
-        }
+        $name = trim( $value );
+
+        // split the string into pieces 
+        $pieces =  explode( ' ', $name ); 
+        $sub    = array( );
+        foreach ( $pieces as $piece ) {
+            $v = strtolower(addslashes(trim($piece)));
+            $v = $wildcard ? "%$v%" : $v;
+            $sub[] = " LOWER(civicrm_activity_history.activity_type) $op '$v'";
+        } 
+        $this->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) ';
+        $this->_tables['civicrm_activity_history'] = $this->_whereTables['civicrm_activity_history'] = 1; 
+        $this->_qill[$grouping][]  = ts( "Activity Type %2 - '%1'", array( 2 => $op, 1 => $name ) );
+    }
+    
+
+    function activityDate( $values ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         $this->dateQueryBuilder( 'civicrm_activity_history', 'activity_date', 'activity_date', 'Activity Date' );
     }
-    
+
     /**
      * where / qill clause for relationship
      *
