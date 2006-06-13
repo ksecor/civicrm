@@ -1680,7 +1680,6 @@ class CRM_Contact_BAO_Query {
                                     'receipt_date'           => 1,
                                     'thankyou_date'          => 1,
                                     'source'                 => 1,
-                                    'note'                   => 1,
                                     'name'                   => 1,
                                     'sku'                    => 1,
                                     'product_option'         => 1,
