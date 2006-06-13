@@ -47,7 +47,7 @@
     <dt></dt><dd>{$form.display_min_fee.html}&nbsp;{$form.display_min_fee.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}{/ts}</dd>
 
-    <dt></dt><dd>{$form.separate_payment.html}&nbsp;{$form.separate_payment.label} </dd>
+    <dt></dt><dd>{$form.is_separate_payment.html}&nbsp;{$form.is_separate_payment.label} </dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Should the membership payment transaction be processed separately from any additional contribution on this page.{/ts}</dd>
 	
     </dl>

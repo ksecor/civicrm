@@ -57,15 +57,26 @@ class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine
         $session =& CRM_Core_Session::singleton();
         $session->set('singleForm', false);
 
-        $this->_pages = array(
-                              'CRM_Contribute_Form_ContributionPage_Settings' => null,
-                              'CRM_Contribute_Form_ContributionPage_Amount'   => null,
-                              'CRM_Member_Form_MembershipBlock'              => null,
-                              'CRM_Contribute_Form_ContributionPage_ThankYou' => null,
-                              'CRM_Contribute_Form_ContributionPage_Custom'   => null,
-                              'CRM_Contribute_Form_ContributionPage_Premium'  => null,
-                              );
-        
+        $config =& CRM_Core_Config::singleton( );
+        if( in_array("CiviMember", $config->enableComponents )) {
+            $this->_pages = array(
+                                  'CRM_Contribute_Form_ContributionPage_Settings' => null,
+                                  'CRM_Contribute_Form_ContributionPage_Amount'   => null,
+                                  'CRM_Member_Form_MembershipBlock'              => null,
+                                  'CRM_Contribute_Form_ContributionPage_ThankYou' => null,
+                                  'CRM_Contribute_Form_ContributionPage_Custom'   => null,
+                                  'CRM_Contribute_Form_ContributionPage_Premium'  => null,
+                                  );
+        } else {
+            $this->_pages = array(
+                                  'CRM_Contribute_Form_ContributionPage_Settings' => null,
+                                  'CRM_Contribute_Form_ContributionPage_Amount'   => null,
+                                  'CRM_Contribute_Form_ContributionPage_ThankYou' => null,
+                                  'CRM_Contribute_Form_ContributionPage_Custom'   => null,
+                                  'CRM_Contribute_Form_ContributionPage_Premium'  => null,
+                                  );
+
+        }
         $this->addSequentialPages( $this->_pages, $action );
     }
 

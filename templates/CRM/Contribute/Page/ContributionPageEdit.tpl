@@ -28,10 +28,12 @@
     <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Amount"}">&raquo; {ts}Contribution Amounts{/ts}</a></td>
     <td>{ts}Configure contribution amount options and labels, minimum and maximum amounts.{/ts}</td>
 </tr>
+{if $CiviMember}
 <tr>
     <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Membership"}">&raquo; {ts}Membership Settings{/ts}</a></td>
     <td>{ts}Configure membership sign-up and renewal options.{/ts}</td>
 </tr>
+{/if}
 <tr>
     <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=ThankYou"}">&raquo; {ts}Thank-you and Receipting{/ts}</a></td>
     <td nowrap>{ts}Edit thank-you page contents and receipting features.{/ts}</td>
