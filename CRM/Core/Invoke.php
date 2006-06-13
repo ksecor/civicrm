@@ -191,6 +191,11 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View_Contribution( );
                 break;
 
+            case 'membership':
+                require_once 'CRM/Contact/Page/View/Membership.php'; 
+                $view =& new CRM_Contact_Page_View_Membership( );
+                break;
+
             case 'note':
                 require_once 'CRM/Contact/Page/View/Note.php';
                 $view =& new CRM_Contact_Page_View_Note( );
