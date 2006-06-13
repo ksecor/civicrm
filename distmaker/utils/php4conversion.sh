@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 P=`dirname $0`
 CFFILE=$P/../distmaker.conf

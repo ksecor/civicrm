@@ -1,4 +1,4 @@
-#!/bin/bash -v
+#!/usr/bin/env bash -v
 
 cd ../sql
 mysql -u civicrm -pPASSWORD civicrm < civicrm.sql

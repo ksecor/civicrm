@@ -1,4 +1,4 @@
-#!/bin/bash -v
+#!/usr/bin/env bash -v
 
 # Where are we called from?
 P=`dirname $0`
