@@ -393,6 +393,13 @@ div.spacer {
   border-bottom: 1px solid #000;
   text-align: left;
 }
+#crm-container tr.columnheader-dark td, #crm-container tr.columnheader td, #crm-container tr.columnfooter td {
+  font-size: 1.0em;
+  font-weight: bold;
+}
+#crm-container tr.columnfooter {
+  border-top: 2px solid #000000;
+}
 
 #crm-container #map-field th {
     border-right: 1px solid #000;
