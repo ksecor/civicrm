@@ -524,9 +524,12 @@ define( 'CIVICRM_BACKTRACE', 0 );
  *
  * CIVICRM_VERP_SEPARATOR - Separator character used when CiviMail generates
  * VERP (variable envelope return path) Mail-From addresses. 
+ *
+ * CIVICRM_MAILER_BATCH_LIMIT - Number of emails sent every CiviMail run (0 - no limit).
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 define( 'CIVICRM_VERP_SEPARATOR', '.' );
+define( 'CIVICRM_MAILER_BATCH_LIMIT', 0 );
 
 /**
  * CiviSMS Settings:

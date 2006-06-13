@@ -198,6 +198,16 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $eq->query($query);
 
         while ($eq->fetch()) {
+            static $config = null;
+            if ($config == null) $config =& CRM_Core_Config::singleton();
+
+            // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
+            static $mailsProcessed = 0;
+            if ($config->mailerBatchLimit > 0 and $mailsProcessed >= $config->mailerBatchLimit) {
+                exit;
+            }
+            $mailsProcessed++;
+            
             /* Compose the mailing */
             $recipient = null;
             $message = $mailing->compose(   $this->id, $eq->id, $eq->hash,
