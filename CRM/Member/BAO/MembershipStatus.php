@@ -128,14 +128,17 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
     static function del($membershipStatusId) 
     {
         //check dependencies
+        require_once 'CRM/Member/DAO/Membership.php';
+        $membership =& new CRM_Member_DAO_Membership( );
+        $query = 'DELETE FROM civicrm_membership 
+                  WHERE       calculated_status_id=' . $membershipStatusId . ' OR override_status_id=' . $membershipStatusId . ';';
+        $membership->query($query);
         
         //delete from membership Type table
-        require_once 'CRM/Member/DAO/Membership.php';
+        require_once 'CRM/Member/DAO/MembershipStatus.php';
         $membershipStatus =& new CRM_Member_DAO_MembershipStatus( );
         $membershipStatus->id = $membershipStatusId;
         $membershipStatus->delete();
     }
-
 }
-
 ?>

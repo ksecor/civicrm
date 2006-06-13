@@ -132,7 +132,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         //check dependencies
         
         //delete from membership Type table
-        require_once 'CRM/Member/DAO/Membership.php';
+        require_once 'CRM/Member/DAO/MembershipType.php';
         $membershipType =& new CRM_Member_DAO_MembershipType( );
         $membershipType->id = $membershipTypeId;
         $membershipType->delete();
