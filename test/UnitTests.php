@@ -58,7 +58,10 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM966.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM980.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM983.php'    );
-                
+
+        //api for ActivityType
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1011.php' );
+        
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/MultiValuedCheckBox.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Note.php'    );
         
@@ -100,13 +103,13 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteNote.php');
 
         //file api
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateFile.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetFile.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateFile.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteFile.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateEntityFile.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetFilesByEntity.php');
-        $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityFile.php');
+      //   $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateFile.php');
+//         $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetFile.php');
+//         $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/UpdateFile.php');
+//         $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteFile.php');
+//         $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateEntityFile.php');
+//         $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/GetFilesByEntity.php');
+//         $this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/DeleteEntityFile.php');
         
         // relationship api
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/CreateRelationship.php');
@@ -134,6 +137,8 @@ class UnitTests extends GroupTest {
         //$this->addTestFile(CIVICRM_TEST_DIR . 'CRM/api/Token.php' );
 
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateProfileContact.php'    );
+        
+        
     }
 
 }

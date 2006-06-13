@@ -524,9 +524,12 @@ define( 'CIVICRM_BACKTRACE', 0 );
  *
  * CIVICRM_VERP_SEPARATOR - Separator character used when CiviMail generates
  * VERP (variable envelope return path) Mail-From addresses. 
+ *
+ * CIVICRM_MAILER_BATCH_LIMIT - Number of emails sent every CiviMail run (0 - no limit).
  */
 define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
 define( 'CIVICRM_VERP_SEPARATOR', '.' );
+define( 'CIVICRM_MAILER_BATCH_LIMIT', 0 );
 
 /**
  * CiviSMS Settings:
@@ -595,5 +598,18 @@ if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' 
 
 // force PHP to auto-detect Mac line endings
 ini_set('auto_detect_line_endings', '1');
+
+// make sure the memory_limit is at least 16 MiB
+$memLimitString = trim(ini_get('memory_limit'));
+$memLimitUnit = strtolower(substr($memLimitString, -1));
+$memLimit = (int) $memLimitString;
+switch ($memLimitUnit) {
+    case 'g': $memLimit *= 1024;
+    case 'm': $memLimit *= 1024;
+    case 'k': $memLimit *= 1024;
+}
+if ($memLimit < 16777216) {
+    ini_set('memory_limit', '16M');
+}
 
 ?>

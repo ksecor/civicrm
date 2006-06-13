@@ -22,9 +22,9 @@
             {if $i eq 1 OR ($i % $itemsPerRow eq 1)}
                 <tr>
             {/if}
-            <td>
-                <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if}><img src="{$config->resourceBase}i/{$panelItem.icon}" alt="{$panelItem.title}"/></a><br >
-                <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if}>{$panelItem.title|replace:" ":"<br />"}</a>
+            <td >
+                <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} ><img src="{$config->resourceBase}i/{$panelItem.icon}" alt="{$panelItem.title}"/></a><br >
+                <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="id{$panelItem.title}">{$panelItem.title|replace:" ":"<br />"}</a>
             </td>
             {if $i % $itemsPerRow eq 0}
                 </tr>

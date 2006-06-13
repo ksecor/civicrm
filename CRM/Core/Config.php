@@ -327,6 +327,13 @@ class CRM_Core_Config {
     public $verpSeparator = '.';
 
     /**
+     * How many emails should CiviMail deliver on a given run
+     *
+     * @var int
+     */
+    public $mailerBatchLimit = 0;
+
+    /**
      * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
      *
      * @var array
@@ -538,6 +545,10 @@ class CRM_Core_Config {
         
         if ( defined( 'CIVICRM_LC_MESSAGES' ) ) {
             $this->lcMessages = CIVICRM_LC_MESSAGES;
+
+            // reset the templateCompileDir to locale-specific and make sure it exists
+            $this->templateCompileDir .= DIRECTORY_SEPARATOR . $this->lcMessages;
+            CRM_Utils_File::createDir( $this->templateCompileDir );
         }
         
         if ( defined( 'CIVICRM_ADDRESS_FORMAT' ) ) {
@@ -717,6 +728,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_VERP_SEPARATOR' ) ) {
             $this->verpSeparator = CIVICRM_VERP_SEPARATOR;
+        }
+
+        if ( defined( 'CIVICRM_MAILER_BATCH_LIMIT' ) ) {
+            $this->mailerBatchLimit = (int) CIVICRM_MAILER_BATCH_LIMIT;
         }
 
         if ( defined( 'CIVICRM_ENABLE_SSL' ) ) {

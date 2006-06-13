@@ -64,7 +64,7 @@
       <add>1.5</add>  
   </field> 
   <field>  
-      <name>separate_payment</name>     
+      <name>is_separate_payment</name>     
       <type>boolean</type>
       <default>1</default>
       <comment>Should membership transactions be processed separately</comment>                

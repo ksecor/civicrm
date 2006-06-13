@@ -1,0 +1,170 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>admin_genderoptions</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">admin_genderoptions</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+<!-- CREATING A NEW GENDER -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administer CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=GenderOptions(Male, Female...)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Gender Options (Male, Female...) | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=New Gender Option</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Gender Options (Male, Female...) | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>New Gender Option</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>Bimale</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>weight</td>
+	<td>0</td>
+</tr>
+
+
+<!-- SAVING NEW GENDER -->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Gender_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Gender Options (Male, Female...) | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Gender "Bimale" has been saved.</td>
+	<td></td>
+</tr>
+
+
+<!-- EDITING NEW GENDER -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Edit Gender Option</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>Bimale1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Gender_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Gender Options (Male, Female...) | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Gender "Bimale1" has been saved.</td>
+	<td></td>
+</tr>
+
+<!-- DISABLING NEW GENDER -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Disable</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Gender Options (Male, Female...) | drupal</td>
+	<td></td>
+</tr>
+
+
+<!-- DELETING NEW GENDER -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>WARNING: Deleting this option will result in the loss of all Gender related records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Gender_next</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td>assertTextPresent</td>
+	<td>Selected Gender type has been deleted.</td>
+	<td></td>
+</tr>
+
+
+</tbody></table>
+</body>
+</html>

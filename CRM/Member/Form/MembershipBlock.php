@@ -93,7 +93,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
 
         $this->addElement('checkbox', 'is_required', ts('Require Membership Signup') );
         $this->addElement('checkbox', 'display_min_fee', ts('Display Minimum Membership Fee') );
-        $this->addElement('checkbox', 'separate_payment', ts('Separate Membership Payment') );
+        $this->addElement('checkbox', 'is_separate_payment', ts('Separate Membership Payment') );
 
         require_once 'CRM/Member/BAO/MembershipType.php';
         $membershipTypes = CRM_Member_BAO_MembershipType::getMembershipTypes(); 
@@ -159,7 +159,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
         $params['membership_types']              =  implode(',', $membershipTypes);
         $params['is_required']                   =  CRM_Utils_Array::value( 'is_required', $params, false );
         $params['display_min_fee']               =  CRM_Utils_Array::value( 'display_min_fee', $params, false );
-        $params['separate_payment']              =  CRM_Utils_Array::value( 'separate_payment', $params, false );
+        $params['is_separate_payment']              =  CRM_Utils_Array::value( 'is_separate_payment', $params, false );
         $params['entity_table']                  = 'civicrm_contribution_page';
         $params['entity_id']                     =  $this->_id;
        

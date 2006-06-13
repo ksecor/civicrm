@@ -1,0 +1,155 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>admin_mobile_phone_providers</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">admin_mobile_phone_providers</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+<!-- CREATING MOBILE PHONE PROVIDER -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administer CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idMobile Phone Providers</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Mobile Phone Providers | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>newMobileProvider</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Mobile Phone Providers | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>New Mobile Provider</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>Airtel</td>
+</tr>
+
+<!-- SAVING MOBILE PHONE PROVIDER -->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_MobileProvider_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Mobile Phone Providers | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Mobile Provider "Airtel" has been saved.</td>
+	<td></td>
+</tr>
+
+
+
+
+<!-- EDITING MOBILE PHONE PROVIDER -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Edit Mobile Provider</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>Airtel1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_MobileProvider_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Mobile Phone Providers | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Mobile Provider "Airtel1" has been saved.</td>
+	<td></td>
+</tr>
+
+
+
+<!-- DELETING MOBILE PHONE PROVIDER -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>WARNING: Deleting this option will result in the loss of all Mobile Provider type records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_MobileProvider_next</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td>assertTextPresent</td>
+	<td>Selected Mobile Provider has been deleted.</td>
+	<td></td>
+</tr>
+
+
+</tbody></table>
+</body>
+</html>

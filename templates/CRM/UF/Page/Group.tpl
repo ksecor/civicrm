@@ -11,7 +11,7 @@
     <p>{ts}You can control the web page that someone is directed to AFTER completing the form by modifying the contents of the hidden <strong>postURL</strong> input field. Replace the default value with any valid complete URL prior to saving the form code to the desired page(s).{/ts}</p>
     <p>{ts}EXAMPLE:{/ts} <strong>&lt;input type="hidden" name="postURL" value="http://www.example.com/thank_you.html"&gt;</strong></p>
     </div>
-    
+   
     <h3>{ts}{$title} - Code for Stand-alone HTML Form{/ts}</h3>
     <form name="html_code">
     <textarea rows="20" cols="80" name="profile" id="profile">{$profile}</textarea>
@@ -72,7 +72,7 @@
         {if NOT ($action eq 1 or $action eq 2)}
         <p></p>
         <div class="action-link">
-        <a href="{crmURL p='civicrm/admin/uf/group' q="action=add&reset=1"}">&raquo; {ts}New CiviCRM Profile{/ts}</a>
+        <a href="{crmURL p='civicrm/admin/uf/group' q="action=add&reset=1"}" id="newCiviCRMProfile">&raquo; {ts}New CiviCRM Profile{/ts}</a>
         </div>
         {* <div class="action-link">
             <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1&action=profile"}">&raquo;  {ts}Get HTML for All Active Profiles{/ts}</a>

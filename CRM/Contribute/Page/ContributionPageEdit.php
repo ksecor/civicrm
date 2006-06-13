@@ -66,6 +66,12 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( in_array("CiviMember", $config->enableComponents) ) {
+            $this->assign('CiviMember', true );
+        }
+
 
         // assign vars to templates
         $this->assign('action', $action);
@@ -112,7 +118,9 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
             break;
 
         case 'Membership':
-            $form = 'CRM_Member_Form_MembershipBlock';
+            if ( in_array("CiviMember", $config->enableComponents )) {
+                $form = 'CRM_Member_Form_MembershipBlock';
+            }
             break;
 
         case 'Premium':
