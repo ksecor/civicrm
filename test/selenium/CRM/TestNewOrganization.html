@@ -1,0 +1,176 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>new_organization</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">new_organization</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+
+<!-- CREATING A CONTACT -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=New Organization</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>New Organization | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>organization_name</td>
+	<td>aaditya birla group</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>legal_name</td>
+	<td>aadiees</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>sic_code</td>
+	<td>1010</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>home_URL</td>
+	<td>http://www.aa1.org</td>
+</tr>
+
+<tr>
+	<td>click</td>
+	<td>__privacy[do_not_phone]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>preferred_mail_format</td>
+	<td>label=Both</td>
+</tr>
+
+
+
+<!-- SAVING A CONTACT -->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Edit_next_view</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>aaditya birla group</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your Organization contact record has been saved.</td>
+	<td></td>
+</tr>
+
+<!-- CHECKING A CONTACT -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>edit_contact_info</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>organization_name</td>
+	<td>aaditya birla group</td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>aaditya birla group | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertSelectOptions</td>
+	<td>preferred_mail_format</td>
+	<td>Both,HTML,Text</td>
+</tr>
+
+<tr>
+	<td>verifySelected</td>
+	<td>preferred_mail_format</td>
+	<td>value=Both</td>
+</tr>
+<tr>
+	<td>assertAttribute</td>
+	<td>__privacy[do_not_phone]@type</td>
+	<td>checkbox</td>
+</tr>
+<tr>
+	<td>assertNotAttribute</td>
+	<td>__privacy[do_not_phone]@type</td>
+	<td>radio</td>
+</tr>
+<tr>
+	<td>uncheck</td>
+	<td>__privacy[do_not_phone]</td>
+	<td></td>
+</tr>
+
+
+<!-- SAVING EDITED CONTACT -->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Edit_next_view</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>aaditya birla group</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your Organization contact record has been saved.</td>
+	<td></td>
+</tr>
+
+<!-- DELETING A CONTACT -->
+<tr>
+	<td>clickAndWait</td>
+	<td>contact_delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Are you sure you want to Delete the selected contacts? A Delete operation cannot be undone.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Delete_done</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Selected contact was deleted sucessfully.</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

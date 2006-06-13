@@ -1,0 +1,122 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>admin_duplicatematching</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">admin_duplicatematching</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+<!-- TRAVERSING TO DUPLICATE MAPPING -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administer CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idDuplicate Matching</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Duplicate Matching | drupal</td>
+	<td></td>
+</tr>
+
+
+<!-- EDITING DUPLICATE MAPPING -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit Rule</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure Duplicate Matching Rule</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>match_on_4</td>
+	<td>Job Title</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_DupeMatch_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Duplicate Matching | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Duplicate Matching rule has been saved.</td>
+	<td></td>
+</tr>
+
+<!-- AGAIN EDITING DUPLICATE MAPPING TO PREVIOUS VALUE -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit Rule</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure Duplicate Matching Rule</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>match_on_4</td>
+	<td>- Contact Fields -</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_DupeMatch_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Duplicate Matching | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Duplicate Matching rule has been saved.</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

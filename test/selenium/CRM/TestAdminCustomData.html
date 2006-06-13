@@ -1,0 +1,223 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>admin_customdata</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">admin_customdata</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+<!-- CREATING A CUSTOM DATA GROUP-->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administer CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idCustom Data</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Custom Data | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>newCustomDataGroup</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>New Custom Data Group | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>New Custom Data Group</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>title</td>
+	<td>MyGroup</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>weight</td>
+	<td>0</td>
+</tr>
+
+<!-- SAVING A CUSTOM DATA GROUP-->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Group_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Custom Data | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your Group "MyGroup" has been added. You can add custom fields to this group now.</td>
+	<td></td>
+</tr>
+
+<!-- ADDING FIELD TO CUSTOM DATA GROUP-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=add custom fields</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>MyGroup - Custom Fields | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>MyGroup - Custom Fields</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>label</td>
+	<td>height</td>
+</tr>
+
+<!-- SAVING FIELD TO CUSTOM DATA GROUP-->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Field_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>MyGroup - Custom Fields | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your custom field "height" has been saved</td>
+	<td></td>
+</tr>
+
+<!-- EDITING FIELD TO CUSTOM DATA GROUP-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit Field</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>MyGroup - Custom Fields | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>help_post</td>
+	<td>Explanatory text displayed to users for this field.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='_qf_Edit_next' and @value='Save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>MyGroup - Custom Fields | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your custom field "height" has been saved</td>
+	<td></td>
+</tr>
+
+
+<!-- DELETING FIELD TO CUSTOM DATA GROUP -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>WARNING: Deleting this custom field will result in the loss of all "height" data. All the uf field(s) linked with "height" will be deleted. This action cannot be undone. Do you want to continue?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_DeleteField_next</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td>assertTextPresent</td>
+	<td>Selected Profile Field has been deleted.</td>
+	<td></td>
+</tr>
+
+
+<!-- DELETING CUSTOM DATA GROUP -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Confirm Custom Group Delete | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>WARNING: Deleting this custom group will result in the loss of all MyGroup data. This action cannot be undone. Do you want to continue?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_DeleteGroup_next</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Group "MyGroup" has been deleted.</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

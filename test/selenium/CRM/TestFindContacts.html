@@ -1,0 +1,156 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>find_contacts</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">find_contacts</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+<!-- TRAVERSING TO FIND CONTACTS -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Find Contacts</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Find Contacts | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Search Criteria</td>
+	<td></td>
+</tr>
+
+<!-- FIND CONTACTS BY SORT NAME -->
+<tr>
+	<td>type</td>
+	<td>sort_name</td>
+	<td>Adams</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Search_refresh</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Find Contacts | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>No matches found for:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Name or Email like - "Adams"</td>
+	<td></td>
+</tr>
+
+<!-- FIND CONTACTS BY HOUSEHOLD -->
+<tr>
+	<td>select</td>
+	<td>contact_type</td>
+	<td>Households</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Search_refresh</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Find Contacts | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>No matches found for:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Contact Type - 'Household'</td>
+	<td></td>
+</tr>
+
+<!-- FIND CONTACTS FOR GROUP -->
+<tr>
+	<td>select</td>
+	<td>group</td>
+	<td>Newsletter Subscribers</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Search_refresh</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Find Contacts | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>No matches found for:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Member of Group - Newsletter Subscribers</td>
+	<td></td>
+</tr>
+
+<!-- FIND CONTACTS FOR TAG -->
+<tr>
+	<td>select</td>
+	<td>tag</td>
+	<td>Major Donor</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Search_refresh</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Find Contacts | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>No matches found for:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Tagged as - Major Donor</td>
+	<td></td>
+</tr>
+
+
+</tbody></table>
+</body>
+</html>

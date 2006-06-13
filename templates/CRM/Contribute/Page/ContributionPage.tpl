@@ -37,7 +37,7 @@
         {if NOT ($action eq 1 or $action eq 2) }
         <p>
         <div class="action-link">
-        <a href="{$newPageURL}">&raquo;  {ts}New Contribution Page{/ts}</a>
+        <a href="{$newPageURL}" id="newContributionPage">&raquo;  {ts}New Contribution Page{/ts}</a>
         </div>
         </p>
         {/if}

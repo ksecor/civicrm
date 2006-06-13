@@ -1,0 +1,450 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>admin_configure_online_contribution_pages</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">admin_configure_online_contribution_pages</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+<!-- CREATING NEW ONLINE CONTRIBUTION PAGE -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administer CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idConfigure Online Contribution Pages</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Online Contribution Pages | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>newContributionPage</td>
+	<td></td>
+</tr>
+
+<!-- SETTING "TITLE AND SETTINGS" FOR ONLINE CONTRIBUTION PAGE -->
+<tr>
+	<td>assertTitle</td>
+	<td>New Online Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>New Online Contribution Page</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>title</td>
+	<td>Save India</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>intro_text</td>
+	<td>Save India</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Settings_next</td>
+	<td></td>
+</tr>
+
+<!-- SETTING "CONTRIBUTION AMOUNTS" FOR ONLINE CONTRIBUTION PAGE -->
+<tr>
+	<td>assertTitle</td>
+	<td>New Online Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>label[1]</td>
+	<td>check</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>value[1]</td>
+	<td>10000</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Amount_next</td>
+	<td></td>
+</tr>
+
+<!-- SETTING "THANK-YOU AND RECEIPTING" FOR ONLINE CONTRIBUTION PAGE -->
+<tr>
+	<td>assertTitle</td>
+	<td>New Online Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>thankyou_title</td>
+	<td>thanx</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>thankyou_text</td>
+	<td>thanx for your contribution</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>thankyou_footer</td>
+	<td>once again thanx</td>
+</tr>
+
+<tr>
+	<td>type</td>
+	<td>receipt_text</td>
+	<td>receipt sent</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_ThankYou_next</td>
+	<td></td>
+</tr>
+
+<!-- SETTING "CUSTOM PAGE ELEMENTS" FOR ONLINE CONTRIBUTION PAGE -->
+<tr>
+	<td>assertTitle</td>
+	<td>New Online Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>custom_pre_id</td>
+	<td>label=Constituent Information</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>custom_post_id</td>
+	<td>label=Contributor Info</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Custom_next</td>
+	<td></td>
+</tr>
+
+<!-- SETTING "CONFIGURE PREMIUMS" FOR ONLINE CONTRIBUTION PAGE -->
+<tr>
+	<td>assertTitle</td>
+	<td>New Online Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>premiums_intro_title</td>
+	<td>Online Contribution</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>premiums_intro_text</td>
+	<td>Helping poor</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Premium_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Online Contribution Pages | drupal</td>
+	<td></td>
+</tr>
+
+<!-- CONFIGURE ONLINE CONTRIBUTION PAGE -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idTitleAndSettings</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Save India | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>contribution_type_id</td>
+	<td>label=Donation</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>intro_text</td>
+	<td>Save the world</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>footer_text</td>
+	<td>Save the World</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Settings_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idContributionAmounts</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Save India | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>label[2]</td>
+	<td>Cash</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>value[2]</td>
+	<td>23456</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Amount_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idThank-youandReceipting</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Save India | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>thankyou_text</td>
+	<td>Thanx for helping the world</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>thankyou_footer</td>
+	<td>Donate every day</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>receipt_text</td>
+	<td>Be Kind</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_ThankYou_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idCustomPageElements</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Save India | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>custom_pre_id</td>
+	<td>label=Contributor Info</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>custom_post_id</td>
+	<td>label=Contributor Info</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_Custom_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idPremiums</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Save India | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=add one</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Save India | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_AddProduct_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Save India | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Configure Online Contribution Pages</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Online Contribution Pages | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Contribution Page | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idTest-drive</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>drupal</td>
+	<td></td>
+</tr>
+
+
+<!-- DELETING ONLINE CONTRIBUTION PAGE -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administer CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idConfigure Online Contribution Pages</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Configure Online Contribution Pages | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Are you sure you want to delete the contribution page "Save India"?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@name='_qf_Delete_next' and @value='Delete Contribution Page']</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td>assertTextPresent</td>
+	<td>The contribution page "Save India" has been deleted.</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

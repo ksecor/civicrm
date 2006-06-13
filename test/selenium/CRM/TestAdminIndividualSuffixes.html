@@ -1,0 +1,160 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>admin_individual_suffixes</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">admin_individual_suffixes</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>/drupal/civicrm/admin?reset=1</td>
+	<td></td>
+</tr>
+
+<!-- CREATING INDIVIDUAL SUFFIX OPTION -->
+
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Administer CiviCRM</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Administer CiviCRM | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Configure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>idIndividual Suffixes (Jr, Sr...)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Individual Suffixes (Jr, Sr...) | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>newIndividualSuffix</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Individual Suffixes (Jr, Sr...) | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>New Individual Suffix </td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>lll</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>weight</td>
+	<td>0</td>
+</tr>
+
+<!-- SAVING INDIVIDUAL SUFFIX OPTION -->
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_IndividualSuffix_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Individual Suffixes (Jr, Sr...) | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Individual Suffix "lll" has been saved.</td>
+	<td></td>
+</tr>
+
+
+
+
+<!-- EDITING INDIVIDUAL SUFFIX OPTION -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Edit Individual Suffix </td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>l</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_IndividualSuffix_next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Individual Suffixes (Jr, Sr...) | drupal</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>The Individual Suffix "l" has been saved.</td>
+	<td></td>
+</tr>
+
+
+
+<!-- DELETING INDIVIDUAL SUFFIX OPTION -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Delete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>WARNING: Deleting this option will change all Individual records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>_qf_IndividualSuffix_next</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td>assertTextPresent</td>
+	<td>Selected Individual Suffix has been deleted.</td>
+	<td></td>
+</tr>
+
+
+</tbody></table>
+</body>
+</html>

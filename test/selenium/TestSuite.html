@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+
+<title>Test Suite</title>
+<script language="JavaScript" type="text/javascript" src="../../packages/Selenium/scripts/selenium-browserdetect.js"></script>
+<script language="JavaScript" type="text/javascript">
+    function filterTestsForBrowser() {
+        var suiteTable = document.getElementById("suiteTable");
+        var skippedTests = document.getElementById("skippedTests");
+
+        for(rowNum = suiteTable.rows.length - 1; rowNum >= 0; rowNum--)
+        {
+            var row = suiteTable.rows[rowNum];
+            var filterString = row.getAttribute("unless");
+            if (filterString && eval(filterString))
+            {
+              var cellHTML = row.cells[0].innerHTML;
+              suiteTable.deleteRow(rowNum);
+
+              var newRow = skippedTests.insertRow(1);
+              var newCell = newRow.insertCell(0)
+              newCell.innerHTML = cellHTML;
+            }
+        }
+    }
+</script>
+</head>
+
+<body onload="filterTestsForBrowser()">
+
+    <table id="suiteTable" cellpadding="1" cellspacing="1" border="1">
+        <tbody>
+            <tr><td><b>Test Suite</b></td></tr>
+            <tr><td><a href="./CRM/TestLogin.html">Test Login</a></td></tr>
+	    <tr><td><a href="./CRM/TestNewIndividual.html">Test New Individual</a></td></tr>
+	    <tr><td><a href="./CRM/TestNewOrganization.html">Test New Organization</a></td></tr>
+	    <tr><td><a href="./CRM/TestNewHousehold.html">Test New Household</a></td></tr>
+	    <tr><td><a href="./CRM/TestNewGroup.html">Test New Group</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminProfile.html">Test AdminProfile</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminCustomData.html">Test Admin Custom Data</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminActivityTypes.html">Test Admin ActivityTypes</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminDuplicateMatching.html">Test Admin DuplicateMatching</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminLocationTypes.html">Test Admin LocationTypes</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminRelationshipTypes.html">Test Admin RelationshipTypes</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminTags.html">Test Admin Tags</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminEditDomainInformation.html">Test Admin Edit Domain Information</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminOptions.html">Test Admin Options</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminInstantMessengerServices.html">Test Admin Instant Messenger Services</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminMobilePhoneProviders.html">Test Admin MobilePhoneProviders</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminIndividualPrefixes.html">Test Admin IndividualPrefixes</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminIndividualSuffixes.html">Test Admin IndividualSuffixes</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminConfigureOnlineContributionPages.html">Test Admin ConfigureOnlineContributionPages</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminManagePremiums.html">Test Admin ManagePremiums</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminContributionTypes.html">Test Admin ContributionTypes</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminPaymentInstruments.html">Test Admin PaymentInstruments</a></td></tr>
+	    <tr><td><a href="./CRM/TestAdminAcceptedCreditCards.html">Test Admin AcceptedCreditCards</a></td></tr>
+	    <tr><td><a href="./CRM/TestBasicSearch.html">Test BasicSearch</a></td></tr>
+	    <tr><td><a href="./CRM/TestQuickAdd.html">Test QuickAdd</a></td></tr>
+	    <tr><td><a href="./CRM/TestLogout.html">Test LogOut</a></td></tr>
+        </tbody>
+    </table>
+
+    <em>Not supported in this browser</em>
+    <table id="skippedTests" cellpadding="1" cellspacing="1" border="1">
+        <tbody>
+            <tr><td><b>Skipped Tests</b></td></tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
