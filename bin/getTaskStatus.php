@@ -7,6 +7,8 @@ require_once 'CRM/Core/Config.php';
 
 $config =& CRM_Core_Config::singleton( );
 
+$update = 1;
+
 function user_access( $str ) {
     return true;
 }
@@ -39,6 +41,10 @@ while ( $dao->fetch( ) ) {
         $percent = number_format( (float ) $filled * 100.0 / (float ) $total, 2 );
         if ( $percent > 95.00 ) {
             echo "{$dao->status_id}, {$dao->target_entity_id}: $percent\n";
+            if ( $update ) {
+                $dao->status_id = 328;
+                $dao->save( );
+            }
         }
     }
  }
