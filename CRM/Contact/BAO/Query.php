@@ -836,14 +836,13 @@ class CRM_Contact_BAO_Query {
         default:
             // do not process custom fields or prefixed contact ids
             if ( CRM_Core_BAO_CustomField::getKeyID( $values[0] ) ||
-                 ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ) { 
+                 ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ||
+                 ( substr( $values[0], 0, 12 ) == 'contribution' ) ) {
                 return;
             }
             $this->restWhere( $values );
             return;
                 
-            // CRM_Core_Component::alterQuery( $this, 'where' );
-
         }
 
     }
@@ -880,6 +879,8 @@ class CRM_Contact_BAO_Query {
         foreach ( array_keys( $this->_params ) as $id ) {
             $this->whereClauseSingle( $this->_params[$id] );
         }
+
+        CRM_Core_Component::alterQuery( $this, 'where' );
 
         if ( $this->_customQuery ) {
             $this->_where = array_merge_recursive( $this->_where, $this->_customQuery->_where );
@@ -1598,7 +1599,6 @@ class CRM_Contact_BAO_Query {
         } 
         if ( ! empty( $contactIds ) ) { 
             $this->_where[0][] = " ( contact_a.id in (" . implode( ',', $contactIds ) . " ) ) "; 
-            $this->_whereClause = implode( ' AND ', $this->_where );
         }
     }
 
@@ -2062,7 +2062,7 @@ class CRM_Contact_BAO_Query {
     function dateQueryBuilder( &$values,
                                $tableName, $fieldName, $dbFieldName, $fieldTitle ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        
+
         if ( $name == $fieldName . '_low' ) {
             $op     = '>=';
             $phrase = 'greater than';
@@ -2088,26 +2088,28 @@ class CRM_Contact_BAO_Query {
         }
     }
 
-    function numberRangeBuilder( $tableName, $fieldName, $dbFieldName, $fieldTitle ) {
+    function numberRangeBuilder( &$values,
+                                 $tableName, $fieldName, $dbFieldName, $fieldTitle ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+
         $qill = array( );
 
-        $name = $fieldName . '_low';
-        if ( $this->_params[$name] ) {
-            $this->_where[$grouping][] = "{$tableName}.{$dbFieldName} >= {$this->_params[$name]}";
-            $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
-            $qill[] = ts( 'greater than "%1"', array( 1 => $this->_params[$name] ) );
+        if ( $name == $fieldName . '_low' ) {
+            $op     = '>=';
+            $phrase = 'greater than';
+        } else if ( $name == $fieldName . '_high' ) {
+            $op     = '<=';
+            $phrase = 'less than';
+        } else if ( $name == $fieldName ) {
+            $op     = '=';
+            $phrase = '=';
+        } else {
+            return;
         }
 
-        $name = $fieldName . '_high';
-        if ( $this->_params[$name] ) {
-            $this->_where[$grouping][] = "{$tableName}.{$dbFieldName} <= {$this->_params[$name]}";
-            $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
-            $qill[] = ts( 'less than "%1"', array( 1 => $this->_params[$name] ) );
-        }
-
-        if ( ! empty( $qill ) ) {
-            $this->_qill[$grouping][] = $fieldTitle . ' - ' . implode( ' ' . ts('and') . ' ', $qill );
-        }
+        $this->_where[$grouping][] = "{$tableName}.{$dbFieldName} $op {$value}";
+        $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
+        $this->_qill[$grouping][]  = ts( '%2 - %3 "%1"', array( 1 => $value, 2 => $fieldTitle, 3 => $phrase ) );
     }
 
 }

@@ -6,9 +6,11 @@
     {if $cancel_amount}&nbsp; &nbsp; {ts}Cancelled Contribution Amount{/ts}: {$cancel_amount}{/if}
     {if $qill}
         <ul>
-        {foreach from=$qill item=criteria}
+          {foreach from=$qill item=orClauses}
+           {foreach from=$orClauses item=criteria}
             <li>{$criteria}</li>
-        {/foreach}
+           {/foreach}
+          {/foreach}
         </ul>
     {/if}
  </div>

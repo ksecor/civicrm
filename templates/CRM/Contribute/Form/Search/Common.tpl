@@ -1,16 +1,16 @@
         <tr> 
             <td class="label"> 
-                {$form.contribution_date_from.label} 
+                {$form.contribution_date_low.label} 
             </td>
             <td>
-                {$form.contribution_date_from.html} &nbsp;<br />
+                {$form.contribution_date_low.html} &nbsp;<br />
                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
-                {include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_from startDate=startYear endDate=endYear offset=5 trigger=trigger1}
+                {include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger1}
             </td>
             <td colspan="2"> 
-                 {$form.contribution_date_to.label} {$form.contribution_date_to.html}<br />
+                 {$form.contribution_date_high.label} {$form.contribution_date_high.html}<br />
                  &nbsp; &nbsp; {include file="CRM/common/calendar/desc.tpl" trigger=trigger2}
-                 {include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_to startDate=startYear endDate=endYear offset=5 trigger=trigger2}
+                 {include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger2}
             </td> 
         </tr> 
         <tr> 
@@ -27,7 +27,7 @@
         <tr>
             <td class="label">{ts}Contribution Type{/ts}</td> 
             <td>{$form.contribution_type_id.html}</td> 
-            <td colspan="2"><label>{ts}Paid By{/ts}</label> {$form.payment_instrument_id.html}</td> 
+            <td colspan="2"><label>{ts}Paid By{/ts}</label> {$form.contribution_payment_instrument_id.html}</td> 
         </tr>
         <tr>
             <td class="label">{ts}Status{/ts}</td> 
