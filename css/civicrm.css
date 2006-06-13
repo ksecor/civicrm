@@ -394,11 +394,12 @@ div.spacer {
   text-align: left;
 }
 #crm-container tr.columnheader-dark td, #crm-container tr.columnheader td, #crm-container tr.columnfooter td {
-  font-size: 1.0em;
+  font-size: 1.1em;
   font-weight: bold;
 }
 #crm-container tr.columnfooter {
   border-top: 2px solid #000000;
+  font-size: 1.1em;
 }
 
 #crm-container #map-field th {

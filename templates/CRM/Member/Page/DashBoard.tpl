@@ -16,32 +16,30 @@
 <table class="report form-layout-compressed">
 <tr class="columnheader-dark">
     <td>{ts}Members By Type{/ts}</td>
-    <td>{ts}New & Renewed-June (MTD){/ts}</td>
-    <td>{ts}New & Renewed-2006 (YTD){/ts}</td>
-    <td colspan=2>{ts}Current Members{/ts}</td>
+    <td>{ts}June-New/Renew (MTD){/ts}</td>
+    <td>{ts}2006-New/Renew (YTD){/ts}</td>
+    <td>{ts}Current #{/ts}</td>
 </tr>
 <tr>
     <td><strong>Gold Level</strong></td>
-    <td class="label">12</td>
-    <td class="label">45</td>
-    <td class="label">125</td>
-    <td><a href="">{ts}view details{/ts}...</a></td>
+    <td class="label"><a href="" alt="view details">12</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1&start=20060601000000&end=20060612174244 *}
+    <td class="label"><a href="" alt="view details">45</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1&start=20060101000000&end=20060612174244 *}
+    <td class="label"><a href="" alt="view details">125</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1 *}
 </tr>
 <tr>
     <td><strong>Silver Level</strong></td>
-    <td class="label">9</td>
-    <td class="label">25</td>
-    <td class="label">115</td>
-    <td><a href="">{ts}view details{/ts}...</a></td>
+    <td class="label"><a href="" alt="view details">9</a></td> {* member/search?reset=1&force=1&membership_type_id=2&current=1&start=20060601000000&end=20060612174244 *}
+    <td class="label"><a href="" alt="view details">25</a></td> {* member/search?reset=1&force=1&membership_type_id=2&current=1&start=20060101000000&end=20060612174244 *}
+    <td class="label"><a href="" alt="view details">115</a></td> {* member/search?reset=1&force=1&membership_type_id=2&current=1 *}
 </tr>
 <tr class="columnfooter">
-    <td><strong>{ts}Totals (all types){/ts}</strong></td>
-    <td class="label">21</td>
-    <td class="label">70</td>
-    <td class="label">240</td>
-    <td><a href="">{ts}view details{/ts}...</a></td>
+    <td><strong>{ts}Totals (all types){/ts}</strong></a></td>
+    <td class="label"><a href="" alt="view details">21</a></td> {* member/search?reset=1&force=1&current=1&start=20060601000000&end=20060612174244 *}
+    <td class="label"><a href="" alt="view details">70</a></td> {* member/search?reset=1&force=1&current=1&start=20060101000000&end=20060612174244 *}
+    <td class="label"><a href="" alt="view details">240</a></td> {* member/search?reset=1&force=1&current=1 *}
 </tr>
 </table>
+<br />
 
 {* if $pager->_totalItems *}
     <h3>{ts}Recent Memberships{/ts}</h3>
