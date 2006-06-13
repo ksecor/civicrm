@@ -786,9 +786,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     foreach (array('email', 'phone', 'im') as $key) {
                         if (is_array($loc[$key])) {
                             foreach ($loc[$key] as $value) {
-                                if ( ! empty( $value[$key] ) ) {
+                                if ( ! empty( $value[$key] ) && ! array_key_exists( $key, $params ) ) {
                                     $value[$key] = strtolower( $value[$key] );
-                                    $params[$key][] = 
+                                    $params[$key] = 
                                         '"' . addslashes($value[$key]) . '"';
                                 }
                             }

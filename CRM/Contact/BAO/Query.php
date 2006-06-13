@@ -345,6 +345,7 @@ class CRM_Contact_BAO_Query {
                 $newParams[] = $values;
             }
         }
+        //CRM_Core_Error::debug( 'p', $newParams );
         $this->_params = $newParams;
     }
 
@@ -475,13 +476,40 @@ class CRM_Contact_BAO_Query {
                         if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
                             $this->_cfIDs[$cfID] = array( );
                         }
-                        $this->_cfIDs[$cfID][] = $this->_paramLookup[$name . '_from'];
+                        foreach ( $this->_paramLookup[$name . '_from'] as $pID => $p ) {
+                            // search in the cdID array for the same grouping
+                            $fnd = false;
+                            foreach ( $this->_cfIDs[$cfID] as $cID => $c ) {
+                                if ( $c[3] == $p[3] ) {
+                                    $this->_cfIDs[$cfID][$cID][2]['from'] = $p[2];
+                                    $fnd = true;
+                                }
+                            }
+                            if ( ! $fnd ) {
+                                $p[2] = array( 'from' => $p[2] );
+                                $this->_cfIDs[$cfID][] = $p;
+                            }
+                        }
                     }
                     if ( CRM_Utils_Array::value( $name . '_to', $this->_paramLookup ) ) {
                         if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
                             $this->_cfIDs[$cfID] = array( );
                         }
-                        $this->_cfIDs[$cfID][] = $this->_paramLookup[$name . '_to'];
+                        foreach ( $this->_paramLookup[$name . '_to'] as $pID => $p ) {
+                            // search in the cdID array for the same grouping
+                            $fnd = false;
+                            foreach ( $this->_cfIDs[$cfID] as $cID => $c ) {
+                                if ( $c[4] == $p[4] ) {
+                                    $this->_cfIDs[$cfID][$cID][2]['to'] = $p[2];
+                                    $fnd = true;
+                                }
+                            }
+                            if ( ! $fnd ) {
+                                $p[2] = array( 'to' => $p[2] );
+                                $this->_cfIDs[$cfID][] = $p;
+                            }
+                        }
+
                     }
                 }
             }
@@ -733,36 +761,19 @@ class CRM_Contact_BAO_Query {
 
         if  ( ! $skipWhere ) {
             $skipWhere   = array( 'task', 'radio_ts', 'uf_group_id' );
-            $arrayValues = array( 'group', 'tag', 'contact_type' );
         }
 
-        if ( in_array( $id, $skipWhere ) ) {
+        if ( in_array( $id, $skipWhere ) || substr( $id, 0, 4 ) == '_qf_' ) {
             return null;
         }
 
-        if ( in_array( $id, $arrayValues ) || ! is_array( $values ) || CRM_Utils_Date::isDate( $values ) ) {
-
-            if ( $id == 'sort_name' ) {
-                return array( $id, 'LIKE', $values, 1, 0 );
-            } else if ( strpos( $values, '%' ) !== false ) {
-                return array( $id, 'LIKE', $values, 0, 0 );
-            } else {
-                return array( $id, '=', $values, 0, 0 );
-            }
+        if ( $id == 'sort_name' ) {
+            return array( $id, 'LIKE', $values, 0, 1 );
+        } else if ( strpos( $values, '%' ) !== false ) {
+            return array( $id, 'LIKE', $values, 0, 0 );
+        } else {
+            return array( $id, '=', $values, 0, 0 );
         }
-            
-        if ( ! array_key_exists( 'name' , $values ) ||
-             ! array_key_exists( 'op'   , $values ) ||
-             ! array_key_exists( 'value', $values ) ) {
-            return null;
-        }
-        
-        return array( $values['name'],
-                      $values['op'],
-                      $values['value'],
-                      CRM_Utils_Array::value( 'wildcard', $values, 0 ),
-                      CRM_Utils_Array::value( 'grouping', $values, 0 ) );
-        
     }
 
     function whereClauseSingle( &$values ) {
@@ -986,6 +997,7 @@ class CRM_Contact_BAO_Query {
         } else {
             // sometime the value is an array, need to investigate and fix
             if ( is_array( $value ) ) {
+                CRM_Core_Error::debug( 'v', $values );
                 CRM_Core_Error::fatal( ts( 'This is an unexpected place to be in, contact support' ) );
             }
 
