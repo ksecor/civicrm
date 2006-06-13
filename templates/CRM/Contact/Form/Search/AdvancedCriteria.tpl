@@ -150,10 +150,10 @@
                 {$form.relation_type_id.html}
             </td>
             <td class="label">
-                {$form.target_name.label}
+                {$form.relation_target_name.label}
             </td>
             <td>
-                {$form.target_name.html|crmReplace:class:large}
+                {$form.relation_target_name.html|crmReplace:class:large}
             </td>    
         </tr>
       </table>         

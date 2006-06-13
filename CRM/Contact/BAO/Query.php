@@ -825,6 +825,14 @@ class CRM_Contact_BAO_Query {
             return;
                 
 
+        case 'relation_type_id':
+            $this->relationship( $values );
+            return;
+
+        case 'relation_target_name':
+            // since this case is handled with the above
+            return;
+
         default:
             // do not process custom fields or prefixed contact ids
             if ( CRM_Core_BAO_CustomField::getKeyID( $values[0] ) ||
@@ -834,9 +842,6 @@ class CRM_Contact_BAO_Query {
             $this->restWhere( $values );
             return;
                 
-            // $this->relationship();
-                
-
             // CRM_Core_Component::alterQuery( $this, 'where' );
 
         }
@@ -1720,32 +1725,40 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    function relationship( ) {
-        if ( CRM_Utils_Array::value( 'relation_type_id', $this->_params ) &&
-             CRM_Utils_Array::value( 'target_name', $this->_params ) ) {
-            $name = trim($this->_params['target_name']); 
-            $rel = explode( '_' , $this->_params['relation_type_id']);
-            self::$_relType = $rel[1];
-            if ( $rel[1] == 'a') {
-                $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) LIKE '%" . strtolower( addslashes( $name ) ) . "%'";
-                $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
-            } else if ( $rel[1] == 'b')  {
-                $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) LIKE '%" . strtolower( addslashes( $name ) ) . "%'";
-                $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
-            }
-            $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
+    function relationship( &$values ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
-            require_once 'CRM/Contact/BAO/Relationship.php';
-            $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
-            $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
-            $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
-            $allRelationshipType =array();
-            $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
-            $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
-            $this->_qill[$grouping][]  = ts( $allRelationshipType[$this->_params['relation_type_id']] ." ". $name );
+        // also get values array for relation_target_name
+        $targetName = $this->getWhereValues( 'relation_target_name', $grouping );
+        if ( ! $targetName ) {
+            return;
         }
-    }
 
+        $name = trim( $targetName[2] );
+        $name = strtolower( addslashes( $name ) );
+        $name = $targetName[4] ? "%$name%" : $name;
+
+        $rel = explode( '_' , $value );
+
+        self::$_relType = $rel[1];
+        if ( $rel[1] == 'a') {
+            $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) {$targetName[1]} '$name'";
+            $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
+        } else if ( $rel[1] == 'b')  {
+            $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) {$targetName[1]} '$name'";
+            $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
+        }
+        $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
+
+        require_once 'CRM/Contact/BAO/Relationship.php';
+        $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
+        $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
+        $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
+        $allRelationshipType =array();
+        $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
+        $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+        $this->_qill[$grouping][]  = ts( $allRelationshipType[$value] ." ". $name );
+    }
 
     /**
      * default set of return properties
