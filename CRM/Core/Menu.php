@@ -265,18 +265,6 @@ class CRM_Core_Menu {
                             ),
 
                       array(
-                            'path'    => 'civicrm/contact/search/builder',
-                            'title'   => ts('Search Builder'),
-                            'qs'     => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'adminGroup' => ts('Configure'),
-                            'icon'    => 'admin/05.png',
-                            'weight'  => 291
-                            ),
-
-
-                      array(
                             'path'    => 'civicrm/admin/gender',
                             'title'   => ts('Gender Options (Male, Female...)'),
                             'qs'     => 'reset=1',
@@ -372,12 +360,22 @@ class CRM_Core_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/search/advanced',
-                            'qs'      => 'force=1',
+                            'qs'      => 'reset=1',
                             'title'   => ts('Advanced Search'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'weight'  => 1
                             ),
+
+                      array(
+                            'path'    => 'civicrm/contact/search/builder',
+                            'title'   => ts('Search Builder'),
+                            'qs'     => 'reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'weight'  => 2
+                            ),
+
 
                       array(
                             'path'   => 'civicrm/contact/add',

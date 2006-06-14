@@ -66,7 +66,8 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      * @access public
      */
     public function preProcess() {
-        
+        parent::preProcess( );
+
         $this->_columnCount = array();
         $this->_columnCount = $this->get('columnCount');
 
@@ -82,16 +83,11 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     }
     
     public function buildQuickForm( ) {
-
-//         //add name
-//         $this->add("text", "name", ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ));
-//         $this->addRule( 'name', ts('Please enter a valid name.'), 'required' );
-        
         require_once "CRM/Core/BAO/Mapping.php";
         CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $this->_mappingId, $this->_columnCount);
         
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => 'refresh',
                                          'name'      => ts('Search')
                                          ))
                            );
@@ -120,6 +116,12 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      * @access public
      */
     public function postProcess( ) {
+        $session =& CRM_Core_Session::singleton();
+        $session->set('isAdvanced', '2');
+
+        $config =& CRM_Core_Config::singleton( );
+        $config->oldInputStyle = 0;
+
         $params = $this->controller->exportValues( $this->_name );
         for ($x = 1; $x <= 3; $x++ ) {
             if ( $params['addMore'][$x] )  {
@@ -173,7 +175,6 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
             $this->_formValues['group'] = array( $this->_groupID => 1 );
         }
       
-
         $this->postProcessCommon( );
 
 

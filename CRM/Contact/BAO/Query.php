@@ -286,7 +286,7 @@ class CRM_Contact_BAO_Query {
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        // CRM_Core_Error::debug( 'q', $this );
+        //CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -311,10 +311,7 @@ class CRM_Contact_BAO_Query {
         $this->_tables['civicrm_contact'] = 1;
         $this->_whereTables['civicrm_contact'] = 1;
 
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->oldInputStyle ) {
-            $this->convertParams( );
-        }
+        $this->convertParams( );
 
         $this->buildParamsLookup( );
 
@@ -325,8 +322,14 @@ class CRM_Contact_BAO_Query {
     }
 
     function convertParams( ) {
+        if ( empty( $this->_params ) ) {
+            return;
+        }
+
         $newParams = array( );
-        if ( $this->_params && ! empty( $this->_params ) ) {
+
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->oldInputStyle ) {
             // first fix privacy values
             if ( is_array($this->_params['privacy']) ) { 
                 foreach ($this->_params['privacy'] as $key => $value) { 
@@ -344,7 +347,20 @@ class CRM_Contact_BAO_Query {
                 }
                 $newParams[] = $values;
             }
+        } else {
+            foreach ( $this->_params as $id => $values ) {
+                $newParams[] = array( $values['name'],
+                                      $values['operator'],
+                                      $values['value'],
+                                      $values['grouping'],
+                                      $values['wildcard'] );
+            }
         }
+
+        $this->_params = $newParams;
+        return;
+
+
         //CRM_Core_Error::debug( 'p', $newParams );
         $this->_params = $newParams;
     }
@@ -878,11 +894,13 @@ class CRM_Contact_BAO_Query {
         $this->includeContactIds( );
         
         // CRM_Core_Error::debug( 'p', $this->_params );
-        foreach ( array_keys( $this->_params ) as $id ) {
-            $this->whereClauseSingle( $this->_params[$id] );
-        }
+        if ( ! empty( $this->_params ) ) {
+            foreach ( array_keys( $this->_params ) as $id ) {
+                $this->whereClauseSingle( $this->_params[$id] );
+            }
 
-        CRM_Core_Component::alterQuery( $this, 'where' );
+            CRM_Core_Component::alterQuery( $this, 'where' );
+        }
 
         if ( $this->_customQuery ) {
             $this->_where = array_merge_recursive( $this->_where, $this->_customQuery->_where );
