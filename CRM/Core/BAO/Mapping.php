@@ -547,21 +547,26 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
     static function returnFormatedFields($params) 
     {
         $returnFields = array();
-
+        $cnt = 0;
         foreach ($params['mapper'] as $key => $value) {
             foreach ($value as $k => $v) {
-                $fldName = $v[1];
-                if ( $v[2] ) {
-                    $fldName .= "-{$v[2]}";
+                if ($v[1]) {
+                    $fldName = $v[1];
+                    if ( $v[2] ) {
+                        $fldName .= "-{$v[2]}";
+                    }
+                    
+                    if ( $v[3] ) {
+                        $fldName .= "-{$v[3]}";
+                    }
+                    
+                    $returnFields[$cnt]['name'    ] = $fldName;
+                    $returnFields[$cnt]['grouping'] = $key;
+                    $returnFields[$cnt]['operator'] = $params['operator'][$key][$k];
+                    $returnFields[$cnt]['value'   ] = $params['value'   ][$key][$k];
+                    $returnFields[$cnt]['wildcard'] = 0;
+                    $cnt++;
                 }
-
-                if ( $v[3] ) {
-                    $fldName .= "-{$v[3]}";
-                }
-
-                $returnFields[$fldName]['grouping'] = $key;
-                $returnFields[$fldName]['operator'] = $params['operator'][$key][$k];
-                $returnFields[$fldName]['value'   ] = $params['value'   ][$key][$k];
             }
         }
         

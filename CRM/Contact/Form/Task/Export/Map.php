@@ -193,6 +193,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         }
 
         if (!$checkEmpty ) {
+            $this->set('savedMapping', null);
             require_once 'CRM/Utils/System.php';            
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', '_qf_Map_display=true' ) );
         }

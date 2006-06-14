@@ -129,27 +129,18 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
             }
         }
 
-        /*
-        $checkEmpty = 0;
-        foreach ($params['mapper1'] as $value) {
-            if ($value[0]) {
-                $checkEmpty++;
-            }
-        }
-        
-        if (!$checkEmpty) {
-            foreach ($params['mapper2'] as $value) {
-                if ($value[0]) {
+        foreach ($params['mapper'] as $key => $value) {
+            foreach ($value as $k => $v) {
+                if ($v[0]) {
                     $checkEmpty++;
                 }
             }
         }
-        
+
         if (!$checkEmpty ) {
             require_once 'CRM/Utils/System.php';            
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/builder', '_qf_Builder_display=true' ) );
         }
-        */
 
         $session =& CRM_Core_Session::singleton();
         $session->set('isSearchBuilder', '1');
