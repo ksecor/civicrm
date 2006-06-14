@@ -60,6 +60,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
 
+        parent::preProcess( );
     }
 
     /**
@@ -112,22 +113,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
     {
         require_once 'CRM/Member/BAO/Membership.php';
         if ( $this->_action & CRM_Core_Action::DELETE ) {
-            require_once 'CRM/Contribute/BAO/Contribution.php';
-            CRM_Contribute_BAO_Contribution::deleteContribution( $this->_id );
+            CRM_Member_BAO_Membership::deleteContribution( $this->_id );
             return;
         }
-//         $params = $ids = array( );
-//         // store the submitted values in an array
-//         $params = $this->exportValues();
-        
-//         if ($this->_action & CRM_Core_Action::UPDATE ) {
-//             $ids['membership'] = $this->_id;
-//             }
-        
-//         $membership = CRM_Member_BAO_Membership::add($params, $ids);
-//         CRM_Core_Session::setStatus( ts('The membership type "%1" has been saved.', array( 1 => $membership->name )) );
-
-
 
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );

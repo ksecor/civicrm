@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Member</base>
+  <class>MembershipLog</class>
+  <name>civicrm_membership_log</name>
+  <log>true</log>
+  <comment>Logs Membership signup and renewal actions.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+      <name>id</name>
+      <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>membership_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Membership table</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey> 
+    <name>membership_id</name> 
+    <table>civicrm_membership</table> 
+    <key>id</key> 
+    <add>1.5</add>
+  </foreignKey> 
+  <field>
+       <name>log_type</name>
+       <type>enum</type>
+       <values>Signup, Renewal</values>
+       <comment>Type of membership activity being logged.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>log_date</name>
+      <title>Membership Action Date</title>  
+      <type>date</type>   
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Date this membership action was logged.</comment>  
+      <add>1.5</add>  
+  </field>
+  <field>
+      <name>start_date</name>  
+      <type>date</type>   
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Membership period start date</comment>  
+      <add>1.5</add>  
+  </field>
+  <field> 
+      <name>end_date</name>  
+      <type>date</type>
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>                 
+      <comment>Membership period expiration date.</comment>  
+      <add>1.5</add>  
+  </field>
+</table>

@@ -47,23 +47,26 @@
   </foreignKey>
   <field>  
       <name>join_date</name>  
-      <type>date</type>   
+      <title>Member Since</title>
+      <type>date</type>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
-      <comment>Beginning of initial membership period</comment>  
+      <comment>Beginning of initial membership period (member since...).</comment>  
       <add>1.5</add>  
   </field> 
   <field>  
       <name>start_date</name>  
-      <type>date</type>   
+      <title>Membership Start Date</title>
+      <type>date</type>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
-      <comment>Latest membership period start/renew date</comment>  
+      <comment>Beginning of current uninterrupted membership period.</comment>
       <add>1.5</add>  
   </field>
   <field> 
       <name>end_date</name>  
+      <title>Membership Expiration Date</title>
       <type>date</type>
-      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>                 
-      <comment>Latest membership period expire date</comment>  
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>
+      <comment>Current membership period expire date.</comment>  
       <add>1.5</add>  
   </field> 
   <field>  
@@ -75,6 +78,7 @@
   </field> 
   <field>
       <name>calculated_status_id</name>
+      <title>Membership Status</title>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to Membership Status</comment>
@@ -88,6 +92,7 @@
   </foreignKey>
   <field>
       <name>override_status_id</name>
+      <title>Membership Status (override)</title>
       <type>int unsigned</type>
       <comment>Admin users may set a manual status which overrides the calculated status. FK to Membership Status</comment>
       <add>1.5</add>

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
  
 # define your database name here, will be overriden by 
 # FIRST command line argument if given

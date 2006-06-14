@@ -233,9 +233,14 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults, &$ids ) {
-        $membership = CRM_Member_BAO_Membership::getValues( $params, $defaults, $ids );
-        return $membership;
+    static function retrieve( &$params, &$defaults ) {
+        $membership =& new CRM_Member_DAO_Membership( );
+        $membership->copyValues( $params );
+        if ( $membership->find( true ) ) {
+            CRM_Core_DAO::storeValues( $membership, $defaults );
+            return $membership;
+        }
+        return null;
     }
 
     /**                                                           
@@ -371,20 +376,91 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      * @access public
      */
-    static function getMembership( $contactId ) {
-        
-        $membership =& new CRM_Member_DAO_Membership( );
-        $membership->contact_id = $contactId;
-        
-        $membership->find();
-        
-        $member = array();
-        while ($membership->fetch()) {
-            _crm_object_to_array( clone($membership), $member);
-            $members[$membership->id] = $member;
+    static function activeMembers( $contactId, $memberships, $status = 'active' ) {
+        $actives = array();
+        if ( $status == 'active' ) {
+            foreach ($memberships as $f => $v) {
+                if ($v['active']) {
+                    $actives[$f] = $v;
+                }
+            }
+            return $actives;
+        } elseif ( $status == 'inactive' ) {
+            foreach ($memberships as $f => $v) {
+                if ( !$v['active'] ) {
+                    $actives[$f] = $v;
+                }
+            }
+            return $actives;
         }
-        return $members;
+        return null;
     }
+
+
+    /**
+     * Function to build Membership  Block im Contribution Pages 
+     * 
+     * @param int $pageId 
+     * @static
+     */
+    function buildMembershipBlock( $form , $pageID , $formItems = false) {
+        require_once 'CRM/Member/DAO/MembershipBlock.php';
+        require_once 'CRM/Member/DAO/MembershipType.php';
+        require_once 'CRM/Member/DAO/Membership.php';
+
+        $session = & CRM_Core_Session::singleton();
+        $cid = $session->get('userID');
+        
+
+        $membershipBlock   = array(); 
+        $membershipTypeIds = array();
+        $membershipTypes   = array(); 
+        $radio             = array(); 
+
+        $dao = & new CRM_Member_DAO_MembershipBlock();
+        $dao->entity_table = 'civicrm_contribution_page';
+        
+        $dao->entity_id = $pageID; 
+        $dao->is_active = 1;
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues($dao, $membershipBlock );
+            if( $dao->membership_types ) {
+                $membershipTypeIds = explode( ',' , $dao->membership_types);
+            }
+            if(! empty( $membershipTypeIds ) ) {
+                foreach ( $membershipTypeIds as $value ) {
+                    $memType = & new CRM_Member_DAO_MembershipType(); 
+                    $memType->id = $value;
+                    if ( $memType->find(true) ) {
+                        $mem = array();
+                        CRM_Core_DAO::storeValues($memType,$mem);
+                        $radio[$memType->id] = $form->createElement('radio',null, null, null, $memType->id , null);
+                        $membership = &new CRM_Member_DAO_Membership();
+                        $membership->contact_id         = $cid;
+                        $membership->membership_type_id = $memType->id;
+                        if ( $membership->find(true) ) {
+                            $mem['current_membership'] =  $membership->end_date;
+                        }
+                        $membershipTypes[] = $mem;
+                    }
+                }
+            }
+            
+            $form->assign( 'showRadio',$formItems );
+            if ( $formItems ) {
+                if ( ! $dao->is_required ) {
+                    $radio[''] = $form->createElement('radio',null,null,ts('No thank you'),'no_thanks', null);
+                }
+                $form->addGroup($radio,'selectMembership',null);
+                $form->addRule('selectMembership',ts("Plese select one of the Memebership "),'required');
+            }
+            
+            $form->assign( 'membershipBlock' , $membershipBlock );
+            $form->assign( 'membershipTypes' ,$membershipTypes );
+        
+        }
+    }
+    
 
 }
 

@@ -7,6 +7,16 @@
   <comment>Membership Payment</comment>
   <add>1.5</add>
   <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+      <name>id</name>
+      <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
       <name>membership_id</name>
       <type>int unsigned</type>
       <required>true</required>

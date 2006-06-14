@@ -55,19 +55,11 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      */
     function browse( ) {
         $links =& self::links( );
-//         $mask  = CRM_Core_Action::mask( $this->_permission );
 
-//         $currentMemberships = CRM_Contact_BAO_Membership::getMembership($this->_contactId, CRM_Contact_BAO_Membership::CURRENT);
-//         $pastMemberships    = CRM_Contact_BAO_Membership::getMembership( $this->_contactId, CRM_Contact_BAO_Membership::PAST);
-//         $disableMemberships = CRM_Contact_BAO_Membership::getMembership( $this->_contactId, CRM_Contact_BAO_Membership::DISABLED);
-        
-//         $this->assign( 'currentMemberships', $currentMemberships );
-//         $this->assign( 'pastMemberships'   , $pastMemberships );
-//         $this->assign( 'disableMemberships', $disableMemberships );
-        
-//         $memberships = CRM_Member_BAO_Membership::getMembership($this->_contactId);
-//         print_r($memberships);
-//         $this->assign( 'memberships', $memberships );
+        $idList = array('membership_type'   => 'MembershipType',
+                        'calculated_status' => 'MembershipStatus',
+                        'override_status'   => 'MembershipStatus'
+                      );
 
         $membership = array();
         require_once 'CRM/Member/DAO/Membership.php';
@@ -79,25 +71,30 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         while ($dao->fetch()) {
             $membership[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $membership[$dao->id]);
-            // form all action links
-            $action = array_sum(array_keys($this->links()));
-
-            // update enable/disable links depending on if it is is_reserved or is_active
-            if ($dao->is_reserved) {
-                continue;
-            } else {
-                if ($dao->is_active) {
-                    $action -= CRM_Core_Action::ENABLE;
-                } else {
-                    $action -= CRM_Core_Action::DISABLE;
+            foreach ( $idList as $name => $file ) {
+                if ( $membership[$dao->id][$name .'_id'] ) {
+                    $membership[$dao->id][$name] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_' . $file, 
+                                                                                $membership[$dao->id][$name .'_id'] );
+                }
+            }
+            if ( $dao->calculated_status_id ) {
+                $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $dao->calculated_status_id, 'is_current_member');
+                if ( $active ) {
+                    $membership[$dao->id]['active'] = $active;
                 }
             }
             
-            $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                            array('id' => $dao->id));
+            $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), null, array('id' => $dao->id, 
+                                                                                                   'cid'=> $this->_contactId));
         }
-
-        $this->assign('rows', $membership);
+        //print_r($membership);
+        $activeMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership );
+        $inActiveMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership, 'inactive');
+//         print_r($activeMembers);
+//         print_r($inActiveMembers);
+        $this->assign('activeMembers', $activeMembers);
+        $this->assign('inActiveMembers', $inActiveMembers);
+        //$this->assign('rows', $membership);
 
     }
 
@@ -125,13 +122,13 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      * @access public 
      */ 
     function edit( ) { 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_Membership', 
-                                                       'Create Membership', 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_Membership', 'Create Membership', 
                                                        $this->_action );
         $controller->setEmbedded( true ); 
+        $controller->set('BAOName', $this->getBAOName());
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
-
+        
         return $controller->run( );
     }
 
@@ -206,20 +203,20 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
             self::$_links = array(
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
-                                                                    'url'   => 'civicrm/contact/view/rel',
-                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
+                                                                    'url'   => 'civicrm/contact/view/membership',
+                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&context=membership',
                                                                     'title' => ts('View Membership')
                                                                     ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/contact/view/rel',
-                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
+                                                                    'url'   => 'civicrm/contact/view/membership',
+                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&context=membership',
                                                                     'title' => ts('Edit Membership')
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/contact/view/rel',
-                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
+                                                                    'url'   => 'civicrm/contact/view/membership',
+                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&context=membership',
                                                                     'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',
                                                                     'title' => ts('Delete Membership')
                                                                     ),
@@ -228,6 +225,15 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         return self::$_links;
     }
 
+    /**
+     * Get BAO Name
+     *
+     * @return string Classname of BAO.
+     */
+    function getBAOName() 
+    {
+        return 'CRM_Member_BAO_Membership';
+    }
 
 }
 

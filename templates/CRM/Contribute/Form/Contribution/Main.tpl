@@ -29,11 +29,12 @@ function clearAmountOther() {
 {/if}
 {assign var='reqMark' value='<span class="marker">*</span>'}
 <div class="form-item">
-    <div id="intro_text">
+   <div id="intro_text">
     <p>
     {$intro_text}
     </p>
     </div>
+    {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="makeContribution"}       
  
     <table class="form-layout-compressed">
     <tr>

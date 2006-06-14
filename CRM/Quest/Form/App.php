@@ -124,7 +124,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         }
         
         $status =& CRM_Core_OptionGroup::values( 'task_status', true );
-        if ( $this->_name != 'Submit' ) {
+        if ( $this->_name != 'Submit' && $dao->status_id != $status['Completed'] ) {
             $dao->status_id = $status['In Progress'];
         } else {
             $dao->status_id = $status['Completed'];
