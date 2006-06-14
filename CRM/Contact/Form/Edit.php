@@ -88,6 +88,21 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     protected $_contactId;
 
     /**
+     * the default group id passed in via the url
+     *
+     * @var int
+     */
+    protected $_gid;
+
+    /**
+     * the default tag id passed in via the url
+     *
+     * @var int
+     */
+    protected $_tid;
+
+    
+    /**
      * the group tree data
      *
      * @var array
@@ -129,6 +144,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         if ( $this->_action == CRM_Core_Action::ADD ) {
             $this->_contactType = CRM_Utils_Request::retrieve( 'c_type', $this, true, null, 'REQUEST' );
+
+            $this->_gid = CRM_Utils_Request::retrieve( 'gid',
+                                                       $this,
+                                                       false, null, 'GET' );
+            $this->_tid = CRM_Utils_Request::retrieve( 'tid',
+                                                       $this,
+                                                       false, null, 'GET' );
             $this->_contactId = null;
         } else {
             // this is update mode, first get the id from the session
@@ -170,6 +192,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $params   = array( );
         
         if ( $this->_action & CRM_Core_Action::ADD ) {
+            // set group and tag defaults if any
+            if ( $this->_gid ) {
+                $defaults['group'][$this->_gid] = 1;
+            }
+            if ( $this->_tid ) {
+                $defaults['tag'][$this->_tid] = 1;
+            }
+
             if ( self::LOCATION_BLOCKS >= 1 ) {
                 // set the is_primary location for the first location
                 $defaults['location']    = array( );
