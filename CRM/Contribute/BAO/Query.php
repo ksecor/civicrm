@@ -73,11 +73,11 @@ class CRM_Contribute_BAO_Query {
     }
 
     static function where( &$query ) {
-
         foreach ( array_keys( $query->_params ) as $id ) {
-            self::whereClauseSingle( $query->_params[$id], $query );
+            if ( substr( $query->_params[$id][0], 0, 13 ) == 'contribution_' ) {
+                self::whereClauseSingle( $query->_params[$id], $query );
+            }
         }
-
     }
 
     static function whereClauseSingle( &$values, &$query ) {

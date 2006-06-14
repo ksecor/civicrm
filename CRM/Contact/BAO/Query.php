@@ -778,6 +778,14 @@ class CRM_Contact_BAO_Query {
 
     function whereClauseSingle( &$values ) {
 
+        // do not process custom fields or prefixed contact ids or component params
+        if ( CRM_Core_BAO_CustomField::getKeyID( $values[0] ) ||
+             ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ||
+             ( substr( $values[0], 0, 13 ) == 'contribution_' ) ||
+             ( substr( $values[0], 0, 6  ) == 'quest_' ) ) {
+            return;
+        }
+
         switch ( $values[0] ) {
 
         case 'contact_type':
@@ -834,12 +842,6 @@ class CRM_Contact_BAO_Query {
             return;
 
         default:
-            // do not process custom fields or prefixed contact ids
-            if ( CRM_Core_BAO_CustomField::getKeyID( $values[0] ) ||
-                 ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ||
-                 ( substr( $values[0], 0, 12 ) == 'contribution' ) ) {
-                return;
-            }
             $this->restWhere( $values );
             return;
                 
@@ -2091,8 +2093,6 @@ class CRM_Contact_BAO_Query {
     function numberRangeBuilder( &$values,
                                  $tableName, $fieldName, $dbFieldName, $fieldTitle ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
-        $qill = array( );
 
         if ( $name == $fieldName . '_low' ) {
             $op     = '>=';
