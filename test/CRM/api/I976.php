@@ -14,14 +14,16 @@ class TestOfCRM755 extends UnitTestCase
     
     function testCRM755() 
     {
-        $params = array( 'first_name' => array( 'op'       => '=',
-                                                'value'    => 'Donald',
-                                                'grouping' => 1,
-                                                'wildcard' => 0 ),
-                         'email' => array( 'op'       => 'LIKE',
-                                           'value'    => 'hotmail',
-                                           'grouping' => 2,
-                                           'wildcard' => 1 ),
+        $params = array( array( 'name'     => 'first_name',
+                                'op'       => 'LIKE',
+                                'value'    => '%don%',
+                                'grouping' => 1,
+                                'wildcard' => 0 ),
+                         array( 'name'     => 'email-1',
+                                'op'       => 'LIKE',
+                                'value'    => '%hotmail%',
+                                'grouping' => 2,
+                                'wildcard' => 0 ),
                          );
                          
 
@@ -30,6 +32,8 @@ class TestOfCRM755 extends UnitTestCase
                                    'sort_name'  => 1,
                                    );
 
+        $config =& CRM_Core_Config::singleton( );
+        $config->oldInputStyle = 0;
         $contacts = crm_contact_search( $params, $returnProperties );
         CRM_Core_Error::debug( 'c', $contacts );
     }

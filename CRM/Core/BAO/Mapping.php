@@ -562,7 +562,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     
                     $returnFields[$cnt]['name'    ] = $fldName;
                     $returnFields[$cnt]['grouping'] = $key;
-                    $returnFields[$cnt]['operator'] = $params['operator'][$key][$k];
+                    $returnFields[$cnt]['op']       = $params['operator'][$key][$k];
                     $returnFields[$cnt]['value'   ] = $params['value'   ][$key][$k];
                     $returnFields[$cnt]['wildcard'] = 0;
                     $cnt++;

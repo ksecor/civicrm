@@ -255,7 +255,7 @@ class CRM_Contact_BAO_Query {
     function __construct( $params = null, $returnProperties = null, $fields = null,
                           $includeContactIds = false, $strict = false, $mode = 1 ) {
         require_once 'CRM/Contact/BAO/Contact.php';
-      
+        //CRM_Core_Error::backtrace( );
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );
         $this->_params =& $params;
@@ -311,9 +311,10 @@ class CRM_Contact_BAO_Query {
         $this->_tables['civicrm_contact'] = 1;
         $this->_whereTables['civicrm_contact'] = 1;
 
-        $this->convertParams( );
-
-        $this->buildParamsLookup( );
+        if ( ! empty( $this->_params ) ) {
+            $this->convertParams( );
+            $this->buildParamsLookup( );
+        }
 
         $this->selectClause( ); 
         $this->_whereClause      = $this->whereClause( ); 
@@ -350,12 +351,14 @@ class CRM_Contact_BAO_Query {
         } else {
             foreach ( $this->_params as $id => $values ) {
                 $newParams[] = array( $values['name'],
-                                      $values['operator'],
+                                      $values['op'],
                                       $values['value'],
                                       $values['grouping'],
                                       $values['wildcard'] );
             }
         }
+        //CRM_Core_Error::debug( 'p', $this->_params );
+        //CRM_Core_Error::debug( 'n', $newParams );
 
         $this->_params = $newParams;
         return;
@@ -908,6 +911,7 @@ class CRM_Contact_BAO_Query {
         }
 
         $clauses = array( );
+
         foreach ( $this->_where as $grouping => $values ) {
             if ( $grouping > 0 && ! empty( $values ) ) {
                 $clauses[$grouping] = ' ( ' . implode( ' AND ', $values ) . ' ) ';
@@ -942,7 +946,8 @@ class CRM_Contact_BAO_Query {
             $this->_where[$grouping][] = "civicrm_phone.phone_type = '{$locType[2]}'";
         }
 
-        $field = CRM_Utils_Array::value( $name, $this->_fields );
+        $field = CRM_Utils_Array::value( $locType[0], $this->_fields );
+
         if ( ! $field ) {
             return;
         }
@@ -1038,7 +1043,7 @@ class CRM_Contact_BAO_Query {
                     
                     //get the location name //kurund
                     $locationType =& CRM_Core_PseudoConstant::locationType();
-                    $tName = $locationType[$locType[1]] . "-" . $name;
+                    $tName = $locationType[$locType[1]] . "-" . $locType[0];
                     $where = "`$tName`.$fldName";
                     $this->_where[$grouping][] = "LOWER( $where ) $op '$value'";
                 } else {
