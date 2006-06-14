@@ -233,9 +233,14 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults, &$ids ) {
-        $membership = CRM_Member_BAO_Membership::getValues( $params, $defaults, $ids );
-        return $membership;
+    static function retrieve( &$params, &$defaults ) {
+        $membership =& new CRM_Member_DAO_Membership( );
+        $membership->copyValues( $params );
+        if ( $membership->find( true ) ) {
+            CRM_Core_DAO::storeValues( $membership, $defaults );
+            return $membership;
+        }
+        return null;
     }
 
     /**                                                           
@@ -371,19 +376,24 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      * @access public
      */
-    static function getMembership( $contactId ) {
-        
-        $membership =& new CRM_Member_DAO_Membership( );
-        $membership->contact_id = $contactId;
-        
-        $membership->find();
-        
-        $member = array();
-        while ($membership->fetch()) {
-            _crm_object_to_array( clone($membership), $member);
-            $members[$membership->id] = $member;
+    static function activeMembers( $contactId, $memberships, $status = 'active' ) {
+        $actives = array();
+        if ( $status == 'active' ) {
+            foreach ($memberships as $f => $v) {
+                if ($v['active']) {
+                    $actives[$f] = $v;
+                }
+            }
+            return $actives;
+        } elseif ( $status == 'inactive' ) {
+            foreach ($memberships as $f => $v) {
+                if ( !$v['active'] ) {
+                    $actives[$f] = $v;
+                }
+            }
+            return $actives;
         }
-        return $members;
+        return null;
     }
 
 }
