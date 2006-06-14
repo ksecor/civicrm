@@ -1,61 +1,33 @@
 {* template for search builder *}
- <fieldset>
+ {*<fieldset>
      {$form.name.label}&nbsp;{$form.name.html}
- </fieldset>
+ </fieldset>*}
  <div id="map-field">
   {strip}
-   <fieldset><legend>{ts}Include contacts where{/ts}</legend>
-    <table >
-        {section name=cols loop=$columnCount1}
+     {section start=1 name=blocks loop=3}
+       {assign var="x" value=$smarty.section.blocks.index}
+       <fieldset><legend>{ts}{if $x eq 1}Include contacts where{else}Also include contacts where{/if}{/ts}</legend>
+	<table>
+        {section name=cols loop=$columnCount[$x]}
             {assign var="i" value=$smarty.section.cols.index}
             <tr>
                          
-                {section name=rows loop=$rowDisplayCount}
-                    {assign var="j" value=$smarty.section.rows.index}
-                    <td class="{if $skipColumnHeader AND $smarty.section.rows.iteration == 1}even-row labels{else}odd-row{/if}">{$dataValues[$j][$i]}</td>
-                {/section}
-
                 <td class="form-item even-row">
-                   {$form.mapper1[$i].html}
-	           {$form.operator1[$i].html}
-	           &nbsp;&nbsp;{$form.value1[$i].html}
+                   {$form.mapper[$x][$i].html}
+	           {$form.operator[$x][$i].html}
+	           &nbsp;&nbsp;{$form.value[$x][$i].html}
                 </td>
             </tr>
         {/section}
     
-        <tr>
+         <tr>
            <td class="form-item even-row">
-               {$form.addMore1.html}
+               {$form.addMore[$x].html}
            </td>
-        </tr>            
-    </table>
-   </fieldset>
-   <fieldset><legend>{ts}Also include contacts where{/ts}</legend>
-    <table >
-        {section name=cols loop=$columnCount2}
-            {assign var="i" value=$smarty.section.cols.index}
-            <tr>
-                         
-                {section name=rows loop=$rowDisplayCount}
-                    {assign var="j" value=$smarty.section.rows.index}
-                    <td class="{if $skipColumnHeader AND $smarty.section.rows.iteration == 1}even-row labels{else}odd-row{/if}">{$dataValues[$j][$i]}</td>
-                {/section}
+         </tr>            
+       </table>
+     </fieldset>
 
-                <td class="form-item even-row">
-                   {$form.mapper2[$i].html}
-	           {$form.operator2[$i].html}
-	           &nbsp;&nbsp;{$form.value2[$i].html}
-                </td>
-            </tr>
-        {/section}
-    
-        <tr>
-           <td class="form-item even-row">
-               {$form.addMore2.html}
-           </td>
-        </tr>            
-    </table>
-   </fieldset>
-
+     {/section}
   {/strip}
  </div>
