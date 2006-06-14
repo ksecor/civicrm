@@ -53,7 +53,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     public function preProcess()  
     {  
         parent::preProcess( );
-
+     
         $this->assign( 'intro_text', $this->_values['intro_text'] );
         $this->assign( 'footer_text', $this->_values['footer_text'] );
 
@@ -113,16 +113,23 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->add( 'text', 'email', ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
  
         $this->buildCreditCard( );
+        if ( $this->_values['amount_block_is_active'] ) {
+            $this->buildAmount( );
+        }
 
-        $this->buildAmount( );
-
+        $config =& CRM_Core_Config::singleton( );
         require_once 'CRM/Contribute/BAO/Premium.php';
         CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
+        
+        if ( in_array("CiviMember", $config->enableComponents) ) {
+            require_once 'CRM/Member/BAO/Membership.php';
+            CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,true );
+        }
 
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
-        $config =& CRM_Core_Config::singleton( );
+        
         // if payment is via a button only, dont display continue
         if ( $config->paymentBillingMode != CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
             $this->addButtons(array( 
