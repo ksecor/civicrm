@@ -491,7 +491,7 @@ class CRM_Core_Menu {
                             'path'   => 'civicrm/import',
                             'title'  => ts( 'Import' ),
                             'qs'     => 'reset=1',
-                            'access' => CRM_Core_Permission::check('administer CiviCRM') &&
+                            'access' => CRM_Core_Permission::check( 'import contacts' ) &&
                                         CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'   =>  CRM_Core_Menu::CALLBACK,
                             'crmType'=>  CRM_Core_Menu::NORMAL_ITEM,
