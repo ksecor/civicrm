@@ -95,7 +95,7 @@ class CRM_Quest_BAO_Query
         }
     }
 
-    static function where( &$query ) 
+    static function where( &$query ) {
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 6 ) == 'quest_' ) {
                 self::whereClauseSingle( $query->_params[$id], $query );
