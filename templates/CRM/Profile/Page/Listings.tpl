@@ -11,9 +11,11 @@
      <div id="search-status">
         {ts}Displaying contacts where:{/ts}
         <ul>
-        {foreach from=$qill item=criteria}
-          <li>{$criteria}</li>
-        {/foreach}
+          {foreach from=$qill item=orClauses}
+           {foreach from=$orClauses item=criteria}
+            <li>{$criteria}</li>
+           {/foreach}
+          {/foreach}
         </ul>
      </div>
      </p>
