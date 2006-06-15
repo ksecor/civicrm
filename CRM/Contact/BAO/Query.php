@@ -255,6 +255,7 @@ class CRM_Contact_BAO_Query {
     function __construct( $params = null, $returnProperties = null, $fields = null,
                           $includeContactIds = false, $strict = false, $mode = 1 ) {
         require_once 'CRM/Contact/BAO/Contact.php';
+
         //CRM_Core_Error::backtrace( );
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );
@@ -312,7 +313,6 @@ class CRM_Contact_BAO_Query {
         $this->_whereTables['civicrm_contact'] = 1;
 
         if ( ! empty( $this->_params ) ) {
-            $this->convertParams( );
             $this->buildParamsLookup( );
         }
 
@@ -320,52 +320,6 @@ class CRM_Contact_BAO_Query {
         $this->_whereClause      = $this->whereClause( ); 
         $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode ); 
         $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
-    }
-
-    function convertParams( ) {
-        if ( empty( $this->_params ) ) {
-            return;
-        }
-
-        $newParams = array( );
-
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->oldInputStyle ) {
-            // first fix privacy values
-            if ( is_array($this->_params['privacy']) ) { 
-                foreach ($this->_params['privacy'] as $key => $value) { 
-                    if ($value) {
-                        $newParams[] = array( $key, '=', $value, 0, 0 );
-                    }
-                }
-                unset( $this->_params['privacy'] );
-            } 
-
-            foreach ( $this->_params as $id => $values ) {
-                $values =& self::fixWhereValues( $id, $values );
-                if ( ! $values ) {
-                    continue;
-                }
-                $newParams[] = $values;
-            }
-        } else {
-            foreach ( $this->_params as $id => $values ) {
-                $newParams[] = array( $values['name'],
-                                      $values['op'],
-                                      $values['value'],
-                                      $values['grouping'],
-                                      $values['wildcard'] );
-            }
-        }
-        //CRM_Core_Error::debug( 'p', $this->_params );
-        //CRM_Core_Error::debug( 'n', $newParams );
-
-        $this->_params = $newParams;
-        return;
-
-
-        //CRM_Core_Error::debug( 'p', $newParams );
-        $this->_params = $newParams;
     }
 
     function buildParamsLookup( ) {

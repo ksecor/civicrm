@@ -307,7 +307,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $this->_formValues['group'] = array( $this->_groupID => 1 );
         }
       
-
+        $this->_params =& $this->convertFormValues( $this->_formValues );
         $this->postProcessCommon( );
     }
 

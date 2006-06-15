@@ -98,6 +98,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     public $_formValues;
 
     /**
+     * params is the array in a value used by the search query creator
+     *
+     * @var array
+     * @access protected
+     */
+    public $_params;
+
+    /**
      * represent the type of selector
      *
      * @var int
@@ -125,19 +133,22 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     /**
      * Class constructor
      *
-     * @param array $formValues array of parameters for query
+     * @param array $formValues array of form values imported
+     * @param array $params     array of parameters for query
      * @param int   $action - action of search basic or advanced.
      *
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues, $action = CRM_Core_Action::NONE) 
+    function __construct(&$formValues, &$params, $action = CRM_Core_Action::NONE) 
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact =& new CRM_Contact_BAO_Contact();
 
         // submitted form values
         $this->_formValues =& $formValues;
+
+        $this->_params     =& $params;
 
         // type of selector
         $this->_action = $action;
@@ -159,10 +170,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $returnProperties['contact_type'] = 1;
             $returnProperties['contact_sub_type'] = 1;
             $returnProperties['sort_name'   ] = 1;
-            $this->_query   =& new CRM_Contact_BAO_Query( $this->_formValues, $returnProperties );
+            $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties );
             $this->_options =& $this->_query->_options;
         } else {
-            $this->_query =& new CRM_Contact_BAO_Query( $this->_formValues );
+            $this->_query =& new CRM_Contact_BAO_Query( $this->_params );
         }
     }//end of constructor
 

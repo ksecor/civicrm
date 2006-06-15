@@ -105,10 +105,15 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      */
     
     static function formRule( &$fields ) {
-        
     }    
     
-    
+    public function normalizeFormValues( ) {
+    }
+
+    public function &convertFormValues( &$formValues ) {
+        return CRM_Core_BAO_Mapping::returnFormatedFields( $formValues );
+    }
+
     /**
      * Process the uploaded file
      *
@@ -118,9 +123,6 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     public function postProcess( ) {
         $session =& CRM_Core_Session::singleton();
         $session->set('isAdvanced', '2');
-
-        $config =& CRM_Core_Config::singleton( );
-        $config->oldInputStyle = 0;
 
         $params = $this->controller->exportValues( $this->_name );
         for ($x = 1; $x <= 3; $x++ ) {
@@ -150,9 +152,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         // get user submitted values
         // get it from controller only if form has been submitted, else preProcess has set this
         if ( ! empty( $_POST ) ) {
-            //$this->_formValues = $this->controller->exportValues($this->_name);
-            
-            $this->_formValues = CRM_Core_BAO_Mapping::returnFormatedFields($params);
+            $this->_formValues = $this->controller->exportValues($this->_name);
 
             // set the group if group is submitted
             if ($this->_formValues['uf_group_id']) {
@@ -166,18 +166,8 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
             $this->set( 'sortByCharacter', null ); 
         }
 
-        // retrieve ssID values only if formValues is null, i.e. form has never been posted
-        if ( empty( $this->_formValues ) && isset( $this->_ssID ) ) {
-            $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
-        }
-
-        if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
-            $this->_formValues['group'] = array( $this->_groupID => 1 );
-        }
-      
+        $this->_params =& $this->convertFormValues( $this->_formValues );
         $this->postProcessCommon( );
-
-
     }
     
 }
