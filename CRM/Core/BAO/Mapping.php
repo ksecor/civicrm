@@ -479,6 +479,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 //$formValues = $form->controller->exportValues( $name );
                 $formValues = $_POST; // using $_POST since export values don't give values on first submit
                 
+                //print_r($formValues);
+
                 /*             
               if ( ! $jsSet && empty( $formValues ) ) {
                   for ( $k = 1; $k < 4; $k++ ) {
@@ -493,16 +495,21 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                             $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
                         }
                     } else {
-//                         foreach ( $formValues['mapper[$x]'] as $value) {
-//                             for ( $k = 1; $k < 4; $k++ ) {
-//                                 if (!$formValues['mapper[$x]'][$i][$k]) {
-//                                     $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
-//                                 }
-//                             }
-//                         }
+
+                        foreach ( $formValues['mapper'][$x] as $value) {
+                            for ( $k = 1; $k < 4; $k++ ) {
+                                if (!$formValues['mapper'][$x][$i][$k]) {
+                                    $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
+                                } else {
+                                    $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = '';\n"; 
+                                    
+                                }
+                            }
+                        }
                     }
                 }
                 
+                //$js .= "{$formName}['mapper[1][0][1]'].style.display = 'none';\n"; 
                 $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
                 
                 if ($mappingType == 'Search Builder') {
@@ -524,6 +531,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         } //end of block for
 
         $js .= "</script>\n";
+
         $form->assign('initHideBoxes', $js);
         $form->assign('columnCount', $columnCount);
         
@@ -546,6 +554,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      */
     static function returnFormatedFields($params) 
     {
+        if (empty($params)) {
+            return;
+        }
+        
         $returnFields = array();
         foreach ($params['mapper'] as $key => $value) {
             foreach ($value as $k => $v) {

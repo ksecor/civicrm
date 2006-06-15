@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Contact/Form/Search.php';
-require_once 'CRM/Core/DAO/MappingField.php';
+require_once "CRM/Core/BAO/Mapping.php";
 
 /**
  * This class if for search builder processing
@@ -83,7 +83,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     }
     
     public function buildQuickForm( ) {
-        require_once "CRM/Core/BAO/Mapping.php";
+
         CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $this->_mappingId, $this->_columnCount);
         
         $this->addButtons( array(
