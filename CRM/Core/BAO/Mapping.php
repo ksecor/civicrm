@@ -390,8 +390,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         $mapperKeys      = array_keys( $mapperFields );
         
-        $location_types  =& CRM_Core_PseudoConstant::locationType();
-        
+        $locationTypes  =& CRM_Core_PseudoConstant::locationType();
+                
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
             
         /* FIXME: dirty hack to make the default option show up first.  This
@@ -399,13 +399,16 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
          * selector widgets. */
         
         if ($defaultLocationType) {
-            $defaultLocation = $location_types[$defaultLocationType->id];
-            unset($location_types[$defaultLocationType->id]);
-            $location_types = 
+            $defaultLocation = $locationTypes[$defaultLocationType->id];
+            unset($locationTypes[$defaultLocationType->id]);
+            $locationTypes = 
                 array($defaultLocationType->id => $defaultLocation) + 
-                $location_types;
+                $locationTypes;
         }
         
+        $locationTypes = array (' ' => 'Primary') + $locationTypes;
+
+
         $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType() + $compArray;
         
         foreach($sel1 as $key=>$sel ) {
@@ -419,7 +422,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         foreach($sel1 as $k=>$sel ) {
             if($k) {
-                foreach ($location_types as $key => $value) {                        
+                foreach ($locationTypes as $key => $value) {                        
                     $sel4[$k]['phone'][$key] =& $phoneTypes;
                 }
             }
@@ -431,7 +434,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     
                     if ($hasLocationTypes[$k][$key]) {
                         
-                        $sel3[$k][$key] = $location_types;
+                        $sel3[$k][$key] = $locationTypes;
                     } else {
                         $sel3[$key] = null;
                     }
