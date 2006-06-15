@@ -174,7 +174,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
         }
-
+        // print_r( $this->_values ) ;
+        // check if one of the (amount , membership)  bloks is active or not
+        require_once 'CRM/Member/BAO/Membership.php';
+        $membership = CRM_Member_BAO_Membership::getMemershipBlock( $this->_id );
+        if ( ! $this->_values['amount_block_is_active'] && ! $membership['is_active'] ) {
+            CRM_Utils_System::setUFMessage( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
+            CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
+        }
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode ); 
 

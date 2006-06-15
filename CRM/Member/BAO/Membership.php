@@ -461,6 +461,27 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
     }
     
+    /**
+     * Function to return Membership  Block info in Contribution Pages 
+     * 
+     * @param int $pageId 
+     * @static
+     */
+    static function getMemershipBlock( $pageID ) {
+        $membershipBlock = array();
+        require_once 'CRM/Member/DAO/MembershipBlock.php';
+        $dao = & new CRM_Member_DAO_MembershipBlock();
+        $dao->entity_table = 'civicrm_contribution_page';
+        
+        $dao->entity_id = $pageID; 
+        $dao->is_active = 1;
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues($dao, $membershipBlock );
+        }
+        
+        return $membershipBlock;
+    }
+    
 
 }
 
