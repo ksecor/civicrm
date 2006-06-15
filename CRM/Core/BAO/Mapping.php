@@ -574,7 +574,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     $returnFields[] = array( $fldName,
                                              $params['operator'][$key][$k],
                                              $params['value'   ][$key][$k],
-                                             $grouping,
+                                             $key,
                                              0 );
                 }
             }
@@ -618,7 +618,6 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     $saveMappingFields->value      = $params['value'   ][$key][$k];
                     $saveMappingFields->grouping   = $key;
                     $saveMappingFields->save();
-                    
                 }
             }
         }
