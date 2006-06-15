@@ -109,8 +109,9 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         $params['is_admin']          =  CRM_Utils_Array::value( 'is_admin', $params, false );
         
         // action is taken depending upon the mode
-        $membershipStatus            =& new CRM_Member_DAO_MembershipStatus( );
-        $membershipStatus->copyValues( $params );;
+        $membershipStatus             =& new CRM_Member_DAO_MembershipStatus( );
+        $membershipStatus->domain_id    = CRM_Core_Config::domainID( );
+        $membershipStatus->copyValues( $params );
         
         $membershipStatus->id = CRM_Utils_Array::value( 'membershipStatus', $ids );
 
