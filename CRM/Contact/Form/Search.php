@@ -642,8 +642,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues['uf_group_id'] = $this->_ufGroupID;
         }
 
-        $this->set( 'type'      , $this->_action );
-        $this->set( 'formValues', $this->_formValues );
+        $this->set( 'type'       , $this->_action );
+        $this->set( 'formValues' , $this->_formValues );
+        $this->set( 'queryParams', $this->_params ); 
         
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {
             // check actionName and if next, then do not repeat a search, since we are going to the next page

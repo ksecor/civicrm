@@ -490,7 +490,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         // get the contact details (hier)
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
        
-        $params  = array( 'id' => $cid );
+        $params  = array( array( 'contact_id', '=', $cid, 0, 0 ) );
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
         $options =& $query->_options;
 

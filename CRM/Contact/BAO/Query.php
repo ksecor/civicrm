@@ -1437,9 +1437,9 @@ class CRM_Contact_BAO_Query {
             if (isset($group->saved_search_id)) {
                 require_once 'CRM/Contact/BAO/SavedSearch.php';
                 if ( $config->mysqlVersion >= 4.1 ) { 
-                    $sfv =& CRM_Contact_BAO_SavedSearch::getFormValues($group->saved_search_id);
+                    $ssParams =& CRM_Contact_BAO_SavedSearch::getSearchParams($group->saved_search_id);
 
-                    $smarts =& CRM_Contact_BAO_Contact::searchQuery($sfv, 0, 0, null,  
+                    $smarts =& CRM_Contact_BAO_Contact::searchQuery($ssParams, 0, 0, null,  
                                                                     false, false, false, true, true);
                     $ssWhere[] = " 
                             (contact_a.id IN ( $smarts )  

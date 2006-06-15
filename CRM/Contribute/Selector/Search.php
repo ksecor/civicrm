@@ -109,13 +109,13 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
     protected $_context = null;
 
     /**
-     * formValues is the array returned by exportValues called on
+     * queryParams is the array returned by exportValues called on
      * the HTML_QuickForm_Controller for that page.
      *
      * @var array
      * @access protected
      */
-    public $_formValues;
+    public $_queryParams;
 
     /**
      * represent the type of selector
@@ -142,7 +142,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
     /**
      * Class constructor
      *
-     * @param array $formValues array of parameters for query
+     * @param array $queryParams array of parameters for query
      * @param int   $action - action of search basic or advanced.
      * @param string   $contributionClause if the caller wants to further restrict the search (used in contributions)
      * @param boolean $single are we dealing only with one contact?
@@ -151,7 +151,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues,
+    function __construct(&$queryParams,
                          $action = CRM_Core_Action::NONE,
                          $contributionClause = null,
                          $single = false,
@@ -159,7 +159,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                          $context = 'search' ) 
     {
         // submitted form values
-        $this->_formValues =& $formValues;
+        $this->_queryParams =& $queryParams;
 
         $this->_single  = $single;
         $this->_limit   = $limit;
@@ -170,7 +170,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
         // type of selector
         $this->_action = $action;
 
-        $this->_query =& new CRM_Contact_BAO_Query( $this->_formValues, null, null, false, false,
+        $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
 
     }//end of constructor
@@ -315,11 +315,6 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
     
     
     /**
-     * Given the current formValues, gets the query in local
-     * language
-     *
-     * @param  array(reference)   $formValues   submitted formValues
-     *
      * @return array              $qill         which contains an array of strings
      * @access public
      */

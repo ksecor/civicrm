@@ -282,7 +282,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         require_once 'CRM/Contact/BAO/Export.php';
         CRM_Contact_BAO_Export::exportContacts( $this->get( 'selectAll' ),
                                                 $this->get( 'contactIds' ),
-                                                $this->get( 'formValues' ),
+                                                $this->get( 'queryParams' ),
                                                 $this->get( CRM_Utils_Sort::SORT_ORDER ),
                                                 $mapperKeys);
     }

@@ -339,9 +339,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     function search(&$params) {
         //max records that will be listed
         $searchValues = array();
-        $searchValues['sort_name']    = $params['name']; 
-        $searchValues['contact_type'] = $params['contact_type'];
-
+        $searchValues[] = array( 'sort_name', 'LIKE', $params['name'], 0, 1 );
+        $contactTypeAdded = false;
         
         $excludedContactIds = array( $this->_contactId );
 
@@ -351,48 +350,31 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
            
             $relationshipType->id = $rid;
             if ( $relationshipType->find( true ) ) {
-                // find all the contacts which have the same relationship
-                $relationship =& new CRM_Contact_DAO_Relationship( );
-                
-                $relationship->relationship_type_id = $rid;
                 if ( $direction == 'a_b' ) {
                     $type = $relationshipType->contact_type_b;
-                    $relationship->contact_id_a = $this->_contactId;
                 } else {
                     $type = $relationshipType->contact_type_a;
-                    $relationship->contact_id_b = $this->_contactId;
                 }
 
                 $this->set( 'contact_type', $type );
                 if ( $type == 'Individual' ) {
-                    $searchValues['contact_type'] = array( $type => 1 ); 
+                    $searchValues[] = array( 'contact_type', '=', array( $type => 1 ), 0, 0 );
+                    $contactTypeAdded = true;
                 } else if ( $type == 'Household' ) {
-                    $searchValues['contact_type'] = array( $type => 2 );
+                    $searchValues[] = array( 'contact_type', '=', array( $type => 2 ), 0, 0 );
+                    $contactTypeAdded = true;
                 }  else if ( $type == 'Organization' ) {
-                    $searchValues['contact_type'] = array( $type => 3 );
-                }
-                $relationship->find( );
-                while ( $relationship->fetch( ) ) {
-                    // fix for crm-814, delete in some time 03/16/2006 - lobo
-                    // $excludedContactIds[] = ( $direction == 'a_b' ) ? $relationship->contact_id_b : $relationship->contact_id_a;
-                }
-
-                // also do the reverse if a_b == b_a
-                if ( $relationshipType->name_a_b === $relationshipType->name_b_a ) {
-                    $relationship =& new CRM_Contact_DAO_Relationship( );
-                    $relationship->relationship_type_id = $rid;
-                    $relationship->contact_id_b = $this->_contactId;
-                    $relationship->find( );
-                    while ( $relationship->fetch( ) ) {
-                        // fix for crm-814, delete in some time 03/16/2006 - lobo
-                        // $excludedContactIds[] = $relationship->contact_id_a;
-                    }
+                    $searchValues[] = array( 'contact_type', '=', array( $type => 3 ), 0, 0 );
+                    $contactTypeAdded = true;
                 }
             }
         }
 
+        if ( ! $contactTypeAdded && CRM_Utils_Array::value( 'contact_type', $params ) ) {
+            $searchValues[] = array( 'contact_type', '=', $params['contact_type'], 0, 0 );
+        }
+
         // get the count of contact
-       
         $contactBAO  =& new CRM_Contact_BAO_Contact( );
         $query =& new CRM_Contact_BAO_Query( $searchValues );
         $searchCount = $query->searchQuery(0, 0, null, true );

@@ -73,9 +73,9 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
     public function postProcess()
     { 
         // create the selector, controller and run - store results in session
-        $fv         =  $this->get( 'formValues' );
-        $query      =& new CRM_Contact_BAO_Query( $fv, null, null, false, false, 
-                                                  CRM_Contact_BAO_Query::MODE_ALL );
+        $queryParams =  $this->get( 'queryParams' );
+        $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
+                                                   CRM_Contact_BAO_Query::MODE_ALL );
         $returnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_ALL );
         $properties = array( 'contact_id', 'contribution_id' );
         $header     = array( ts( 'Contact ID' ), ts( 'Contribution ID' ) );

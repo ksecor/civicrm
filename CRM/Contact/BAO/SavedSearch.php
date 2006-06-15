@@ -112,6 +112,10 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
         return null;
     }
 
+    static function &getSearchParams( $id ) {
+        CRM_Core_Error::fatal( 'Funtion not yet implemented' );
+    }
+
     /**
      * get the where clause for a saved search
      *
@@ -124,10 +128,9 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      * @static
      */
     static function whereClause( $id, &$tables,&$whereTables ) {
-        $fv = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'form_values' );
-        if ( $fv ) {
-            $fv    =  unserialize( $fv );
-            return CRM_Contact_BAO_Query::getWhereClause( $fv, null, $tables, $whereTables );
+        $params =& self::getSearchParams( $id );
+        if ( $params ) {
+            return CRM_Contact_BAO_Query::getWhereClause( $params, null, $tables, $whereTables );
         }
         return null;
 
