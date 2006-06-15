@@ -954,7 +954,7 @@ function _crm_update_contribution($contribution, $values, $overwrite = true)
  */
 function _crm_check_history_params(&$params, $type='Activity')
 {
-    static $required = array('entity_id', 'activity_id');
+    static $required = array('entity_id');
     
     // cannot create a contact with empty params
     if (empty($params)) {

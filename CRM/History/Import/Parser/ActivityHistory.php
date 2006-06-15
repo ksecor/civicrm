@@ -288,7 +288,7 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
                 
                 $value = array($key => $field);
                 if (array_key_exists($key, $cIndieFields)) {
-                    if ( substr($key ,0,6 ) == 'custom' ) {
+                    if ( substr($key ,0,6 ) != 'custom' ) {
                         $value['contact_type'] = 'Individual';
                     }
                 }
