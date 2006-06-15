@@ -259,6 +259,7 @@ class CRM_Contact_BAO_Query {
         //CRM_Core_Error::backtrace( );
         //CRM_Core_Error::debug( 'params', $params );
         //CRM_Core_Error::debug( 'post', $_POST );
+        //CRM_Core_Error::debug( 'r', $returnProperties );
         $this->_params =& $params;
 
         if ( empty( $returnProperties ) ) {
@@ -391,7 +392,10 @@ class CRM_Contact_BAO_Query {
                  CRM_Utils_Array::value( $name, $this->_returnProperties ) ) {
 
                 if ( $cfID ) {
-                    // do nothing
+                    // add to cfIDs array if not present
+                    if ( !array_key_exists( $cfID, $this->_cfIDs ) ) {
+                        $this->_cfIDs[$cfID] = null;
+                    }
                 } else if ( isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) { 
@@ -839,21 +843,17 @@ class CRM_Contact_BAO_Query {
             $this->_where[0][] = 'contact_a.domain_id = ' . $config->domainID( );
         }
         
-        // check for both id and contact_id
-        $id = CRM_Utils_Array::value( 'id', $this->_params );
-        if ( ! $id ) {
-            $id = CRM_Utils_Array::value( 'contact_id', $this->_params );
-        }
-        if ( $id ) {
-            $this->_where[0][] = "contact_a.id = $id";
-        }
-
         $this->includeContactIds( );
         
         // CRM_Core_Error::debug( 'p', $this->_params );
         if ( ! empty( $this->_params ) ) {
             foreach ( array_keys( $this->_params ) as $id ) {
-                $this->whereClauseSingle( $this->_params[$id] );
+                // check for both id and contact_id
+                if ( $this->_params[$id][0] == 'id' || $this->_params[$id][0] == 'contact_id' ) {
+                    $this->_where[0][] = "contact_a.id = {$this->_params[$id][2]}";
+                } else {
+                    $this->whereClauseSingle( $this->_params[$id] );
+                }
             }
 
             CRM_Core_Component::alterQuery( $this, 'where' );
@@ -1577,7 +1577,7 @@ class CRM_Contact_BAO_Query {
             } 
         } 
         if ( ! empty( $contactIds ) ) { 
-            $this->_where[0][] = " ( contact_a.id in (" . implode( ',', $contactIds ) . " ) ) "; 
+            $this->_where[0][] = " ( contact_a.id IN (" . implode( ',', $contactIds ) . " ) ) "; 
         }
     }
 

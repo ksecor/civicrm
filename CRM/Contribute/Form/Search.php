@@ -179,6 +179,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
+
+        require_once 'CRM/Contact/Form/Search.php';
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
         $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,
                                                          $this->_action,
@@ -322,7 +324,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         } 
 
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues );
-        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues,
+        $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,
                                                          $this->_action,
                                                          null,
                                                          $this->_single,
