@@ -414,7 +414,7 @@ class CRM_Core_Menu {
                             'title'   => ts('Activities'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 2
+                            'weight'  => 3
                             ),
 
                       array(
@@ -423,7 +423,7 @@ class CRM_Core_Menu {
                             'title'   => ts('Relationships'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 3
+                            'weight'  => 4
                             ),
         
                       array(
@@ -432,7 +432,7 @@ class CRM_Core_Menu {
                             'title'   => ts('Groups'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 4
+                            'weight'  => 5
                             ),
                       
                       array(
@@ -441,7 +441,7 @@ class CRM_Core_Menu {
                             'title'   => ts('Notes'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 5
+                            'weight'  => 6
                             ),
 
                       array(
@@ -450,7 +450,7 @@ class CRM_Core_Menu {
                             'title'   => ts('Tags'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 6
+                            'weight'  => 7
                             ),
 
                       array(
