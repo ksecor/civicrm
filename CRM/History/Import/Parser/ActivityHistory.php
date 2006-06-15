@@ -288,7 +288,9 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
                 
                 $value = array($key => $field);
                 if (array_key_exists($key, $cIndieFields)) {
-                    $value['contact_type'] = 'Individual';
+                    if ( substr($key ,0,6 ) != 'custom' ) {
+                        $value['contact_type'] = 'Individual';
+                    }
                 }
                 _crm_add_formatted_param($value, $contactFormatted);
             }

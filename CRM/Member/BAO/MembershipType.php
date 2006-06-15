@@ -110,7 +110,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         $membershipType               =& new CRM_Member_DAO_MembershipType( );
         $membershipType->domain_id    = CRM_Core_Config::domainID( );
         
-        $membershipType->copyValues( $params );;
+        $membershipType->copyValues( $params );
         
         $membershipType->id = CRM_Utils_Array::value( 'membershipType', $ids );
         $membershipType->member_of_contact_id = CRM_Utils_Array::value( 'memberOfContact', $ids );

@@ -1351,7 +1351,7 @@ class CRM_GCD {
         return array( null, null );
     }
     
-    function addMembershipTypeStatus()
+    function addMembershipType()
     {
         $organizationDAO = new CRM_Contact_DAO_Organization();
         $organizationDAO->id = 5;
@@ -1359,25 +1359,13 @@ class CRM_GCD {
         $contact_id = $organizationDAO->contact_id;
         
         $membershipType = "INSERT INTO civicrm_membership_type
-        (name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, visibility, weight, is_active)
+        (domain_id, name, description, member_of_contact_id, contribution_type_id, minimum_fee, duration_unit, duration_interval, period_type, fixed_period_start_day, fixed_period_rollover_day, relationship_type_id, visibility, weight, is_active)
         VALUES
-        ('Trainee', 'Register for this membership if you are a trainee', ". $contact_id .", 3, 
-                                              100, 1, 50, 2, 0101, 0104, 7, 'Admin', 1, 1),
-        ('Permanent Employee', 'Register for this membership if you are a permanent employee', ". $contact_id .", 1, 
-                                              500, 3, 30, 1, 0101, 1231, 7, 'Public', 2, 1),
-        ('Share Holder', 'Register for this membership if you are a share holder', ". $contact_id .", 2, 
-                                             1000, 2, 4, 2, 0101, 0105, 7, 'Public', 3, 1);
+        (1, 'General', 'Regular annual membership.', ". $contact_id .", 3, 100, 'year', 1, 'rolling',null, null, 7, 'Public', 1, 1),
+        (1, 'Student', 'Discount membership for full-time students.', ". $contact_id .", 1, 50, 'year', 1, 'rolling', null, null, 7, 'Public', 2, 1),
+        (1, 'Lifetime', 'Lifetime membership.', ". $contact_id .", 2, 1200, 'lifetime', 1, 'rolling', null, null, 7, 'Admin', 3, 1);
         ";
-        CRM_Core_DAO::executeQuery( $membershipType, CRM_Core_DAO::$_nullArray );
-        
-        $membershipStatus = "INSERT INTO civicrm_membership_status
-        (name, start_event, start_event_adjust_unit, start_event_adjust_interval, end_event, end_event_adjust_unit, end_event_adjust_interval, is_current_member, is_admin, weight, is_active)
-        VALUES
-        ('Temporary', 1, 1, 1, 3, 1, 50, 1, 1, 1, 1),
-        ('Permanent', 3, 3, 0, 2, 3, 30, 1, 1, 1, 1),
-        ('Grace', 2, 1, 0, 3, 2, 10, 1, 1, 1, 1);
-        ";
-        CRM_Core_DAO::executeQuery( $membershipStatus, CRM_Core_DAO::$_nullArray );
+        CRM_Core_DAO::executeQuery( $membershipType, CRM_Core_DAO::$_nullArray );      
     }
     
     function addMembership()
@@ -1392,7 +1380,7 @@ class CRM_GCD {
         
         $membership = "
 INSERT INTO civicrm_membership
-        (contact_id, membership_type_id, join_date, start_date, end_date, source, calculated_status_id)
+        (contact_id, membership_type_id, join_date, start_date, end_date, source, status_id)
 VALUES
         ( ". $randomContacts[0]  .", 1, null, '2004-10-21', '2005-01-20', 'Payment', 1),
         ( ". $randomContacts[1]  .", 2, '2004-01-10', null,'2033-12-09', 'Donation', 2),
@@ -1481,7 +1469,7 @@ $obj1->addGroup();
 $obj1->addNote();
 $obj1->addActivityHistory();
 add_contributions( );
-$obj1->addMembershipTypeStatus();
+$obj1->addMembershipType();
 $obj1->addMembership();
 
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");

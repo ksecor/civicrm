@@ -412,7 +412,7 @@ class CRM_Core_Menu {
                             'title'   => ts('Activities'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 2
+                            'weight'  => 3
                             ),
 
                       array(
@@ -421,7 +421,7 @@ class CRM_Core_Menu {
                             'title'   => ts('Relationships'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 3
+                            'weight'  => 4
                             ),
         
                       array(
@@ -430,7 +430,7 @@ class CRM_Core_Menu {
                             'title'   => ts('Groups'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 4
+                            'weight'  => 5
                             ),
                       
                       array(
@@ -439,7 +439,7 @@ class CRM_Core_Menu {
                             'title'   => ts('Notes'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 5
+                            'weight'  => 6
                             ),
 
                       array(
@@ -448,7 +448,7 @@ class CRM_Core_Menu {
                             'title'   => ts('Tags'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 6
+                            'weight'  => 7
                             ),
 
                       array(
@@ -489,7 +489,7 @@ class CRM_Core_Menu {
                             'path'   => 'civicrm/import',
                             'title'  => ts( 'Import' ),
                             'qs'     => 'reset=1',
-                            'access' => CRM_Core_Permission::check('administer CiviCRM') &&
+                            'access' => CRM_Core_Permission::check( 'import contacts' ) &&
                                         CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'   =>  CRM_Core_Menu::CALLBACK,
                             'crmType'=>  CRM_Core_Menu::NORMAL_ITEM,

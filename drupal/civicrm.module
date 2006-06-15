@@ -110,7 +110,7 @@ function civicrm_perm()
     $config =& CRM_Core_Config::singleton();
 
     // static permissions
-    $cPerm = array('add contacts', 'view all contacts', 'edit all contacts',
+    $cPerm = array('add contacts', 'view all contacts', 'edit all contacts', 'import contacts',
                    'edit groups', 'administer CiviCRM', 
                    'profile listings and forms',
                    'access CiviCRM' );

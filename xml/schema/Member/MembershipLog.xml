@@ -5,7 +5,7 @@
   <class>MembershipLog</class>
   <name>civicrm_membership_log</name>
   <log>true</log>
-  <comment>Logs Membership signup and renewal actions.</comment>
+  <comment>Logs actions which affect a Membership record (signup, status override, renewal, etc.)</comment>
   <add>1.5</add>
   <field>
       <name>id</name>
@@ -31,32 +31,51 @@
     <add>1.5</add>
   </foreignKey> 
   <field>
-       <name>log_type</name>
-       <type>enum</type>
-       <values>Signup, Renewal</values>
-       <comment>Type of membership activity being logged.</comment>
+      <name>status_id</name>
+      <title>Membership Status</title>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>New status assigned to membership by this action. FK to Membership Status</comment>
       <add>1.5</add>
   </field>
-  <field>
-      <name>log_date</name>
-      <title>Membership Action Date</title>  
-      <type>date</type>   
-      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
-      <comment>Date this membership action was logged.</comment>  
-      <add>1.5</add>  
-  </field>
+  <foreignKey> 
+      <name>status_id</name> 
+      <table>civicrm_membership_status</table> 
+      <key>id</key>
+      <add>1.5</add>
+  </foreignKey>
   <field>
       <name>start_date</name>  
       <type>date</type>   
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
-      <comment>Membership period start date</comment>  
+      <comment>New membership period start date</comment>  
       <add>1.5</add>  
   </field>
   <field> 
       <name>end_date</name>  
       <type>date</type>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>                 
-      <comment>Membership period expiration date.</comment>  
+      <comment>New membership period expiration date.</comment>  
+      <add>1.5</add>  
+  </field>
+  <field>
+       <name>modified_id</name>
+       <type>int unsigned</type>
+       <comment>FK to Contact ID of person under whose credentials this data modification was made.</comment>
+       <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>modified_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>modified_date</name>
+      <title>Membership Change Date</title>  
+      <type>date</type>   
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>Date this membership modification action was logged.</comment>  
       <add>1.5</add>  
   </field>
 </table>

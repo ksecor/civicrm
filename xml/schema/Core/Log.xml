@@ -48,7 +48,7 @@
   <field>
        <name>modified_id</name>
        <type>int unsigned</type>
-       <comment>FK to Contact ID creator</comment>
+       <comment>FK to Contact ID of person under whose credentials this data modification was made.</comment>
        <add>1.4</add>
   </field>
   <foreignKey>
@@ -60,7 +60,7 @@
   <field>
        <name>modified_date</name>
        <type>datetime</type>
-       <comment>When was this object created</comment>
+       <comment>When was the referenced entity created or modified or deleted.</comment>
        <add>1.4</add>
   </field>
 </table>

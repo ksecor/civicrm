@@ -4,7 +4,7 @@
   <base>CRM/Member</base>
   <class>MembershipStatus</class>
   <name>civicrm_membership_status</name>
-  <comment>A Membership Status stores admin configurable status options and rules</comment>
+  <comment>Membership Status stores admin configurable rules for assigning status to memberships.</comment>
   <add>1.5</add>
   <field>
       <name>id</name>
@@ -18,6 +18,19 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+       <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
        <name>name</name>
        <type>varchar</type>
        <length>128</length>
@@ -28,52 +41,54 @@
        <name>start_event</name>
        <type>enum</type>
        <values>start_date, end_date, join_date</values>
-       <comment>Event when this status starts</comment>  
+       <comment>Event when this status starts.</comment>  
        <add>1.5</add>
   </field>
   <field>  
       <name>start_event_adjust_unit</name>  
       <type>enum</type>
       <values>day, month, year</values>
-      <comment>Unit used for adjusting</comment>  
+      <comment>Unit used for adjusting from start_event.</comment>  
       <add>1.5</add>  
   </field>
   <field> 
       <name>start_event_adjust_interval</name>  
       <type>int</type>                  
-      <comment>Range begins this many units from start_event</comment>  
+      <comment>Status range begins this many units from start_event.</comment>  
       <add>1.5</add>  
   </field> 
   <field>  
       <name>end_event</name>
       <type>enum</type>
       <values>start_date, end_date, join_date</values>
-      <comment>Event after which this status ends</comment>  
+      <comment>Event after which this status ends.</comment>  
       <add>1.5</add>  
   </field> 
   <field>  
       <name>end_event_adjust_unit</name>
       <type>enum</type>
       <values>day, month, year</values>      
-      <comment>Unit used for adjusting from the ending event </comment>  
+      <comment>Unit used for adjusting from the ending event.</comment>  
       <add>1.5</add>     
   </field> 
  <field>  
       <name>end_event_adjust_interval</name>  
       <type>int</type>                  
-      <comment>Range ends this many units from end_event</comment>  
+      <comment>Status range ends this many units from end_event.</comment>  
       <add>1.5</add>  
   </field> 
   <field>  
       <name>is_current_member</name>     
-      <title>Is Current Members</title>
+      <title>Current Membership?</title>
       <type>boolean</type>
+      <comment>Does this status aggregate to current members (e.g. New, Renewed, Grace might all be TRUE... while Unrenewed, Lapsed, Inactive would be FALSE).</comment>
       <add>1.5</add>  
   </field> 
   <field>  
       <name>is_admin</name>     
-      <title>Is Admin/Mannual</title>
+      <title>Admin Assigned Only?</title>
       <type>boolean</type>
+      <comment>Is this status for admin/manual assignment only.</comment>
       <add>1.5</add>  
   </field> 
   <field>  
@@ -87,7 +102,7 @@
       <title>Is Active</title>
       <type>boolean</type>
       <default>1</default>
-      <comment>Is this membership_type enabled</comment>                
+      <comment>Is this membership_status enabled.</comment>
       <add>1.5</add>  
   </field> 
 </table>
