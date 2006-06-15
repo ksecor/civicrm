@@ -583,6 +583,46 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         return $returnFields;
     }
 
+    /**
+     * save the mapping info for search builder give the formvalues
+     *
+     * @param array $params asscociated array of formvalues
+     *
+     * @return null
+     * @static
+     * @access public
+     */
+    static function saveSearchBuilderMapping($params) 
+    {
+        //save record in mapping table
+        $mappingParams = array('mapping_type' => 'Search Builder');
+        $temp = array();
+        $mapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+        
+        //save record in mapping field table
+        require_once "CRM/Core/DAO/MappingField.php";
+        
+        foreach ($params['mapper'] as $key => $value) {
+            foreach ($value as $k => $v) {
+                if ($v[1]) {
+                    $saveMappingFields =& new CRM_Core_DAO_MappingField();
+                    $saveMappingFields->mapping_id   = $mapping->id;
+                    $saveMappingFields->name         =  $v[1];
+                    $saveMappingFields->contact_type =  $v[0];
+                    
+                    $locationId = $v[2];
+                    $saveMappingFields->location_type_id = isset($locationId) ? $locationId : null;
+                    
+                    $saveMappingFields->phone_type = $v[3];
+                    $saveMappingFields->operator   = $params['operator'][$key][$k];
+                    $saveMappingFields->value      = $params['value'   ][$key][$k];
+                    $saveMappingFields->grouping   = $key;
+                    $saveMappingFields->save();
+                    
+                }
+            }
+        }
+    }
     
 }
 ?>
