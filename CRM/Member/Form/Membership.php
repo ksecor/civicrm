@@ -50,16 +50,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                       $this, false, 'add' );
-        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive',
-                                                         $this );
-        
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
-            return;
-        }
-        
+        $this->_id     = CRM_Utils_Request::retrieve( 'id', 'Positive',
+                                                      $this );
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
-
         parent::preProcess( );
     }
 
@@ -93,12 +87,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $this->add('text', 'source', ts('Source'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_Membership', 'source' ) );
-        $this->add('select', 'calculated_status_id', ts( 'Status' ), 
-                   array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
-        $this->add('select', 'override_status_id', ts('Status Override'), 
+        $this->add('select', 'status_id', ts( 'Status' ), 
                    array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
 
-        $this->add('checkbox', 'is_active', ts('Enabled?'));
+        $this->add('checkbox', 'is_override', ts('Override?'));
 
     }
 
@@ -113,13 +105,12 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
     {
         require_once 'CRM/Member/BAO/Membership.php';
         if ( $this->_action & CRM_Core_Action::DELETE ) {
-            CRM_Member_BAO_Membership::deleteContribution( $this->_id );
+            CRM_Member_BAO_Membership::deleteMembership( $this->_id );
             return;
         }
 
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-        //print_r($formValues);
 
         $params = array( );
         $ids    = array( );
@@ -127,9 +118,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $params['contact_id'] = $this->_contactID;
 
         $fields = array( 'membership_type_id',
-                         'calculated_status_id',
-                         'override_status_id',
-                         'source'
+                         'status_id',
+                         'source',
+                         'is_override'
                          );
 
         foreach ( $fields as $f ) {

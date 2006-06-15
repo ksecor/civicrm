@@ -27,9 +27,8 @@
 		{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=5 trigger=trigger1}
 		</dd>
     	<dt>{$form.source.label}</dt><dd class="html-adjust">{$form.source.html}</dd>
-    	<dt>{$form.calculated_status_id.label}</dt><dd class="html-adjust">{$form.calculated_status_id.html}</dd>
-    	<dt>{$form.override_status_id.label}</dt><dd class="html-adjust">{$form.override_status_id.html}</dd>
-        <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
+    	<dt>{$form.status_id.label}</dt><dd class="html-adjust">{$form.status_id.html}</dd>
+        <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}</dd>
       </dl> 
      {/if}
     <dl>   

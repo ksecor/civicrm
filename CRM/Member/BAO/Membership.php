@@ -236,8 +236,24 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     static function retrieve( &$params, &$defaults ) {
         $membership =& new CRM_Member_DAO_Membership( );
         $membership->copyValues( $params );
+        $idList = array('membership_type' => 'MembershipType',
+                        'status'          => 'MembershipStatus',
+                        );
         if ( $membership->find( true ) ) {
             CRM_Core_DAO::storeValues( $membership, $defaults );
+            foreach ( $idList as $name => $file ) {
+                if ( $defaults[$name .'_id'] ) {
+                    $defaults[$name] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_' . $file, 
+                                                                    $defaults[$name .'_id'] );
+                }
+            }
+            if ( $membership->status_id ) {
+                $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $membership->status_id, 'is_current_member');
+                if ( $active ) {
+                    $defaults['active'] = $active;
+                }
+            }
+            
             return $membership;
         }
         return null;
@@ -265,23 +281,17 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
     }
 
-    static function deleteMembership( $id ) {
-
-        require_once 'CRM/Member/DAO/MembershipProduct.php';
-        $dao = & new CRM_Member_DAO_MembershipProduct();
-        $dao->membership_id = $id;
-        $dao->delete();;
-
-        $membership =& new CRM_Member_DAO_Membership( ); 
-        $membership->id = $id;
+    static function deleteMembership( $membershipId ) {
+        
+        require_once 'CRM/Member/DAO/Membership.php';
+        $membership = & new CRM_Member_DAO_Membership( );
+        $membership->id = $membershipId;
         if ( $membership->find( true ) ) {
-            self::deleteMembershipSubobjects($id);
-            $membership->delete( ); 
+            $membership->delete();;
         }
-         
         return true;
     }
-
+    
     static function deleteMembershipSubobjects($contribId) {
         require_once 'CRM/Member/DAO/FinancialTrxn.php';
         $trxn =& new CRM_Member_DAO_FinancialTrxn();

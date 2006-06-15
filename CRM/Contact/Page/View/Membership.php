@@ -56,9 +56,8 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
     function browse( ) {
         $links =& self::links( );
 
-        $idList = array('membership_type'   => 'MembershipType',
-                        'calculated_status' => 'MembershipStatus',
-                        'override_status'   => 'MembershipStatus'
+        $idList = array('membership_type' => 'MembershipType',
+                        'status'          => 'MembershipStatus',
                       );
 
         $membership = array();
@@ -77,8 +76,8 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                                                                                 $membership[$dao->id][$name .'_id'] );
                 }
             }
-            if ( $dao->calculated_status_id ) {
-                $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $dao->calculated_status_id, 'is_current_member');
+            if ( $dao->status_id ) {
+                $active = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', $dao->status_id, 'is_current_member');
                 if ( $active ) {
                     $membership[$dao->id]['active'] = $active;
                 }
@@ -87,15 +86,11 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
             $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), null, array('id' => $dao->id, 
                                                                                                    'cid'=> $this->_contactId));
         }
-        //print_r($membership);
+
         $activeMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership );
         $inActiveMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership, 'inactive');
-//         print_r($activeMembers);
-//         print_r($inActiveMembers);
         $this->assign('activeMembers', $activeMembers);
         $this->assign('inActiveMembers', $inActiveMembers);
-        //$this->assign('rows', $membership);
-
     }
 
     /** 
@@ -105,14 +100,13 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      * @access public 
      */ 
     function view( ) {
-//         $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_MembershipView',  
-//                                                        'View Membership',  
-//                                                        $this->_action ); 
-//         $controller->setEmbedded( true );  
-//         $controller->set( 'id' , $this->_id );  
-//         $controller->set( 'cid', $this->_contactId );  
-    
-//         return $controller->run( ); 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_MembershipView', 'View Membership',  
+                                                       $this->_action ); 
+        $controller->setEmbedded( true );  
+        $controller->set( 'id' , $this->_id );  
+        $controller->set( 'cid', $this->_contactId );  
+        
+        return $controller->run( ); 
     }
 
     /** 

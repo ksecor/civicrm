@@ -1,5 +1,7 @@
 {if $action eq 1 or $action eq 2 or $action eq 8} {* add, update or delete *}              
     {include file="CRM/Member/Form/Membership.tpl"}
+{elseif $action eq 4}
+    {include file="CRM/Member/Form/MembershipView.tpl"}
 {else}
 {capture assign=newContribURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}
 <div id="help">
@@ -27,7 +29,7 @@ Click <a href="%1">New Membership</a> to record a new offline membership for thi
 	        <td>{$activeMember.membership_type}</td>
 	        <td>{$activeMember.start_date}</td>
 	        <td>{$activeMember.end_date}</td>
-	        <td>{$activeMember.calculated_status}</td>
+	        <td>{$activeMember.status}</td>
 	        <td>{$activeMember.action}</td>
         </tr>
         {/foreach}
@@ -44,6 +46,12 @@ Click <a href="%1">New Membership</a> to record a new offline membership for thi
 {/if}
 
 {if $inActiveMembers}
+  {if NOT ($activeMembers)}
+    <div class="action-link">
+    	<a href="{$newContribURL}">&raquo; {ts}New Membership Type{/ts}</a>
+    </div>
+  {/if}
+
 <div id="ltype">
 <p></p>
     <div class="label font-red">{ts}Inactive Memberships{/ts}</div>
@@ -62,7 +70,7 @@ Click <a href="%1">New Membership</a> to record a new offline membership for thi
 	        <td>{$inActiveMember.membership_type}</td>
 	        <td>{$inActiveMember.start_date}</td>
 	        <td>{$inActiveMember.end_date}</td>
-	        <td>{$inActiveMember.calculated_status}</td>
+	        <td>{$inActiveMember.status}</td>
 	        <td>{$inActiveMember.action}</td>
         </tr>
         {/foreach}
@@ -73,7 +81,7 @@ Click <a href="%1">New Membership</a> to record a new offline membership for thi
 </div>
 {/if}
 
-{if NOT ($activeMembers and $inActiveMembers) and $action ne 2}
+{if NOT ($activeMembers or $inActiveMembers) and $action ne 2 and $action ne 1 and $action ne 8 and $action ne 4}
    <div class="messages status">
        <dl>
        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
