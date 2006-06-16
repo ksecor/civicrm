@@ -90,7 +90,11 @@ class CRM_Core_Invoke {
         case 'group'    : 
             self::group   ( $args );
             break;
-
+        
+        case 'activityView':
+            self::viewActivity($args);
+            break;
+            
         case 'import'   : 
             self::import  ( $args );
             break;
@@ -191,6 +195,7 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View_Contribution( );
                 break;
 
+           
             case 'membership':
                 require_once 'CRM/Contact/Page/View/Membership.php'; 
                 $view =& new CRM_Contact_Page_View_Membership( );
@@ -311,7 +316,19 @@ class CRM_Core_Invoke {
         return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'reset=1', true) );
     }
 
+    /**
+     * This function displays all the activities of logged user
+     *
+     *
+     * @static
+     * @access public
+     */
+    static function viewActivity( $args ) {
 
+    require_once 'CRM/Contact/Page/View/ViewActivity.php';
+    $view =& new CRM_Contact_Page_View_ViewActivity( );
+    return $view->run();
+    }
     /**
      * This function contains the actions for search arguments
      *

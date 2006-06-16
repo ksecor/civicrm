@@ -99,10 +99,11 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return CRM_History_Selector
      * @access public
      */
-    function __construct($entityId, $permission) 
+    function __construct($entityId, $permission,$showLink =null) 
     {
         $this->_entityId   = $entityId;
         $this->_permission = $permission;
+        $this->_showLink = $showLink;
     }
 
 
@@ -212,8 +213,15 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $params = array('entity_table' => 'civicrm_contact', 'entity_id' => $this->_entityId);
         $rows =& CRM_Core_BAO_History::getHistory($params, $offset, $rowCount, $sort, 'Activity');
-
-        $links =& self::actionLinks();
+        
+      
+        
+        if($this->_showLink){
+            $links = array();
+        }else{
+            $links =& self::actionLinks();
+        }
+       
         $mask  =  array_sum(array_keys($links)) & CRM_Core_Action::mask( $this->_permission );
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];

@@ -353,5 +353,22 @@ WHERE     civicrm_contact.id = %1";
         }
         return null;
     }
+    /**
+     * get the list of contact_id
+     *
+     *
+     * @return int    contact_id on success, null otherwise
+     * @access public
+     * @static
+     */
+    static function getContactIDs() {
+        $id = array();
+        $dao =& new CRM_Core_DAO_UFMatch();
+        $dao->find();
+        while ($dao->fetch()) {
+            $id[] = $dao->contact_id;
+        }
+        return $id;
+    }
 }
 ?>

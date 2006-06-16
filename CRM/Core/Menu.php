@@ -459,7 +459,7 @@ class CRM_Core_Menu {
                             'crmType' => self::CALLBACK,
                             'weight'  => 0,
                             ),
-
+                     
                       array(
                             'path'   => 'civicrm/group',
                             'title'  => ts('Manage Groups'),
@@ -469,7 +469,15 @@ class CRM_Core_Menu {
                             'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
                             'weight' => 20,
                             ),
-
+                      array(
+                            'path'   => 'civicrm/activityView',
+                            'title'  => ts('View User Activity'),
+                            'qs'     => 'reset=1',
+                            'type'   => self::CALLBACK,
+                            'crmType'=> self::NORMAL_ITEM,
+                            'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
+                            'weight' => 21,
+                            ),
                       array(
                             'path'   => 'civicrm/group/search',
                             'title'  => ts('Group Members'),
