@@ -58,6 +58,9 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
         if ( $action == CRM_Core_Action::ADVANCED ) {
             $this->_pages['CRM_Contact_Form_Search_Advanced'] = null;
             list( $task, $result ) = $this->taskName( $controller, 'Advanced' );
+        } else if ( $action == CRM_Core_Action::PROFILE ) {
+            $this->_pages['CRM_Contact_Form_Search_Builder'] = null;
+            list( $task, $result ) = $this->taskName( $controller, 'Builder' );
         } else {
             $this->_pages['CRM_Contact_Form_Search'] = null;
             list( $task, $result ) = $this->taskName( $controller, 'Search' );

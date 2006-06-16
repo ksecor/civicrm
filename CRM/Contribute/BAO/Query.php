@@ -73,57 +73,83 @@ class CRM_Contribute_BAO_Query {
     }
 
     static function where( &$query ) {
-        // process to / from date
-        $query->dateQueryBuilder( 'civicrm_contribution', 'contribution_date', 'receive_date', 'Contribution Date' );
-
-        // process min/max amount
-        $query->numberRangeBuilder( 'civicrm_contribution', 'contribution_amount', 'total_amount', 'Contribution Amount' );
-
-        if ( CRM_Utils_Array::value( 'contribution_thankyou_date_isnull', $query->_params ) ) {
-            $query->_where[] = "civicrm_contribution.thankyou_date is null";
-            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            $query->_qill[] = ts( 'Contribution Thank-you date is null' );
-        }
-
-        if ( CRM_Utils_Array::value( 'contribution_receipt_date_isnull', $query->_params ) ) {
-            $query->_where[] = "civicrm_contribution.receipt_date is null";
-            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            $query->_qill[] = ts( 'Contribution Receipt date is null' );
-        }
-
-        if ( CRM_Utils_Array::value( 'contribution_type_id', $query->_params ) ) {
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $cType = $query->_params['contribution_type_id'];
-            $types = CRM_Contribute_PseudoConstant::contributionType( );
-            $query->_where[] = "civicrm_contribution.contribution_type_id = $cType";
-            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            $query->_qill[] = ts( 'Contribution Type - %1', array( 1 => $types[$cType] ) );
-        }
-
-        if ( CRM_Utils_Array::value( 'payment_instrument_id', $query->_params ) ) {
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $pi = $query->_params['payment_instrument_id'];
-            $pis = CRM_Contribute_PseudoConstant::paymentInstrument( );
-            $query->_where[] = "civicrm_contribution.payment_instrument_id = $pi";
-            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            $query->_qill[] = ts( 'Paid By - %1', array( 1 => $pis[$pi] ) );
-        }
-
-        if ( isset( $query->_params['contribution_status'] ) ) {
-            switch( $query->_params['contribution_status'] ) {
-            case 'Valid':
-                $query->_where[] = "civicrm_contribution.cancel_date is null";
-                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-                $query->_qill[]  = ts( 'Contribution Status - Valid' );
-                break;
-
-            case 'Cancelled':
-                $query->_where[] = "civicrm_contribution.cancel_date is not null";
-                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-                $query->_qill[]  = ts( 'Contribution Status - Cancelled' );
-                break;
+        foreach ( array_keys( $query->_params ) as $id ) {
+            if ( substr( $query->_params[$id][0], 0, 13 ) == 'contribution_' ) {
+                self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
+    }
+
+    static function whereClauseSingle( &$values, &$query ) {
+
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+
+        switch ( $name ) {
+
+        case 'contribution_date':
+        case 'contribution_date_low':
+        case 'contribution_date_high':
+            // process to / from date
+            $query->dateQueryBuilder( $values,
+                                      'civicrm_contribution', 'contribution_date', 'receive_date', 'Contribution Date' );
+            return;
+
+        case 'contribution_amount':
+        case 'contribution_amount_low':
+        case 'contribution_amount_high':
+            // process min/max amount
+            $query->numberRangeBuilder( $values,
+                                        'civicrm_contribution', 'contribution_amount', 'total_amount', 'Contribution Amount' );
+            return;
+
+        case 'contribution_thankyou_date_isnull':
+            $query->_where[$grouping][] = "civicrm_contribution.thankyou_date is null";
+            $query->_qill[$grouping ][] = ts( 'Contribution Thank-you date is null' );
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            return;
+
+        case 'contribution_receipt_date_isnull':
+            $query->_where[$grouping][] = "civicrm_contribution.receipt_date is null";
+            $query->_qill[$grouping ][] = ts( 'Contribution Receipt date is null' );
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            return;
+
+        case 'contribution_type_id':
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $cType = $value;
+            $types = CRM_Contribute_PseudoConstant::contributionType( );
+            $query->_where[$grouping][] = "civicrm_contribution.contribution_type_id = $cType";
+            $query->_qill[$grouping ][] = ts( 'Contribution Type - %1', array( 1 => $types[$cType] ) );
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            return;
+            
+        case 'contribution_payment_instrument_id':
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $pi = $value;
+            $pis = CRM_Contribute_PseudoConstant::paymentInstrument( );
+            $query->_where[$grouping][] = "civicrm_contribution.payment_instrument_id = $pi";
+            $query->_qill[$grouping ][] = ts( 'Paid By - %1', array( 1 => $pis[$pi] ) );
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            return;
+
+        case 'contribution_status':
+            switch( $value ) {
+            case 'Valid':
+                $query->_where[$grouping][] = "civicrm_contribution.cancel_date is null";
+                $query->_qill[$grouping ][]  = ts( 'Contribution Status - Valid' );
+                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+                return;
+
+            case 'Cancelled':
+                $query->_where[$grouping][] = "civicrm_contribution.cancel_date is not null";
+                $query->_qill[$grouping ][]  = ts( 'Contribution Status - Cancelled' );
+                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+                return;
+            }
+            return;
+
+        }
+
     }
 
     static function from( $name, $mode, $side ) {
@@ -186,7 +212,6 @@ class CRM_Contribute_BAO_Query {
                                 'receipt_date'           => 1,
                                 'thankyou_date'          => 1,
                                 'source'                 => 1,
-                                'note'                   => 1,
                                 'name'                   => 1,
                                 'sku'                    => 1,
                                 'product_option'         => 1,
@@ -216,11 +241,11 @@ class CRM_Contribute_BAO_Query {
      */ 
     static function buildSearchForm( &$form ) {
         // Date selects for date 
-        $form->add('date', 'contribution_date_from', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('contribution_date_from', ts('Select a valid date.'), 'qfDate'); 
+        $form->add('date', 'contribution_date_low', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('contribution_date_low', ts('Select a valid date.'), 'qfDate'); 
  
-        $form->add('date', 'contribution_date_to', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('contribution_date_to', ts('Select a valid date.'), 'qfDate'); 
+        $form->add('date', 'contribution_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('contribution_date_high', ts('Select a valid date.'), 'qfDate'); 
 
         $form->add('text', 'contribution_amount_low', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'contribution_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
@@ -234,7 +259,7 @@ class CRM_Contribute_BAO_Query {
                    array( '' => ts( '- select -' ) ) +
                    CRM_Contribute_PseudoConstant::contributionType( ) );
         
-        $form->add('select', 'payment_instrument_id', 
+        $form->add('select', 'contribution_payment_instrument_id', 
                    ts( 'Payment Instrument' ), 
                    array( '' => ts( '- select -' ) ) +
                    CRM_Contribute_PseudoConstant::paymentInstrument( ) );

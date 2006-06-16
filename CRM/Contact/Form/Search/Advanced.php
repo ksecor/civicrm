@@ -132,11 +132,11 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->addElement('text', 'activity_type', ts('Activity Type'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_ActivityHistory', 'activity_type'));
 
         // Date selects for activity date
-        $this->add('date', 'activity_date_from', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
-        $this->addRule('activity_date_from', ts('Select a valid date.'), 'qfDate');
+        $this->add('date', 'activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('activity_date_low', ts('Select a valid date.'), 'qfDate');
 
-        $this->add('date', 'activity_date_to', ts('To'), CRM_Core_SelectValues::date('relative'));
-        $this->addRule('activity_date_to', ts('Select a valid date.'), 'qfDate');
+        $this->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
 
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::buildSearchForm( $this );
@@ -152,7 +152,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
         $this->addElement('select', 'relation_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $allRelationshipType);
-        $this->addElement('text', 'target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->addElement('text', 'relation_target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         //Custom data Search Fields
         $this->customDataSearch();
         
@@ -307,7 +307,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $this->_formValues['group'] = array( $this->_groupID => 1 );
         }
       
-
+        $this->_params =& $this->convertFormValues( $this->_formValues );
         $this->postProcessCommon( );
     }
 

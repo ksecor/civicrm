@@ -44,12 +44,11 @@ class CRM_Quest_BAO_Query
     static function initialize( ) 
     {
         if ( ! self::$_terms ) {
-            self::$_terms = array( 'score_SAT'  => 'SAT Score',
-                                   'score_ACT'  => 'ACT Score',
-                                   'score_PLAN' => 'PLAN Score',
-                                   'household_income_total' => 'Total Household Income' );
-            //self::$_ids   = array( 'ethnicity_id_1', 'gpa_id' );
-            self::$_ids   = array( 'college_interest' => 'College Interest' );
+            self::$_terms = array( 'quest_score_SAT'  => 'SAT Score',
+                                   'quest_score_ACT'  => 'ACT Score',
+                                   'quest_score_PLAN' => 'PLAN Score',
+                                   'quest_household_income_total' => 'Total Household Income' );
+            self::$_ids   = array( 'quest_college_interest' => 'College Interest' );
         }
     }
 
@@ -96,26 +95,63 @@ class CRM_Quest_BAO_Query
         }
     }
 
-    static function where( &$query ) 
-    {
-        self::initialize( );
-	require_once "CRM/Core/OptionGroup.php";
-        $fields =& self::getFields();
-        foreach ( $fields as $name => $record ) {
-            if ( CRM_Utils_Array::value( $name          , $query->_params ) ||
-                 CRM_Utils_Array::value( $name . '_low' , $query->_params ) ||
-                 CRM_Utils_Array::value( $name . '_high', $query->_params ) ) {
-	      if (CRM_Utils_Array::value($name, self::$_ids) ) {
-		$optionGroups = array( );
-                $optionGroups =  CRM_Core_OptionGroup::values( $name ); 
-		$key = $query->_params[$name];
-		$query->_qill[] = $record['title'] . ' like "' . $optionGroups[$key] . '"';
-	      }
-	      $query->numberRangeBuilder( 'quest_student', $name, $name, $record['title'] );
+    static function where( &$query ) {
+        foreach ( array_keys( $query->_params ) as $id ) {
+            if ( substr( $query->_params[$id][0], 0, 6 ) == 'quest_' ) {
+                self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
     }
 
+    static function whereClauseSingle( &$values, &$query ) {
+
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+
+        switch ( $name ) {
+
+        case 'quest_score_SAT':
+        case 'quest_score_SAT_low':
+        case 'quest_score_SAT_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student', 'quest_score_SAT',
+                                        'score_SAT', ts( 'SAT Score' ) );
+            return;
+
+        case 'quest_score_ACT':
+        case 'quest_score_ACT_low':
+        case 'quest_score_ACT_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student', 'quest_score_ACT',
+                                        'score_ACT', ts( 'ACT Score' ) );
+            return;
+
+        case 'quest_score_PLAN':
+        case 'quest_score_PLAN_low':
+        case 'quest_score_PLAN_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student', 'quest_score_PLAN', 
+                                        'score_PLAN', ts( 'PLAN Score' ) );
+            return;
+
+        case 'quest_household_income_total':
+        case 'quest_household_income_total_low':
+        case 'quest_household_income_total_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student', 'quest_household_income_total',
+                                        'household_income_total', ts( 'Total Household Income' ) );
+            return;
+
+        case 'quest_college_interest':
+            require_once "CRM/Core/OptionGroup.php";
+            $optionGroups = array( );
+            $optionGroups =  CRM_Core_OptionGroup::values( $name ); 
+            $query->_where[$grouping][] = "quest_student.college_interest LIKE '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'College interest %1 %2', array( 1 => $op, 2 => $optionGroups[$value] ) );
+            return;
+        
+        }
+    }
+    
     static function from( $name, $mode, $side ) 
     {
         $from = null;
@@ -139,7 +175,7 @@ class CRM_Quest_BAO_Query
 
             self::initialize( );
             foreach ( self::$_terms as $name => $title ) {
-                $properties[$name] = 1;
+                $properties[substr( $name, 6 )] = 1;
             }
         }
         return $properties;
@@ -155,9 +191,9 @@ class CRM_Quest_BAO_Query
         }
 	
         require_once "CRM/Core/OptionGroup.php";
-	foreach ( self::$_ids as $name => $title ) {
-	    $form->add('select', $name, $title, CRM_Core_OptionGroup::values( $name ) );
-	}
+        foreach ( self::$_ids as $name => $title ) {
+            $form->add('select', $name, $title, CRM_Core_OptionGroup::values( $name ) );
+        }
     }
 
     static function addShowHide( &$showHide ) 

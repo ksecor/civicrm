@@ -8,9 +8,11 @@
         {else}
             {if $qill}{ts}No matches found for:{/ts}
             <ul>
-            {foreach from=$qill item=criteria}
-                <li>{$criteria}</li>
-            {/foreach}
+               {foreach from=$qill item=orClauses}
+                {foreach from=$orClauses item=criteria}
+                 <li>{$criteria}</li>
+                {/foreach}
+               {/foreach}
             </ul>
             <br />
             {else}

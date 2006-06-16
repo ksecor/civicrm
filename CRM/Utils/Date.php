@@ -560,6 +560,18 @@ class CRM_Utils_Date {
             }
         }
     }
+
+    static function isDate( &$date ) {
+        if ( ! is_array( $date )                    ||
+             CRM_Utils_System::isNull( $date )      ||
+             ! CRM_Utils_Array::value( 'Y', $date ) ||
+             ! CRM_Utils_Array::value( 'M', $date ) ||
+             ! CRM_Utils_Array::value( 'd', $date ) ) {
+            return false;
+        }
+        return true;
+    }
+             
 }
 
 ?>

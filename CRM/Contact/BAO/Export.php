@@ -47,7 +47,7 @@ class CRM_Contact_BAO_Export {
      *
      * @access public
      */
-    function exportContacts( $selectAll, $ids, $formValues, $order = null, $fields = null ) {
+    function exportContacts( $selectAll, $ids, $params, $order = null, $fields = null ) {
 
         $headerRows  = array();
         $returnProperties = array();
@@ -92,23 +92,20 @@ class CRM_Contact_BAO_Export {
         $session =& new CRM_Core_Session();
         if ( $selectAll ) {
             if ($primary) {
-                $query =& new CRM_Contact_BAO_Query( $formValues, $returnProperties, $fields );
+                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
             } else {
-                $query =& new CRM_Contact_BAO_Query( $formValues, $returnProperties );
+                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties );
             }
         } else {
-            $params = array( );
+            $idParams = array( );
             foreach ($ids as $id) { 
-                $params[CRM_Core_Form::CB_PREFIX . $id] = 1;
+                $idParams[] = array( CRM_Core_Form::CB_PREFIX . $id, '=', 1, 0, 0 );
             }
             if ($primary) {
-                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields, true );         
+                $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, $fields, true );         
             } else {
-                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, true );         
-
+                $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, null, true );         
             }
-
-            
         }
 
         list( $select, $from, $where ) = $query->query( );

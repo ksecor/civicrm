@@ -96,10 +96,10 @@
         </tr>
         <tr>
             <td class="label">
-                {$form.activity_date_from.label}
+                {$form.activity_date_low.label}
             </td>
             <td>
-                 {$form.activity_date_from.html} &nbsp; {$form.activity_date_to.label} {$form.activity_date_to.html}
+                 {$form.activity_date_low.html} &nbsp; {$form.activity_date_high.label} {$form.activity_date_high.html}
             </td>
         </tr>
     </table>
@@ -150,10 +150,10 @@
                 {$form.relation_type_id.html}
             </td>
             <td class="label">
-                {$form.target_name.label}
+                {$form.relation_target_name.label}
             </td>
             <td>
-                {$form.target_name.html|crmReplace:class:large}
+                {$form.relation_target_name.html|crmReplace:class:large}
             </td>    
         </tr>
       </table>         

@@ -461,7 +461,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         return $out;
     }
 
-    static function backtrace( ) {
+    static function backtrace( $msg = 'backTrace' ) {
         $backTrace = debug_backtrace( );
         
         $msgs = array( );
@@ -470,7 +470,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         }
 
         $message = implode( "\n", $msgs );
-        CRM_Core_Error::debug( 'backTrace', $message );
+        CRM_Core_Error::debug( $msg, $message );
     }
 
     static function createError( $message, $code = 8000, $level = 'Fatal', $params = null ) {

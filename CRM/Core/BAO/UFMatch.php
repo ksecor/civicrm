@@ -183,7 +183,7 @@ WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
                 $params= array( 'email' => $mail, 'location_type' => $locationType->name );
                 $contact =& crm_create_contact( $params, 'Individual' );
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-                    //CRM_Core_Error::debug( 'error', $contact );
+                    CRM_Core_Error::debug( 'error', $contact );
                     exit(1);
                 }
                 $ufmatch->contact_id = $contact->id;

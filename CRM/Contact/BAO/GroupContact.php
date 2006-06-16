@@ -434,15 +434,16 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $query  = "SELECT civicrm_contact.id as contact_id ,";
             $query .= implode( ',', $returnProperties );
         }
-        
-        $fv = array(
-            'group'                  => array($group->id => true),
-        );
+  
+        $params = array( );
+        $params[] = array( 'group', '=', array($group->id => true), 0, 0 );
 
         if ( $status ) {
-            $fv['group_contact_status'] = array($status => true);
+            $params[] = array( 'group_contact_status', '=', array($status => true), 0, 0 );
         } else {
-            $fv['group_contact_status'] = array('Added' => true, 'Removed' => true, 'Pending' => true);
+            $params[] = array( 'group_contact_status', '=',
+                               array('Added' => true, 'Removed' => true, 'Pending' => true),
+                               0, 0 );
         }
 
         $tables = array(
@@ -455,7 +456,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $inner = array( );
 
         $whereTables = array( );
-        $where = CRM_Contact_BAO_Query::getWhereClause($fv, null, $tables, $whereTables);
+        $where = CRM_Contact_BAO_Query::getWhereClause($params, null, $tables, $whereTables);
         $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables, $whereTables);
         $from = CRM_Contact_BAO_Query::fromClause($tables, $inner);
         $query .= " $from WHERE $permission AND $where ";

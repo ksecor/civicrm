@@ -64,7 +64,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
      * @var int
      * @access protected
      */
-    protected $_loadedMappingId;
+    protected $_mappingId;
 
    
     /**
@@ -82,232 +82,13 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             $this->_columnCount = $this->_columnCount + 10;
         }
         
-        $this->_loadedMappingId =  $this->get('savedMapping');
+        $this->_mappingId =  $this->get('savedMapping');
     }
     
     public function buildQuickForm( ) {
 
-        //get the saved mapping details
-        Require_once 'CRM/Core/DAO/Mapping.php';
-        require_once 'CRM/Contact/BAO/Contact.php';
-        require_once 'CRM/Core/BAO/LocationType.php';
-        $mappingArray =array();
-        
         require_once "CRM/Core/BAO/Mapping.php";
-        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Export');
-      
-        if ( !empty($mappingArray) ) {
-            $this->assign('savedMapping',$mappingArray);
-            $this->add('select','savedMapping', ts('Mapping Option'), array('' => '-select-')+$mappingArray);
-            //if ( !isset($this->_loadedMappingId) ) {
-                //$this->addRule('savedMapping',ts('Please select saved mappings.'), 'required');
-            //}
-            $this->addElement( 'submit', 'loadMapping', ts('Load Mapping'), array( 'class' => 'form-submit' ) ); 
-        }
-
-        //to save the current mappings
-        if ( !isset($this->_loadedMappingId) ) {
-            $saveDetailsName = ts('Save this field mapping');
-            $this->add('text','saveMappingName',ts('Name'));
-            $this->add('text','saveMappingDesc',ts('Description'));
-        } else {
-            //mapping is to be loaded from database
-            $colCnt = 0;
-            $mapping = $this->_loadedMappingId;
-            
-            list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($mapping);
-            $colCnt=count($mappingName);
-           
-            //updated for CRM-927
-            if ( $colCnt > $this->_columnCount ) {
-                 $this->_columnCount  = $colCnt;
-             }
-
-            $this->assign('loadedMapping', $this->_loadedMappingId);
-             
-            $params = array('id' =>  $this->_loadedMappingId);
-            $temp   = array ();
-            $mappingDetails = CRM_Core_BAO_Mapping::retrieve($params, $temp);
-        
-            $this->assign('savedName',$mappingDetails->name);
-
-            $this->add('hidden','mappingId',$this->_loadedMappingId);
-
-            $this->addElement('checkbox','updateMapping',ts('Update this field mapping'), null);
-            $saveDetailsName = ts('Save as a new field mapping');
-            $this->add('text','saveMappingName',ts('Name'));
-            $this->add('text','saveMappingDesc',ts('Description'));}
-        
-        
-        $this->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
-        
-        $this->addFormRule( array( 'CRM_Contact_Form_Task_Export_Map', 'formRule' ) );
-
-        //-------- end of saved mapping stuff ---------
-        
-        $this->_defaults = array( );
-        $hasLocationTypes= array();
-        
-        $contactId = array();
-        $fields    = array();
-
-        $fields['Individual'  ] =& CRM_Contact_BAO_Contact::exportableFields('Individual', false, true);
-        $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household', false, true);
-        $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization', false, true);
-
-        // add component fields
-        $compArray = array();
-        require_once 'CRM/Quest/BAO/Student.php';
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        $config = CRM_Core_Config::singleton();
-        $enabledComponent = $config->enableComponents;
-      
-        if (is_array( $enabledComponent )) {
-            foreach( $enabledComponent as $component ) {
-                if ($component == 'Quest') {
-                    $fields['Student'] =& CRM_Quest_BAO_Student::exportableFields();
-                    $compArray['Student'] = 'Student';
-                } else if ( $component == 'CiviContribute') {
-                    $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
-                    $compArray['Contribution'] = 'Contribution';
-                }
-            }
-        }
-        foreach ($fields as $key => $value) {
-            foreach ($value as $key1 => $value1) {
-                $this->_mapperFields[$key][$key1] = $value1['title'];
-                $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
-            }
-        }
-        
-        $mapperKeys      = array_keys( $this->_mapperFields );
-
-        $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
-        
-        $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-        
-        /* FIXME: dirty hack to make the default option show up first.  This
-         * avoids a mozilla browser bug with defaults on dynamically constructed
-         * selector widgets. */
-        
-        if ($defaultLocationType) {
-            $defaultLocation = $this->_location_types[$defaultLocationType->id];
-            unset($this->_location_types[$defaultLocationType->id]);
-            $this->_location_types = 
-                array($defaultLocationType->id => $defaultLocation) + 
-                $this->_location_types;
-        }
-        
-        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType() + $compArray;
-        
-        foreach($sel1 as $key=>$sel ) {
-            if($key) {
-                $sel2[$key] = $this->_mapperFields[$key];
-            }
-        }
-       
-        $sel3[''] = null;
-        $phoneTypes = CRM_Core_SelectValues::phoneType();
-
-        foreach($sel1 as $k=>$sel ) {
-            if($k) {
-                foreach ($this->_location_types as $key => $value) {                        
-                    $sel4[$k]['phone'][$key] =& $phoneTypes;
-                }
-            }
-        }
-        
-        foreach($sel1 as $k=>$sel ) {
-            if($k) {
-                foreach ($this->_mapperFields[$k]  as $key=>$value) {
-                   
-                    if ($hasLocationTypes[$k][$key]) {
-                       
-                        $sel3[$k][$key] = $this->_location_types;
-                    } else {
-                        $sel3[$key] = null;
-                    }
-                }
-            }
-        }
-
-        // print_r($sel3);
-
-        $this->_defaults = array();
-        $js = "<script type='text/javascript'>\n";
-        $formName = "document.{$this->_name}";
-
-    
-        //used to warn for mismatch column count or mismatch mapping 
-        $warning = 0;
-        for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-
-            $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
-            $jsSet = false;
-             if( isset($this->_loadedMappingId) ) {
-                $locationId = isset($mappingLocation[$i])? $mappingLocation[$i] : 0;                
-                if ( isset($mappingName[$i]) ) {
-                    if (is_array($this->_mapperFields[$mappingContactType[$i]])) {
-                        $phoneType = isset($mappingPhoneType[$i]) ? $mappingPhoneType[$i] : null;
-                        $mappingHeader = array_keys($this->_mapperFields[$mappingContactType[$i]], $mappingName[$i]);
-                        $defaults["mapper[$i]"] = array( $mappingContactType[$i], $mappingHeader[0],
-                                                         $locationId, $phoneType
-                                                         );
-                        if ( ! $mappingHeader[0] ) {
-                            $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
-                        }
-                        if ( ! $locationId ) {
-                            $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
-                        }
-                        if ( ! $phoneType ) {
-                            $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
-                        }
-                        $jsSet = true;
-                    }
-                } 
-             } 
-             
-             //$formValues = $this->controller->exportValues( $this->_name );
-             $formValues = $_POST; // using $_POST since export values don't give values on first submit
-             
-             /*             
-              if ( ! $jsSet && empty( $formValues ) ) {
-                  for ( $k = 1; $k < 4; $k++ ) {
-                      $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
-                  }
-              }
-             */
-
-             if ( ! $jsSet ) {
-                 if ( empty( $formValues ) ) {
-                     for ( $k = 1; $k < 4; $k++ ) {
-                         $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
-                     }
-                 } else {
-                     foreach ( $formValues['mapper'] as $value) {
-                         for ( $k = 1; $k < 4; $k++ ) {
-                             if (!$formValues['mapper'][$i][$k]) {
-                                 $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
-                             }
-                         }
-                     }
-                 }
-             }
-
-             $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
-
-            //set the defaults on load mapping
-                        
-        }
-        $js .= "</script>\n";
-        $this->assign('initHideBoxes', $js);
-        $this->assign('columnCount', $this->_columnCount);
-
-       
-        $this->setDefaults($defaults);
-        
-        $this->addElement( 'submit', 'addMore', ts('Select more fields'), array( 'class' => 'form-submit' ) );
-        $this->setDefaultAction( 'refresh' );
+        CRM_Core_BAO_Mapping::buildMappingForm($this, 'Export', $this->_mappingId, $this->_columnCount, $blockCnt = 2);
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -331,7 +112,6 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
      * @static
      * @access public
      */
-
     static function formRule( &$fields ) {
         $errors  = array( );
         //updated for CRM-965 
@@ -400,7 +180,10 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             return;
         }
 
-        $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );  
+        
+        //$mapperKeys = $this->controller->exportValue( $this->_name,
+        //'mapper1' );  
+        $mapperKeys = $params['mapper'][1];  
        
         $checkEmpty = 0;
         foreach($mapperKeys as $value) {
@@ -410,9 +193,11 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         }
 
         if (!$checkEmpty ) {
+            $this->set('savedMapping', null);
             require_once 'CRM/Utils/System.php';            
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', '_qf_Map_display=true' ) );
         }
+        
 
         //Updating Mapping Records
         if ( CRM_Utils_Array::value('updateMapping', $params)) {
@@ -432,7 +217,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                     $updateMappingFields =& new CRM_Core_DAO_MappingField();
                     $updateMappingFields->id = $mappingFieldsId[$i];
                     $updateMappingFields->mapping_id = $params['mappingId'];
-                    $updateMappingFields->name = $this->_mapperFields[$mapperKeys[$i][0]][$mapperKeys[$i][1]];
+                    $updateMappingFields->name = $mapperKeys[$i][1];
                     $updateMappingFields->contact_type =  $mapperKeys[$i][0];
                     $updateMappingFields->column_number = $i;
                     
@@ -471,7 +256,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
                 if ( !empty($mapperKeys[$i][0]) ) {
                     $saveMappingFields =& new CRM_Core_DAO_MappingField();
                     $saveMappingFields->mapping_id = $saveMapping->id;
-                    $saveMappingFields->name =  $this->_mapperFields[$mapperKeys[$i][0]][$mapperKeys[$i][1]];
+                    $saveMappingFields->name =  $mapperKeys[$i][1];
                     $saveMappingFields->contact_type =  $mapperKeys[$i][0];
                     $saveMappingFields->column_number = $i;
                     
@@ -497,7 +282,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         require_once 'CRM/Contact/BAO/Export.php';
         CRM_Contact_BAO_Export::exportContacts( $this->get( 'selectAll' ),
                                                 $this->get( 'contactIds' ),
-                                                $this->get( 'formValues' ),
+                                                $this->get( 'queryParams' ),
                                                 $this->get( CRM_Utils_Sort::SORT_ORDER ),
                                                 $mapperKeys);
     }

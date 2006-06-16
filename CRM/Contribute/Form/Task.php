@@ -95,9 +95,9 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
                 $this->assign( 'totalSelectedContributions', count( $ids ) );
             }
         } else {
-            $fv = $this->get('formValues');
-            $query =& new CRM_Contact_BAO_Query($fv, null, null, false, false,
-                                                CRM_Contact_BAO_Query::MODE_CONTRIBUTE);
+            $queryParams =  $this->get( 'queryParams' );
+            $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
+                                                       CRM_Contact_BAO_Query::MODE_CONTRIBUTE);
             $result = $query->searchQuery(0, 0, null);
             while ($result->fetch()) {
                 $ids[] = $result->contribution_id;

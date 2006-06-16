@@ -461,6 +461,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     public static function findContact( &$params, $id = null, $flatten = false ) {
         $tables = array( );
+        require_once 'CRM/Contact/Form/Search.php';
         $clause = self::getWhereClause( $params, $tables );
         $emptyClause = 'civicrm_contact.domain_id = ' . CRM_Core_Config::domainID( );
         if ( ! $clause || trim( $clause ) === trim( $emptyClause ) ) {
@@ -483,13 +484,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     public static function getValues( $cid, &$fields, &$values ) {
         $options = array( );
+
         //studnet fields ( check box ) 
         require_once 'CRM/Quest/BAO/Student.php';
         $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+
         // get the contact details (hier)
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
-       
-        $params  = array( 'id' => $cid );
+
+        $params  = array( array( 'contact_id', '=', $cid, 0, 0 ) );
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
         $options =& $query->_options;
 
@@ -778,18 +781,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         if(is_array($params)) {
             if (is_array($params['location'])) {
-                $params['email'] = array();
-                $params['phone'] = array();
-                $params['im']    = array();
+                $params['email'] = null;
+                $params['phone'] = null;
+                $params['im']    = null;
             
-                foreach($params['location'] as $loc) {
+                foreach($params['location'] as $locIdx => $loc) {
                     foreach (array('email', 'phone', 'im') as $key) {
                         if (is_array($loc[$key])) {
-                            foreach ($loc[$key] as $value) {
-                                if ( ! empty( $value[$key] ) ) {
-                                    $value[$key] = strtolower( $value[$key] );
-                                    $params[$key][] = 
-                                        '"' . addslashes($value[$key]) . '"';
+                            foreach ($loc[$key] as $keyIdx => $value) {
+                                if ( ! empty( $value[$key] ) && ! $params[$key] ) {
+                                    $params[$key] = $value[$key];
+                                    break;
                                 }
                             }
                         }
@@ -808,12 +810,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $params[$fld] = $params['location'][1]['address'][$fld];
                 }
             }
+            unset( $params['location'] );
             
             if (is_array($params['custom'])) {
                 foreach ( $params['custom'] as $key => $value ) {
                     $params['custom_'. $value['custom_field_id'] ] = $value['value'];
                 }
             }
+            unset( $params['custom'] );
         }
         $importableFields =  CRM_Contact_BAO_Contact::importableFields( );
         
@@ -834,6 +838,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         //this is the fix to ignore the groups/ tags for dupe checking CRM-664, since we never use them for dupe checking
         $params['group'] = array( );
         $params['tag']   = array( );
+        $params =& CRM_Contact_Form_Search::convertFormValues( $params );
         $whereTables = array( );
         return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, $whereTables, true );
     }

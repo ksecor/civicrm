@@ -39,24 +39,18 @@
             <th>{ts}Fields to Include in Export File{/ts}</th>
         </tr>
         {*section name=cols loop=$columnCount*}
-        {section name=cols loop=$columnCount}
+        {section name=cols loop=$columnCount.1}
             {assign var="i" value=$smarty.section.cols.index}
             <tr>
-                         
-                {section name=rows loop=$rowDisplayCount}
-                    {assign var="j" value=$smarty.section.rows.index}
-                    <td class="{if $skipColumnHeader AND $smarty.section.rows.iteration == 1}even-row labels{else}odd-row{/if}">{$dataValues[$j][$i]}</td>
-                {/section}
-
                 <td class="form-item even-row">
-                   {$form.mapper[$i].html}
+                   {$form.mapper.1[$i].html}
                 </td>
             </tr>
         {/section}
     
         <tr>
            <td class="form-item even-row">
-               {$form.addMore.html}
+               {$form.addMore.1.html}
            </td>
         </tr>            
     </table>

@@ -150,9 +150,13 @@ class CRM_Core_Invoke {
 
         $session =& CRM_Core_Session::singleton();
 
-        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' );
-        if ($session->get('isAdvanced')) {
+        $isAdvanced = $session->get('isAdvanced');
+        if ( $isAdvanced == '1' ) {
             $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
+        } else if ( $isAdvanced == '2' ) {
+            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/builder', 'force=1' );
+        } else {
+            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' );
         }
         
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Search Results') . '</a>';
@@ -346,6 +350,10 @@ class CRM_Core_Invoke {
             $mode  = CRM_Core_Action::ADVANCED;
             $title = ts('Advanced Search');
             $url   = 'civicrm/contact/search/advanced';
+        } else if ( $thirdArg == 'builder' ) {
+            $mode    =  CRM_Core_Action::PROFILE;
+            $title   = ts( 'Search Builder' );
+            $url   = 'civicrm/contact/search/builder';
         } else if ( $thirdArg == 'simple' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton();
@@ -367,12 +375,6 @@ class CRM_Core_Invoke {
 
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Task_YMap', ts('YMap Contact'),  null );
-        } else if ( $thirdArg == 'builder' ) {
-	    $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/builder' ) );
-
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Search_Builder', ts('Search Builder'),  null );
         } else {
             $mode  = CRM_Core_Action::BASIC;
             $title = ts('Search');

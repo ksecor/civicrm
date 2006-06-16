@@ -86,7 +86,15 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
      * @access protected 
      */ 
     protected $_formValues; 
- 
+
+    /**
+     * the params that are sent to the query
+     * 
+     * @var array 
+     * @access protected 
+     */ 
+    protected $_queryParams;
+
     /** 
      * have we already done this search 
      * 
@@ -161,7 +169,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
- 
+
         if ( $this->_force ) { 
             $this->postProcess( );
         }
@@ -171,7 +179,10 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
-        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues,
+
+        require_once 'CRM/Contact/Form/Search.php';
+        $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
+        $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,
                                                          $this->_action,
                                                          null,
                                                          $this->_single,
@@ -290,7 +301,10 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         $this->fixFormValues( );
 
-        $this->set( 'formValues', $this->_formValues );
+        $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
+
+        $this->set( 'formValues' , $this->_formValues  );
+        $this->set( 'queryParams', $this->_queryParams );
 
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) { 
@@ -309,7 +323,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
 
-        $selector =& new CRM_Contribute_Selector_Search( $this->_formValues,
+        $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues );
+        $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,
                                                          $this->_action,
                                                          null,
                                                          $this->_single,

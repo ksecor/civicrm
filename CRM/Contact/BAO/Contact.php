@@ -267,7 +267,7 @@ ORDER BY
     /**
      * create and query the db for an contact search
      *
-     * @param array    $formValues array of reference of the form values submitted
+     * @param array    $params   the search input params
      * @param int      $action   the type of action links
      * @param int      $offset   the offset for the query
      * @param int      $rowCount the number of rows to return
@@ -279,11 +279,11 @@ ORDER BY
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function searchQuery(&$fv, $offset, $rowCount, $sort, 
+    function searchQuery(&$params, $offset, $rowCount, $sort, 
                          $count = false, $includeContactIds = false, $sortByChar = false,
                          $groupContacts = false, $returnQuery = false )
     {
-        $query =& new CRM_Contact_BAO_Query( $fv, null, null,
+        $query =& new CRM_Contact_BAO_Query( $params, null, null,
                                              $includeContactIds );
         return $query->searchQuery( $offset, $rowCount, $sort,
                                     $count, $includeContactids,
@@ -1603,7 +1603,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * @access public
      */
     static function getHierContactDetails( $contactId, &$fields ) {
-        $params  = array( 'id' => $contactId );
+        $params  = array( array( 'contact_id', '=', $contactId, 0, 0 ) ); 
         $options = array( );
                 
         $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );
