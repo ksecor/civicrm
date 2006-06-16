@@ -252,7 +252,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @param int $pageId 
      * @static
      */
-    function buildMembershipBlock( $form , $pageID , $formItems = false) {
+    function buildMembershipBlock( $form , $pageID , $formItems = false, $selectedMembershipID = null ) {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
         require_once 'CRM/Member/DAO/MembershipType.php';
         require_once 'CRM/Member/DAO/Membership.php';
@@ -268,10 +268,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
 
         $dao = & new CRM_Member_DAO_MembershipBlock();
         $dao->entity_table = 'civicrm_contribution_page';
-        
         $dao->entity_id = $pageID; 
         $dao->is_active = 1;
         if ( $dao->find(true) ) {
+            $this->assign( "is_separate_payment", $dao->is_separate_payment );
             CRM_Core_DAO::storeValues($dao, $membershipBlock );
             if( $dao->membership_types ) {
                 $membershipTypeIds = explode( ',' , $dao->membership_types);
@@ -281,16 +281,25 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                     $memType = & new CRM_Member_DAO_MembershipType(); 
                     $memType->id = $value;
                     if ( $memType->find(true) ) {
-                        $mem = array();
-                        CRM_Core_DAO::storeValues($memType,$mem);
-                        $radio[$memType->id] = $form->createElement('radio',null, null, null, $memType->id , null);
-                        $membership = &new CRM_Member_DAO_Membership();
-                        $membership->contact_id         = $cid;
-                        $membership->membership_type_id = $memType->id;
-                        if ( $membership->find(true) ) {
-                            $mem['current_membership'] =  $membership->end_date;
+                        if ($selectedMembershipID  != null ) {
+                            if ( $memType->id == $selectedMembershipID ) {
+                                CRM_Core_DAO::storeValues($memType,$mem);
+                                $this->assign( 'minimum_fee', $mem['minimum_fee'] );
+                                $this->assign( 'membership_name', $mem['name'] );
+                                $membershipTypes[] = $mem;
+                            }
+                        } else {
+                            $mem = array();
+                            CRM_Core_DAO::storeValues($memType,$mem);
+                            $radio[$memType->id] = $form->createElement('radio',null, null, null, $memType->id , null);
+                            $membership = &new CRM_Member_DAO_Membership();
+                            $membership->contact_id         = $cid;
+                            $membership->membership_type_id = $memType->id;
+                            if ( $membership->find(true) ) {
+                                $mem['current_membership'] =  $membership->end_date;
+                            }
+                            $membershipTypes[] = $mem;
                         }
-                        $membershipTypes[] = $mem;
                     }
                 }
             }

@@ -128,6 +128,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         require_once 'CRM/Contribute/BAO/Premium.php';
         $amount = $this->get( 'amount' );
         $params = $this->_params;
+        
+        $amount_block_is_active = $this->get( 'amount_block_is_active');
+        $this->assign('amount_block_is_active', $amount_block_is_active );
+        
         if ( $params['selectProduct'] && $params['selectProduct'] != 'no_thanks') {
             $option    = $params['options_'.$params['selectProduct']];
             $productID = $params['selectProduct']; 
@@ -135,8 +139,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->set('productID',$productID);
             $this->set('option',$option);
         }
-        
-        
+        $config =& CRM_Core_Config::singleton( );
+        if ( in_array("CiviMember", $config->enableComponents) ) {
+            if ($params['selectMembership'] && $params['selectMembership'] != 'no_thanks') {
+                CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,false , $params['selectMembership'] );
+            }
+        }
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Make Contribution'),
