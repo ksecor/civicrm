@@ -3,6 +3,17 @@
  {if $context EQ "makeContribution"}
   <fieldset>    
    <div class="form-item">
+      {if $renewal_mode }
+        {if $membershipBlock.renewal_title}
+            <legend>{$membershipBlock.renewal_title}</legend>
+        {/if}
+        {if $membershipBlock.renewal_text}
+            <div id=membership-intro>
+                <p>{$membershipBlock.renewal_text}</p>
+            </div> 
+        {/if}
+
+      {else}        
         {if $membershipBlock.new_title}
             <legend>{$membershipBlock.new_title}</legend>
         {/if}
@@ -11,13 +22,23 @@
                 <p>{$membershipBlock.new_text}</p>
             </div> 
         {/if}
+      {/if}
   {/if}
     {if $context EQ "confirmContribution" OR $context EQ "thankContribution"}
         <div class="header-dark">
-            {if $membershipBlock.new_title}
-                {$membershipBlock.new_title}
+            {if $renewal_mode }
+                    {if $membershipBlock.renewal_title}
+                        {$membershipBlock.renewal_title}
+                    {else}
+                     {ts}Your Membership Selection{/ts}
+                    {/if}
+
             {else}
-                {ts}Your Membership Selection{/ts}
+                    {if $membershipBlock.new_title}
+                        {$membershipBlock.new_title}
+                    {else}
+                     {ts}Your Membership Selection{/ts}
+                    {/if}
             {/if}
         </div>
     {/if}
