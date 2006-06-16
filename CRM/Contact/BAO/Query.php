@@ -264,6 +264,7 @@ class CRM_Contact_BAO_Query {
 
         if ( empty( $returnProperties ) ) {
             $this->_returnProperties =& self::defaultReturnProperties( $mode );
+            CRM_Core_Error::debug( 'r', $this->_returnProperties );
         } else {
             $this->_returnProperties =& $returnProperties;
         }
@@ -305,6 +306,8 @@ class CRM_Contact_BAO_Query {
         $this->_where       = array( ); 
         $this->_qill        = array( ); 
         $this->_options     = array( );
+        $this->_cfIDs       = array( );
+        $this->_paramLookup = array( );
 
         $this->_customQuery = null; 
  
@@ -324,8 +327,6 @@ class CRM_Contact_BAO_Query {
     }
 
     function buildParamsLookup( ) {
-        $this->_cfIDs       = array( );
-        $this->_paramLookup = array( );
 
         foreach ( $this->_params as $value ) {
             $cfID = CRM_Core_BAO_CustomField::getKeyID( $value[0] );
@@ -372,7 +373,6 @@ class CRM_Contact_BAO_Query {
      */
     function selectClause( ) {
         $properties = array( );
-        $cfIDs      = array( );
 
         $this->addSpecialFields( );
 
@@ -393,7 +393,7 @@ class CRM_Contact_BAO_Query {
 
                 if ( $cfID ) {
                     // add to cfIDs array if not present
-                    if ( !array_key_exists( $cfID, $this->_cfIDs ) ) {
+                    if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
                         $this->_cfIDs[$cfID] = null;
                     }
                 } else if ( isset( $field['where'] ) ) {
@@ -550,7 +550,7 @@ class CRM_Contact_BAO_Query {
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
             $locationJoin = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = contact_a.id AND $lCond )"; 
-            $this->_tables[ 'civicrm_location_' . $index ] = $locationJoin;
+            $this->_tables[ 'civicrm_location_' . $index ] = $locationJoin;            
             $locationIndex = $index;
 
             $tName  = "$name-location_type";
@@ -605,8 +605,16 @@ class CRM_Contact_BAO_Query {
 
                 // check if there is a value, if so also add to where Clause
                 $addWhere = false;
-                $value = CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_params );
-                if ( ! CRM_Utils_System::isNull( $value ) ) {
+                if ( $this->_params ) {
+                    $nm = $elementName . "-$locationTypeId";
+                    foreach ( $this->_params as $id => $values ) {
+                        if ( $values[0] == $nm ) {
+                            $addWhere = true;
+                            break;
+                        }
+                    }
+                }
+                if ( $addWhere ) {
                     $addWhere = true;
                     $this->_whereTables[ "civicrm_location_{$locationIndex}" ] = $locationJoin;
                     $this->_whereTables[ "civicrm_location_type_{$locationIndex}" ] = $locationTypeJoin;
@@ -997,7 +1005,7 @@ class CRM_Contact_BAO_Query {
                     
                     //get the location name //kurund
                     $locationType =& CRM_Core_PseudoConstant::locationType();
-                    $tName = $locationType[$locType[1]] . "-" . $locType[0];
+                    $tName = $locationType[$locType[1]] . "-" . $locType[0] . '-1';
                     $where = "`$tName`.$fldName";
                     $this->_where[$grouping][] = "LOWER( $where ) $op '$value'";
                 } else {
