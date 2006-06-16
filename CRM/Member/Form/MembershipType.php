@@ -88,9 +88,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
         $this->add('select', 'relation_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $allRelationshipType);
 
-        $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::ufVisibility( ), false );
+        $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::memberVisibility( ) );
 
-        $this->add('checkbox', 'is_default', ts('Default?'));
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
     }

@@ -160,6 +160,24 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         return $membershipTypes;
      }
     
+    /**
+     * Function to get membership Type Details 
+     * 
+     * @param int $membershipTypeId
+     * @static
+     */
+    function getMembershipTypeDetails( $membershipTypeId ) {
+        
+        require_once 'CRM/Member/DAO/Membership.php';
+        $membershipTypeDetails = array();
+
+        $membershipType =& new CRM_Member_DAO_MembershipType( );
+        $membershipType->is_active = 1;
+        $membershipType->id = $membershipTypeId;
+        $membershipType->find(true);
+        CRM_Core_DAO::storeValues($membershipType, $membershipTypeDetails );
+        return   $membershipTypeDetails;
+    }
 
 
 }

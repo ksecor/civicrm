@@ -84,10 +84,11 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Activity
      * @access public
      */
-    function __construct($contactId, $permission) 
+    function __construct($contactId, $permission,$showLink =null) 
     {
         $this->_contactId  = $contactId;
         $this->_permission = $permission;
+        $this->_showLink   = $showLink;
     }
 
 
@@ -213,8 +214,13 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                     $row['activity_type'] = ts('Meeting');
                 }
             }
-
-            $actionLinks =& self::actionLinks($row['activity_type_id']);
+           
+            if($this->_showLink){
+                $actionLinks =array();
+            }else {
+                $actionLinks =& self::actionLinks($row['activity_type_id']);
+            }
+                     
             $actionMask  =  array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
 
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {

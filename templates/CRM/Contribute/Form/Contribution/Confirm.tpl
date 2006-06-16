@@ -9,13 +9,27 @@
         </p> 
     </div>
     
+       
+    {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="confirmContribution"}
+   
     <div class="header-dark">
         {ts}Contribution Amount{/ts}
     </div>
     <div class="display-block">
-        <strong>{$amount|crmMoney}</strong>
+        {if $is_separate_payment }
+             {if $amount_block_is_active }   
+              {ts}Contribution Amount{/ts}:<strong>{$amount|crmMoney}</strong><br />
+              {ts}{$membership_name} Membership:<strong>{$minimum_fee|crmMoney}</strong>{/ts}<br />
+              <strong> -------------------------------------------</strong><br />
+              {ts}Total:{/ts}<strong>{$amount+$minimum_fee|crmMoney}</strong><br />
+             {else}
+              {ts}{$membership_name} Membership:<strong>{$minimum_fee|crmMoney}</strong>{/ts}
+             {/if}         
+        {else}
+           <strong>{$amount|crmMoney}</strong>
+        {/if}    
     </div>
-
+    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>

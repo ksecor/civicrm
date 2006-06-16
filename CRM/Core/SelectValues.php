@@ -208,6 +208,22 @@ class CRM_Core_SelectValues {
     }
 
     /**
+     * various pre defined member visibility options
+     * @static
+     */
+    static function &memberVisibility()
+    {
+        static $visible = null;
+        if (!$visible) {
+            $visible = array(
+                 'Public'       => ts('Public'),
+                 'Admin'        => ts('Admin')
+             );
+        }
+        return $visible;
+    }
+
+    /**
      * various pre defined event dates
      * @static
      */

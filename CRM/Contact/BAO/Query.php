@@ -264,7 +264,6 @@ class CRM_Contact_BAO_Query {
 
         if ( empty( $returnProperties ) ) {
             $this->_returnProperties =& self::defaultReturnProperties( $mode );
-            CRM_Core_Error::debug( 'r', $this->_returnProperties );
         } else {
             $this->_returnProperties =& $returnProperties;
         }

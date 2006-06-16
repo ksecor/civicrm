@@ -182,6 +182,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             CRM_Utils_System::setUFMessage( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
             CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
         }
+        if ( $this->_values['amount_block_is_active'] ) {
+            $this->set('amount_block_is_active',$this->_values['amount_block_is_active' ]);
+        }
+        
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode ); 
 

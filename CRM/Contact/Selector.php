@@ -154,7 +154,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $this->_action = $action;
         
         $this->_ufGroupID = $this->_formValues['uf_group_id'];
-        $this->_ufGroupID = 1;
 
         if ( $this->_ufGroupID ) {
             $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,

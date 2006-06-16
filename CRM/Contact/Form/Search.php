@@ -448,7 +448,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
             // also get the uf group id directly from the post value
             $this->_ufGroupID = CRM_Utils_Array::value( 'uf_group_id', $_POST );
-            $this->_ufGroupID = 1;
             $this->_formValues['uf_group_id'] = $this->_ufGroupID;
             $this->set( 'id', $this->_ufGroupID );
         } else {

@@ -247,6 +247,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         if( $fields['selectProduct'] && $fields['selectProduct'] != 'no_thanks' ) {
             require_once 'CRM/Contribute/DAO/Product.php';
+            require_once 'CRM/Utils/Money.php';
             $productDAO =& new CRM_Contribute_DAO_Product();
             $productDAO->id = $fields['selectProduct'];
             $productDAO->find(true);
@@ -261,7 +262,23 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
             }
         }
-
+        
+        if( $fields['selectMembership'] && $fields['selectMembership'] != 'no_thanks' ) {
+            require_once 'CRM/Member/BAO/Membership.php';
+            require_once 'CRM/Member/BAO/MembershipType.php';
+            $memBlock       = CRM_Member_BAO_Membership::getMemershipBlock( $self->_id );
+            $memTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $fields['selectMembership']);
+            if ( $self->_values['amount_block_is_active'] && ! $memBlock['is_separate_payment']) {
+                if ($fields['amount'] == 'amount_other_radio') {
+                    if ( $fields['amount_other'] < $memTypeDetails['minimum_fee']) {
+                         $errors['selectMembership'] = ts(' The Membership you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'])));
+                    }
+                } else if ( $fields['amount'] <  $memTypeDetails['minimum_fee'] ) {
+                    $errors['selectMembership'] = ts(' The Membership you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'])));
+                }
+            }
+            
+        }
 
         $payment =& CRM_Contribute_Payment::singleton( $self->_mode );
         $error   =  $payment->checkConfig( $self->_mode );
