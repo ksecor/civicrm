@@ -479,18 +479,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     } 
                 } 
                 
-                //$formValues = $form->controller->exportValues( $name );
-                $formValues = $_POST; // using $_POST since export values don't give values on first submit
-                
-                //print_r($formValues);
-
-                /*             
-              if ( ! $jsSet && empty( $formValues ) ) {
-                  for ( $k = 1; $k < 4; $k++ ) {
-                      $js .= "{$formName}['mapper[$i][$k]'].style.display = 'none';\n"; 
-                  }
-              }
-                */
+                $formValues = $form->controller->exportValues( $name );
                 
                 if ( ! $jsSet ) {
                     if ( empty( $formValues ) ) {

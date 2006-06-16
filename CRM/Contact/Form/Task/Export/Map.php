@@ -252,6 +252,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             if( $buttonName1 == '_qf_Map_next' ){
                 $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
             }
+
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {
                 if ( !empty($mapperKeys[$i][0]) ) {
                     $saveMappingFields =& new CRM_Core_DAO_MappingField();
