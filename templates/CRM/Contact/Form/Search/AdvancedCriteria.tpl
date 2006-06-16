@@ -1,6 +1,6 @@
 {* Advanced Search Criteria Fieldset *}
 <fieldset>
-    <legend><span id="searchForm[hide]"><a href="#" onClick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a></span>
+    <legend><span id="searchForm[hide]"><a href="#" onclick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>
         {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
         {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
         {elseif $savedSearch}{ts 1=$savedSearch.name}%1 Smart Group Criteria{/ts}
@@ -109,11 +109,11 @@
 
     {if $validCiviContribute}
     <div id="contributeForm[show]" class="data-group">
-      <a href="#" onClick="hide('contributeForm[show]'); show('contributeForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a>
+      <a href="#" onclick="hide('contributeForm[show]'); show('contributeForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
       <label>{ts}Contributions{/ts}</label>
     </div>
     <div id="contributeForm">
-    <fieldset><legend><a href="#" onClick="hide('contributeForm'); show('contributeForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Contributions{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('contributeForm'); show('contributeForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Contributions{/ts}</legend>
     <table class="form-layout"> 
        {include file="CRM/Contribute/Form/Search/Common.tpl"}
     </table>
@@ -123,11 +123,11 @@
         
     {if $validQuest}
     <div id="questForm[show]" class="data-group">
-      <a href="#" onClick="hide('questForm[show]'); show('questForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a>
+      <a href="#" onclick="hide('questForm[show]'); show('questForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
       <label>{ts}Quest Student{/ts}</label>
     </div>
     <div id="questForm">
-    <fieldset><legend><a href="#" onClick="hide('questForm'); show('questForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Quest Student{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('questForm'); show('questForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Quest Student{/ts}</legend>
     <table class="form-layout"> 
        {include file="CRM/Quest/Form/Search/Common.tpl"}
     </table>
@@ -136,11 +136,11 @@
     {/if}
         
     <div id="relationship[show]" class="data-group">
-      <a href="#" onClick="hide('relationship[show]'); show('relationship'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a>
+      <a href="#" onclick="hide('relationship[show]'); show('relationship'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
       <label>{ts}Relationship{/ts}</label>
     </div>
     <div id="relationship">
-    <fieldset><legend><a href="#" onClick="hide('relationship'); show('relationship[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Relationship{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('relationship'); show('relationship[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Relationship{/ts}</legend>
     <table class="form-layout">
          <tr>
             <td class="label">
