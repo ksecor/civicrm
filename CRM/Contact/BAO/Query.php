@@ -879,6 +879,8 @@ class CRM_Contact_BAO_Query {
             }
         }
 
+        // CRM_Core_Error::debug( 'c', $clauses );
+
         $andClauses = array( );
         if ( ! empty( $this->_where[0] ) ) {
             $andClauses[] = ' ( ' . implode( ' AND ', $this->_where[0] ) . ' ) ';
@@ -886,6 +888,7 @@ class CRM_Contact_BAO_Query {
         if ( ! empty( $clauses ) ) {
             $andClauses[] = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
         }
+        // CRM_Core_Error::debug( 'a', $andClauses );
         return implode( ' AND ', $andClauses );
     }
 
@@ -907,10 +910,12 @@ class CRM_Contact_BAO_Query {
             $this->_where[$grouping][] = "civicrm_phone.phone_type = '{$locType[2]}'";
         }
 
-        $field = CRM_Utils_Array::value( $locType[0], $this->_fields );
-
+        $field = CRM_Utils_Array::value( $name, $this->_fields );
         if ( ! $field ) {
-            return;
+            $field = CRM_Utils_Array::value( $locType[0], $this->_fields );
+            if ( ! $field ) {
+                return;
+            }
         }
 
         // FIXME: the LOWER/strtolower pairs below most probably won't work
