@@ -406,7 +406,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $locationTypes;
         }
         
-        $locationTypes = array (' ' => 'Primary') + $locationTypes;
+        $locationTypes = array (' ' => ts('Primary')) + $locationTypes;
 
 
         $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType() + $compArray;
