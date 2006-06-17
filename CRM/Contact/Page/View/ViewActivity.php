@@ -50,6 +50,7 @@ class CRM_Contact_Page_View_ViewActivity extends CRM_Contact_Page_View {
     protected $_history = array();
     protected $_displayName = array();
 
+    /*
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
      *
