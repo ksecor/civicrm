@@ -42,8 +42,14 @@ require_once 'CRM/Contact/BAO/Contact.php';
  */
 
 class CRM_Contact_Page_View_ViewActivity extends CRM_Contact_Page_View {
-    
-        /**
+
+    protected $_rows = array();
+    protected $_totalCountOpenActivity = array();
+    protected $_totalCountActivity = array();
+    protected $_contactIds = array();
+    protected $_history = array();
+    protected $_displayName = array();
+
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
      *
@@ -111,15 +117,15 @@ class CRM_Contact_Page_View_ViewActivity extends CRM_Contact_Page_View {
      */
     function browse($id,$history)
     { 
-      
-        $this->assign( 'totalCountOpenActivity',
-                       CRM_Contact_BAO_Contact::getNumOpenActivity( $id) );
-        
-        $this->assign( 'totalCountActivity', CRM_Core_BAO_History::getNumHistory( $id,'Activity' ) );
+        $this->_totalCountOpenActivity[] = CRM_Contact_BAO_Contact::getNumOpenActivity( $id);
+        $this->_totalCountActivity[]     = CRM_Core_BAO_History::getNumHistory( $id,'Activity' );
+        $this->_contactIds[]             = $id;
+        $this->_history[]                = $history;
+
         require_once 'CRM/Core/Selector/Controller.php';
         // create the selector, controller and run 
         if ( $history ) {
-            $this->assign('history', true);
+            //$this->assign('history', true);
             $output = CRM_Core_Selector_Controller::SESSION;
             require_once 'CRM/History/Selector/Activity.php';
             $selector =& new CRM_History_Selector_Activity( $id, $this->_permission,true);
@@ -130,10 +136,11 @@ class CRM_Contact_Page_View_ViewActivity extends CRM_Contact_Page_View {
                                                             $sortID, CRM_Core_Action::VIEW, $this, $output);
             $controller->setEmbedded(true);
             $controller->run();
+            $this->_rows[] = $controller->getRows($controller);
             $controller->moveFromSessionToTemplate( );
         }else {
-            $this->assign('history', false);
-              $output = CRM_Core_Selector_Controller::SESSION;
+        //$this->assign('history', false);
+            $output = CRM_Core_Selector_Controller::SESSION;
             require_once 'CRM/Contact/Selector/Activity.php';
             $selector   =& new CRM_Contact_Selector_Activity($id, $this->_permission ,true);
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -143,9 +150,18 @@ class CRM_Contact_Page_View_ViewActivity extends CRM_Contact_Page_View {
                                                             $sortID, CRM_Core_Action::VIEW, $this, $output);
             $controller->setEmbedded(true);
             $controller->run();
+            $this->_rows[] = $controller->getRows($controller);
             $controller->moveFromSessionToTemplate( );
         }
-      
+        
+        $this->_displayName[] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
+        
+        $this->assign( 'rows',                   $this->_rows);
+        $this->assign( 'contactId',              $this->_contactIds);
+        $this->assign( 'history',                $this->_history);
+        $this->assign( 'totalCountOpenActivity', $this->_totalCountOpenActivity);
+        $this->assign( 'totalCountActivity',     $this->_totalCountActivity);
+        $this->assign( 'display_name',           $this->_displayName);
     }
         
     /**

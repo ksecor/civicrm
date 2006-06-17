@@ -292,10 +292,11 @@ class CRM_Core_Selector_Controller {
         // we need to get the rows if we are exporting or printing them
         if ($this->_output == self::EXPORT || $this->_output == self::SCREEN) {
             // get rows (without paging criteria)
-            $rows          =& $this->_object->getRows( $this->_action,
-                                                       0, 0,
-                                                       $this->_sort,
-                                                       $this->_output );
+//             $rows          =& $this->_object->getRows( $this->_action,
+//                                                        0, 0,
+//                                                        $this->_sort,
+//                                                        $this->_output );
+            $rows = self::getRows( $this );
             if ( $this->_output == self::EXPORT ) {
                 // export the rows.
                 CRM_Core_Report_Excel::writeCSVFile( $this->_object->getExportFileName( ),
@@ -309,11 +310,12 @@ class CRM_Core_Selector_Controller {
         } else {
             // output requires paging/sorting capability
             // get rows with paging criteria
-            $rows          =& $this->_object->getRows( $this->_action,
-                                                       $this->_pagerOffset,
-                                                       $this->_pagerRowCount,
-                                                       $this->_sort,
-                                                       $this->_output );
+//             $rows          =& $this->_object->getRows( $this->_action,
+//                                                        $this->_pagerOffset,
+//                                                        $this->_pagerRowCount,
+//                                                        $this->_sort,
+//                                                        $this->_output );
+            $rows = self::getRows( $this );
             $rowsEmpty = count( $rows ) ? false : true;
             $qill      = $this->getQill( );
 
@@ -341,6 +343,22 @@ class CRM_Core_Selector_Controller {
             $this->_store->set( CRM_Utils_Sort::SORT_ORDER    , $this->_sort->orderBy                 ( ) );
             $this->_store->set( CRM_Utils_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
 
+        }
+    }
+
+    /**
+     * function to retrieve rows.
+     *
+     * @return array of rows
+     * @access public
+     */
+    public function getRows( $form ) {
+        if ($form->_output == self::EXPORT || $form->_output == self::SCREEN) {
+            //get rows (without paging criteria)
+            return $form->_object->getRows( $form->_action, 0, 0, $form->_sort, $form->_output );
+        } else {
+            return $form->_object->getRows( $form->_action, $form->_pagerOffset, $form->_pagerRowCount,
+                                            $form->_sort, $form->_output );
         }
     }
 
@@ -412,7 +430,6 @@ class CRM_Core_Selector_Controller {
         echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
 
     }
-
 
     /**
      * setter for embedded 
