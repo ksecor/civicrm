@@ -3,10 +3,10 @@
 {elseif $action eq 4}
     {include file="CRM/Member/Form/MembershipView.tpl"}
 {else}
-{capture assign=newContribURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}
+{capture assign=newURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}
 <div id="help">
-<p>{ts 1=$newContribURL}This page lists all memberships received from {$display_name} since inception.
-Click <a href="%1">New Membership</a> to record a new offline membership for this contact.{/ts}.
+<p>{ts 1=$newURL}Current and inactive memberships for {$display_name} are listed below.
+Click <a href="%1">New Membership</a> to record a new membership.{/ts}
 </div>
 {/if}
 
@@ -38,7 +38,7 @@ Click <a href="%1">New Membership</a> to record a new offline membership for thi
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{$newContribURL}">&raquo; {ts}New Membership Type{/ts}</a>
+    	<a href="{$newURL}">&raquo; {ts}New Membership Type{/ts}</a>
         </div>
         {/if}
     </div>
@@ -48,7 +48,7 @@ Click <a href="%1">New Membership</a> to record a new offline membership for thi
 {if $inActiveMembers}
   {if NOT ($activeMembers)}
     <div class="action-link">
-    	<a href="{$newContribURL}">&raquo; {ts}New Membership Type{/ts}</a>
+    	<a href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
     </div>
   {/if}
 
@@ -87,7 +87,7 @@ Click <a href="%1">New Membership</a> to record a new offline membership for thi
        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
        <dd>
             {if $permission EQ 'edit'}
-                {ts 1=$newContribURL}There are no memberships recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
+                {ts 1=$newURL}There are no memberships recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
             {else}
                 {ts}There are no memberships recorded for this contact.{/ts}
             {/if}

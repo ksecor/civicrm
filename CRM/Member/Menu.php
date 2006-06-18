@@ -72,7 +72,7 @@ class CRM_Member_Menu {
                              'path'    => 'civicrm/contact/view/membership', 
                              'qs'      => 'reset=1&force=1&cid=%%cid%%', 
                              'access'  => CRM_Core_Permission::check('access CiviMember'),
-                             'title'   => ts('Membership'), 
+                             'title'   => ts('Memberships'), 
                              'type'    => CRM_Core_Menu::CALLBACK, 
                              'crmType' => CRM_Core_Menu::LOCAL_TASK, 
                              'weight'  => 2

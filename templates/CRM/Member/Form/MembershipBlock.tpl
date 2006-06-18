@@ -2,31 +2,31 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
 {include file="CRM/WizardHeader.tpl}
 <div id="help">
-    {ts}Use this form to configure the Membership section for this Online Contribution Page. You can hide the section completely by un-checking the Enabled field. You can set a section title and a message about the membership here.{/ts}
+    {ts}Use this form to configure the Membership section for this Online Contribution Page. You can hide the section completely by un-checking the Enabled field. You can set separate section titles and introductory messages for new memberships and for renewals.{/ts}
 </div>
   <div id="form" class="form-item">
     <fieldset><legend>{ts}Configure Membership Section{/ts}</legend>
     <dl>
      <dt></dt><dd>{$form.is_active.html} &nbsp;{$form.is_active.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts 1=$title}Is Membership section enabled for this Online Contributions page? (%1){/ts}</dd>	
+    <dt>&nbsp;</dt><dd class="description">{ts 1=$title}Is a Membership Section included in this Online Contributions page?(%1){/ts}</dd>	
     <dt>{$form.new_title.label}</dt><dd>{$form.new_title.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Title to display at top of membership block for new member signup{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Title to display at top of membership section for new member signup{/ts}</dd>
 
     <dt>{$form.new_text.label}</dt><dd>{$form.new_text.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Text to display below title of membership block for new member signup.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Text to display below title of membership section for new member signup.{/ts}</dd>
    
     <dt>{$form.renewal_title.label}</dt><dd>{$form.renewal_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Title for member renewal.{/ts}</dd>
 
     <dt>{$form.renewal_text.label}</dt><dd>{$form.renewal_text.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Text to display for member renewal.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Text for member renewal.{/ts}</dd>
     {if $form.membership_type}
     <dt>{$form.membership_type.label}</dt> 
 
         {assign var="count" value="1"}
            {strip}
              <table border=1>
-            <tr> <td>Membership Types</td> <td>Default Membership </td></tr>
+            <tr> <td>Check Membership Types to Include on this Page</td><td>Default</td></tr>
             {assign var="index" value="1"}
                {foreach name=outer key=key item=item from=$form.membership_type}
                   {if $index < 10}
