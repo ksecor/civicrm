@@ -94,6 +94,14 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
         $dao->entity_id    = $this->_id;
         $dao->delete( );
 
+        //next delete the membership block fields
+        require_once 'CRM/Member/DAO/MembershipBlock.php';
+        $dao =& new CRM_Member_DAO_MembershipBlock( );
+        $dao->entity_table = 'civicrm_contribution_page';
+        $dao->entity_id    = $this->_id;
+        $dao->delete( );
+
+
         // finally delete the contribution page
         $dao =& new CRM_Contribute_DAO_ContributionPage( );
         $dao->id = $this->_id;

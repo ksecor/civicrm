@@ -73,6 +73,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $fields[$name] = 1;
             }
             $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+            
             $contact =& CRM_Contact_BAO_Contact::contactDetails( $contactID, $options, $fields );
 
             foreach ($fields as $name => $dontCare ) {

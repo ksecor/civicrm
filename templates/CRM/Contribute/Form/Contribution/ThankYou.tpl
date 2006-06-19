@@ -13,6 +13,7 @@
             <p>{ts 1=$email}An email receipt for this contribution has also been sent to %1{/ts}</p>
         {/if}
     </div>
+    {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context=""thankContribution"}
     <div class="header-dark">
         {ts}Contribution Information{/ts}
     </div>

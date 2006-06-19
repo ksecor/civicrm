@@ -69,6 +69,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
      */
     static function retrieve( &$params, &$defaults ) 
     {
+        self::getRenewalDatesForMembershipType( 26 );
         $membershipType =& new CRM_Member_DAO_MembershipType( );
         $membershipType->copyValues( $params );
         self::getDatesForMembershipType($params['id']);
@@ -257,6 +258,77 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
 
         return $membershipDates;
         
+    }
+
+    /**
+     * Function to calculate start date and end date for renewal membership 
+     * 
+     * @param int $membershipId 
+     *
+     * @return Array array fo the start date, end date and join date of the membership
+     * @static
+     */
+    function getRenewalDatesForMembershipType( $membershipId ) 
+    {
+        require_once 'CRM/Member/BAO/Membership.php';
+        require_once 'CRM/Member/BAO/MembershipStatus.php';
+        $param = array('id' => $membershipId);
+        $membershipDetails     =  CRM_Member_BAO_Membership::getValues( $param, $values ,$ids );
+        $statusID = $membershipDetails->status_id;
+        $membershipTypeDetails = self::getMembershipTypeDetails( $membershipDetails->membership_type_id );
+        $statusDetails  = CRM_Member_BAO_MembershipStatus::getMembershipStatus($statusID);
+        if ( $statusDetails['is_current_member'] == 1 ) {
+            $startDate    = $membershipDetails->start_date;
+            $date         = explode('-', $membershipDetails->end_date);
+            $logStartDate = date('Y-m-d',mktime($hour, $minute, $second, $date[1], $date[2]+1, $date[0]));
+            $date         = explode('-', $logStartDate );
+            
+            $year  = $date[0];
+            $month = $date[1];
+            $day   = $date[2];
+            
+            switch ( $membershipTypeDetails['duration_unit'] ) {
+            case 'year' :
+                $year  = $year   + $membershipTypeDetails['duration_interval'];
+                break;
+            case 'month':
+                $month = $month  + $membershipTypeDetails['duration_interval'];
+                break;
+            case 'day':
+                $day   = $day    + $membershipTypeDetails['duration_interval'];
+                break;
+            }
+            $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+        } else {
+            $date = $membershipDetails->end_date;
+            $date         = explode('-', $date );
+            $startDate = $logStartDate = date('Y-m-d',mktime($hour, $minute, $second, $date[1], $date[2]+1, $date[0]));
+           
+            $date         = explode('-', $startDate);
+            
+            $year  = $date[0];
+            $month = $date[1];
+            $day   = $date[2];
+            switch ( $membershipTypeDetails['duration_unit'] ) {
+            case 'year' :
+                $year  = $year   + $membershipTypeDetails['duration_interval'];
+                break;
+            case 'month':
+                $month = $month  + $membershipTypeDetails['duration_interval'];
+                break;
+            case 'day':
+                $day   = $day    + $membershipTypeDetails['duration_interval'];
+                break;
+            }
+            $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+        }
+        
+        $membershipDates = array();
+        $membershipDates['start_date']      = $startDate;
+        $membershipDates['end_date'  ]      = $endDate;
+        $membershipDates['log_start_date' ] = $logStartDate;
+        
+        return $membershipDates;
     }
 
 

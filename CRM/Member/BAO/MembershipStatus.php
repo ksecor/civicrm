@@ -119,13 +119,33 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         return $membershipStatus;
     }
     
+
+    /**
+     * Function to get  membership status 
+     * 
+     * @param int $membershipStatusId
+     * @static
+     */
+    function getMembershipStatus( $membershipStatusId ) 
+    {
+        $statusDetails = array();
+        $membershipStatus             =& new CRM_Member_DAO_MembershipStatus( );
+        $membershipStatus->domain_id    = CRM_Core_Config::domainID( );
+        $membershipStatus->id = $membershipStatusId;
+        if ( $membershipStatus->find(true) ) {
+            CRM_Core_DAO::storeValues( $membershipStatus, $statusDetails );
+        }
+        return $statusDetails;
+    }
+    
+
+
     /**
      * Function to delete membership Types 
      * 
      * @param int $membershipStatusId
      * @static
      */
-    
     static function del($membershipStatusId) 
     {
         //check dependencies

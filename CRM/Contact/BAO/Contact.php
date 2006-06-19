@@ -129,7 +129,7 @@ WHERE contact_a.id = %1 AND $permission";
         if ( ! $id ) {
             return null;
         }
-        $params = array( 'id' => CRM_Utils_Type::escape($id, 'Integer') );
+        $params[] = array( '0' => 'id' ,'2'=> CRM_Utils_Type::escape($id, 'Integer') );
         $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, false, false ); 
         $options = $query->_options;
 
