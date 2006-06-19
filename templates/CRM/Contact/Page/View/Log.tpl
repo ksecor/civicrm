@@ -1,15 +1,10 @@
-<div id="name" class="data-group form-item">
-    <p>
-        <label>{$displayName}</label>
-    </p>
-</div>
-
-<div id="groupContact">
- <p>
+<div id="changeLog">
+    <p></p>
+    <div class="bold">{ts}Change Log:{/ts} {$displayName}</div>
     <div class="form-item">
-    {if $logCount > 0 }  	
+     {if $logCount > 0 }  	
        <table>
-       <tr class="columnheader"><th>{ts}Modified By{/ts}</th><th>{ts}Modified Date{/ts}</th></tr>
+       <tr class="columnheader"><th>{ts}Changed By{/ts}</th><th>{ts}Change Date{/ts}</th></tr>
        {foreach from=$log item=row}
          <tr class="{cycle values="odd-row,even-row"}">
             <td> {$row.image}&nbsp;<a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$row.id`"}">{$row.name}</a></td>
@@ -20,7 +15,7 @@
      {else}
      <div class="messages status">	
      <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"> &nbsp;
-      {ts}No recorded modification log for this contact.{/ts}
+      {ts}No modifications have been logged for this contact.{/ts}
      </div>	
      {/if}
     </div>

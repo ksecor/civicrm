@@ -11,7 +11,7 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}
 {/if}
 
 {if $activeMembers}
-<div id="ltype">
+<div id="memberships">
 <p></p>
     <div><label>{ts}Active Memberships{/ts}</label></div>
     <div class="form-item">

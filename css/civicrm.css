@@ -231,12 +231,20 @@ div.spacer {
   border: 1px solid #abc;
 }
 
+#crm-container .footer {
+  font-size: 0.8em;
+}
+
 #crm-container #civicrm-footer {
   margin-top: 2em;
   border-top: 1px solid #ddd;
   padding: 0.8em;
-  font-size: 0.8em;
   text-align: center;
+}
+
+#crm-container #record-log {
+  padding: 0.8em 0.8em 0em 0em;
+  text-align: right;
 }
 
 #crm-container div.status ul {
