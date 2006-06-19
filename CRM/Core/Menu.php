@@ -250,7 +250,7 @@ class CRM_Core_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
-                            'icon'    => 'admin/duplicate_matching.png',
+                            'icon'    => 'admin/option.png',
                             'weight'  => 280
                             ),
                       array(
