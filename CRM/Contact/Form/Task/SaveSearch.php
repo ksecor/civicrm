@@ -121,14 +121,21 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
     public function postProcess()
     {
         // saved search form values
-        $formValues = $this->controller->exportValues($this->_name);
+        //$formValues = $this->controller->exportValues($this->_name);
+        $formValues = $this->controller->exportValues();
 
-        // save the search
+        $session =& CRM_Core_Session::singleton();
+        if ( $session ->get('isSearchBuilder') ) {
+            //save the mapping for search builder
+            require_once "CRM/Core/BAO/Mapping.php";
+            $mapping = CRM_Core_BAO_Mapping::saveSearchBuilderMapping($formValues);
+        }
+
+        //save the search
         $savedSearch =& new CRM_Contact_BAO_SavedSearch();
         $savedSearch->id          = $this->_id;
-        $savedSearch->domain_id   = CRM_Core_Config::domainID( );
         $savedSearch->form_values = serialize($this->get( 'formValues' ));
-        $savedSearch->is_active = 1;
+        $savedSearch->mapping_id  = $mapping->id;
         $savedSearch->save();
         $this->set('ssID',$savedSearch->id);
         CRM_Core_Session::setStatus( ts('Your smart group has been saved as "%1".', array(1 => $formValues['title'])) );
@@ -137,7 +144,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $params = array( );
         $params['domain_id'  ]     = CRM_Core_Config::domainID( );
         $params['title'      ]     = $formValues['title'];
-        $params['description']     =  $formValues['description'];
+        $params['description']     = $formValues['description'];
         $params['visibility' ]     = 'User and User Admin Only';
         $params['saved_search_id'] = $savedSearch->id;
         $params['is_active']       = 1;
@@ -147,6 +154,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         }
 
         $group =& CRM_Contact_BAO_Group::create( $params );
+
     }
 }
 

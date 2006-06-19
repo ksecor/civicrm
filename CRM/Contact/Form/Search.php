@@ -529,7 +529,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     function postProcess( ) {
         
         $session =& CRM_Core_Session::singleton();
-        $session ->set('is<Advanced','0');
+        $session ->set('isAdvanced','0');
+        $session ->set('isSearchBuilder','0');
 
         // get user submitted values
         // get it from controller only if form has been submitted, else preProcess has set this
