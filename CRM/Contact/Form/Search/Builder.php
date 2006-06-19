@@ -86,11 +86,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
 
         CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $this->_mappingId, $this->_columnCount);
         
-        $this->addButtons( array(
-                                 array ( 'type'      => 'refresh',
-                                         'name'      => ts('Search')
-                                         ))
-                           );
+        $this->buildQuickFormCommon();
     }
     
     
@@ -111,7 +107,11 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     }
 
     public function &convertFormValues( &$formValues ) {
-        return CRM_Core_BAO_Mapping::returnFormatedFields( $formValues );
+        return CRM_Core_BAO_Mapping::formattedFields( $formValues );
+    }
+
+    public function &returnProperties( ) {
+        return CRM_Core_BAO_Mapping::returnProperties( $this->_formValues );
     }
 
     /**
@@ -167,6 +167,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         }
 
         $this->_params =& $this->convertFormValues( $this->_formValues );
+        $this->_returnProperties =& $this->returnProperties( );
         $this->postProcessCommon( );
     }
     

@@ -308,6 +308,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
       
         $this->_params =& $this->convertFormValues( $this->_formValues );
+        $this->_returnProperties =& $this->returnProperties( );
         $this->postProcessCommon( );
     }
 

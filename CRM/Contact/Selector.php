@@ -106,6 +106,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     public $_params;
 
     /**
+     * The return properties used for search
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_returnProperties;
+
+    /**
      * represent the type of selector
      *
      * @var int
@@ -140,16 +148,16 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues, &$params, $action = CRM_Core_Action::NONE) 
+    function __construct(&$formValues, &$params, &$returnProperties, $action = CRM_Core_Action::NONE) 
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact =& new CRM_Contact_BAO_Contact();
 
         // submitted form values
-        $this->_formValues =& $formValues;
-
-        $this->_params     =& $params;
-
+        $this->_formValues       =& $formValues;
+        $this->_params           =& $params;
+        $this->_returnProperties =& $returnProperties;
+        
         // type of selector
         $this->_action = $action;
         
@@ -166,15 +174,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             
             $this->_customFields =& CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
 
-            $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
-            $returnProperties['contact_type'] = 1;
-            $returnProperties['contact_sub_type'] = 1;
-            $returnProperties['sort_name'   ] = 1;
-            $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties );
-            $this->_options =& $this->_query->_options;
-        } else {
-            $this->_query =& new CRM_Contact_BAO_Query( $this->_params );
+            $this->_returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
+            $this->_returnProperties['contact_type'] = 1;
+            $this->_returnProperties['contact_sub_type'] = 1;
+            $this->_returnProperties['sort_name'   ] = 1;
         }
+
+        $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $this->_returnProperties );
+        $this->_options =& $this->_query->_options;
     }//end of constructor
 
 

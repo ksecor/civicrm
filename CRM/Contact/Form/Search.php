@@ -162,6 +162,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     protected $_params;
 
     /**
+     * The return properties used for search
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_returnProperties;
+
+    /**
      * The sort by character
      * 
      * @var string
@@ -439,6 +447,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues = $this->controller->exportValues($this->_name); 
             $this->normalizeFormValues( );
             $this->_params =& $this->convertFormValues( $this->_formValues );
+            $this->_returnProperties =& $this->returnProperties( );
 
             // CRM_Core_Error::debug( 'fv', $this->_formValues );
 
@@ -453,6 +462,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         } else {
             $this->_formValues = $this->get( 'formValues' );
             $this->_params =& $this->convertFormValues( $this->_formValues );
+            $this->_returnProperties =& $this->returnProperties( );
         }
 
         if ( empty( $this->_formValues ) ) {
@@ -460,6 +470,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                 // we only retrieve the saved search values if out current values are null
                 $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
                 $this->_params =& $this->convertFormValues( $this->_formValues );
+                $this->_returnProperties =& $this->returnProperties( );
             } else if ( isset( $this->_ufGroupID ) ) {
                 // also set the uf group id if not already present
                 $this->_formValues['uf_group_id'] = $this->_ufGroupID;
@@ -478,7 +489,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->assign( 'context', $this->_context );
 
-        $selector =& new CRM_Contact_Selector($this->_formValues, $this->_params, $this->_action);
+        $selector =& new CRM_Contact_Selector( $this->_formValues, $this->_params,
+                                               $this->_returnProperties,
+                                               $this->_action );
         $controller =& new CRM_Contact_Selector_Controller($selector ,
                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -525,6 +538,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues = $this->controller->exportValues($this->_name);
             $this->normalizeFormValues( );
             $this->_params =& $this->convertFormValues( $this->_formValues );
+            $this->_returnProperties =& $this->returnProperties( );
 
             // CRM_Core_Error::debug( 'fv', $this->_formValues );
 
@@ -642,9 +656,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues['uf_group_id'] = $this->_ufGroupID;
         }
 
-        $this->set( 'type'       , $this->_action );
-        $this->set( 'formValues' , $this->_formValues );
-        $this->set( 'queryParams', $this->_params ); 
+        $this->set( 'type'            , $this->_action );
+        $this->set( 'formValues'      , $this->_formValues );
+        $this->set( 'queryParams'     , $this->_params );
+        $this->set( 'returnProperties', $this->_returnProperties );
         
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {
             // check actionName and if next, then do not repeat a search, since we are going to the next page
@@ -663,7 +678,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
 
             // create the selector, controller and run - store results in session
-            $selector =& new CRM_Contact_Selector($this->_formValues, $this->_params, $this->_action);
+            $selector =& new CRM_Contact_Selector($this->_formValues, $this->_params,
+                                                  $this->_returnProperties, $this->_action);
 
             // added the sorting  character to the form array
             // lets recompute the aToZ bar without the sortByCharacter
@@ -725,6 +741,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
     function getTitle( ) {
         return ts( 'Find Contacts' );
+    }
+
+    public function &returnProperties( ) {
+        return CRM_Contact_BAO_Query::defaultReturnProperties( );
     }
 
 }

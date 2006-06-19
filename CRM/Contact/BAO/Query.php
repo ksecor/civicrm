@@ -48,11 +48,11 @@ class CRM_Contact_BAO_Query {
      * @var int
      */
     const
-        MODE_CONTACTS   = 1,
-        MODE_CONTRIBUTE = 2,
-        MODE_QUEST      = 4,
-        MODE_MEMBER     = 6,
-        MODE_ALL        = 7;
+        MODE_CONTACTS   =  1,
+        MODE_CONTRIBUTE =  2,
+        MODE_QUEST      =  4,
+        MODE_MEMBER     =  8,
+        MODE_ALL        = 15;
     
     /**
      * the default set of return properties

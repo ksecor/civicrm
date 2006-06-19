@@ -251,7 +251,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * @static
      * @public
      */
-    static function getFormatedFields($smartGroupId) 
+    static function getFormattedFields($smartGroupId) 
     {
         $returnFields = array();
 
@@ -544,13 +544,13 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * @static
      * @public
      */
-    static function returnFormatedFields($params) 
-    {
-        if (empty($params)) {
-            return;
+    static function &formattedFields( &$params ) {
+        $fields = array( );
+
+        if ( empty( $params ) ) {
+            return $fields;
         }
         
-        $returnFields = array();
         foreach ($params['mapper'] as $key => $value) {
             foreach ($value as $k => $v) {
                 if ($v[1]) {
@@ -563,7 +563,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         $fldName .= "-{$v[3]}";
                     }
                     
-                    $returnFields[] = array( $fldName,
+                    $fields[] = array( $fldName,
                                              $params['operator'][$key][$k],
                                              $params['value'   ][$key][$k],
                                              $key,
@@ -572,7 +572,46 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             }
         }
         
-        return $returnFields;
+        return $fields;
+    }
+
+    static function &returnProperties( &$params ) {
+        $fields = array( 'contact_type'     => 1,
+                         'contact_sub_type' => 1,
+                         'sort_name'        => 1 );
+        
+        if ( empty( $params ) ) {
+            return $fields;
+        }
+
+        $locationTypes  =& CRM_Core_PseudoConstant::locationType();
+        foreach ($params['mapper'] as $key => $value) {
+            foreach ($value as $k => $v) {
+                if ( $v[1] ) {
+                    if ( $v[2] ) {
+                        if ( ! array_key_exists( 'location', $fields ) ) {
+                            $fields['location'] = array( );
+                        }
+
+                        // make sure that we have a location fields and a location type for this
+                        $locationName = $locationTypes[$v[2]];
+                        if ( ! array_key_exists( $locationName, $fields['location'] ) ) {
+                            $fields['location'][$locationName] = array( );
+                            $fields['location'][$locationName]['location_type'] = $v[2];
+                        }
+
+                        if ( $v[3] ) {
+                            // DOES NOT WORK, fix
+                        }
+                        $fields['location'][$locationName][$v[1] . "-1"] = 1;
+                    } else {
+                        $fields[$v[1]] = 1;
+                    }
+                }
+            }
+        }
+        return $fields;
+
     }
 
     /**
