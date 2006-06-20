@@ -1962,6 +1962,63 @@ class CRM_Contact_BAO_Query {
         return $dao;
     }
 
+    function &summaryContribution( ) {
+        list( $select, $from, $where ) = $this->query( true );
+
+        // hack $select
+        $select = "
+SELECT COUNT( civicrm_contribution.total_amount ) as total_count,
+       SUM(   civicrm_contribution.total_amount ) as total_amount,
+       AVG(   civicrm_contribution.total_amount ) as total_avg";
+
+        $additionalWhere = "civicrm_contribution.cancel_date IS NULL";
+        if ( ! empty( $where ) ) {
+            $newWhere = "$where AND $additionalWhere";
+        } else {
+            $newWhere = $additionalWhere;
+        }
+
+        $summary = array( );
+        $summary['total'] = array( );
+        $summary['total']['count'] = $summary['total']['amount'] = $summary['total']['avg'] = "n/a";
+
+        $query  = "$select $from $newWhere";
+        $params = array( );
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        if ( $dao->fetch( ) ) {
+            $summary['total']['count']  = $dao->total_count;
+            $summary['total']['amount'] = $dao->total_amount;
+            $summary['total']['avg']    = $dao->total_avg;
+        }
+        
+        // hack $select
+        $select = "
+SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
+       SUM(   civicrm_contribution.total_amount ) as cancel_amount,
+       AVG(   civicrm_contribution.total_amount ) as cancel_avg";
+
+        $additionalWhere = "civicrm_contribution.cancel_date IS NOT NULL";
+        if ( ! empty( $where ) ) {
+            $newWhere = "$where AND $additionalWhere";
+        } else {
+            $newWhere = $additionalWhere;
+        }
+
+        $summary['cancel'] = array( );
+        $summary['cancel']['count'] = $summary['cancel']['amount'] = $summary['cancel']['avg'] = "n/a";
+
+        $query = "$select $from $newWhere";
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        if ( $dao->fetch( ) ) {
+            $summary['cancel']['count']  = $dao->cancel_count;
+            $summary['cancel']['amount'] = $dao->cancel_amount;
+            $summary['cancel']['avg']    = $dao->cancel_avg;
+        }
+
+        return $summary;
+    }
+
     /**
      * getter for the qill object
      *

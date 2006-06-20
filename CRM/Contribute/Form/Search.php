@@ -197,6 +197,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         $controller->setEmbedded( true ); 
         $controller->moveFromSessionToTemplate(); 
+
+        $this->assign( 'summary', $this->get( 'summary' ) );
     }
 
     function setDefaultValues( ) { 
@@ -231,17 +233,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                    null, null, 
                                    array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                    ); 
-
-                if ( $row['cancel_date'] ) {
-                    $cancel += $row['total_amount'];
-                } else {
-                    $total     += $row['total_amount'];
-                }
             }
 
-            $this->assign( 'total_amount' , $total  );
-            $this->assign( 'cancel_amount', $cancel );
-            $this->assign( 'num_amount'   , count( $rows ) );
             $this->assign( 'single', $this->_single );
 
             // also add the action and radio boxes
@@ -301,6 +294,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         $this->fixFormValues( );
 
+        require_once 'CRM/Contact/Form/Search.php';
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
 
         $this->set( 'formValues' , $this->_formValues  );
@@ -337,8 +331,11 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                         $this,
                                                         CRM_Core_Selector_Controller::SESSION );
         $controller->setEmbedded( true ); 
-        $controller->run(); 
 
+        $query   =& $selector->getQuery( );
+        $summary =& $query->summaryContribution( );
+        $this->set( 'summary', $summary );
+        $controller->run(); 
     }
 
     function fixFormValues( ) {
