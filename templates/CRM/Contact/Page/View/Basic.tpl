@@ -258,7 +258,7 @@
 		<th>{ts}Activity Type{/ts}</th>
 		<th>{ts}Description{/ts}</th>
 		<th>{ts}Activity Date{/ts}</th>
-		<th>{ts}{/ts}</th>
+		<th></th>
 	</tr>
     {foreach from=$activity.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">

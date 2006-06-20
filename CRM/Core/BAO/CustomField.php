@@ -433,7 +433,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case 'Select State/Province':
             //Add State
             if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                $stateOption = array('' => ts('')) + CRM_Core_PseudoConstant::stateProvince();
+                $stateOption = array('' => '') + CRM_Core_PseudoConstant::stateProvince();
             } else { 
                 $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
             }
@@ -443,7 +443,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case 'Select Country':
             //Add Country
             if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                $countryOption = array('' => ts('')) + CRM_Core_PseudoConstant::country();
+                $countryOption = array('' => '') + CRM_Core_PseudoConstant::country();
 	    } else {
                 $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
             }
