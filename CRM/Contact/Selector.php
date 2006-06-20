@@ -157,7 +157,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $this->_formValues       =& $formValues;
         $this->_params           =& $params;
         $this->_returnProperties =& $returnProperties;
-        
+
         // type of selector
         $this->_action = $action;
         
@@ -300,6 +300,23 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 }
             }
             return self::$_columnHeaders;
+        } else if ( ! empty( $this->_returnProperties ) ) { 
+            self::$_columnHeaders = array( array( 'name' => '' ),
+                                           array(
+                                                 'name'      => ts('Name'),
+                                                 'sort'      => 'sort_name',
+                                                 'direction' => CRM_Utils_Sort::ASCENDING,
+                                                 )
+                                           );
+            $properties =& self::makeProperties( $this->_returnProperties );
+            foreach ( $properties as $prop ) {
+                if ( $prop == 'contact_type' || $prop == 'contact_sub_type' || $prop == 'sort_name' ) {
+                    continue;
+                }
+                self::$_columnHeaders[] = array( 'name' => $prop, 'desc' => $prop );
+            }
+            self::$_columnHeaders[] = array('desc' => ts('Actions'));
+            return self::$_columnHeaders;
         } else {
             return self::_getColumnHeaders();
         }
@@ -402,6 +419,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             
             $names[] =  "status";
             
+        } else if ( ! empty( $this->_returnProperties ) ) {
+            $names =& self::makeProperties( $this->_returnProperties );
         } else {
             $names = self::$_properties;
         }
@@ -484,6 +503,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $row['contact_type'] = $contact_type;
                 $row['contact_id'  ] = $result->contact_id;
                 $row['sort_name'   ] = $result->sort_name;
+                
+                // unset the geo_code stuff, since we dont need it in smarty
+                unset( $row['geo_code_1'] );
+                unset( $row['geo_code_2'] );
             }
 
         
@@ -575,6 +598,25 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     
     function &getQuery( ) {
         return $this->_query;
+    }
+
+    function &makeProperties( &$returnProperties ) {
+        $properties = array( );
+        foreach ( $returnProperties as $name => $value ) {
+            if ( $name != 'location' ) {
+                $properties[] = $name;
+            } else {
+                // extract all the location stuff
+                foreach ( $value as $n => $v ) {
+                    foreach ( $v as $n1 => $v1 ) {
+                        if ( ! strpos( '_id', $n1 ) && $n1 != 'location_type' ) {
+                            $properties[] = "{$n}-{$n1}";
+                        }
+                    }
+                }
+            }
+        }
+        return $properties;
     }
 
 }//end of class

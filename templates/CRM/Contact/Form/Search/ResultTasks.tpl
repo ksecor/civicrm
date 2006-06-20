@@ -38,7 +38,7 @@
      {else}
        {$form._qf_Search_next_action.html}
      {/if}
-     <br />
+     <br/>
      <label>{$form.radio_ts.ts_sel.html} {ts}selected records only{/ts}</label>&nbsp; <label>{$form.radio_ts.ts_all.html} {ts count=$pager->_totalItems plural='all %count records'}the found record{/ts}</label>
    </div>
  </div>  

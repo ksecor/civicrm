@@ -541,6 +541,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_returnProperties =& $this->returnProperties( );
 
             // CRM_Core_Error::debug( 'fv', $this->_formValues );
+            // CRM_Core_Error::debug( 'rp', $this->_returnProperties );
 
             // also reset the sort by character
             $this->_sortByCharacter = null;
@@ -744,7 +745,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     }
 
     public function &returnProperties( ) {
-        return CRM_Contact_BAO_Query::defaultReturnProperties( );
+        return null;
+        // return CRM_Contact_BAO_Query::defaultReturnProperties( );
     }
 
 }
