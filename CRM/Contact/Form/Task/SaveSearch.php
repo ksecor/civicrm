@@ -130,14 +130,32 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         if ( $session ->get('isSearchBuilder') ) {
             //save the mapping for search builder
             require_once "CRM/Core/BAO/Mapping.php";
-            $mapping = CRM_Core_BAO_Mapping::saveSearchBuilderMapping($formValues , $this->_id);
+
+            if ( !$this->_id ) {
+                //save record in mapping table
+                $mappingParams = array('mapping_type' => 'Search Builder');
+                $temp      = array();
+                $mapping   = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+                $mappingId = $mapping->id;                 
+            } else {
+                //get the mapping id from saved search
+                require_once "CRM/Contact/BAO/SavedSearch.php";
+                
+                $savedSearch     =& new CRM_Contact_BAO_SavedSearch();
+                $savedSearch->id = $this->_id;
+                $savedSearch->find(true);
+                $mappingId = $savedSearch->mapping_id; 
+            }
+            
+            //save mapping fields
+            CRM_Core_BAO_Mapping::saveMappingFields($formValues , $mappingId);
         }
 
         //save the search
         $savedSearch =& new CRM_Contact_BAO_SavedSearch();
         $savedSearch->id          = $this->_id;
         $savedSearch->form_values = serialize($this->get( 'formValues' ));
-        $savedSearch->mapping_id  = $mapping->id;
+        $savedSearch->mapping_id  = $mappingId;
         $savedSearch->save();
         $this->set('ssID',$savedSearch->id);
         CRM_Core_Session::setStatus( ts('Your smart group has been saved as "%1".', array(1 => $formValues['title'])) );
