@@ -60,7 +60,7 @@ class CRM_Contact_BAO_Export {
             foreach ( $fields as $key => $value) {
                 list($contactType, $fieldName, $locTypeId, $phoneTypeId) =  $value;
 
-                if ($locTypeId) {
+                if (is_numeric($locTypeId)) {
                     if ($phoneTypeId) {
                         $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
                     } else {
