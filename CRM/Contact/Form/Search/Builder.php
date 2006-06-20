@@ -83,7 +83,6 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     }
     
     public function buildQuickForm( ) {
-
         CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $this->_mappingId, $this->_columnCount);
         
         $this->buildQuickFormCommon();
@@ -99,7 +98,6 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      * @static
      * @access public
      */
-    
     static function formRule( &$fields ) {
     }    
     
@@ -123,32 +121,34 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     public function postProcess( ) {
         $session =& CRM_Core_Session::singleton();
         $session->set('isAdvanced', '2');
-
-        $params = $this->controller->exportValues( $this->_name );
-        for ($x = 1; $x <= 3; $x++ ) {
-            if ( $params['addMore'][$x] )  {
-                $this->_columnCount[$x] = $this->_columnCount[$x] + 1;
-                $this->set( 'columnCount', $this->_columnCount );
-                return;
-            }
-        }
-
-        foreach ($params['mapper'] as $key => $value) {
-            foreach ($value as $k => $v) {
-                if ($v[0]) {
-                    $checkEmpty++;
-                }
-            }
-        }
-
-        if (!$checkEmpty ) {
-            require_once 'CRM/Utils/System.php';            
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/builder', '_qf_Builder_display=true' ) );
-        }
-
-        $session =& CRM_Core_Session::singleton();
         $session->set('isSearchBuilder', '1');
 
+        $params = $this->controller->exportValues( $this->_name );
+
+        if (!empty($params)) {
+            for ($x = 1; $x <= 3; $x++ ) {
+                if ( $params['addMore'][$x] )  {
+                    $this->_columnCount[$x] = $this->_columnCount[$x] + 1;
+                    $this->set( 'columnCount', $this->_columnCount );
+                    return;
+                }
+            }
+            
+            foreach ($params['mapper'] as $key => $value) {
+                foreach ($value as $k => $v) {
+                    if ($v[0]) {
+                        $checkEmpty++;
+                    }
+                }
+            }
+            
+            if (!$checkEmpty ) {
+                require_once 'CRM/Utils/System.php';            
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/builder', '_qf_Builder_display=true' ) );
+            }
+            
+        }
+        
         // get user submitted values
         // get it from controller only if form has been submitted, else preProcess has set this
         if ( ! empty( $_POST ) ) {

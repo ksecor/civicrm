@@ -70,6 +70,8 @@ class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
         if ( isset( $ssID ) ) {
             if ( $this->_action == CRM_Core_Action::BASIC ) {
                 $fragment = 'search';
+            } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
+                $fragment = 'search/builder';
             } else {
                 $fragment = 'search/advanced';
             }
