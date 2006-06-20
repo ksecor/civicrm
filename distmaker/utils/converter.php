@@ -13,6 +13,7 @@ if( isset( $GLOBALS['_SERVER']['DM_GENFILESDIR'] ) ) {
     // backward compatibility
     $targetDir = $GLOBALS['_SERVER']['HOME'] . '/dist';
 }
+
 //$sourceCheckoutDir ='/home/anil/svn/crm';
 //$targetDir         ='/home/anil/svn/crm4';  
 require_once "$sourceCheckoutDir/civicrm.config.php";
@@ -918,8 +919,27 @@ if (isset($argv[1])) {
         $rootDir = "$sourceCheckoutDir/$v";
         $destDir = "$targetDir/$v";
         echo "$rootDir, $destDir\n";
+        clean_dir( $destDir );
         convert_dir( $rootDir, $destDir, $rootDir );
     }
+}
+
+function clean_dir( $path ) {
+    $dir = opendir( $path );
+    while ( false !== ($file = readdir($dir)) ) {
+        if ( $file == '.' || $file == '..' ) {
+            continue;
+        }
+
+        if ( is_dir( "$path/$file" ) ) {
+            clean_dir( "$path/$file" );
+        } else {
+            unlink( "$path/$file" );
+        }
+    }
+    closedir( $dir );
+    rmdir( $path );
+    echo "removed $path\n";
 }
 
 function convert_dir( $rootDir, $destDir, $path ) {
