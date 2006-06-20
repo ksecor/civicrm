@@ -130,7 +130,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         if ( $session ->get('isSearchBuilder') ) {
             //save the mapping for search builder
             require_once "CRM/Core/BAO/Mapping.php";
-            $mapping = CRM_Core_BAO_Mapping::saveSearchBuilderMapping($formValues);
+            $mapping = CRM_Core_BAO_Mapping::saveSearchBuilderMapping($formValues , $this->_id);
         }
 
         //save the search

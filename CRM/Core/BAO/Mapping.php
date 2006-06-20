@@ -617,38 +617,68 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
     /**
      * save the mapping info for search builder give the formvalues
      *
-     * @param array $params asscociated array of formvalues
+     * @param array $params         asscociated array of formvalues
+     * @param int   $savedSearchId  saved search id
      *
      * @return null
      * @static
      * @access public
      */
-    static function saveSearchBuilderMapping($params) 
+    static function saveSearchBuilderMapping($params, $savedSearchId = null) 
     {
-        //save record in mapping table
-        $mappingParams = array('mapping_type' => 'Search Builder');
-        $temp = array();
-        $mapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
-        
-        //save record in mapping field table
         require_once "CRM/Core/DAO/MappingField.php";
         
+        if ( !$savedSearchId ) {
+            //save record in mapping table
+            $mappingParams = array('mapping_type' => 'Search Builder');
+            $temp = array();
+            $mapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+            $mappingId = $mapping->id;
+        } else {
+            //get the mapping id from saved search
+            require_once "CRM/Contact/BAO/SavedSearch.php";
+            
+            $savedSearch     =& new CRM_Contact_BAO_SavedSearch();
+            $savedSearch->id = $savedSearchId;
+            $savedSearch->find(true);
+            $mappingId = $savedSearch->mapping_id; 
+
+            //get the mapping fields
+            $mappingFields =& new CRM_Core_DAO_MappingField();
+            $mappingFields->mapping_id = $mappingId;
+            $mappingFields->find( );
+            
+            $mappingFieldsIds = array();                
+            while($mappingFields->fetch()) {
+                if ( $mappingFields->id ) {
+                    $mappingFieldsIds[$mappingFields->column_number] = $mappingFields->id;
+                }
+            }
+
+
+        }
+
+        //save record in mapping field table
+        $colCnt = 0;
         foreach ($params['mapper'] as $key => $value) {
             foreach ($value as $k => $v) {
                 if ($v[1]) {
                     $saveMappingFields =& new CRM_Core_DAO_MappingField();
-                    $saveMappingFields->mapping_id   = $mapping->id;
-                    $saveMappingFields->name         =  $v[1];
-                    $saveMappingFields->contact_type =  $v[0];
+                    $saveMappingFields->mapping_id   = $mappingId;
+                    $saveMappingFields->name         = $v[1];
+                    $saveMappingFields->contact_type = $v[0];
                     
                     $locationId = $v[2];
                     $saveMappingFields->location_type_id = isset($locationId) ? $locationId : null;
                     
-                    $saveMappingFields->phone_type = $v[3];
-                    $saveMappingFields->operator   = $params['operator'][$key][$k];
-                    $saveMappingFields->value      = $params['value'   ][$key][$k];
-                    $saveMappingFields->grouping   = $key;
+                    $saveMappingFields->phone_type    = $v[3];
+                    $saveMappingFields->operator      = $params['operator'][$key][$k];
+                    $saveMappingFields->value         = $params['value'   ][$key][$k];
+                    $saveMappingFields->grouping      = $key;
+                    $saveMappingFields->column_number = $colCnt;
+                    $saveMappingFields->id            = $mappingFieldsIds[$colCnt];
                     $saveMappingFields->save();
+                    $colCnt ++;
                 }
             }
         }
