@@ -149,7 +149,13 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
         if ( ! ( self::$_fields ) ) {ldelim}
                self::$_fields = array (
 {foreach from=$table.fields item=field}
-                                            '{$field.name}' => array( 
+
+{if $field.uniqueName}
+                                            '{$field.uniqueName}'
+{else}
+                                            '{$field.name}'
+{/if}
+							 => array( 
                                                                       'name'      => '{$field.name}',
                                                                       'type'      => {$field.crmType},
 {if $field.title}

@@ -32,6 +32,7 @@
  
   <field>
        <name>name</name>
+       <uniqueName>product_name</uniqueName>
        <title>Product Name</title>
        <type>varchar</type>
        <length>255</length>

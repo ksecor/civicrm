@@ -640,6 +640,7 @@ function getField( &$fieldXML, &$fields ) {
     }
     $field['headerPattern'] = value( 'headerPattern', $fieldXML );
     $field['dataPattern'] = value( 'dataPattern', $fieldXML );
+    $field['uniqueName'] = value( 'uniqueName', $fieldXML );
 
     $fields[$name] =& $field;
 }
