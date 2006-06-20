@@ -698,16 +698,6 @@ class CRM_Contact_BAO_Query {
             }
             $from = $this->_simpleFromClause;
         } else {
-            if ( CRM_Utils_Array::value( 'group', $this->_params ) ) {
-                // make sure there is only one element
-                if ( count( $this->_params['group'] ) == 1 ) {
-                    $this->_select['group_contact_id']      = 'civicrm_group_contact.id as group_contact_id';
-                    $this->_element['group_contact_id']     = 1;
-                    $this->_select['status']                = 'civicrm_group_contact.status as status';
-                    $this->_element['status']               = 1;
-                }
-                $this->_tables['civicrm_group_contact'] = 1;
-            }
             if ( $this->_useDistinct ) {
                 $this->_select['contact_id'] = 'DISTINCT(contact_a.id) as contact_id';
             }
@@ -933,22 +923,22 @@ class CRM_Contact_BAO_Query {
             if ( is_numeric( $value ) ) {
                 $value  =  $states[(int ) $value];
             }
-            $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
+            $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ") $op '" . strtolower( addslashes( $value ) ) . "'";
             if (!$lType) {
-                $this->_qill[$grouping][] = ts('State - "%1"', array( 1 => $value ) );         
+                $this->_qill[$grouping][] = ts('State %2 "%1"', array( 1 => $value, 2 => $op ) );         
             } else {
-                $this->_qill[$grouping][] = ts('State (%2) - "%1"', array( 1 => $value, 2 => $lType ) );         
+                $this->_qill[$grouping][] = ts('State (%2) %3 "%1"', array( 1 => $value, 2 => $lType, 3 => $op ) );         
             }
         } else if ( substr($name,0,7) === 'country' ) {
             $countries =& CRM_Core_PseudoConstant::country( ); 
             if ( is_numeric( $value ) ) { 
                 $value     =  $countries[(int ) $value]; 
             }
-            $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
+            $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ") $op '" . strtolower( addslashes( $value ) ) . "'"; 
             if (!$lType) {
-                $this->_qill[$grouping][] = ts('Country - "%1"', array( 1 => $value ) );
+                $this->_qill[$grouping][] = ts('Country %2 "%1"', array( 1 => $value, 2 => $op ) );
             } else {
-                $this->_qill[$grouping][] = ts('Country (%2) - "%1"', array( 1 => $value, 2 => $lType ) );         
+                $this->_qill[$grouping][] = ts('Country (%2) %3 "%1"', array( 1 => $value, 2 => $lType, 3 => $op ) );         
             }
 
         } else if ( $name === 'individual_prefix' ) {
@@ -1393,7 +1383,7 @@ class CRM_Contact_BAO_Query {
         }
 
         $groupClause =
-            'civicrm_group_contact.group_id IN (' . 
+            "civicrm_group_contact.group_id $op (" . 
             implode( ',', array_keys($value) ) . ')'; 
 
         $names = array( );
@@ -1401,7 +1391,7 @@ class CRM_Contact_BAO_Query {
         foreach ( $value as $id => $dontCare ) {
             $names[] = $groupNames[$id];
         }
-        $this->_qill[$grouping][]  = ts('Member of Group -') . ' ' . implode( ' ' . ts('or') . ' ', $names );
+        $this->_qill[$grouping][]  = ts('Member of Group %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
         
         $statii    =  array(); 
         $in        =  false; 
@@ -1418,14 +1408,19 @@ class CRM_Contact_BAO_Query {
                 }
             }
         } else {
-            $statii[] = '"Added"'; 
-            $in = true; 
+            if ( $op == "IN" ) {
+                $statii[] = '"Added"'; 
+                $in = true; 
+            }
         }
 
-        $groupClause .= ' AND civicrm_group_contact.status IN (' . implode(', ', $statii) . ')';
         $this->_tables['civicrm_group_contact'] = 1;
         $this->_whereTables['civicrm_group_contact'] = 1;
-        $this->_qill[$grouping][] = ts('Group Status -') . ' ' . implode( ' ' . ts('or') . ' ', $statii );
+
+        if ( ! empty( $statii ) ) {
+            $groupClause .= ' AND civicrm_group_contact.status IN (' . implode(', ', $statii) . ')';
+            $this->_qill[$grouping][] = ts('Group Status -') . ' ' . implode( ' ' . ts('or') . ' ', $statii );
+        }
 
         if ( $in ) {
             $ssClause = $this->savedSearch( $values );

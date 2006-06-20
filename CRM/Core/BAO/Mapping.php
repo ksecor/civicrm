@@ -563,11 +563,21 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         $fldName .= "-{$v[3]}";
                     }
                     
+                    $value = $params['value'   ][$key][$k];
+                    if ( $fldName == 'groups' || $fldName == 'tags' ) {
+                        $fldName = substr( $fldName, 0, -1 );
+                        $v = explode( ',', $value );
+                        $value = array( );
+                        foreach ( $v as $i ) {
+                            $value[$i] = 1;
+                        }
+                    }
+                        
                     $fields[] = array( $fldName,
-                                             $params['operator'][$key][$k],
-                                             $params['value'   ][$key][$k],
-                                             $key,
-                                             0 );
+                                       $params['operator'][$key][$k],
+                                       $value,
+                                       $key,
+                                       0 );
                 }
             }
         }
@@ -588,6 +598,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         foreach ($params['mapper'] as $key => $value) {
             foreach ($value as $k => $v) {
                 if ( $v[1] ) {
+                    if ( $v[1] == 'groups' || $v[1] == 'tags' ) {
+                        continue;
+                    }
+
                     if ( $v[2] ) {
                         if ( ! array_key_exists( 'location', $fields ) ) {
                             $fields['location'] = array( );
