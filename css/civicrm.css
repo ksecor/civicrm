@@ -186,6 +186,10 @@ div.spacer {
   border: none;
 }
 
+#crm-container .form-layout td.report {
+  white-space: normal;
+}
+
 #crm-container .form-layout td, #crm-container .form-layout-compressed td {
   vertical-align: text-top;
 }

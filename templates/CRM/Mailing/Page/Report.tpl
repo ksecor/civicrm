@@ -187,8 +187,8 @@
 <tr><td class="label">{$component.type}</td><td><a
 href="{$component.link}">{$component.name}</a></td></tr>
 {/foreach}
-<tr><td class="label">{ts}Text Body{/ts}</td><td>{$report.mailing.body_text|escape|nl2br}</td></tr>
-<tr><td class="label">{ts}HTML Body{/ts}</td><td>{$report.mailing.body_html|escape|nl2br}</td></tr>
+<tr><td class="label">{ts}Text Body{/ts}</td><td class="report">{$report.mailing.body_text|escape|nl2br}</td></tr>
+<tr><td class="label">{ts}HTML Body{/ts}</td><td class="report">{$report.mailing.body_html|escape|nl2br}</td></tr>
 </table>
 {/strip}
 </fieldset>
