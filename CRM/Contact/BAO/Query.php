@@ -792,22 +792,28 @@ class CRM_Contact_BAO_Query {
             $this->locationType( $values ); 
             return;
 
-        case postal_code:
-        case postal_code_low:
-        case postal_code_high:
+        case 'postal_code':
+        case 'postal_code_low':
+        case 'postal_code_high':
             $this->postalCode( $values );
             return;
 
-        case activity_type:
+        case 'activity_type':
             $this->activityType( $values );
             return;
 
-        case activity_date:
-        case activity_date_low:
-        case activity_date_high:
+        case 'activity_date':
+        case 'activity_date_low':
+        case 'activity_date_high':
             $this->activityDate( $values );
             return;
-                
+            
+        case 'do_not_phone':
+        case 'do_not_email':
+        case 'do_not_mail':
+        case 'do_not_trade':
+        case 'is_opt_out':
+            $this->privacy( $values );
 
         case 'relation_type_id':
             $this->relationship( $values );
@@ -1711,6 +1717,13 @@ class CRM_Contact_BAO_Query {
         $this->_useDistinct = true;
         $this->dateQueryBuilder( $values,
                                  'civicrm_activity_history', 'activity_date', 'activity_date', 'Activity Date' );
+    }
+
+    function privacy( &$values ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+
+        $this->_where[$grouping][] = "contact_a.{$name} $op $value";
+        $this->_qill[$grouping][]  = ts( "%1 %2 %3", array( 1 => $name, 2 => $op, 3 => $value ) );
     }
 
     /**
