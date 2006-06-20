@@ -745,6 +745,8 @@ class CRM_Contact_BAO_Query {
             return array( $id, 'LIKE', $values, 0, 1 );
         } else if ( strpos( $values, '%' ) !== false ) {
             return array( $id, 'LIKE', $values, 0, 0 );
+        } else if ( $id == 'group' || $id == 'tag' ) {
+            return array( $id, 'IN', $values, 0, 0 );
         } else {
             return array( $id, '=', $values, 0, 0 );
         }
@@ -1399,7 +1401,7 @@ class CRM_Contact_BAO_Query {
 
         if ( $gcsValues &&
              is_array( $gcsValues[2] ) ) {
-            foreach ( $gcsValues as $k => $v ) {
+            foreach ( $gcsValues[2] as $k => $v ) {
                 if ( $v ) {
                     if ( $k == 'Added' ) {
                         $in = true;
