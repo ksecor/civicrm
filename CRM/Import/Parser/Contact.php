@@ -453,15 +453,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             $relationship = true;
         }
         if ( $relationship ) {
+            $primaryContactId = null;
             if ( self::isDuplicate($newContact) ) {
-                foreach ($newContact->_errors[0]['params'] as $cid) {
-                    $primaryContactId = $cid;
+                if ( CRM_Utils_Rule::integer( $newContact->_errors[0]['params'] ) ) {
+                    $primaryContactId = CRM_Utils_Rule::integer( $newContact->_errors[0]['params'] );
                 }
             } else {
                 $primaryContactId = $newContact->id;
             }
             
-            if ( self::isDuplicate($newContact)  || is_a( $newContact,CRM_Contact_BAO_Contact ) ) {
+            if ( ( self::isDuplicate($newContact)  || is_a( $newContact,CRM_Contact_BAO_Contact ) ) && $primaryContactId ) {
                 //relationship contact insert
                 foreach ($params as $key => $field) {
                     list($id, $first, $second) = explode('_', $key);
@@ -596,7 +597,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             $code = $newContact->_errors[0]['code'];
             if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
                 $urls = array( );
-                foreach ($newContact->_errors[0]['params'] as $cid) {
+	        $cids = explode( ',', $newContact->_errors[0]['params'] );
+                foreach ($cids as $cid) {
                     $urls[] = CRM_Utils_System::url('civicrm/contact/view',
                                                     'reset=1&cid=' . $cid, true);
                 }
@@ -605,7 +607,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 array_unshift($values, $url_string); 
                 
                 /* If we duplicate more than one record, skip no matter what */
-                if (count($newContact->_errors[0]['params']) > 1) {
+                if (count($cids) > 1) {
                     array_unshift($values, ts('Record duplicates multiple contacts'));
                     return CRM_Import_Parser::ERROR;
                 }

@@ -135,9 +135,9 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         }
 
         //display new tag
-        $this->addElement( 'checkbox', 'newTag', ts('Create a new tag from imported records'));
-        $this->addElement( 'text', 'newTagName', ts('Name for new Tag'));
-        $this->addElement( 'text', 'newTagDesc', ts('Description of new tag'));
+        $this->addElement( 'checkbox', 'newTag', ts('Create a new tag and assign it to imported records'));
+        $this->addElement( 'text', 'newTagName', ts('Tag'));
+        $this->addElement( 'text', 'newTagDesc', ts('Description'));
         $this->addFormRule(array('CRM_Import_Form_Preview','newTagRule'));    
     
         $tag =& $this->get('tag');

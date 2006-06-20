@@ -113,11 +113,11 @@
 {* Existing Tag Imported Contact *}
 
 <div id="tag[show]" class="data-group">
-    <a href="#" onclick="hide('tag[show]'); show('tag'); return false;">&raquo; <label>{ts}Tag imported{/ts}</label></a>
+    <a href="#" onclick="hide('tag[show]'); show('tag'); return false;">&raquo; <label>{ts}Tag imported records{/ts}</label></a>
 </div>
 
 <div id="tag" class="data-group">
-    <a href="#" onclick="hide('tag'); show('tag[show]'); return false;">&raquo; <label>{ts}Tag imported{/ts}</label></a>
+    <a href="#" onclick="hide('tag'); show('tag[show]'); return false;">&raquo; <label>{ts}Tag imported records{/ts}</label></a>
     <dl>
         <dt></dt><dd class="listing-box" style="margin-bottom: 0em; width: 15em;">
        {foreach from=$form.tag item="tag_val"} 
