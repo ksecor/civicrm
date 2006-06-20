@@ -844,9 +844,10 @@ class CRM_Contact_BAO_Query {
         //CRM_Core_Error::debug( 'p', $this->_params );
         $this->_where[0] = array( );
 
-        // domain id is always part of the where clause
-        $config  =& CRM_Core_Config::singleton( ); 
-        if ( $config->includeDomainID ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        require_once 'CRM/Core/BAO/Domain.php';
+        if ( CRM_Core_BAO_Domain::multipleDomains( ) ) {
             $this->_where[0][] = 'contact_a.domain_id = ' . $config->domainID( );
         }
         

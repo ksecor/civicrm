@@ -231,8 +231,6 @@ class CRM_Core_Session {
         return CRM_Utils_Array::value( $name, $session );
     }
 
-  
-
     /**
      * Gets all the variables in the current session scope
      * and stuffs them in an associate array

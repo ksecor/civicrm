@@ -161,12 +161,23 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
      * @access public
      */
     static function edit(&$params, &$id) {
-        
         $domain     =& new CRM_Core_DAO_Domain( );
         $domain->id = $id;
         $domain->copyValues( $params );
         $domain->save( );
         return $domain;
+    }
+
+    static function multipleDomains( ) {
+        $session =& CRM_Core_Session::singleton( );
+        
+        $numberDomains = $session->get( 'numberDomains' );
+        if ( ! $numberDomains ) {
+            $query = "SELECT count(*) from civicrm_domain";
+            $numberDomains = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+            $session->set( 'numberDomains', $numberDomains );
+        }
+        return $numberDomains > 1 ? true : false;
     }
 
 }
