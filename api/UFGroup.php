@@ -150,7 +150,7 @@ function crm_uf_get_profile_html_by_id  ( $userID,
  */  
 function crm_uf_get_create_html  ( $reset = false ) {
     $session =& CRM_Core_Session::singleton( ); 
-    $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts(''), CRM_Core_Action::ADD ); 
+    $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', '', CRM_Core_Action::ADD ); 
     if ( $reset ) { 
         unset( $_POST['_qf_default'] ); 
         unset( $_REQUEST['_qf_default'] );
