@@ -2,17 +2,12 @@
 
  <div id="search-status">
     {ts count=$pager->_totalItems plural='Found %count contributions.'}Found %count contribution.{/ts}
-    {* {ts}Total Amount:{/ts} {$total_amount} *}
-    {if $cancel_amount}&nbsp; &nbsp; {ts}Cancelled Contribution Amount{/ts}: {$cancel_amount}{/if}
+
+    {* Search criteria are passed to tpl in the $qill array *}
     {if $qill}
-        <ul>
-          {foreach from=$qill item=orClauses}
-           {foreach from=$orClauses item=criteria}
-            <li>{$criteria}</li>
-           {/foreach}
-          {/foreach}
-        </ul>
+        {include file="CRM/common/displaySearchCriteria.tpl"}
     {/if}
+
  </div>
 {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
 

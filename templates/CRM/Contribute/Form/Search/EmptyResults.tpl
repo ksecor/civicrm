@@ -4,11 +4,7 @@
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
     <dd>
         {if $qill}{ts}No matches found for:{/ts}
-            <ul>
-            {foreach from=$qill item=criteria}
-                <li>{$criteria}</li>
-            {/foreach}
-            </ul>
+            {include file="CRM/common/displaySearchCriteria.tpl"}
         {else}
             {ts}No matching contributions found.{/ts}
         {/if}

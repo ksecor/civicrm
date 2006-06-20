@@ -7,14 +7,8 @@
             {capture assign=crmURL}{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}{/capture}{ts 1=$group.title 2=$crmURL}%1 has no members which match your search criteria. You can <a href="%2">add members here.</a>{/ts}
         {else}
             {if $qill}{ts}No matches found for:{/ts}
-            <ul>
-               {foreach from=$qill item=orClauses}
-                {foreach from=$orClauses item=criteria}
-                 <li>{$criteria}</li>
-                {/foreach}
-               {/foreach}
-            </ul>
-            <br />
+                {include file="CRM/common/displaySearchCriteria.tpl"}
+                <br />
             {else}
             {ts}No matches found.{/ts}
             {/if}

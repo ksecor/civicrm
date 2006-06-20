@@ -7,7 +7,7 @@
         <th> &nbsp; {ts}Avg Amount{/ts} - {$summary.total.avg|crmMoney}</th>
     {/if}
     {if $summary.cancel.amount}
-        <th> &nbsp; {ts}Cancelled{/ts} - {$summary.cancel.amount|crmMoney}</th>
+        <th class="disabled"> &nbsp; {ts}Total Cancelled Amount{/ts} - {$summary.cancel.amount|crmMoney}</th>
     {/if}
     </tr>
 </table>

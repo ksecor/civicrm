@@ -7,14 +7,9 @@
    {else}
       {ts count=$pager->_totalItems plural='Found %count contacts'}Found %count contact{/ts}
   {/if}
+  {* Search criteria are passed to tpl in the $qill array *}
   {if $qill}
-    <ul>
-    {foreach from=$qill item=orClauses}
-     {foreach from=$orClauses item=criteria}
-      <li>{$criteria}</li>
-     {/foreach}
-    {/foreach}
-    </ul>
+      {include file="CRM/common/displaySearchCriteria.tpl"}
   {/if}
  </div>
 

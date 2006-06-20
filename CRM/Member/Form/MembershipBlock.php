@@ -141,7 +141,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
         if ( $params['is_active'] ) {
             $membershipType = array_values($params['membership_type']);
             if ( array_sum($membershipType) == 0 ) {
-                $errors['membership_type'] = 'Please select at least one of the Membership Type';
+                $errors['membership_type'] = 'Please select at least one Membership Type to include in the Membership section of this page.';
             }
         }
      
