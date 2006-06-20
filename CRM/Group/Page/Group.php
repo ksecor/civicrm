@@ -253,26 +253,20 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
                 } else {
                     $links =& $this->links( );
                 }
-                if ( $action == null ) {
-                    $action = array_sum(array_keys($links));
-                }
-                $action = $action & CRM_Core_Action::mask( $groupPermission );
-                $newAction = $action;
+                $action = array_sum(array_keys($links));
                 if ( array_key_exists( 'is_active', $object ) ) {
                     if ( $object->is_active ) {
-                        $newAction -= CRM_Core_Action::ENABLE;
+                        $action -= CRM_Core_Action::ENABLE;
                     } else {
-                        $newAction -= CRM_Core_Action::VIEW;
-                        $newAction -= CRM_Core_Action::DISABLE;
+                        $action -= CRM_Core_Action::VIEW;
+                        $action -= CRM_Core_Action::DISABLE;
                     }
                 }
-                
-                // make sure we only allow those actions that the user is permissioned for
-                $newAction = $newAction & CRM_Core_Action::mask( $permission );
+                $action = $action & CRM_Core_Action::mask( $groupPermission );
                 
                 $values[$object->id]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility', $values[$object->id]['visibility']);
                 $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
-                                                                            $newAction,
+                                                                            $action,
                                                                             array( 'id'   => $object->id,
                                                                                    'ssid' => $object->saved_search_id ) );
             }

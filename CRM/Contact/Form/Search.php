@@ -269,6 +269,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->addGroupRule('group_contact_status', ts('Please select at least one membership status.'), 'required', null, 1);
             // Set dynamic page title for 'Show Members of Group'
             CRM_Utils_System::setTitle( ts('Group Members: %1', array(1 => $this->_group[$this->_groupID])) );
+
+            // check if user has permission to edit members of this group
+            if ( CRM_Contact_BAO_Group::checkPermission( $this->_groupID, $this->_group[$this->_groupID] ) ==
+                 CRM_Core_Permission::EDIT ) {
+                $this->assign( 'permissionedForGroup', true );
+            } else {
+                $this->assign( 'permissionedForGroup', false );
+            }
         }
         
         /*
@@ -488,6 +496,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->assign( 'context', $this->_context );
 
+        //CRM_Core_Error::debug( 'f', $this->_formValues );
+        //CRM_Core_Error::debug( 'p', $this->_params );
         $selector =& new CRM_Contact_Selector( $this->_formValues, $this->_params,
                                                $this->_returnProperties,
                                                $this->_action );
@@ -537,11 +547,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name);
             $this->normalizeFormValues( );
-            $this->_params =& $this->convertFormValues( $this->_formValues );
-            $this->_returnProperties =& $this->returnProperties( );
-
-            // CRM_Core_Error::debug( 'fv', $this->_formValues );
-            // CRM_Core_Error::debug( 'rp', $this->_returnProperties );
 
             // also reset the sort by character
             $this->_sortByCharacter = null;
@@ -550,15 +555,17 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
             $this->_formValues['group'][$this->_groupID] = 1;
-
-            // add group_contact_status as added if not present
-            if ( ! CRM_Utils_Array::value( 'group_contact_status', $this->_formValues ) ) {
-                $this->_formValues['group_contact_status'] = array( 'Added' => true );
-            }
         } else if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
+
+        $this->_params           =& $this->convertFormValues( $this->_formValues );
+        $this->_returnProperties =& $this->returnProperties( );
+
+        // CRM_Core_Error::debug( 'fv', $this->_formValues );
+        // CRM_Core_Error::debug( 'p',  $this->_params );
+        // CRM_Core_Error::debug( 'rp', $this->_returnProperties );
 
         $this->postProcessCommon( );
     }
