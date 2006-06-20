@@ -1155,6 +1155,11 @@ class CRM_Contact_BAO_Query {
         }
 
 
+        //add contribution table
+        if ( CRM_Utils_Array::value( 'civicrm_product', $tables ) ) {
+            $tables = array_merge( array( 'civicrm_contribution' => 1), $tables );
+        }
+
         //format the table list according to the weight
         require_once 'CRM/Core/TableHierarchy.php';
         $info =& CRM_Core_TableHierarchy::info( );
@@ -1187,7 +1192,7 @@ class CRM_Contact_BAO_Query {
         }
 
         $tables = $newTables;
-        
+
         foreach ( $tables as $name => $value ) {
             if ( ! $value ) {
                 continue;
