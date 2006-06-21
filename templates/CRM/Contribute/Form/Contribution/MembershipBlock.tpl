@@ -1,4 +1,7 @@
 {if $membershipBlock}
+{if $singleMembership && $context EQ "makeContribution"}
+     {$singleMembership.html}                          
+{else}
 <div id="membership">
  {if $context EQ "makeContribution"}
   <fieldset>    
@@ -67,14 +70,17 @@
             
             <td>
               {if $row.current_membership }   
-               {ts 1=$row.current_membership|crmDate}You Are Current Member of this<strong> Membership</strong> (Membership Will Expire on %1){/ts}
+               {ts 1=$row.current_membership|crmDate}You are current member of this<strong> Membership</strong> (Membership Will Expire on %1){/ts}
               {/if}
            </td> 
         </tr>
         
         {/foreach}
-        {if $showRadio AND !$preview }
-            <tr class="odd-row"><td colspan="4">{$form.selectMembership.no_thanks.html}</td></tr> 
+        {if $showRadio}
+            <tr class="odd-row">
+              <td>{$form.selectMembership.no_thanks.html}</td>
+              <td><strong>No thank you</strong></td>      
+            </tr> 
         {/if}          
         </table>
     {/strip}
@@ -83,4 +89,4 @@
     {/if}
 </div>
 {/if}
-
+{/if}

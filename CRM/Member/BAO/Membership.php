@@ -315,9 +315,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $form->assign( 'showRadio',$formItems );
             if ( $formItems ) {
                 if ( ! $dao->is_required ) {
-                    $radio[''] = $form->createElement('radio',null,null,ts('No thank you'),'no_thanks', null);
+                    $radio[''] = $form->createElement('radio',null,null,null,'no_thanks', null);
+                    $form->addGroup($radio,'selectMembership',null);
+                } else if( $dao->is_required  && count( $radio ) == 1 ) {
+                    $temp = array_keys( $radio ) ;
+                    $form->addElement('hidden', "selectMembership", $temp[0]  );
+                    $form->assign('singleMembership' , true );
+                } else {
+                    $form->addGroup($radio,'selectMembership',null);
                 }
-                $form->addGroup($radio,'selectMembership',null);
                 $form->addRule('selectMembership',ts("Plese select one of the Memebership "),'required');
             }
             
