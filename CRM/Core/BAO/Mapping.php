@@ -325,7 +325,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $colCnt = 0;
                 $mapping = $mappingId;
                 
-                list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($mapping);
+                list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType ) = CRM_Core_BAO_Mapping::getMappingFields($mapping);
                 $colCnt=count($mappingName);
                 
                 if ( $colCnt > $columnCount ) {
@@ -444,6 +444,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         // print_r($sel3);
         
+        $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
+
+
+
         $defaults = array();
         $js = "<script type='text/javascript'>\n";
         $formName = "document.{$name}";
@@ -461,6 +465,11 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     if ( isset($mappingName[$i]) ) {
                         if (is_array($mapperFields[$mappingContactType[$i]])) {
                             $phoneType = isset($mappingPhoneType[$i]) ? $mappingPhoneType[$i] : null;
+
+                            if ( !$locationId && in_array($mappingName[$i], $specialFields) ) {
+                                $locationId = " ";
+                            }
+
                             $defaults["mapper[$x][$i]"] = array( $mappingContactType[$i], $mappingName[$i],
                                                              $locationId, $phoneType
                                                              );
