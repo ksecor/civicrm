@@ -1723,7 +1723,14 @@ class CRM_Contact_BAO_Query {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         $this->_where[$grouping][] = "contact_a.{$name} $op $value";
-        $this->_qill[$grouping][]  = ts( "%1 %2 %3", array( 1 => $name, 2 => $op, 3 => $value ) );
+
+        $field = CRM_Utils_Array::value( $name, $this->_fields );
+        if ( $field ) {
+            $title = $field['title'];
+        } else {
+            $title = $name;
+        }
+        $this->_qill[$grouping][]  = ts( "%1 %2 %3", array( 1 => $title, 2 => $op, 3 => $value ) );
     }
 
     /**

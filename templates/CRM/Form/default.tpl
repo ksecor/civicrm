@@ -1,4 +1,4 @@
-<form {$form.attributes}>
+<form {$form.attributes|crmDelete:name}>
 
 {include file="CRM/Form/body.tpl"}
 

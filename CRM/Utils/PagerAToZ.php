@@ -115,9 +115,12 @@ class CRM_Utils_PagerAToZ
                     $element['class'] = "active";
                     $klass = 'class="active"';
                 }
+                $url = CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=" );
+                // we do it this way since we want the url to be encoded but not the link character
+                // since that seems to mess up drupal utf-8 encoding etc
+                $url .= $link;
                 $element['item']  = sprintf('<a href="%s" %s>%s</a>',
-                                            CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=$link",
-                                                                   true, null, false),
+                                            $url,
                                             $klass,
                                             $link );
             } else {
