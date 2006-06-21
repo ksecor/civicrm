@@ -611,18 +611,18 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         continue;
                     }
 
-                    if ( $v[2] ) {
+                    if ( is_numeric($v[2]) ) {
                         if ( ! array_key_exists( 'location', $fields ) ) {
                             $fields['location'] = array( );
                         }
-
+                        
                         // make sure that we have a location fields and a location type for this
                         $locationName = $locationTypes[$v[2]];
                         if ( ! array_key_exists( $locationName, $fields['location'] ) ) {
                             $fields['location'][$locationName] = array( );
                             $fields['location'][$locationName]['location_type'] = $v[2];
                         }
-
+                        
                         if ( $v[3] ) {
                             // DOES NOT WORK, fix
                         }
@@ -633,6 +633,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 }
             }
         }
+
         return $fields;
 
     }
@@ -647,7 +648,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * @static
      * @access public
      */
-    static function saveMappingFields($params, $mappingId ) 
+    static function saveMappingFields(&$params, $mappingId ) 
     {
         //delete mapping fields records for exixting mapping
         require_once "CRM/Core/DAO/MappingField.php";
