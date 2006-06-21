@@ -1,9 +1,17 @@
 <?php
 function civicrm_install( ) {
-    global $sqlPath, $comPath, $crmPath, $frontPath;
+    global $sqlPath, $comPath, $crmPath, $frontPath, $dsn;
     civicrm_setup( );
     
-    civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_40.mysql'     );
+    require_once 'DB.php';
+    $db  =& DB::connect( $dsn );
+    $sqlVersion = mysql_get_server_info();
+    $sqlV  = substr($sqlVersion, 0, 3);
+    if($sqlV == 4.1) {
+        civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_41.mysql');
+    } else {
+        civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_40.mysql'     );
+    }
     civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
     
     // generate backend settings file
@@ -28,7 +36,48 @@ include_once '$configFile';
     civicrm_write_file( $frontPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php',
                         $string );
 
+ $ret[] = db_query("INSERT INTO {blocks} (module, delta, theme, status, pages) VALUES ('civicrm', '1', '%s', 1, '')", variable_get('theme_default', 'bluemarine'));
+ $ret[] = db_query("INSERT INTO {blocks} (module, delta, theme, status, pages) VALUES ('civicrm', '2', '%s', 1, '')", variable_get('theme_default', 'bluemarine'));
+ $ret[] = db_query("INSERT INTO {blocks} (module, delta, theme, status, pages) VALUES ('civicrm', '4', '%s', 1, '')", variable_get('theme_default', 'bluemarine'));
+ $ret[] = db_query("INSERT INTO {blocks} (module, delta, theme, status, pages) VALUES ('civicrm', '8', '%s', 1, '')", variable_get('theme_default', 'bluemarine'));
+ $ret[] = db_query("INSERT INTO {blocks} (module, delta, theme, status, pages) VALUES ('user', '2', '%s', 1, '')", variable_get('theme_default', 'bluemarine'));
+ $ret[] = db_query("INSERT INTO {blocks} (module, delta, theme, status, pages) VALUES ('user', '3', '%s', 1, '')", variable_get('theme_default', 'bluemarine'));
+ $ret[] = db_query("INSERT INTO {blocks} (module, delta, theme, status, pages) VALUES ('node', '0', '%s', 1, '')", variable_get('theme_default', 'bluemarine'));
+ $ret[] = db_query("INSERT INTO {blocks} (module, delta, theme, status, pages) VALUES ('menu', '2', '%s', 1, '')", variable_get('theme_default', 'bluemarine'));
+ $ret[] = db_query("INSERT INTO {blocks} (module, delta, theme, status, pages) VALUES ('comment', '0', '%s', 1, '')", variable_get('theme_default', 'bluemarine'));
+
+  return $ret;
 }
+function civicrm_update_1( ) {
+    global $dsn;
+    require_once 'DB.php';
+    $db  =& DB::connect( $dsn );
+    $sqlVersion = mysql_get_server_info();
+    $sqlV  = substr($sqlVersion, 0, 3);
+    if($sqlV == 4.0) {
+       
+	civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_upgradedb_v1.3_v1.4_40.mysql'     );
+    }
+    if($sqlV == 4.1) {
+       
+	civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_upgradedb_v1.3_v1.4_41.mysql'     );
+    }
+}
+function civicrm_update_2( ) {
+    global $dsn;
+    require_once 'DB.php';
+    $db  =& DB::connect( $dsn );
+    $sqlVersion = mysql_get_server_info();
+    $sqlV  = substr($sqlVersion, 0, 3);
+    if($sqlV == 4.0) {
+      civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_upgradedb_v1.4_v1.5_40.mysql'     );
+    }
+    if($sqlV == 4.1) {
+      civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_upgradedb_v1.4_v1.5_41.mysql'     );
+    }
+}
+
+
 
 function civicrm_setup( ) {
     global $comPath, $frontPath, $crmPath, $sqlPath, $tplPath, $dsn, $absolute_path;
