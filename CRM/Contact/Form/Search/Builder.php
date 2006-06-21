@@ -60,6 +60,14 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     protected $_columnCount;
 
     /**
+     * number of blocks to be shown
+     *
+     * @var int
+     * @access protected
+     */
+    protected $_blockCount;
+    
+    /**
      * Function to actually build the form
      *
      * @return None
@@ -67,23 +75,27 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      */
     public function preProcess() {
         parent::preProcess( );
-
-        $this->_columnCount = array();
-        $this->_columnCount = $this->get('columnCount');
-
-        if (! $this->_columnCount[1] ) {
-            $this->_columnCount[1] = 1;
+        //get the block count
+        $this->_blockCount = $this->get('blockCount');
+        if ( !$this->_blockCount ) {
+            $this->_blockCount = 3;
         }
 
-        if (! $this->_columnCount[2] ) {
-            $this->_columnCount[2] = 1;
+        //get the column count
+        $this->_columnCount = array();
+        $this->_columnCount = $this->get('columnCount');
+        
+        for ( $i = 1; $i < $this->_blockCount; $i++ ){
+            if ( !$this->_columnCount[$i] ) {
+                $this->_columnCount[$i] = 1;
+            }
         }
 
         $this->_loadedMappingId =  $this->get('savedMapping');
     }
     
     public function buildQuickForm( ) {
-        CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $this->_mappingId, $this->_columnCount);
+        CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $this->_mappingId, $this->_columnCount, $this->_blockCount);
         
         $this->buildQuickFormCommon();
     }
@@ -124,9 +136,15 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $session->set('isSearchBuilder', '1');
 
         $params = $this->controller->exportValues( $this->_name );
-
+        
         if (!empty($params)) {
-            for ($x = 1; $x <= 3; $x++ ) {
+            if ( $params['addBlock'] )  { 
+                $this->_blockCount = $this->_blockCount + 1;
+                $this->set( 'blockCount', $this->_blockCount );
+                return;
+            }
+            
+            for ($x = 1; $x <= $this->_blockCount; $x++ ) {
                 if ( $params['addMore'][$x] )  {
                     $this->_columnCount[$x] = $this->_columnCount[$x] + 1;
                     $this->set( 'columnCount', $this->_columnCount );

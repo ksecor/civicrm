@@ -1,12 +1,9 @@
 {* template for search builder *}
- {*<fieldset>
-     {$form.name.label}&nbsp;{$form.name.html}
- </fieldset>*}
  <div id="map-field">
   {strip}
-     {section start=1 name=blocks loop=3}
+     {section start=1 name=blocks loop=$blockCount}
        {assign var="x" value=$smarty.section.blocks.index}
-       <fieldset><legend>{ts}{if $x eq 1}Include contacts where{else}Also include contacts where{/if}{/ts}</legend>
+       <fieldset><legend>{ts}{if $x eq 1}Include contacts where{else}Also where{/if}{/ts}</legend>
 	<table>
         {section name=cols loop=$columnCount[$x]}
             {assign var="i" value=$smarty.section.cols.index}
@@ -26,8 +23,8 @@
            </td>
          </tr>            
        </table>
-     </fieldset>
-
-     {/section}
+      </fieldset>
+    {/section}
+    <span>{$form.addBlock.html}</span> 
   {/strip}
  </div>

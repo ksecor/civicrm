@@ -283,12 +283,13 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * @params string $mappingType mapping type (Export/Import/Search Builder)
      * @params int    $mappingId   mapping id
      * @params mixed  $columnCount column count is int for and array for search builder
-     * 
+     * @params int    $blockCount    block count (no of blocks shown) 
+     *
      * @return none
      * @access public
      * @static
      */
-    static function buildMappingForm($form, $mappingType = 'Export', $mappingId = null, $columnNo, $blockCnt = 3 ) 
+    static function buildMappingForm($form, $mappingType = 'Export', $mappingId = null, $columnNo, $blockCount = 3 ) 
     {
         if ($mappingType == 'Export') {
             $name = "Map";
@@ -350,8 +351,9 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             
             $form->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
             $form->addFormRule( array( 'CRM_Contact_Form_Task_Export_Map', 'formRule' ) );
-        } 
-
+        } else  if ($mappingType == 'Search Builder') { 
+            $form->addElement('submit', "addBlock", 'Also include contacts where', array( 'class' => 'form-submit' ) );
+        }
         
         $defaults = array( );
         $hasLocationTypes= array();
@@ -444,9 +446,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         // print_r($sel3);
         
+        //special fields that have location, hack for primary location
         $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
-
-
 
         $defaults = array();
         $js = "<script type='text/javascript'>\n";
@@ -454,7 +455,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         //used to warn for mismatch column count or mismatch mapping 
         $warning = 0;
-        for ( $x = 1; $x < $blockCnt; $x++ ) {
+        for ( $x = 1; $x < $blockCount; $x++ ) {
+
             for ( $i = 0; $i < $columnCount[$x]; $i++ ) {
                  
                 $sel =& $form->addElement('hierselect', "mapper[$x][$i]", ts('Mapper for Field %1', array(1 => $i)), null);
@@ -496,15 +498,19 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                             $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
                         }
                     } else {
-
-                        foreach ( $formValues['mapper'][$x] as $value) {
-                            for ( $k = 1; $k < 4; $k++ ) {
-                                if (!$formValues['mapper'][$x][$i][$k]) {
-                                    $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
-                                } else {
-                                    $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = '';\n"; 
-                                    
+                        if ( !empty($formValues['mapper'][$x]) ) {
+                            foreach ( $formValues['mapper'][$x] as $value) {
+                                for ( $k = 1; $k < 4; $k++ ) {
+                                    if (!$formValues['mapper'][$x][$i][$k]) {
+                                        $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
+                                    } else {
+                                        $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = '';\n"; 
+                                    }
                                 }
+                            }
+                        } else {
+                            for ( $k = 1; $k < 4; $k++ ) {
+                                $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
                             }
                         }
                     }
@@ -535,6 +541,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
 
         $form->assign('initHideBoxes', $js);
         $form->assign('columnCount', $columnCount);
+        $form->assign('blockCount', $blockCount);
         
         $form->setDefaults($defaults);
         
