@@ -35,7 +35,7 @@
     <div id="help">
         {ts}Use the Search Criteria form to find contacts by name, type of contact, group membership, tags, etc. You can then view or edit contact details, print a contact list, assign tags, export contact data to a spreadsheet, etc.{/ts}
         {if $action EQ 512}
-            <p>{ts}When multiple boxes are checked for Contact Types, Groups, Tags and Location Types, the selctions are combined as <strong>OR</strong> criteria (e.g. checking &quot;Group A&quot; and &quot;Group B&quot; will find contacts who are either in &quot;Group A&quot; OR &quot;Group B&quot;).
+            <p>{ts}When multiple boxes are checked for Contact Types, Groups, Tags and Location Types, the selections are combined as <strong>OR</strong> criteria (e.g. checking &quot;Group A&quot; and &quot;Group B&quot; will find contacts who are either in &quot;Group A&quot; OR &quot;Group B&quot;).
                All other search fields are combined as <strong>AND</strong> criteria (e.g. selecting Tag is &quot;Major Donor&quot; AND Country is &quot;Mexico&quot; returns only those contacts who meet both criteria).{/ts}</p>
         {/if}
         {if $ssID}

@@ -53,7 +53,7 @@
     <table class="form-layout">
         <tr>
             <td class="label">{$form.street_address.label}</td>
-            <td>{$form.street_address.html}</span>
+            <td>{$form.street_address.html}</td>
             <td class="label">{$form.city.label}</td>
             <td>{$form.city.html}</td>
         </tr>
@@ -66,7 +66,7 @@
         <tr>
             <td class="label">{$form.postal_code.label}</td>
             <td>{$form.postal_code.html}&nbsp;&nbsp;<label>{ts}OR{/ts}</label></td> 
-            <td class="label">{$form.postal_code_low.label}</span>
+            <td class="label">{$form.postal_code_low.label}</td>
             <td>{$form.postal_code_low.html|crmReplace:class:six}
                 {$form.postal_code_high.label}
                 {$form.postal_code_high.html|crmReplace:class:six}

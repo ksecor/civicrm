@@ -6,7 +6,7 @@
 {assign var="hideBlock" value="'searchForm[show]','searchForm[hide]'"}
 
 <div id="searchForm[show]" class="form-item">
-  <a href="#" onclick="hide('searchForm[show]'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a>
+  <a href="#" onclick="hide('searchForm[show]'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
   <label>
   {if $savedSearch}
     {ts 1=$savedSearch.name}Edit %1 Smart Group Criteria{/ts}
