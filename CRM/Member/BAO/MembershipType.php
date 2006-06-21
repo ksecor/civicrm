@@ -69,10 +69,8 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
      */
     static function retrieve( &$params, &$defaults ) 
     {
-        self::getRenewalDatesForMembershipType( 26 );
         $membershipType =& new CRM_Member_DAO_MembershipType( );
         $membershipType->copyValues( $params );
-        self::getDatesForMembershipType($params['id']);
         if ( $membershipType->find( true ) ) {
             CRM_Core_DAO::storeValues( $membershipType, $defaults );
             return $membershipType;
@@ -116,12 +114,12 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         
         $membershipType->id = CRM_Utils_Array::value( 'membershipType', $ids );
         $membershipType->member_of_contact_id = CRM_Utils_Array::value( 'memberOfContact', $ids );
-        $membershipType->contribution_type_id = CRM_Utils_Array::value( 'contributionType', $ids );
 
         $membershipType->save( );
+
         return $membershipType;
     }
-    
+
     /**
      * Function to delete membership Types 
      * 
@@ -141,6 +139,44 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
     }
 
 
+    /**
+     * Function to convert membership Type's 'start day' & 'rollover day' to human readable formats.
+     * 
+     * @param array $membershipType an array of membershipType-details.
+     * @static
+     */
+    
+    static function convertDayFormat( &$membershipType ) 
+    {
+        $periodDays = array(
+                            'fixed_period_start_day',
+                            'fixed_period_rollover_day'
+                            );
+        foreach ( $membershipType as $id => $details ) {
+            foreach ( $periodDays as $pDay) {
+                if ($details[$pDay]) {
+                    $month = substr( $details[$pDay], 0, strlen($details[$pDay])-2);
+                    $day   = substr( $details[$pDay],-2);    
+                    $monthMap = array(
+                                      '1'  => 'Jan',
+                                      '2'  => 'Feb',
+                                      '3'  => 'Mar',
+                                      '4'  => 'Apr',
+                                      '5'  => 'May',
+                                      '6'  => 'Jun',
+                                      '7'  => 'Jul',
+                                      '8'  => 'Aug',
+                                      '9'  => 'Sep',
+                                      '10' => 'Oct',
+                                      '11' => 'Nov',
+                                      '12' => 'Dec'
+                                      );
+                    $membershipType[$id][$pDay] = $monthMap[$month].' '.$day; 
+                }
+            }
+        }
+    }
+    
     /**
      * Function to get membership Types 
      * 

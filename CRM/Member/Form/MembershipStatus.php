@@ -74,7 +74,8 @@ class CRM_Member_Form_MembershipStatus extends CRM_Member_Form
         $this->add('checkbox', 'is_current_member', ts('Is Current Member?'));
         $this->add('checkbox', 'is_admin', ts('Is Admin?'));
 
-        $this->add('checkbox', 'is_default', ts('Default?'));
+        $this->add('text', 'weight', ts('Weight'), 
+                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipStatus', 'weight' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
     }

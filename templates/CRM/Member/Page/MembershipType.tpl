@@ -13,19 +13,25 @@
         {strip}
         <table>
         <tr class="columnheader">
-            <th>{ts}Name{/ts}</th>
-            <th>{ts}Description{/ts}</th>
+            <th>{ts}Membership{/ts}</th>
+            <th>{ts}Period{/ts}</th>
+            <th>{ts}Fixed Start{/ts}</th>
             <th>{ts}Minimum Fee{/ts}</th>
-            <th>{ts}Duration Unit{/ts}</th>
+            <th>{ts}Duration{/ts}</th>
+            <th>{ts}Visibility{/ts}</th>
+            <th>{ts}Weight{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
-	        <td>{$row.description}</td>
+	        <td>{$row.period_type}</td>
+	        <td>{$row.fixed_period_start_day}</td>
 	        <td>{$row.minimum_fee}</td>
-	        <td>{$row.duration_unit}</td>
+	        <td>{$row.duration_interval} {$row.duration_unit}</td>
+	        <td>{$row.visibility}</td>
+	        <td>{$row.weight}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>

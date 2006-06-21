@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Page/Basic.php';
-
+require_once 'CRM/Member/BAO/MembershipType.php';
 /**
  * Page for displaying list of membership types
  */
@@ -172,6 +172,8 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
             $membershipType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                             array('id' => $dao->id));
         }
+
+        CRM_Member_BAO_MembershipType::convertDayFormat( $membershipType );
         $this->assign('rows', $membershipType);
     }
 

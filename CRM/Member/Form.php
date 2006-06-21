@@ -86,6 +86,17 @@ class CRM_Member_Form extends CRM_Core_Form
         // its ok if there is no element called is_active
         $defaults['is_active'] = 1;
 
+        if ( $defaults['member_of_contact_id'] ) {
+            $defaults['member_org'] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', 
+                                                                  $defaults['member_of_contact_id'], 'display_name');
+        }
+        //finding default weight to be put 
+        $query = "SELECT max( `weight` ) as weight FROM `civicrm_membership_type`";
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $query );
+        $dao->fetch();
+        $defaults['weight'] = ($dao->weight + 1);
+        
         return $defaults;
     }
 

@@ -22,7 +22,7 @@
  	<dt>{$form.end_event_adjust_interval.label}</dt><dd class="html-adjust">{$form.end_event_adjust_interval.html}</dd>
         <dt>{$form.is_current_member.label}</dt><dd class="html-adjust">{$form.is_current_member.html}</dd>
         <dt>{$form.is_admin.label}</dt><dd class="html-adjust">{$form.is_admin.html}</dd>
-        <dt>{$form.is_default.label}</dt><dd class="html-adjust">{$form.is_default.html}</dd>
+        <dt>{$form.weight.label}</dt><dd class="html-adjust">{$form.weight.html}</dd>
         <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
       </dl> 
      {/if}
