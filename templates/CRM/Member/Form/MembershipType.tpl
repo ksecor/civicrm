@@ -17,11 +17,11 @@
  	<dt>{$form.name.label}</dt><dd class="html-adjust">{$form.name.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}e.g. "Student", "Senior", "Honor Society"...{/ts}</dd>
     	<dt>{$form.description.label}</dt><dd class="html-adjust">{$form.description.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Additional display for Profile field radio buttons. May include cost, terms, etc.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Any descripttion about this membership type. May include cost, terms, etc.{/ts}</dd>
        	<dt>{$form.contribution_type_id.label}</dt><dd class="html-adjust">{$form.contribution_type_id.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Organization which is the owner for this membership type.{/ts}</dd>
-        <dt>{$form.member_org.label}</dt><dd class="html-adjust">{$form.member_org.html}&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select the contribution type for this membership type.{/ts}</dd>
+        <dt>{$form.member_org.label}</dt><dd class="html-adjust">{$form.member_org.html}&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
+	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Organization, who is the owner for this membership type.{/ts}</dd>
        </dl>
        <div class="spacer"></div>	
               {if $searchDone} {* Search button clicked *}
@@ -66,7 +66,7 @@
 	
        <dl>
         <dt>{$form.minimum_fee.label}</dt><dd class="html-adjust">{$form.minimum_fee.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Free/complimentary memberships have minimum_fee = 0{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Minimum fee required for this membership type. Free/complimentary memberships have minimum fee = 0{/ts}</dd>
         <dt>{$form.duration_unit.label}</dt><dd class="html-adjust">{$form.duration_unit.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}What is the unit used for the duration of this membership (e.g. day, month, year, lifetime){/ts}</dd>
         <dt>{$form.duration_interval.label}</dt><dd class="html-adjust">{$form.duration_interval.html}</dd>
@@ -76,15 +76,15 @@
        </dl>
 	   <div id="fixed_period_settings">	
              <dt>{$form.fixed_period_start_day.label}</dt><dd class="html-adjust">{$form.fixed_period_start_day.html}</dd>
-             <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Month and day (MMDD) on which a fixed period subscription or membership will start. Default 0101. EXAMPLE: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dd>
+             <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Month and day (MMDD) on which a fixed period subscription or membership will start. e.g: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dd>
              <dt>{$form.fixed_period_rollover_day.label}</dt><dd class="html-adjust">{$form.fixed_period_rollover_day.html}</dd>
              <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Fixed Membership Payments after this date cover following calendar year as well (default to 1231 - December 31- i.e. no extra coverage; Joe's organization uses October 31).{/ts}</dd>
 	   </div>
        <dl>	
         <dt>{$form.relation_type_id.label}</dt><dd class="html-adjust">{$form.relation_type_id.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}FK to civicrm_relationship_type. If NOT NULL, then contacts who have the specified relationship to the direct member are also considered to be members. (e.g. if relationship_type_id = Household Member, and the direct member is a household, then all household members for that household are also considered to be members.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select relationship type for this membership type. e.g. if relationship type is 'Household Member', and the direct member is a household, then all household members for that household are also considered to be members.{/ts}</dd>
         <dt>{$form.visibility.label}</dt><dd class="html-adjust">{$form.visibility.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</dd>
         <dt>{$form.weight.label}</dt><dd class="html-adjust">{$form.weight.html}</dd>
         <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
         <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>

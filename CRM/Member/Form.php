@@ -97,6 +97,15 @@ class CRM_Member_Form extends CRM_Core_Form
         $dao->fetch();
         $defaults['weight'] = ($dao->weight + 1);
         
+        $defaultFields = array('fixed_period_start_day'    => '0101',
+                               'fixed_period_rollover_day' => '1231'
+                               );
+        foreach ( $defaultFields as $field => $val ) {
+            if ( !$defaults[$field] ) {
+                $defaults[$field] = $val;
+            }
+        }
+        
         return $defaults;
     }
 
