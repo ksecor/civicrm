@@ -1456,6 +1456,8 @@ class CRM_Contact_BAO_Query {
             $group->id = $group_id; 
             $group->find(true); 
             if (isset($group->saved_search_id)) {
+                $this->_useDistinct = true;
+
                 require_once 'CRM/Contact/BAO/SavedSearch.php';
                 if ( $config->mysqlVersion >= 4.1 ) { 
                     $ssParams =& CRM_Contact_BAO_SavedSearch::getSearchParams($group->saved_search_id);

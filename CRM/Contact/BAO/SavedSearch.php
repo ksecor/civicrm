@@ -103,7 +103,7 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      * @access public
      * @static
      */
-    static function getFormValues( $id ) {
+    static function &getFormValues( $id ) {
         $fv = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'form_values' );
         if ( $fv ) {
             // make sure u unserialize - since it's stored in serialized form
@@ -113,7 +113,10 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
     }
 
     static function &getSearchParams( $id ) {
-        CRM_Core_Error::fatal( 'Funtion not yet implemented' );
+        $fv =& self::getFormValues( $id );
+
+        require_once 'CRM/Contact/Form/Search.php';
+        return CRM_Contact_Form_Search::convertFormValues( $fv );
     }
 
     /**
