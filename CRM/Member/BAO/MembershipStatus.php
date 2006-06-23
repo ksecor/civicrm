@@ -137,8 +137,6 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         }
         return $statusDetails;
     }
-    
-
 
     /**
      * Function to delete membership Types 
@@ -160,6 +158,96 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         $membershipStatus =& new CRM_Member_DAO_MembershipStatus( );
         $membershipStatus->id = $membershipStatusId;
         $membershipStatus->delete();
+    }
+
+    /**
+     * Function to find the membership status based on start date, end date, join date & status date. 
+     * 
+     * @param 
+     *
+     * @return 
+     * @static
+     */
+    static function getMembershipStatusByDate( $startDate, $endDate, $joinDate, $statusDate = 'today' ) 
+    {
+        $membershipDetails = array();
+        if ( $statusDate == 'today' ) {
+            $statusDate = getDate();
+            $statusDate = date('Y-m-d',mktime($statusDate['hours'], $statusDate['minutes'], $statusDate['seconds'], 
+                                              $statusDate['mon'], $statusDate['mday'], $statusDate['year']));
+        }
+
+        $dates  = array('start', 'end', 'join');
+        $events = array('start', 'end');
+
+        foreach ( $dates as $dat ) {
+            $date  = explode('-', ${$dat.'Date'} );
+            ${$dat.'Year'}  = $date[0];
+            ${$dat.'Month'} = $date[1];
+            ${$dat.'Day'}   = $date[2];
+        }
+        
+        $query = "SELECT * FROM `civicrm_membership_status` WHERE `is_active`=1 AND `is_admin`!=1 ORDER BY weight ASC";
+        $membershipStatus =& new CRM_Core_DAO( );
+        $membershipStatus->query( $query );
+        
+        while ( $membershipStatus->fetch() ) {
+            $startEvent = null;
+            $endEvent   = null;
+            foreach ( $events as $eve ) {
+                foreach ( $dates as $dat ) {
+                    // calculate start-event/date
+                    if ( $membershipStatus->{$eve.'_event'} == $dat.'_date' ) {
+                        if ( $membershipStatus->{$eve.'_event_adjust_unit'} &&  $membershipStatus->{$eve.'_event_adjust_interval'} ) {
+                            if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'month' ) {//add in months
+                                ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
+                                                                      ${$dat.'Month'}+$membershipStatus->{$eve.'_event_adjust_interval'},
+                                                                      ${$dat.'Day'}, 
+                                                                      ${$dat.'Year'}));
+                            }
+                            if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'day' ) {//add in days 
+                                ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
+                                                                      ${$dat.'Month'},
+                                                                      ${$dat.'Day'}+$membershipStatus->{$eve.'_event_adjust_interval'}, 
+                                                                      ${$dat.'Year'}));
+                            }
+                            if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'year' ) {//add in years
+                                ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
+                                                                      ${$dat.'Month'},
+                                                                      ${$dat.'Day'}, 
+                                                                      ${$dat.'Year'}+$membershipStatus->{$eve.'_event_adjust_interval'}));
+                            }
+                        } else { // if no interval & unit present
+                            ${$eve.'Event'} = ${$dat.'Date'};
+                        }
+                    }
+                }
+            }
+
+            // check if statusDate is in the range of start & end events.
+            if ( $startEvent && $endEvent ) {
+                if ( ($statusDate >= $startEvent) && ($statusDate <= $endEvent) ) {
+                    $membershipDetails['id'] = $membershipStatus->id;
+                    $membershipDetails['name'] = $membershipStatus->name;
+                }
+            } elseif ( $startEvent ) {
+                if ( $statusDate >= $startEvent ) {
+                    $membershipDetails['id'] = $membershipStatus->id;
+                    $membershipDetails['name'] = $membershipStatus->name;
+                }
+            } elseif ( $endEvent ) {
+                if ( $statusDate <= $endEvent ) {
+                    $membershipDetails['id'] = $membershipStatus->id;
+                    $membershipDetails['name'] = $membershipStatus->name;
+                }
+            }
+            // returns FIRST status record for which status_date is in range.
+            if ( $membershipDetails ) { 
+                return $membershipDetails;
+            }
+        } //end fetch
+        
+        return $membershipDetails;
     }
 }
 ?>
