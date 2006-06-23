@@ -233,9 +233,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         require_once 'CRM/Contribute/Payment.php';
         $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
 
-        print_r($this->_params);
-        exit();
-        
         if ( $this->_contributeMode == 'express' ) {
             $result =& $payment->doExpressCheckout( $this->_params );
         } else {
