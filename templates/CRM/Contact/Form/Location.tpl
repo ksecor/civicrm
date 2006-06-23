@@ -8,10 +8,10 @@
  {section name = locationLoop start = 1 loop = $locationCount}
  {assign var=index value=$smarty.section.locationLoop.index}
 
- <div id="location[{$index}][show]" class="data-group label">
+ <div id="location_{$index}_show" class="data-group label">
     {$form.location.$index.show.html}{if $index EQ 1}{ts}Primary Location{/ts}{else}{ts}Additional Location{/ts}{/if}
  </div>
-<div id="location[{$index}]">
+<div id="location_{$index}">
 	<fieldset>
     <legend>{$form.location.$index.hide.html}
         {if $index EQ 1}{ts}Primary Location{/ts}{else}{ts}Additional Location{/ts}{/if}
@@ -24,7 +24,7 @@
         {$form.location.$index.is_primary.html}
 
         &nbsp; &nbsp; {$form.location.$index.name.label}
-        {$form.location.$index.name.html}
+        {$form.location.$index.name.html|crmReplace:class:big}
     </div>
 
     {* Display the phone block(s) *}

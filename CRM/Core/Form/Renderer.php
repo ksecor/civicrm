@@ -135,7 +135,7 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
         if (!$element->getAttribute('id')) {
             $name = $element->getAttribute('name');
             if ($name) {
-                $element->updateAttributes(array('id' => $name ));
+                $element->updateAttributes(array('id' => str_replace(array("]", "["), array("", "_"), $name) ));
             } // else {
             // $element->_generateId( );
             // }

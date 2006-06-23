@@ -70,7 +70,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {    
             $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_Core_PseudoConstant::locationType());
             $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", ts('Primary location for this contact'),  ts('Primary location for this contact'), array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks);" ) );
-            $location[$locationId]['name']                       =  $form->addElement('text', "location[$locationId][name]",ts('Location Name'),CRM_Core_PseudoConstant::locationType());
+            $location[$locationId]['name']                       =  $form->addElement('text', "location[$locationId][name]",ts('Location Name'),CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name'));
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
 
             CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, self::BLOCKS); 
@@ -94,14 +94,14 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
     function setShowHideDefaults( &$showHide, $maxLocationBlocks ) {
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
             if ( $locationId == 1 ) {
-                $showHide->addShow( "location[$locationId]" );
-                $showHide->addHide( "location[$locationId][show]" );
+                $showHide->addShow( "location_{$locationId}" );
+                $showHide->addHide( "location_{$locationId}_show" );
             } else {
-                $showHide->addHide( "location[$locationId]" );
+                $showHide->addHide( "location_{$locationId}" );
                 if ( $locationId == 2 ) {
-                    $showHide->addShow( "location[$locationId][show]" );
+                    $showHide->addShow( "location_{$locationId}_show" );
                 } else {
-                    $showHide->addHide( "location[$locationId][show]" );
+                    $showHide->addHide( "location_{$locationId}_show" );
                 }
             }
             
