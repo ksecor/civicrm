@@ -179,12 +179,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      */
     public function postProcess()
     {
-        $contactID = $this->get( 'contactID' );
+        //$contactID = $this->get( 'contactID' );
+        $session =& CRM_Core_Session::singleton( );
+        $contactID = $session->get( 'userID' );
+        $premiumParams = $params = $this->_params;
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)
-            $premiumParams = $params = $this->_params;
-         
             // so now we have a confirmed financial transaction
             // lets create or update a contact first
             require_once 'api/crm.php';
@@ -235,10 +236,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         if ( $this->_contributeMode == 'express' ) {
             $result =& $payment->doExpressCheckout( $this->_params );
-        } else {
+         } else {
             $result =& $payment->doDirectPayment( $this->_params );
         }
-
+        
         if ( is_a( $result, 'CRM_Core_Error' ) ) {
             CRM_Core_Error::displaySessionError( $result );
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
@@ -266,79 +267,127 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->assign('is_deductible' , true );
             $this->set('is_deductible' , true);
         }
-
+        
+        $contribution =  self::processContribution( $result ,$contactID ,$contributionType  );
+        
+        self::postProcessPremium( $premiumParams ,$contribution );
+            
+        
+        // finally send an email receipt
+        self::sendMail( $contactID );
+        
+    }
+    
+    /**
+     * Process the form
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcessPremium($premiumParams ,$contribution )
+    {
         // assigning Premium information to receipt tpl
         if ( $premiumParams['selectProduct'] && $premiumParams['selectProduct'] != 'no_thanks') {
             $startDate = $endDate = "";
-             $this->assign('selectPremium' , true );
-             require_once 'CRM/Contribute/DAO/Product.php';
-             $productDAO =& new CRM_Contribute_DAO_Product();
-             $productDAO->id = $premiumParams['selectProduct'];
-             $productDAO->find(true);
-             $this->assign('product_name' , $productDAO->name );
-             $this->assign('price', $productDAO->price);
-             $this->assign('sku', $productDAO->sku);
-             $this->assign('option',$premiumParams['options_'.$premiumParams['selectProduct']]);
-
-             $periodType = $productDAO->period_type;
+            $this->assign('selectPremium' , true );
+            require_once 'CRM/Contribute/DAO/Product.php';
+            $productDAO =& new CRM_Contribute_DAO_Product();
+            $productDAO->id = $premiumParams['selectProduct'];
+            $productDAO->find(true);
+            $this->assign('product_name' , $productDAO->name );
+            $this->assign('price', $productDAO->price);
+            $this->assign('sku', $productDAO->sku);
+            $this->assign('option',$premiumParams['options_'.$premiumParams['selectProduct']]);
+            
+            $periodType = $productDAO->period_type;
+            
+            if ( $periodType ) {
+                $fixed_period_start_day = $productDAO->fixed_period_start_day;
+                $duration_unit          = $productDAO->duration_unit;
+                $duration_interval      = $productDAO->duration_interval;
+                if ( $periodType == 'rolling' ) {
+                    $startDate = date('Y-m-d');
+                } else if ($periodType == 'fixed') {
+                    if ( $fixed_period_start_day ) {
+                        $date  = explode('-', date('Y-m-d') );
+                        $month     = substr( $fixed_period_start_day, 0, strlen($fixed_period_start_day)-2);
+                        $day       = substr( $fixed_period_start_day,-2)."<br>";
+                        $year      = $date[0];
+                        $startDate = $year.'-'.$month.'-'.$day;
+                    } else {
+                        $startDate = date('Y-m-d');
+                    }
+                }
                 
-             if ( $periodType ) {
-                 $fixed_period_start_day = $productDAO->fixed_period_start_day;
-                 $duration_unit          = $productDAO->duration_unit;
-                 $duration_interval      = $productDAO->duration_interval;
-                 
-                 if ( $periodType == 'rolling' ) {
-                     $startDate = date('Y-m-d');
-                 } else if ($periodType == 'fixed') {
-                     if ( $fixed_period_start_day ) {
-                         $date  = explode('-', date('Y-m-d') );
-                         $month     = substr( $fixed_period_start_day, 0, strlen($fixed_period_start_day)-2);
-                         $day       = substr( $fixed_period_start_day,-2)."<br>";
-                         $year      = $date[0];
-                         $startDate = $year.'-'.$month.'-'.$day;
-                     } else {
-                         $startDate = date('Y-m-d');
-                     }
-                 }
-                 
-                 $date  = explode('-', $startDate );
-                 $year  = $date[0];
-                 $month = $date[1];
-                 $day   = $date[2];
-                 
-                 switch ( $duration_unit ) {
-                 case 'year' :
-                     $year  = $year   + $duration_interval;
-                     break;
-                 case 'month':
-                     $month = $month  + $duration_interval;
-                     break;
-                 case 'day':
-                     $day   = $day    + $duration_interval;
-                     break;
-                 case 'week':
-                     $day   = $day    + ($duration_interval * 7);
-                 }
-                 $endDate = date('Y-m-d H:i:s',mktime($hour, $minute, $second, $month, $day, $year));
-                 $this->assign('start_date',$startDate);
-                 $this->assign('end_date',$endDate);
-             }
-             
-             require_once 'CRM/Contribute/DAO/Premium.php';
-             $dao = & new CRM_Contribute_DAO_Premium();
-             $dao->entity_table = 'civicrm_contribution_page';
-             $dao->entity_id    = $this->_id;
-             $dao->find(true);
-             $this->assign('contact_phone',$dao->premiums_contact_phone);
-             $this->assign('contact_email',$dao->premiums_contact_email);
-                          
+                $date  = explode('-', $startDate );
+                $year  = $date[0];
+                $month = $date[1];
+                $day   = $date[2];
+                
+                switch ( $duration_unit ) {
+                case 'year' :
+                    $year  = $year   + $duration_interval;
+                    break;
+                case 'month':
+                    $month = $month  + $duration_interval;
+                    break;
+                case 'day':
+                    $day   = $day    + $duration_interval;
+                    break;
+                case 'week':
+                    $day   = $day    + ($duration_interval * 7);
+                }
+                $endDate = date('Y-m-d H:i:s',mktime($hour, $minute, $second, $month, $day, $year));
+                $this->assign('start_date',$startDate);
+                $this->assign('end_date',$endDate);
+            }
+            
+            require_once 'CRM/Contribute/DAO/Premium.php';
+            $dao = & new CRM_Contribute_DAO_Premium();
+            $dao->entity_table = 'civicrm_contribution_page';
+            $dao->entity_id    = $this->_id;
+            $dao->find(true);
+            $this->assign('contact_phone',$dao->premiums_contact_phone);
+            $this->assign('contact_email',$dao->premiums_contact_email);
+            
+
+
+        
+            //create Premium record
+            
+            require_once 'CRM/Contribute/DAO/Product.php';
+            $productDAO =& new CRM_Contribute_DAO_Product();
+            $productDAO->id = $premiumParams['selectProduct'];
+            $productDAO->find(true);
+            
+            $periodType = $productDAO->period_type;
+            
+            require_once 'CRM/Utils/Date.php';
+            $params = array(
+                            'product_id'         => $premiumParams['selectProduct'],
+                            'contribution_id'    => $contribution->id,
+                            'product_option'     => $premiumParams['options_'.$premiumParams['selectProduct']],
+                            'quantity'           => 1,
+                            'start_date'         => CRM_Utils_Date::customFormat($startDate,'%Y%m%d'),
+                            'end_date'           => CRM_Utils_Date::customFormat($endDate,'%Y%m%d'),
+                            );
+            
+            CRM_Contribute_BAO_Contribution::addPremium($params);
         }
+    }
 
+    /**
+     * Process the form
+     *
+     * @return void
+     * @access public
+     */
+    public function processContribution( $result ,$contactID ,$contributionType  ) {
         CRM_Core_DAO::transaction( 'BEGIN' );
-
+        
         $nonDeductibleAmount = $result['gross_amount'];
         if ( $contributionType->is_deductible ) {
-            if ( $premiumParams['selectProduct'] != 'no_thanks' ) {
+            if ( $this->_params['selectProduct'] != 'no_thanks' ) {
                 require_once 'CRM/Contribute/DAO/Product.php';
                 $productDAO =& new CRM_Contribute_DAO_Product();
                 $productDAO->id = $premiumParams['selectProduct'];
@@ -351,7 +400,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             } else {
                 $nonDeductibleAmount = '0.00';
             }
-
+            
             // check contribution Type
             // first create the contribution record
             $params = array(
@@ -373,29 +422,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $ids = array( );
             $contribution =& CRM_Contribute_BAO_Contribution::add( $params, $ids );
 
-            //create Premium record
-            if ( $premiumParams['selectProduct'] && $premiumParams['selectProduct'] != 'no_thanks') {
-               
-                require_once 'CRM/Contribute/DAO/Product.php';
-                $productDAO =& new CRM_Contribute_DAO_Product();
-                $productDAO->id = $premiumParams['selectProduct'];
-                $productDAO->find(true);
-               
-                $periodType = $productDAO->period_type;
-                              
-                require_once 'CRM/Utils/Date.php';
-                $params = array(
-                                'product_id'         => $premiumParams['selectProduct'],
-                                'contribution_id'    => $contribution->id,
-                                'product_option'     => $premiumParams['options_'.$premiumParams['selectProduct']],
-                                'quantity'           => 1,
-                                'start_date'         => CRM_Utils_Date::customFormat($startDate,'%Y%m%d'),
-                                'end_date'           => CRM_Utils_Date::customFormat($endDate,'%Y%m%d'),
-                                );
-                                
-                CRM_Contribute_BAO_Contribution::addPremium($params);
-            }
-
+           
             // process the custom data that is submitted or that came via the url
             $groupTree    = $this->get( 'groupTree' );
             $customValues = $this->get( 'customGetValues' );
@@ -439,11 +466,19 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
             CRM_Core_DAO::transaction( 'COMMIT' );
         }
+        return $contribution;
+    }
 
-        // finally send an email receipt
+     /**
+     * Process that send e-mails
+     *
+     * @return void
+     * @access public
+     */
+    function sendMail( $contactID ) {
         if ( $this->_values['is_email_receipt'] ) {
             list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
-
+            
             $template =& CRM_Core_Smarty::singleton( );
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
@@ -460,6 +495,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                   );
             
         }
+        
+
     }
 }
 
