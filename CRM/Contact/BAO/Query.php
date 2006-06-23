@@ -320,7 +320,8 @@ class CRM_Contact_BAO_Query {
         }
 
         $this->selectClause( ); 
-        $this->_whereClause      = $this->whereClause( ); 
+        $this->_whereClause      = $this->whereClause( );
+
         $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode ); 
         $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
     }
@@ -379,7 +380,6 @@ class CRM_Contact_BAO_Query {
         //CRM_Core_Error::debug( 'p', $this->_params );
         
         foreach ($this->_fields as $name => $field) {
-
             // if this is a hierarchical name, we ignore it
             $names = explode( '-', $name );
             if ( count( $names > 1 ) && is_numeric( $names[1] ) ) {
@@ -549,7 +549,7 @@ class CRM_Contact_BAO_Query {
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
             $locationJoin = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = contact_a.id AND $lCond )"; 
-            $this->_tables[ 'civicrm_location_' . $index ] = $locationJoin;            
+            $this->_tables[ $tName ] = $locationJoin;            
             $locationIndex = $index;
 
             $tName  = "$name-location_type";
@@ -559,14 +559,14 @@ class CRM_Contact_BAO_Query {
             $this->_element["{$tName}_id"]  = 1;
             $this->_element["{$tName}"   ]  = 1;  
             $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ($lName.location_type_id = $ltName.id )";
-            $this->_tables[ 'civicrm_location_type_' . $index ] = $locationTypeJoin;
+            $this->_tables[ $tName ] = $locationTypeJoin;
 
-            $aName = "`$name-address`";
             $tName = "$name-address";
+            $aName = "`$name-address`";
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
             $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
-            $this->_tables[ 'civicrm_address_' . $index ] = $addressJoin;
+            $this->_tables[ $tName ] = $addressJoin;
 
             $processed[$lName] = $processed[$aName] = 1;
             foreach ( $elements as $elementFullName => $dontCare ) {
@@ -613,10 +613,10 @@ class CRM_Contact_BAO_Query {
                         }
                     }
                 }
+
                 if ( $addWhere ) {
-                    $addWhere = true;
-                    $this->_whereTables[ "civicrm_location_{$locationIndex}" ] = $locationJoin;
-                    $this->_whereTables[ "civicrm_location_type_{$locationIndex}" ] = $locationTypeJoin;
+                    $this->_whereTables[ "{$name}-location" ] = $locationJoin;
+                    $this->_whereTables[ "{$name}-location_type" ] = $locationTypeJoin;
                 }
                 
                 if ( $field && isset( $field['where'] ) ) {
@@ -639,25 +639,34 @@ class CRM_Contact_BAO_Query {
                             case 'civicrm_phone':
                             case 'civicrm_email':
                             case 'civicrm_im':
-                                $this->_tables[$newName] = "\nLEFT JOIN $tableName `$tName` ON $lName.id = `$tName`.location_id AND `$tName`.$cond";
+                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON $lName.id = `$tName`.location_id AND `$tName`.$cond";
+                                if ( $addWhere ) {
+                                    $this->_whereTables[$tName] = $this->_tables[$tName];
+                                }
                                 break;
 
                             case 'civicrm_state_province':
-                                $this->_tables[$newName] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.state_province_id";
+                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.state_province_id";
                                 if ( $addWhere ) {
-                                    $this->_whereTables[ "civicrm_address_{$locationIndex}" ] = $addressJoin;
+                                    $this->_whereTables[ "{$name}-address" ] = $addressJoin;
+                                    $this->_whereTables[$tName] = $this->_tables[$tName];
                                 }
                                 break;
 
                             case 'civicrm_country':
                                 $this->_tables[$newName] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.country_id";
                                 if ( $addWhere ) {
-                                    $this->_whereTables[ "civicrm_address_{$locationIndex}" ] = $addressJoin;
+                                    $this->_whereTables[ "{$name}-address" ] = $addressJoin;
+                                    $this->_whereTables[$newName] = $this->_tables[$newName];
                                 }
                                 break;
-                            }
-                            if ( $addWhere ) {
-                                $this->_whereTables[$newName] = $this->_tables[$newName];
+
+                            default:
+                                if ( $addWhere ) {
+                                    $this->_whereTables[ "{$name}-address" ] = $addressJoin;
+                                }
+                                break;
+
                             }
                         }
                     }
@@ -916,6 +925,8 @@ class CRM_Contact_BAO_Query {
                 return;
             }
         }
+        
+        $setTables = true;
 
         // FIXME: the LOWER/strtolower pairs below most probably won't work
         // with non-US-ASCII characters, as even if MySQL does the proper
@@ -1004,13 +1015,19 @@ class CRM_Contact_BAO_Query {
                 }
 
                 if (is_numeric($locType[1])) {
+                    $setTables = false;
                     list($tbName, $fldName) = explode("." , $field['where']);
                     
                     //get the location name //kurund
                     $locationType =& CRM_Core_PseudoConstant::locationType();
-                    $tName = $locationType[$locType[1]] . "-" . $locType[0] . '-1';
+                    if ( $locType[0] == 'email' || $locType[0] == 'im' || $locType[0] == 'phone' ) {
+                        $tName = $locationType[$locType[1]] . "-" . $locType[0] . '-1';
+                    } else {
+                        $tName = $locationType[$locType[1]] . "-address";
+                    }
                     $where = "`$tName`.$fldName";
                     $this->_where[$grouping][] = "LOWER( $where ) $op '$value'";
+                    $this->_whereTables[$tName] = $this->_tables[$tName];
                 } else {
                     $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
                 }
@@ -1019,13 +1036,13 @@ class CRM_Contact_BAO_Query {
             }
         }
 
-        list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
-        if ( isset( $tableName ) ) { 
-            $this->_tables[$tableName] = 1;  
-            $this->_whereTables[$tableName] = 1;  
+        if ( $setTables ) {
+            list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
+            if ( isset( $tableName ) ) { 
+                $this->_tables[$tableName] = 1;  
+                $this->_whereTables[$tableName] = 1;  
+            }
         }
-        // CRM_Core_Error::debug( 'f', $field );
-        // CRM_Core_Error::debug( $value, $this->_qill );
     }
 
         
@@ -1167,9 +1184,7 @@ class CRM_Contact_BAO_Query {
             $k = 99;
             if ( strpos( $key, '-' ) ) {
                 $keyArray = explode('-', $key);
-                if ( is_numeric( array_shift( $keyArray ) ) ) {
-                    $k = CRM_Utils_Array::value( 'civicrm_' . $keyArray[0], $info, 99 );
-                }
+                $k = CRM_Utils_Array::value( 'civicrm_' . $keyArray[1], $info, 99 );
             } if ( strpos( $key, '_' ) ) {
                 $keyArray = explode( '_', $key );
                 if ( is_numeric( array_pop( $keyArray ) ) ) {

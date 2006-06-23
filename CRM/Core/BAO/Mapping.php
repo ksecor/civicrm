@@ -633,7 +633,11 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         if ( $v[3] ) {
                             // DOES NOT WORK, fix
                         }
-                        $fields['location'][$locationName][$v[1] . "-1"] = 1;
+                        if ( $v[1] == 'phone' || $v[1] == 'email' || $v[1] == 'im' ) {
+                            $fields['location'][$locationName][$v[1] . "-1"] = 1;
+                        } else {
+                            $fields['location'][$locationName][$v[1]] = 1;
+                        }
                     } else {
                         $fields[$v[1]] = 1;
                     }
