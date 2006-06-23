@@ -569,6 +569,16 @@ define( 'CIVICRM_FATAL_ERROR_TEMPLATE', 'CRM/error.tpl' );
 define( 'CIVICRM_FATAL_ERROR_HANDLER',  '');
 
 /**
+ * File encoding conversion:
+ *
+ * CiviCRM expects the import files to be in the UTF-8 encoding. That said,
+ * in most cases (Excel CSV files) the encoding is not UTF-8. In such cases,
+ * CiviCRM will recode any non-UTF-8 file to UTF-8 assuming the file's encoding
+ * is the one specified below.
+ */
+define( 'CIVICRM_LEGACY_ENCODING', 'Windows-1250' );
+
+/**
  * 
  * Do not change anything below this line. Keep as is
  *
