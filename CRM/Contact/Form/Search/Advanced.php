@@ -202,8 +202,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     public function customDataSearch() {
         
         // expand on search result if criteria entered
-        
         $customDataSearch = $this->get('customDataSearch');
+        
         if ( !empty($customDataSearch)) {
             $customAssignHide = array();
             $customAssignShow = array();
@@ -223,8 +223,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->assign('groupTree', $groupDetails);
 
         foreach ($groupDetails as $group) {
-            $_groupTitle[]           = $group['title'];
-            CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
+            $_groupTitle[]           = $group['name'];
+            CRM_Core_ShowHideBlocks::links( $this, $group['name'], '', '');
             
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {

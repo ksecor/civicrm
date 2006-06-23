@@ -12,7 +12,7 @@
         <tr class="columnheader">
             <th>{ts}CiviCRM Field Name{/ts}</th>
             <th>{ts}Visibility{/ts}</th>
-            <th>{ts}Searchable?{/ts}
+            <th>{ts}Searchable?{/ts}</th>
             <th>{ts}In Selector?{/ts}</th>
             <th>{ts}Weight{/ts}</th>
             <th>{ts}Active{/ts}</th>	

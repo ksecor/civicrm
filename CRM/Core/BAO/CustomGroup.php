@@ -129,7 +129,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                        'is_required', 'help_post','options_per_line','start_date_years','end_date_years','date_parts'),
-                           'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post', 'collapse_display'),
+                           'civicrm_custom_group' => array('id', 'name', 'title', 'help_pre', 'help_post', 'collapse_display'),
                            );
 
         // since we have an entity id, lets get it's custom values too.
@@ -493,7 +493,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                            'is_required', 'help_post','options_per_line', 'is_searchable','start_date_years','end_date_years', 'is_search_range','date_parts','note_columns','note_rows'),
-                           'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post' ),
+                           'civicrm_custom_group' => array('id', 'name', 'title', 'help_pre', 'help_post' ),
                            );
 
         // create select
@@ -546,6 +546,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             if (!array_key_exists($groupId, $groupTree)) {
                 $groupTree[$groupId] = array();
                 $groupTree[$groupId]['id'] = $groupId;
+                $groupTree[$groupId]['name'] = $crmDAO->civicrm_custom_group_name;
                 $groupTree[$groupId]['title'] = $crmDAO->civicrm_custom_group_title;
                 $groupTree[$groupId]['help_pre'] = $crmDAO->civicrm_custom_group_help_pre;
                 $groupTree[$groupId]['help_post'] = $crmDAO->civicrm_custom_group_help_post;
@@ -983,11 +984,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             } 
  
             if ( $group['collapse_display'] ) { 
-                $sBlocks[] = "'". $group['title'] . "[show]'" ; 
-                $hBlocks[] = "'". $group['title'] ."'"; 
+                $sBlocks[] = "'". $group['name'] . "[show]'" ; 
+                $hBlocks[] = "'". $group['name'] ."'"; 
             } else { 
-                $hBlocks[] = "'". $group['title'] . "[show]'" ; 
-                $sBlocks[] = "'". $group['title'] ."'"; 
+                $hBlocks[] = "'". $group['name'] . "[show]'" ; 
+                $sBlocks[] = "'". $group['name'] ."'"; 
             } 
         } 
              
@@ -1134,11 +1135,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
             //showhide group
             if ( $group['collapse_display'] ) {
-                $sBlocks[] = "'". $group['title'] . "[show]'" ;
-                $hBlocks[] = "'". $group['title'] ."'";
+                $sBlocks[] = "'". $group['name'] . "[show]'" ;
+                $hBlocks[] = "'". $group['name'] ."'";
             } else {
-                $hBlocks[] = "'". $group['title'] . "[show]'" ;
-                $sBlocks[] = "'". $group['title'] ."'";
+                $hBlocks[] = "'". $group['name'] . "[show]'" ;
+                $sBlocks[] = "'". $group['name'] ."'";
             }
         }
         

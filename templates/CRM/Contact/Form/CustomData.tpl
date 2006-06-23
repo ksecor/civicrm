@@ -1,12 +1,12 @@
 
 {strip}
 {foreach from=$groupTree item=cd_edit key=group_id}
-    <div id="{$cd_edit.title}[show]" class="data-group">
-    <a href="#" onclick="hide('{$cd_edit.title}[show]'); show('{$cd_edit.title}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
+    <div id="{$cd_edit.name}[show]" class="data-group">
+    <a href="#" onclick="hide('{$cd_edit.name}[show]'); show('{$cd_edit.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
     </div>
 
-    <div id="{$cd_edit.title}" class="form-item">
-    <fieldset><legend><a href="#" onclick="hide('{$cd_edit.title}'); show('{$cd_edit.title}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
+    <div id="{$cd_edit.name}" class="form-item">
+    <fieldset><legend><a href="#" onclick="hide('{$cd_edit.name}'); show('{$cd_edit.name}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd_edit.title}{/ts}</legend>
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div>{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
