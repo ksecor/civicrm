@@ -362,6 +362,13 @@ class CRM_Core_Config {
     public $fatalErrorHandler = null;
 
     /**
+     * legacy encoding for file encoding conversion
+     *
+     * @var string
+     */
+    public $legacyEncoding = 'Windows-1252';
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -744,6 +751,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_FATAL_ERROR_HANDLER' ) ) {
             $this->fatalErrorTemplate = CIVICRM_FATAL_ERROR_HANDLER;
+        }
+
+        if ( defined( 'CIVICRM_LEGACY_ENCODING' ) ) {
+            $this->legacyEncoding = CIVICRM_LEGACY_ENCODING;
         }
 
         require_once 'CRM/Core/Component.php';

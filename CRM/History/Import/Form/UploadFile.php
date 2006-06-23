@@ -66,7 +66,7 @@ class CRM_History_Import_Form_UploadFile extends CRM_Core_Form {
         $this->addRule( 'uploadFile', ts('A valid file must be uploaded.'), 'uploadedfile' );
         $this->addRule( 'uploadFile', ts('File size should be less than %1 MBytes (%2 bytes)', array(1 => $uploadSize, 2 => $uploadFileSize)), 'maxfilesize', $uploadFileSize );
         $this->setMaxFileSize( $uploadFileSize );
-        $this->addRule( 'uploadFile', ts('Input file must be in CSV format'), 'asciiFile' );
+        $this->addRule( 'uploadFile', ts('Input file must be in CSV format'), 'utf8File' );
 
         $this->addElement( 'checkbox', 'skipColumnHeader', ts('First row contains column headers') );
 

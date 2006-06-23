@@ -333,6 +333,33 @@ class CRM_Utils_Rule {
     }
 
     /**
+     * Checks to make sure the uploaded file is in UTF-8, recodes if it's not
+     *
+     * @param     array     Uploaded file info (from $_FILES)
+     * @access    private
+     * @return    bool      whether file has been uploaded properly and is now in UTF-8
+     */
+    static function utf8File( $elementValue ) {
+        $success = false;
+
+        if ((isset($elementValue['error']) && $elementValue['error'] == 0) ||
+            (!empty($elementValue['tmp_name']) && $elementValue['tmp_name'] != 'none')) {
+
+            $success = CRM_Utils_File::isAscii($elementValue['tmp_name']);
+
+            // if it's a file, but not UTF-8, let's try and recode it
+            // and then make sure it's an UTF-8 file in the end
+            if (!$success) {
+                $success = CRM_Utils_File::toUtf8($elementValue['tmp_name']);
+                if ($success) {
+                    $success = CRM_Utils_File::isAscii($elementValue['tmp_name']);
+                }
+            }
+        }
+        return $success;
+    }
+
+    /**
      * see how file rules are written in HTML/QuickForm/file.php
      * Checks to make sure the uploaded file is html
      *

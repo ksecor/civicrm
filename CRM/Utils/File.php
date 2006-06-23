@@ -159,6 +159,41 @@ class CRM_Utils_File {
         }
     }
 
+    /**
+     * Given a file name, recode it (in place!) to UTF-8
+     *
+     * @param string $name name of file
+     *
+     * @return boolean  whether the file was recoded properly
+     * @access public
+     */
+    static function toUtf8( $name ) {
+        require_once 'CRM/Core/Config.php';
+        static $config         = null;
+        static $legacyEncoding = null;
+        if ($config == null) {
+            $config =& CRM_Core_Config::singleton();
+            $legacyEncoding = $config->legacyEncoding;
+        }
+
+        if (!function_exists('iconv')) return false;
+
+        $contents = file_get_contents($name);
+        if ($contents === false) return false;
+
+        $contents = iconv($legacyEncoding, 'UTF-8', $contents);
+        if ($contents === false) return false;
+
+        $file = fopen($name, 'w');
+        if ($file === false) return false;
+
+        $written = fwrite($file, $contents);
+        $closed  = fclose($file);
+        if ($written === false or !$closed) return false;
+
+        return true;
+    }
+
 }
 
 ?>

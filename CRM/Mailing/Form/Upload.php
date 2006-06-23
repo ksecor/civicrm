@@ -70,12 +70,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->addElement( 'file', 'textFile', ts('Upload Text Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
-        $this->addRule( 'textFile', ts('File must be in ascii format'), 'asciiFile' );
+        $this->addRule( 'textFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
 
         $this->addElement( 'file', 'htmlFile', ts('Upload HTML Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
-        $this->addRule( 'htmlFile', ts('File must be in ascii format'), 'asciiFile' );
+        $this->addRule( 'htmlFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
         
         $this->add( 'select', 'header_id', ts( 'Mailing Header' ), CRM_Mailing_PseudoConstant::component( 'Header' ) );
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), CRM_Mailing_PseudoConstant::component( 'Footer' ) );
