@@ -576,7 +576,7 @@ define( 'CIVICRM_FATAL_ERROR_HANDLER',  '');
  * CiviCRM will recode any non-UTF-8 file to UTF-8 assuming the file's encoding
  * is the one specified below.
  */
-define( 'CIVICRM_LEGACY_ENCODING', 'Windows-1250' );
+define( 'CIVICRM_LEGACY_ENCODING', 'Windows-1252' );
 
 /**
  * 
