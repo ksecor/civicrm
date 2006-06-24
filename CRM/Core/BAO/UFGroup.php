@@ -1035,6 +1035,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         $ufGroups = array( );
         while ($dao->fetch( )) {
+            if (!self::filterUFGroups($dao->id)) {
+                continue;
+            }
             $ufGroups[$dao->id]['name'     ] = $dao->title;
             $ufGroups[$dao->id]['title'    ] = $dao->title;
             $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
@@ -1114,6 +1117,40 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             CRM_Core_DAO::executeQuery($query, $p);
         }
     }
+
+    /**
+     * Function to filter ufgroups based on logged in user contact type
+     *
+     * @params int $ufGroupId uf group id (profile id)
+     *
+     * @return boolean true or false
+     * @static
+     * @access public
+     */
+    static function filterUFGroups ($ufGroupId) 
+    {
+        global $user;
+
+        require_once "CRM/Core/BAO/UFMatch.php";
+        $contactId = CRM_Core_BAO_UFMatch::getContactId($user->uid);
+
+        if ($contactId) {
+            //get the contact type
+            require_once "CRM/Contact/BAO/Contact.php";
+            $contactType = CRM_Contact_BAO_Contact::getContactType($contactId);
+            
+            //match if exixting contact type is same as profile contact type
+            require_once "CRM/Core/BAO/UFField.php";
+            $profileType = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
+
+            if ($contactType == $profileType) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
 
 ?>

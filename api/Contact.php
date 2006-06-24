@@ -586,17 +586,18 @@ function &crm_get_property_values( $name ) {
  * function to add/edit/register contacts through profile.
  *
  * @params  array  $params       Array of profile fields to be edited/added.
- * @params  int    $contactID    contact_id of the contact to be edited/added.
  * @params  array  $fields       array of fields from UFGroup
- * @params  int    addToGroupID  specifies the default group to which contact is added.
+ * @params  int    $ufGroupId    uf group id
+ * @params  int    $contactID    contact_idof the contact to be edited/added.
+ * @params  int    $addToGroupID specifies the default group to which contact is added.
  *
  * @return null
  * @access public
  */
 
-function crm_create_profile_contact( $params, $fields, $contactID = null, $addToGroupID = null ) {
+function crm_create_profile_contact( $params, $fields, $ufGroupId, $contactID = null, $addToGroupID = null ) {
     require_once 'CRM/Contact/BAO/Contact.php';
-    CRM_Contact_BAO_Contact::createProfileContact($params, $fields, $contactID, $addToGroupID );
+    CRM_Contact_BAO_Contact::createProfileContact($params, $fields, $contactID, $addToGroupID, $ufGroupId );
 
 }
 
