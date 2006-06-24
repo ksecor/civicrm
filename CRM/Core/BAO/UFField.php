@@ -382,5 +382,33 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         }
         return false;
     }
+
+    /**
+     * function to get the profile type (eg: individual/organization/household)
+     *
+     * @params int $ufGroupId  uf group id 
+     *
+     * @return  contact_type
+     * @acess public
+     * @static
+     */
+    static function getProfileType($ufGroupId) 
+    {
+        require_once "CRM/Core/SelectValues.php";
+        $contactTypes = CRM_Core_SelectValues::contactType();
+
+        $ufField =& new CRM_Core_DAO_UFField();
+        $ufField->uf_group_id = $ufGroupId;
+        
+        $ufField->find();
+        $fields = array( );
+        
+        while ( $ufField->fetch() ) {
+            if ( array_key_exists( $ufField->field_type, $contactTypes ) ) {
+                return $ufField->field_type;
+            }
+        }
+    }
+
 }
 ?>

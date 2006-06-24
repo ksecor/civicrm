@@ -1751,20 +1751,24 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
     /**
      * function to add/edit/register contacts through profile.
      *
-     * @params  array  $params       Array of profile fields to be edited/added.
-     * @params  int    $contactID    contact_id of the contact to be edited/added.
-     * @params  array  $fields       array of fields from UFGroup
-     * @params  int    addToGroupID  specifies the default group to which contact is added.
+     * @params  array  $params        Array of profile fields to be edited/added.
+     * @params  int    $contactID     contact_id of the contact to be edited/added.
+     * @params  array  $fields        array of fields from UFGroup
+     * @params  int    $addToGroupID  specifies the default group to which contact is added.
+     * $params  int    $ufGroupId     uf group id (profile id)
      *
      * @return null
      * @static
      * @access public
      */
-    static function createProfileContact( &$params, &$fields, $contactID = null, $addToGroupID = null ) {
-        
+    static function createProfileContact( &$params, &$fields, $contactID = null, $addToGroupID = null, $ufGroupId = null ) {
         $data = array( );
-        $data['contact_type'] = 'Individual';
-       
+        if ($ufGroupId) {
+            $data['contact_type'] = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
+        } else {
+            $data['contact_type'] = 'Individual';
+        }
+
         // get the contact details (hier)
         if ( $contactID ) {
             list($details, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactID, $fields );

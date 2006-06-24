@@ -656,7 +656,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             CRM_Core_BAO_Address::setOverwrite( false );
         }
         
-        CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields, $this->_id, $this->_addToGroupID );
+        CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields, $this->_id, $this->_addToGroupID, $this->_gid );
     }
 }
 
