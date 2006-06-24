@@ -98,6 +98,13 @@
       <add>1.5</add>  
   </field> 
   <field>  
+      <name>is_default</name>     
+      <title>Default Status?</title>
+      <type>boolean</type>
+      <comment>Assign this status to a membership record if no other status match is found.</comment>
+      <add>1.5</add>  
+  </field> 
+  <field>  
       <name>is_active</name>     
       <title>Is Active</title>
       <type>boolean</type>
