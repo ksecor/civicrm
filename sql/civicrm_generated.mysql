@@ -702,7 +702,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_membership_status` DISABLE KEYS */;
 LOCK TABLES `civicrm_membership_status` WRITE;
-INSERT INTO `civicrm_membership_status` VALUES (1,1,'New','join_date',NULL,NULL,'join_date','month',3,1,0,1,1),(2,1,'Current','start_date',NULL,NULL,'end_date',NULL,NULL,1,0,2,1),(3,1,'Grace','end_date',NULL,NULL,'end_date','month',1,1,0,3,1),(4,1,'Expired','end_date','month',1,NULL,NULL,NULL,0,0,4,1);
+INSERT INTO `civicrm_membership_status` VALUES (1,1,'New','join_date',NULL,NULL,'join_date','month',3,1,0,1,1,0),(2,1,'Current','start_date',NULL,NULL,'end_date',NULL,NULL,1,0,2,1,1),(3,1,'Grace','end_date',NULL,NULL,'end_date','month',1,1,0,3,1,0),(4,1,'Expired','end_date','month',1,NULL,NULL,NULL,0,0,4,1,0);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_membership_status` ENABLE KEYS */;
 
