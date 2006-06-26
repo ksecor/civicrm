@@ -182,7 +182,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         //$contactID = $this->get( 'contactID' );
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
-        $premiumParams = $params = $this->_params;
+        $premiumParams = $membershipParams = $params = $this->_params;
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)
@@ -217,65 +217,164 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contactID = $contact->id;
 
             $this->set( 'contactID', $contactID );
+        } else {
+            $idParams = array( 'id' => $contactID, 'contact_id' => $contactID );
+            $defaults = array( );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+            $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
         }
 
-        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-        $contributionType->id = $this->_values['contribution_type_id'];
-        if ( ! $contributionType->find( true ) ) {
-            CRM_Core_Error::fatal( "Could not find a system table" );
-        }
-        
-        // add some contribution type details to the params list
-        // if folks need to use it
-        $this->_params['contributionType_name']            = $contributionType->name;
-        $this->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
-        $this->_params['contributionForm_id']              = $this->_values['id'];
+        if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks') {
+            require_once 'CRM/Member/BAO/MembershipType.php';
+            require_once 'CRM/Member/BAO/Membership.php';
+            $membersshipID = $membershipParams['selectMembership'];
+            $membersshipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membersshipID );
+            $minimumFee = $membersshipDetails['minimum_fee'];
+            $memBlockDetails    = CRM_Member_BAO_Membership::getMemershipBlock( $this->id );
+            $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+            if ( $this->_values['amount_block_is_active']) {
+                $contributionType->id = $this->_values['contribution_type_id'];
+            } else {
+                $contributionType->id = $membersshipDetails['contribution_type_id']; 
+            }
+            if ( ! $contributionType->find( true ) ) {
+                CRM_Core_Error::fatal( "Could not find a system table" );
+            }
+            $membershipParams['contributionType_name'] = $contributionType->name;
+            $membershipParams['contributionType_accounting_code'] = $contributionType->accounting_code;
+            $membershipParams['contributionForm_id']              = $this->_values['id'];
+            
+            require_once 'CRM/Contribute/Payment.php';
+            $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
+            
+            if ( $this->_contributeMode == 'express' ) {
+                $result =& $payment->doExpressCheckout( $membershipParams);
+            } else {
+                $result =& $payment->doDirectPayment( $membershipParams );
+            }
 
-        require_once 'CRM/Contribute/Payment.php';
-        $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
+            if ( is_a( $result, 'CRM_Core_Error' ) ) {
+                $errors[] = $result;
+            } else {
+                $now = date( 'YmdHis' );
+                $membershipParams = array_merge($membershipParams, $result );
+                $membershipParams['receive_date'] = $now;
+                $this->set( 'params', $membershipParams );
+                $this->assign( 'trxn_id', $result['trxn_id'] );
+                $this->assign( 'receive_date',
+                               CRM_Utils_Date::mysqlToIso( $membershipParams['receive_date']) );
 
-        if ( $this->_contributeMode == 'express' ) {
-            $result =& $payment->doExpressCheckout( $this->_params );
-         } else {
-            $result =& $payment->doDirectPayment( $this->_params );
-        }
-        
-        if ( is_a( $result, 'CRM_Core_Error' ) ) {
-            CRM_Core_Error::displaySessionError( $result );
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
-        }
+                $config =& CRM_Core_Config::singleton( );
+                if ( $contributionType->is_deductible ) {
+                    $this->assign('is_deductible' , true );
+                    $this->set('is_deductible' , true);
+                }
+                $contribution[1] =  self::processContribution( $membershipParams ,$result ,$contactID ,$contributionType  );
+                self::postProcessPremium( $premiumParams ,$contribution );
+                // finally send an email receipt
+                self::sendMail( $contactID );
+            }
 
-        $now = date( 'YmdHis' );
-
-        $this->_params = array_merge( $this->_params, $result );
-        $this->_params['receive_date'] = $now;
-        $this->set( 'params', $this->_params );
-        $this->assign( 'trxn_id', $result['trxn_id'] );
-        $this->assign( 'receive_date',
-                       CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
-
-        // result has all the stuff we need
-        // lets archive it to a financial transaction
-        $config =& CRM_Core_Config::singleton( );
-
-        $receiptDate = null;
-        if ( $this->_values['is_email_receipt'] ) {
-            $receiptDate = $now;
-        }
-       
-        if ( $contributionType->is_deductible ) {
-            $this->assign('is_deductible' , true );
-            $this->set('is_deductible' , true);
-        }
-        
-        $contribution =  self::processContribution( $result ,$contactID ,$contributionType  );
-        
-        self::postProcessPremium( $premiumParams ,$contribution );
+            if ( $memBlockDetails['is_separate_payment'] ) {
+                $membershipParams['amount'] = $minimumFee;
+                if ( $this->_contributeMode == 'express' ) {
+                    $result =& $payment->doExpressCheckout( $membershipParams);
+                } else {
+                    $result =& $payment->doDirectPayment( $membershipParams );
+                }
+                if ( is_a( $result, 'CRM_Core_Error' ) ) {
+                    $errors[] = $result;
+                } else {
+                    $contribution[] =  self::processContribution( $membershipParams ,$result ,$contactID ,$contributionType  );
+                }
+            }
+            if ( $memBlockDetails['is_separate_payment'] ) {
+                $index = 2;
+            } else {
+                $index = 1;
+            }
+            if ( ! $errors[$index] ){
+                if ( $currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID , $membersshipID) ) {
+                                      
+                   
+                } else {
+                    require_once 'CRM/Member/BAO/MembershipStatus.php';
+                    $membershipParams = array();
+                    $membershipParams['contact_id']             = $contactID;
+                    $membershipParams['membership_type_id']     = $membersshipID;
+                    $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membersshipID);
+                    
+                    $membershipParams['join_date']  = $date['join_date'];
+                    $membershipParams['start_date'] = $date['start_date'];
+                    $membershipParams['end_date']   = $date['end_date'];
+                    $membershipParams['source'  ]   = "Online Contribution";
+                    $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $date['start_date'],$date['end_date'], $date['join_date']) ;
+                    $membershipParams['status_id']   = $status['id'];
+                    $membershipParams['is_override'] = true;
+                    $dao = &new CRM_Member_DAO_Membership();
+                    $dao->copyValues($membershipParams);
+                    $dao->save();
+                }
+                //insert payment record
+                require_once 'CRM/Member/DAO/MembershipPayment.php';
+                $dao = &new CRM_Member_DAO_MembershipPayment();    
+                
+            }
+            
+            
+        } else {
+            $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+            $contributionType->id = $this->_values['contribution_type_id'];
+            if ( ! $contributionType->find( true ) ) {
+                CRM_Core_Error::fatal( "Could not find a system table" );
+            }
+            
+            // add some contribution type details to the params list
+            // if folks need to use it
+            $this->_params['contributionType_name']            = $contributionType->name;
+            $this->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
+            $this->_params['contributionForm_id']              = $this->_values['id'];
+            
+            require_once 'CRM/Contribute/Payment.php';
+            $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
+            
+            if ( $this->_contributeMode == 'express' ) {
+                       $result =& $payment->doExpressCheckout( $this->_params );
+                     } else {
+                         $result =& $payment->doDirectPayment( $this->_params );
+               }
+            
+            if ( is_a( $result, 'CRM_Core_Error' ) ) {
+                CRM_Core_Error::displaySessionError( $result );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
+            }
+            
+            $now = date( 'YmdHis' );
+            
+            $this->_params = array_merge( $this->_params, $result );
+            $this->_params['receive_date'] = $now;
+            $this->set( 'params', $this->_params );
+            $this->assign( 'trxn_id', $result['trxn_id'] );
+            $this->assign( 'receive_date',
+                           CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+            
+            // result has all the stuff we need
+            // lets archive it to a financial transaction
+            $config =& CRM_Core_Config::singleton( );
+            if ( $contributionType->is_deductible ) {
+                $this->assign('is_deductible' , true );
+                $this->set('is_deductible' , true);
+            }
+            
+            $contribution =  self::processContribution( $this->_params ,$result ,$contactID ,$contributionType  );
+            
+            self::postProcessPremium( $premiumParams ,$contribution );
             
         
-        // finally send an email receipt
-        self::sendMail( $contactID );
-        
+            // finally send an email receipt
+            self::sendMail( $contactID );
+        }
+    
     }
     
     /**
@@ -284,7 +383,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return void
      * @access public
      */
-    public function postProcessPremium($premiumParams ,$contribution )
+    public function postProcessPremium( $premiumParams ,$contribution )
     {
         // assigning Premium information to receipt tpl
         if ( $premiumParams['selectProduct'] && $premiumParams['selectProduct'] != 'no_thanks') {
@@ -382,7 +481,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return void
      * @access public
      */
-    public function processContribution( $result ,$contactID ,$contributionType  ) {
+    public function processContribution( $params ,$result ,$contactID ,$contributionType  ) {
         CRM_Core_DAO::transaction( 'BEGIN' );
         
         $nonDeductibleAmount = $result['gross_amount'];
@@ -401,6 +500,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $nonDeductibleAmount = '0.00';
             }
             
+            $receiptDate = null;
+            if ( $this->_values['is_email_receipt'] ) {
+                $receiptDate = $now;
+            }
+            
             // check contribution Type
             // first create the contribution record
             $params = array(
@@ -413,8 +517,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'fee_amount'            => CRM_Utils_Array::value( 'fee_amount', $result ),
                             'net_amount'            => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
                             'trxn_id'               => $result['trxn_id'],
-                            'invoice_id'            => $this->_params['invoiceID'],
-                            'currency'              => $this->_params['currencyID'],
+                            'invoice_id'            => $params['invoiceID'],
+                            'currency'              => $params['currencyID'],
                             'receipt_date'          => $receiptDate,
                             'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title'],
                             );
@@ -426,7 +530,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // process the custom data that is submitted or that came via the url
             $groupTree    = $this->get( 'groupTree' );
             $customValues = $this->get( 'customGetValues' );
-            $customValues = array_merge( $this->_params, $customValues );
+            $customValues = array_merge( $params, $customValues );
 
             require_once 'CRM/Core/BAO/CustomGroup.php';
             CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $customValues );
@@ -441,7 +545,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'total_amount'      => $result['gross_amount'],
                             'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
                             'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
-                            'currency'          => $this->_params['currencyID'],
+                            'currency'          => $params['currencyID'],
                             'payment_processor' => $config->paymentProcessor,
                             'trxn_id'           => $result['trxn_id'],
                             );

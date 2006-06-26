@@ -373,11 +373,34 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         return $membershipBlock;
     }
-    
-    static function getContactMemberships( $contactID )
-    {
-        
+
+    /**
+     * Function to return current membership of given contacts 
+     * 
+     * @param int $contactID  
+     * @static
+     */
+    static function getContactMembership( $contactID , $memType ) {
+        require_once 'CRM/Member/DAO/MembershipStatus.php';
+        $membership = array();
+        $dao = &new CRM_Member_DAO_Membership();
+        $dao->contact_id         = $contactID;
+        $dao->membership_type_id = $memType;
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues($dao, $membership );
+            $statusID = $membership['status_id'];
+            $dao = &new CRM_Member_DAO_MembershipStatus();
+            $dao->id = $statusID;
+            $dao->find(true);
+            $status = array();
+            CRM_Core_DAO::storeValues($dao, $status );
+            $membership = array_merge($membership,$status);
+            return $membership;
+        }
+        return false;
     }
+
+
 }
 
 ?>
