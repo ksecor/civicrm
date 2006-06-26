@@ -2594,7 +2594,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (3967, 1154, "BOP", "Bay of Plenty"),
 (3968, 1154, "CAN", "Canterbury"),
 (3969, 1154, "GIS", "Gisborne"),
-(3970, 1154, "HKB", "Hawkes\'s Bay"),
+(3970, 1154, "HKB", "Hawkes Bay"),
 (3971, 1154, "MWT", "Manawatu-Wanganui"),
 (3972, 1154, "MBH", "Marlborough"),
 (3973, 1154, "NSN", "Nelson"),
