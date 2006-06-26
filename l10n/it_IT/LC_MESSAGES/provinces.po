@@ -5658,8 +5658,9 @@ msgid "Norfolk"
 msgstr ""
 
 #. name for GB-NAY
-msgid "North Ayrahire"
-msgstr ""
+#, fuzzy
+msgid "North Ayrshire"
+msgstr "Corea del Sud"
 
 #. name for GB-NDN
 msgid "North Down"
@@ -5696,7 +5697,7 @@ msgstr ""
 
 #. name for GB-NBL
 #, fuzzy
-msgid "Northumbarland"
+msgid "Northumberland"
 msgstr "Paesi Bassi"
 
 #. name for GB-NGM
@@ -5768,8 +5769,9 @@ msgid "Redcar and Cleveland"
 msgstr ""
 
 #. name for GB-RFW
-msgid "Renfrewshlre"
-msgstr ""
+#, fuzzy
+msgid "Renfrewshire"
+msgstr "Cile"
 
 #. name for GB-RCT
 msgid "Rhondda, Cynon, Taff"
@@ -5836,8 +5838,9 @@ msgid "Solihull"
 msgstr ""
 
 #. name for GB-SOM
-msgid "merset"
-msgstr ""
+#, fuzzy
+msgid "Somerset"
+msgstr "Israele"
 
 #. name for GB-SAY
 #, fuzzy
@@ -6122,11 +6125,6 @@ msgstr "Estonia"
 #. name for MIDDX
 msgid "Middlesex"
 msgstr ""
-
-#. name for NTHUMB
-#, fuzzy
-msgid "Northumberland"
-msgstr "Paesi Bassi"
 
 #. name for RUTLAND
 #, fuzzy
@@ -11496,7 +11494,7 @@ msgid "Gisborne"
 msgstr "Gabon"
 
 #. name for NZ-HKB
-msgid "Hawkes's Bay"
+msgid "Hawkes Bay"
 msgstr ""
 
 #. name for NZ-MWT
@@ -17054,6 +17052,10 @@ msgstr ""
 #, fuzzy
 msgid "Midlands"
 msgstr "Finlandia"
+
+#, fuzzy
+#~ msgid "Northumbarland"
+#~ msgstr "Paesi Bassi"
 
 #, fuzzy
 #~ msgid "Susa "

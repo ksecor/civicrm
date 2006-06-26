@@ -5131,7 +5131,8 @@ msgid "Norfolk"
 msgstr "Norfolk"
 
 #. name for GB-NAY
-msgid "North Ayrahire"
+#, fuzzy
+msgid "North Ayrshire"
 msgstr "Noord-Ayrahire"
 
 #. name for GB-NDN
@@ -5167,8 +5168,8 @@ msgid "Northamptonshire"
 msgstr "Northamptonshire"
 
 #. name for GB-NBL
-msgid "Northumbarland"
-msgstr "Northumbarland"
+msgid "Northumberland"
+msgstr "Northumberland"
 
 #. name for GB-NGM
 msgid "Nottingham"
@@ -5235,7 +5236,8 @@ msgid "Redcar and Cleveland"
 msgstr "Redcar en Cleveland"
 
 #. name for GB-RFW
-msgid "Renfrewshlre"
+#, fuzzy
+msgid "Renfrewshire"
 msgstr "Renfrewshlre"
 
 #. name for GB-RCT
@@ -5299,7 +5301,8 @@ msgid "Solihull"
 msgstr "Solihull"
 
 #. name for GB-SOM
-msgid "merset"
+#, fuzzy
+msgid "Somerset"
 msgstr "merset"
 
 #. name for GB-SAY
@@ -5561,10 +5564,6 @@ msgstr "Lothian"
 #. name for MIDDX
 msgid "Middlesex"
 msgstr "Middlesex"
-
-#. name for NTHUMB
-msgid "Northumberland"
-msgstr "Northumberland"
 
 #. name for RUTLAND
 msgid "Rutlandshire"
@@ -10458,7 +10457,8 @@ msgid "Gisborne"
 msgstr "Gisborne"
 
 #. name for NZ-HKB
-msgid "Hawkes's Bay"
+#, fuzzy
+msgid "Hawkes Bay"
 msgstr "Hawkes's Bay"
 
 #. name for NZ-MWT
@@ -15505,6 +15505,9 @@ msgstr "Matabeleland Zuid"
 #. name for ZW-MI
 msgid "Midlands"
 msgstr "Midlands"
+
+#~ msgid "Northumbarland"
+#~ msgstr "Northumbarland"
 
 #~ msgid "Ahvenanmasn laani"
 #~ msgstr "Åland"
