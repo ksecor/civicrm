@@ -423,6 +423,12 @@ ORDER BY
             }
         }
 	 
+        // since hash was required, make sure we have a 0 value for it, CRM-1063
+        // fixed in 1.5 by making hash optional
+        if ( ! array_key_exists( 'hash', $contact ) ) {
+            $contact->hash = 0;
+        }
+
         return $contact->save();
     }
 
