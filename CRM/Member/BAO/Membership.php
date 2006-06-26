@@ -72,20 +72,33 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     static function add(&$params, &$ids) {
         require_once 'CRM/Utils/Hook.php';
-
+        
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Membership', $ids['membership'], $params );
         } else {
             CRM_Utils_Hook::pre( 'create', 'Membership', null, $params ); 
         }
         
+        require_once 'CRM/Member/BAO/MembershipType.php';
+        $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['memebrship_type_id']);
+        
+        $params['join_date']  = $dates['join_date'];
+        $params['start_date'] = $dates['start_date'];
+        $params['end_date']   = $dates['end_date'];
+        
         $membership =& new CRM_Member_BAO_Membership();
-        
         $membership->copyValues($params);
-        
         $membership->id = CRM_Utils_Array::value( 'membership', $ids );
         
         $result = $membership->save();
+        
+        $membershipLog = array('membership_id' => $result->id,
+                               'status_id'     => $result->status_id,
+                               'start_date'    => $result->start_date,
+                               'end_date'      => $result->end_date
+                               );
+        require_once 'CRM/Member/BAO/MembershipLog.php';
+        CRM_Member_BAO_MembershipLog::add($membershipLog);
         
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
@@ -209,6 +222,13 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      */
     static function deleteMembership( $membershipId ) {
+        
+        require_once 'CRM/Member/DAO/MembershipLog.php';
+        $membershipLog = new CRM_Member_DAO_MembershipLog( );
+        $membershipLog->membership_id = $membershipId;
+        if ($membershipLog->find(true)) {
+            $membershipLog->delete();
+        }
         
         require_once 'CRM/Member/DAO/Membership.php';
         $membership = & new CRM_Member_DAO_Membership( );
@@ -354,7 +374,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         return $membershipBlock;
     }
     
-
+    static function getContactMemberships( $contactID )
+    {
+        
+    }
 }
 
 ?>
