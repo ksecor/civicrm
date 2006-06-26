@@ -2015,7 +2015,7 @@ SELECT COUNT( civicrm_contribution.total_amount ) as total_count,
         if ( ! empty( $where ) ) {
             $newWhere = "$where AND $additionalWhere";
         } else {
-            $newWhere = $additionalWhere;
+            $newWhere = " AND $additionalWhere";
         }
 
         $summary = array( );
@@ -2042,7 +2042,7 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
         if ( ! empty( $where ) ) {
             $newWhere = "$where AND $additionalWhere";
         } else {
-            $newWhere = $additionalWhere;
+            $newWhere = " AND $additionalWhere";
         }
 
         $summary['cancel'] = array( );
