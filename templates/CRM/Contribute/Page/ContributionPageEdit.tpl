@@ -4,7 +4,7 @@
     {if $is_active}
         <dt><img src="{$config->resourceBase}i/traffic_green.gif" alt="{ts}status{/ts}"/></dt>
         <dd><p>{ts}This page is <strong>active</strong>.{/ts}</p>
-        <p>{ts}Link visitors to this page using the following URL{/ts}:<br />
+        <p>{ts}Link visitors to this page using the following URL{/ts}:</p><br />
         <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</a>
         </dd>
     {else}

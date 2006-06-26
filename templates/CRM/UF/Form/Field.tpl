@@ -20,18 +20,18 @@ they are currently causing sporadic failures in insert and delete - so commentin
     {if $action eq 8}
       	<div class="messages status">
         <dl>
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
             {ts}WARNING: Deleting this profile field will remove it from Profile forms and listings. If this field is used in any 'stand-alone' Profile forms, you will need to update those forms to remove this field.{/ts} {ts}Do you want to continue?{/ts}
           </dd>
        </dl>
       </div>
     {else}
-        <dl>
+        <dl> 
         <dt>{$form.field_name.label}</dt><dd>&nbsp;{$form.field_name.html}</dd>
         {edit}
             <dt> </dt><dd class="description">&nbsp;{ts}Select the type of CiviCRM record and the field you want to include in this Profile.{/ts}</dd>
-        {/edit}
+        {/edit} 
         <dt>{$form.label.label}</dt><dd>&nbsp;{$form.label.html}</dd>       
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
         {edit}
@@ -45,7 +45,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field hidden from other users ('User and User Admin Only'), or is it visible to others ('Public User Pages')? Select 'Public User Pages and Listings' to make the field searchable (in the Profile Search form). When visibility is 'Public User Pages and Listings', users can also click the field value when viewing a contact in order to locate other contacts with the same value(s) (i.e. other contacts who live in Poland).{/ts}</dd>
         {/edit}
-        <dt>{$form.in_selector.label}</dt><dd>&nbsp;{$form.in_selector.html}</dd>
+        <dt>{$form.in_selector.label}</dt><dd>&nbsp;{$form.in_selector.html}</dd>        
         {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field visible in the selector table displayed in profile searches? This setting applies only to fields with 'Public User Pages and Listings' visibility.{/ts}</dd>
         {/edit}

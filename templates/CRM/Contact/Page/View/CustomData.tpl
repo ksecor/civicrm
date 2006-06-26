@@ -12,7 +12,7 @@
                 <div id="{$cd.name}[show]" class="data-group">
                 <a href="#" onclick="hide('{$cd.name}[show]'); show('{$cd.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd.title}{/ts}</label><br />
                 </div>
-                
+               
                 <div id="{$cd.name}">
                 <fieldset><legend><a href="#" onclick="hide('{$cd.name}'); show('{$cd.name}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd.title}{/ts}</legend>
                     <dl>
@@ -79,7 +79,7 @@
         {/if}    
     {/if}
     {/strip}
-
+ 
 {if $mainEditForm}
 <script type="text/javascript"> 
     var showBlocks1 = new Array({$showBlocks1}); 

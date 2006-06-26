@@ -16,7 +16,7 @@
 
 {* This section handles form elements for search criteria *}
 <div id="searchForm&#91;show&#93;" class="form-item">
-  <a href="#" onClick="hide('searchForm[show]'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+  <a href="#" onclick="hide('searchForm[show]'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
   <label>
         {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
         {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
