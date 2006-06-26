@@ -811,7 +811,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_premiums` DISABLE KEYS */;
 LOCK TABLES `civicrm_premiums` WRITE;
-INSERT INTO `civicrm_premiums` VALUES (1,'civicrm_contribution_page',1,1,'Thank-you Gifts','We appreciate your suppot and invite you to choose from the exciting collection of thank-you gifts below. Minimum contribution amounts for each selection are included in the descriptions. ','premiums@example.org',NULL,1);
+INSERT INTO `civicrm_premiums` VALUES (1,'civicrm_contribution_page',1,1,'Thank-you Gifts','We appreciate your support and invite you to choose from the exciting collection of thank-you gifts below. Minimum contribution amounts for each selection are included in the descriptions. ','premiums@example.org',NULL,1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_premiums` ENABLE KEYS */;
 
