@@ -190,9 +190,9 @@
   <field>
       <name>hash</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Key for validating requests related to this contact.</comment>
       <add>1.1</add>
+      <change>1.5</change>
   </field>
   <field>
     <name>is_opt_out</name>
