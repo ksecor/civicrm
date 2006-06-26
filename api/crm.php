@@ -60,6 +60,7 @@ require_once 'CRM/Contact/BAO/Group.php';
 require_once 'api/Note.php';
 require_once 'api/File.php';
 require_once 'api/Activity.php';
+require_once 'api/Membership.php';
 
 function crm_create_extended_property_group($class_name, $params) {
 }
