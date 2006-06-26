@@ -351,7 +351,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
 
 
     /**
-     * function to check for mix profiles (eg: individual + other contact types)
+     * function to check for mix profile fields (eg: individual + other contact types)
      *
      * @params int $ufGroupId  uf group id 
      *
@@ -409,6 +409,37 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             }
         }
     }
+
+    /**
+     * function to check for mix profiles groups (eg: individual + other contact types)
+     *
+     * @return  true for mix profile group else false
+     * @acess public
+     * @static
+     */
+    static function checkProfileGroupType( ) 
+    {
+        $ufGroup =& new CRM_Core_DAO_UFGroup();
+        $ufGroup->is_active = 1;
+
+        $ufGroup->find();
+        $fields = array( );
+        while ( $ufGroup->fetch() ) {
+            if (self::getProfileType($ufGroup->id) == 'Individual') {
+                $fields['Individual'] += 1;
+            } else if (self::getProfileType($ufGroup->id) == 'Contribution') {
+                $fields['Contribution'] += 1;
+            } else {
+                $fields['Other'] +=1;
+            }
+        }
+        
+        if ( ($fields['Individual'] && $fields['Other']) || $fields['Contribution'] && $fields['Other'] ) {
+            return true;
+        }
+        return false;
+    }
+
 
 }
 ?>

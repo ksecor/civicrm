@@ -114,12 +114,23 @@ class CRM_Profile_Form extends CRM_Core_Form
     { 
         require_once 'CRM/Core/BAO/UFGroup.php';
         require_once 'CRM/Quest/BAO/Student.php';
+        require_once "CRM/Core/BAO/UFField.php";
 
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
         if ( ! $this->_gid ) {
             $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                       $this, false, 0, 'GET');
+        }
+
+        //check for mix profile display in registration
+        if ( $this->_mode == self::MODE_REGISTER ) {
+            //check for mix profile fields (eg:  individual + other contact type)
+            if ( CRM_Core_BAO_UFField::checkProfileGroupType() ) {
+                CRM_Utils_System::setUFMessage( ts( "Only Individual profiles can be included in Registration form.") );
+                $config  =& CRM_Core_Config::singleton( );
+                CRM_Utils_System::redirect( $config->userFrameworkBaseURL );            
+            }
         }
 
         // if we dont have a gid use the default, else just use that specific gid
@@ -299,8 +310,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function buildQuickForm()
     {
         if ( $this->_mode != self::MODE_REGISTER ) {
-            //check for mix profile (eg:  individual + other contact type)
-            require_once "CRM/Core/BAO/UFField.php";
+            //check for mix profile fields (eg:  individual + other contact type)
             if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
                 CRM_Utils_System::setUFMessage( ts( "This Profile includes fields for contact types other than 'Individuals' and can not be used to create/update contacts.") );
                 $config  =& CRM_Core_Config::singleton( );

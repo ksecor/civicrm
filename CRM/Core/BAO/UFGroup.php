@@ -1035,9 +1035,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         $ufGroups = array( );
         while ($dao->fetch( )) {
-            if (!self::filterUFGroups($dao->id)) {
+            if ( $moduleName && $moduleName != 'User Registration' && !self::filterUFGroups($dao->id)) {
                 continue;
             }
+            
             $ufGroups[$dao->id]['name'     ] = $dao->title;
             $ufGroups[$dao->id]['title'    ] = $dao->title;
             $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
