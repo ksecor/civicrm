@@ -1185,7 +1185,7 @@ class CRM_Contact_BAO_Query {
             if ( strpos( $key, '-' ) ) {
                 $keyArray = explode('-', $key);
                 $k = CRM_Utils_Array::value( 'civicrm_' . $keyArray[1], $info, 99 );
-            } if ( strpos( $key, '_' ) ) {
+            } else if ( strpos( $key, '_' ) ) {
                 $keyArray = explode( '_', $key );
                 if ( is_numeric( array_pop( $keyArray ) ) ) {
                     $k = CRM_Utils_Array::value( implode( '_', $keyArray ), $info, 99 );
@@ -1197,7 +1197,7 @@ class CRM_Contact_BAO_Query {
             }
             $tempTable[$k . ".$key"] = $key;
         }
-        
+
         ksort($tempTable);
 
         $newTables = array ();
