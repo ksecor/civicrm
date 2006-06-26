@@ -77,7 +77,7 @@ class CRM_Core_BAO_DomainDump
         $sql = file($file);
 
         if ( empty( $sql ) ) {
-            CRM_Utils_System::statusBounce( ts( 'We could not find the backup sql script. Check %1 in the CiviCRM root directory.', array(1 => 'sql/civicrm_backup.mysql') ) );
+            CRM_Utils_System::statusBounce( ts( 'We could not find the backup sql script. Check %1 exists and is readable by the webserver.', array(1 => $file ) );
         }
 
         // make sure mysqldump exists

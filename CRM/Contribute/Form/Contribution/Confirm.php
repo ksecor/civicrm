@@ -449,9 +449,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $this->assign('contact_phone',$dao->premiums_contact_phone);
             $this->assign('contact_email',$dao->premiums_contact_email);
             
-
-
-        
             //create Premium record
             
             require_once 'CRM/Contribute/DAO/Product.php';
@@ -499,77 +496,78 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             } else {
                 $nonDeductibleAmount = '0.00';
             }
+        }
             
-            $receiptDate = null;
-            if ( $this->_values['is_email_receipt'] ) {
-                $receiptDate = $now;
-            }
+        $receiptDate = null;
+        if ( $this->_values['is_email_receipt'] ) {
+            $receiptDate = $now;
+        }
+        
+        // check contribution Type
+        // first create the contribution record
+        $params = array(
+                        'contact_id'            => $contactID,
+                        'contribution_type_id'  => $contributionType->id,
+                        'payment_instrument_id' => 1,
+                        'receive_date'          => $now,
+                        'non_deductible_amount' => $nonDeductibleAmount,
+                        'total_amount'          => $result['gross_amount'],
+                        'fee_amount'            => CRM_Utils_Array::value( 'fee_amount', $result ),
+                        'net_amount'            => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
+                        'trxn_id'               => $result['trxn_id'],
+                        'invoice_id'            => $params['invoiceID'],
+                        'currency'              => $params['currencyID'],
+                        'receipt_date'          => $receiptDate,
+                        'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title'],
+                        );
             
-            // check contribution Type
-            // first create the contribution record
-            $params = array(
-                            'contact_id'            => $contactID,
-                            'contribution_type_id'  => $contributionType->id,
-                            'payment_instrument_id' => 1,
-                            'receive_date'          => $now,
-                            'non_deductible_amount' => $nonDeductibleAmount,
-                            'total_amount'          => $result['gross_amount'],
-                            'fee_amount'            => CRM_Utils_Array::value( 'fee_amount', $result ),
-                            'net_amount'            => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
-                            'trxn_id'               => $result['trxn_id'],
-                            'invoice_id'            => $params['invoiceID'],
-                            'currency'              => $params['currencyID'],
-                            'receipt_date'          => $receiptDate,
-                            'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title'],
-                            );
-            
-            $ids = array( );
-            $contribution =& CRM_Contribute_BAO_Contribution::add( $params, $ids );
+        $ids = array( );
+        $contribution =& CRM_Contribute_BAO_Contribution::add( $params, $ids );
 
            
-            // process the custom data that is submitted or that came via the url
-            $groupTree    = $this->get( 'groupTree' );
-            $customValues = $this->get( 'customGetValues' );
-            $customValues = array_merge( $params, $customValues );
+        // process the custom data that is submitted or that came via the url
+        $groupTree    = $this->get( 'groupTree' );
+        $customValues = $this->get( 'customGetValues' );
+        $customValues = array_merge( $params, $customValues );
 
-            require_once 'CRM/Core/BAO/CustomGroup.php';
-            CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $customValues );
-            CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $customValues );
+        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
             
-            // next create the transaction record
-            $params = array(
-                            'entity_table'      => 'civicrm_contribution',
-                            'entity_id'         => $contribution->id,
-                            'trxn_date'         => $now,
-                            'trxn_type'         => 'Debit',
-                            'total_amount'      => $result['gross_amount'],
-                            'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
-                            'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
-                            'currency'          => $params['currencyID'],
-                            'payment_processor' => $config->paymentProcessor,
-                            'trxn_id'           => $result['trxn_id'],
-                            );
+        // next create the transaction record
+        $params = array(
+                        'entity_table'      => 'civicrm_contribution',
+                        'entity_id'         => $contribution->id,
+                        'trxn_date'         => $now,
+                        'trxn_type'         => 'Debit',
+                        'total_amount'      => $result['gross_amount'],
+                        'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
+                        'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
+                        'currency'          => $params['currencyID'],
+                        'payment_processor' => $config->paymentProcessor,
+                        'trxn_id'           => $result['trxn_id'],
+                        );
             
-            require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
-            $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $params );
+        require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
+        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $params );
 
-            // also create an activity history record
-            require_once 'CRM/Utils/Money.php';
-            $params = array('entity_table'     => 'civicrm_contact', 
-                            'entity_id'        => $contactID, 
-                            'activity_type'    => $contributionType->name,
-                            'module'           => 'CiviContribute', 
-                            'callback'         => 'CRM_Contribute_Page_Contribution::details',
-                            'activity_id'      => $contribution->id, 
-                            'activity_summary' => 'Online - ' . CRM_Utils_Money::format($this->_params['amount']),
-                            'activity_date'    => $now,
-                            );
-            if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
-                CRM_Core_Error::fatal( "Could not create a system record" );
-            }
-
-            CRM_Core_DAO::transaction( 'COMMIT' );
+        // also create an activity history record
+        require_once 'CRM/Utils/Money.php';
+        $params = array('entity_table'     => 'civicrm_contact', 
+                        'entity_id'        => $contactID, 
+                        'activity_type'    => $contributionType->name,
+                        'module'           => 'CiviContribute', 
+                        'callback'         => 'CRM_Contribute_Page_Contribution::details',
+                        'activity_id'      => $contribution->id, 
+                        'activity_summary' => 'Online - ' . CRM_Utils_Money::format($this->_params['amount']),
+                        'activity_date'    => $now,
+                        );
+        if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
+            CRM_Core_Error::fatal( "Could not create a system record" );
         }
+
+        CRM_Core_DAO::transaction( 'COMMIT' );
+
         return $contribution;
     }
 
