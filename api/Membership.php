@@ -302,4 +302,57 @@ function &crm_delete_membership_status( $membershipStatus ) {
     CRM_Member_BAO_MembershipStatus::del($membershipStatus['id']);
 }
 
+function crm_create_contact_membership($params, $contactID)
+{
+    if ( !is_array( $params ) ) {
+        return _crm_error( 'Params is not an array' );
+    }
+    
+    if ( !isset($params['membership_type_id']) || !isset($params['status_id']) || empty($contactID)) {
+        return _crm_error( 'Required parameter missing' );
+    }
+    
+    $params['contact_id'] = $contactID;
+    
+    require_once 'CRM/Member/BAO/Membership.php';
+    $ids = array();
+    $membershipBAO = CRM_Member_BAO_Membership::add($params, $ids);
+    
+    $membership = array();
+    _crm_object_to_array($membershipBAO, $membership);
+    return $membership;
+}
+
+function crm_update_contact_membership($params)
+{
+    if ( !is_array( $params ) ) {
+        return _crm_error( 'Params is not an array' );
+    }
+    
+    if ( !isset($params['id']) ) {
+        return _crm_error( 'Required parameter missing' );
+    }
+        
+    require_once 'CRM/Member/BAO/Membership.php';
+    $membershipBAO =& new CRM_Member_BAO_Membership( );
+    $membershipBAO->id = $params['id'];
+    if ($membershipBAO->find(true)) {
+        $membershipBAO->copyValues( $params );
+        $membershipBAO->save();
+    }
+    
+    $membership = array();
+    _crm_object_to_array( $membershipBAO, $membership );
+    return $membership;
+}
+
+function crm_delete_membership($membershipID)
+{
+    require_once 'CRM/Member/BAO/Membership.php';
+    $membership = new CRM_Member_BAO_Membership();
+    $result = $membership->deleteMembership($membershipID);
+    
+    return $result ? null : _crm_error('Error while deleting Membership');
+}
+
 ?>
