@@ -86,6 +86,13 @@ class CRM_Member_Invoke {
         $session =& CRM_Core_Session::singleton( );
         $config  =& CRM_Core_Config::singleton ( );
         if ($args[2] == 'search') {
+            require_once 'CRM/Member/Controller/Search.php';
+            $controller =& new CRM_member_Controller_Search($title, $mode); 
+            $url = 'civicrm/member/search';
+            $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
+            $controller->set( 'context', 'search' );
+            return $controller->run();
+            
             
         } elseif ($args[2] == 'import') {
             
