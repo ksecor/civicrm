@@ -154,7 +154,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
                                                        CRM_Core_DAO::$_nullObject ); 
         $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
-                                                       CRM_Core_DAO::$_nullObject, false ); 
+                                                       $this, false ); 
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
                                                        $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
@@ -172,6 +172,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         if ( $this->_force ) { 
             $this->postProcess( );
+            $this->set( 'force', 0 );
         }
 
         $sortID = null; 
@@ -369,6 +370,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             CRM_Core_DAO::$_nullObject );
+
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {

@@ -215,6 +215,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         $group =& new CRM_Core_DAO_UFGroup( );
         $group->id = $id;
+        $group->is_active = 1;
         if ( $group->find( true ) ) {
             if( $searchable ) {
                 $where = "WHERE uf_group_id = {$group->id} AND is_searchable = 1"; 
@@ -312,6 +313,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                 }
             }
+        } else {
+            CRM_Core_Error::fatal( ts( 'The requested profile page is currently inactive or does not exist. Please contact the site administrator if you need assistance.' ) );
         }
         return $fields;
     }
