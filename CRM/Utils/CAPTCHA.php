@@ -124,7 +124,7 @@ class CRM_Utils_CAPTCHA {
                     null,
                     true );
         $form->registerRule( 'captcha', 'callback', 'validate', 'CRM_Utils_CAPTCHA' );
-        $form->addRule( 'captcha_phrase', ts( 'Input text must match captcha Image' ), 'captcha', $form );
+        $form->addRule( 'captcha_phrase', ts( 'Input text must match the phrase in the image. Please review the image and re-enter matching text.' ), 'captcha', $form );
         $form->addElement( 'image','captcha_image',  $this->_url );
     }
 

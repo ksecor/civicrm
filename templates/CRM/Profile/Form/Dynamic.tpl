@@ -22,7 +22,7 @@
              <tr> 
                <td></td>   
                <td>{$form.captcha_phrase.html}
-                 <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
+                 <div class="messages help">{$form.captcha_phrase.label}</div>
                 </td>
              </tr>
            {/if}   

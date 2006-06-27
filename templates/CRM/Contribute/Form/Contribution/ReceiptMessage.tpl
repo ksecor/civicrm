@@ -1,6 +1,7 @@
 {if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}
 {/if}
 {$receipt_text}
+
 {ts}Please print this receipt for your records.{/ts}
 
 
