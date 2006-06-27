@@ -112,12 +112,12 @@ class CRM_Core_Config {
     /**
      * The directory to store uploaded files
      */
-    public $uploadDir         = './upload/';
+    public $uploadDir         = null;
     
     /**
      * The directory to store uploaded image files
      */
-    public $imageUploadDir   ='./persist/contribute/';
+    public $imageUploadDir   = null;
     
     /**
      * The directory to store uploaded  files in custom data 

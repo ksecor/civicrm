@@ -108,7 +108,7 @@ class CRM_Utils_File {
      * @static
      */
     function createDir( $path ) {
-        if ( is_dir( $path ) ) {
+        if ( is_dir( $path ) || empty( $path ) ) {
             return;
         }
 
