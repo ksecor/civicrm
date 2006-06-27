@@ -261,7 +261,9 @@ function crm_get_membership_statuses($params)
  * @return array of updated file object property values
  * @access public
  */
-function &crm_update_membership_status( $params ) {
+function &crm_update_membership_status( $params ) 
+{
+    _crm_initialize();
     if ( !is_array( $params ) ) {
         return _crm_error( 'Params is not an array' );
     }
@@ -293,7 +295,9 @@ function &crm_update_membership_status( $params ) {
  * @return null if successfull, object of CRM_Core_Error otherwise
  * @access public
  */
-function &crm_delete_membership_status( $membershipStatus ) {
+function &crm_delete_membership_status( $membershipStatus ) 
+{
+    _crm_initialize();
     if ( empty($membershipStatus) ) {
         return _crm_error( 'Required parameter missing' );
     }
@@ -304,6 +308,7 @@ function &crm_delete_membership_status( $membershipStatus ) {
 
 function crm_create_contact_membership($params, $contactID)
 {
+    _crm_initialize();
     if ( !is_array( $params ) ) {
         return _crm_error( 'Params is not an array' );
     }
@@ -325,6 +330,7 @@ function crm_create_contact_membership($params, $contactID)
 
 function crm_update_contact_membership($params)
 {
+    _crm_initialize();
     if ( !is_array( $params ) ) {
         return _crm_error( 'Params is not an array' );
     }
@@ -332,12 +338,22 @@ function crm_update_contact_membership($params)
     if ( !isset($params['id']) ) {
         return _crm_error( 'Required parameter missing' );
     }
-        
+    
     require_once 'CRM/Member/BAO/Membership.php';
     $membershipBAO =& new CRM_Member_BAO_Membership( );
     $membershipBAO->id = $params['id'];
+    
     if ($membershipBAO->find(true)) {
-        $membershipBAO->copyValues( $params );
+        $fields = $membershipBAO->fields( );
+        foreach ( $fields as $name => $field) {
+            if (array_key_exists($name, $params)) {
+                $membershipBAO->$name = $params[$name];
+            }
+            if ($field['type'] & CRM_Utils_Type::T_DATE) {
+                $dropArray = array('-' => '', ':' => '', ' ' => '');
+                $membershipBAO->$name = strtr($membershipBAO->$name, $dropArray);
+            }
+        }
         $membershipBAO->save();
     }
     
@@ -346,8 +362,57 @@ function crm_update_contact_membership($params)
     return $membership;
 }
 
+function crm_get_contact_memberships($contactID)
+{
+    _crm_initialize();
+    if ( empty($contactID) ) {
+        return _crm_error( 'Invalid value for ContactID.' );
+    }
+    
+    // get the membership for the given contact ID
+    require_once 'CRM/Member/BAO/Membership.php';
+    $membership = array('contact_id' => $contactID);
+    $membershipValues = $ids = array();
+    CRM_Member_BAO_Membership::getValues($membership, $membershipValues, $ids);
+    
+    //CRM_Core_Error::debug('Membership Values 1', $membershipValues);
+    
+    // populate the membership type name for the membership type id
+    require_once 'CRM/Member/BAO/MembershipType.php';
+    $membershipType = CRM_Member_BAO_MembershipType::getMembershipTypeDetails($membershipValues['membership_type_id']);
+    
+    $membershipValues['membership_name']      = $membershipType['name'];
+    
+    // populating relationship type name.
+    require_once 'CRM/Contact/BAO/RelationshipType.php';
+    $relationshipType = new CRM_Contact_BAO_RelationshipType();
+    $relationshipType->id =  $membershipType['relationship_type_id'];
+    if ( $relationshipType->find(true) ) {
+        $membershipValues['relationship_name'] = $relationshipType->name_a_b;
+    }
+    
+    //CRM_Core_Error::debug('Membership Values 2', $membershipValues);
+    
+    $members[$membershipValues['contact_id']] =& $membershipValues;
+    
+    require_once 'CRM/Contact/BAO/Relationship.php';
+    $relationship = new CRM_Contact_BAO_Relationship();
+    $relationship->contact_id_b            = $membershipValues['contact_id'];
+    $relationship->relationship_type_id    = $membershipType['relationship_type_id'];
+    if ($relationship->find()) {
+        while ($relationship->fetch()) {
+            clone($relationship);
+            $membershipValues['contact_id'] = $relationship->contact_id_a;
+            $members[$relationship->contact_id_a] = $membershipValues;
+        }
+    }
+    //CRM_Core_Error::debug('Memberships', $members);
+    return $members;
+}
+
 function crm_delete_membership($membershipID)
 {
+    _crm_initialize();
     require_once 'CRM/Member/BAO/Membership.php';
     $membership = new CRM_Member_BAO_Membership();
     $result = $membership->deleteMembership($membershipID);
