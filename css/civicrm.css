@@ -18,7 +18,7 @@
 ** for showing the descrition of activity type element.
 */
 
-#crm-container .texttolabel {
+#crm-container .texttolabel, #crm-container .no-border {
  border-style: none;
 }
 

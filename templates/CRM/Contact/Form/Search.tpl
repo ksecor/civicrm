@@ -15,7 +15,7 @@
 {/if}
 
 {* This section handles form elements for search criteria *}
-<div id="searchForm&#91;show&#93;" class="form-item">
+<div id="searchForm[show]" class="form-item">
   <a href="#" onclick="hide('searchForm[show]'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
   <label>
         {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}

@@ -7,7 +7,6 @@
 {/if}
 
   <div id="{$cd_edit.name}">
-  <p>
   <fieldset><legend>
 {if $showHideLinks}
 <a href="#" onclick="hide('{$cd_edit.name}'); show('{$cd_edit.name}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>
@@ -70,7 +69,6 @@
 	    {/foreach}
 	    </dl>
 	 </fieldset>
-	 </p>
     </div>
   {/foreach}
 {/if}
