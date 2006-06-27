@@ -607,6 +607,11 @@ class CRM_Utils_System {
         exit( );
     }
 
+    static function xMemory( $title = null ) {
+        $mem = (float ) xdebug_memory_usage( ) / (float ) ( 1024 * 1024 );
+        $mem = number_format( $mem, 5 ) . ", " . time( );
+        echo "$title: $mem<p>";
+    }
 }
 
 ?>

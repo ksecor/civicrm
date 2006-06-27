@@ -907,7 +907,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults, &$ids ) {
+    static function &retrieve( &$params, &$defaults, &$ids ) {
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
         unset($params['id']);
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
@@ -928,6 +928,15 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                                           'totalCount' => self::getNumOpenActivity( $params['contact_id'] ),
                                           );
         return $contact;
+    }
+
+    static function freeHack( &$contact ) {
+        unset( $contact->location     );
+        unset( $contact->notes        );
+        unset( $contact->relationship );
+        unset( $contact->groupContact );
+        unset( $contact->activity     );
+        unset( $contact );
     }
 
     /**

@@ -470,6 +470,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 CRM_Core_BAO_Domain::getDomainByID($this->domain_id);
         }
 
+        require_once 'api/Contact.php';
         /**
          * Inbound VERP keys:
          *  reply:          user replied to mailing
@@ -479,6 +480,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          */
         $config =& CRM_Core_Config::singleton( );
 
+        $verp = array( );
         foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) 
         {
             $verp[$key] = implode($config->verpSeparator,
@@ -518,31 +520,37 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,
                                 $this, true);
             }
-            
-            $this->text = $this->header->body_text . "\n"
-                        . $this->body_text . "\n"
-                        . $this->footer->body_text;
-            
-            $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
-                            $this->_domain, false);
-            $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
-                            $this, true);
+
+            if ( $this->body_text ) {
+                $this->text = $this->header->body_text . "\n"
+                    . $this->body_text . "\n"
+                    . $this->footer->body_text;
+                
+                $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
+                                                                   $this->_domain, false);
+                $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
+                                                                    $this, true);
+            }
         }
         
-        $html = $this->html;
-        $text = $this->text;
+        $html =& $this->html;
+        $text =& $this->text;
         
         if ($html && !$test && $this->url_tracking) {
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
-                                $this->id, $event_queue_id);
+                                                           $this->id,
+                                                           $event_queue_id);
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
-                                $this->id, $event_queue_id);
+                                                           $this->id,
+                                                           $event_queue_id);
         }
-        
-        $params = array('contact_id' => $contactId, 'id' => $contactId);
-        $contact = array();
-        $ids    = array();
-        CRM_Contact_BAO_Contact::retrieve($params, $contact, $ids);
+
+        $params  = array( array( 'contact_id', '=', $contactId, 0, 0 ) );
+        $contact =& crm_fetch_contact( $params );
+        if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+            return null;
+        }
+
         $message =& new Mail_Mime("\n");
 
         /* Do contact-specific token replacement in text mode, and add to the
@@ -558,6 +566,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $text = str_replace('&amp;', '&', $text);
                                         
             $message->setTxtBody($text);
+            
+            unset( $text );
         }
 
 
@@ -576,6 +586,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 "extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>";
             }
             $message->setHTMLBody($html);
+
+            unset( $html );
         }
         
         $recipient = "\"{$contact['display_name']}\" <$email>";
@@ -590,7 +602,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             );
         $message->get($mailMimeParams);
         $message->headers($headers);
-        
+
+        // make sure we unset a lot of stuff
+        unset( $verp );
+        unset( $urls );
+        unset( $params );
+        unset( $contact );
+        unset( $ids );
+
         return $message;
     }
 

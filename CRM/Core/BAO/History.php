@@ -133,7 +133,7 @@ class CRM_Core_BAO_History {
         // get the total number of histories
         $values['activity']['totalCount'] =& CRM_Core_BAO_History::getNumHistory($params['entity_id'], $type);
 
-        return $values;
+        return null;
     }
 
     /**

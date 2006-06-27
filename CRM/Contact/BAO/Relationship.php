@@ -468,14 +468,18 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @static
      */
     static function &getValues( &$params, &$values, &$ids ) {
-        $values['relationship']['data'] =& 
+        $v = array( );
+        $v['data'] =& 
             CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , 3 );
         
         // get the total count of relationships
-        $values['relationship']['totalCount'] =
+        $v['totalCount'] =
             CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , null, true );
 
-        return $values;
+        $values['relationship']['data']       =& $v['data'];
+        $values['relationship']['totalCount'] =& $v['totalCount'];
+
+        return $v;
     }
 
     /**
