@@ -22,6 +22,7 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}
             <th>{ts}Start Date{/ts}</th>
             <th>{ts}End Date{/ts}</th>
             <th>{ts}Status{/ts}</th>
+            <th>{ts}Source{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$activeMembers item=activeMember}
@@ -30,6 +31,7 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}
 	        <td>{$activeMember.start_date}</td>
 	        <td>{$activeMember.end_date}</td>
 	        <td>{$activeMember.status}</td>
+	        <td>{$activeMember.source}</td>
 	        <td>{$activeMember.action}</td>
         </tr>
         {/foreach}
