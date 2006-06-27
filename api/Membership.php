@@ -42,7 +42,6 @@
  * Files required for this package
  */
 require_once 'api/utils.php';
-require_once 'api/crm.php';
 
 /**
  * Create a Membership Type
@@ -375,7 +374,11 @@ function crm_get_contact_memberships($contactID)
     $membershipValues = $ids = array();
     CRM_Member_BAO_Membership::getValues($membership, $membershipValues, $ids);
     
-    //CRM_Core_Error::debug('Membership Values 1', $membershipValues);
+    if ( empty( $membershipValues ) ) {
+        return _crm_error('No memberships for this contact.');
+    }
+    
+    CRM_Core_Error::debug('Membership Values 1', $membershipValues);
     
     // populate the membership type name for the membership type id
     require_once 'CRM/Member/BAO/MembershipType.php';
