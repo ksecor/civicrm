@@ -380,7 +380,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $dao->find(true);
             $status = array();
             CRM_Core_DAO::storeValues($dao, $status );
-            $membership = array_merge($membership,$status);
+            $membership['is_current_member'] = $status['is_current_member'];
             return $membership;
         }
         return false;
