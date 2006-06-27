@@ -472,10 +472,30 @@ function crm_delete_membership($membershipID)
     return $result ? null : _crm_error('Error while deleting Membership');
 }
 
-function crm_calc_membership_status( $startDate, $endDate, $joinDate, $statusDate = 'today' )
+/**
+ * Derives the Membership Status of a given Membership Reocrd
+ * 
+ * This API is used for deriving Membership Status of a given Membership 
+ * record using the rules encoded in the membership_status table.
+ * 
+ * @param  Int     $membershipID  Id of a membership
+ * @param  String  $statusDate    
+ * 
+ * @return Array  Array of status id and status name 
+ * @public
+ */
+function crm_calc_membership_status(  $membershipID, $statusDate = 'today' )
 {
+    if ( empty( $membershipID ) ) {
+        return _crm_error( 'Invalid value for membershipID' );
+    }
+    require_once 'CRM/Member/BAO/Membership.php';
+    $params['id'] = $membershipID;
+    $values = $ids = array();
+    CRM_Member_BAO_Membership::getValues($params, $values, $ids);
+    CRM_Core_Error::debug('Values', $values);
+    
     require_once 'CRM/Member/BAO/MembershipStatus.php';
-    return CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate($startDate, $endDate, $joinDate, $statusDate);    
+    return CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate($values['start_date'], $values['end_date'], $values['join_date'], $statusDate);
 }
-
 ?>
