@@ -11,6 +11,7 @@ class TestOfCRM1012 extends UnitTestCase
     function tearDown()
     {
     }
+    
     // Create Membership Type
     function testCRM1012CreateMembershipType()
     {
@@ -40,11 +41,8 @@ class TestOfCRM1012 extends UnitTestCase
         $getmembershipTypeID = crm_get_membership_types($getID);
         CRM_Core_Error::debug( 'Get Membership Type Using ID', $getmembershipTypeID);
         
-        $getContactID = array( 'member_of_contact_id' => $membershipType['member_of_contact_id']);
-        $getmembershipTypeContactID = crm_get_membership_types($getContactID);
-        CRM_Core_Error::debug( 'Get Membership Type Using ContactID', $getmembershipTypeContactID);
-        
-        $getContactIDName = array( 'member_of_contact_id' => $membershipType['member_of_contact_id'],
+        $getContactIDName = array( 'id'                   => $membershipType['id'],
+                                   'member_of_contact_id' => $membershipType['member_of_contact_id'],
                                    'name'                 => 'New Membership Type 02',
                                    );
         $getmembershipTypeContactIDName = crm_get_membership_types($getContactIDName);
@@ -67,6 +65,21 @@ class TestOfCRM1012 extends UnitTestCase
                            );
         $updateMembershipTypeID = crm_update_membership_type($updateID);
         CRM_Core_Error::debug( 'Update Membership Type Using ID', $updateMembershipTypeID);
+    }
+    
+    function testCRM1012DeleteMembershipType()
+    {
+        $create = array( 'name' => 'New Membership Type 04',
+                         'description' => 'This is new member shipe type',
+                         'member_of_contact_id' => 100,
+                         'contribution_type_id' => 2
+                         );
+        
+        $membershipType = crm_create_membership_type($create);
+        CRM_Core_Error::debug( 'membershipType', $membershipType);
+        
+        $deleteMembershipTypeID = crm_delete_membership_type($membershipType['id']);
+        CRM_Core_Error::debug( 'Delete Membership Type', $deleteMembershipTypeID);
     }
     
     function testCRM1012CreateMembershipStatus()
@@ -134,8 +147,7 @@ class TestOfCRM1012 extends UnitTestCase
         $membershipStatus = crm_create_membership_status($create);
         CRM_Core_Error::debug( 'Membership Status', $membershipStatus);
         
-        $delete = array( 'id'       => $membershipStatus['id'] );
-        $deleteStatus = crm_delete_membership_status($delete);
+        $deleteStatus = crm_delete_membership_status($membershipStatus['id']);
         CRM_Core_Error::debug( 'Delete Membership Status', $deleteStatus);
     }
     
@@ -151,8 +163,8 @@ class TestOfCRM1012 extends UnitTestCase
     
     function testCRM1012UpdateMembership()
     {
-        $paramsCreate = array ('membership_type_id' => 2,
-                               'status_id' => 1
+        $paramsCreate = array ('membership_type_id' => 3,
+                               'status_id' => 2
                                );
         $contactID = 90;
         $memberC = crm_create_contact_membership($paramsCreate, $contactID);
@@ -167,10 +179,29 @@ class TestOfCRM1012 extends UnitTestCase
     
     function testCRM1012GetMembership()
     {
-        $contactID = 68;
+        $contactID = 84;
         $memberships = crm_get_contact_memberships($contactID);
         CRM_Core_Error::debug('Memberships', $memberships);
     }
     
+    function testCRM1012DeleteMembership()
+    {
+        $paramsCreate = array ('membership_type_id' => 3,
+                               'status_id' => 2
+                               );
+        $contactID = 50;
+        $memberC = crm_create_contact_membership($paramsCreate, $contactID);
+        CRM_Core_Error::debug('Membership Create', $memberC);
+        
+        $memberD = crm_delete_membership($memberC['id']);
+        CRM_Core_Error::debug('Membership Delete', $memberD);
+    }
+    
+    function testCRM1012CalcStatus()
+    {
+        $membershipID = 11;
+        $status = crm_calc_membership_status($membershipID);
+        CRM_Core_Error::debug('Membership', $status);
+    }
 }
 ?>

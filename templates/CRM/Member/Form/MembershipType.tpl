@@ -2,17 +2,13 @@
 <fieldset>
 <legend>{if $action eq 1}{ts}New Membership Type{/ts}{elseif $action eq 2}{ts}Edit Membership Type{/ts}{else}{ts}Delete Membership Type{/ts}{/if}</legend>
 <div class="form-item">
-  
-   {if $action eq 8}
-      <div class="messages status">
-        <dl>
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
-          <dd>    
-          {ts}WARNING: Deleting this option will result in the loss of all membership records of this type.{/ts} {ts}This may mean the loss of a substantial amount of data, and the action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
-          </dd>
-       </dl>
-      </div>
-     {else}
+    {if $action eq 8}
+    
+    <div class="messages status">
+    {ts}WARNING: Deleting this option will result in the loss of all membership records of this type.{/ts} {ts}This may mean the loss of a substantial amount of data, and the action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
+    </div>
+    <dl><dt>&nbsp;</dt><dd>{$form.buttons.html}</dd></dl>
+    {else}
        <dl>
  	<dt>{$form.name.label}</dt><dd class="html-adjust">{$form.name.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}e.g. "Student", "Senior", "Honor Society"...{/ts}</dd>
