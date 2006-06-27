@@ -48,8 +48,9 @@ require_once 'api/utils.php';
  *  
  * This API is used for creating a Membership Type
  * 
- * @param   array  $params  an associative array of name/value property values of civicrm_file
- * @return array of newly created file property values.
+ * @param   array  $params  an associative array of name/value property values of civicrm_membership_type
+ * 
+ * @return array of newly created membership type property values.
  * @access public
  */
 function crm_create_membership_type($params) 
@@ -78,14 +79,14 @@ function crm_create_membership_type($params)
 }
 
 /**
- * Get a file.
+ * Get a Membership Type.
  * 
- * This api is used for finding an existing file.
- * Required parameters : id OR file_type_id of a file
+ * This api is used for finding an existing membership type.
+ * Required parameters : id of membership type
  * 
- * @params  array $params  an associative array of name/value property values of civicrm_file
- *
- * @return  Array of all found file object property values.
+ * @params  array $params  an associative array of name/value property values of civicrm_membership_type
+ * 
+ * @return  Array of all found membership type property values.
  * @access public
  */
 function crm_get_membership_types($params) 
@@ -123,14 +124,14 @@ function crm_get_membership_types($params)
 }
 
 /**
- * Update an existing file
+ * Update an existing membership type
  *
- * This api is used for updating an existing file.
- * Required parrmeters : id of a file
+ * This api is used for updating an existing membership type.
+ * Required parrmeters : id of a membership type
  * 
- * @param  Array   $params  an associative array of name/value property values of civicrm_file
+ * @param  Array   $params  an associative array of name/value property values of civicrm_membership_type
  * 
- * @return array of updated file object property values
+ * @return array of updated membership type property values
  * @access public
  */
 function &crm_update_membership_type( $params ) {
@@ -156,19 +157,18 @@ function &crm_update_membership_type( $params ) {
 }
 
 /**
- * Deletes an existing file
+ * Deletes an existing membership type
  * 
- * This API is used for deleting a file
- * Required parameters : id of a file
+ * This API is used for deleting a membership type
  * 
- * @param  Int  $fileId  Id of the file to be deleted
+ * @param  Int  $membershipTypeID    ID of membership type to be deleted
  * 
  * @return null if successfull, object of CRM_Core_Error otherwise
  * @access public
  */
 function &crm_delete_membership_type( $membershipTypeID ) {
     if ( empty($membershipTypeID) ) {
-        return _crm_error( 'Required parameter missing' );
+        return _crm_error( 'Invalid value for membershipTypeID' );
     }
     
     require_once 'CRM/Member/BAO/MembershipType.php';
@@ -176,12 +176,12 @@ function &crm_delete_membership_type( $membershipTypeID ) {
 }
 
 /**
- * Create a Membership Type
+ * Create a Membership Status
  *  
- * This API is used for creating a Membership Type
+ * This API is used for creating a Membership Status
  * 
- * @param   array  $params  an associative array of name/value property values of civicrm_file
- * @return array of newly created file property values.
+ * @param   array  $params  an associative array of name/value property values of civicrm_membership_status
+ * @return array of newly created membership status property values.
  * @access public
  */
 function crm_create_membership_status($params) 
@@ -205,14 +205,13 @@ function crm_create_membership_status($params)
 }
 
 /**
- * Get a file.
+ * Get a membership status.
  * 
- * This api is used for finding an existing file.
- * Required parameters : id OR file_type_id of a file
+ * This api is used for finding an existing membership status.
  * 
- * @params  array $params  an associative array of name/value property values of civicrm_file
+ * @params  array $params  an associative array of name/value property values of civicrm_membership_status
  *
- * @return  Array of all found file object property values.
+ * @return  Array of all found membership status property values.
  * @access public
  */
 function crm_get_membership_statuses($params) 
@@ -250,14 +249,14 @@ function crm_get_membership_statuses($params)
 }
 
 /**
- * Update an existing file
+ * Update an existing membership status
  *
- * This api is used for updating an existing file.
- * Required parrmeters : id of a file
+ * This api is used for updating an existing membership status.
+ * Required parrmeters : id of a membership status
  * 
- * @param  Array   $params  an associative array of name/value property values of civicrm_file
+ * @param  Array   $params  an associative array of name/value property values of civicrm_membership_status
  * 
- * @return array of updated file object property values
+ * @return array of updated membership status property values
  * @access public
  */
 function &crm_update_membership_status( $params ) 
@@ -284,27 +283,38 @@ function &crm_update_membership_status( $params )
 }
 
 /**
- * Deletes an existing file
+ * Deletes an existing membership status
  * 
- * This API is used for deleting a file
- * Required parameters : id of a file
+ * This API is used for deleting a membership status
  * 
- * @param  Int  $fileId  Id of the file to be deleted
+ * @param  Int  $membershipStatusID   Id of the membership status to be deleted
  * 
  * @return null if successfull, object of CRM_Core_Error otherwise
  * @access public
  */
-function &crm_delete_membership_status( $membershipStatus ) 
+function &crm_delete_membership_status( $membershipStatusID ) 
 {
     _crm_initialize();
-    if ( empty($membershipStatus) ) {
-        return _crm_error( 'Required parameter missing' );
+    if ( empty($membershipStatusID) ) {
+        return _crm_error( 'Invalid value for membershipStatusID' );
     }
     
     require_once 'CRM/Member/BAO/MembershipStatus.php';
-    CRM_Member_BAO_MembershipStatus::del($membershipStatus['id']);
+    CRM_Member_BAO_MembershipStatus::del($membershipStatusID);
 }
 
+/**
+ * Create a Contct Membership
+ *  
+ * This API is used for creating a Membership for a contact.
+ * Required parameters : membership_type_id and status_id.
+ * 
+ * @param   array  $params     an associative array of name/value property values of civicrm_membership
+ * @param   int    $contactID  ID of a contact
+ * 
+ * @return array of newly created membership property values.
+ * @access public
+ */
 function crm_create_contact_membership($params, $contactID)
 {
     _crm_initialize();
@@ -327,6 +337,17 @@ function crm_create_contact_membership($params, $contactID)
     return $membership;
 }
 
+/**
+ * Update an existing contact membership
+ *
+ * This api is used for updating an existing contact membership.
+ * Required parrmeters : id of a membership
+ * 
+ * @param  Array   $params  an associative array of name/value property values of civicrm_membership
+ * 
+ * @return array of updated membership property values
+ * @access public
+ */
 function crm_update_contact_membership($params)
 {
     _crm_initialize();
@@ -361,6 +382,18 @@ function crm_update_contact_membership($params)
     return $membership;
 }
 
+/**
+ * Get conatct membership record.
+ * 
+ * This api is used for finding an existing membership record.
+ * This api will also return the mebership records for the contacts
+ * having mebership based on the relationship with the direct members.
+ * 
+ * @params  Int  $contactID  ID of a contact
+ *
+ * @return  Array of all found membership property values.
+ * @access public
+ */
 function crm_get_contact_memberships($contactID)
 {
     _crm_initialize();
@@ -378,7 +411,7 @@ function crm_get_contact_memberships($contactID)
         return _crm_error('No memberships for this contact.');
     }
     
-    CRM_Core_Error::debug('Membership Values 1', $membershipValues);
+    //CRM_Core_Error::debug('Membership Values 1', $membershipValues);
     
     // populate the membership type name for the membership type id
     require_once 'CRM/Member/BAO/MembershipType.php';
@@ -396,8 +429,9 @@ function crm_get_contact_memberships($contactID)
     
     //CRM_Core_Error::debug('Membership Values 2', $membershipValues);
     
-    $members[$membershipValues['contact_id']] =& $membershipValues;
+    $members[$membershipValues['contact_id']] = $membershipValues;
     
+    // populating contacts in members array based on their relationship with direct members.
     require_once 'CRM/Contact/BAO/Relationship.php';
     $relationship = new CRM_Contact_BAO_Relationship();
     $relationship->contact_id_b            = $membershipValues['contact_id'];
@@ -413,9 +447,24 @@ function crm_get_contact_memberships($contactID)
     return $members;
 }
 
+/**
+ * Deletes an existing contact membership
+ * 
+ * This API is used for deleting a contact membership
+ * 
+ * @param  Int  $membershipID   Id of the contact membership to be deleted
+ * 
+ * @return null if successfull, object of CRM_Core_Error otherwise
+ * @access public
+ */
 function crm_delete_membership($membershipID)
 {
     _crm_initialize();
+    
+    if (empty($membershipID)) {
+        return _crm_error('Invalid value for membershipID');
+    }
+    
     require_once 'CRM/Member/BAO/Membership.php';
     $membership = new CRM_Member_BAO_Membership();
     $result = $membership->deleteMembership($membershipID);
