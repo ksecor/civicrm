@@ -3,7 +3,7 @@
  <div id="search-status">
     <ul>
         {foreach from=$qill item=criteria}
-            <li>{$criteria}</li>
+          <li>  {$criteria}</li>
         {/foreach}
     </ul>
     <br />
@@ -12,7 +12,7 @@
  <dl>
    <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
    <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
-   <dt></dt><dl>{$form.buttons.html}</dl>
+   <dt></dt><dd>{$form.buttons.html}</dd>
  </dl>
  </div>
 </fieldset>

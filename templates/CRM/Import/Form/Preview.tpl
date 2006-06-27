@@ -59,11 +59,11 @@
         <td class="explanation">{ts}Total rows to be imported.{/ts}</td>
     </tr>
  </table>
- <br /> 
+  
 
  {* Table for mapping preview *}
  {include file="CRM/Import/Form/MapTable.tpl}
- <br />
+ 
  
  {* Group options *}
  {* New Group *}

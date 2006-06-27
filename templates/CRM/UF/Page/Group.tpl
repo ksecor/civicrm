@@ -21,6 +21,7 @@
     <div class="action-link">
         <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1"}">&raquo;  {ts}Back to Profile Listings{/ts}</a>
     </div>
+    </form>
 
 {else}
 

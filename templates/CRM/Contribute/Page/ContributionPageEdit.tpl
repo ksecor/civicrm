@@ -21,35 +21,35 @@
 </div>
 <table class="report"> 
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Settings"}" id="idTitleAndSettings">&raquo; {ts}Title and Settings{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Settings"}" id="idTitleAndSettings">&raquo; {ts}Title and Settings{/ts}</a></td>
     <td>{ts}Set page title, contribution type (donation, campaign contribution, etc.), introduction, allowable payment types, activate the page.{/ts}</td>
 </tr>
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Amount"}" id="idContributionAmounts">&raquo; {ts}Contribution Amounts{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Amount"}" id="idContributionAmounts">&raquo; {ts}Contribution Amounts{/ts}</a></td>
     <td>{ts}Configure contribution amount options and labels, minimum and maximum amounts.{/ts}</td>
 </tr>
 {if $CiviMember}
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Membership"}" id="idMembershipSettings">&raquo; {ts}Membership Settings{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Membership"}" id="idMembershipSettings">&raquo; {ts}Membership Settings{/ts}</a></td>
     <td>{ts}Configure membership sign-up and renewal options.{/ts}</td>
 </tr>
 {/if}
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=ThankYou"}" id="idThank-youandReceipting">&raquo; {ts}Thank-you and Receipting{/ts}</a></td>
-    <td nowrap>{ts}Edit thank-you page contents and receipting features.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=ThankYou"}" id="idThank-youandReceipting">&raquo; {ts}Thank-you and Receipting{/ts}</a></td>
+    <td>{ts}Edit thank-you page contents and receipting features.{/ts}</td>
 </tr>
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Custom"}" id="idCustomPageElements">&raquo; {ts}Custom Page Elements{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Custom"}" id="idCustomPageElements">&raquo; {ts}Custom Page Elements{/ts}</a></td>
     <td>{ts}Collect additional information from contributors by selecting CiviCRM Profile(s) to include in this contribution page.{/ts}</td>
 </tr>
 
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Premium"}" id="idPremiums">&raquo; {ts}Premiums{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Premium"}" id="idPremiums">&raquo; {ts}Premiums{/ts}</a></td>
     <td>{ts}Enable a Premiums section (incentives / thank-you gifts) for this page, and configure premiums offered to contributors.{/ts}</td>
 </tr>
 
 <tr>
-    <td nowrap><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&action=preview&id=`$id`"}" id="idTest-drive">&raquo; {ts}Test-drive{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&action=preview&id=`$id`"}" id="idTest-drive">&raquo; {ts}Test-drive{/ts}</a></td>
     <td>{ts}Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your payment processor's test server. <strong>No live financial transactions will be submitted. However, a contact record will be created or updated and a contribution record will be saved to the database. Use obvious test contact names so you can review and delete these records as needed.</strong>{/ts}</td>
 </tr>
 </table>

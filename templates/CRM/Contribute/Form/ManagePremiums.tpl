@@ -5,7 +5,7 @@
    {if $action eq 8}
       <div class="messages status">
         <dl>
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
           {ts}Are you sure you want to delete this premium? This action cannot be undone. This will also remove the premium from any contribution pages that currently include it.{/ts}
           </dd>
@@ -16,10 +16,10 @@
   {else}  
     <dl>
  	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Name of the product as it will be displayed to contributors.{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}Name of the product as it will be displayed to contributors.{/ts}</dd>
     <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
 	<dt>{$form.sku.label}</dt><dd>{$form.sku.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Optional product SKU or code. If used, this value will be included in contributor receipts.{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}Optional product SKU or code. If used, this value will be included in contributor receipts.{/ts}</dd>
 	
     <dt>{$form.imageOption.label}</dt>
     <dd>
@@ -30,7 +30,7 @@
     </div>
 
     <table class="form-layout-compressed">
-    {if $thumbnailUrl}<tr class="odd-row"><td class="describe-image" colspan="2"><strong>Current Image Thumbnail</strong><br /><img src="{$thumbnailUrl}"</td></tr>{/if} 
+    {if $thumbnailUrl}<tr class="odd-row"><td class="describe-image" colspan="2"><strong>Current Image Thumbnail</strong><br /><img src="{$thumbnailUrl}" /</td></tr>{/if} 
     <tr><td>{$form.imageOption.image.html}</td><td>{$form.uploadFile.html}</td></tr>
 	<tr><td colspan="2">{$form.imageOption.thumbnail.html}</td></tr>
     <tr id="imageURL"{if $action eq 2}class="show-row" {else} class="hide-row" {/if}>
@@ -46,14 +46,14 @@
     </dd>
 
 	<dt>{$form.min_contribution.label}</dt><dd>{$form.min_contribution.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}The minimum contribution amount required to be eligible to select this premium. If you want to offer it to all contributors regardless of contribution amount, enter '0'. If display of minimum contribution amounts is enabled then this text is displayed:{/ts} <em>{ts}(Contribute at least X to be eligible for this gift.){/ts}</em></dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}The minimum contribution amount required to be eligible to select this premium. If you want to offer it to all contributors regardless of contribution amount, enter '0'. If display of minimum contribution amounts is enabled then this text is displayed:{/ts} <em>{ts}(Contribute at least X to be eligible for this gift.){/ts}</em></dd>
 
 	<dt>{$form.price.label}</dt><dd>{$form.price.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}The market value of this premium (e.g. retail price). For tax-deductible contributions, this amount will be used to set the non-deductible amount in the contribution record and receipt.{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}The market value of this premium (e.g. retail price). For tax-deductible contributions, this amount will be used to set the non-deductible amount in the contribution record and receipt.{/ts}</dd>
 	<dt>{$form.cost.label}</dt><dd>{$form.cost.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}You may optionally record the actual cost of this product to your organization. This may be useful when evaluating net return for this incentive.{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}You may optionally record the actual cost of this product to your organization. This may be useful when evaluating net return for this incentive.{/ts}</dd>
 	<dt>{$form.options.label}</dt><dd>{$form.options.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Enter a comma-delimited list of color, size, etc. options for the product if applicable. Contributors will be presented a drop-down menu of these options when they select this product.{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}Enter a comma-delimited list of color, size, etc. options for the product if applicable. Contributors will be presented a drop-down menu of these options when they select this product.{/ts}</dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
     </dl>
 
@@ -65,16 +65,16 @@
     <fieldset><legend><a href="#" onclick="hide('time-delimited'); show('time-delimited[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Subscription, Membership or Service Settings{/ts}</legend>
     <dl>
 	<dt>{$form.period_type.label}</dt><dd>{$form.period_type.html}</dd>
-	<dt>&nbsp;</dt><dd class="description">{ts}Select 'Rolling' if the subscription or membership starts on the current day. Select 'Fixed' if the start date is a fixed month and day within the current year (set this value in the next field).{/ts}</dt>
+	<dt>&nbsp;</dt><dd class="description">{ts}Select 'Rolling' if the subscription or membership starts on the current day. Select 'Fixed' if the start date is a fixed month and day within the current year (set this value in the next field).{/ts}</dd>
  
 	<dt>{$form.fixed_period_start_day.label}</dt><dd>{$form.fixed_period_start_day.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Month and day (MMDD) on which a fixed period subscription or membership will start. EXAMPLE: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dt>
+        <dt>&nbsp;</dt><dd class="description">{ts}Month and day (MMDD) on which a fixed period subscription or membership will start. EXAMPLE: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dd>
 
 	<dt>{$form.duration_interval.label}</dt><dd>{$form.duration_interval.html} &nbsp; {$form.duration_unit.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Duration of subscription, membership or service (e.g. 12-month subscription).{/ts}</dt>
+        <dt>&nbsp;</dt><dd class="description">{ts}Duration of subscription, membership or service (e.g. 12-month subscription).{/ts}</dd>
 
 	<dt>{$form.frequency_interval.label}</dt><dd>{$form.frequency_interval.html} &nbsp; {$form.frequency_unit.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Frequency of subscription, membership, or service (e.g. journal delivered every two months).{/ts}</dt>
+        <dt>&nbsp;</dt><dd class="description">{ts}Frequency of subscription, membership, or service (e.g. journal delivered every two months).{/ts}</dd>
     </dl>
     </fieldset>
 	</div>

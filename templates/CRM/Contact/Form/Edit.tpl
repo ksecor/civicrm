@@ -136,10 +136,11 @@
         </span>
         <span class="fields">
 		{$form.birth_date.html}
-                <div class="description"> 
-                   {include file="CRM/common/calendar/desc.tpl"}
-                </div>
+                
         </span>
+        <div class="description"> 
+                   {include file="CRM/common/calendar/desc.tpl"}
+        </div>
         {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear}
     </div>
 	<div class="form-item">

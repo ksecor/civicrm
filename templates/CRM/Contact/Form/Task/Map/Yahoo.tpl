@@ -1,4 +1,5 @@
 <head>
+<title>Yahoo Map</title>
 <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=2.0&appid={$mapKey}"></script>
     {literal}
         <style type="text/css">

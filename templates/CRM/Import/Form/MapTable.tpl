@@ -108,7 +108,7 @@
     	<div id="saveDetails" class="form-item">
     	      <dl>
     		   <dt>{$form.saveMappingName.label}</dt><dd>{$form.saveMappingName.html}</dd>
-    		   <dt>{$form.saveMappingDesc.label}</dt><dd>{$form.saveMappingDesc.html}<dd>
+    		   <dt>{$form.saveMappingDesc.label}</dt><dd>{$form.saveMappingDesc.html}</dd>
     	      </dl>
     	</div>
     	<script type="text/javascript">

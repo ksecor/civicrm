@@ -6,9 +6,9 @@
 {include file="CRM/Contact/Form/Task.tpl"}
          <div class="form-item">
             <dl>
-            <dt>
+            <dt></dt>
             {if $action EQ 2} {* action = update *}
-                <label>{$sort_name}</label></dt>
+              <dd><label>{$sort_name}</label></dd>
           	</dl>
             {else} {* action = add *}
                 <dt>{$form.relationship_type_id.label}</dt><dd>{$form.relationship_type_id.html}</dd>
@@ -80,7 +80,7 @@
 	<div class="form-item">
 	{$form.status.label} {$form.status.html}
 	</div>
-<p>
+
 
             </div></fieldset>
 	{/if}

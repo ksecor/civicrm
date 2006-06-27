@@ -27,11 +27,11 @@ they are currently causing sporadic failures in insert and delete - so commentin
        </dl>
       </div>
     {else}
-        <dl> 
+        <dl>
         <dt>{$form.field_name.label}</dt><dd>&nbsp;{$form.field_name.html}</dd>
         {edit}
             <dt> </dt><dd class="description">&nbsp;{ts}Select the type of CiviCRM record and the field you want to include in this Profile.{/ts}</dd>
-        {/edit} 
+        {/edit}  
         <dt>{$form.label.label}</dt><dd>&nbsp;{$form.label.html}</dd>       
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
         {edit}
@@ -74,10 +74,15 @@ they are currently causing sporadic failures in insert and delete - so commentin
     <div id="crm-submit-buttons" class="form-item">
     <dl>
     {/if}
+    <dl>
     {if $action ne 4}
+    
         <dt>&nbsp;</dt><dd>&nbsp;{$form.buttons.html}</dd>
+    
     {else}
+    
         <dt>&nbsp;</dt><dd>&nbsp;{$form.done.html}</dd>
+    
     {/if} {* $action ne view *}
     </dl>
     </div>

@@ -15,10 +15,9 @@
   	<dl>
 	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
 	<dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
-        <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
-        
+        <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>        
   	</dl>
      {/if}
-	<dt></dt><dd>{$form.buttons.html}</dd>	
+	<dl><dt></dt><dd>{$form.buttons.html}</dd></dl>	
 </fieldset>
 </div>

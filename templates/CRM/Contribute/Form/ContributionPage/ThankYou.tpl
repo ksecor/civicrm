@@ -19,7 +19,7 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Enter the FROM name to be used when receipts are emailed to contributors.{/ts}</dd>
     <dt>{$form.receipt_from_email.label}</dt><dd>{$form.receipt_from_email.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter the FROM email address to be used when receipts are emailed to contributors.{/ts}</dd>
-    <dt>{$form.receipt_text.label}</dt><dd>{$form.receipt_text.html}
+    <dt>{$form.receipt_text.label}</dt><dd>{$form.receipt_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter a message you want included at the beginning of emailed receipts. NOTE: Receipt emails are TEXT ONLY - do not include HTML tags here.{/ts}</dd>
     <dt>{$form.cc_receipt.label}</dt><dd>{$form.cc_receipt.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If you want member(s) of your organization to receive a carbon copy of each emailed receipt, enter one or more email addresses here. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>

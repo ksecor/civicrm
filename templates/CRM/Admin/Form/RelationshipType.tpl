@@ -21,9 +21,9 @@
           </dl>
     {/if}
 	{if $action neq 4} {* action is not view *}
-            <dt></dt><dd>{$form.buttons.html}</dd>
+           <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>
         {else}
-            <dt></dt><dd>{$form.done.html}</dd>
+            <dl><dt></dt><dd>{$form.done.html}</dd></dl>
         {/if}
 
 </fieldset>
