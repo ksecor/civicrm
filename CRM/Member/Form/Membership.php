@@ -91,8 +91,30 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
 
         $this->add('checkbox', 'is_override', ts('Status Hold?'));
+
+        $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
     }
 
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule( &$params ) {
+        $errors = array( );
+
+        if ( !($params['join_date']['M'] && $params['join_date']['d'] && $params['join_date']['Y']) ) {
+            $errors['join_date'] = "Please enter the Join Date.";
+        }
+        if ( $params['is_override'] && !$params['status_id'] ) {
+            $errors['status_id'] = "Please enter the status.";
+        }
+        return empty($errors) ? true : $errors;
+    }
        
     /**
      * Function to process the form
@@ -144,11 +166,14 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
             }
         }
-        $startDate = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
-        $endDate   = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
-        $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
-        $params['status_id'] = $calcStatus['id'];
-        
+
+        if ( !($params['status_id'] && $params['is_override']) ) {
+            $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
+            $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
+            $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
+            $params['status_id'] = $calcStatus['id'];
+        }
+
         $ids['membership'] = $params['id'] = $this->_id;
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         CRM_Core_Session::setStatus( ts('The membership information has been saved.') );

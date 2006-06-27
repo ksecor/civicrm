@@ -107,11 +107,12 @@ class CRM_Member_Form extends CRM_Core_Form
             }
         }
         //setting default join date
-        $joinDate = getDate();
-        $defaults['join_date']['M'] = $joinDate['mon'];
-        $defaults['join_date']['d'] = $joinDate['mday'];
-        $defaults['join_date']['Y'] = $joinDate['year'];
-
+        if ($this->_action == CRM_Core_Action::ADD) {
+            $joinDate = getDate();
+            $defaults['join_date']['M'] = $joinDate['mon'];
+            $defaults['join_date']['d'] = $joinDate['mday'];
+            $defaults['join_date']['Y'] = $joinDate['year'];
+        }
         return $defaults;
     }
 

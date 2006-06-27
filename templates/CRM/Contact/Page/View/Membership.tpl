@@ -65,6 +65,7 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}
             <th>{ts}Start Date{/ts}</th>
             <th>{ts}End Date{/ts}</th>
             <th>{ts}Status{/ts}</th>
+            <th>{ts}Source{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$inActiveMembers item=inActiveMember}
@@ -73,6 +74,7 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}
 	        <td>{$inActiveMember.start_date}</td>
 	        <td>{$inActiveMember.end_date}</td>
 	        <td>{$inActiveMember.status}</td>
+	        <td>{$activeMember.source}</td>
 	        <td>{$inActiveMember.action}</td>
         </tr>
         {/foreach}
