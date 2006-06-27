@@ -690,7 +690,7 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_MYSQL_PATH' ) ) {
-            $this->mysqlPath = CIVICRM_MYSQL_PATH;
+            $this->mysqlPath = self::addTrailingSlash( CIVICRM_MYSQL_PATH );
         }
 
         $size = trim( ini_get( 'upload_max_filesize' ) );

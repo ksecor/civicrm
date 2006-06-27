@@ -77,12 +77,18 @@ class CRM_Core_BAO_DomainDump
         $sql = file($file);
 
         if ( empty( $sql ) ) {
-            CRM_Utils_System::statusBounce( ts( 'We could not find the backup sql script. Check %1 exists and is readable by the webserver.', array(1 => $file ) );
+            CRM_Utils_System::statusBounce( ts( 'We could not find the backup sql script. Check %1 exists and is readable by the webserver.', array(1 => $file ) ) );
         }
-
+        
         // make sure mysqldump exists
         if ( ! file_exists( $config->mysqlPath . 'mysqldump' ) ) {
-            CRM_Utils_System::statusBounce( ts( 'We could not find the mysqldump program. Check the configuration variable CIVICRM_MYSQL_PATH in your CiviCRM config file.' ) );
+            if ( ! file_exists( $config->mysqlPath . 'mysqldump.exe' ) ) {
+                CRM_Utils_System::statusBounce( ts( 'We could not find the mysqldump program. Check the configuration variable CIVICRM_MYSQL_PATH in your CiviCRM config file.' ) );
+            } else {
+                $mysqlExe = $config->mysqlPath . 'mysqldump.exe';
+            }
+        } else {
+            $mysqlExe = $config->mysqlPath . 'mysqldump';
         }
 
         foreach($sql as $value) {
@@ -94,31 +100,35 @@ class CRM_Core_BAO_DomainDump
             while ( $domainDAO->fetch( ) ) {
                 $ids[] = $domainDAO->id; 
             }
-                        
-            //if ( !empty($ids) ) {
-                $dumpCommand = $config->mysqlPath."mysqldump  -u".$username." -p".$password." --opt --single-transaction  ".$database." ". $val[0] ." -w 'id IN ( ".implode(",", $ids)." ) ' >> " . $fileName;
-                exec($dumpCommand); 
-            //} fixed for Issue CRM-670
-        }
-     
-        $tarFileName = 'backupData.tgz';
 
-        if ( is_file($tarFileName) ) {
-            unlink($tarFileName);
+            $clause = null;
+            if ( ! empty( $ids ) ) {
+                $clause = "-w 'id IN ( " . implode( ",", $ids ) . " ) '";
+            }
+            $dumpCommand = "$mysqlExe -u{$username} -p{$password} --opt --single-transaction $database {$val[0]} $clause >> $fileName";
+            exec($dumpCommand); 
         }
 
-        $tarCommand = 'tar -czf '.$tarFileName.' '.$fileName;
-        exec($tarCommand);
-        
-        $fileSize = filesize( $tarFileName );
+        $output  = file_get_contents( $fileName );
+        if ( function_exists( 'gzencode' ) ) {
+            $output    = gzencode( $output, 9 );
+            $type      = "application/x-gzip";
+            $ext       = ".gz";
+            $fileName .= $ext;
+        } else {
+            $type   = "text/plain";
+            $ext    = ".txt";
+        }
+
+        $fileSize = strlen( $output ) + 1;
         
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Content-Description: File Transfer');
-        header('ContentType Extension=".tgz" ContentType="application/x-compressed" ');
-        header('Content-Length: ' . $fileSize);
-        header('Content-Disposition: attachment; filename=backupData.tgz');
+        header("ContentType Extension='$ext' ContentType='$type'");
+        header("Content-Length: $fileSize");
+        header("Content-Disposition: attachment; filename=$fileName");
 
-        readfile($tarFileName);
+        echo $output;
     }
 }
 

@@ -77,9 +77,16 @@ if ( empty( $sql ) ) {
 
 // make sure mysqldump exists
 if ( ! file_exists( $config->mysqlPath . "mysqldump" ) ) {
-    echo "We could not find the mysqldump program. Check the configuration variable CIVICRM_MYSQL_PATH in your CiviCRM config file.\n";
-    exit( );
-}
+    if ( ! file_exists( $config->mysqlPath . 'mysqldump.exe' ) ) {
+        echo "We could not find the mysqldump program. Check the configuration variable CIVICRM_MYSQL_PATH in your CiviCRM config file.\n";
+        exit( );
+    } else {
+        $mysqlExe = $config->mysqlPath . 'mysqldump.exe';
+    }
+ } else {
+    $mysqlExe = $config->mysqlPath . 'mysqldump';
+ }
+
 
 foreach($sql as $value) {
     $val = explode("|", $value);
@@ -100,13 +107,11 @@ foreach($sql as $value) {
     exec($dumpCommand); 
 }
 
-$tarFileName = 'backupData.tgz';
-
-if ( is_file($tarFileName) ) {
-    unlink($tarFileName);
+$output  = file_get_contents( $fileName ); 
+if ( function_exists( 'gzencode' ) ) { 
+    $output    = gzencode( $output, 9 ); 
 }
 
-$tarCommand = 'tar -czf ' . $backupPath . $tarFileName.' '.$fileName;
-exec($tarCommand);
+echo $output;
 
 ?>
