@@ -60,6 +60,12 @@ function crm_create_membership_type($params)
         return _crm_error('Params is not an array.');
     }
     
+    if ( !$params['domain_id'] ) {
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton();
+        $params['domain_id'] = $config->domainID();
+    }
+    
     $error = _crm_check_required_fields( $params, 'CRM_Member_DAO_MembershipType');
     if ( is_a($error, 'CRM_Core_Error')  ) {
         return $error;
@@ -147,7 +153,12 @@ function &crm_update_membership_type( $params ) {
     $membershipTypeBAO =& new CRM_Member_BAO_MembershipType( );
     $membershipTypeBAO->id = $params['id'];
     if ($membershipTypeBAO->find(true)) {
-        $membershipTypeBAO->copyValues( $params );
+        $fields = $membershipTypeBAO->fields( );
+        foreach ( $fields as $name => $field) {
+            if (array_key_exists($name, $params)) {
+                $membershipTypeBAO->$name = $params[$name];
+            }
+        }
         $membershipTypeBAO->save();
     }
     
@@ -195,6 +206,12 @@ function crm_create_membership_status($params)
         return _crm_error('Params can not be empty.');
     }
     
+    if ( !$params['domain_id'] ) {
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton();
+        $params['domain_id'] = $config->domainID();
+    }
+    
     require_once 'CRM/Member/BAO/MembershipStatus.php';
     $ids = array();
     $membershipStatusBAO = CRM_Member_BAO_MembershipStatus::add($params, $ids);
@@ -225,22 +242,22 @@ function crm_get_membership_statuses($params)
         return _crm_error('Params can not be empty.');
     }
     
-    require_once 'CRM/Member/DAO/MembershipStatus.php';
-    $membershipStatusDAO = new CRM_Member_DAO_MembershipStatus();
+    require_once 'CRM/Member/BAO/MembershipStatus.php';
+    $membershipStatusBAO = new CRM_Member_BAO_MembershipStatus();
     
-    $properties = array_keys($membershipStatusDAO->fields());
+    $properties = array_keys($membershipStatusBAO->fields());
     
     foreach ($properties as $name) {
         if (array_key_exists($name, $params)) {
-            $membershipStatusDAO->$name = $params[$name];
+            $membershipStatusBAO->$name = $params[$name];
         }
     }
     
-    if ( $membershipStatusDAO->find() ) {
+    if ( $membershipStatusBAO->find() ) {
         $membershipStatus = array();
-        while ( $membershipStatusDAO->fetch() ) {
-            _crm_object_to_array( clone($membershipStatusDAO), $membershipStatus );
-            $membershipStatuses[$membershipStatusDAO->id] = $membershipStatus;
+        while ( $membershipStatusBAO->fetch() ) {
+            _crm_object_to_array( clone($membershipStatusBAO), $membershipStatus );
+            $membershipStatuses[$membershipStatusBAO->id] = $membershipStatus;
         }
     } else {
         return _crm_error('Exact match not found');
@@ -270,15 +287,20 @@ function &crm_update_membership_status( $params )
         return _crm_error( 'Required parameter missing' );
     }
     
-    require_once 'CRM/Member/DAO/MembershipStatus.php';
-    $membershipStatusDAO =& new CRM_Member_DAO_MembershipStatus( );
-    $membershipStatusDAO->id = $params['id'];
-    if ($membershipStatusDAO->find(true)) {
-        $membershipStatusDAO->copyValues( $params );
-        $membershipStatusDAO->save();
+    require_once 'CRM/Member/BAO/MembershipStatus.php';
+    $membershipStatusBAO =& new CRM_Member_BAO_MembershipStatus( );
+    $membershipStatusBAO->id = $params['id'];
+    if ($membershipStatusBAO->find(true)) {
+        $fields = $membershipStatusBAO->fields( );
+        foreach ( $fields as $name => $field) {
+            if (array_key_exists($name, $params)) {
+                $membershipStatusBAO->$name = $params[$name];
+            }
+        }
+        $membershipStatusBAO->save();
     }
     $membershipStatus = array();
-    _crm_object_to_array( clone($membershipStatusDAO), $membershipStatus );
+    _crm_object_to_array( clone($membershipStatusBAO), $membershipStatus );
     return $membershipStatus;
 }
 
@@ -493,7 +515,6 @@ function crm_calc_membership_status(  $membershipID, $statusDate = 'today' )
     $params['id'] = $membershipID;
     $values = $ids = array();
     CRM_Member_BAO_Membership::getValues($params, $values, $ids);
-    CRM_Core_Error::debug('Values', $values);
     
     require_once 'CRM/Member/BAO/MembershipStatus.php';
     return CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate($values['start_date'], $values['end_date'], $values['join_date'], $statusDate);
