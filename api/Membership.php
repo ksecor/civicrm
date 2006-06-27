@@ -472,4 +472,10 @@ function crm_delete_membership($membershipID)
     return $result ? null : _crm_error('Error while deleting Membership');
 }
 
+function crm_calc_membership_status( $startDate, $endDate, $joinDate, $statusDate = 'today' )
+{
+    require_once 'CRM/Member/BAO/MembershipStatus.php';
+    return CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate($startDate, $endDate, $joinDate, $statusDate);    
+}
+
 ?>
