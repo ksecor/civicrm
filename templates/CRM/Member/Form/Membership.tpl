@@ -35,7 +35,7 @@
     	<dt>{$form.status_id.label}</dt><dd class="html-adjust">{$form.status_id.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Calculated Status based on rules. Status can be overriden by setting a value in the 'Override' field{/ts}</dd>
         <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}You may over-ride the calculated status by setting a value in this field (e.g. may be used to set a "Suspended" or other exception status).{/ts}</dd>
+	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Check this box if you want to bypass automatic status update rules. The selected status will be in force unless it is modified manually on this screen.{/ts}</dd>
       </dl> 
      {/if}
     <dl>   

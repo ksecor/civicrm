@@ -90,8 +90,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->add('select', 'status_id', ts( 'Status' ), 
                    array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
 
-        $this->add('checkbox', 'is_override', ts('Override?'));
-
+        $this->add('checkbox', 'is_override', ts('Status Hold?'));
     }
 
        
@@ -104,6 +103,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
     public function postProcess() 
     {
         require_once 'CRM/Member/BAO/Membership.php';
+        require_once 'CRM/Member/BAO/MembershipType.php';
+        require_once 'CRM/Member/BAO/MembershipStatus.php';
+
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             CRM_Member_BAO_Membership::deleteMembership( $this->_id );
             return;
@@ -126,7 +128,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
-
+        
+        $joinDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
+        $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['memebrship_type_id'], $joinDate);
+        
         $dates = array( 'join_date',
                         'start_date',
                         'end_date'
@@ -134,15 +139,17 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $currentTime = getDate();        
         foreach ( $dates as $d ) {
             if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
-                $formValues[$d]['H'] = $currentTime['hours'];
-                $formValues[$d]['i'] = $currentTime['minutes'];
-                $formValues[$d]['s'] = '00';
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
+            } else {
+                $params[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
             }
         }
+        $startDate = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
+        $endDate   = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
+        $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
+        $params['status_id'] = $calcStatus['id'];
         
         $ids['membership'] = $params['id'] = $this->_id;
-        
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         CRM_Core_Session::setStatus( ts('The membership information has been saved.') );
 

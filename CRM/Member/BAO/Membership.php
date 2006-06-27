@@ -79,18 +79,20 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             CRM_Utils_Hook::pre( 'create', 'Membership', null, $params ); 
         }
         
-        require_once 'CRM/Member/BAO/MembershipType.php';
-        $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['memebrship_type_id']);
-        
-        $params['join_date']  = $dates['join_date'];
-        $params['start_date'] = $dates['start_date'];
-        $params['end_date']   = $dates['end_date'];
-        
         $membership =& new CRM_Member_BAO_Membership();
         $membership->copyValues($params);
         $membership->id = CRM_Utils_Array::value( 'membership', $ids );
         
         $result = $membership->save();
+        
+        $membershipLog = array('membership_id' => $result->id,
+                               'status_id'     => $result->status_id,
+                               'start_date'    => $result->start_date,
+                               'end_date'      => $result->end_date
+                               );
+
+//         require_once 'CRM/Member/BAO/MembershipLog.php';
+//         CRM_Member_BAO_MembershipLog::add($membershipLog);
         
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
@@ -142,14 +144,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     static function &create(&$params, &$ids) {
         require_once 'CRM/Utils/Date.php';
 
-        // FIXME: a cludgy hack to fix the dates to MySQL format
-        $dateFields = array('receive_date', 'cancel_date', 'receipt_date', 'thankyou_date');
-        foreach ($dateFields as $df) {
-            if (isset($params[$df])) {
-                $params[$df] = CRM_Utils_Date::isoToMysql($params[$df]);
-            }
-        }
-        
         CRM_Core_DAO::transaction('BEGIN');
         
         $membership = self::add($params, $ids);
