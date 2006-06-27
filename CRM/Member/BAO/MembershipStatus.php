@@ -104,12 +104,18 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
      */
     static function add(&$params, &$ids) 
     {
-        $params['is_active']         =  CRM_Utils_Array::value( 'is_active', $params, false );
-        $params['is_current_member'] =  CRM_Utils_Array::value( 'is_current_member', $params, false );
-        $params['is_admin']          =  CRM_Utils_Array::value( 'is_admin', $params, false );
+        $params['is_active']          =  CRM_Utils_Array::value( 'is_active', $params, false );
+        $params['is_current_member']  =  CRM_Utils_Array::value( 'is_current_member', $params, false );
+        $params['is_admin']           =  CRM_Utils_Array::value( 'is_admin', $params, false );
+        $params['is_default']         =  CRM_Utils_Array::value( 'is_default', $params, false );
         
+        if ( $params['is_default'] ) {// set all other defaults to false. 
+            $query = "UPDATE civicrm_membership_status SET `is_default`= FALSE where `domain_id`=".CRM_Core_Config::domainID( );
+            $dao =& new CRM_Core_DAO( );
+            $dao->query( $query );
+        }
         // action is taken depending upon the mode
-        $membershipStatus             =& new CRM_Member_DAO_MembershipStatus( );
+        $membershipStatus               =& new CRM_Member_DAO_MembershipStatus( );
         $membershipStatus->domain_id    = CRM_Core_Config::domainID( );
         $membershipStatus->copyValues( $params );
         
@@ -163,7 +169,10 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
     /**
      * Function to find the membership status based on start date, end date, join date & status date. 
      * 
-     * @param 
+     * @param  date  $startDate   start date of the member whose membership status is to be calculated. 
+     * @param  date  $endDate     end date of the member whose membership status is to be calculated. 
+     * @param  date  $joinDate    join date of the member whose membership status is to be calculated. 
+     * @param  date  $statusDate  status date of the member whose membership status is to be calculated. 
      *
      * @return 
      * @static
@@ -181,23 +190,24 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         $events = array('start', 'end');
 
         foreach ( $dates as $dat ) {
-            $date  = explode('-', ${$dat.'Date'} );
-            ${$dat.'Year'}  = $date[0];
-            ${$dat.'Month'} = $date[1];
-            ${$dat.'Day'}   = $date[2];
+            if (${$dat.'Date'}) {
+                $date  = explode('-', ${$dat.'Date'} );
+                ${$dat.'Year'}  = $date[0];
+                ${$dat.'Month'} = $date[1];
+                ${$dat.'Day'}   = $date[2];
+            }
         }
         
         $query = "SELECT * FROM `civicrm_membership_status` WHERE `is_active`=1 AND `is_admin`!=1 ORDER BY weight ASC";
         $membershipStatus =& new CRM_Core_DAO( );
         $membershipStatus->query( $query );
-        
         while ( $membershipStatus->fetch() ) {
             $startEvent = null;
             $endEvent   = null;
             foreach ( $events as $eve ) {
                 foreach ( $dates as $dat ) {
-                    // calculate start-event/date
-                    if ( $membershipStatus->{$eve.'_event'} == $dat.'_date' ) {
+                    // calculate start-event/date and end-event/date
+                    if ( ($membershipStatus->{$eve.'_event'} == $dat.'_date') && ${$dat.'Date'} ) {
                         if ( $membershipStatus->{$eve.'_event_adjust_unit'} &&  $membershipStatus->{$eve.'_event_adjust_interval'} ) {
                             if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'month' ) {//add in months
                                 ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
@@ -217,7 +227,7 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                                                                       ${$dat.'Day'}, 
                                                                       ${$dat.'Year'}+$membershipStatus->{$eve.'_event_adjust_interval'}));
                             }
-                        } else { // if no interval & unit present
+                        } else { // if no interval and unit, present
                             ${$eve.'Event'} = ${$dat.'Date'};
                         }
                     }
