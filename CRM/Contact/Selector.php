@@ -258,6 +258,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      */
     function &getColumnHeaders($action = null, $output = null) 
     {
+
         if ( $output == CRM_Core_Selector_Controller::EXPORT || $output == CRM_Core_Selector_Controller::SCREEN ) {
             $csvHeaders = array( ts('Contact Id'), ts('Contact Type') );
             foreach ( self::_getColumnHeaders() as $column ) {
@@ -301,6 +302,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             }
             return self::$_columnHeaders;
         } else if ( ! empty( $this->_returnProperties ) ) { 
+
             self::$_columnHeaders = array( array( 'name' => '' ),
                                            array(
                                                  'name'      => ts('Name'),
@@ -309,11 +311,12 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                                  )
                                            );
             $properties =& self::makeProperties( $this->_returnProperties );
+
             foreach ( $properties as $prop ) {
                 if ( $prop == 'contact_type' || $prop == 'contact_sub_type' || $prop == 'sort_name' ) {
                     continue;
                 }
-                self::$_columnHeaders[] = array( 'name' => $prop, 'desc' => $prop );
+                self::$_columnHeaders[] = array( 'name' => $this->_query->_fields[$prop]['title'], 'desc' => $prop );
             }
             self::$_columnHeaders[] = array('desc' => ts('Actions'));
             return self::$_columnHeaders;
