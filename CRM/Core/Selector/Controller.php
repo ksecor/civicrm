@@ -46,6 +46,7 @@ require_once 'CRM/Utils/Pager.php';
 require_once 'CRM/Utils/PagerAToZ.php';
 require_once 'CRM/Utils/Sort.php';
 require_once 'CRM/Core/Report/Excel.php';
+require_once 'CRM/Contact/Form/Task/Labels.php';
 
 class CRM_Core_Selector_Controller {
 
@@ -59,7 +60,8 @@ class CRM_Core_Selector_Controller {
         TEMPLATE  = 2,
         TRANSFER  = 4, // move the values from the session to the template
         EXPORT    = 8,
-        SCREEN    = 16;
+        SCREEN    = 16,
+        PDF       = 32;
 
     /**
      * a CRM Object that implements CRM_Core_Selector_API
@@ -187,7 +189,7 @@ class CRM_Core_Selector_Controller {
      */
     function __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE)
     {
-  
+        
         $this->_object = $object;
         $this->_pageID = $pageID ? $pageID : 1;
         $this->_sortID = $sortID ? $sortID : null;
@@ -285,36 +287,42 @@ class CRM_Core_Selector_Controller {
      */
     function run( )
     {
-
+        
         // get the column headers
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $this->_output );
-
+       
         // we need to get the rows if we are exporting or printing them
-        if ($this->_output == self::EXPORT || $this->_output == self::SCREEN) {
+        if ($this->_output == self::EXPORT || $this->_output == self::SCREEN || $this->_output == self::PDF) {
             // get rows (without paging criteria)
-//             $rows          =& $this->_object->getRows( $this->_action,
-//                                                        0, 0,
-//                                                        $this->_sort,
-//                                                        $this->_output );
+              // $rows          =& $this->_object->getRows( $this->_action,
+//                                                                      0, 0,
+//                                                                      $this->_sort,
+//                                                                      $this->_output );
             $rows = self::getRows( $this );
-            if ( $this->_output == self::EXPORT ) {
-                // export the rows.
-                CRM_Core_Report_Excel::writeCSVFile( $this->_object->getExportFileName( ),
-                                                     $columnHeaders,
-                                                     $rows );
+            //if PDF file
+            if ( $this->_output == self::PDF ) {
+                CRM_Contact_Form_Task_Labels::createLabel($rows,$this->_object->_formValues['label_id']);
                 exit(1);
-            } else {
-                // assign to template and display them.
-                self::$_template->assign_by_ref( 'rows'         , $rows          );
+            }else{
+                if ( $this->_output == self::EXPORT ) {
+                    // export the rows.
+                    CRM_Core_Report_Excel::writeCSVFile( $this->_object->getExportFileName( ),
+                                                         $columnHeaders,
+                                                         $rows );
+                    exit(1);
+                } else {
+                    // assign to template and display them.
+                    self::$_template->assign_by_ref( 'rows'         , $rows          );
+                }
             }
         } else {
             // output requires paging/sorting capability
             // get rows with paging criteria
-//             $rows          =& $this->_object->getRows( $this->_action,
-//                                                        $this->_pagerOffset,
-//                                                        $this->_pagerRowCount,
-//                                                        $this->_sort,
-//                                                        $this->_output );
+            //             $rows          =& $this->_object->getRows( $this->_action,
+            //                                                        $this->_pagerOffset,
+            //                                                        $this->_pagerRowCount,
+            //                                                        $this->_sort,
+            //                                                        $this->_output );
             $rows = self::getRows( $this );
             $rowsEmpty = count( $rows ) ? false : true;
             $qill      = $this->getQill( );
@@ -353,7 +361,7 @@ class CRM_Core_Selector_Controller {
      * @access public
      */
     public function getRows( $form ) {
-        if ($form->_output == self::EXPORT || $form->_output == self::SCREEN) {
+        if ($form->_output == self::EXPORT || $form->_output == self::SCREEN ) {
             //get rows (without paging criteria)
             return $form->_object->getRows( $form->_action, 0, 0, $form->_sort, $form->_output );
         } else {
