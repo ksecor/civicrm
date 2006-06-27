@@ -163,9 +163,9 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             if ( !$params['contribution_type_id'] ) {
                 $errors['contribution_type_id'] = "Please enter the contribution type.";
             }
-            if ( !$params['contact_check'] ) {
-                $errors['member_org'] = "Please select the membership organization";
-            }
+//             if ( !$params['contact_check'] ) {
+//                 $errors['member_org'] = "Please select the membership organization";
+//             }
             if ( $params['period_type'] == 'fixed' ) {
                 $errors['fixed_period_start_day'] = "Please enter the 'Fixed period start day'.";
             }            

@@ -232,11 +232,11 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
      * @return Array array fo the start date, end date and join date of the membership
      * @static
      */
-    function getDatesForMembershipType( $membershipTypeId ) 
+    function getDatesForMembershipType( $membershipTypeId, $joinDate = null ) 
     {
         $membershipTypeDetails = self::getMembershipTypeDetails( $membershipTypeId );
-        $joinDate = date('Y-m-d');
-        
+        $joinDate = $joinDate ? $joinDate : date('Y-m-d');
+
         if ( $membershipTypeDetails['period_type'] == 'rolling' ) {
             $startDate  = $joinDate;
         } else if ( $membershipTypeDetails['period_type'] == 'fixed' ) {
@@ -371,8 +371,6 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         
         return $membershipDates;
     }
-
-
 }
 
 ?>
