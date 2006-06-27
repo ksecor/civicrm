@@ -5,7 +5,7 @@
 	{if $action eq 8}
       <div class="messages status">
         <dl>
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
           {ts 1=$title}Delete %1 Profile?{/ts}
           </dd>
