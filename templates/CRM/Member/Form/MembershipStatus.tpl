@@ -33,6 +33,8 @@
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this status for admin/manual assignment only.{/ts}</dd>
         <dt>{$form.weight.label}</dt><dd class="html-adjust">{$form.weight.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Used for status display - and to resolve overlapping status calcs (e.g. could set "New" status with lower weight then "Current" - and memberships that meet both status range criteria are assigned the lower weight status).{/ts}</dd>   
+        <dt>{$form.is_default.label}</dt><dd class="html-adjust">{$form.is_default.html}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this status default.{/ts}</dd>   
         <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this status enabled.{/ts}</dd>   
       </dl> 
