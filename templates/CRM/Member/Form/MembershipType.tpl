@@ -106,6 +106,8 @@
 		show('fixed_period_settings');
 	   } else {
 		hide('fixed_period_settings');
+		document.getElementsByName("fixed_period_start_day")[0].value = "";
+		document.getElementsByName("fixed_period_rollover_day")[0].value = "";
 	   }
 	} 
     </script>

@@ -91,12 +91,13 @@ class CRM_Member_Form extends CRM_Core_Form
                                                                   $defaults['member_of_contact_id'], 'display_name');
         }
         //finding default weight to be put 
-        $query = "SELECT max( `weight` ) as weight FROM `civicrm_membership_type`";
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $query );
-        $dao->fetch();
-        $defaults['weight'] = ($dao->weight + 1);
-        
+        if ( ! $defaults['weight'] ) {
+            $query = "SELECT max( `weight` ) as weight FROM `civicrm_membership_type`";
+            $dao =& new CRM_Core_DAO( );
+            $dao->query( $query );
+            $dao->fetch();
+            $defaults['weight'] = ($dao->weight + 1);
+        }
         $defaultFields = array('fixed_period_start_day'    => '0101',
                                'fixed_period_rollover_day' => '1231'
                                );
@@ -105,7 +106,12 @@ class CRM_Member_Form extends CRM_Core_Form
                 $defaults[$field] = $val;
             }
         }
-        
+        //setting default join date
+        $joinDate = getDate();
+        $defaults['join_date']['M'] = $joinDate['mon'];
+        $defaults['join_date']['d'] = $joinDate['mday'];
+        $defaults['join_date']['Y'] = $joinDate['year'];
+
         return $defaults;
     }
 
