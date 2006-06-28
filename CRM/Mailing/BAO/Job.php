@@ -207,7 +207,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             }
             $mailsProcessed++;
             
-            CRM_Utils_System::xMemory( "Job loop" );
+//          CRM_Utils_System::xMemory( "Job loop" );
 
             /* Compose the mailing */
             $recipient = null;
