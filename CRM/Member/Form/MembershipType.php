@@ -88,6 +88,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $this->add('text', 'fixed_period_rollover_day', ts('Fixed Period Rollover Day'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'fixed_period_rollover_day' ) );
 
+        $this->add('hidden','action',$this->_action); //required in form rule
+
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', ts( 'Contribution Type' ), 
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), false );
@@ -130,20 +132,19 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $this->assign('searchCount', $searchCount);
         $this->assign('searchDone', $searchDone);
         
-
-        if ($this->_action & CRM_Core_Action::UPDATE ) { 
-            $searchBtn = ts('Change');
-        } elseif ( $searchDone ) {
+        if ( $searchDone ) {
             $searchBtn = ts('Search Again');
+        } elseif ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $searchBtn = ts('Change');
         } else {
             $searchBtn = ts('Search');
         }
-
+        
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );
-
+        
         $this->addFormRule(array('CRM_Member_Form_MembershipType', 'formRule'));
     }
-
+    
     /**
      * Function for validation
      *
@@ -155,7 +156,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      */
     public function formRule( &$params ) {
         $errors = array( );
-
+        
         if ( !$params['_qf_MembershipType_refresh'] ) {
             if ( !$params['name'] ) {
                 $errors['name'] = "Please enter a membership type name.";
@@ -163,12 +164,14 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             if ( !$params['contribution_type_id'] ) {
                 $errors['contribution_type_id'] = "Please enter the contribution type.";
             }
-//             if ( !$params['contact_check'] ) {
-//                 $errors['member_org'] = "Please select the membership organization";
-//             }
+            if ( !$params['contact_check'] && $params['action']!= CRM_Core_Action::UPDATE ) {
+                $errors['member_org'] = "Please select the membership organization";
+            }
             if ( $params['period_type'] == 'fixed' ) {
-                $errors['fixed_period_start_day'] = "Please enter the 'Fixed period start day'.";
-            }            
+                if ( !$params['fixed_period_start_day'] ) {
+                    $errors['fixed_period_start_day'] = "Please enter the 'Fixed period start day'.";
+                }
+            }
         }
         return empty($errors) ? true : $errors;
     }
@@ -199,7 +202,6 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $ids['membershipType'] = $this->_id;
             }
-
             $ids['memberOfContact'] = $params['contact_check'];
             $membershipType = CRM_Member_BAO_MembershipType::add($params, $ids);
             CRM_Core_Session::setStatus( ts('The membership type "%1" has been saved.', array( 1 => $membershipType->name )) );
