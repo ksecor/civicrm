@@ -20,7 +20,7 @@
         <dt>&nbsp;</dt><dd class="description">
         {capture assign=siteRoot}&lt;{ts}site root{/ts}&gt;{/capture}
         <table class="form-layout-compressed">
-        <tr><td>{ts}Profiles can be explicitly linked to a module page. Any Profile form/listings page can also be linked directly by adding it's ID to the civicrm/profile path. (Example: <em>{$siteRoot}/civicrm/profile?reset=1&gid=3</em>){/ts}
+        <tr><td>{ts 1="$siteRoot/civicrm/profile?reset=1&gid=3"}Profiles can be explicitly linked to a module page. Any Profile form/listings page can also be linked directly by adding it's ID to the civicrm/profile path. (Example: <em>%1</em>){/ts}
         {if $config->userFramework EQ 'Drupal'}
         <ul>
             <li>{ts}Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form.{/ts}
