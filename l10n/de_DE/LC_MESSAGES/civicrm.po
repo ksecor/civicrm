@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-18 08:33+0200\n"
+"POT-Creation-Date: 2006-06-28 12:55-0700\n"
 "PO-Revision-Date: 2006-06-25 13:37+0200\n"
 "Last-Translator: Martin Roell <martin@roell.net>\n"
 "Language-Team: none\n"
@@ -958,6 +958,11 @@ msgstr "Zuwendungen"
 msgid "Custom Data"
 msgstr "Eigene Daten"
 
+#: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
+#: xml/templates/civicrm_add_domain.tpl
+msgid "Email Sent"
+msgstr "Email gesendet"
+
 #: CRM/Contact/Page/View/Note.php CRM/Profile/Page/Note.php
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Contact Notes"
@@ -968,6 +973,10 @@ msgstr "Bemerkungen"
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "View Note"
 msgstr "Notiz ansehen"
+
+#: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
+msgid "SMS Sent"
+msgstr ""
 
 #: CRM/Contact/Selector/Activity.php CRM/Utils/Menu.php
 #: templates/CRM/Activity/Form/OtherActivity.tpl
@@ -1327,14 +1336,19 @@ msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
 "before continuing."
-msgstr "Die Datenspalten in dieser Importdatei unterscheiden sich von der gespeicherten Zuordnung. Bestätigen Sie bitte, dass die Wahl der gespeicherten Zuordnung korrekt ist, bevor Sie fortfahren. "
+msgstr ""
+"Die Datenspalten in dieser Importdatei unterscheiden sich von der "
+"gespeicherten Zuordnung. Bestätigen Sie bitte, dass die Wahl der "
+"gespeicherten Zuordnung korrekt ist, bevor Sie fortfahren. "
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
 msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.)"
-msgstr "Erforderliche Suchkriterien fehlen. (Es sollte zum Beispiel Vor- UND Zuname sein.) "
+msgstr ""
+"Erforderliche Suchkriterien fehlen. (Es sollte zum Beispiel Vor- UND Zuname "
+"sein.) "
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
@@ -1408,7 +1422,10 @@ msgstr "Die Datei muss kleiner als %1 MBytes sein (%2 bytes)"
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
-msgstr "Eingabedatei muss im CSV-Format sein! (Häufiger Fehler: Kodierung von Sonderzeichen wie Umlauten ist nicht UTF-8, bitte bei Erstellung der csv eingeben, zumindest OpenOffice 2.0 kann das.)"
+msgstr ""
+"Eingabedatei muss im CSV-Format sein! (Häufiger Fehler: Kodierung von "
+"Sonderzeichen wie Umlauten ist nicht UTF-8, bitte bei Erstellung der csv "
+"eingeben, zumindest OpenOffice 2.0 kann das.)"
 
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
@@ -2026,7 +2043,9 @@ msgstr "Treffen am:"
 msgid ""
 "The Duplicate Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
-msgstr "Die Dublikatcheck-Regel wurde nicht gespeichertm, da die Regel unzulässig ist. Regeln dürfen nur gültige Feldnamen, 'AND', 'OR' oder () enthalten."
+msgstr ""
+"Die Dublikatcheck-Regel wurde nicht gespeichertm, da die Regel unzulässig "
+"ist. Regeln dürfen nur gültige Feldnamen, 'AND', 'OR' oder () enthalten."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Duplicate Matching rule has been saved."
@@ -2140,7 +2159,8 @@ msgstr "Sind Sie sicher, dass Sie diesen Aktivitätstyp deaktivieren möchten?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "activities."
-msgstr "Die Benutzer werden nicht mehr in der Lage sein diesen Wert auszuwählen, "
+msgstr ""
+"Die Benutzer werden nicht mehr in der Lage sein diesen Wert auszuwählen, "
 "wenn sie Aktivitäten hinzufügen oder bearbeiten."
 
 #: CRM/Admin/Page/ActivityType.php templates/CRM/Admin/Form/ActivityType.tpl
@@ -2175,7 +2195,8 @@ msgstr "Sind Sie sicher, dass Sie dieses Geschlecht deaktivieren möchten?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Gender."
-msgstr "Die Benutzer werden nicht mehr in der Lage sein diesen Wert auszuwählen, "
+msgstr ""
+"Die Benutzer werden nicht mehr in der Lage sein diesen Wert auszuwählen, "
 "wenn sie das Geschlcht hinzufügen oder bearbeiten."
 
 #: CRM/Admin/Page/Gender.php
@@ -2196,13 +2217,16 @@ msgstr "Geschlechtstyp löschen"
 
 #: CRM/Admin/Page/IMProvider.php
 msgid "Are you sure you want to disable this IM Service Provider?"
-msgstr "Sind Sie sicher, dass Sie diesen Instantmessaging Provicer deaktivieren möchten?"
+msgstr ""
+"Sind Sie sicher, dass Sie diesen Instantmessaging Provicer deaktivieren "
+"möchten?"
 
 #: CRM/Admin/Page/IMProvider.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact IM screen names."
-msgstr "Die Benuter werden nicht länger in der Lage sein diesen Wert auszuwählen, "
+msgstr ""
+"Die Benuter werden nicht länger in der Lage sein diesen Wert auszuwählen, "
 "wenn sie IM-Kontakte hinzufügen oder bearbeiten."
 
 #: CRM/Admin/Page/IMProvider.php
@@ -2229,8 +2253,9 @@ msgstr "Sind Sie sicher, dass Sie diesen Anrede-Tiel deaktivieren möchten?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Individual Prefix."
-msgstr "Die Benutzer werden nicht mehr in der Lage sein diesen Wert auszuwählen, "
-"um Anrede-Titel hinzufügen oder zu bearbeiten."
+msgstr ""
+"Die Benutzer werden nicht mehr in der Lage sein diesen Wert auszuwählen, um "
+"Anrede-Titel hinzufügen oder zu bearbeiten."
 
 #: CRM/Admin/Page/IndividualPrefix.php
 msgid "Edit Individual Prefix"
@@ -2256,7 +2281,9 @@ msgstr "Sind Sie sicher, dass Sie diesen Anrede-Titel deaktivieren möchten?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Individual Suffix."
-msgstr "Die Benutzer werden nicht mehr in der Lage sein diesen Wert auszuwählen, um Anrede-Titel hinzufügen oder zu bearbeiten."
+msgstr ""
+"Die Benutzer werden nicht mehr in der Lage sein diesen Wert auszuwählen, um "
+"Anrede-Titel hinzufügen oder zu bearbeiten."
 
 #: CRM/Admin/Page/IndividualSuffix.php
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
@@ -2284,7 +2311,8 @@ msgstr "Sind Sie sicher, dass Sie diese Standortart deaktivieren möchten?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact locations."
-msgstr "Die Benutzer werden nicht länger in der Lage sein, diesen Wert auszuwählen, "
+msgstr ""
+"Die Benutzer werden nicht länger in der Lage sein, diesen Wert auszuwählen, "
 "wenn sie Kontakte hinzufügen oder bearbeiten."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
@@ -2305,13 +2333,15 @@ msgstr "Standortsart löschen"
 
 #: CRM/Admin/Page/MobileProvider.php
 msgid "Are you sure you want to disable this Mobile Phone Service Provider?"
-msgstr "Sind Sie sicher, dass Sie diesen Mobilfunkanbieter deaktivieren möchten?"
+msgstr ""
+"Sind Sie sicher, dass Sie diesen Mobilfunkanbieter deaktivieren möchten?"
 
 #: CRM/Admin/Page/MobileProvider.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact phone numbers."
-msgstr "Die Benutzer werden nicht länger in der Lage sein diesen Wert auzuwählen, "
+msgstr ""
+"Die Benutzer werden nicht länger in der Lage sein diesen Wert auzuwählen, "
 "wenn sie Telefonnummern von Kontakten hinzufügen oder bearbeiten."
 
 #: CRM/Admin/Page/MobileProvider.php
@@ -2340,7 +2370,8 @@ msgstr "Sind Sie sicher, dass Sie diese Beziehungsart deaktivieren möchten?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "relationships between contacts."
-msgstr "Die Benutzer werden nicht länger in der Lage sein diesen Wert auzuwählen, "
+msgstr ""
+"Die Benutzer werden nicht länger in der Lage sein diesen Wert auzuwählen, "
 "wenn sie Beziehungen zwischen Kontakten hinzufügen oder bearbeiten."
 
 #: CRM/Admin/Page/RelationshipType.php
@@ -2373,7 +2404,8 @@ msgstr "Sind Sie sicher, dass sie das Etikett löschen möchten?"
 msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
-msgstr "Die Benutzer werden nicht länger in der Lage sein diesen Wert auzuwählen, "
+msgstr ""
+"Die Benutzer werden nicht länger in der Lage sein diesen Wert auzuwählen, "
 "wenn sie Kontakte hinzufügen oder bearbeiten."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
@@ -2698,7 +2730,9 @@ msgstr "Kontakt existiert nicht: %1"
 
 #: CRM/Contact/Form/Edit.php
 msgid "You do not have the necessary permission to edit this contact."
-msgstr "Sie haben nicht die notwendigen Berechtigungen, um diesen Kontakt zu bearbeiten."
+msgstr ""
+"Sie haben nicht die notwendigen Berechtigungen, um diesen Kontakt zu "
+"bearbeiten."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Could not get a contact_id and/or contact_type"
@@ -2734,7 +2768,9 @@ msgstr "Nur ein Standort kann als primär markiert werden."
 
 #: CRM/Contact/Form/Edit.php
 msgid "The Location Type should be set if there is any location information"
-msgstr "Die Standortsart muss gesetzt werden, wenn es Informationen über den Standort gibt."
+msgstr ""
+"Die Standortsart muss gesetzt werden, wenn es Informationen über den "
+"Standort gibt."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Two locations cannot have same location type"
@@ -2823,7 +2859,9 @@ msgstr "Kontakt ist verstorben"
 #: CRM/Contact/Form/Individual.php
 msgid ""
 "First Name and Last Name OR an email in the Primary Location should be set."
-msgstr "Vorname oder Nachname ODER eine Emailadresse müssen im primären Standort angegeben sein."
+msgstr ""
+"Vorname oder Nachname ODER eine Emailadresse müssen im primären Standort "
+"angegeben sein."
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
@@ -2832,8 +2870,10 @@ msgid ""
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Duplicate Contact button below."
-msgstr[0] "Ein zutreffender Kontakt gefunden. Sie können ihn hier bearbeiten: %1"
-msgstr[1] "%count zutreffende Kontakte gefunden. Sie können sie hier bearbeiten: %1"
+msgstr[0] ""
+"Ein zutreffender Kontakt gefunden. Sie können ihn hier bearbeiten: %1"
+msgstr[1] ""
+"%count zutreffende Kontakte gefunden. Sie können sie hier bearbeiten: %1"
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
@@ -3019,7 +3059,9 @@ msgstr "Gelöschte Kontakte: %1"
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "\"%1\" - can not be deleted."
-msgstr "Der Kontakt, der mit dem derzeit eingeloggeden Benutzer \"%1\" verknüpft ist, kann nicht gelöscht werden.  "
+msgstr ""
+"Der Kontakt, der mit dem derzeit eingeloggeden Benutzer \"%1\" verknüpft "
+"ist, kann nicht gelöscht werden.  "
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact was deleted sucessfully."
@@ -3033,7 +3075,9 @@ msgstr "Ausgewählter Kontakt kann nicht gelöscht werden."
 msgid ""
 "This contact record is linked to the currently logged in user account - \"%1"
 "\" - and can not be deleted."
-msgstr "Die Kontakt ist ist mit dem derzeit eingeloggeden Benutzer \"%1\" verknüpft und kann nicht gelöscht werden. "
+msgstr ""
+"Die Kontakt ist ist mit dem derzeit eingeloggeden Benutzer \"%1\" verknüpft "
+"und kann nicht gelöscht werden. "
 
 #: CRM/Contact/Form/Task/Email.php
 msgid "Selected contact(s) does not have a valid email address"
@@ -3052,7 +3096,10 @@ msgstr "Email wurde zu Kontakten gesendet: %1"
 msgid ""
 "Email not sent to contact(s) (no email address on file or communication "
 "preferences specify DO NOT EMAIL): %1"
-msgstr "An folgende Kontakte wurde keine E-Mail gesendet (entweder, weil keine E-Mail Adresse für sie vorhanden war oder weil für sie NICHT ANMAILEN spezifiziert war): %1"
+msgstr ""
+"An folgende Kontakte wurde keine E-Mail gesendet (entweder, weil keine E-"
+"Mail Adresse für sie vorhanden war oder weil für sie NICHT ANMAILEN "
+"spezifiziert war): %1"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Select more fields"
@@ -3086,7 +3133,10 @@ msgstr "Exportiere alle oder gewählte Felder"
 msgid ""
 "This contact's primary address does not contain latitude/longitude "
 "information and can not be mapped."
-msgstr "Für die Adresse dieses Kontakts gibt es keine Breiten- und Längengradinformationen. Deshalb kann er nicht auf der Karte dargestellt werden."
+msgstr ""
+"Für die Adresse dieses Kontakts gibt es keine Breiten- und "
+"Längengradinformationen. Deshalb kann er nicht auf der Karte dargestellt "
+"werden."
 
 #: CRM/Contact/Form/Task.php
 msgid "Confirm Action"
@@ -3556,13 +3606,17 @@ msgstr "Die Kreditkarte \"%1\" wurde gespeichert."
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
-msgstr "Wir konnten keine Zuwendungsdetails für Ihre Anfrage finden. Bitte versuchen Sie Ihre Anfrage erneut."
+msgstr ""
+"Wir konnten keine Zuwendungsdetails für Ihre Anfrage finden. Bitte versuchen "
+"Sie Ihre Anfrage erneut."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This contribution has already been submitted. Click <a href=\"%1\">here</a> "
 "if you want to make another contribution."
-msgstr "Diese Zuwendung wurde bereits übermittelt. <a href=\"%1\">Klicken Sie hier wenn Sie einen weitere Spende tätigen möchten.</a> "
+msgstr ""
+"Diese Zuwendung wurde bereits übermittelt. <a href=\"%1\">Klicken Sie hier "
+"wenn Sie einen weitere Spende tätigen möchten.</a> "
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
@@ -3602,7 +3656,8 @@ msgstr "Weiterer Betrag"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid amount (numbers and decimal point only)."
-msgstr "Bitte geben Sie einen gültigen Betrag ein (nur Ziffern und Dezimalpunkt)."
+msgstr ""
+"Bitte geben Sie einen gültigen Betrag ein (nur Ziffern und Dezimalpunkt)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -3622,7 +3677,9 @@ msgstr "Wählen Sie ein gültiges Datum aus."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "The premium you have selected requires a minimum contribution of %1"
-msgstr "Die Prämie, die Sie ausgewählt haben, bedarf einer Mindestzuwendung in Höhe von %1"
+msgstr ""
+"Die Prämie, die Sie ausgewählt haben, bedarf einer Mindestzuwendung in Höhe "
+"von %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be greater than %1"
@@ -3642,7 +3699,9 @@ msgstr "Bitte geben Sie eine gültige Kreditkarten-Verifizierungs-Nummer ein."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
-msgstr "Das ausgewählte Prämienprodukt ist von dieser \"Contribution Page\" entferntworden."
+msgstr ""
+"Das ausgewählte Prämienprodukt ist von dieser \"Contribution Page\" "
+"entferntworden."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 #, fuzzy
@@ -4346,10 +4405,6 @@ msgid "Created one new contact record."
 msgid_plural "Created %count new contact records."
 msgstr[0] ""
 msgstr[1] ""
-
-#: CRM/Core/BAO/EmailHistory.php xml/templates/civicrm_add_domain.tpl
-msgid "Email Sent"
-msgstr "Email gesendet"
 
 #: CRM/Core/BAO/EmailHistory.php
 msgid "To: %1; Subject: %2"
@@ -6083,10 +6138,6 @@ msgid "CiviCRM Profile Listings"
 msgstr "CiviCRM Profil Aufzählung"
 
 #: CRM/SMS/BAO/History.php
-msgid "SMS Sent"
-msgstr ""
-
-#: CRM/SMS/BAO/History.php
 #, fuzzy
 msgid "To: %1; Message: %2"
 msgstr "An: %1; Betreff: %2"
@@ -6152,7 +6203,9 @@ msgstr "Der ausgewählte Telefonanruf wurde gelöscht."
 
 #: CRM/UF/Form/Field.php
 msgid "The selected field was not added. It already exists in this profile."
-msgstr "Das ausgewählte Feld wurde nicht hinzugefügt. Es existiert bereits in diesem Profil."
+msgstr ""
+"Das ausgewählte Feld wurde nicht hinzugefügt. Es existiert bereits in diesem "
+"Profil."
 
 #: CRM/UF/Form/Field.php
 msgid "Your civicrm profile field \"%1\" has been saved."
@@ -6208,7 +6261,8 @@ msgstr "Ihre CiviCRMprofilgruppe \"%1\" wurde gespeichert."
 msgid ""
 "Your CiviCRM Profile Group \"%1\" has been added. You can <a href=\"%2\">add "
 "fields</a> to this group now."
-msgstr "Ihre CiviCRMprofilgruppe \"%1\" wurde hinzugefügt. Sie können jetzt <a href="
+msgstr ""
+"Ihre CiviCRMprofilgruppe \"%1\" wurde hinzugefügt. Sie können jetzt <a href="
 "\"%2\"> Felder hinzufügen </a> zu dieser Gruppe."
 
 #: CRM/UF/Page/Field.php
@@ -7899,7 +7953,8 @@ msgstr "Offene Aktivitäten"
 msgid ""
 "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
 "href=\"%2\">call</a>."
-msgstr "Keine offenen Aktivitäten. Sie können ein <a href=\"%1\">Treffen</a> planen "
+msgstr ""
+"Keine offenen Aktivitäten. Sie können ein <a href=\"%1\">Treffen</a> planen "
 "oder ein <a href=\"%2\">Telefongespräch</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -9398,12 +9453,13 @@ msgid ""
 "the documentation for your application if you're not sure how to do this. "
 "Save this file to your local hard drive (or an accessible drive on your "
 "network) - and you are now ready for step 1 (Upload Data)."
-msgstr "Die Dateien die importiert werden sollen müssen in dem 'comma-separated-"
-"values' Format (CSV), Sonderzeichen wie Umlaute kodiert als UTF-8 vorliegen. Die meisten Applikationen können ein solches "
-"Format exportieren. Wenn Sie sich nicht sicher sind, ob das der Fall ist, "
-"und wie es funktioniert, lesen Sie die Hilfeseit Ihrer Anwendung. Speichern "
-"Sie die Datei auf der lokalen Festplatte. Dann sind Sie bereit für den "
-"ersten Schritt (Daten hochladen)."
+msgstr ""
+"Die Dateien die importiert werden sollen müssen in dem 'comma-separated-"
+"values' Format (CSV), Sonderzeichen wie Umlaute kodiert als UTF-8 vorliegen. "
+"Die meisten Applikationen können ein solches Format exportieren. Wenn Sie "
+"sich nicht sicher sind, ob das der Fall ist, und wie es funktioniert, lesen "
+"Sie die Hilfeseit Ihrer Anwendung. Speichern Sie die Datei auf der lokalen "
+"Festplatte. Dann sind Sie bereit für den ersten Schritt (Daten hochladen)."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/History/Import/Form/UploadFile.tpl
@@ -9414,7 +9470,9 @@ msgstr "Datei hochladen"
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/History/Import/Form/UploadFile.tpl
 msgid "File format must be comma-separated-values (CSV)."
-msgstr "Die Datei muss im CSV-Format sein. (Häufiger Fehler: Kodierung von Umlauten ist nicht UTF-8.)"
+msgstr ""
+"Die Datei muss im CSV-Format sein. (Häufiger Fehler: Kodierung von Umlauten "
+"ist nicht UTF-8.)"
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/History/Import/Form/UploadFile.tpl
@@ -10464,7 +10522,9 @@ msgstr ""
 msgid ""
 "File format must be comma-separated-values (CSV). File must be UTF8 encoded "
 "if it contains special characters (e.g. accented letters, etc.)."
-msgstr "Datei-Format muss \"comma-separated-values\" (CSV) sein. Die Datei muss UTF-8-kodiert sein, wenn sie 'Sonderzeichen' wie z.B. Umlaute enthält."
+msgstr ""
+"Datei-Format muss \"comma-separated-values\" (CSV) sein. Die Datei muss UTF-"
+"8-kodiert sein, wenn sie 'Sonderzeichen' wie z.B. Umlaute enthält."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -10839,6 +10899,13 @@ msgstr "CiviCRM Profil"
 
 #: templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "site root"
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid ""
+"Profiles can be explicitly linked to a module page. Any Profile form/"
+"listings page can also be linked directly by adding it's ID to the civicrm/"
+"profile path. (Example: <em>%1</em>)"
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -11864,4 +11931,3 @@ msgstr ""
 
 #~ msgid "In"
 #~ msgstr "In"
-

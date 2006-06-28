@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-18 08:33+0200\n"
+"POT-Creation-Date: 2006-06-28 12:55-0700\n"
 "PO-Revision-Date: 2006-04-18 08:35+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -956,6 +956,11 @@ msgstr "Dotacje"
 msgid "Custom Data"
 msgstr "Dane dodatkowe"
 
+#: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
+#: xml/templates/civicrm_add_domain.tpl
+msgid "Email Sent"
+msgstr "Wysłano email"
+
 #: CRM/Contact/Page/View/Note.php CRM/Profile/Page/Note.php
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Contact Notes"
@@ -966,6 +971,10 @@ msgstr "Notatki kontaktu"
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "View Note"
 msgstr "Zobacz notatkę"
+
+#: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
+msgid "SMS Sent"
+msgstr "Wysłano SMS"
 
 #: CRM/Contact/Selector/Activity.php CRM/Utils/Menu.php
 #: templates/CRM/Activity/Form/OtherActivity.tpl
@@ -4327,10 +4336,6 @@ msgstr[0] "Utworzono jeden nowy kontakt."
 msgstr[1] "Utworzono %count nowe kontakty."
 msgstr[2] "Utworzono %count nowych kontaktów."
 
-#: CRM/Core/BAO/EmailHistory.php xml/templates/civicrm_add_domain.tpl
-msgid "Email Sent"
-msgstr "Wysłano email"
-
 #: CRM/Core/BAO/EmailHistory.php
 msgid "To: %1; Subject: %2"
 msgstr "Do: %1; Temat: %2"
@@ -5953,10 +5958,6 @@ msgstr "Zobacz szczegóły profilu"
 #: CRM/Profile/Selector/Listings.php
 msgid "CiviCRM Profile Listings"
 msgstr "Spisy profili CiviCRM"
-
-#: CRM/SMS/BAO/History.php
-msgid "SMS Sent"
-msgstr "Wysłano SMS"
 
 #: CRM/SMS/BAO/History.php
 msgid "To: %1; Message: %2"
@@ -10947,6 +10948,16 @@ msgstr "adres strony"
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
+"Profiles can be explicitly linked to a module page. Any Profile form/"
+"listings page can also be linked directly by adding it's ID to the civicrm/"
+"profile path. (Example: <em>%1</em>)"
+msgstr ""
+"Profile mogą być podłączone do strony modułu. Każda ze stron formularza/"
+"spisu profilu może być też podłączona bezpośrednio przez dodanie jej "
+"identyfikatora do ścieżki civicrm/profile. (Przykład: <em>%1</em>)"
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid ""
 "Check <strong>User Registration</strong> if you want this Profile to be "
 "included in the New Account registration form."
 msgstr ""
@@ -11662,15 +11673,6 @@ msgstr "Błąd w transakcji SMTP"
 
 #~ msgid "Payment Instrument - %1"
 #~ msgstr "Rodzaj płatności – %1"
-
-#~ msgid ""
-#~ "Profiles can be explicitly linked to a module page. Any Profile form/"
-#~ "listings page can also be linked directly by adding it's ID to the "
-#~ "civicrm/profile path."
-#~ msgstr ""
-#~ "Profile mogą być podłączone do strony modułu. Każda ze stron formularza/"
-#~ "spisu profilu może być też podłączona bezpośrednio przez dodanie jej "
-#~ "identyfikatora do ścieżki civicrm/profile."
 
 #~ msgid "Non Deductible Amount"
 #~ msgstr "Kwota nieodliczalna od podatku"

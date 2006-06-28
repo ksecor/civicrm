@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-18 08:33+0200\n"
+"POT-Creation-Date: 2006-06-28 12:55-0700\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: none\n"
@@ -970,6 +970,12 @@ msgstr "សកម្មភាព"
 msgid "Custom Data"
 msgstr ""
 
+#: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
+#: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
+msgid "Email Sent"
+msgstr "សារ"
+
 #: CRM/Contact/Page/View/Note.php CRM/Profile/Page/Note.php
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Contact Notes"
@@ -979,6 +985,10 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "View Note"
+msgstr ""
+
+#: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
+msgid "SMS Sent"
 msgstr ""
 
 #: CRM/Contact/Selector/Activity.php CRM/Utils/Menu.php
@@ -4516,11 +4526,6 @@ msgid_plural "Created %count new contact records."
 msgstr[0] ""
 msgstr[1] ""
 
-#: CRM/Core/BAO/EmailHistory.php xml/templates/civicrm_add_domain.tpl
-#, fuzzy
-msgid "Email Sent"
-msgstr "សារ"
-
 #: CRM/Core/BAO/EmailHistory.php
 msgid "To: %1; Subject: %2"
 msgstr ""
@@ -6264,10 +6269,6 @@ msgstr "មុខ​តំណែង"
 
 #: CRM/Profile/Selector/Listings.php
 msgid "CiviCRM Profile Listings"
-msgstr ""
-
-#: CRM/SMS/BAO/History.php
-msgid "SMS Sent"
 msgstr ""
 
 #: CRM/SMS/BAO/History.php
@@ -10565,6 +10566,13 @@ msgstr "បង្កើត​ក្រុម​ថ្មី"
 
 #: templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "site root"
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid ""
+"Profiles can be explicitly linked to a module page. Any Profile form/"
+"listings page can also be linked directly by adding it's ID to the civicrm/"
+"profile path. (Example: <em>%1</em>)"
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-18 08:33+0200\n"
+"POT-Creation-Date: 2006-06-28 12:55-0700\n"
 "PO-Revision-Date: 2006-05-30 13:29+0200\n"
 "Last-Translator: Angel Bueno Pardo <abueno@cherro.net>\n"
 "Language-Team: none\n"
@@ -956,6 +956,11 @@ msgstr "Contribuciones"
 msgid "Custom Data"
 msgstr "Datos Personalizados"
 
+#: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
+#: xml/templates/civicrm_add_domain.tpl
+msgid "Email Sent"
+msgstr "Email enviado"
+
 #: CRM/Contact/Page/View/Note.php CRM/Profile/Page/Note.php
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Contact Notes"
@@ -966,6 +971,10 @@ msgstr "Notas del Contacto"
 #: templates/CRM/Profile/Page/Note.tpl
 msgid "View Note"
 msgstr "Ver Nota"
+
+#: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
+msgid "SMS Sent"
+msgstr "SMS Enviado"
 
 #: CRM/Contact/Selector/Activity.php CRM/Utils/Menu.php
 #: templates/CRM/Activity/Form/OtherActivity.tpl
@@ -1335,12 +1344,17 @@ msgstr ""
 msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.)"
-msgstr "Los campos requeridos y coincidentes con el contacto no se han encontrado. (Debería ser el Primer Nombre Y Apellido o el Email primario o el Primer Nombre, Apellido Y Email primario.)"
+msgstr ""
+"Los campos requeridos y coincidentes con el contacto no se han encontrado. "
+"(Debería ser el Primer Nombre Y Apellido o el Email primario o el Primer "
+"Nombre, Apellido Y Email primario.)"
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
 msgid "Missing required contact matching field: Contact ID."
-msgstr "El campo requerido: \"ID del contacto\" que concuerde con el contacto no se ha encontrado."
+msgstr ""
+"El campo requerido: \"ID del contacto\" que concuerde con el contacto no se "
+"ha encontrado."
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php
@@ -1350,7 +1364,8 @@ msgstr "Campo requerido: %1 no hallado."
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
-msgstr "El Nombre es requerido para guardar las Asignaciones de una Importación"
+msgstr ""
+"El Nombre es requerido para guardar las Asignaciones de una Importación"
 
 #: CRM/Contribute/Import/Form/MapField.php
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
@@ -1997,11 +2012,13 @@ msgstr "O Nuevo Teléfono"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Selected Phone Call is deleted sucessfully."
-msgstr "La llamada telefónica seleccionada ha sido eliminada satisfactoriamente."
+msgstr ""
+"La llamada telefónica seleccionada ha sido eliminada satisfactoriamente."
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Phone Call \"%1\" has been logged to Activity History."
-msgstr "Llamada Telefónica \"%1\" ha sido registrada en el historial de actividad."
+msgstr ""
+"Llamada Telefónica \"%1\" ha sido registrada en el historial de actividad."
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Phone Call \"%1\" has been saved."
@@ -2027,7 +2044,10 @@ msgstr "Coincide:"
 msgid ""
 "The Duplicate Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
-msgstr "La Regla de coincidencia de duplicados no se ha almacenado, porque la regla no es válida. Las reglas sólo deben contener nombres de campos válidos, 'Y', 'O' o paréntesis."
+msgstr ""
+"La Regla de coincidencia de duplicados no se ha almacenado, porque la regla "
+"no es válida. Las reglas sólo deben contener nombres de campos válidos, 'Y', "
+"'O' o paréntesis."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Duplicate Matching rule has been saved."
@@ -2141,7 +2161,9 @@ msgstr "¿Estás seguro que quieres deshabilitar este tipo de actividad?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "activities."
-msgstr "Los usuarios ya no serán capaces de seleccionar este valor cuando añadan o editen actividades."
+msgstr ""
+"Los usuarios ya no serán capaces de seleccionar este valor cuando añadan o "
+"editen actividades."
 
 #: CRM/Admin/Page/ActivityType.php templates/CRM/Admin/Form/ActivityType.tpl
 msgid "Edit Activity Type"
@@ -2175,7 +2197,9 @@ msgstr "¿Estás seguro que quieres deshabilitar este género?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Gender."
-msgstr "Los usuarios ya no podrán seleccionar este valor cuando añadan o editen el género."
+msgstr ""
+"Los usuarios ya no podrán seleccionar este valor cuando añadan o editen el "
+"género."
 
 #: CRM/Admin/Page/Gender.php
 msgid "Edit Gender"
@@ -2201,7 +2225,9 @@ msgstr "¿Estás seguro que quieres deshabilitar este proveedor de IM?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact IM screen names."
-msgstr "Los usuarios ya no serán capaces de seleccionar este valor cuando añadan o editen nombres de contactos de IM."
+msgstr ""
+"Los usuarios ya no serán capaces de seleccionar este valor cuando añadan o "
+"editen nombres de contactos de IM."
 
 #: CRM/Admin/Page/IMProvider.php
 msgid "IM Provider"
@@ -2227,7 +2253,9 @@ msgstr "¿Estás seguro que quieres deshabilitar este prefijo?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Individual Prefix."
-msgstr "Los usuarios ya no serán capaces de seleccionar este valor cuando añadan o editen prefijos en los individuos."
+msgstr ""
+"Los usuarios ya no serán capaces de seleccionar este valor cuando añadan o "
+"editen prefijos en los individuos."
 
 #: CRM/Admin/Page/IndividualPrefix.php
 msgid "Edit Individual Prefix"
@@ -2253,7 +2281,9 @@ msgstr "¿Estás seguro que quieres deshabilitar este sufijo?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "Individual Suffix."
-msgstr "Los usuarios ya no serán capaces de seleccionar este valor cuando añadan o editen un sufijo de individuo."
+msgstr ""
+"Los usuarios ya no serán capaces de seleccionar este valor cuando añadan o "
+"editen un sufijo de individuo."
 
 #: CRM/Admin/Page/IndividualSuffix.php
 #: templates/CRM/Admin/Form/IndividualSuffix.tpl
@@ -2281,7 +2311,9 @@ msgstr "¿Estás seguro que quieres deshabilitar este tipo de localidad?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact locations."
-msgstr "Los usuarios ya no podrán seleccionar este valor cuando añadan o editen localidades en los contactos."
+msgstr ""
+"Los usuarios ya no podrán seleccionar este valor cuando añadan o editen "
+"localidades en los contactos."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
@@ -2301,13 +2333,16 @@ msgstr "Borrar tipo de localidad"
 
 #: CRM/Admin/Page/MobileProvider.php
 msgid "Are you sure you want to disable this Mobile Phone Service Provider?"
-msgstr "¿Estás seguro que quieres deshabilitar este proveedor de telefonía móvil?"
+msgstr ""
+"¿Estás seguro que quieres deshabilitar este proveedor de telefonía móvil?"
 
 #: CRM/Admin/Page/MobileProvider.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact phone numbers."
-msgstr "Los usuarios ya no podrán seleccionar este valor cuando añadan o editen teléfonos de contacto."
+msgstr ""
+"Los usuarios ya no podrán seleccionar este valor cuando añadan o editen "
+"teléfonos de contacto."
 
 #: CRM/Admin/Page/MobileProvider.php
 #: templates/CRM/Admin/Form/MobileProvider.tpl
@@ -2335,7 +2370,9 @@ msgstr "¿Estás seguro que quieres deshabilitar este tipo de relación?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "relationships between contacts."
-msgstr "Los usuarios ya no serán capaces de seleccionar este valor cuando añadan o editen relaciones entre contactos."
+msgstr ""
+"Los usuarios ya no serán capaces de seleccionar este valor cuando añadan o "
+"editen relaciones entre contactos."
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
@@ -2367,7 +2404,9 @@ msgstr "¿Estás seguro que quieres borrar esta etiqueta?"
 msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
-msgstr "Esta etiqueta se quitará de los contactos a los que está asignada, y los usuarios ya no podrán asignarla a ningún contacto.."
+msgstr ""
+"Esta etiqueta se quitará de los contactos a los que está asignada, y los "
+"usuarios ya no podrán asignarla a ningún contacto.."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
@@ -3020,7 +3059,9 @@ msgstr "Contacto(s) Eliminado(s): %1"
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "\"%1\" - can not be deleted."
-msgstr "El contacto asociado al la cuenta de usuario logeado actualmente - \"%1\" - no se puede borrar."
+msgstr ""
+"El contacto asociado al la cuenta de usuario logeado actualmente - \"%1\" - "
+"no se puede borrar."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact was deleted sucessfully."
@@ -3034,7 +3075,9 @@ msgstr "El contacto seleccionado no se puede eliminar."
 msgid ""
 "This contact record is linked to the currently logged in user account - \"%1"
 "\" - and can not be deleted."
-msgstr "Este contacto está asociado a la cuenta de usuario logeado - \"%1\" - y no se puede borrar."
+msgstr ""
+"Este contacto está asociado a la cuenta de usuario logeado - \"%1\" - y no "
+"se puede borrar."
 
 #: CRM/Contact/Form/Task/Email.php
 msgid "Selected contact(s) does not have a valid email address"
@@ -3053,7 +3096,9 @@ msgstr "Email enviado a contacto(s): %1"
 msgid ""
 "Email not sent to contact(s) (no email address on file or communication "
 "preferences specify DO NOT EMAIL): %1"
-msgstr "Email no enviado a los contactos (o no se ha definido email o se ha especificado en las preferencias que no se envíe email): %1"
+msgstr ""
+"Email no enviado a los contactos (o no se ha definido email o se ha "
+"especificado en las preferencias que no se envíe email): %1"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Select more fields"
@@ -3087,7 +3132,9 @@ msgstr "Exportar Todo o los campos seleccionados"
 msgid ""
 "This contact's primary address does not contain latitude/longitude "
 "information and can not be mapped."
-msgstr "La dirección primaria de este contacto no dispone de los datos de latitud/longitud y no se puede localizar en el mapa."
+msgstr ""
+"La dirección primaria de este contacto no dispone de los datos de latitud/"
+"longitud y no se puede localizar en el mapa."
 
 #: CRM/Contact/Form/Task.php
 msgid "Confirm Action"
@@ -3556,13 +3603,17 @@ msgstr "La Tarjeta de Crédito \"%1\" ha sido guardada."
 msgid ""
 "We could not find contribution details for your request. Please try your "
 "request again."
-msgstr "No hemos podido encontrar detalles de la contribución que buscas. Por Favor, intenta tu petición de nuevo."
+msgstr ""
+"No hemos podido encontrar detalles de la contribución que buscas. Por Favor, "
+"intenta tu petición de nuevo."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This contribution has already been submitted. Click <a href=\"%1\">here</a> "
 "if you want to make another contribution."
-msgstr "Esta Contribución ya ha sido enviada. Haz Click <a href=\"%1\">aquí</a> si quieres hacer otra contribución."
+msgstr ""
+"Esta Contribución ya ha sido enviada. Haz Click <a href=\"%1\">aquí</a> si "
+"quieres hacer otra contribución."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "The page you requested is currently unavailable."
@@ -3602,7 +3653,8 @@ msgstr "Otra cantidad"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid amount (numbers and decimal point only)."
-msgstr "Por Favor, introduce una cantidad válida (números y punto decimal sólo)."
+msgstr ""
+"Por Favor, introduce una cantidad válida (números y punto decimal sólo)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -3613,7 +3665,10 @@ msgstr "Cantidad de Contribución"
 msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
-msgstr "Por Favor, introduce un valor válido para tu código de seguridad de la tarjeta. Suele ser los últimos 3-4 dígitos del panel de la firma de la tarjeta."
+msgstr ""
+"Por Favor, introduce un valor válido para tu código de seguridad de la "
+"tarjeta. Suele ser los últimos 3-4 dígitos del panel de la firma de la "
+"tarjeta."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Select a valid date greater than today."
@@ -3637,11 +3692,14 @@ msgstr "Por Favor, introduce un número de Tarjeta de Crédito válido."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr "Por Favor, introduce un número de verificación de Tarjeta de Crédito válido."
+msgstr ""
+"Por Favor, introduce un número de verificación de Tarjeta de Crédito válido."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
-msgstr "Los productos del premio seleccionado han sido quitados de esta página de contribuciones."
+msgstr ""
+"Los productos del premio seleccionado han sido quitados de esta página de "
+"contribuciones."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Select the Product"
@@ -3661,7 +3719,8 @@ msgstr "¿Permitir otras cantidades?"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
-msgstr "Por Favor, introduce un valor monetario válido para este campo (p.e. 99.99)."
+msgstr ""
+"Por Favor, introduce un valor monetario válido para este campo (p.e. 99.99)."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Minimum Amount should be less than Maximum Amount"
@@ -3713,7 +3772,8 @@ msgstr "Email del contacto"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Please enter valid email address for Contact Email"
-msgstr "Por favor, introduce una dirección de email válida en el Email del contacto."
+msgstr ""
+"Por favor, introduce una dirección de email válida en el Email del contacto."
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Contact Phone"
@@ -3771,7 +3831,9 @@ msgstr "CC Recibo A"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Please enter a valid list of comma delimited email addresses"
-msgstr "Por Favor, introduce una lista válida de direcciones de E-Mail separada por comas"
+msgstr ""
+"Por Favor, introduce una lista válida de direcciones de E-Mail separada por "
+"comas"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "BCC Receipt To"
@@ -3781,7 +3843,9 @@ msgstr "BCC Recibo A"
 msgid ""
 "A Receipt message must be specified if Email Receipt to Contributor is "
 "enabled"
-msgstr "Se debe especificar un mensaje de recibo si se habilita la opción Recibo por E-Mail  al donante"
+msgstr ""
+"Se debe especificar un mensaje de recibo si se habilita la opción Recibo por "
+"E-Mail  al donante"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -3811,7 +3875,9 @@ msgstr "Por favor, introduce un nombre de tipo de donación válido."
 msgid ""
 "A contribution type with this name already exists. Please select another "
 "name."
-msgstr "Un tipo de donación con este nombre ya existe. Por Favor, selecciona otro nombre."
+msgstr ""
+"Un tipo de donación con este nombre ya existe. Por Favor, selecciona otro "
+"nombre."
 
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Tax-deductible?"
@@ -3853,7 +3919,9 @@ msgstr "No se pudo abrir el fichero %1 para escritura"
 msgid ""
 "Your %1 value is: \"%2\". This value must be entered in the Payment "
 "Processor section of the CiviCRM configuration file."
-msgstr "Tu %1 valor es: \"%2\". Este valor se debe introducir en la sección Proceso de Pago del fichero de configuración CiviCRM."
+msgstr ""
+"Tu %1 valor es: \"%2\". Este valor se debe introducir en la sección Proceso "
+"de Pago del fichero de configuración CiviCRM."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Please enter a product name."
@@ -3861,7 +3929,8 @@ msgstr "Por Favor, introduce un nombre de producto."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "A product with this name already exists. Please select another name."
-msgstr "Un producto con este nombre ya existe. Por Favor, selecciona otro nombre."
+msgstr ""
+"Un producto con este nombre ya existe. Por Favor, selecciona otro nombre."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Upload from my computer"
@@ -3919,7 +3988,8 @@ msgstr "Por Favor, introduce el coste actual del producto."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Please enter a monetary value for the Minimum Contribution Amount."
-msgstr "Por Favor, introduce un valor monetario para la cantidad mínima de donación."
+msgstr ""
+"Por Favor, introduce un valor monetario para la cantidad mínima de donación."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency"
@@ -3936,7 +4006,12 @@ msgid ""
 "configured to use default thumbnail image. If you have a local thumbnail "
 "image you can upload it separately and input the thumbnail URL by editing "
 "this premium."
-msgstr "ADVERTENCIA: No se crearon miniaturas de esta imagen porque la librería de imagenes GD no está compilada en la instalación de PHP. El producto está configurado para usar la imagen en miniatura por defecto. Si tienes una miniatura, puedes subirla de forma separada e introducir la URL de la miniatura editando esta característica."
+msgstr ""
+"ADVERTENCIA: No se crearon miniaturas de esta imagen porque la librería de "
+"imagenes GD no está compilada en la instalación de PHP. El producto está "
+"configurado para usar la imagen en miniatura por defecto. Si tienes una "
+"miniatura, puedes subirla de forma separada e introducir la URL de la "
+"miniatura editando esta característica."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "The Premium Product  \"%1\" has been saved."
@@ -4042,7 +4117,9 @@ msgstr "Crear Perfil API PayPal"
 msgid ""
 "Are you sure you want to disable this Credit Card? Your contributors will no "
 "longer be able to use this card type for online contributions."
-msgstr "¿Estás seguro que quieres deshabilitar esta tarjeta de crédito? Los contribuyentes no serán capaces de elejirla en aportaciones online."
+msgstr ""
+"¿Estás seguro que quieres deshabilitar esta tarjeta de crédito? Los "
+"contribuyentes no serán capaces de elejirla en aportaciones online."
 
 #: CRM/Contribute/Page/AcceptCreditCard.php
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
@@ -4111,7 +4188,11 @@ msgid ""
 "premium from any contribution pages that currently offer it. However it will "
 "not delete the premium record - so you can re-enable it and add it back to "
 "your contribution page(s) at a later time."
-msgstr "¿Estás seguro que quieres deshabilitar esta prima? Esta acción quitará la prima de cualquier página de donaciones que actualmente la ofrezca. En cambio, no borrará el registro de la prima, por lo que podrás volverla a habilitar y añadirla a las páginas de aportaciones posteriormente."
+msgstr ""
+"¿Estás seguro que quieres deshabilitar esta prima? Esta acción quitará la "
+"prima de cualquier página de donaciones que actualmente la ofrezca. En "
+"cambio, no borrará el registro de la prima, por lo que podrás volverla a "
+"habilitar y añadirla a las páginas de aportaciones posteriormente."
 
 #: CRM/Contribute/Page/ManagePremiums.php
 msgid "Enable Premium"
@@ -4145,7 +4226,8 @@ msgstr "Borrar Instrumento de Pago"
 
 #: CRM/Contribute/Page/Premium.php
 msgid "Are you sure you want to remove this product form this page?"
-msgstr "¿Estás seguro que quieres borrar esta página de formulario de producto?"
+msgstr ""
+"¿Estás seguro que quieres borrar esta página de formulario de producto?"
 
 #: CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
@@ -4236,13 +4318,17 @@ msgstr "%1 como - %2"
 msgid ""
 "We could not find the backup sql script. Check %1 in the CiviCRM root "
 "directory."
-msgstr "No hemos podido encontrar el script de backup de sql. Comprueba %1 en el directorio raíz de CiviCRM."
+msgstr ""
+"No hemos podido encontrar el script de backup de sql. Comprueba %1 en el "
+"directorio raíz de CiviCRM."
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
 "We could not find the mysqldump program. Check the configuration variable "
 "CIVICRM_MYSQL_PATH in your CiviCRM config file."
-msgstr "No hemos podido encontrar el programa mysqldump. comprueba la configuración de la variable CIVICRM_MYSQL_PATH en el fichero de configuración CiviCRM."
+msgstr ""
+"No hemos podido encontrar el programa mysqldump. comprueba la configuración "
+"de la variable CIVICRM_MYSQL_PATH en el fichero de configuración CiviCRM."
 
 #: CRM/Core/BAO/DrupalUser.php
 msgid "Synchronize Users to Contacts completed."
@@ -4265,10 +4351,6 @@ msgid "Created one new contact record."
 msgid_plural "Created %count new contact records."
 msgstr[0] "Creado un nuevo contacto."
 msgstr[1] "Creados %count nuevos contactos."
-
-#: CRM/Core/BAO/EmailHistory.php xml/templates/civicrm_add_domain.tpl
-msgid "Email Sent"
-msgstr "Email enviado"
 
 #: CRM/Core/BAO/EmailHistory.php
 msgid "To: %1; Subject: %2"
@@ -4300,7 +4382,9 @@ msgstr "La Etiqueta \"%1\" ha sido guardada."
 
 #: CRM/Core/BAO/UFField.php
 msgid "Cannot enable this UF field since the used custom field is disabled."
-msgstr "No se puede habilitar este campo desde que el uso de campos personalizados está deshabilitado."
+msgstr ""
+"No se puede habilitar este campo desde que el uso de campos personalizados "
+"está deshabilitado."
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Dynamic Form Creator"
@@ -4811,7 +4895,10 @@ msgid ""
 "We could not move the uploaded file %1 to the upload directory %2. Please "
 "verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path which "
 "is writable by your web server."
-msgstr "No se ha podido mover el fichero %1 al directorio de subidas %2. Por favor, verifica que CIVICRM_IMAGE_UPLOADDIR apunta a una ruta válida y con permisos de escritura por tu servidor web."
+msgstr ""
+"No se ha podido mover el fichero %1 al directorio de subidas %2. Por favor, "
+"verifica que CIVICRM_IMAGE_UPLOADDIR apunta a una ruta válida y con permisos "
+"de escritura por tu servidor web."
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [first] [last]"
@@ -5155,7 +5242,9 @@ msgstr "Por Favor, introduce un número válido."
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter a valid date using YYYY-MM-DD format. Example: 2004-12-31."
-msgstr "Por Favor, introduce una fecha válida usando el formato AAAA-MM-DD. Por ejemplo:2004-12-31"
+msgstr ""
+"Por Favor, introduce una fecha válida usando el formato AAAA-MM-DD. Por "
+"ejemplo:2004-12-31"
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter 1 or 0 as value."
@@ -5226,7 +5315,10 @@ msgstr "%1 - Campos Personalizados"
 msgid ""
 "Are you sure you want to disable this custom data group? Any profile fields "
 "that are linked to custom fields of this group will be disabled."
-msgstr "¿Estás seguro que quieres deshabilitar este grupo de datos personalizado? Cualquier campo de perfil que esté enlazado a campos personalizados de este grupo se deshabilitarán."
+msgstr ""
+"¿Estás seguro que quieres deshabilitar este grupo de datos personalizado? "
+"Cualquier campo de perfil que esté enlazado a campos personalizados de este "
+"grupo se deshabilitarán."
 
 #: CRM/Custom/Page/Group.php
 msgid "View and Edit Custom Fields"
@@ -5573,11 +5665,15 @@ msgstr "Seleccionar recipientes de correo"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same groups in Include group(s) and Exclude group(s). "
-msgstr "No pueden haber los mismos grupos en grupos de exclusión y grupos de inclusión."
+msgstr ""
+"No pueden haber los mismos grupos en grupos de exclusión y grupos de "
+"inclusión."
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same mail in Include mailing(s) and Exclude mailing(s)."
-msgstr "No puede haber la misma dirección de correo en listas de correo de inclusión y listas de correo de exclusión."
+msgstr ""
+"No puede haber la misma dirección de correo en listas de correo de inclusión "
+"y listas de correo de exclusión."
 
 #: CRM/Mailing/Form/Name.php
 msgid "Name Your Mailing"
@@ -5863,7 +5959,9 @@ msgstr "Esta característica no está disponible todavía."
 msgid ""
 "This Profile includes fields for contact types other than 'Individuals' and "
 "can not be used to create/update contacts."
-msgstr "Este perfil incluye campos para tipos de contactos distintos de 'Individuos' y no puede ser usado para crear/actualizar contactos."
+msgstr ""
+"Este perfil incluye campos para tipos de contactos distintos de 'Individuos' "
+"y no puede ser usado para crear/actualizar contactos."
 
 #: CRM/Profile/Form.php
 msgid "An account already exists with the same information."
@@ -5884,10 +5982,6 @@ msgstr "Ver Detalles del Perfil"
 #: CRM/Profile/Selector/Listings.php
 msgid "CiviCRM Profile Listings"
 msgstr "Listados de perfil CiviCRM"
-
-#: CRM/SMS/BAO/History.php
-msgid "SMS Sent"
-msgstr "SMS Enviado"
 
 #: CRM/SMS/BAO/History.php
 msgid "To: %1; Message: %2"
@@ -6525,7 +6619,8 @@ msgstr "Configurar regla de coincidencia de duplicados"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Are you sure you want to delete this Duplicate Matching Rule?"
-msgstr "¿Estás seguro que quieres borrar esta regla de coincidencia de duplicados?"
+msgstr ""
+"¿Estás seguro que quieres borrar esta regla de coincidencia de duplicados?"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
@@ -6533,7 +6628,11 @@ msgid ""
 "contact to existing contact records for duplicate matching. If some of the "
 "fields in your matching rule are OPTIONAL, then all <strong>non-empty</"
 "strong> fields in the incoming data are used."
-msgstr "Selecciona hasta cinco campo(s) cuando compares un nuevo contacto con uno ya existente para buscar duplicados. Si alguno de los campos de tu regla de coincidencia son OPCIONALES, entonces todos los campos <strong>no vacíos<strong> de los datos de entrada se rán usados."
+msgstr ""
+"Selecciona hasta cinco campo(s) cuando compares un nuevo contacto con uno ya "
+"existente para buscar duplicados. Si alguno de los campos de tu regla de "
+"coincidencia son OPCIONALES, entonces todos los campos <strong>no "
+"vacíos<strong> de los datos de entrada se rán usados."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
@@ -6542,7 +6641,12 @@ msgid ""
 "database. Now someone tries to add a new contact with the same email address "
 "and leaves the first and last name blank. The new contact will be flagged as "
 "a potential duplicate."
-msgstr "Por ejemplo, usando la regla de coincidencias de <strong>Email Y Nombre Y Apellidos</strong>... Jane Doe jane.doe@example.org existe en tu base de datos. Ahora alguien intenta añadir un nuevo contacto con la misma dirección de Email y deja el nombre y los apellidos en blanco. El nuevo contacto se marcará como un potencial duplicado."
+msgstr ""
+"Por ejemplo, usando la regla de coincidencias de <strong>Email Y Nombre Y "
+"Apellidos</strong>... Jane Doe jane.doe@example.org existe en tu base de "
+"datos. Ahora alguien intenta añadir un nuevo contacto con la misma dirección "
+"de Email y deja el nombre y los apellidos en blanco. El nuevo contacto se "
+"marcará como un potencial duplicado."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Configuration"
@@ -6712,13 +6816,16 @@ msgstr ""
 msgid ""
 "A newer version of CiviCRM is available: %1 (this site is currently running %"
 "2)."
-msgstr "Una nueva versión de CiviCRM está disponible: %1 (este sitio está ejecutando actualmente %2)."
+msgstr ""
+"Una nueva versión de CiviCRM está disponible: %1 (este sitio está ejecutando "
+"actualmente %2)."
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
 "Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
 "\">download it here</a>."
-msgstr "Lee sobre la nueva versión en <a href=\"%1\">nuestra web</a> y <a href=\"%2"
+msgstr ""
+"Lee sobre la nueva versión en <a href=\"%1\">nuestra web</a> y <a href=\"%2"
 "\">descárgala aquí</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
@@ -6730,8 +6837,14 @@ msgid ""
 "updating an existing contact, and importing contacts with the Import Wizard. "
 "Click <a href=\"%1\">Edit Rule</a> to modify the set of contact fields used "
 "for identifying duplicate contacts."
-msgstr "CiviCRM usa una regla de coincidencias duplicadas configurable para determinar cuando un nuevo contacto se debe marcar como un potencial duplicado de un registro existente. La configuración por defecto compara la dirección de email Y el apellido. Esta regla se usa cuando se crea un nuevo contacto, se actualiza uno existente y cuando se importan contactos con el asistente."
-"Haz Clic en <a href=\"%1\">Editar Regla</a>  para modificar los ajustes de contactos para identificar contactos duplicados."
+msgstr ""
+"CiviCRM usa una regla de coincidencias duplicadas configurable para "
+"determinar cuando un nuevo contacto se debe marcar como un potencial "
+"duplicado de un registro existente. La configuración por defecto compara la "
+"dirección de email Y el apellido. Esta regla se usa cuando se crea un nuevo "
+"contacto, se actualiza uno existente y cuando se importan contactos con el "
+"asistente.Haz Clic en <a href=\"%1\">Editar Regla</a>  para modificar los "
+"ajustes de contactos para identificar contactos duplicados."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid "Duplicate Matching Rule"
@@ -6941,9 +7054,10 @@ msgid ""
 "\"%3\">Affero General Public License (AGPL)</a>. <a href=\"%4\">Download "
 "source</a>. <a href=\"%5\">View issues and report bugs</a>. <a href=\"%6"
 "\">Online documentation</a>."
-msgstr "Powered by CiviCRM %1 rev%2."
-"CiviCRM está disponible bajo licencia <a href="
-"\"%3\">Affero General Public License (AGPL)</a>. <a href=\"%4\">Descargar Fuentes</a>. <a href=\"%5\">Ver y reportar fallos</a>. <a href=\"%6"
+msgstr ""
+"Powered by CiviCRM %1 rev%2.CiviCRM está disponible bajo licencia <a href=\"%"
+"3\">Affero General Public License (AGPL)</a>. <a href=\"%4\">Descargar "
+"Fuentes</a>. <a href=\"%5\">Ver y reportar fallos</a>. <a href=\"%6"
 "\">Documentación Online</a>."
 
 #: templates/CRM/common/form_body.tpl
@@ -7172,7 +7286,10 @@ msgid ""
 "Location search uses the PRIMARY location for each contact by default. To "
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
-msgstr "La búsqueda por localidad usa la localidad PRIMARIA en cada contacto por defecto. Para buscar por localidades específicas (p.e. Hogar, Trabajo...), marca una o más casillas encima."
+msgstr ""
+"La búsqueda por localidad usa la localidad PRIMARIA en cada contacto por "
+"defecto. Para buscar por localidades específicas (p.e. Hogar, Trabajo...), "
+"marca una o más casillas encima."
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 msgid "Edit %1 Smart Group Criteria"
@@ -7190,9 +7307,10 @@ msgstr "(por %1)"
 msgid ""
 "Complete OR partial contact name OR email. To search by first AND last name, "
 "enter 'lastname, firstname'. Example: 'Doe, Jane'."
-msgstr "Nombre de Contacto Completo O Parcial O Email. Para encontrar contactos por "
-"nombre Y apellidos, introduce 'apellidos, nombre'. Ejemplo: 'Lopez "
-"Garcia, Antonio'."
+msgstr ""
+"Nombre de Contacto Completo O Parcial O Email. Para encontrar contactos por "
+"nombre Y apellidos, introduce 'apellidos, nombre'. Ejemplo: 'Lopez Garcia, "
+"Antonio'."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
@@ -7381,7 +7499,9 @@ msgstr ""
 msgid ""
 "Your setup enforces SMTP authentication, but does not provide SMTP username "
 "and/or password. Please fix your civicrm.settings.php file."
-msgstr "Tu configuración requiere autenticación SMTP, pero no se han definido usuario/contraseña. Por favor, revisa el fichero civicrm.settings.php."
+msgstr ""
+"Tu configuración requiere autenticación SMTP, pero no se han definido "
+"usuario/contraseña. Por favor, revisa el fichero civicrm.settings.php."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
@@ -7395,8 +7515,12 @@ msgid ""
 msgid_plural ""
 "Email will NOT be sent to %count contacts - communication preferences "
 "specify DO NOT EMAIL."
-msgstr[0] "El email no se enviará a %count contacto - Las preferencias de comunicación indican NO ENVIAR EMAIL."
-msgstr[1] "El email no se enviará a %count contactos - Las preferencias de comunicación indican NO ENVIAR EMAIL."
+msgstr[0] ""
+"El email no se enviará a %count contacto - Las preferencias de comunicación "
+"indican NO ENVIAR EMAIL."
+msgstr[1] ""
+"El email no se enviará a %count contactos - Las preferencias de comunicación "
+"indican NO ENVIAR EMAIL."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
@@ -7654,7 +7778,8 @@ msgstr "# Contribuyentes"
 msgid ""
 "There are no contributions recorded for this contact. You can <a href=\"%1"
 "\">enter one now</a>."
-msgstr "No hay Donaciones para este contacto. Puedes <a href=\"%1\">añadir una</a>."
+msgstr ""
+"No hay Donaciones para este contacto. Puedes <a href=\"%1\">añadir una</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
@@ -7963,19 +8088,26 @@ msgstr "Borrar Tarjeta de Crédito"
 msgid ""
 "WARNING: If you delete this option, contributors will not be able to use "
 "this credit card type on your Online Contribution pages."
-msgstr "ADVERTENCIA: Si borras esta opción, los donantes no serán capaces de usar este tipo de tarjeta de crédito en tus páginas de donación Online."
+msgstr ""
+"ADVERTENCIA: Si borras esta opción, los donantes no serán capaces de usar "
+"este tipo de tarjeta de crédito en tus páginas de donación Online."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
 "The name for this credit card type as it should be provided to your payment "
 "processor."
-msgstr "El nombre para este tipo de tarjeta de crédito como debe ser proporcionado a tu gestor de pago."
+msgstr ""
+"El nombre para este tipo de tarjeta de crédito como debe ser proporcionado a "
+"tu gestor de pago."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
 "The name for this credit card type as it is displayed to contributors. This "
 "may be the same value as the Name above, or a localised title."
-msgstr "El nombre para este tipo de tarjeta de crédito como debe ser mostrado a los contribuyentes. Debe ser el mismo valor que el nombre de encima, o un título localizado."
+msgstr ""
+"El nombre para este tipo de tarjeta de crédito como debe ser mostrado a los "
+"contribuyentes. Debe ser el mismo valor que el nombre de encima, o un título "
+"localizado."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -7983,7 +8115,11 @@ msgid ""
 "information carefully. Click <strong>Go Back</strong> if you need to make "
 "changes. To complete your contribution, click the <strong>Make Contribution</"
 "strong> button below."
-msgstr "Por favor, verifica la cantidad a donar, nombre y dirección del contribuyente y la información de la tarjeta de crédito cuidadosamente. Click en <strong>Atrás</strong> si necesitas hacer cambios. Para completar tu donación, click en el botón <strong>Donar</strong> de debajo."
+msgstr ""
+"Por favor, verifica la cantidad a donar, nombre y dirección del "
+"contribuyente y la información de la tarjeta de crédito cuidadosamente. "
+"Click en <strong>Atrás</strong> si necesitas hacer cambios. Para completar "
+"tu donación, click en el botón <strong>Donar</strong> de debajo."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
@@ -8009,14 +8145,20 @@ msgstr "Caduca"
 msgid ""
 "Your contribution will not be completed until you click the <strong>Make "
 "Contribution</strong> button. Please click the button one time only."
-msgstr "Tu donación no se completará hasta que hagas click en el botón <strong>Donar</strong>. Por favor, haz click una sola vez."
+msgstr ""
+"Tu donación no se completará hasta que hagas click en el botón "
+"<strong>Donar</strong>. Por favor, haz click una sola vez."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
 "If you have a PayPal account, you can click the PayPal button to continue. "
 "Otherwise, fill in the credit card and billing information on this form and "
 "click <strong>Continue</strong> at the bottom of the page."
-msgstr "Si tienes cuenta PayPal, puedes hacer click en el botón PayPal para continuar. En otro caso, rellena la información de facturación y de la tarjeta de créditoen este formulario y haz click en <strong>continuar</strong> al final de la página."
+msgstr ""
+"Si tienes cuenta PayPal, puedes hacer click en el botón PayPal para "
+"continuar. En otro caso, rellena la información de facturación y de la "
+"tarjeta de créditoen este formulario y haz click en <strong>continuar</"
+"strong> al final de la página."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "Enter numbers only, no spaces or dashes."
@@ -8029,13 +8171,17 @@ msgstr "Localización del código de seguridad en la tarjeta de crédito"
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
 "Usually the last 3-4 digits in the signature area on the back of the card."
-msgstr "Normalmente los 3-4 últimos dígitos en el área de la firma en la parte trasera de la tarjeta."
+msgstr ""
+"Normalmente los 3-4 últimos dígitos en el área de la firma en la parte "
+"trasera de la tarjeta."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid ""
 "Enter the name as shown on your credit or debit card, and the billing "
 "address for this card."
-msgstr "Introduce el nombre como se muestra en tu tarjeta de crédito o débito, y la dirección de facturación para esta tarjeta."
+msgstr ""
+"Introduce el nombre como se muestra en tu tarjeta de crédito o débito, y la "
+"dirección de facturación para esta tarjeta."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "Checkout with PayPal"
@@ -8049,13 +8195,17 @@ msgstr "Haz click en el botón PayPal para continuar."
 msgid ""
 "This is a preview of this product as it will appear on your Contributions "
 "page(s)."
-msgstr "Esta es una previsualización del producto tal y como aparecerá en tu(s) página(s) de donaciones."
+msgstr ""
+"Esta es una previsualización del producto tal y como aparecerá en tu(s) "
+"página(s) de donaciones."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
 "Use this form to select a premium to be offered on this Online Contribution "
 "Page."
-msgstr "Usa este formulario para seleccionar un premio a ofertar en esta página de donaciones."
+msgstr ""
+"Usa este formulario para seleccionar un premio a ofertar en esta página de "
+"donaciones."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid "Add Products to This Page"
@@ -8076,14 +8226,18 @@ msgid ""
 "Pick a premium to include on this Contribution Page. Use <a href=\"%1"
 "\">Manage Premiums</a> to create or enable additional premium choices for "
 "your site."
-msgstr "selecciona un producto a incluir en esta página de donaciones. Usa <a href=\"%1"
-"\">Manejar Productos</a> para crear o habilitar selecciones de productos adicionales par tu sitio."
+msgstr ""
+"selecciona un producto a incluir en esta página de donaciones. Usa <a href="
+"\"%1\">Manejar Productos</a> para crear o habilitar selecciones de productos "
+"adicionales par tu sitio."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
 "Weight controls the order that premiums are displayed on the Contribution "
 "Page."
-msgstr "El peso controla el orden en el que los productos se mostrarán en la página de donaciones."
+msgstr ""
+"El peso controla el orden en el que los productos se mostrarán en la página "
+"de donaciones."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -8091,34 +8245,50 @@ msgid ""
 "contributors the ability to enter their own contribution amounts - and/or "
 "provide a fixed list of amounts. For fixed amounts, you can enter a label "
 "for each 'level' of contribution (e.g. Friend, Sustainer, etc.)."
-msgstr "Usa este formulario para configurar las opciones de cantidades de donaciones. Le puedes dar a los donantes la posibilidad de introducir sus propias cantidades de donaciones y/o facilitar una lista de cantidades fijas, puedes introducir una etiqueta por cada 'nivel' de donación (p.e. Amigo, ...)."
+msgstr ""
+"Usa este formulario para configurar las opciones de cantidades de "
+"donaciones. Le puedes dar a los donantes la posibilidad de introducir sus "
+"propias cantidades de donaciones y/o facilitar una lista de cantidades "
+"fijas, puedes introducir una etiqueta por cada 'nivel' de donación (p.e. "
+"Amigo, ...)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
 "If you allow people to enter their own dollar amounts, you can also set "
 "minimum and maximum values."
-msgstr "Si permites que la gente indique sus propias cantidades de dólares, puedes ajustar el valor mínimo y máximo."
+msgstr ""
+"Si permites que la gente indique sus propias cantidades de dólares, puedes "
+"ajustar el valor mínimo y máximo."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
 "Check this box if you want to give users the option to enter their own "
 "contribution amount. Your page will then include a text field labeled "
 "<strong>Other Amount</strong>."
-msgstr "Marca esta casilla si quieres dar a los usuarios la opción de introducir su propia cantidad de donación. Tu página incluirá un campo de texto etiquetado <strong>Otra cantidad</strong>."
+msgstr ""
+"Marca esta casilla si quieres dar a los usuarios la opción de introducir su "
+"propia cantidad de donación. Tu página incluirá un campo de texto etiquetado "
+"<strong>Otra cantidad</strong>."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
 "If you have chosen to <strong>Allow Other Amounts</strong>, you can use the "
 "fields above to control minimum and/or maximum acceptable values (e.g. don't "
 "allow contribution amounts less than $5.00)."
-msgstr "Si has elegido <strong>Permitir Otras cantidades</strong>, puedes usar los campos de abajo para controlar el mínimo y/o máximos valores aeptables (p.e. no permitas donaciones inferiores a $5.00)."
+msgstr ""
+"Si has elegido <strong>Permitir Otras cantidades</strong>, puedes usar los "
+"campos de abajo para controlar el mínimo y/o máximos valores aeptables (p.e. "
+"no permitas donaciones inferiores a $5.00)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
 "Use the table below to enter up to ten fixed contribution amounts. These "
 "will be presented as a list of radio button options. Both the label and "
 "dollar amount will be displayed."
-msgstr "Usa la tabla de debajo para introducir hasta diez cantidades de donaciones. Estos se presentarán como una lista de opciones. Se mostrarán la etiqueta y el valor correspondiente."
+msgstr ""
+"Usa la tabla de debajo para introducir hasta diez cantidades de donaciones. "
+"Estos se presentarán como una lista de opciones. Se mostrarán la etiqueta y "
+"el valor correspondiente."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid "Contribution Label"
@@ -8130,7 +8300,12 @@ msgid ""
 "name and address required for billing purposes. Add these custom elements to "
 "your page by selecting CiviCRM Profiles (collections of fields) to include "
 "at the beginning of the page, and/or below the billing section."
-msgstr "Puede que quieras obtener información de los donantes además del nombre y la dirección requeridos para la facturación. Añade estos elementos personalizados a tu página seleccionando Perfiles CiviCRM (conjunto de campos) a incluir en el comienzo de la página, y/o debajo de la sección de facturación."
+msgstr ""
+"Puede que quieras obtener información de los donantes además del nombre y la "
+"dirección requeridos para la facturación. Añade estos elementos "
+"personalizados a tu página seleccionando Perfiles CiviCRM (conjunto de "
+"campos) a incluir en el comienzo de la página, y/o debajo de la sección de "
+"facturación."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -8138,20 +8313,28 @@ msgid ""
 "specifically for use in Online Contribution pages. Click <a href=\"%1"
 "\">here</a> if you need to review, modify or create profiles (you can come "
 "back at any time to select or update the Profile(s) used for this page)."
-msgstr "Puedes usar en tu página perfiles CiviCRM - O crear perfiles específicos para usar en las páginas de donaciones On-Line. Haz Click <a href=\"%1"
-"\">aquí</a> si necesitas revisar, modificar o crear perfiles (puedes volver en cualquier momento para seleccionar o actualizar los perfiles usados en esta página)."
+msgstr ""
+"Puedes usar en tu página perfiles CiviCRM - O crear perfiles específicos "
+"para usar en las páginas de donaciones On-Line. Haz Click <a href=\"%1"
+"\">aquí</a> si necesitas revisar, modificar o crear perfiles (puedes volver "
+"en cualquier momento para seleccionar o actualizar los perfiles usados en "
+"esta página)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
 "Select a CiviCRM Profile to be included at the top of the page (below the "
 "introductory message, and above the billing information fields)."
-msgstr "Elije un perfil CiviCRM para ser incluido en el comienzo de la página (debajo del mensaje de introducción, y encima de los campos de facturación)."
+msgstr ""
+"Elije un perfil CiviCRM para ser incluido en el comienzo de la página "
+"(debajo del mensaje de introducción, y encima de los campos de facturación)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
 "Select a CiviCRM Profile to be included at the bottom of the page (below the "
 "billing information fields)."
-msgstr "Elije un perfil CiviCRM para incluir en el pié de la página (debajo de la información de facturación)."
+msgstr ""
+"Elije un perfil CiviCRM para incluir en el pié de la página (debajo de la "
+"información de facturación)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Delete.tpl
 msgid "Are you sure you want to delete the contribution page \"%1\"?"
@@ -8174,7 +8357,8 @@ msgstr "Configurar Sección de Productos"
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
 "Is the Premiums section enabled for this Online Contributions page? (%1)"
-msgstr "¿Está la sección de productos habilitada para esta página de donaciones? (%1)"
+msgstr ""
+"¿Está la sección de productos habilitada para esta página de donaciones? (%1)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Title to appear at the top of the Premiums section."
@@ -8193,7 +8377,10 @@ msgid ""
 "This email address is included in automated contribution receipts if the "
 "contributor has selected a premium. It should be an appropriate contact "
 "mailbox for inquiries about premium fulfillment/shipping."
-msgstr "Esta dirección de Email está incluida en un recibo de donaciones automatizado si el donante ha seleccionado un producto. Debería ser un buzón apropiado para consultas relacionadas con productos."
+msgstr ""
+"Esta dirección de Email está incluida en un recibo de donaciones "
+"automatizado si el donante ha seleccionado un producto. Debería ser un buzón "
+"apropiado para consultas relacionadas con productos."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -8206,7 +8393,9 @@ msgstr ""
 msgid ""
 "Should the minimum contribution amount be automatically displayed after each "
 "premium description?"
-msgstr "¿Se debería mostrar automáticamente la cantidad mínima de donación después de la descripción de cada producto?"
+msgstr ""
+"¿Se debería mostrar automáticamente la cantidad mínima de donación después "
+"de la descripción de cada producto?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -8229,7 +8418,9 @@ msgid ""
 "Use this form to edit the page title, contribution type (e.g. donation, "
 "campaign contribution, etc.), introduction, and status (active/inactive) for "
 "this online contribution page."
-msgstr "Usa este formulario para editar el título de la página, tipo de donación, introducción y estado (activa/inactiva) para esta página de donaciones."
+msgstr ""
+"Usa este formulario para editar el título de la página, tipo de donación, "
+"introducción y estado (activa/inactiva) para esta página de donaciones."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "This title will be displayed at the top of the page."
@@ -8263,7 +8454,9 @@ msgstr ""
 msgid ""
 "When your page is active, you can link people to the page by copying and "
 "pasting the following URL:"
-msgstr "Cuando tu página está activa, puedes enlazar personas a tu página copiando y pegando la siguiente URL:"
+msgstr ""
+"Cuando tu página está activa, puedes enlazar personas a tu página copiando y "
+"pegando la siguiente URL:"
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -8283,13 +8476,17 @@ msgstr "Mensaje de agradecimiento y recibo"
 msgid ""
 "This title will be displayed at the top of the thank-you / transaction "
 "confirmation page."
-msgstr "Este Título se mostrará al principio de la página de agradecimiento o confirmación de la transacción."
+msgstr ""
+"Este Título se mostrará al principio de la página de agradecimiento o "
+"confirmación de la transacción."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter text (and optional HTML layout tags) for the thank-you message that "
 "will appear at the top of the confirmation page."
-msgstr "Introduce el texto (y etiquetas de capas HTML opcionales) para el mensaje de agradecimiento que aparecerá al comienzo de la página de confirmación."
+msgstr ""
+"Introduce el texto (y etiquetas de capas HTML opcionales) para el mensaje de "
+"agradecimiento que aparecerá al comienzo de la página de confirmación."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -8301,25 +8498,33 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Check this box if you want an electronic receipt to be sent automatically."
-msgstr "Marca esta casilla si quieres que se te envíe un recibo electrónico automáticamente."
+msgstr ""
+"Marca esta casilla si quieres que se te envíe un recibo electrónico "
+"automáticamente."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter the FROM name to be used when receipts are emailed to contributors."
-msgstr "Introduce el nombre del REMITENTE a usar en los recibos a enviar a los donantes."
+msgstr ""
+"Introduce el nombre del REMITENTE a usar en los recibos a enviar a los "
+"donantes."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter the FROM email address to be used when receipts are emailed to "
 "contributors."
-msgstr "Introduce la dirección de e-mail del REMITENTE a usar cuando se envíen los recibos a los donantes."
+msgstr ""
+"Introduce la dirección de e-mail del REMITENTE a usar cuando se envíen los "
+"recibos a los donantes."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter a message you want included at the beginning of emailed receipts. "
 "NOTE: Receipt emails are TEXT ONLY - do not include HTML tags here."
-msgstr "Introduce un mensaje que quieras incluir en el comienzo de los recibos enviados por email."
-"NOTA: Los email de recibos son SOLO TEXTO - no incluyas etiquetas HTML aquí."
+msgstr ""
+"Introduce un mensaje que quieras incluir en el comienzo de los recibos "
+"enviados por email.NOTA: Los email de recibos son SOLO TEXTO - no incluyas "
+"etiquetas HTML aquí."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -8327,7 +8532,11 @@ msgid ""
 "emailed receipt, enter one or more email addresses here. Multiple email "
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
-msgstr "Si quieres que miembros de tu organización reciban una copia oculta de cada recibo enviado, introduce una o más direcciones aquí. Multiples direcciones de email se deben separar por comas (p.e. jane@example.com, paula@example.com)."
+msgstr ""
+"Si quieres que miembros de tu organización reciban una copia oculta de cada "
+"recibo enviado, introduce una o más direcciones aquí. Multiples direcciones "
+"de email se deben separar por comas (p.e. jane@example.com, paula@example."
+"com)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -8335,7 +8544,11 @@ msgid ""
 "each emailed receipt, enter one or more email addresses here. Multiple email "
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
-msgstr "Si quieres que miembros de tu organización reciban una copia oculta BLINDADA de cada recibo enviado por email, introduce una o más direcciones de email aquí. Multiples direcciones de email se deben separar por comas (p.e. jane@example.org, paula@example.org)."
+msgstr ""
+"Si quieres que miembros de tu organización reciban una copia oculta BLINDADA "
+"de cada recibo enviado por email, introduce una o más direcciones de email "
+"aquí. Multiples direcciones de email se deben separar por comas (p.e. "
+"jane@example.org, paula@example.org)."
 
 #: templates/CRM/Contribute/Form/Contribution/PremiumBlock.tpl
 msgid "Your Premium Selection"
@@ -8349,7 +8562,9 @@ msgstr "(Contribución de al menos %1 para poder seleccionar este regalo.)"
 msgid ""
 "The value of this premium is %1. This may affect the amount of the tax "
 "deduction you can claim. Consult your tax advisor for more information."
-msgstr "El valor de este producto es %1. Esto puede afectar a la cantidad de tasas deducibles que puedes solicitar. consulta a tu asesor para más información."
+msgstr ""
+"El valor de este producto es %1. Esto puede afectar a la cantidad de tasas "
+"deducibles que puedes solicitar. consulta a tu asesor para más información."
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid "Test-drive Your Contribution Page"
@@ -8395,7 +8610,9 @@ msgstr "Para información sobre este producto, contacta:"
 msgid ""
 "The value of this premium is %1. This may affect the amount of the\n"
 "tax deduction you can claim. Consult your tax advisor for more information."
-msgstr "El valor de este producto es %1. Esto puede afectar a la cantidad de tasas deducibles que puedes solicitar. Consulta a tu asesor para más información."
+msgstr ""
+"El valor de este producto es %1. Esto puede afectar a la cantidad de tasas "
+"deducibles que puedes solicitar. Consulta a tu asesor para más información."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid "Test-drive Transaction Receipt"
@@ -8405,7 +8622,9 @@ msgstr "Prueba de ticket de transacción"
 msgid ""
 "This is a test-drive transaction receipt. No live financial\n"
 "transaction has occurred."
-msgstr "Este es un recibo de transacción de prueba. No se ha llevado a cabo ninguna transacción."
+msgstr ""
+"Este es un recibo de transacción de prueba. No se ha llevado a cabo ninguna "
+"transacción."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
 msgid "Contribution Receipt"
@@ -8415,7 +8634,9 @@ msgstr "Recibo de donación"
 msgid ""
 "Your contribution has been processed successfully. Please print this page "
 "for your records."
-msgstr "Tu donación ha sido procesada satisfactoriamente. Por favor, imprime esta página."
+msgstr ""
+"Tu donación ha sido procesada satisfactoriamente. Por favor, imprime esta "
+"página."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "An email receipt for this contribution has also been sent to %1"
@@ -8425,7 +8646,9 @@ msgstr "Un recibo de esta donación se ha enviado por email a %1"
 msgid ""
 "WARNING: Deleting this contribution will result in the loss of the "
 "associated financial transactions (if any)."
-msgstr "ADVERTENCIA: Borrar esta Donación provocará la pérdida de todas las transacciones financieras asociadas a ella (en caso de haberlas)."
+msgstr ""
+"ADVERTENCIA: Borrar esta Donación provocará la pérdida de todas las "
+"transacciones financieras asociadas a ella (en caso de haberlas)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Select the appropriate contribution type for this transaction."
@@ -8443,7 +8666,9 @@ msgstr "Este campo está vacío en caso de donaciones no monetarias."
 msgid ""
 "Optional identifier for the contribution source (campaign name, event, "
 "mailer, etc.)."
-msgstr "Identificador opcional para el origen de la donación (nombre de campaña, evento, etc.)."
+msgstr ""
+"Identificador opcional para el origen de la donación (nombre de campaña, "
+"evento, etc.)."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Actual amount given by contributor."
@@ -8475,7 +8700,9 @@ msgstr ""
 msgid ""
 "For offline contributions, you can enter an account+check number, bank "
 "transfer identifier, etc."
-msgstr "Para donaciones offline, puedes introducir una cuenta+número de control, indentificador de trasferencia bancaria, etc."
+msgstr ""
+"Para donaciones offline, puedes introducir una cuenta+número de control, "
+"indentificador de trasferencia bancaria, etc."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a receipt was sent to the contributor."
@@ -8487,7 +8714,9 @@ msgstr "Fecha en la que el mensaje de agradecimiento se envió al donante."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "To mark a contribution as cancelled, enter the cancellation date here."
-msgstr "Para marcar un donante como cancelado, introduce la fecha de cancelación aquí."
+msgstr ""
+"Para marcar un donante como cancelado, introduce la fecha de cancelación "
+"aquí."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #: templates/CRM/Contribute/Page/ContributionType.tpl
@@ -8498,7 +8727,8 @@ msgstr "Nuevo tipo de Donante"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all contribution "
 "records of this type."
-msgstr "ADVERTENCIA: Borrar esta opción provocará la pérdida de todos los registros "
+msgstr ""
+"ADVERTENCIA: Borrar esta opción provocará la pérdida de todos los registros "
 "que usen este tipo de donación."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
@@ -8506,7 +8736,10 @@ msgid ""
 "Use this field to flag contributions of this type with the corresponding "
 "code used in your accounting system. This code will be included when you "
 "export contribution data to your accounting package."
-msgstr "Usa este campo para señalar donaciones mediante una bandera que se corresponda con el código usado en tu plan contable. Este código será incluido cuando exportes datos de donaciones a tu paquete de contabilidad."
+msgstr ""
+"Usa este campo para señalar donaciones mediante una bandera que se "
+"corresponda con el código usado en tu plan contable. Este código será "
+"incluido cuando exportes datos de donaciones a tu paquete de contabilidad."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid "Are contributions of this type tax-deductible?"
@@ -8531,19 +8764,26 @@ msgstr ""
 msgid ""
 "Enter the API Username you used when requesting the digital certificate for "
 "this environment."
-msgstr "Introduce el nombre de usuario API que usaste cuando solicitaste el certificado digital para este entorno."
+msgstr ""
+"Introduce el nombre de usuario API que usaste cuando solicitaste el "
+"certificado digital para este entorno."
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""
 "Browse to the digital certificate that you downloaded from PayPal. Choose "
 "the <strong>sandbox</strong> or <strong>live</strong> certificate based on "
 "the environment you are creating this profile for."
-msgstr "Busca el certificado digital que descargaste de PayPal. Elije el certificado del <strong>entorno de pruebas</strong> o <strong>entorno de producción</strong> según el entorno para el que estés creando este perfil."
+msgstr ""
+"Busca el certificado digital que descargaste de PayPal. Elije el certificado "
+"del <strong>entorno de pruebas</strong> o <strong>entorno de producción</"
+"strong> según el entorno para el que estés creando este perfil."
 
 #: templates/CRM/Contribute/Form/CreatePPD.tpl
 msgid ""
 "Subject is left blank unless you are processing on behalf of a third party."
-msgstr "El Asunto se deja en blanco a menos que estes procesando en nombre de terceros. "
+msgstr ""
+"El Asunto se deja en blanco a menos que estes procesando en nombre de "
+"terceros. "
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
@@ -8563,7 +8803,10 @@ msgid ""
 "Are you sure you want to delete this premium? This action cannot be undone. "
 "This will also remove the premium from any contribution pages that currently "
 "include it."
-msgstr "¿Estás seguro que quieres este producto?. Esta operación no se puede deshacer. También quitará el producto de cualquier página de donación que lo incluya."
+msgstr ""
+"¿Estás seguro que quieres este producto?. Esta operación no se puede "
+"deshacer. También quitará el producto de cualquier página de donación que lo "
+"incluya."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Name of the product as it will be displayed to contributors."
@@ -8573,7 +8816,9 @@ msgstr "Nombre del producto tal y como lo verán los donantes."
 msgid ""
 "Optional product SKU or code. If used, this value will be included in "
 "contributor receipts."
-msgstr "Número de serie o código opcional de producto. Si se utiliza, este valor se incluirá en los recibos."
+msgstr ""
+"Número de serie o código opcional de producto. Si se utiliza, este valor se "
+"incluirá en los recibos."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -8648,13 +8893,16 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Duration of subscription, membership or service (e.g. 12-month subscription)."
-msgstr "Duración de suscripción, miembro o servicio (p.e. suscripción de 12 meses)."
+msgstr ""
+"Duración de suscripción, miembro o servicio (p.e. suscripción de 12 meses)."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
 "Frequency of subscription, membership, or service (e.g. journal delivered "
 "every two months)."
-msgstr "Frecuencia de suscripción, miembro o servicio (p.e. jornadas realizadas cada dos meses)."
+msgstr ""
+"Frecuencia de suscripción, miembro o servicio (p.e. jornadas realizadas cada "
+"dos meses)."
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
@@ -8665,7 +8913,9 @@ msgstr "Nuevo instrumento de pago"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all contribution "
 "records which use this option."
-msgstr "ADVERTENCIA: Borrar esta opción provocará la pérdida de todas las donaciones que usen esta opción."
+msgstr ""
+"ADVERTENCIA: Borrar esta opción provocará la pérdida de todas las donaciones "
+"que usen esta opción."
 
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 msgid "Receipt not sent?"
@@ -8681,7 +8931,9 @@ msgstr "No se encontraron donaciones"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "if you are searching by contributor name, check your spelling"
-msgstr "Si estás buscando por el nombre del donante, comprueba que lo has escrito bien"
+msgstr ""
+"Si estás buscando por el nombre del donante, comprueba que lo has escrito "
+"bien"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid ""
@@ -8726,8 +8978,10 @@ msgid ""
 "Are you sure you want to delete the selected contributions? This delete "
 "operation cannot be undone and will delete all transactions and activity "
 "history associated with these contributions."
-msgstr "¿Estás seguro que quieres borrar las donaciones seleccionadas? Esta operación "
-"de borrado no se puede deshacer y borrará todas las transacciones e historial de actividad asociado con esas donaciones."
+msgstr ""
+"¿Estás seguro que quieres borrar las donaciones seleccionadas? Esta "
+"operación de borrado no se puede deshacer y borrará todas las transacciones "
+"e historial de actividad asociado con esas donaciones."
 
 #: templates/CRM/Contribute/Form/Task/Export.tpl
 msgid "One contribution record selected for export."
@@ -8853,7 +9107,8 @@ msgid ""
 "download a file with just these problem records - <a href=\"%2\">Download "
 "Conflicts</a>. Then correct them in the original import file, cancel this "
 "import and begin again at step 1."
-msgstr "CiviCRM ha detectado %1 registro con ID de transacción en conflicto dentro "
+msgstr ""
+"CiviCRM ha detectado %1 registro con ID de transacción en conflicto dentro "
 "del fichero de datos. Si continúas, estos registros se saltarán. O, puedes "
 "descargar el fichero con los registros que causan problemas - <a href=\"%2"
 "\">Descargar Conflictos</a>. Luego corrijelos en el fichero original, "
@@ -8891,7 +9146,9 @@ msgstr "Filas con errores"
 msgid ""
 "Rows with invalid data in one or more fields. These rows will be skipped "
 "(not imported)."
-msgstr "Filas con datos inválidos en uno o más campos. Estas filas se saltarán (no se importarán)."
+msgstr ""
+"Filas con datos inválidos en uno o más campos. Estas filas se saltarán (no "
+"se importarán)."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
@@ -8912,8 +9169,9 @@ msgstr "Filas en conflicto"
 msgid ""
 "Rows with conflicting transaciton ids within this file. These rows will be "
 "skipped (not imported)."
-msgstr "Filas con conflictos en el ID de transacción en este fichero. Estas filas "
-"se saltarán (no se importarán)."
+msgstr ""
+"Filas con conflictos en el ID de transacción en este fichero. Estas filas se "
+"saltarán (no se importarán)."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
@@ -8941,7 +9199,8 @@ msgstr "Total Filas a ser importadas."
 msgid ""
 "<strong>Import has completed successfully.</strong> The information below "
 "summarizes the results."
-msgstr "<strong>La Importación se ha completado satisfactoriamente.</strong> La "
+msgstr ""
+"<strong>La Importación se ha completado satisfactoriamente.</strong> La "
 "información de debajo muestra el sumario del resultado."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
@@ -8990,7 +9249,8 @@ msgstr[1] ""
 msgid ""
 "You can <a href=\"%1\">Download Errors</a>. You may then correct them, and "
 "import the new file with the corrected data."
-msgstr "Puedes <a href=\"%1\">Descargar Errores</a>. Puedes corregirlos e importar "
+msgstr ""
+"Puedes <a href=\"%1\">Descargar Errores</a>. Puedes corregirlos e importar "
 "el nuevo fichero con los datos corregidos."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
@@ -9090,7 +9350,8 @@ msgstr "Filas duplicadas"
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM contribution records."
-msgstr "Filas que están duplicadas de registros de donaciones existentes en CiviCRM."
+msgstr ""
+"Filas que están duplicadas de registros de donaciones existentes en CiviCRM."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
@@ -9141,7 +9402,8 @@ msgstr "Subir fichero de datos"
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/History/Import/Form/UploadFile.tpl
 msgid "File format must be comma-separated-values (CSV)."
-msgstr "El formato del fichero debe tener los valores separados por coma (CSV)."
+msgstr ""
+"El formato del fichero debe tener los valores separados por coma (CSV)."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/History/Import/Form/UploadFile.tpl
@@ -9193,7 +9455,9 @@ msgstr "Enlaces visitantes a esta página usando la siguiente URL"
 msgid ""
 "This page is currently <strong>inactive</strong> (not accessible to "
 "visitors)."
-msgstr "Esta página está actualmente <strong>inactiva</strong> (no accesible a los visitantes)."
+msgstr ""
+"Esta página está actualmente <strong>inactiva</strong> (no accesible a los "
+"visitantes)."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -9222,7 +9486,9 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Edit thank-you page contents and receipting features."
-msgstr "Edita el contenido de la página de agradecimiento y las características del recibo."
+msgstr ""
+"Edita el contenido de la página de agradecimiento y las características del "
+"recibo."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -9618,9 +9884,10 @@ msgstr ""
 msgid ""
 "Check this box if you want only the title for this fieldset to be displayed "
 "when the page is initially loaded (fields are hidden)."
-msgstr "Marca este checkbox si quieres sólo el título para que este conjunto de "
-"campos se muestre cuando la página se cargue inicialmente "
-"(los campos son ocultos)."
+msgstr ""
+"Marca este checkbox si quieres sólo el título para que este conjunto de "
+"campos se muestre cuando la página se cargue inicialmente (los campos son "
+"ocultos)."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid "Explanatory text displayed at the beginning of this group of fields."
@@ -9666,7 +9933,8 @@ msgstr "Otra Opción"
 msgid ""
 "If you need additional options - you can add them after you Save your "
 "current entries."
-msgstr "Si necesitas opciones adicionales - puedes añadirlas después de que guardes "
+msgstr ""
+"Si necesitas opciones adicionales - puedes añadirlas después de que guardes "
 "tus entradas actuales."
 
 #: templates/CRM/Custom/Form/Option.tpl
@@ -9676,7 +9944,8 @@ msgstr "Opciones de Selección"
 #: templates/CRM/Custom/Form/Option.tpl
 msgid ""
 "WARNING: Deleting this custom option will result in the loss of all data."
-msgstr "ADVERTENCIA: Borrar esta opción personalizada provocará la pérdida de todos "
+msgstr ""
+"ADVERTENCIA: Borrar esta opción personalizada provocará la pérdida de todos "
 "los datos."
 
 #: templates/CRM/Custom/Form/Option.tpl
@@ -9687,12 +9956,14 @@ msgstr "¿Quieres dejar este valor 'seleccionado' por defecto?"
 msgid ""
 "Preview of the custom data group (fieldset) as it will be displayed within "
 "an edit form."
-msgstr "Previsualizar el conjunto de campos del grupo personalizado como será "
+msgstr ""
+"Previsualizar el conjunto de campos del grupo personalizado como será "
 "mostrado en un formulario de edición."
 
 #: templates/CRM/Custom/Form/Preview.tpl
 msgid "Preview of this field as it will be displayed in an edit form."
-msgstr "Previsualizar este campo como será mostrado en un formulario de edición."
+msgstr ""
+"Previsualizar este campo como será mostrado en un formulario de edición."
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Req?"
@@ -9706,7 +9977,8 @@ msgstr "Nuevo campo personalizado"
 msgid ""
 "There are no custom fields for custom group \"%1\", <a href=\"%2\">add one</"
 "a>."
-msgstr "No hay campos personalizados para el Grupo Personalizado \"%1\", <a href=\"%2"
+msgstr ""
+"No hay campos personalizados para el Grupo Personalizado \"%1\", <a href=\"%2"
 "\">añade uno</a>."
 
 #: templates/CRM/Custom/Page/Group.tpl
@@ -10563,6 +10835,13 @@ msgstr "¿Borrar %1 Perfil?"
 
 #: templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "site root"
+msgstr ""
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid ""
+"Profiles can be explicitly linked to a module page. Any Profile form/"
+"listings page can also be linked directly by adding it's ID to the civicrm/"
+"profile path. (Example: <em>%1</em>)"
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -11688,4 +11967,3 @@ msgstr "Error en la transacción SMTP"
 #~ msgstr ""
 #~ "<label>Reemplazar:</label> Reemplaza las coincidencias en la base de "
 #~ "datos con los contactos importados."
-
