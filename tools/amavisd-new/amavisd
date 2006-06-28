@@ -8487,8 +8487,8 @@ sub process($$) {
     my($conn,$msginfo) = @_;
     my ($verpInfo, $email) = Mail::Verp->decode(
         MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('To')));
-    my ($dest, $jobId, $qId, $hash) =
-        ($verpInfo =~ m/(\w+)\.(\d+)\.(\d+)\.([0-9A-F]+)\@.*/i);
+    my ($dest, $domainId, $jobId, $qId, $hash) =
+        ($verpInfo =~ m/(\w+)\.(\d+)\.(\d+)\.(\d+)\.([0-9A-F]+)\@.*/i);
     
     my $result;
     

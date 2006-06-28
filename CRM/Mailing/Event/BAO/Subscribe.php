@@ -156,6 +156,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         require_once 'CRM/Utils/Verp.php';
         $confirm = CRM_Utils_Verp::encode( implode( $config->verpSeparator,
                                                     array( 'confirm',
+                                                           $this->domain_id,
                                                            $this->contact_id,
                                                            $this->id,
                                                            $this->hash )

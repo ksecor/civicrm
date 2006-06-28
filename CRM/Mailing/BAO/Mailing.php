@@ -486,6 +486,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $verp[$key] = implode($config->verpSeparator,
                                   array(
                                         $key, 
+                                        $this->domain_id,
                                         $job_id, 
                                         $event_queue_id,
                                         $hash
