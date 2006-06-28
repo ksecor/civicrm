@@ -318,8 +318,12 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 }
 
                 if ( strpos($prop, '-') ) {
-                    list ($loc, $fld) = explode('-', $prop);
-                    $title = $this->_query->_fields[$fld]['title'] . " ($loc)";
+                    list ($loc, $fld, $phoneType) = explode('-', $prop);
+                    $title = $this->_query->_fields[$fld]['title'];
+                    if ($phoneType && strtolower($phoneType) != $fld) {
+                        $title .= "-{$phoneType}";
+                    }
+                    $title .= " ($loc)";
                 } else {
                     $title = $this->_query->_fields[$prop]['title'];
                 }

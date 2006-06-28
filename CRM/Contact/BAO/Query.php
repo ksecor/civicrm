@@ -320,8 +320,8 @@ class CRM_Contact_BAO_Query {
         }
 
         $this->selectClause( ); 
-        $this->_whereClause      = $this->whereClause( );
 
+        $this->_whereClause      = $this->whereClause( );
         $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode ); 
         $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
     }
@@ -490,7 +490,7 @@ class CRM_Contact_BAO_Query {
                 }
             }
         }
-        
+
         // add location as hierarchical elements
         $this->addHierarchicalElements( );
 
@@ -591,14 +591,8 @@ class CRM_Contact_BAO_Query {
                 if ( ! $field ) {
                     if ( ! is_numeric($elementType) ) { //fix for CRM-882( to handle phone types )
                         $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
-                        if ( ! $field ) {
-                            $field =& CRM_Utils_Array::value( $elementName . "-Primary$elementType", $this->_fields );
-                        }
                     } else {
                         $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
-                        if ( ! $field ) {
-                            $field =& CRM_Utils_Array::value( $elementName . "-Primary", $this->_fields );
-                        }
                     }
                 }
 
@@ -606,6 +600,10 @@ class CRM_Contact_BAO_Query {
                 $addWhere = false;
                 if ( $this->_params ) {
                     $nm = $elementName . "-$locationTypeId";
+                    if ( !is_numeric($elementType) ) {
+                        $nm .= "$elementType";
+                    }
+
                     foreach ( $this->_params as $id => $values ) {
                         if ( $values[0] == $nm ) {
                             $addWhere = true;
@@ -770,7 +768,7 @@ class CRM_Contact_BAO_Query {
              ( substr( $values[0], 0, 6  ) == 'quest_' ) ) {
             return;
         }
-
+        
         switch ( $values[0] ) {
 
         case 'contact_type':
@@ -848,7 +846,6 @@ class CRM_Contact_BAO_Query {
      * @access public 
      */ 
     function whereClause( ) {
-        //CRM_Core_Error::debug( 'p', $this->_params );
         $this->_where[0] = array( );
 
         $config =& CRM_Core_Config::singleton( );
@@ -857,7 +854,7 @@ class CRM_Contact_BAO_Query {
         if ( CRM_Core_BAO_Domain::multipleDomains( ) ) {
             $this->_where[0][] = 'contact_a.domain_id = ' . $config->domainID( );
         }
-        
+
         $this->includeContactIds( );
         
         // CRM_Core_Error::debug( 'p', $this->_params );
@@ -896,6 +893,7 @@ class CRM_Contact_BAO_Query {
         if ( ! empty( $clauses ) ) {
             $andClauses[] = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
         }
+
         // CRM_Core_Error::debug( 'a', $andClauses );
         return implode( ' AND ', $andClauses );
     }
@@ -911,11 +909,10 @@ class CRM_Contact_BAO_Query {
         $lType = '';
         $locType = array( );
         $locType = explode('-', $name);
-            
+
         //add phone type if exists
         if ($locType[2]) {
             $locType[2] = addslashes( $locType[2] );
-            $this->_where[$grouping][] = "civicrm_phone.phone_type = '{$locType[2]}'";
         }
 
         $field = CRM_Utils_Array::value( $name, $this->_fields );
@@ -925,7 +922,7 @@ class CRM_Contact_BAO_Query {
                 return;
             }
         }
-        
+
         $setTables = true;
 
         // FIXME: the LOWER/strtolower pairs below most probably won't work
@@ -1018,10 +1015,14 @@ class CRM_Contact_BAO_Query {
                     $setTables = false;
                     list($tbName, $fldName) = explode("." , $field['where']);
                     
-                    //get the location name //kurund
+                    //get the location name 
                     $locationType =& CRM_Core_PseudoConstant::locationType();
                     if ( $locType[0] == 'email' || $locType[0] == 'im' || $locType[0] == 'phone' ) {
-                        $tName = $locationType[$locType[1]] . "-" . $locType[0] . '-1';
+                        if ($locType[2]) {
+                            $tName = $locationType[$locType[1]] . "-" . $locType[0] . '-' . $locType[2];
+                        } else {
+                            $tName = $locationType[$locType[1]] . "-" . $locType[0] . '-1';
+                        }
                     } else {
                         $tName = $locationType[$locType[1]] . "-address";
                     }
@@ -1130,7 +1131,7 @@ class CRM_Contact_BAO_Query {
         if ( empty( $tables ) ) {
             return $from;
         }
-        
+
         if ( ( CRM_Utils_Array::value( 'civicrm_gender', $tables ) ||
                CRM_Utils_Array::value( 'civicrm_individual_prefix' , $tables ) ||
                CRM_Utils_Array::value( 'civicrm_individual_suffix' , $tables )) &&
@@ -1183,6 +1184,7 @@ class CRM_Contact_BAO_Query {
         foreach ($tables as $key => $value) {
             $k = 99;
             if ( strpos( $key, '-' ) ) {
+                //echo $key . "<br>";
                 $keyArray = explode('-', $key);
                 $k = CRM_Utils_Array::value( 'civicrm_' . $keyArray[1], $info, 99 );
             } else if ( strpos( $key, '_' ) ) {
@@ -1206,7 +1208,7 @@ class CRM_Contact_BAO_Query {
         }
 
         $tables = $newTables;
-
+        //CRM_Core_Error::debug("aa", $tables);
         foreach ( $tables as $name => $value ) {
             if ( ! $value ) {
                 continue;

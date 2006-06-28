@@ -609,7 +609,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         if ( empty( $params ) ) {
             return $fields;
         }
-
+        
         $locationTypes  =& CRM_Core_PseudoConstant::locationType();
         foreach ($params['mapper'] as $key => $value) {
             foreach ($value as $k => $v) {
@@ -630,11 +630,12 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                             $fields['location'][$locationName]['location_type'] = $v[2];
                         }
                         
-                        if ( $v[3] ) {
-                            // DOES NOT WORK, fix
-                        }
                         if ( $v[1] == 'phone' || $v[1] == 'email' || $v[1] == 'im' ) {
-                            $fields['location'][$locationName][$v[1] . "-1"] = 1;
+                            if ( $v[3] ) { // phone type handling
+                                $fields['location'][$locationName][$v[1] . "-" . $v[3]] = 1;
+                            } else {
+                                $fields['location'][$locationName][$v[1] . "-1"] = 1;
+                            }
                         } else {
                             $fields['location'][$locationName][$v[1]] = 1;
                         }
