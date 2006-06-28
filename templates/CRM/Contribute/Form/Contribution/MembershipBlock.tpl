@@ -27,7 +27,7 @@
         {/if}
       {/if}
   {/if}
-    {if $context EQ "confirmContribution" OR $context EQ "thankContribution"}
+    {if  $context neq "makeContribution" }
         <div class="header-dark">
             {if $renewal_mode }
                     {if $membershipBlock.renewal_title}
@@ -37,7 +37,7 @@
                     {/if}
 
             {else}
-                    {if $membershipBlock.new_title}
+                        {if $membershipBlock.new_title}
                         {$membershipBlock.new_title}
                     {else}
                      {ts}Your Membership Selection{/ts}
@@ -45,13 +45,11 @@
             {/if}
         </div>
     {/if}
-    {if $preview}
-        {assign var="showSelectOptions" value="1"}
-    {/if}
+   
     {strip}
         <table id="membership-listings" class="no-border">
-        {foreach from=$membershipTypes item=row}
-        <tr {if $context EQ "makeContribution"}class="odd-row" {/if}valign="top">
+        {foreach from=$membershipTypes item=row }
+        <tr {if $context EQ "makeContribution" OR $context EQ "thankContribution" }class="odd-row" {/if}valign="top">
             {if $showRadio }
                 {assign var="pid" value=$row.id}
                 <td>{$form.selectMembership.$pid.html}</td>
@@ -62,14 +60,11 @@
                 {if ($membershipBlock.display_min_fee AND $context EQ "makeContribution") AND $row.minimum_fee GT 0 }
                     {ts 1=$row.minimum_fee|crmMoney}(Contribute at least %1 to be eligible for this membership .){/ts}
                 {/if}
-            
-            {if $context EQ "thankContribution"}
-                
-            {/if}
+                        
             </td>
             
             <td>
-              {if $row.current_membership }   
+              {if $row.current_membership AND $context EQ "makeContribution" }   
                {ts 1=$row.current_membership|crmDate}You are current member of this<strong> Membership</strong> (Membership Will Expire on %1){/ts}
               {/if}
            </td> 
@@ -77,10 +72,12 @@
         
         {/foreach}
         {if $showRadio}
+            {if $showRadioNoThanks }
             <tr class="odd-row">
               <td>{$form.selectMembership.no_thanks.html}</td>
               <td><strong>No thank you</strong></td>      
             </tr> 
+            {/if}
         {/if}          
         </table>
     {/strip}

@@ -4,15 +4,35 @@
 
 {ts}Please print this receipt for your records.{/ts}
 
+{if $membership_assign}
+===========================================================
+{ts}Membership Information{/ts}
 
+===========================================================
+Membershiptype : {$membership_name}
+
+Membership Start Date : {$mem_start_date}
+
+Membership End Date   : {$mem_end_date}
+
+{/if}
 ===========================================================
 {ts}Contribution Information{/ts}
 
 ===========================================================
+{if $membership_amount } 
+{ts}Contribution Amount{/ts}:<strong>{$amount|crmMoney}</strong>
+{ts}{$membership_name} Membership:<strong>{$membership_amount|crmMoney}</strong>{/ts}
+<strong> -------------------------------------------</strong>
+{ts}Total:{/ts}<strong>{$amount+$membership_amount|crmMoney}</strong>
+{else}
 {ts}Amount{/ts}: {$amount|crmMoney}
+{/if}
 {ts}Date{/ts}: {$receive_date|crmDate}
 {ts}Transaction #{/ts}: {$trxn_id}
-
+{if $membership_trx_id}
+{ts}Membership Transaction #{/ts}:{$membership_trx_id}
+{/if}
 ===========================================================
 {ts}Billing Name and Address{/ts}
 

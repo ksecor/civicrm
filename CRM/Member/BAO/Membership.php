@@ -258,7 +258,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @param int $pageId 
      * @static
      */
-    function buildMembershipBlock( $form , $pageID , $formItems = false, $selectedMembershipID = null ) {
+    function buildMembershipBlock( $form , $pageID , $formItems = false, $selectedMembershipID = null ,$thankPage = false ) {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
         require_once 'CRM/Member/DAO/MembershipType.php';
         require_once 'CRM/Member/DAO/Membership.php';
@@ -292,12 +292,14 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                 CRM_Core_DAO::storeValues($memType,$mem);
                                 $this->assign( 'minimum_fee', $mem['minimum_fee'] );
                                 $this->assign( 'membership_name', $mem['name'] );
-                                $membership = &new CRM_Member_DAO_Membership();
-                                $membership->contact_id         = $cid;
-                                $membership->membership_type_id = $memType->id;
-                                if ( $membership->find(true) ) {
-                                    $this->assign("renewal_mode", true );
-                                    $mem['current_membership'] =  $membership->end_date;
+                                if ( !$thankPage ) {
+                                    $membership = &new CRM_Member_DAO_Membership();
+                                    $membership->contact_id         = $cid;
+                                    $membership->membership_type_id = $memType->id;
+                                    if ( $membership->find(true) ) {
+                                        $this->assign("renewal_mode", true );
+                                        $mem['current_membership'] =  $membership->end_date;
+                                    }
                                 }
                                 $membershipTypes[] = $mem;
                             }
@@ -321,6 +323,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $form->assign( 'showRadio',$formItems );
             if ( $formItems ) {
                 if ( ! $dao->is_required ) {
+                    $form->assign( 'showRadioNoThanks', true );
                     $radio[''] = $form->createElement('radio',null,null,null,'no_thanks', null);
                     $form->addGroup($radio,'selectMembership',null);
                 } else if( $dao->is_required  && count( $radio ) == 1 ) {
@@ -355,7 +358,9 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $dao->is_active = 1;
         if ( $dao->find(true) ) {
             CRM_Core_DAO::storeValues($dao, $membershipBlock );
-        }
+        } else {
+            return null;
+        } 
         
         return $membershipBlock;
     }

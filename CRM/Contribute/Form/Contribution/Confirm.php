@@ -226,10 +226,16 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks') {
             $paymemtDone = false;
+            
+            $this->assign('membership_assign' , true );
+            $this->set('membershipID' , $membershipParams['selectMembership']);
+            
             require_once 'CRM/Member/BAO/MembershipType.php';
             require_once 'CRM/Member/BAO/Membership.php';
             $membersshipID = $membershipParams['selectMembership'];
             $membersshipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membersshipID );
+            $this->assign('membership_name',$membersshipDetails['name']);
+
             $minimumFee = $membersshipDetails['minimum_fee'];
             $memBlockDetails    = CRM_Member_BAO_Membership::getMemershipBlock( $this->id );
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
@@ -257,7 +263,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
 
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
-                $errors[] = $result;
+                $errors[1] = $result;
             } else {
                 $now = date( 'YmdHis' );
                 $membershipParams = array_merge($membershipParams, $result );
@@ -275,7 +281,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribution[1] =  self::processContribution( $membershipParams ,$result ,$contactID ,$contributionType  );
                 self::postProcessPremium( $premiumParams ,$contribution );
                 //finally send an email receipt
-                self::sendMail( $contactID );
+                
             }
 
             if ( $memBlockDetails['is_separate_payment']  && ! $paymemtDone ) {
@@ -293,9 +299,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $result =& $payment->doDirectPayment( $tempParams );
                 }
                 if ( is_a( $result, 'CRM_Core_Error' ) ) {
-                    $errors[] = $result;
+                    $errors[2] = $result;
                 } else {
-                    $contribution[] =  self::processContribution( $tempParams ,$result ,$contactID ,$contributionType  );
+                    $this->set('membership_trx_id' , $result['trxn_id']);
+                    $this->set('membership_amount'  , $minimumFee);
+                    
+                    $this->assign('membership_trx_id' , $result['trxn_id']);
+                    $this->assign('membership_amount'  , $minimumFee);
+                    $contribution[2] =  self::processContribution( $tempParams ,$result ,$contactID ,$contributionType  );
                 }
             }
             if ( $memBlockDetails['is_separate_payment'] ) {
@@ -305,6 +316,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
             if ( ! $errors[$index] ){
                 if ( $currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID , $membersshipID) ) {
+                    $this->set("renewal_mode", true );
                     if ( ! $currentMembership['is_current_member'] ) {
                         require_once 'CRM/Member/BAO/MembershipStatus.php';
                         $dao = &new CRM_Member_DAO_Membership();
@@ -324,6 +336,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         $dao->modified_id   = $contactID;
                         $dao->modified_date = date('Ymd');
                         $dao->save();
+
+                        $this->assign('mem_start_date' , CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                        $this->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                         
                     } else {
                         require_once 'CRM/Member/BAO/MembershipStatus.php';
@@ -343,6 +358,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         $dao->modified_id   = $contactID;
                         $dao->modified_date = date('Ymd');
                         $dao->save();
+                        $this->assign('mem_start_date' , CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                        $this->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                         
                     }
             
@@ -363,6 +380,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $dao = &new CRM_Member_DAO_Membership();
                     $dao->copyValues($memParams);
                     $membership = $dao->save();
+                    $this->assign('mem_start_date' , CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                    $this->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                 }
                 //insert payment record
                 require_once 'CRM/Member/DAO/MembershipPayment.php';
@@ -376,6 +395,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             foreach($errors as $error ) {
                 CRM_Core_Error::displaySessionError( $error );
                 CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
+            }
+            
+            if ( !$errors[1]  &&  !$errors[2] ) {
+                self::sendMail( $contactID );
             }
         } else {
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
@@ -639,17 +662,17 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $template =& CRM_Core_Smarty::singleton( );
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
-            
+           
             $receiptFrom = '"' . $this->_values['receipt_from_name'] . '" <' . $this->_values['receipt_from_email'] . '>';
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
-                                  $displayName,
-                                  $email,
-                                  $subject,
-                                  $message,
-                                  $this->_values['cc_receipt'],
-                                  $this->_values['bcc_receipt']
-                                  );
+                                   $displayName,
+                                   $email,
+                                   $subject,
+                                   $message,
+                                   $this->_values['cc_receipt'],
+                                   $this->_values['bcc_receipt']
+                                   );
             
         }
         

@@ -70,12 +70,26 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
     public function buildQuickForm()
     {
         $this->assignToTemplate( );
-        $productID = $this->get ('productID');
-        $option    = $this->get ('option');
+        $productID    = $this->get ('productID');
+        $option       = $this->get ('option');
+        $membershipID = $this->get ('membershipID');
+
         if ( $productID ) {
             require_once 'CRM/Contribute/BAO/Premium.php';  
-            CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false,$productID, $option);
+            CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);
         }
+
+        if ( $membershipID ) {
+            $tansactionID     = $this->get('membership_trx_id');
+            $membershipAmount = $this->get('membership_amount');
+            $renewalMode = $this->get("renewal_mode");
+            $this->assign('membership_trx_id',$tansactionID);
+            $this->assign('membership_amount',$membershipAmount);
+            $this->assign('renewal_mode',$renewalMode);
+            
+            CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,false ,$membershipID ,true );
+        }
+
 
         $this->assign( 'trxn_id', $this->_params['trxn_id'] );       
         $this->assign( 'receive_date', 

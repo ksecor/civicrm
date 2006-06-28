@@ -13,14 +13,25 @@
             <p>{ts 1=$email}An email receipt for this contribution has also been sent to %1{/ts}</p>
         {/if}
     </div>
+    
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context=""thankContribution"}
     <div class="header-dark">
         {ts}Contribution Information{/ts}
     </div>
     <div class="display-block">
+        {if $membership_amount } 
+              {ts}Contribution Amount{/ts}:<strong>{$amount|crmMoney}</strong><br />
+              {ts}{$membership_name} Membership:<strong>{$membership_amount|crmMoney}</strong>{/ts}<br />
+              <strong> -------------------------------------------</strong><br />
+              {ts}Total:{/ts}<strong>{$amount+$membership_amount|crmMoney}</strong><br />
+        {else}
         {ts}Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
+        {/if}
         {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
-        {ts}Transaction #{/ts}: {$trxn_id}
+        {ts}Transaction #{/ts}: {$trxn_id}<br />
+        {if $membership_trx_id}
+           {ts}Membership Transaction #{/ts}:{$membership_trx_id}
+        {/if}
     </div>
 
     <div class="header-dark">

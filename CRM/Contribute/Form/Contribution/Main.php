@@ -90,6 +90,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
+        //set default membership for mership block
+        require_once 'CRM/Member/BAO/Membership.php';
+        if ( $membershipBlock = CRM_Member_BAO_Membership::getMemershipBlock($this->id) ) {
+            $this->_defaults['selectMembership'] = $membershipBlock['membership_type_default'];
+        }
+
         // hack to simplify credit card entry for testing
         /**
         $this->_defaults['credit_card_type']     = 'Visa';
