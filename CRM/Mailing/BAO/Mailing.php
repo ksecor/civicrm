@@ -460,9 +460,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                 $email, &$recipient, $test = false) 
     {
         if ($test) {
+            $domain_id = 'DOMAIN';
             $job_id = 'JOB';
             $event_queue_id = 'QUEUE';
             $hash = 'HASH';
+        } else {
+            $domain_id = $this->domain_id;
         }
         if ($this->_domain == null) {
             require_once 'CRM/Core/BAO/Domain.php';
@@ -486,7 +489,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $verp[$key] = implode($config->verpSeparator,
                                   array(
                                         $key, 
-                                        $this->domain_id,
+                                        $domain_id,
                                         $job_id, 
                                         $event_queue_id,
                                         $hash
