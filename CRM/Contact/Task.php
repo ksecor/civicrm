@@ -123,8 +123,8 @@ class CRM_Contact_Task {
                                   15    => array( 'title'  => ts( 'Print Contacts'                ),
                                                   'class'  => 'CRM_Contact_Form_Task_Print',
                                                   'result' => false ),
-                                  16    => array( 'title'  => ts( 'Add Labels to Contacts'        ),
-                                                  'class'  => 'CRM_Contact_Form_Task_Labels',
+                                  16    => array( 'title'  => ts( 'Add Label to Contacts'        ),
+                                                  'class'  => 'CRM_Contact_Form_Task_Label',
                                                   'result' => true ),
                                   );
 

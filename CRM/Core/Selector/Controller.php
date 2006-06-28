@@ -46,7 +46,7 @@ require_once 'CRM/Utils/Pager.php';
 require_once 'CRM/Utils/PagerAToZ.php';
 require_once 'CRM/Utils/Sort.php';
 require_once 'CRM/Core/Report/Excel.php';
-require_once 'CRM/Contact/Form/Task/Labels.php';
+require_once 'CRM/Contact/Form/Task/Label.php';
 
 class CRM_Core_Selector_Controller {
 
@@ -292,29 +292,24 @@ class CRM_Core_Selector_Controller {
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $this->_output );
        
         // we need to get the rows if we are exporting or printing them
-        if ($this->_output == self::EXPORT || $this->_output == self::SCREEN || $this->_output == self::PDF) {
+        if ($this->_output == self::EXPORT || $this->_output == self::SCREEN ) {
             // get rows (without paging criteria)
               // $rows          =& $this->_object->getRows( $this->_action,
 //                                                                      0, 0,
 //                                                                      $this->_sort,
 //                                                                      $this->_output );
             $rows = self::getRows( $this );
-            //if PDF file
-            if ( $this->_output == self::PDF ) {
-                CRM_Contact_Form_Task_Labels::createLabel($rows,$this->_object->_formValues['label_id']);
+            if ( $this->_output == self::EXPORT ) {
+                // export the rows.
+                CRM_Core_Report_Excel::writeCSVFile( $this->_object->getExportFileName( ),
+                                                     $columnHeaders,
+                                                     $rows );
                 exit(1);
-            }else{
-                if ( $this->_output == self::EXPORT ) {
-                    // export the rows.
-                    CRM_Core_Report_Excel::writeCSVFile( $this->_object->getExportFileName( ),
-                                                         $columnHeaders,
-                                                         $rows );
-                    exit(1);
-                } else {
-                    // assign to template and display them.
-                    self::$_template->assign_by_ref( 'rows'         , $rows          );
-                }
+            } else {
+                // assign to template and display them.
+                self::$_template->assign_by_ref( 'rows'         , $rows          );
             }
+            
         } else {
             // output requires paging/sorting capability
             // get rows with paging criteria
