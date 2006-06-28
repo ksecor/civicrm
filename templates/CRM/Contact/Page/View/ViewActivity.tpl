@@ -7,7 +7,7 @@
 {if $history[$i] NEQ 1}
     {* Showing Open Activities *}
     {if $totalCountOpenActivity[$i]}
-        <fieldset><legend><a href="{crmURL p='civicrm/activityView' q="show=1&action=browse&history=1&cid=`$contactId[$i]`"}"><class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Open Activities{/ts}</legend>
+        <fieldset><legend><a href="{crmURL p='civicrm/activityView' q="show=1&action=browse&history=1&cid=`$contactId[$i]`"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Open Activities{/ts}</legend>
     {else}
         <div class="data-group">
         <dl><dt>{ts}Open Activities{/ts}</dt>

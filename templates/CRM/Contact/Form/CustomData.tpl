@@ -34,6 +34,7 @@
                     {/if}
                 {/if}
             {/foreach}
+        <td></td>
         </tr>
         </table>
         {/strip}
@@ -66,7 +67,7 @@
 		      </span>
 	          {/if}
               {/if}
-              </dd>                  
+              </dd>                
         	{if $element.help_post}
             	<dt>&nbsp;</dt><dd class="html-adjust description">{$element.help_post}</dd>
         	{/if}

@@ -38,6 +38,8 @@
                         {/if}
                 {/if}
                 {/foreach}
+            <td>
+            </td>    
             </tr>
             <tr>
                 <td> 

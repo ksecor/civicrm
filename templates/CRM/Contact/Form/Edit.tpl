@@ -153,10 +153,11 @@
         </span>
         <span class="fields">
 		{$form.deceased_date.html}
+        </span>
                 <div class="description"> 
                    {include file="CRM/common/calendar/desc.tpl"}
                 </div>
-        </span>
+        
         {include file="CRM/common/calendar/body.tpl" dateVar=deceased_date startDate=1905 endDate=currentYear}
     </div>
 
