@@ -36,23 +36,11 @@
 require_once 'CRM/Contact/Form/Task.php';
 
 /**
- * This class provides the functionality to save a search
- * Saved Searches are used for saving frequently used queries
+ * This class helps to print the labels for contacts
+ * 
  */
-class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task {
-
-  /**
-     * all the labels in the system
-     *
-     * @var array
-     */
-    protected $_labels;
-    /**
-     * all the locatons in the system
-     *
-     * @var array
-     */
-    protected $_location;
+class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task 
+{
 
     /**
      * build all the data structures needed to build the form
@@ -60,12 +48,10 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task {
      * @return void
      * @access public
      */
-    
     function preProcess()
     {
         $this->set( 'contactIds', $this->_contactIds );
-         parent::preProcess( );
-         
+        parent::preProcess( );
     }
 
     /**
@@ -77,7 +63,8 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task {
     function buildQuickForm()
     {
         CRM_Utils_System::setTitle( ts('Add Labels') );
-        // add select for label
+
+        //add select for label
         $label = array("5160" => "5160",
                        "5161" => "5161",
                        "5162" => "5162", 
@@ -86,42 +73,14 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task {
                        "8600" => "8600",
                        "L7163" => "L7163");
         
-        $this->addElement('select',
-                          'label_id',
-                          ts('Select Label'),
-                          array( '' => ' - select Label - ')+$label,
-                          true);
-        $this->addFormRule( array( 'CRM_Contact_Form_Task_Label', 'formRule' ) );
+        $this->add('select', 'label_id', ts('Select Label'), array( '' => ts(' - select label - ')) + $label, true);
+
         // add select for Location Type
-        $this->addElement('select', 
-                          'location_id',
-                          ts('Select Location'),
-                          array( '' => ' - select Location - ')+CRM_Core_PseudoConstant::locationType(),
-                          true);
+        $this->addElement('select', 'location_type_id', ts('Select Location'),
+                          array( '' => ts('Primary')) + CRM_Core_PseudoConstant::locationType(), true);
         $this->addDefaultButtons( ts('Add Labels'));
        
     }
-    
-    public function formRule(&$fields)
-    {
-        $error = array();
-
-         // make sure that Label Type is set
-        if (! CRM_Utils_Array::value( 'label_id', $fields ) ) {
-            $errors['label_id'] = 'Label type is required to Add Labels ';
-        }
-          if ( !empty($errors) ) {
-            $_flag = 1;
-            require_once 'CRM/Core/Page.php';
-            $assignError =& new CRM_Core_Page(); 
-            $assignError->assign('mappingDetailsError', $_flag);
-            return $errors;
-        } else {
-            return true;
-        }
-       
-    }
-
     
     /**
      * process the form after the input has been submitted and validated
@@ -131,52 +90,89 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task {
      */
     public function postProcess()
     {
-        self::preProcess( );
+        $fv = $this->controller->exportValues($this->_name); 
         
-        $fv               = $this->controller->exportValues($this->_name); 
-        $params           = $this->get( 'queryParams' );
-        $returnProperties = $this->get( 'returnProperties' );
-        
-        // set print view, so that print templates are called
-         $this->controller->setPrint( true );
+        $config =& new CRM_Core_Config;
 
-        // create the selector, controller and run - store results in session
-        $selector   =& new CRM_Contact_Selector($fv,$params,$returnProperties, $this->_action);
-        $controller =& new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW,
-                                                        $this, CRM_Core_Selector_Controller::PDF);
-        $controller->setEmbedded( true );
-        $controller->run();
-    
+        //get the address format sequence from the config file
+        foreach ($config->addressSequence as $v) {
+            $address[$v] = 1;
+        }
+        
+        //build the returnproperties
+        $returnProperties = array ('display_name' => 1) ;
+
+        if ($fv['location_type_id']) {
+            $locType = CRM_Core_PseudoConstant::locationType();
+            $locName = $locType[$fv['location_type_id']];
+            $location = array ('location' => array("{$locName}"  => $address)) ;
+            $returnProperties = array_merge($returnProperties , $location);
+        } else {
+            $returnProperties = array_merge($returnProperties , $address);
+        }
+        
+        //get the contact information
+        foreach ($this->_contactIds as $value) {
+            $params  = array( array( 'contact_id', '=', $value, 0, 0 ) );
+            $contact[$value] =& crm_fetch_contact( $params, $returnProperties );
+            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+                return null;
+            }
+        }
+        
+        //format the contact array before sending tp pdf
+        foreach ($contact as $k => $v) {
+            foreach ($v as $k1 => $v1) {
+                if ( substr($k1, -3, 3) == '_id' ) {
+                    continue;
+                }
+                if (is_array($v1)) {
+                    foreach ($v1 as $k2 => $v2) {
+                        if ( substr($k2, -3, 3) == '_id' || $k2 == 'location_type' ) {
+                            continue;
+                        }
+                        $rows[$k][$k2] = $v2;
+                    }
+                } else {
+                    $rows[$k][$k1] = $v1;
+                }
+            }
+        }
+
+        //call function to create labels
+        self::createLabel($rows,$fv['label_id']);
+        exit(1);
     }
     
      /**
-     * Outputs a result set with a given header
-     * in the string buffer result
-     *
-     * @param   string   $header (reference ) column headers
-     * @param   string   $rows   (reference ) result set rows
-     * @param   boolean  $print should the output be printed
-     *
-     * @return  mixed    empty if output is printed, else output
-     *
-     * @access  public
-     */
+      * function to create labels (pdf)
+      *
+      * @param   array    $contactRows   assciated array of contact data
+      * @param   string   $format   format in which labels needs to be printed
+      *
+      * @return  null      
+      * @access  public
+      */
     function createLabel(&$contactRows, &$format)
     {
         require_once 'CRM/Utils/String.php';
         require_once 'CRM/Utils/fpdf.php';
-       
+        
         $pdf = new PDF_Label($format,'mm');
         $pdf->Open();
         $pdf->AddPage();
         
-        // Print labels
-        foreach ($contactRows as $row) {
-            $pdf->Add_PDF_Label(sprintf("%s\n%s\n%s\n%s\n%s", utf8_decode($row[sort_name]),utf8_decode($row[street_address]), utf8_decode($row[city]),  utf8_decode($row[postal_code]), utf8_decode($row[state_province])));
+        //build contact string that needs to be printed
+        foreach ($contactRows as $row => $value) {
+            foreach ($value as $k => $v) {
+                $val .= "$v\n";
+            }
+            
+            $pdf->Add_PDF_Label(utf8_decode($val));
+            $val = '';
         }
         $pdf->Output();
     }
-    
 }
 
  
