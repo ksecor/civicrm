@@ -33,7 +33,7 @@
     	<dt>{$form.source.label}</dt><dd class="html-adjust">{$form.source.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Arbitrary source string. Name of CiviContribute page or Profile is assigned for self-service sign-ups.{/ts}</dd>
     	<dt>{$form.status_id.label}</dt><dd class="html-adjust">{$form.status_id.html}</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Calculated Status based on rules. Status can be overriden by setting a value in the 'Override' field{/ts}</dd>
+	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Status will be automatically set based on Membership Status rules unless you check the Status Hold box.{/ts}</dd>
         <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Check this box if you want to bypass automatic status update rules. The selected status will be in force unless it is modified manually on this screen.{/ts}</dd>
       </dl> 

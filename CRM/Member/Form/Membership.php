@@ -167,7 +167,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         }
 
-        if ( !($params['status_id'] && $params['is_override']) ) {
+        if ( !$params['is_override'] ) {
             $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
             $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
             $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
