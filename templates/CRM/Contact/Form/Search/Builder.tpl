@@ -11,7 +11,7 @@
 
 {* Table for mapping data to CRM fields *}
 {include file="CRM/Contact/Form/Search/table.tpl"}
-<br />
+
 
 <div id="crm-submit-buttons">
     {$form.buttons.html}

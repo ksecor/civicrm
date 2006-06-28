@@ -13,7 +13,7 @@
 </div>
  {* Table for mapping data to CRM fields *}
  {include file="CRM/Contribute/Import/Form/MapTable.tpl}
- <br />
+ 
 
  <div id="crm-submit-buttons">
     {$form.buttons.html}

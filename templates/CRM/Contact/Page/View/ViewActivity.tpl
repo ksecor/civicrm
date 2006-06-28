@@ -80,18 +80,18 @@
         <tr class="{cycle values="odd-row,even-row"}">
              <td>{$row.activity_type}</td>
              <td>
-               {$row.subject|mb_truncate:33:"...":true}</a>
+               {$row.subject|mb_truncate:33:"...":true}
              </td>
              <td>
              {if $contactId[$i]  NEQ $row.sourceID} 
-               {$row.sourceName}</a>
+               {$row.sourceName}
              {else}
                 {$row.sourceName}
              {/if}			
              </td>
              <td>
                 {if $contactId[$i] NEQ $row.targetID and $contactId[$i]  EQ $row.sourceID }
-                 {$row.targetName}</a>
+                 {$row.targetName}
                 {else}
                     {$row.targetName} 
                 {/if}	

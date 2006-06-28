@@ -59,11 +59,11 @@
         <td class="explanation">{ts}Total rows to be imported.{/ts}</td>
     </tr>
  </table>
- <br /> 
+  
 
  {* Table for mapping preview *}
  {include file="CRM/Contribute/Import/Form/MapTable.tpl}
- <br />
+ 
  
  <div id="crm-submit-buttons">
     {$form.buttons.html}

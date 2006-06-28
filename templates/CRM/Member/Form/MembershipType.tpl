@@ -70,12 +70,12 @@
         <dt>{$form.period_type.label}</dt><dd class="html-adjust">{$form.period_type.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}"rolling" (default - means at date of payment), or "fixed" membership period{/ts}</dd>
        </dl>
-	   <div id="fixed_period_settings">	
+	   <div id="fixed_period_settings"><dl>	
              <dt>{$form.fixed_period_start_day.label}</dt><dd class="html-adjust">{$form.fixed_period_start_day.html}</dd>
              <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Month and day (MMDD) on which a fixed period subscription or membership will start. e.g: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dd>
              <dt>{$form.fixed_period_rollover_day.label}</dt><dd class="html-adjust">{$form.fixed_period_rollover_day.html}</dd>
              <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Fixed Membership Payments after this date cover following calendar year as well (default to 1231 - December 31- i.e. no extra coverage; Joe's organization uses October 31).{/ts}</dd>
-	   </div>
+	   </dl></div>
        <dl>	
         <dt>{$form.relation_type_id.label}</dt><dd class="html-adjust">{$form.relation_type_id.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select relationship type for this membership type. e.g. if relationship type is 'Household Member', and the direct member is a household, then all household members for that household are also considered to be members.{/ts}</dd>
