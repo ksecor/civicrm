@@ -233,9 +233,9 @@ class CRM_Core_SelectValues {
         if (!$eventDate) {
             $eventDate = array(
                  ''             => ts('- select -'),
-                 'start_date'   => ts('start Date'),
-                 'end_date'     => ts('end Date'),
-                 'join_date'    => ts('join Date')
+                 'start_date'   => ts('start date'),
+                 'end_date'     => ts('end date'),
+                 'join_date'    => ts('join date')
              );
         }
         return $eventDate;

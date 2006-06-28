@@ -170,7 +170,9 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
             }
             
             $membershipStatus[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                            array('id' => $dao->id));
+                                                                              array('id' => $dao->id));
+            $membershipStatus[$dao->id]['start_event'] = str_replace("_", " ", $membershipStatus[$dao->id]['start_event']);
+            $membershipStatus[$dao->id]['end_event']   = str_replace("_", " ", $membershipStatus[$dao->id]['end_event']);
         }
         $this->assign('rows', $membershipStatus);
     }

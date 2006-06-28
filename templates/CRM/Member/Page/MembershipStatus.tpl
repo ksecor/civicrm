@@ -13,7 +13,7 @@
         {strip}
         <table>
         <tr class="columnheader">
-            <th>{ts}Name{/ts}</th>
+            <th>{ts}Status{/ts}</th>
             <th>{ts}Start Event{/ts}</th>
             <th>{ts}End Event{/ts}</th>
             <th>{ts}Member{/ts}</th>
