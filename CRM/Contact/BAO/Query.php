@@ -975,16 +975,15 @@ class CRM_Contact_BAO_Query {
             if ( is_numeric( $value ) ) {  
                 $value     =  $genders[(int ) $value];  
             }
-            $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"'; 
-            $this->_qill[$grouping][] = ts('Gender - "%1"', array( 1 => $value ) ); 
+            $this->_where[$grouping][] = "LOWER({$field['where']}) $op '" . strtolower( addslashes( $value ) ) . "'"; 
+            $this->_qill[$grouping][] = ts('Gender %2 "%1"', array( 1 => $value, 2 => $op ) ); 
         } else if ( $name === 'birth_date' ) {
             $date = CRM_Utils_Date::format( $value );
-            if ( ! $date ) {
-                continue;
+            if ( $date ) {
+                $this->_where[$grouping][] = $field['where'] . " $op $date";
+                $date = CRM_Utils_Date::customFormat( $value );
+                $this->_qill[$grouping][]  = "$field[title] - \"$date\"";
             }
-            $this->_where[$grouping][] = $field['where'] . " $op $date";
-            $date = CRM_Utils_Date::customFormat( $value );
-            $this->_qill[$grouping][]  = "$field[title] - \"$date\"";
         } else if ( $name === 'contact_id' ) {
             if ( is_int( $value ) ) {
                 $this->_where[$grouping][] = $field['where'] . " $op $value";
