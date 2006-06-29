@@ -34,7 +34,7 @@
                     {/if}
                 {/if}
             {/foreach}
-        <td></td>
+        
         </tr>
         </table>
         {/strip}
@@ -42,7 +42,7 @@
         {if $element.help_post}
             <dt></dt><dd class="html-adjust description">{$element.help_post}</dd>
         {/if}
-	{else}
+	 {else}
               {assign var="name" value=`$element.name`} 
               {assign var="element_name" value="custom_"|cat:$field_id}			
               <dt>{$form.$element_name.label}</dt>

@@ -31,7 +31,7 @@
                             {assign var=index value=$smarty.section.rowLoop.index}
                             {if $viewForm.$element_name.$index.html != "" } 
                                 {if $no != '1'}, {/if}
-                                {$viewForm.$element_name.$index.html}
+                                <td>{$viewForm.$element_name.$index.html}</td>
                                 {assign var="no" value=`$no+1`}
                                 {if $count == $cd_value.options_per_line}
                                     </tr> 
@@ -58,7 +58,7 @@
                                  <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a></dd>
                             {/if}
                          {else}
-                         <dd class="html-adjust">{$viewForm.$element_name.html}&nbsp;
+                         <dd class="html-adjust">{$viewForm.$element_name.html}&nbsp;</dd>
                          {/if}
                     {/if}
                     {/foreach}

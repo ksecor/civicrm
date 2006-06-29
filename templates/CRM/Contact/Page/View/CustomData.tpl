@@ -59,7 +59,7 @@
                                  <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a></dd>
                             {/if}
                          {else}
-                           <dd class="html-adjust">{$form.$element_name.html}&nbsp;
+                           <dd class="html-adjust">{$form.$element_name.html}&nbsp;</dd>
                          {/if}
                         {/if}
                     {/foreach}

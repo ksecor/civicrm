@@ -7,6 +7,7 @@
 <div id="help">
 <p>{ts 1=$newContribURL}This page lists all contributions received from {$display_name} since inception.
 Click <a href="%1">New Contribution</a> to record a new offline contribution for this contact.{/ts}.
+</p>
 </div>
 
 {if $rows}

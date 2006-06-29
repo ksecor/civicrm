@@ -6,7 +6,7 @@
 {capture assign=newURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}
 <div id="help">
 <p>{ts 1=$newURL}Current and inactive memberships for {$display_name} are listed below.
-Click <a href="%1">New Membership</a> to record a new membership.{/ts}
+Click <a href="%1">New Membership</a> to record a new membership.{/ts}</p>
 </div>
 {/if}
 
@@ -88,7 +88,7 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}
 {if NOT ($activeMembers or $inActiveMembers) and $action ne 2 and $action ne 1 and $action ne 8 and $action ne 4}
    <div class="messages status">
        <dl>
-       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
        <dd>
             {if $permission EQ 'edit'}
                 {ts 1=$newURL}There are no memberships recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
