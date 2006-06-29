@@ -292,7 +292,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                 CRM_Core_DAO::storeValues($memType,$mem);
                                 $this->assign( 'minimum_fee', $mem['minimum_fee'] );
                                 $this->assign( 'membership_name', $mem['name'] );
-                                if ( !$thankPage ) {
+                                if ( !$thankPage && $cid ) {
                                     $membership = &new CRM_Member_DAO_Membership();
                                     $membership->contact_id         = $cid;
                                     $membership->membership_type_id = $memType->id;
@@ -307,12 +307,14 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                             $mem = array();
                             CRM_Core_DAO::storeValues($memType,$mem);
                             $radio[$memType->id] = $form->createElement('radio',null, null, null, $memType->id , null);
-                            $membership = &new CRM_Member_DAO_Membership();
-                            $membership->contact_id         = $cid;
-                            $membership->membership_type_id = $memType->id;
-                            if ( $membership->find(true) ) {
-                                $this->assign("renewal_mode", true );
-                                $mem['current_membership'] =  $membership->end_date;
+                            if ( $cid ) {
+                                $membership = &new CRM_Member_DAO_Membership();
+                                $membership->contact_id         = $cid;
+                                $membership->membership_type_id = $memType->id;
+                                if ( $membership->find(true) ) {
+                                    $this->assign("renewal_mode", true );
+                                    $mem['current_membership'] =  $membership->end_date;
+                                }
                             }
                             $membershipTypes[] = $mem;
                         }

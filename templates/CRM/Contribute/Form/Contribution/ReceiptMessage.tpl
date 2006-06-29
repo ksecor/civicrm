@@ -21,10 +21,10 @@ Membership End Date   : {$mem_end_date}
 
 ===========================================================
 {if $membership_amount } 
-{ts}Contribution Amount{/ts}:<strong>{$amount|crmMoney}</strong>
-{ts}{$membership_name} Membership:<strong>{$membership_amount|crmMoney}</strong>{/ts}
-<strong> -------------------------------------------</strong>
-{ts}Total:{/ts}<strong>{$amount+$membership_amount|crmMoney}</strong>
+{ts}Contribution Amount{/ts}:{$amount|crmMoney}
+{ts}{$membership_name} Membership:{$membership_amount|crmMoney}{/ts}
+-------------------------------------------
+{ts}Total:{/ts}{$amount+$membership_amount|crmMoney}
 {else}
 {ts}Amount{/ts}: {$amount|crmMoney}
 {/if}

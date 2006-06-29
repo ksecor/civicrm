@@ -182,6 +182,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         //$contactID = $this->get( 'contactID' );
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
+        
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
@@ -279,9 +280,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $this->set('is_deductible' , true);
                 }
                 $contribution[1] =  self::processContribution( $membershipParams ,$result ,$contactID ,$contributionType  );
-                self::postProcessPremium( $premiumParams ,$contribution );
-                //finally send an email receipt
-                
+                self::postProcessPremium( $premiumParams ,$contribution[1] );
+                           
             }
 
             if ( $memBlockDetails['is_separate_payment']  && ! $paymemtDone ) {
@@ -323,6 +323,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id']);
                         $currentMembership['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
                         $currentMembership['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
+                        $currentMembership['source']     = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
                         $dao->copyValues($currentMembership);
                         $membership = $dao->save();
                         
@@ -373,7 +374,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $memParams['join_date']  = CRM_Utils_Date::customFormat($dates['join_date'],'%Y%m%d');
                     $memParams['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
                     $memParams['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
-                    $memParams['source'  ]   = "Online Contribution";
+                    $memParams['source'  ]   = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
                     $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $dates['start_date'],$dates['end_date'], $dates['join_date']) ;
                     $memParams['status_id']   = $status['id'];
                     $memParams['is_override'] = true;
@@ -397,6 +398,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
             }
             
+            //finally send an email receipt
             if ( !$errors[1]  &&  !$errors[2] ) {
                 self::sendMail( $contactID );
             }
@@ -558,7 +560,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      */
     public function processContribution( $params ,$result ,$contactID ,$contributionType  ) {
         CRM_Core_DAO::transaction( 'BEGIN' );
-        
+
+        $config =& CRM_Core_Config::singleton( );
         $nonDeductibleAmount = $result['gross_amount'];
         if ( $contributionType->is_deductible ) {
             if ( $this->_params['selectProduct'] != 'no_thanks' ) {
@@ -575,15 +578,16 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $nonDeductibleAmount = '0.00';
             }
         }
-            
+
+        $now = date( 'YmdHis' );    
         $receiptDate = null;
         if ( $this->_values['is_email_receipt'] ) {
-            $receiptDate = $now;
+            $receiptDate = $now ;
         }
         
         // check contribution Type
         // first create the contribution record
-        $params = array(
+        $contribParams = array(
                         'contact_id'            => $contactID,
                         'contribution_type_id'  => $contributionType->id,
                         'payment_instrument_id' => 1,
@@ -600,7 +604,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         );
             
         $ids = array( );
-        $contribution =& CRM_Contribute_BAO_Contribution::add( $params, $ids );
+        $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 
            
         // process the custom data that is submitted or that came via the url
@@ -613,7 +617,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
             
         // next create the transaction record
-        $params = array(
+        $trxnParams = array(
                         'entity_table'      => 'civicrm_contribution',
                         'entity_id'         => $contribution->id,
                         'trxn_date'         => $now,
@@ -627,7 +631,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         );
             
         require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
-        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $params );
+        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
 
         // also create an activity history record
         require_once 'CRM/Utils/Money.php';
