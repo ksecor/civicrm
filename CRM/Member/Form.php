@@ -85,7 +85,7 @@ class CRM_Member_Form extends CRM_Core_Form
 
         // its ok if there is no element called is_active
         $defaults['is_active'] = 1;
-
+        
         if ( $defaults['member_of_contact_id'] ) {
             $defaults['member_org'] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', 
                                                                   $defaults['member_of_contact_id'], 'display_name');
@@ -98,20 +98,16 @@ class CRM_Member_Form extends CRM_Core_Form
             $dao->fetch();
             $defaults['weight'] = ($dao->weight + 1);
         }
-        $defaultFields = array('fixed_period_start_day'    => '0101',
-                               'fixed_period_rollover_day' => '1231'
-                               );
-        foreach ( $defaultFields as $field => $val ) {
-            if ( !$defaults[$field] ) {
-                $defaults[$field] = $val;
-            }
-        }
         //setting default join date
         if ($this->_action == CRM_Core_Action::ADD) {
             $joinDate = getDate();
             $defaults['join_date']['M'] = $joinDate['mon'];
             $defaults['join_date']['d'] = $joinDate['mday'];
             $defaults['join_date']['Y'] = $joinDate['year'];
+        }
+        
+        if ( $defaults['relationship_type_id'] ) {
+            $defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_a_b';
         }
         return $defaults;
     }

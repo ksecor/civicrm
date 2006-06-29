@@ -16,8 +16,10 @@
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Any descripttion about this membership type. May include cost, terms, etc.{/ts}</dd>
        	<dt>{$form.contribution_type_id.label}</dt><dd class="html-adjust">{$form.contribution_type_id.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select the contribution type for this membership type.{/ts}</dd>
-        <dt>{$form.member_org.label}</dt><dd class="html-adjust">{$form.member_org.html}&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Organization, who is the owner for this membership type.{/ts}</dd>
+	{if !$searchDone}
+	        <dt>{$form.member_org.label}</dt><dd class="html-adjust">{$form.member_org.html}&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
+		<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Organization, who is the owner for this membership type.{/ts}</dd>
+	{/if}
        </dl>
        <div class="spacer"></div>	
               {if $searchDone} {* Search button clicked *}
@@ -25,6 +27,11 @@
                     {if $searchRows} {* we've got rows to display *}
                         <fieldset>
 			<legend>{ts}Select Target Contact for the Membership-Organization{/ts}</legend>
+			<dl>
+		        <dt>{$form.member_org.label}</dt><dd class="html-adjust">{$form.member_org.html}&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
+			<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Organization, who is the owner for this membership type.{/ts}</dd>
+			</dl>
+			<br class="spacer"/>
                         <div class="description">
                             {ts}Select the target contact for this membership-organization if it appears below. Otherwise you may modify the search name above and click Search again.{/ts}
                         </div>
@@ -63,10 +70,8 @@
        <dl>
         <dt>{$form.minimum_fee.label}</dt><dd class="html-adjust">{$form.minimum_fee.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Minimum fee required for this membership type. Free/complimentary memberships have minimum fee = 0{/ts}</dd>
-        <dt>{$form.duration_unit.label}</dt><dd class="html-adjust">{$form.duration_unit.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}What is the unit used for the duration of this membership (e.g. day, month, year, lifetime){/ts}</dd>
-        <dt>{$form.duration_interval.label}</dt><dd class="html-adjust">{$form.duration_interval.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}How many units in the duration (e.g. 12 months){/ts}</dd>
+        <dt>{$form.duration_unit.label}</dt><dd class="html-adjust">{$form.duration_interval.html}&nbsp;&nbsp;{$form.duration_unit.html}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Duration of this membership (e.g. 30 day, 2 month, 5 year, lifetime){/ts}</dd>
         <dt>{$form.period_type.label}</dt><dd class="html-adjust">{$form.period_type.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}"rolling" (default - means at date of payment), or "fixed" membership period{/ts}</dd>
        </dl>
@@ -77,7 +82,7 @@
              <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Fixed Membership Payments after this date cover following calendar year as well (default to 1231 - December 31- i.e. no extra coverage; Joe's organization uses October 31).{/ts}</dd>
 	   </dl></div>
        <dl>	
-        <dt>{$form.relation_type_id.label}</dt><dd class="html-adjust">{$form.relation_type_id.html}</dd>
+        <dt>{$form.relationship_type_id.label}</dt><dd class="html-adjust">{$form.relationship_type_id.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select relationship type for this membership type. e.g. if relationship type is 'Household Member', and the direct member is a household, then all household members for that household are also considered to be members.{/ts}</dd>
         <dt>{$form.visibility.label}</dt><dd class="html-adjust">{$form.visibility.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</dd>
@@ -91,7 +96,6 @@
 
 {literal}
     <script type="text/javascript">
-	
 	if (document.getElementsByName("period_type")[0].value == "fixed") {
 	   show('fixed_period_settings');
 	} else {
@@ -100,6 +104,8 @@
 	function showHidePeriodSettings(){
 	   if (document.getElementsByName("period_type")[0].value == "fixed") {
 		show('fixed_period_settings');
+		document.getElementsByName("fixed_period_start_day")[0].value = "0101";
+		document.getElementsByName("fixed_period_rollover_day")[0].value = "1231";
 	   } else {
 		hide('fixed_period_settings');
 		document.getElementsByName("fixed_period_start_day")[0].value = "";

@@ -60,7 +60,7 @@
 /*
 ** CRM form layout classes (from www.realworldstyle.com)
 */
-div.spacer {
+div.spacer, .spacer {
   clear: both;
   height: 5px;
   }

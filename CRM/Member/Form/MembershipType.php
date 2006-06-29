@@ -71,15 +71,15 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'description' ) );
         $this->add('text', 'minimum_fee', ts('Minimum Fee'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'minimum_fee' ) );
-        $this->add('select', 'duration_unit', ts('Duration Unit') . ' ', CRM_Core_SelectValues::unitList('duration'));
+        $this->add('select', 'duration_unit', ts('Duration') . ' ', CRM_Core_SelectValues::unitList('duration'));
         //period type
         $this->addElement('select', 'period_type', ts('Period Type'), 
                           CRM_Core_SelectValues::periodType( ), array( 'onChange' => 'showHidePeriodSettings()'));
 
         $this->add('text', 'duration_interval', ts('Duration Interval'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'duration_interval' ) );
-        $this->add('text', 'member_org', ts('Membership Organization'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'minimum_fee' ) );
+
+        $memberOrg =& $this->add('text', 'member_org', ts('Membership Organization'), 'size=30 maxlength=120' );
         //start day
         $this->add('text', 'fixed_period_start_day', ts('Fixed Period Start Day'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'fixed_period_start_day' ) );
@@ -96,13 +96,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
         require_once 'CRM/Contact/BAO/Relationship.php';
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
-        $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
-        $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
-        $allRelationshipType =array();
-        $allRelationshipType = array_merge( $relTypeInd , $relTypeOrg);
-        $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+        $this->add('select', 'relationship_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $relTypeInd);
 
-        $this->add('select', 'relation_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $allRelationshipType);
         $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::memberVisibility( ) );
         $this->add('text', 'weight', ts('Weight'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'weight' ) );
@@ -140,6 +135,12 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             $searchBtn = ts('Search');
         }
         
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $memberOrg->freeze();
+            if ( $searchDone ) {
+                $memberOrg->unfreeze();
+            }
+        }
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );
         
         $this->addFormRule(array('CRM_Member_Form_MembershipType', 'formRule'));
@@ -198,7 +199,10 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $this->set( 'searchDone', 1 );
                 return;
             }
-            
+            if ( $params['relationship_type_id'] ) {
+                $relationId = explode( '_', $params['relationship_type_id'] );
+                $params['relationship_type_id'] = $relationId[0];
+            }
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $ids['membershipType'] = $this->_id;
             }
