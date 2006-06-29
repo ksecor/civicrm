@@ -140,9 +140,9 @@ INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `label`, `value`, `
 
 -- sample membership status entries
 INSERT INTO
-    civicrm_membership_status(domain_id, name, start_event, start_event_adjust_unit, start_event_adjust_interval, end_event, end_event_adjust_unit, end_event_adjust_interval, is_current_member, is_admin, weight, is_active)
+    civicrm_membership_status(domain_id, name, start_event, start_event_adjust_unit, start_event_adjust_interval, end_event, end_event_adjust_unit, end_event_adjust_interval, is_current_member, is_admin, weight, is_default, is_active)
 VALUES
-    (@domain_id,'New', 'join_date', null, null,'join_date','month',3, 1, 0, 1, 1),
-    (@domain_id,'Current', 'start_date', null, null,'end_date', null, null, 1, 0, 2, 1),
-    (@domain_id,'Grace', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 1),
-    (@domain_id,'Expired', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 1);
+    (@domain_id,'New', 'join_date', null, null,'join_date','month',3, 1, 0, 1, 0, 1),
+    (@domain_id,'Current', 'start_date', null, null,'end_date', null, null, 1, 0, 2, 1, 1),
+    (@domain_id,'Grace', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 0, 1),
+    (@domain_id,'Expired', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 0, 1);
