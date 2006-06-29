@@ -7,7 +7,11 @@
         {if $permissionedForGroup}
         <p>{ts 1=$addMembersURL}Use the <a href="%1">Add Members...</a> screen if you want to add new members to this group.{/ts}
         {if $ssID}
-            {capture assign=editSmartGroupURL}{crmURL p="civicrm/contact/search/advanced" q="reset=1&force=1&ssID=`$ssID`"}{/capture}
+            {if $ssMappingID}
+                {capture assign=editSmartGroupURL}{crmURL p="civicrm/contact/search/builder" q="reset=1&force=1&ssID=`$ssID`"}{/capture}
+            {else}
+		{capture assign=editSmartGroupURL}{crmURL p="civicrm/contact/search/advanced" q="reset=1&force=1&ssID=`$ssID`"}{/capture}
+            {/if} 
             {ts 1=$editSmartGroupURL}Click <a href="%1">Edit Smart Group Search Criteria...</a> to change the search query used for this 'smart' group.{/ts}
         {/if}
         </p>

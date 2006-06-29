@@ -257,6 +257,13 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // also set ssID if this is a saved search
             $ssID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $this->_groupID, 'saved_search_id' );
             $this->assign( 'ssID', $ssID );
+            
+            //get the saved search mapping id
+            $ssMappingId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $ssID, 'mapping_id' );
+            if ( $ssMappingId  ) {
+                $this->assign( 'ssMappingID', $ssMappingId );
+            }
+            
             $group_contact_status = array();
             foreach(CRM_Core_SelectValues::groupContactStatus() as $k => $v) {
                 if (! empty($k)) {
