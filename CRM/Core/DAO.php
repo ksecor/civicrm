@@ -638,6 +638,36 @@ class CRM_Core_DAO extends DB_DataObject {
         return strtr( $query, $tr );
     }
 
+    static function freeResult( $ids = null ) {
+        global $_DB_DATAOBJECT;
+
+        /***
+        $q = array( );
+        foreach ( array_keys( $_DB_DATAOBJECT['RESULTS'] ) as $id ) {
+            $q[] = $_DB_DATAOBJECT['RESULTS'][$id]->query;
+        }
+        CRM_Core_Error::debug( 'k', $q );
+        return;
+        ***/
+
+        if ( ! $ids ) {
+            $ids = array_keys( $_DB_DATAOBJECT['RESULTS'] );
+        }
+
+        foreach ( $ids as $id ) {
+            if ( isset( $_DB_DATAOBJECT['RESULTS'][$id] ) ) {
+                if ( is_resource( $_DB_DATAOBJECT['RESULTS'][$id]->result ) ) {
+                    mysql_free_result( $_DB_DATAOBJECT['RESULTS'][$id]->result );
+                }
+                unset( $_DB_DATAOBJECT['RESULTS'][$id] );
+            }
+            
+            if ( isset( $_DB_DATAOBJECT['RESULTFIELDS'][$id] ) ) {
+                unset( $_DB_DATAOBJECT['RESULTFIELDS'][$id] );
+            }
+        }
+    }
+
 }
 
 ?>

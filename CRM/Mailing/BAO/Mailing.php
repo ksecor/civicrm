@@ -413,16 +413,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         $eq->query($query);
         return $eq;
-
-//         $results = array();
-//         while ($eq->fetch()) {
-//             $results[] = array(
-//                 'email_id' => $eq->email_id,
-//                 'contact_id' => $eq->contact_id,
-//             );
-//         }
-
-//         return $results;
     }
 
     /**
@@ -433,13 +423,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access private
      */
     private function getHeaderFooter() {
-        $this->header =& new CRM_Mailing_BAO_Component();
-        $this->header->id = $this->header_id;
-        $this->header->find(true);
+        if ( ! $this->header ) {
+            $this->header =& new CRM_Mailing_BAO_Component();
+            $this->header->id = $this->header_id;
+            $this->header->find(true);
+        }
         
-        $this->footer =& new CRM_Mailing_BAO_Component();
-        $this->footer->id = $this->footer_id;
-        $this->footer->find(true);
+        if ( ! $this->footer ) {
+            $this->footer =& new CRM_Mailing_BAO_Component();
+            $this->footer->id = $this->footer_id;
+            $this->footer->find(true);
+        }
     }
 
 

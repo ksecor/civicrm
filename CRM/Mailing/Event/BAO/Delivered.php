@@ -56,6 +56,7 @@ class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
     public static function &create(&$params) {
         $q =& CRM_Mailing_Event_BAO_Queue::verify($params['job_id'],
             $params['event_queue_id'], $params['hash']);
+        $q->free( );
         if (! $q) {
             return null;
         }

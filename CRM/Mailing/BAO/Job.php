@@ -76,6 +76,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
+
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
                 CRM_Core_DAO::transaction('BEGIN');
@@ -202,6 +203,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
             // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {
+            // CRM_Utils_System::xMemory( "Start of Job" );
+
             if ($config->mailerBatchLimit > 0 and $mailsProcessed >= $config->mailerBatchLimit) {
                 exit;
             }

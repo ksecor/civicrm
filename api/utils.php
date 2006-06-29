@@ -1579,22 +1579,6 @@ function _crm_validate_formatted_contribution(&$params) {
     return true;
 }
 
-function _crm_free_DataObjects( ) {
-    global $_DB_DATAOBJECT;
-
-    foreach ( array_keys( $_DB_DATAOBJECT['RESULTS'] ) as $id ) {
-        if ( is_resource( $_DB_DATAOBJECT['RESULTS'][$id]->result ) ) {
-            mysql_free_result( $_DB_DATAOBJECT['RESULTS'][$id]->result );
-        }
-        unset( $_DB_DATAOBJECT['RESULTS'][$id] );
-    }
-
-    foreach ( array_keys( $_DB_DATAOBJECT['RESULTFIELDS'] ) as $id ) {
-        unset( $_DB_DATAOBJECT['RESULTFIELDS'][$id] );
-    }
-
-}
-
 function &_crm_duplicate_formatted_contact(&$params) {
     if ( $params['contact_type'] == 'Individual') {
         require_once 'CRM/Core/BAO/UFGroup.php';
