@@ -320,7 +320,6 @@ class CRM_Contact_BAO_Query {
         }
 
         $this->selectClause( ); 
-
         $this->_whereClause      = $this->whereClause( );
         $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode ); 
         $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
@@ -493,7 +492,7 @@ class CRM_Contact_BAO_Query {
 
         // add location as hierarchical elements
         $this->addHierarchicalElements( );
-
+        
         //fix for CRM-951
         CRM_Core_Component::alterQuery( $this, 'select' );
 
@@ -1478,16 +1477,23 @@ class CRM_Contact_BAO_Query {
                 require_once 'CRM/Contact/BAO/SavedSearch.php';
                 if ( $config->mysqlVersion >= 4.1 ) { 
                     $ssParams =& CRM_Contact_BAO_SavedSearch::getSearchParams($group->saved_search_id);
+                    $returnProperties = array();
+                    if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $group->saved_search_id, 'mapping_id' ) ) {
+                        require_once "CRM/Core/BAO/Mapping.php";
+                        $fv =& CRM_Contact_BAO_SavedSearch::getFormValues($group->saved_search_id);
+                        $returnProperties = CRM_Core_BAO_Mapping::returnProperties( $fv );
+                    }        
 
-                    $smarts =& CRM_Contact_BAO_Contact::searchQuery($ssParams, 0, 0, null,  
-                                                                    false, false, false, true, true);
+                    $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties);
+                    $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
+  
                     $ssWhere[] = " 
                             (contact_a.id IN ( $smarts )  
                             AND contact_a.id NOT IN ( 
                             SELECT contact_id FROM civicrm_group_contact 
                             WHERE civicrm_group_contact.group_id = "  
                         . CRM_Utils_Type::escape($group_id, 'Integer')
-                        . " AND civicrm_group_contact.status = 'Removed'))"; 
+                        . " AND civicrm_group_contact.status = 'Removed'))";
                 } else { 
                     $ssw = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $this->_tables, $this->_whereTables);
                     /* FIXME: bug with multiple group searches */ 
