@@ -16,7 +16,7 @@ class UnitTests extends GroupTest {
         // contact api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContact.php'    );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/FetchContact.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/FetchContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContactWithCustomValues.php' );
@@ -60,7 +60,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM980.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM983.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1011.php' );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1012.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1012.php' );
         
         //api for ActivityType
         
