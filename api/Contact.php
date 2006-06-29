@@ -142,6 +142,8 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 function &crm_create_contact_formatted( &$params , $onDuplicate) {
     _crm_initialize( );
 
+    _crm_free_DataObjects( );
+
     // return error if we have no params
     if ( empty( $params ) ) {
         return _crm_error( 'Input Parameters empty' );
@@ -170,6 +172,7 @@ function &crm_create_contact_formatted( &$params , $onDuplicate) {
 
     $contact = CRM_Contact_BAO_Contact::create( $params, $ids, 
                                                 count($params['location']));
+
     return $contact;
 }
 

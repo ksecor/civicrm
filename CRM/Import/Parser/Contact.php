@@ -319,6 +319,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      */
     function import( $onDuplicate, &$values) {
 
+        CRM_Utils_System::xMemory( 'Start of Import' );
+
         // first make sure this is a valid line
         //$this->_updateWithId = false;
         $response = $this->summary( $values );
@@ -357,6 +359,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             if ($field == null || $field === '') {
                 continue;
             }
+
             if (is_array($field)) {
                 foreach ($field as $value) {
                     $break = false;
@@ -385,9 +388,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
             _crm_add_formatted_param($value, $formatted);
         }
-        /*if (in_array('id',$this->_mapperKeys)) {
-            $this->_updateWithId = true;
-        }*/
+
         $relationship = false;
         // Support Match and Update Via Contact ID
         if($this->_updateWithId) {

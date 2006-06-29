@@ -181,6 +181,7 @@ WHERE contact_a.id = %1 AND $permission";
             while ( $dao->fetch( ) ) {
                 $ids[] = $dao->id;
             }
+            $dao->free( );
             return implode( ',', $ids );
         } else {
              return null;
@@ -2074,7 +2075,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
        } 
        return null;
     } 
-    
+
 }
 
 ?>
