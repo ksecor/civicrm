@@ -1028,11 +1028,21 @@ class CRM_Contact_BAO_Query {
                     $where = "`$tName`.$fldName";
                     $this->_where[$grouping][] = "LOWER( $where ) $op '$value'";
                     $this->_whereTables[$tName] = $this->_tables[$tName];
+                    if ( $locType[2] && ( strtolower( $locType[2] ) != ts( 'phone' ) ) ) {
+                        $this->_qill[$grouping][]  = ts( "%1-%4 (%3) $op '%2'", array( 1 => $field['title'],
+                                                                                       2 => $value,
+                                                                                       3 => $locationType[$locType[1]],
+                                                                                       4 => $locType[2] ) );
+                    } else {
+                        $this->_qill[$grouping][]  = ts( "%1 (%3) $op '%2'", array( 1 => $field['title'],
+                                                                                    2 => $value,
+                                                                                    3 => $locationType[$locType[1]] ) );
+                    }
                 } else {
                     $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
+                    $this->_qill[$grouping][]  = ts( "%1 $op '%2'", array( 1 => $field['title'], 2 => $value ) );
                 }
                 
-                $this->_qill[$grouping][]  = ts( "%1 $op '%2'", array( 1 => $field['title'], 2 => $value ) );
             }
         }
 

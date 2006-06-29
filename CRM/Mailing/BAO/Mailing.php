@@ -427,12 +427,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $this->header =& new CRM_Mailing_BAO_Component();
             $this->header->id = $this->header_id;
             $this->header->find(true);
+            $this->header->free( );
         }
         
         if ( ! $this->footer ) {
             $this->footer =& new CRM_Mailing_BAO_Component();
             $this->footer->id = $this->footer_id;
             $this->footer->find(true);
+            $this->footer->free( );
         }
     }
 

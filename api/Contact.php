@@ -142,7 +142,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 function &crm_create_contact_formatted( &$params , $onDuplicate) {
     _crm_initialize( );
 
-    _crm_free_DataObjects( );
+    CRM_Core_DAO::freeResult( );
 
     // return error if we have no params
     if ( empty( $params ) ) {
