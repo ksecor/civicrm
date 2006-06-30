@@ -57,25 +57,35 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
      */
     public static function getTrackerURL($url, $mailing_id, $queue_id) {
 
-        // hack for basic CRM-1014 compliance: let's not replace possible image URLs
-        if (preg_match('/\.(png|jpg|jpeg|gif)$/i', $url)) {
-            return $url;
+        static $urlCache = array();
+
+        if (array_key_exists($url, $urlCache)) {
+            return $urlCache[$url];
         }
 
-        $config =& CRM_Core_Config::singleton( );
+        // hack for basic CRM-1014 compliance: let's not replace possible image URLs
+        if (preg_match('/\.(png|jpg|jpeg|gif)$/i', $url)) {
+            $urlCache[$url] = $url;
+        } else {
         
-        $tracker =& new CRM_Mailing_BAO_TrackableURL();
-        $tracker->url = $url;
-        $tracker->mailing_id = $mailing_id;
-        
-        if (! $tracker->find(true)) {
-            $tracker->save();
+            $config =& CRM_Core_Config::singleton( );
+            
+            $tracker =& new CRM_Mailing_BAO_TrackableURL();
+            $tracker->url = $url;
+            $tracker->mailing_id = $mailing_id;
+            
+            if (! $tracker->find(true)) {
+                $tracker->save();
+            }
+            $id = $tracker->id;
+            
+            $redirect = $config->userFrameworkResourceURL . 'extern/url.php?q=' . $queue_id .
+                        '&u=' . $id;
+            $urlCache[$url] = $redirect;
+            $tracker->free();
         }
-        $id = $tracker->id;
-        
-        $redirect = $config->userFrameworkResourceURL . 'extern/url.php?q=' . $queue_id .
-                    '&u=' . $id;
-        return $redirect;
+
+        return $urlCache[$url];
     }
 
     public static function scan_and_replace(&$msg, $mailing_id, $queue_id) {

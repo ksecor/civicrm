@@ -533,8 +533,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             }
         }
         
-        $html =& $this->html;
-        $text =& $this->text;
+        $html = $this->html;
+        $text = $this->text;
         
         if ($html && !$test && $this->url_tracking) {
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
