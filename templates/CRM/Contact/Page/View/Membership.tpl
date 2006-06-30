@@ -40,7 +40,7 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}</p>
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{$newURL}">&raquo; {ts}New Membership Type{/ts}</a>
+    	<a href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
         </div>
         {/if}
     </div>

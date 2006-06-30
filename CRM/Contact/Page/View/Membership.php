@@ -192,7 +192,6 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
     static function &links()
     {
         if (!(self::$_links)) {
-            $deleteExtra = ts('Are you sure you want to delete this membership?');
 
             self::$_links = array(
                                   CRM_Core_Action::VIEW    => array(
@@ -211,7 +210,6 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/contact/view/membership',
                                                                     'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&context=membership',
-                                                                    'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',
                                                                     'title' => ts('Delete Membership')
                                                                     ),
                                   );
