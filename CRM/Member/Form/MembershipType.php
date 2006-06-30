@@ -157,7 +157,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      */
     public function formRule( &$params ) {
         $errors = array( );
-        
+
         if ( !$params['_qf_MembershipType_refresh'] ) {
             if ( !$params['name'] ) {
                 $errors['name'] = "Please enter a membership type name.";
@@ -175,7 +175,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             }
             $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
             foreach ( $periods as $per ) {
-                if ($params[$per]) {
+                if ($params[$per]['M'] || $params[$per]['d']) {
                     $mon = $params[$per]['M'];
                     $dat = $params[$per]['d'];
                     if (!($mon && $dat)) {
@@ -219,12 +219,14 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             
             $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
             foreach ( $periods as $per ) {
-                if ($params[$per]) {
+                if ($params[$per]['M'] && $params[$per]['d']) {
                     $mon = $params[$per]['M'];
                     $dat = $params[$per]['d'];
                     $mon = ( $mon < 9) ? '0'.$mon : $mon; 
                     $dat = ( $dat < 9) ? '0'.$dat : $dat; 
                     $params[$per] = $mon . $dat;
+                } else {
+                    $params[$per] = null;
                 }
             }
             $ids['memberOfContact'] = $params['contact_check'];
