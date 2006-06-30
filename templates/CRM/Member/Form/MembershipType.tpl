@@ -16,8 +16,8 @@
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Any descripttion about this membership type. May include cost, terms, etc.{/ts}</dd>
        	<dt>{$form.contribution_type_id.label}</dt><dd class="html-adjust">{$form.contribution_type_id.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select the contribution type for this membership type.{/ts}</dd>
-	{if !$searchDone}
-	        <dt>{$form.member_org.label}</dt><dd class="html-adjust">{$form.member_org.html}&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
+	{if !$searchDone or !$searchCount or !$searchRows}
+	        <dt>{$form.member_org.label}</dt><dd class="html-adjust"><label>{$form.member_org.html}</label>&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
 		<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Organization, who is the owner for this membership type.{/ts}</dd>
 	{/if}
        </dl>
@@ -59,6 +59,7 @@
                         {/strip}
                         </fieldset>
                     {else} {* too many results - we're only displaying 50 *}
+                        {capture assign=infoMessage}{ts}Too many matching results. Please narrow your search by entering a more complete target contact name.{/ts}{/capture}
                         {include file="CRM/common/info.tpl"}
                     {/if}
                 {else} {* no valid matches for name + contact_type *}
@@ -104,12 +105,16 @@
 	function showHidePeriodSettings(){
 	   if (document.getElementsByName("period_type")[0].value == "fixed") {
 		show('fixed_period_settings');
-		document.getElementsByName("fixed_period_start_day")[0].value = "0101";
-		document.getElementsByName("fixed_period_rollover_day")[0].value = "1231";
+		document.getElementsByName("fixed_period_start_day[M]")[0].value = "1";
+		document.getElementsByName("fixed_period_start_day[d]")[0].value = "1";
+		document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "12";
+		document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "31";
 	   } else {
 		hide('fixed_period_settings');
-		document.getElementsByName("fixed_period_start_day")[0].value = "";
-		document.getElementsByName("fixed_period_rollover_day")[0].value = "";
+		document.getElementsByName("fixed_period_start_day[M]")[0].value = "";
+		document.getElementsByName("fixed_period_start_day[d]")[0].value = "";
+		document.getElementsByName("fixed_period_rollover_day[M]")[0].value = "";
+		document.getElementsByName("fixed_period_rollover_day[d]")[0].value = "";
 	   }
 	} 
     </script>

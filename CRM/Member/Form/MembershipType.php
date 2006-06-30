@@ -81,13 +81,13 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
         $memberOrg =& $this->add('text', 'member_org', ts('Membership Organization'), 'size=30 maxlength=120' );
         //start day
-        $this->add('text', 'fixed_period_start_day', ts('Fixed Period Start Day'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'fixed_period_start_day' ) );
+        $this->add('date', 'fixed_period_start_day', ts('Fixed Period Start Day'), 
+                   CRM_Core_SelectValues::date('custom', 3, 1, 'M d'), false);
         
         //rollover day
-        $this->add('text', 'fixed_period_rollover_day', ts('Fixed Period Rollover Day'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'fixed_period_rollover_day' ) );
-
+        $this->add('date', 'fixed_period_rollover_day', ts('Fixed Period Rollover Day'), 
+                   CRM_Core_SelectValues::date('custom', 3, 1, 'M d'), false);
+        
         $this->add('hidden','action',$this->_action); //required in form rule
 
         require_once 'CRM/Contribute/PseudoConstant.php';
@@ -173,6 +173,16 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                     $errors['fixed_period_start_day'] = "Please enter the 'Fixed period start day'.";
                 }
             }
+            $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
+            foreach ( $periods as $per ) {
+                if ($params[$per]) {
+                    $mon = $params[$per]['M'];
+                    $dat = $params[$per]['d'];
+                    if (!($mon && $dat)) {
+                        $errors[$per] = "Please enter a valid 'Fixed period start day'.";
+                    }
+                }
+            }
         }
         return empty($errors) ? true : $errors;
     }
@@ -205,6 +215,17 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             }
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $ids['membershipType'] = $this->_id;
+            }
+            
+            $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
+            foreach ( $periods as $per ) {
+                if ($params[$per]) {
+                    $mon = $params[$per]['M'];
+                    $dat = $params[$per]['d'];
+                    $mon = ( $mon < 9) ? '0'.$mon : $mon; 
+                    $dat = ( $dat < 9) ? '0'.$dat : $dat; 
+                    $params[$per] = $mon . $dat;
+                }
             }
             $ids['memberOfContact'] = $params['contact_check'];
             $membershipType = CRM_Member_BAO_MembershipType::add($params, $ids);
@@ -256,7 +277,6 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
                 $searchRows[$contactID]['type'] = $contact_type;
             }
-
             $this->set( 'searchRows' , $searchRows );
         } else {
             // resetting the session variables if many records are found

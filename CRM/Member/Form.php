@@ -105,10 +105,23 @@ class CRM_Member_Form extends CRM_Core_Form
             $defaults['join_date']['d'] = $joinDate['mday'];
             $defaults['join_date']['Y'] = $joinDate['year'];
         }
-        
+        //setting default relationshipType
         if ( $defaults['relationship_type_id'] ) {
             $defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_a_b';
         }
+        //setting default fixed_period_start_day & fixed_period_rollover_day
+        $periods = array('fixed_period_start_day',  'fixed_period_rollover_day');
+        foreach ( $periods as $per ) {
+            if ($defaults[$per]) {
+                $dat = $defaults[$per];
+                $dat = ( $dat < 999) ? '0'.$dat : $dat; 
+                $dM = str_split($dat, 2);
+                $defaults[$per] = array();
+                $defaults[$per]['M'] = $dM[0];
+                $defaults[$per]['d'] = $dM[1];
+            }
+        }
+        
         return $defaults;
     }
 
