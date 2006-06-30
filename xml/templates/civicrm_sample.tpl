@@ -87,7 +87,7 @@ VALUES
 INSERT INTO civicrm_premiums 
     VALUES (%%CIVICRM_DOMAIN_ID%%, 'civicrm_contribution_page', 1, 1, 'Thank-you Gifts', 'We appreciate your support and invite you to choose from the exciting collection of thank-you gifts below. Minimum contribution amounts for each selection are included in the descriptions. ', 'premiums@example.org', NULL, 1);
 
-INSERT INTO civicrm_product VALUES (1, %%CIVICRM_DOMAIN_ID%%,'Coffee Mug', 'This heavy-duty mug is great for home or office, coffee or tea or hot chocolate. Show your support to family, friends and colleagues. Choose from three great colors.', 'MUG-101', 'White, Black, Green', 'http://localhost/dgg/drupal/modules/civicrm/i/contribute/default_premium.jpg', 'http://localhost/dgg/drupal/modules/civicrm/i/contribute/default_premium_thumb.jpg', 12.50, 5.00, 2.25, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO civicrm_product VALUES (1, %%CIVICRM_DOMAIN_ID%%,'Coffee Mug', 'This heavy-duty mug is great for home or office, coffee or tea or hot chocolate. Show your support to family, friends and colleagues. Choose from three great colors.', 'MUG-101', 'White, Black, Green', NULL, NULL, 12.50, 5.00, 2.25, 1, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO civicrm_premiums_product VALUES (1, 1, 1, 1);
 
 
