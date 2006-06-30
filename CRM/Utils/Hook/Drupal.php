@@ -92,4 +92,28 @@ class CRM_Utils_Hook_Drupal {
         }
     }
 
+    /**
+     * This hook retrieves links from other modules and injects it into
+     * CiviCRM forms
+     *
+     * @param string $op         the type of operation being performed
+     * @param string $objectName the name of the object
+     * @param int    $objectId   the unique identifier for the object 
+     *
+     * @return string|null       a url string that gets attached in the templates
+     *
+     * @access public
+     */
+    static function links( $op, $objectName, $objectId ) {
+        // copied from user_module_invoke
+        if (function_exists( 'module_list')) {
+            foreach (module_list() as $module) { 
+                $function = $module . '_civicrm_links';
+                if ( function_exists( $function ) ) {
+                    $function( $op, $objectName, $objectId );
+                }
+            }
+        }
+    }
+
 }

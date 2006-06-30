@@ -78,4 +78,20 @@ class CRM_Utils_Hook_Mambo {
         return;
     }
 
+    /**
+     * This hook retrieves links from other modules and injects it into
+     * CiviCRM forms
+     *
+     * @param string $op         the type of operation being performed
+     * @param string $objectName the name of the object
+     * @param int    $objectId   the unique identifier for the object 
+     *
+     * @return string|null       a url string that gets attached in the templates
+     *
+     * @access public
+     */
+    static function links( $op, $objectName, $objectId ) {
+        return null;
+    }
+
 }

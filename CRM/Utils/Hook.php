@@ -48,7 +48,7 @@ class CRM_Utils_Hook {
      * information page) 
      * 
      * @param string $op         the type of operation being performed 
-     * @param string $objectName the BAO class name of the object 
+     * @param string $objectName the name of the object 
      * @param object $id         the object id if available
      * @param array  $params     the parameters used for object creation / editing
      *  
@@ -72,7 +72,7 @@ class CRM_Utils_Hook {
      * information page) 
      * 
      * @param string $op         the type of operation being performed 
-     * @param string $objectName the BAO class name of the object 
+     * @param string $objectName the name of the object 
      * @param int    $objectId   the unique identifier for the object 
      * @param object $objectRef  the reference to the object if available 
      *  
@@ -85,6 +85,25 @@ class CRM_Utils_Hook {
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
             eval( 'return ' . $config->userHookClass . '::post( $op, $objectName, $objectId, $objectRef );' );  
+    }
+
+    /**
+     * This hook retrieves links from other modules and injects it into
+     * CiviCRM forms
+     *
+     * @param string $op         the type of operation being performed
+     * @param string $objectName the name of the object
+     * @param int    $objectId   the unique identifier for the object 
+     *
+     * @return string|null       a url string that gets attached in the templates
+     *
+     * @access public
+     */
+    static function links( $op, $objectName, $objectId ) {
+        $config =& CRM_Core_Config::singleton( );  
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        return   
+            eval( 'return ' . $config->userHookClass . '::links( $op, $objectName, $objectId, $objectRef );' );  
     }
 
 }

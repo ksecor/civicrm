@@ -24,4 +24,12 @@
         <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=5&action=add&reset=1&cid=`$contactId`"}">{ts}Other Activities{/ts}</a>
    {/if}
 
+{* add hook links if any *}
+{if $hookLinks}
+   {foreach from=$hookLinks item=$link}
+      <a href="{$link.url}"><img src="{$link.img}" alt="{$link.title}"></a>&nbsp;
+      <a href="{$link.url}">{$link.title}</a>&nbsp;&nbsp;
+   {/foreach}
+{/if}
+
 </div>

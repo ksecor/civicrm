@@ -123,6 +123,12 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $displayName  = $this->get( 'displayName'  );
         $this->assign( 'displayName', $displayName );
 
+        // see if other modules want to add a link activtity bar
+        $hookLinks = CRM_Utils_Hook::links( 'view.contact.activity', $this->_contactId );
+        if ( $hookLinks ) {
+            $this->assign( 'hookLinks', $hookLinks );
+        }
+
         CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
         CRM_Utils_Recent::add( $displayName,
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId ),
