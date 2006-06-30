@@ -69,7 +69,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
                 if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
                     $value = array( 'title' => $item['title'],
                                     'url'   => CRM_Utils_System::url( $item['path'],
-                                                                      CRM_Utils_Array::value( 'qs', $item ) ),
+                                                                      CRM_Utils_Array::value( 'query', $item ) ),
                                     'icon'  => $item['icon'],
                                     'extra' => CRM_Utils_Array::value( 'extra', $item ) );
                     $adminPanel[$group][$item['weight'] . '.' . $item['title']] = $value;

@@ -44,7 +44,7 @@ class CRM_Quest_Menu {
         $items = array(
                        array( 
                              'path'    => 'civicrm/quest/preapp', 
-                             'qs'      => 'reset=1',
+                             'query'   => 'reset=1',
                              'title'   => ts( '2006 College Prep Scholarship Application' ), 
                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
                              'type'    => CRM_Core_Menu::CALLBACK,  

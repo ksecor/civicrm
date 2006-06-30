@@ -204,20 +204,20 @@ class CRM_Core_Block {
         if (!($shortCuts)) {
             if (CRM_Core_Permission::check('add contacts')) {
                 $shortCuts = array( array( 'path'  => 'civicrm/contact/add',
-                                           'qs'    => 'ct=Individual&reset=1',
+                                           'query' => 'ct=Individual&reset=1',
                                            'title' => ts('New Individual') ),
                                     array( 'path'  => 'civicrm/contact/add',
-                                           'qs'    => 'ct=Organization&reset=1',
+                                           'query' => 'ct=Organization&reset=1',
                                            'title' => ts('New Organization') ),
                                     array( 'path'  => 'civicrm/contact/add',
-                                           'qs'    => 'ct=Household&reset=1',
+                                           'query' => 'ct=Household&reset=1',
                                            'title' => ts('New Household') ),
                                     );
             }
 
             if( CRM_Core_Permission::check('edit groups')) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
-                                                                   'qs'    => 'reset=1',
+                                                                   'query' => 'reset=1',
                                                                    'title' => ts('New Group') ) ));
             }
 
@@ -231,7 +231,7 @@ class CRM_Core_Block {
 
         foreach ( $shortCuts as $short ) {
             $value = array( );
-            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['qs'] );
+            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['query'] );
             $value['title'] = $short['title'];
             $values[] = $value;
         }
@@ -249,10 +249,10 @@ class CRM_Core_Block {
         
         if (!($shortCuts)) {
              $shortCuts = array( array( 'path'  => 'civicrm/mailing/send',
-                                        'qs'    => 'reset=1',
+                                        'query' => 'reset=1',
                                         'title' => ts('Send Mailing') ),
                                  array( 'path'  => 'civicrm/mailing/browse',
-                                        'qs'    => 'reset=1',
+                                        'query' => 'reset=1',
                                         'title' => ts('Browse Sent Mailings') ),
                                  );
         }
@@ -260,7 +260,7 @@ class CRM_Core_Block {
         $values = array( );
         foreach ( $shortCuts as $short ) {
             $value = array( );
-            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['qs'] );
+            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['query'] );
             $value['title'] = $short['title'];
             $values[] = $value;
         }
@@ -287,7 +287,7 @@ class CRM_Core_Block {
                  ( $item['crmType'] >= CRM_Core_Menu::NORMAL_ITEM ) &&
                  $item['access'] ) {
                 $value = array( );
-                $value['url'  ]  = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'qs', $item ) );
+                $value['url'  ]  = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'query', $item ) );
                 $value['title']  = $item['title'];
                 $value['path']   = $item['path'];
                 $value['class']  = 'leaf';
