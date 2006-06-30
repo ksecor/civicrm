@@ -212,9 +212,17 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             $savedMapping = $this->get('savedMapping');
 
             list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($savedMapping);
-            
-            $this->assign('loadedMapping', $savedMapping);
 
+            
+            //get loaded Mapping Fields
+            $mappingName        = $mappingName[1];
+            $mappingContactType = $mappingContactType[1];
+            $mappingLocation    = $mappingLocation[1];
+            $mappingPhoneType   = $mappingPhoneType[1];
+            $mappingRelation    = $mappingRelation[1];
+           
+            $this->assign('loadedMapping', $savedMapping);
+            
             $params = array('id' => $savedMapping);
             $temp   = array ();
             $mappingDetails = CRM_Core_BAO_Mapping::retrieve($params, $temp);
