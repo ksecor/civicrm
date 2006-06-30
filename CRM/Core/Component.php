@@ -56,8 +56,8 @@ class CRM_Core_Component {
                                                             'url'     => 'member',
                                                             'perm'    => array( 'access CiviMember',
                                                                                 'edit members',
-                                                                                'view members' ),
-                                                            'search'  => 0 ),
+                                                                                'view members'),
+                                                            'search'  => 1 ),
                                  'CiviMail'       => array( 'title'   => 'CiviCRM Mailing Engine',
                                                             'path'    => 'CRM_Mailing_',
                                                             'url'     => 'mailing',
@@ -160,7 +160,6 @@ class CRM_Core_Component {
     static function &getQueryFields( ) {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
-
         $fields = array( );
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) &&

@@ -172,6 +172,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_MEMBER );
+       
 
     }//end of constructor
 
@@ -206,7 +207,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
-                                                                   'url'      => 'civicrm/contact/view/membershipn',
+                                                                   'url'      => 'civicrm/contact/view/membership',
                                                                    'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
                                                                    'title'    => ts('Delete Membership'),
                                                                   ),
@@ -244,13 +245,13 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      * @access public
      */
       function getTotalCount($action)
-    {
-        return $this->_query->searchQuery( 0, 0, null,
-                                           true, false, 
-                                           false, false, 
-                                           false, 
-                                           $this->_memberClause );
-    }
+      {
+          return $this->_query->searchQuery( 0, 0, null,
+                                             true, false, 
+                                             false, false, 
+                                             false, 
+                                             $this->_memberClause );
+      }
 
 
     /**
@@ -310,6 +311,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
 
             $rows[] = $row;
         }
+
         return $rows;
     }
    

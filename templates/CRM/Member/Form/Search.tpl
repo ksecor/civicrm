@@ -17,3 +17,25 @@
     {/strip}
 </fieldset>
 </div> 
+{if $rowsEmpty}
+    {include file="CRM/Member/Form/Search/EmptyResults.tpl"}
+{/if}
+
+{if $rows}
+    {* Search request has returned 1 or more matching rows. *}
+    <fieldset>
+    
+       {* This section handles form elements for action task select and submit *}
+       {*{include file="CRM/Contribute/Form/Search/ResultTasks.tpl"}*}
+
+       {* This section displays the rows along and includes the paging controls *}
+       <p></p>
+       {include file="CRM/Member/Form/Selector.tpl" context="Search"}
+       
+    </fieldset>
+    {* END Actions/Results section *}
+
+{/if}
+
+{if ! empty( $rows )}
+{/if}

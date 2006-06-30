@@ -393,6 +393,17 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         return false;
     }
 
+function &exportableFields( ) {
+        require_once 'CRM/Member/DAO/Membership.php';
+        require_once 'CRM/Member/DAO/MembershipType.php';
+        //$impFields = self::importableFields( );
+        $expFieldMembership = CRM_Member_DAO_Membership::export( );
+        $expFieldsMemType   = CRM_Member_DAO_MembershipType::export( );
+        $fields = array_merge($expFieldMembership, $expFieldsMemType);
+        $fields = array_merge($fields, $expFieldMembership );
+        return $fields;
+    }
+
 
 }
 

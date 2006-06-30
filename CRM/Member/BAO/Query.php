@@ -36,38 +36,124 @@
  */ 
 
 class CRM_Member_BAO_Query {
+    
+    static function &getFields( ) {
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        $fields =& CRM_Contribute_BAO_Contribution::exportableFields( );
+        unset( $fields['contact_id']);
+        unset( $fields['note'] ); 
+        return $fields;
+    }
+    
+
+    /** 
+     * if membership are involved, add the specific contribute fields
+     * 
+     * @return void  
+     * @access public  
+     */
+    static function select( &$query ) {
+
+        // if contribute mode add contribution id
+        if ( $query->_mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
+            $query->_select['membership_id'] = "civicrm_membership.id as membership_id";
+            $query->_element['membership_id'] = 1;
+            $query->_tables['civicrm_membership'] = 1;
+            $query->_whereTables['civicrm_membership'] = 1;
+           
+        }
+
+        // get membership_type
+        if ( CRM_Utils_Array::value( 'membership_type', $query->_returnProperties ) ) {
+            $query->_select['memership_type']  = "civicrm_membership_type.name as membership_type";
+            $query->_element['membership_type'] = 1;
+            $query->_tables['civicrm_membership'] = 1;
+            $query->_tables['civicrm_membership_type'] = 1;
+            $query->_whereTables['civicrm_membership'] = 1;
+            $query->_whereTables['civicrm_membership_type'] = 1;
+        }
+    }
+
+    
+    static function from( $name, $mode, $side ) {
+        $from = null;
+        switch ( $name ) {
+        
+        case 'civicrm_membership':
+            $from = " INNER JOIN civicrm_membership ON civicrm_membership.contact_id = contact_a.id ";
+            break;
+    
+        case 'civicrm_membership_type':
+            if ( $mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
+                $from = " INNER JOIN civicrm_membership_type ON civicrm_membership.membership_type_id = civicrm_membership_type.id ";
+            } else {
+                $from = " $side JOIN civicrm_membership_type ON civicrm_membership.membership_type_id = civicrm_membership_type.id ";
+            }
+            break;
+            
+        case 'civicrm_membership_payment':
+            $from = " INNER JOIN civicrm_membership_payment ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
+            break;
+      
+        }
+        return $from;
+    }
+    
+    static function where( &$query ) {
+        foreach ( array_keys( $query->_params ) as $id ) {
+            if ( substr( $query->_params[$id][0], 0,7 ) == 'member_' ) {
+                self::whereClauseSingle( $query->_params[$id], $query );
+            }
+        }
+    }
+    
+    static function whereClauseSingle( &$values, &$query ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        switch( $name ) {
+        case 'member_since':
+        case 'member_start_date_low':
+        case 'member_start_date_high':
+       
+            // process to / from date
+            // $query->dateQueryBuilder( $values,
+//                                       'civicrm_membership', 'contribution_date', 'receive_date', 'Contribution Date' );
+//             
+            return;
+        }
+    }
+
+    static function defaultReturnProperties( $mode ) {
+        $properties = null;
+    }
+
 
     static function buildSearchForm( &$form ) {
         
         require_once 'CRM/Member/PseudoConstant.php';
         
         foreach (CRM_Member_PseudoConstant::membershipType( ) as $ID => $Name) {
-            $form->_membershipType =& $form->addElement('checkbox', "membership_type[$ID]", null,$Name);
+            $form->_membershipType =& $form->addElement('checkbox', "member_membership_type[$ID]", null,$Name);
         }
         foreach (CRM_Member_PseudoConstant::membershipStatus( ) as $sId => $sName) {
-            $form->_membershipStatus =& $form->addElement('checkbox', "membership_status[$sId]", null,$sName);
+            $form->_membershipStatus =& $form->addElement('checkbox', "member_membership_status[$sId]", null,$sName);
         }
 
-        $form->addElement( 'text', 'source', ts( 'Source' ) );
+        $form->addElement( 'text', 'member_source', ts( 'Source' ) );
         $form->addElement('date', 'member_since', ts('Member From :'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('member_since', ts('Select a valid date.'), 'qfDate'); 
  
         // Date selects for date 
-        $form->add('date', 'sign_up_from', ts('Sign up/Renew Date - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('sign_up_from', ts('Select a valid date.'), 'qfDate'); 
+        $form->add('date', 'member_start_date_low', ts('Sign up/Renew Date - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('member_start_date_low', ts('Select a valid date.'), 'qfDate'); 
  
-        $form->add('date', 'sign_up_to', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('sign_up_to', ts('Select a valid date.'), 'qfDate'); 
+        $form->add('date', 'member_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('member_start_date_high', ts('Select a valid date.'), 'qfDate'); 
 
-        $form->add('date', 'end_date_from', ts('End Date - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('end_date_from', ts('Select a valid date.'), 'qfDate'); 
+        $form->add('date', 'member_end_date_low', ts('End Date - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('member_end_date_low', ts('Select a valid date.'), 'qfDate'); 
  
-        $form->add('date', 'end_date_to', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('end_date_to', ts('Select a valid date.'), 'qfDate'); 
-
-
-
-
+        $form->add('date', 'member_end_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('member_end_date_high', ts('Select a valid date.'), 'qfDate'); 
 
     }
 
