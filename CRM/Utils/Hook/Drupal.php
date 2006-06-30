@@ -100,7 +100,7 @@ class CRM_Utils_Hook_Drupal {
      * @param string $objectName the name of the object
      * @param int    $objectId   the unique identifier for the object 
      *
-     * @return string|null       a url string that gets attached in the templates
+     * @return array|null        an array of arrays, each element is a tuple consisting of url, img, title
      *
      * @access public
      */
