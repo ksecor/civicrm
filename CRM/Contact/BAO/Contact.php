@@ -1580,8 +1580,10 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
 
             $fields = array_merge($fields,
                                   CRM_Contact_DAO_Contact::export( ) );
+            /*
             $fields = array_merge($fields,
                                   CRM_Core_DAO_Note::export());
+            */
             if ( $contactType != 'All' ) { 
                     $fields = array_merge($fields,
                                       CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $status) );

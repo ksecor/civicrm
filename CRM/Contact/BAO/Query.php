@@ -957,21 +957,20 @@ class CRM_Contact_BAO_Query {
             } else {
                 $this->_qill[$grouping][] = ts('Country (%2) %3 "%1"', array( 1 => $value, 2 => $lType, 3 => $op ) );         
             }
-
         } else if ( $name === 'individual_prefix' ) {
             $individualPrefixs =& CRM_Core_PseudoConstant::individualPrefix( ); 
             if ( is_numeric( $value ) ) { 
                 $value     =  $individualPrefixs[(int ) $value];  
             }
-            $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
-            $this->_qill[$grouping][] = ts('Individual Prefix - "%1"', array( 1 => $value ) );
+            $this->_where[$grouping][] = "LOWER({$field['where']}) $op '" . strtolower( addslashes( $value ) ) . "'";
+            $this->_qill[$grouping][] = ts('Individual Prefix %2 "%1"', array( 1 => $value, 2 => $op ) );
         } else if ( $name === 'individual_suffix' ) {
             $individualSuffixs =& CRM_Core_PseudoConstant::individualsuffix( ); 
             if ( is_numeric( $value ) ) { 
                 $value     =  $individualSuffixs[(int ) $value];  
             }
-            $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ') = "' . strtolower( addslashes( $value ) ) . '"';
-            $this->_qill[$grouping][] = ts('Individual Suffix - "%1"', array( 1 => $value ) );
+            $this->_where[$grouping][] = "LOWER({$field['where']}) $op '" . strtolower( addslashes( $value ) ) . "'";
+            $this->_qill[$grouping][] = ts('Individual Suffix %2 "%1"', array( 1 => $value, 2 => $op ) );
         } else if ( $name === 'gender' ) {
             $genders =& CRM_Core_PseudoConstant::gender( );  
             if ( is_numeric( $value ) ) {  
@@ -980,6 +979,13 @@ class CRM_Contact_BAO_Query {
             $this->_where[$grouping][] = "LOWER({$field['where']}) $op '" . strtolower( addslashes( $value ) ) . "'"; 
             $this->_qill[$grouping][] = ts('Gender %2 "%1"', array( 1 => $value, 2 => $op ) ); 
         } else if ( $name === 'birth_date' ) {
+            $date = CRM_Utils_Date::format( $value );
+            if ( $date ) {
+                $this->_where[$grouping][] = $field['where'] . " $op $date";
+                $date = CRM_Utils_Date::customFormat( $value );
+                $this->_qill[$grouping][]  = "$field[title] - \"$date\"";
+            }
+        } else if ( $name === 'deceased_date' ) {
             $date = CRM_Utils_Date::format( $value );
             if ( $date ) {
                 $this->_where[$grouping][] = $field['where'] . " $op $date";
@@ -1040,7 +1046,13 @@ class CRM_Contact_BAO_Query {
                                                                                     3 => $locationType[$locType[1]] ) );
                     }
                 } else {
-                    $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
+                    list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
+                    
+                    if ( $tableName == 'civicrm_contact' ) {
+                        $this->_where[$grouping][] = "LOWER( contact_a.{$fieldName} ) $op '$value'";
+                    } else {
+                        $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
+                    }
                     $this->_qill[$grouping][]  = ts( "%1 $op '%2'", array( 1 => $field['title'], 2 => $value ) );
                 }
                 

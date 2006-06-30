@@ -519,11 +519,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $row['contact_id'  ] = $result->contact_id;
                 $row['sort_name'   ] = $result->sort_name;
                 
-                // unset the geo_code stuff, since we dont need it in smarty
-                unset( $row['geo_code_1'] );
-                unset( $row['geo_code_2'] );
             }
-
         
             if ( ! $empty ) {
                 $rows[] = $row;
