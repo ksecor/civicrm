@@ -578,35 +578,6 @@ abstract class CRM_Import_Parser {
                     }
                 }
 
-                //relationship values
-                /*
-                if ( isset($this->_activeFields[$i]->_related) && !empty($this->_activeFields[$i]->_value) ) {     
-                    if (! isset($params[$this->_activeFields[$i]->_related])) {
-                        $params[$this->_activeFields[$i]->_related] = array();
-                    }
-                    
-                    if ( !isset($params[$this->_activeFields[$i]->_related]['contact_type']) && !empty($this->_activeFields[$i]->_relatedContactType) ) {
-                        $params[$this->_activeFields[$i]->_related]['contact_type'] = $this->_activeFields[$i]->_relatedContactType;
-                    }
-                    
-                    if ( isset($this->_activeFields[$i]->_relatedContactLocType)  && !empty($this->_activeFields[$i]->_value) )  {
-                        
-                        $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = array();
-                        $value = array($this->_activeFields[$i]->_relatedContactDetails => $this->_activeFields[$i]->_value,
-                                       'location_type_id' => $this->_activeFields[$i]->_relatedContactLocType);
-                        
-                        if (isset( $this->_activeFields[$i]->_relatedContactPhoneType)) {
-                            $value['phone_type'] =  $this->_activeFields[$i]->_relatedContactPhoneType;
-                        }
-
-                        $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails][] = $value;
-                    } else {
-                        $params[$this->_activeFields[$i]->_related][$this->_activeFields[$i]->_relatedContactDetails] = 
-                            $this->_activeFields[$i]->_value;                        
-                    }
-                }
-                */
-                
                 if ( isset($this->_activeFields[$i]->_related) && !empty($this->_activeFields[$i]->_value) ) {     
                     if (! isset($params[$this->_activeFields[$i]->_related])) {
                         $params[$this->_activeFields[$i]->_related] = array();

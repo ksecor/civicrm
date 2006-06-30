@@ -331,7 +331,7 @@ class CRM_Contact_BAO_Query {
 
         foreach ( $this->_params as $value ) {
             $cfID = CRM_Core_BAO_CustomField::getKeyID( $value[0] );
-            if ( $cfID && array_key_exists( $value[0], $this->_fields ) ) {
+            if ( $cfID ) {
                 if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
                     $this->_cfIDs[$cfID] = array( );
                 }
@@ -767,11 +767,6 @@ class CRM_Contact_BAO_Query {
              ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ||
              ( substr( $values[0], 0, 13 ) == 'contribution_' ) ||
              ( substr( $values[0], 0, 6  ) == 'quest_' ) ) {
-            return;
-        }
-
-        // also make sure the name is in the fields array (i.e. we might be restricting the search)
-        if ( ! array_key_exists( $values[0], $this->_fields ) ) {
             return;
         }
 
