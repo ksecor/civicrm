@@ -64,7 +64,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         if ( $uf == 'Drupal' ) {
             $key  = 'uid';
             $mail = 'mail';
-        } else if ( $uf == 'Mambo' ) {
+        } else if ( $uf == 'Joomla' ) {
             $key  = 'id';
             $mail = 'email';
         } else {
@@ -84,8 +84,8 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $session->reset( );
         }
 
-        // make sure we load the mambo object to get valid information
-        if ( $uf == 'Mambo' ) {
+        // make sure we load the joomla object to get valid information
+        if ( $uf == 'Joomla' ) {
             $user->load( );
         }
 
@@ -173,8 +173,8 @@ WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
                 $ufmatch->domain_id  = $dao->domain_id ;
                 $ufmatch->email      = $mail           ;
             } else {
-                if ( $uf == 'Mambo' ) {
-                    CRM_Utils_System_Mambo::setEmail( $user );
+                if ( $uf == 'Joomla' ) {
+                    CRM_Utils_System_Joomla::setEmail( $user );
                 }
                 
                 require_once 'CRM/Core/BAO/LocationType.php';

@@ -63,9 +63,9 @@ class CRM_Core_Invoke {
         // also initialize the i18n framework
         $i18n   =& CRM_Core_I18n::singleton( );
 
-        if ( $config->userFramework == 'Mambo' ) {
-            require_once 'CRM/Core/Mambo.php';
-            CRM_Core_Mambo::sidebarLeft( );
+        if ( $config->userFramework == 'Joomla' ) {
+            require_once 'CRM/Core/Joomla.php';
+            CRM_Core_Joomla::sidebarLeft( );
         }
 
         // set active Component

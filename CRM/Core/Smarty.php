@@ -83,8 +83,8 @@ class CRM_Core_Smarty extends Smarty {
         $this->assign_by_ref( 'recentlyViewed', $recent  );
         $this->assign       ( 'displayRecent' , true );
 
-        if ( $config->userFramework == 'Mambo' ) {
-            $this->assign( 'metaTpl', 'mambo' );
+        if ( $config->userFramework == 'Joomla' ) {
+            $this->assign( 'metaTpl', 'joomla' );
         } else {
             $this->assign( 'metaTpl', 'drupal' );
         }

@@ -35,9 +35,9 @@
  */
 
 /**
- * Mambo specific stuff goes here
+ * Joomla specific stuff goes here
  */
-class CRM_Utils_System_Mambo {
+class CRM_Utils_System_Joomla {
 
     /**
      * sets the title of the page

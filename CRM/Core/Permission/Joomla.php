@@ -37,7 +37,7 @@
 /**
  *
  */
-class CRM_Core_Permission_Mambo {
+class CRM_Core_Permission_Joomla {
     /**
      * get the current permission of this user
      *

@@ -35,7 +35,7 @@
  */ 
 
 require_once 'CRM/Utils/System/Drupal.php'; 
-require_once 'CRM/Utils/System/Mambo.php' ; 
+require_once 'CRM/Utils/System/Joomla.php' ; 
  
 class CRM_Utils_Hook {
 

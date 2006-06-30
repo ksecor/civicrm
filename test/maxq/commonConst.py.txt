@@ -29,7 +29,7 @@ DRUPAL_PATH = "http://" + HOST  + "/drupal"
 #DBHOST      = "localhost"
 
 #CMS         = "drupal"
-#CMS         = "mambo"
+#CMS         = "joomla"
 #PHP         = "php5"
 #PHP         = "php4"
 

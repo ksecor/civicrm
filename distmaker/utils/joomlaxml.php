@@ -17,7 +17,7 @@ $targetDirLength = strlen( $targetDir );
 require_once "$sourceCheckoutDir/civicrm.config.php";
 require_once 'Smarty/Smarty.class.php';
 
-$path = array( 'CRM', 'api', 'bin', 'css', 'i', 'js', 'l10n', 'sql', 'templates', 'mambo', 'packages' );
+$path = array( 'CRM', 'api', 'bin', 'css', 'i', 'js', 'l10n', 'sql', 'templates', 'joomla', 'packages' );
 $files = array( 'license.txt' => 1,
                 'affero_gpl.txt' => 1,
                 'civicrm-version.txt' => 1, 
@@ -27,7 +27,7 @@ foreach ( $path as $v ) {
     $rootDir = "$targetDir/$v";
     walkDirectory( new DirectoryIterator( $rootDir ), $files, $targetDirLength );
 }
-generateMamboConfig( $files );
+generateJoomlaConfig( $files );
 
 /**
  * This function creates destination directory
@@ -43,7 +43,7 @@ function createDir( $dir, $perm = 0755 ) {
     }
 }
 
-function generateMamboConfig( &$files ) {
+function generateJoomlaConfig( &$files ) {
     global $targetDir, $sourceCheckoutDir;
 
     $smarty =& new Smarty( );
@@ -52,9 +52,9 @@ function generateMamboConfig( &$files ) {
     createDir( $smarty->compile_dir );
 
     $smarty->assign( 'files', array_keys( $files ) );
-    $xml = $smarty->fetch( 'mambo.tpl' );
+    $xml = $smarty->fetch( 'joomla.tpl' );
     
-    $output = $targetDir . '/mambo/civicrm.xml';
+    $output = $targetDir . '/joomla/civicrm.xml';
     $fd = fopen( $output, "w" );
     fputs( $fd, $xml );
     fclose( $fd );

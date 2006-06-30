@@ -1,7 +1,7 @@
-{* Only include mambo.css in administrator (backend). Page layout style id's and classes conflict with typical front-end css and break the page layout. *}
+{* Only include joomla.css in administrator (backend). Page layout style id's and classes conflict with typical front-end css and break the page layout. *}
 
 {if ! $config->userFrameworkFrontend}
-    <link rel="stylesheet" href="{$config->resourceBase}css/mambo.css" type="text/css" />
+    <link rel="stylesheet" href="{$config->resourceBase}css/joomla.css" type="text/css" />
 {/if}
 <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
 <link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />

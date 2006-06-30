@@ -31,7 +31,7 @@ for E in CRM api drupal; do
 done
 
 # copy all the rest of the stuff
-for CODE in css i js l10n packages PEAR templates bin mambo; do
+for CODE in css i js l10n packages PEAR templates bin joomla; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
@@ -67,7 +67,7 @@ cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
-echo "trunk.$REV Mambo PHP4" > $TRG/civicrm-version.txt
+echo "trunk.$REV Joomla PHP4" > $TRG/civicrm-version.txt
 
 
 # gen zip file
@@ -78,11 +78,11 @@ mkdir com_civicrm/civicrm
 
 cp -r -p civicrm/* com_civicrm/civicrm
 
-$DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/mamboxml.php
+$DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
 
-cp -r com_civicrm/civicrm/mambo/* com_civicrm
+cp -r com_civicrm/civicrm/joomla/* com_civicrm
 
-zip -r -9 $DM_TARGETDIR/civicrm-mambo-php4-SNAPSHOT-rev$REV.zip com_civicrm
+zip -r -9 $DM_TARGETDIR/civicrm-joomla-php4-SNAPSHOT-rev$REV.zip com_civicrm
 
 # clean up
 rm -rf com_civicrm

@@ -60,9 +60,9 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
         foreach ( $groups as $group ) {
             $adminPanel[$group] = array( );
             foreach ( $items as $item ) {
-                if ( $config->userFramework == 'Mambo' &&
+                if ( $config->userFramework == 'Joomla' &&
                      $item['path'] == 'civicrm/admin/access' ) {
-                    // access control not yet implemented for mambo
+                    // access control not yet implemented for joomla
                     continue;
                 }
 

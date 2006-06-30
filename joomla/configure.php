@@ -154,7 +154,7 @@ function civicrm_config( $frontend = false ) {
     global $tplPath;
 
     $params = array(
-                'cms' => 'Mambo',
+                'cms' => 'Joomla',
                 'cmsVersion' => '1.0.8',
                 'cmsURLVar'  => 'task',
                 'usersTable' => 'jos_users',

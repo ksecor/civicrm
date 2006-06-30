@@ -37,7 +37,7 @@
 /**
  *
  */
-class CRM_Core_Mambo {
+class CRM_Core_Joomla {
 
     /**
      * Reuse drupal blocks into a left sidebar. Assign the generated template

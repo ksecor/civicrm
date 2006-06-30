@@ -74,7 +74,7 @@ class CRM_Core_Menu {
      * This is a super super gross hack, please fix sometime soon
      *
      * using constants from DRUPAL/includes/menu.inc, so that we can reuse 
-     * the same code in both drupal and mambo
+     * the same code in both drupal and joomla
      */
     const
         CALLBACK           =    4,
@@ -607,7 +607,7 @@ class CRM_Core_Menu {
         self::items( );
 
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Mambo' ) {
+        if ( $config->userFramework == 'Joomla' ) {
             static $processed = false;
             if ( ! $processed ) {                
                 $processed = true;

@@ -70,7 +70,7 @@ class CRM_Core_BAO_DrupalUser
         if ( $config->userFramework == 'Drupal' ) { 
             $id   = 'uid'; 
             $mail = 'mail'; 
-        } else if ( $config->userFramework == 'Mambo' ) { 
+        } else if ( $config->userFramework == 'Joomla' ) { 
             $id   = 'id'; 
             $mail = 'email'; 
         } else { 

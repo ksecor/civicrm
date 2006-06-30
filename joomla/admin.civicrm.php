@@ -33,7 +33,7 @@ function civicrm_invoke( ) {
 
     global $my;
     require_once 'CRM/Core/BAO/UFMatch.php';
-    CRM_Core_BAO_UFMatch::synchronize( $my, false, 'Mambo' );
+    CRM_Core_BAO_UFMatch::synchronize( $my, false, 'Joomla' );
 
     $args = explode( '/', trim( $_GET['task'] ) );
     CRM_Core_Invoke::invoke( $args );

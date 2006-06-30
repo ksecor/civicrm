@@ -34,7 +34,7 @@
  * 
  */ 
 
-class CRM_Utils_Hook_Mambo {
+class CRM_Utils_Hook_Joomla {
 
     /** 
      * This hook will be called on any operation on some core CiviCRM 

@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Permission/Drupal.php';
-require_once 'CRM/Core/Permission/Mambo.php';
+require_once 'CRM/Core/Permission/Joomla.php';
 
 /**
  * This is the basic permission class wrapper

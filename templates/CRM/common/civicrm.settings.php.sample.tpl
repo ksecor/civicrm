@@ -19,11 +19,11 @@ define( 'ENABLE_COMPONENTS', '' );
 /**
  * Content Management System (CMS) Host:
  *
- * CiviCRM can be hosted in either Drupal or Mambo. Retain the default settings
+ * CiviCRM can be hosted in either Drupal or Joomla. Retain the default settings
  * for Drupal.
  * 
- * Settings for Mambo:
- *      define( 'CIVICRM_UF'        , 'Mambo' );
+ * Settings for Joomla:
+ *      define( 'CIVICRM_UF'        , 'Joomla' );
  *      define( 'CIVICRM_UF_VERSION', '1.0.8' );
  *      define( 'CIVICRM_UF_URLVAR' , 'task'  );
  */
@@ -34,7 +34,7 @@ define( 'CIVICRM_UF_URLVAR'        , '%%cmsURLVar%%'  );
 /**
  * Content Management System (CMS) Datasource:
  *
- * Update this setting with your CMS (Drupal or Mambo) database username, server and DB name.
+ * Update this setting with your CMS (Drupal or Joomla) database username, server and DB name.
  * Datasource (DSN) format:
  *      define( 'CIVICRM_UF_DSN', 'mysql://cms_db_username:cms_db_password@db_server/cms_database?new_link=true');
  */
@@ -90,7 +90,7 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * the CIVICRM_CUSTOM_FILE_UPLOADDIR could be:
  *      define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR', '/var/crm_docs/' );
  *
- * EXAMPLE - Joomla/Mambo Installations:
+ * EXAMPLE - Joomla/Joomla Installations:
  * If the path to the Joomla home directory is /var/www/htdocs/joomla
  * the $civicrm_root setting would be:
  *      $civicrm_root = '/var/www/htdocs/joomla/administrator/components/com_civicrm/civicrm/';
@@ -140,7 +140,7 @@ define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
  *      define( 'CIVICRM_IMAGE_UPLOADURL'    , 'http://www.example.com/civicspace/files/civicrm/persist/' );
  *
  *
- * EXAMPLES - Joomla/Mambo Installations:
+ * EXAMPLES - Joomla/Joomla Installations:
  * If your site's home url is http://www.example.com/joomla/
  *
  * CIVICRM_UF_BASEURL - home URL for your site:
@@ -173,7 +173,7 @@ define( 'CIVICRM_IMAGE_UPLOADURL' , '%%imageUploadURL%%' );
  * CiviCRM has been optimized for MySQL 4.1, but will also run on many 4.0.x versions.
  * If you are using a 4.0.x release of MySQL, you MUST change CIVICRM_MYSQL_VERSION to 4.0
  *
- * Define the database URL (CIVICRM_DSN) for the CiviCRM database and the Drupal/Mambo database
+ * Define the database URL (CIVICRM_DSN) for the CiviCRM database and the Drupal/Joomla database
  * Database URL format:
  *      define( 'CIVICRM_DSN', 'mysql://crm_db_username:crm_db_password@db_server/crm_database?new_link=true');
  *
