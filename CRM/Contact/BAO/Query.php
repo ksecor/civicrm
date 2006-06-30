@@ -257,7 +257,9 @@ class CRM_Contact_BAO_Query {
         require_once 'CRM/Contact/BAO/Contact.php';
 
         //CRM_Core_Error::backtrace( );
-        //CRM_Core_Error::debug( 'params', $params );
+        // CRM_Core_Error::debug( 'params', $params );
+        // CRM_Core_Error::debug( 'f', $fields );
+        // exit( );
         //CRM_Core_Error::debug( 'post', $_POST );
         //CRM_Core_Error::debug( 'r', $returnProperties );
         $this->_params =& $params;
@@ -329,7 +331,7 @@ class CRM_Contact_BAO_Query {
 
         foreach ( $this->_params as $value ) {
             $cfID = CRM_Core_BAO_CustomField::getKeyID( $value[0] );
-            if ( $cfID ) {
+            if ( $cfID && array_key_exists( $value[0], $this->_fields ) ) {
                 if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
                     $this->_cfIDs[$cfID] = array( );
                 }
@@ -767,7 +769,12 @@ class CRM_Contact_BAO_Query {
              ( substr( $values[0], 0, 6  ) == 'quest_' ) ) {
             return;
         }
-        
+
+        // also make sure the name is in the fields array (i.e. we might be restricting the search)
+        if ( ! array_key_exists( $values[0], $this->_fields ) ) {
+            return;
+        }
+
         switch ( $values[0] ) {
 
         case 'contact_type':
@@ -1112,8 +1119,8 @@ class CRM_Contact_BAO_Query {
      * @static
      */
     static function getWhereClause( $params, $fields, &$tables, &$whereTables, $strict = false ) {
-        $query = new CRM_Contact_BAO_Query( $params, null, $fields,
-                                            false, $strict );
+        $query =& new CRM_Contact_BAO_Query( $params, null, $fields,
+                                             false, $strict );
 
         $tables      = array_merge( $query->tables( ), $tables );
         $whereTables = array_merge( $query->whereTables( ), $whereTables );

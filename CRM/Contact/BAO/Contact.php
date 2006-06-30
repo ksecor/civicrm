@@ -2070,7 +2070,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
        require_once "CRM/Contact/DAO/Contact.php";
        $contact =& new CRM_Contact_DAO_Contact();
        $contact->id = $contactId;
-       if ($contact->find()) {
+       if ($contact->find( true )) {
           return $contact;
        } 
        return null;

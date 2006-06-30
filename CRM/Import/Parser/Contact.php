@@ -398,8 +398,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                         foreach ($matchedIDs  as $contactId) {
                             if($params['id'] == $contactId) {
                                 $paramsValues = array('contact_id'=>$contactId);
-                                $contactExits = crm_get_contact($paramsValues);
-                                if ($formatted['contact_type'] == $contactExits->contact_type) {
+                                //$contactExits = crm_get_contact($paramsValues);
+                                $contactExists =& CRM_Contact_BAO_Contact::check_contact_exists($params['id']);
+                                if ($formatted['contact_type'] == $contactExists->contact_type) {
                                     $newContact = crm_update_contact_formatted($contactId, $formatted, true);
                                     $updateflag = false; 
                                     $this->_retCode = CRM_Import_Parser::VALID;

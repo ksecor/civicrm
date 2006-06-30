@@ -558,6 +558,9 @@ function _crm_format_contrib_params( &$params, &$values ) {
 
 function _crm_update_contact( $contact, $values, $overwrite = true ) 
 {
+    // CRM_Core_Error::debug( 'c', $contact );
+    // CRM_Core_Error::debug( 'v', $values );
+
     // first check to make sure the location arrays sync up
     $param = array("contact_id" =>$contact->id );
     $contact = crm_get_contact($param);
