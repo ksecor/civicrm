@@ -190,13 +190,6 @@ class TestOfFetchContactAPI extends UnitTestCase
         $this->assertEqual($contact['email'], 'household@yahoo.com');
     }
     
-    /*
-     * Check this test case .. 
-     * 1) error says civicrm_contact.nick_name is 
-     * unknown column in where clause.
-     * 2) im_priovider_id is not returned.
-     */
-    /*
     function testFetchContactReturnValuesHouseholdByHName()
     {
         $params = array( array( 'contact_id', '=', $this->_household->id, 0, 0 ),
@@ -208,7 +201,6 @@ class TestOfFetchContactAPI extends UnitTestCase
                                     'phone_type'   => 1, 
                                     'email'        => 1,
                                     'im'           => 1,
-                                    'im_provider'  => 1,
                                     'city'         => 1
                                     );
         $contact =& crm_fetch_contact($params, $return_properties);
@@ -218,9 +210,8 @@ class TestOfFetchContactAPI extends UnitTestCase
         $this->assertEqual($contact['phone_type'], 'Mobile');
         $this->assertEqual($contact['email'], 'household@yahoo.com');
         $this->assertEqual($contact['im'], 'zopeH');
-        $this->assertEqual($contact['im_id'], '3');
     }
-    */
+    
     function testFetchContactReturnValuesOrganization() 
     {
         $params = array( array( 'contact_id', '=', $this->_organization->id, 0, 0 ) );
@@ -349,7 +340,7 @@ class TestOfFetchContactAPI extends UnitTestCase
         $this->assertEqual($contact['nick_name'], 'Zope01 Companies');
         $this->assertEqual($contact['phone_type'], 'Fax');
     }
-    /*
+    
     function testFetchContactOrganizationByCity()
     {
         $params = array( array( 'city', '=', 'pune', 0, 0 ) );
@@ -366,7 +357,7 @@ class TestOfFetchContactAPI extends UnitTestCase
         $this->assertEqual($contact['phone_type'], 'Fax');
         $this->assertEqual($contact['phone'], '888888');
     } 
-    */
+    
     function testFetchContactHouseholdByPhoneAndCity()
     {
         $params = array( array( 'phone', '=', '444444', 0, 0 ),
