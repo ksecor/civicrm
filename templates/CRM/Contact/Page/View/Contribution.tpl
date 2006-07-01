@@ -1,4 +1,4 @@
-{if $action eq 1 or $action eq 2 or $action eq 8} {* add, update or view *}              
+{if $action eq 1 or $action eq 2 or $action eq 8} {* add, update or view *}            
     {include file="CRM/Contribute/Form/Contribution.tpl"}
 {elseif $action eq 4}
     {include file="CRM/Contribute/Form/ContributionView.tpl"}
@@ -24,7 +24,7 @@ Click <a href="%1">New Contribution</a> to record a new offline contribution for
 {else}
    <div class="messages status">
        <dl>
-       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
        <dd>
             {if $permission EQ 'edit'}
                 {ts 1=$newContribURL}There are no contributions recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
