@@ -4,7 +4,7 @@
         <fieldset>
           <legend>{ts}View Note{/ts}</legend>
           <div class="form-item">
-            <label>{ts}Subject:{/ts}</label> {$note.subject} <br>
+            <label>{ts}Subject:{/ts}</label> {$note.subject} <br />
             <label>{ts}Date:{/ts}</label> {$note.modified_date|crmDate}
             <p>{$note.note}</p>
             <input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view/note' q='action=browse'}';"/>        
