@@ -53,10 +53,13 @@ class CRM_Core_Invoke {
         require_once 'CRM/Utils/Wrapper.php';
         require_once 'CRM/Core/Action.php';
         require_once 'CRM/Utils/Request.php';
+        require_once 'CRM/Core/Menu.php';
 
         if ( $args[0] !== 'civicrm' ) {
             return;
         }
+
+        CRM_Core_Menu::breadcrumb( $args );
 
         $config =& CRM_Core_Config::singleton( );
 

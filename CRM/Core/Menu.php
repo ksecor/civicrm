@@ -728,6 +728,38 @@ class CRM_Core_Menu {
         }
     }
 
+    /**
+     * Get the breadcrumb for a give menu task
+     *
+     * @param string $path the current path for which we need the bread crumb
+     *
+     * @return string       the breadcrumb for this path
+     *
+     * @static
+     * @access public
+     */
+    public static function breadcrumb( $args ) {
+
+        // we dont care about the current menu item
+        array_pop( $args );
+
+        $menus =& self::items( );
+
+        $crumbs      = array( );
+        $currentPath = null;
+        foreach ( $args as $arg ) {
+            $currentPath = $currentPath ? "{$currentPath}/{$arg}" : $arg;
+
+            foreach ( $menus as $menu ) {
+                if ( $menu['path'] == $currentPath ) {
+                    $crumbs[] = array('title' => $menu['title'], 
+                                      'url'   => CRM_Utils_System::url( $menu['path'] ) );
+                }
+            }
+        }
+
+        // CRM_Core_Error::debug( 'bc', $crumbs );
+    }
 
     /**
      * Get children for a particular menu path sorted by ascending weight
