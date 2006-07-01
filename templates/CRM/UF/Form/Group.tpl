@@ -23,10 +23,10 @@
         <tr><td>{ts 1="$siteRoot/civicrm/profile?reset=1&gid=3"}Profiles can be explicitly linked to a module page. Any Profile form/listings page can also be linked directly by adding it's ID to the civicrm/profile path. (Example: <em>%1</em>){/ts}
         {if $config->userFramework EQ 'Drupal'}
         <ul>
-            <li>{ts}Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form.{/ts}
-            <li>{ts}Check <strong>View/Edit User Account</strong> to include it in the view and edit screens for existing user accounts.{/ts}
-            <li>{ts}Check <strong>Profile</strong> if you want it included in the default contact listing and view screens for the civicrm/profile path.{/ts}
-            <li>{ts}Check <strong>Search Listings</strong> to use this profile as an alternate set of columns for CiviCRM search results.{/ts}
+            <li>{ts}Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form.{/ts}</li>
+            <li>{ts}Check <strong>View/Edit User Account</strong> to include it in the view and edit screens for existing user accounts.{/ts}</li>
+            <li>{ts}Check <strong>Profile</strong> if you want it included in the default contact listing and view screens for the civicrm/profile path.{/ts}</li>
+            <li>{ts}Check <strong>Search Listings</strong> to use this profile as an alternate set of columns for CiviCRM search results.{/ts}</li>
         </ul>
         {/if}
         </td></tr></table></dd>
@@ -52,6 +52,7 @@
     
     </dl>
     {/if}
+    <dl>
     {if $action ne 4}
         <dt></dt>
         <dd>
@@ -61,7 +62,8 @@
         <div id="crm-done-button">
         <dt></dt><dd>{$form.done.html}</dd>
         </div>
-    {/if} {* $action ne view *}			
+    {/if} {* $action ne view *}
+    </dl>			
     </fieldset>
 </div>
 {if $action eq 2 or $action eq 4 } {* Update or View*}
