@@ -13,7 +13,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         <dt>&nbsp;</dt><dd>&nbsp;{$form.done.html}</dd> 
     {/if} {* $action ne view *} 
     </dl> 
-    </div> 
+    </div>
 {/if} {* action ne delete *}
     
     <div class="form-item">
@@ -71,9 +71,9 @@ they are currently causing sporadic failures in insert and delete - so commentin
 	    {/edit}
         </dl>
     </div>
-    <div id="crm-submit-buttons" class="form-item">
-    <dl>
     {/if}
+    </div>
+    <div id="crm-submit-buttons" class="form-item">
     <dl>
     {if $action ne 4}
     

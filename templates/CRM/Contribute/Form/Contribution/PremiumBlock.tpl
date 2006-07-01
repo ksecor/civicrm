@@ -3,7 +3,7 @@
     {if $context EQ "makeContribution"}
 
 {literal}
-<script language="javascript">
+<script type="text/javascript">
 <!--
 // Selects the product (radio button) if user selects an option for that product.
 // Putting this function directly in template so they are available for standalone forms.
@@ -51,7 +51,7 @@ function selectPremium(optionField) {
                 {assign var="pid" value=$row.id}
                 <td>{$form.selectProduct.$pid.html}</td>
             {/if}
-            <td>{if $row.thumbnail}<a href="javascript:popUp('{$row.image}')"><img src="{$row.thumbnail}" alt="{$row.name}" border="0" /></a>{else}&nbsp;{/if}</td>    	
+            <td>{if $row.thumbnail}<a href="javascript:popUp('{$row.image}')"><img src="{$row.thumbnail}" title="{$row.name}" class="no-border" /></a>{else}&nbsp;{/if}</td>    	
 	        <td>
                 <strong>{$row.name}</strong><br />
                 {$row.description} &nbsp;

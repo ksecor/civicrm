@@ -1,5 +1,5 @@
 {literal}
-<script language="javascript">
+<script type="text/javascript">
 <!--
 // Putting these functions directly in template so they are available for standalone forms
 

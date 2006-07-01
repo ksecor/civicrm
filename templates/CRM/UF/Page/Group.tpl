@@ -15,10 +15,11 @@
    
     <h3>{ts}{$title} - Code for Stand-alone HTML Form{/ts}</h3>
     <form name="html_code">
-    <textarea rows="20" cols="80" name="profile" id="profile">{$profile}</textarea>
-    <br />
-    <a href="#" onclick="html_code.profile.select(); return false;">Select Code</a>
-    <p></p>
+    <div id="standalone-form">
+        <textarea rows="20" cols="80" name="profile" id="profile">{$profile}</textarea>
+        <div class="spacer"></div>    
+        <a href="#" onclick="html_code.profile.select(); return false;">Select Code</a> 
+    </div>
     <div class="action-link">
         <a href="{crmURL p='civicrm/admin/uf/group' q="reset=1"}">&raquo;  {ts}Back to Profile Listings{/ts}</a>
     </div>

@@ -17,9 +17,16 @@
 ** class for hiding the text box; it is used in the OtherActivity template 
 ** for showing the descrition of activity type element.
 */
-
 #crm-container .texttolabel, #crm-container .no-border {
  border-style: none;
+}
+
+/*
+** Class for giving solid line at the bottom of the <div>(block level element)
+** Currently it is used on the dashboard page of Contribution
+*/
+#crm-container div.solid-border-bottom {
+ border-bottom: 2px solid #777
 }
 
 /*

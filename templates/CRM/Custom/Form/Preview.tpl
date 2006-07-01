@@ -18,7 +18,7 @@
     {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div><br />{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
-	{if $element.options_per_line}
+	{if $element.options_per_line }
         {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}
         <dt>{$form.$element_name.label} </dt>
         <dd>
@@ -30,17 +30,15 @@
                         {if $index < 10}
                             {assign var="index" value=`$index+1`}
                         {else}
-                            <td class="labels font-light">{$form.$element_name.$key.html}</td>
-                            {if $count == $element.options_per_line}
-                                 </tr>
-                                 <tr>
+                          <tr><td class="labels font-light">{$form.$element_name.$key.html}</td></tr>
+                             {if $count == $element.options_per_line}
+                                
                                  {assign var="count" value="1"}
-                            {else}
+                            {else}L
                                  {assign var="count" value=`$count+1`}
                             {/if}
                          {/if}
-                    {/foreach}
-                    </tr>
+                    {/foreach}                    
             </table>
         </dd>
         {if $element.help_post}
@@ -50,7 +48,7 @@
         {assign var="name" value=`$element.name`} 
         {*assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
         {assign var="element_name" value="custom_"|cat:$field_id}  
-        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}
+        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>
 	       {if $element.data_type eq 'Date'}
 	        {if $element.skip_calendar NEQ true } 
                 <span>
@@ -61,7 +59,7 @@
 	
 	        {/if}
               {/if}
-        </dd>		
+        		
         {if $element.help_post}
             <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
         {/if}
