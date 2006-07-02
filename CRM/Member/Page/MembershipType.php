@@ -135,7 +135,7 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
     }
 
     /**
-     * Browse all custom data groups.
+     * Browse all membership types.
      *  
      * 
      * @return void
@@ -144,7 +144,7 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
      */
     function browse()
     {
-        // get all custom groups sorted by weight
+        // get all membership types sorted by weight
         $membershipType = array();
         require_once 'CRM/Member/DAO/MembershipType.php';
         $dao =& new CRM_Member_DAO_MembershipType();

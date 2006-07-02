@@ -347,14 +347,14 @@
 
 <div id="groups[show]" class="data-group">
   {if $group.totalCount}
-    <a href="#" onclick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Group Memberships{/ts}</label> ({$group.totalCount})<br />
+    <a href="#" onclick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Groups{/ts}</label> ({$group.totalCount})<br />
   {else}
-    <dl><dt>{ts}Group Memberships{/ts}</dt>
+    <dl><dt>{ts}Groups{/ts}</dt>
     <dd>
         {if $permission EQ 'edit'}
-            {capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL 2=$display_name}No current group memberships. You can <a href="%1">add %2 to a group</a>.{/ts}
+            {capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL 2=$display_name}This contact is not in any groups. You can <a href="%1">add %2 to a group</a>.{/ts}
         {else}
-            {ts}No current group memberships.{/ts}
+            {ts}This contact is not in any groups.{/ts}
         {/if}
     </dd>
     </dl>
@@ -378,13 +378,13 @@
         </tr>
     {/foreach}
     {if $group.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/group' q="action=browse&cid=$contactId"}">&raquo; {ts}View All Group Memberships...{/ts}</a></td></tr>
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/group' q="action=browse&cid=$contactId"}">&raquo; {ts}View All Groups for this Contact...{/ts}</a></td></tr>
     {/if}
     </table>
 	{/strip}
    {if $permission EQ 'edit'}
    <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/group' q="reset=1&action=add&cid=$contactId"}">&raquo; {ts}New Group Membership{/ts}</a>
+       <a href="{crmURL p='civicrm/contact/view/group' q="reset=1&action=add&cid=$contactId"}">&raquo; {ts 1=$display_name}Add %1 to a Group{/ts}</a>
    </div>
    {/if}
  </fieldset>
