@@ -160,6 +160,11 @@ class CRM_Member_BAO_Query {
     static function searchAction( &$row, $id ) {
     }
 
+    static function addShowHide( &$showHide ) {
+        //$showHide->addHide( 'memberForm' );
+        //$showHide->addShow( 'memberForm[show]' );
+    }
+
 }
 
 ?>
