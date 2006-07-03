@@ -75,13 +75,12 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
     static $_properties = array( 'contact_id', 'membership_id',
                                  'contact_type',
                                  'sort_name',
-                                 'name',
+                                 'membership_type',
                                  'join_date',
                                  'start_date',
                                  'end_date',
                                  'source',
-                                 'status'
-                                 
+                                 'status',
                                  );
 
     /** 
@@ -277,12 +276,12 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
 
         // check is the user has view/edit contribution permission
         $permission = CRM_Core_Permission::VIEW;
-        if ( CRM_Core_Permission::check( 'edit members' ) ) {
+        if ( CRM_Core_Permission::check( 'edit memberships' ) ) {
             $permission = CRM_Core_Permission::EDIT;
         }
         
         $mask = CRM_Core_Action::mask( $permission );
-        While ($result->fetch()) {
+        while ($result->fetch()) {
             $row = array();
             // the columns we are interested in
             foreach (self::$_properties as $property) {
@@ -308,10 +307,9 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                 break;
             }
             $row['contact_type'] = $contact_type;
-
+                    
             $rows[] = $row;
         }
-
         return $rows;
     }
    
@@ -345,7 +343,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
             self::$_columnHeaders = array(
                                           array(
                                                 'name'      => ts('Type'),
-                                                'sort'      => 'name',
+                                                'sort'      => 'membership_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('name'      => ts('Member Since'),

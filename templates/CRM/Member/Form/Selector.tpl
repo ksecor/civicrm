@@ -1,5 +1,3 @@
-{debug}
-
  {if $context EQ 'Search'}
     {include file="CRM/pager.tpl" location="top"}
 {/if}
@@ -32,7 +30,7 @@
     <td>{$row.contact_type}</td>	
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
 {/if}
-    <td class="right bold" nowrap>{$row.name}</td>
+    <td class="right bold" nowrap>{$row.membership_type}</td>
     <td>{$row.join_date|truncate:10:''|crmDate}</td>
     <td>{$row.start_date|truncate:10:''|crmDate}</td>
     <td>{$row.end_date|truncate:10:''|crmDate}</td>
@@ -40,7 +38,7 @@
     <td>{$row.cancel_date|truncate:10:''|crmDate}</td>
    </tr>
   {/foreach}
-{* Link to "View all contributions" for Contact Summary selector display *}
+{* Link to "View all memberships" for Contact Summary selector display *}
 {if ($context EQ 'Contact Summary') AND $pager->_totalItems GT $limit}
   <tr class="even-row">
     <td colspan="7"><a href="{crmURL p='civicrm/contact/view/membership' q="reset=1&force=1&cid=$contactId"}">&raquo; {ts}View all memberships from this contact{/ts}...</a></td></tr>
@@ -48,7 +46,7 @@
 {/if}
 {* {if ($context EQ 'Dashboard') AND $pager->_totalItems GT $limit}
   <tr class="even-row">
-    <td colspan="9"><a href="{crmURL p='civicrm/contribute/search' q='reset=1&force=1'}">&raquo; {ts}List more contributions{/ts}...</a></td></tr>
+    <td colspan="9"><a href="{crmURL p='civicrm/member/search' q='reset=1&force=1'}">&raquo; {ts}List more Memberships{/ts}...</a></td></tr>
   </tr>
 {/if} *}
 </table>

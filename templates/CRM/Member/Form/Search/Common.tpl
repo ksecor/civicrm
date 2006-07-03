@@ -4,7 +4,7 @@
 <tr>
     <td><label>{ts}Membership Type(s){/ts}</label><br />
                 <div class="listing-box">
-                    {foreach from=$form.member_membership_type item="membership_type_val"} 
+                    {foreach from=$form.member_membership_type_id item="membership_type_val"} 
                     <div class="{cycle values="odd-row,even-row"}">
                     {$membership_type_val.html}
                     </div>
@@ -13,7 +13,7 @@
     </td>
     <td><label>{ts}Membership Status{/ts}</label><br />
                 <div class="listing-box">
-                    {foreach from=$form.member_membership_status item="membership_status_val"} 
+                    {foreach from=$form.member_status_id item="membership_status_val"} 
                     <div class="{cycle values="odd-row,even-row"}">
                     {$membership_status_val.html}
                     </div>

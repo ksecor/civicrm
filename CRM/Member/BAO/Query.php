@@ -40,8 +40,8 @@ class CRM_Member_BAO_Query {
     static function &getFields( ) {
         require_once 'CRM/Member/BAO/Membership.php';
         $fields =& CRM_Member_BAO_Membership::exportableFields( );
-        unset( $fields['contact_id']);
-        unset( $fields['note'] ); 
+        //unset( $fields['contact_id']);
+        //unset( $fields['note'] ); 
         return $fields;
     }
     
@@ -118,6 +118,18 @@ class CRM_Member_BAO_Query {
 //                                       'civicrm_membership', 'contribution_date', 'receive_date', 'Contribution Date' );
 //             
             return;
+
+
+        case '_type_id':
+            require_once 'CRM/Member/PseudoConstant.php';
+            $mType = $value;
+            $types = CRM_Member_PseudoConstant::membershipType( );
+            $query->_where[$grouping][] = "civicrm_membership.membership_type_id = $mType";
+            $query->_qill[$grouping ][] = ts( 'Membership Type - %1', array( 1 => $types[$cType] ) );
+            $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
+            return;
+
+
         }
     }
 
@@ -125,11 +137,11 @@ class CRM_Member_BAO_Query {
         
         require_once 'CRM/Member/PseudoConstant.php';
         
-        foreach (CRM_Member_PseudoConstant::membershipType( ) as $ID => $Name) {
-            $form->_membershipType =& $form->addElement('checkbox', "member_membership_type[$ID]", null,$Name);
+        foreach (CRM_Member_PseudoConstant::membershipType( ) as $id => $Name) {
+            $form->_membershipType =& $form->addElement('checkbox', "member_membership_type_id[$id]", null,$Name);
         }
         foreach (CRM_Member_PseudoConstant::membershipStatus( ) as $sId => $sName) {
-            $form->_membershipStatus =& $form->addElement('checkbox', "member_membership_status[$sId]", null,$sName);
+            $form->_membershipStatus =& $form->addElement('checkbox', "member_status_id[$sId]", null,$sName);
         }
 
         $form->addElement( 'text', 'member_source', ts( 'Source' ) );
@@ -158,6 +170,7 @@ class CRM_Member_BAO_Query {
                                 'contact_type'           => 1, 
                                 'sort_name'              => 1, 
                                 'display_name'           => 1,
+                                'membership_type'        => 1
                                 );
 
             /*
