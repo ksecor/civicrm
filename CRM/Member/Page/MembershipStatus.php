@@ -149,7 +149,7 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
         require_once 'CRM/Member/DAO/MembershipStatus.php';
         $dao =& new CRM_Member_DAO_MembershipStatus();
 
-        $dao->orderBy('name');
+        $dao->orderBy('weight');
         $dao->find();
 
         while ($dao->fetch()) {

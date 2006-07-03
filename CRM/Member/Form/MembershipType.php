@@ -157,7 +157,24 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      */
     public function formRule( &$params ) {
         $errors = array( );
+        if ( $params['fixed_period_start_day'] && ! empty( $params['fixed_period_start_day']) ) {
+            $params['fixed_period_start_day']['Y'] = date('Y');
+            require_once 'CRM/Utils/Rule.php';
+            if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_start_day'] ) ){
+                $errors['fixed_period_start_day'] = "Please enter valid 'Fixed Period Start Day' ";
+            }
+            
+        }
 
+        if ( $params['fixed_period_rollover_day'] && ! empty( $params['fixed_period_rollover_day']) ) {
+            $params['fixed_period_rollover_day']['Y'] = date('Y');
+            require_once 'CRM/Utils/Rule.php';
+            if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_rollover_day'] ) ){
+                $errors['fixed_period_rollover_day'] = "Please enter valid 'Fixed Period Rollover Day' ";
+            }
+            
+        }
+        
         if ( !$params['_qf_MembershipType_refresh'] ) {
             if ( !$params['name'] ) {
                 $errors['name'] = "Please enter a membership type name.";
