@@ -235,6 +235,7 @@ class CRM_Member_BAO_Query {
         $form->add('date', 'member_end_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('member_end_date_high', ts('Select a valid date.'), 'qfDate'); 
 
+        $form->assign( 'validCiviMember', true );
     }
 
     static function defaultReturnProperties( $mode ) {
