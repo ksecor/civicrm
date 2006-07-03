@@ -92,8 +92,8 @@ class CRM_Core_Invoke {
             self::group   ( $args );
             break;
         
-        case 'activityView':
-            self::viewActivity($args);
+        case 'dashboard':
+            self::dashboard($args);
             break;
             
         case 'import'   : 
@@ -125,7 +125,7 @@ class CRM_Core_Invoke {
             if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
             }
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/activityView', 'reset=1' ) );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' ) );
             break;
 
         }
@@ -317,7 +317,7 @@ class CRM_Core_Invoke {
             return self::search( $args );
         }
         
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/activityView', 'reset=1', true) );
+        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/dashboard', 'reset=1', true) );
     }
 
     /**
@@ -327,12 +327,12 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function viewActivity( $args ) {
-
-    require_once 'CRM/Contact/Page/View/ViewActivity.php';
-    $view =& new CRM_Contact_Page_View_ViewActivity( );
-    return $view->run();
+    static function dashboard( $args ) {
+        require_once 'CRM/Contact/Page/View/Dashboard.php';
+        $view =& new CRM_Contact_Page_View_Dashboard( );
+        return $view->run();
     }
+
     /**
      * This function contains the actions for search arguments
      *

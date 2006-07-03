@@ -355,7 +355,7 @@ class CRM_Core_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
                             'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight'  => 0
+                            'weight'  => 3
                             ),
 
                       array(
@@ -465,16 +465,16 @@ class CRM_Core_Menu {
                             'type'   => self::CALLBACK,
                             'crmType'=> self::NORMAL_ITEM,
                             'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight' => 20,
+                            'weight' => 30,
                             ),
                       array(
                             'path'   => 'civicrm/activityView',
-                            'title'  => ts('View User Activity'),
+                            'title'  => ts('My Dashboard'),
                             'query'  => 'reset=1',
                             'type'   => self::CALLBACK,
                             'crmType'=> self::NORMAL_ITEM,
                             'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight' => 21,
+                            'weight' => 2,
                             ),
                       array(
                             'path'   => 'civicrm/group/search',

@@ -41,7 +41,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
  *
  */
 
-class CRM_Contact_Page_View_ViewActivity extends CRM_Contact_Page_View {
+class CRM_Contact_Page_View_Dashboard extends CRM_Contact_Page_View {
 
     protected $_rows = array();
     protected $_totalCountOpenActivity = array();
@@ -137,11 +137,15 @@ class CRM_Contact_Page_View_ViewActivity extends CRM_Contact_Page_View {
         
         $this->_displayName[] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
 
-        CRM_Core_Error::debug( 'r', $this->_rows );
         $this->assign( 'rows',                   $this->_rows);
         $this->assign( 'contactId',              $this->_contactIds);
         $this->assign( 'totalCountOpenActivity', $this->_totalCountOpenActivity);
         $this->assign( 'display_name',           $this->_displayName);
+
+        require_once 'CRM/Core/Block.php';
+        $this->assign( 'menuBlock'     , CRM_Core_Block::getContent( 1 ) );
+        $this->assign( 'shortcutsBlock', CRM_Core_Block::getContent( 2 ) );
+
     }
         
     /**
