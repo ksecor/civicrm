@@ -120,8 +120,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         if ( is_numeric( $params['country_id'] ) ) {
              $params['country'] = CRM_Core_PseudoConstant::country($params['country_id']);
         }
-        $params['county_id'] = $params['geo_coord_id'] = 1;
-
+        
         // add latitude and longitude and format address if needed
         $config =& CRM_Core_Config::singleton( );
         if ( ! empty( $config->geocodeMethod ) ) {
