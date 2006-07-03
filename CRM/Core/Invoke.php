@@ -59,8 +59,6 @@ class CRM_Core_Invoke {
             return;
         }
 
-        CRM_Core_Menu::breadcrumb( $args );
-
         $config =& CRM_Core_Config::singleton( );
 
         // also initialize the i18n framework
@@ -144,7 +142,6 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function contact( $args ) {
-       
         //code added for testing ajax
         if ($args[2] == 'test') {
             $wrapper =& new CRM_Utils_Wrapper( );

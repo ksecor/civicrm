@@ -738,7 +738,7 @@ class CRM_Core_Menu {
      * @static
      * @access public
      */
-    public static function breadcrumb( $args ) {
+    public static function &breadcrumb( $args ) {
 
         // we dont care about the current menu item
         array_pop( $args );
@@ -758,6 +758,7 @@ class CRM_Core_Menu {
             }
         }
 
+        return $crumbs;
         // CRM_Core_Error::debug( 'bc', $crumbs );
     }
 

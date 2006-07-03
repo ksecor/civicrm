@@ -14,7 +14,16 @@
     </td>
 {/if}
     <td valign="top">
-    <div class="breadcrumb">{$pageCrumb}</div>
+    {if $breadcrumb}
+    <div class="breadcrumb">
+      {foreach from=$breadcrumb item=crumb key=key}
+        {if $key != 0}
+           &raquo;
+        {/if}
+        <a href="{$crumb.url}">{$crumb.title}</a>
+      {/foreach}
+    </div>
+    {/if}
     {if $displayRecent and $recentlyViewed}
         {include file="CRM/common/recentlyViewed.tpl"}
     {/if}
