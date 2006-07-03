@@ -1758,10 +1758,8 @@ function &_crm_get_pseudo_constant_names( ) {
     return $table;
 }
 
-function _crm_object_to_array($dao, &$values)
+function _crm_object_to_array( &$dao, &$values )
 {
-    //$class = get_class($dao);
-    
     $fields = $dao->fields();
     
     foreach( $fields as $key => $value ) {
@@ -1770,4 +1768,5 @@ function _crm_object_to_array($dao, &$values)
         }
     }
 }
+
 ?>

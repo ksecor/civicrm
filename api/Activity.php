@@ -46,6 +46,7 @@ require_once 'api/utils.php';
 require_once 'CRM/Core/BAO/OtherActivity.php';
 require_once 'CRM/Core/BAO/Meeting.php';
 require_once 'CRM/Core/BAO/Phonecall.php';
+
 /**
  * Create a new Activity.
  *
@@ -73,24 +74,28 @@ require_once 'CRM/Core/BAO/Phonecall.php';
 function &crm_create_activity( &$params, $activityName) {
     _crm_initialize( );
 
+    $activityName = trim( $activityName );
+
     // return error if we do not get any params
-    if (empty($params)) {
+    if ( empty( $params ) ) {
         return _crm_error( "Input Parameters empty" );
     }
-    if (!trim($activityName)){
+
+    if ( empty( $activityName ) ) {
         return _crm_error( "Missing Activity Name" );
     }   
-    //Check for Activityy name
-    _crm_check_activity_name($activityName, 'CRM_Core_DAO_ActivityType');
+
+    // Check for Activityy name
+    _crm_check_activity_name( $activityName, 'CRM_Core_DAO_ActivityType' );
     
     $ids = array();
     
     //check the type of activity
-    if( $activityName == 'Meeting'){
+    if ( $activityName == 'Meeting' ) {
         $activity = CRM_Core_BAO_Meeting::add( $params, $ids );
-    }elseif( trim($activityName) == 'Phone Call' ) {
+    } elseif ( $activityName == 'Phone Call' ) {
         $activity = CRM_Core_BAO_Phonecall::add( $params, $ids );
-    }else{
+    } else {
         $activity = CRM_Core_BAO_OtherActivity::add( $params, $ids );
     }
     
@@ -115,13 +120,16 @@ function &crm_get_contact_activities($contactID)
 {
     _crm_initialize( );
     
-    if( empty($contactID) ) {
+    if ( empty( $contactID ) ) {
         return _crm_error( "Required parameter not found" );
     }
-    //get all the activities of a contact with $contactID
-    $activity['meeting']   = _crm_get_activities($contactID, 'CRM_Core_DAO_Meeting');
-    $activity['phonecall'] = _crm_get_activities($contactID, 'CRM_Core_DAO_Phonecall');
-    $activity['activity']  = _crm_get_activities($contactID, 'CRM_Core_DAO_Activity');
+
+    $activity = array( );
+
+    // get all the activities of a contact with $contactID
+    $activity['meeting'  ]  =& _crm_get_activities( $contactID, 'CRM_Core_DAO_Meeting'   );
+    $activity['phonecall']  =& _crm_get_activities( $contactID, 'CRM_Core_DAO_Phonecall' );
+    $activity['activity' ]  =& _crm_get_activities( $contactID, 'CRM_Core_DAO_Activity'  );
     
     return $activity;
 }
@@ -142,24 +150,25 @@ function &crm_get_contact_activities($contactID)
  *
  */
 function &crm_update_activity( &$params,$activityName ) {
-    if ( !is_array( $params ) ) {
+    if ( ! is_array( $params ) ) {
         return _crm_error( 'Params is not an array' );
     }
     
-    if ( !isset($params['id']) ) {
-        return _crm_error( 'Required parameter missing' );
+    if ( ! isset($params['id'] ) ) {
+        return _crm_error( 'Required parameter "id" missing' );
     }
-    
-    if (!trim($activityName)){
+
+    $activityName = trim( $activityName );
+    if ( empty( $activityName ) ) {
         return _crm_error( "Missing Activity Name" );
     }   
     
-    _crm_check_activity_name($activityName, 'CRM_Core_DAO_ActivityType');
+    _crm_check_activity_name( $activityName, 'CRM_Core_DAO_ActivityType' );
     
-    if ( $activityName == 'Meeting') {
-        $activity = _crm_update_activity($params, 'CRM_Core_DAO_Meeting');
-    } elseif ( trim($activityName) == 'PhoneCall') {
-        $activity = _crm_update_activity($params, 'CRM_Core_DAO_Phonecall');
+    if ( $activityName == 'Meeting' ) {
+        $activity = _crm_update_activity( $params, 'CRM_Core_DAO_Meeting'   );
+    } elseif ( $activityName == 'PhoneCall') {
+        $activity = _crm_update_activity( $params, 'CRM_Core_DAO_Phonecall' );
     } else {
         $activity = _crm_update_activity($params, 'CRM_Core_DAO_Activity');
     }
@@ -180,25 +189,27 @@ function crm_delete_activity($params, $activityName) {
     _crm_initialize( );
     
     if ( ! isset( $params['id'] )) {
-        return _crm_error( 'Required parameter not found' );
+        return _crm_error( 'Required parameter "id" not found' );
     }
     
-    if (!trim($activityName)){
+    $activityName = trim( $activityName );
+    if ( empty( $activityName ) ) {
         return _crm_error( "Missing Activity Name" );
     }   
     
-    _crm_check_activity_name($activityName, 'CRM_Core_DAO_ActivityType');
+    _crm_check_activity_name( $activityName, 'CRM_Core_DAO_ActivityType' );
     
     //check the type of activity
     
-    if( $activityName == 'Meeting'){
+    if( $activityName == 'Meeting' ) {
         CRM_Core_BAO_Meeting::del( $params['id'] );
-    }elseif( trim($activityName) == 'PhoneCall'){
+    } elseif ( $activityName == 'PhoneCall'){
         CRM_Core_BAO_Phonecall::del( $params['id'] );
-    }else{
+    } else {
         CRM_Core_BAO_OtherActivity::del( $params['id'] );
     }
 }
+
 /**
  * Function to update activities
  * @param CRM_Activity $activity Activity object to be deleted
@@ -213,13 +224,13 @@ function _crm_update_activity($params, $daoName) {
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
     $dao =& new $daoName();
     $dao->id = $params['id'];
-    if ($dao->find(true)) {
+    if ( $dao->find( true ) ) {
         $dao->copyValues( $params );
-        $dao->save();
+        $dao->save( );
     }
     
     $activity = array();
-    _crm_object_to_array( clone($dao), $activity );
+    _crm_object_to_array( $dao, $activity );
     
     return $activity;
 }
@@ -234,28 +245,30 @@ function _crm_update_activity($params, $daoName) {
  * @access public
  *
  */
-function _crm_get_activities($contactID, $daoName) {
+function &_crm_get_activities( $contactID, $daoName ) {
+
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-    eval('$dao = new $daoName();');
+    eval('$dao =& new $daoName( );');
     $dao->target_entity_id = $contactID;
+    $activities = array();
+
     if ($dao->find()) {
-        $activity = array();
         while ( $dao->fetch() ) {
-            _crm_object_to_array(clone($dao), $activity);
+            _crm_object_to_array( $dao, $activity );
             $activities[$dao->id] = $activity;
         }
     }
+
     return $activities;
 }
 
 function _crm_check_activity_name($activityName, $daoName) {
-    //Check if ActivityName Already Exist in the database
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-    $dao =& new $daoName();
+    $dao       =& new $daoName( );
     $dao->name = $activityName;
-    //$ids     = $params['id'];
     
-    if(! $dao->find(true)){
+    if (! $dao->find( true ) ) {
         return _crm_error( "Invalid Activity Name" );
     }
+    return true;
 }

@@ -168,10 +168,6 @@ class CRM_Contribute_BAO_Query {
             }
             break;
             
-      //   case 'civicrm_contribution_product':
-//             $from = " $side  JOIN civicrm_contribution_product ON civicrm_contribution_product.contribution_id = civicrm_contribution.id";
-//             break;
-            
         case 'civicrm_product':
             $from = " $side  JOIN civicrm_contribution_product ON civicrm_contribution_product.contribution_id = civicrm_contribution.id";
             $from .= " $side  JOIN civicrm_product ON civicrm_contribution_product.product_id =civicrm_product.id ";
