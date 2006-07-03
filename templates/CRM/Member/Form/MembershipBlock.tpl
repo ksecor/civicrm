@@ -22,7 +22,7 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Text for member renewal.{/ts}</dd>
     {if $form.membership_type}
     <dt>{$form.membership_type.label}</dt> 
-
+    <dd>
         {assign var="count" value="1"}
            {strip}
              <table border=1>
@@ -35,11 +35,12 @@
                   <tr>  
                    <td class="labels font-light">{$form.membership_type.$key.html}</td>
                    <td class="labels font-light">{$form.membership_type_default.$key.html}</td>
+                   </tr>
                   {/if}
-                  </tr>
-              {/foreach}
+               {/foreach}
            </table>
            {/strip}
+      </dd>  
      {/if}
     <dt></dt><dd>{$form.is_required.html}&nbsp;{$form.is_required.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If checked, user must select one of the displayed membership types.{/ts}</dd>
