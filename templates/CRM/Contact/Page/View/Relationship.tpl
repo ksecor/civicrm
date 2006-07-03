@@ -2,7 +2,8 @@
 
 {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8} {* add, update or view *}
     {include file="CRM/Contact/Form/Relationship.tpl"}
-    <br />
+    <div class="spacer"></div>
+    
 {/if}
 
 {* start of code to show current relationships *}
@@ -74,7 +75,7 @@
   </div>
 
 {/if}
-<br />
+<div class="spacer"></div>
 
 {* start of code to show past relationships *}
 {if $pastRelationships}
