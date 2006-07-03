@@ -38,8 +38,8 @@
 class CRM_Member_BAO_Query {
     
     static function &getFields( ) {
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        $fields =& CRM_Contribute_BAO_Contribution::exportableFields( );
+        require_once 'CRM/Member/BAO/Membership.php';
+        $fields =& CRM_Member_BAO_Membership::exportableFields( );
         unset( $fields['contact_id']);
         unset( $fields['note'] ); 
         return $fields;
@@ -47,14 +47,13 @@ class CRM_Member_BAO_Query {
     
 
     /** 
-     * if membership are involved, add the specific contribute fields
+     * if membership are involved, add the specific membership fields
      * 
      * @return void  
      * @access public  
      */
     static function select( &$query ) {
-
-        // if contribute mode add contribution id
+        // if membership mode add membership id
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
             $query->_select['membership_id'] = "civicrm_membership.id as membership_id";
             $query->_element['membership_id'] = 1;
@@ -122,11 +121,6 @@ class CRM_Member_BAO_Query {
         }
     }
 
-    static function defaultReturnProperties( $mode ) {
-        $properties = null;
-    }
-
-
     static function buildSearchForm( &$form ) {
         
         require_once 'CRM/Member/PseudoConstant.php';
@@ -157,6 +151,28 @@ class CRM_Member_BAO_Query {
 
     }
 
+    static function defaultReturnProperties( $mode ) {
+        $properties = null;
+        if ( $mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
+            $properties = array(  
+                                'contact_type'           => 1, 
+                                'sort_name'              => 1, 
+                                'display_name'           => 1,
+                                );
+
+            /*
+            // also get all the custom membership properties
+            $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Member');
+            if ( ! empty( $fields ) ) {
+                foreach ( $fields as $name => $dontCare ) {
+                    $properties[$name] = 1;
+                }
+            }
+            */
+        }
+        return $properties;
+    }
+
     static function searchAction( &$row, $id ) {
     }
 
@@ -164,6 +180,7 @@ class CRM_Member_BAO_Query {
         //$showHide->addHide( 'memberForm' );
         //$showHide->addShow( 'memberForm[show]' );
     }
+
 
 }
 

@@ -27,7 +27,7 @@
 
 /**
  *
- * Menu for the contribute module
+ * Menu for the civimember module
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>

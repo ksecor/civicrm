@@ -35,6 +35,13 @@
  */
 
 /**
+ * Files required
+ */
+require_once 'CRM/Member/Selector/Search.php';
+require_once 'CRM/Core/Selector/Controller.php';
+
+
+/**
  * This file is for civimember search
  */
 class CRM_Member_Form_Search extends CRM_Core_Form {
@@ -176,7 +183,7 @@ class CRM_Member_Form_Search extends CRM_Core_Form {
 
         require_once 'CRM/Contact/Form/Search.php';
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
-        $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,
+        $selector =& new CRM_Member_Selector_Search( $this->_queryParams,
                                                          $this->_action,
                                                          null,
                                                          $this->_single,
@@ -284,8 +291,8 @@ class CRM_Member_Form_Search extends CRM_Core_Form {
         $controller->setEmbedded( true ); 
 
         $query   =& $selector->getQuery( );
-        $summary =& $query->summaryContribution( );
-        $this->set( 'summary', $summary );
+        //$summary =& $query->summaryContribution( );
+        //$this->set( 'summary', $summary );
         $controller->run(); 
     }
 
