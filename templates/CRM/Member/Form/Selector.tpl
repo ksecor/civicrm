@@ -36,6 +36,7 @@
     <td>{$row.end_date|truncate:10:''|crmDate}</td>
     <td>{$row.source}</td>
     <td>{$row.cancel_date|truncate:10:''|crmDate}</td>
+    <td>{$row.action}</td>
    </tr>
   {/foreach}
 {* Link to "View all memberships" for Contact Summary selector display *}
