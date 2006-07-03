@@ -9,7 +9,11 @@
         <dd>
         <table class="form-layout">
         <tr>
-        <td>{$form.sort_name.html}</td><td class="label">{$form.buttons.html}</td>
+	<td>{$form.sort_name.html}
+	    <div class="description font-italic">
+                   {ts}Complete OR partial name OR email.{/ts}
+            </div>		
+	</td><td class="label">{$form.buttons.html}</td>
         </tr>
         </table>
         </dd>

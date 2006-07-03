@@ -95,7 +95,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                'modified_date' => date('Ymd')
                                );
         require_once 'CRM/Member/BAO/MembershipLog.php';
-        CRM_Member_BAO_MembershipLog::add($membershipLog);
+        $temp = array();
+        CRM_Member_BAO_MembershipLog::add($membershipLog, $temp);
         
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
