@@ -244,23 +244,34 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             $month     = substr( $membershipTypeDetails['fixed_period_start_day'], 0, strlen($membershipTypeDetails['fixed_period_start_day'])-2);
             $day       = substr( $membershipTypeDetails['fixed_period_start_day'],-2);
             $year      = $toDay[0];
+
+            if ( $membershipTypeDetails['fixed_period_rollover_day'] != null )
+                {
+                    $startMonth     = substr( $membershipTypeDetails['fixed_period_start_day'], 0, strlen($membershipTypeDetails['fixed_period_start_day'])-2);
+                    $startDay       = substr( $membershipTypeDetails['fixed_period_start_day'],-2);
+                    if ($startMonth > $toDay[1]  ) {
+                        $year  = $year - 1;
+                    } else if ( $startMonth == $toDay[1] && $startDay >= $toDay[2]) {
+                        $year  = $year - 1;
+                    }
+                }
             $startDate = $year.'-'.$month.'-'.$day;
         }
        
         if ( $membershipTypeDetails['period_type'] == 'fixed' && $membershipTypeDetails['fixed_period_rollover_day'] != null ) {
-            $toDay  = explode('-', date('Y-m-d') );
+            $toDay  = explode('-', date('Y-m-d'));
             $month     = substr( $membershipTypeDetails['fixed_period_rollover_day'], 0, strlen($membershipTypeDetails['fixed_period_rollover_day'])-2);
             $day       = substr( $membershipTypeDetails['fixed_period_rollover_day'],-2);
-            if ( $month > $toDay[1] ) {
+            if ( $month < $toDay[1] ) {
                 $fixed_period_rollover = true;
-            } else if ( $month == $toDay[1] && $day >= $toDay[2]) {
+            } else if ( $month == $toDay[1] && $day <= $toDay[2]) {
                 $fixed_period_rollover = true;
             } else {
                 $fixed_period_rollover = false;
             }
                 
         }
-        
+               
         $date  = explode('-', $startDate );
         $year  = $date[0];
         $month = $date[1];
@@ -293,10 +304,9 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         }
         $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
         $membershipDates = array();
-        $membershipDates['start_date']  = $startDate;
-        $membershipDates['end_date']    = $endDate;
-        $membershipDates['join_date']   = $joinDate;
-
+        $membershipDates['start_date']  = CRM_Utils_Date::customFormat($startDate,'%Y%m%d');
+        $membershipDates['end_date']    = CRM_Utils_Date::customFormat($endDate,'%Y%m%d');
+        $membershipDates['join_date']   = CRM_Utils_Date::customFormat($joinDate,'%Y%m%d');
         return $membershipDates;
         
     }
@@ -365,9 +375,9 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         }
         
         $membershipDates = array();
-        $membershipDates['start_date']      = $startDate;
-        $membershipDates['end_date'  ]      = $endDate;
-        $membershipDates['log_start_date' ] = $logStartDate;
+        $membershipDates['start_date']      =  CRM_Utils_Date::customFormat($startDate,'%Y%m%d');
+        $membershipDates['end_date'  ]      =  CRM_Utils_Date::customFormat($endDate,'%Y%m%d');
+        $membershipDates['log_start_date' ] =  CRM_Utils_Date::customFormat($logStartDate,'%Y%m%d');
         
         return $membershipDates;
     }

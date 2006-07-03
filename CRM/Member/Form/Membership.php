@@ -150,9 +150,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
-        
+       
         $joinDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
-        $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['memebrship_type_id'], $joinDate);
+        $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['membership_type_id'], $joinDate);
         
         $dates = array( 'join_date',
                         'start_date',

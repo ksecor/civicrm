@@ -85,14 +85,17 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         $result = $membership->save();
         
+        $session = & CRM_Core_Session::singleton();
+        
         $membershipLog = array('membership_id' => $result->id,
                                'status_id'     => $result->status_id,
                                'start_date'    => $result->start_date,
-                               'end_date'      => $result->end_date
+                               'end_date'      => $result->end_date,
+                               'modified_id'   => $session->get('userID'),
+                               'modified_date' => date('Ymd')
                                );
-
-//         require_once 'CRM/Member/BAO/MembershipLog.php';
-//         CRM_Member_BAO_MembershipLog::add($membershipLog);
+        require_once 'CRM/Member/BAO/MembershipLog.php';
+        CRM_Member_BAO_MembershipLog::add($membershipLog);
         
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
@@ -209,13 +212,14 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     static function deleteMembership( $membershipId ) {
         
-        require_once 'CRM/Member/DAO/MembershipLog.php';
-        $membershipLog = new CRM_Member_DAO_MembershipLog( );
-        $membershipLog->membership_id = $membershipId;
-        if ($membershipLog->find(true)) {
-            $membershipLog->delete();
-        }
-        
+        require_once 'CRM/Member/BAO/MembershipLog.php';
+        CRM_Member_BAO_MembershipLog::del($membershipId);
+
+        require_once 'CRM/Member/DAO/MembershipPayment.php';
+        $membershipPayment = & new CRM_Member_DAO_MembershipPayment( );
+        $membershipPayment->membership_id = $membershipId;
+        $membershipPayment->delete();
+
         require_once 'CRM/Member/DAO/Membership.php';
         $membership = & new CRM_Member_DAO_Membership( );
         $membership->id = $membershipId;
