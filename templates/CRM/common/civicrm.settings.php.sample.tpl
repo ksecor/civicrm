@@ -90,7 +90,7 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * the CIVICRM_CUSTOM_FILE_UPLOADDIR could be:
  *      define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR', '/var/crm_docs/' );
  *
- * EXAMPLE - Joomla/Joomla Installations:
+ * EXAMPLE - Joomla Installations:
  * If the path to the Joomla home directory is /var/www/htdocs/joomla
  * the $civicrm_root setting would be:
  *      $civicrm_root = '/var/www/htdocs/joomla/administrator/components/com_civicrm/civicrm/';
@@ -140,7 +140,7 @@ define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
  *      define( 'CIVICRM_IMAGE_UPLOADURL'    , 'http://www.example.com/civicspace/files/civicrm/persist/' );
  *
  *
- * EXAMPLES - Joomla/Joomla Installations:
+ * EXAMPLES - Joomla Installations:
  * If your site's home url is http://www.example.com/joomla/
  *
  * CIVICRM_UF_BASEURL - home URL for your site:
