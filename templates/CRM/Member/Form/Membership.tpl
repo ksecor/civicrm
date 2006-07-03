@@ -5,7 +5,7 @@
    {if $action eq 8}
       <div class="messages status">
         <dl>
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
           {ts}WARNING: Deleting this membership will also delete related membership log and payment records. This action can not be undone. Consider modifying membership status instead if you want to maintain a record of this membership.{/ts}
           {ts}Do you want to continue?{/ts}
