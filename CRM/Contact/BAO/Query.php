@@ -1455,10 +1455,10 @@ class CRM_Contact_BAO_Query {
                 }
             }
         } else {
-            if ( $op == "IN" ) {
+            //if ( $op == "IN" ) {
                 $statii[] = '"Added"'; 
                 $in = true; 
-            }
+                // }
         }
 
         $this->_tables['civicrm_group_contact'] = 1;
