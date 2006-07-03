@@ -19,7 +19,8 @@
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
 	{if $element.options_per_line }
-        {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}
+        {*assign var="element_name" value=$element.custom_group_id|cat:_|cat:$field_id|cat:_|cat:$element.name*}
+        {assign var="element_name" value=custom_$field_id}
         <dt>{$form.$element_name.label} </dt>
         <dd>
             {assign var="count" value="1"}
@@ -32,10 +33,9 @@
                         {else}
                           <tr><td class="labels font-light">{$form.$element_name.$key.html}</td></tr>
                              {if $count == $element.options_per_line}
-                                
-                                 {assign var="count" value="1"}
-                            {else}L
-                                 {assign var="count" value=`$count+1`}
+                                {assign var="count" value="1"}
+                            {else}
+                                {assign var="count" value=`$count+1`}
                             {/if}
                          {/if}
                     {/foreach}                    
