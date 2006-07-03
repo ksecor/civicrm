@@ -111,57 +111,36 @@ class CRM_Contact_Page_View_ViewActivity extends CRM_Contact_Page_View {
     /**
      * Browse all activities for a particular contact
      *
-     * @param boolean $history - true if we want to browse activity history, false otherwise.
      * @return none
      *
      * @access public
      */
-    function browse($id,$history)
+    function browse($id)
     { 
         $this->_totalCountOpenActivity[] = CRM_Contact_BAO_Contact::getNumOpenActivity( $id);
-        $this->_totalCountActivity[]     = CRM_Core_BAO_History::getNumHistory( $id,'Activity' );
         $this->_contactIds[]             = $id;
-        $this->_history[]                = $history;
 
         require_once 'CRM/Core/Selector/Controller.php';
-        // create the selector, controller and run 
-        if ( $history ) {
-            //$this->assign('history', true);
-            $output = CRM_Core_Selector_Controller::SESSION;
-            require_once 'CRM/History/Selector/Activity.php';
-            $selector =& new CRM_History_Selector_Activity( $id, $this->_permission,true);
-            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
-            
-            $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
-                                                            $sortID, CRM_Core_Action::VIEW, $this, $output);
-            $controller->setEmbedded(true);
-            $controller->run();
-            $this->_rows[] = $controller->getRows($controller);
-            $controller->moveFromSessionToTemplate( );
-        }else {
-        //$this->assign('history', false);
-            $output = CRM_Core_Selector_Controller::SESSION;
-            require_once 'CRM/Contact/Selector/Activity.php';
-            $selector   =& new CRM_Contact_Selector_Activity($id, $this->_permission ,true);
-            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
-            
-            $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
-                                                            $sortID, CRM_Core_Action::VIEW, $this, $output);
-            $controller->setEmbedded(true);
-            $controller->run();
-            $this->_rows[] = $controller->getRows($controller);
-            $controller->moveFromSessionToTemplate( );
-        }
+
+        $output = CRM_Core_Selector_Controller::SESSION;
+        require_once 'CRM/Contact/Selector/Activity.php';
+        $selector   =& new CRM_Contact_Selector_Activity($id, $this->_permission ,false);
+        $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                               $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+
+        $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
+                                                        $sortID, CRM_Core_Action::VIEW, $this, $output);
+        $controller->setEmbedded(true);
+        $controller->run();
+        $this->_rows[] = $controller->getRows($controller);
+        $controller->moveFromSessionToTemplate( );
         
         $this->_displayName[] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
-        
+
+        CRM_Core_Error::debug( 'r', $this->_rows );
         $this->assign( 'rows',                   $this->_rows);
         $this->assign( 'contactId',              $this->_contactIds);
-        $this->assign( 'history',                $this->_history);
         $this->assign( 'totalCountOpenActivity', $this->_totalCountOpenActivity);
-        $this->assign( 'totalCountActivity',     $this->_totalCountActivity);
         $this->assign( 'display_name',           $this->_displayName);
     }
         
@@ -174,12 +153,9 @@ class CRM_Contact_Page_View_ViewActivity extends CRM_Contact_Page_View {
      */
     function run( )
     {
-    
         $this->preProcess( );
-        // get selector type ? open or closed activities ?
-        $history = CRM_Utils_Request::retrieve('history', 'Boolean', $this ); 
-       
-          //Get the id of Logged in User
+
+        //Get the id of Logged in User
         $session =& CRM_Core_Session::singleton( );
         $id  = $session->get( 'userID' );
         
@@ -199,10 +175,10 @@ class CRM_Contact_Page_View_ViewActivity extends CRM_Contact_Page_View {
         //if no admin then display his own activities
         if( $admin ){
             foreach($getContactIds as $ids =>$id){
-                $this->browse($id,$history);
+                $this->browse($id);
             }
         }else{
-            $this->browse($id,$history);           
+            $this->browse($id);           
         }
       
         return parent::run( );

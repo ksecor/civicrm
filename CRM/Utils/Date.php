@@ -582,7 +582,18 @@ class CRM_Utils_Date {
         }
         return true;
     }
-             
+
+    static function overdue( $date, $now = null ) {
+        $mysqlDate = self::isoToMysql( $date );
+        if ( ! $now ) {
+            $now = date( 'YmdHis' );
+        } else {
+            $now = self::isoToMysql( $now );
+        }
+
+        return ( $mysqlDate >= $now ) ? false : true;
+    }
+
 }
 
 ?>

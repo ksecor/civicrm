@@ -214,7 +214,14 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                     $row['activity_type'] = ts('Meeting');
                 }
             }
-           
+
+            // add class to this row if overdue
+            if ( CRM_Utils_Date::overdue( $row['date'] ) ) {
+                $row['class'] = 'status-overdue';
+            } else {
+                $row['class'] = 'status-ontime';
+            }
+
             if($this->_showLink){
                 $actionLinks =array();
             }else {
@@ -278,7 +285,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                           array(
                                                 'name'      => ts('Scheduled'),
                                                 'sort'      => 'date',
-                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                'direction' => CRM_Utils_Sort::ASCENDING,
                                                 ),
                                           array('name'      => ts('Status')),
 

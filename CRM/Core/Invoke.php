@@ -125,7 +125,7 @@ class CRM_Core_Invoke {
             if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
             }
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/activityView', 'reset=1' ) );
             break;
 
         }
@@ -317,7 +317,7 @@ class CRM_Core_Invoke {
             return self::search( $args );
         }
         
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'reset=1', true) );
+        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/activityView', 'reset=1', true) );
     }
 
     /**
@@ -589,7 +589,7 @@ class CRM_Core_Invoke {
             return $view->run( );
         }
 
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'reset=1', false) );
+        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin', 'reset=1', false) );
     }
 
     /**

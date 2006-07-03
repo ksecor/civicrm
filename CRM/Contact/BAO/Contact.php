@@ -1470,9 +1470,9 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         }
 
         if ( empty( $order ) ) {
-            $order = " ORDER BY date desc ";
+            $order = " ORDER BY date asc ";
         }
-        
+
         if ( $rowCount > 0 ) {
             $limit = " LIMIT $offset, $rowCount ";
         }
