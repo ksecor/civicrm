@@ -80,7 +80,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                  'start_date',
                                  'end_date',
                                  'source',
-                                 'status',
+                                 'status_id',
                                  );
 
     /** 
@@ -279,6 +279,8 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
         if ( CRM_Core_Permission::check( 'edit memberships' ) ) {
             $permission = CRM_Core_Permission::EDIT;
         }
+        require_once 'CRM/Member/PseudoConstant.php';
+        $statusTypes  = CRM_Member_PseudoConstant::membershipStatus( );
         
         $mask = CRM_Core_Action::mask( $permission );
         while ($result->fetch()) {
@@ -287,7 +289,9 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
             foreach (self::$_properties as $property) {
                 $row[$property] = $result->$property;
             }
-
+            //fix status display
+            $row['status']   = $statusTypes[$row['status_id']];
+            
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
                                                           array( 'id'  => $result->membership_id,

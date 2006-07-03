@@ -60,35 +60,35 @@ class CRM_Member_BAO_Query {
             $query->_tables['civicrm_membership'] = 1;
             $query->_whereTables['civicrm_membership'] = 1;
            
+            //}
+
+            //add membership type
+            $query->_select['memership_type']  = "civicrm_membership_type.name as membership_type";
+            $query->_element['membership_type'] = 1;
+            $query->_tables['civicrm_membership_type'] = 1;
+            $query->_whereTables['civicrm_membership_type'] = 1;
+            
+            //add join date
+            $query->_select['join_date']  = "civicrm_membership.join_date as join_date";
+            $query->_element['join_date'] = 1;
+            
+            //add source
+            $query->_select['source']  = "civicrm_membership.source as source";
+            $query->_element['source'] = 1;
+            
+            //add status
+            $query->_select['status_id']  = "civicrm_membership.status_id as status_id";
+            $query->_element['status_id'] = 1;
+            
+            //add start date / end date
+            $query->_select['start_date']  = "civicrm_membership_log.start_date as start_date";
+            $query->_element['start_date'] = 1;
+            $query->_select['end_date']  = "civicrm_membership_log.end_date as end_date";
+            $query->_element['end_date'] = 1;
+            
+            $query->_tables['civicrm_membership_log'] = 1;
+            $query->_whereTables['civicrm_membership_log'] = 1;
         }
-
-        //add membership type
-        $query->_select['memership_type']  = "civicrm_membership_type.name as membership_type";
-        $query->_element['membership_type'] = 1;
-        $query->_tables['civicrm_membership_type'] = 1;
-        $query->_whereTables['civicrm_membership_type'] = 1;
-
-        //add join date
-        $query->_select['join_date']  = "civicrm_membership.join_date as join_date";
-        $query->_element['join_date'] = 1;
-        
-        //add source
-        $query->_select['source']  = "civicrm_membership.source as source";
-        $query->_element['source'] = 1;
-        
-        //add status
-        $query->_select['status_id']  = "civicrm_membership.status_id as status_id";
-        $query->_element['status_id'] = 1;
-        
-        //add start date / end date
-        $query->_select['start_date']  = "civicrm_membership_log.start_date as start_date";
-        $query->_element['start_date'] = 1;
-        $query->_select['end_date']  = "civicrm_membership_log.end_date as end_date";
-        $query->_element['end_date'] = 1;
-
-        $query->_tables['civicrm_membership_log'] = 1;
-        $query->_whereTables['civicrm_membership_log'] = 1;
-
     }
 
     
@@ -131,7 +131,7 @@ class CRM_Member_BAO_Query {
     static function whereClauseSingle( &$values, &$query ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         switch( $name ) {
-        case 'member_join_date':
+
         case 'member_start_date_low':
         case 'member_start_date_high':
        
@@ -140,18 +140,66 @@ class CRM_Member_BAO_Query {
 //                                       'civicrm_membership', 'contribution_date', 'receive_date', 'Contribution Date' );
 //             
             return;
+        case 'member_join_date':
+            $op = '>=';
+            $date = CRM_Utils_Date::format( $value );
+            if ( $date ) {
+                $query->_where[$grouping][] = "civicrm_membership.join_date {$op} {$date}";
+                $date = CRM_Utils_Date::customFormat( $value );
+                $format  = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( array_reverse($value), '-' ) );
+                $query->_qill[$grouping ][] = ts( 'Member Since %2 %1', array( 1 => $format, 2 => $op) );
+            }
 
+            return;
+            
+        case 'member_source':
+            
+            $value = strtolower(addslashes(trim($value)));
 
-        case 'member_membership_type_id':
-            require_once 'CRM/Member/PseudoConstant.php';
-            $mType = implode (',' ,$value);
-            $types = CRM_Member_PseudoConstant::membershipType( );
-            $query->_where[$grouping][] = "civicrm_membership.membership_type_id $op $mType";
-            $query->_qill[$grouping ][] = ts( 'Membership Type %2 %1', array( 1 => $types[$cType], 2 => $op ) );
+            $query->_where[$grouping][] = "civicrm_membership.source $op '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Source %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
             return;
 
+        case 'member_status_id':
+            require_once 'CRM/Member/PseudoConstant.php';
+            $status = implode (',' ,array_keys($value));
+            
+            if (count($value) > 1) {
+                $op = 'IN';
+                $status = "({$status})";
+            }     
+            
+            $names = array( );
+            $statusTypes  = CRM_Member_PseudoConstant::membershipStatus( );
+            foreach ( $value as $id => $dontCare ) {
+                $names[] = $statusTypes[$id];
+            }
+            $query->_qill[$grouping][]  = ts('Membership Status %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
+                
+            $query->_where[$grouping][] = "civicrm_membership.status_id {$op} {$status}";
+            $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
+            return;
 
+        case 'member_membership_type_id':
+            require_once 'CRM/Member/PseudoConstant.php';
+            $mType = implode (',' , array_values($value));
+
+            if (count($value) > 1) {
+                $op = 'IN';
+                $mType = "({$mType})";
+            }     
+
+            $names = array( );
+            $membershipTypes  = CRM_Member_PseudoConstant::membershipType( );
+            foreach ( $value as $id => $dontCare ) {
+                $names[] = $membershipTypes[$id];
+            }
+            $query->_qill[$grouping][]  = ts('Membership Type %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
+
+            $query->_where[$grouping][] = "civicrm_membership.membership_type_id {$op} {$mType}";
+            $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
+            return;
         }
     }
 

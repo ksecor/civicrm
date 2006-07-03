@@ -1,4 +1,4 @@
- {if $context EQ 'Search'}
+{if $context EQ 'Search'}
     {include file="CRM/pager.tpl" location="top"}
 {/if}
 {strip}
@@ -35,7 +35,7 @@
     <td>{$row.start_date|truncate:10:''|crmDate}</td>
     <td>{$row.end_date|truncate:10:''|crmDate}</td>
     <td>{$row.source}</td>
-    <td>{$row.cancel_date|truncate:10:''|crmDate}</td>
+    <td>{$row.status}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}

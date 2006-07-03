@@ -26,7 +26,7 @@
     <fieldset>
     
        {* This section handles form elements for action task select and submit *}
-       {*{include file="CRM/Contribute/Form/Search/ResultTasks.tpl"}*}
+       {include file="CRM/Member/Form/Search/ResultTasks.tpl"}
 
        {* This section displays the rows along and includes the paging controls *}
        <p></p>
