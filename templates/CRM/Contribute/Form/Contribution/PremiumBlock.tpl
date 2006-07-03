@@ -46,12 +46,12 @@ function selectPremium(optionField) {
     {strip}
         <table id="premiums-listings" class="no-border">
         {foreach from=$products item=row}
-        <tr {if $context EQ "makeContribution"}class="odd-row" {/if}valign="top">
+        <tr {if $context EQ "makeContribution"}class="odd-row" {/if}valign="top"> 
             {if $showRadio }
                 {assign var="pid" value=$row.id}
                 <td>{$form.selectProduct.$pid.html}</td>
             {/if}
-            <td>{if $row.thumbnail}<a href="javascript:popUp('{$row.image}')"><img src="{$row.thumbnail}" title="{$row.name}" class="no-border" /></a>{else}&nbsp;{/if}</td>    	
+            <td>{if $row.thumbnail}<a href="javascript:popUp('{$row.image}')" ><img src="{$row.thumbnail}" alt="{$row.name}" class="no-border" /></a>{else}&nbsp;{/if}</td>    	
 	        <td>
                 <strong>{$row.name}</strong><br />
                 {$row.description} &nbsp;
