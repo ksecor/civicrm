@@ -2,7 +2,7 @@
 
 {if $action eq 4 } {* action = view *}
     <div class="form-item">
-        <fieldset><legend>{ts}View Relationship{/ts}</legend>
+      <fieldset><legend>{ts}View Relationship{/ts}</legend>
 
         <div class="form-item">
 	    {foreach from=$viewRelationship item="row"}
@@ -21,7 +21,9 @@
 	   	    {/if}
             {/foreach}
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
-		{include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+            </dl>
+	 	    {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+            <dl>
             <dt></dt>
             <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"/></dd>
             </dl>
@@ -120,8 +122,10 @@
                         {ts}If this relationship has start and/or end dates, specify them here.{/ts}
                     </dd>
 		<dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
-		{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
-                <dt></dt><dd>{$form.buttons.html}</dd>
+        </dl>
+	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+        <dl>
+      	<dt></dt><dd>{$form.buttons.html}</dd>
                 </dl>
             </div>
             </div></fieldset>
