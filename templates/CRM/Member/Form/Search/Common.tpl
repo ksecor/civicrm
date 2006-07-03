@@ -25,7 +25,7 @@
 </dd>
 
 <dt>{$form.member_source.label}</dt><dd>{$form.member_source.html}</dd>
-<dt>{$form.member_since.label}</dt><dd>{$form.member_since.html}</dd>
+<dt>{$form.member_join_date.label}</dt><dd>{$form.member_join_date.html}</dd>
 <dt>&nbsp;</dt><dd>{include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
              {include file="CRM/common/calendar/body.tpl" dateVar=member_since startDate=startYear endDate=endYear offset=5 trigger=trigger1}</dd>
 <dt>{$form.member_start_date_low.label}</dt><dd>

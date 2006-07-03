@@ -62,15 +62,33 @@ class CRM_Member_BAO_Query {
            
         }
 
-        // get membership_type
-        if ( CRM_Utils_Array::value( 'membership_type', $query->_returnProperties ) ) {
-            $query->_select['memership_type']  = "civicrm_membership_type.name as membership_type";
-            $query->_element['membership_type'] = 1;
-            $query->_tables['civicrm_membership'] = 1;
-            $query->_tables['civicrm_membership_type'] = 1;
-            $query->_whereTables['civicrm_membership'] = 1;
-            $query->_whereTables['civicrm_membership_type'] = 1;
-        }
+        //add membership type
+        $query->_select['memership_type']  = "civicrm_membership_type.name as membership_type";
+        $query->_element['membership_type'] = 1;
+        $query->_tables['civicrm_membership_type'] = 1;
+        $query->_whereTables['civicrm_membership_type'] = 1;
+
+        //add join date
+        $query->_select['join_date']  = "civicrm_membership.join_date as join_date";
+        $query->_element['join_date'] = 1;
+        
+        //add source
+        $query->_select['source']  = "civicrm_membership.source as source";
+        $query->_element['source'] = 1;
+        
+        //add status
+        $query->_select['status_id']  = "civicrm_membership.status_id as status_id";
+        $query->_element['status_id'] = 1;
+        
+        //add start date / end date
+        $query->_select['start_date']  = "civicrm_membership_log.start_date as start_date";
+        $query->_element['start_date'] = 1;
+        $query->_select['end_date']  = "civicrm_membership_log.end_date as end_date";
+        $query->_element['end_date'] = 1;
+
+        $query->_tables['civicrm_membership_log'] = 1;
+        $query->_whereTables['civicrm_membership_log'] = 1;
+
     }
 
     
@@ -93,7 +111,11 @@ class CRM_Member_BAO_Query {
         case 'civicrm_membership_payment':
             $from = " INNER JOIN civicrm_membership_payment ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
             break;
-      
+            
+        case 'civicrm_membership_log':
+            //using LEFT join because we are not logging yet
+            $from = " LEFT JOIN civicrm_membership_log ON civicrm_membership.id = civicrm_membership_log.membership_id ";
+            break;
         }
         return $from;
     }
@@ -109,7 +131,7 @@ class CRM_Member_BAO_Query {
     static function whereClauseSingle( &$values, &$query ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         switch( $name ) {
-        case 'member_since':
+        case 'member_join_date':
         case 'member_start_date_low':
         case 'member_start_date_high':
        
@@ -120,12 +142,12 @@ class CRM_Member_BAO_Query {
             return;
 
 
-        case '_type_id':
+        case 'member_membership_type_id':
             require_once 'CRM/Member/PseudoConstant.php';
-            $mType = $value;
+            $mType = implode (',' ,$value);
             $types = CRM_Member_PseudoConstant::membershipType( );
-            $query->_where[$grouping][] = "civicrm_membership.membership_type_id = $mType";
-            $query->_qill[$grouping ][] = ts( 'Membership Type - %1', array( 1 => $types[$cType] ) );
+            $query->_where[$grouping][] = "civicrm_membership.membership_type_id $op $mType";
+            $query->_qill[$grouping ][] = ts( 'Membership Type %2 %1', array( 1 => $types[$cType], 2 => $op ) );
             $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
             return;
 
@@ -145,8 +167,8 @@ class CRM_Member_BAO_Query {
         }
 
         $form->addElement( 'text', 'member_source', ts( 'Source' ) );
-        $form->addElement('date', 'member_since', ts('Member From :'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('member_since', ts('Select a valid date.'), 'qfDate'); 
+        $form->addElement('date', 'member_join_date', ts('Member Since :'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('member_join_date', ts('Select a valid date.'), 'qfDate'); 
  
         // Date selects for date 
         $form->add('date', 'member_start_date_low', ts('Sign up/Renew Date - From'), CRM_Core_SelectValues::date('relative')); 
@@ -170,7 +192,8 @@ class CRM_Member_BAO_Query {
                                 'contact_type'           => 1, 
                                 'sort_name'              => 1, 
                                 'display_name'           => 1,
-                                'membership_type'        => 1
+                                'membership_type'        => 1,
+                                'join_date'              => 1
                                 );
 
             /*
