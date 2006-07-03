@@ -11,7 +11,7 @@
             {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
             <dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
         {else}
-            {ts}There are no open activities for this contact.{/ts}
+            <dd>{ts}There are no open activities for this contact.{/ts}</dd>
         {/if}
         </dl>
         </div>
@@ -28,7 +28,7 @@
                 {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
                 <dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
             {else}
-                {ts}There are no open activities for this contact.{/ts}
+                <dd>{ts}There are no open activities for this contact.{/ts}</dd>
             {/if}
             </dl>
         {/if}

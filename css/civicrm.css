@@ -358,10 +358,6 @@ div.spacer, .spacer {
   font-size: 1.2em;
 }
 
-.font-red, .status-removed {
-  color: #FF0105;
-}
-
 .status-pending {
   color: green;
 }
@@ -454,8 +450,8 @@ div.spacer, .spacer {
   background-color: #ffff99;
 }
 
-#crm-container .disabled {
-  color: #ff0000;
+#crm-container .font-red, #crm-container .status-removed, #crm-container .disabled, #crm-container .status-overdue {
+  color: #FF0105;
 }
 
 #crm-container a.sort-ascending:before {

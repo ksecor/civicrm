@@ -27,7 +27,7 @@ function clearAmountOther() {
 {if $action eq 1024}
     {include file="CRM/Contribute/Form/Contribution/PreviewHeader.tpl"}
 {/if}
-{assign var='reqMark' value='<span class="marker">*</span>'}
+{capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
 <div class="form-item">
    <div id="intro_text">
     <p>
