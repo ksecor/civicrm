@@ -1199,6 +1199,12 @@ class CRM_Contact_BAO_Query {
             $tables = array_merge( array( 'civicrm_contribution' => 1), $tables );
         }
 
+        //add membership table
+        if ( CRM_Utils_Array::value( 'civicrm_membership_log', $tables ) ) {
+            $tables = array_merge( array( 'civicrm_membership' => 1), $tables );
+        }
+        
+
         //format the table list according to the weight
         require_once 'CRM/Core/TableHierarchy.php';
         $info =& CRM_Core_TableHierarchy::info( );
