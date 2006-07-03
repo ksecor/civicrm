@@ -290,7 +290,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
 
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                          array( 'id'  => $result->mmbership_id,
+                                                          array( 'id'  => $result->membership_id,
                                                                  'cid' => $result->contact_id,
                                                                  'cxt' => $this->_context ) );
             $config =& CRM_Core_Config::singleton( );
