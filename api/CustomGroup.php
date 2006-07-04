@@ -186,20 +186,9 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
     _crm_initialize( );
 
     $property_object = array(); 
-    require_once "CRM/Contact/DAO/{$class_name}.php";
-    $error = eval( '$fields = CRM_Contact_DAO_' .$class_name  . '::fields( );' );
-    if($error) {
-        return _crm_error($error);
-    }
+
     $id = -1;
-    
-    foreach($fields as $key => $values) {
-        $property_object[] = array("id"=>$id,
-                                   "name"=>$key,
-                                   "data_type"=>CRM_Utils_Type::typeToString($values['type']),
-                                   "description"=>$values['title']);
-    }
-    
+
     if($class_name =='Individual' || $class_name =='Organization' || $class_name =='Household') {
         eval( '$fields = CRM_Contact_DAO_Contact::fields( );' );
         foreach($fields as $key => $values) {
@@ -216,10 +205,11 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($class_name, null, -1);
         foreach($groupTree as $node) {
             $fields = $node["fields"];
-            
             foreach($fields as $key => $values) {
-       
-                $property_object[] = array("id"=>$values['id'],"name"=>$values['name'],"data_type"=>$values['data_type'] ,"description"=>$values['help_post']);
+                $property_object[] = array("id"=>$values['id'],
+                                           "name"=>$values['name'],
+                                           "data_type"=>$values['data_type'] ,
+                                           "description"=>$values['help_post']);
             }
         }
     }
