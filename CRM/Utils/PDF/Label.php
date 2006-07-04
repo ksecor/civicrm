@@ -33,8 +33,8 @@
      * 
      *
      */
-require_once ('packages/ufpdf/fpdf.php');
-class PDF_Label extends FPDF {
+require_once ('packages/ufpdf/ufpdf.php');
+class PDF_Label extends UFPDF {
 
     // Private properties
     var $_Avery_Name    = '';                 // Name of format
@@ -104,7 +104,7 @@ class PDF_Label extends FPDF {
            $Tformat = $this->_Avery_Labels[$format];
        }
        
-       parent::FPDF('P', $Tformat['metric'], $Tformat['paper-size']);
+       parent::UFPDF('P', $Tformat['metric'], $Tformat['paper-size']);
        $this->_Set_Format($Tformat);
        $this->Set_Font_Name('Arial');
        $this->SetMargins(0,0);
