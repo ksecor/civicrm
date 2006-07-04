@@ -33,7 +33,7 @@
      * 
      *
      */
-require_once ('CRM/Utils/fpdf.php');
+require_once ('packages/ufpdf/fpdf.php');
 class PDF_Label extends FPDF {
 
     // Private properties
