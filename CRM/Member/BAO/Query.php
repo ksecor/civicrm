@@ -89,35 +89,6 @@ class CRM_Member_BAO_Query {
         }
     }
 
-    
-    static function from( $name, $mode, $side ) {
-        $from = null;
-        switch ( $name ) {
-        
-        case 'civicrm_membership':
-            $from = " INNER JOIN civicrm_membership ON civicrm_membership.contact_id = contact_a.id ";
-            break;
-    
-        case 'civicrm_membership_type':
-            if ( $mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
-                $from = " INNER JOIN civicrm_membership_type ON civicrm_membership.membership_type_id = civicrm_membership_type.id ";
-            } else {
-                $from = " $side JOIN civicrm_membership_type ON civicrm_membership.membership_type_id = civicrm_membership_type.id ";
-            }
-            break;
-            
-        case 'civicrm_membership_payment':
-            $from = " INNER JOIN civicrm_membership_payment ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
-            break;
-            
-        case 'civicrm_membership_log':
-            //using LEFT join because we are not logging yet
-            $from = " LEFT JOIN civicrm_membership_log ON civicrm_membership.id = civicrm_membership_log.membership_id ";
-            break;
-        }
-        return $from;
-    }
-    
     static function where( &$query ) {
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0,7 ) == 'member_' ) {
@@ -126,6 +97,7 @@ class CRM_Member_BAO_Query {
         }
     }
     
+  
     static function whereClauseSingle( &$values, &$query ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         switch( $name ) {
@@ -205,6 +177,62 @@ class CRM_Member_BAO_Query {
         }
     }
 
+    static function from( $name, $mode, $side ) {
+        $from = null;
+        switch ( $name ) {
+        
+        case 'civicrm_membership':
+            $from = " INNER JOIN civicrm_membership ON civicrm_membership.contact_id = contact_a.id ";
+            break;
+    
+        case 'civicrm_membership_type':
+            if ( $mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
+                $from = " INNER JOIN civicrm_membership_type ON civicrm_membership.membership_type_id = civicrm_membership_type.id ";
+            } else {
+                $from = " $side JOIN civicrm_membership_type ON civicrm_membership.membership_type_id = civicrm_membership_type.id ";
+            }
+            break;
+            
+        case 'civicrm_membership_payment':
+            $from = " INNER JOIN civicrm_membership_payment ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
+            break;
+            
+        case 'civicrm_membership_log':
+            //using LEFT join because we are not logging yet
+            $from = " LEFT JOIN civicrm_membership_log ON civicrm_membership.id = civicrm_membership_log.membership_id ";
+            break;
+        }
+        return $from;
+    }
+    
+    static function defaultReturnProperties( $mode ) {
+        $properties = null;
+        if ( $mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
+            $properties = array(  
+                                'contact_type'           => 1, 
+                                'sort_name'              => 1, 
+                                'display_name'           => 1,
+                                'membership_type'        => 1,
+                                'join_date'              => 1,
+                                //'start_date'             => 1,
+                                //'end_date'               => 1,
+                                //'source'                 => 1,
+                                //'status_id'              => 1
+                                );
+
+            /*
+            // also get all the custom membership properties
+            $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Member');
+            if ( ! empty( $fields ) ) {
+                foreach ( $fields as $name => $dontCare ) {
+                    $properties[$name] = 1;
+                }
+            }
+            */
+        }
+        return $properties;
+    }
+
     static function buildSearchForm( &$form ) {
         
         require_once 'CRM/Member/PseudoConstant.php';
@@ -234,34 +262,6 @@ class CRM_Member_BAO_Query {
         $form->addRule('member_end_date_high', ts('Select a valid date.'), 'qfDate'); 
 
         $form->assign( 'validCiviMember', true );
-    }
-
-    static function defaultReturnProperties( $mode ) {
-        $properties = null;
-        if ( $mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
-            $properties = array(  
-                                'contact_type'           => 1, 
-                                'sort_name'              => 1, 
-                                'display_name'           => 1,
-                                'membership_type'        => 1,
-                                'join_date'              => 1,
-                                //'start_date'             => 1,
-                                //'end_date'               => 1,
-                                //'source'                 => 1,
-                                //'status_id'              => 1
-                                );
-
-            /*
-            // also get all the custom membership properties
-            $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Member');
-            if ( ! empty( $fields ) ) {
-                foreach ( $fields as $name => $dontCare ) {
-                    $properties[$name] = 1;
-                }
-            }
-            */
-        }
-        return $properties;
     }
 
     static function searchAction( &$row, $id ) {
