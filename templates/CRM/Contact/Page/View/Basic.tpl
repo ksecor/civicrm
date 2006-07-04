@@ -176,6 +176,41 @@
     </div>
 {/if}
 
+{* Show Membership block if CiviMember is enabled *}
+{if $accessMembership}
+    {capture assign=newMemberURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}
+<div id="memberships[show]" class="data-group">
+  {if $pager->_totalItems}
+    <dl><dt><a href="#" onclick="hide('memberships[show]'); show('memberships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Memberships{/ts}</label></dt>
+    <dd><strong>{ts}Total Contributed{/ts} - {if $total_amount}{$total_amount|crmMoney}{else}n/a{/if}
+        &nbsp; {ts}# Contributions{/ts} - {$pager->_totalItems}</strong></dd>
+    </dl>
+  {else}
+    <dl><dt>{ts}Memberships{/ts}</dt>
+    {if $permission EQ 'edit'}
+        <dd>{ts 1=$newMemberURL}There are no memberships recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}</dd>
+    {else}
+        {ts}There are no memberships recorded for this contact.{/ts}
+    {/if}
+    </dl>
+  {/if}
+</div>
+
+    <div id="memberships">
+    {if $pager->_totalItems}
+        <fieldset><legend><a href="#" onclick="hide('memberships'); show('memberships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $pager->_totalItems GT 3}{ts 1=$pager->_totalItems}Memberships (3 of %1){/ts}{else}{ts}Memberships{/ts}{/if}</legend>
+        <p>
+        {include file="CRM/Member/Form/Selector.tpl" context="Contact Summary"}       
+        </p>
+        
+        <div class="action-link">
+            <a href="{$newMemberURL}">&raquo; {ts}New Membership{/ts}</a> 
+        </div>
+        </fieldset>
+    {/if}
+    </div>
+{/if}
+
 <div id="openActivities[show]" class="data-group">
   {if $openActivity.totalCount}
     <a href="#" onclick="hide('openActivities[show]'); show('openActivities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Open Activities{/ts}</label> ({$openActivity.totalCount})<br />

@@ -60,8 +60,6 @@ class CRM_Member_BAO_Query {
             $query->_tables['civicrm_membership'] = 1;
             $query->_whereTables['civicrm_membership'] = 1;
            
-            //}
-
             //add membership type
             $query->_select['memership_type']  = "civicrm_membership_type.name as membership_type";
             $query->_element['membership_type'] = 1;
