@@ -156,7 +156,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
     function createLabel(&$contactRows, &$format)
     {
         require_once 'CRM/Utils/String.php';
-        require_once 'CRM/Utils/fpdf.php';
+        require_once 'CRM/Utils/PDF/Label.php';
         
         $pdf = new PDF_Label($format,'mm');
         $pdf->Open();
