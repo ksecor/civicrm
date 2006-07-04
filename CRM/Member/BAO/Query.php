@@ -247,10 +247,10 @@ class CRM_Member_BAO_Query {
                                 'display_name'           => 1,
                                 'membership_type'        => 1,
                                 'join_date'              => 1,
-//                                 'start_date'             => 1,
-//                                 'end_date'               => 1,
-//                                 'source'                 => 1,
-//                                 'status_id'              => 1
+                                //'start_date'             => 1,
+                                //'end_date'               => 1,
+                                //'source'                 => 1,
+                                //'status_id'              => 1
                                 );
 
             /*
@@ -270,8 +270,8 @@ class CRM_Member_BAO_Query {
     }
 
     static function addShowHide( &$showHide ) {
-        //$showHide->addHide( 'memberForm' );
-        //$showHide->addShow( 'memberForm[show]' );
+        $showHide->addHide( 'memberForm' );
+        $showHide->addShow( 'memberForm[show]' );
     }
 
 
