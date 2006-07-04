@@ -168,7 +168,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 $val .= "$v\n";
             }
             
-            $pdf->Add_PDF_Label(utf8_decode($val));
+            $pdf->Add_PDF_Label($val);
             $val = '';
         }
         $pdf->Output();
