@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
  
+# define youe schema file name here
+SCHEMA=schema/Schema.xml 
 # define your database name here, will be overriden by 
 # FIRST command line argument if given
 DBNAME=
@@ -28,16 +30,18 @@ DBLOAD=
 CALLEDPATH=`dirname $0`
 
 if [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
-	echo; echo Usage: setup.sh [database name] [database user] [database password]; echo
+	echo; echo Usage: setup.sh [schema file] [database data file] [database name] [database user] [database password] [additional args]; echo
 	exit 0
 fi
 
 
 # fetch command line arguments if available
-if [ ! -z $1 ] ; then DBNAME=$1; fi
-if [ ! -z $2 ] ; then DBUSER=$2; fi
-if [ ! -z $3 ] ; then DBPASS=$3; fi
-if [ ! -z $4 ] ; then DBARGS=$4; fi
+if [ ! -z $1 ] ; then SCHEMA=$1; fi
+if [ ! -z $1 ] ; then DBLOAD=$2; fi
+if [ ! -z $2 ] ; then DBNAME=$3; fi
+if [ ! -z $3 ] ; then DBUSER=$4; fi
+if [ ! -z $4 ] ; then DBPASS=$5; fi
+if [ ! -z $5 ] ; then DBARGS=$6; fi
 
 # verify if we have at least DBNAME given
 if [ -z $DBNAME ] ; then
@@ -57,7 +61,7 @@ fi
 # checkout, not packaged code
 if [ -d $CALLEDPATH/../xml ]; then
 	cd $CALLEDPATH/../xml
-	"$PHP5PATH"php GenCode.php
+	"$PHP5PATH"php GenCode.php $SCHEMA
 fi
 
 # someone might want to use empty password for development,

@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
 */
 
@@ -62,7 +62,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
      */
     function buildQuickForm()
     {
-        CRM_Utils_System::setTitle( ts('Add Labels') );
+        CRM_Utils_System::setTitle( ts('Make Mailing Labels') );
 
         //add select for label
         $label = array("5160" => "5160",
@@ -78,7 +78,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         // add select for Location Type
         $this->addElement('select', 'location_type_id', ts('Select Location'),
                           array( '' => ts('Primary')) + CRM_Core_PseudoConstant::locationType(), true);
-        $this->addDefaultButtons( ts('Add Labels'));
+        $this->addDefaultButtons( ts('Make Mailing Labels'));
        
     }
     

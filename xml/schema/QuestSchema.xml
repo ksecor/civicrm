@@ -15,4 +15,5 @@
 <xi:include href="SMS/files.xml"           parse="xml" />
 <xi:include href="Project/files.xml"       parse="xml" />
 <xi:include href="Member/file.xml"         parse="xml" />  
+<xi:include href="Quest/files.xml"         parse="xml" />  
 </database>

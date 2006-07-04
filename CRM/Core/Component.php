@@ -291,10 +291,12 @@ class CRM_Core_Component {
 
     static function &taskList( ) {
         $info =& self::info( );
-        
+        $config =& CRM_Core_Config::singleton( );
+
         $tasks = array( );
         foreach ( $info as $name => $value ) {
-            if ( CRM_Utils_Array::value( 'task', $info[$name] ) ) {
+            if ( in_array( $name, $config->enableComponents ) && 
+                 CRM_Utils_Array::value( 'task', $info[$name] ) ) {
                 $tasks += $info[$name]['task'];
             }
         }
