@@ -71,52 +71,51 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
      */
     public function postProcess()
     { 
-        /*
+
         // create the selector, controller and run - store results in session
         $queryParams =  $this->get( 'queryParams' );
         $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
-                                                   CRM_Contact_BAO_Query::MODE_ALL );
-        $returnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_ALL );
-        $properties = array( 'contact_id', 'contribution_id' );
-        $header     = array( ts( 'Contact ID' ), ts( 'Contribution ID' ) );
-        foreach ( $returnProperties as $name => $dontCare ) {
-            $properties[] = $name;
-            if ( CRM_Utils_Array::value( $name, $query->_fields ) &&
-                 CRM_Utils_Array::value( 'title', $query->_fields[$name] ) ) {
-                $header[] = $query->_fields[$name]['title'];
-            } else {
-                $header[] = $name;
-            }
-        }
-        // header fixed for colomns are not expotable
-        $headerArray = array('image_URL'     => 'Image URL',
-                             'contact_type'  => 'Contact Type',
-                             'sort_name'     => 'Sort Name',
-                             'display_name'  => 'Display Name',
-                             );
+                                                   CRM_Contact_BAO_Query::MODE_MEMBER );
         
-        foreach( $header as $key => $value) {
-            if( array_key_exists( $value, $headerArray )) {
-                $header[$key] = $headerArray[$value]; 
-            }
-        }
+       
+        $header = array('contact_id'             => ts('Contact ID'),
+                        'membership_id'          => ts('Membership ID'),
+                        'sort_name'              => ts('Sort Name'), 
+                        'display_name'           => ts('Display Name'),
+                        'membership_type'        => ts('Membership Type'),
+                        'join_date'              => ts('Member Since'),
+                        'start_date'             => ts('Start/Renew Date'),
+                        'end_date'               => ts('End Date'),
+                        'source'                 => ts('Source'),
+                        'status_id'              => ts('Status')
+                        );
+        
+        $properties = array_keys( $header );
+
         $result = $query->searchQuery( 0, 0, null,
                                        false, false,
                                        false, false,
                                        false,
-                                       $this->_contributionClause );
+                                       $this->_memberClause );
+
+        require_once 'CRM/Member/PseudoConstant.php';
+        $statusTypes  = CRM_Member_PseudoConstant::membershipStatus( );
 
         $rows = array( ); 
         while ( $result->fetch( ) ) {
             $row   = array( );
             $valid = false;
-
             foreach ( $properties as $property ) {
-                $row[] = $result->$property;
+                if ($property == 'status_id') {
+                    $row[] = $statusTypes[$result->$property];
+                } else {
+                    $row[] = $result->$property;
+                }
                 if ( ! CRM_Utils_System::isNull( $result->$property ) ) {
                     $valid = true;
                 }
             }
+            
             if ( $valid ) {
                 $rows[] = $row;
             }
@@ -125,7 +124,7 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
         require_once 'CRM/Core/Report/Excel.php'; 
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $header, $rows ); 
         exit( );
-        */
+
     }
 
     /**

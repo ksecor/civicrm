@@ -246,7 +246,11 @@ class CRM_Member_BAO_Query {
                                 'sort_name'              => 1, 
                                 'display_name'           => 1,
                                 'membership_type'        => 1,
-                                'join_date'              => 1
+                                'join_date'              => 1,
+//                                 'start_date'             => 1,
+//                                 'end_date'               => 1,
+//                                 'source'                 => 1,
+//                                 'status_id'              => 1
                                 );
 
             /*
