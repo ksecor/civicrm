@@ -215,6 +215,43 @@ class CRM_Member_Form_Search extends CRM_Core_Form {
         require_once 'CRM/Member/BAO/Query.php';
         CRM_Member_BAO_Query::buildSearchForm( $this );
 
+        /* 
+         * add form checkboxes for each row. This is needed out here to conform to QF protocol 
+         * of all elements being declared in builQuickForm 
+         */ 
+        $rows = $this->get( 'rows' ); 
+        if ( is_array( $rows ) ) {
+            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onChange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            
+            $total = $cancel = 0;
+            foreach ($rows as $row) { 
+                $this->addElement( 'checkbox', $row['checkbox'], 
+                                   null, null, 
+                                   array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
+                                   ); 
+            }
+
+            $this->assign( 'single', $this->_single );
+
+            // also add the action and radio boxes
+            require_once 'CRM/Member/Task.php';
+            $tasks = array( '' => ts('- more actions -') ) + CRM_Member_Task::tasks( );
+            $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
+            $this->add('submit', $this->_actionButtonName, ts('Go'), 
+                       array( 'class' => 'form-submit', 
+                              'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) ); 
+
+            $this->add('submit', $this->_printButtonName, ts('Print'), 
+                       array( 'class' => 'form-submit', 
+                              'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
+
+            
+            // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => null) ); 
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
+        }
+        
+
         // add buttons 
         $this->addButtons( array( 
                                  array ( 'type'      => 'refresh', 

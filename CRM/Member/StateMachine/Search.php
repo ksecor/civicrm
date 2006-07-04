@@ -36,7 +36,7 @@
 
 require_once 'CRM/Core/StateMachine.php';
 require_once 'CRM/Core/Action.php';
-require_once 'CRM/Contribute/Task.php';
+require_once 'CRM/Member/Task.php';
 
 class CRM_Member_StateMachine_Search extends CRM_Core_StateMachine {
 
@@ -85,7 +85,7 @@ class CRM_Member_StateMachine_Search extends CRM_Core_StateMachine {
         // total hack, check POST vars and then session to determine stuff
         // fix value if print button is pressed
         if ( CRM_Utils_Array::value( '_qf_' . $formName . '_next_print', $_POST ) ) {
-            $value = CRM_Contribute_Task::PRINT_CONTRIBUTIONS;
+            $value = CRM_Member_Task::PRINT_MEMBERS;
         } else {
             $value = CRM_Utils_Array::value( 'task', $_POST );
         }
@@ -96,16 +96,16 @@ class CRM_Member_StateMachine_Search extends CRM_Core_StateMachine {
 
         $result = false;
         switch ( $value ) {
-        case CRM_Contribute_Task::DELETE_CONTRIBUTIONS:
-            $task   = 'CRM_Contribute_Form_Task_Delete';
+        case CRM_Member_Task::DELETE_MEMBERS:
+            $task   = 'CRM_Member_Form_Task_Delete';
             break;
 
-        case CRM_Contribute_Task::EXPORT_CONTRIBUTIONS:
-            $task   = 'CRM_Contribute_Form_Task_Export';
+        case CRM_Member_Task::EXPORT_MEMBERS:
+            $task   = 'CRM_Member_Form_Task_Export';
             break;
 
         default: // the print task is the default and catch=all task
-            $task = 'CRM_Contribute_Form_Task_Print';
+            $task = 'CRM_Member_Form_Task_Print';
             break;
 
         }
