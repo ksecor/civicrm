@@ -51,16 +51,16 @@ if(!class_exists('FPDF'))
         var $DefOrientation;     //default orientation
         var $CurOrientation;     //current orientation
         var $OrientationChanges; //array indicating orientation changes
-        var $scaleFactor;                  //scale factor (number of points in user unit)
+        var $k;                  //scale factor (number of points in user unit)
         var $fwPt,$fhPt;         //dimensions of page format in points
         var $fw,$fh;             //dimensions of page format in user unit
         var $wPt,$hPt;           //current dimensions of page in points
         var $w,$h;               //current dimensions of page in user unit
-        var $marginLeft;            //left margin
-        var $marginTop;            //top margin
-        var $marginRight;            //right margin
-        var $marginBreak;            //page break margin
-        var $marginCell;            //cell margin
+        var $lMargin;            //left margin
+        var $tMargin;            //top margin
+        var $rMargin;            //right margin
+        var $bMargin;            //page break margin
+        var $cMargin;            //cell margin
         var $x,$y;               //current position in user unit for cell positioning
         var $lasth;              //height of last cell printed
         var $LineWidth;          //line width in user unit
@@ -141,13 +141,13 @@ if(!class_exists('FPDF'))
                                    'symbol'=>'Symbol','zapfdingbats'=>'ZapfDingbats');
             //Scale factor
             if($unit=='pt')
-                $this->scaleFactor=1;
+                $this->k=1;
             elseif($unit=='mm')
-                $this->scaleFactor=72/25.4;
+                $this->k=72/25.4;
             elseif($unit=='cm')
-                $this->scaleFactor=72/2.54;
+                $this->k=72/2.54;
             elseif($unit=='in')
-                $this->scaleFactor=72;
+                $this->k=72;
             else
                 $this->Error('Incorrect unit: '.$unit);
             //Page format
@@ -171,11 +171,11 @@ if(!class_exists('FPDF'))
                 }
             else
                 {
-                    $this->fwPt=$format[0]*$this->scaleFactor;
-                    $this->fhPt=$format[1]*$this->scaleFactor;
+                    $this->fwPt=$format[0]*$this->k;
+                    $this->fhPt=$format[1]*$this->k;
                 }
-            $this->fw=$this->fwPt/$this->scaleFactor;
-            $this->fh=$this->fhPt/$this->scaleFactor;
+            $this->fw=$this->fwPt/$this->k;
+            $this->fh=$this->fhPt/$this->k;
             //Page orientation
             $orientation=strtolower($orientation);
             if($orientation=='p' || $orientation=='portrait')
@@ -193,15 +193,15 @@ if(!class_exists('FPDF'))
             else
                 $this->Error('Incorrect orientation: '.$orientation);
             $this->CurOrientation=$this->DefOrientation;
-            $this->w=$this->wPt/$this->scaleFactor;
-            $this->h=$this->hPt/$this->scaleFactor;
+            $this->w=$this->wPt/$this->k;
+            $this->h=$this->hPt/$this->k;
             //Page margins (1 cm)
-            $margin=28.35/$this->scaleFactor;
+            $margin=28.35/$this->k;
             $this->SetMargins($margin,$margin);
             //Interior cell margin (1 mm)
-            $this->marginCell=$margin/10;
+            $this->cMargin=$margin/10;
             //Line width (0.2 mm)
-            $this->LineWidth=.567/$this->scaleFactor;
+            $this->LineWidth=.567/$this->k;
             //Automatic page break
             $this->SetAutoPageBreak(true,2*$margin);
             //Full width display mode
@@ -222,11 +222,11 @@ if(!class_exists('FPDF'))
         function SetMargins($left,$top,$right=-1)
         {
             //Set left, top and right margins
-            $this->marginLeft=$left;
-            $this->marginTop=$top;
+            $this->lMargin=$left;
+            $this->tMargin=$top;
             if($right==-1)
                 $right=$left;
-            $this->marginRight=$right;
+            $this->rMargin=$right;
         }
         /*
          * function used to set the Left margin
@@ -237,7 +237,7 @@ if(!class_exists('FPDF'))
         function SetLeftMargin($margin)
         {
             //Set left margin
-            $this->marginLeft=$margin;
+            $this->lMargin=$margin;
             if($this->page>0 && $this->x<$margin)
                 $this->x=$margin;
         }
@@ -250,7 +250,7 @@ if(!class_exists('FPDF'))
         function SetTopMargin($margin)
         {
             //Set top margin
-            $this->marginTop=$margin;
+            $this->tMargin=$margin;
         }
         
         /*
@@ -261,7 +261,7 @@ if(!class_exists('FPDF'))
         function SetRightMargin($margin)
         {
             //Set right margin
-            $this->marginRight=$margin;
+            $this->rMargin=$margin;
         }
         
         /*
@@ -272,7 +272,7 @@ if(!class_exists('FPDF'))
         function SetAutoPageBreak($auto,$margin=0)
         {
             $this->AutoPageBreak=$auto;
-            $this->marginBreak=$margin;
+            $this->bMargin=$margin;
             $this->PageBreakTrigger=$this->h-$margin;
         }
         /*
@@ -441,7 +441,7 @@ if(!class_exists('FPDF'))
             $this->_out('2 J');
             //Set line width
             $this->LineWidth=$lw;
-            $this->_out(sprintf('%.2f w',$lw*$this->scaleFactor));
+            $this->_out(sprintf('%.2f w',$lw*$this->k));
             //Set font
             if($family)
                 $this->SetFont($family,$style,$size);
@@ -460,7 +460,7 @@ if(!class_exists('FPDF'))
             if($this->LineWidth!=$lw)
                 {
                     $this->LineWidth=$lw;
-                    $this->_out(sprintf('%.2f w',$lw*$this->scaleFactor));
+                    $this->_out(sprintf('%.2f w',$lw*$this->k));
                 }
             //Restore font
             if($family)
@@ -554,7 +554,7 @@ if(!class_exists('FPDF'))
          
             $this->LineWidth=$width;
             if($this->page>0)
-                $this->_out(sprintf('%.2f w',$width*$this->scaleFactor));
+                $this->_out(sprintf('%.2f w',$width*$this->k));
         }
         /*
          * function to draw a line
@@ -563,7 +563,7 @@ if(!class_exists('FPDF'))
          */
         function Line($x1,$y1,$x2,$y2)
         {
-            $this->_out(sprintf('%.2f %.2f m %.2f %.2f l S',$x1*$this->scaleFactor,($this->h-$y1)*$this->scaleFactor,$x2*$this->scaleFactor,($this->h-$y2)*$this->scaleFactor));
+            $this->_out(sprintf('%.2f %.2f m %.2f %.2f l S',$x1*$this->k,($this->h-$y1)*$this->k,$x2*$this->k,($this->h-$y2)*$this->k));
         }
         /*
          * function to draw a rectangle
@@ -579,7 +579,7 @@ if(!class_exists('FPDF'))
                 $op='B';
             else
                 $op='S';
-            $this->_out(sprintf('%.2f %.2f %.2f %.2f re %s',$x*$this->scaleFactor,($this->h-$y)*$this->scaleFactor,$w*$this->scaleFactor,-$h*$this->scaleFactor,$op));
+            $this->_out(sprintf('%.2f %.2f %.2f %.2f re %s',$x*$this->k,($this->h-$y)*$this->k,$w*$this->k,-$h*$this->k,$op));
         }
         /*
          *function to add TrueType or Type1 font
@@ -690,7 +690,7 @@ if(!class_exists('FPDF'))
             $this->FontFamily=$family;
             $this->FontStyle=$style;
             $this->FontSizePt=$size;
-            $this->FontSize=$size/$this->scaleFactor;
+            $this->FontSize=$size/$this->k;
             $this->CurrentFont=&$this->fonts[$fontkey];
             if($this->page>0)
                 $this->_out(sprintf('BT /F%d %.2f Tf ET',$this->CurrentFont['i'],$this->FontSizePt));
@@ -704,7 +704,7 @@ if(!class_exists('FPDF'))
             if($this->FontSizePt==$size)
                 return;
             $this->FontSizePt=$size;
-            $this->FontSize=$size/$this->scaleFactor;
+            $this->FontSize=$size/$this->k;
             if($this->page>0)
                 $this->_out(sprintf('BT /F%d %.2f Tf ET',$this->CurrentFont['i'],$this->FontSizePt));
         }
@@ -736,14 +736,14 @@ if(!class_exists('FPDF'))
          */
         function Link($x,$y,$w,$h,$link)
         {
-            $this->PageLinks[$this->page][]=array($x*$this->scaleFactor,$this->hPt-$y*$this->scaleFactor,$w*$this->scaleFactor,$h*$this->scaleFactor,$link);
+            $this->PageLinks[$this->page][]=array($x*$this->k,$this->hPt-$y*$this->k,$w*$this->k,$h*$this->k,$link);
         }
         /*
          * function to output a string
          */
         function Text($x,$y,$txt)
         {
-            $s=sprintf('BT %.2f %.2f Td (%s) Tj ET',$x*$this->scaleFactor,($this->h-$y)*$this->scaleFactor,$this->_escape($txt));
+            $s=sprintf('BT %.2f %.2f Td (%s) Tj ET',$x*$this->k,($this->h-$y)*$this->k,$this->_escape($txt));
             if($this->underline && $txt!='')
                 $s.=' '.$this->_dounderline($x,$y,$txt);
             if($this->ColorFlag)
@@ -762,7 +762,7 @@ if(!class_exists('FPDF'))
          */
         function Cell($w,$h=0,$txt='',$border=0,$ln=0,$align='',$fill=0,$link='')
         {
-            $scaleFactor=$this->scaleFactor;
+            $k=$this->k;
             if($this->y+$h>$this->PageBreakTrigger && !$this->InFooter && $this->AcceptPageBreak())
                 {
                     //Automatic page break
@@ -778,11 +778,11 @@ if(!class_exists('FPDF'))
                     if($ws>0)
                         {
                             $this->ws=$ws;
-                            $this->_out(sprintf('%.3f Tw',$ws*$scaleFactor));
+                            $this->_out(sprintf('%.3f Tw',$ws*$k));
                         }
                 }
             if($w==0)
-                $w=$this->w-$this->marginRight-$this->x;
+                $w=$this->w-$this->rMargin-$this->x;
             $s='';
             if($fill==1 || $border==1)
                 {
@@ -790,33 +790,33 @@ if(!class_exists('FPDF'))
                         $op=($border==1) ? 'B' : 'f';
                     else
                         $op='S';
-                    $s=sprintf('%.2f %.2f %.2f %.2f re %s ',$this->x*$scaleFactor,($this->h-$this->y)*$scaleFactor,$w*$scaleFactor,-$h*$scaleFactor,$op);
+                    $s=sprintf('%.2f %.2f %.2f %.2f re %s ',$this->x*$k,($this->h-$this->y)*$k,$w*$k,-$h*$k,$op);
                 }
             if(is_string($border))
                 {
                     $x=$this->x;
                     $y=$this->y;
                     if(strpos($border,'L')!==false)
-                        $s.=sprintf('%.2f %.2f m %.2f %.2f l S ',$x*$scaleFactor,($this->h-$y)*$scaleFactor,$x*$scaleFactor,($this->h-($y+$h))*$scaleFactor);
+                        $s.=sprintf('%.2f %.2f m %.2f %.2f l S ',$x*$k,($this->h-$y)*$k,$x*$k,($this->h-($y+$h))*$k);
                     if(strpos($border,'T')!==false)
-                        $s.=sprintf('%.2f %.2f m %.2f %.2f l S ',$x*$scaleFactor,($this->h-$y)*$scaleFactor,($x+$w)*$scaleFactor,($this->h-$y)*$scaleFactor);
+                        $s.=sprintf('%.2f %.2f m %.2f %.2f l S ',$x*$k,($this->h-$y)*$k,($x+$w)*$k,($this->h-$y)*$k);
                     if(strpos($border,'R')!==false)
-                        $s.=sprintf('%.2f %.2f m %.2f %.2f l S ',($x+$w)*$scaleFactor,($this->h-$y)*$scaleFactor,($x+$w)*$scaleFactor,($this->h-($y+$h))*$scaleFactor);
+                        $s.=sprintf('%.2f %.2f m %.2f %.2f l S ',($x+$w)*$k,($this->h-$y)*$k,($x+$w)*$k,($this->h-($y+$h))*$k);
                     if(strpos($border,'B')!==false)
-                        $s.=sprintf('%.2f %.2f m %.2f %.2f l S ',$x*$scaleFactor,($this->h-($y+$h))*$scaleFactor,($x+$w)*$scaleFactor,($this->h-($y+$h))*$scaleFactor);
+                        $s.=sprintf('%.2f %.2f m %.2f %.2f l S ',$x*$k,($this->h-($y+$h))*$k,($x+$w)*$k,($this->h-($y+$h))*$k);
                 }
             if($txt!=='')
                 {
                     if($align=='R')
-                        $dx=$w-$this->marginCell-$this->GetStringWidth($txt);
+                        $dx=$w-$this->cMargin-$this->GetStringWidth($txt);
                     elseif($align=='C')
                         $dx=($w-$this->GetStringWidth($txt))/2;
                     else
-                        $dx=$this->marginCell;
+                        $dx=$this->cMargin;
                     if($this->ColorFlag)
                         $s.='q '.$this->TextColor.' ';
                     $txt2=str_replace(')','\\)',str_replace('(','\\(',str_replace('\\','\\\\',$txt)));
-                    $s.=sprintf('BT %.2f %.2f Td (%s) Tj ET',($this->x+$dx)*$scaleFactor,($this->h-($this->y+.5*$h+.3*$this->FontSize))*$scaleFactor,$txt2);
+                    $s.=sprintf('BT %.2f %.2f Td (%s) Tj ET',($this->x+$dx)*$k,($this->h-($this->y+.5*$h+.3*$this->FontSize))*$k,$txt2);
                     if($this->underline)
                         $s.=' '.$this->_dounderline($this->x+$dx,$this->y+.5*$h+.3*$this->FontSize,$txt);
                     if($this->ColorFlag)
@@ -832,7 +832,7 @@ if(!class_exists('FPDF'))
                     //Go to next line
                     $this->y+=$h;
                     if($ln==1)
-                        $this->x=$this->marginLeft;
+                        $this->x=$this->lMargin;
                 }
             else
                 $this->x+=$w;
@@ -844,8 +844,8 @@ if(!class_exists('FPDF'))
         {
             $cw=&$this->CurrentFont['cw'];
             if($w==0)
-                $w=$this->w-$this->marginRight-$this->x;
-            $wmax=($w-2*$this->marginCell)*1000/$this->FontSize;
+                $w=$this->w-$this->rMargin-$this->x;
+            $wmax=($w-2*$this->cMargin)*1000/$this->FontSize;
             $s=str_replace("\r",'',$txt);
             $nb=strlen($s);
             if($nb>0 && $s[$nb-1]=="\n")
@@ -924,7 +924,7 @@ if(!class_exists('FPDF'))
                                     if($align=='J')
                                         {
                                             $this->ws=($ns>1) ? ($wmax-$ls)/1000*$this->FontSize/($ns-1) : 0;
-                                            $this->_out(sprintf('%.3f Tw',$this->ws*$this->scaleFactor));
+                                            $this->_out(sprintf('%.3f Tw',$this->ws*$this->k));
                                         }
                                     $this->Cell($w,$h,substr($s,$j,$sep-$j),$b,2,$align,$fill);
                                     $i=$sep+1;
@@ -949,7 +949,7 @@ if(!class_exists('FPDF'))
             if($border && strpos($border,'B')!==false)
                 $b.='B';
             $this->Cell($w,$h,substr($s,$j,$i-$j),$b,2,$align,$fill);
-            $this->x=$this->marginLeft;
+            $this->x=$this->lMargin;
         }
         /*
          * function to Output text in flowing mode
@@ -957,8 +957,8 @@ if(!class_exists('FPDF'))
         function Write($h,$txt,$link='')
         {
             $cw=&$this->CurrentFont['cw'];
-            $w=$this->w-$this->marginRight-$this->x;
-            $wmax=($w-2*$this->marginCell)*1000/$this->FontSize;
+            $w=$this->w-$this->rMargin-$this->x;
+            $wmax=($w-2*$this->cMargin)*1000/$this->FontSize;
             $s=str_replace("\r",'',$txt);
             $nb=strlen($s);
             $sep=-1;
@@ -980,9 +980,9 @@ if(!class_exists('FPDF'))
                             $l=0;
                             if($nl==1)
                                 {
-                                    $this->x=$this->marginLeft;
-                                    $w=$this->w-$this->marginRight-$this->x;
-                                    $wmax=($w-2*$this->marginCell)*1000/$this->FontSize;
+                                    $this->x=$this->lMargin;
+                                    $w=$this->w-$this->rMargin-$this->x;
+                                    $wmax=($w-2*$this->cMargin)*1000/$this->FontSize;
                                 }
                             $nl++;
                             continue;
@@ -995,13 +995,13 @@ if(!class_exists('FPDF'))
                             //Automatic line break
                             if($sep==-1)
                                 {
-                                    if($this->x>$this->marginLeft)
+                                    if($this->x>$this->lMargin)
                                         {
                                             //Move to next line
-                                            $this->x=$this->marginLeft;
+                                            $this->x=$this->lMargin;
                                             $this->y+=$h;
-                                            $w=$this->w-$this->marginRight-$this->x;
-                                            $wmax=($w-2*$this->marginCell)*1000/$this->FontSize;
+                                            $w=$this->w-$this->rMargin-$this->x;
+                                            $wmax=($w-2*$this->cMargin)*1000/$this->FontSize;
                                             $i++;
                                             $nl++;
                                             continue;
@@ -1020,9 +1020,9 @@ if(!class_exists('FPDF'))
                             $l=0;
                             if($nl==1)
                                 {
-                                    $this->x=$this->marginLeft;
-                                    $w=$this->w-$this->marginRight-$this->x;
-                                    $wmax=($w-2*$this->marginCell)*1000/$this->FontSize;
+                                    $this->x=$this->lMargin;
+                                    $w=$this->w-$this->rMargin-$this->x;
+                                    $wmax=($w-2*$this->cMargin)*1000/$this->FontSize;
                                 }
                             $nl++;
                         }
@@ -1073,14 +1073,14 @@ if(!class_exists('FPDF'))
             if($w==0 && $h==0)
                 {
                     //Put image at 72 dpi
-                    $w=$info['w']/$this->scaleFactor;
-                    $h=$info['h']/$this->scaleFactor;
+                    $w=$info['w']/$this->k;
+                    $h=$info['h']/$this->k;
                 }
             if($w==0)
                 $w=$h*$info['w']/$info['h'];
             if($h==0)
                 $h=$w*$info['h']/$info['w'];
-            $this->_out(sprintf('q %.2f 0 0 %.2f %.2f %.2f cm /I%d Do Q',$w*$this->scaleFactor,$h*$this->scaleFactor,$x*$this->scaleFactor,($this->h-($y+$h))*$this->scaleFactor,$info['i']));
+            $this->_out(sprintf('q %.2f 0 0 %.2f %.2f %.2f cm /I%d Do Q',$w*$this->k,$h*$this->k,$x*$this->k,($this->h-($y+$h))*$this->k,$info['i']));
             if($link)
                 $this->Link($x,$y,$w,$h,$link);
         }
@@ -1090,7 +1090,7 @@ if(!class_exists('FPDF'))
         function Ln($h='')
         {
             
-            $this->x=$this->marginLeft;
+            $this->x=$this->lMargin;
             if(is_string($h))
                 $this->y+=$this->lasth;
             else
@@ -1126,7 +1126,7 @@ if(!class_exists('FPDF'))
          */
         function SetY($y)
         {
-            $this->x=$this->marginLeft;
+            $this->x=$this->lMargin;
             if($y>=0)
                 $this->y=$y;
             else
@@ -1351,10 +1351,10 @@ if(!class_exists('FPDF'))
                     $this->_out('endobj');
                 }
             set_magic_quotes_runtime($mqr);
-            foreach($this->fonts as $scaleFactor=>$font)
+            foreach($this->fonts as $k=>$font)
                 {
                     //Font objects
-                    $this->fonts[$scaleFactor]['n']=$this->n+1;
+                    $this->fonts[$k]['n']=$this->n+1;
                     $type=$font['type'];
                     $name=$font['name'];
                     if($type=='core')
@@ -1399,8 +1399,8 @@ if(!class_exists('FPDF'))
                             //Descriptor
                             $this->_newobj();
                             $s='<</Type /FontDescriptor /FontName /'.$name;
-                            foreach($font['desc'] as $scaleFactor=>$v)
-                                $s.=' /'.$scaleFactor.' '.$v;
+                            foreach($font['desc'] as $k=>$v)
+                                $s.=' /'.$k.' '.$v;
                             $file=$font['file'];
                             if($file)
                                 $s.=' /FontFile'.($type=='Type1' ? '' : '2').' '.$this->FontFiles[$file]['n'].' 0 R';
@@ -1585,8 +1585,8 @@ if(!class_exists('FPDF'))
             $this->page++;
             $this->pages[$this->page]='';
             $this->state=2;
-            $this->x=$this->marginLeft;
-            $this->y=$this->marginTop;
+            $this->x=$this->lMargin;
+            $this->y=$this->tMargin;
             $this->FontFamily='';
             //Page orientation
             if(!$orientation)
@@ -1614,7 +1614,7 @@ if(!class_exists('FPDF'))
                             $this->w=$this->fh;
                             $this->h=$this->fw;
                         }
-                    $this->PageBreakTrigger=$this->h-$this->marginBreak;
+                    $this->PageBreakTrigger=$this->h-$this->bMargin;
                     $this->CurOrientation=$orientation;
                 }
         }
@@ -1639,7 +1639,7 @@ if(!class_exists('FPDF'))
             $up=$this->CurrentFont['up'];
             $ut=$this->CurrentFont['ut'];
             $w=$this->GetStringWidth($txt)+$this->ws*substr_count($txt,' ');
-            return sprintf('%.2f %.2f %.2f %.2f re f',$x*$this->scaleFactor,($this->h-($y-$up/1000*$this->FontSize))*$this->scaleFactor,$w*$this->scaleFactor,-$ut/1000*$this->FontSizePt);
+            return sprintf('%.2f %.2f %.2f %.2f re f',$x*$this->k,($this->h-($y-$up/1000*$this->FontSize))*$this->k,$w*$this->k,-$ut/1000*$this->FontSizePt);
         }
         
         function _parsejpg($file)
@@ -1845,31 +1845,31 @@ class PDF_Label extends FPDF {
     // Listing of labels size
     protected  $_Avery_Labels = array (
                                        '5160'=>array('name'=>'5160', 'paper-size'=>'letter', 'metric'=>'mm',
-                                                     'marginLeft'=>1.762, 'marginTop'=>10.7, 'NX'=>3, 'NY'=>10,
+                                                     'lMargin'=>1.762, 'tMargin'=>10.7, 'NX'=>3, 'NY'=>10,
                                                      'SpaceX'=>3.175, 'SpaceY'=>0, 'width'=>66.675, 'height'=>25.4,
                                                      'font-size'=>8),
                                        '5161'=>array('name'=>'5161', 'paper-size'=>'letter', 'metric'=>'mm',  
-                                                     'marginLeft'=>0.967, 'marginTop'=>10.7, 'NX'=>2, 'NY'=>10, 
+                                                     'lMargin'=>0.967, 'tMargin'=>10.7, 'NX'=>2, 'NY'=>10, 
                                                      'SpaceX'=>3.967, 'SpaceY'=>0, 'width'=>101.6,
                                                      'height'=>25.4, 'font-size'=>8),
                                        '5162'=>array('name'=>'5162', 'paper-size'=>'letter', 'metric'=>'mm', 
-                                                     'marginLeft'=>0.97, 'marginTop'=>20.224, 'NX'=>2, 'NY'=>7, 
+                                                     'lMargin'=>0.97, 'tMargin'=>20.224, 'NX'=>2, 'NY'=>7, 
                                                      'SpaceX'=>4.762, 'SpaceY'=>0, 'width'=>100.807, 
                                                      'height'=>35.72, 'font-size'=>8),
                                        '5163'=>array('name'=>'5163', 'paper-size'=>'letter', 'metric'=>'mm',
-                                                     'marginLeft'=>1.762,'marginTop'=>10.7, 'NX'=>2,
+                                                     'lMargin'=>1.762,'tMargin'=>10.7, 'NX'=>2,
                                                      'NY'=>5, 'SpaceX'=>3.175, 'SpaceY'=>0, 'width'=>101.6,
                                                      'height'=>50.8, 'font-size'=>8),
                                        '5164'=>array('name'=>'5164', 'paper-size'=>'letter', 'metric'=>'in',
-                                                     'marginLeft'=>0.148, 'marginTop'=>0.5, 'NX'=>2, 'NY'=>3, 
+                                                     'lMargin'=>0.148, 'tMargin'=>0.5, 'NX'=>2, 'NY'=>3, 
                                                      'SpaceX'=>0.2031, 'SpaceY'=>0, 'width'=>4.0, 'height'=>3.33,
                                                      'font-size'=>12),
                                        '8600'=>array('name'=>'8600', 'paper-size'=>'letter', 'metric'=>'mm',
-                                                     'marginLeft'=>7.1, 'marginTop'=>19, 'NX'=>3, 'NY'=>10,
+                                                     'lMargin'=>7.1, 'tMargin'=>19, 'NX'=>3, 'NY'=>10,
                                                      'SpaceX'=>9.5, 'SpaceY'=>3.1, 'width'=>66.6,
                                                      'height'=>25.4, 'font-size'=>8),
-                                       'L7163'=>array('name'=>'L7163', 'paper-size'=>'A4', 'metric'=>'mm', 'marginLeft'=>5,
-                                                      'marginTop'=>15, 'NX'=>2, 'NY'=>7, 'SpaceX'=>25, 'SpaceY'=>0,
+                                       'L7163'=>array('name'=>'L7163', 'paper-size'=>'A4', 'metric'=>'mm', 'lMargin'=>5,
+                                                      'tMargin'=>15, 'NX'=>2, 'NY'=>7, 'SpaceX'=>25, 'SpaceY'=>0,
                                                       'width'=>99.1, 'height'=>38.1, 'font-size'=>9)
                                        );
    
@@ -1907,12 +1907,12 @@ class PDF_Label extends FPDF {
        //         $this->_COUNTY = $posY;
        
        if($format == $_Avery_Labels['name']){
-           if ($_Avery_Labels['marginLeft'] > 1) $_Avery_Labels['marginLeft']--; else $_Avery_Labels['marginLeft']=0;
-           if ($_Avery_Labels['marginTop'] > 1) $_Avery_Labels['marginTop']--; else $_Avery_Labels['marginTop']=0;
-           if ($_Avery_Labels['marginLeft'] >=  $this->_X_Number) $_Avery_Labels['marginLeft'] =  $this->_X_Number-1;
-           if ($_Avery_Labels['marginTop'] >=  $this->_Y_Number) $_Avery_Labels['marginTop'] =  $this->_Y_Number-1;
-           $this->_COUNTX = $_Avery_Labels['marginLeft'];
-           $this->_COUNTY = $_Avery_Labels['marginTop'];
+           if ($_Avery_Labels['lMargin'] > 1) $_Avery_Labels['lMargin']--; else $_Avery_Labels['lMargin']=0;
+           if ($_Avery_Labels['tMargin'] > 1) $_Avery_Labels['tMargin']--; else $_Avery_Labels['tMargin']=0;
+           if ($_Avery_Labels['lMargin'] >=  $this->_X_Number) $_Avery_Labels['lMargin'] =  $this->_X_Number-1;
+           if ($_Avery_Labels['tMargin'] >=  $this->_Y_Number) $_Avery_Labels['tMargin'] =  $this->_Y_Number-1;
+           $this->_COUNTX = $_Avery_Labels['lMargin'];
+           $this->_COUNTY = $_Avery_Labels['tMargin'];
        }
    }
     
@@ -1948,8 +1948,8 @@ class PDF_Label extends FPDF {
     function _Set_Format($format) {
         $this->_Metric         = $format['metric'];
         $this->_Avery_Name     = $format['name'];
-        $this->_Margin_Left    = $this->_Convert_Metric ($format['marginLeft'], $this->_Metric, $this->_Metric_Doc);
-        $this->_Margin_Top    = $this->_Convert_Metric ($format['marginTop'], $this->_Metric, $this->_Metric_Doc);
+        $this->_Margin_Left    = $this->_Convert_Metric ($format['lMargin'], $this->_Metric, $this->_Metric_Doc);
+        $this->_Margin_Top    = $this->_Convert_Metric ($format['tMargin'], $this->_Metric, $this->_Metric_Doc);
         $this->_X_Space     = $this->_Convert_Metric ($format['SpaceX'], $this->_Metric, $this->_Metric_Doc);
         $this->_Y_Space     = $this->_Convert_Metric ($format['SpaceY'], $this->_Metric, $this->_Metric_Doc);
         $this->_X_Number     = $format['NX'];
