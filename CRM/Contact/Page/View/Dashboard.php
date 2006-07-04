@@ -115,16 +115,16 @@ class CRM_Contact_Page_View_Dashboard extends CRM_Contact_Page_View {
      *
      * @access public
      */
-    function browse($id)
+    function browse($id, $admin)
     { 
-        $this->_totalCountOpenActivity[] = CRM_Contact_BAO_Contact::getNumOpenActivity( $id);
-        $this->_contactIds[]             = $id;
+        $this->_totalCountOpenActivity = CRM_Contact_BAO_Contact::getNumOpenActivity( $id );
+        $this->_contactIds             = $id;
 
         require_once 'CRM/Core/Selector/Controller.php';
 
         $output = CRM_Core_Selector_Controller::SESSION;
         require_once 'CRM/Contact/Selector/Activity.php';
-        $selector   =& new CRM_Contact_Selector_Activity($id, $this->_permission ,false);
+        $selector   =& new CRM_Contact_Selector_Activity( $id, $this->_permission , $admin );
         $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
 
@@ -132,10 +132,10 @@ class CRM_Contact_Page_View_Dashboard extends CRM_Contact_Page_View {
                                                         $sortID, CRM_Core_Action::VIEW, $this, $output);
         $controller->setEmbedded(true);
         $controller->run();
-        $this->_rows[] = $controller->getRows($controller);
+        $this->_rows = $controller->getRows($controller);
         $controller->moveFromSessionToTemplate( );
         
-        $this->_displayName[] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
+        $this->_displayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
 
         $this->assign( 'rows',                   $this->_rows);
         $this->assign( 'contactId',              $this->_contactIds);
@@ -143,8 +143,9 @@ class CRM_Contact_Page_View_Dashboard extends CRM_Contact_Page_View {
         $this->assign( 'display_name',           $this->_displayName);
 
         require_once 'CRM/Core/Block.php';
-        $this->assign( 'menuBlock'     , CRM_Core_Block::getContent( 1 ) );
-        $this->assign( 'shortcutsBlock', CRM_Core_Block::getContent( 2 ) );
+        $this->assign( 'menuBlock'    , CRM_Core_Block::getContent( 1 ) );
+        $this->assign( 'shortcutBlock', CRM_Core_Block::getContent( 2 ) );
+        $this->assign( 'searchBlock'  , CRM_Core_Block::getContent( 4 ) );
 
     }
         
@@ -163,27 +164,9 @@ class CRM_Contact_Page_View_Dashboard extends CRM_Contact_Page_View {
         $session =& CRM_Core_Session::singleton( );
         $id  = $session->get( 'userID' );
         
-        //check whether user is admin usr or not
-        $adminID = CRM_Core_BAO_UFMatch::getUFId( $id);
-        
-        if($adminID == 1){
-            $admin = true;
-        }else{
-            $admin = false;
-        }
-        
-        //Get all the Contact IDs
-        $getContactIds = CRM_Core_BAO_UFMatch::getContactIDs();
+        $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
 
-        //if admin user then display all the Activity details of other users 
-        //if no admin then display his own activities
-        if( $admin ){
-            foreach($getContactIds as $ids =>$id){
-                $this->browse($id);
-            }
-        }else{
-            $this->browse($id);           
-        }
+        $this->browse( $id, $admin );
       
         return parent::run( );
     }

@@ -75,6 +75,8 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     protected $_contactId;
 
+    protected $_admin;
+
     /**
      * Class constructor
      *
@@ -84,11 +86,11 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Activity
      * @access public
      */
-    function __construct($contactId, $permission,$showLink =null) 
+    function __construct($contactId, $permission,$admin =false) 
     {
         $this->_contactId  = $contactId;
         $this->_permission = $permission;
-        $this->_showLink   = $showLink;
+        $this->_admin   = $admin;
     }
 
 
@@ -184,7 +186,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     function getTotalCount($action)
     {
-        return CRM_Contact_BAO_Contact::getNumOpenActivity($this->_contactId);
+        return CRM_Contact_BAO_Contact::getNumOpenActivity($this->_contactId, $this->_admin);
     }
 
 
@@ -201,7 +203,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $params['contact_id'] = $this->_contactId;
-        $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity');
+        $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin);
 
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
@@ -222,11 +224,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 $row['class'] = 'status-ontime';
             }
 
-            if($this->_showLink){
-                $actionLinks =array();
-            }else {
-                $actionLinks =& self::actionLinks($row['activity_type_id']);
-            }
+            $actionLinks =& self::actionLinks($row['activity_type_id']);
                      
             $actionMask  =  array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
 

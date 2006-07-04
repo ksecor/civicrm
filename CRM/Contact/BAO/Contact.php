@@ -1347,29 +1347,29 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * @static
      * @access public
      */
-    static function getNumOpenActivity($id) {
+    static function getNumOpenActivity( $id, $admin = false ) {
 
         // this is not sufficient way to do.
-        $params = array( 1 => array( $id, 'Integer' ) );
+        if ( $admin ) {
+            $clause = null;
+            $params = array( );
+        } else {
+            $clause = " AND target_entity_id = %1 OR source_contact_id = %1 ";
+            $params = array( 1 => array( $id, 'Integer' ) );
+        } 
 
         $query = "SELECT count(*) FROM civicrm_meeting 
-                  WHERE (civicrm_meeting.target_entity_table = 'civicrm_contact' 
-                  AND target_entity_id = %1
-                  OR source_contact_id = %1 )
+                  WHERE ( civicrm_meeting.target_entity_table = 'civicrm_contact' $clause )
                   AND status != 'Completed'";
         $rowMeeting = CRM_Core_DAO::singleValueQuery( $query, $params );
         
         $query = "SELECT count(*) FROM civicrm_phonecall 
-                  WHERE (civicrm_phonecall.target_entity_table = 'civicrm_contact' 
-                  AND target_entity_id = %1
-                  OR source_contact_id = %1)
+                  WHERE ( civicrm_phonecall.target_entity_table = 'civicrm_contact' $clause )
                   AND status != 'Completed'";
         $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query, $params ); 
         
         $query = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type 
-                  WHERE (civicrm_activity.target_entity_table = 'civicrm_contact' 
-                  AND target_entity_id = %1
-                  OR source_contact_id = %1 )
+                  WHERE ( civicrm_activity.target_entity_table = 'civicrm_contact' $clause )
                   AND civicrm_activity_type.id = civicrm_activity.activity_type_id 
                   AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
         $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
@@ -1391,10 +1391,16 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * @access public
      * @static
      */
-    static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity') {
+    static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity', $admin = false) {
         require_once 'CRM/Core/DAO/Phonecall.php';
         $dao =& new CRM_Core_DAO();
-        $contactId = CRM_Utils_Type::escape( $params['contact_id'], 'Integer' );
+        if ( $admin ) {
+            $clause = null;
+            $params = array( );
+        } else {
+            $clause = " AND ( target_entity_id = %1 OR source_contact_id = %1 ) ";
+            $params = array( 1 => array( $params['contact_id'], 'Integer' ) );
+        }
         
         $query = "
 ( SELECT
@@ -1413,9 +1419,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
     civicrm_activity_type.id = 2 AND
     civicrm_phonecall.source_contact_id = source.id AND
     civicrm_phonecall.target_entity_table = 'civicrm_contact' AND
-    civicrm_phonecall.target_entity_id = target.id AND
-    ( civicrm_phonecall.source_contact_id = $contactId
-    OR civicrm_phonecall.target_entity_id = $contactId )
+    civicrm_phonecall.target_entity_id = target.id $clause
     AND civicrm_phonecall.status != 'Completed'
  ) UNION
 ( SELECT   
@@ -1434,9 +1438,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
     civicrm_activity_type.id = 1 AND
     civicrm_meeting.source_contact_id = source.id AND
     civicrm_meeting.target_entity_table = 'civicrm_contact' AND
-    civicrm_meeting.target_entity_id = target.id AND
-    ( civicrm_meeting.source_contact_id = $contactId
-    OR civicrm_meeting.target_entity_id = $contactId )
+    civicrm_meeting.target_entity_id = target.id $clause
     AND civicrm_meeting.status != 'Completed'
 ) UNION
 ( SELECT   
@@ -1454,13 +1456,12 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
   WHERE
     civicrm_activity.source_contact_id = source.id AND
     civicrm_activity.target_entity_table = 'civicrm_contact' AND
-    civicrm_activity.target_entity_id = target.id AND
-    ( civicrm_activity.source_contact_id = $contactId
-    OR civicrm_activity.target_entity_id = $contactId ) AND
+    civicrm_activity.target_entity_id = target.id $clause AND
     civicrm_activity_type.id = civicrm_activity.activity_type_id AND civicrm_activity_type.is_active = 1 AND 
     civicrm_activity.status != 'Completed'
             )
 ";
+
         $order = '';
         if ($sort) {
             $orderBy = $sort->orderBy();
@@ -1479,7 +1480,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         
 
         $queryString = $query . $order . $limit;
-        $dao->query( $queryString );
+        $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
         $values =array();
         $rowCnt = 0;
         while($dao->fetch()) {
