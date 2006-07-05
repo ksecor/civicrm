@@ -34,7 +34,7 @@
      *
      */
 require_once ('packages/ufpdf/ufpdf.php');
-class PDF_Label extends UFPDF {
+class CRM_Utils_PDF_Label extends UFPDF {
 
     // Private properties
     var $_Avery_Name    = '';                 // Name of format
@@ -95,7 +95,7 @@ class PDF_Label extends UFPDF {
      * @access public
      */
 
-   function PDF_Label ($format, $unit='mm') {
+   function __construct ($format, $unit='mm') {
        if (is_array($format)) {
            // Custom format
            $Tformat = $format;
