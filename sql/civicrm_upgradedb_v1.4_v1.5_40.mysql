@@ -1,3 +1,202 @@
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership_type
+-- *
+-- * Sites can configure multiple types of memberships. They encode the owner organization, fee, and the rules needed to set start and end (expire) dates when a member signs up for that type.
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership_type (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
+     domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this contact',
+     name varchar(128)    COMMENT 'Name of Membership Type',
+     description varchar(255)    COMMENT 'Description of Membership Type',
+     member_of_contact_id int unsigned NOT NULL   COMMENT 'Owner organization for this membership type. FK to Contact ID',
+     contribution_type_id int unsigned NOT NULL   COMMENT 'If membership is paid by a contribution - what contribution type should be used. FK to Contribution Type ID',
+     minimum_fee decimal(20,2)   DEFAULT 0 COMMENT 'Minimum fee for this membership (0 for free/complimentary memberships).',
+     duration_unit enum('day', 'month', 'year', 'lifetime')    COMMENT 'Unit in which membership period is expressed.',
+     duration_interval int    COMMENT 'Number of duration units in membership period (e.g. 1 year, 12 months).',
+     period_type enum('rolling', 'fixed')    COMMENT 'Rolling membership period starts on signup date. Fixed membership periods start on fixed_period_start_day.',
+     fixed_period_start_day int   DEFAULT 0101 COMMENT 'For fixed period memberships, month and day (mmdd) on which subscription/membership will start. Period start is back-dated unless after rollover day.',
+     fixed_period_rollover_day int   DEFAULT 1231 COMMENT 'For fixed period memberships, signups after this day (mmdd) rollover to next period.',
+     relationship_type_id int unsigned    COMMENT 'FK to Relationship Type ID',
+     visibility varchar(64)    ,
+     weight int    ,
+     is_active tinyint   DEFAULT 1 COMMENT 'Is this membership_type enabled' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      INDEX FKEY_domain_id ( domain_id ) ,  
+     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+,      INDEX FKEY_member_of_contact_id ( member_of_contact_id ) ,  
+     FOREIGN KEY (member_of_contact_id) REFERENCES civicrm_contact(id)
+,      INDEX FKEY_contribution_type_id ( contribution_type_id ) ,  
+     FOREIGN KEY (contribution_type_id) REFERENCES civicrm_contribution_type(id)
+,      INDEX FKEY_relationship_type_id ( relationship_type_id ) ,  
+     FOREIGN KEY (relationship_type_id) REFERENCES civicrm_relationship_type(id)
+  
+)  TYPE=InnoDB  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership_status
+-- *
+-- * Membership Status stores admin configurable rules for assigning status to memberships.
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership_status (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
+     domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this contact',
+     name varchar(128)    COMMENT 'Name for Membership Status',
+     start_event enum('start_date', 'end_date', 'join_date')    COMMENT 'Event when this status starts.',
+     start_event_adjust_unit enum('day', 'month', 'year')    COMMENT 'Unit used for adjusting from start_event.',
+     start_event_adjust_interval int    COMMENT 'Status range begins this many units from start_event.',
+     end_event enum('start_date', 'end_date', 'join_date')    COMMENT 'Event after which this status ends.',
+     end_event_adjust_unit enum('day', 'month', 'year')    COMMENT 'Unit used for adjusting from the ending event.',
+     end_event_adjust_interval int    COMMENT 'Status range ends this many units from end_event.',
+     is_current_member tinyint    COMMENT 'Does this status aggregate to current members (e.g. New, Renewed, Grace might all be TRUE... while Unrenewed, Lapsed, Inactive would be FALSE).',
+     is_admin tinyint    COMMENT 'Is this status for admin/manual assignment only.',
+     weight int    ,
+     is_default tinyint    COMMENT 'Assign this status to a membership record if no other status match is found.',
+     is_active tinyint   DEFAULT 1 COMMENT 'Is this membership_status enabled.' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      INDEX FKEY_domain_id ( domain_id ) ,  
+     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+  
+)  TYPE=InnoDB  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership
+-- *
+-- * Contact Membership records.
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
+     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
+     membership_type_id int unsigned NOT NULL   COMMENT 'FK to Membership Type',
+     join_date date    COMMENT 'Beginning of initial membership period (member since...).',
+     start_date date    COMMENT 'Beginning of current uninterrupted membership period.',
+     end_date date    COMMENT 'Current membership period expire date.',
+     source varchar(128)    ,
+     status_id int unsigned NOT NULL   COMMENT 'FK to Membership Status',
+     is_override tinyint    COMMENT 'Admin users may set a manual status which overrides the calculated status. When this flag is true, automated status update scripts should NOT modify status for the record.' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      INDEX FKEY_contact_id ( contact_id ) ,  
+     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
+,      INDEX FKEY_membership_type_id ( membership_type_id ) ,  
+     FOREIGN KEY (membership_type_id) REFERENCES civicrm_membership_type(id)
+,      INDEX FKEY_status_id ( status_id ) ,  
+     FOREIGN KEY (status_id) REFERENCES civicrm_membership_status(id)
+  
+)  TYPE=InnoDB  ;
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership_block
+-- *
+-- * A Membership Block stores admin configurable status options and rules
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership_block (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
+     entity_table varchar(64)    COMMENT 'Name for Membership Status',
+     entity_id int unsigned NOT NULL   COMMENT 'FK to civicrm_contribution_page.id',
+     membership_types varchar(255)    COMMENT 'Membership types to be exposed by this block',
+     membership_type_default int unsigned    COMMENT 'Optional foreign key to membership_type',
+     display_min_fee tinyint   DEFAULT 1 COMMENT 'Display minimum membership fee',
+     is_separate_payment tinyint   DEFAULT 1 COMMENT 'Should membership transactions be processed separately',
+     new_title varchar(255)    COMMENT 'Title to display at top of block',
+     new_text text    COMMENT 'Text to display below title',
+     renewal_title varchar(255)    COMMENT 'Title for renewal',
+     renewal_text text    COMMENT 'Text to display for member renewal',
+     is_required tinyint   DEFAULT 0 COMMENT 'Is membership sign up optional',
+     is_active tinyint   DEFAULT 1 COMMENT 'Is this membership_block enabled' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      INDEX FKEY_entity_id ( entity_id ) ,  
+     FOREIGN KEY (entity_id) REFERENCES civicrm_contribution_page(id)
+,      INDEX FKEY_membership_type_default ( membership_type_default ) ,  
+     FOREIGN KEY (membership_type_default) REFERENCES civicrm_membership_type(id)
+  
+)  TYPE=InnoDB  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership_log
+-- *
+-- * Logs actions which affect a Membership record (signup, status override, renewal, etc.)
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership_log (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  ,
+     membership_id int unsigned NOT NULL   COMMENT 'FK to Membership table',
+     status_id int unsigned NOT NULL   COMMENT 'New status assigned to membership by this action. FK to Membership Status',
+     start_date date    COMMENT 'New membership period start date',
+     end_date date    COMMENT 'New membership period expiration date.',
+     modified_id int unsigned    COMMENT 'FK to Contact ID of person under whose credentials this data modification was made.',
+     modified_date date    COMMENT 'Date this membership modification action was logged.' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      INDEX FKEY_membership_id ( membership_id ) ,  
+     FOREIGN KEY (membership_id) REFERENCES civicrm_membership(id)
+,      INDEX FKEY_status_id ( status_id ) ,  
+     FOREIGN KEY (status_id) REFERENCES civicrm_membership_status(id)
+,      INDEX FKEY_modified_id ( modified_id ) ,  
+     FOREIGN KEY (modified_id) REFERENCES civicrm_contact(id)
+  
+)  TYPE=InnoDB  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership_payment
+-- *
+-- * Membership Payment
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership_payment (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  ,
+     membership_id int unsigned NOT NULL   COMMENT 'FK to Membership table',
+     payment_entity_table varchar(128)    COMMENT 'Table being referenced for payment entity.',
+     payment_entity_id int unsigned    COMMENT 'FK to table with payment record (expected usage is civicrm_contribution).' 
+,
+    PRIMARY KEY ( id )
+ 
+    ,     INDEX index_payment_entity(
+        payment_entity_table
+      , payment_entity_id
+  )
+  
+,      INDEX FKEY_membership_id ( membership_id ) ,  
+     FOREIGN KEY (membership_id) REFERENCES civicrm_membership(id)
+  
+)  TYPE=InnoDB  ;
+
 -- /*******************************************************
 -- *
 -- * civicrm_option_group
@@ -61,64 +260,6 @@ CREATE TABLE civicrm_option_value (
 
 -- /*******************************************************
 -- *
--- * civicrm_file
--- *
--- * Data store for uploaded (attached) files (pointer to file on disk OR blob). Maybe be joined to entities via custom_value.file_id or entity_file table.
--- *
--- *******************************************************/
-CREATE TABLE civicrm_file (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique ID',
-     file_type_id int unsigned    COMMENT 'Type of file (e.g. Transcript, Income Tax Return, etc). FK to civicrm_option_value.',
-     mime_type varchar(255)    COMMENT 'mime type of the document',
-     uri varchar(255)    COMMENT 'uri of the file on disk',
-     document mediumblob    COMMENT 'contents of the document',
-     description varchar(255)    COMMENT 'Additional descriptive text regarding this attachment (optional).',
-     upload_date datetime    COMMENT 'Date and time that this attachment was uploaded or written to server.' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      INDEX FKEY_file_type_id ( file_type_id ) ,  
-     FOREIGN KEY (file_type_id) REFERENCES civicrm_option_value(value)
-  
-)  TYPE=InnoDB  ;
-
--- /*******************************************************
--- *
--- * civicrm_entity_file
--- *
--- * Attaches (joins)  uploaded files (images, documents, etc.) to entities (Contacts, Groups, Actions).
--- *
--- *******************************************************/
-CREATE TABLE civicrm_entity_file (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'primary key',
-     entity_table varchar(64)    COMMENT 'physical tablename for entity being joined to file, e.g. civicrm_contact',
-     entity_id int unsigned NOT NULL   COMMENT 'FK to entity table specified in entity_table column.',
-     file_id int unsigned NOT NULL   COMMENT 'FK to civicrm_file' 
-,
-    PRIMARY KEY ( id )
- 
-    ,     INDEX index_entity(
-        entity_table
-      , entity_id
-  )
-  ,     INDEX index_entity_file_id(
-        entity_table
-      , entity_id
-      , file_id
-  )
-  
-,      INDEX FKEY_file_id ( file_id ) ,  
-     FOREIGN KEY (file_id) REFERENCES civicrm_file(id)
-  
-)  TYPE=InnoDB  ;
-
--- /*******************************************************
--- *
 -- * civicrm_project
 -- *
 -- * Instantiate projects, programs, campaigns, etc.
@@ -151,34 +292,6 @@ CREATE TABLE civicrm_project (
      FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
 ,      INDEX FKEY_status_id ( status_id ) ,  
      FOREIGN KEY (status_id) REFERENCES civicrm_option_value(value)
-  
-)  TYPE=InnoDB  ;
--- /*******************************************************
--- *
--- * civicrm_log
--- *
--- * Log can be linked to any object in the application.
--- *
--- *******************************************************/
-CREATE TABLE civicrm_log (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Log ID',
-     entity_table varchar(64) NOT NULL   COMMENT 'Name of table where item being referenced is stored.',
-     entity_id int unsigned NOT NULL   COMMENT 'Foreign key to the referenced item.',
-     data text    COMMENT 'Updates does to this object if any.',
-     modified_id int unsigned    COMMENT 'FK to Contact ID creator',
-     modified_date datetime    COMMENT 'When was this object created' 
-,
-    PRIMARY KEY ( id )
- 
-    ,     INDEX index_entity(
-        entity_table
-      , entity_id
-  )
-  
-,      INDEX FKEY_modified_id ( modified_id ) ,  
-     FOREIGN KEY (modified_id) REFERENCES civicrm_contact(id)
   
 )  TYPE=InnoDB  ;
 
@@ -269,106 +382,90 @@ CREATE TABLE civicrm_task_status (
   
 )  TYPE=InnoDB  ;
 
-
 -- /*******************************************************
 -- *
--- * civicrm_membership_type
+-- * civicrm_log
 -- *
--- * A Membership Types encode the rules needed to set start and end (expire) dates when a member signs up for that type
+-- * Log can be linked to any object in the application.
 -- *
 -- *******************************************************/
-CREATE TABLE civicrm_membership_type (
+CREATE TABLE civicrm_log (
 
 
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
-     name varchar(128)    COMMENT 'Name of Membership Type',
-     description varchar(255)    COMMENT 'Description of Membership Type',
-     member_of_contact_id int unsigned NOT NULL   COMMENT 'FK to Contac ID',
-     contribution_type_id int unsigned NOT NULL   COMMENT 'FK to Contribution Type ID',
-     minimum_fee decimal(20,2)   DEFAULT 0 COMMENT 'Free/complimentary memberships',
-     duration_unit enum('day', 'month', 'year', 'lifetime')    COMMENT 'Duration of this Membership',
-     duration_interval int    COMMENT 'units in the duration',
-     period_type enum('rolling', 'fixed')    COMMENT 'Period Type at date of payment',
-     fixed_period_start_day int   DEFAULT 0101 COMMENT 'Fixed period on which subscription/membership will start',
-     fixed_period_rollover_day int   DEFAULT 1231 COMMENT 'Fixed Membership Payments after this date',
-     relationship_type_id int unsigned    COMMENT 'FK to Relationship Type ID',
-     visibility varchar(64)    ,
-     is_default tinyint   DEFAULT 0 ,
-     weight int    ,
-     is_active tinyint   DEFAULT 1 COMMENT 'Is this membership_type enabled' 
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Log ID',
+     entity_table varchar(64) NOT NULL   COMMENT 'Name of table where item being referenced is stored.',
+     entity_id int unsigned NOT NULL   COMMENT 'Foreign key to the referenced item.',
+     data text    COMMENT 'Updates does to this object if any.',
+     modified_id int unsigned    COMMENT 'FK to Contact ID of person under whose credentials this data modification was made.',
+     modified_date datetime    COMMENT 'When was the referenced entity created or modified or deleted.' 
 ,
     PRIMARY KEY ( id )
  
- 
-,      INDEX FKEY_member_of_contact_id ( member_of_contact_id ) ,  
-     FOREIGN KEY (member_of_contact_id) REFERENCES civicrm_contact(id)
-,      INDEX FKEY_contribution_type_id ( contribution_type_id ) ,  
-     FOREIGN KEY (contribution_type_id) REFERENCES civicrm_contribution_type(id)
-,      INDEX FKEY_relationship_type_id ( relationship_type_id ) ,  
-     FOREIGN KEY (relationship_type_id) REFERENCES civicrm_relationship_type(id)
+    ,     INDEX index_entity(
+        entity_table
+      , entity_id
+  )
+  
+,      INDEX FKEY_modified_id ( modified_id ) ,  
+     FOREIGN KEY (modified_id) REFERENCES civicrm_contact(id)
   
 )  TYPE=InnoDB  ;
 
 -- /*******************************************************
 -- *
--- * civicrm_membership_status
+-- * civicrm_file
 -- *
--- * A Membership Status stores admin configurable status options and rules
+-- * Data store for uploaded (attached) files (pointer to file on disk OR blob). Maybe be joined to entities via custom_value.file_id or entity_file table.
 -- *
 -- *******************************************************/
-CREATE TABLE civicrm_membership_status (
+CREATE TABLE civicrm_file (
 
 
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
-     name varchar(128)    COMMENT 'Name for Membership Status',
-     start_event enum('start_date', 'end_date', 'join_date')    COMMENT 'Event when this status starts',
-     start_event_adjust_unit enum('day', 'month', 'year')    COMMENT 'Unit used for adjusting',
-     start_event_adjust_interval int    COMMENT 'Range begins this many units from start_event',
-     end_event enum('start_date', 'end_date', 'join_date')    COMMENT 'Event after which this status ends',
-     end_event_adjust_unit enum('day', 'month', 'year')    COMMENT 'Unit used for adjusting from the ending event ',
-     end_event_adjust_interval int    COMMENT 'Range ends this many units from end_event',
-     is_current_member tinyint    ,
-     is_admin tinyint    ,
-     weight int    ,
-     is_active tinyint   DEFAULT 1 COMMENT 'Is this membership_type enabled' 
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique ID',
+     file_type_id int unsigned    COMMENT 'Type of file (e.g. Transcript, Income Tax Return, etc). FK to civicrm_option_value.',
+     mime_type varchar(255)    COMMENT 'mime type of the document',
+     uri varchar(255)    COMMENT 'uri of the file on disk',
+     document mediumblob    COMMENT 'contents of the document',
+     description varchar(255)    COMMENT 'Additional descriptive text regarding this attachment (optional).',
+     upload_date datetime    COMMENT 'Date and time that this attachment was uploaded or written to server.' 
 ,
     PRIMARY KEY ( id )
  
  
- 
+,      INDEX FKEY_file_type_id ( file_type_id ) ,  
+     FOREIGN KEY (file_type_id) REFERENCES civicrm_option_value(value)
+  
 )  TYPE=InnoDB  ;
 
 -- /*******************************************************
 -- *
--- * civicrm_membership
+-- * civicrm_entity_file
 -- *
--- * Contact Membership records.
+-- * Attaches (joins)  uploaded files (images, documents, etc.) to entities (Contacts, Groups, Actions).
 -- *
 -- *******************************************************/
-CREATE TABLE civicrm_membership (
+CREATE TABLE civicrm_entity_file (
 
 
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Membership Id',
-     contact_id int unsigned NOT NULL   COMMENT 'FK to Contact ID',
-     membership_type_id int unsigned NOT NULL   COMMENT 'FK to Membership Type',
-     join_date date    COMMENT 'Beginning of initial membership period',
-     start_date date    COMMENT 'Latest membership period start/renew date',
-     end_date date    COMMENT 'Latest membership period expire date',
-     source varchar(128)    ,
-     calculated_status_id int unsigned NOT NULL   COMMENT 'FK to Membership Status',
-     override_status_id int unsigned    COMMENT 'Admin users may set a manual status which overrides the calculated status. FK to Membership Status' 
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'primary key',
+     entity_table varchar(64)    COMMENT 'physical tablename for entity being joined to file, e.g. civicrm_contact',
+     entity_id int unsigned NOT NULL   COMMENT 'FK to entity table specified in entity_table column.',
+     file_id int unsigned NOT NULL   COMMENT 'FK to civicrm_file' 
 ,
     PRIMARY KEY ( id )
  
- 
-,      INDEX FKEY_contact_id ( contact_id ) ,  
-     FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
-,      INDEX FKEY_membership_type_id ( membership_type_id ) ,  
-     FOREIGN KEY (membership_type_id) REFERENCES civicrm_membership_type(id)
-,      INDEX FKEY_calculated_status_id ( calculated_status_id ) ,  
-     FOREIGN KEY (calculated_status_id) REFERENCES civicrm_membership_status(id)
-,      INDEX FKEY_override_status_id ( override_status_id ) ,  
-     FOREIGN KEY (override_status_id) REFERENCES civicrm_membership_status(id)
+    ,     INDEX index_entity(
+        entity_table
+      , entity_id
+  )
+  ,     INDEX index_entity_file_id(
+        entity_table
+      , entity_id
+      , file_id
+  )
+  
+,      INDEX FKEY_file_id ( file_id ) ,  
+     FOREIGN KEY (file_id) REFERENCES civicrm_file(id)
   
 )  TYPE=InnoDB  ;
 
@@ -385,21 +482,19 @@ CREATE TABLE civicrm_membership (
 -- *
 -- * Modify the civicrm_contact  Table Structure
 -- *******************************************************/
-
+	
 	 ALTER TABLE `civicrm_contact` DROP `preferred_communication_method`;
+
 	 ALTER TABLE `civicrm_contact` ADD contact_sub_type varchar(64) DEFAULT NULL;
+
 	 ALTER TABLE `civicrm_contact` ADD preferred_communication_method varchar(255) DEFAULT NULL;
 
 -- /*******************************************************
 -- *
--- * Modify the civicrm_contribution  Table Structure
+-- * Modify the civicrm_contribution_page  Table Structure
 -- *******************************************************/
+	ALTER TABLE `civicrm_contribution_page` ADD amount_block_is_active int(4) unsigned DEFAULT 1;
 
-	 ALTER TABLE `civicrm_contribution` ADD pay_for_entity_table varchar(64) DEFAULT NULL;
-
-	 ALTER TABLE `civicrm_contribution` ADD pay_for_entity_id int(10) unsigned DEFAULT NULL;
-	
-	 ALTER TABLE `civicrm_contribution` ADD INDEX (`pay_for_entity_id`);
 
 -- /*******************************************************
 -- *
@@ -473,12 +568,8 @@ CREATE TABLE civicrm_membership (
 	ALTER TABLE `civicrm_uf_group` ADD add_captcha tinyint DEFAULT 0;
 
 	ALTER TABLE `civicrm_uf_group` ADD cancel_URL varchar(255) DEFAULT NULL;
+	
 
-	ALTER TABLE `civicrm_uf_group` ADD membership_type_id int unsigned DEFAULT NULL;
- 		 		
-	ALTER TABLE `civicrm_uf_group` ADD INDEX (`membership_type_id`);
-	
-	
 -- /*******************************************************
 -- *
 -- * Modify the civicrm_uf_match  Table Structure
@@ -503,12 +594,14 @@ CREATE TABLE civicrm_membership (
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_saved_search` ADD `mapping_id` INT UNSIGNED;
+
 	ALTER TABLE `civicrm_saved_search` ADD FOREIGN KEY (`mapping_id`) REFERENCES `civicrm_mapping` (`id`);
+
 	ALTER TABLE `civicrm_saved_search` DROP FOREIGN KEY `civicrm_saved_search_ibfk_1`;
+
 	ALTER TABLE `civicrm_saved_search` DROP `query`,
 					   DROP `domain_id`,	
 					   DROP `is_active`;
-
 -- /*******************************************************
 -- *
 -- * Modify the civicrm_custom_value  Table Structure
@@ -516,9 +609,10 @@ CREATE TABLE civicrm_membership (
 -- *******************************************************/
 
 	UPDATE `civicrm_custom_value` SET `char_data` = CONCAT("^A",`char_data`,"^A")
-        WHERE `custom_field_id` IN
-	  	    	      (SELECT `id` from `civicrm_custom_field`
-                               WHERE `civicrm_custom_value`.`custom_field_id` = `civicrm_custom_field`.`id`
-  			       AND `html_type` IN ('Multi-Select', 'CheckBox'));
+	WHERE `custom_field_id` IN
+			      (SELECT `id` from `civicrm_custom_field`
+			       WHERE `civicrm_custom_value`.`custom_field_id` = `civicrm_custom_field`.`id`
+			       AND `html_type` IN ('multi-Select','CheckBox'));
 
- 
+
+
