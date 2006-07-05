@@ -560,18 +560,25 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $names, false );
                     $values[$index] = $paramsNew[$name];
-                } else if ( ! CRM_Quest_BAO_Student::getValues( $field, $details, $values ) ) {
-                    if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
-                        if ($details->$name) {
-                            $values[$index] = '[ x ]';
-                        }
-                    } else {
-                        require_once 'CRM/Core/BAO/CustomField.php';
-                        if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                            $params[$index] = $details->$name;
-                            $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                } else {
+                    $processed = false;
+                    if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                        require_once 'CRM/Quest/BAO/Student.php';
+                        $processed = CRM_Quest_BAO_Student::buildStudentForm( $field, $this );
+                    }
+                    if ( ! $processed ) {
+                        if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
+                            if ($details->$name) {
+                                $values[$index] = '[ x ]';
+                            }
                         } else {
-                            $values[$index] = $details->$name;
+                            require_once 'CRM/Core/BAO/CustomField.php';
+                            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
+                                $params[$index] = $details->$name;
+                                $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                            } else {
+                                $values[$index] = $details->$name;
+                            }
                         }
                     }
                 }
