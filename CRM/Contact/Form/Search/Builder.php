@@ -115,8 +115,41 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
-        //CRM_Core_Error::debug('s', $fields);
+    static function formRule( &$values ) {
+
+        if ( $values['addMore'] || $values['addBlock']) {
+            return true;
+        }
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $fields = array ();
+        $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', false, true );
+        
+        require_once 'CRM/Core/Component.php';
+        $compomentFields =& CRM_Core_Component::getQueryFields( );
+        
+        $fields = array_merge( $fields, $compomentFields );
+        //CRM_Core_Error::debug('s', $values);
+        $fld = array ();
+        $fld = CRM_Core_BAO_Mapping::formattedFields($values, true);
+        //CRM_Core_Error::debug('s', $fld);
+        
+        require_once 'CRM/Utils/Type.php';
+        $errorMsg = array ();
+        foreach ($fld as $k => $v) {
+            if ( trim($v[2]) ) {
+                $type  = CRM_Utils_Type::typeToString($fields[$v[0]]['type']);
+                $error = CRM_Utils_Type::validate($v[2], $type, false );
+          
+                if ( $error != $v[2]  ) {
+                    $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";;
+                }
+            }
+        }
+        //CRM_Core_Error::debug('er', $errorMsg);
+        if ( !empty($errorMsg) ) {
+            return $errorMsg;
+        }
+        
         return true;
 
     }    

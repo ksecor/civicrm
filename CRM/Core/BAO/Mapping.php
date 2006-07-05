@@ -568,14 +568,15 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
     /**
      * Function returns associated array of elements, that will be passed for search
      *
-     * @params array $params associated array of submitted values
+     * @params array   $params associated array of submitted values
+     * @params boolean $row    row no of the fields
      *
      * @return $returnFields  formatted associated array of elements
      *
      * @static
      * @public
      */
-    static function &formattedFields( &$params ) {
+    static function &formattedFields( &$params , $row = false ) {
         $fields = array( );
 
         if ( empty( $params ) ) {
@@ -584,7 +585,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         foreach ($params['mapper'] as $key => $value) {
             foreach ($value as $k => $v) {
-                if ($v[1]) {
+                if ( $v[1] ) {
                     $fldName = $v[1];
                     if ( $v[2] ) {
                         $fldName .= "-{$v[2]}";
@@ -603,12 +604,21 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                             $value[$i] = 1;
                         }
                     }
-                        
-                    $fields[] = array( $fldName,
-                                       $params['operator'][$key][$k],
-                                       $value,
-                                       $key,
-                                       0 );
+
+                    if ( $row ) {
+                        $fields[] = array( $fldName,
+                                           $params['operator'][$key][$k],
+                                           $value,
+                                           $key,
+                                           $k );
+                    } else{
+                        $fields[] = array( $fldName,
+                                           $params['operator'][$key][$k],
+                                           $value,
+                                           $key,
+                                           0 );
+
+                    }
                 }
             }
         }
