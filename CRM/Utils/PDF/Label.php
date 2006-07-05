@@ -37,26 +37,25 @@ require_once ('packages/ufpdf/ufpdf.php');
 class CRM_Utils_PDF_Label extends UFPDF {
 
     // Private properties
-    var $_Avery_Name    = '';                 // Name of format
-    var $_Margin_Left    = 0;                 // Left margin of labels
-    var $_Margin_Top    = 0;                  // Top margin of labels
-    var $_X_Space         = 0;                // Horizontal space between 2 labels
-    var $_Y_Space         = 0;                // Vertical space between 2 labels
-    var $_X_Number         = 0;               // Number of labels horizontally
-    var $_Y_Number         = 0;               // Number of labels vertically
-    var $_Width         = 0;                  // Width of label
-    var $_Height         = 0;                 // Height of label
-    var $_Char_Size        = 10;              // Character size
-    var $_Line_Height    = 10;                // Default line height
-    var $_Metric         = 'mm';              // Type of metric for labels.. Will help to calculate good values
-    var $_Metric_Doc     = 'mm';              // Type of metric for the document
-    //    var $_Font_Name        = 'Arial';       // Name of the font
-    var $_Font_Name        = 'symbol';        // Name of the font
-    var $_COUNTX = 1;
-    var $_COUNTY = 1;
+    var $averyName  = '';       // Name of format
+    var $marginLeft = 0;        // Left margin of labels
+    var $marginTop  = 0;        // Top margin of labels
+    var $xSpace     = 0;        // Horizontal space between 2 labels
+    var $ySpace     = 0;        // Vertical space between 2 labels
+    var $xNumber    = 0;        // Number of labels horizontally
+    var $yNumber    = 0;        // Number of labels vertically
+    var $width      = 0;        // Width of label
+    var $height     = 0;        // Height of label
+    var $charSize   = 10;       // Character size
+    var $lineHeight = 10;       // Default line height
+    var $metric     = 'mm';     // Type of metric for labels.. Will help to calculate good values
+    var $metricDoc  = 'mm';     // Type of metric for the document
+    var $fontName   = 'symbol'; // Name of the font
+    var $countX     = 1;
+    var $countY     = 1;
     
     // Listing of labels size
-    protected  $_Avery_Labels = array (
+    protected  $averyLabels = array (
                                        '5160'=>array('name'=>'5160', 'paper-size'=>'letter', 'metric'=>'mm',
                                                      'lMargin'=>1.762, 'tMargin'=>10.7, 'NX'=>3, 'NY'=>10,
                                                      'SpaceX'=>3.175, 'SpaceY'=>0, 'width'=>66.675, 'height'=>25.4,
@@ -98,34 +97,34 @@ class CRM_Utils_PDF_Label extends UFPDF {
    function __construct ($format, $unit='mm') {
        if (is_array($format)) {
            // Custom format
-           $Tformat = $format;
+           $tFormat = $format;
        } else {
            // Avery format
-           $Tformat = $this->_Avery_Labels[$format];
+           $tFormat = $this->averyLabels[$format];
        }
        
-       parent::UFPDF('P', $Tformat['metric'], $Tformat['paper-size']);
-       $this->_Set_Format($Tformat);
-       $this->Set_Font_Name('Arial');
+       parent::UFPDF('P', $tFormat['metric'], $tFormat['paper-size']);
+       $this->SetFormat($tFormat);
+       $this->SetFontName('Arial');
        $this->SetMargins(0,0);
        $this->SetAutoPageBreak(false);
        
-       $this->_Metric_Doc = $unit;
+       $this->metricDoc = $unit;
        // Start at the given label position
        //  if ($posX > 1) $posX--; else $posX=0;
        //         if ($posY > 1) $posY--; else $posY=0;
-       //         if ($posX >=  $this->_X_Number) $posX =  $this->_X_Number-1;
-       //         if ($posY >=  $this->_Y_Number) $posY =  $this->_Y_Number-1;
-       //         $this->_COUNTX = $posX;
-       //         $this->_COUNTY = $posY;
+       //         if ($posX >=  $this->xNumber) $posX =  $this->xNumber-1;
+       //         if ($posY >=  $this->yNumber) $posY =  $this->yNumber-1;
+       //         $this->countX = $posX;
+       //         $this->countY = $posY;
        
-       if($format == $_Avery_Labels['name']){
-           if ($_Avery_Labels['lMargin'] > 1) $_Avery_Labels['lMargin']--; else $_Avery_Labels['lMargin']=0;
-           if ($_Avery_Labels['tMargin'] > 1) $_Avery_Labels['tMargin']--; else $_Avery_Labels['tMargin']=0;
-           if ($_Avery_Labels['lMargin'] >=  $this->_X_Number) $_Avery_Labels['lMargin'] =  $this->_X_Number-1;
-           if ($_Avery_Labels['tMargin'] >=  $this->_Y_Number) $_Avery_Labels['tMargin'] =  $this->_Y_Number-1;
-           $this->_COUNTX = $_Avery_Labels['lMargin'];
-           $this->_COUNTY = $_Avery_Labels['tMargin'];
+       if($format == $averyLabels['name']){
+           if ($averyLabels['lMargin'] > 1) $averyLabels['lMargin']--; else $averyLabels['lMargin']=0;
+           if ($averyLabels['tMargin'] > 1) $averyLabels['tMargin']--; else $averyLabels['tMargin']=0;
+           if ($averyLabels['lMargin'] >=  $this->xNumber) $averyLabels['lMargin'] =  $this->xNumber-1;
+           if ($averyLabels['tMargin'] >=  $this->yNumber) $averyLabels['tMargin'] =  $this->yNumber-1;
+           $this->countX = $averyLabels['lMargin'];
+           $this->countY = $averyLabels['tMargin'];
        }
    }
     
@@ -133,7 +132,7 @@ class CRM_Utils_PDF_Label extends UFPDF {
     * function to convert units (in to mm, mm to in)
     *
     */ 
-    function _Convert_Metric ($value, $src, $dest) {
+    function ConvertMetric ($value, $src, $dest) {
         if ($src != $dest) {
             $tab['in'] = 39.37008;
             $tab['mm'] = 1000;
@@ -145,41 +144,41 @@ class CRM_Utils_PDF_Label extends UFPDF {
     /*
      * function to Give the height for a char size given.
      */
-    function _Get_Height_Chars($pt) {
+    function GetHeightChars($pt) {
         // Array matching character sizes and line heights
-        $_Table_Hauteur_Chars = array(6=>2, 7=>2.5, 8=>3, 9=>4, 10=>5, 11=>6, 12=>7, 13=>8, 14=>9, 15=>10);
-        if (in_array($pt, array_keys($_Table_Hauteur_Chars))) {
-            return $_Table_Hauteur_Chars[$pt];
+        $tableHauteurChars = array(6=>2, 7=>2.5, 8=>3, 9=>4, 10=>5, 11=>6, 12=>7, 13=>8, 14=>9, 15=>10);
+        if (in_array($pt, array_keys($tableHauteurChars))) {
+            return $tableHauteurChars[$pt];
         } else {
             return 100; // There is a prob..
         }
     }
     /*
      * function to convert units (in to mm, mm to in)
-     * $format Type of $_Avery_Name
+     * $format Type of $averyName
      */ 
-    function _Set_Format($format) {
-        $this->_Metric         = $format['metric'];
-        $this->_Avery_Name     = $format['name'];
-        $this->_Margin_Left    = $this->_Convert_Metric ($format['lMargin'], $this->_Metric, $this->_Metric_Doc);
-        $this->_Margin_Top    = $this->_Convert_Metric ($format['tMargin'], $this->_Metric, $this->_Metric_Doc);
-        $this->_X_Space     = $this->_Convert_Metric ($format['SpaceX'], $this->_Metric, $this->_Metric_Doc);
-        $this->_Y_Space     = $this->_Convert_Metric ($format['SpaceY'], $this->_Metric, $this->_Metric_Doc);
-        $this->_X_Number     = $format['NX'];
-        $this->_Y_Number     = $format['NY'];
-        $this->_Width         = $this->_Convert_Metric ($format['width'], $this->_Metric, $this->_Metric_Doc);
-        $this->_Height         = $this->_Convert_Metric ($format['height'], $this->_Metric, $this->_Metric_Doc);
-        $this->Set_Font_Size($format['font-size']);
+    function SetFormat($format) {
+        $this->metric     = $format['metric'];
+        $this->averyName  = $format['name'];
+        $this->marginLeft = $this->ConvertMetric ($format['lMargin'], $this->metric, $this->metricDoc);
+        $this->marginTop  = $this->ConvertMetric ($format['tMargin'], $this->metric, $this->metricDoc);
+        $this->xSpace     = $this->ConvertMetric ($format['SpaceX'], $this->metric, $this->metricDoc);
+        $this->ySpace     = $this->ConvertMetric ($format['SpaceY'], $this->metric, $this->metricDoc);
+        $this->xNumber    = $format['NX'];
+        $this->yNumber    = $format['NY'];
+        $this->width      = $this->ConvertMetric ($format['width'], $this->metric, $this->metricDoc);
+        $this->height     = $this->ConvertMetric ($format['height'], $this->metric, $this->metricDoc);
+        $this->LabelSetFontSize($format['font-size']);
     }
     /*
      * function to set the character size
      * $pt weight of character
      */
-    function Set_Font_Size($pt) {
+    function LabelSetFontSize($pt) {
         if ($pt > 3) {
-            $this->_Char_Size = $pt;
-            $this->_Line_Height = $this->_Get_Height_Chars($pt);
-            $this->SetFontSize($this->_Char_Size);
+            $this->charSize = $pt;
+            $this->lineHeight = $this->GetHeightChars($pt);
+            $this->SetFontSize($this->charSize);
         }
     }
     /*
@@ -187,38 +186,38 @@ class CRM_Utils_PDF_Label extends UFPDF {
      *
      * $fontname name of font 
      */
-    function Set_Font_Name($fontname) {
+    function SetFontName($fontname) {
         if ($fontname != '') {
-            $this->_Font_Name = $fontname;
-            $this->SetFont($this->_Font_Name);
+            $this->fontName = $fontname;
+            $this->SetFont($this->fontName);
         }
     }
     
     /*
      * function to Print a label
      */
-    function Add_PDF_Label($texte) {
+    function AddPdfLabel($texte) {
         // We are in a new page, then we must add a page
-        if (($this->_COUNTX ==0) and ($this->_COUNTY==0)) {
+        if (($this->countX ==0) and ($this->countY==0)) {
             $this->AddPage();
         }
         
-        $_PosX = $this->_Margin_Left+($this->_COUNTX*($this->_Width+$this->_X_Space));
-        $_PosY = $this->_Margin_Top+($this->_COUNTY*($this->_Height+$this->_Y_Space));
-        $this->SetXY($_PosX+3, $_PosY+3);
-        $this->MultiCell($this->_Width, $this->_Line_Height, $texte);
-        $this->_COUNTY++;
+        $posX = $this->marginLeft+($this->countX*($this->width+$this->xSpace));
+        $posY = $this->marginTop+($this->countY*($this->height+$this->ySpace));
+        $this->SetXY($posX+3, $posY+3);
+        $this->MultiCell($this->width, $this->lineHeight, $texte);
+        $this->countY++;
         
-        if ($this->_COUNTY == $this->_Y_Number) {
+        if ($this->countY == $this->yNumber) {
             // End of column reached, we start a new one
-            $this->_COUNTX++;
-            $this->_COUNTY=0;
+            $this->countX++;
+            $this->countY=0;
         }
         
-        if ($this->_COUNTX == $this->_X_Number) {
+        if ($this->countX == $this->xNumber) {
             // Page full, we start a new one
-            $this->_COUNTX=0;
-            $this->_COUNTY=0;
+            $this->countX=0;
+            $this->countY=0;
         }
     }
     
