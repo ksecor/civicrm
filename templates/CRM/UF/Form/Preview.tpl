@@ -6,7 +6,8 @@
 {include file="CRM/common/info.tpl"}
 {if ! empty( $fields )}
 {if $viewOnly }
-<div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
+{* wrap in crm-container div so crm styles are used *}
+<div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
     {strip}
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}

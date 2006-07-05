@@ -1,12 +1,12 @@
-<p>
-
 {if $rows } 
 <div class="form-item">
      <span class="element-right">{$form.buttons.html}</span>
 </div>
+
 <div class="spacer"></div>
+
+<div>
 <br />
-<p>
 <table>
   <tr class="columnheader">
     <th>{ts}Name{/ts}</th>
@@ -31,6 +31,7 @@
     </tr>
 {/foreach}
 </table>
+</div>
 
 <div class="form-item">
      <span class="element-right">{$form.buttons.html}</span>

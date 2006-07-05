@@ -11,7 +11,7 @@
 
 <body>
 
-<div id="crm-container">
+<div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
 
 <div class="messages status">
   <dl>

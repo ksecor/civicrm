@@ -22,7 +22,7 @@
 {$session->debug($smarty.get.sessionDebug)}
 {/if}
 
-<div id="crm-container">
+<div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
 
 {* Check for Status message for the page (stored in session->getStatus). Status is cleared on retrieval. *}
 {if $session->getStatus(false)}

@@ -1,5 +1,6 @@
 {if ! empty( $fields )}
-<div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
+{* wrap in crm-container div so crm styles are used *}
+<div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
 
 {if $mode eq 8 || $mode eq 1}
 {include file="CRM/Form/body.tpl"}
