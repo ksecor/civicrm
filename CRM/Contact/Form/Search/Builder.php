@@ -116,7 +116,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      * @access public
      */
     static function formRule( &$values ) {
-
+        //CRM_Core_Error::debug('s', $values);
         if ( $values['addMore'] || $values['addBlock']) {
             return true;
         }
@@ -128,17 +128,23 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $compomentFields =& CRM_Core_Component::getQueryFields( );
         
         $fields = array_merge( $fields, $compomentFields );
-        //CRM_Core_Error::debug('s', $values);
+        //CRM_Core_Error::debug('s', $fields);
         $fld = array ();
         $fld = CRM_Core_BAO_Mapping::formattedFields($values, true);
-        //CRM_Core_Error::debug('s', $fld);
         
         require_once 'CRM/Utils/Type.php';
         $errorMsg = array ();
         foreach ($fld as $k => $v) {
-            if ( trim($v[2]) ) {
-                $type  = CRM_Utils_Type::typeToString($fields[$v[0]]['type']);
-                $error = CRM_Utils_Type::validate($v[2], $type, false );
+            if ( substr($v[0], 0, 7) == 'custom_' ) {
+                $type = $fields[$v[0]]['data_type'];
+            } else{
+                $fldType = $fields[$v[0]]['type'];
+                $type  = CRM_Utils_Type::typeToString( $fldType );
+            }
+
+            if ( trim($v[2]) && $type ) {
+
+                $error = CRM_Utils_Type::validate( $v[2], $type, false );
           
                 if ( $error != $v[2]  ) {
                     $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";;
