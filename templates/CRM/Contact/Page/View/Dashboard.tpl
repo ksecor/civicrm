@@ -1,26 +1,24 @@
-<fieldset>
-<div><label class="font-size12pt">{$display_name}</label></div>
-
-{* Open Activities table and Activity History are toggled on this page for now because we don't have a solution for including 2 'selectors' on one page. *}
-
-    {* Showing Open Activities *}
+<table class="form-layout">
+<tr><td>
+<div id="openActivities_show" class="data-group">
     {if $totalCountOpenActivity}
-        <fieldset><legend><a href="{crmURL p='civicrm/activityView' q="show=1&action=browse&history=1&cid=`$contactId`"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Scheduled Activities{/ts}</legend>
+        <a href="#" onclick="hide('openActivities_show'); show('openActivities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Scheduled Activities{/ts}</label> ({$totalCountOpenActivity})<br />
     {else}
-        <div class="data-group">
         <dl><dt>{ts}Scheduled Activities{/ts}</dt>
             <dd>{ts}No activities currently scheduled.{/ts}</dd>
         </dl>
-        </div>
     {/if}
+</div>
 
+<div id="openActivities">
 {if $rows}
+ <fieldset><legend><a href="#" onclick="hide('openActivities'); show('openActivities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $openActivity.totalCount GT 3}{ts 1=$openActivity.totalCount}Open Activities (3 of %1){/ts}{else}{ts}Scheduled Activities{/ts}{/if}</legend>
  <form title="activity_pager" action="{crmURL}" method="post">
 
     {include file="CRM/pager.tpl" location="top"}
 
    {strip}
- <table>
+   <table>
       <tr class="columnheader">
       {foreach from=$columnHeaders item=header}
         <th>
@@ -53,15 +51,37 @@
            </tr>           
     {/foreach}
     </table>
-
     {/strip}
 
     {include file="CRM/pager.tpl" location="bottom"}
-  </form>
+    </form>
     </fieldset>
+{else}
+    <div class="data-group">
+    <dl><dt>{ts}Scheduled Activities{/ts}</dt>
+        <dd>{ts}No activities currently scheduled.{/ts}</dd>
+    </dl>
+    </div>
 {/if}
-
+</div>
+<fieldset>
+{$searchBlock.content}
 </fieldset>
+</td>
+<td>
+<fieldset><legend>{ts}Menu{/ts}</legend>
+{$menuBlock.content}
+</fieldset>
+<fieldset><legend>{ts}Shortcuts{/ts}</legend>
+{$shortcutBlock.content}
+</fieldset>
+</td>
+</tr>
+</table>
+ <script type="text/javascript">
+    var showBlocks = new Array({$showBlocks});
+    var hideBlocks = new Array({$hideBlocks});
 
-
-
+{* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showBlocks, hideBlocks );
+ </script>

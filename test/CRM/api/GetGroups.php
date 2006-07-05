@@ -34,11 +34,12 @@ class TestOfGetGroups extends UnitTestCase
     
     function testGetFilterdGroupGroupCount()
     {
-        $return_prop = array('name','title','member_count');
-        $groups = crm_get_groups($params);
+        $return_prop = array('id', 'title','member_count');
+        $groups = crm_get_groups($params,$return_prop);
         $this->assertNotA($group,'CRM_Core_Error');
         foreach($groups as  $group) {
             $this->assertIsA($group,'CRM_Contact_DAO_Group');
+            echo $group->id . ", " . $group->title . ", " . $group->member_count . "<br />";
         }
     }
 }

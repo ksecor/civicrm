@@ -146,7 +146,10 @@ class CRM_Contact_Page_View_Dashboard extends CRM_Contact_Page_View {
         $this->assign( 'menuBlock'    , CRM_Core_Block::getContent( 1 ) );
         $this->assign( 'shortcutBlock', CRM_Core_Block::getContent( 2 ) );
         $this->assign( 'searchBlock'  , CRM_Core_Block::getContent( 4 ) );
-
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks( array( 'openActivities'       => 1),
+                                                  array( 'openActivities_show'  => 1 ) );
+        $showHide->addToTemplate( );        
     }
         
     /**
