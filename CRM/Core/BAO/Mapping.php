@@ -583,8 +583,17 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             return $fields;
         }
         
+        $types = array( 'Individual', 'Organization', 'Household' );
         foreach ($params['mapper'] as $key => $value) {
+            $contactType = null;
             foreach ($value as $k => $v) {
+                if ( in_array( $v[0], $types ) ) {
+                    if ( $contactType && $contactType != $v[0] ) {
+                        CRM_Core_Error::fatal( ts( "Cannot have two clauses with different types: %1, %2",
+                                                   array( 1 => $contactType, 2 => $v[0] ) ) );
+                    }
+                    $contactType = $v[0];
+                }
                 if ( $v[1] ) {
                     $fldName = $v[1];
                     if ( $v[2] ) {
@@ -611,7 +620,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                                            $value,
                                            $key,
                                            $k );
-                    } else{
+                    } else {
                         $fields[] = array( $fldName,
                                            $params['operator'][$key][$k],
                                            $value,
@@ -620,6 +629,13 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
 
                     }
                 }
+            }
+            if ( $contactType ) {
+                $fields[] = array( 'contact_type',
+                                   '=',
+                                   $contactType,
+                                   $key,
+                                   0 );
             }
         }
         

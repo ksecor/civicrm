@@ -140,7 +140,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         }
 
         //call function to create labels
-        self::createLabel($rows,$fv['label_id']);
+        self::createLabel($rows, $fv['label_id']);
         exit(1);
     }
     
@@ -169,7 +169,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             foreach ($value as $k => $v) {
                 $val .= "$v\n";
             }
-            
+
             $pdf->Add_PDF_Label($val);
             $val = '';
         }
