@@ -18,6 +18,7 @@
             <th>{ts}End Event{/ts}</th>
             <th>{ts}Member{/ts}</th>
             <th>{ts}Admin{/ts}</th>
+            <th>{ts}Weight{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </tr>
@@ -28,6 +29,7 @@
 	        <td>{$row.end_event}</td>
 	        <td>{if $row.is_current_member eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{if $row.is_admin eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	        <td>{$row.weight}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>
