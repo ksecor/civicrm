@@ -523,7 +523,7 @@ CREATE TABLE civicrm_log (
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_custom_value` ADD file_id int(10) unsigned DEFAULT NULL;
-
+	ALTER TABLE `civicrm_custom_value` ADD FOREIGN KEY (`file_id`) REFERENCES `civicrm_file`(`id`);
 	ALTER TABLE `civicrm_custom_value` ADD INDEX (`file_id`);
 	
 -- /*******************************************************
