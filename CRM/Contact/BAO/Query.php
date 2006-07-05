@@ -60,7 +60,7 @@ class CRM_Contact_BAO_Query {
      * @var array
      * @static
      */
-    static $_defaultReturnProperties;
+    static $_defaultReturnProperties = null;
 
     /**
      * the default set of hier return properties
@@ -1836,44 +1836,48 @@ class CRM_Contact_BAO_Query {
      */
     static function &defaultReturnProperties( $mode = 1 ) {
         if ( ! isset( self::$_defaultReturnProperties ) ) {
-            self::$_defaultReturnProperties = CRM_Core_Component::defaultReturnProperties( $mode );
+            self::$_defaultReturnProperties = array( );
+        }
 
-            if ( empty( self::$_defaultReturnProperties ) ) {
-                self::$_defaultReturnProperties = array( 
-                                                        'home_URL'               => 1, 
-                                                        'image_URL'              => 1, 
-                                                        'legal_identifier'       => 1, 
-                                                        'external_identifier'    => 1,
-                                                        'contact_type'           => 1,
-                                                        'contact_sub_type'       => 1,
-                                                        'sort_name'              => 1,
-                                                        'display_name'           => 1,
-                                                        'preferred_mail_format'  => 1,
-                                                        'nick_name'              => 1, 
-                                                        'first_name'             => 1, 
-                                                        'middle_name'            => 1, 
-                                                        'last_name'              => 1, 
-                                                        'prefix'                 => 1, 
-                                                        'suffix'                 => 1,
-                                                        'birth_date'             => 1,
-                                                        'gender'                 => 1,
-                                                        'street_address'         => 1, 
-                                                        'supplemental_address_1' => 1, 
-                                                        'supplemental_address_2' => 1, 
-                                                        'city'                   => 1, 
-                                                        'postal_code'            => 1, 
-                                                        'postal_code_suffix'     => 1, 
-                                                        'state_province'         => 1, 
-                                                        'country'                => 1,
-                                                        'geo_code_1'             => 1,
-                                                        'geo_code_2'             => 1,
-                                                        'email'                  => 1, 
-                                                        'phone'                  => 1, 
-                                                        'im'                     => 1, 
-                                                        ); 
+        if ( ! isset( self::$_defaultReturnProperties[$mode] ) ) {
+            self::$_defaultReturnProperties[$mode] = CRM_Core_Component::defaultReturnProperties( $mode );
+
+            if ( empty( self::$_defaultReturnProperties[$mode] ) ) {
+                self::$_defaultReturnProperties[$mode] = array( 
+                                                               'home_URL'               => 1, 
+                                                               'image_URL'              => 1, 
+                                                               'legal_identifier'       => 1, 
+                                                               'external_identifier'    => 1,
+                                                               'contact_type'           => 1,
+                                                               'contact_sub_type'       => 1,
+                                                               'sort_name'              => 1,
+                                                               'display_name'           => 1,
+                                                               'preferred_mail_format'  => 1,
+                                                               'nick_name'              => 1, 
+                                                               'first_name'             => 1, 
+                                                               'middle_name'            => 1, 
+                                                               'last_name'              => 1, 
+                                                               'prefix'                 => 1, 
+                                                               'suffix'                 => 1,
+                                                               'birth_date'             => 1,
+                                                               'gender'                 => 1,
+                                                               'street_address'         => 1, 
+                                                               'supplemental_address_1' => 1, 
+                                                               'supplemental_address_2' => 1, 
+                                                               'city'                   => 1, 
+                                                               'postal_code'            => 1, 
+                                                               'postal_code_suffix'     => 1, 
+                                                               'state_province'         => 1, 
+                                                               'country'                => 1,
+                                                               'geo_code_1'             => 1,
+                                                               'geo_code_2'             => 1,
+                                                               'email'                  => 1, 
+                                                               'phone'                  => 1, 
+                                                               'im'                     => 1, 
+                                                               ); 
             }
         }
-        return self::$_defaultReturnProperties;
+        return self::$_defaultReturnProperties[$mode];
     }
 
     /**

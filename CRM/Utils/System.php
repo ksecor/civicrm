@@ -526,25 +526,6 @@ class CRM_Utils_System {
         return substr_replace( $number, $replace, 0, -$keep );
     }
 
-    static function accessCiviContribute( ) {
-        $config =& CRM_Core_Config::singleton( );
-        if ( CRM_Core_Permission::check( 'access CiviContribute' ) && 
-             in_array( 'CiviContribute', $config->enableComponents ) ) {
-            return true;
-        }
-        return false;
-    }
-
-    static function accessCiviMember( ) {
-        $config =& CRM_Core_Config::singleton( );
-        if ( CRM_Core_Permission::check( 'access CiviMember' ) && 
-             in_array( 'CiviMember', $config->enableComponents ) ) {
-            return true;
-        }
-        return false;
-    }
-    
-
     /** parse php modules from phpinfo */
     function parsePHPModules() {
         ob_start();

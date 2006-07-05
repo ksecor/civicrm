@@ -213,18 +213,20 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
 
-            //set student defaults
-            CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
-            $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
-            foreach( $fields as $field ) {
-                if ( $defaults[$field] ) {
-                    $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
-                }
-                
-                $defaults[$field] = array();
-                if ( is_array( $values ) ) {
-                    foreach( $values as $v ) {
-                        $defaults[$field][$v] = 1;
+            if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                //set student defaults
+                CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
+                $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
+                foreach( $fields as $field ) {
+                    if ( $defaults[$field] ) {
+                        $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
+                    }
+                    
+                    $defaults[$field] = array();
+                    if ( is_array( $values ) ) {
+                        foreach( $values as $v ) {
+                            $defaults[$field][$v] = 1;
+                        }
                     }
                 }
             }

@@ -145,7 +145,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         // get the contributions, new style of doing stuff
         // do the below only if the person has access to contributions
         $config =& CRM_Core_Config::singleton( );
-        if ( CRM_Utils_System::accessCiviContribute( ) ) {
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $this->assign( 'accessContribution', true );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action );  
             $controller->setEmbedded( true );                           
@@ -162,7 +162,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
 
         // get the memberships, new style of doing stuff
         // do the below only if the person has access to memberships
-        if ( CRM_Utils_System::accessCiviMember( ) ) {
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             $this->assign( 'accessMembership', true );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_Search', ts('Memberships'), $this->_action );  
             $controller->setEmbedded( true );                           
@@ -204,12 +204,12 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                                                          'activityHx'           => 1 ) );
 
         $config =& CRM_Core_Config::singleton( ); 
-        if ( CRM_Utils_System::accessCiviContribute( ) ) {
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $showHide->addShow( 'contributions[show]' ); 
             $showHide->addHide( 'contributions' ); 
         }
 
-        if ( CRM_Utils_System::accessCiviMember( ) ) {
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             $showHide->addShow( 'memberships[show]' ); 
             $showHide->addHide( 'memberships' ); 
         }

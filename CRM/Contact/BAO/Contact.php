@@ -1167,15 +1167,17 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         CRM_Core_DAO::transaction( 'BEGIN' );
 
         // do a top down deletion
-        if ( $contact->contact_sub_type == 'Student' ) {
-            require_once 'CRM/Quest/BAO/Student.php';
-            CRM_Quest_BAO_Student::deleteStudent($id);
-
-            require_once 'CRM/Core/DAO/Log.php';
-            $logDAO =& new CRM_Core_DAO_Log(); 
-            $logDAO->modified_id = $id;
-            $logDAO->delete();
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            if ( $contact->contact_sub_type == 'Student' ) {
+                require_once 'CRM/Quest/BAO/Student.php';
+                CRM_Quest_BAO_Student::deleteStudent($id);
+            }
         }
+        
+        require_once 'CRM/Core/DAO/Log.php';
+        $logDAO =& new CRM_Core_DAO_Log(); 
+        $logDAO->modified_id = $id;
+        $logDAO->delete();
 
         // delete task status here 
         require_once 'CRM/Project/DAO/TaskStatus.php';
