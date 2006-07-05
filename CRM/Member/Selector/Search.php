@@ -141,16 +141,16 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
     /**
      * Class constructor
      *
-     * @param array $queryParams array of parameters for query
-     * @param int   $action - action of search basic or advanced.
-     * @param string   $contributionClause if the caller wants to further restrict the search (used in contributions)
+     * @param array   $queryParams array of parameters for query
+     * @param int     $action - action of search basic or advanced.
+     * @param string  $memberClause if the caller wants to further restrict the search (used in memberships)
      * @param boolean $single are we dealing only with one contact?
-     * @param int     $limit  how many contributions do we want returned
+     * @param int     $limit  how many memberships do we want returned
      *
      * @return CRM_Contact_Selector
      * @access public
      */
-        function __construct(&$queryParams,
+    function __construct(&$queryParams,
                          $action = CRM_Core_Action::NONE,
                          $memberClause = null,
                          $single = false,
@@ -197,7 +197,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                                    'url'      => 'civicrm/contact/view/membership',
                                                                    'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%',
                                                                    'title'    => ts('View Membership'),
-                                                                  ),
+                                                                   ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/view/membership',
@@ -222,7 +222,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      * @param 
      * @access public
      */
-      function getPagerParams($action, &$params) 
+    function getPagerParams($action, &$params) 
     {
         $params['status']       = ts('Member') . ' %%StatusMessage%%';
         $params['csvString']    = null;
@@ -243,16 +243,16 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      * @return int Total number of rows 
      * @access public
      */
-      function getTotalCount($action)
-      {
-          return $this->_query->searchQuery( 0, 0, null,
-                                             true, false, 
-                                             false, false, 
-                                             false, 
-                                             $this->_memberClause );
-      }
+    function getTotalCount($action)
+    {
+        return $this->_query->searchQuery( 0, 0, null,
+                                           true, false, 
+                                           false, false, 
+                                           false, 
+                                           $this->_memberClause );
+    }
 
-
+    
     /**
      * returns all the rows in the given offset and rowCount
      *
@@ -264,74 +264,75 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      *
      * @return int   the total number of rows for this action
      */
-     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
-                                              false, false, 
-                                              false, false, 
-                                              false, 
-                                              $this->_memberClause );
-
-        // process the result of the query
-        $rows = array( );
-
-        // check is the user has view/edit contribution permission
-        $permission = CRM_Core_Permission::VIEW;
-        if ( CRM_Core_Permission::check( 'edit memberships' ) ) {
-            $permission = CRM_Core_Permission::EDIT;
-        }
-        require_once 'CRM/Member/PseudoConstant.php';
-        $statusTypes  = CRM_Member_PseudoConstant::membershipStatus( );
-        
-        $mask = CRM_Core_Action::mask( $permission );
-        while ($result->fetch()) {
-            $row = array();
-            // the columns we are interested in
-            foreach (self::$_properties as $property) {
-                $row[$property] = $result->$property;
-            }
-            //fix status display
-            $row['status']   = $statusTypes[$row['status_id']];
-            
-            $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
-            $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                          array( 'id'  => $result->membership_id,
-                                                                 'cid' => $result->contact_id,
-                                                                 'cxt' => $this->_context ) );
-            $config =& CRM_Core_Config::singleton( );
-            $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
-            switch ($result->contact_type) {
-            case 'Individual' :
-                $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                break;
-            case 'Household' :
-                $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                break;
-            case 'Organization' :
-                $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                break;
-            }
-            $row['contact_type'] = $contact_type;
-                    
-            $rows[] = $row;
-        }
-        return $rows;
-    }
-   
-    
-    /**
-     * @return array              $qill         which contains an array of strings
-     * @access public
-     */
-  
-    // the current internationalisation is bad, but should more or less work
-    // for most of "European" languages
-    public function getQILL( )
-    {
-        return $this->_query->qill( );
-    }
-
-    /** 
-     * returns the column headers as an array of tuples: 
+     function &getRows($action, $offset, $rowCount, $sort, $output = null) 
+     {
+         $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
+                                               false, false, 
+                                               false, false, 
+                                               false, 
+                                               $this->_memberClause );
+         
+         // process the result of the query
+         $rows = array( );
+         
+         // check is the user has view/edit membership permission
+         $permission = CRM_Core_Permission::VIEW;
+         if ( CRM_Core_Permission::check( 'edit memberships' ) ) {
+             $permission = CRM_Core_Permission::EDIT;
+         }
+         require_once 'CRM/Member/PseudoConstant.php';
+         $statusTypes  = CRM_Member_PseudoConstant::membershipStatus( );
+         
+         $mask = CRM_Core_Action::mask( $permission );
+         while ($result->fetch()) {
+             $row = array();
+             // the columns we are interested in
+             foreach (self::$_properties as $property) {
+                 $row[$property] = $result->$property;
+             }
+             //fix status display
+             $row['status']   = $statusTypes[$row['status_id']];
+             
+             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
+             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
+                                                           array( 'id'  => $result->membership_id,
+                                                                  'cid' => $result->contact_id,
+                                                                  'cxt' => $this->_context ) );
+             $config =& CRM_Core_Config::singleton( );
+             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
+             switch ($result->contact_type) {
+             case 'Individual' :
+                 $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
+                 break;
+             case 'Household' :
+                 $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
+                 break;
+             case 'Organization' :
+                 $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
+                 break;
+             }
+             $row['contact_type'] = $contact_type;
+             
+             $rows[] = $row;
+         }
+         return $rows;
+     }
+     
+     
+     /**
+      * @return array              $qill         which contains an array of strings
+      * @access public
+      */
+     
+     // the current internationalisation is bad, but should more or less work
+     // for most of "European" languages
+     public function getQILL( )
+     {
+         return $this->_query->qill( );
+     }
+     
+     /** 
+      * returns the column headers as an array of tuples: 
      * (name, sortName (key to the sort array)) 
      * 
      * @param string $action the action being performed 
@@ -342,8 +343,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      */ 
     public function &getColumnHeaders( $action = null, $output = null ) 
     {
-        if ( ! isset( self::$_columnHeaders ) )
-        {
+        if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array(
                                           array(
                                                 'name'      => ts('Type'),
