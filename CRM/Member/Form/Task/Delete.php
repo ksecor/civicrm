@@ -46,7 +46,7 @@ class CRM_Member_Form_Task_Delete extends CRM_Member_Form_Task {
 
     /**
      * Are we operating in "single mode", i.e. deleting one
-     * specific contribution?
+     * specific membership?
      *
      * @var boolean
      */
@@ -90,7 +90,7 @@ class CRM_Member_Form_Task_Delete extends CRM_Member_Form_Task {
 
         $status = array(
                         ts('Deleted Member(s): %1', array(1 => $deletedMembers)),
-                        ts('Total Selected Contribution(s): %1', array(1 => count($this->_memberIds))),
+                        ts('Total Selected Membership(s): %1', array(1 => count($this->_memberIds))),
                         );
         CRM_Core_Session::setStatus($status);
     }
