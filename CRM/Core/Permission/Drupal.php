@@ -164,7 +164,8 @@ class CRM_Core_Permission_Drupal {
                     $group->id = $id;
                     if ( $group->find( true ) && $group->saved_search_id ) {
                         require_once 'CRM/Contact/BAO/SavedSearch.php';
-                        $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables );
+                        $whereTables = array( );
+                        $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables, $whereTables );
                     }
                 }
 

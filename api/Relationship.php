@@ -187,8 +187,8 @@ function crm_delete_relationship(&$contact, &$target_contact, $relationship_type
         $relationShip->find();
       
         while($relationShip->fetch()) {
-            if($relationShip->contact_id_a == $sourceContact || $relationShip->contact_id_b = $sourceContact ){
-                if($relationShip->contact_id_a == $targetContact || $relationShip->contact_id_b = $targetContact) {
+            if($relationShip->contact_id_a == $sourceContact || $relationShip->contact_id_b == $sourceContact ){
+                if($relationShip->contact_id_a == $targetContact || $relationShip->contact_id_b == $targetContact) {
                     CRM_Contact_BAO_Relationship::del($relationShip->id);   
                 }
             }
