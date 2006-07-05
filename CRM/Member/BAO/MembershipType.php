@@ -188,13 +188,15 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
      * @param int $membershipTypeId
      * @static
      */
-    static function getMembershipTypes()
+    static function getMembershipTypes( $public = true )
     {
         require_once 'CRM/Member/DAO/Membership.php';
         $membershipTypes = array();
         $membershipType =& new CRM_Member_DAO_MembershipType( );
         $membershipType->is_active = 1;
-        $membershipType->visibility = 'Public';
+        if (  $public ){
+            $membershipType->visibility = 'Public';
+        }
         $membershipType->orderBy(' weight');
         $membershipType->find();
         while ( $membershipType->fetch() ) {

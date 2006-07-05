@@ -53,32 +53,43 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
-        $startToDate = array( );
-        $yearToDate  = array( );
-        $monthToDate = array( );
-
-        $status = array( 'Valid', 'Cancelled' );
+        require_once "CRM/Member/BAO/MembershipType.php";
+        require_once "CRM/Member/BAO/Membership.php";
+        $membershipSummary = array();
         
-        $startDate = null;
-        $yearDate  = date('Y') . '0101000000';
-        $monthDate = date('Ym') . '01000000';
-
-        // we are specific since we want all information till this second
-        $now       = date( 'YmdHis' );
-
-        $prefixes = array( 'start', 'year', 'month' );
-        $status   = array( 'Valid', 'Cancelled' );
-
-        foreach ( $prefixes as $prefix ) {
-            $aName = $prefix . 'ToDate';
-            $dName = $prefix . 'Date';
-            foreach ( $status as $s ) {
-                 ${$aName}[$s]        = CRM_Contribute_BAO_Contribution::getTotalAmountAndCount( $s, $$dName, $now );
-                 ${$aName}[$s]['url'] = CRM_Utils_System::url( 'civicrm/member/search',
-                                                              "reset=1&force=1&status=$s&start={$$dName}&end=$now" );
-            }
-            $this->assign( $aName, $$aName );
+        
+        $membershipTypes = CRM_Member_BAO_MembershipType::getMembershipTypes(false);
+        foreach ( $membershipTypes as $key => $value ) {
+            $membershipSummary[$key] = CRM_Member_BAO_Membership::getMembershipSummary($key ,$value);
         }
+        
+        $totalCount = array();
+        foreach( $membershipSummary as $key => $value ) {
+            $totalCountMonth   = $totalCountMonth   +  $value['month']['count'];
+            $totalCountYear    = $totalCountYear    +  $value['year']['count'];
+            $totalCountCurrent = $totalCountCurrent +  $value['current']['count'];
+            
+        }
+        
+        $totalCount['month'] = array("count" => $totalCountMonth,
+                                     "url"   => CRM_Utils_System::url( 'civicrm/member/search',
+                                                                       "reset=1&force=1" ),
+                                    );
+        $totalCount['year'] = array("count" => $totalCountYear,
+                                     "url"   => CRM_Utils_System::url( 'civicrm/member/search',
+                                                                       "reset=1&force=1" ),
+                                    );
+        
+        $totalCount['current'] = array("count" => $totalCountCurrent,
+                                     "url"   => CRM_Utils_System::url( 'civicrm/member/search',
+                                                                       "reset=1&force=1" ),
+                                    );
+        
+        $this->assign('membershipSummary' , $membershipSummary);
+        $this->assign('totalCount' , $totalCount);
+        $this->assign('currentMonth' , date('F'));
+        $this->assign('currentYear' ,  date('Y'));
+        
     }
 
     /** 
@@ -91,10 +102,10 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
     function run( ) { 
         $this->preProcess( );
         
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Member'), $this->_action ); 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_Search', ts('Member'), $this->_action ); 
         $controller->setEmbedded( true ); 
         $controller->reset( ); 
-        $controller->set( 'limit', 10 );
+        $controller->set( 'limit', 20 );
         $controller->set( 'force', 1 );
         $controller->set( 'context', 'dashboard' ); 
         $controller->process( ); 

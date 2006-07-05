@@ -16,27 +16,25 @@
 <table class="report form-layout-compressed">
 <tr class="columnheader-dark">
     <td>{ts}Members By Type{/ts}</td>
-    <td>{ts}June-New/Renew (MTD){/ts}</td>
-    <td>{ts}2006-New/Renew (YTD){/ts}</td>
+    <td>{ts}{$currentMonth}-New/Renew (MTD){/ts}</td>
+    <td>{ts}{$currentYear}-New/Renew (YTD){/ts}</td>
     <td>{ts}Current #{/ts}</td>
 </tr>
+
+{foreach from=$membershipSummary item=row}
 <tr>
-    <td><strong>Gold Level</strong></td>
-    <td class="label"><a href="" title="view details">12</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1&start=20060601000000&end=20060612174244 *}
-    <td class="label"><a href="" title="view details">45</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1&start=20060101000000&end=20060612174244 *}
-    <td class="label"><a href="" title="view details">125</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1 *}
+    <td><strong>{$row.month.name}</strong></td>
+    <td class="label"><a href="" title="view details">{$row.month.count}</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1&start=20060601000000&end=20060612174244 *}
+    <td class="label"><a href="" title="view details">{$row.year.count}</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1&start=20060101000000&end=20060612174244 *}
+    <td class="label"><a href="" title="view details">{$row.current.count}</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1 *}
 </tr>
-<tr>
-    <td><strong>Silver Level</strong></td>
-    <td class="label"><a href="" title="view details">9</a></td> {* member/search?reset=1&force=1&membership_type_id=2&current=1&start=20060601000000&end=20060612174244 *}
-    <td class="label"><a href="" title="view details">25</a></td> {* member/search?reset=1&force=1&membership_type_id=2&current=1&start=20060101000000&end=20060612174244 *}
-    <td class="label"><a href="" title="view details">115</a></td> {* member/search?reset=1&force=1&membership_type_id=2&current=1 *}
-</tr>
+{/foreach}
+
 <tr class="columnfooter">
     <td><strong>{ts}Totals (all types){/ts}</strong></td>
-    <td class="label"><a href="" title="view details">21</a></td> {* member/search?reset=1&force=1&current=1&start=20060601000000&end=20060612174244 *}
-    <td class="label"><a href="" title="view details">70</a></td> {* member/search?reset=1&force=1&current=1&start=20060101000000&end=20060612174244 *}
-    <td class="label"><a href="" title="view details">240</a></td> {* member/search?reset=1&force=1&current=1 *}
+    <td class="label"><a href={$totalCount.month.url} title="view details">{$totalCount.month.count}</a></td> {* member/search?reset=1&force=1&current=1&start=20060601000000&end=20060612174244 *}
+    <td class="label"><a href={$totalCount.year.url} title="view details">{$totalCount.year.count}</a></td> {* member/search?reset=1&force=1&current=1&start=20060101000000&end=20060612174244 *}
+    <td class="label"><a href={$totalCount.current.url} title="view details">{$totalCount.current.count}</a></td> {* member/search?reset=1&force=1&current=1 *}
 </tr>
 </table>
 
@@ -44,7 +42,6 @@
 {* if $pager->_totalItems *}
     <h3>{ts}Recent Memberships{/ts}</h3>
     <div class="form-item">
-        <p>(Membership search selector with top 20 membership records by start_date descending goes here.)</p>
-        {* include file="CRM/Contribute/Form/Selector.tpl" context="Dashboard" *}
+        { include file="CRM/Member/Form/Selector.tpl" context="Dashboard" }
     </div>
 {* /if *}

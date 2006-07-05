@@ -398,7 +398,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         return false;
     }
 
-function &exportableFields( ) {
+    function &exportableFields( ) { 
         require_once 'CRM/Member/DAO/Membership.php';
         require_once 'CRM/Member/DAO/MembershipType.php';
         //$impFields = self::importableFields( );
@@ -408,8 +408,57 @@ function &exportableFields( ) {
         $fields = array_merge($fields, $expFieldMembership );
         return $fields;
     }
+    
+    function getMembershipSummary( $membershipTypeId ,$membershipTypeName = null) {
+        
+        $membershipSummary = array();
+        $currentMonth = date("Y-1-m");
+        $queryString =  "SELECT  count( id ) as total_count
+FROM   civicrm_membership
+WHERE ";
+        
+        //calculate member count for current month 
+        $currentMonth    = date("Y-m-01");
+        $currentMonthEnd = date("Y-m-31");
+        $whereCond =  "membership_type_id = $membershipTypeId AND start_date > '".$currentMonth ."' AND start_date < ' ".$currentMonthEnd."'" ;
 
+        $query = $queryString . $whereCond;
+        
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        if ( $dao->fetch( ) ) {
+            $membershipSummary['month'] = array( "count" => $dao->total_count ,"name" => $membershipTypeName);
+        }
+
+        //calculate member count for current year 
+        $currentYear    = date("Y-01-01");
+        $currentYearEnd = date("Y-12-31");
+        $whereCond =  "membership_type_id = $membershipTypeId AND start_date > '".$currentYear ."' AND start_date < '".$currentYearEnd."'";
+
+        $query = $queryString . $whereCond;
+        
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        if ( $dao->fetch( ) ) {
+            $membershipSummary['year'] = array ( "count" => $dao->total_count ,"name" => $membershipTypeName) ;
+        }
+
+        // calculate total count for current membership
+        $query = "SELECT  count(civicrm_membership.id ) as total_count
+FROM   civicrm_membership left join civicrm_membership_status on ( civicrm_membership.status_id = civicrm_membership_status.id AND
+civicrm_membership_status.is_current_member =1 ) WHERE civicrm_membership.membership_type_id = $membershipTypeId";
+
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        if ( $dao->fetch( ) ) {
+            $membershipSummary['current'] = array( "count" => $dao->total_count ,"name" => $membershipTypeName) ;
+        }
+
+        return $membershipSummary;
+        
+        
+    }
 
 }
+
+
+
 
 ?>
