@@ -182,8 +182,7 @@
 <div id="memberships[show]" class="data-group">
   {if $pager->_totalItems}
     <dl><dt><a href="#" onclick="hide('memberships[show]'); show('memberships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Memberships{/ts}</label></dt>
-    <dd><strong>{ts}Total Contributed{/ts} - {if $total_amount}{$total_amount|crmMoney}{else}n/a{/if}
-        &nbsp; {ts}# Contributions{/ts} - {$pager->_totalItems}</strong></dd>
+    <dd>&nbsp;</dd>
     </dl>
   {else}
     <dl><dt>{ts}Memberships{/ts}</dt>
@@ -202,7 +201,6 @@
         <p>
         {include file="CRM/Member/Form/Selector.tpl" context="Contact Summary"}       
         </p>
-        
         <div class="action-link">
             <a href="{$newMemberURL}">&raquo; {ts}New Membership{/ts}</a> 
         </div>

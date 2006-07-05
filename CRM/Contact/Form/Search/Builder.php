@@ -44,14 +44,6 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
 {
     
     /**
-     * mapper fields
-     *
-     * @var array
-     * @access protected
-     */
-    protected $_mapperFields;
-
-    /**
      * number of columns in where
      *
      * @var int
@@ -103,6 +95,16 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $this->buildQuickFormCommon();
     }
     
+
+    /**
+     * Add local and global form rules
+     *
+     * @access protected
+     * @return void
+     */
+    function addRules( ) {
+        $this->addFormRule( array( 'CRM_Contact_Form_Search_Builder', 'formRule' ) );
+    }
     
     /**
      * global validation rules for the form
@@ -114,6 +116,9 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      * @access public
      */
     static function formRule( &$fields ) {
+        //CRM_Core_Error::debug('s', $fields);
+        return true;
+
     }    
     
     public function normalizeFormValues( ) {

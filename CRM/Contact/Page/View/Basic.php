@@ -209,6 +209,11 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
             $showHide->addHide( 'contributions' ); 
         }
 
+        if ( CRM_Utils_System::accessCiviMember( ) ) {
+            $showHide->addShow( 'memberships[show]' ); 
+            $showHide->addHide( 'memberships' ); 
+        }
+
         if ( $defaults['contact_type'] == 'Individual' ) {
             // is there any demographics data?
             if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
