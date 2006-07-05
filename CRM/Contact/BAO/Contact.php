@@ -1921,12 +1921,15 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         $studentFieldPresent = 0;
         // fix all the custom field checkboxes which are empty
         foreach ($fields as $name => $field ) {
-            // check if student fields present
-            //print_r($studentFields);
-            require_once 'CRM/Quest/BAO/Query.php';
-            if ( (!$studentFieldPresent) && array_key_exists($name, CRM_Quest_BAO_Query::getFields()) ) {
-                $studentFieldPresent = 1;
+           if ( CRM_Core_Permission::access( 'Quest' ) ) {
+              // check if student fields present
+              //print_r($studentFields);
+              require_once 'CRM/Quest/BAO/Query.php';
+              if ( (!$studentFieldPresent) && array_key_exists($name, CRM_Quest_BAO_Query::getFields()) ) {
+                  $studentFieldPresent = 1;
+              }
             }
+
             $cfID = CRM_Core_BAO_CustomField::getKeyID($name);
             // if there is a custom field of type checkbox,multi-select and it has not been set
             // then set it to null, thanx to html protocol
@@ -2042,7 +2045,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         }
         
         //to update student record
-        if ($studentFieldPresent) {
+        if ( CRM_Core_Permission::access( 'Quest' ) && $studentFieldPresent ) {
             $ids = array();
             $dao = & new CRM_Quest_DAO_Student();
             $dao->contact_id = $contact->id;
@@ -2057,10 +2060,8 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                     $params[$field] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params[$field]));
                 }
             }
-            
             CRM_Quest_BAO_Student::create( $params, $ids);
         }
-        // check if the contact type
     }
 
     /**

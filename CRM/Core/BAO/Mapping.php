@@ -359,22 +359,19 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         // add component fields
         $compArray = array();
-        require_once 'CRM/Quest/BAO/Student.php';
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        $config = CRM_Core_Config::singleton();
-        $enabledComponent = $config->enableComponents;
-        
-        if (is_array( $enabledComponent )) {
-            foreach( $enabledComponent as $component ) {
-                if ($component == 'Quest') {
-                    $fields['Student'] =& CRM_Quest_BAO_Student::exportableFields();
-                    $compArray['Student'] = 'Student';
-                } else if ( $component == 'CiviContribute') {
-                    $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
-                    $compArray['Contribution'] = 'Contribution';
-                }
-            }
+
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            require_once 'CRM/Quest/BAO/Student.php';
+            $fields['Student'] =& CRM_Quest_BAO_Student::exportableFields();
+            $compArray['Student'] = 'Student';
         }
+
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
+            $compArray['Contribution'] = 'Contribution';
+        }
+
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 $mapperFields[$key][$key1] = $value1['title'];

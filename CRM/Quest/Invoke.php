@@ -48,7 +48,6 @@ class CRM_Quest_Invoke {
      * @access public  
      */  
     static function main( &$args ) {  
-
         if ( $args[1] !== 'quest' ) {
             return;
         }

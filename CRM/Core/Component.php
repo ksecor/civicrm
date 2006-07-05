@@ -42,43 +42,50 @@ class CRM_Core_Component {
     static $_contactSubTypes = null;
 
     static function &info( ) {
-        if ( self::$_info == null ) {
-            self::$_info = array( 
-                                 'CiviContribute' => array( 'title'   => 'CiviCRM Contribution Engine',
-                                                            'path'    => 'CRM_Contribute_',
-                                                            'url'     => 'contribute',
-                                                            'perm'    => array( 'access CiviContribute',
-                                                                                'edit contributions',
-                                                                                'make online contributions' ),
-                                                            'search'  => 1 ),
-                                 'CiviMember'     => array( 'title'   => 'CiviCRM Membership Engine',
-                                                            'path'    => 'CRM_Member_',
-                                                            'url'     => 'member',
-                                                            'perm'    => array( 'access CiviMember',
-                                                                                'edit members',
-                                                                                'view members'),
-                                                            'search'  => 1 ),
-                                 'CiviMail'       => array( 'title'   => 'CiviCRM Mailing Engine',
-                                                            'path'    => 'CRM_Mailing_',
-                                                            'url'     => 'mailing',
-                                                            'perm'    => array( 'access CiviMail' ),
-                                                            'search'  => 0 ),
-                                 'Quest'          => array( 'title'   => 'Quest Application Process',
-                                                            'path'    => 'CRM_Quest_',
-                                                            'url'     => 'quest',
-                                                            'perm'    => array( 'edit Quest Application'  ,
-                                                                                'view Quest Application'   ),
-                                                            'search'  => 1,
-                                                            'metaTpl' => 'quest',
-                                                            'formTpl' => 'quest',
-                                                            'css'     => 'quest.css' ,
-                                                            'task'    => array( '32' => array( 'title'  => 'Export XML',
-                                                                                               'class'  => 'CRM_Quest_Form_Task_XML',
-                                                                                               'result' => false ),
-                                                                                '33' => array( 'title'  => 'Export PDF',
-                                                                                               'class'  => 'CRM_Quest_Form_Task_PDF',
-                                                                                               'result' => false ) ) ),
-                                 );
+        if ( self::$_info == null ) { 
+            self::$_info = array( );
+
+            self::$_info['CiviContribute'] = 
+                array( 'title'   => 'CiviCRM Contribution Engine',
+                       'path'    => 'CRM_Contribute_',
+                       'url'     => 'contribute',
+                       'perm'    => array( 'access CiviContribute',
+                                           'edit contributions',
+                                           'make online contributions' ),
+                       'search'  => 1 );
+
+            self::$_info['CiviMember'] = 
+                array( 'title'   => 'CiviCRM Membership Engine',
+                       'path'    => 'CRM_Member_',
+                       'url'     => 'member',
+                       'perm'    => array( 'access CiviMember',
+                                           'edit members',
+                                           'view members'),
+                       'search'  => 1 );
+
+            self::$_info['CiviMail'] = 
+                array( 'title'   => 'CiviCRM Mailing Engine',
+                       'path'    => 'CRM_Mailing_',
+                       'url'     => 'mailing',
+                       'perm'    => array( 'access CiviMail' ),
+                       'search'  => 0 );
+
+            self::$_info['Quest'] =
+                array( 'title'   => 'Quest Application Process',
+                       'path'    => 'CRM_Quest_',
+                       'url'     => 'quest',
+                       'perm'    => array( 'edit Quest Application'  ,
+                                           'view Quest Application'   ),
+                       'search'  => 1,
+                       'metaTpl' => 'quest',
+                       'formTpl' => 'quest',
+                       'css'     => 'quest.css' ,
+                       'task'    => array( '32' => array( 'title'  => 'Export XML',
+                                                          'class'  => 'CRM_Quest_Form_Task_XML',
+                                                          'result' => false ),
+                                           '33' => array( 'title'  => 'Export PDF',
+                                                          'class'  => 'CRM_Quest_Form_Task_PDF',
+                                                          'result' => false ) ) );
         }
         return self::$_info;
     }

@@ -113,8 +113,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         
         $this->_fields = array_merge (CRM_Contribute_BAO_Contribution::getContributionFields(), $this->_fields);
 
-        require_once 'CRM/Quest/BAO/Student.php';
-        $this->_fields = array_merge (CRM_Quest_BAO_Student::exportableFields(), $this->_fields);
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            require_once 'CRM/Quest/BAO/Student.php';
+            $this->_fields = array_merge (CRM_Quest_BAO_Student::exportableFields(), $this->_fields);
+        }
 
         $this->_selectFields = array( );
         foreach ($this->_fields as $name => $field ) {
@@ -197,12 +199,16 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
 
-        require_once 'CRM/Quest/BAO/Student.php';
-        $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            require_once 'CRM/Quest/BAO/Student.php';
+            $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
+        }
 
-        $contribFields =& CRM_Contribute_BAO_Contribution::getContributionFields();
-        if ( ! empty( $contribFields ) ) {
-            $fields['Contribution'] =& $contribFields;
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            $contribFields =& CRM_Contribute_BAO_Contribution::getContributionFields();
+            if ( ! empty( $contribFields ) ) {
+                $fields['Contribution'] =& $contribFields;
+            }
         }
 
         foreach ($fields as $key => $value) {

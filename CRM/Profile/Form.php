@@ -113,7 +113,6 @@ class CRM_Profile_Form extends CRM_Core_Form
     function preProcess() 
     { 
         require_once 'CRM/Core/BAO/UFGroup.php';
-        require_once 'CRM/Quest/BAO/Student.php';
         require_once "CRM/Core/BAO/UFField.php";
 
         $this->_id       = $this->get( 'id'  ); 
@@ -214,6 +213,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
 
             if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                require_once 'CRM/Quest/BAO/Student.php';
+
                 //set student defaults
                 CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
                 $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
@@ -430,11 +431,18 @@ class CRM_Profile_Form extends CRM_Core_Form
             } else if ($field['name'] == 'contribution_type' ) {
                 $this->add('select', 'contribution_type', ts( 'Contribution Type' ),
                            array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
-            } else if ( ! CRM_Quest_BAO_Student::buildStudentForm( $field, $this ) ) {
-                if ( substr($field['name'], 0, 3) === 'is_' or substr($field['name'], 0, 7) === 'do_not_' ) {
-                    $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
-                } else {
-                    $this->add('text', $name, $field['title'], $field['attributes'], $required );
+            } else {
+                $processed = false;
+                if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                    require_once 'CRM/Quest/BAO/Student.php';
+                    $processed = CRM_Quest_BAO_Student::buildStudentForm( $field, $this );
+                }
+                if ( ! $processed ) {
+                    if ( substr($field['name'], 0, 3) === 'is_' or substr($field['name'], 0, 7) === 'do_not_' ) {
+                        $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
+                    } else {
+                        $this->add('text', $name, $field['title'], $field['attributes'], $required );
+                    }
                 }
             }
             
