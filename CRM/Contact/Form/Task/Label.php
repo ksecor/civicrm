@@ -160,9 +160,9 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         
         $pdf = new PDF_Label($format,'mm');
         $pdf->Open();
-        $pdf->AddFont('Times New Roman', '', 'Times_New_Roman.php');
         $pdf->AddPage();
-        $pdf->SetFont('Times New Roman');
+        $pdf->AddFont('DejaVu Sans', '', 'DejaVuSans.php');
+        $pdf->SetFont('DejaVu Sans');
         
         //build contact string that needs to be printed
         foreach ($contactRows as $row => $value) {
