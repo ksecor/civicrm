@@ -45,7 +45,7 @@
     myImage.offsetSmartWindow = new YCoordPoint(0,0); 
     var marker = new YMarker(geopoint,myImage); 
     //var swtext = "Marker <b> " + num + "</b>"; 
-    //var label = "<img src=http://us.i1.yimg.com/us.yimg.com/i/us/ls/gr/1.gif>"; 
+    //var label = "<img src="http://us.i1.yimg.com/us.yimg.com/i/us/ls/gr/1.gif" />"; 
     var label = img;
     marker.addLabel(label); 
     YEvent.Capture(marker,EventsList.MouseClick, function() { marker.openSmartWindow(data) }); 
