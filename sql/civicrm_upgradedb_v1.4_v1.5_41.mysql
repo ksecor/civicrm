@@ -610,10 +610,8 @@ CREATE TABLE civicrm_log (
 -- *
 -- *******************************************************/
 
-	UPDATE `civicrm_custom_value` SET `char_data` = CONCAT(char(1),`char_data`,char(1))
-	WHERE `custom_field_id` IN
-			      (SELECT `id` from `civicrm_custom_field`
-			       WHERE `civicrm_custom_value`.`custom_field_id` = `civicrm_custom_field`.`id`
-			       AND `html_type` IN ('multi-Select','CheckBox'));
-
+  UPDATE `civicrm_custom_value`, `civicrm_custom_field`
+    SET `char_data` = CONCAT(char(1),`char_data`,char(1))
+    WHERE `custom_field_id` = `civicrm_custom_field`.`id`
+      AND `html_type` IN ('multi-Select','CheckBox');
 
