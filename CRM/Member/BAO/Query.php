@@ -55,6 +55,10 @@ class CRM_Member_BAO_Query {
     static function select( &$query ) {
         // if membership mode add membership id
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
+            //there can be more than one records in membership log table that's
+            //distinct is use
+            $query->_useDistinct = true;
+
             $query->_select['membership_id'] = "civicrm_membership.id as membership_id";
             $query->_element['membership_id'] = 1;
             $query->_tables['civicrm_membership'] = 1;
@@ -197,8 +201,7 @@ class CRM_Member_BAO_Query {
             break;
             
         case 'civicrm_membership_log':
-            //using LEFT join because we are not logging yet
-            $from = " LEFT JOIN civicrm_membership_log ON civicrm_membership.id = civicrm_membership_log.membership_id ";
+            $from = " INNER JOIN civicrm_membership_log ON civicrm_membership.id = civicrm_membership_log.membership_id ";
             break;
         }
         return $from;

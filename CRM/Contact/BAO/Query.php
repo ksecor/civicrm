@@ -2023,7 +2023,7 @@ class CRM_Contact_BAO_Query {
         // building the query string
         $query = "$select $from $where $order $limit";
         //CRM_Core_Error::debug( 'q', $query );
-
+        
         if ( $returnQuery ) {
             return $query;
         }
