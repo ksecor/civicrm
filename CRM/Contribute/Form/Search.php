@@ -130,6 +130,13 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
     protected $_defaults;
 
     /** 
+     * prefix for the controller
+     * 
+     */
+    protected $_prefix = "contribute_";
+
+
+    /** 
      * processing needed for buildForm and later 
      * 
      * @return void 
@@ -189,12 +196,18 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                          $this->_single,
                                                          $this->_limit,
                                                          $this->_context ); 
+        $prefix = null;
+        if ( $this->_context == 'basic' ) {
+            $prefix = $this->_prefix;
+        }
+        
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
                                                         $sortID,  
                                                         CRM_Core_Action::VIEW, 
                                                         $this, 
-                                                        CRM_Core_Selector_Controller::TRANSFER );
+                                                        CRM_Core_Selector_Controller::TRANSFER,
+                                                        $prefix);
 
         $controller->setEmbedded( true ); 
         $controller->moveFromSessionToTemplate(); 
@@ -325,12 +338,18 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                          $this->_single,
                                                          $this->_limit,
                                                          $this->_context ); 
+        $prefix = null;
+        if ( $this->_context == 'basic' ) {
+            $prefix = $this->_prefix;
+        }
+
         $controller =& new CRM_Core_Selector_Controller($selector , 
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ), 
                                                         $sortID, 
                                                         CRM_Core_Action::VIEW,
                                                         $this,
-                                                        CRM_Core_Selector_Controller::SESSION );
+                                                        CRM_Core_Selector_Controller::SESSION,
+                                                        $prefix);
         $controller->setEmbedded( true ); 
 
         $query   =& $selector->getQuery( );

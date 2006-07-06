@@ -159,6 +159,13 @@ class CRM_Core_Selector_Controller {
     protected $_output;
 
     /**
+     * Prefif for the selector variables
+     *
+     * @var int
+     */
+    protected $_prefix;
+
+    /**
      * cache the smarty template for efficiency reasons
      *
      * @var CRM_Core_Smarty
@@ -187,7 +194,7 @@ class CRM_Core_Selector_Controller {
      * @return Object
      * @access public
      */
-    function __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE)
+    function __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE, $prefix = null)
     {
         
         $this->_object = $object;
@@ -196,6 +203,7 @@ class CRM_Core_Selector_Controller {
         $this->_action = $action;
         $this->_store  = $store;
         $this->_output = $output;
+        $this->_prefix = $prefix;
 
         // fix sortID
         if ( $this->_sortID && strpos( $this->_sortID, '_' ) === false ) {
@@ -324,20 +332,21 @@ class CRM_Core_Selector_Controller {
 
             // if we need to store in session, lets update session
             if ($this->_output & self::SESSION) {
-                $this->_store->set( 'columnHeaders', $columnHeaders );
-                $this->_store->set( 'rows'         , $rows          );
-                $this->_store->set( 'rowCount'     , $this->_total  );
-                $this->_store->set( 'rowsEmpty'    , $rowsEmpty     );
-                $this->_store->set( 'qill'         , $qill          );
+                $this->_store->set( "{$this->_prefix}columnHeaders", $columnHeaders );
+                $this->_store->set( "{$this->_prefix}rows"         , $rows          );
+                $this->_store->set( "{$this->_prefix}rowCount"     , $this->_total  );
+                $this->_store->set( "{$this->_prefix}rowsEmpty"    , $rowsEmpty     );
+                $this->_store->set( "{$this->_prefix}qill"         , $qill          );
             } else {
-                self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
-                self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
+                self::$_template->assign_by_ref( "{$this->_prefix}pager"  , $this->_pager   );
+                self::$_template->assign_by_ref( "{$this->_prefix}sort"   , $this->_sort    );
 
-                self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
-                self::$_template->assign_by_ref( 'rows'         , $rows          );
-                self::$_template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
-                self::$_template->assign       ( 'qill'         , $qill          );
+                self::$_template->assign_by_ref( "{$this->_prefix}columnHeaders", $columnHeaders );
+                self::$_template->assign_by_ref( "{$this->_prefix}rows"         , $rows          );
+                self::$_template->assign       ( "{$this->_prefix}rowsEmpty"    , $rowsEmpty     );
+                self::$_template->assign       ( "{$this->_prefix}qill"         , $qill          );
             }
+
 
             // always store the current pageID and sortID
             $this->_store->set( CRM_Utils_Pager::PAGE_ID      , $this->_pager->getCurrentPageID       ( ) );
@@ -406,19 +415,19 @@ class CRM_Core_Selector_Controller {
      */
     function moveFromSessionToTemplate()
     {
-        self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
+        self::$_template->assign_by_ref( "{$this->_prefix}pager"  , $this->_pager   );
 
-        $rows = $this->_store->get( 'rows' );
+        $rows = $this->_store->get( "{$this->_prefix}rows" );
         if ( $rows ) {
-            self::$_template->assign( 'aToZ'  ,
-                                      $this->_store->get( 'AToZBar' ) );
+            self::$_template->assign( "{$this->_prefix}aToZ"  ,
+                                      $this->_store->get( "{$this->_prefix}AToZBar" ) );
         }
-        
-        self::$_template->assign_by_ref( 'sort'  , $this->_sort    );
-        self::$_template->assign( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
-        self::$_template->assign( 'rows'         , $rows                                 );
-        self::$_template->assign( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
-        self::$_template->assign( 'qill'         , $this->_store->get( 'qill' )          );
+
+        self::$_template->assign_by_ref( "{$this->_prefix}sort"  , $this->_sort    );
+        self::$_template->assign( "{$this->_prefix}columnHeaders", $this->_store->get( "{$this->_prefix}columnHeaders" ) );
+        self::$_template->assign( "{$this->_prefix}rows"         , $rows                                 );
+        self::$_template->assign( "{$this->_prefix}rowsEmpty"    , $this->_store->get( "{$this->_prefix}rowsEmpty" )     );
+        self::$_template->assign( "{$this->_prefix}qill"         , $this->_store->get( "{$this->_prefix}qill" )          );
 
         if ( $this->_embedded ) {
             return;

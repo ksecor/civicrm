@@ -1,6 +1,12 @@
 {if $context EQ 'Search'}
     {include file="CRM/pager.tpl" location="top"}
 {/if}
+
+{if $context EQ 'Contact Summary'}
+    {assign var='columnHeaders' value=$member_columnHeaders}
+    {assign var='rows' value=$member_rows}
+{/if}
+
 {strip}
 <table class="selector">
   <tr class="columnheader">

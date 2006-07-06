@@ -40,6 +40,3 @@
     {* END Actions/Results section *}
 
 {/if}
-
-{if ! empty( $rows )}
-{/if}
