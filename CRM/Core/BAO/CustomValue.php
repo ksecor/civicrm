@@ -315,10 +315,14 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
         
         $customValue->find();
         $values = array();
-        
+
+        require_once 'api/utils.php';
         while ($customValue->fetch()) {
-            $values[] = clone( $customValue );
+            $value = array( );
+            _crm_object_to_array( $customValue, $value );
+            $values[] = $value;
         }
+        $customValue->free( );
         return $values;
     }
     

@@ -86,11 +86,11 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Activity
      * @access public
      */
-    function __construct($contactId, $permission,$admin =false) 
+    function __construct($contactId, $permission, $admin = false) 
     {
         $this->_contactId  = $contactId;
         $this->_permission = $permission;
-        $this->_admin   = $admin;
+        $this->_admin      = $admin;
     }
 
 

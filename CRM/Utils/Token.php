@@ -257,8 +257,8 @@ class CRM_Utils_Token {
                 array_keys(CRM_Contact_BAO_Contact::importableFields())
                 + array('display_name');
         }
-        
-        $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['id']);
+
+        $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['contact_id']);
         foreach (self::$_tokens['contact'] as $token) {
             if ($token == '') {
                 continue;
@@ -279,8 +279,7 @@ class CRM_Utils_Token {
                     }
                 }
             } else {
-                $value = CRM_Contact_BAO_Contact::retrieveValue(
-                            $contact, $token);
+                $value = CRM_Contact_BAO_Contact::retrieveValue($contact, $token);
             }
             
             self::token_replace('contact', $token, $value, $str);

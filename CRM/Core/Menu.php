@@ -339,7 +339,7 @@ class CRM_Core_Menu {
                             ),
 
                       array(
-                            'path'   => 'civicrm/activityView',
+                            'path'   => 'civicrm/dashboard',
                             'title'  => ts('CiviCRM Home'),
                             'query'  => 'reset=1',
                             'type'   => self::CALLBACK,

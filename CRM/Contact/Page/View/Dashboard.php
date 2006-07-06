@@ -162,6 +162,8 @@ class CRM_Contact_Page_View_Dashboard extends CRM_Contact_Page_View {
     function run( )
     {
         $this->preProcess( );
+        
+        CRM_Utils_System::setTitle( 'CiviCRM Home' );
 
         //Get the id of Logged in User
         $session =& CRM_Core_Session::singleton( );
