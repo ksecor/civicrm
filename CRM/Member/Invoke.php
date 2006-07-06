@@ -49,17 +49,17 @@ class CRM_Member_Invoke {
 
         case 'membershipType':
             require_once 'CRM/Member/Page/MembershipType.php';
-            $view =& new CRM_Member_Page_MembershipType(ts('Contribution Types'));
+            $view =& new CRM_Member_Page_MembershipType(ts('Membership Types'));
             break;
             
         case 'membershipStatus':
             require_once 'CRM/Member/Page/MembershipStatus.php';
-            $view =& new CRM_Member_Page_MembershipStatus(ts('Contribution Types'));
+            $view =& new CRM_Member_Page_MembershipStatus(ts('Membership Status'));
             break;
             
         default:
             require_once 'CRM/Member/Page/MembershipType.php';
-            $view =& new CRM_Member_Page_MembershipType(ts('Contribution Types'));
+            $view =& new CRM_Member_Page_MembershipType(ts('Membership Types'));
             break;
         }
 
