@@ -116,7 +116,7 @@
  {include file="CRM/Contact/Form/Location.tpl"}
 
 {if $contact_type eq 'Individual'}
- <div id = "demographics[show]" class="data-group label">
+ <div id = "demographics_show" class="data-group label">
     {$demographics.show}{ts}Demographics{/ts}
  </div>
 
@@ -189,7 +189,7 @@
 
  {* Notes block only included for Add Contact (since it navigates from Edit form...) *}
  {if $action eq 1}
-     <div id = "notes[show]" class="data-group">
+     <div id = "notes_id_show" class="data-group">
         {$notes.show}<label>{ts}Notes{/ts}</label>
      </div>
 
@@ -204,12 +204,12 @@
  <!-- End of "notes" div -->
 
  {* Groups and Tags block *} 
-<div id="group[show]" class="data-group">
-    <a href="#" onclick="hide('group[show]'); show('group'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Tags and Groups{/ts}</label><br />
+<div id="group_show" class="data-group">
+    <a href="#" onclick="hide('group_show'); show('group'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Tags and Groups{/ts}</label><br />
 </div>
 
 <div id="group">
-    <fieldset><legend><a href="#" onclick="hide('group'); show('group[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Tags and Groups{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('group'); show('group_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Tags and Groups{/ts}</legend>
     {strip}
     <div class="form-item">
 	<table class="form-layout">

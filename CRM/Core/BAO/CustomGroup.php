@@ -1135,10 +1135,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
             //showhide group
             if ( $group['collapse_display'] ) {
-                $sBlocks[] = "'". $group['name'] . "[show]'" ;
+                $sBlocks[] = "'". $group['name'] . "_show'" ;
                 $hBlocks[] = "'". $group['name'] ."'";
             } else {
-                $hBlocks[] = "'". $group['name'] . "[show]'" ;
+                $hBlocks[] = "'". $group['name'] . "_show'" ;
                 $sBlocks[] = "'". $group['name'] ."'";
             }
         }

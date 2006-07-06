@@ -5,7 +5,7 @@
     {capture assign=contribPagesURL}{crmURL p="civicrm/admin/contribute" q="reset=1"}{/capture}
     {capture assign=memberTypesURL}{crmURL p="civicrm/admin/member/membershipType" q="reset=1"}{/capture}
     <p>{ts 1=$contribPagesURL 2=$memberTypesURL}CiviMember allows you to create customized membership types as well as page(s) for online membership sign-up and renewal. Administrators can create or modify Membership Typea <a href="%2">here</a>, and configure Online Contribution Pages which include membership sign-up <a href="%1">here</a>.{/ts}</p>
-    <p>{ts 1=$findContactURL 2=$importURL}You can also input and track membership sign-ups offline. To record memberships manually for individual contacts, use <a href="%1">Find Contacts</a> to locate the contact. Then click <strong>View</strong> to go to their summary page and click on the <strong>New Membership</strong> link. You can also <a href="%2">import batches of membership data</a> from other sources.{/ts}</p>
+    <p>{ts 1=$findContactURL 2=$importURL}You can also input and track membership sign-ups offline. To record memberships manually for individual contacts, use <a href="%1">Find Contacts</a> to locate the contact. Then click <strong>View</strong> to go to their summary page and click on the <strong>New Membership</strong> link.{* You can also <a href="%2">import batches of membership data</a> from other sources.*}{/ts}</p>
 </div>
 
 <h3>{ts}Membership Summary{/ts}</h3>

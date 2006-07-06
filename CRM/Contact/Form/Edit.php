@@ -307,7 +307,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
                                                          '') ;
         if ( $this->_contactType == 'Individual' ) {
-            $this->_showHide->addShow( 'demographics[show]' );
+            $this->_showHide->addShow( 'demographics_show' );
             $this->_showHide->addHide( 'demographics' );
         }
 
@@ -317,7 +317,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
  
         if ( $this->_action & CRM_Core_Action::ADD ) {
             // notes are only included in the template for New Contact
-            $this->_showHide->addShow( 'notes[show]' );
+            $this->_showHide->addShow( 'notes_id_show' );
             $this->_showHide->addHide( 'notes' );
         }
 
@@ -329,21 +329,19 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
         
         if ( empty($contactGroup) || empty($contactTag) ) {
-            $this->_showHide->addShow( 'group[show]' );
+            $this->_showHide->addShow( 'group_show' );
             $this->_showHide->addHide( 'group' );
         } else {
             $this->_showHide->addShow( 'group' );
-            $this->_showHide->addHide( 'group[show]' );
+            $this->_showHide->addHide( 'group_show' );
         }
-
-
 
         // is there any demographics data?
         if ( CRM_Utils_Array::value( 'gender_id'     , $defaults ) ||
              CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
              CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
             $this->_showHide->addShow( 'demographics' );
-            $this->_showHide->addHide( 'demographics[show]' );
+            $this->_showHide->addHide( 'demographics_show' );
         }
         if ( $force ) {
             $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
