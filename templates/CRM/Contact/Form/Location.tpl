@@ -17,10 +17,10 @@
         {if $index EQ 1}{ts}Primary Location{/ts}{else}{ts}Additional Location{/ts}{/if}
     </legend>
     <div class="form-item">
-        <!-- Location type drop-down (e.g. Home, Work...) -->
+        {* Location type drop-down (e.g. Home, Work...) *}
         {$form.location.$index.location_type_id.html}
 
-        <!-- Checkbox for "make this the primary location" -->
+        {* Checkbox for "make this the primary location" *}
         {$form.location.$index.is_primary.html}
 
         &nbsp; &nbsp; {$form.location.$index.name.label}
@@ -40,6 +40,6 @@
     {include file="CRM/Contact/Form/Address.tpl"} 
 
     </fieldset>
-</div> <!-- End of Location block div -->
+</div> {* End of Location block div *}
 {/section}
 

@@ -17,7 +17,7 @@
         </span>
 
     </div>
-    <!-- Spacer div contains floated elements -->
+    {* Spacer div contains floated elements *}
     <div class="spacer"></div>
 
     {section name = innerLoop start = 2 loop = $blockCount}
@@ -30,11 +30,11 @@
         </span>
         <span class="fields">
             <span>{$form.location.$index.phone.$innerIndex.phone_type.html}</span><span>{$form.location.$index.phone.$innerIndex.phone.html}</span>
-            <!-- Link to hide this field -->
+            {* Link to hide this field *}
             <span id="location[{$index}][phone]_{$innerIndex}_hide" class="add-remove-link element-right">
             {$form.location.$index.phone.$innerIndex.hide.html}
             </span>
-            <!-- Link to add another field.-->
+            {* Link to add another field.*}
             {if $innerIndex LT $blockCount}
             {assign var=j value=$innerIndex+1}
             <span id="location[{$index}][phone]_{$j}_show" class="add-remove-link">
@@ -47,7 +47,7 @@
             {/if}
         </span>
 		
-        <!-- Spacer div contains floated elements -->
+        {* Spacer div contains floated elements *}
         <div class="spacer"></div>
 	 </div>
 
