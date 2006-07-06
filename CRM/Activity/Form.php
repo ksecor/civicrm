@@ -56,6 +56,8 @@ class CRM_Activity_Form extends CRM_Core_Form
      * @var int
      */
     protected $_contactId;
+    protected $_sourceCID;
+    protected $_targetCID;
 
     /**
      * The id of the logged in user, used when add / edit 
@@ -125,7 +127,11 @@ class CRM_Activity_Form extends CRM_Core_Form
             $this->assign('targetName', $targetName);
 
             // change _contactId to be the target of the activity
-            $this->_contactId = $defaults['target_entity_id'];
+            $this->_sourceCID = $defaults['source_contact_id'];
+            $this->_targetCID = $defaults['target_entity_id'];
+        } else {
+            $this->_sourceCID = $this->_userId;
+            $this->_targetCID = $this->_contactId;
         }
 
         if ($this->_action == CRM_Core_Action::DELETE) {

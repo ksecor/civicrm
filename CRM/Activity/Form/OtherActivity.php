@@ -139,8 +139,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $params['scheduled_date_time']= CRM_Utils_Date::format( $params['scheduled_date_time'] );
 
         // store the contact id and current drupal user id
-        $params['source_contact_id'] = $this->_userId;
-        $params['target_entity_id'] = $this->_contactId;
+        $params['source_contact_id'] = $this->_sourceCID;
+        $params['target_entity_id'] = $this->_targetCID;
         $params['target_entity_table'] = 'civicrm_contact';
 
         //set parent id if exists for follow up activities
@@ -165,7 +165,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         if($otherActivity->status=='Completed'){
             // we need to insert an activity history record here
             $params = array('entity_table'     => 'civicrm_contact',
-                            'entity_id'        => $this->_contactId,
+                            'entity_id'        => $this->_sourceCID,
                             'activity_type'    => $activityType[$params['activity_type_id']],
                             'module'           => 'CiviCRM',
                             'callback'         => 'CRM_Activity_Form_OtherActivity::showOtherActivityDetails',
@@ -175,6 +175,12 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
                             );
             
             
+            if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) {
+                return false;
+            }
+
+            // now set activity history for the target cid
+            $params['entity_id'] = $this->_targetCID;
             if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) {
                 return false;
             }
