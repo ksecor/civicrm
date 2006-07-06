@@ -123,6 +123,9 @@ class CRM_Activity_Form extends CRM_Core_Form
 
             $this->assign('sourceName', $sourceName);
             $this->assign('targetName', $targetName);
+
+            // change _contactId to be the target of the activity
+            $this->_contactId = $defaults['target_entity_id'];
         }
 
         if ($this->_action == CRM_Core_Action::DELETE) {
@@ -159,8 +162,6 @@ class CRM_Activity_Form extends CRM_Core_Form
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
         return $defaults;
-
-       
     }
 
     /**

@@ -204,7 +204,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {
             // if ( ( $mailsProcessed % 100 ) == 0 ) {
-            // CRM_Utils_System::xMemory( "Start of Job" );
+            // CRM_Utils_System::xMemory( "$mailsProcessed: " );
             // }
 
             if ($config->mailerBatchLimit > 0 and $mailsProcessed >= $config->mailerBatchLimit) {

@@ -136,10 +136,12 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         // store the date with proper format
         $params['scheduled_date_time']= $dateTime;
 
-        // store the contact id and current drupal user id
-        $params['source_contact_id'] = $this->_userId;
-        $params['target_entity_id'] = $this->_contactId;
-        $params['target_entity_table'] = 'civicrm_contact';
+        // store the contact id and current drupal user id if in ADD mode
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $params['source_contact_id'] = $this->_userId;
+            $params['target_entity_id'] = $this->_contactId;
+            $params['target_entity_table'] = 'civicrm_contact';
+        }
 
         //set parent id if exists for follow up activities
         if ($this->_pid) {
@@ -157,7 +159,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         // do the updates/inserts
         CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Meeting',$meeting->id); 
 
-        if($meeting->status=='Completed'){
+        if ( $meeting->status == 'Completed' ) {
             // we need to insert an activity history record here
             $params = array('entity_table'     => 'civicrm_contact',
                             'entity_id'        => $this->_contactId,
@@ -175,7 +177,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
             }
         }
         
-        if($meeting->status=='Completed'){
+        if( $meeting->status=='Completed' ) {
             CRM_Core_Session::setStatus( ts('Meeting "%1" has been logged to Activity History.', array( 1 => $meeting->subject)) );
         } else {
             CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $meeting->subject)) );
@@ -194,10 +196,6 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
      */
     static function showMeetingDetails( $id, $activityHistoryId )
     {
-        // require_once 'CRM/Core/DAO/Meeting.php';
-        //$dao =& new CRM_Core_DAO_Meeting( );
-        //$dao->id = $id;
-        
         $params   = array( );
         $defaults = array( );
         $params['id'          ] = $activityHistoryId;
@@ -207,15 +205,12 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         $history   = CRM_Core_BAO_History::retrieve($params, $defaults);
         $contactId = CRM_Utils_Array::value('entity_id', $defaults);
       
-        //if ( $dao->find( true ) ) { 
         if ( $contactId ) {
-            //return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=1&cid={$dao->source_contact_id}&action=view&id=$id&status=true&history=1");
             return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=1&cid=$contactId&action=view&id=$id&status=true&history=1");
         } else {
             return CRM_Utils_System::url('civicrm' );
         }
     }
-
 
 }
 
