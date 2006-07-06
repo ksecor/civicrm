@@ -1,13 +1,4 @@
-<div id="crm-quick-search" class="block-crm">
-   {* Simplify quick search block...
-    <div class="form-item">
-        <select name="contact_type" size="1" class="form-select">
-            <option value="">{ts}- all contacts -{/ts}</option>
-            <option value="Individual">{ts}Individuals{/ts}</option>
-            <option value="Organization">{ts}Organizations{/ts}</option>
-            <option value="Household">{ts}Households{/ts}</option>
-        </select>
-    </div> *}
+<div class="block-crm">
     <form action="{$postURL}" method="post">
     <div class="form-item">
         <input type="hidden" name="contact_type" value="" />
