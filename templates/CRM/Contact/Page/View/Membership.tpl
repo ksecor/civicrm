@@ -18,7 +18,7 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}</p>
         {strip}
         <table>
         <tr class="columnheader">
-            <th>{ts}Membership Type{/ts}</th>
+            <th>{ts}Membership{/ts}</th>
             <th>{ts}Start Date{/ts}</th>
             <th>{ts}End Date{/ts}</th>
             <th>{ts}Status{/ts}</th>
@@ -28,8 +28,8 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}</p>
         {foreach from=$activeMembers item=activeMember}
         <tr class="{cycle values="odd-row,even-row"} {$activeMember.class}">
 	        <td>{$activeMember.membership_type}</td>
-	        <td>{$activeMember.start_date}</td>
-	        <td>{$activeMember.end_date}</td>
+	        <td>{$activeMember.start_date|crmDate}</td>
+	        <td>{$activeMember.end_date|crmDate}</td>
 	        <td>{$activeMember.status}</td>
 	        <td>{$activeMember.source}</td>
 	        <td>{$activeMember.action}</td>
@@ -61,7 +61,7 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}</p>
         {strip}
         <table>
         <tr class="columnheader">
-            <th>{ts}Membership Type{/ts}</th>
+            <th>{ts}Membership{/ts}</th>
             <th>{ts}Start Date{/ts}</th>
             <th>{ts}End Date{/ts}</th>
             <th>{ts}Status{/ts}</th>
@@ -71,10 +71,10 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}</p>
         {foreach from=$inActiveMembers item=inActiveMember}
         <tr class="{cycle values="odd-row,even-row"} {$inActiveMember.class}">
 	        <td>{$inActiveMember.membership_type}</td>
-	        <td>{$inActiveMember.start_date}</td>
-	        <td>{$inActiveMember.end_date}</td>
+	        <td>{$inActiveMember.start_date|crmDate}</td>
+	        <td>{$inActiveMember.end_date|crmDate}</td>
 	        <td>{$inActiveMember.status}</td>
-	        <td>{$activeMember.source}</td>
+	        <td>{$inActiveMember.source}</td>
 	        <td>{$inActiveMember.action}</td>
         </tr>
         {/foreach}
