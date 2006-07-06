@@ -18,7 +18,7 @@
     {/if}
 {else}
     {* Showing History *}
-    <div id="openActivities[show]" class="data-group">
+    <div id="openActivities_show" class="data-group">
         {if $totalCountOpenActivity}
             <a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=0&cid=$contactId"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Open Activities{/ts}</label> ({$totalCountOpenActivity})
         {else}
@@ -108,7 +108,7 @@
 
 {if $history NEQ 1}
     {* Showing Open Activities - give link for History toggle *}
-    <div id="activityHx[show]" class="data-group">
+    <div id="activityHx_show" class="data-group">
         {if $totalCountActivity}
             <a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=1&cid=$contactId"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Activity History{/ts}</label> ({$totalCountActivity})
         {else}
