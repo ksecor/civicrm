@@ -41,7 +41,7 @@
     <div id="memberStatus_show">
         {if $action eq 2}
         <dl>
-        <dt>{$form.status_id.label}</dt><dd class="html-adjust">(read-only status goes here)</dd>
+        <dt>{$form.status_id.label}</dt><dd class="html-adjust">{$membershipStatus}</dd>
         </dl>
         {/if}
     </div>
