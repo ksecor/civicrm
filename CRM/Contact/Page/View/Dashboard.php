@@ -124,7 +124,7 @@ class CRM_Contact_Page_View_Dashboard extends CRM_Contact_Page_View {
 
         $output = CRM_Core_Selector_Controller::SESSION;
         require_once 'CRM/Contact/Selector/Activity.php';
-        $selector   =& new CRM_Contact_Selector_Activity( $id, $this->_permission , $admin );
+        $selector   =& new CRM_Contact_Selector_Activity( $id, $this->_permission , $admin, 'Home' );
         $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
 

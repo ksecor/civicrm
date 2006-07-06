@@ -77,6 +77,8 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
 
     protected $_admin;
 
+    protected $_context;
+
     /**
      * Class constructor
      *
@@ -86,11 +88,12 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Activity
      * @access public
      */
-    function __construct($contactId, $permission, $admin = false) 
+    function __construct($contactId, $permission, $admin = false, $context = 'activity' ) 
     {
         $this->_contactId  = $contactId;
         $this->_permission = $permission;
         $this->_admin      = $admin;
+        $this->_context    = $context;
     }
 
 
@@ -118,13 +121,13 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                     CRM_Core_Action::UPDATE => array(
                                                                      'name'     => ts('Edit'),
                                                                      'url'      => 'civicrm/contact/view/activity',
-                                                                     'qs'       => 'activity_id='.$activityType.'&action=update&reset=1&id=%%id%%&cid=%%cid%%',
+                                                                     'qs'       => "activity_id={$activityType}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%",
                                                                      'title'    => ts('View Activity'),
                                                                      ),
                                     CRM_Core_Action::DELETE => array(
                                                                      'name'     => ts('Delete'),
                                                                      'url'      => 'civicrm/contact/view/activity',
-                                                                     'qs'       => $extra.'&activity_id='.$activityType.'&action=delete&reset=1&id=%%id%%&cid=%%cid%%',
+                                                                     'qs'       => "{$extra}&activity_id={$activityType}&action=delete&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%",
                                                                      'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',
                                                                      'title'    => ts('Delete Activity'),
                                                                      ),
@@ -237,12 +240,14 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                      'callback'=>$row['callback'],
                                                                      'module'=>$row['module'],
                                                                      'activity_id'=>$row['activity_id'],
-                                                                     'cid' => $this->_contactId ) );
+                                                                     'cid' => $this->_contactId,
+                                                                     'cxt' => $this->_context ) );
                 } else {
                     $row['action'] = CRM_Core_Action::formLink($actionLinks,
                                                                $actionMask,
                                                                array('id'  => $row['id'],
-                                                                     'cid' => $this->_contactId ) );
+                                                                     'cid' => $this->_contactId,
+                                                                     'cxt' => $this->_context ) );
                 }
             }
             unset($row);
