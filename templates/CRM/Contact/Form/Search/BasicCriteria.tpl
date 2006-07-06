@@ -4,7 +4,7 @@
 <script type="text/javascript" src="{$config->resourceBase}js/Search.js"></script>
 *}
 <fieldset>
-    <legend>{if $context EQ 'smog'}<span id="searchForm[hide]"><a href="#" onclick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>{/if}
+    <legend>{if $context EQ 'smog'}<span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>{/if}
         {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
         {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
         {else}{ts}Search Criteria{/ts}{/if}

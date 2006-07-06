@@ -22,9 +22,6 @@
 {/if}
 
 {if $rows}
-    {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
-    {assign var="showBlock" value="'searchForm[show]'"}
-    {assign var="hideBlock" value="'searchForm'"}
     
     <fieldset>
     

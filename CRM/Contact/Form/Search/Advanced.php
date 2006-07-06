@@ -175,13 +175,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $showHide =& new CRM_Core_ShowHideBlocks('','');
         
         $showHide->addHide( 'relationship' );
-        $showHide->addShow( 'relationship[show]' );
+        $showHide->addShow( 'relationship_show' );
         
         CRM_Core_Component::addShowHide( $showHide );
 
         if ( ! empty( $groupTitle ) ) {
             foreach ($groupTitle as $key => $title) {
-                $showBlocks = $title . '[show]' ;
+                $showBlocks = $title . '_show' ;
                 $hideBlocks = $title;
                 
                 $showHide->addShow($hideBlocks);
@@ -208,7 +208,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $customAssignHide = array();
             $customAssignShow = array();
             foreach(array_unique($customDataSearch) as $v) {
-                $customAssignHide[] = $v . '[show]';
+                $customAssignHide[] = $v . '_show';
                 $customAssignShow[] = $v;
             }
             

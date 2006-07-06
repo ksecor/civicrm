@@ -108,12 +108,12 @@
     {include file="CRM/Custom/Form/Search.tpl" showHideLinks=true}
 
     {if $validCiviContribute}
-    <div id="contributeForm[show]" class="data-group">
-      <a href="#" onclick="hide('contributeForm[show]'); show('contributeForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+    <div id="contributeForm_show" class="data-group">
+      <a href="#" onclick="hide('contributeForm_show'); show('contributeForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
       <label>{ts}Contributions{/ts}</label>
     </div>
     <div id="contributeForm">
-    <fieldset><legend><a href="#" onclick="hide('contributeForm'); show('contributeForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Contributions{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('contributeForm'); show('contributeForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Contributions{/ts}</legend>
     <table class="form-layout"> 
        {include file="CRM/Contribute/Form/Search/Common.tpl"}
     </table>
@@ -122,12 +122,12 @@
     {/if}
 
     {if $validCiviMember}
-    <div id="memberForm[show]" class="data-group">
-      <a href="#" onclick="hide('memberForm[show]'); show('memberForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+    <div id="memberForm_show" class="data-group">
+      <a href="#" onclick="hide('memberForm_show'); show('memberForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
       <label>{ts}Memberships{/ts}</label>
     </div>
     <div id="memberForm">
-    <fieldset><legend><a href="#" onclick="hide('memberForm'); show('memberForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Memberships{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('memberForm'); show('memberForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Memberships{/ts}</legend>
     <table class="form-layout">
        <tr>
          <td> 
@@ -141,12 +141,12 @@
 
         
     {if $validQuest}
-    <div id="questForm[show]" class="data-group">
-      <a href="#" onclick="hide('questForm[show]'); show('questForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+    <div id="questForm_show" class="data-group">
+      <a href="#" onclick="hide('questForm_show'); show('questForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
       <label>{ts}Quest Student{/ts}</label>
     </div>
     <div id="questForm">
-    <fieldset><legend><a href="#" onclick="hide('questForm'); show('questForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Quest Student{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('questForm'); show('questForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Quest Student{/ts}</legend>
     <table class="form-layout"> 
        {include file="CRM/Quest/Form/Search/Common.tpl"}
     </table>
@@ -154,12 +154,12 @@
     </div>
     {/if}
         
-    <div id="relationship[show]" class="data-group">
-      <a href="#" onclick="hide('relationship[show]'); show('relationship'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+    <div id="relationship_show" class="data-group">
+      <a href="#" onclick="hide('relationship_show'); show('relationship'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
       <label>{ts}Relationship{/ts}</label>
     </div>
     <div id="relationship">
-    <fieldset><legend><a href="#" onclick="hide('relationship'); show('relationship[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Relationship{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('relationship'); show('relationship_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Relationship{/ts}</legend>
     <table class="form-layout">
          <tr>
             <td class="label">

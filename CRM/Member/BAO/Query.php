@@ -55,9 +55,6 @@ class CRM_Member_BAO_Query {
     static function select( &$query ) {
         // if membership mode add membership id
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
-            //there can be more than one records in membership log table that's
-            //distinct is use
-            $query->_useDistinct = true;
 
             $query->_select['membership_id'] = "civicrm_membership.id as membership_id";
             $query->_element['membership_id'] = 1;
@@ -83,13 +80,10 @@ class CRM_Member_BAO_Query {
             $query->_element['status_id'] = 1;
             
             //add start date / end date
-            $query->_select['start_date']  = "civicrm_membership_log.start_date as start_date";
+            $query->_select['start_date']  = "civicrm_membership.start_date as start_date";
             $query->_element['start_date'] = 1;
-            $query->_select['end_date']  = "civicrm_membership_log.end_date as end_date";
+            $query->_select['end_date']  = "civicrm_membership.end_date as end_date";
             $query->_element['end_date'] = 1;
-            
-            $query->_tables['civicrm_membership_log'] = 1;
-            $query->_whereTables['civicrm_membership_log'] = 1;
         }
     }
 
@@ -109,13 +103,13 @@ class CRM_Member_BAO_Query {
         case 'member_start_date_low':
         case 'member_start_date_high':
             $query->dateQueryBuilder( $values,
-                                       'civicrm_membership_log', 'member_start_date', 'start_date', 'Signup/Renew Date' );
+                                       'civicrm_membership', 'member_start_date', 'start_date', 'Signup/Renew Date' );
             return;
 
         case 'member_end_date_low':
         case 'member_end_date_high':
             $query->dateQueryBuilder( $values,
-                                       'civicrm_membership_log', 'member_end_date', 'end_date', 'End Date' );
+                                       'civicrm_membership', 'member_end_date', 'end_date', 'End Date' );
             return;
 
         case 'member_join_date':
@@ -199,10 +193,6 @@ class CRM_Member_BAO_Query {
         case 'civicrm_membership_payment':
             $from = " INNER JOIN civicrm_membership_payment ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
             break;
-            
-        case 'civicrm_membership_log':
-            $from = " INNER JOIN civicrm_membership_log ON civicrm_membership.id = civicrm_membership_log.membership_id ";
-            break;
         }
         return $from;
     }
@@ -271,7 +261,7 @@ class CRM_Member_BAO_Query {
 
     static function addShowHide( &$showHide ) {
         $showHide->addHide( 'memberForm' );
-        $showHide->addShow( 'memberForm[show]' );
+        $showHide->addShow( 'memberForm_show' );
     }
 
 

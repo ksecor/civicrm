@@ -4,19 +4,19 @@
 {if $context eq 'smog'}
     {if $rowsEmpty}
         {assign var="showBlock" value=""}
-        {assign var="hideBlock" value="'searchForm','searchForm[show]'"}
+        {assign var="hideBlock" value="'searchForm','searchForm_show'"}
     {else}
-        {assign var="showBlock" value="'searchForm[show]'"}
+        {assign var="showBlock" value="'searchForm_show'"}
         {assign var="hideBlock" value="'searchForm'"}
     {/if}
 {else}
     {assign var="showBlock" value="'searchForm'"}
-    {assign var="hideBlock" value="'searchForm[show]'"}
+    {assign var="hideBlock" value="'searchForm_show'"}
 {/if}
 
 {* This section handles form elements for search criteria *}
-<div id="searchForm[show]" class="form-item">
-  <a href="#" onclick="hide('searchForm[show]'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+<div id="searchForm_show" class="form-item">
+  <a href="#" onclick="hide('searchForm_show'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
   <label>
         {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
         {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}

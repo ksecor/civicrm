@@ -199,7 +199,7 @@ class CRM_Quest_BAO_Query
     static function addShowHide( &$showHide ) 
     {
         $showHide->addHide( 'questForm' );
-        $showHide->addShow( 'questForm[show]' ); 
+        $showHide->addShow( 'questForm_show' ); 
     }
 
     static function searchAction( &$row, $id ) {
