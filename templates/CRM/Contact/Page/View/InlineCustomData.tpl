@@ -42,6 +42,8 @@
                                 {/if} 
                             {/if}
                             {/section}
+                            <td>
+                            </td>
                             </tr>
                             </table>
                             {/strip}
@@ -66,9 +68,9 @@
                 <div class="spacer"></div>
                 </fieldset>
                 </div>
-                {/foreach}             
+                {/foreach}            
             </div>
-        {/if}    
+        {/if}   
     {/if}
     {/strip}
 <script type="text/javascript">
@@ -76,8 +78,8 @@
     var hideBlocks1 = new Array({$hideBlocks1});
 
     on_load_init_blocks( showBlocks1, hideBlocks1 );
-
 {literal}
+
 
 
 function popUp(URL) {
