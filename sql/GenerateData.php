@@ -1411,23 +1411,18 @@ VALUES
         CRM_Core_DAO::executeQuery( $membership, CRM_Core_DAO::$_nullArray );
         
         require_once 'CRM/Member/DAO/Membership.php';
+        require_once 'api/crm.php';
         $membership = new CRM_Member_DAO_Membership();
         $membership->query("SELECT id FROM civicrm_membership");
         while ($membership->fetch()) {
             $ids[]=$membership->id;
-        }
-        
-        require_once 'api/crm.php';
-        $membership = new CRM_Member_DAO_Membership();
-        foreach ( $ids as $membershipID) {
-            $status = crm_calc_membership_status($membershipID);
-            $membership->id = $membershipID;
-            if ($membership->find()) {
-                $membership->status_id  = $status['id'];
+            //update the status ids
+            $status = crm_calc_membership_status($membership->id);
+            if ($status) {
+                crm_update_contact_membership( array('id'        => $membership->id,
+                                                     'status_id' => $status['id']) );
             }
-            $membership->save();
         }
-           
     }
     
     static function repairDate($date) {

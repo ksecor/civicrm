@@ -215,7 +215,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $this->assign( 'summary', $this->get( 'summary' ) );
     }
 
-    function setDefaultValues( ) { 
+    function setDefaultValues( ) 
+    { 
         return $this->_defaults; 
     } 
 

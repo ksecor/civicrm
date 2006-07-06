@@ -62,7 +62,32 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
         foreach ( $membershipTypes as $key => $value ) {
             $membershipSummary[$key] = CRM_Member_BAO_Membership::getMembershipSummary($key ,$value);
         }
+        // need to build url
+         $currentMonth    = date("Ym01");
+         $currentMonthEnd = date("Ym31");
+         $currentYear    = date("Y0101");
+         $currentYearEnd = date("Y1231");
+         
+         require_once "CRM/Member/BAO/MembershipStatus.php";
+         $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusCurrent();
+         $status = implode(',' , $status );
+         
+         foreach( $membershipSummary as $typeID => $details) {
+             foreach ( $details as $key => $value ) {
+                 switch ($key) {
+                 case 'month':
+                     $membershipSummary[$typeID][$key]['url'] = CRM_Utils_System::url( 'civicrm/member/search',"reset=1&force=1&type=$typeID&start=$currentMonth&end=$currentMonthEnd" );
+                     break;
+                 case 'year':
+                     $membershipSummary[$typeID][$key]['url'] = CRM_Utils_System::url( 'civicrm/member/search',"reset=1&force=1&type=$typeID&start=$currentYear&end=$currentYearEnd" );
+                     break;
+                 case 'current':
+                     $membershipSummary[$typeID][$key]['url'] = CRM_Utils_System::url( 'civicrm/member/search',"reset=1&force=1&status=$status&type=$typeID" );
+                }
+            }
+        }
         
+
         $totalCount = array();
         foreach( $membershipSummary as $key => $value ) {
             $totalCountMonth   = $totalCountMonth   +  $value['month']['count'];
@@ -73,16 +98,15 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
         
         $totalCount['month'] = array("count" => $totalCountMonth,
                                      "url"   => CRM_Utils_System::url( 'civicrm/member/search',
-                                                                       "reset=1&force=1" ),
+                                                                       "reset=1&force=1&start=$currentMonth&end=$currentMonthEnd" ),
                                     );
         $totalCount['year'] = array("count" => $totalCountYear,
                                      "url"   => CRM_Utils_System::url( 'civicrm/member/search',
-                                                                       "reset=1&force=1" ),
+                                                                       "reset=1&force=1&start=$currentYear&end=$currentYearEnd" ),
                                     );
-        
         $totalCount['current'] = array("count" => $totalCountCurrent,
                                      "url"   => CRM_Utils_System::url( 'civicrm/member/search',
-                                                                       "reset=1&force=1" ),
+                                                                       "reset=1&force=1&status=$status" ),
                                     );
         
         $this->assign('membershipSummary' , $membershipSummary);

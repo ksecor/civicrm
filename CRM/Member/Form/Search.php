@@ -300,7 +300,7 @@ class CRM_Member_Form_Search extends CRM_Core_Form {
         $this->_done = true;
 
         $this->_formValues = $this->controller->exportValues($this->_name);
-
+             
         $this->fixFormValues( );
         
         require_once 'CRM/Contact/Form/Search.php';
@@ -355,36 +355,43 @@ class CRM_Member_Form_Search extends CRM_Core_Form {
         $controller->run(); 
     }
 
+    function setDefaultValues( ) 
+    { 
+        return $this->_defaults; 
+    } 
+     
 
     function fixFormValues( ) {
         // if this search has been forced
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
 
-        // we fix date_to here if set to be the end of the day, i.e. 23:59:59
-//         if ( ! CRM_Utils_System::isNull( $this->_formValues['contribution_date_to'] ) ) {
-//             $this->_formValues['contribution_date_to']['H'] = 23;
-//             $this->_formValues['contribution_date_to']['i'] = 59;
-//             $this->_formValues['contribution_date_to']['s'] = 59;
-//         }
 
         if ( ! $this->_force ) {
             return;
         }
 
-//         $status = CRM_Utils_Request::retrieve( 'status', 'String',
-//                                                CRM_Core_DAO::$_nullObject );
-//         if ( $status ) {
-//             switch ( $status ) {
-//             case 'Valid':
-//             case 'Cancelled':
-//             case 'All':
-//                 $this->_formValues['contribution_status'] = $status;
-//                 $this->_defaults['contribution_status'] = $status;
-//                 break;
-//             }
-//         }
+        $status = CRM_Utils_Request::retrieve( 'status', 'String',
+                                               CRM_Core_DAO::$_nullObject );
+        if ( $status ) {
+            $status = explode(',' , $status  );
+            $tempStatus = array();
+            foreach( $status as $value ) {
+                $tempStatus[$value] = 1;
+            }
+            $this->_formValues['member_status_id'] = $tempStatus;
+            $this->_defaults  ['member_status_id'] = $tempStatus;
+        }
 
+        $membershipType = CRM_Utils_Request::retrieve( 'type', 'String',
+                                                       CRM_Core_DAO::$_nullObject );
+        
+        if ($membershipType) {
+            $this->_formValues['member_membership_type_id'] = array( $membershipType => 1);
+            $this->_defaults  ['member_membership_type_id'] = array( $membershipType => 1);
+        }
+        
+        
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             CRM_Core_DAO::$_nullObject );
 
@@ -400,26 +407,22 @@ class CRM_Member_Form_Search extends CRM_Core_Form {
             }
         }
 
-//         $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
-//                                                  CRM_Core_DAO::$_nullObject );
-//         if ( $fromDate ) {
-//             $fromDate = CRM_Utils_Type::escape( $fromDate, 'Timestamp' );
-//             $date = CRM_Utils_Date::unformat( $fromDate, '' );
-//             $this->_formValues['contribution_date_from'] = $date;
-//             $this->_defaults['contribution_date_from'] = $date;
-//         }
+        $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
+                                                 CRM_Core_DAO::$_nullObject );
+        if ( $fromDate ) {
+            $date = CRM_Utils_Date::unformat( $fromDate, '' );
+            $this->_formValues['member_start_date_low'] = $date;
+            $this->_defaults['member_start_date_low'] = $date;
+        }
 
-//         $toDate= CRM_Utils_Request::retrieve( 'end', 'Date',
-//                                               CRM_Core_DAO::$_nullObject );
-//         if ( $toDate ) { 
-//             $toDate = CRM_Utils_Type::escape( $toDate, 'Timestamp' ); 
-//             $date = CRM_Utils_Date::unformat( $toDate, '' );
-//             $this->_formValues['contribution_date_to'] = $date;
-//             $this->_defaults['contribution_date_to'] = $date;
-//             $this->_formValues['contribution_date_to']['H'] = 23;
-//             $this->_formValues['contribution_date_to']['i'] = 59;
-//             $this->_formValues['contribution_date_to']['s'] = 59;
-//         }
+        $toDate= CRM_Utils_Request::retrieve( 'end', 'Date',
+                                              CRM_Core_DAO::$_nullObject );
+        if ( $toDate ) { 
+            $date = CRM_Utils_Date::unformat( $toDate, '' );
+            $this->_formValues['member_start_date_high'] = $date;
+            $this->_defaults['member_start_date_high'] = $date;
+            
+        }
 
         $this->_limit = CRM_Utils_Request::retrieve( 'limit', 'Positive',
                                                      $this );

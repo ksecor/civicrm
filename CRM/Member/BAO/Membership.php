@@ -412,7 +412,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     function getMembershipSummary( $membershipTypeId ,$membershipTypeName = null) {
         
         $membershipSummary = array();
-        $currentMonth = date("Y-1-m");
         $queryString =  "SELECT  count( id ) as total_count
 FROM   civicrm_membership
 WHERE ";
@@ -443,8 +442,8 @@ WHERE ";
 
         // calculate total count for current membership
         $query = "SELECT  count(civicrm_membership.id ) as total_count
-FROM   civicrm_membership left join civicrm_membership_status on ( civicrm_membership.status_id = civicrm_membership_status.id AND
-civicrm_membership_status.is_current_member =1 ) WHERE civicrm_membership.membership_type_id = $membershipTypeId";
+FROM   civicrm_membership left join civicrm_membership_status on ( civicrm_membership.status_id = civicrm_membership_status.id  ) WHERE civicrm_membership.membership_type_id = $membershipTypeId AND 
+civicrm_membership_status.is_current_member =1";
 
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         if ( $dao->fetch( ) ) {

@@ -24,9 +24,9 @@
 {foreach from=$membershipSummary item=row}
 <tr>
     <td><strong>{$row.month.name}</strong></td>
-    <td class="label"><a href="" title="view details">{$row.month.count}</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1&start=20060601000000&end=20060612174244 *}
-    <td class="label"><a href="" title="view details">{$row.year.count}</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1&start=20060101000000&end=20060612174244 *}
-    <td class="label"><a href="" title="view details">{$row.current.count}</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1 *}
+    <td class="label"><a href={$row.month.url} title="view details">{$row.month.count}</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1&start=20060601000000&end=20060612174244 *}
+    <td class="label"><a href={$row.year.url} title="view details">{$row.year.count}</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1&start=20060101000000&end=20060612174244 *}
+    <td class="label"><a href={$row.current.url} title="view details">{$row.current.count}</a></td> {* member/search?reset=1&force=1&membership_type_id=1&current=1 *}
 </tr>
 {/foreach}
 

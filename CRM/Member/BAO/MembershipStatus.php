@@ -259,5 +259,26 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         
         return $membershipDetails;
     }
+
+    /**
+     * Function that return the status ids whose is_current_member is set
+     *
+     * @return 
+     * @static
+     */
+    function getMembershipStatusCurrent() 
+    {
+        $statusIds  = array();
+        require_once 'CRM/Member/DAO/MembershipStatus.php';
+        $membershipStatus =& new CRM_Member_DAO_MembershipStatus( );
+        $membershipStatus->is_current_member = 1;
+        $membershipStatus->find();
+        while ( $membershipStatus->fetch() ) {
+            $statusIds[] = $membershipStatus->id;
+        }
+        
+        return $statusIds;
+    }
+    
 }
 ?>
