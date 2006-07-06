@@ -8,13 +8,13 @@
         {if $groupTree}
             <div class="form-item">
                 {foreach from=$groupTree item=cd key=group_id}
-                <div id="{$cd.name}[show]" class="data-group">
-                <a href="#" onclick="hide('{$cd.name}[show]'); show('{$cd.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd.title}{/ts}</label><br />
+                <div id="{$cd.name}_show" class="data-group">
+                <a href="#" onclick="hide('{$cd.name}_show'); show('{$cd.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd.title}{/ts}</label><br />
                 </div>
 
 
                 <div id="{$cd.name}">
-                <fieldset><legend><a href="#" onclick="hide('{$cd.name}'); show('{$cd.name}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd.title}{/ts}</legend>
+                <fieldset><legend><a href="#" onclick="hide('{$cd.name}'); show('{$cd.name}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$cd.title}{/ts}</legend>
                     <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}
 			        {if $cd_value.options_per_line != 0 }
@@ -26,7 +26,7 @@
                             {assign var="no" value="1"}
                             {strip}
                             <table class="form-layout-compressed">
-                                <tr> 
+                            <tr> 
                             {section name=rowLoop start=1 loop=$viewForm.$element_name}
                             {assign var=index value=$smarty.section.rowLoop.index}
                             {if $viewForm.$element_name.$index.html != "" } 
@@ -40,10 +40,10 @@
                                 {else}
                                     {assign var="count" value=`$count+1`}
                                 {/if} 
+                            {else}
+                            <td></td>
                             {/if}
                             {/section}
-                            <td>
-                            </td>
                             </tr>
                             </table>
                             {/strip}
