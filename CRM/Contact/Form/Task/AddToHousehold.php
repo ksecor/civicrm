@@ -78,27 +78,23 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
             $checkBoxes = array( );
             $chekFlag = 0;
             foreach ( $searchRows as $id => $row ) {
-                $checked = '';
-                if (!$chekFlag) {
-                    $checked = array( 'checked' => null);
+                if ( !$chekFlag ) {
+                    $checkBoxes[$id] = $this->createElement('radio',null, null,null,$id, array( 'checked' => 'checked') );
                     $chekFlag++;
+                } else {
+                    $checkBoxes[$id] = $this->createElement('radio',null, null,null,$id );
                 }
-                
-                $checkBoxes[$id] = $this->createElement('radio',null, null,null,$id, $checked );
             }
             
             $this->addGroup($checkBoxes, 'contact_check');
             $this->assign('searchRows', $searchRows );
-
         }
-
 
         $this->assign( 'searchCount', $searchCount );
         $this->assign( 'searchDone'  , $this->get( 'searchDone'   ) );
         $this->assign( 'contact_type_display', ts('Household') );
         $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Search'), array( 'class' => 'form-submit' ) );
         $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );
-
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -165,7 +161,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
                             ts('Total Selected Contact(s): %1', array(1 => $valid+$invalid+$duplicate))
                             );
             if ( $valid ) {
-                $status[] = ts('New relationship record(s) created: %1.', array(1 => $valid)) . '<br>';
+                $status[] = ts('New relationship record(s) created: %1.', array(1 => $valid)) . '<br/>';
             }
             if ( $invalid ) {
                 $status[] = ts('Relationship record(s) not created due to invalid target contact type: %1.', array(1 => $invalid)) . '<br>';
