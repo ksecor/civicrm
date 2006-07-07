@@ -227,7 +227,7 @@ class CRM_Core_Selector_Controller {
          * session values instead
          */
         if ( $output == self::TRANSFER ) {
-            $params['total'] = $this->_store->get( 'rowCount' );
+            $params['total'] = $this->_store->get( $this->_prefix . 'rowCount' );
         } else {
             $params['total'] = $this->_object->getTotalCount($action);
         }
@@ -238,7 +238,7 @@ class CRM_Core_Selector_Controller {
         /*
          * Set the default values of RowsPerPage
          */
-        $storeRowCount = $store->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
+        $storeRowCount = $store->get( $this->_prefix . CRM_Utils_Pager::PAGE_ROWCOUNT );
         if ( $storeRowCount ) {
             $params['rowCount'] = $storeRowCount;
         } else if ( ! isset( $params['rowCount'] ) ) {
@@ -264,13 +264,15 @@ class CRM_Core_Selector_Controller {
          * if we are in reset state, i.e the store is cleaned out, we return false
          * we also return if we dont have a record of the sort id or page id
          */
-        if ( $reset || $this->_store->get( CRM_Utils_Pager::PAGE_ID ) == null || $this->_store->get( CRM_Utils_Sort::SORT_ID ) == null ) {
+        if ( $reset ||
+             $this->_store->get( $this->_prefix . CRM_Utils_Pager::PAGE_ID ) == null ||
+             $this->_store->get( $this->_prefix . CRM_Utils_Sort::SORT_ID ) == null ) {
             return false;
         }
 
-        if ( $this->_store->get( CRM_Utils_Pager::PAGE_ID       ) != $this->_pager->getCurrentPageID       ( ) ||
-             $this->_store->get( CRM_Utils_Sort::SORT_ID        ) != $this->_sort->getCurrentSortID        ( ) || 
-             $this->_store->get( CRM_Utils_Sort::SORT_DIRECTION ) != $this->_sort->getCurrentSortDirection ( ) ) {
+        if ( $this->_store->get( $this->_prefix . CRM_Utils_Pager::PAGE_ID       ) != $this->_pager->getCurrentPageID       ( ) ||
+             $this->_store->get( $this->_prefix . CRM_Utils_Sort::SORT_ID        ) != $this->_sort->getCurrentSortID        ( ) || 
+             $this->_store->get( $this->_prefix . CRM_Utils_Sort::SORT_DIRECTION ) != $this->_sort->getCurrentSortDirection ( ) ) {
             return true;
         }
         return false;
@@ -302,10 +304,6 @@ class CRM_Core_Selector_Controller {
         // we need to get the rows if we are exporting or printing them
         if ($this->_output == self::EXPORT || $this->_output == self::SCREEN ) {
             // get rows (without paging criteria)
-              // $rows          =& $this->_object->getRows( $this->_action,
-//                                                                      0, 0,
-//                                                                      $this->_sort,
-//                                                                      $this->_output );
             $rows = self::getRows( $this );
             if ( $this->_output == self::EXPORT ) {
                 // export the rows.
@@ -320,12 +318,6 @@ class CRM_Core_Selector_Controller {
             
         } else {
             // output requires paging/sorting capability
-            // get rows with paging criteria
-            //             $rows          =& $this->_object->getRows( $this->_action,
-            //                                                        $this->_pagerOffset,
-            //                                                        $this->_pagerRowCount,
-            //                                                        $this->_sort,
-            //                                                        $this->_output );
             $rows = self::getRows( $this );
             $rowsEmpty = count( $rows ) ? false : true;
             $qill      = $this->getQill( );
@@ -349,11 +341,16 @@ class CRM_Core_Selector_Controller {
 
 
             // always store the current pageID and sortID
-            $this->_store->set( CRM_Utils_Pager::PAGE_ID      , $this->_pager->getCurrentPageID       ( ) );
-            $this->_store->set( CRM_Utils_Sort::SORT_ID       , $this->_sort->getCurrentSortID        ( ) );
-            $this->_store->set( CRM_Utils_Sort::SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
-            $this->_store->set( CRM_Utils_Sort::SORT_ORDER    , $this->_sort->orderBy                 ( ) );
-            $this->_store->set( CRM_Utils_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
+            $this->_store->set( $this->_prefix . CRM_Utils_Pager::PAGE_ID      ,
+                                $this->_pager->getCurrentPageID       ( ) );
+            $this->_store->set( $this->_prefix . CRM_Utils_Sort::SORT_ID       ,
+                                $this->_sort->getCurrentSortID        ( ) );
+            $this->_store->set( $this->_prefix . CRM_Utils_Sort::SORT_DIRECTION,
+                                $this->_sort->getCurrentSortDirection ( ) );
+            $this->_store->set( $this->_prefix . CRM_Utils_Sort::SORT_ORDER    ,
+                                $this->_sort->orderBy                 ( ) );
+            $this->_store->set( $this->_prefix . CRM_Utils_Pager::PAGE_ROWCOUNT,
+                                $this->_pager->_perPage                   );
 
         }
     }
