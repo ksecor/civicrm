@@ -123,6 +123,25 @@ class CRM_Utils_Array {
         }
     }
 
+    /**
+     * Funtion to merge to two arrays recursively
+     * 
+     * @param array $a1 
+     * @param array $a2
+     *
+     * @return  $a3
+     * @static
+     */
+    static function crmArrayMerge( $a1, $a2 ) 
+    {
+        foreach ( $a1 as $key => $value) {
+            if ( is_array($a2[$key])) {
+                $a3[$key] = array_merge($a1[$key], $a2[$key]);
+            }
+        }
+        return $a3;
+    }
+
 }
 
 ?>

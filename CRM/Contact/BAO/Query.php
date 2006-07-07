@@ -873,8 +873,8 @@ class CRM_Contact_BAO_Query {
         }
 
         if ( $this->_customQuery ) {
-            $this->_where = array_merge_recursive( $this->_where, $this->_customQuery->_where );
-            $this->_qill  = array_merge_recursive( $this->_qill , $this->_customQuery->_qill  );
+            $this->_where = CRM_Utils_Array::crmArrayMerge( $this->_where, $this->_customQuery->_where );
+            $this->_qill  = CRM_Utils_Array::crmArrayMerge( $this->_qill , $this->_customQuery->_qill  );
         }
 
         $clauses = array( );
@@ -884,8 +884,6 @@ class CRM_Contact_BAO_Query {
                 $clauses[$grouping] = ' ( ' . implode( ' AND ', $values ) . ' ) ';
             }
         }
-
-        // CRM_Core_Error::debug( 'c', $clauses );
 
         $andClauses = array( );
         if ( ! empty( $this->_where[0] ) ) {
