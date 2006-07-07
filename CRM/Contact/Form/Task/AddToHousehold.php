@@ -79,14 +79,14 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
             $chekFlag = 0;
             foreach ( $searchRows as $id => $row ) {
                 if ( !$chekFlag ) {
-                    $checkBoxes[$id] = $this->createElement('radio',null, null,null,$id, array( 'checked' => 'checked') );
-                    $chekFlag++;
-                } else {
-                    $checkBoxes[$id] = $this->createElement('radio',null, null,null,$id );
+                    $chekFlag = $id;
                 }
+                $checkBoxes[$id] = $this->createElement('radio',null, null,null,$id );
             }
-            
             $this->addGroup($checkBoxes, 'contact_check');
+            if ( $chekFlag ) {
+                $checkBoxes[$chekFlag]->setChecked( true );
+            }
             $this->assign('searchRows', $searchRows );
         }
 

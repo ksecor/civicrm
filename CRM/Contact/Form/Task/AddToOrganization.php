@@ -80,16 +80,17 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
             $checkBoxes = array( );
             $chekFlag = 0;
             foreach ( $searchRows as $id => $row ) {
-                $checked = '';
                 if (!$chekFlag) {
-                    $checked = array( 'checked' => null);
-                    $chekFlag++;
+                    $chekFlag = $id;
                 }
                 
-                $checkBoxes[$id] = $this->createElement('radio',null, null,null,$id, $checked );
+                $checkBoxes[$id] = $this->createElement('radio',null, null,null,$id);
             }
             
             $this->addGroup($checkBoxes, 'contact_check');
+            if ( $chekFlag ) {
+                $checkBoxes[$chekFlag]->setChecked( true );
+            }
             $this->assign('searchRows', $searchRows );
 
         }
