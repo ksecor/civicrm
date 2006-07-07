@@ -304,7 +304,12 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             break;
             
         }
-        $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+
+        if ( $membershipTypeDetails['duration_unit'] =='lifetime' ) {
+            $endDate = null;
+        } else {
+            $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+        }
         $membershipDates = array();
         $membershipDates['start_date']  = CRM_Utils_Date::customFormat($startDate,'%Y%m%d');
         $membershipDates['end_date']    = CRM_Utils_Date::customFormat($endDate,'%Y%m%d');
@@ -351,7 +356,12 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                 $day   = $day    + $membershipTypeDetails['duration_interval'];
                 break;
             }
-            $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+            if ( $membershipTypeDetails['duration_unit'] =='lifetime') {
+                $endDate = null;
+            } else {
+                $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+            }
+                
         } else {
             $date = $membershipDetails->end_date;
             $date         = explode('-', $date );
@@ -373,7 +383,11 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                 $day   = $day    + $membershipTypeDetails['duration_interval'];
                 break;
             }
-            $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+            if ($membershipTypeDetails['duration_unit'] =='lifetime') {
+                $endDate = null;
+            } else {
+                $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+            }
         }
         
         $membershipDates = array();
