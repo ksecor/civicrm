@@ -279,7 +279,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $this->assign('is_deductible' , true );
                     $this->set('is_deductible' , true);
                 }
-                $contribution[1] =  self::processContribution( $membershipParams ,$result ,$contactID ,$contributionType  );
+                $contribution[1] =  self::processContribution( $membershipParams ,$result ,$contactID ,$contributionType ,true );
                 self::postProcessPremium( $premiumParams ,$contribution[1] );
                            
             }
@@ -306,7 +306,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     
                     $this->assign('membership_trx_id' , $result['trxn_id']);
                     $this->assign('membership_amount'  , $minimumFee);
-                    $contribution[2] =  self::processContribution( $tempParams ,$result ,$contactID ,$contributionType  );
+                    $contribution[2] =  self::processContribution( $tempParams ,$result ,$contactID ,$contributionType ,false );
                 }
             }
             if ( $memBlockDetails['is_separate_payment'] ) {
@@ -370,14 +370,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $memParams['contact_id']             = $contactID;
                     $memParams['membership_type_id']     = $membersshipID;
                     $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membersshipID);
-                    
+                  
                     $memParams['join_date']  = CRM_Utils_Date::customFormat($dates['join_date'],'%Y%m%d');
                     $memParams['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
                     $memParams['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
                     $memParams['source'  ]   = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
-                    $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $dates['start_date'],$dates['end_date'], $dates['join_date']) ;
+                    $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( CRM_Utils_Date::customFormat($dates['start_date'],'%Y-%m-%d'),CRM_Utils_Date::customFormat($dates['end_date'],'%Y-%m-%d'),CRM_Utils_Date::customFormat($dates['join_date'],'%Y-%m-%d')) ;
+                   
                     $memParams['status_id']   = $status['id'];
-                    $memParams['is_override'] = true;
+                    $memParams['is_override'] = false;
                     $dao = &new CRM_Member_DAO_Membership();
                     $dao->copyValues($memParams);
                     $membership = $dao->save();
@@ -446,7 +447,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->set('is_deductible' , true);
             }
             
-            $contribution =  self::processContribution( $this->_params ,$result ,$contactID ,$contributionType  );
+            $contribution =  self::processContribution( $this->_params ,$result ,$contactID ,$contributionType , true );
             
             self::postProcessPremium( $premiumParams ,$contribution );
             
@@ -558,12 +559,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return void
      * @access public
      */
-    public function processContribution( $params ,$result ,$contactID ,$contributionType  ) {
+    public function processContribution( $params ,$result ,$contactID ,$contributionType ,$deductableMode = true ) {
         CRM_Core_DAO::transaction( 'BEGIN' );
 
         $config =& CRM_Core_Config::singleton( );
         $nonDeductibleAmount = $result['gross_amount'];
-        if ( $contributionType->is_deductible ) {
+        if ( $contributionType->is_deductible && $deductableMode ) {
             if ( $this->_params['selectProduct'] != 'no_thanks' ) {
                 require_once 'CRM/Contribute/DAO/Product.php';
                 $productDAO =& new CRM_Contribute_DAO_Product();
