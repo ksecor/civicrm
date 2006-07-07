@@ -103,7 +103,7 @@ class CRM_Member_BAO_Query {
         case 'member_start_date_low':
         case 'member_start_date_high':
             $query->dateQueryBuilder( $values,
-                                       'civicrm_membership', 'member_start_date', 'start_date', 'Signup/Renew Date' );
+                                       'civicrm_membership', 'member_start_date', 'start_date', 'Start Date' );
             return;
 
         case 'member_end_date_low':
@@ -237,11 +237,11 @@ class CRM_Member_BAO_Query {
         }
 
         $form->addElement( 'text', 'member_source', ts( 'Source' ) );
-        $form->addElement('date', 'member_join_date', ts('Member Since :'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('member_join_date', ts('Select a valid date.'), 'qfDate'); 
+        //$form->addElement('date', 'member_join_date', ts('Member Since :'), CRM_Core_SelectValues::date('relative')); 
+        //$form->addRule('member_join_date', ts('Select a valid date.'), 'qfDate'); 
  
         // Date selects for date 
-        $form->add('date', 'member_start_date_low', ts('Sign up/Renew Date - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->add('date', 'member_start_date_low', ts('Start Date - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('member_start_date_low', ts('Select a valid date.'), 'qfDate'); 
  
         $form->add('date', 'member_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 

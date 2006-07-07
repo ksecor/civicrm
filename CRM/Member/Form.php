@@ -79,6 +79,9 @@ class CRM_Member_Form extends CRM_Core_Form
             eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
         }
 
+        //CRM_Core_Error::debug('s', $defaults);
+        $this->assign('membershipStatus', $defaults['status']);
+
         if ($this->_action == CRM_Core_Action::DELETE) {
             $this->assign( 'delName', $defaults['name'] );
         }
