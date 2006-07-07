@@ -261,11 +261,13 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         
         foreach ($sel1 as $k=>$sel ) {
             if ($k) {
-                foreach ($this->_mapperFields[$k]  as $key=>$value) {
-                    if ($hasLocationTypes[$k][$key]) {
-                        $sel3[$k][$key] = $this->_location_types;
-                    } else {
-                        $sel3[$key] = null;
+                if (is_array($this->_mapperFields[$k])) {
+                    foreach ($this->_mapperFields[$k]  as $key=>$value) {
+                        if ($hasLocationTypes[$k][$key]) {
+                            $sel3[$k][$key] = $this->_location_types;
+                        } else {
+                            $sel3[$key] = null;
+                        }
                     }
                 }
             }
