@@ -1,8 +1,11 @@
 <div id="help">
-    {ts}Use this form to find member(s) by member name,email,membership type, status, source, signup /renew date,end date.{/ts}
+    {ts}Use this form to find member(s) by member name or email address, membership type, status, source, and/or membership period start and end dates.
+    Multiple selections for Membership Type and Status are combined as OR criteria (e.g. checking "Membership Type A" and "Membership Type B" will find
+    contacts who have either membership). All other search fields are combined as AND criteria (e.g. selecting Status is "Expired" AND Source is "Phone-banking"
+    returns only those contacts who meet both criteria).{/ts}
 </div>
-<div class="form-item">
 <fieldset><legend>{ts}Find Members{/ts}</legend>
+<div class="form-item">
     {strip} 
         <dl>
         <dt>{$form.sort_name.label}</dt>
@@ -19,8 +22,8 @@
         </dd>
         {include file="CRM/Member/Form/Search/Common.tpl"}
     {/strip}
-</fieldset>
 </div> 
+</fieldset>
 {if $rowsEmpty}
     {include file="CRM/Member/Form/Search/EmptyResults.tpl"}
 {/if}

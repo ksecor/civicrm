@@ -139,7 +139,7 @@ class CRM_Core_BAO_OtherActivity extends CRM_Core_DAO_Activity
         $otherActivity =& new CRM_Core_DAO_Activity( );
         $otherActivity->id = $id;
         $otherActivity->delete();
-        CRM_Core_Session::setStatus( ts('Selected OtherActivity has been deleted.') );
+        CRM_Core_Session::setStatus( ts('Selected Activity has been deleted.') );
     }
     
     /**

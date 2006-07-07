@@ -107,7 +107,7 @@ class CRM_Core_Menu {
                                          CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'    => self::CALLBACK,
                             'crmType' => self::NORMAL_ITEM,
-                            'weight'  => 40,
+                            'weight'  => 9000,
                             ),
 
                       array(

@@ -92,7 +92,7 @@ class CRM_Member_Menu {
                        array( 
                              'path'    => 'civicrm/member/search',
                              'query'   => 'reset=1',
-                             'title'   => ts( 'Find Member' ), 
+                             'title'   => ts( 'Find Members' ),
                              'access'  => CRM_Core_Permission::check( 'access CiviMember'), 
                              'type'    => CRM_Core_Menu::CALLBACK,  
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,  

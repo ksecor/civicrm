@@ -84,7 +84,7 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
                         'display_name'           => ts('Display Name'),
                         'membership_type'        => ts('Membership Type'),
                         'join_date'              => ts('Member Since'),
-                        'start_date'             => ts('Start/Renew Date'),
+                        'start_date'             => ts('Start Date'),
                         'end_date'               => ts('End Date'),
                         'source'                 => ts('Source'),
                         'status_id'              => ts('Status')
