@@ -26,8 +26,11 @@
         <dt>&nbsp;</dt>
         <dd class="description">
                {include file="CRM/common/calendar/desc.tpl"}
-        
-{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1}</dd>
+        </dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">
+{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1}
+        </dd>
     {/if}
 	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
