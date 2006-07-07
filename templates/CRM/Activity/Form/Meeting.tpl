@@ -26,8 +26,8 @@
         <dt>&nbsp;</dt>
         <dd class="description">
                {include file="CRM/common/calendar/desc.tpl"}
-        </dd>
-{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1}
+        
+{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1}</dd>
     {/if}
 	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
@@ -36,13 +36,16 @@
     {/edit}     {*/if*}
 
     <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
+
+     <dt></dt><dd class="description">
      {if $action eq 4} 
       {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
      {else}
       {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
     {/if}
-     
+     </dd>
    {/if}
+   
     {if $action eq 8 }
     <div class="status">{ts 1=$delName}Are you sure you want to delete "%1"?{/ts}</div>
     {/if}
