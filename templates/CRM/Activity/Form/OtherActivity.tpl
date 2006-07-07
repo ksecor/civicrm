@@ -45,16 +45,18 @@
 
         <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
         
+        <dt></dt><dd class="description">
 	    {if $action eq 4} 
          {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
         {else}
           {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
         {/if} 
+        </dd>
 	
       {else}
          <div class="messages status">
           <dl>
-           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
            <dd>    
              {ts}Cannot display Activity History details since activity type for this activity has been deleted.{/ts}
            </dd>
