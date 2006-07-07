@@ -57,6 +57,9 @@ if [ -d $TRG/bin ] ; then
   rm -f $TRG/bin/setup.php4.sh
 fi
 
+# remove Quest
+find $TRG -name '*Quest*' -exec rm -r {} \;
+
 # copy docs
 cp $SRC/license.txt $TRG
 cp $SRC/affero_gpl.txt $TRG
