@@ -161,8 +161,8 @@
 </div>
 
     <div id="contributions">
-    {if $pager->_totalItems}
-        <fieldset><legend><a href="#" onclick="hide('contributions'); show('contributions_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $pager->_totalItems GT 3}{ts 1=$contribute_pager->_totalItems}Contributions (3 of %1){/ts}{else}{ts}Contributions{/ts}{/if}</legend>
+    {if $contribute_pager->_totalItems}
+        <fieldset><legend><a href="#" onclick="hide('contributions'); show('contributions_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $contribute_pager->_totalItems GT 3}{ts 1=$contribute_pager->_totalItems}Contributions (3 of %1){/ts}{else}{ts}Contributions{/ts}{/if}</legend>
         {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
         <p>
         {include file="CRM/Contribute/Form/Selector.tpl" context="Contact Summary"}       
@@ -196,7 +196,7 @@
 </div>
 
     <div id="memberships">
-    {if $pager->_totalItems}
+    {if $member_pager->_totalItems}
         <fieldset><legend><a href="#" onclick="hide('memberships'); show('memberships_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $pager->_totalItems GT 3}{ts 1=$member_pager->_totalItems}Memberships (3 of %1){/ts}{else}{ts}Memberships{/ts}{/if}</legend>
         <p>
         {include file="CRM/Member/Form/Selector.tpl" context="Contact Summary"}       

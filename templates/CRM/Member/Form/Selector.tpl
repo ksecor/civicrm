@@ -5,8 +5,9 @@
 {if $context EQ 'Contact Summary'}
     {assign var='columnHeaders' value=$member_columnHeaders}
     {assign var='rows' value=$member_rows}
+    {assign var='single' value=$member_single}
+    {assign var='limit' value=$member_limit}
 {/if}
-
 {strip}
 <table class="selector">
   <tr class="columnheader">
@@ -17,7 +18,11 @@
     <th>
     {if $header.sort}
       {assign var='key' value=$header.sort}
-      {$sort->_response.$key.link}
+      {if $context EQ 'Contact Summary'}	
+         {$member_sort->_response.$key.link}
+      {else}
+         {$sort->_response.$key.link}
+      {/if}  
     {else}
       {$header.name}
     {/if}
@@ -28,14 +33,12 @@
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   <tr id='rowid{$row.membership_id}' class="{cycle values="odd-row,even-row"}{*if $row.cancel_date} disabled{/if*}">
-{if ! $single}
-{if ! $limit}
-    {assign var=cbName value=$row.checkbox}
-    <td>{$form.$cbName.html}</td> 
-{/if}
-    <td>{$row.contact_type}</td>	
-    <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
-{/if}
+     {if ! $single and ! $limit}
+       {assign var=cbName value=$row.checkbox}
+       <td>{$form.$cbName.html}</td> 
+       <td>{$row.contact_type}</td>	
+       <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td> 
+    {/if}
     <td>{$row.membership_type}</td>
     <td>{$row.join_date|truncate:10:''|crmDate}</td>
     <td>{$row.start_date|truncate:10:''|crmDate}</td>

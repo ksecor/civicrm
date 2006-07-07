@@ -167,7 +167,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this );
 
-        $this->assign( 'limit', $this->_limit );
+        $this->assign( "{$this->_prefix}limit", $this->_limit );
 
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
@@ -250,7 +250,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                    ); 
             }
 
-            $this->assign( 'single', $this->_single );
+            $this->assign( "{$this->_prefix}single", $this->_single );
 
             // also add the action and radio boxes
             require_once 'CRM/Contribute/Task.php';

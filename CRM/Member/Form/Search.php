@@ -166,10 +166,8 @@ class CRM_Member_Form_Search extends CRM_Core_Form {
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this );
 
-        $this->assign( 'limit', $this->_limit );
-
-        //$this->assign( 'prefixCiviMember', $this->_prefix );
-
+        $this->assign( "{$this->_prefix}limit", $this->_limit );
+            
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
         if ( ! empty( $_POST ) ) { 
@@ -245,8 +243,8 @@ class CRM_Member_Form_Search extends CRM_Core_Form {
                                    ); 
             }
 
-            $this->assign( 'single', $this->_single );
-
+            $this->assign( "{$this->_prefix}single", $this->_single );
+            
             // also add the action and radio boxes
             require_once 'CRM/Member/Task.php';
             $tasks = array( '' => ts('- more actions -') ) + CRM_Member_Task::tasks( );
