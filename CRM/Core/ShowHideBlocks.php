@@ -156,7 +156,7 @@ class CRM_Core_ShowHideBlocks {
             unset( $this->_show[$name] );
         }
      }
-
+    
     /**
      * create a well formatted html link from the smaller pieces
      *
@@ -168,10 +168,10 @@ class CRM_Core_ShowHideBlocks {
      * @return string      the formatted html link
      * @access public
      */
-     static function linkHtml( $name, $href, $text, $js ) {
+    static function linkHtml( $name, $href, $text, $js ) {
         return '<a name="' . $name . '" id="' . $name . '" href="' . $href . '" ' . $js . ">$text</a>";
     }
-
+    
     /**
      * Create links that we can use in the form
      *
@@ -183,7 +183,7 @@ class CRM_Core_ShowHideBlocks {
      * @return void
      * @access public
      */
-     function links( &$form, $prefix, $showLinkText, $hideLinkText, $assign = true ) {
+    function links( &$form, $prefix, $showLinkText, $hideLinkText, $assign = true ) {
         $showCode = "show('${prefix}'); hide('${prefix}_show'); return false;";
         $hideCode = "hide('${prefix}'); show('${prefix}_show'); return false;";
         
@@ -198,7 +198,7 @@ class CRM_Core_ShowHideBlocks {
             return $values;
         }
     }
-
+    
     /**
      * Create html link elements that we can use in the form
      *
@@ -215,6 +215,7 @@ class CRM_Core_ShowHideBlocks {
      * @access public
      */
     function linksForArray( &$form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText, $elementType = null, $hideLink = null ) {
+        $showHidePrefix = str_replace(array("]", "["), array("", "_"), $prefix);
         if ( $index == $maxIndex ) {
             $showCode = $hideCode = "return false;";
         } else {
@@ -225,9 +226,9 @@ class CRM_Core_ShowHideBlocks {
                     $hideCode = $hideLink;
                 } else {
                     $hideCode = "hide('${prefix}_${next}_show','table-row'); hide('${prefix}_${next}'); return false;";                }
-            } else {
-                $showCode = "show('${prefix}_${next}_show'); return false;";
-                $hideCode = "hide('${prefix}_${next}_show'); hide('${prefix}_${next}'); return false;";
+            } else {                
+                $showCode = "show('{$showHidePrefix}_{$next}_show'); return false;";
+                $hideCode = "hide('{$showHidePrefix}_{$next}_show'); hide('{$showHidePrefix}_{$next}'); return false;";
             }
         }
 
@@ -239,9 +240,9 @@ class CRM_Core_ShowHideBlocks {
                               array('onclick' => "hide('${prefix}_${index}'); show('${prefix}_${index}_show');" . $hideCode));
         } else {
             $form->addElement('link', "${prefix}[${index}][show]", null, "#${prefix}_${index}", self::$_showIcon . $showLinkText,
-                              array( 'onclick' => "hide('${prefix}_${index}_show'); show('${prefix}_${index}');" . $showCode));
+                              array( 'onclick' => "hide('{$showHidePrefix}_{$index}_show'); show('{$showHidePrefix}_{$index}');" . $showCode));
             $form->addElement('link', "${prefix}[${index}][hide]", null, "#${prefix}_${index}", self::$_hideIcon . $hideLinkText,
-                              array('onclick' => "hide('${prefix}_${index}'); show('${prefix}_${index}_show');" . $hideCode));
+                              array('onclick' => "hide('{$showHidePrefix}_{$index}'); show('{$showHidePrefix}_{$index}_show');" . $hideCode));
         }
     }
 

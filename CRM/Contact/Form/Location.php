@@ -108,11 +108,11 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             foreach ( self::$_commPrefs as $block ) {
                 for ( $blockId = 1; $blockId <= self::BLOCKS; $blockId++ ) {
                     if ( $blockId != 1 ) {
-                        $showHide->addHide( "location[$locationId][$block]_{$blockId}");
+                        $showHide->addHide( "location_{$locationId}_{$block}_{$blockId}");
                         if ( $blockId == 2 ) {
-                            $showHide->addShow( "location[$locationId][$block]_{$blockId}_show" );
+                            $showHide->addShow( "location_{$locationId}_{$block}_{$blockId}_show" );
                         } else {
-                            $showHide->addHide( "location[$locationId][$block]_{$blockId}_show" );
+                            $showHide->addHide( "location_{$locationId}_{$block}_{$blockId}_show" );
                         }
                     }
                 }
