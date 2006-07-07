@@ -317,7 +317,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
  
         if ( $this->_action & CRM_Core_Action::ADD ) {
             // notes are only included in the template for New Contact
-            $this->_showHide->addShow( 'notes_id_show' );
+            $this->_showHide->addShow( 'notes_show' );
             $this->_showHide->addHide( 'notes' );
         }
 

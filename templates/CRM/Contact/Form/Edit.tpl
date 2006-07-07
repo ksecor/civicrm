@@ -189,7 +189,7 @@
 
  {* Notes block only included for Add Contact (since it navigates from Edit form...) *}
  {if $action eq 1}
-     <div id = "notes_id_show" class="data-group">
+     <div id = "notes_show" class="data-group">
         {$notes.show}<label>{ts}Notes{/ts}</label>
      </div>
 
@@ -201,7 +201,7 @@
          </fieldset>
      </div>
 {/if}
- <!-- End of "notes" div -->
+ {* -- End of "notes" div -- *}
 
  {* Groups and Tags block *} 
 <div id="group_show" class="data-group">

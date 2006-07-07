@@ -267,12 +267,13 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      */
      function &getRows($action, $offset, $rowCount, $sort, $output = null) 
      {
+         //CRM_Core_Error::debug('s', $sort);
          $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
                                                false, false, 
                                                false, false, 
                                                false, 
                                                $this->_memberClause );
-         
+
          // process the result of the query
          $rows = array( );
          
@@ -356,7 +357,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Start/Renew Date'),
+                                                'name'      => ts('Start Date'),
                                                 'sort'      => 'start_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),

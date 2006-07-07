@@ -3,10 +3,10 @@
 {include file="CRM/Contact/Form/Search/Intro.tpl"}
 
 {assign var="showBlock" value="'searchForm'"}
-{assign var="hideBlock" value="'searchForm[show]','searchForm[hide]'"}
+{assign var="hideBlock" value="'searchForm_show','searchForm_hide'"}
 
-<div id="searchForm[show]" class="form-item">
-  <a href="#" onclick="hide('searchForm[show]'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+<div id="searchForm_show" class="form-item">
+  <a href="#" onclick="hide('searchForm_show'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
   <label>
   {if $savedSearch}
     {ts 1=$savedSearch.name}Edit %1 Smart Group Criteria{/ts}
