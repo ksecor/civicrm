@@ -19,7 +19,7 @@
   	      <dt>{ts}With Contact{/ts}</dt><dd>{$targetName}&nbsp;</dd>
     	  <dt>{ts}Created By{/ts}</dt><dd>{$sourceName}&nbsp;</dd>
         {/if}
-    	<dt>{$form.activity_type_id.label} <dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd></dt>
+    	<dt>{$form.activity_type_id.label}</dt><dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd>
 	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
         <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
         {if $action eq 4}
