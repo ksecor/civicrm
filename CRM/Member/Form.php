@@ -79,13 +79,12 @@ class CRM_Member_Form extends CRM_Core_Form
             eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
         }
 
-        //CRM_Core_Error::debug('s', $defaults);
-        $this->assign('membershipStatus', $defaults['status']);
+        $this->assign( 'membershipStatus', $defaults['status'] );
 
         if ($this->_action == CRM_Core_Action::DELETE) {
             $this->assign( 'delName', $defaults['name'] );
         }
-
+        
         // its ok if there is no element called is_active
         $defaults['is_active'] = 1;
         
@@ -93,38 +92,6 @@ class CRM_Member_Form extends CRM_Core_Form
             $defaults['member_org'] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', 
                                                                   $defaults['member_of_contact_id'], 'display_name');
         }
-        //finding default weight to be put 
-        if ( ! $defaults['weight'] ) {
-            $query = "SELECT max( `weight` ) as weight FROM `civicrm_membership_type`";
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
-            $dao->fetch();
-            $defaults['weight'] = ($dao->weight + 1);
-        }
-        //setting default join date
-        if ($this->_action == CRM_Core_Action::ADD) {
-            $joinDate = getDate();
-            $defaults['join_date']['M'] = $joinDate['mon'];
-            $defaults['join_date']['d'] = $joinDate['mday'];
-            $defaults['join_date']['Y'] = $joinDate['year'];
-        }
-        //setting default relationshipType
-        if ( $defaults['relationship_type_id'] ) {
-            $defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_a_b';
-        }
-        //setting default fixed_period_start_day & fixed_period_rollover_day
-        $periods = array('fixed_period_start_day',  'fixed_period_rollover_day');
-        foreach ( $periods as $per ) {
-            if ($defaults[$per]) {
-                $dat = $defaults[$per];
-                $dat = ( $dat < 999) ? '0'.$dat : $dat; 
-                $dM = str_split($dat, 2);
-                $defaults[$per] = array();
-                $defaults[$per]['M'] = $dM[0];
-                $defaults[$per]['d'] = $dM[1];
-            }
-        }
-        
         return $defaults;
     }
 

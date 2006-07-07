@@ -49,6 +49,44 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
     const MAX_CONTACTS = 50;
 
     /**
+     * This function sets the default values for the form. MobileProvider that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    public function setDefaultValues( ) {
+        $defaults = array( );
+        $defaults =& parent::setDefaultValues( );
+        
+        //finding default weight to be put 
+        if ( ! $defaults['weight'] ) {
+            $query = "SELECT max( `weight` ) as weight FROM `civicrm_membership_type`";
+            $dao =& new CRM_Core_DAO( );
+            $dao->query( $query );
+            $dao->fetch();
+            $defaults['weight'] = ($dao->weight + 1);
+        }
+        //setting default relationshipType
+        if ( $defaults['relationship_type_id'] ) {
+            $defaults['relationship_type_id'] = $defaults['relationship_type_id'].'_a_b';
+        }
+        //setting default fixed_period_start_day & fixed_period_rollover_day
+        $periods = array('fixed_period_start_day',  'fixed_period_rollover_day');
+        foreach ( $periods as $per ) {
+            if ($defaults[$per]) {
+                $dat = $defaults[$per];
+                $dat = ( $dat < 999) ? '0'.$dat : $dat; 
+                $dM = str_split($dat, 2);
+                $defaults[$per] = array();
+                $defaults[$per]['M'] = $dM[0];
+                $defaults[$per]['d'] = $dM[1];
+            }
+        }
+        return $defaults;
+    }
+
+    /**
      * Function to build the form
      *
      * @return None

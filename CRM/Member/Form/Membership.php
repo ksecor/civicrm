@@ -58,6 +58,27 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
     }
 
     /**
+     * This function sets the default values for the form. MobileProvider that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    public function setDefaultValues( ) {
+        $defaults = array( );
+        $defaults =& parent::setDefaultValues( );
+        
+        //setting default join date
+        if ($this->_action == CRM_Core_Action::ADD) {
+            $joinDate = getDate();
+            $defaults['join_date']['M'] = $joinDate['mon'];
+            $defaults['join_date']['d'] = $joinDate['mday'];
+            $defaults['join_date']['Y'] = $joinDate['year'];
+        }
+        return $defaults;
+    }
+
+    /**
      * Function to build the form
      *
      * @return None

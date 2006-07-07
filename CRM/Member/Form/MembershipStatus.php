@@ -43,6 +43,29 @@ require_once 'CRM/Member/Form.php';
  */
 class CRM_Member_Form_MembershipStatus extends CRM_Member_Form
 {
+
+    /**
+     * This function sets the default values for the form. MobileProvider that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    public function setDefaultValues( ) {
+        $defaults = array( );
+        $defaults =& parent::setDefaultValues( );
+
+        //finding default weight to be put 
+        if ( ! $defaults['weight'] ) {
+            $query = "SELECT max( `weight` ) as weight FROM `civicrm_membership_status`";
+            $dao =& new CRM_Core_DAO( );
+            $dao->query( $query );
+            $dao->fetch();
+            $defaults['weight'] = ($dao->weight + 1);
+        }
+        return $defaults;
+    }
+
     /**
      * Function to build the form
      *

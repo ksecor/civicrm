@@ -182,7 +182,7 @@ class CRM_Core_SelectValues {
                               );
             if ( $unitType == 'duration' ) {
                 $unitAdd = array(
-                                 'life_time'      => ts('life time')
+                                 'lifetime'      => ts('life time')
                                  );
                 $unitList = array_merge( $unitList, $unitAdd);
             }

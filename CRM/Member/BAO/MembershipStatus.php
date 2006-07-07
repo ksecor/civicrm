@@ -198,7 +198,9 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
             }
         }
         
-        $query = "SELECT * FROM `civicrm_membership_status` WHERE `is_active`=1 AND `is_admin`!=1 ORDER BY weight ASC";
+        /* FIXME: query below (commented) does not work for cases where admin=NULL */
+        //$query = "SELECT * FROM `civicrm_membership_status` WHERE `is_active`=1 AND `is_admin`!=1 ORDER BY weight ASC";
+        $query = "SELECT * FROM `civicrm_membership_status` WHERE `is_active`=1 ORDER BY weight ASC";
         $membershipStatus =& new CRM_Core_DAO( );
         $membershipStatus->query( $query );
         while ( $membershipStatus->fetch() ) {
