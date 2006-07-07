@@ -94,25 +94,25 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
     function setShowHideDefaults( &$showHide, $maxLocationBlocks ) {
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
             if ( $locationId == 1 ) {
-                $showHide->addShow( "location_{$locationId}" );
-                $showHide->addHide( "location_{$locationId}_show" );
+                $showHide->addShow( "id_location_{$locationId}" );
+                $showHide->addHide( "id_location_{$locationId}_show" );
             } else {
-                $showHide->addHide( "location_{$locationId}" );
+                $showHide->addHide( "id_location_{$locationId}" );
                 if ( $locationId == 2 ) {
-                    $showHide->addShow( "location_{$locationId}_show" );
+                    $showHide->addShow( "id_location_{$locationId}_show" );
                 } else {
-                    $showHide->addHide( "location_{$locationId}_show" );
+                    $showHide->addHide( "id_location_{$locationId}_show" );
                 }
             }
             
             foreach ( self::$_commPrefs as $block ) {
                 for ( $blockId = 1; $blockId <= self::BLOCKS; $blockId++ ) {
                     if ( $blockId != 1 ) {
-                        $showHide->addHide( "location_{$locationId}_{$block}_{$blockId}");
+                        $showHide->addHide( "id_location_{$locationId}_{$block}_{$blockId}");
                         if ( $blockId == 2 ) {
-                            $showHide->addShow( "location_{$locationId}_{$block}_{$blockId}_show" );
+                            $showHide->addShow( "id_location_{$locationId}_{$block}_{$blockId}_show" );
                         } else {
-                            $showHide->addHide( "location_{$locationId}_{$block}_{$blockId}_show" );
+                            $showHide->addHide( "id_location_{$locationId}_{$block}_{$blockId}_show" );
                         }
                     }
                 }

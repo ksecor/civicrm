@@ -216,6 +216,7 @@ class CRM_Core_ShowHideBlocks {
      */
     function linksForArray( &$form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText, $elementType = null, $hideLink = null ) {
         $showHidePrefix = str_replace(array("]", "["), array("", "_"), $prefix);
+        $showHidePrefix = "id_" . $showHidePrefix;
         if ( $index == $maxIndex ) {
             $showCode = $hideCode = "return false;";
         } else {

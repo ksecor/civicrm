@@ -16,7 +16,7 @@
             <br class="spacer"/>
             <span class="description font-italic">{ts}Select im service provider, and enter screen-name / user id.{/ts}</span>
             {* -- Link to add a field.-- *}
-            <span id="location_{$index}_im_2_show" class="add-remove-link">
+            <span id="id_location_{$index}_im_2_show" class="add-remove-link">
                 {$form.location.$index.im.2.show.html}
             </span>
         </span>
@@ -28,7 +28,7 @@
        {assign var=innerIndex value=$smarty.section.innerLoop.index}
 
      {* --  im block $innerIndex -- *}
-    <div id="location_{$index}_im_{$innerIndex}" class="form-item">
+    <div id="id_location_{$index}_im_{$innerIndex}" class="form-item">
         <span class="labels">
             {$form.location.$index.im.$innerIndex.provider_id.label}
         </span>
@@ -36,13 +36,13 @@
             <span>{$form.location.$index.im.$innerIndex.provider_id.html}</span>
             <span>{$form.location.$index.im.$innerIndex.name.html}</span>
             {* Link to hide this field *}
-            <span id="location_{$index}_im_{$innerIndex}_hide" class="add-remove-link element-right">
+            <span id="id_location_{$index}_im_{$innerIndex}_hide" class="add-remove-link element-right">
             {$form.location.$index.im.$innerIndex.hide.html}
             </span>
             {* Link to add another field. *}
             {if $innerIndex LT $blockCount}
             {assign var=j value=$innerIndex+1}
-            <span id="location_{$index}_im_{$j}_show" class="add-remove-link">
+            <span id="id_location_{$index}_im_{$j}_show" class="add-remove-link">
                 {$form.location.$index.im.$j.show.html}
             </span>
             {* changing the code as there should not be any <div> within <span>*} 
