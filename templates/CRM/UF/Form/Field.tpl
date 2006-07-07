@@ -70,7 +70,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
 	    {/edit}
         </dl>
-    </div>
+    
     {/if}
     </div>
     <div id="crm-submit-buttons" class="form-item">
