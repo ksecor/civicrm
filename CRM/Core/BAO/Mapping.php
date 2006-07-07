@@ -502,7 +502,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     } 
                 } 
                 
-                $formValues = $form->controller->exportValues( $name );
+                $formValues = $form->exportValues( );
                 
                 if ( ! $jsSet ) {
                     if ( empty( $formValues ) ) {
