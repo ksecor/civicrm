@@ -48,7 +48,7 @@ for F in $SRC/sql/civicrm_*.mysql; do
 done
 
 # remove Quest
-find $TRG -name '*Quest*' -exec rm -r {} \;
+find $TRG -name 'Quest' -exec rm -r {} \;
 
 # copy docs
 cp $SRC/license.txt $TRG

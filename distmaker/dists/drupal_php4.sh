@@ -58,7 +58,7 @@ if [ -d $TRG/bin ] ; then
 fi
 
 # remove Quest
-find $TRG -name '*Quest*' -exec rm -r {} \;
+find $TRG -name 'Quest' -exec rm -r {} \;
 
 # copy docs
 cp $SRC/license.txt $TRG
