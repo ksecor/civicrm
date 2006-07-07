@@ -26,7 +26,7 @@
             <tr class="{cycle values="odd-row,even-row"} {$row.class}">
                  <td>{$row.activity_type}</td>
                  <td>
-                   <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&id=`$row.id`&cid=`$row.targetID`&history=0"}">{$row.subject|mb_truncate:33:"...":true}</a>
+                   <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&id=`$row.id`&cid=`$row.targetID`&history=0&context=Home"}">{$row.subject|mb_truncate:33:"...":true}</a>
                  </td>
                  <td>
                    <a href="{crmURL p='civicrm/contact/view/basic' q="reset=1&cid=`$row.sourceID`"}">{$row.sourceName}</a>
