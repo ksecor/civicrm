@@ -1,3 +1,4 @@
+{strip}
 <dl>
 <dt>&nbsp;</dt>
 <dd>
@@ -64,3 +65,4 @@
 </table>
 </dd>
 </dl>
+{/strip}

@@ -122,7 +122,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
+        //$this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
         $this->addElement( 'text', 'newGroupName', ts('Name for new group'));
         $this->addElement( 'text', 'newGroupDesc', ts('Description of new group'));
         //$this->addFormRule(array('CRM_Import_Form_Preview', 'newGroupRule'));
@@ -131,11 +131,11 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $groups =& $this->get('groups');
         
         if ( ! empty( $groups ) ) {
-            $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => true, 'size' => 5));
+            $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => "multiple", 'size' => 5));
         }
 
         //display new tag
-        $this->addElement( 'checkbox', 'newTag', ts('Create a new tag and assign it to imported records'));
+        //$this->addElement( 'checkbox', 'newTag', ts('Create a new tag and assign it to imported records'));
         $this->addElement( 'text', 'newTagName', ts('Tag'));
         $this->addElement( 'text', 'newTagDesc', ts('Description'));
         $this->addFormRule(array('CRM_Import_Form_Preview','newTagRule'));    
