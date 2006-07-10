@@ -68,7 +68,10 @@ require_once 'CRM/Contact/BAO/Query.php';
  * @access public
  */
 function crm_contact_search_count( &$params ) {
-    $query =& new CRM_Contact_BAO_Query( $params );
+    // convert the params to new format
+    require_once 'CRM/Contact/Form/Search.php';
+    $newP =& CRM_Contact_Form_Search::convertFormValues( $params );
+    $query =& new CRM_Contact_BAO_Query( $newP );
     return $query->searchQuery( 0, 0, null, true );
 }
 
@@ -88,7 +91,9 @@ function crm_contact_search_count( &$params ) {
  */ 
 function crm_contact_search( &$params, $return_properties = null, $sort = null, $offset = 0, $row_count = 25) {
     $sortString = CRM_Core_DAO::getSortString( $sort );
-    return CRM_Contact_BAO_Query::apiQuery( $params, $return_properties, null, $sortString, $offset, $row_count );
+    require_once 'CRM/Contact/Form/Search.php';
+    $newP =& CRM_Contact_Form_Search::convertFormValues( $params );
+    return CRM_Contact_BAO_Query::apiQuery( $newP, $return_properties, null, $sortString, $offset, $row_count );
 } 
  
 
