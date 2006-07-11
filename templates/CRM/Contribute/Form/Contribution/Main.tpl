@@ -34,7 +34,7 @@ function clearAmountOther() {
     {$intro_text}
     </p>
     </div>
-    {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="makeContribution"}       
+    {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="makeContribution"}     
  
     <table class="form-layout-compressed">
     <tr>
@@ -64,9 +64,9 @@ function clearAmountOther() {
         <table class="form-layout-compressed">
         <tr><td class="label">{$form.credit_card_type.label}{$reqMark}</td><td>{$form.credit_card_type.html}</td></tr>
         <tr><td class="label">{$form.credit_card_number.label}{$reqMark}</td><td>{$form.credit_card_number.html}<br />
-            <span class="description">{ts}Enter numbers only, no spaces or dashes.{/ts}</td></tr>
-        <tr><td class="label">{$form.cvv2.label}{$reqMark}</td><td>{$form.cvv2.html} &nbsp; <img src="{$config->resourceBase}i/mini_cvv2.gif" alt="{ts}Security Code Location on Credit Card{/ts}" style="vertical-align: text-bottom;"><br />
-            <span class="description">{ts}Usually the last 3-4 digits in the signature area on the back of the card.{/ts}</td></tr>
+            <span class="description">{ts}Enter numbers only, no spaces or dashes.{/ts}</span></td></tr>
+        <tr><td class="label">{$form.cvv2.label}{$reqMark}</td><td>{$form.cvv2.html} &nbsp; <img src="{$config->resourceBase}i/mini_cvv2.gif" alt="{ts}Security Code Location on Credit Card{/ts}" style="vertical-align: text-bottom;" /><br />
+            <span class="description">{ts}Usually the last 3-4 digits in the signature area on the back of the card.{/ts}</span></td></tr>
         <tr><td class="label">{$form.credit_card_exp_date.label}{$reqMark}</td><td>{$form.credit_card_exp_date.html}</td></tr>
         </table>
         </fieldset>
