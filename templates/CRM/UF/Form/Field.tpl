@@ -5,7 +5,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
 
 <fieldset><legend>{if $action eq 8}{ts}Delete CiviCRM Profile Field{/ts}{else}{ts}CiviCRM Profile Field{/ts}{/if}</legend>
 {if $action ne 8} {* do not display stuff for delete function *}
-    <div id="crm-submit-buttons" class="form-item"> 
+    <div id="crm-submit-buttons-top" class="form-item"> 
     <dl> 
     {if $action ne 4} 
         <dt>&nbsp;</dt><dd>&nbsp;{$form.buttons.html}</dd> 
@@ -66,7 +66,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
     
     {/if}
     </div>
-    <div id="crm-submit-buttons" class="form-item">
+    <div id="crm-submit-buttons-bottom" class="form-item">
     <dl>
     {if $action ne 4}
     
