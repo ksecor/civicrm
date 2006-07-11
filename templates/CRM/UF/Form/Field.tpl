@@ -45,30 +45,23 @@ they are currently causing sporadic failures in insert and delete - so commentin
         {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field hidden from other users ('User and User Admin Only'), or is it visible to others ('Public User Pages')? Select 'Public User Pages and Listings' to make the field searchable (in the Profile Search form). When visibility is 'Public User Pages and Listings', users can also click the field value when viewing a contact in order to locate other contacts with the same value(s) (i.e. other contacts who live in Poland).{/ts}</dd>
         {/edit}
+        <dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
+        {edit}
+        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Do you want to include this field in the profile's search form?{/ts}</dd>
+        {/edit}
         <dt>{$form.in_selector.label}</dt><dd>&nbsp;{$form.in_selector.html}</dd>        
         {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field visible in the selector table displayed in profile searches? This setting applies only to fields with 'Public User Pages and Listings' visibility.{/ts}</dd>
         {/edit}
-        <dt>{$form.weight.label}</dt><dd>&nbsp;{$form.weight.html}</dd>
-        {*if $action neq 4*} {*Commented for crm-914*}
-        {edit}
-        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Weight controls the order in which fields are displayed within a profile. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
-        {/edit}
-        {edit}
-        <dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
-        {/edit}
-        {edit}
-        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Do you want to include this field in the profile's search form?{/ts}</dd>
-        {/edit}
-        {edit}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}</dd>
-        {/edit}
         {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Explanatory text displayed to users for this field.{/ts}</dd>
         {/edit}
-    `   {edit}
+        <dt>{$form.weight.label}</dt><dd>&nbsp;{$form.weight.html}</dd>
+        {edit}
+        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Weight controls the order in which fields are displayed within a profile. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
+        {/edit}
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
-	    {/edit}
         </dl>
     
     {/if}

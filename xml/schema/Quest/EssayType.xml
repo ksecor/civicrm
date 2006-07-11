@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>EssayType</class>
+  <name>quest_essay_type</name>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Essay Type ID</comment>
+       <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+       <name>label</name>
+       <title>Essay Field Label</title>
+       <type>varchar</type>
+       <required>true</required>
+       <length>255</length>
+       <comment>Essay form field label for this essay type.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>name</name>
+       <title>Essay Field Name</title>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Essay form field name for this essay type.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>grouping</name>
+       <title>Form Name</title>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>The code for each form determines which essay type field(s) which belong to that form by selecting essay type records where grouping matches the form name.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>weight</name>
+      <type>int unsigned</type>
+      <comment>Controls essay field sort order when a form includes multiple essays.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>max_word_count</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <default>0</default>
+      <comment>Maximum number of words allowed in essays of this type. If 0, then word count is unlimited.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>is_required</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this essay required to complete the application?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <default>1</default>
+       <comment>Is this record active?</comment>
+       <add>1.5</add>
+  </field>
+  <index>
+    <name>UI_name_grouping</name>
+    <fieldName>name</fieldName>
+    <fieldName>grouping</fieldName>
+    <unique>true</unique>
+    <add>1.5</add>
+  </index>
+</table>

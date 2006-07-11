@@ -31,6 +31,19 @@
        <add>1.5</add>
   </foreignKey>
   <field>
+      <name>essay_type_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Essay Type table.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>essay_type_id</name>
+       <table>quest_essay_type</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
        <name>essay</name>
        <type>text</type>
        <htmlType>textarea</htmlType>
@@ -40,4 +53,11 @@
        <comment>Essay question response.</comment>
       <add>1.5</add>
   </field>
+  <index>
+    <name>UI_contact_essay_type</name>
+    <fieldName>contact_id</fieldName>
+    <fieldName>essay_type_id</fieldName>
+    <unique>true</unique>
+    <add>1.5</add>
+  </index>
 </table>
