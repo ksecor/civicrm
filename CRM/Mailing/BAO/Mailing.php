@@ -545,7 +545,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                                            $event_queue_id);
         }
 
-        $params  = array( array( 'contact_id', '=', $contactId, 0, 0 ) );
+        $params  = array( 'contact_id' => $contactId );
         $contact =& crm_fetch_contact( $params );
         if ( is_a( $contact, 'CRM_Core_Error' ) ) {
             return null;

@@ -125,7 +125,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         //check for mix profile display in registration
         if ( $this->_mode == self::MODE_REGISTER ) {
             //check for mix profile fields (eg:  individual + other contact type)
-            if ( CRM_Core_BAO_UFField::checkProfileGroupType() ) {
+            if ( CRM_Core_BAO_UFField::checkProfileGroupType( ) != 'Individual' ) {
                 CRM_Utils_System::setUFMessage( ts( "Organization and/or Household-related fields can not be included in a User Registration Profile form. Please contact the site administrator to report this problem.") );
                 $config  =& CRM_Core_Config::singleton( );
                 CRM_Utils_System::redirect( $config->userFrameworkBaseURL );            
