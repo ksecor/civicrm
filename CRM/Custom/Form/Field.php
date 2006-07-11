@@ -244,7 +244,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         for($i = 1; $i <= self::NUM_OPTION; $i++) {
             
             //the show hide blocks
-            $showBlocks = 'optionField['.$i.']';
+            $showBlocks = 'optionField_'.$i;
             if ($i > 2) {
                 $_showHide->addHide($showBlocks);
                 if ($i == self::NUM_OPTION)
@@ -512,7 +512,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 }
                 
                 
-                $showBlocks = 'optionField['.$i.']';
+                $showBlocks = 'optionField_'.$i;
                 if ($_flagOption) {
                     $_showHide->addShow($showBlocks);
                     $_rowError = 1;
@@ -557,7 +557,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 
                 
                 for ($idx=1; $idx<= self::NUM_OPTION; $idx++) {
-                    $showBlocks = 'optionField['.$idx.']';
+                    $showBlocks = 'optionField_'.$idx;
                     if (!empty($fields['option_label'][$idx])) {
                         $_showHide->addShow($showBlocks);
                     } else {

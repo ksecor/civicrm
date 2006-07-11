@@ -13,18 +13,19 @@
       </dl>
     </div>
 {/if}
-
+{strip}
 {foreach from=$adminPanel key=groupName item=group}
     <fieldset><legend>{$groupName}</legend>
         <table class="control-panel">
         {assign var=i value=1}
+                
         {foreach from=$group item=panelItem  name=groupLoop}
             {if $i eq 1 OR ($i % $itemsPerRow eq 1)}
                 <tr>
             {/if}
             <td >
                 <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} ><img src="{$config->resourceBase}i/{$panelItem.icon}" alt="{$panelItem.title}"/></a><br />
-                <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="id{$panelItem.title}">{$panelItem.title|replace:" ":"<br />"}</a>
+                <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="id_{$panelItem.id}">{$panelItem.title|replace:" ":"<br />"}</a>
             </td>
             {if $i % $itemsPerRow eq 0}
                 </tr>
@@ -45,4 +46,4 @@
         </table>
     </fieldset>
 {/foreach}
-
+{/strip}

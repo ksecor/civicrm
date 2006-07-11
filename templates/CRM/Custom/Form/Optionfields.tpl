@@ -14,10 +14,10 @@
 	
 	{section name=rowLoop start=1 loop=12}
 	{assign var=index value=$smarty.section.rowLoop.index}
-	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}">
+	<tr id="optionField_{$index}" class="form-item {cycle values="odd-row,even-row"}">
         <td> 
         {if $index GT 1}
-            <a onclick="hiderow('optionField[{$index}]'); return false;" name="optionField[{$index}]" href="#optionField[{$index}]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>
+            <a onclick="hiderow('optionField_{$index}'); return false;" name="optionField_{$index}" href="#optionField_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>
         {/if}
         </td>
 	    <td> 

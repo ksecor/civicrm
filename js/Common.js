@@ -437,7 +437,7 @@ function showrow()
     
     if(rowcounter == 0) {
 	for (var i=2; i<=11; i++) {
-            rowid = 'optionField['+i+']';
+            rowid = 'optionField_'+i;
 
             if (i == 11) {
 		    document.getElementById('additionalOption').style.display = '';
@@ -456,7 +456,7 @@ function showrow()
         rowcounter--;
 	
 	for (var i=2; i<=11; i++) {
-            rowid = 'optionField['+i+']';
+            rowid = 'optionField_'+i;
 	    
 	    if (i == 11) {
 		    document.getElementById('additionalOption').style.display = '';
