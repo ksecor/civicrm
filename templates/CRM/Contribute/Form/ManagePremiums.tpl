@@ -30,7 +30,7 @@
     </div>
 
     <table class="form-layout-compressed">
-    {if $thumbnailUrl}<tr class="odd-row"><td class="describe-image" colspan="2"><strong>Current Image Thumbnail</strong><br /><img src="{$thumbnailUrl}" /</td></tr>{/if} 
+    {if $thumbnailUrl}<tr class="odd-row"><td class="describe-image" colspan="2"><strong>Current Image Thumbnail</strong><br /><img src="{$thumbnailUrl}" /></td></tr>{/if} 
     <tr><td>{$form.imageOption.image.html}</td><td>{$form.uploadFile.html}</td></tr>
 	<tr><td colspan="2">{$form.imageOption.thumbnail.html}</td></tr>
     <tr id="imageURL"{if $action eq 2}class="show-row" {else} class="hide-row" {/if}>
