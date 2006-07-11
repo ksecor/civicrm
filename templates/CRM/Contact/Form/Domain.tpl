@@ -32,9 +32,9 @@
 
 {if $emailDomain EQ true}
 <script type="text/javascript">
-hide('location[1][show]');
-hide('location[1][phone][2][show]');
-hide('location[1][email][2][show]');
-hide('location[1][im][2][show]');
+hide('id_location_1_show');
+hide('id_location_1_phone_2_show');
+hide('id_location_1_email_2_show');
+hide('id_location_1_im_2_show');
 </script>
 {/if}
