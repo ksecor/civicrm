@@ -26,7 +26,7 @@
     </dl>
     </div>
     <p>{ts}Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}</p>
-    <table id="map-field">
+    <table id="map-field-table">
     <tr class="columnheader"><th>{ts}Contribution Label{/ts}</th><th>{ts}Amount{/ts}</th><th>{ts}Default?{/ts}</th></tr>
     {section name=loop start=1 loop=11}
        {assign var=idx value=$smarty.section.loop.index}

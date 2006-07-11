@@ -25,7 +25,7 @@
     <dd>
         {assign var="count" value="1"}
            {strip}
-             <table border=1>
+             <table border="1">
             <tr> <td>Check Membership Types to Include on this Page</td><td>Default</td></tr>
             {assign var="index" value="1"}
                {foreach name=outer key=key item=item from=$form.membership_type}
