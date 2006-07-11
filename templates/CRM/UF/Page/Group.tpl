@@ -14,7 +14,7 @@
     </div>
    
     <h3>{ts}{$title} - Code for Stand-alone HTML Form{/ts}</h3>
-    <form name="html_code">
+    <form name="html_code" action="{crmURL p="civicrm/admin/uf/group" q="action=profile&gid=$gid"}">
     <div id="standalone-form">
         <textarea rows="20" cols="80" name="profile" id="profile">{$profile}</textarea>
         <div class="spacer"></div>    
@@ -37,8 +37,8 @@
     {capture assign=configContribURL}{crmURL p='civicrm/admin/contribute' q='reset=1'}{/capture}
     <li>{ts 1=$configContribURL}<strong>CiviContribute</strong> - When you want to collect information from Contributors via online contribution pages, you can create a profile and link it to to your contribution page as a "custom page element" (<a href="%1">Configure Online Contribution Pages</a>).{/ts}</li>
     {capture assign=siteRoot}&lt;{ts}site root{/ts}&gt;{/capture}
-    <li>{ts 1=$siteRoot 2='civicrm/profile?reset=1'}<strong>Contact Search and Listings</strong> - A default profile search form and search result listings is displayed when you link users to the <em>%1/%2</em> path. If you have several profiles which you want to use for different search and listings purposes, simply add the profile ID to the end of your query string using the 'gid' parameter. For example, the link to display a search and listings page for a Profile with ID = 3 would be:{/ts} <em>{$siteRoot}/civicrm/profile?reset=1&gid=3</em></li>
-    <li>{ts 1=$siteRoot 2='civicrm/profile/create?reset=1&gid=3'}<strong>Contact Signup Forms (built-in pages)</strong> - Create link(s) to "new contact" input form(s) for your Profiles using the following path: <em>%1/%2</em>. (This example links to an input form for Profile ID 3.){/ts}</li>
+    <li>{ts 1=$siteRoot 2='civicrm/profile?reset=1'}<strong>Contact Search and Listings</strong> - A default profile search form and search result listings is displayed when you link users to the <em>%1/%2</em> path. If you have several profiles which you want to use for different search and listings purposes, simply add the profile ID to the end of your query string using the 'gid' parameter. For example, the link to display a search and listings page for a Profile with ID = 3 would be:{/ts} <em>{$siteRoot}/civicrm/profile?reset=1&amp;gid=3</em></li>
+    <li>{ts 1=$siteRoot 2='civicrm/profile/create?reset=1&amp;gid=3'}<strong>Contact Signup Forms (built-in pages)</strong> - Create link(s) to "new contact" input form(s) for your Profiles using the following path: <em>%1/%2</em>. (This example links to an input form for Profile ID 3.){/ts}</li>
     <li>{ts}<strong>Standalone Forms</strong> - If you want more control over form layout, or want to add Profile input forms to non-CiviCRM blocks, pages and/or sites...click the *Standalone Form* action link for a Profile below - and copy and paste the HTML form code into any web page.{/ts}</li>
     </ul>
     {* Multi-profile standalone forms not supported for 1.3. dgg *}

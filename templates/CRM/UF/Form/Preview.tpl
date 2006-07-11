@@ -7,7 +7,7 @@
 {if ! empty( $fields )}
 {if $viewOnly }
 {* wrap in crm-container div so crm styles are used *}
-<div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
+<div id="crm-container-inner" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
     {strip}
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}
