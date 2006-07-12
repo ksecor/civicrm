@@ -179,7 +179,6 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         // e.g. if action is a valid JUMP, u basically do a redirect
         // to the appropriate place
         $this->_pages[$pageName]->handle($action);
-        echo"====>>";print_r($pageName);
         return $pageName;
     }
 
