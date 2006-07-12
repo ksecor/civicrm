@@ -160,7 +160,7 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
                           ts( 'If this section above does not adequately capture your primary caregiver situation (e,g, perhaps your older sibling was your guardian), or if you have any other unique circumstances regarding your household situation, please describe it here:' ),
                           CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_Household', 'description' ) );
 
-        $this->addFormRule(array('CRM_Quest_Form_App_Household', 'formRule'));
+        //$this->addFormRule(array('CRM_Quest_Form_App_Household', 'formRule'));
         
     
         $this->addYesNo( 'foster_child',
@@ -177,7 +177,7 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        parent::getTitle();
+         return ts('Household Information');
     }
 
     /**
@@ -190,7 +190,52 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
      * @static
      */
     public function formRule(&$params) {
-        parent::formRule(&$params);
+
+        $errors = array( );
+        $numBlocks = 2;
+        $fiveYearsOrMore = 35;
+
+        $filled = false;
+        for ( $i = 1; $i <= $numBlocks; $i++ ) {
+            for ( $j = 1; $j <= $numBlocks; $j++ ) {
+                if ($params["relationship_id_".$i."_".$j]) {
+                    $filled = true;
+                    if (! $params["first_name_".$i."_".$j]) {
+                        $errors["first_name_".$i."_".$j] = "Please enter the family member First Name.";
+                    }
+                    if (! $params["last_name_".$i."_".$j]) {
+                        $errors["last_name_".$i."_".$j] = "Please enter the family member Last Name.";
+                    }
+                    if ( $i != 1 && ! is_numeric( $params["member_count_$i"] ) && $params["member_count_$i"] <= 0 ) {
+                        $errors["member_count_".$i] = "Please enter the number of people who lived with you";                        
+                    }
+                } else {
+                    if ($params["first_name_".$i."_".$j] || $params["last_name_".$i."_".$j]) {
+                        $errors["relationship_id_".$i."_".$j] = "Please select the type of Family Member.";
+                    }
+                }
+            }
+            if ($params["relationship_id_".$i."_1"] || $params["relationship_id_".$i."_2"]) {
+                if (! $params["years_lived_id_".$i]) {
+                    $errors["years_lived_id_".$i] = "Please specify the number of years you lived in the household.";
+                }
+            }
+        }
+
+        if ( (! empty($params["years_lived_id_1"])) && ($params["years_lived_id_1"] != $fiveYearsOrMore) ) {
+            if ( (!$params["relationship_id_2_1"]) && (!$params["relationship_id_2_2"]) ) {
+                $errors["relationship_id_2_1"] = "Please complete the information about your previous household (as you have indicated that you have lived in your current household for less than 5 years).";
+            } 
+        }
+        
+        if ( ! $filled &&
+             empty( $params['description'] ) ) {
+            $errors["_qf_default"] = "You have to enter at least one family member or explain your circumstances";
+        }
+
+        return empty($errors) ? true : $errors;
+          
+
     }
 
     /** 
@@ -199,17 +244,194 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
      * @access public 
      * @return void 
      */ 
-    public function postProcess()  
-    { 
+    public function postProcess() 
+{ 
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) { 
+           // get all the relevant details so we can decide the detailed information we need
+            $params  = $this->controller->exportValues( $this->_name );
+            $relationship = CRM_Core_OptionGroup::values( 'relationship' );
+
+            $details = $this->controller->get( 'householdDetails' );
+            
+            // unset all details other than father and mother
+            // also set the other parent guardians as null
+            foreach ( $details as $name => $value ) {
+                if ( $name == "Guardian-Mother" || $name == "Guardian-Father" ) {
+                    continue;
+                }
+                
+                $query = "
+UPDATE quest_person
+SET    is_parent_guardian = 0
+WHERE  id = {$value['options']['personID']}
+";
+                $par = array();
+                CRM_Core_DAO::executeQuery( $query,$par );
+                
+                unset( $details[$name] );
+            }
+            
+            for ( $i = 1; $i <= 2; $i++ ) {
+                $householdParams = array( );
+                $householdParams['contact_id']      = $this->_contactID;
+                $householdParams['household_type'] = ( $i == 1 ) ? 'Current' : 'Previous';
+                $householdParams['member_count']   = $params["member_count_$i"];
+                $householdParams['years_lived_id'] = $params["years_lived_id_$i"];
+                
+                if ( $i == 1 ) {
+                    $householdParams['description'] = $params["description"];
+                }
+                
+                $needed = false;
+                for ( $j = 1; $j <= 2; $j++ ) {
+                    $personID = $this->getRelationshipDetail( $details, $relationship, $params, $i, $j );
+                    if ( $personID ) {
+                        $needed = true;
+                        $householdParams["person_{$j}_id"] = $personID;
+                    }
+                }
+                
+                if ( $needed ) {
+                    // now create the household
+                    require_once 'CRM/Quest/BAO/Household.php';
+                    $dao                 =& new CRM_Quest_DAO_Household();
+                    $dao->contact_id     =  $householdParams['contact_id'];
+                    $dao->household_type =  $householdParams['household_type'];
+                    $id = null;
+                    if ( $dao->find(true) ) {
+                        $id = $dao->id;
+                    }
+                    $ids = array( 'id' => $id );
+                    CRM_Quest_BAO_Household::create( $householdParams , $ids );
+                }
+            }
+            
+            // reset all parent guardian pages
+            self::getPages( $this->controller, true );
+
+            // also recreate all income pages
+            CRM_Quest_Form_App_Income::getPages( $this->controller, true );
+            
+            $this->controller->rebuild( );
+        }
+
         parent::postProcess( );
-    }//end of function 
+} 
+   
+    public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j )
+    {
+        $first = trim( CRM_Utils_Array::value( "first_name_{$i}_{$j}", $params ) );
+        $last  = trim( CRM_Utils_Array::value( "last_name_{$i}_{$j}" , $params ) );
+        $relationshipID = CRM_Utils_Array::value( "relationship_id_{$i}_{$j}", $params );
+        $name = trim( $first . ' ' . $last );
+        if ( ! $name ) {
+            return;
+        }
 
-    public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j ) {
-        parent::getRelationshipDetail( &$details, &$relationship, &$params, $i, $j );
-    }
+        $relationshipName = trim( CRM_Utils_Array::value( $relationshipID,
+                                                          $relationship ) );
 
-    static function &getPages( &$controller, $reset = false ) {
-        parent::getPages( &$controller, $reset = false );
+        if ( ! $relationshipName ) {
+            return;
+        }
+
+        if ( CRM_Utils_Array::value( "same_{$i}_{$j}", $params ) ) {
+            if ( CRM_Utils_Array::value( $relationshipID, $details ) ) {
+                return $details[$relationshipID];
+            } 
+            CRM_Core_Error::fatal( ts( "This should have been trapped in a form rule" ) );
+        }
+
+        // we also need to create the person record here
+        $personParams                       = array( );
+        $personParams['first_name']         = $first;
+        $personParams['last_name' ]         = $last;
+        $personParams['relationship_id']    = $relationshipID;
+        $personParams['contact_id']         = $this->_contactID;
+        $personParams['is_parent_guardian'] = true;
+        $personParams['is_income_source']   = true;
+
+        $ids = array( );
+
+        require_once 'CRM/Quest/BAO/Person.php'; 
+
+        // check if the person already has an if
+        $personID = CRM_Utils_Array::value( $j, $this->_personIDs[$i] );
+
+        $dao =& new CRM_Quest_DAO_Person(); 
+        if ( $personID ) {
+            $dao->id = $personID;
+        } else {
+            $dao->contact_id      = $this->_contactID;
+            $dao->relationship_id = $relationshipID;
+            $dao->first_name      = $first;
+            $dao->last_name       = $last;
+        }
+
+        if ( $dao->find(true) ) { 
+            $personID = $dao->id;
+            
+            // keep the is income source the same value as prior
+            $personParams['is_income_source'] = $dao->is_income_source;
+        }
+
+        $ids['id'] = $personID;
+        $person = CRM_Quest_BAO_Person::create( $personParams , $ids );
+        $personID = $person->id;
+
+        $details[$relationshipID] = $personID;
+        return $personID;
+    } 
+    
+    static function &getPages( &$controller, $reset = false ) 
+    {
+        $details       = $controller->get( 'householdDetails' );
+
+        if ( ! $details || $reset ) {
+            $cid = $controller->get( 'contactID' ); 
+
+            require_once 'CRM/Quest/DAO/Person.php';
+            $dao =& new CRM_Quest_DAO_Person( );
+            $dao->contact_id = $cid;
+            $dao->is_parent_guardian = true;
+            $dao->find( );
+
+            $details = array( );
+            $relationship = CRM_Core_OptionGroup::values( 'relationship' );
+
+            $relationshipID = array_search( 'Mother', $relationship );
+            $details["Guardian-Mother"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
+                                                 'title' => "Mother",
+                                                 'options' => array( 'personID'         => null,
+                                                                     'relationshipID'   => $relationshipID,
+                                                                     'relationshipName' => 'Mother' ) );
+
+            $relationshipID = array_search( 'Father', $relationship );
+            $details["Guardian-Father"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
+                                                 'title' => "Father",
+                                                 'options' => array( 'personID'         => null,
+                                                                     'relationshipID'   => $relationshipID,
+                                                                     'relationshipName' => 'Father' ) );
+            while ( $dao->fetch( ) ) {
+                $relationshipName = trim( CRM_Utils_Array::value( $dao->relationship_id,
+                                                                  $relationship ) );
+                $name = trim( "{$dao->first_name} {$dao->last_name}" );
+                if ( $relationshipName == 'Mother' || $relationshipName == 'Father' ) {
+                    $pageName = "Guardian-$relationshipName";
+                } else {
+                    $pageName = "Guardian-{$dao->id}";
+                }
+                $details[$pageName] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
+                                             'title' => "$name",
+                                             'options' => array( 'personID'       => $dao->id,
+                                                                 'relationshipID' => $dao->relationship_id,
+                                                                 'relationshipName' => $relationshipName ) );
+            }
+
+            $controller->set( 'householdDetails', $details );
+        }
+
+        return $details;
     }
 
 }

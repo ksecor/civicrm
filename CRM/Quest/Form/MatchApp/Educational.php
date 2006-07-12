@@ -65,7 +65,7 @@ class CRM_Quest_Form_MatchApp_Educational extends  CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
- $defaults = array( );
+        $defaults = array( );
 
         $dao = & new CRM_Quest_DAO_Student();
         $dao->id = $this->_studentID;
@@ -118,16 +118,7 @@ class CRM_Quest_Form_MatchApp_Educational extends  CRM_Quest_Form_App
                             CRM_Core_OptionGroup::values( 'college_type', true ),
                             false, null,true );
 
-        $this->addCheckBox( 'college_interest',
-                            ts( 'Please check the colleges that you are interested in attending. If you check a QuestBridge partner college\'s box, your information will be forwarded to that partner college. If you check other (non-partner) colleges\' boxes, your information may be forwarded to that college. Partner colleges are listed in blue and italics.' ),
-                            CRM_Core_OptionGroup::values( 'college_interest', true ),
-                            false, null,true);
-        
-        $this->addElement( 'textarea',
-                           'college_interest_other',
-                           ts( 'List any other colleges that you could see yourself attending. (List one per line)' ),
-                           $attributes['college_interest_other'] );
-
+    
         parent::buildQuickForm( );
 
     }//end of function
