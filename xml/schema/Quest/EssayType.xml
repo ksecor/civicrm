@@ -56,6 +56,14 @@
       <add>1.5</add>
   </field>
   <field>
+       <name>attributes</name>
+       <title>Field Attributes</title>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Additional attributes needed to render the essay form field (expected usage will be cols and rows for textarea).</comment>
+       <add>1.5</add>
+  </field>
+  <field>
        <name>is_required</name>
        <type>boolean</type>
        <default>0</default>
