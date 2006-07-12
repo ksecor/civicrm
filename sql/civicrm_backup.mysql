@@ -98,5 +98,6 @@ civicrm_state_province|SELECT civicrm_state_province.id FROM civicrm_state_provi
 civicrm_mailing_bounce_type|SELECT civicrm_mailing_bounce_type.id FROM civicrm_mailing_bounce_type
 civicrm_mailing_bounce_pattern|SELECT civicrm_mailing_bounce_pattern.id FROM civicrm_mailing_bounce_pattern
 civicrm_premiums|SELECT civicrm_premiums.id FROM civicrm_premiums
+quest_ceeb|SELECT quest_ceeb.id FROM quest_ceeb
 quest_essay_type|SELECT quest_essay_type.id FROM quest_essay_type
 civicrm_county|SELECT civicrm_county.id FROM civicrm_county
