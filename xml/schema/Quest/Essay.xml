@@ -18,14 +18,27 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>contact_id</name>
+      <name>target_contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to Contact ID</comment>
+      <comment>The contact whom this essay is about (e.g. the student). FK to Contact ID</comment>
       <add>1.5</add>
   </field>
   <foreignKey>
-       <name>contact_id</name>
+       <name>target_contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>source_contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>The contact who wrote the essay (e.g. the student themselves, OR a recommender). FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>source_contact_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.5</add>
@@ -54,8 +67,9 @@
       <add>1.5</add>
   </field>
   <index>
-    <name>UI_contact_essay_type</name>
-    <fieldName>contact_id</fieldName>
+    <name>UI_target_source_essay_type</name>
+    <fieldName>target_contact_id</fieldName>
+    <fieldName>source_contact_id</fieldName>
     <fieldName>essay_type_id</fieldName>
     <unique>true</unique>
     <add>1.5</add>
