@@ -164,9 +164,9 @@
     {if $contribute_pager->_totalItems}
         <fieldset><legend><a href="#" onclick="hide('contributions'); show('contributions_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $contribute_pager->_totalItems GT 3}{ts 1=$contribute_pager->_totalItems}Contributions (3 of %1){/ts}{else}{ts}Contributions{/ts}{/if}</legend>
         {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
-        <p>
+        <p></p>
         {include file="CRM/Contribute/Form/Selector.tpl" context="Contact Summary"}       
-        </p>
+        
         
         <div class="action-link">
             <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a> 
@@ -198,9 +198,9 @@
     <div id="memberships">
     {if $member_pager->_totalItems}
         <fieldset><legend><a href="#" onclick="hide('memberships'); show('memberships_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $pager->_totalItems GT 3}{ts 1=$member_pager->_totalItems}Memberships (3 of %1){/ts}{else}{ts}Memberships{/ts}{/if}</legend>
-        <p>
+        <p></p>
         {include file="CRM/Member/Form/Selector.tpl" context="Contact Summary"}       
-        </p>
+        
         <div class="action-link">
             <a href="{$newMemberURL}">&raquo; {ts}New Membership{/ts}</a> 
         </div>
@@ -228,17 +228,18 @@
 <div id="openActivities">
  <fieldset><legend><a href="#" onclick="hide('openActivities'); show('openActivities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $openActivity.totalCount GT 3}{ts 1=$openActivity.totalCount}Open Activities (3 of %1){/ts}{else}{ts}Open Activities{/ts}{/if}</legend>
 	{strip}
+    
 	<table>
         <tr class="columnheader">
 		<th>{ts}Activity Type{/ts}</th>
 		<th>{ts}Subject{/ts}</th>
         <th>{ts}Created By{/ts}</th>
         <th>{ts}With{/ts}</th>
-		<th>{ts}Scheduled Date{/ts}</th><th></th>
+		<th>{ts}Scheduled Date{/ts}</th>
+        <th></th>
 	</tr>
     {foreach from=$openActivity.data item=row}
-        <tr class="{cycle values="odd-row,even-row"}">
-           <tr class="{cycle values="odd-row,even-row"}">
+        <tr class="{cycle values="odd-row,even-row"}">          
              <td>{$row.activity_type}</td>
              <td>
                <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&id=`$row.id`&cid=$contactId&history=0"}">{$row.subject|mb_truncate:33:"...":true}</a>
@@ -266,6 +267,7 @@
                 {/if}
              </td>
            </tr>
+            
     {/foreach}
     {if $openActivity.totalCount gt 3 }
         <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&cid=$contactId"}">&raquo; {ts}View All Open Activities...{/ts}</a></td></tr>
