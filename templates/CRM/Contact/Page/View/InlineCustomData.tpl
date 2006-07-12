@@ -30,7 +30,7 @@
                             {section name=rowLoop start=1 loop=$viewForm.$element_name}
                             {assign var=index value=$smarty.section.rowLoop.index}
                             {if $viewForm.$element_name.$index.html != "" } 
-                                {if $no != '1'}, {/if}
+                                {if $no != '1'} {/if}
                                 <td>{$viewForm.$element_name.$index.html}</td>
                                 {assign var="no" value=`$no+1`}
                                 {if $count == $cd_value.options_per_line}
