@@ -404,7 +404,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->find();
         
         while ( $ufField->fetch() ) {
-            if ( array_key_exists( $ufField->field_type, $contactTypes ) ) {                return $ufField->field_type;
+            if ( array_key_exists( $ufField->field_type, $contactTypes ) ) {
+                return $ufField->field_type;
             }
         }
     }
