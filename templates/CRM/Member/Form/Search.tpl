@@ -20,6 +20,7 @@
         </tr>
         </table>
         </dd>
+        </dl>
         {include file="CRM/Member/Form/Search/Common.tpl"}
     {/strip}
 </div> 
