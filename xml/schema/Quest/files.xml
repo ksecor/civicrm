@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
-
-<xi:include href="CEEB.xml"          parse="xml" />
-<xi:include href="Essay.xml"         parse="xml" />
-<xi:include href="Honor.xml"         parse="xml" />
-<xi:include href="Student.xml"       parse="xml" />
-<xi:include href="Test.xml"          parse="xml" />
-<xi:include href="Person.xml"        parse="xml" />
-<xi:include href="Household.xml"     parse="xml" />
-<xi:include href="Income.xml"        parse="xml" />
-<xi:include href="Referral.xml"      parse="xml" />
-<xi:include href="EssayType.xml"         parse="xml" />
-
+<xi:include href="Essay.xml"            parse="xml" />
+<xi:include href="Honor.xml"            parse="xml" />
+<xi:include href="Student.xml"          parse="xml" />
+<xi:include href="Test.xml"             parse="xml" />
+<xi:include href="Person.xml"           parse="xml" />
+<xi:include href="Household.xml"        parse="xml" />
+<xi:include href="Income.xml"           parse="xml" />
+<xi:include href="Referral.xml"         parse="xml" />
+<xi:include href="EssayType.xml"        parse="xml" />
+<xi:include href="CEEB.xml"             parse="xml" />
+<xi:include href="PartnerRelative.xml"  parse="xml" />
 </tables>
