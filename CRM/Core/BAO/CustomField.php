@@ -499,26 +499,30 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         //delete first all custon values
         $customValue = & new CRM_Core_DAO_CustomValue();
         $customValue->custom_field_id = $id;
-        $customValue->delete();
+        if ($customValue->find()) {
+            $customValue->delete();
+        }
         
-         //delete first all custon values for file related data
+        //delete first all custon values for file related data
+        /*
         require_once 'CRM/Core/DAO/File.php';
         $customFile = & new CRM_Core_DAO_File();
         $customFile->custom_field_id = $id;
-        $customFile->delete();
-
-
+        if ($customFile->find()) {
+            $customFile->delete();
+        }
+        */
         //delete first all custom option
         $customOption = & new CRM_Core_DAO_CustomOption();
         $customOption->entity_id    = $id;
         $customOption->entity_table = 'civicrm_custom_field';
         $customOption->delete();
         
-        
         //delete  custom field
         $field = & new CRM_Core_DAO_CustomField();
         $field->id = $id; 
         $field->delete();
+        
         return true;
     }
 
