@@ -21,14 +21,13 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
 */
 
+
 /**
- *
- * Given an argument list, invoke the appropriate CRM function
- * Serves as a wrapper between the UserFrameWork and Core CRM
+ * Personal Information Form Page
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -37,45 +36,69 @@
  *
  */
 
-class CRM_Quest_Invoke {
+require_once 'CRM/Quest/Form/App.php';
+require_once 'CRM/Core/OptionGroup.php';
 
-    /*
-     * This function contains the actions for mailing arguments  
-     *  
-     * @param $args array this array contains the arguments of the url  
-     *  
-     * @static  
-     * @access public  
-     */  
-    static function main( &$args ) {  
-        if ( $args[1] !== 'quest' ) {
-            return;
-        }
-
-        if ( $args[2] == 'preapp' ) {
-            $session =& CRM_Core_Session::singleton();
-            //commented for Issue CRM-872
-            //$session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
-            require_once 'CRM/Quest/Controller/PreApp.php';
-            $controller =& new CRM_Quest_Controller_PreApp( null, null, false );
-            return $controller->run( );
-        }
-
-        if ( $args[2] == 'matchapp' ) {
-            $session =& CRM_Core_Session::singleton();
-            //commented for Issue CRM-872
-            //$session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
-            require_once 'CRM/Quest/Controller/MatchApp.php';
-            $controller =& new CRM_Quest_Controller_MatchApp( null, null, false );
-            return $controller->run( );
-        }
-
+/**
+ * This class generates form components for relationship
+ * 
+ */
+class CRM_Quest_Form_App_Submit extends CRM_Quest_Form_App
+{
+    /**
+     * This function sets the default values for the form. Relationship that in edit/view action
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return void
+     */
+    function setDefaultValues( ) 
+    {
+        $defaults = array( );
+        return $defaults;
     }
+    
 
-    static function admin( &$args ) {
-        return;
+    /**
+     * Function to actually build the form
+     *
+     * @return void
+     * @access public
+     */
+    public function buildQuickForm( ) 
+    {
+        $this->add( 'checkbox', "approve", ts( "Consent and verification checkbox" ), ts( "" ), true );
+
+        parent::buildQuickForm();
+    }//end of function
+
+    
+    /**
+     * process the form after the input has been submitted and validated
+     *
+     * @access public
+     * @return void
+     */
+    public function postProcess() 
+    {
+        // make sure that all forms are valid at this stage
+        // if not jump to that page
+        $this->controller->checkApplication( );
+
+        parent::postProcess( );
+    }//end of function
+
+
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle()
+    {
+        return ts('Complete Application');
     }
-
 }
 
 ?>
