@@ -307,8 +307,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
                                                          '') ;
         if ( $this->_contactType == 'Individual' ) {
-            $this->_showHide->addShow( 'demographics_show' );
-            $this->_showHide->addHide( 'demographics' );
+            $this->_showHide->addShow( 'id_demographics_show' );
+            $this->_showHide->addHide( 'id_demographics' );
         }
 
         // first do the defaults showing
@@ -317,8 +317,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
  
         if ( $this->_action & CRM_Core_Action::ADD ) {
             // notes are only included in the template for New Contact
-            $this->_showHide->addShow( 'notes_show' );
-            $this->_showHide->addHide( 'notes' );
+            $this->_showHide->addShow( 'id_notes_show' );
+            $this->_showHide->addHide( 'id_notes' );
         }
 
         //add group and tags
@@ -340,8 +340,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( CRM_Utils_Array::value( 'gender_id'     , $defaults ) ||
              CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
              CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
-            $this->_showHide->addShow( 'demographics' );
-            $this->_showHide->addHide( 'demographics_show' );
+            $this->_showHide->addShow( 'id_demographics' );
+            $this->_showHide->addHide( 'id_demographics_show' );
         }
         if ( $force ) {
             $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
@@ -448,11 +448,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( $buttonName == $this->_dedupeButtonName ) {
             return;
         }
-
+        
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
-
+                
         // action is taken depending upon the mode
         $ids = array();
         if ($this->_action & CRM_Core_Action::UPDATE) {
@@ -465,9 +464,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if( ! $params['is_deceased'] == 1 ) { 
             $params['deceased_date'] = null;
         }
-      
+        
         $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
-       
+        
         //add contact to gruoup
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
