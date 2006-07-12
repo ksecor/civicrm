@@ -42,13 +42,13 @@
       <name>partner_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Which partner college is she or he connected to? FK to civicrm_option_value (option_group = partner_id).</comment>
+      <comment>Which partner college is she or he connected to? FK to quest_partner.</comment>
       <add>1.5</add>
   </field>
   <foreignKey>
        <name>partner_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
+       <table>quest_partner</table>
+       <key>id</key>
        <add>1.5</add>
   </foreignKey>
   <field>

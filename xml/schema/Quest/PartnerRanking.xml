@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest</base>
+  <class>PartnerRanking</class>
+  <name>quest_partner_ranking</name>
+  <comment>Students partner college rankings and application forwarding requests.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Primary key.</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Student who submitted this ranking and forwarding request. FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>partner_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Ranking and forward request are for this partner. FK to quest_partner.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>partner_id</name>
+       <table>quest_partner</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>ranking_id</name>
+      <title>College Match Ranking</title>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to civicrm_option_value. Uses partner_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>ranking_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>is_forward</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Does student want their application forwarded to this partner?</comment>
+       <add>1.5</add>
+  </field>
+</table>
