@@ -3,13 +3,10 @@
 
 {if $context EQ "baseData"}
     set @domain_id = {$civicrmDomainId};
-    -- setting starting option_group_id to 32 to accomodate existing hard-coded Quest option_group records (hack);
-    set @option_group_id = 32;
 {else}
     -- This syntax apparently doesn't work in 4.0 and some 4.1 versions
     -- select max(id) + 1 from civicrm_domain into @domain_id;
     SELECT @domain_id := max(id) + 1 from civicrm_domain;
-    SELECT @option_group_id := max(id) + 1 from civicrm_option_group;
 {/if}
 
 SET @domain_name := CONCAT('Domain Name ',@domain_id);
@@ -130,13 +127,15 @@ VALUES
 
 -- option group and values for preferred communication methods
 
-INSERT INTO `civicrm_option_group` (`id`, `domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (@option_group_id, @domain_id, 'preferred_communication_method', 'Option for contact preferred communication method property.', 1, 1);
+INSERT INTO `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (@domain_id, 'preferred_communication_method', 'Option for contact preferred communication method property.', 1, 1);
+SELECT @option_group_id := max(id) from civicrm_option_group;
 
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `label`, `value`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (348, @option_group_id, 'Phone', 1, NULL, 0, NULL, 1, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `label`, `value`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (349, @option_group_id, 'Email', 2, NULL, 0, NULL, 2, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `label`, `value`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (350, @option_group_id, 'Postal Mail', 3, NULL, 0, NULL, 3, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `label`, `value`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (351, @option_group_id, 'SMS', 4, NULL, 0, NULL, 4, NULL, 0, 0, 1);
-INSERT INTO `civicrm_option_value` (`id`, `option_group_id`, `label`, `value`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES (352, @option_group_id, 'Fax', 5, NULL, 0, NULL, 5, NULL, 0, 0, 1);
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES
+ (@option_group_id, 'Phone', 1, NULL, 0, NULL, 1, NULL, 0, 0, 1),
+ (@option_group_id, 'Email', 2, NULL, 0, NULL, 2, NULL, 0, 0, 1),
+ (@option_group_id, 'Postal Mail', 3, NULL, 0, NULL, 3, NULL, 0, 0, 1),
+ (@option_group_id, 'SMS', 4, NULL, 0, NULL, 4, NULL, 0, 0, 1),
+ (@option_group_id, 'Fax', 5, NULL, 0, NULL, 5, NULL, 0, 0, 1);
 
 -- sample membership status entries
 INSERT INTO
