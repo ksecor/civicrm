@@ -1,6 +1,6 @@
 {*Table displays contribution totals for a contact or search result-set *}
 <table class="form-layout-compressed">
-    <tr>
+    <tr><th></th>
     {if $summary.total.amount}
         <th>{ts}Total Amount{/ts} - {$summary.total.amount|crmMoney}</th>
         <th> &nbsp; {ts}# Contributions{/ts} - {$summary.total.count}</th>
