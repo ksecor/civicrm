@@ -130,11 +130,14 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
     static function del($membershipTypeId) 
     {
         //check dependencies
-        require_once 'CRM/Member/DAO/Membership.php';
-        $membership =& new CRM_Member_DAO_Membership( );
-        $query = 'DELETE FROM civicrm_membership 
-                  WHERE       membership_type_id=' . $membershipTypeId . ';';
-        $membership->query($query);
+        require_once 'CRM/Member/BAO/Membership.php';
+        $membership =& new CRM_Member_BAO_Membership();
+        $membership->membership_type_id = $membershipTypeId;
+        if ( $membership->find() ) {
+            while ( $membership->fetch() ) {
+                CRM_Member_BAO_Membership::deleteMembership($membership->id);
+            }
+        }
         
         //delete from membership Type table
         require_once 'CRM/Member/DAO/MembershipType.php';
