@@ -15,10 +15,10 @@
 {edit}
 {literal}
     <script type="text/javascript">
-        function countit(){ 
-            var formcontent = document.getElementById("essay");
+        function countit(common_id){ 
+            var formcontent = document.getElementById("essay_" + common_id);
             var contentvalue  = formcontent.value;
-            var count = document.getElementById("word_count");
+            var count = document.getElementById("word_count_" + common_id);
             count.value = contentvalue.length;
             if (count.value >= 3000) {
                 formcontent.value = contentvalue.substr( 0, 3000 );
