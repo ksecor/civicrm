@@ -312,7 +312,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        return ts('Personal ========== Information');
+        return ts('Personal Information');
     }
 }
 
