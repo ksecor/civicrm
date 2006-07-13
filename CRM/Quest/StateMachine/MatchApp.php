@@ -70,6 +70,7 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                               'CRM_Quest_Form_MatchApp_Guardian'      => null,
                               'CRM_Quest_Form_MatchApp_Sibling'       => null,
                               'CRM_Quest_Form_MatchApp_Income'        => null,
+                              'CRM_Quest_Form_MatchApp_WorkExperience' => null,
                                                           
                             );
         
@@ -104,6 +105,7 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                                        'HighSchool'  => array( 'Personal'  => 1 ),
                                        'SchoolOther' => array( 'Personal'  => 1 ),
                                        'Academic'    => array( 'Personal'  => 1 ),
+                                       'WorkExperience'     => array( 'Personal'  => 1 ),
                                        'Testing'     => array( 'Personal'  => 1 ),
                                        'Essay'       => array( 'Personal'  => 1 ),
                                        'Submit'      => array( 'Personal'  => 1 )
