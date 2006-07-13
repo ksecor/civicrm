@@ -69,10 +69,13 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
 
         $type->find( );
         while ( $type->fetch( ) ) {
+            $attributes =  $type->attributes;
+            $attributes .= ' class="bold"';
+            //CRM_Core_Error::debug('Attr', $attributes );
             $this->_essays[] = array( 'id'         => $type->id,
                                       'name'       => $type->name,
-                                      'label'      => $type->label,
-                                      'attributes' => $type->attributes,
+                                      'label'      => "<span class=\"bold\">" . $type->label . "</span>",
+                                      'attributes' => $attributes,
                                       'wordCount'  => $type->max_word_count,
                                       'required'   => $type->is_required );
         }
