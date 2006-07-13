@@ -93,7 +93,7 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                                                       'options'   => array( ) );
 
         foreach ( $grades as $grade => $title ) {
-            $gradePages["Academic-{$grade}"] = array( 'className' => "CRM_Quest_Form_MatchApp_TranscriptGrade_$grade",
+            $gradePages["Academic-{$grade}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Transcript_$grade",
                                                         'title'     => $title,
                                                         'options'   => array( ) );
         }

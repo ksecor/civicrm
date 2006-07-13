@@ -45,6 +45,45 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
 {
+    protected $_isAlternateGrading;
+
+    protected $_grade;
+
+    static $_gradeSelector  = null;
+
+    static $_creditSelector = null;
+
+    static function &gradeSelector( ) {
+        if ( ! self::$_gradeSelector ) {
+            self::$_gradeSelector =
+                array( '' =>  ts(''),
+                       'A+' => 'A+', 'A' => 'A', 'A-' => 'A-',
+                       'B+' => 'B+', 'B' => 'B', 'B-' => 'B-',
+                       'C+' => 'C+', 'C' => 'C', 'C-' => 'C-',
+                       'D+' => 'D+', 'D' => 'D', 'D-' => 'D-',
+                       'Pass' => 'Pass', 'Fail' => 'Fail' );
+        }
+        return self::$_gradeSelector;
+    }
+
+    static function &creditSelector( ) {
+        if ( ! self::$_creditSelector ) {
+            self::$_creditSelector =
+                array( '' =>  ts(''), '10' => '10',
+                       '9.75' => '9.75', '9.50' => '9.50', '9.25' => '9.25', '9.00' => '9.00',
+                       '8.75' => '8.75', '8.50' => '8.50', '8.25' => '8.25', '8.00' => '8.00',
+                       '7.75' => '7.75', '7.50' => '7.50', '7.25' => '7.25', '7.00' => '7.00',
+                       '6.75' => '6.75', '6.50' => '6.50', '6.25' => '6.25', '6.00' => '6.00',
+                       '5.75' => '5.75', '5.50' => '5.50', '5.25' => '5.25', '5.00' => '5.00',
+                       '4.75' => '4.75', '4.50' => '4.50', '4.25' => '4.25', '4.00' => '4.00',
+                       '3.75' => '3.75', '3.50' => '3.50', '3.25' => '3.25', '3.00' => '3.00',
+                       '2.75' => '2.75', '2.50' => '2.50', '2.25' => '2.25', '2.00' => '2.00',
+                       '1.75' => '1.75', '1.50' => '1.50', '1.25' => '1.25', '1.00' => '1.00',
+                       '0.75' => '0.75', '0.50' => '0.50', '0.25' => '0.25', '0.00' => '0.00' );
+        }
+        return self::$_creditSelector;
+    }
+
     /**
      * Function to set variables up before form is built
      *
@@ -54,6 +93,8 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess( );
+
+        $this->_isAlternateGrading = true;
     }
 
     /**
@@ -81,13 +122,51 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
     public function buildQuickForm( ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
-        
-        $this->addYesNo( 'is_alternate_grading',
-                         ts( 'Did any school you attended throughout high school use a grading system other than A-B-C-D-F?' ),null,true,array ('onclick' => "return showHideByValue('is_alternate_grading', '1', 'alternate_grading_explanation', '', 'radio', false);") );
 
-        $this->addElement('textarea', 'alternate_grading_explanation',
-                          ts( 'If your school uses an alternate grading system, please explain the system.' ),
-                          $attributes['alternate_grading_explanation'] );
+        $this->addSelect( 'term_system',
+                          ts( 'Term System' ),
+                          null, true );
+
+        $this->assign( 'grade', $this->_grade );
+
+        $grades  =& self::gradeSelector( );
+        $credits =& self::creditSelector( );
+
+        for ( $i = 1; $i <= 10; $i++ ) {
+            $this->addSelect( 'academic_subject',
+                              null,
+                              "_$i" );
+            $this->addElement( 'text',
+                               "course_title_$i",
+                               null,
+                               $attributes['course_title'] );
+            $this->addElement( 'select',
+                               "academic_credit_$i", null,
+                               $credits );
+            $this->addSelect( 'academic_honor_status',
+                              null,
+                              "_$i", null, null, '' );
+            if ( $this->_grade == 'Twelve' ) {
+                continue;
+            } else {
+                if ( $this->_grade == 'Summer' ) {
+                    $this->addElement('date', "summer_year_$i", null,
+                                      CRM_Core_SelectValues::date( 'custom', 4, 1, "Y" ) );
+                    $this->addRule("summer_year_$i", ts('Select a valid date.'), 'qfDate');
+                    $max = 1;
+                } else {
+                    $max = 4;
+                }
+                for ( $j = 1; $j <= $max; $j++ ) {
+                    if ( $this->_isAlternateGrading ) {
+                        $this->addElement('text', "grade_{$i}_{$j}", null, $attributes['grade_1'] );
+                    } else {
+                        $this->addElement('select', "grade_{$i}_{$j}", null,
+                                          $grades );
+                    }
+                }
+            }
+        }
 
         parent::buildQuickForm( );
     }
