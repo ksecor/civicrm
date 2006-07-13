@@ -63,13 +63,13 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         $this->_states = array( );
 
         $firstPages = array(
-                              'CRM_Quest_Form_MatchApp_Personal'     => null,
-                              'CRM_Quest_Form_MatchApp_Scholarship'    => null,
-                              'CRM_Quest_Form_MatchApp_Educational'  => null,
-                              'CRM_Quest_Form_MatchApp_Household'    => null,
-                              'CRM_Quest_Form_MatchApp_Guardian'    => null,
-                              'CRM_Quest_Form_MatchApp_Sibling'    => null,
-                              'CRM_Quest_Form_MatchApp_Income'    => null,
+                              'CRM_Quest_Form_MatchApp_Personal'      => null,
+                              'CRM_Quest_Form_MatchApp_Scholarship'   => null,
+                              'CRM_Quest_Form_MatchApp_Educational'   => null,
+                              'CRM_Quest_Form_MatchApp_Household'     => null,
+                              'CRM_Quest_Form_MatchApp_Guardian'      => null,
+                              'CRM_Quest_Form_MatchApp_Sibling'       => null,
+                              'CRM_Quest_Form_MatchApp_Income'        => null,
                                                           
                             );
         

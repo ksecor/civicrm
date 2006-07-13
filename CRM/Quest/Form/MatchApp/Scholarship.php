@@ -128,12 +128,12 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                           ts( 'How did you study for the SAT or ACT?' ));
         // plan to be a financial aid applican
         $this->addYesNo( 'financial_aid_applicant',
-                         ts( 'Do you plan to be a financial aid applicant to colleges?' ) ,null,false);
+                         ts( 'Do you plan on applying for financial aid??' ) ,null,false);
         // fee waivers to register for standarized tests.
         $this->addYesNo( 'register_standarized_tests',
-                         ts( 'Do you plan to use, or have you already used, fee waivers to register for standarized tests?' ) ,null,false);
+                         ts( 'Did you use fee waivers to register for standarized tests?' ) ,null,false);
 
-        $this->addElement('text','displacement', ts('If you are a resident of Alabama, Florida, Louisina, Mississippi, or Texas, are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), null);
+        $this->addElement('textarea','displacement', ts('If you are a resident of Alabama, Florida, Louisina, Mississippi, or Texas, are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), "cols=60,rows=8");
 
         $this->addRadio( 'heard_about_qb_id',
                          ts('How did you hear about QuestBridge?'),
@@ -149,21 +149,24 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 
 
         for($i=1;$i<=6;$i++) {
-           $this->addSelect( 'partner_institution_'.$i, ts('Partner Institution') );
-           $this->addElement('text', 'last_name_'.$i, ts('Last Name'), null );
-           $this->addElement('text', 'first_name_'.$i, ts('First Name'), null );
-           $this->addElement('text', 'class_year_'.$i, ts('Class Year'), null );
-           $this->addElement('text', 'relationship_'.$i, ts('Relationship'), null );
-
-       }
+           $this->addElement('select','alumni_partner_institution_id_'.$i ,ts('Partner Institution') ,
+                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values('college_interest'),null ); 
+           $this->addElement('text', 'alumni_last_name_'.$i, ts('Last Name'), null );
+           $this->addElement('text', 'alumni_first_name_'.$i, ts('First Name'), null );
+           $this->addElement('date', 'alumni_class_year_'.$i, ts('Class Year'),CRM_Core_SelectValues::date( 'custom',25, 25, "Y" ));
+           $this->addElement('text', 'alumni_relationship_'.$i, ts('Relationship'), null );
+           
+        }
         for($i=1;$i<=6;$i++) {
-           $this->addSelect('partner_institution_'.$i, ts('Partner Institution'), null );
-           $this->addElement('text', 'last_name_'.$i, ts('Last Name'), null );
-           $this->addElement('text', 'first_name_'.$i, ts('First Name'), null );
-           $this->addElement('text', 'department_'.$i, ts('Department'), null );
-           $this->addElement('text', 'relationship_'.$i, ts('Relationship'), null );
-
-       }
+            $this->addElement('select','employee_partner_institution_id_'.$i,ts('Partner Institution') ,
+                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values('college_interest'),null ); 
+            
+            $this->addElement('text', 'employee_last_name_'.$i, ts('Last Name'), null );
+            $this->addElement('text', 'employee_first_name_'.$i, ts('First Name'), null );
+            $this->addElement('text', 'employee_department_'.$i, ts('Department'), null );
+            $this->addElement('text', 'employee_relationship_'.$i, ts('Relationship'), null );
+            
+        }
         // $this->addFormRule(array('CRM_Quest_Form_App_Scholarship', 'formRule'));
         parent::buildQuickForm( );   
 

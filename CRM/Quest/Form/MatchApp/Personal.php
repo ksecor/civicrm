@@ -45,7 +45,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App_Personal
+class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
 {
     /**
      * Function to set variables up before form is built
@@ -284,7 +284,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App_Personal
             }
 
             // also trigger the sibling generation in case number_siblings has changes
-            CRM_Quest_Form_App_Sibling::getPages( $this->controller, true );
+            CRM_Quest_Form_MatchApp_Sibling::getPages( $this->controller, true );
        }
 
         parent::postProcess( );

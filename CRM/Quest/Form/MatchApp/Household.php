@@ -310,7 +310,7 @@ WHERE  id = {$value['options']['personID']}
             self::getPages( $this->controller, true );
 
             // also recreate all income pages
-            CRM_Quest_Form_App_Income::getPages( $this->controller, true );
+            CRM_Quest_Form_MatchApp_Income::getPages( $this->controller, true );
             
             $this->controller->rebuild( );
         }
