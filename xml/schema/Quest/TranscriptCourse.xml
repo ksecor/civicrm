@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest</base>
+  <class>TranscriptCourse</class>
+  <name>quest_transcript_course</name>
+  <comment>Courses of study reported by a student for a given school year transcript.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Primary key.</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>transcript_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Transcript this course is linked to. FK to Transcript ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>transcript_id</name>
+       <table>quest_transcript</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>academic_subject_id</name>
+      <title>Academic Subject</title>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to civicrm_option_value. Uses academic_subject option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>academic_subject_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>course_title</name>
+       <type>varchar</type>
+       <length>255</length>
+       <required>true</required>
+       <comment>Specific title of this course.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>academic_credit</name>
+      <type>decimal</type>
+      <required>true</required>
+      <comment>Number of credits for this course.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>academic_honor_status_id</name>
+      <title>Honor Status</title>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses academic_honor_status option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>academic_honor_status_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>term_1</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Grade for this course for term 1.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>term_2</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Grade for this course for term 2.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>term_3</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Grade for this course for term 3.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>term_4</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Grade for this course for term 4.</comment>
+       <add>1.5</add>
+  </field>
+</table>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest</base>
+  <class>Transcript</class>
+  <name>quest_transcript</name>
+  <comment>Student transcripts (one record for each grade). Courses for each grade are stored in TranscriptCourse.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Primary key.</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Student who submitted this transcript. FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>school_year</name>
+       <type>enum</type>
+       <values>9, 10, 11, 12, Summer</values>
+       <required>true</required>
+       <comment>Which school year this transcript is for.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>term_system_id</name>
+      <title>Term System</title>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to civicrm_option_value. Uses term_system option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>term_system_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <index>
+    <name>UI_student_year</name>
+    <fieldName>contact_id</fieldName>
+    <fieldName>school_year</fieldName>
+    <unique>true</unique>
+    <add>1.5</add>
+  </index>
+</table>

@@ -16,5 +16,7 @@
 <xi:include href="PartnerRanking.xml"   parse="xml" />
 <xi:include href="Extracurricular.xml"  parse="xml" />
 <xi:include href="WorkExperience.xml"   parse="xml" />
+<xi:include href="Transcript.xml"       parse="xml" />
+<xi:include href="TranscriptCourse.xml" parse="xml" />
 
 </tables>

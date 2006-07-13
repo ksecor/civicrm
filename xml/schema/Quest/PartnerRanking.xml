@@ -64,4 +64,11 @@
        <comment>Does student want their application forwarded to this partner?</comment>
        <add>1.5</add>
   </field>
+  <index>
+    <name>UI_student_partner</name>
+    <fieldName>contact_id</fieldName>
+    <fieldName>partner_id</fieldName>
+    <unique>true</unique>
+    <add>1.5</add>
+  </index>
 </table>
