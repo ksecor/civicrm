@@ -381,17 +381,34 @@
       <add>1.5</add>
   </field>
   <field>
-      <name>gpa_id</name>
+      <name>gpa_unweighted_id</name>
       <type>int unsigned</type>
       <default>NULL</default>
-      <title>GPA</title>
-      <comment>Grade Point Average (GPA) range. FK to civicrm_option_value.</comment>
+      <title>GPA (unweighted)</title>
+      <comment>Unweighted Grade Point Average (GPA) range. FK to civicrm_option_value.</comment>
       <export>true</export>
       <import>true</import>
       <add>1.5</add>
   </field>
   <foreignKey>
-       <name>gpa_id</name>
+       <name>gpa_unweighted_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <headerPattern>/gpa/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>gpa_weighted_id</name>
+      <type>int unsigned</type>
+      <default>NULL</default>
+      <title>GPA (weighted)</title>
+      <comment>Weighted Grade Point Average (GPA) range. FK to civicrm_option_value.</comment>
+      <export>true</export>
+      <import>true</import>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>gpa_weighted_id</name>
        <table>civicrm_option_value</table>
        <key>value</key>
        <headerPattern>/gpa/i</headerPattern>
