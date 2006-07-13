@@ -36,7 +36,7 @@
  *
  */
 
-require_once 'CRM/Quest/Form/App/Personal.php';
+require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Quest/BAO/Student.php'; 
 require_once 'CRM/Core/OptionGroup.php';
 
@@ -47,6 +47,8 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
 {
+    const
+    MAX_SIBLINGS = 10;
     /**
      * Function to set variables up before form is built
      *
@@ -85,13 +87,6 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         require_once 'CRM/Utils/Date.php';
         $defaults['high_school_grad_year'] = CRM_Utils_Date::unformat($defaults['high_school_grad_year'],'-') ;
         
-        if ( CRM_Utils_Array::value( 'ethnicity_id_2', $defaults )) {
-            $showHide =& new CRM_Core_ShowHideBlocks(array('ethnicity_id_2'       => 1), array('ethnicity_id_2[show]'       => 1) );
-        } else {
-            $showHide =& new CRM_Core_ShowHideBlocks(null, array('ethnicity_id_2'       => 1));
-        }
-        $showHide->addToTemplate( );
-
         return $defaults;
     }
     
@@ -155,7 +150,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
        
         // ethnicity 
         $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" );
-        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_2" );
+        //$this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_2" );
         $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1", 'required' );
 
         require_once 'CRM/Core/ShowHideBlocks.php';
@@ -181,7 +176,11 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         $this->addRule('years_in_us', ts("Please enter value for Number of Years in U.S."),'required');
         $this->addRule( "years_in_us", ts('Number not valid.'), 'integer' );
         
-        $this->addElement('text', 'number_siblings', ts( 'Number of siblings ' ), $attributes['number_siblings'] );
+        $siblings = array();
+        for ( $i = 0; $i <= self::MAX_SIBLINGS; $i++ ) {
+            $siblings[] = $i;
+        }
+        $this->addElement('select', 'number_siblings', ts( 'Number of siblings ' ), $siblings );
         $this->addRule('number_siblings', ts("Please enter Number of Siblings "),'required');
         $this->addRule( "number_siblings", ts('Number of Siblings not valid.'), 'positiveInteger' );
 
@@ -200,6 +199,20 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         $this->addRule('high_school_grad_year', ts('Select a valid date.'), 'qfDate');
         $this->addRule('high_school_grad_year', ts('Select a valid  date.'), 'required');
 
+        // wheather dismissed
+        $this->addYesNo( 'is_dismissed',
+                         ts( 'Have you ever violated an Honor code, or been dismissed, suspended from school, put on probation or subjected to any school-related or legal disciplinary action?' ),0,false );
+        
+        $this->addElement('textarea', 'explain_dismissed', ts( 'Please explain' ), $attributes['explain_dismissed'] );
+        // wheather convicted
+        $this->addYesNo( 'is_convicted',
+                         ts( 'Have you ever been been convicted of a crime, had a criminal charge sustained against you in a juvenile proceeding, or been placed on court-supervised probation?' ),0,false );
+        
+        $this->addElement('textarea', 'explain_convicted', ts( 'Please explain' ), $attributes['explain_convicted'] );
+
+        //file upload
+        $this->addElement('file', 'upload_pics', ts( 'Upload your picture' ), $attributes['upload_pics'] );
+
         // did parent graduate from college
         $this->addYesNo( 'parent_grad_college_id',
                          ts( 'Have either of your parents/guardians graduated from a four-year college?' ),1,true );
@@ -208,9 +221,9 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
                          ts('Would you describe your home area as'),
                          CRM_Core_OptionGroup::values('home_area') );
 
-        $this->addFormRule(array('CRM_Quest_Form_App_Personal', 'formRule'));
-        
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Personal', 'formRule'));
         parent::buildQuickForm( );
+
     }
 
     /**
@@ -224,16 +237,16 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $errors = array( );
-        $locNo = 1;
-        foreach ($params['location'] as $location) {
-            if ( ( $location['address']['country_id'] == 1228 ||
-                   $location['address']['country_id'] == 1039 ||
-                   $location['address']['country_id'] == 1140 ) &&
-                 ! $location['address']['state_province_id'] ) {
-                $errors["location[$locNo][address][state_province_id]"]= "Please select the state";
-            }
-            $locNo++;
-        }
+//         $locNo = 1;
+//         foreach ($params['location'] as $location) {
+//             if ( ( $location['address']['country_id'] == 1228 ||
+//                    $location['address']['country_id'] == 1039 ||
+//                    $location['address']['country_id'] == 1140 ) &&
+//                  ! $location['address']['state_province_id'] ) {
+//                 $errors["location[$locNo][address][state_province_id]"]= "Please select the state";
+//             }
+//             $locNo++;
+//         }
 
         return empty($errors) ? true : $errors;
     }
@@ -248,7 +261,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-            
+            //print_r($params);
             require_once 'CRM/Quest/BAO/Student.php';
             $params['contact_type'] = 'Individual';
             $params['contact_sub_type'] = 'Student';
@@ -299,7 +312,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        return ts('Personal Information');
+        return ts('Personal ========== Information');
     }
 }
 

@@ -269,6 +269,48 @@
        <add>1.5</add>
   </field>
   <field>
+       <name>is_dismissed</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <export>true</export>
+       <title>Dismissed</title>
+       <import>true</import>
+       <headerPattern>/dismissed/i</headerPattern>
+       <comment>Dismissed from school.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>explain_dismissed</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>3</rows>
+       <cols>50</cols>
+       <required>true</required>
+       <comment>Dismissed question response.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>is_convicted</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <export>true</export>
+       <title>Convicted</title>
+       <import>true</import>
+       <headerPattern>/convicted/i</headerPattern>
+       <comment>Convicted from school.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>explain_convicted</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>3</rows>
+       <cols>50</cols>
+       <required>true</required>
+       <comment>Convicted question response.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
       <name>study_method_id</name>
       <title>Study Method</title>
       <type>int unsigned</type>

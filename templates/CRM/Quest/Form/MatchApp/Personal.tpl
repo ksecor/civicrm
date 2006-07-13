@@ -34,6 +34,12 @@
 </tr>
 <tr>
     <td class="grouplabel">
+        {$form.upload_pics.label}</td>
+    <td class="fieldlabel">
+        {$form.upload_pics.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
         {$form.gender_id.label}</td>
     <td class="fieldlabel">
         {$form.gender_id.html}</td>
@@ -174,13 +180,8 @@
         {$form.ethnicity_id_1.label}
     </td>
     <td class="fieldlabel">
-        {$form.ethnicity_id_1.html}
-        <div id="ethnicity_id_2[show]">{edit}{$ethnicity_id_2.show}{/edit}</div>
-        <div id="ethnicity_id_2">
-            {$form.ethnicity_id_2.html}
-            <span id="ethnicity_id_2[hide]">{edit}{$ethnicity_id_2.hide}{/edit}</span>
-        </div>
-        {ts}{edit}Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list. Completion of this information is appreciated, but not required.{/edit}{/ts}
+        {$form.ethnicity_id_1.html}<br/>
+	{ts}{edit}Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list. Completion of this information is appreciated, but not required.{/edit}{/ts}
     </td>
 </tr>
 <tr>
@@ -243,6 +244,30 @@
         {$form.high_school_grad_year.label}</td>
     <td class="fieldlabel">
         {$form.high_school_grad_year.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.is_dismissed.label}</td>
+    <td class="fieldlabel">
+        {$form.is_dismissed.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.explain_dismissed.label}</td>
+    <td class="fieldlabel">
+        {$form.explain_dismissed.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.is_convicted.label}</td>
+    <td class="fieldlabel">
+        {$form.is_convicted.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.explain_convicted.label}</td>
+    <td class="fieldlabel">
+        {$form.explain_convicted.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">
