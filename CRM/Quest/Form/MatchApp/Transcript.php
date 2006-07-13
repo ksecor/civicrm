@@ -83,10 +83,10 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
         
         $this->addYesNo( 'is_alternate_grading',
-                         ts( 'Does your school use an alternate grading system?' ),null,true,array ('onclick' => "return showHideByValue('is_alternate_grading', '1', 'alternate_grading_explanation', '', 'radio', false);") );
+                         ts( 'Did any school you attended throughout high school use a grading system other than A-B-C-D-F?' ),null,true,array ('onclick' => "return showHideByValue('is_alternate_grading', '1', 'alternate_grading_explanation', '', 'radio', false);") );
 
         $this->addElement('textarea', 'alternate_grading_explanation',
-                          ts( 'Please explain the system' ),
+                          ts( 'If your school uses an alternate grading system, please explain the system.' ),
                           $attributes['alternate_grading_explanation'] );
 
         parent::buildQuickForm( );

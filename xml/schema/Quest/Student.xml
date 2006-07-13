@@ -591,4 +591,23 @@
       <comment>Rank the scholarship awards.</comment>
       <add>1.5</add>
   </field>
+  <field>
+       <name>is_alternate_grading</name>
+       <type>boolean</type>
+       <default>0</default>
+       <export>true</export>
+       <title>Uses Alternate Grading</title>
+       <headerPattern>/alternate grading/i</headerPattern>
+       <comment>Did this students school use alternate grading for any grade.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>alternate_grading_explanation</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>5</rows>
+       <cols>40</cols>
+       <comment>Explanation of alternate grading system.</comment>
+      <add>1.5</add>
+  </field>
 </table>

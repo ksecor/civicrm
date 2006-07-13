@@ -6,8 +6,9 @@
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.is_alternate_grading.label}</td>
-    <td class="fieldlabel">{$form.is_alternate_grading.html}</td>
+    <td class="grouplabel">{ts}Grading System{/ts}<br /><br />
+        {$form.is_alternate_grading.label}</td>
+    <td class="fieldlabel" width="50%">{$form.is_alternate_grading.html}</td>
 </tr> 
 <tr id="alternate_grading_explanation">
     <td class="grouplabel">{$form.alternate_grading_explanation.label}</td>

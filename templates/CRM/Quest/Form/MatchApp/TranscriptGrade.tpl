@@ -1,4 +1,4 @@
-{* Quest Pre-application: Academic Information section *}
+{* Quest Application: Transcript Sections (Grades 9 - 12 and Summer School *}
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
@@ -11,10 +11,10 @@
 </tr> 
 <tr>
    <td class="grouplabel">Academic Subjects</td>
-   <td class="fieldlabel">Enter grade courses and your grades.
-<br>
+   <td class="fieldlabel">{ts 1=$wizard.currentStepTitle}Enter %1 courses and your grades.{/ts}
+<br />
 Honors Status Key (if applicable, leave blank if none):
-<br>
+<br />
 HL = Honors Level; CL = College Level; AP = Advanced Placement; IB = International Baccalaureate
 </td>
 </tr>
