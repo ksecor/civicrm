@@ -42,7 +42,7 @@ require_once 'CRM/Quest/Form/MatchApp/TranscriptGrade.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_MatchApp_TranscriptGrade_Nine extends CRM_Quest_Form_MatchApp_TranscriptGrade
+class CRM_Quest_Form_MatchApp_TranscriptGrade_Twelve extends CRM_Quest_Form_MatchApp_TranscriptGrade
 {
     /**
      * Function to set variables up before form is built
@@ -52,7 +52,7 @@ class CRM_Quest_Form_MatchApp_TranscriptGrade_Nine extends CRM_Quest_Form_MatchA
      */
     public function preProcess()
     {
-        $this->_grade = 'Nine';
+        $this->_grade = 'Twelve';
         parent::preProcess( );
     }
 
@@ -64,7 +64,7 @@ class CRM_Quest_Form_MatchApp_TranscriptGrade_Nine extends CRM_Quest_Form_MatchA
      */
     public function getTitle()
     {
-        return ts('9th Grade');
+        return ts('12th Grade');
     }
     
 }
