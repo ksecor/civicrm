@@ -36,14 +36,14 @@
  *
  */
 
-require_once 'CRM/Quest/Form/App/Scholarship.php';
+require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App_Scholarship
+class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 {
     static $_referralIDs;
     /**
@@ -53,9 +53,9 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App_Scholarship
      * @access public
      */
     public function preProcess()
-    {/*
+    {
         parent::preProcess();
-        $this->_referralIDs = array();*/
+        $this->_referralIDs = array();
     }
     
     
@@ -68,9 +68,27 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App_Scholarship
      */
     function setDefaultValues( ) 
     {
-    }
-    
+        $defaults = array( );
 
+        $params = array( 'contact_id' => $this->_contactID );
+        $ids = array( );
+        CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
+
+        require_once 'CRM/Quest/DAO/Referral.php';
+        $dao = & new CRM_Quest_DAO_Referral();
+        $dao->contact_id = $this->_contactID;
+        $dao->find();
+        $count = 0;
+        while ( $dao->fetch() ) {
+            $count++;
+            $defaults["sophomores_name_$count"] = $dao->name;
+            $defaults["sophomores_email_$count"] = $dao->email;
+            $this->_referralIDs[] = $dao->id;
+        }
+        
+        return $defaults;
+    }
+   
     /**
      * Function to actually build the form
      *
@@ -80,17 +98,54 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App_Scholarship
     public function buildQuickForm( ) 
     {
 
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student');
 
-        parent::buildQuickForm( );   
-     
+        // primary method to access internet
+        
+        $extra1 = array( 'onchange' => "return showHideByValue('internet_access_id','23','internet_access_other','','select',false);");
+        $this->addSelectOther('internet_access',
+                              ts('What is your primary method of accessing the Internet?'),
+                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
+                              $attributes ,true, $extra1 );
+        $this->addElement('text','internet_access_other',null,null);
+
+        // computer at home
+        $this->addYesNo( 'is_home_computer',
+                         ts( 'Do you have a computer at home?' ),null,true );
+
+        // internet access at home
+        $this->addYesNo( 'is_home_internet',
+                         ts( 'If yes, do you have internet access at home?' ));
+
+        // federal lunch program
+        $this->addSelect( 'fed_lunch',
+                          ts( 'Are you eligible for Federal Free or Reduced Price Lunches?' ),null,true);
+        $this->addYesNo( 'is_take_SAT_ACT',
+                         ts( 'Did you study for the SAT or ACT?' ) ,null,true);
+
+
         $this->addSelect( 'study_method',
-                          ts( 'Did you study for the SAT or ACT? If so, how?' ));
+                          ts( 'How did you study for the SAT or ACT?' ));
+        // plan to be a financial aid applican
+        $this->addYesNo( 'financial_aid_applicant',
+                         ts( 'Do you plan to be a financial aid applicant to colleges?' ) ,null,false);
+        // fee waivers to register for standarized tests.
+        $this->addYesNo( 'register_standarized_tests',
+                         ts( 'Do you plan to use, or have you already used, fee waivers to register for standarized tests?' ) ,null,false);
 
         $this->addElement('text','displacement', ts('If you are a resident of Alabama, Florida, Louisina, Mississippi, or Texas, are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), null);
 
         $this->addRadio( 'heard_about_qb_id',
                          ts('How did you hear about QuestBridge?'),
                          CRM_Core_OptionGroup::values('heard_about_qb') );
+
+
+        for($i=1;$i<=3;$i++) {
+           $this->addElement('text', 'sophomores_name_'.$i, ts('Name:'), null );
+           $this->addElement('text', 'sophomores_email_'.$i, ts('Email:'), null );
+           $this->addRule('sophomores_email_'.$i, ts('Email not valid'), 'email' );
+       }
+       
 
 
         for($i=1;$i<=6;$i++) {
@@ -109,6 +164,8 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App_Scholarship
            $this->addElement('text', 'relationship_'.$i, ts('Relationship'), null );
 
        }
+        // $this->addFormRule(array('CRM_Quest_Form_App_Scholarship', 'formRule'));
+        parent::buildQuickForm( );   
 
     }//end of function
 
@@ -123,6 +180,12 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App_Scholarship
      * @static
      */
     public function formRule(&$params) {
+        $errors = array( );
+        if ( $params['internet_access_id'] == 23 && $params['internet_access_other'] == '') {
+            $errors["internet_access_other"] = "Please describe your other method for accessing the internet.";
+        }
+        
+        return empty($errors) ? true : $errors;
         
     }
 
@@ -134,6 +197,34 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App_Scholarship
      */
     public function postProcess() 
     {
+        require_once 'CRM/Quest/BAO/Referral.php';
+
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+            $params = $this->controller->exportValues( $this->_name );
+            
+            $ids = array( 'id'         => $this->_studentID,
+                          'contact_id' => $this->_contactID );
+            $student = CRM_Quest_BAO_Student::create( $params, $ids);
+
+            if ( is_array($this->_referralIDs) ) {
+                foreach ( $this->_referralIDs as $key => $referralID ) {
+                    $dao     = & new CRM_Quest_DAO_Referral();
+                    $dao->id = $referralID;
+                    $dao->delete();
+                }
+            }
+            
+            for ($i=1;$i<=3;$i++) {  
+                $ids = array();
+                $referralParams = array();
+                $referralParams['contact_id'] = $this->_contactID;
+                if ($params['sophomores_name_'.$i] || $params['sophomores_email_'.$i]) {
+                    $referralParams['name'] = $params['sophomores_name_'.$i];
+                    $referralParams['email'] = $params['sophomores_email_'.$i];
+                    $referral = CRM_Quest_BAO_Referral::create( $referralParams, $ids );
+                }
+            }
+        }
         parent::postProcess( );
     }//end of function
 
@@ -146,7 +237,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App_Scholarship
      */
     public function getTitle()
     {
-        parent::getTitle();
+        return ts('Additional Information');
 
     }
 }

@@ -28,6 +28,10 @@
     <td class="fieldlabel"> {$form.fed_lunch_id.html}</td>
 </tr>
 <tr>
+    <td class="grouplabel"> {$form.is_take_SAT_ACT.label}</td>
+    <td class="fieldlabel"> {$form.is_take_SAT_ACT.html}</td>
+</tr>
+<tr>
     <td class="grouplabel"> {$form.study_method_id.label}</td>
     <td class="fieldlabel"> {$form.study_method_id.html}</td>
 </tr>
@@ -48,17 +52,19 @@
     <td class="fieldlabel"> {$form.heard_about_qb_id.html} </td>
 </tr>
 
-
-
 <tr>
-    <td class="grouplabel"> {$form.award_ranking_1_id.label}</td>
-    <td nowrap class="fieldlabel"> 1. {$form.award_ranking_1_id.html}<br/>
-    2. {$form.award_ranking_2_id.html}<br/>
-    3. {$form.award_ranking_3_id.html}<br/>
+    <td class="grouplabel"> {ts}Please enter contact information for current juniors you think would be strong applicants for next year.{/ts}</td>
+    <td class="fieldlabel" nowrap> 
+            {$form.sophomores_name_1.label}&nbsp;{$form.sophomores_name_1.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_1.label}&nbsp;{$form.sophomores_email_1.html}&nbsp;<br/>
+            {$form.sophomores_name_2.label}&nbsp;{$form.sophomores_name_2.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_2.label}&nbsp;{$form.sophomores_email_2.html}&nbsp;<br/>
+            {$form.sophomores_name_3.label}&nbsp;{$form.sophomores_name_3.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_3.label}&nbsp;{$form.sophomores_email_3.html}&nbsp;<br/>
+      {ts}We have found that fellow students are the best source of information in identifying deserving applicants<BR>for next year's application cycle. Enter 3 fellow student's full name and email address.{/ts}
     </td>
 </tr>
+
+
 <tr>
-{*
+
 {ts}For any of your relatives who are alumni/ae at any of our partner colleges/universities, please list their names, relationship to you and years of graduation, if known:{/ts}
     <td class="fieldlabel" nowrap> 
        
@@ -70,7 +76,7 @@
     <td class="grouplabel"> {$form.class_year_1.label}</td>
     <td class="grouplabel"> {$form.relationship_1.label}</td>
 </tr>
-    for(i=1;i<=6;i++) {
+    for(i=1;i<=6;i++) {*
    
     {$form.partner_institute_1.html}
     {$form.last_name_1.html}
@@ -80,7 +86,7 @@
 
 
 
-    }
+    *}
 
 
 
@@ -92,7 +98,7 @@
     <td class="grouplabel"> {$form.class_year_1.label}</td>
     <td class="grouplabel"> {$form.relationship_1.label}</td>
 </tr>
-    for(i=1;i<=6;i++) {
+    for(i=1;i<=6;i++) {*
    
     {$form.partner_institute_1.html}
     {$form.last_name_1.html}>
@@ -100,9 +106,9 @@
     {$form.class_year_1.html}
     {$form.relationship_1.label}
 
-}
+*}
 
-  *}  
+    
 
     </td>
 </tr>
