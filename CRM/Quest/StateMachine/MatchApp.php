@@ -83,6 +83,9 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         }
 
         $lastPages = array(
+                           'CRM_Quest_Form_MatchApp_Academic'               => null,
+                           'CRM_Quest_Form_MatchApp_Transcript'             => null,
+                           'CRM_Quest_Form_MatchApp_TranscriptGrade_Nine'   => null,
                            'CRM_Quest_Form_MatchApp_Essay_Short'            => null,
                            'CRM_Quest_Form_MatchApp_Essay_Extracurricular'  => null,
                            'CRM_Quest_Form_MatchApp_Essay_Experience'       => null,

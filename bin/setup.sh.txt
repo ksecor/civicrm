@@ -37,11 +37,11 @@ fi
 
 # fetch command line arguments if available
 if [ ! -z $1 ] ; then SCHEMA=$1; fi
-if [ ! -z $1 ] ; then DBLOAD=$2; fi
-if [ ! -z $2 ] ; then DBNAME=$3; fi
-if [ ! -z $3 ] ; then DBUSER=$4; fi
-if [ ! -z $4 ] ; then DBPASS=$5; fi
-if [ ! -z $5 ] ; then DBARGS=$6; fi
+if [ ! -z $2 ] ; then DBLOAD=$2; fi
+if [ ! -z $3 ] ; then DBNAME=$3; fi
+if [ ! -z $4 ] ; then DBUSER=$4; fi
+if [ ! -z $5 ] ; then DBPASS=$5; fi
+if [ ! -z $6 ] ; then DBARGS=$6; fi
 
 # verify if we have at least DBNAME given
 if [ -z $DBNAME ] ; then

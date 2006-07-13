@@ -1,13 +1,17 @@
 {* Quest Pre-application: Academic Information section *}
 
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.gpa_id.label}</td>
-    <td class="fieldlabel">{$form.gpa_id.html} <br/>{ts} {edit}Please give your GPA on an unweighted, 4.0 scale{/edit}. View instructions for <A HREF="http://www.asfdn.org/content.cfm?page=scholarships_programs_GPA2" TARGET="_blank">calculating an unweighted score</A>{/ts}</td>
+    <td class="grouplabel">{$form.gpa_unweighted_id.label}</td>
+    <td class="fieldlabel">{$form.gpa_unweighted_id.html} <br/>{ts} {edit}Please give your GPA on an unweighted, 4.0 scale{/edit}. View instructions for <A HREF="http://www.asfdn.org/content.cfm?page=scholarships_programs_GPA2" TARGET="_blank">calculating an unweighted score</A>{/ts}</td>
+</tr> 
+<tr>
+    <td class="grouplabel">{$form.gpa_weighted_id.label}</td>
+    <td class="fieldlabel">{$form.gpa_weighted_id.html} <br/>{ts} {edit}Please give your GPA on an weighted, 4.0 scale{/edit}. View instructions for <A HREF="http://www.asfdn.org/content.cfm?page=scholarships_programs_GPA2" TARGET="_blank">calculating an weighted score</A>{/ts}</td>
 </tr> 
 <tr>
     <td class="grouplabel">{$form.is_class_ranking.label}</td>
@@ -58,7 +62,7 @@
 {/section}
 </td></tr>
 </table>
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_class_ranking"

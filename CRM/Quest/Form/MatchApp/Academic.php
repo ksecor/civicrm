@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Academic extends CRM_Quest_Form_App
 {
     static $_honorIds;
     
@@ -133,11 +133,13 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
         
-        // name of school
-        $this->addSelect('gpa',
-                          ts( 'What is your GPA?' ),
-                         null,true);
-        // $this->addRule('gpa_id' , ts("Please enter GPA"),'required');
+        $this->addSelect( 'gpa_unweighted',
+                          ts( 'What is your unweighted GPA?' ),
+                          null, true );
+
+        $this->addSelect( 'gpa_weighted',
+                          ts( 'What is your weighted GPA?' ),
+                          null, true );
 
         $this->addYesNo( 'is_class_ranking',
                          ts( 'Does your school give class rankings?' ),null,true,array ('onclick' => "return showHideByValue('is_class_ranking', '1', 'class_rank', '', 'radio', false);") );
@@ -163,7 +165,7 @@ class CRM_Quest_Form_App_Academic extends CRM_Quest_Form_App
         // add up to 6 Honors
         $honor = array( );
         for ( $i = 1; $i <= 6; $i++ ) {
-            $this->addElement('text', 'description_' . $i,
+            $this->addElement('text', "description_$i",
                               ts( 'Honors' ),
                               $attributes['description'] );
 
