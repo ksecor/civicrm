@@ -1,18 +1,16 @@
 {foreach from=$essays item=essay}
 {assign var=name value=$essay.name}
 <tr>
-      <td> {$form.essay.$name.label}</td>
-</tr>  
-<tr>
-      <td> {$form.essay.$name.html}</td>
-</tr>  
-<tr>
-      <td>{$form.word_count.$name.label} &nbsp;&nbsp;{$form.word_count.$name.html}</td> 
+    <td class="grouplabel">
+        {$form.essay.$name.label}<br />
+        {$form.essay.$name.html} &nbsp;<br /><br />
+        {$form.word_count.$name.label} &nbsp;&nbsp;{$form.word_count.$name.html}
+    </td> 
 </tr>
 {/foreach}
 </table>
 
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
 {edit}
 {literal}

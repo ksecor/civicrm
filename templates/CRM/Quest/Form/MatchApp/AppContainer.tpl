@@ -1,10 +1,6 @@
-{* Quest Pre-application: Display container for application pages. *}
-
-{edit}
-{/edit}
-
+{* Quest College Match Application: Display container for application pages. *}
 {if $context EQ 'begin'}
-  <div id="preapp-content">
+  <div id="matchapp-content">
   {if ! ( $action & 1024 ) }{* We skip greeting and nav buttons and .js for preview action, but include them for edit and view actions. *}
     <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
     <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
@@ -12,7 +8,7 @@
             <td class="greeting">{$welcome_name}</td>
             <td class="preapp-message" align="center">
              {ts}
-               {*Please note: the application deadline is May 15, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' to save your changes.*}
+                Note: The application deadline is Oct 1, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' to save your changes.
              {/ts}
             </td>           	
             <td nowrap class="save">

@@ -81,6 +81,10 @@ table.app td.fieldlabel {
   font-size: 10px;
   font-style: italic;
 }
+table.app td.grouplabel label {
+    font-weight: bold;
+}
+
 table.app td.optionlist {
   border: 2px solid #fff;
 }
