@@ -42,7 +42,7 @@ require_once 'CRM/Quest/Form/MatchApp/Essay.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_MatchApp_Essay_Short extends CRM_Quest_Form_MatchApp_Essay
+class CRM_Quest_Form_MatchApp_Essay_Extracurricular extends CRM_Quest_Form_MatchApp_Essay
 {
 
     /**
@@ -53,7 +53,7 @@ class CRM_Quest_Form_MatchApp_Essay_Short extends CRM_Quest_Form_MatchApp_Essay
      */
     public function preProcess()
     {
-        $this->_grouping = 'cm_essay_short';
+        $this->_grouping = 'cm_essay_extracurricular';
 
         parent::preProcess();
     }
@@ -66,7 +66,7 @@ class CRM_Quest_Form_MatchApp_Essay_Short extends CRM_Quest_Form_MatchApp_Essay
      */
     public function getTitle()
     {
-        return ts('Short Answers');
+        return ts('Extracurricular Essay');
     }
 
 }

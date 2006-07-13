@@ -45,7 +45,7 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
 {
-    protected $_group = null;
+    protected $_grouping = null;
 
     protected $_essays;
 
@@ -63,7 +63,7 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
 
         $this->_essays = array( );
         $type =& new CRM_Quest_DAO_EssayType( );
-        $type->grouping  = $this->_group;
+        $type->grouping  = $this->_grouping;
         $type->is_active = 1;
         $type->orderby( 'weight asc' );
 

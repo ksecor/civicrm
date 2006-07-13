@@ -82,6 +82,7 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
 
         $lastPages = array(
                            'CRM_Quest_Form_MatchApp_Essay_Short'  => null,
+                           'CRM_Quest_Form_MatchApp_Essay_Extracurricular'  => null,
                            );
 
         $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages );
