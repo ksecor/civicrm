@@ -71,7 +71,7 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
         while ( $type->fetch( ) ) {
             $this->_essays[] = array( 'id'         => $type->id,
                                       'name'       => $type->name,
-                                      'label'      => "<span class=\"bold\">" . $type->label . "</span>",
+                                      'label'      => $type->label,
                                       'attributes' => $type->attributes,
                                       'wordCount'  => $type->max_word_count,
                                       'required'   => $type->is_required );
@@ -125,7 +125,7 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
                         $essay['required'] );
             
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
-                $this->addElement('text', "word_count[{$essay['name']}]", ts( 'Current word count' ), 'readonly');
+                $this->addElement('text', "word_count[{$essay['name']}]", ts( 'Current word count' ), array('readonly','class="two"'));
             }
         }
 

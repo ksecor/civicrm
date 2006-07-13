@@ -81,7 +81,7 @@ table.app td.fieldlabel {
   font-size: 10px;
   font-style: italic;
 }
-table.app td.grouplabel label {
+table#essay-table label {
     font-weight: bold;
 }
 
