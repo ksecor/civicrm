@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Core</base>
+  <base>CRM/Quest</base>
   <class>EssayType</class>
   <name>quest_essay_type</name>
   <add>1.5</add>

@@ -1,30 +1,15 @@
-{* Quest Pre-application:  essay section *}
-
-
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
-
-<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+{foreach from=$essays item=essay}
+{assign var=name value=$essay.name}
 <tr>
-    <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
-</tr>
-<tr>
-  <td class="grouplabel">
-    {edit}
-    <p class="preapp-instruction">     
-    {ts}To minimize the risk of losing your work, you may wish to write your essay in another program and then paste it in this box when you are ready.{/ts}
-    </p> 
-    {/edit}
-
-    <label>{ts}We are interested in  learning more about you and the context in which you have grown up, formed your aspirations, and accomplished your academic successes. Please describe the factors that have most shaped your personal life and your personal aspirations. (3000 characters max, spaces count).{/ts} <span class="marker">*</span></label>
-  </td>
-</tr>
-<tr>
-      <td> {$form.essay.html}</td>
+      <td> {$form.essay.$name.label}</td>
 </tr>  
 <tr>
-      <td>{$form.word_count.label} &nbsp;&nbsp;{$form.word_count.html}</td> 
+      <td> {$form.essay.$name.html}</td>
 </tr>  
-  
+<tr>
+      <td>{$form.word_count.$name.label} &nbsp;&nbsp;{$form.word_count.$name.html}</td> 
+</tr>
+{/foreach}
 </table>
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}

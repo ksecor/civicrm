@@ -64,17 +64,14 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
 
         $firstPages = array(
                               'CRM_Quest_Form_MatchApp_Personal'     => null,
-                            // 'CRM_Quest_Form_MatchApp_Scholarship'  => null,
                               'CRM_Quest_Form_MatchApp_Educational'  => null,
                               'CRM_Quest_Form_MatchApp_Household'    => null,
                               'CRM_Quest_Form_MatchApp_Guardian'    => null,
                               'CRM_Quest_Form_MatchApp_Sibling'    => null,
                               'CRM_Quest_Form_MatchApp_Income'    => null,
-                              // 'CRM_Quest_Form_MatchApp_HighSchool'    => null,
-                              //'CRM_Quest_Form_MatchApp_Academic'    => null,
-
+                              
                             );
-
+        
         $dynamic = array();// 'Household', 'Sibling', 'Income' );
         $dynamicPages = array( );
         foreach ( $dynamic as $d ) {
@@ -84,12 +81,7 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         }
 
         $lastPages = array(
-                           //                            'CRM_Quest_Form_MatchApp_HighSchool'   => null,
-//                            'CRM_Quest_Form_MatchApp_SchoolOther'  => null,
-//                            'CRM_Quest_Form_MatchApp_Academic'     => null,
-//                            'CRM_Quest_Form_MatchApp_Testing'      => null,
-//                            'CRM_Quest_Form_MatchApp_Essay'        => null,
-//                            'CRM_Quest_Form_MatchApp_Submit'       => null,
+                           'CRM_Quest_Form_MatchApp_Essay_Short'  => null,
                            );
 
         $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages );
@@ -120,6 +112,8 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
     }
 
     public function checkDependency( &$controller, &$form ) {
+        return;
+
         $dependency =& $this->getDependency( );
 
         $name = explode( '-', $form->getName( ) );
@@ -145,6 +139,8 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
     }
 
     public function checkApplication( &$controller ) {
+        return;
+
         $data =& $controller->container( );
 
         foreach ( $this->_pageNames as $pageName ) {
@@ -159,6 +155,8 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
     }
 
     public function validPage( $name, &$valid ) {
+        return true;
+
         $dependency =& $this->getDependency( );
 
         $name = explode( '-', $name );

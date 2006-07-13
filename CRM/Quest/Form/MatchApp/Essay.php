@@ -43,10 +43,11 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
 {
+    protected $_group = null;
 
-    protected $_essayID = null;
+    protected $_essays;
 
     /**
      * Function to set variables up before form is built
@@ -57,6 +58,24 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
+
+        require_once 'CRM/Quest/DAO/EssayType.php';
+
+        $this->_essays = array( );
+        $type =& new CRM_Quest_DAO_EssayType( );
+        $type->grouping  = $this->_group;
+        $type->is_active = 1;
+        $type->orderby( 'weight asc' );
+
+        $type->find( );
+        while ( $type->fetch( ) ) {
+            $this->_essays[] = array( 'id'         => $type->id,
+                                      'name'       => $type->name,
+                                      'label'      => $type->label,
+                                      'attributes' => $type->attributes,
+                                      'wordCount'  => $type->max_word_count,
+                                      'required'   => $type->is_required );
+        }
     }
     
     /**
@@ -71,12 +90,19 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
         $defaults = array( );
 
         require_once 'CRM/Quest/DAO/Essay.php';
-        $dao = & new CRM_Quest_DAO_Essay();
-        $dao->contact_id = $this->_contactID;
-        if ( $dao->find(true) ) {
-            $defaults['essay'] = $dao->essay;
-            $this->_essayID = $dao->id;
+
+        foreach ( $this->_essays as $name => $essay ) {
+            $dao = & new CRM_Quest_DAO_Essay();
+            $dao->source_contact_id = $this->_contactID;
+            $dao->target_contact_id = $this->_contactID;
+            $dao->essay_type_id     = $essay['id'];
+            
+            if ( $dao->find(true) ) {
+                $this->_essays[$name]['essay'] = $dao->essay;
+                $defaults["essay"][$name] = $dao->essay;
+            }
         }
+
         return $defaults;
     }
     
@@ -89,34 +115,23 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Essay');
-
-        // primary method to access internet
-        $this->add('textarea',
-                   'essay',
-                   ts( 'List and describe the factors in your life that have most shaped you (3000 characters max).' ),
-                   array("onkeyup" => "countit();") + $attributes['essay'],
-                   true);
-        
-
-        if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
-            $this->addElement('text', 'word_count', ts( 'Current character count' ), 'readonly');
+        foreach ( $this->_essays as $name => $essay ) {
+            // primary method to access internet
+            $this->add( 'textarea',
+                        "essay[{$essay['name']}]",
+                        $essay['label'],
+                        $essay['attributes'],
+                        $essay['required'] );
+            
+            if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+                $this->addElement('text', "word_count[{$essay['name']}]", ts( 'Current word count' ), 'readonly');
+            }
         }
+
+        $this->assign_by_ref( 'essays', $this->_essays );
+
         parent::buildQuickForm();
-
-
     }//end of function
-
-    /**
-     * Return a descriptive name for the page, used in wizard header
-     *
-     * @return string
-     * @access public
-     */
-    public function getTitle()
-    {
-        return ts('Essay');
-    }
 
   public function postProcess() 
     {
