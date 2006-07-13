@@ -56,7 +56,7 @@ class CRM_Quest_Form_MatchApp_TranscriptGrade extends CRM_Quest_Form_App
     static function &gradeSelector( ) {
         if ( ! self::$_gradeSelector ) {
             self::$_gradeSelector =
-                array( '' =>  ts('- select -'),
+                array( '' =>  ts(''),
                        'A+' => 'A+', 'A' => 'A', 'A-' => 'A-',
                        'B+' => 'B+', 'B' => 'B', 'B-' => 'B-',
                        'C+' => 'C+', 'C' => 'C', 'C-' => 'C-',
@@ -69,7 +69,7 @@ class CRM_Quest_Form_MatchApp_TranscriptGrade extends CRM_Quest_Form_App
     static function &creditSelector( ) {
         if ( ! self::$_creditSelector ) {
             self::$_creditSelector =
-                array( '' =>  ts('- select -'), '10' => '10',
+                array( '' =>  ts(''), '10' => '10',
                        '9.75' => '9.75', '9.50' => '9.50', '9.25' => '9.25', '9.00' => '9.00',
                        '8.75' => '8.75', '8.50' => '8.50', '8.25' => '8.25', '8.00' => '8.00',
                        '7.75' => '7.75', '7.50' => '7.50', '7.25' => '7.25', '7.00' => '7.00',
@@ -145,7 +145,7 @@ class CRM_Quest_Form_MatchApp_TranscriptGrade extends CRM_Quest_Form_App
                                $credits );
             $this->addSelect( 'academic_honor_status',
                               null,
-                              "_$i" );
+                              "_$i", null, null, '' );
             if ( $this->_grade == 'Twelve' ) {
                 continue;
             } else {
