@@ -160,6 +160,14 @@ class CRM_Quest_Form_MatchApp_Academic extends CRM_Quest_Form_App
                           ts( 'If there are any extenuating circumstances, or details regarding your academic performance that you would like to add or clarify, please do so here' ),
                           $attributes['gpa_explanation'] );
 
+        $this->addYesNo( 'is_alternate_grading',
+                         ts( 'Does your school use an alternate grading system?' ),null,true,array ('onclick' => "return showHideByValue('is_alternate_grading', '1', 'alternate_grading_explanation', '', 'radio', false);") );
+
+        $this->addElement('textarea', 'alternate_grading_explanation',
+                          ts( 'Please explain the system' ),
+                          $attributes['alternate_grading_explanation'] );
+
+        parent::buildQuickForm( );
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Honor');
         require_once 'CRM/Core/ShowHideBlocks.php';
         // add up to 6 Honors

@@ -207,7 +207,16 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                            'Income'   => array( 'title'     => 'Household Income',
                                                 'processed' => true,
                                                 'valid'     => true,
-                                                'index'     => 0 ) );
+                                                'index'     => 0 ),
+                           'Academic' => array( 'title' => 'Academic Information',
+                                                'processed' => true,
+                                                'valid'     => true,
+                                                'index'     => 0 ),
+                           'Essay'    => array( 'title' => 'Essays',
+                                                'processed' => true,
+                                                'valid'     => true,
+                                                'index'     => 0 ),
+                           );
 
         $subCount = 0;
         $data =& $this->container( );

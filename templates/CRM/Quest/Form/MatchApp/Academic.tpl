@@ -30,6 +30,14 @@
     <td class="fieldlabel">{$form.gpa_explanation.html}</td>
 </tr>
 <tr>
+    <td class="grouplabel">{$form.is_alternate_grading.label}</td>
+    <td class="fieldlabel">{$form.is_alternate_grading.html}</td>
+</tr> 
+<tr id="alternate_grading_explanation">
+    <td class="grouplabel">{$form.alternate_grading_explanation.label}</td>
+    <td class="fieldlabel">{$form.alternate_grading_explanation.html}</td>
+</tr>
+<tr>
     <td colspan=2 id="category">{ts}{edit}Academic Honors{/edit}{/ts}</td>
 <tr>
 <tr>
@@ -68,6 +76,15 @@
     trigger_field_id    ="is_class_ranking"
     trigger_value       ="1"
     target_element_id   ="class_rank" 
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_alternate_grading"
+    trigger_value       ="1"
+    target_element_id   ="alternate_grading_explanation" 
     target_element_type =""
     field_type          ="radio"
     invert              = 0

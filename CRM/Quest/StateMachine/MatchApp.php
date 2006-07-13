@@ -82,23 +82,39 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
             $dynamicPages = array_merge( $dynamicPages, $pages );
         }
 
-        $lastPages = array(
-                           'CRM_Quest_Form_MatchApp_Academic'               => null,
-                           'CRM_Quest_Form_MatchApp_Transcript'             => null,
-                           'CRM_Quest_Form_MatchApp_TranscriptGrade_Nine'   => null,
-                           'CRM_Quest_Form_MatchApp_TranscriptGrade_Ten'    => null,
-                           'CRM_Quest_Form_MatchApp_TranscriptGrade_Eleven' => null,
-                           'CRM_Quest_Form_MatchApp_TranscriptGrade_Twelve' => null,
-                           'CRM_Quest_Form_MatchApp_TranscriptGrade_Summer' => null,
-                           'CRM_Quest_Form_MatchApp_Essay_Short'            => null,
-                           'CRM_Quest_Form_MatchApp_Essay_Extracurricular'  => null,
-                           'CRM_Quest_Form_MatchApp_Essay_Experience'       => null,
-                           'CRM_Quest_Form_MatchApp_Essay_Biographical'     => null,
-                           'CRM_Quest_Form_MatchApp_Essay_PersonalStat'     => null,
-                           'CRM_Quest_Form_MatchApp_Essay_Optional'         => null,
-                           );
+        $grades = array( 'Nine'   => '9th Grade',
+                         'Ten'    => '10th Grade',
+                         'Eleven' => '11th Grade',
+                         'Twelve' => '12th Grade',
+                         'Summer' => 'Summer School' );
+        $gradePages = array( );
+        $gradePages["Academic-Information"]  = array( 'className' => "CRM_Quest_Form_MatchApp_Academic",
+                                                      'title'     => 'Academic Information',
+                                                      'options'   => array( ) );
 
-        $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages );
+        foreach ( $grades as $grade => $title ) {
+            $gradePages["Academic-{$grade}"] = array( 'className' => "CRM_Quest_Form_MatchApp_TranscriptGrade_$grade",
+                                                        'title'     => $title,
+                                                        'options'   => array( ) );
+        }
+
+        $essays = array( 'Short'           => 'Short Answers',
+                         'Extracurricular' => 'Extracurricular Essay',
+                         'Experience'      => 'Experience that excites you',
+                         'Biographical'    => 'Biographical Essay',
+                         'PersonalStat'    => 'Personal Statement',
+                         'Optional'        => 'Optional Essay' );
+        $essayPages = array( );
+        foreach ( $essays as $essay => $title ) {
+            $essayPages["Essay-{$essay}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Essay_$essay",
+                                                   'title'     => $title,
+                                                   'options'   => array( ) );
+        }
+
+
+        $lastPages = array( );
+
+        $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages, $gradePages, $essayPages );
 
         $this->addSequentialPages( $this->_pages, $action );
     }
