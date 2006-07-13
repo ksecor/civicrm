@@ -30,6 +30,18 @@
        <key>id</key>
        <add>1.5</add>
   </foreignKey>
+   <field>
+      <name>application_id</name>
+      <type>int unsigned</type>
+      <comment>FK to option value</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>application_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
   <field>
        <name>name</name>
        <type>varchar</type>

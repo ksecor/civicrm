@@ -46,6 +46,8 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 {
     static $_referralIDs;
+    static $_alumnusIDS;
+    static $_employeeIDS;
     /**
      * Function to set variables up before form is built
      *
@@ -56,6 +58,8 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
     {
         parent::preProcess();
         $this->_referralIDs = array();
+        $this->_alumnusIDS  = array();
+        $this->_employeeIDS = array();
     }
     
     
@@ -85,7 +89,39 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
             $defaults["sophomores_email_$count"] = $dao->email;
             $this->_referralIDs[] = $dao->id;
         }
+
+        //to set defaults for alumns and employee
+        require_once 'CRM/Quest/DAO/PartnerRelative.php';
         
+        $dao = & new CRM_Quest_DAO_PartnerRelative();
+        $dao->contact_id      = $this->_contactID;
+        $dao->connection_type = 'Alumnus';
+        $dao->find();
+        $count = 0;
+        while ( $dao->fetch() ) {
+             $count++;
+             $defaults["alumni_partner_institution_id_$count"] = $dao->partner_id;
+             $defaults["alumni_last_name_$count"]              = $dao->last_name;
+             $defaults["alumni_first_name_$count"]             = $dao->first_name;
+             $defaults["alumni_relationship_$count"]           = $dao->relationship;
+             $defaults["alumni_class_year_$count"]["Y"]        = $dao->college_grad_year;  
+             $this->_alumnusIDS[] = $dao->id;
+        }
+
+        $dao = & new CRM_Quest_DAO_PartnerRelative();
+        $dao->contact_id      = $this->_contactID;
+        $dao->connection_type = 'Employee';
+        $dao->find();
+        $count = 0;
+        while ( $dao->fetch() ) {
+             $count++;
+             $defaults["employee_partner_institution_id_$count"] = $dao->partner_id;
+             $defaults["employee_last_name_$count"]              = $dao->last_name;
+             $defaults["employee_first_name_$count"]             = $dao->first_name;
+             $defaults["employee_relationship_$count"]           = $dao->relationship;
+             $defaults["employee_class_year_$count"]["Y"]        = $dao->department; 
+             $this->_employeeIDS[] = $dao->id;
+        }
         return $defaults;
     }
    
@@ -146,11 +182,11 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
            $this->addRule('sophomores_email_'.$i, ts('Email not valid'), 'email' );
        }
        
-
-
+        include_once 'CRM/Quest/BAO/Partner.php';
+        $partners = CRM_Quest_BAO_Partner::getPartners();
         for($i=1;$i<=6;$i++) {
            $this->addElement('select','alumni_partner_institution_id_'.$i ,ts('Partner Institution') ,
-                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values('college_interest'),null ); 
+                              array('' => ts('- select -')) + $partners,null ); 
            $this->addElement('text', 'alumni_last_name_'.$i, ts('Last Name'), null );
            $this->addElement('text', 'alumni_first_name_'.$i, ts('First Name'), null );
            $this->addElement('date', 'alumni_class_year_'.$i, ts('Class Year'),CRM_Core_SelectValues::date( 'custom',25, 25, "Y" ));
@@ -159,7 +195,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         }
         for($i=1;$i<=6;$i++) {
             $this->addElement('select','employee_partner_institution_id_'.$i,ts('Partner Institution') ,
-                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values('college_interest'),null ); 
+                              array('' => ts('- select -')) + $partners ,null ); 
             
             $this->addElement('text', 'employee_last_name_'.$i, ts('Last Name'), null );
             $this->addElement('text', 'employee_first_name_'.$i, ts('First Name'), null );
@@ -209,10 +245,27 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                           'contact_id' => $this->_contactID );
             $student = CRM_Quest_BAO_Student::create( $params, $ids);
 
+            //delete prvious records before iserting new
             if ( is_array($this->_referralIDs) ) {
                 foreach ( $this->_referralIDs as $key => $referralID ) {
                     $dao     = & new CRM_Quest_DAO_Referral();
                     $dao->id = $referralID;
+                    $dao->delete();
+                }
+            }
+            
+            if ( is_array($this->_alumnusIDS) ) {
+                foreach ($this->_referralIDs as $key => $relativeID) {
+                    $dao     = & new CRM_Quest_DAO_PartnerRelative();
+                    $dao->id = $relativeID;
+                    $dao->delete();
+                }
+            }
+            
+            if ( is_array($this->_employeeIDS) ) {
+                foreach ($this->_employeeIDS as $key => $relativeID) {
+                    $dao     = & new CRM_Quest_DAO_PartnerRelative();
+                    $dao->id = $relativeID;
                     $dao->delete();
                 }
             }
@@ -224,9 +277,45 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                 if ($params['sophomores_name_'.$i] || $params['sophomores_email_'.$i]) {
                     $referralParams['name'] = $params['sophomores_name_'.$i];
                     $referralParams['email'] = $params['sophomores_email_'.$i];
+                    $referralParams['application_id'] = 349;
                     $referral = CRM_Quest_BAO_Referral::create( $referralParams, $ids );
                 }
             }
+            
+            require_once 'CRM/Quest/BAO/Partner.php';
+            for ($i=1;$i<=6;$i++) {  
+                $ids = array();
+                $alumnusParams = array();
+                $alumnusParams['contact_id'] = $this->_contactID;
+                if ($params['alumni_partner_institution_id_'.$i] ) {
+                    $alumnusParams['connection_type']  = 'Alumnus';
+                    $alumnusParams['partner_id']       = $params['alumni_partner_institution_id_'.$i];
+                    $alumnusParams['first_name']       = $params['alumni_first_name_'.$i];    
+                    $alumnusParams['last_name']        = $params['alumni_last_name_'.$i]; 
+                    $alumnusParams['relationship']     = $params['alumni_relationship_'.$i]; 
+                    $alumnusParams['college_grad_year']= $params['alumni_class_year_'.$i]['Y'];
+                    $alumnus = CRM_Quest_BAO_Partner::createRelative( $alumnusParams, $ids );
+                }
+            }
+
+            for ($i=1;$i<=6;$i++) {  
+                $ids = array();
+                $employeeParams = array();
+                $employeeParams['contact_id'] = $this->_contactID;
+                if ($params['employee_partner_institution_id_'.$i] ) {
+                    $employeeParams['connection_type']  = 'Employee';
+                    $employeeParams['partner_id']       = $params['employee_partner_institution_id_'.$i];
+                    $employeeParams['first_name']       = $params['employee_first_name_'.$i];    
+                    $employeeParams['last_name']        = $params['employee_last_name_'.$i]; 
+                    $employeeParams['relationship']     = $params['employee_relationship_'.$i]; 
+                    $employeeParams['college_grad_year']= $params['employee_class_year_'.$i]['Y'];  
+                    $employee = CRM_Quest_BAO_Partner::createRelative( $employeeParams, $ids );
+                }
+            }
+
+            
+            
+
         }
         parent::postProcess( );
     }//end of function
