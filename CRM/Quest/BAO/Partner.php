@@ -55,11 +55,11 @@ class CRM_Quest_BAO_Partner extends CRM_Quest_DAO_Partner {
      * function to get all parnters
      *
      */
-    function getPartners()
+    function getPartners( $type = 'College')
     {
         $partners = array();
         $dao = &new CRM_Quest_DAO_Partner();
-        $dao->partner_type =  'College' ;
+        $dao->partner_type =  $type ;
         $dao->orderBy('weight');
         $dao->find();
         while( $dao->fetch() ) {
