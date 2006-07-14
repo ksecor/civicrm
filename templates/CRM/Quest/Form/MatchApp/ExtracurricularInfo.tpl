@@ -35,24 +35,20 @@ Please list your principal extracurricular, community, and family activities and
              {assign var=i value=$smarty.section.rowLoop.index}
              <tr>
             
-             {assign var=activity value="activity_"|cat:$i}  
-             {assign var=grade_level_1 value="grade_level_1_"|cat:$i}  
-             {assign var=grade_level_2 value="grade_level_2_"|cat:$i}  
-             {assign var=grade_level_3 value="grade_level_3_"|cat:$i}  
-             {assign var=grade_level_4 value="grade_level_4_"|cat:$i}  
-             {assign var=grade_level_5 value="grade_level_5_"|cat:$i}  
-             {assign var=time_spent_1 value="time_spent_1_"|cat:$i}  
-             {assign var=time_spent_2 value="time_spent_2_"|cat:$i}  
-             {assign var=positions value="positions_"|cat:$i}  
-   
+             {assign var=activity value="activity_"|cat:$i}
              <td class="fieldlabel">{$form.$activity.html}</td>  
-             <td class="fieldlabel">{$form.$grade_level_1.html}</td>
-             <td class="fieldlabel">{$form.$grade_level_2.html}</td>
-             <td class="fieldlabel">{$form.$grade_level_3.html}</td>   
-             <td class="fieldlabel">{$form.$grade_level_4.html}</td>
-             <td class="fieldlabel">{$form.$grade_level_5.html}</td>
-             <td class="fieldlabel">{$form.$time_spent_1.html}</td>
-             <td class="fieldlabel">{$form.$time_spent_2.html}</td>
+             {section name=columnLoop start=1 loop=5}
+                {assign var=j value=$smarty.section.columnLoop.index}
+                {assign var=gl value="grade_level_"|cat:$i|cat:"_"|cat:$j}
+                <td class="fieldlabel">{$form.$gl.html}</td>
+             {/section}
+             {section name=columnLoop start=1 loop=2}
+                {assign var=j value=$smarty.section.columnLoop.index}
+                {assign var=ts value="time_spent_"|cat:$i|cat:"_"|cat:$j}
+                <td class="fieldlabel">{$form.$ts.html}</td>
+             {/section}
+
+             {assign var=positions value="positions_"|cat:$i}  
              <td class="fieldlabel">{$form.$positions.html}</td> 
 
              </tr>

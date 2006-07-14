@@ -70,8 +70,6 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                               'CRM_Quest_Form_MatchApp_Guardian'      => null,
                               'CRM_Quest_Form_MatchApp_Sibling'       => null,
                               'CRM_Quest_Form_MatchApp_Income'        => null,
-                              'CRM_Quest_Form_MatchApp_WorkExperience' => null,
-                                                          
                             );
         
         $dynamic = array();// 'Household', 'Sibling', 'Income' );
@@ -80,6 +78,15 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
             require_once "CRM/Quest/Form/App/$d.php";
             eval( '$pages =& CRM_Quest_Form_MatchApp_' . $d . '::getPages( $controller );' );
             $dynamicPages = array_merge( $dynamicPages, $pages );
+        }
+
+        $extracurricular = array( 'ExtracurricularInfo' => 'Extracurricular Information',
+                                  'WorkExperience'      => 'Work Experience' );
+        $extraPages = array( );
+        foreach ( $extracurricular as $extra => $title ) {
+            $extraPages["Extracurricular-{$extra}"] = array( 'className' => "CRM_Quest_Form_MatchApp_$extra",
+                                                             'title'     => $title,
+                                                             'options'   => array( ) );
         }
 
         $grades = array( 'Nine'   => '9th Grade',
@@ -112,9 +119,7 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         }
 
 
-        $lastPages = array( );
-
-        $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages, $gradePages, $essayPages );
+        $this->_pages = array_merge( $firstPages, $dynamicPages, $extraPages, $gradePages, $essayPages );
 
         $this->addSequentialPages( $this->_pages, $action );
     }

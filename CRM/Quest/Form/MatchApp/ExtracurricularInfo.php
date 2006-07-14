@@ -83,15 +83,14 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         
         for($i=1;$i<=7;$i++) {
 
-            $this->addElement('text', 'activity_'.$i, ts('Activity'), null );
-            $this->addElement('checkbox', 'grade_level_1_'.$i, null, null );
-            $this->addElement('checkbox', 'grade_level_2_'.$i, null, null );
-            $this->addElement('checkbox', 'grade_level_3_'.$i, null, null );
-            $this->addElement('checkbox', 'grade_level_4_'.$i, null, null );
-            $this->addElement('checkbox', 'grade_level_5_'.$i, null, null );
-            $this->addElement('text', 'time_spent_1_'.$i, ts('Approximate time spent'), null );
-            $this->addElement('text', 'time_spent_2_'.$i,ts('Approximate time spent'), null );
-            $this->addElement('text', 'positions_'.$i, ts('Positions held, honors won,or letters earned'), null );
+            $this->addElement('text', "activity_$i", ts('Activity'), null );
+            for ( $j = 1; $j <= 5; $j++ ) {
+                $this->addElement('checkbox', "grade_level_{$i}_{$j}", null, null );
+            }
+            for ( $j = 1; $j <= 2; $j++ ) {
+                $this->addElement('text', "time_spent_{$i}_{$j}", ts('Approximate time spent'), null );
+            }
+            $this->addElement('text', "positions_$i", ts('Positions held, honors won,or letters earned'), null );
         }
         $this->addElement( 'textarea', "meaningful_commitment",
                            ts('Describe which single activity/interest listed above represents your most meaningful commitment and why?') );
