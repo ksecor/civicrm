@@ -1,4 +1,4 @@
-{* Quest Pre-application: High School Information section *}
+{* Quest College Match Application: High School Information section *}
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
 
