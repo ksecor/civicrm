@@ -69,12 +69,12 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
 
         $type->find( );
         while ( $type->fetch( ) ) {
-            $this->_essays[] = array( 'id'         => $type->id,
-                                      'name'       => $type->name,
-                                      'label'      => $type->label,
-                                      'attributes' => $type->attributes,
-                                      'wordCount'  => $type->max_word_count,
-                                      'required'   => $type->is_required );
+            $this->_essays[$type->name] = array( 'id'         => $type->id,
+                                                 'name'       => $type->name,
+                                                 'label'      => $type->label,
+                                                 'attributes' => $type->attributes,
+                                                 'wordCount'  => $type->max_word_count,
+                                                 'required'   => $type->is_required );
         }
     }
     
@@ -98,11 +98,11 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
             $dao->essay_type_id     = $essay['id'];
             
             if ( $dao->find(true) ) {
+                $this->_essays[$name]['essayId'] = $dao->id;
                 $this->_essays[$name]['essay'] = $dao->essay;
                 $defaults["essay"][$name] = $dao->essay;
             }
         }
-
         return $defaults;
     }
     
@@ -134,23 +134,30 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
         parent::buildQuickForm();
     }//end of function
 
-  public function postProcess() 
+    public function postProcess() 
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
-            $params = $this->controller->exportValues( $this->_name );
-            
+            $essayDetails = $this->controller->exportValues( $this->_name );
+            $params = array();
+
             require_once 'CRM/Quest/BAO/Essay.php';
-            
-            $params['contact_id'] =  $this->_contactID;
-            
-            $ids = array( 'id' => $this->_essayID );
-            
-            CRM_Quest_BAO_Essay::create( $params, $ids);
+
+            foreach ( $essayDetails['essay'] as $name => $essay ) {
+                if ( $essay ) {
+                    $params['target_contact_id'] =  $this->_contactID;
+                    $params['source_contact_id'] =  $this->_contactID;
+                    $params['essay_type_id'] = $this->_essays[$name]['id'];
+                    $params['essay'] = $essay;
+                    
+                    if ( $this->_essays[$name]['essayId'] ) {
+                        $ids = array( 'id' => $this->_essays[$name]['essayId'] );
+                    }
+                    CRM_Quest_BAO_Essay::create( $params, $ids);
+                }
+            }
         }
         parent::postProcess( );
     }//end of function
-
-
 
 }
 
