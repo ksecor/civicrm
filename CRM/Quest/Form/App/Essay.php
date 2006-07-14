@@ -90,7 +90,7 @@ class CRM_Quest_Form_App_Essay extends CRM_Quest_Form_App
     public function buildQuickForm( ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Essay');
-
+        CRM_Core_Error::debug('Attr', $attributes);
         // primary method to access internet
         $this->add('textarea',
                    'essay',
