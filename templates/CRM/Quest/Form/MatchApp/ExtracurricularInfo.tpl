@@ -39,12 +39,12 @@ Please list your principal extracurricular, community, and family activities and
              <td class="fieldlabel">{$form.$activity.html}</td>  
              {section name=columnLoop start=1 loop=6}
                 {assign var=j value=$smarty.section.columnLoop.index}
-                {assign var=gl value="grade_level_"|cat:$i|cat:"_"|cat:$j}
+                {assign var=gl value="grade_level_"|cat:$j|cat:"_"|cat:$i}
                 <td class="fieldlabel">{$form.$gl.html}</td>
              {/section}
              {section name=columnLoop start=1 loop=3}
                 {assign var=j value=$smarty.section.columnLoop.index}
-                {assign var=ts value="time_spent_"|cat:$i|cat:"_"|cat:$j}
+                {assign var=ts value="time_spent_"|cat:$j|cat:"_"|cat:$i}
                 <td class="fieldlabel">{$form.$ts.html}</td>
              {/section}
 
@@ -64,20 +64,25 @@ Please list your principal extracurricular, community, and family activities and
     <td class="grouplabel">{$form.past_activities.label}</td>
     <td class="fieldlabel">{$form.past_activities.html}</td>
 </tr>
+</table>
+
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
-    <td class="grouplabel">{$form.hobbies.label}</td>
-    <td class="fieldlabel">{$form.hobbies.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.varsity_sports.label}</td>
-    <td class="fieldlabel">{$form.varsity_sports.html} {$form.varsity_sports_list.html}</td>
+    <td class="grouplabel" colspan=2 >
+    <strong>What are your hobbies? </strong><br>
+    {$form.hobbies.label}
     </td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.arts.label}</td>
-    <td class="fieldlabel">{$form.arts.html}{$form.arts_list.html}</td>
+    <td class="fieldlabel" colspan=2 >{$form.hobbies.html}</td>
+</tr>    
+<tr>
+    <td class="grouplabel"> {ts}Are you interested in participating in any of the following in college?{/ts}</td>
+    <td class="grouplabel">{$form.varsity_sports.html}{$form.varsity_sports.label}{$form.varsity_sports_list.html}<br>
+    {$form.arts.html}{$form.arts.label}{$form.arts_list.html}
+    </td>
+    
 </tr>
-
 </table>
 
 

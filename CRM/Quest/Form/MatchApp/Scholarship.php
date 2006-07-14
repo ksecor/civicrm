@@ -77,7 +77,8 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         $params = array( 'contact_id' => $this->_contactID );
         $ids = array( );
         CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
-
+        $defaults['heard_about_qb_name_'.$defaults['heard_about_qb_id']] = $defaults['heard_about_qb_name'];
+        
         require_once 'CRM/Quest/DAO/Referral.php';
         $dao = & new CRM_Quest_DAO_Referral();
         $dao->contact_id = $this->_contactID;
@@ -119,7 +120,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
              $defaults["employee_last_name_$count"]              = $dao->last_name;
              $defaults["employee_first_name_$count"]             = $dao->first_name;
              $defaults["employee_relationship_$count"]           = $dao->relationship;
-             $defaults["employee_class_year_$count"]["Y"]        = $dao->department; 
+             $defaults["employee_department_$count"]             = $dao->department; 
              $this->_employeeIDS[] = $dao->id;
         }
         return $defaults;
@@ -175,6 +176,10 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                          ts('How did you hear about QuestBridge?'),
                          CRM_Core_OptionGroup::values('heard_about_qb') );
 
+        $name_array = array( 3,4,5,6,7,9);
+        foreach ( $name_array as $value ) {
+            $this->addElement('text','heard_about_qb_name_'.$value,null,null);
+        }
 
         for($i=1;$i<=3;$i++) {
            $this->addElement('text', 'sophomores_name_'.$i, ts('Name:'), null );
@@ -203,7 +208,25 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
             $this->addElement('text', 'employee_relationship_'.$i, ts('Relationship'), null );
             
         }
-        // $this->addFormRule(array('CRM_Quest_Form_App_Scholarship', 'formRule'));
+        
+        // did parent graduate from college
+        $this->addYesNo( 'parent_grad_college_id',
+                         ts( 'Have either of your parents/guardians graduated from a four-year college?' ),1,true );
+        
+        // wheather dismissed
+        $this->addYesNo( 'is_dismissed',
+                         ts( 'Have you ever violated an Honor code, or been dismissed, suspended from school, put on probation or subjected to any school-related or legal disciplinary action?' ),0,false );
+        
+        $this->addElement('textarea', 'explain_dismissed', ts( 'Please explain' ), $attributes['explain_dismissed'] );
+        // wheather convicted
+        $this->addYesNo( 'is_convicted',
+                         ts( 'Have you ever been been convicted of a crime, had a criminal charge sustained against you in a juvenile proceeding, or been placed on court-supervised probation?' ),0,false );
+        
+        $this->addElement('textarea', 'explain_convicted', ts( 'Please explain' ), $attributes['explain_convicted'] );
+        
+        
+        
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Scholarship', 'formRule'));
         parent::buildQuickForm( );   
 
     }//end of function
@@ -240,7 +263,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-            
+            $params['heard_about_qb_name'] = $params['heard_about_qb_name_'.$params['heard_about_qb_id']];  
             $ids = array( 'id'         => $this->_studentID,
                           'contact_id' => $this->_contactID );
             $student = CRM_Quest_BAO_Student::create( $params, $ids);
@@ -253,9 +276,9 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                     $dao->delete();
                 }
             }
-            
+           
             if ( is_array($this->_alumnusIDS) ) {
-                foreach ($this->_referralIDs as $key => $relativeID) {
+                foreach ( $this->_alumnusIDS as $key => $relativeID) {
                     $dao     = & new CRM_Quest_DAO_PartnerRelative();
                     $dao->id = $relativeID;
                     $dao->delete();
@@ -308,14 +331,12 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                     $employeeParams['first_name']       = $params['employee_first_name_'.$i];    
                     $employeeParams['last_name']        = $params['employee_last_name_'.$i]; 
                     $employeeParams['relationship']     = $params['employee_relationship_'.$i]; 
-                    $employeeParams['college_grad_year']= $params['employee_class_year_'.$i]['Y'];  
+                    $employeeParams['department']       = $params['employee_department_'.$i];  
                     $employee = CRM_Quest_BAO_Partner::createRelative( $employeeParams, $ids );
                 }
             }
 
             
-            
-
         }
         parent::postProcess( );
     }//end of function

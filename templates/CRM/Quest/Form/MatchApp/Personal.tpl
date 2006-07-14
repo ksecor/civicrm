@@ -245,36 +245,7 @@
     <td class="fieldlabel">
         {$form.high_school_grad_year.html}</td>
 </tr>
-<tr>
-    <td class="grouplabel">
-        {$form.is_dismissed.label}</td>
-    <td class="fieldlabel">
-        {$form.is_dismissed.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">
-        {$form.explain_dismissed.label}</td>
-    <td class="fieldlabel">
-        {$form.explain_dismissed.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">
-        {$form.is_convicted.label}</td>
-    <td class="fieldlabel">
-        {$form.is_convicted.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">
-        {$form.explain_convicted.label}</td>
-    <td class="fieldlabel">
-        {$form.explain_convicted.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">
-        {$form.parent_grad_college_id.label}</td>
-    <td class="fieldlabel">
-        {$form.parent_grad_college_id.html}</td>
-</tr>
+
 </table>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 

@@ -610,4 +610,23 @@
        <comment>Explanation of alternate grading system.</comment>
       <add>1.5</add>
   </field>
+ <field>
+      <name>heard_about_qb_id</name>
+      <title>How did you hear about QuestBridge?</title>
+      <type>int unsigned</type>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>heard_about_qb_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+ <field>
+      <name>heard_about_qb_name</name>
+      <title>reffrence form where you heard about QuestBridge</title>
+      <type>varchar</type>
+      <length>255</length>
+      <add>1.5</add>
+ </field>
 </table>

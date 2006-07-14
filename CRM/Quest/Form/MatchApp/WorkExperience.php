@@ -40,13 +40,11 @@ require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * This class generates form components for relationship
+ * This class generates form components for Work Experiance 
  * 
  */
 class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
 {
-    protected $_personID;
-    protected $_relationshipID;
 
     /**
      * Function to set variables up before form is built
@@ -57,8 +55,7 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-        $this->_personID        = $this->_options['personID'];
-        $this->_relationshipID  = $this->_options['relationshipID'];
+       
     }
 
       /**
@@ -71,24 +68,18 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        if ( $this->_personID ) {
-            $dao = & new CRM_Quest_DAO_Person();
-            $dao->id = $this->_personID ;
-            if ($dao->find(true)) {
-                CRM_Core_DAO::storeValues( $dao , $defaults );
-            }
-            
-            // format date
-            require_once 'CRM/Utils/Date.php';
-            $dateFields = array('start_date','end_date');
-            foreach( $dateFields as $field ) {
-                $date = CRM_Utils_Date::unformat( $defaults[$field],'-' );  
-                if (! empty( $date) ) {
-                    $defaults[$field] = $date;
-                } else {
-                    $defaults[$field] = '';
-                }
-            }
+        require_once 'CRM/Quest/DAO/WorkExperience.php';
+        $dao = &new CRM_Quest_DAO_WorkExperience();
+        $dao->contact_id = $this->_contactID;
+        $dao->find() ;
+        $count = 0;
+        while ( $dao->fetch() ){
+            $count++;
+            $defaults['nature_of_work_'.$count] = $dao->description;
+            $defaults['employer_'.$count] = $dao->employer;
+            $defaults['start_date_'.$count] = CRM_Utils_Date::unformat( $dao->start_date,'-' );
+            $defaults['end_date_'.$count]   = CRM_Utils_Date::unformat( $dao->end_date,'-' );
+            $defaults['hrs_'.$count] = $dao->weekly_hours;
         }
         return $defaults;
     }
@@ -135,9 +126,28 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-       self::preProcess();
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+            require_once 'CRM/Quest/BAO/WorkExperience.php';
             $params = $this->controller->exportValues( $this->_name );
+
+            //delete all the entries before inserting new one 
+            $dao = &new CRM_Quest_DAO_WorkExperience();
+            $dao->contact_id = $this->_contactID;
+            $dao->delete();
+
+            $workExpParams = array();
+            for( $i = 1; $i <= 6; $i++  ) {
+                if ($params['nature_of_work_'.$i]) {
+                    $workExpParams['contact_id']  = $this->_contactID;
+                    $workExpParams['description'] = $params['nature_of_work_'.$i];  
+                    $workExpParams['employer']    = $params['employer_'.$i];
+                    $workExpParams['start_date']  = CRM_Utils_Date::format($params['start_date_'.$i]);
+                    $workExpParams['end_date']    = CRM_Utils_Date::format($params['end_date_'.$i]);
+                    $workExpParams['weekly_hours']= $params['hrs_'.$i];
+                    CRM_Quest_BAO_WorkExperience::create( $workExpParams );
+                }
+            }
+
        }
         parent::postProcess( );
     }

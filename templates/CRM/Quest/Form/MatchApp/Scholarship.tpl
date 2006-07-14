@@ -49,7 +49,25 @@
 </tr>
 <tr>
     <td class="grouplabel"> {$form.heard_about_qb_id.label}</td>
-    <td class="fieldlabel"> {$form.heard_about_qb_id.html} </td>
+    <td class="fieldlabel"> 
+        <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+        {foreach from=$form.heard_about_qb_id item=type key=key}
+        {assign var="countEI" value=`$countEI+1`}
+        {if $countEI gt 9 }         
+        <tr><td class="fieldlabel"> {$form.heard_about_qb_id.$key.html}
+        {assign var=heard_about_name value="heard_about_qb_name_"|cat:$key}  
+        {if $form.$heard_about_name.html}
+            {if $key eq 3}
+            ( Website: {$form.$heard_about_name.html} )
+            {else}
+            ( Name: {$form.$heard_about_name.html} )
+            {/if}
+        {/if}
+        </td></tr>
+        {/if}
+        {/foreach}
+        </table>
+    </td>
 </tr>
 
 <tr>
@@ -132,6 +150,36 @@
         
     </td>        
     </tr>
+ <tr>
+    <td class="grouplabel">
+        {$form.parent_grad_college_id.label}</td>
+    <td class="fieldlabel">
+        {$form.parent_grad_college_id.html}</td>
+ </tr>
+<tr>
+    <td class="grouplabel">
+        {$form.is_dismissed.label}</td>
+    <td class="fieldlabel">
+        {$form.is_dismissed.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.explain_dismissed.label}</td>
+    <td class="fieldlabel">
+        {$form.explain_dismissed.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.is_convicted.label}</td>
+    <td class="fieldlabel">
+        {$form.is_convicted.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.explain_convicted.label}</td>
+    <td class="fieldlabel">
+        {$form.explain_convicted.html}</td>
+</tr>
 
 </table>
 

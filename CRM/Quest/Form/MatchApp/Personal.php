@@ -199,23 +199,11 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         $this->addRule('high_school_grad_year', ts('Select a valid date.'), 'qfDate');
         $this->addRule('high_school_grad_year', ts('Select a valid  date.'), 'required');
 
-        // wheather dismissed
-        $this->addYesNo( 'is_dismissed',
-                         ts( 'Have you ever violated an Honor code, or been dismissed, suspended from school, put on probation or subjected to any school-related or legal disciplinary action?' ),0,false );
         
-        $this->addElement('textarea', 'explain_dismissed', ts( 'Please explain' ), $attributes['explain_dismissed'] );
-        // wheather convicted
-        $this->addYesNo( 'is_convicted',
-                         ts( 'Have you ever been been convicted of a crime, had a criminal charge sustained against you in a juvenile proceeding, or been placed on court-supervised probation?' ),0,false );
-        
-        $this->addElement('textarea', 'explain_convicted', ts( 'Please explain' ), $attributes['explain_convicted'] );
-
         //file upload
         $this->addElement('file', 'upload_pics', ts( 'Upload your picture' ), $attributes['upload_pics'] );
 
-        // did parent graduate from college
-        $this->addYesNo( 'parent_grad_college_id',
-                         ts( 'Have either of your parents/guardians graduated from a four-year college?' ),1,true );
+        
 
         $this->addRadio( 'home_area_id',
                          ts('Would you describe your home area as'),

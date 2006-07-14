@@ -45,7 +45,6 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
 {
-    
     /**
      * Function to set variables up before form is built
      *
@@ -55,7 +54,6 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-       
     }
     
    
@@ -68,7 +66,25 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
      */
     function setDefaultValues( )
     {
-     
+        $defaults = array( );
+        require_once 'CRM/Quest/DAO/Extracurricular.php';
+        $dao = &new CRM_Quest_DAO_Extracurricular();
+        $dao->contact_id = $this->_contactID;
+        $dao->find() ;
+        $count = 0;
+        while ( $dao->fetch() ) {
+            $count++;
+            $defaults['activity_'.$count]      = $dao->description;   
+            $defaults['grade_level_1_'.$count] = $dao->is_grade_9;
+            $defaults['grade_level_2_'.$count] = $dao->is_grade_10;
+            $defaults['grade_level_3_'.$count] = $dao->is_grade_11;
+            $defaults['grade_level_4_'.$count] = $dao->is_grade_12;
+            $defaults['grade_level_5_'.$count] = $dao->is_post_secondary;
+            $defaults['time_spent_1_'.$count]  = $dao->weekly_hours;
+            $defaults['time_spent_2_'.$count]  = $dao->annual_weeks;
+            $defaults['positions_'.$count]            = $dao->position_honor;
+        }
+        return $defaults;
     } 
      
     /**
@@ -85,24 +101,24 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
 
             $this->addElement('text', "activity_$i", ts('Activity'), null );
             for ( $j = 1; $j <= 5; $j++ ) {
-                $this->addElement('checkbox', "grade_level_{$i}_{$j}", null, null );
+                $this->addElement('checkbox', "grade_level_{$j}_{$i}", null, null );
             }
             for ( $j = 1; $j <= 2; $j++ ) {
-                $this->addElement('text', "time_spent_{$i}_{$j}", ts('Approximate time spent'), null );
+                $this->addElement('text', "time_spent_{$j}_{$i}", ts('Approximate time spent'), null );
             }
             $this->addElement('text', "positions_$i", ts('Positions held, honors won,or letters earned'), null );
         }
         $this->addElement( 'textarea', "meaningful_commitment",
-                           ts('Describe which single activity/interest listed above represents your most meaningful commitment and why?') );
+                           ts('Describe which single activity/interest listed above represents your most meaningful commitment and why?') ,"cols=40 rows=5");
         $this->addElement( 'textarea', "past_activities",
-                           ts('List and describe your activities, including jobs, during the past two summers:') );
+                           ts('List and describe your activities, including jobs, during the past two summers:'),"cols=40 rows=5" );
        
         $this->addElement( 'textarea', "hobbies",
-                           ts('We encourage you to reply to this question in sentence form, rather than as a list, if you feel this would allow you to better express your interests.') );
+                           ts('We encourage you to reply to this question in sentence form, rather than as a list, if you feel this would allow you to better express your interests.') ,"cols=60 rows=5");
 
         $this->addElement('checkbox', 'varsity_sports',ts( 'Varsity Sports' ));
         $this->addElement('text', 'varsity_sports_list' );
-        $this->addElement( 'checkbox','arts',ts('Arts') );
+        $this->addElement( 'checkbox','arts',ts('Arts (music, dance/theatre, visual, etc) (list):') );
         $this->addElement('text', 'arts_list' );
  
         parent::buildQuickForm();
@@ -131,7 +147,36 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
      */ 
     public function postProcess()  
     {
-     
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+            require_once 'CRM/Quest/BAO/Extracurricular.php';
+            $params = $this->controller->exportValues( $this->_name );
+
+            // delete all actvities before inserting new 
+            $dao = &new CRM_Quest_DAO_Extracurricular();
+            $dao->contact_id = $this->_contactID;
+            $dao->delete();
+
+            for ( $i= 1; $i<=7 ; $i++) {
+                $extracurricularParams = array();
+                $extracurricularParams['contact_id'] = $this->_contactID;
+                if ( $params['activity_'.$i] ) {
+                    $extracurricularParams['description']  = $params['activity_'.$i];
+                    $extracurricularParams['is_grade_9']   = CRM_Utils_Array::value( 'grade_level_1_'.$i, $params, false );
+                    $extracurricularParams['is_grade_10']  = CRM_Utils_Array::value( 'grade_level_2_'.$i, $params, false );
+                    $extracurricularParams['is_grade_11']  = CRM_Utils_Array::value( 'grade_level_3_'.$i, $params, false );
+                    $extracurricularParams['is_grade_12']  = CRM_Utils_Array::value( 'grade_level_4_'.$i, $params, false );
+                    $extracurricularParams['is_post_secondary'] = CRM_Utils_Array::value( 'grade_level_5_'.$i, $params, false );
+                    $extracurricularParams['weekly_hours'] = CRM_Utils_Array::value( 'time_spent_1_'.$i, $params, false );
+                    $extracurricularParams['annual_weeks'] = CRM_Utils_Array::value( 'time_spent_2_'.$i, $params, false );
+                    $extracurricularParams['position_honor'] = CRM_Utils_Array::value( 'positions_'.$i, $params, false );
+                    CRM_Quest_BAO_Extracurricular::create( $extracurricularParams );
+                    
+                }
+
+
+            }
+        }
+        
     }
     
     /**
