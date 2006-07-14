@@ -70,6 +70,7 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                               'CRM_Quest_Form_MatchApp_Guardian'      => null,
                               'CRM_Quest_Form_MatchApp_Sibling'       => null,
                               'CRM_Quest_Form_MatchApp_Income'        => null,
+                              'CRM_Quest_Form_MatchApp_HighSchool'    => null,
                               'CRM_Quest_Form_MatchApp_CmRanking'     => null,
                               'CRM_Quest_Form_MatchApp_ForwardApp'    => null,
                               );

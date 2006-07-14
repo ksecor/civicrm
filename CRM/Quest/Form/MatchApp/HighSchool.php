@@ -257,7 +257,7 @@ class CRM_Quest_Form_MatchApp_HighSchool extends CRM_Quest_Form_App
        
         $this->assign( 'highschool',$highschool );
         $this->assign( 'max', $maxHighschool + 1);
-        $this->addFormRule(array('CRM_Quest_Form_App_HighSchool', 'formRule'));
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_HighSchool', 'formRule'));
          
         $this->addElement('text', 'custom_1_'.$i,
                               ts( 'School Search Code' ),
