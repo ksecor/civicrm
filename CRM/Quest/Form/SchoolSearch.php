@@ -81,7 +81,6 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
-        
         $this->addElement('text', 'school_name'      , ts('School Name'    ) );
         $this->addElement('text', 'postal_code'      , ts('Postal Code'    ) );
         $this->addElement('text', 'city'             , ts('City'           ) );
@@ -89,7 +88,6 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
 
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
-        $duplicateRelationship = $this->get( 'duplicateRelationship' );
         $searchDone            = $this->get( 'searchDone' );
 
         if ( $searchRows ) {
@@ -98,7 +96,7 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
             $this->addElement('text', 'code', ts( 'CEEB Code' ) );
             $this->add('text', 'organization_name',
                        ts( 'School Name' ),
-                       $attributes['organization_name'], true );
+                       $attributes['organization_name'] );
             $this->addElement('text', 'custom_1_'.$i,
                               ts( 'School Search Code' ),
                               $attributes['organization_name'] );
@@ -106,11 +104,9 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
             $this->addElement('date', 'date_of_entry',
                               ts( 'Dates Attended (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
-            $this->addRule('date_of_entry', ts('Select a valid date.'), 'qfDate');
 
             $this->addElement('date', 'date_of_exit', ts( 'Dates attended (month/year)' ),
                               CRM_Core_SelectValues::date( 'custom', 7, 2, "M\001Y" ) );
-            $this->addRule('date_of_exit', ts('Select a valid date.'), 'qfDate');
 
             $schoolTypes = array( 310 => 'Public', 311 => 'Private', 312 => 'Parochial' );
             $this->addRadio( 'custom_2',
@@ -120,17 +116,16 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
             $this->addElement('text', 'custom_3',
                               ts( 'Number of students in your entire school (all classes)' ),
                               $attributes['organization_name'] );
-            $this->addRule('custom_3', ts('number of students is not valid value'),'integer');
             
             $this->buildAddressBlock( 1,
                                       ts( 'School Address' ),
                                       ts( 'School Phone' ) ,
-                                      null, true, null, null, 'location');
-            
+                                      null, false, null, null, 'location');
         } 
         
-        $this->assign('searchCount'          , $searchCount);
-        $this->assign('searchDone'           , $searchDone);
+        $this->assign( 'searchCount'          , $searchCount);
+        $this->assign( 'searchDone'           , $searchDone );
+        $this->assign( 'searchRows'           , $searchRows );
 
         if ( $searchDone ) {
             $searchBtn = ts('Search Again');
@@ -148,7 +143,6 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
                                          'name'      => ts('Cancel') ),
                                  )
                            );
-        
     }
 
     /**
@@ -163,7 +157,8 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
         $params = $this->controller->exportValues( $this->_name );
 
         $this->set( 'searchDone', 0 );
-        if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
+
+        if ( CRM_Utils_Array::value( '_qf_SchoolSearch_refresh', $_POST ) ) {
             $this->search( $params );
             $this->set( 'searchDone', 1 );
             return;
@@ -247,95 +242,51 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
      *
      */
     function search(&$params) {
-        //max records that will be listed
-        $searchValues = array();
-        $searchValues[] = array( 'sort_name', 'LIKE', $params['name'], 0, 1 );
-        $contactTypeAdded = false;
-        
-        $excludedContactIds = array( $this->_contactId );
 
-        if ( $params['relationship_type_id'] ) {
-            $relationshipType =& new CRM_Contact_DAO_RelationshipType( );
-            list( $rid, $direction ) = explode( '_', $params['relationship_type_id'], 2 );
-           
-            $relationshipType->id = $rid;
-            if ( $relationshipType->find( true ) ) {
-                if ( $direction == 'a_b' ) {
-                    $type = $relationshipType->contact_type_b;
-                } else {
-                    $type = $relationshipType->contact_type_a;
-                }
+        // create the select clause
+        $clause = array( 1 );
 
-                $this->set( 'contact_type', $type );
-                if ( $type == 'Individual' ) {
-                    $searchValues[] = array( 'contact_type', '=', array( $type => 1 ), 0, 0 );
-                    $contactTypeAdded = true;
-                } else if ( $type == 'Household' ) {
-                    $searchValues[] = array( 'contact_type', '=', array( $type => 2 ), 0, 0 );
-                    $contactTypeAdded = true;
-                }  else if ( $type == 'Organization' ) {
-                    $searchValues[] = array( 'contact_type', '=', array( $type => 3 ), 0, 0 );
-                    $contactTypeAdded = true;
-                }
-            }
+        if ( ! empty( $params['school_name'] ) ) {
+            $clause[] = "LOWER(school_name) LIKE '%" . strtolower( addslashes( $params['school_name'] ) ) . "%'";
         }
 
-        if ( ! $contactTypeAdded && CRM_Utils_Array::value( 'contact_type', $params ) ) {
-            $searchValues[] = array( 'contact_type', '=', $params['contact_type'], 0, 0 );
+        if ( ! empty( $params['postal_code'] ) ) {
+            $clause[] = "postal_code LIKE '" . strtolower( addslashes( $params['postal_code'] ) ) . "%'";
         }
 
-        // get the count of contact
-        $contactBAO  =& new CRM_Contact_BAO_Contact( );
-        $query =& new CRM_Contact_BAO_Query( $searchValues );
-        $searchCount = $query->searchQuery(0, 0, null, true );
+        if ( ! empty( $params['city'] ) ) {
+            $clause[] = "LOWER(city) LIKE '%" . strtolower( addslashes( $params['city'] ) ) . "%'";
+        }
+
+        if ( ! empty( $params['state_province'] ) ) {
+            $clause[] = "state_province = '" . addslashes( $params['state_province'] ) . "'";
+        }
+
+        $whereClause = implode( ' AND ', $clause );
+
+        $query = "
+SELECT   code, school_name, street_address, city, postal_code, state_province
+FROM     quest_ceeb
+WHERE    $whereClause
+ORDER BY school_name
+";
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $searchCount = $dao->N;
         $this->set( 'searchCount', $searchCount );
-        if ( $searchCount <= self::MAX_RELATIONSHIPS ) {
-            // get the result of the search
-            $result = $query->searchQuery(0, 50, null);
-
-            $config =& CRM_Core_Config::singleton( );
+        if ( $searchCount <= self::MAX_SCHOOLS ) {
             $searchRows = array( );
-
-            //variable is set if only one record is foun and that record already has relationship with the contact
-            $duplicateRelationship = 0;
-            
-            while($result->fetch()) {
-                $contactID = $result->contact_id;
-                if ( in_array( $contactID, $excludedContactIds ) ) {
-                    $duplicateRelationship++;
-                    continue;
-                }
-
-                $duplicateRelationship = 0;                
-
-                $searchRows[$contactID]['id'] = $contactID;
-                $searchRows[$contactID]['name'] = $result->sort_name;
-                $searchRows[$contactID]['city'] = $result->city;
-                $searchRows[$contactID]['state'] = $result->state;
-                $searchRows[$contactID]['email'] = $result->email;
-                $searchRows[$contactID]['phone'] = $result->phone;
-
-                $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
-                switch ($result->contact_type ) {
-                case 'Individual' :
-                    $contact_type .= 'ind.gif" alt="' . ts('Individual') . '" />';
-                    break;
-                case 'Household' :
-                    $contact_type .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />';
-                    break;
-                case 'Organization' :
-                    $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
-                    break;
-                }
-                $searchRows[$contactID]['type'] = $contact_type;
+            while ( $dao->fetch( ) ) {
+                $searchRows[] = array( 'code'           => $dao->code,
+                                       'school_name'    => $dao->school_name,
+                                       'street_address' => $dao->street_address,
+                                       'state_province' => $dao->state_province,
+                                       'city'           => $dao->city,
+                                       'postal_code'    => $dao->postal_code );
             }
-
             $this->set( 'searchRows' , $searchRows );
-            $this->set('duplicateRelationship', $duplicateRelationship);
         } else {
             // resetting the session variables if many records are found
             $this->set( 'searchRows' , null );
-            $this->set('duplicateRelationship', null);
         }
     }
     
@@ -351,7 +302,7 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
    */
     static function formRule( &$params ) {
         // hack, no error check for refresh
-        if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
+        if ( CRM_Utils_Array::value( '_qf_SchoolSearch_refresh', $_POST ) ) {
             return true;
         }
 
