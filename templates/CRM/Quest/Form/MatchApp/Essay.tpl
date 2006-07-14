@@ -3,6 +3,11 @@
 <tr>
     <td class="grouplabel">
         {$form.essay.$name.label}<br />
+	{if $name eq 'personal'}
+           <br/>{$form.personalStat_quests.label}{$form.personalStat_quests.html}<br/><br/>
+	   {$form.upload_photo.label}&nbsp;{$form.upload_photo.html}<br/>
+	   {ts}(The file should be of type GIF or JPEG. The file size should be at most 2MB.){/ts}<br/><br/>
+	{/if }
         {$form.essay.$name.html} &nbsp;<br /><br />
         {$form.word_count.$name.label} &nbsp;&nbsp;{$form.word_count.$name.html}
     </td> 

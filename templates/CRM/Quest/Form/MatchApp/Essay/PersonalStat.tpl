@@ -5,8 +5,7 @@
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
-<tr>
-    <td class="grouplabel">{ts}Please answer the following questions in no more than three lines. (<em>You may use lists instead of sentences when appropriate</em>.) (60 words max, per essay){/ts}</td>
-</tr>
+
 {include file="CRM/Quest/Form/MatchApp/Essay.tpl"}
+
 
