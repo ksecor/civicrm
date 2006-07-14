@@ -45,7 +45,7 @@
   color: #285A66;
 }
 
-table#preapp-content td.rightside {
+table#app-content td.rightside {
   background-color: #fff;
   margin: 10px 10px 10px 10px;
   padding: 10px 10px 10px 10px;
@@ -63,10 +63,12 @@ td#sub-category {
   font-weight: bold;
   font-size: 12px;
 }
+
 table.app td {
   background-color: #f1f1f1;
   color: #285A66;
   font-size: 10px;
+  text-align: left;
 }
 
 table.app td.grouplabel {
@@ -88,13 +90,13 @@ table#essay-table label {
 table.app td.optionlist {
   border: 2px solid #fff;
 }
-td.preapp-message {
+td.app-message {
   color: red;
   text-align: center;
   line-height: 2em;
   border-top: 1px solid #bbb;
 }
-table#preapp-content td.greeting {
+table#app-content td.greeting {
   padding: 10px 5px 3px 10px;
   color: #9D6E4A;
   text-align: left;
@@ -122,23 +124,23 @@ input.form-submit {
   border-right-color:#000;
   border-bottom-color:#000;
 }
-table#preapp-content td.rightside table.app {
+table#app-content td.rightside table.app {
   margin: 10px 10px 10px 10px;
   border: 1px solid #bbb;
   background-color: #fff;
   padding: 4px;
   width: 689px;
 }
-#crm-container td#preapp-left-nav {
+#crm-container td#app-left-nav {
   padding: 0px;
 }
-#wizard-steps, #preapp-left-nav {
+#wizard-steps, #app-left-nav {
   width: 170px;
 }
-table#preapp-content td.rightside {
+table#app-content td.rightside {
   width: 730px;
 }
-p.preapp-instruction {
+p.app-instruction {
   font-weight: bold;
 }
 #crm-container label, .labels, .label {

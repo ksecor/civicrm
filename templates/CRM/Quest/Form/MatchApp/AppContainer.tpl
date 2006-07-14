@@ -1,12 +1,12 @@
 {* Quest College Match Application: Display container for application pages. *}
 {if $context EQ 'begin'}
-  <div id="matchapp-content">
+  <div id="app-content">
   {if ! ( $action & 1024 ) }{* We skip greeting and nav buttons and .js for preview action, but include them for edit and view actions. *}
     <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
-    <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
+    <table cellpadding=0 cellspacing=0 border=0 id="app-content">
         <tr>
             <td class="greeting">{$welcome_name}</td>
-            <td class="preapp-message" align="center">
+            <td class="app-message" align="center">
              {ts}
                 Note: The application deadline is Oct 1, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' to save your changes.
              {/ts}
@@ -24,10 +24,10 @@
         </tr>
      </table>
    {/if}
-    <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
+    <table cellpadding=0 cellspacing=0 border=0 id="app-content">
         <tr>
           {if ! ( $action & 1024 )}
-            <td valign=top nowrap id="preapp-left-nav">
+            <td valign=top nowrap id="app-left-nav">
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
             {include file="CRM/WizardHeader.tpl}
             <br>
@@ -75,9 +75,9 @@
     </tr>
     </table>
   {if ! ( $action & 1024 )}
-    <table cellpadding=0 cellspacing=0 border=0 id="preapp-content">
+    <table cellpadding=0 cellspacing=0 border=0 id="app-content">
         <tr>
-           <td class="preapp-message" colspan=2>
+           <td class="app-message" colspan=2>
              {ts}
                You must click 'Save &amp; Continue' to save your changes.
              {/ts}
