@@ -129,7 +129,7 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             require_once 'CRM/Quest/BAO/WorkExperience.php';
             $params = $this->controller->exportValues( $this->_name );
-
+            $ids = array();
             //delete all the entries before inserting new one 
             $dao = &new CRM_Quest_DAO_WorkExperience();
             $dao->contact_id = $this->_contactID;
@@ -144,7 +144,7 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
                     $workExpParams['start_date']  = CRM_Utils_Date::format($params['start_date_'.$i]);
                     $workExpParams['end_date']    = CRM_Utils_Date::format($params['end_date_'.$i]);
                     $workExpParams['weekly_hours']= $params['hrs_'.$i];
-                    CRM_Quest_BAO_WorkExperience::create( $workExpParams );
+                    CRM_Quest_BAO_WorkExperience::create( $workExpParams, $ids );
                 }
             }
 

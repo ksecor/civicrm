@@ -150,7 +150,8 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             require_once 'CRM/Quest/BAO/Extracurricular.php';
             $params = $this->controller->exportValues( $this->_name );
-
+            $essayFields =  array('meaningful_commitment', 'past_activities', 'hobbies');
+            $ids = array();
             // delete all actvities before inserting new 
             $dao = &new CRM_Quest_DAO_Extracurricular();
             $dao->contact_id = $this->_contactID;
@@ -169,11 +170,8 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
                     $extracurricularParams['weekly_hours'] = CRM_Utils_Array::value( 'time_spent_1_'.$i, $params, false );
                     $extracurricularParams['annual_weeks'] = CRM_Utils_Array::value( 'time_spent_2_'.$i, $params, false );
                     $extracurricularParams['position_honor'] = CRM_Utils_Array::value( 'positions_'.$i, $params, false );
-                    CRM_Quest_BAO_Extracurricular::create( $extracurricularParams );
-                    
+                    CRM_Quest_BAO_Extracurricular::create( $extracurricularParams, $ids );
                 }
-
-
             }
         }
         
