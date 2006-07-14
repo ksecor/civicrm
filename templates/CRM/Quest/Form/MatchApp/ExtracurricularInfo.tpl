@@ -31,18 +31,18 @@ Please list your principal extracurricular, community, and family activities and
           <td></td>
         </tr>
 
-         {section name=rowLoop start=1 loop=7}
+         {section name=rowLoop start=1 loop=8}
              {assign var=i value=$smarty.section.rowLoop.index}
              <tr>
             
              {assign var=activity value="activity_"|cat:$i}
              <td class="fieldlabel">{$form.$activity.html}</td>  
-             {section name=columnLoop start=1 loop=5}
+             {section name=columnLoop start=1 loop=6}
                 {assign var=j value=$smarty.section.columnLoop.index}
                 {assign var=gl value="grade_level_"|cat:$i|cat:"_"|cat:$j}
                 <td class="fieldlabel">{$form.$gl.html}</td>
              {/section}
-             {section name=columnLoop start=1 loop=2}
+             {section name=columnLoop start=1 loop=3}
                 {assign var=j value=$smarty.section.columnLoop.index}
                 {assign var=ts value="time_spent_"|cat:$i|cat:"_"|cat:$j}
                 <td class="fieldlabel">{$form.$ts.html}</td>
