@@ -83,7 +83,7 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
     {
         
         $this->addElement('text', 'school_name'      , ts('School Name'    ) );
-        $this->addElement('text', 'school_name'      , ts('Postal Code'    ) );
+        $this->addElement('text', 'postal_code'      , ts('Postal Code'    ) );
         $this->addElement('text', 'city'             , ts('City'           ) );
         $this->addElement('text', 'state_province'   , ts('State Province' ) );
 
@@ -142,7 +142,7 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
 
         $this->addButtons( array(
                                  array ( 'type'      => $buttonType,
-                                         'name'      => ts('Save Relationship'),
+                                         'name'      => ts('Save'),
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
                                          'name'      => ts('Cancel') ),

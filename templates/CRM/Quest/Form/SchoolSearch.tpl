@@ -24,6 +24,7 @@
     <td class="grouplabel">{$form.state_province.label}</td>
     <td class="fieldlabel">{$form.state_province.html}</td>
 </tr>
+<tr><td class="grouplabel" colspan=2>{$form._qf_SchoolSearch_refresh.html}</td>
 </table>
 </div>
 
