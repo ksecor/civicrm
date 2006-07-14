@@ -16,6 +16,12 @@
 </tr>
 {/if}
 <tr>
+    <td colspan="2">
+<p><a href="http://localhost/dgg/drupal/civicrm/quest/schoolsearch?reset=1" target="schoolSearch" onclick="openSearchPopup(); return false;" 
+title="This link will create a new window or will re-use an already opened one.">Find My School</a></p>
+    </td>
+</tr>
+<tr>
     {assign var=organization_name value="organization_name_"|cat:$i}
     <td class="grouplabel">{$form.$organization_name.label}</td>
     <td class="fieldlabel">{$form.$organization_name.html}</td>
@@ -83,4 +89,29 @@
 </div>
 {/section}
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+{literal}
+<script type="text/javascript">
+var WindowObjectReference = null; // global variable
+function openSearchPopup()
+{
+  if(WindowObjectReference == null || WindowObjectReference.closed)
+  /* if the pointer to the window object in memory does not exist
+     or if such pointer exists but the window was closed */
 
+  {
+    WindowObjectReference = window.open("http://localhost/dgg/drupal/civicrm/quest/schoolsearch?reset=1",
+           "schoolSearch", "resizable=yes,scrollbars=yes,status=yes");
+    /* then create it. The new window will be created and
+       will be brought on top of any other window. */
+  }
+  else
+  {
+    WindowObjectReference.focus();
+    /* else the window reference must exist and the window
+       is not closed; therefore, we can bring it back on top of any other
+       window with the focus() method. There would be no need to re-create
+       the window or to reload the referenced resource. */
+  };
+}
+</script>
+{/literal}

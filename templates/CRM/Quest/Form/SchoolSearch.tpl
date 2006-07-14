@@ -59,7 +59,7 @@
             {include file="CRM/common/info.tpl"}
         {/if}
     {else} {* no valid matches for search params *}
-            {capture assign=infoMessage}{ts 1=$form.school_name.value 2=$form.city 3=$form.state_province 4=$form.postal_code}No matching results for <ul><li>School Name like: %1</li><li>City like: %2</li><li>State like: %3</li><li>Zip Code like: %4</li></ul>Check your entries, or try fewer search criteria. If you still can not find you school, then click on <strong>Add Your School</strong> below.{/ts}{/capture}
+            {capture assign=infoMessage}{ts 1=$form.school_name.value 2=$form.city 3=$form.state_province.value 4=$form.postal_code.value}No matching results for <ul><li>School Name like: %1</li><li>City like: %2</li><li>State like: %3</li><li>Zip Code like: %4</li></ul>Check your entries, or try fewer search criteria. If you still can not find you school, then click on <strong>Add Your School</strong> below.{/ts}{/capture}
             {include file="CRM/common/info.tpl"}                
     {/if} {* end if searchCount *}
 {/if} {* end if searchDone *}
