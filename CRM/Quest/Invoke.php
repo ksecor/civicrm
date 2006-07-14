@@ -70,6 +70,13 @@ class CRM_Quest_Invoke {
             return $controller->run( );
         }
 
+        if ( $args[2] === 'schoolsearch' ) {
+            require_once 'CRM/Core/Controller/Simple.php';
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Quest_Form_SchoolSearch', ts( 'CEEB School Search' ), null );
+            $controller->process( );
+            return $controller->run( );
+        }
+
     }
 
     static function admin( &$args ) {
