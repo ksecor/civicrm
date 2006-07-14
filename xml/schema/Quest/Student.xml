@@ -472,42 +472,6 @@
       <add>1.5</add>
   </field>
   <field>
-      <name>score_SAT</name>
-      <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
-      <headerPattern>/SAT score/i</headerPattern>
-      <comment>Combined highest reported scores (SAT).</comment>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>score_PSAT</name>
-      <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
-      <headerPattern>/PSAT score/i</headerPattern>
-      <comment>Combined highest reported scores (PSAT).</comment>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>score_ACT</name>
-      <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
-      <headerPattern>/ACT score/i</headerPattern>
-      <comment>Combined highest reported scores (ACT).</comment>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>score_PLAN</name>
-      <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
-      <headerPattern>/ACT score/i</headerPattern>
-      <comment>Combined highest reported scores (PLAN).</comment>
-      <add>1.5</add>
-  </field>
-  <field>
        <name>test_tutoring</name>
        <type>varchar</type>
        <length>255</length>
@@ -515,15 +479,6 @@
        <import>true</import>
        <headerPattern>/tutoring/i</headerPattern>
        <comment>Which tests have they received tutoring for. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = test.</comment>
-      <add>1.5</add>
-  </field>
-  <field>
-       <name>household_income_total</name>  
-       <type>decimal</type>  
-       <export>true</export>
-       <import>true</import>
-       <headerPattern>/household income/i</headerPattern>
-       <comment>Calculated annual income total from all reported sources.</comment>
       <add>1.5</add>
   </field>
   <field>     

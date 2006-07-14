@@ -18,5 +18,6 @@
 <xi:include href="WorkExperience.xml"   parse="xml" />
 <xi:include href="Transcript.xml"       parse="xml" />
 <xi:include href="TranscriptCourse.xml" parse="xml" />
+<xi:include href="StudentSummary.xml"   parse="xml" />
 
 </tables>
