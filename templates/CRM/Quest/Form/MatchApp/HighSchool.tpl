@@ -1,26 +1,26 @@
 {* Quest College Match Application: High School Information section *}
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
-
-{section name=rowLoop start=1 loop=$max}
-{assign var=i value=$smarty.section.rowLoop.index}
-
-<div id="HighSchool_{$i}">
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-{if $i EQ 1}
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
     <td colspan=2 class="grouplabel"><p>{ts}We realize our applicants come from a diverse group of secondary schools. Please tell us about your particular school by answering the following questions.{/ts}</p></td>
 </tr>
-{/if}
 <tr>
-    <td colspan="2">
-<p><a href="http://localhost/dgg/drupal/civicrm/quest/schoolsearch?reset=1" target="schoolSearch" onclick="openSearchPopup(); return false;" 
-title="This link will create a new window or will re-use an already opened one.">Find My School</a></p>
+    <td colspan="2" class="grouplabel">
+<p><strong><a href="http://localhost/dgg/drupal/civicrm/quest/schoolsearch?reset=1" target="schoolSearch" onclick="openSearchPopup(); return false;" title="Find your High School. This link will create a new window or will re-use an already opened one with a school search form.">Find My School</a></strong><br />
+Click this link to open a new window with a School Search form. You will need to make sure that pop-up windows are NOT blocked for this site.</p>
     </td>
 </tr>
+</table>
+
+{section name=rowLoop start=1 loop=$max}
+{assign var=i value=$smarty.section.rowLoop.index}
+
+<div id="HighSchool_{$i}">
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     {assign var=organization_name value="organization_name_"|cat:$i}
     <td class="grouplabel">{$form.$organization_name.label}</td>
@@ -33,13 +33,6 @@ title="This link will create a new window or will re-use an already opened one."
         {$form.$custom_1.html|crmReplace:class:six}<br />
         <a href="javascript:popUp('http://questscholars.stanford.edu/help_popup/ceeb.html')">{ts}{edit}Click here</a> to locate your CEEB school code.{/edit}{/ts}
     </td>
-</tr>
-
-<tr>
-    {assign var=date_of_entry value="date_of_entry_"|cat:$i}
-    {assign var=date_of_exit value="date_of_exit_"|cat:$i}
-    <td class="grouplabel">{$form.$date_of_entry.label}</td>
-    <td class="fieldlabel">{$form.$date_of_entry.html} &nbsp;&nbsp; <label>To</label> {$form.$date_of_exit.html} </td>
 </tr>
 <tr>
     {assign var=location value="location_"|cat:$i}
@@ -63,6 +56,12 @@ title="This link will create a new window or will re-use an already opened one."
 <tr>
     <td class="grouplabel">{$form.$location.1.phone.1.phone.label}</td>
     <td class="fieldlabel">{$form.$location.1.phone.1.phone.html}</td>
+</tr>
+<tr>
+    {assign var=date_of_entry value="date_of_entry_"|cat:$i}
+    {assign var=date_of_exit value="date_of_exit_"|cat:$i}
+    <td class="grouplabel">{$form.$date_of_entry.label}</td>
+    <td class="fieldlabel">{$form.$date_of_entry.html} &nbsp;&nbsp; <label>To</label> {$form.$date_of_exit.html} </td>
 </tr>
 <tr>
     {assign var=custom_2 value="custom_2_"|cat:$i}
@@ -91,7 +90,9 @@ title="This link will create a new window or will re-use an already opened one."
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 {literal}
 <script type="text/javascript">
-var WindowObjectReference = null; // global variable
+var WindowObjectReference = null; // holds school search pop-up window object
+var searchDone = 0; // controls whether school name and address fields are displayed
+
 function openSearchPopup()
 {
   if(WindowObjectReference == null || WindowObjectReference.closed)

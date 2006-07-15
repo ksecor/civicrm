@@ -33,19 +33,21 @@
         {if $searchRows} {* we've got rows to display *}
             <fieldset><legend>{ts}School Search Results{/ts}</legend>
             <div class="description">
-                {ts}If your school appears below, click on the school name to complete the school information on your application. If not, you can modify your search criteria and try the search again. Otherwise click <strong>Add My School</strong> below and enter the school information on the form.{/ts}
+                {ts}If your school appears below, click on the school name to complete the school information on your application. If not, you can modify your search criteria and try the search again. Otherwise click <strong>Close</strong> below and enter your school name and address directly on the application form.{/ts}
             </div>
             {strip}
             <table>
             <tr class="columnheader">
             <th>{ts}School Name{/ts}</th>
+            <th>{ts}Street{/ts}</th>
             <th>{ts}City{/ts}</th>
             <th>{ts}Postal Code{/ts}</th>
             <th>{ts}State{/ts}</th>
             </tr>
             {foreach from=$searchRows item=row}
             <tr class="{cycle values="odd-row,even-row"}">
-                <td>{$row.school_name}</td>
+                <td><a href="#" onclick="setSchool('{$row.code}','{$row.school_name}','{$row.street_address}','{$row.city}','{$row.state_province}','{$row.postal_code}'); return false;">{$row.school_name}</a></td>
+                <td>{$row.street_address}</td>
                 <td>{$row.city}</td>
                 <td>{$row.postal_code}</td>
                 <td>{$row.state_province}</td>
@@ -59,36 +61,24 @@
             {include file="CRM/common/info.tpl"}
         {/if}
     {else} {* no valid matches for search params *}
-            {capture assign=infoMessage}{ts 1=$form.school_name.value 2=$form.city 3=$form.state_province.value 4=$form.postal_code.value}No matching results for <ul><li>School Name like: %1</li><li>City like: %2</li><li>State like: %3</li><li>Zip Code like: %4</li></ul>Check your entries, or try fewer search criteria. If you still can not find you school, then click on <strong>Add Your School</strong> below.{/ts}{/capture}
+            {capture assign=infoMessage}{ts 1=$form.school_name.value 2=$form.city.value 3=$form.state_province.value 4=$form.postal_code.value}No matching results for <ul><li>School Name like: %1</li><li>City like: %2</li><li>State like: %3</li><li>Zip Code like: %4</li></ul>Check your entries, or try fewer search criteria. If you still can not find you school, then click on <strong>Add Your School</strong> below.{/ts}{/capture}
             {include file="CRM/common/info.tpl"}                
     {/if} {* end if searchCount *}
 {/if} {* end if searchDone *}
 
-<div id="school-input">
-<fieldset><legend>Add Your School</legend>
-<tr>
-    <td class="grouplabel">{$form.organization_name.label}</td>
-    <td class="fieldlabel">{$form.organization_name.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel" rowspan="5"><label>{ts}School Address{/ts}</label> <span class="marker">*</span></td>
-    <td class="fieldlabel">{$form.location.1.address.street_address.html}<br />
-         {ts}{edit}Number and Street (including apartment number){/edit}{/ts}</td>
-</tr>
-<tr>
-    <td class="fieldlabel">{$form.location.1.address.city.html}<br/>{ts}{edit}City{/edit}{/ts}</td>
-</tr>
-<tr>
-   <td class="fieldlabel">{$form.location.1.address.state_province_id.html}<br/>{ts}{edit}State or Province{/edit}{/ts}</td>
-</tr>
-<tr>
-   <td class="fieldlabel">{$form.location.1.address.postal_code.html} - {$form.location.1.address.postal_code_suffix.html}<br />
-        {ts}{edit}USA Zip Code (Zip Plus 4 if available) OR International Postal Code{/edit}{/ts}</td>
-</tr>
-<tr>
-   <td class="fieldlabel">{$form.$location.1.address.country_id.html}<br />{ts}{edit}Country{/edit}{/ts}</td>
-</tr>
-</table>
-</fieldset>
-</div>
-
+{literal}
+<script type="text/javascript">
+var thisOpener = window.opener; // global variable
+function setSchool(ceeb,sname,addr,city,state,postal)
+{
+    thisOpener.document.getElementById('custom_1_1').value = ceeb;
+    thisOpener.document.getElementById('organization_name_1').value = sname;
+    thisOpener.document.getElementById('location_1_1_address_street_address').value = addr;
+    thisOpener.document.getElementById('location_1_1_address_city').value = city;
+    thisOpener.document.getElementById('location_1_1_address_postal_code').value = postal;
+//    thisOpener.document.HighSchool.getElementById('location_1_1_address_state_province_id').value = state;
+    thisOpener.focus();
+    window.close();
+}
+</script>
+{/literal}
