@@ -1,4 +1,5 @@
 {* Quest College Match Application: High School Search Pop-up *}
+{assign var=schoolIndex value=1}
 
 <div id="school-search">
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
