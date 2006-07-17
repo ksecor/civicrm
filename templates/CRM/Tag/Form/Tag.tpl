@@ -1,3 +1,4 @@
+
 {* this template is used for adding/editing tags  *}
 
 <fieldset><legend>{ts}Tags{/ts}</legend>

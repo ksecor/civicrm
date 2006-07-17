@@ -77,7 +77,9 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
             $strChecked = '';
             if( in_array($tagID, $entityTag)) {
                 $strChecked = 'checked';
+                
             }
+            
             $tagChk[$tagID] = $this->createElement('checkbox', $tagID, '', '', array('onclick' => "return changeRowColor('rowid$tagID')", $strChecked => 'checked','id' => $tagID ) );
         }
 

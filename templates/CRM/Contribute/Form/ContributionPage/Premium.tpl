@@ -5,12 +5,12 @@
     {ts}Use this form to configure the Premiums section for this Online Contribution Page. You can hide the section completely by un-checking the Enabled field. You can set a section title and a message about the premiums here (e.g ...in appreciation of your support, you will be able to select from a number of exciting thank-you gifts...). You can optionally provide a contact email address and/or phone number for inquiries.{/ts}
 </div>
  
-<div id="form[show]" class="data-group">
-    <a href="#" onclick="hide('form[show]'); show('form'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Configure Premiums Section{/ts}</label><br />
+<div id="id_form_show" class="data-group">
+    <a href="#" onclick="hide('id_form_show'); show('id_form'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Configure Premiums Section{/ts}</label><br />
 </div>
 
-  <div id="form" class="form-item">
-    <fieldset><legend><a href="#" onclick="hide('form'); show('form[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Configure Premiums Section{/ts}</legend>
+  <div id="id_form" class="form-item">
+    <fieldset><legend><a href="#" onclick="hide('id_form'); show('id_form_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Configure Premiums Section{/ts}</legend>
     <dl>
      <dt> {$form.premiums_active.label}</dt><dd>{$form.premiums_active.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts 1=$title}Is the Premiums section enabled for this Online Contributions page? (%1){/ts}</dd>	
@@ -61,8 +61,8 @@
     {/if}
 
 <script type="text/javascript">
-    var myElement1 = document.getElementById('form');
-    var myElement2 = document.getElementById('form[show]');
+    var myElement1 = document.getElementById('id_form');
+    var myElement2 = document.getElementById('id_form_show');
     {if $showForm }
         myElement1.style.display = 'block';
         myElement2.style.display = 'none';

@@ -54,8 +54,8 @@ class CRM_Contribute_Form_CreatePPD extends CRM_Contribute_Form
         parent::buildQuickForm( );
         
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'api_username', ts( 'API Username' ), array( 'size' => 30, 'maxlen' => 30 ), true );
-        $this->add('text', 'api_subject' , ts( 'API Subject' ) , array( 'size' => 30, 'maxlen' => 30 ) );
+        $this->add('text', 'api_username', ts( 'API Username' ), array( 'size' => 30, 'maxlength' => 30 ), true );
+        $this->add('text', 'api_subject' , ts( 'API Subject' ) , array( 'size' => 30, 'maxlength' => 30 ) );
         
         $environment = array( 'live'         => 'live',
                               'sandbox'      => 'sandbox',
