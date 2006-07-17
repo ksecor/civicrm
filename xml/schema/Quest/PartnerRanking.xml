@@ -47,8 +47,7 @@
       <name>ranking_id</name>
       <title>College Match Ranking</title>
       <type>int unsigned</type>
-      <required>true</required>
-      <comment>FK to civicrm_option_value. Uses partner_ranking option group values.</comment>
+       <comment>FK to civicrm_option_value. Uses partner_ranking option group values.</comment>
      <add>1.5</add>
   </field>
   <foreignKey>

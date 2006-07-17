@@ -55,37 +55,17 @@
 {ts}Select the scholarship you would like QuestBridge to forward your information to.{/ts} 
     </td>
 </tr> 
-{*<tr>
-    {assign var="count" value=0}
-    {foreach from=$partner_s item=type key=key}
-        {assign var="count" value=`$count+1`}
 
-    {assign var=regular_addmission_s value="regular_addmission_s_"|cat:$key}
-    {if $count gt 9}
-        {if $count is not odd}
-    <tr>
-        {/if}
-    <td class="optionlist">{$form.$regular_addmission_s.html}{$form.$regular_addmission_s.label}</td>
-        {if $count is not even}
-    </tr>
-        {/if}
-    {/if}
-    {/foreach}
-        {if ($count gt 9) and ($count is not odd) }
-        <td class="optionlist"></td>
-        {/if}
-  
-
-    
-</tr>
-*}
 <table cellpadding=0 cellspacing=1  width="90%" class="app">
-<tr colspan=2>
-{foreach from=$partner_s item=type key=key}
-{assign var=regular_addmission_s value="regular_addmission_s_"|cat:$key}
 
-<td colspan=2  class="optionlist">{$form.$regular_addmission_s.html}{$form.$regular_addmission_s.label}
+{foreach from=$partner_s item=type key=key}
+{assign var=regular_addmission_s value="scholarship_addmission_"|cat:$key}
+<tr>
+<td class="optionlist">{$form.$regular_addmission_s.html}{$form.$regular_addmission_s.label}
 </td>
+{ if ($key+1%2) eq 0}
+</tr>
+{/if}
  {/foreach}
 </tr>
   

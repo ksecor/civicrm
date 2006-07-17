@@ -65,9 +65,24 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
+        $partner_s=CRM_Quest_BAO_Partner::getPartners('Scholarship');
+        $defaults = array();
+        require_once 'CRM/Quest/DAO/PartnerRanking.php';
+        $dao = & new CRM_Quest_DAO_PartnerRanking();
+        $dao->s_forward = '1';
+        $dao->contact_id = $this->contact_id;
+        $dao->find();
+        while( $dao->fetch() ){
+            if (array_key_exists($dao->partner_id ,$partner_s )) {
+                $defaults['scholarship_addmission_'.$dao->partner_id] = 1 ;
+            } else {
+                $defaults['regular_addmission_'.$dao->partner_id] = 1 ;
+                
+            }
+        }
+        return $defaults;
     }
-    
-
+  
     /**
      * Function to actually build the form
      *
@@ -85,7 +100,7 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
        
         $partner_s=CRM_Quest_BAO_Partner::getPartners('Scholarship');
         foreach ( $partner_s as $key => $v ) {
-            $this->addElement( 'checkbox','regular_addmission_s_'.$key,$v, null);
+            $this->addElement( 'checkbox','scholarship_addmission_'.$key,$v, null);
         }
         $this->assign('partner_s' , $partner_s);
 
@@ -101,7 +116,33 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
       * @return void
       */
     public function postProcess() 
-    {}
+    {
+
+        //delete all renking before Inserting new one 
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+            $params = $this->controller->exportValues( $this->_name );
+            
+            require_once 'CRM/Quest/DAO/PartnerRanking.php';
+            $dao = & new CRM_Quest_DAO_PartnerRanking();
+            $dao->is_forward = '1';
+            $dao->contact_id = $this->contact_id;
+            $dao->delete();
+            
+            foreach ( $params as $key=>$value ) {
+                if ( $value ) {
+                    $ranking = array();
+                    $ranking['contact_id'] = $this->_contactID;
+                    $temp = explode('_', $key);
+                    $ranking['partner_id'] = $temp[2];
+                    $ranking['is_forward'] = 1;
+                    $dao = & new CRM_Quest_DAO_PartnerRanking();
+                    $dao->copyValues( $ranking );
+                    $dao->save();
+                }
+            }
+        }
+        parent::postProcess( );
+    }
     /**
      * Return a descriptive name for the page, used in wizard header
      *

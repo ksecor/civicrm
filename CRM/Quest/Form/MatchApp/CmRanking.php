@@ -57,10 +57,33 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         
         parent::preProcess();
     }
+    
+    /**
+     * This function sets the default values for the form. Relationship that in edit/view action
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return void
+     */
+    function setDefaultValues( ) 
+    {
+      
+        $defaults = array();
+        require_once 'CRM/Quest/DAO/PartnerRanking.php';
+        $dao = & new CRM_Quest_DAO_PartnerRanking();
+        $dao->s_forward = '0';
+        $dao->contact_id = $this->contact_id;
+        $dao->find();
+        while( $dao->fetch() ){
+            $defaults['college_ranking_'.$dao->partner_id] = $dao->ranking_id ;
+        }
+        return $defaults;
+    }
+    
     /**
      * Function to actually build the form
      *
-     * @return void
+     * @return void 
      * @access public
      */
     public function buildQuickForm( ) 
@@ -70,11 +93,8 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         require_once "CRM/Quest/BAO/Partner.php";
         $partners = CRM_Quest_BAO_Partner::getPartners();
        
-        $selectRanking = array('Sel'=>'','1'=>'1','2' => '2','3'=>'3','4'=>'4','5'=>'5',
-                               '6'=>'6','7'=>'7','8'=>'8','9'=>'9','10' =>'10',
-                               '11'=>'11','12'=>'12','13'=>'13','14'=>'Not Interested');
         foreach ( $partners as $k => $v) {
-            $this->addElement('select','college_ranking_'.$k, ts( 'Ranking' ),$selectRanking);
+            $this->addElement('select','college_ranking_'.$k, ts( 'Ranking' ),array("" => "")+CRM_Core_OptionGroup::values('college_ranking'));
         }
         $this->assign( 'collegeType', $partners);
         parent::buildQuickForm( );
@@ -91,6 +111,26 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         self::preProcess();
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
+
+            //delete all renking before Inserting new one 
+            require_once 'CRM/Quest/DAO/PartnerRanking.php';
+            $dao = & new CRM_Quest_DAO_PartnerRanking();
+            $dao->is_forward = '0';
+            $dao->contact_id = $this->contact_id;
+            $dao->delete();
+            
+            foreach ( $params as $key=>$value ) {
+                if ( $value ) {
+                    $ranking = array();
+                    $ranking['contact_id'] = $this->_contactID;
+                    $temp = explode('_', $key);
+                    $ranking['partner_id'] = $temp[2];
+                    $ranking['ranking_id'] = $value;
+                    $dao = & new CRM_Quest_DAO_PartnerRanking();
+                    $dao->copyValues( $ranking );
+                    $dao->save();
+                }
+            }
         }
         parent::postProcess( );
     }
