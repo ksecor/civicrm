@@ -51,11 +51,11 @@
         <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>
 	       {if $element.data_type eq 'Date'}
 	        {if $element.skip_calendar NEQ true } 
-                <span>
+              <dt></dt><dd>  <span>
                    
 		    {include file="CRM/common/calendar/desc.tpl"}
 		    {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=1905 endDate=2010 }
-		</span>
+		</span></dd>
 	
 	        {/if}
               {/if}
