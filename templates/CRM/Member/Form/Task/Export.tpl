@@ -4,7 +4,7 @@
 
 <div id="help">
 <p>{ts}Click <strong>Export Memberships</strong> to download a comma-separated values (CSV) file of membership data. Each row will also include member contact information (name, address, email, phone...) as available.{/ts}</p>
-<div>
+</div>
 <div id="crm-submit-buttons">
     {$form.buttons.html}
 </div>
