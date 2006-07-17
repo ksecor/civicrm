@@ -116,7 +116,7 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
     public function buildQuickForm( ) 
     {
         foreach ( $this->_essays as $name => $essay ) {
-            $essay['attributes'] .= " onkeyup=countit(\"{$essay['name']}\");";
+            $essay['attributes'] .= " onkeyup=countit(\"{$essay['name']}\",\"{$essay['wordCount']}\");";
             // primary method to access internet
             $this->add( 'textarea',
                         "essay[{$essay['name']}]",
