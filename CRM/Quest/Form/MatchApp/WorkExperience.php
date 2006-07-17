@@ -81,6 +81,8 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
             $defaults['end_date_'.$count]   = CRM_Utils_Date::unformat( $dao->end_date,'-' );
             $defaults['hrs_'.$count] = $dao->weekly_hours;
         }
+        CRM_Quest_BAO_Essay::setDefaults( $this->_grouping, $defaults );
+        
         return $defaults;
     }
 
@@ -148,6 +150,8 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
                 }
             }
 
+            $params['contactID'] = $this->_contactID;
+            CRM_Quest_BAO_Essay::create( $params, $ids, $this->_grouping );
        }
         parent::postProcess( );
     }

@@ -38,6 +38,7 @@
 
 require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
+require_once 'CRM/Quest/BAO/Essay.php';
 
 /**
  * This class generates form components for relationship
@@ -45,6 +46,7 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
 {
+
     /**
      * Function to set variables up before form is built
      *
@@ -82,8 +84,11 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
             $defaults['grade_level_5_'.$count] = $dao->is_post_secondary;
             $defaults['time_spent_1_'.$count]  = $dao->weekly_hours;
             $defaults['time_spent_2_'.$count]  = $dao->annual_weeks;
-            $defaults['positions_'.$count]            = $dao->position_honor;
+            $defaults['positions_'.$count]     = $dao->position_honor;
         }
+        
+        CRM_Quest_BAO_Essay::setDefaults( $this->_grouping, $defaults );
+
         return $defaults;
     } 
      
@@ -150,7 +155,7 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             require_once 'CRM/Quest/BAO/Extracurricular.php';
             $params = $this->controller->exportValues( $this->_name );
-            $essayFields =  array('meaningful_commitment', 'past_activities', 'hobbies');
+
             $ids = array();
             // delete all actvities before inserting new 
             $dao = &new CRM_Quest_DAO_Extracurricular();
@@ -173,6 +178,9 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
                     CRM_Quest_BAO_Extracurricular::create( $extracurricularParams, $ids );
                 }
             }
+
+            $params['contactID'] = $this->_contactID;
+            CRM_Quest_BAO_Essay::create( $params, $ids, $this->_grouping );
         }
         
     }
