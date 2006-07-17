@@ -584,4 +584,13 @@
       <length>255</length>
       <add>1.5</add>
  </field>
+
+<field>
+      <name>displacement</name>
+      <title>details of your displacement</title>
+      <type>varchar</type>
+      <length>512</length>
+      <add>1.5</add>
+ </field>
+
 </table>

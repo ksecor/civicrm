@@ -160,7 +160,7 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
                           ts( 'If this section above does not adequately capture your primary caregiver situation (e,g, perhaps your older sibling was your guardian), or if you have any other unique circumstances regarding your household situation, please describe it here:' ),
                           CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_Household', 'description' ) );
 
-        //$this->addFormRule(array('CRM_Quest_Form_App_Household', 'formRule'));
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Household', 'formRule'));
         
     
         $this->addYesNo( 'foster_child',

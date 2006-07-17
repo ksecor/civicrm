@@ -82,12 +82,22 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         require_once 'CRM/Quest/DAO/Referral.php';
         $dao = & new CRM_Quest_DAO_Referral();
         $dao->contact_id = $this->_contactID;
+        $dao->application_id = 349;
         $dao->find();
-        $count = 0;
+        $count = $sCount = $eCount =   0;
         while ( $dao->fetch() ) {
-            $count++;
-            $defaults["sophomores_name_$count"] = $dao->name;
-            $defaults["sophomores_email_$count"] = $dao->email;
+            $type = strtolower($dao->referral_type);
+            $type == 'student' ? $sCount++ : $eCount++;
+            $type == 'student' ? $count = $sCount : $count = $eCount;
+            
+            $defaults["referral_".$type."_first_name_$count"] = $dao->first_name;
+            $defaults["referral_".$type."_last_name_$count"]  = $dao->last_name;
+            $defaults["referral_".$type."_school_$count"]     = $dao->school;
+            $defaults["referral_".$type."_email_$count"]      = $dao->email;
+            $defaults["referral_".$type."_phone_$count"]      = $dao->phone;
+            $defaults["referral_".$type."_position_id_$count"]= $dao->position_id;
+            $defaults["referral_".$type."_year_$count"]       = CRM_Utils_Date::unformat($dao->high_school_grad_year,'-');
+            
             $this->_referralIDs[] = $dao->id;
         }
 
@@ -182,11 +192,25 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         }
 
         for($i=1;$i<=3;$i++) {
-           $this->addElement('text', 'sophomores_name_'.$i, ts('Name:'), null );
-           $this->addElement('text', 'sophomores_email_'.$i, ts('Email:'), null );
-           $this->addRule('sophomores_email_'.$i, ts('Email not valid'), 'email' );
-       }
+            $this->addElement('text', 'referral_student_first_name_'.$i, null, null );
+            $this->addElement('text', 'referral_student_last_name_'.$i, null, null );
+            $this->addElement('text', 'referral_student_school_'.$i, null, null );
+            $this->addElement('date', 'referral_student_year_'.$i,null, CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
+            $this->addElement('text', 'referral_student_email_'.$i, null, null );
+            $this->addElement('text', 'referral_student_phone_'.$i, null, null );
+        }
+
+         for($i=1;$i<=3;$i++) {
+            $this->addElement('text', 'referral_educator_first_name_'.$i, null, null );
+            $this->addElement('text', 'referral_educator_last_name_'.$i, null, null );
+            $this->addElement('text', 'referral_educator_school_'.$i, null, null );
+            $this->addElement('select','referral_educator_position_id_'.$i,null,array('' => ts('- select -')) + CRM_Core_OptionGroup::values( 'school_position' ));
+            $this->addElement('text', 'referral_educator_email_'.$i, null, null );
+            $this->addElement('text', 'referral_educator_phone_'.$i, null, null );
+        }
        
+        
+
         include_once 'CRM/Quest/BAO/Partner.php';
         $partners = CRM_Quest_BAO_Partner::getPartners();
         for($i=1;$i<=6;$i++) {
@@ -292,16 +316,26 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                     $dao->delete();
                 }
             }
-            
-            for ($i=1;$i<=3;$i++) {  
-                $ids = array();
-                $referralParams = array();
-                $referralParams['contact_id'] = $this->_contactID;
-                if ($params['sophomores_name_'.$i] || $params['sophomores_email_'.$i]) {
-                    $referralParams['name'] = $params['sophomores_name_'.$i];
-                    $referralParams['email'] = $params['sophomores_email_'.$i];
-                    $referralParams['application_id'] = 349;
-                    $referral = CRM_Quest_BAO_Referral::create( $referralParams, $ids );
+    
+            $referrel = array( "student","educator");
+            foreach (  $referrel as $value ) {
+                for ($i=1;$i<=3;$i++) {  
+                      $ids = array();
+                      $referralParams = array();
+                      $referralParams['contact_id'] = $this->_contactID;
+                      if ($params['referral_'.$value.'_first_name_'.$i] || $params['referral_'.$value.'_email_'.$i]) {
+                          $referralParams['referral_type']  = ucwords($value);
+                          $referralParams['application_id'] = 349;
+                          $referralParams['first_name']     = $params['referral_'.$value.'_first_name_'.$i]; 
+                          $referralParams['last_name']     = $params['referral_'.$value.'_last_name_'.$i]; 
+                          $referralParams['school']         = $params['referral_'.$value.'_school_'.$i]; 
+                          $referralParams['email']          = $params['referral_'.$value.'_email_'.$i];
+                          $referralParams['phone']          = $params['referral_'.$value.'_phone_'.$i];
+                          $referralParams['position_id']    = $params['referral_'.$value.'_position_id_'.$i];
+                          $referralParams['high_school_grad_year']    = CRM_Utils_Date::format($params['referral_'.$value.'_year_'.$i]);
+                          $referral = CRM_Quest_BAO_Referral::create( $referralParams, $ids );
+                      }
+
                 }
             }
             

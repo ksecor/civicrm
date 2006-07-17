@@ -71,15 +71,75 @@
 </tr>
 
 <tr>
-    <td class="grouplabel"> {ts}Please enter contact information for current juniors you think would be strong applicants for next year.{/ts}</td>
-    <td class="fieldlabel" nowrap> 
-            {$form.sophomores_name_1.label}&nbsp;{$form.sophomores_name_1.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_1.label}&nbsp;{$form.sophomores_email_1.html}&nbsp;<br/>
-            {$form.sophomores_name_2.label}&nbsp;{$form.sophomores_name_2.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_2.label}&nbsp;{$form.sophomores_email_2.html}&nbsp;<br/>
-            {$form.sophomores_name_3.label}&nbsp;{$form.sophomores_name_3.html}&nbsp;&nbsp;&nbsp;{$form.sophomores_email_3.label}&nbsp;{$form.sophomores_email_3.html}&nbsp;<br/>
-      {ts}We have found that fellow students are the best source of information in identifying deserving applicants<BR>for next year's application cycle. Enter 3 fellow student's full name and email address.{/ts}
+    <td class="grouplabel" colspan=2> 
+     We have found that fellow students are a valuable source of information in identifying qualified
+applicants for the following year's application cycle. Please enter contact information for current juniors that you think would be strong applicants for next year.
+    <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
+     <tr>
+          <td>Last Name</td>
+          <td>First Name</td>
+          <td>School</td>
+          <td>Year of Graduation</td> 
+          <td>Email</td>
+          <td>Telephone</td>     
+
+     </tr>    
+     {section name=rowLoop start=1 loop=4}
+          {assign var=i value=$smarty.section.rowLoop.index}
+          
+           {assign var=last_name value="referral_student_last_name_"|cat:$i}  
+            {assign var=first_name value="referral_student_first_name_"|cat:$i}
+            {assign var=school value="referral_student_school_"|cat:$i}
+            {assign var=year value="referral_student_year_"|cat:$i}            
+            {assign var=email value="referral_student_email_"|cat:$i}
+            {assign var=phone value="referral_student_phone_"|cat:$i}
+            
+            <tr>    
+            <td>{$form.$last_name.html|crmReplace:class:six}</td>      
+            <td>{$form.$first_name.html|crmReplace:class:six}</td>
+            <td>{$form.$school.html}</td>
+            <td>{$form.$year.html}</td>
+            <td>{$form.$email.html}</td>
+            <td>{$form.$phone.html|crmReplace:class:six}</td>
+           </tr>
+     {/section} 
+
+    </table>
     </td>
 </tr>
+<tr>
+    <td class="grouplabel" colspan=2> 
+    Please enter contact information for 3 teachers or counselors in your local area who you think would be helpful in identifying students like you who would qualify for and benefit from particiaption in QuestBridge. (Please ask these teachers or counselors for permission to include their contact information. We will use this information in future years to help us identify students to apply to QuestBridge)
+     <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
+      <tr>
+          <td>Last Name</td>
+          <td>First Name</td>
+          <td>School</td>
+          <td>Position</td> 
+          <td>Email</td>
+          <td>Telephone</td>     
+      </tr> 
+        {section name=rowLoop start=1 loop=4}
+          {assign var=i value=$smarty.section.rowLoop.index}   
+            {assign var=last_name value="referral_educator_last_name_"|cat:$i}  
+            {assign var=first_name value="referral_educator_first_name_"|cat:$i}
+            {assign var=school value="referral_educator_school_"|cat:$i}
+            {assign var=position value="referral_educator_position_id_"|cat:$i}            
+            {assign var=email value="referral_educator_email_"|cat:$i}
+            {assign var=phone value="referral_educator_phone_"|cat:$i}
+            <tr>    
+            <td>{$form.$last_name.html|crmReplace:class:six}</td>      
+            <td>{$form.$first_name.html|crmReplace:class:six}</td>
+            <td>{$form.$school.html}</td>
+            <td>{$form.$position.html}</td>
+            <td>{$form.$email.html}</td>
+            <td>{$form.$phone.html|crmReplace:class:six}</td>
+           </tr>
+        {/section} 
 
+    </table>
+    </td>
+  </tr>
     <tr>
     <td colspan=2 class="grouplabel">
      {ts}For any of your relatives who are alumni/ae at any of our partner colleges/universities, please list their names, relationship to you and years of graduation, if known:{/ts}
@@ -92,7 +152,7 @@
           <td>Relationship</td>  
 
         </tr> 
-          {section name=rowLoop start=1 loop=7}
+           {section name=rowLoop start=1 loop=7}
              {assign var=i value=$smarty.section.rowLoop.index}
              <tr>
              {assign var=partner_institution value="alumni_partner_institution_id_"|cat:$i}  
