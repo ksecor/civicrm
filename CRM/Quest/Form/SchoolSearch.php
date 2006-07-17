@@ -96,39 +96,6 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
         $searchCount           = $this->get( 'searchCount'   );
         $searchDone            = $this->get( 'searchDone' );
 
-        if ( $searchRows ) {
-            $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Organization' );
-
-            $this->addElement('text', 'code', ts( 'CEEB Code' ) );
-            $this->add('text', 'organization_name',
-                       ts( 'School Name' ),
-                       $attributes['organization_name'] );
-            $this->addElement('text', 'custom_1_'.$i,
-                              ts( 'School Search Code' ),
-                              $attributes['organization_name'] );
-            
-            $this->addElement('date', 'date_of_entry',
-                              ts( 'Dates Attended (month/year)' ),
-                              CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
-
-            $this->addElement('date', 'date_of_exit', ts( 'Dates attended (month/year)' ),
-                              CRM_Core_SelectValues::date( 'custom', 7, 2, "M\001Y" ) );
-
-            $schoolTypes = array( 310 => 'Public', 311 => 'Private', 312 => 'Parochial' );
-            $this->addRadio( 'custom_2',
-                             ts( 'Your School Is' ),
-                             $schoolTypes );
-            
-            $this->addElement('text', 'custom_3',
-                              ts( 'Number of students in your entire school (all classes)' ),
-                              $attributes['organization_name'] );
-            
-            $this->buildAddressBlock( 1,
-                                      ts( 'School Address' ),
-                                      ts( 'School Phone' ) ,
-                                      null, false, null, null, 'location');
-        } 
-        
         $this->assign( 'searchCount'          , $searchCount);
         $this->assign( 'searchDone'           , $searchDone );
         $this->assign( 'searchRows'           , $searchRows );
@@ -140,15 +107,6 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
         }
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );
         $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );
-
-        $this->addButtons( array(
-                                 array ( 'type'      => $buttonType,
-                                         'name'      => ts('Save'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
     }
 
     /**
