@@ -1,5 +1,4 @@
 {* Quest College Match Application: High School Search Pop-up *}
-{assign var=schoolIndex value=1}
 
 <div id="school-search">
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
@@ -7,7 +6,7 @@
     <td colspan=2 id="category">{ts}Find Your High School{/ts}</td>
 </tr>
 <tr>
-    <td colspan=2 class="grouplabel"><p>{ts}Find your current High School by entering school name and city, zip code and/or state. If you do not find your school, click <strong>Add My High School</strong> and fill in your school name and address.{/ts}</p></td>
+    <td colspan=2 class="grouplabel"><p>{ts}Find your school by entering school name and city, zip code and/or state. If you do not find your school, click <strong>Close Window</strong> and fill in your school name and address directly on the application form.{/ts}</p></td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.school_name.label}</td>
@@ -34,7 +33,7 @@
         {if $searchRows} {* we've got rows to display *}
             <fieldset><legend>{ts}School Search Results{/ts}</legend>
             <div class="description">
-                {ts}If your school appears below, click on the school name to complete the school information on your application. If not, you can modify your search criteria and try the search again. Otherwise click <strong>Close</strong> below and enter your school name and address directly on the application form.{/ts}
+                {ts}If your school appears below, click on the school name to complete the school information on your application. If not, you can modify your search criteria and try the search again. Otherwise click <strong>Close Window</strong> and enter your school name and address directly on the application form.{/ts}
             </div>
             {strip}
             <table>
@@ -47,11 +46,11 @@
             </tr>
             {foreach from=$searchRows item=row}
             <tr class="{cycle values="odd-row,even-row"}">
-                <td><a href="#" onclick="setSchool('{$row.code}','{$row.school_name}','{$row.street_address}','{$row.city}','{$row.state_province}','{$row.postal_code}'); return false;">{$row.school_name}</a></td>
+                <td><strong><a href="#" class="underline" onclick="setSchool('{$schoolIndex}','{$row.code}','{$row.school_name}','{$row.street_address}','{$row.city}','{$row.state_province_id}','{$row.postal_code}'); return false;">{$row.school_name}</a></strong></td>
                 <td>{$row.street_address}</td>
                 <td>{$row.city}</td>
                 <td>{$row.postal_code}</td>
-                <td>{$row.state_province}</td>
+                <td>{$row.state_province} - spid={$row.state_province_id},cty={$row.country_id}</td>
             </tr>
             {/foreach}
             </table>
@@ -62,22 +61,39 @@
             {include file="CRM/common/info.tpl"}
         {/if}
     {else} {* no valid matches for search params *}
-            {capture assign=infoMessage}{ts 1=$form.school_name.value 2=$form.city.value 3=$form.state_province.value 4=$form.postal_code.value}No matching results for <ul><li>School Name like: %1</li><li>City like: %2</li><li>State like: %3</li><li>Zip Code like: %4</li></ul>Check your entries, or try fewer search criteria. If you still can not find you school, then click on <strong>Add Your School</strong> below.{/ts}{/capture}
+            {capture assign=infoMessage}{ts 1=$form.school_name.value 2=$form.city.value 3=$form.state_province.value 4=$form.postal_code.value}No matching results for <ul><li>School Name like: %1</li><li>City like: %2</li><li>State like: %3</li><li>Zip Code like: %4</li></ul>Check your entries, or try fewer search criteria. If you do not find your school, click <strong>Close Window</strong> and fill in your school name and address directly on the application form.{/ts}{/capture}
             {include file="CRM/common/info.tpl"}                
     {/if} {* end if searchCount *}
+    <div class="crm-submit-buttons">
+        <input type="button" value="Close Window" class="form-submit" onclick="noSchool('{$schoolIndex}'); return false;" title="Close this window and return to the main application form." id="btn-close-window"><br />
+    </div>
+    <div class="spacer">&nbsp;</div>
 {/if} {* end if searchDone *}
 
 {literal}
 <script type="text/javascript">
 var thisOpener = window.opener; // global variable
-function setSchool(ceeb,sname,addr,city,state,postal)
+function setSchool(schoolIndex,ceeb,sname,addr,city,state,postal)
 {
-    thisOpener.document.getElementById('custom_1_1').value = ceeb;
-    thisOpener.document.getElementById('organization_name_1').value = sname;
-    thisOpener.document.getElementById('location_1_1_address_street_address').value = addr;
-    thisOpener.document.getElementById('location_1_1_address_city').value = city;
-    thisOpener.document.getElementById('location_1_1_address_postal_code').value = postal;
-//    thisOpener.document.HighSchool.getElementById('location_1_1_address_state_province_id').value = state;
+    var elem = 'custom_1_' + schoolIndex;
+    thisOpener.document.getElementById(elem).value = ceeb;
+    var elem = 'organization_name_' + schoolIndex;
+    thisOpener.document.getElementById(elem).value = sname;
+    var elem = 'location_' + schoolIndex + '_1_address_street_address';
+    thisOpener.document.getElementById(elem).value = addr;
+    var elem = 'location_' + schoolIndex + '_1_address_city';
+    thisOpener.document.getElementById(elem).value = city;
+    var elem = 'location_' + schoolIndex + '_1_address_postal_code';
+    thisOpener.document.getElementById(elem).value = postal;
+    var elem = 'location_' + schoolIndex + '_1_address_state_province_id';
+//    thisOpener.document.HighSchool.getElementById(elem).value = state;
+    thisOpener.focus();
+    window.close();
+}
+// Closing window without setting school - so set CEEB code to 0.
+function noSchool(schoolIndex) {
+    var elem = 'custom_1_' + schoolIndex;
+    thisOpener.document.getElementById(elem).value = 0;
     thisOpener.focus();
     window.close();
 }

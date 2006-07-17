@@ -1,19 +1,19 @@
 {* Quest College Match Application: High School Information section *}
 
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-    <td colspan=2 class="grouplabel"><p>{ts}We realize our applicants come from a diverse group of secondary schools. Please tell us about your particular school by answering the following questions.{/ts}</p></td>
+    <td colspan=2 class="grouplabel"><p>{ts}We realize our applicants come from a diverse group of secondary schools. Please tell us about your current school by answering the following questions. If you attended a different secondary school prior to yor current school, please enter information about that school as well by clicking <strong>Add another High School</strong> below.{/ts}</p></td>
 </tr>
 </table>
 
 {section name=rowLoop start=1 loop=$max}
 {assign var=i value=$smarty.section.rowLoop.index}
 {capture assign=searchUrl}{crmURL p='civicrm/quest/schoolsearch' q="reset=1&schoolIndex=`$i`"}{/capture}
-<div id="HighSchool_{$i}">
+<div id="id_HighSchool_{$i}">
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td class="grouplabel">
@@ -56,6 +56,11 @@
    <td class="fieldlabel">{$form.$location.1.address.country_id.html}<br />{ts}{edit}Country{/edit}{/ts}</td>
 </tr>
 <tr>
+    {assign var=custom_2 value="custom_2_"|cat:$i}
+    <td class="grouplabel">{$form.$custom_2.label}</td>
+    <td class="fieldlabel">{$form.$custom_2.html}</td>
+</tr>
+<tr>
     <td class="grouplabel">{$form.$location.1.phone.1.phone.label}</td>
     <td class="fieldlabel">{$form.$location.1.phone.1.phone.html}</td>
 </tr>
@@ -66,11 +71,6 @@
     <td class="fieldlabel">{$form.$date_of_entry.html} &nbsp;&nbsp; <label>To</label> {$form.$date_of_exit.html} </td>
 </tr>
 <tr>
-    {assign var=custom_2 value="custom_2_"|cat:$i}
-    <td class="grouplabel">{$form.$custom_2.label}</td>
-    <td class="fieldlabel">{$form.$custom_2.html}</td>
-</tr>
-<tr>
     {assign var=custom_3 value="custom_3_"|cat:$i}       
     <td class="grouplabel">{$form.$custom_3.label}</td>
     <td class="fieldlabel"> {$form.$custom_3.html|crmReplace:class:four}</td>
@@ -79,7 +79,7 @@
    {assign var=j value=$i+1}
     <tr>
         <td colspan=2>
-        <span id="HighSchool_{$j}_show">
+        <span id="id_HighSchool_{$j}_show">
             {$highschool.$j.show}<br /> 
             {ts}If you attended another high school prior to the one above, click this link to enter information for your prior school.{/ts}
         </span>
@@ -89,7 +89,7 @@
 </table>
 </div>
 {/section}
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
 {literal}
 <script type="text/javascript">

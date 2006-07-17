@@ -51,7 +51,11 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
           
     function preProcess( ) 
     {
-
+        // Assign schoolIndex from URL to the template (controls which school fieldset to populate)
+        $this->_schoolIndex = CRM_Utils_Request::retrieve('schoolIndex', 'Positive',
+                                                  $this);
+        $this->assign('schoolIndex',$this->_schoolIndex);
+        $this->assign('displayRecent',0);
     }
 
     /**
@@ -130,7 +134,7 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
         if ( $searchDone ) {
             $searchBtn = ts('Search Again');
         } else {
-            $searchBtn = ts('Find My School');
+            $searchBtn = ts('Find Your School');
         }
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );
         $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );
