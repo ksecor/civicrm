@@ -253,23 +253,23 @@
     <script type="text/javascript">
 	var field = new Array(7);
 
-	field[0] = "[street_address]";
-	field[1] = "[supplemental_address_1]";
-	field[2] = "[city]";
-	field[3] = "[postal_code]";
-	field[4] = "[postal_code_suffix]";
-	field[5] = "[state_province_id]";
-	field[6] = "[country_id]";
+	field[0] = "street_address";
+	field[1] = "supplemental_address_1";
+	field[2] = "city";
+	field[3] = "postal_code";
+	field[4] = "postal_code_suffix";
+	field[5] = "state_province_id";
+	field[6] = "country_id";
 
    	function copyAddress() {
 	    if (document.getElementsByName("copy_address")[0].checked) {
 	  	 for (i = 0; i < field.length; i++) {
- 		   	document.getElementById("location[2][address]"+field[i]).value = 
-				document.getElementById("location[1][address]"+field[i]).value;
+ 		   	document.getElementById("location_2_address_"+field[i]).value = 
+				document.getElementById("location_1_address_"+field[i]).value;
 	         }
 	    } else {
 	  	 for (i = 0; i < field.length; i++) {
- 		    document.getElementById("location[2][address]"+field[i]).value = null;
+ 		    document.getElementById("location_2_address_"+field[i]).value = null;
 	   	 }
 	    }
 	}
