@@ -83,15 +83,13 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
         }
         $this->assign('partner' , $partner);
        
-        $partner=CRM_Quest_BAO_Partner::getPartners('Scholarship');
-        foreach ( $partner as $key => $v ) {
+        $partner_s=CRM_Quest_BAO_Partner::getPartners('Scholarship');
+        foreach ( $partner_s as $key => $v ) {
             $this->addElement( 'checkbox','regular_addmission_s_'.$key,$v, null);
         }
-        $this->assign('partner' , $partner);
+        $this->assign('partner_s' , $partner_s);
 
-        // $this->addElement( 'checkbox','regular_addmission', null, $partner);
-        // $this->assign('partner' , $partner);
-        
+       
       
         parent::buildQuickForm( );
 
