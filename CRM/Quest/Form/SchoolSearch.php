@@ -59,25 +59,6 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
     }
 
     /**
-     * This function sets the default values for the form. Relationship that in edit/view mode
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( ) 
-    {
-        $defaults = array( );
-        $params   = array( );
-
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
-        }
-
-        return $defaults;
-    }
-    
-
-    /**
      * Function to build the form
      *
      * @return None
@@ -94,11 +75,13 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
 
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
-        $searchDone            = $this->get( 'searchDone' );
+        $searchDone            = $this->get( 'searchDone'    );
+        $stateProvince         = $this->get( 'stateProvince' );
 
-        $this->assign( 'searchCount'          , $searchCount);
-        $this->assign( 'searchDone'           , $searchDone );
-        $this->assign( 'searchRows'           , $searchRows );
+        $this->assign( 'searchCount'          , $searchCount   );
+        $this->assign( 'searchDone'           , $searchDone    );
+        $this->assign( 'searchRows'           , $searchRows    );
+        $this->assign( 'stateProvince'        , $stateProvince );
 
         if ( $searchDone ) {
             $searchBtn = ts('Search Again');
@@ -115,97 +98,11 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
      * @access public
      * @return None
      */
-    public function postProcess() 
-    {
+    function postProcess( ) {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
-        $this->set( 'searchDone', 0 );
-
-        if ( CRM_Utils_Array::value( '_qf_SchoolSearch_refresh', $_POST ) ) {
-            $this->search( $params );
-            $this->set( 'searchDone', 1 );
-            return;
-        }
-
-        // action is taken depending upon the mode
-        $ids = array( );
-        $ids['contact'] = $this->_contactId;
-        
-        if ($this->_action & CRM_Core_Action::DELETE ){
-            CRM_Contact_BAO_Relationship::del($this->_relationshipId); 
-            return;
-        }
-        
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['relationship'] = $this->_relationshipId;
-            
-            $relation = CRM_Contact_BAO_Relationship::getContactIds( $this->_relationshipId );
-            $ids['contactTarget'] = ( $relation->contact_id_a == $this->_contactId ) ?
-                $relation->contact_id_b : $relation->contact_id_a;
-        }    
-
-        list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
-        $status = '';
-        if ( $valid ) {
-            $status .= ' ' . ts('%count new relationship record created.', array('count' => $valid, 'plural' => '%count new relationship records created.'));
-        }
-        if ( $invalid ) {
-            $status .= ' ' . ts('%count relationship record not created due to invalid target contact type.', array('count' => $invalid, 'plural' => '%count relationship records not created due to invalid target contact type.'));
-        }
-        if ( $duplicate ) {
-            $status .= ' ' . ts('%count relationship record not created - duplicate of existing relationship.', array('count' => $duplicate, 'plural' => '%count relationship records not created - duplicate of existing relationship.'));
-        }
-        if ( $saved ) {
-            $status .= ts('Relationship record has been updated.');
-        }
-        
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
-        foreach($relationshipIds as $index => $id) {
-            CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Relationship',$id); 
-        }
-
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $note =& new CRM_Core_DAO_Note( );
-            $note->entity_id = $relationshipIds[0];
-            $note->entity_table = 'civicrm_relationship';
-            if ($note->find(true)) {
-                $id = $note->id;
-                $noteParams = array(
-                                    'entity_id'     => $relationshipIds[0],
-                                    'entity_table'  => 'civicrm_relationship',
-                                    'note'          => $params['note'],
-                                    'id'            => $id
-                                    );
-                CRM_Core_BAO_Note::add($noteParams);
-            }
-        } else {
-            if ( CRM_Utils_Array::value( 'note', $params ) ) {
-                foreach($relationshipIds as $index => $id) {
-                    $noteParams = array(
-                                        'entity_id'     => $id,
-                                        'entity_table'  => 'civicrm_relationship',
-                                        'note'          => $params['note']
-                                        );
-                    CRM_Core_BAO_Note::add($noteParams);
-                }
-            }
-        }
-        
-        CRM_Core_Session::setStatus( $status );
-    }//end of function
-
-
-    /**
-     * This function is to get the result of the search for contact in relationship form
-     *
-     * @param  array $params  This contains elements for search criteria
-     *
-     * @access public
-     * @return None
-     *
-     */
-    function search(&$params) {
+        $this->set( 'searchDone', 1 );
 
         // create the select clause
         $clause = array( 1 );
@@ -222,10 +119,12 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
             $clause[] = "LOWER(city) LIKE '%" . strtolower( addslashes( $params['city'] ) ) . "%'";
         }
 
+        $this->set( 'stateProvince', '' );
         if ( ! empty( $params['state_province_id'] ) ) {
             $clause[] = 
                 "state_province_id = " .
                 CRM_Utils_Type::escape( $params['state_province_id'], 'Integer' );
+            $this->set( 'stateProvince', CRM_Core_PseudoConstant::stateProvince( $params['state_province_id'] ) );
         }
 
         $whereClause = implode( ' AND ', $clause );
@@ -259,69 +158,6 @@ ORDER BY school_name
         }
     }
     
-
-  /**
-   * function for validation
-   *
-   * @param array $params (reference ) an assoc array of name/value pairs
-   *
-   * @return mixed true or array of errors
-   * @access public
-   * @static
-   */
-    static function formRule( &$params ) {
-        // hack, no error check for refresh
-        if ( CRM_Utils_Array::value( '_qf_SchoolSearch_refresh', $_POST ) ) {
-            return true;
-        }
-
-        $ids = array( );
-        $session =& CRM_Core_Session::singleton( );
-        $ids['contact'     ] = $session->get( 'contactId'     , 'CRM_Contact_Form_Relationship' );
-        $ids['relationship'] = $session->get( 'relationshipId', 'CRM_Contact_Form_Relationship' );
-
-        $errors        = array( );
-        if ( CRM_Utils_Array::value( 'contact_check', $params ) && is_array( $params['contact_check'] ) ) {
-            foreach ( $params['contact_check'] as $cid => $dontCare ) {
-                $message = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $cid);
-                if ( $message ) {
-                    $errors['relationship_type_id'] = $message;
-                    break;
-                }
-            }
-        } else {
-            $errors['contact_check'] = ts( 'Please select at least one contact.' );
-        }
-
-        return empty($errors) ? true : $errors;
-    }
-
-    /**
-     * function for date validation
-     *
-     * @param array $params (reference ) an assoc array of name/value pairs
-     *
-     * @return mixed true or array of errors
-     * @access public
-     * @static
-     */
-    static function dateRule( &$params ) {
-        $errors = array( );
-
-        // check start and end date
-        if ( CRM_Utils_Array::value( 'start_date', $params ) &&
-             CRM_Utils_Array::value( 'end_date'  , $params ) ) {
-            $start_date = CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
-            $end_date   = CRM_Utils_Date::format( CRM_Utils_Array::value( 'end_date'  , $params ) );
-            if ( $start_date && $end_date && (int ) $end_date < (int ) $start_date ) {
-                $errors['end_date'] = ts( 'The relationship end date cannot be prior to the start date.' );
-            }
-        }
-
-        return empty($errors) ? true : $errors;
-
-    }
-
 }
 
 ?>
