@@ -116,11 +116,11 @@
  {include file="CRM/Contact/Form/Location.tpl"}
 
 {if $contact_type eq 'Individual'}
- <div id = "demographics_show" class="data-group label">
+ <div id = "id_demographics_show" class="data-group label">
     {$demographics.show}{ts}Demographics{/ts}
  </div>
 
- <div id="demographics">
+ <div id="id_demographics">
  <fieldset><legend>{$demographics.hide}{ts}Demographics{/ts}</legend>
     <div class="form-item">
         <span class="labels">
@@ -189,11 +189,11 @@
 
  {* Notes block only included for Add Contact (since it navigates from Edit form...) *}
  {if $action eq 1}
-     <div id = "notes_show" class="data-group">
+     <div id = "id_notes_show" class="data-group">
         {$notes.show}<label>{ts}Notes{/ts}</label>
      </div>
 
-     <div id = "notes">
+     <div id = "id_notes">
          <fieldset><legend>{$notes.hide}{ts}Contact Notes{/ts}</legend>
             <div class="form-item">
                 {$form.note.html}

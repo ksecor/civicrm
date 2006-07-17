@@ -17,9 +17,7 @@
       {foreach from=$tag item="row" key = "id"}
 
         <div class="form-item" id ="rowid{$id}">
-
          {$form.tagList[$id].html} &nbsp;{$row}
-
         </div>
 
       {/foreach}

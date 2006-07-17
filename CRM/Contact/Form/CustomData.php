@@ -146,7 +146,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->_showHide =& new CRM_Core_ShowHideBlocks('','');
         
         foreach ($groupTitle as $key => $title) {
-          $showBlocks = $title . '[show]' ;
+          $showBlocks = $title . '_show' ;
           $hideBlocks = $title;
            
           if ($groupCollapseDisplay[$key]) {

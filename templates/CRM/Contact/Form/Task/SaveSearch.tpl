@@ -1,13 +1,15 @@
 <fieldset>
 <legend>{ts}Smart Group{/ts}</legend>
- <div id="search-status">
+{if $qill[0]}
+<div id="search-status">
     <ul>
         {foreach from=$qill item=criteria}
-          <li>  {$criteria}</li>
+          <li>{$criteria}</li>
         {/foreach}
     </ul>
     <br />
- </div>
+</div>
+{/if}
  <div class="form-item">
  <dl>
    <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
