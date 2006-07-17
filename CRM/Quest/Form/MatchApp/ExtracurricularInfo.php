@@ -87,6 +87,17 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
             $defaults['positions_'.$count]     = $dao->position_honor;
         }
         
+        $studentFields = array( 'varsity_sports_list', 'arts_list' );
+        $dao = & new CRM_Quest_DAO_Student();
+        $dao->contact_id = $this->_contactID;
+        if ( $dao->find( true ) ) {
+            foreach ( $studentFields as $stu ) {
+                if ( $dao->$stu ) {
+                    $defaults[$stu] = $dao->$stu;
+                }
+            }
+        }        
+        
         CRM_Quest_BAO_Essay::setDefaults( $this->_grouping, $defaults );
 
         return $defaults;
@@ -155,7 +166,6 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             require_once 'CRM/Quest/BAO/Extracurricular.php';
             $params = $this->controller->exportValues( $this->_name );
-
             $ids = array();
             // delete all actvities before inserting new 
             $dao = &new CRM_Quest_DAO_Extracurricular();
@@ -181,6 +191,9 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
 
             $params['contactID'] = $this->_contactID;
             CRM_Quest_BAO_Essay::create( $params, $ids, $this->_grouping );
+
+            $ids['id'] = $this->_studentID;
+            CRM_Quest_BAO_Student::create( $params, $ids );
         }
         
     }

@@ -584,7 +584,22 @@
       <length>255</length>
       <add>1.5</add>
  </field>
-
+ <field>
+      <name>varsity_sports_list</name>
+      <type>varchar</type>
+      <length>255</length>
+      <default>NULL</default>
+      <comment>list of sports, interested in participating</comment>
+      <add>1.5</add>
+ </field>
+ <field>
+      <name>arts_list</name>
+      <type>varchar</type>
+      <length>255</length>
+      <default>NULL</default>
+      <comment>list of arts, interested in participating</comment>
+      <add>1.5</add>
+ </field>
 <field>
       <name>displacement</name>
       <title>details of your displacement</title>
@@ -592,5 +607,4 @@
       <length>512</length>
       <add>1.5</add>
  </field>
-
 </table>
