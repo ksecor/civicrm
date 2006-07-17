@@ -88,7 +88,9 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
         $this->addElement('text', 'school_name'      , ts('School Name'    ) );
         $this->addElement('text', 'postal_code'      , ts('Postal Code'    ) );
         $this->addElement('text', 'city'             , ts('City'           ) );
-        $this->addElement('text', 'state_province'   , ts('State Province' ) );
+
+        $this->addElement('select', 'state_province_id'   , ts('State / Province' ),
+                          array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
 
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
@@ -262,14 +264,20 @@ class CRM_Quest_Form_SchoolSearch extends CRM_Quest_Form_App
             $clause[] = "LOWER(city) LIKE '%" . strtolower( addslashes( $params['city'] ) ) . "%'";
         }
 
-        if ( ! empty( $params['state_province'] ) ) {
-            $clause[] = "state_province = '" . addslashes( $params['state_province'] ) . "'";
+        if ( ! empty( $params['state_province_id'] ) ) {
+            $clause[] = 
+                "state_province_id = " .
+                CRM_Utils_Type::escape( $params['state_province_id'], 'Integer' );
         }
 
         $whereClause = implode( ' AND ', $clause );
 
+        $args = array( 'code', 'school_name', 'street_address', 'city', 'postal_code',
+                       'state_province', 'state_province_id', 'country_id', 
+                       'school_type' );
+        $select = implode( ',', $args );
         $query = "
-SELECT   code, school_name, street_address, city, postal_code, state_province
+SELECT   $select
 FROM     quest_ceeb
 WHERE    $whereClause
 ORDER BY school_name
@@ -280,12 +288,11 @@ ORDER BY school_name
         if ( $searchCount <= self::MAX_SCHOOLS ) {
             $searchRows = array( );
             while ( $dao->fetch( ) ) {
-                $searchRows[] = array( 'code'           => $dao->code,
-                                       'school_name'    => $dao->school_name,
-                                       'street_address' => $dao->street_address,
-                                       'state_province' => $dao->state_province,
-                                       'city'           => $dao->city,
-                                       'postal_code'    => $dao->postal_code );
+                $row = array( );
+                foreach ( $args as $arg ) {
+                    $row[$arg] = $dao->$arg;
+                }
+                $searchRows[] = $row;
             }
             $this->set( 'searchRows' , $searchRows );
         } else {

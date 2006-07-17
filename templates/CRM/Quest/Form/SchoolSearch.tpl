@@ -21,8 +21,8 @@
     <td class="fieldlabel">{$form.postal_code.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.state_province.label}</td>
-    <td class="fieldlabel">{$form.state_province.html}</td>
+    <td class="grouplabel">{$form.state_province_id.label}</td>
+    <td class="fieldlabel">{$form.state_province_id.html}</td>
 </tr>
 <tr><td class="grouplabel" colspan=2>{$form._qf_SchoolSearch_refresh.html}</td>
 </table>
