@@ -86,7 +86,9 @@ class CRM_Quest_Form_Verify extends CRM_Quest_Form_App
         $drupalID = CRM_Quest_API::getContactByHash( $this->_hash, $this->_md5, $params['email'] );
 
         if ( $drupalID ) {
-            $params = array( 'email' => $email, 'drupalID' => $drupalID );
+            $params = array( 'email'    => $email,
+                             'drupalID' => $drupalID,
+                             'password' => $params['password'] );
             $result = quest_drupal_user_verify( $params );
         }
 

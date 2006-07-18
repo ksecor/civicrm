@@ -60,7 +60,7 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
     {
         parent::preProcess();
 
-        $this->_essays = CRM_Quest_BAO_Essay::getFields( $this->_grouping );
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( $this->_grouping, $this->_contactID, $this->_contactID );
     }
     
     /**
@@ -72,11 +72,9 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
-        $defaults = array( );
-
-        CRM_Quest_BAO_Essay::setDefaults( $this->_grouping, $defaultParams );
-        $defaults['essay'] = $defaultParams;
-        
+        $defaults          = array( );
+        $defaults['essay'] = array( );
+        CRM_Quest_BAO_Essay::setDefaultValues( $this->_essays, $defaults['essay'] );
         return $defaults;
     }
     
@@ -112,13 +110,13 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-            $ids = array();
 
             $essayParams = $params['essay'];
-            $essayParams['contactID'] = $this->_contactID;
-            CRM_Quest_BAO_Essay::create( $essayParams, $ids, $this->_grouping );
+            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], 
+                                         $this->_contactID, $this->_contactID );
+
+            parent::postProcess( );
         }
-        parent::postProcess( );
     }//end of function
 
 }
