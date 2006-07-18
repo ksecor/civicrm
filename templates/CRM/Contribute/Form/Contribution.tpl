@@ -64,8 +64,8 @@
            <tr><td class="label">{$form.product_name.label}</td><td>{$form.product_name.html}</td></tr>
            <tr><td class="label">{$form.min_amount.label}</td><td>{$form.min_amount.html|crmReplace:class:texttolabel}</td></tr>
            <tr><td class="label">{$form.fulfilled_date.label}</td><td>{$form.fulfilled_date.html}
-           {include file="CRM/common/calendar/desc.tpl" trigger=trigger4}
-           {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=5 trigger=trigger4}      
+           {include file="CRM/common/calendar/desc.tpl" trigger=trigger5}
+           {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=5 trigger=trigger5}      
            </td></tr>
         </table>            
       </fieldset>

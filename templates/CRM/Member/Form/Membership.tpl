@@ -22,13 +22,13 @@
 		</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}When did this contact first become a member (defaults to today's date)?{/ts}</dd>
  	<dt>{$form.start_date.label}</dt><dd class="html-adjust">{$form.start_date.html}
-		{include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
-		{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=5 trigger=trigger1}
+		{include file="CRM/common/calendar/desc.tpl" trigger=trigger2}
+		{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=5 trigger=trigger2}
 		</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}First day of current continuous membership period. Start Date will be automatically set based on Membership Type if you don't select a date.{/ts}</dd>
  	<dt>{$form.end_date.label}</dt><dd class="html-adjust">{$form.end_date.html}
-		{include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
-		{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=5 trigger=trigger1}
+		{include file="CRM/common/calendar/desc.tpl" trigger=trigger3}
+		{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=5 trigger=trigger3}
 		</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Latest membership period expiration date. End Date will be automatically set based on Membership Type if you don't select a date.{/ts}</dd>
     <dt>{$form.source.label}</dt><dd class="html-adjust">{$form.source.html}</dd>
