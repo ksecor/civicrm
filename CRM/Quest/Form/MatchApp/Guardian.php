@@ -203,7 +203,7 @@ public function buildQuickForm( )
                                   '',
                                   true, true );
 
-        //  $this->addFormRule(array('CRM_Quest_Form_App_Guardian', 'formRule'));
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Guardian', 'formRule'));
 
         parent::buildQuickForm();
 }
@@ -292,7 +292,7 @@ public function postProcess()
                     $incomeID = $incomeDetails[ "Income-{$person->id}" ]['options']['incomeID'];
                 }
                 $incomeDetails[ "Income-{$person->id}" ] =
-                    array( 'className' => 'CRM_Quest_Form_App_Income',
+                    array( 'className' => 'CRM_Quest_Form_MatchApp_Income',
                            'title'     => "{$params['first_name']} {$params['last_name']}",
                            'options'   => array( 'personID'   => $person->id,
                                                  'incomeID'   => $incomeID,

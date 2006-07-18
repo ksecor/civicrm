@@ -1,6 +1,6 @@
 {* Quest Pre-application:  section *}
 
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
@@ -8,7 +8,7 @@
 <tr>
     <td colspan=2 class="grouplabel">
     <p></p>
-    <p class="preapp-instruction">{ts}Household Income is the total income coming into your current, primary household.
+    <p class="app-instruction">{ts}Household Income is the total income coming into your current, primary household.
     Please enter income information for all individuals who contribute financially to your household.{/ts}</p>
     {edit}
     {ts}
@@ -83,7 +83,7 @@
     <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
     <tr>
         <td class="grouplabel" colspan="2">
-            <p class="preapp-instruction">{ts}Check the <strong>Add another income source</strong> box to add information for individuals who are not living with you, but who contribute to the household financially.
+            <p class="app-instruction">{ts}Check the <strong>Add another income source</strong> box to add information for individuals who are not living with you, but who contribute to the household financially.
             For these individuals, please enter only the amount contributed to your household annually (e.g., alimony or child support), not their total income which may not go to your household.{/ts}</p>
         </td>
     </tr>
@@ -95,5 +95,5 @@
 {/edit}
 </table>
 
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 

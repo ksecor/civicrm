@@ -402,14 +402,14 @@ WHERE  id = {$value['options']['personID']}
             $relationship = CRM_Core_OptionGroup::values( 'relationship' );
 
             $relationshipID = array_search( 'Mother', $relationship );
-            $details["Guardian-Mother"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
+            $details["Guardian-Mother"] = array( 'className' => 'CRM_Quest_Form_MatchApp_Guardian', 
                                                  'title' => "Mother",
                                                  'options' => array( 'personID'         => null,
                                                                      'relationshipID'   => $relationshipID,
                                                                      'relationshipName' => 'Mother' ) );
 
             $relationshipID = array_search( 'Father', $relationship );
-            $details["Guardian-Father"] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
+            $details["Guardian-Father"] = array( 'className' => 'CRM_Quest_Form_MatchApp_Guardian', 
                                                  'title' => "Father",
                                                  'options' => array( 'personID'         => null,
                                                                      'relationshipID'   => $relationshipID,
@@ -423,7 +423,7 @@ WHERE  id = {$value['options']['personID']}
                 } else {
                     $pageName = "Guardian-{$dao->id}";
                 }
-                $details[$pageName] = array( 'className' => 'CRM_Quest_Form_App_Guardian', 
+                $details[$pageName] = array( 'className' => 'CRM_Quest_Form_MatchApp_Guardian', 
                                              'title' => "$name",
                                              'options' => array( 'personID'       => $dao->id,
                                                                  'relationshipID' => $dao->relationship_id,

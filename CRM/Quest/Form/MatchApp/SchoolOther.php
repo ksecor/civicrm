@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_App_SchoolOther extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_SchoolOther extends CRM_Quest_Form_App
 {
     protected $_orgIDsOther;
     protected $_relIDsOther;

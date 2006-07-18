@@ -284,14 +284,14 @@ class CRM_Quest_Form_MatchApp_Income extends CRM_Quest_Form_App
 
             $details = $this->controller->get( 'incomeDetails' );
             $details[ $this->_name ] =
-                array( 'className' => 'CRM_Quest_Form_App_Income',
+                array( 'className' => 'CRM_Quest_Form_MatchApp_Income',
                        'title'     => "{$params['first_name']} {$params['last_name']}",
                        'options'   => array( 'personID'   => $this->_personID,
                                              'incomeID'   => $income->id,
                                              'lastSource' => false ) );
             
             if ( CRM_Utils_Array::value( 'another_income_source', $params ) ) {
-                $details[$this->_name . '-1'] = array( 'className' => 'CRM_Quest_Form_App_Income',
+                $details[$this->_name . '-1'] = array( 'className' => 'CRM_Quest_Form_MatchApp_Income',
                                                        'title'     => 'Add an Income Source',
                                                        'options'   => array( 'personID'   => null,
                                                                              'incomeID'   => null,
@@ -383,7 +383,7 @@ WHERE  i.person_id = p.id
                     $deceasedYear = $deceasedYear['Y'];
                     if ( ! $person->is_deceased || $deceasedYear == date("Y") ) {
                         $details[ "Income-{$dao->person_id}"] =
-                            array( 'className' => 'CRM_Quest_Form_App_Income',
+                            array( 'className' => 'CRM_Quest_Form_MatchApp_Income',
                                    'title'     => "{$person->first_name} {$person->last_name}",
                                    'options'   => array( 'personID'   => $person->id,
                                                          'incomeID'   => $dao->id,
@@ -411,7 +411,7 @@ WHERE  i.person_id = p.id
                 if ( ! CRM_Utils_Array::value( "Income-{$dao->id}", $details ) &&
                      ! $dao->is_deceased || $deceasedYear == date( 'Y' ) ) {
                     $details[ "Income-{$dao->id}"] =
-                        array( 'className' => 'CRM_Quest_Form_App_Income',
+                        array( 'className' => 'CRM_Quest_Form_MatchApp_Income',
                                'title'     => "{$dao->first_name} {$dao->last_name}",
                                'options'   => array( 'personID'   => $dao->id,
                                                      'incomeID'   => null,
@@ -428,7 +428,7 @@ WHERE  i.person_id = p.id
         
         if ( empty( $details ) ) {
             // dont store this in session, always add at end
-            $details['Income-New'] = array( 'className' => 'CRM_Quest_Form_App_Income',
+            $details['Income-New'] = array( 'className' => 'CRM_Quest_Form_MatchApp_Income',
                                             'title'     => 'Add an Income Source',
                                             'options'   => array( 'personID'   => null,
                                                                   'incomeID'   => null,

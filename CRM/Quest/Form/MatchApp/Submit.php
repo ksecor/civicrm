@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_App_Submit extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Submit extends CRM_Quest_Form_App
 {
     /**
      * This function sets the default values for the form. Relationship that in edit/view action

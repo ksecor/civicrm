@@ -221,7 +221,7 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
                 }
 
                 // also adjust the details array
-                CRM_Quest_Form_App_Sibling::getPages( $this->controller, true );
+                CRM_Quest_Form_MatchApp_Sibling::getPages( $this->controller, true );
 
                 return;
             }
@@ -299,7 +299,7 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
                     // delete this object
                     $dao->delete( );
                 } else {
-                    $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling',
+                    $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_MatchApp_Sibling',
                                                       'title' => trim( "{$dao->first_name} {$dao->last_name}" ),
                                                       'options' => array( 'index' => $i,
                                                                           'siblingID' => $dao->id ) );
@@ -309,7 +309,7 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
 
             if ( is_numeric( $totalSiblings ) && $totalSiblings >= $i ) {
                 for ( ; $i <= $totalSiblings; $i++ ) {
-                    $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_App_Sibling', 
+                    $details["Sibling-{$i}"] = array( 'className' => 'CRM_Quest_Form_MatchApp_Sibling', 
                                                       'title'   => "Sibling $i",
                                                       'options' => array( 'index' => $i ) );
                 }
