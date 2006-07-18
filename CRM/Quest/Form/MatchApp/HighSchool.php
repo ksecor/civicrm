@@ -216,7 +216,7 @@ class CRM_Quest_Form_MatchApp_HighSchool extends CRM_Quest_Form_App
                               CRM_Core_SelectValues::date( 'custom', 7, 2, "M\001Y" ) );
             $this->addRule('date_of_exit_'.$i, ts('Select a valid date.'), 'qfDate');
 
-            $schoolTypes = array( '' => '- select -', 'A' => 'Public', 'B' => 'Independent', 'C' => 'Not Religious', 'D' => 'Independent', 'E' => 'Catholic', 'F' => 'Other Independent', 'G' => 'Religious', 'H' => 'Home school association', 'I' => 'Charter', 'J' => 'Correspondence', 'K' => 'Other' );
+            $schoolTypes = array( '' => '- select -', 'A' => 'Public', 'B' => 'Independent, Not Religious', 'C' => 'Independent, Catholic', 'D' => 'Other Independent, Religious', 'E' => 'Home School Association', 'F' => 'Charter', 'G' => 'Correspondence', 'H' => 'Other', 'I' => 'Education Provider' );
             $this->addElement( 'select', 'custom_2_'. $i,
                              ts( 'Your School Is' ),
                              $schoolTypes );

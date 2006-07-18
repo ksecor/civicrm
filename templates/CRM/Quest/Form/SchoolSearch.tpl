@@ -1,5 +1,4 @@
 {* Quest College Match Application: High School Search Pop-up *}
-
 <div id="school-search">
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
@@ -46,11 +45,11 @@
             </tr>
             {foreach from=$searchRows item=row}
             <tr class="{cycle values="odd-row,even-row"}">
-                <td><strong><a href="#" class="underline" onclick="setSchool('{$schoolIndex}','{$row.code}','{$row.school_name}','{$row.street_address}','{$row.city}','{$row.state_province_id}','{$row.postal_code}'); return false;">{$row.school_name}</a></strong></td>
+                <td><strong><a href="#" class="underline" onclick="setSchool('{$schoolIndex}','{$row.code}','{$row.school_name}','{$row.street_address}','{$row.city}','{$row.state_province_id}','{$row.postal_code}','{$row.country_id}','{$row.school_type}'); return false;">{$row.school_name}</a></strong></td>
                 <td>{$row.street_address}</td>
                 <td>{$row.city}</td>
                 <td>{$row.postal_code}</td>
-                <td>{$row.state_province} - spid={$row.state_province_id},cty={$row.country_id}</td>
+                <td>{$row.state_province}</td>
             </tr>
             {/foreach}
             </table>
@@ -61,7 +60,7 @@
             {include file="CRM/common/info.tpl"}
         {/if}
     {else} {* no valid matches for search params *}
-            {capture assign=infoMessage}{ts 1=$form.school_name.value 2=$form.city.value 3=$form.state_province.value 4=$form.postal_code.value}No matching results for <ul><li>School Name like: %1</li><li>City like: %2</li><li>State like: %3</li><li>Zip Code like: %4</li></ul>Check your entries, or try fewer search criteria. If you do not find your school, click <strong>Close Window</strong> and fill in your school name and address directly on the application form.{/ts}{/capture}
+            {capture assign=infoMessage}{ts 1=$form.school_name.value 2=$form.city.value 3=$stateProvince 4=$form.postal_code.value}No matching results for <ul><li>School Name like: %1</li><li>City like: %2</li><li>Zip Code like: %4</li><li>State like: %3</li></ul>Check your entries, or try fewer search criteria. If you do not find your school, click <strong>Close Window</strong> and fill in your school name and address directly on the application form.{/ts}{/capture}
             {include file="CRM/common/info.tpl"}                
     {/if} {* end if searchCount *}
     <div class="crm-submit-buttons">
@@ -73,7 +72,7 @@
 {literal}
 <script type="text/javascript">
 var thisOpener = window.opener; // global variable
-function setSchool(schoolIndex,ceeb,sname,addr,city,state,postal)
+function setSchool(schoolIndex,ceeb,sname,addr,city,state,postal,country,stype)
 {
     var elem = 'custom_1_' + schoolIndex;
     thisOpener.document.getElementById(elem).value = ceeb;
@@ -83,10 +82,14 @@ function setSchool(schoolIndex,ceeb,sname,addr,city,state,postal)
     thisOpener.document.getElementById(elem).value = addr;
     var elem = 'location_' + schoolIndex + '_1_address_city';
     thisOpener.document.getElementById(elem).value = city;
+    var elem = 'location_' + schoolIndex + '_1_address_state_province_id';
+    thisOpener.document.getElementById(elem).value = state;
     var elem = 'location_' + schoolIndex + '_1_address_postal_code';
     thisOpener.document.getElementById(elem).value = postal;
-    var elem = 'location_' + schoolIndex + '_1_address_state_province_id';
-//    thisOpener.document.HighSchool.getElementById(elem).value = state;
+    var elem = 'location_' + schoolIndex + '_1_address_country_id';
+    thisOpener.document.getElementById(elem).value = country;
+    var elem = 'custom_2_' + schoolIndex;
+    thisOpener.document.getElementById(elem).value = stype;
     thisOpener.focus();
     window.close();
 }

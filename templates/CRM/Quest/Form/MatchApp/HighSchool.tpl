@@ -33,7 +33,7 @@
     <td class="grouplabel">{$form.$custom_1.label}</td>
     <td class="fieldlabel">
         {$form.$custom_1.html|crmReplace:class:six}<br />
-        <a href="javascript:popUp('http://questscholars.stanford.edu/help_popup/ceeb.html')">{ts}{edit}Click here</a> to locate your CEEB school code.{/edit}{/ts}
+        <span class="font-red">This field (CEEB code) is populated by the School Search popup and will be hidden in production. Leaving it here now for testing/debugging.</span>
     </td>
 </tr>
 <tr>

@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
 {
     protected $_testIDs = array();
 
@@ -295,7 +295,7 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                             CRM_Core_OptionGroup::values( 'test',true ),
                             false ,null);
 
-        $this->addFormRule(array('CRM_Quest_Form_App_Testing', 'formRule'));
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Testing', 'formRule'));
        
         parent::buildQuickForm( );
     }
