@@ -53,13 +53,13 @@
 <tr>
     <td>
         {$form.member_end_date_low.html}<br/>
-        {include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
-        {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger1}
+        {include file="CRM/common/calendar/desc.tpl" trigger=trigger3}
+        {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger3}
     </td>
     <td> 
        {$form.member_end_date_high.label} {$form.member_end_date_high.html}<br/>
-       {include file="CRM/common/calendar/desc.tpl" trigger=trigger2}
-       {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger2}
+       {include file="CRM/common/calendar/desc.tpl" trigger=trigger4}
+       {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger4}
     </td> 
 </tr>
 </table>
