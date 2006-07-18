@@ -69,7 +69,7 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
         $defaults = array();
         require_once 'CRM/Quest/DAO/PartnerRanking.php';
         $dao = & new CRM_Quest_DAO_PartnerRanking();
-        $dao->s_forward = '1';
+        $dao->is_forward = '1';
         $dao->contact_id = $this->contact_id;
         $dao->find();
         while( $dao->fetch() ){
@@ -104,8 +104,6 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
         }
         $this->assign('partner_s' , $partner_s);
 
-       
-      
         parent::buildQuickForm( );
 
     }//end of function
@@ -122,20 +120,22 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
             
-            require_once 'CRM/Quest/DAO/PartnerRanking.php';
-            $dao = & new CRM_Quest_DAO_PartnerRanking();
-            $dao->is_forward = '1';
-            $dao->contact_id = $this->contact_id;
-            $dao->delete();
+           //  require_once 'CRM/Quest/DAO/PartnerRanking.php';
+//             $dao = & new CRM_Quest_DAO_PartnerRanking();
+//             $dao->is_forward = '1';
+//             $dao->contact_id = $this->contact_id;
+//             $dao->delete();
             
             foreach ( $params as $key=>$value ) {
                 if ( $value ) {
+                    $dao = & new CRM_Quest_DAO_PartnerRanking();
                     $ranking = array();
                     $ranking['contact_id'] = $this->_contactID;
                     $temp = explode('_', $key);
                     $ranking['partner_id'] = $temp[2];
                     $ranking['is_forward'] = 1;
-                    $dao = & new CRM_Quest_DAO_PartnerRanking();
+                    $dao->partner_id = $temp[2];
+                    $dao->find(true);
                     $dao->copyValues( $ranking );
                     $dao->save();
                 }

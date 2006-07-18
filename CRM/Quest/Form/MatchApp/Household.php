@@ -83,6 +83,7 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
                 $defaults['years_lived_id_'.$i] = $dao->years_lived_id;
                 if ( $i == 1 ) {
                     $defaults['description']     = $dao->description;
+                    $defaults['foster_child']    = $dao->foster_child;
                 }
                 for ( $j = 1; $j <= 2; $j++ ) {
                     require_once 'CRM/Quest/DAO/Person.php';
@@ -280,6 +281,7 @@ WHERE  id = {$value['options']['personID']}
                 
                 if ( $i == 1 ) {
                     $householdParams['description'] = $params["description"];
+                    $householdParams['foster_child']= $params["foster_child"];
                 }
                 
                 $needed = false;

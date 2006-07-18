@@ -94,14 +94,38 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         $partners = CRM_Quest_BAO_Partner::getPartners();
        
         foreach ( $partners as $k => $v) {
-            $this->addElement('select','college_ranking_'.$k, ts( 'Ranking' ),array("" => "")+CRM_Core_OptionGroup::values('college_ranking'));
+            $this->addElement('select','college_ranking_'.$k, ts( 'Ranking' ),CRM_Core_OptionGroup::values('college_ranking'));
+            //$this->addRule('college_ranking_'.$k,"You must select a value for EVERY partner ","required");
         }
         $this->assign( 'collegeType', $partners);
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_CmRanking', 'formRule'));
         parent::buildQuickForm( );
     }
-
- /**
-      * process the form after the input has been submitted and validated
+    
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        
+        $errors = array( );
+        foreach ( $params as $key => $value ) {
+            $tempArray = $params;
+            unset($tempArray[$key]);
+            if ( in_array( $value , $tempArray) ) {
+                $errors['college_ranking_'.$key] = "No two colleges can have the same ranking";
+            }
+        }
+       return empty($errors) ? true : $errors;
+    }
+    
+    /**
+     * process the form after the input has been submitted and validated
       *
       * @access public
       * @return void
@@ -115,8 +139,7 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
             //delete all renking before Inserting new one 
             require_once 'CRM/Quest/DAO/PartnerRanking.php';
             $dao = & new CRM_Quest_DAO_PartnerRanking();
-            $dao->is_forward = '0';
-            $dao->contact_id = $this->contact_id;
+            $dao->contact_id = $this->_contactID;
             $dao->delete();
             
             foreach ( $params as $key=>$value ) {
