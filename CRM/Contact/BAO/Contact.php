@@ -2096,8 +2096,11 @@ WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
        $p = array( 1 => array( $mail, 'String' ),
                         2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
  
+       
        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
-       if ( $dao->find( true ) ) {
+
+       //if ( $dao->find( true ) ) {
+       if ( $dao->fetch() ) {
           return $dao;
        }
        return null;
