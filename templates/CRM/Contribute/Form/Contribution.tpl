@@ -18,8 +18,8 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</td></tr>
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
 {if $hideCalender neq true}
-{include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
-{include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=5 trigger=trigger1}
+{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_1}
+{include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_1}
 {/if}    
 </td>
 </tr>
@@ -42,18 +42,18 @@
         <tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.{/ts}<br />{ts}For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>
         <tr><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
-{include file="CRM/common/calendar/desc.tpl" trigger=trigger2}
-{include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger2}
+{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
+{include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}
 </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</td></tr>
         <tr><td class="label">{$form.thankyou_date.label}</td><td>{$form.thankyou_date.html}
-{include file="CRM/common/calendar/desc.tpl" trigger=trigger3}
-{include file="CRM/common/calendar/body.tpl" dateVar=thankyou_date startDate=currentYear endDate=endYear offset=5 trigger=trigger3}
+{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_3}
+{include file="CRM/common/calendar/body.tpl" dateVar=thankyou_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_3}
 </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a thank-you message was sent to the contributor.{/ts}</td></tr>
         <tr><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
-{include file="CRM/common/calendar/desc.tpl" trigger=trigger4}
-{include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=5 trigger=trigger4}
+{include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
+{include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_4}
 </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</td></tr>
         <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
@@ -64,8 +64,8 @@
            <tr><td class="label">{$form.product_name.label}</td><td>{$form.product_name.html}</td></tr>
            <tr><td class="label">{$form.min_amount.label}</td><td>{$form.min_amount.html|crmReplace:class:texttolabel}</td></tr>
            <tr><td class="label">{$form.fulfilled_date.label}</td><td>{$form.fulfilled_date.html}
-           {include file="CRM/common/calendar/desc.tpl" trigger=trigger5}
-           {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=5 trigger=trigger5}      
+           {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_5}
+           {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_5}      
            </td></tr>
         </table>            
       </fieldset>

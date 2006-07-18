@@ -110,12 +110,12 @@
             <div class="form-item">
                 <dl>
                 <dt>{$form.start_date.label}</dt>
-                <dd>{$form.start_date.html} {include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
-{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=1985 endDate=2025 trigger=trigger1}
+                <dd>{$form.start_date.html} {include file="CRM/common/calendar/desc.tpl" trigger=trigger_relationship_1}
+{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=1985 endDate=2025 trigger=trigger_relationship_1}
                 </dd>
                 <dt>{$form.end_date.label}</dt>
-                <dd>{$form.end_date.html}{include file="CRM/common/calendar/desc.tpl" trigger=trigger2} 
-{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=1985 endDate=2025 trigger=trigger2}
+                <dd>{$form.end_date.html}{include file="CRM/common/calendar/desc.tpl" trigger=trigger_relationship_2} 
+{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=1985 endDate=2025 trigger=trigger_relationship_2}
                 </dd>
                 <dt> </dt>
                     <dd class="description">

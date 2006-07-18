@@ -31,11 +31,11 @@
         <dd>{$form.scheduled_date_time.html}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
-               {include file="CRM/common/calendar/desc.tpl"}
+               {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_1}
         </dd>
         <dt>&nbsp;</dt>
         <dd class="description">               
-{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1}
+{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1 trigger=trigger_activity_1}
         </dd>
     {/if}
 	<dt>{ts}Duration{/ts}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>

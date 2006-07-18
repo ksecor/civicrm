@@ -4,13 +4,13 @@
             </td>
             <td>
                 {$form.contribution_date_low.html} &nbsp;<br />
-                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contri1}
-                {include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_contri1}
+                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_contribution_1}
+                {include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_contribution_1}
             </td>
             <td colspan="2"> 
                  {$form.contribution_date_high.label} {$form.contribution_date_high.html}<br />
-                 &nbsp; &nbsp; {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contri2}
-                 {include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_contri2}
+                 &nbsp; &nbsp; {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_contribution_2}
+                 {include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_contribution_2}
             </td> 
         </tr> 
         <tr> 
