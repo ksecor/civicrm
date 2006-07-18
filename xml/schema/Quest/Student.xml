@@ -607,4 +607,13 @@
       <length>512</length>
       <add>1.5</add>
  </field>
+  <field>
+      <name>school_work</name>
+      <title>school work</title>
+      <type>varchar</type>
+      <length>64</length>
+      <default>NULL</default>
+      <comment>time of work during the school year</comment>
+      <add>1.5</add>
+  </field>
 </table>

@@ -83,6 +83,17 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
         }
         CRM_Quest_BAO_Essay::setDefaults( $this->_grouping, $defaults );
         
+        $studentFields = array( 'school_work' );
+        $dao = & new CRM_Quest_DAO_Student();
+        $dao->id = $this->_studentID;;
+        if ( $dao->find( true ) ) {
+            foreach ( $studentFields as $stu ) {
+                if ( $dao->$stu ) {
+                    $defaults[$stu] = $dao->$stu;
+                }
+            }
+        }        
+        
         return $defaults;
     }
 
@@ -109,12 +120,11 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
                             null);
         }
          $this->addElement('textarea', 'earnings', ts( 'To what use have you put your earnings? ' ), array("rows"=>5,"cols"=>60));
-        $choice = array( );
-        $choice[] = $this->createElement( 'radio', null, '11', ts( 'Weekends' ) );
-        $choice[] = $this->createElement( 'radio', null, '11', ts( 'After School' ));
-        $choice[] = $this->createElement( 'radio', null, '11', ts( 'Both' ));
-        $this->addGroup( $choice, 'school_work');
 
+         $this->addRadio( 'school_work', null, array( 'weekends'    => 'Weekends', 
+                                                      'after_school'=> 'After School', 
+                                                      'both'        => 'Both' ) );
+         
         $maxWork = 6;
         $this->assign( 'maxWork', $maxWork);
         parent::buildQuickForm( );
@@ -136,7 +146,7 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
             $dao = &new CRM_Quest_DAO_WorkExperience();
             $dao->contact_id = $this->_contactID;
             $dao->delete();
-
+            
             $workExpParams = array();
             for( $i = 1; $i <= 6; $i++  ) {
                 if ($params['nature_of_work_'.$i]) {
@@ -152,6 +162,9 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
 
             $params['contactID'] = $this->_contactID;
             CRM_Quest_BAO_Essay::create( $params, $ids, $this->_grouping );
+
+            $ids['id'] = $this->_studentID;
+            CRM_Quest_BAO_Student::create( $params, $ids );
        }
         parent::postProcess( );
     }
