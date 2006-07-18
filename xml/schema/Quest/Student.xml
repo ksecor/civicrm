@@ -164,6 +164,36 @@
        <add>1.5</add>
   </foreignKey>
   <field>
+       <name>tribe_affiliation</name>
+       <type>varchar</type>
+       <length>255</length>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/tribe/i</headerPattern>
+       <comment>Specifies tribe if ethnicity is Native American.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>tribe_enroll_date</name>
+       <type>date</type>
+       <default>NULL</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/tribe enroll/i</headerPattern>
+       <comment>If ethnicity is Native American, date the person enrolled in their tribe (only MMYYYY is significant).</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>ethnicity_other</name>
+       <type>varchar</type>
+       <length>255</length>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/other ethnicity/i</headerPattern>
+       <comment>Specifies ethnicity if ethnicity_id_1 value is Other.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
       <name>home_area_id</name>
       <title>Home Area</title>
       <type>int unsigned</type>
