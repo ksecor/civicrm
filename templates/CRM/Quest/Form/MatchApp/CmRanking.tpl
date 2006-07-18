@@ -19,15 +19,14 @@
                     <td class="grouplabel"><strong>Colleges</strong></td>
                     <td class = "nowrap"><strong>Ranking</strong></td>
                   </tr>
-      {section name=rowLoop start=1 loop=14}
-       {assign var=i value=$smarty.section.rowLoop.index}
+      {section name=rowLoop start=1 loop=15}
+      {assign var=i value=$smarty.section.rowLoop.index}
       {assign var=collegeTypes value=$collegeType}
       {assign var=collegeRank value="college_ranking_"|cat:$i}   
-    
+      {assign var=urlLink value=$url_link}   
      <tr>
-
-  	  <td class="grouplabel">{$collegeTypes[$i]}&nbsp;&nbsp;<a href="http://">(learn more)</a></td>
-      <td class="nowrap">{$form.$collegeRank.html}</td>
+       <td class="grouplabel">{$collegeTypes[$i]}&nbsp;&nbsp;<a href={$urlLink[$i]}>(<u>learn more</u>)</a></td>
+       <td class="nowrap">{$form.$collegeRank.html}</td>
     </tr>
 {/section}
  

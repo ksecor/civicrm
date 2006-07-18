@@ -91,17 +91,34 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
+        require_once "CRM/Quest/DAO/Partner.php";
         require_once 'CRM/Quest/BAO/Partner.php';
+
         $partner=CRM_Quest_BAO_Partner::getPartners();
         foreach ( $partner as $key => $v ) {
             $this->addElement( 'checkbox','regular_addmission_'.$key,$v, null);
+            $collegeLink =& new CRM_Quest_DAO_Partner();
+            $collegeLink->name = $v;
+            $collegeLink->find(true);
+            $link[$key] = $collegeLink->url_learn;
+            unset($collegeLink);
         }
         $this->assign('partner' , $partner);
-       
         $partner_s=CRM_Quest_BAO_Partner::getPartners('Scholarship');
+
+     
         foreach ( $partner_s as $key => $v ) {
             $this->addElement( 'checkbox','scholarship_addmission_'.$key,$v, null);
+        
+            $collegeLink =& new CRM_Quest_DAO_Partner();
+            $collegeLink->name = $v;
+            $collegeLink->find(true);
+            $scholarshipLink[$key] = $collegeLink->url_learn;
+            unset($collegeLink);
         }
+       
+        $this->assign( 'url_link', $link);
+        $this->assign( 'scholarshipUrl_link', $scholarshipLink);
         $this->assign('partner_s' , $partner_s);
 
         parent::buildQuickForm( );

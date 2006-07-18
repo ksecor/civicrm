@@ -91,14 +91,25 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student');
        
         require_once "CRM/Quest/BAO/Partner.php";
+        require_once "CRM/Quest/DAO/Partner.php";
+        
         $partners = CRM_Quest_BAO_Partner::getPartners();
-       
         foreach ( $partners as $k => $v) {
             $this->addElement('select','college_ranking_'.$k, ts( 'Ranking' ),CRM_Core_OptionGroup::values('college_ranking'));
             //$this->addRule('college_ranking_'.$k,"You must select a value for EVERY partner ","required");
+            $collegeLink =& new CRM_Quest_DAO_Partner();
+            $collegeLink->name = $v;
+            $collegeLink->find(true);
+            $link[$k] = $collegeLink->url_learn;
+            unset($collegeLink);
         }
+        
         $this->assign( 'collegeType', $partners);
+
+        $this->assign( 'url_link', $link);
+
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_CmRanking', 'formRule'));
+
         parent::buildQuickForm( );
     }
     

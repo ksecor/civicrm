@@ -22,7 +22,7 @@
     {if ($key eq 0) or (($key - 1)%3 eq 0) }
         <tr>
     {/if}
-        <td class="optionlist">{$form.$regular_addmission.html}{$form.$regular_addmission.label}</td>
+        <td class="optionlist">{$form.$regular_addmission.html}{$form.$regular_addmission.label} &nbsp;<a href={$url_link.$key}>(<u>learn more</u>)</a></td>
     {if ( ($key%3) eq 0 ) }
         </tr>
     {/if}
@@ -62,11 +62,13 @@
 {assign var=regular_addmission_s value="scholarship_addmission_"|cat:$key}
 <tr>
 <td class="optionlist">{$form.$regular_addmission_s.html}{$form.$regular_addmission_s.label}
+&nbsp;<a href={$scholarshipUrl_link.$key}>(<u>learn more</u>)</a>
 </td>
 { if ($key+1%2) eq 0}
 </tr>
 {/if}
  {/foreach}
+
 </tr>
   
 
