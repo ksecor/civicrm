@@ -77,6 +77,13 @@ class CRM_Quest_Invoke {
             return $controller->run( );
         }
 
+        if ( $args[2] === 'verify' ) {
+            require_once 'CRM/Core/Controller/Simple.php';
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Quest_Form_Verify', ts( 'Verify your Registration' ), null );
+            $controller->process( );
+            return $controller->run( );
+        }
+
     }
 
     static function admin( &$args ) {

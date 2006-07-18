@@ -74,7 +74,7 @@ class CRM_Quest_BAO_Recommendation {
 
         if ( $verify ) {
             $md5Email = md5( $email );
-            $url = CRM_Utils_System::url( 'quest/recommender/verify',
+            $url = CRM_Utils_System::url( 'civicrm/quest/verify',
                                           "reset=1&h={$hash}&m={$md5Email}" );
         } else {
             $url = CRM_Utils_System::url( 'user/login' );
