@@ -81,7 +81,7 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-      <name>nationality_country_id</name>
+      <name>nationality_country_id_1</name>
       <title>Country of Heritage/Nationality</title>
       <type>int unsigned</type>
       <required>true</required>
@@ -91,7 +91,41 @@
       <add>1.5</add>
   </field>
   <foreignKey>
-       <name>nationality_country_id</name>
+       <name>nationality_country_id_1</name>
+       <table>civicrm_country</table>
+       <key>id</key>
+       <headerPattern>/nationality/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>nationality_country_id_2</name>
+      <title>Country of Heritage/Nationality</title>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Country of persons nationality.</comment>
+      <export>true</export>
+      <import>true</import>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>nationality_country_id_2</name>
+       <table>civicrm_country</table>
+       <key>id</key>
+       <headerPattern>/nationality/i</headerPattern>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>nationality_country_id_3</name>
+      <title>Country of Heritage/Nationality</title>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Country of persons nationality.</comment>
+      <export>true</export>
+      <import>true</import>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>nationality_country_id_3</name>
        <table>civicrm_country</table>
        <key>id</key>
        <headerPattern>/nationality/i</headerPattern>

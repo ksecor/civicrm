@@ -70,7 +70,7 @@ class CRM_Quest_BAO_Recommendation {
 
         self::createTaskStatus( 10, $recommenderID, $contactID, 326 );
 
-        $verify = quest_drupal_verify_user( $drupalID );
+        $verify = quest_drupal_is_user_verified( $drupalID );
 
         if ( $verify ) {
             $md5Email = md5( $email );
