@@ -152,16 +152,16 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 $this->_showHide =& new CRM_Core_ShowHideBlocks( );
                 for ( $i = 2; $i <= 5; $i++ ) {
                     if ( CRM_Utils_Array::value( "satII_score_$i", $defaults )) {
-                        $this->_showHide->addShow( "satII_test_$i" );
+                        $this->_showHide->addShow( "id_satII_test_$i" );
                     } else {
-                        $this->_showHide->addHide( "satII_test_$i" );
+                        $this->_showHide->addHide( "id_satII_test_$i" );
                     }
                 }
                 for ( $i = 2; $i <= 32; $i++ ) {
                     if ( CRM_Utils_Array::value( "ap_score_id_$i", $defaults )) {
-                        $this->_showHide->addShow( "ap_test_$i" );
+                        $this->_showHide->addShow( "id_ap_test_$i" );
                     } else {
-                        $this->_showHide->addHide( "ap_test_$i" );
+                        $this->_showHide->addHide( "id_ap_test_$i" );
                     }
                 }
             

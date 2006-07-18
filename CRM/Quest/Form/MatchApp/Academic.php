@@ -111,9 +111,9 @@ class CRM_Quest_Form_MatchApp_Academic extends CRM_Quest_Form_App
             $this->_showHide =& new CRM_Core_ShowHideBlocks( );
             for ( $i = 2; $i <= 6; $i++ ) {
                 if ( CRM_Utils_Array::value( "description_$i", $defaults )) {
-                    $this->_showHide->addShow( "honor_$i" );
+                    $this->_showHide->addShow( "id_honor_$i" );
                 } else {
-                    $this->_showHide->addHide( "honor_$i" );
+                    $this->_showHide->addHide( "id_honor_$i" );
                 }
             }
             $this->_showHide->addToTemplate( );

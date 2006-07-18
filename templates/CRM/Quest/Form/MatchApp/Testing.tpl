@@ -113,7 +113,7 @@
 
 {section name=rowLoop start=1 loop=$maxSAT}
     {assign var=i value=$smarty.section.rowLoop.index}
-    <div id="satII_test_{$i}">
+    <div id="id_satII_test_{$i}">
     <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
      <tr>
         {assign var=subject value="satII_subject_id_"|cat:$i}
@@ -133,7 +133,7 @@
             {$form.$date.html}
             {if $i LT $maxSAT}
                 {assign var=j value=$i+1}
-                <br /><span id="satII_test_{$j}[show]">{$satII_test.$j.show}</span>
+                <br /><span id="id_satII_test_{$j}_show">{$satII_test.$j.show}</span>
             {/if}        
         </td>
     </tr>
@@ -148,7 +148,7 @@
 <tr><td colspan=2>
 {section name=rowLoop start=1 loop=$maxAP}
     {assign var=i value=$smarty.section.rowLoop.index}
-    <div id="ap_test_{$i}">
+    <div id="id_ap_test_{$i}">
     <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
      <tr>
         {assign var=subject value="ap_subject_id_"|cat:$i}
@@ -167,7 +167,7 @@
             {$form.$date.html}
             {if $i LT $maxAP}
                 {assign var=j value=$i+1}
-                <br /><span id="ap_test_{$j}[show]">{$ap_test.$j.show}</span>
+                <br /><span id="id_ap_test_{$j}_show">{$ap_test.$j.show}</span>
             {/if}        
         </td>
     </tr>

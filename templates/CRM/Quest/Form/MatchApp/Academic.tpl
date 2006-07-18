@@ -47,7 +47,7 @@
 
 {section name=rowLoop start=1 loop=$maxHonors}
     {assign var=i value=$smarty.section.rowLoop.index}
-    <div id="honor_{$i}">
+    <div id="id_honor_{$i}">
     <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
      <tr>
         {assign var=description value="description_"|cat:$i}
@@ -61,7 +61,7 @@
             {$form.$award_date.html}
             {if $i LT $maxHonors}
                 {assign var=j value=$i+1}
-                <br /><span id="honor_{$j}[show]">{$honor.$j.show}</span>
+                <br /><span id="id_honor_{$j}_show">{$honor.$j.show}</span>
             {/if}
         </td>
     </tr>
