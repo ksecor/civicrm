@@ -122,6 +122,29 @@ class CRM_Quest_API {
         return null;
     }
 
+    static function getContactByHash( $h, $m, $email ) {
+        require_once 'CRM/Contact/BAO/Contact.php';
+
+        $email = trim( $email );
+
+        // make sure email and the md5 are the same
+        if ( $m != md5( $email ) ) {
+            return false;
+        }
+
+        $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $email );
+        if ( ! $dao ) {
+            return false;
+        }
+
+        if ( $dao->hash != $h ) {
+            return false;
+        }
+
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        return CRM_Core_BAO_UFMatch::getUFId( $dao->contact_id );
+    }
+
 }
 
 ?>

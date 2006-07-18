@@ -77,8 +77,7 @@ class CRM_Quest_BAO_Recommendation {
             $url = CRM_Utils_System::url( 'quest/recommender/verify',
                                           "reset=1&h={$hash}&m={$md5Email}" );
         } else {
-            $url = CRM_Utils_System::url( 'quest/recommender/login',
-                                          'reset=1' );
+            $url = CRM_Utils_System::url( 'user/login' );
         }
 
         // send email to the recommender
@@ -113,7 +112,7 @@ class CRM_Quest_BAO_Recommendation {
     static function createContact( $firstName, $lastName, $email ) {
         // check if contact exists, if so return that contact IDo
         require_once 'CRM/Contact/BAO/Contact.php';
-        require_once 'CRM/Core/DAO/UFMatch.php';
+        require_once 'CRM/Core/BAO/UFMatch.php';
         
         $dao =& $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $email );
         if ( $dao ) {
