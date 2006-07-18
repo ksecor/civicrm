@@ -121,8 +121,9 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                                                    'options'   => array( ) );
         }
 
+        $lastPages = array( 'CRM_Quest_Form_MatchApp_Recommendation' => null );
 
-        $this->_pages = array_merge( $firstPages, $dynamicPages, $extraPages, $gradePages, $essayPages );
+        $this->_pages = array_merge( $firstPages, $dynamicPages, $extraPages, $gradePages, $essayPages, $lastPages );
 
         $this->addSequentialPages( $this->_pages, $action );
     }

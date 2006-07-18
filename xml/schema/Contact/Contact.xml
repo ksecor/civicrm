@@ -189,7 +189,8 @@
   </field>
   <field>
       <name>hash</name>
-      <type>int unsigned</type>
+      <type>varchar</type>
+      <length>32</length>
       <comment>Key for validating requests related to this contact.</comment>
       <add>1.1</add>
       <change>1.5</change>

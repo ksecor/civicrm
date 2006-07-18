@@ -841,6 +841,12 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             return false;
         }       
     }
+
+    static function &getSchoolSelect( $id ) {
+        $schools = array( 1 => "Holy Name High School",
+                          3 => "St. Joe's" );
+        return $schools;
+    }
 }
     
 ?>

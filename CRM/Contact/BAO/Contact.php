@@ -2082,6 +2082,27 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
        return null;
     } 
 
+    static function &matchContactOnEmail( $mail ) {
+       $query = "
+SELECT    civicrm_contact.id as contact_id,
+          civicrm_contact.domain_id as domain_id,
+          civicrm_contact.hash as hash
+FROM      civicrm_contact
+LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
+                                civicrm_contact.id  = civicrm_location.entity_id AND 
+                                civicrm_location.is_primary = 1 )
+LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
+WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
+       $p = array( 1 => array( $mail, 'String' ),
+                        2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
+ 
+       $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+       if ( $dao->find( true ) ) {
+          return $dao;
+       }
+       return null;
+    }
+
 }
 
 ?>
