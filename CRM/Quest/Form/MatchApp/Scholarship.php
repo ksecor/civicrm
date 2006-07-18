@@ -157,8 +157,9 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         $this->addElement('text','internet_access_other',null,null);
 
         // computer at home
+        $extra2 = array('onchange' => "return showHideByValue('is_home_computer', '1', 'is_home_internet','table-row', 'radio', false);");
         $this->addYesNo( 'is_home_computer',
-                         ts( 'Do you have a computer at home?' ),null,true );
+                         ts( 'Do you have a computer at home?' ),null,true ,$extra2);
 
         // internet access at home
         $this->addYesNo( 'is_home_internet',
@@ -167,8 +168,9 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         // federal lunch program
         $this->addSelect( 'fed_lunch',
                           ts( 'Are you eligible for Federal Free or Reduced Price Lunches?' ),null,true);
+        $extra3 = array('onchange' => "return showHideByValue('is_take_SAT_ACT', '1', 'study_method_id','table-row', 'radio', false);");
         $this->addYesNo( 'is_take_SAT_ACT',
-                         ts( 'Did you study for the SAT or ACT?' ) ,null,true);
+                         ts( 'Did you study for the SAT or ACT?' ) ,null,true, $extra3);
 
 
         $this->addSelect( 'study_method',
@@ -182,13 +184,15 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 
         $this->addElement('textarea','displacement', ts('If you are a resident of Alabama, Florida, Louisina, Mississippi, or Texas, are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), "cols=60,rows=8");
 
+   
         $this->addRadio( 'heard_about_qb_id',
                          ts('How did you hear about QuestBridge?'),
                          CRM_Core_OptionGroup::values('heard_about_qb') );
 
         $name_array = array( 3,4,5,6,7,9);
         foreach ( $name_array as $value ) {
-            $this->addElement('text','heard_about_qb_name_'.$value,null,null);
+            $extra6 = array('onclick' => "return showHideByValue('heard_about_qb_'.$value, '1', 'heard_about_qb_name_'.$value,'table-row', 'radio', false);");  
+            $this->addElement('text','heard_about_qb_name_'.$value,null,null,$extra6);
         }
 
         for($i=1;$i<=3;$i++) {
@@ -238,13 +242,15 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                          ts( 'Have either of your parents/guardians graduated from a four-year college?' ),1,true );
         
         // wheather dismissed
+        $extra4 = array('onchange' => "return showHideByValue('is_dismissed', '1', 'explain_dismissed','table-row', 'radio', false);");
         $this->addYesNo( 'is_dismissed',
-                         ts( 'Have you ever violated an Honor code, or been dismissed, suspended from school, put on probation or subjected to any school-related or legal disciplinary action?' ),0,false );
+                         ts( 'Have you ever violated an Honor code, or been dismissed, suspended from school, put on probation or subjected to any school-related or legal disciplinary action?' ),null,false, $extra4 );
         
         $this->addElement('textarea', 'explain_dismissed', ts( 'Please explain' ), $attributes['explain_dismissed'] );
         // wheather convicted
+        $extra5 = array('onchange' => "return showHideByValue('is_convicted', '1', 'explain_convicted','table-row', 'radio', false);");
         $this->addYesNo( 'is_convicted',
-                         ts( 'Have you ever been been convicted of a crime, had a criminal charge sustained against you in a juvenile proceeding, or been placed on court-supervised probation?' ),0,false );
+                         ts( 'Have you ever been been convicted of a crime, had a criminal charge sustained against you in a juvenile proceeding, or been placed on court-supervised probation?' ),null,false, $extra5);
         
         $this->addElement('textarea', 'explain_convicted', ts( 'Please explain' ), $attributes['explain_convicted'] );
         

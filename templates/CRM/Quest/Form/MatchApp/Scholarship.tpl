@@ -19,7 +19,7 @@
     <td class="grouplabel"> {$form.is_home_computer.label}</td>
     <td class="fieldlabel"> {$form.is_home_computer.html} </td>
 </tr> 
-<tr>
+<tr id="is_home_internet">
     <td class="grouplabel"> {$form.is_home_internet.label} </td>
     <td class="fieldlabel"> {$form.is_home_internet.html} </td>
 </tr> 
@@ -31,7 +31,7 @@
     <td class="grouplabel"> {$form.is_take_SAT_ACT.label}</td>
     <td class="fieldlabel"> {$form.is_take_SAT_ACT.html}</td>
 </tr>
-<tr>
+<tr id="study_method_id">
     <td class="grouplabel"> {$form.study_method_id.label}</td>
     <td class="fieldlabel"> {$form.study_method_id.html}</td>
 </tr>
@@ -54,7 +54,7 @@
         {foreach from=$form.heard_about_qb_id item=type key=key}
         {assign var="countEI" value=`$countEI+1`}
         {if $countEI gt 9 }         
-        <tr><td class="fieldlabel"> {$form.heard_about_qb_id.$key.html}
+        <tr id="heard_about_name"><td class="fieldlabel"> {$form.heard_about_qb_id.$key.html}
         {assign var=heard_about_name value="heard_about_qb_name_"|cat:$key}  
         {if $form.$heard_about_name.html}
             {if $key eq 3}
@@ -222,8 +222,8 @@ applicants for the following year's application cycle. Please enter contact info
     <td class="fieldlabel">
         {$form.is_dismissed.html}</td>
 </tr>
-<tr>
-    <td class="grouplabel">
+<tr id = "explain_dismissed">
+    <td  class="grouplabel">
         {$form.explain_dismissed.label}</td>
     <td class="fieldlabel">
         {$form.explain_dismissed.html}</td>
@@ -234,7 +234,7 @@ applicants for the following year's application cycle. Please enter contact info
     <td class="fieldlabel">
         {$form.is_convicted.html}</td>
 </tr>
-<tr>
+<tr id = "explain_convicted">
     <td class="grouplabel">
         {$form.explain_convicted.label}</td>
     <td class="fieldlabel">
@@ -245,6 +245,41 @@ applicants for the following year's application cycle. Please enter contact info
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_home_computer"
+    trigger_value       ="1"
+    target_element_id   ="is_home_internet" 
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_take_SAT_ACT"
+    trigger_value       ="1"
+    target_element_id   ="study_method_id" 
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}
+
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_dismissed"
+    trigger_value       ="1"
+    target_element_id   ="explain_dismissed" 
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_convicted"
+    trigger_value       ="1"
+    target_element_id   ="explain_convicted" 
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="internet_access_id"
