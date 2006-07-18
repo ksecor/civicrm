@@ -121,6 +121,7 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
             }
             for ( $j = 1; $j <= 2; $j++ ) {
                 $this->addElement('text', "time_spent_{$j}_{$i}", ts('Approximate time spent'), null );
+                $this->addRule("time_spent_{$j}_{$i}", ts('Please enter the integer value'), 'integer');
             }
             $this->addElement('text', "positions_$i", ts('Positions held, honors won,or letters earned'), null );
         }
@@ -132,11 +133,12 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         $this->addElement( 'textarea', "hobbies",
                            ts('We encourage you to reply to this question in sentence form, rather than as a list, if you feel this would allow you to better express your interests.') ,"cols=60 rows=5");
 
-        $this->addElement('checkbox', 'varsity_sports',ts( 'Varsity Sports' ));
+        //$this->addElement('checkbox', 'varsity_sports',ts( 'Varsity Sports' ));
         $this->addElement('text', 'varsity_sports_list' );
-        $this->addElement( 'checkbox','arts',ts('Arts (music, dance/theatre, visual, etc) (list):') );
+        //$this->addElement( 'checkbox','arts',ts('Arts (music, dance/theatre, visual, etc) (list):') );
         $this->addElement('text', 'arts_list' );
  
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_ExtracurricularInfo', 'formRule'));
         parent::buildQuickForm();
     }
     //end of function
@@ -152,6 +154,49 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
      */
     public function formRule(&$params)
     {
+        $errors = array( );
+        
+        for ( $i = 1; $i <= 7; $i++ ) {
+            $filled = $anyGrade = $anyTimeSpent = false;
+            if ($params["activity_$i"]) {
+                $filled = true;
+            }
+            for ( $j = 1; $j <= 5; $j++ ) {
+                if ($params["grade_level_{$j}_{$i}"]) {
+                    $filled = true;
+                    $anyGrade = true;
+                }
+            }
+            for ( $j = 1; $j <= 2; $j++ ) {
+                if ($params["time_spent_{$j}_{$i}"]) {
+                    $filled = true;
+                }
+            }
+            if ($params["positions_$i"]) {
+                $filled = true;
+            }
+            
+            if ($filled) {
+                if (!$params["activity_$i"]) {
+                    $errors["activity_$i"] = "Please enter the activity.";
+                }
+                if (!$anyGrade) {
+                    for ( $j = 1; $j <= 5; $j++ ) {
+                        $errors["grade_level_{$j}_{$i}"] = "Please specify any grade level.";
+                    }
+                }
+                for ( $j = 1; $j <= 2; $j++ ) {
+                    if (!$params["time_spent_{$j}_{$i}"]) {
+                        $errors["time_spent_{$j}_{$i}"] = "Please enter the time spent.";
+                    }
+                }
+                if (!$params["positions_$i"]) {
+                    $errors["positions_$i"] = "Please specify the position held.";
+                }
+            }
+        }
+
+        return empty($errors) ? true : $errors;
         
     } 
 

@@ -78,8 +78,15 @@ Please list your principal extracurricular, community, and family activities and
 </tr>    
 <tr>
     <td class="grouplabel"> {ts}Are you interested in participating in any of the following in college?{/ts}</td>
-    <td class="grouplabel">{$form.varsity_sports.html}{$form.varsity_sports.label}{$form.varsity_sports_list.html}<br>
-    {$form.arts.html}{$form.arts.label}{$form.arts_list.html}
+    <td class="grouplabel">
+	{edit}
+        	<input type="checkbox" name="varsity_sports" id="varsity_sports" value="1" onClick="showTextField()"/> {ts}Varsity Sports{/ts}
+	{/edit}
+	{$form.varsity_sports_list.html}<br/>
+	{edit}
+        	<input type="checkbox" name="arts" id="arts" value="1" onClick="showTextField()"/> {ts}Arts (music, dance/theatre, visual, etc) (list):{/ts}
+	{/edit}
+	{$form.arts_list.html}
     </td>
     
 </tr>
@@ -87,3 +94,22 @@ Please list your principal extracurricular, community, and family activities and
 
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+
+{literal}
+    <script type="text/javascript">
+	hide("varsity_sports_list");
+	hide("arts_list");
+   	function showTextField() {
+		if (document.getElementById("varsity_sports").checked) {
+		  show("varsity_sports_list");
+		} else {
+	          hide("varsity_sports_list");
+		}
+		if (document.getElementById("arts").checked) {
+		  show("arts_list");
+		} else {
+	          hide("arts_list");
+		}
+	}
+    </script>  
+{/literal}
