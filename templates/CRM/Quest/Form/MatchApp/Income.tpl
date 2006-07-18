@@ -46,7 +46,7 @@
 <tr><td colspan=2>
 {section name=rowLoop start=1 loop=$maxIncome}
     {assign var=i value=$smarty.section.rowLoop.index}
-    <div id="income_{$i}">
+    <div id="id_income_{$i}">
     <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
     <tr>
        {assign var=source value="type_of_income_id_"|cat:$i}  
@@ -65,7 +65,7 @@
     {if $i LT ($maxIncome-1)}
         {assign var=j value=$i+1}
         <tr><td colspan="2">
-            <span id="income_{$j}[show]">
+            <span id="id_income_{$j}_show">
                 {$income.$j.show}<br />
                 {ts}Click here to enter additional information if this individual has more than one job or type of income.{/ts}
             </span>

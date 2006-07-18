@@ -106,10 +106,10 @@ class CRM_Quest_Form_MatchApp_Income extends CRM_Quest_Form_App
             $this->_showHide =& new CRM_Core_ShowHideBlocks( );
             for ( $i = 2; $i <= 3; $i++ ) {
                 if ( CRM_Utils_Array::value( "type_of_income_id_$i", $defaults )) {
-                    $this->_showHide->addShow( "income_$i" );
-                    $this->_showHide->addHide( 'income_' . $i . '[show]' );
+                    $this->_showHide->addShow( "id_income_{$i}" );
+                    $this->_showHide->addHide( "id_income_{$i}_show" );
                 } else {
-                    $this->_showHide->addHide( "income_$i" );
+                    $this->_showHide->addHide( "id_income_{$i}" );
                 }
             }
             $this->_showHide->addToTemplate( );
@@ -158,7 +158,7 @@ class CRM_Quest_Form_MatchApp_Income extends CRM_Quest_Form_App
                                $attributes['job_1'] );
             
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
-                $income[$i] = CRM_Core_ShowHideBlocks::links( $this,"income_$i",
+                $income[$i] = CRM_Core_ShowHideBlocks::links( $this,"income_{$i}",
                                                               ts('add another type of income'),
                                                               ts('hide this type of income'),
                                                               false );
