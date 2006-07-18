@@ -54,7 +54,7 @@
         {foreach from=$form.heard_about_qb_id item=type key=key}
         {assign var="countEI" value=`$countEI+1`}
         {if $countEI gt 9 }         
-        <tr id="heard_about_name"><td class="fieldlabel"> {$form.heard_about_qb_id.$key.html}
+        <tr><td class="fieldlabel"> {$form.heard_about_qb_id.$key.html}
         {assign var=heard_about_name value="heard_about_qb_name_"|cat:$key}  
         {if $form.$heard_about_name.html}
             {if $key eq 3}

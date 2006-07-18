@@ -191,8 +191,8 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 
         $name_array = array( 3,4,5,6,7,9);
         foreach ( $name_array as $value ) {
-            $extra6 = array('onclick' => "return showHideByValue('heard_about_qb_'.$value, '1', 'heard_about_qb_name_'.$value,'table-row', 'radio', false);");  
-            $this->addElement('text','heard_about_qb_name_'.$value,null,null,$extra6);
+             
+            $this->addElement('text','heard_about_qb_name_'.$value,null,null);
         }
 
         for($i=1;$i<=3;$i++) {
