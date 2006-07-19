@@ -164,7 +164,7 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         $errors = array( );
         
         for ( $i = 1; $i <= 7; $i++ ) {
-            $filled = $anyGrade = $anyTimeSpent = false;
+            $filled = $anyGrade = false;
             if ($params["activity_$i"]) {
                 $filled = true;
             }
