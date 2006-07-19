@@ -50,6 +50,7 @@ class CRM_Quest_Controller_Counselor extends CRM_Core_Controller {
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'update' );
         $this->assign( 'action', $this->_action );
+
         if ( ! $cid ) {
             $cid    = CRM_Utils_Request::retrieve( 'id', 'Positive',
                                                    $this );
@@ -183,70 +184,17 @@ class CRM_Quest_Controller_Counselor extends CRM_Core_Controller {
         $wizard['steps'] = array( );
 
         $count           = 0;
-        
-        $sections = array( 'Guardian' => array( 'title'     => 'Parent/Guardian Detail',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Sibling'  => array( 'title'     =>'Sibling Information',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Income'   => array( 'title'     => 'Household Income',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Extracurricular' => array( 'title' => 'Extracurricular Information',
-                                                       'processed' => true,
-                                                       'valid'     => true,
-                                                       'index'     => 0 ),
-                           'Academic' => array( 'title' => 'Academic Information',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Essay'    => array( 'title' => 'Essays',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           );
 
-        $subCount = 0;
         $data =& $this->container( );
         foreach ( $this->_pages as $name => $page ) {
-            $subNames = explode( '-', $name );
             $step  = true;
             $link  = $this->_stateMachine->validPage( $name, $data['valid'] ) ? $page->getLink ( ) : null;
-            $valid = ( $name == 'SchoolOther' ) ? 1 : $data['valid'][$name];
-            if ( CRM_Utils_Array::value( $subNames[0], $sections ) ) {
-                $step      = false;
-                $collapsed = true;
-                if ( $sections[$subNames[0]]['processed'] ) {
-                    $count++;
-                    $sections[$subNames[0]]['processed'] = false;
+            $valid = $data['valid'][$name];
 
-                    // remember the index to fix valid status
-                    $sections[$subNames[0]]['index'] = count( $wizard['steps'] );
+            $count++;
+            $stepNumber = $count;
+            $collapsed  = false;
 
-                    $wizard['steps'][] = array( 'name'       => $name,
-                                                'title'      => $sections[$subNames[0]]['title'],
-                                                'link'       => $link,
-                                                'valid'      => $valid,
-                                                'step'       => true,
-                                                'stepNumber' => $count,
-                                                'collapsed'  => false );
-                    $subCount = 1;
-                    $stepNumber = $count . ".$subCount";
-                } else {
-                    $subCount++;
-                    $stepNumber = $count . ".$subCount";
-                }
-                // the section valid is an AND of all subsection valid
-                $sections[$subNames[0]]['valid'] = $valid & $sections[$subNames[0]]['valid'];
-            } else {
-                $count++;
-                $stepNumber = $count;
-                $collapsed  = false;
-            }
             $wizard['steps'][] = array( 'name'       => $name,
                                         'title'      => $page->getTitle( ),
                                         'link'       => $link,
@@ -263,27 +211,7 @@ class CRM_Quest_Controller_Counselor extends CRM_Core_Controller {
             }
         }
 
-        // fix valid status of all section heads
-        foreach ( $sections as $name => $value ) {
-            $wizard['steps'][$value['index']]['valid'] = $value['valid'];
-        }
-
         $wizard['stepCount']         = $count;
-
-        if ( strpos( $wizard['currentStepNumber'], '.' ) !== false ) {
-            list( $one, $two ) = explode( '.', $wizard['currentStepNumber'] );
-
-            // fix collapsed of sub section
-            foreach ( $wizard['steps'] as $idx => $value ) {
-                if ( $value['stepNumber'] == $one ) {
-                    $wizard['currentStepRootTitle'] = $value['title'] . ': ';
-                }
-                list( $three, $four ) = explode( '.', $value['stepNumber'] );
-                if ( $one == $three ) {
-                    $wizard['steps'][$idx]['collapsed'] = false;
-                }
-            }
-        }
 
         $this->addWizardStyle( $wizard ); 
 
@@ -334,7 +262,7 @@ class CRM_Quest_Controller_Counselor extends CRM_Core_Controller {
         }
 
         $template =& CRM_Core_Smarty::singleton( );
-        $template->assign( 'pageTitle', '2006 College Prep Scholarship Application' );
+        $template->assign( 'pageTitle', '2006 College Match Counselor Recommendation' );
         $template->assign_by_ref( 'pageHTML', $html );
         
         echo $template->fetch( "CRM/Quest/Page/View/Preview.tpl" );
