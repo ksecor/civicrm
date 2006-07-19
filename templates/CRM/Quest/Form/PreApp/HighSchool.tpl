@@ -1,6 +1,6 @@
 {* Quest Pre-application: High School Information section *}
 
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 
 {section name=rowLoop start=1 loop=$max}
 {assign var=i value=$smarty.section.rowLoop.index}
@@ -83,5 +83,5 @@
 </table>
 </div>
 {/section}
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 

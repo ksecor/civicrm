@@ -1,6 +1,6 @@
 {* Quest Match-application: Educational Interests  section *}
 
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 {strip}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
@@ -61,7 +61,7 @@
 
 </table>
 {/strip}
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
 {include file="CRM/common/showHideByFieldValue.tpl"
     trigger_field_id    ="educational_interest[245]"

@@ -1,5 +1,5 @@
 {* Quest Pre-application:  College Match Ranking Information section *}
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
@@ -31,7 +31,7 @@
 {/section}
  
 </table>
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 <div class="newsblock">
             <table border="1" cellpadding="0" cellspacing="0" width="900">
             <tbody><tr>
