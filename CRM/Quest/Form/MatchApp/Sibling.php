@@ -117,7 +117,8 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
                           CRM_Core_SelectValues::date('custom', 60, 0, "M\001d\001Y" ),
                           true);
         $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
-
+        $this->addRule("birth_date",ts('Please Enter a Valid date for Birthdate'),'required');
+                
         $extra2 = array ('onchange' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', 'table-row', 'radio', true);");
         $choice = array( );
         $choice[] = $this->createElement( 'radio', null, '11', ts( 'All my life' ), '1', $extra2 );

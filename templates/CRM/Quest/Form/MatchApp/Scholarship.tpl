@@ -10,7 +10,7 @@
      <td class="fieldlabel">{$form.internet_access_id.html}</td>
 </tr> 
 <tr id="internet_access_other">
-     <td class="grouplabel">&nbsp;</td>
+     <td class="grouplabel"> {$form.internet_access_other.label}</td>
      <td class="fieldlabel">{$form.internet_access_other.html}<br />
         {ts}{edit}Describe your primary internet access method.{/edit}{/ts}
     </td>

@@ -7,6 +7,11 @@
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
+    <td class="grouplabel">{$form.is_parent.label}</td>
+    <td class="fieldlabel">{$form.is_parent.html}</td>
+</tr>
+
+<tr>
     <td rowspan=2 valign=top class="grouplabel" width="30%">
         <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel" width="70%">
@@ -58,8 +63,13 @@
 
 
 <tr>
-    <td class="grouplabel" rowspan="6">
+     
+    <td class="grouplabel" rowspan="7">
         <label>{ts}Permanent Address{/ts} <span class="marker">*</span></td>
+    <td class=fieldlabel">
+        {$form.chk_permenent.html}&nbsp;&nbsp;{$form.chk_permenent.label}<br /></td>
+</tr>
+<tr> 
     <td class="fieldlabel">
         {$form.location.1.address.street_address.html}<br />
         {edit}{ts}Number and Street (including apartment number){/ts}{/edit}
@@ -96,8 +106,12 @@
         </td>
 </tr>
 <tr>
-    <td class="grouplabel">
+    <td class="grouplabel" rowspan="2">
         <label>{ts}Permanent Telephone{/ts} <span class="marker">*</span></td>
+    <td class=fieldlabel">
+        {$form.chk_permenentPhone.html}&nbsp;&nbsp;{$form.chk_permenentPhone.label}<br /></td>
+</tr>
+<tr>
     <td class="fieldlabel">
         {$form.location.1.phone.1.phone.html}<br />
         {ts}{edit}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/edit}{/ts}

@@ -76,6 +76,8 @@
     </div>
 {/section}
 </td></tr>
+<tr></tr>
+<tr ><td colspan="2">Total Income entered for this person: </td></tr>
 </table>
 
 {edit}
@@ -87,12 +89,14 @@
             For these individuals, please enter only the amount contributed to your household annually (e.g., alimony or child support), not their total income which may not go to your household.{/ts}</p>
         </td>
     </tr>
+
     <tr>
         <td class="grouplabel" colspan="2">{$form.another_income_source.html}</td>
     </tr>
     </table>
 {/if}
 {/edit}
+
 </table>
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}

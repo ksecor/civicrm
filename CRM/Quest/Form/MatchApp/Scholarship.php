@@ -154,7 +154,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                               ts('What is your primary method of accessing the Internet?'),
                               array('' => ts('- select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
                               $attributes ,true, $extra1 );
-        $this->addElement('text','internet_access_other',null,null);
+        $this->addElement('text','internet_access_other',ts('Please specify'),null);
 
         // computer at home
         $extra2 = array('onchange' => "return showHideByValue('is_home_computer', '1', 'is_home_internet','table-row', 'radio', false);");
@@ -184,7 +184,6 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 
         $this->addElement('textarea','displacement', ts('If you are a resident of Alabama, Florida, Louisina, Mississippi, or Texas, are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), "cols=60,rows=8");
 
-   
         $this->addRadio( 'heard_about_qb_id',
                          ts('How did you hear about QuestBridge?'),
                          CRM_Core_OptionGroup::values('heard_about_qb') );

@@ -121,7 +121,11 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
             }
             for ( $j = 1; $j <= 2; $j++ ) {
                 $this->addElement('text', "time_spent_{$j}_{$i}", ts('Approximate time spent'), null );
-                $this->addRule("time_spent_{$j}_{$i}", ts('Please enter the integer value'), 'integer');
+                if($j==1){
+                          $this->addRule("time_spent_{$j}_{$i}", ts('Please enter the integer/decimal value'), 'numeric');
+                }else{
+                    $this->addRule("time_spent_{$j}_{$i}", ts('Please enter the integer value'), 'integer');
+                }
             }
             $this->addElement('text', "positions_$i", ts('Positions held, honors won,or letters earned'), null );
         }

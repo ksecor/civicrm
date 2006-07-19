@@ -58,6 +58,7 @@ class CRM_Quest_Form_MatchApp_Guardian extends CRM_Quest_Form_App
     {
         parent::preProcess();
         $this->_personID        = $this->_options['personID'];
+      
         $this->_relationshipID  = $this->_options['relationshipID'];
     }
     
@@ -110,6 +111,8 @@ class CRM_Quest_Form_MatchApp_Guardian extends CRM_Quest_Form_App
 public function buildQuickForm( ) 
 {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Person');
+        
+        $this->addYesNo( 'is_parent', ts( 'Do you have contact with this parent?' ), null,false);
 
         $this->addElement( 'text', "first_name",
                            ts('First Name'),
@@ -197,7 +200,9 @@ public function buildQuickForm( )
                            'description',
                            ts('If there are any extenuating circumstances, or details regarding your parent(s), guardian(s), or household situation that you would like to add or clarify, please do so here'),
                            $attributes['description'] );
-
+        
+        $this->addElement('checkbox','chk_permenent',ts('Same as my Permanent address'));
+        $this->addElement('checkbox','chk_permenentPhone',ts('Same as my Permanent telephone'));
         $this->buildAddressBlock( 1, ts( 'Permanent Address' ),
                                   ts( 'Permanent Telephone' ),
                                   '',
