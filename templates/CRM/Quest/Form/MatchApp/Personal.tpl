@@ -1,4 +1,4 @@
-{* Quest Pre-application: Personal Information section *}
+{* Quest College Match Application: Personal Information section *}
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
