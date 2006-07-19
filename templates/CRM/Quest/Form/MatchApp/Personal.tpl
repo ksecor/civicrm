@@ -36,13 +36,33 @@
     <td class="grouplabel">
         {$form.upload_pics.label}</td>
     <td class="fieldlabel">
-        {$form.upload_pics.html}</td>
+        {$form.upload_pics.html}<br/>
+	{edit}{ts}The file should be of type GIF or JPEG. The file size should be at most 2MB.{/ts}{/edit}</td>
 </tr>
 <tr>
     <td class="grouplabel">
         {$form.gender_id.label}</td>
     <td class="fieldlabel">
         {$form.gender_id.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.birth_date.label}
+    <td class="fieldlabel">
+        {$form.birth_date.html}
+{edit}
+        <div class="description">
+            {include file="CRM/common/calendar/desc.tpl"}
+        </div>
+        {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1986 endDate=currentYear}
+{/edit}
+    </td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.number_siblings.label}</td>
+    <td class="fieldlabel">
+        {$form.number_siblings.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">
@@ -143,8 +163,11 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        <label>{ts}Mailing Telephone{/ts}</label></td>
+        <label>{ts}Telephone at mailing address{/ts}</label></td>
     <td class="fieldlabel">
+	{edit}
+           <input type="checkbox" name="copy_phone" value="1" onClick="copyPhone()"/> {ts}Check if same as Permanent Phone{/ts}<br/>
+	{/edit}
         {$form.location.2.phone.1.phone.html}<br />
         {ts}{edit}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/edit}{/ts}
     </td>
@@ -169,7 +192,7 @@
 {/edit}
     </td>
 </tr>
-<tr>
+<tr id="country_citizenship">
     <td class="grouplabel">
         {$form.citizenship_country_id.label}</td>
     <td class="fieldlabel">
@@ -184,17 +207,41 @@
 	{ts}{edit}Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list. Completion of this information is appreciated, but not required.{/edit}{/ts}
     </td>
 </tr>
+<tr id="tribe_info_row">
+    <td class="grouplabel">
+        {$form.tribe_affiliation.label}</td>
+    <td class="fieldlabel">
+        {$form.tribe_affiliation.html}</td>
+</tr>
+<tr id="tribe_date_row">
+    <td class="grouplabel">
+        {$form.tribe_date.label}</td>
+    <td class="fieldlabel">
+        {$form.tribe_date.html}</td>
+</tr>
+<tr id="race_other">
+    <td class="grouplabel">
+        {$form.ethnicity_other.label}</td>
+    <td class="fieldlabel">
+        {$form.ethnicity_other.html}</td>
+</tr>
 <tr>
     <td class="grouplabel">
-        {$form.birth_date.label}
+        {$form.nationality_country_id_1.label}</td>
     <td class="fieldlabel">
-        {$form.birth_date.html}
-{edit}
-        <div class="description"> 
-            {include file="CRM/common/calendar/desc.tpl"}
-        </div>
-        {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1986 endDate=currentYear}
-{/edit}
+        {*$form.nationality_country_id_1.html*}
+  	{section name=rowLoop start=1 loop=$maxNationalityCountry}
+	    {assign var=i value=$smarty.section.rowLoop.index}
+            <div id="id_nationality_country_id_{$i}">
+	      {assign var=country value="nationality_country_id_"|cat:$i}
+              {$form.$country.html}
+              {*edit}{$nationalityCountry.$i.hide}{/edit*}
+            </div>
+            {if $i LT $maxNationalityCountry}
+                {assign var=j value=$i+1}
+	        <div id="id_nationality_country_id_{$j}_show">{edit}{$nationalityCountry.$j.show}{/edit}</div>
+	    {/if}
+	{/section}
     </td>
 </tr>
 <tr>
@@ -214,18 +261,6 @@
         {$form.years_in_us.label}</td>
     <td class="fieldlabel">
         {$form.years_in_us.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">
-        {$form.number_siblings.label}</td>
-    <td class="fieldlabel">
-        {$form.number_siblings.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">
-        {$form.nationality_country_id.label}</td>
-    <td class="fieldlabel">
-        {$form.nationality_country_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel">
@@ -271,6 +306,63 @@
 	  	 for (i = 0; i < field.length; i++) {
  		    document.getElementById("location_2_address_"+field[i]).value = null;
 	   	 }
+	    }
+	}
+
+   	function copyPhone() {
+	    if (document.getElementsByName("copy_phone")[0].checked) {
+ 	   	document.getElementById("location_2_phone_1_phone").value = 
+			document.getElementById("location_1_phone_1_phone").value;
+	    } else {
+ 	   	document.getElementById("location_2_phone_1_phone").value = null;
+	    }		
+	}
+
+	    var status = document.getElementsByName("citizenship_status_id")[0].options[document.getElementsByName("citizenship_status_id")[0].selectedIndex].text;
+	    if (status == "U.S/Dual Citizen" || status == "Permanent Resident" || status == "Non-Citizen") {
+		show("country_citizenship", 'table-row');
+	    } else {
+		hide("country_citizenship", 'table-row');
+	    }
+
+   	function showCitizenshipCountry() {
+	    var status = document.getElementsByName("citizenship_status_id")[0].options[document.getElementsByName("citizenship_status_id")[0].selectedIndex].text;
+	    if (status == "U.S/Dual Citizen" || status == "Permanent Resident" || status == "Non-Citizen") {
+		show("country_citizenship", 'table-row');
+	    } else {
+		hide("country_citizenship", 'table-row');
+	    }
+	}
+
+	    var race = document.getElementsByName("ethnicity_id_1")[0].options[document.getElementsByName("ethnicity_id_1")[0].selectedIndex].text;
+	    if (race == "Native American, Alaska Native") {
+		show("tribe_info_row", 'table-row');
+		show("tribe_date_row", 'table-row');
+		hide("race_other", 'table-row');
+	    } else if (race == "Other") {
+		show("race_other", 'table-row');
+		hide("tribe_info_row", 'table-row');
+		hide("tribe_date_row", 'table-row');
+	    } else {
+		hide("tribe_info_row", 'table-row');
+		hide("tribe_date_row", 'table-row');
+		hide("race_other", 'table-row');
+	    }
+
+	function showTribeinfoWithDate() {
+	    var race = document.getElementsByName("ethnicity_id_1")[0].options[document.getElementsByName("ethnicity_id_1")[0].selectedIndex].text;
+	    if (race == "Native American, Alaska Native") {
+		show("tribe_info_row", 'table-row');
+		show("tribe_date_row", 'table-row');
+		hide("race_other", 'table-row');
+	    } else if (race == "Other") {
+		show("race_other", 'table-row');
+		hide("tribe_info_row", 'table-row');
+		hide("tribe_date_row", 'table-row');
+	    } else {
+		hide("tribe_info_row", 'table-row');
+		hide("tribe_date_row", 'table-row');
+		hide("race_other", 'table-row');
 	    }
 	}
     </script>  

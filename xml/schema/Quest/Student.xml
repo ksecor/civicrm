@@ -51,7 +51,6 @@
       <name>citizenship_country_id</name>
       <title>Country of Citizenship</title>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Country of citizenship.</comment>
       <export>true</export>
       <import>true</import>

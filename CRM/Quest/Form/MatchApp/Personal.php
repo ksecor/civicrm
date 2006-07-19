@@ -47,8 +47,7 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
 {
-    const
-    MAX_SIBLINGS = 10;
+    const MAX_SIBLINGS = 10, MAX_NATIONALITY_COUNTRY = 3;
     /**
      * Function to set variables up before form is built
      *
@@ -86,7 +85,18 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
 
         require_once 'CRM/Utils/Date.php';
         $defaults['high_school_grad_year'] = CRM_Utils_Date::unformat($defaults['high_school_grad_year'],'-') ;
-        
+
+        if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+            $showHide =& new CRM_Core_ShowHideBlocks( );
+            for ( $i = 2; $i <= self::MAX_NATIONALITY_COUNTRY; $i++ ) {
+                if ( CRM_Utils_Array::value( "nationality_country_id_$i", $defaults )) {
+                    $showHide->addShow( "id_nationality_country_id_$i" );
+                } else {
+                    $showHide->addHide( "id_nationality_country_id_$i" );
+                }
+                $showHide->addToTemplate( );
+            }
+        }
         return $defaults;
     }
     
@@ -116,7 +126,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         $this->addElement('select', 'suffix_id', ts('Suffix'), array('' => ts('- suffix -')) + CRM_Core_PseudoConstant::individualSuffix());
 
         // nick_name
-        $this->addElement('text', 'nick_name', ts('Preferred/Nickname'),
+        $this->addElement('text', 'nick_name', ts('Preferred name'),
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
         
         // radio button for gender
@@ -143,15 +153,14 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
                                   true, false, false );
         
         // citizenship status
-        $this->addSelect('citizenship_status', ts( 'U.S. Citizenship Status' ), null , true);
+        $this->addSelect('citizenship_status', ts( 'U.S. Citizenship Status' ), null , true, array('onChange' => "showCitizenshipCountry()"));
         
         // citizenship country
-        $this->addCountry('citizenship_country_id', ts( 'Country of Citizenship' ),true );
+        $this->addCountry('citizenship_country_id', ts( 'Country of Citizenship' ), false );
        
         // ethnicity 
-        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" );
-        //$this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_2" );
-        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1", 'required' );
+        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" , false, array('onChange' => "showTribeinfoWithDate()"));
+        //$this->addrule( 'ethnicity', 'required' );
 
         require_once 'CRM/Core/ShowHideBlocks.php';
         CRM_Core_ShowHideBlocks::links( $this,"ethnicity_id_2", ts('add another Race/Ethnicity'), ts('hide this Race/Ethnicity field'));
@@ -180,12 +189,24 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         for ( $i = 0; $i <= self::MAX_SIBLINGS; $i++ ) {
             $siblings[] = $i;
         }
-        $this->addElement('select', 'number_siblings', ts( 'Number of siblings ' ), $siblings );
+        $this->addElement('select', 'number_siblings', ts( 'Number of siblings ' ), array(''=>ts( '-select-' )) + $siblings );
         $this->addRule('number_siblings', ts("Please enter Number of Siblings "),'required');
         $this->addRule( "number_siblings", ts('Number of Siblings not valid.'), 'positiveInteger' );
 
         //Country of Heritage/Nationality
-        $this->addCountry( 'nationality_country_id', ts( 'Country of Heritage/Nationality' ),true);
+        $nationalityCountry = array();
+        for ( $i = 1; $i <= self::MAX_NATIONALITY_COUNTRY; $i++ ) {
+            $this->addCountry( "nationality_country_id_$i" , ts( 'Country(ries) of family\'s origin' ), false);
+            if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+                $nationalityCountry[$i] = CRM_Core_ShowHideBlocks::links( $this,"nationality_country_id_$i",
+                                                                          ts('add another honor'),
+                                                                          ts('hide this honor'),
+                                                                          false );
+            }
+        }
+        $this->assign( 'nationalityCountry', $nationalityCountry );
+        $maxNationalityCountry = self::MAX_NATIONALITY_COUNTRY;
+        $this->assign( 'maxNationalityCountry', $maxNationalityCountry + 1 );
 
         // first language
         $this->addElement('text', 'first_language', ts( 'First language(s)' ), $attributes['first_language'] );
@@ -203,7 +224,15 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         //file upload
         $this->addElement('file', 'upload_pics', ts( 'Upload your picture' ), $attributes['upload_pics'] );
 
-        
+        // tribe affiliation
+        $this->addElement('text', 'tribe_affiliation', ts( 'Tribe affiliation' ), $attributes['tribe_affiliation'] );
+
+        //Date enrolled in tribe
+        $this->add('date', 'tribe_date', ts('Date enrolled in tribe'), 
+                   CRM_Core_SelectValues::date('custom', 20, 0, 'M Y'), false);
+
+        // race other option
+        $this->addElement('text', 'ethnicity_other', ts( 'Please specify' ), $attributes['ethnicity_other'] );
 
         $this->addRadio( 'home_area_id',
                          ts('Would you describe your home area as'),
@@ -225,17 +254,12 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $errors = array( );
-//         $locNo = 1;
-//         foreach ($params['location'] as $location) {
-//             if ( ( $location['address']['country_id'] == 1228 ||
-//                    $location['address']['country_id'] == 1039 ||
-//                    $location['address']['country_id'] == 1140 ) &&
-//                  ! $location['address']['state_province_id'] ) {
-//                 $errors["location[$locNo][address][state_province_id]"]= "Please select the state";
-//             }
-//             $locNo++;
-//         }
 
+        if ($params['citizenship_status_id'] == '234') {
+            if (!$params['citizenship_country_id']) {
+                $errors['citizenship_country_id'] = "Please enter the citizenship country.";
+            }
+        }
         return empty($errors) ? true : $errors;
     }
 
@@ -249,7 +273,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-            //print_r($params);
+
             require_once 'CRM/Quest/BAO/Student.php';
             $params['contact_type'] = 'Individual';
             $params['contact_sub_type'] = 'Student';
