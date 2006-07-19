@@ -82,7 +82,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
                                                                           'title' => ts('Preview Custom Data Group'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Edit Group Title and Display Type'),
+                                                                          'name'  => ts('Settings'),
                                                                           'url'   => 'civicrm/admin/custom/group',
                                                                           'qs'    => 'action=update&reset=1&id=%%id%%',
                                                                           'title' => ts('Edit Custom Group') 

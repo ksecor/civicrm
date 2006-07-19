@@ -118,21 +118,12 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-      <name>gpa_weighted_max_id</name>
-      <type>int unsigned</type>
-      <default>NULL</default>
-      <comment>Heighest weighted Grade Point Average (GPA) in class. FK to civicrm_option_value - uses gpa_weighted option group.</comment>
-      <export>true</export>
-      <import>true</import>
+      <name>gpa_weighted_max</name>
+      <type>decimal</type>
+      <required>true</required>
+      <comment>Heighest weighted Grade Point Average (GPA) in class.</comment>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>gpa_weighted_max_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <headerPattern>/gpa/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
   <field>
        <name>numeric_grade_a</name>
        <type>decimal</type>
@@ -176,14 +167,14 @@
       <add>1.5</add>
   </field>
   <field>
-       <name>rank_start_date</name>
+       <name>rank_date_low</name>
        <type>date</type>
        <default>NULL</default>
        <comment>Cumulative rank and GPA cover period FROM this date (only MMYYYY is significant).</comment>
        <add>1.5</add>
   </field>
   <field>
-       <name>rank_end_date</name>
+       <name>rank_date_high</name>
        <type>date</type>
        <default>NULL</default>
        <comment>Cumulative rank and GPA cover period TO this date (only MMYYYY is significant).</comment>

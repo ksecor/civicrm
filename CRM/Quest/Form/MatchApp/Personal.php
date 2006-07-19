@@ -112,15 +112,13 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
 
         // first_name
-        $this->addElement('text', 'first_name', ts('First Name'), $attributes['first_name'] );
-        $this->addRule('first_name',ts('Please enter your First Name'),'required');
+        $this->add('text', 'first_name', ts('First Name'), $attributes['first_name'], true );
 
         //middle_name
-        $this->addElement('text', 'middle_name', ts('Middle Name'), $attributes['middle_name']);
+        $this->add('text', 'middle_name', ts('Middle Name'), $attributes['middle_name']);
         
         // last_name
-        $this->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name']);
-        $this->addRule('last_name',ts('Please enter your Last Name'),'required');
+        $this->add('text', 'last_name', ts('Last Name'), $attributes['last_name'], true);
 
         // suffix
         $this->addElement('select', 'suffix_id', ts('Suffix'), array('' => ts('- suffix -')) + CRM_Core_PseudoConstant::individualSuffix());
@@ -160,7 +158,6 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
        
         // ethnicity 
         $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" , false, array('onChange' => "showTribeinfoWithDate()"));
-        //$this->addrule( 'ethnicity', 'required' );
 
         require_once 'CRM/Core/ShowHideBlocks.php';
         CRM_Core_ShowHideBlocks::links( $this,"ethnicity_id_2", ts('add another Race/Ethnicity'), ts('hide this Race/Ethnicity field'));
