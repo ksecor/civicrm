@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest</base>
+  <class>TeacherEvaluation</class>
+  <name>quest_teacher_evaluation</name>
+  <comment>Recommender (teacher) Evaluation form fields (excluding essays).</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Primary key.</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>target_contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>The contact (student) being evaluated. FK to Contact ID.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>target_contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>source_contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>The contact (recommender) submitting the evaluation. FK to Contact ID.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>source_contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>word_1</name>
+       <type>varchar</type>
+       <length>64</length>
+       <required>true</required>
+       <comment>Word to describe this student.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>word_2</name>
+       <type>varchar</type>
+       <length>64</length>
+       <required>true</required>
+       <comment>Word to describe this student.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>word_3</name>
+       <type>varchar</type>
+       <length>64</length>
+       <required>true</required>
+       <comment>Word to describe this student.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>success_factor</name>
+       <type>varchar</type>
+       <length>255</length>
+       <default>NULL</default>
+       <required>true</required>
+       <comment>Factors influencing academic success... Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = success_factor.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>is_obstacles</name>
+       <type>boolean</type>
+       <default>0</default>
+       <required>true</required>
+       <comment>Has applicant faced any special obstacles?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_interfere</name>
+       <type>boolean</type>
+       <default>0</default>
+       <required>true</required>
+       <comment>Any factors that might interfere with academic performance?</comment>
+       <add>1.5</add>
+  </field>
+  <index>
+    <name>UI_target_source</name>
+    <fieldName>target_contact_id</fieldName>
+    <fieldName>source_contact_id</fieldName>
+    <unique>true</unique>
+    <add>1.5</add>
+  </index>
+</table>
