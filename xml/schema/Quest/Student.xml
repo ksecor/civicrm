@@ -84,7 +84,7 @@
       <name>nationality_country_id_1</name>
       <title>Country of Heritage/Nationality</title>
       <type>int unsigned</type>
-      <comment>Country(ries) of family's origin</comment>
+      <comment>Country(ries) of familys origin</comment>
       <export>true</export>
       <import>true</import>
       <add>1.5</add>
@@ -98,7 +98,7 @@
   </foreignKey>
   <field>
       <name>nationality_country_id_2</name>
-      <title>Country(ries) of family's origin</title>
+      <title>Country(ries) of familys origin</title>
       <type>int unsigned</type>
       <comment>Country of persons nationality.</comment>
       <export>true</export>
@@ -114,7 +114,7 @@
   </foreignKey>
   <field>
       <name>nationality_country_id_3</name>
-      <title>Country(ries) of family's origin</title>
+      <title>Country(ries) of familys origin</title>
       <type>int unsigned</type>
       <comment>Country of persons nationality.</comment>
       <export>true</export>
