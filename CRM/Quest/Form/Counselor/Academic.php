@@ -90,12 +90,14 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
 
         $this->add( 'text',
                     'gpa_unweighted',
-                    ts( 'The student has a cumulative unweighted GPA of' ) );
+                    ts( 'The student has a cumulative unweighted GPA of' ),
+                    $attributes['gpa_unweighted'] );
         $this->addRule( 'gpa_unweighted', ts( 'GPA should be a number between 0 and 5 (0.00 - 5.00)' ), 'money' );
                         
         $this->add( 'text',
                     'gpa_weighted',
-                    ts( 'The student has a cumulative weighted GPA of' ) );
+                    ts( 'The student has a cumulative weighted GPA of' ),
+                    $attributes['gpa_weighted']);
         $this->addRule( 'gpa_weighted', ts( 'GPA should be a number between 0 and 5 (0.00 - 5.00)' ), 'money' );
         
         $this->addSelect( 'gpa_includes',
@@ -103,22 +105,26 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
                                                                     
         $this->add( 'text',
                     'gpa_weighted_max',
-                    ts( 'The highest weighted GPA in the class is' ) );
+                    ts( 'The highest weighted GPA in the class is' ),
+                    $attributes['gpa_weighted_max'] );
         $this->addRule( 'gpa_weighted_max', ts( 'GPA should be a number between 0 and 5 (0.00 - 5.00)' ), 'money' );
 
         foreach ( array( 'a', 'b', 'c', 'd' ) as $alphabet ) {
             $this->add( 'text',
                         "numeric_grade_{$alphabet}",
-                        null );
+                        null,
+                        $attributes['numeric_grade_a']);
             $this->addRule( "numeric_grade_{$alphabet}", ts( 'GPA should be a number between 0 and 5 (0.00 - 5.00)' ), 'money' );
         }
 
         $this->addElement('text', 'unweighted_rank',
-                          ts( 'The cumulative unweighted rank of the student is' ) );
+                          ts( 'The cumulative unweighted rank of the student is' ),
+                          $attributes['unweighted_rank']);
         $this->addRule( "unweighted_rank", ts('Number not valid.'), 'integer' );
         
         $this->addElement('text', 'class_num_students',
-                          ts( 'out of') );
+                          ts( 'out of'),
+                          $attributes['class_num_students']);
         $this->addRule( "class_num_students", ts('Number not valid.'), 'integer' );
         
         $this->addElement('date', 'rank_date_low', null,
@@ -132,7 +138,8 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
                               true );
         
         $this->addElement('text', 'share_ranking',
-                          ts('How many students share this cumulative ranking?') );
+                          ts('How many students share this cumulative ranking?'),
+                          $attributes['share_ranking'] );
         $this->addRule( "share_ranking", ts('Number not valid.'), 'integer' );
 
         $this->addSelect( 'course_choice',
@@ -140,12 +147,14 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
 
         $this->addElement('text',
                           'college_four_year',
-                          ts( 'Of the student\'s graduating class, what percentage plan to attend a four-year college/university?' ) );
+                          ts( 'Of the student\'s graduating class, what percentage plan to attend a four-year college/university?' ),
+                          $attributes['college_four_year']);
         $this->addRule( "college_four_year", ts('Number not valid.'), 'integer' ); 
 
         $this->addElement('text',
                           'college_two_year',
-                          ts( 'Of the student\'s graduating class, what percentage plan to attend a two-year college?' ) );
+                          ts( 'Of the student\'s graduating class, what percentage plan to attend a two-year college?' ),
+                          $attributes['college_two_year']);
         $this->addRule( "college_two_year", ts('Number not valid.'), 'integer' ); 
 
         parent::buildQuickForm( );
