@@ -96,7 +96,6 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         $partners = CRM_Quest_BAO_Partner::getPartners();
         foreach ( $partners as $k => $v) {
             $this->addElement('select','college_ranking_'.$k, ts( 'Ranking' ),CRM_Core_OptionGroup::values('college_ranking'));
-            //$this->addRule('college_ranking_'.$k,"You must select a value for EVERY partner ","required");
             $collegeLink =& new CRM_Quest_DAO_Partner();
             $collegeLink->name = $v;
             $collegeLink->find(true);
@@ -123,12 +122,10 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
      * @static
      */
     public function formRule(&$params) {
-        
-        $errors = array( );
         foreach ( $params as $key => $value ) {
             $tempArray = $params;
             unset($tempArray[$key]);
-            if ( in_array( $value , $tempArray) ) {
+            if ( $value && in_array( $value , $tempArray) ) {
                 $errors['college_ranking_'.$key] = "No two colleges can have the same ranking";
             }
         }
@@ -147,28 +144,22 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
 
-            //delete all renking before Inserting new one 
-            require_once 'CRM/Quest/DAO/PartnerRanking.php';
-            $dao = & new CRM_Quest_DAO_PartnerRanking();
-            $dao->contact_id = $this->_contactID;
-            $dao->delete();
-            
-            foreach ( $params as $key=>$value ) {
-                if ( $value ) {
-                    $ranking = array();
-                    $ranking['contact_id'] = $this->_contactID;
-                    $temp = explode('_', $key);
-                    $ranking['partner_id'] = $temp[2];
-                    $ranking['ranking_id'] = $value;
-                    $dao = & new CRM_Quest_DAO_PartnerRanking();
-                    $dao->copyValues( $ranking );
-                    $dao->save();
-                }
+            $partners = CRM_Quest_BAO_Partner::getPartners();
+            foreach ( $partners as $key=>$value ) {
+                $dao = & new CRM_Quest_DAO_PartnerRanking();
+                $ranking = array();
+                $ranking['contact_id'] = $this->_contactID;
+                $ranking['partner_id'] = $key;
+                $ranking['ranking_id'] = $params['college_ranking_'.$key];
+                $dao->partner_id = $key;
+                $dao->find(true);
+                $dao->copyValues( $ranking );
+                $dao->save();
             }
         }
         parent::postProcess( );
     }
- /**
+    /**
      * Return a descriptive name for the page, used in wizard header
      *
      * @return string

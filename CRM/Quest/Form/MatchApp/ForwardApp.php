@@ -137,26 +137,35 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
             
-           //  require_once 'CRM/Quest/DAO/PartnerRanking.php';
-//             $dao = & new CRM_Quest_DAO_PartnerRanking();
-//             $dao->is_forward = '1';
-//             $dao->contact_id = $this->contact_id;
-//             $dao->delete();
-            
-            foreach ( $params as $key=>$value ) {
-                if ( $value ) {
-                    $dao = & new CRM_Quest_DAO_PartnerRanking();
-                    $ranking = array();
-                    $ranking['contact_id'] = $this->_contactID;
-                    $temp = explode('_', $key);
-                    $ranking['partner_id'] = $temp[2];
-                    $ranking['is_forward'] = 1;
-                    $dao->partner_id = $temp[2];
-                    $dao->find(true);
-                    $dao->copyValues( $ranking );
-                    $dao->save();
-                }
+            //Regular Admissions
+            $partners = CRM_Quest_BAO_Partner::getPartners();
+            foreach ( $partners as $key=>$value ) {
+                $dao = & new CRM_Quest_DAO_PartnerRanking();
+                $ranking = array();
+                $ranking['contact_id'] = $this->_contactID;
+                $ranking['partner_id'] = $key;
+                $ranking['is_forward'] = $params['regular_addmission_'.$key];
+                $dao->partner_id = $key;
+                $dao->find(true);
+                $dao->copyValues( $ranking );
+                $dao->save();
             }
+
+            //Forward Application for Scholarships
+            $partners = CRM_Quest_BAO_Partner::getPartners('Scholarship');
+            foreach ( $partners as $key=>$value ) {
+                $dao = & new CRM_Quest_DAO_PartnerRanking();
+                $ranking = array();
+                $ranking['contact_id'] = $this->_contactID;
+                $ranking['partner_id'] = $key;
+                $ranking['is_forward'] = $params['scholarship_addmission_'.$key];
+                $dao->partner_id = $key;
+                $dao->find(true);
+                $dao->copyValues( $ranking );
+                $dao->save();
+            }
+
+
         }
         parent::postProcess( );
     }

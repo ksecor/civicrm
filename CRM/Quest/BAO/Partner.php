@@ -59,7 +59,9 @@ class CRM_Quest_BAO_Partner extends CRM_Quest_DAO_Partner {
     {
         $partners = array();
         $dao = &new CRM_Quest_DAO_Partner();
-        $dao->partner_type =  $type ;
+        if ( $type != 'All' ) {
+            $dao->partner_type =  $type ;
+        }
         $dao->orderBy('weight');
         $dao->find();
         while( $dao->fetch() ) {

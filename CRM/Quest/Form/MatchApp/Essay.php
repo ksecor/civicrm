@@ -74,7 +74,8 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
     {
         $defaults          = array( );
         $defaults['essay'] = array( );
-        CRM_Quest_BAO_Essay::setDefaultValues( $this->_essays, $defaults['essay'] );
+        require_once "CRM/Quest/BAO/Essay.php";
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
         return $defaults;
     }
     

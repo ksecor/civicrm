@@ -1,4 +1,4 @@
-{* Quest Pre-application:Forward Application  section *}
+{* Quest college Match application:Forward Application  section *}
 
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="begin"}
@@ -53,26 +53,22 @@
 {ts}QuestBridge is forming partnerships by which select scholarships have the opportunity to search our growing pool for applicants. Please check any scholarships you want QuestBridge to forward your information to. (You will still need to fill out the scholarship's regular application if you are recruited as a referral student).
 <br/><br/>{/ts}
 {ts}Select the scholarship you would like QuestBridge to forward your information to.{/ts} 
-    </td>
-</tr> 
+ 
 
-<table cellpadding=0 cellspacing=1  width="90%" class="app">
+    <table cellpadding=0 cellspacing=1  width="90%" class="app">
 
-{foreach from=$partner_s item=type key=key}
-{assign var=regular_addmission_s value="scholarship_addmission_"|cat:$key}
-<tr>
-<td class="optionlist">{$form.$regular_addmission_s.html}{$form.$regular_addmission_s.label}
-&nbsp;<a href={$scholarshipUrl_link.$key}>(<u>learn more</u>)</a>
-</td>
-{ if ($key+1%2) eq 0}
-</tr>
-{/if}
- {/foreach}
-
-</tr>
-  
-
-
+    {foreach from=$partner_s item=type key=key}
+    {assign var=regular_addmission_s value="scholarship_addmission_"|cat:$key}
+    <tr>
+       <td class="optionlist">{$form.$regular_addmission_s.html}{$form.$regular_addmission_s.label}
+       &nbsp;<a href={$scholarshipUrl_link.$key}>(<u>learn more</u>)</a>
+       </td>
+    </tr>
+    {/foreach}
+    
+     </table>
+   </td>
+ </tr> 
 </table>
 {/strip} 
-{include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
+{include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
