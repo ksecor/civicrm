@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest</base>
+  <class>StudentRanking</class>
+  <name>quest_student_ranking</name>
+  <comment>Recommender (teacher and counselor) rankings and information about their connection to the student.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Primary key.</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>target_contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>The contact (student) being ranked. FK to Contact ID.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>target_contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>source_contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>The contact (recommender) submitting the ranking. FK to Contact ID.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>source_contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>department</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Recommender school department.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>relationship_id</name>
+      <title>Relationship to this Student</title>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_relationship option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>relationship_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+       <name>relationship_other</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Describes relationship of relationship_id label is Other.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>teacher_years</name>
+      <type>int unsigned</type>
+      <comment>Number of years person has been a teacher (teacher ranking form only).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>teacher_subjects</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>In what subjects have you taught this student (teacher ranking form only).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>teacher_grade</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>What grade(s) given to student (teacher ranking form only).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>counselor_years</name>
+      <type>int unsigned</type>
+      <comment>Number of years counselor has known this student (counselor ranking form only).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>counselor_capacity</name>
+       <type>varchar</type>
+       <length>255</length>
+      <comment>In what capacity has counselor known this student (counselor ranking form only).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>counselor_meet</name>
+       <type>varchar</type>
+       <length>255</length>
+      <comment>How often does counselor meet with this student (counselor ranking form only).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>counselor_basis</name>
+       <type>varchar</type>
+       <length>255</length>
+       <default>NULL</default>
+       <comment>This evaluation is based on... Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = counselor_basis (counselor ranking form only).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>counselor_basis_other</name>
+       <type>varchar</type>
+       <length>255</length>
+       <default>NULL</default>
+       <comment>Describes other basis of counselor eval (counselor ranking form only).</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>leadership_id</name>
+      <title>Relationship to this Student</title>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>leadership_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>intellectual_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>intellectual_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>challenge_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>challenge_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>maturity_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>maturity_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>work_ethic_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>work_ethic_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>originality_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>originality_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>humor_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>humor_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>energy_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>energy_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>respect_differences_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>respect_differences_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>respect_faculty_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>respect_faculty_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>respect_peers_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>respect_peers_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>compare_academic_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>compare_academic_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>compare_extracurricular_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>compare_extracurricular_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>compare_personal_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>compare_personal_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>compare_overall_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommender_ranking option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>compare_overall_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+      <name>recommend_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_option_value. Uses recommend_student option group values.</comment>
+     <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>recommend_id</name>
+       <table>civicrm_option_value</table>
+       <key>value</key>
+       <add>1.5</add>
+  </foreignKey>
+  <index>
+    <name>UI_target_source</name>
+    <fieldName>target_contact_id</fieldName>
+    <fieldName>source_contact_id</fieldName>
+    <unique>true</unique>
+    <add>1.5</add>
+  </index>
+</table>

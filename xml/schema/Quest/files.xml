@@ -19,5 +19,6 @@
 <xi:include href="Transcript.xml"       parse="xml" />
 <xi:include href="TranscriptCourse.xml" parse="xml" />
 <xi:include href="StudentSummary.xml"   parse="xml" />
+<xi:include href="StudentRanking.xml"   parse="xml" />
 
 </tables>
