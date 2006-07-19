@@ -847,6 +847,18 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                           3 => "St. Joe's" );
         return $schools;
     }
+
+    static function createStudentSummary( $params ,$ids ) {
+        require_once "CRM/Quest/DAO/StudentSummary.php";
+        $dao = & new CRM_Quest_DAO_StudentSummary();
+        $dao->copyValues($params);
+        if( $ids['id'] ) {
+            $dao->id = $ids['id'];
+        }
+        $dao->save();
+        return $dao;
+    }
+    
 }
     
 ?>

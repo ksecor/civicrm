@@ -77,7 +77,7 @@
 {/section}
 </td></tr>
 <tr></tr>
-<tr ><td colspan="2">Total Income entered for this person: </td></tr>
+<tr ><td colspan=2>{$form.total_amount.label}:${$form.total_amount.html|crmReplace:class:texttolabel}</td></tr>
 </table>
 
 {edit}
@@ -100,4 +100,23 @@
 </table>
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
+{literal}
+    
+    <script type="text/javascript">
+    calculateIncome();
+    document.getElementById("total_amount").readOnly = 1;
+    function calculateIncome() 
+    {
+      var amount_1,amount_2,amount_3;    
+      amount_1 = amount_2 = amount_3 = 0;
 
+      amount_1 = document.getElementById("amount_1").value;
+      amount_2 = document.getElementById("amount_2").value;
+      amount_3 = document.getElementById("amount_3").value;
+      if ( !(parseInt(amount_1) > 0)) {amount_1 = 0} 
+      if ( !(parseInt(amount_2) > 0)) {amount_2 =0} 
+      if ( !(parseInt(amount_3) > 0)) {amount_3 =0} 
+      document.getElementById("total_amount").value = parseInt(amount_1) + parseInt(amount_2) + parseInt(amount_3);
+    }
+    </script>
+{/literal}

@@ -143,14 +143,14 @@ class CRM_Quest_Form_MatchApp_Income extends CRM_Quest_Form_App
                 $this->addSelect( 'type_of_income', ts( 'Type of Income' ), "_$i" ,true );
                 $this->addElement( 'text', "amount_$i",
                                ts( 'Total 2005 Income from this Source' ),
-                               $attributes['amount_1'] );
+                                   array("onkeyup" => "return calculateIncome();") );
                 $this->addRule("amount_$i","Please enter total 2005 income from this source.",'required');
                 $this->addRule("amount_$i","Please enter a valid income.",'numeric');
             } else {
                 $this->addSelect( 'type_of_income', ts( 'Additional Income Type' ), "_$i");
                 $this->addElement( 'text', "amount_$i",
                                ts( 'Additional 2005 Income Amount' ),
-                               $attributes['amount_1'] );
+                                array("onkeyup" => "return calculateIncome();"));
                 $this->addRule("amount_$i","Please enter a valid income.",'numeric');
             }
             $this->addElement( 'text', "job_$i",
@@ -186,6 +186,7 @@ class CRM_Quest_Form_MatchApp_Income extends CRM_Quest_Form_App
             $this->add( 'checkbox', "another_income_source", ts( "Add another income source?" ), ts( "Add another income source?" ) );
         }
 
+        $this->addElement( 'text', "total_amount",ts('Total Income entered for this person'));
         $this->_deleteButtonName = $this->getButtonName( 'next'   , 'delete' );
         $this->assign( 'deleteButtonName', $this->_deleteButtonName );
         $this->add( 'submit', $this->_deleteButtonName, ts( 'Delete this Income Source' ) );
@@ -328,7 +329,7 @@ class CRM_Quest_Form_MatchApp_Income extends CRM_Quest_Form_App
         // since we cant depend on the session, retrive all income
         // objecsts from db and calculate total income
         $query = "
-SELECT i.amount_1 as amount_1, i.amount_2 as amount_2, i.amount_3 and amount_3
+SELECT i.amount_1 as amount_1, i.amount_2 as amount_2, i.amount_3 as amount_3
 FROM   quest_income i, quest_person p
 WHERE  i.person_id  = p.id
   AND  p.contact_id = %1
@@ -345,15 +346,29 @@ WHERE  i.person_id  = p.id
                 }
             }
         }
-        
+      
         //add total Income in student Table
-        $studValues = array( );
-        $studValues['household_income_total'] = $totalIncome;
-        $ids = array( 'id'         => $this->_studentID,
-                      'contact_id' => $this->_contactID );
+        // $studValues = array( );
+//         $studValues['household_income_total'] = $totalIncome;
+//         $ids = array( 'id'         => $this->_studentID,
+//                       'contact_id' => $this->_contactID );
         
-        require_once 'CRM/Quest/BAO/Student.php';
-        $student = CRM_Quest_BAO_Student::create( $studValues, $ids);
+//         require_once 'CRM/Quest/BAO/Student.php';
+//         $student = CRM_Quest_BAO_Student::create( $studValues, $ids);
+        
+        $summaryValue = array();
+        $ids = array();
+        $summaryValue['household_income_total'] = $totalIncome;
+        $summaryValue['contact_id'] =  $this->_contactID;
+        require_once "CRM/Quest/DAO/StudentSummary.php";
+        $dao = & new CRM_Quest_DAO_StudentSummary();
+        $dao->contact_id = $this->_contactID;
+        if ( $dao->find(true) ) {
+            $ids = array( 'id' => $dao->id);
+        }
+        
+        $studentSummary = CRM_Quest_BAO_Student::createStudentSummary( $summaryValue, $ids);
+        
     }
     
     static function &getPages( &$controller, $reset = false )  {
