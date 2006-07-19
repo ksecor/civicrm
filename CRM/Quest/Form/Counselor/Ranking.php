@@ -47,6 +47,9 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
 {
+
+    protected $_essays;
+
     /**
      * Function to set variables up before form is built
      *
@@ -55,6 +58,9 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
      */
     public function preProcess()
     {
+
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_counselor_ranking', 0, 0 );
+
         parent::preProcess();
     }
 
@@ -68,7 +74,11 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-
+        $defaults['essay'] = array( );
+        
+        require_once "CRM/Quest/BAO/Essay.php";
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
+        
         return $defaults;
     }
     
@@ -133,6 +143,9 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
         $this->addSelect( 'recommend_student',
                           ts( 'I recommend this student' ) );
 
+        require_once "CRM/Quest/BAO/Essay.php";
+        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
+        
         parent::buildQuickForm( );
 
     }
@@ -148,26 +161,8 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
 
-            require_once 'CRM/Quest/BAO/Student.php';
-            $params['contact_type'] = 'Individual';
-            $params['contact_sub_type'] = 'Student';
-
-            $params['location'][1]['location_type_id'] = 1;
-            $params['location'][1]['is_primary'] = 1 ;
-            $params['location'][2]['location_type_id'] = 2;
-            
-            $idParams = array( 'id' => $this->_contactID, 'contact_id' => $this->_contactID );
-          
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-            $contact = CRM_Contact_BAO_Contact::create($params, $ids, 2);
-            
-            $dao =& new CRM_Contact_DAO_Contact( );
-            $dao->id = $this->_contactID;
-            if ( $dao->find( true ) ) {
-                $this->set( 'welcome_name',
-                            $dao->display_name );
-            }
-
+            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
+                                         0, 0 );
        }
 
         parent::postProcess( );

@@ -171,6 +171,28 @@ class CRM_Quest_BAO_Essay extends CRM_Quest_DAO_Essay {
         }     
     } 
 
+    static function buildForm( &$form, &$essays ) {
+        foreach ( $essays as $name => $essay ) {
+            $essay['attributes'] .= " onkeyup=countit(\"{$essay['name']}\",\"{$essay['wordCount']}\");";
+            
+            $form->add( 'textarea',
+                        "essay[{$essay['name']}]",
+                        $essay['label'],
+                        $essay['attributes'],
+                        $essay['required'] );
+            
+            if ( ! ( $form->_action & CRM_Core_Action::VIEW ) ) {
+                $form->addElement('text', "word_count[{$essay['name']}]", ts( 'Current word count' ), array('readonly','class="two"'));
+            }
+
+            if ( ! ( $form->_action & CRM_Core_Action::VIEW ) ) {
+                $form->addElement('text', "word_count[{$essay['name']}]", ts( 'Current word count' ), array('readonly','class="two"'));
+            }
+
+            $form->assign_by_ref( 'essays', $essays );
+        }
+    }
+            
 }
     
 ?>

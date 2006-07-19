@@ -37,17 +37,16 @@
  */
 
 require_once 'CRM/Quest/Form/App.php';
+require_once 'CRM/Quest/BAO/Student.php'; 
 require_once 'CRM/Core/OptionGroup.php';
-require_once 'CRM/Quest/BAO/Essay.php';
+
 
 /**
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
+class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_App
 {
-    protected $_grouping = null;
-
     protected $_essays;
 
     /**
@@ -59,10 +58,10 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
-
-        $this->_essays = CRM_Quest_BAO_Essay::getFields( $this->_grouping, $this->_contactID, $this->_contactID );
+        
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_counselor_eval', 0, 0 );
     }
-    
+
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
@@ -72,12 +71,12 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
-        $defaults          = array( );
+        $defaults = array( );
         $defaults['essay'] = array( );
-
+        
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
-
+        
         return $defaults;
     }
     
@@ -90,26 +89,40 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
-
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
+        
+        parent::buildQuickForm( );
+    }
 
-        parent::buildQuickForm();
-    }//end of function
-
+    /**
+     * process the form after the input has been submitted and validated
+     *
+     * @access public
+     * @return void
+     */
     public function postProcess() 
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
 
-            $essayParams = $params['essay'];
-            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], 
-                                         $this->_contactID, $this->_contactID );
+            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
+                                         0, 0 );
+       }
 
-            parent::postProcess( );
-        }
-    }//end of function
+        parent::postProcess( );
+    } //end of function
 
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle()
+    {
+        return ts('Evaluation');
+    }
 }
 
 ?>

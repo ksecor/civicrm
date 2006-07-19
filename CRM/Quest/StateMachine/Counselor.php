@@ -63,9 +63,10 @@ class CRM_Quest_StateMachine_Counselor extends CRM_Core_StateMachine {
         $this->_states = array( );
 
         $this->_pages = array(
-                              'CRM_Quest_Form_Counselor_Personal' => null,
-                              'CRM_Quest_Form_Counselor_Academic' => null,
-                              'CRM_Quest_Form_Counselor_Ranking' => null
+                              'CRM_Quest_Form_Counselor_Personal'    => null,
+                              'CRM_Quest_Form_Counselor_Academic'   => null,
+                              'CRM_Quest_Form_Counselor_Ranking'    => null,
+                              'CRM_Quest_Form_Counselor_Evaluation' => null,
                               );
         
         $this->addSequentialPages( $this->_pages, $action );
