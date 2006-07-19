@@ -183,17 +183,23 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                          ts( 'Did you use fee waivers to register for standarized tests?' ) ,null,false);
 
         $this->addElement('textarea','displacement', ts('If you are a resident of Alabama, Florida, Louisina, Mississippi, or Texas, are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), "cols=60,rows=8");
-
+        $radioAttribute = array('onclick' => "return show_element('heard_about_qb_id');");
+        
         $this->addRadio( 'heard_about_qb_id',
                          ts('How did you hear about QuestBridge?'),
-                         CRM_Core_OptionGroup::values('heard_about_qb') );
-
+                         CRM_Core_OptionGroup::values('heard_about_qb'),
+                         $radioAttribute);
+        
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide = new CRM_Core_ShowHideBlocks();
+        
         $name_array = array( 3,4,5,6,7,9);
         foreach ( $name_array as $value ) {
-             
             $this->addElement('text','heard_about_qb_name_'.$value,null,null);
+            $showHide->addHide('heard_about_name_' . $value);
         }
-
+        $showHide->addToTemplate();
+        
         for($i=1;$i<=3;$i++) {
             $this->addElement('text', 'referral_student_first_name_'.$i, null, null );
             $this->addElement('text', 'referral_student_last_name_'.$i, null, null );
@@ -203,7 +209,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
             $this->addElement('text', 'referral_student_phone_'.$i, null, null );
         }
 
-         for($i=1;$i<=3;$i++) {
+        for($i=1;$i<=3;$i++) {
             $this->addElement('text', 'referral_educator_first_name_'.$i, null, null );
             $this->addElement('text', 'referral_educator_last_name_'.$i, null, null );
             $this->addElement('text', 'referral_educator_school_'.$i, null, null );
@@ -211,9 +217,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
             $this->addElement('text', 'referral_educator_email_'.$i, null, null );
             $this->addElement('text', 'referral_educator_phone_'.$i, null, null );
         }
-       
         
-
         include_once 'CRM/Quest/BAO/Partner.php';
         $partners = CRM_Quest_BAO_Partner::getPartners();
         for($i=1;$i<=6;$i++) {

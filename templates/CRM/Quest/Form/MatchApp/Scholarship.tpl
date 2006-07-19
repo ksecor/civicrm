@@ -57,10 +57,11 @@
         <tr><td class="fieldlabel"> {$form.heard_about_qb_id.$key.html}
         {assign var=heard_about_name value="heard_about_qb_name_"|cat:$key}  
         {if $form.$heard_about_name.html}
+            {assign var=element_id value="heard_about_name_"|cat:$key }
             {if $key eq 3}
-            ( Website: {$form.$heard_about_name.html} )
+            <span id={$element_id}>( Website: {$form.$heard_about_name.html} )
             {else}
-            ( Name: {$form.$heard_about_name.html} )
+            <span id={$element_id}>( Name: {$form.$heard_about_name.html} )</span>
             {/if}
         {/if}
         </td></tr>
@@ -245,6 +246,26 @@ applicants for the following year's application cycle. Please enter contact info
 
 {include file="CRM/Quest/Form/App/AppContainer.tpl" context="end"}
 
+{literal}
+<script type="text/javascript">
+    function show_element(trigger_element_id)
+    {
+        var element = document.getElementsByName(trigger_element_id);
+        for ( i=0; i<9; i++) {
+            if (i==0 || i==1 || i==7) {
+                continue;
+            }
+            if (element[i].checked) {
+                show("heard_about_name_" + element[i].value);
+            } else {
+                hide("heard_about_name_" + element[i].value);
+            }
+        }
+        
+    }
+    
+</script>
+{/literal}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_home_computer"
