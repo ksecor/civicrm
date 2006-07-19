@@ -93,7 +93,7 @@ function crm_create_tag($params)
 function crm_get_tag($params) 
 {
     require_once 'CRM/Core/BAO/Tag.php';
-    $tagBAO = new CRM_Core_BAO_Tag();
+    $tagBAO =& new CRM_Core_BAO_Tag();
     
     if ( ! is_array($params) ) {
         return _crm_error('params is not an array.');
