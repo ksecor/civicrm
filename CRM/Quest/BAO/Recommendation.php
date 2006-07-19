@@ -57,9 +57,14 @@ class CRM_Quest_BAO_Recommendation {
     static function process( $contactID, $firstName, $lastName, $email, $schoolID, $type ) {
         list( $recommenderID, $hash, $drupalID ) = self::createContact( $firstName, $lastName, $email );
 
-        // add person to recommender group(id = 4)
         $ids = array( $recommenderID );
+
+        // add person to recommender group(id = 4)
         CRM_Contact_BAO_GroupContact::addContactsToGroup( $ids, 4 );
+
+        // add person to either teacher or counselor group(id = 4)
+        $groupID = ( $type == self::TEACHER ) ? 5 : 6;
+        CRM_Contact_BAO_GroupContact::addContactsToGroup( $ids, $groupID );
 
         // add relationships
         $rtypeID = ( $type == self::TEACHER ) ? 9 : 10;
