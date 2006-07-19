@@ -92,14 +92,15 @@
   </field>
   <field>
       <name>counselor_years</name>
-      <type>int unsigned</type>
+      <type>varchar</type>
+      <length>255</length>
       <comment>Number of years counselor has known this student (counselor ranking form only).</comment>
       <add>1.5</add>
   </field>
   <field>
       <name>counselor_capacity</name>
-       <type>varchar</type>
-       <length>255</length>
+      <type>varchar</type>
+      <length>255</length>
       <comment>In what capacity has counselor known this student (counselor ranking form only).</comment>
       <add>1.5</add>
   </field>
@@ -308,7 +309,7 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-      <name>recommend_id</name>
+      <name>recommend_student_id</name>
       <type>int unsigned</type>
       <comment>FK to civicrm_option_value. Uses recommend_student option group values.</comment>
      <add>1.5</add>
