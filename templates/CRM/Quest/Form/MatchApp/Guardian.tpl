@@ -6,11 +6,12 @@
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
+{if $form.is_contact_with_student }
 <tr>
-    <td class="grouplabel">{$form.is_parent.label}</td>
-    <td class="fieldlabel">{$form.is_parent.html}</td>
+    <td class="grouplabel">{$form.is_contact_with_student.label}</td>
+    <td class="fieldlabel">{$form.is_contact_with_student.html}</td>
 </tr>
-
+{/if}
 <tr>
     <td rowspan=2 valign=top class="grouplabel" width="30%">
         <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>

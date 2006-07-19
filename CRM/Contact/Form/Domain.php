@@ -144,16 +144,17 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         require_once 'CRM/Core/BAO/Domain.php';
 
         $params = array( );
-        $params = $this->exportValues();
-        $params['domain_id'] = $this->_id;
         
+        $params = $this->exportValues();
+        $params['entity_id'] = $this->_id;
+        $params['entity_table'] = CRM_Core_BAO_Domain::getTableName();
         $domain = CRM_Core_BAO_Domain::edit($params, $this->_id);
 
         $location = array();
         for ($locationId = 1; $locationId <= self::LOCATION_BLOCKS ; $locationId++) { // start of for loop for location
             $location[$locationId] = CRM_Core_BAO_Location::add($params, $this->_ids, $locationId);
         }
-
+        
         CRM_Core_Session::setStatus( ts('The Domain "%1" has been saved.', array( 1 => $domain->name )) );
         
     }

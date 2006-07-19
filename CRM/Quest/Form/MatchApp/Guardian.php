@@ -99,6 +99,10 @@ class CRM_Quest_Form_MatchApp_Guardian extends CRM_Quest_Form_App
         } else {
             $defaults['all_life'] = 0;
         }
+
+        $gaurdParams = array('entity_id' => $this->_personID, 'entity_table' => 'quest_person');
+        CRM_Core_BAO_Location::getValues( $gaurdParams, $defaults, $ids, 3);
+        $this->_locationIds = $ids;
         return $defaults;
 } 
      
@@ -112,7 +116,19 @@ public function buildQuickForm( )
 {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Person');
         
-        $this->addYesNo( 'is_parent', ts( 'Do you have contact with this parent?' ), null,false);
+        $personDAO = & new CRM_Quest_DAO_Person();
+        $personDAO->id = $this->_personID ;
+        $personDAO->find(true);
+
+        require_once 'CRM/Quest/DAO/Household.php';
+        $householdDAO = & new CRM_Quest_DAO_Household();
+        $householdDAO->household_type= 'Current';
+        $householdDAO->contact_id = $this->_contactID;
+        $householdDAO->find(true);
+        
+        if (($personDAO->relationship_id == 29 || $personDAO->relationship_id ==28 ) && ( $householdDAO->person_1_id == $this->_personID  || $householdDAO->person_2_id == $this->_personID )) {
+            $this->addYesNo( 'is_contact_with_student', ts( 'Do you have contact with this parent?' ), null,false);
+        }
 
         $this->addElement( 'text', "first_name",
                            ts('First Name'),
@@ -258,7 +274,10 @@ public function postProcess()
             $params['contact_id']         = $this->_contactID;
             $params['is_parent_guardian'] = true;
             $params['is_income_source'  ] = true;
-
+            $params['entity_id'] = $this->_personID;
+            $params['entity_table'] = 'quest_person';
+            $params['location']['1']['location_type_id'] = 1;
+          
             $ids['id'] = $this->_personID;
             $deceasedYear = $params['deceased_year_date']['Y'];
 
@@ -279,6 +298,9 @@ public function postProcess()
             
             require_once 'CRM/Quest/BAO/Person.php';
             $person = CRM_Quest_BAO_Person::create( $params , $ids );
+            unset($params['contact_id']);
+            CRM_Core_BAO_Location::add($params, $this->_locationIds, 1);
+
             
             // fix the details array
             $details = $this->controller->get( 'householdDetails' );

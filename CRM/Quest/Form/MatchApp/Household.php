@@ -148,7 +148,7 @@ $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_1', '30
                
                 $this->addSelect( "relationship",
                                    ts( 'Relationship' ),
-                                  "_".$i."_".$j ,true,$extra);
+                                  "_".$i."_".$j ,null ,$extra);
                 $this->addElement( 'text', "first_name_".$i."_".$j,
                                    ts('First Name'),
                                    $attributes['first_name'] );

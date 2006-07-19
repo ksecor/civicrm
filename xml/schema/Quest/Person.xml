@@ -229,6 +229,12 @@
       <comment>Professional or graduate school degree type.</comment>
       <add>1.5</add>
   </field>
+  <field>
+      <name>is_contact_with_student</name>
+      <type>int unsigned</type>
+      <comment>Do you have contact with this parent?</comment>
+      <add>1.5</add>
+  </field>
   <foreignKey>
        <name>prof_school_degree_id</name>
        <table>civicrm_option_value</table>
