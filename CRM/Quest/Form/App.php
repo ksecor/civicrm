@@ -193,7 +193,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
 
     }
 
-    function addSelectOther( $name, $label, $options, &$attributes ,$required = null, $javascriptMethod = null) {
+    function addSelectOther( $name, $label, $options, $attributes ,$required = null, $javascriptMethod = null) {
         
         $this->addElement('select', $name . '_id' , $label, $options, $javascriptMethod);
         

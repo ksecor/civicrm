@@ -101,7 +101,7 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
                     $attributes['counselor_meet'],
                     true );
 
-        $this->addCheckBox( 'counselor_basis'
+        $this->addCheckBox( 'counselor_basis',
                             ts( 'This evaluation is based on (check all that apply)' ),
                             CRM_Core_OptionGroup::values( 'counselor_basis', true ),
                             true, '<br/>',true,
@@ -182,7 +182,7 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        return ts('Personal Information');
+        return ts('Student Ranking');
     }
 }
 

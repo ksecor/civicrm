@@ -147,7 +147,7 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
                           'college_two_year',
                           ts( 'Of the student\'s graduating class, what percentage plan to attend a two-year college?' ) );
         $this->addRule( "college_two_year", ts('Number not valid.'), 'integer' ); 
-        
+
         parent::buildQuickForm( );
 
     }
@@ -197,7 +197,7 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        return ts('Personal Information');
+        return ts('Academic Information');
     }
 }
 

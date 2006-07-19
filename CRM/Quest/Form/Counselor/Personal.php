@@ -69,19 +69,6 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        $contactDefaults = array();
-        
-        $params = array( 'contact_id' => $this->_contactID,
-                         'id'         => $this->_contactID );
-        $defaults = array( );
-
-        $options = array( );
-        $ids = array();
-        $contact =& CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
-        
-        $ids    = array( );
-        CRM_Quest_BAO_Contact::retrieve( $params, $defaults, $ids );
-
         return $defaults;
     }
     
@@ -123,15 +110,17 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_App
                    true );
         $this->addRule( "location[1][email][1][email]", ts('Email is not valid.'), 'email' );
 
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Quest_Student_Ranking' );
+        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_StudentRanking' );
 
         // department
         $this->add('text', 'department', ts( 'Department' ), $attributes['department'], true );
 
         // year of high school graduation
+        $options = array('' => $select ) + CRM_Core_OptionGroup::values( 'recommender_relationship' );
         $this->addSelectOther('recommender_relationship',
                               ts( 'Which best describes your relationship to the student' ),
-                              array('' => $select ) + CRM_Core_OptionGroup::values( 'recommender_relationship' ),
+                              $options,
+                              null,
                               true );
         
         parent::buildQuickForm( );

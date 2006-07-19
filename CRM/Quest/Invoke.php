@@ -52,35 +52,42 @@ class CRM_Quest_Invoke {
             return;
         }
 
-        if ( $args[2] == 'preapp' ) {
-            $session =& CRM_Core_Session::singleton();
-            //commented for Issue CRM-872
-            //$session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+        $controller = null;
+
+        switch ( $args[2] ) {
+        case 'preapp':
             require_once 'CRM/Quest/Controller/PreApp.php';
             $controller =& new CRM_Quest_Controller_PreApp( null, null, false );
-            return $controller->run( );
-        }
+            break;
 
-        if ( $args[2] == 'matchapp' ) {
-            $session =& CRM_Core_Session::singleton();
-            //commented for Issue CRM-872
-            //$session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+        case 'matchapp':
             require_once 'CRM/Quest/Controller/MatchApp.php';
             $controller =& new CRM_Quest_Controller_MatchApp( null, null, false );
-            return $controller->run( );
-        }
+            break;
 
-        if ( $args[2] === 'schoolsearch' ) {
+        case 'teacher':
+            require_once 'CRM/Quest/Controller/Teacher.php';
+            $controller =& new CRM_Quest_Controller_Teacher( null, null, false );
+            break;
+
+        case 'counselor':
+            require_once 'CRM/Quest/Controller/Counselor.php';
+            $controller =& new CRM_Quest_Controller_Counselor( null, null, false );
+            break;
+            
+        case 'schoolsearch':
             require_once 'CRM/Core/Controller/Simple.php';
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Quest_Form_SchoolSearch', ts( 'CEEB School Search' ), null );
-            $controller->process( );
-            return $controller->run( );
-        }
+            break;
 
-        if ( $args[2] === 'verify' ) {
+        case 'verify':
             require_once 'CRM/Core/Controller/Simple.php';
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Quest_Form_Verify', ts( 'Verify your Registration' ), null );
-            $controller->process( );
+            return $controller->run( );
+
+        }
+
+        if ( $controller ) {
             return $controller->run( );
         }
 
