@@ -120,9 +120,12 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
         for ( $i = 1; $i <= 2; $i++ ) {
             if ( $i == 1 ) {
                 $title = ts( 'How many people live with you in your current household?' );
+                
             } else {
                 $title = ts( 'How many people lived with you in your previous household?' );
+                
             }
+           
             $this->addElement( 'text',
                                'member_count_' . $i,
                                $title,
@@ -137,9 +140,15 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
             $this->addRule('member_count_'.$i,ts('Not a valid number.'),'positiveInteger');
 
             for ( $j = 1; $j <= 2; $j++ ) {
+                if($j ==1) {
+$extra = array( 'onchange' => "return showHideByValue('relationship_id_1_1', '30|31|32|33|34', 'foster_child', '', 'select', false);" );
+                } else {
+                $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_2', '30|31|32|33|34', 'foster_child', '', 'select', false);" );
+                }
+               
                 $this->addSelect( "relationship",
                                    ts( 'Relationship' ),
-                                  "_".$i."_".$j );
+                                  "_".$i."_".$j ,true,$extra);
                 $this->addElement( 'text', "first_name_".$i."_".$j,
                                    ts('First Name'),
                                    $attributes['first_name'] );
