@@ -99,10 +99,9 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
 
     public function postProcess() 
     {
-        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+        if ( ! ( $this->getAction( ) &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
 
-            $essayParams = $params['essay'];
             CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], 
                                          $this->_contactID, $this->_contactID );
 

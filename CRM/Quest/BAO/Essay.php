@@ -181,11 +181,7 @@ class CRM_Quest_BAO_Essay extends CRM_Quest_DAO_Essay {
                         $essay['attributes'],
                         $essay['required'] );
             
-            if ( ! ( $form->_action & CRM_Core_Action::VIEW ) ) {
-                $form->addElement('text', "word_count[{$essay['name']}]", ts( 'Current word count' ), array('readonly','class="two"'));
-            }
-
-            if ( ! ( $form->_action & CRM_Core_Action::VIEW ) ) {
+            if ( ! ( $form->getAction( ) & CRM_Core_Action::VIEW ) ) {
                 $form->addElement('text', "word_count[{$essay['name']}]", ts( 'Current word count' ), array('readonly','class="two"'));
             }
 
