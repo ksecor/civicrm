@@ -71,7 +71,6 @@
        <name>success_factor</name>
        <type>varchar</type>
        <length>255</length>
-       <default>NULL</default>
        <required>true</required>
        <comment>Factors influencing academic success... Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = success_factor.</comment>
       <add>1.5</add>
