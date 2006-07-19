@@ -47,6 +47,8 @@ require_once 'CRM/Quest/BAO/Essay.php';
 class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
 {
 
+    protected $_essays;
+
     /**
      * Function to set variables up before form is built
      *
@@ -56,6 +58,8 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
+
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( $this->_grouping, $this->_contactID, $this->_contactID );
     }
     
    
@@ -97,8 +101,7 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
                 }
             }
         }        
-        
-        CRM_Quest_BAO_Essay::setDefaults( $this->_grouping, $defaults );
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults );
 
         return $defaults;
     } 
@@ -238,11 +241,14 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
                 }
             }
 
-            $params['contactID'] = $this->_contactID;
-            CRM_Quest_BAO_Essay::create( $params, $ids, $this->_grouping );
+//             $params['contactID'] = $this->_contactID;
+//             CRM_Quest_BAO_Essay::create( $params, $ids, $this->_grouping );
+            CRM_Quest_BAO_Essay::create( $this->_essays, $params, $this->_contactID, $this->_contactID );
 
             $ids['id'] = $this->_studentID;
             CRM_Quest_BAO_Student::create( $params, $ids );
+
+
         }
         
     }

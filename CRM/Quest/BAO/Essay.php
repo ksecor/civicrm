@@ -161,11 +161,13 @@ class CRM_Quest_BAO_Essay extends CRM_Quest_DAO_Essay {
      * @static  
      * @return void 
      */ 
-    static function setDefaults( &$essays, &$defaults ) { 
-        foreach ( $essays as $name => $essay ) { 
-            if ( $essay['essay'] ) { 
-                $defaults[$name] = $essay['essay']; 
-            } 
+    static function setDefaults( &$essays, &$defaults ) {
+        if (is_array($essays)) {
+            foreach ( $essays as $name => $essay ) { 
+                if ( $essay['essay'] ) { 
+                    $defaults[$name] = $essay['essay']; 
+                } 
+            }
         }     
     } 
 
