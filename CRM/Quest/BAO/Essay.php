@@ -177,7 +177,7 @@ class CRM_Quest_BAO_Essay extends CRM_Quest_DAO_Essay {
             
             $form->add( 'textarea',
                         "essay[{$essay['name']}]",
-                        $essay['label'],
+                        $essay['label'] . " ({$essay['wordCount']} words max)",
                         $essay['attributes'],
                         $essay['required'] );
             
