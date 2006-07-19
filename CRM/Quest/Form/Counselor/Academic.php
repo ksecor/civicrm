@@ -118,7 +118,7 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
         $this->addRule( "unweighted_rank", ts('Number not valid.'), 'integer' );
         
         $this->addElement('text', 'class_num_students',
-                          null );
+                          ts( 'out of') );
         $this->addRule( "class_num_students", ts('Number not valid.'), 'integer' );
         
         $this->addElement('date', 'rank_date_low', null,
@@ -132,7 +132,7 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
                               true );
         
         $this->addElement('text', 'share_ranking',
-                          null );
+                          ts('How many students share this cumulative ranking?') );
         $this->addRule( "share_ranking", ts('Number not valid.'), 'integer' );
 
         $this->addSelect( 'course_choice',
