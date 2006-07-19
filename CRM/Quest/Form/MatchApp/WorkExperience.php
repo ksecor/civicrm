@@ -100,7 +100,7 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
         return $defaults;
     }
 
-  /**
+    /**
      * Function to actually build the form
      *
      * @return void
@@ -108,10 +108,9 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
-      
-      
         for( $i = 1; $i <= 6; $i++ ){
-            $this->addElement('text', 'nature_of_work_'.$i, ts( 'Specific Nature of Work' ));
+            $natureOfWork = array('onkeyup' => "return show_element('nature_of_work_'+$i);");
+            $this->addElement('text', 'nature_of_work_'.$i, ts( 'Specific Nature of Work' ), $natureOfWork);
             $this->addElement('text', 'employer_'.$i, ts( 'Employer' ));
             $this->addElement('date', 'start_date_'.$i, ts( 'Start Date' ), 
                               CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
@@ -130,10 +129,16 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
          
         $maxWork = 6;
         $this->assign( 'maxWork', $maxWork);
+        
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide = new CRM_Core_ShowHideBlocks();
+        $showHide->addHide('id_earnings');
+        $showHide->addHide('id_school_work');    
+        $showHide->addToTemplate();
         parent::buildQuickForm( );
     }
 
-/**
+    /**
      * process the form after the input has been submitted and validated
      *
      * @access public
