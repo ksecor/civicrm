@@ -315,7 +315,7 @@
      <add>1.5</add>
   </field>
   <foreignKey>
-       <name>recommend_id</name>
+       <name>recommend_student_id</name>
        <table>civicrm_option_value</table>
        <key>value</key>
        <add>1.5</add>
