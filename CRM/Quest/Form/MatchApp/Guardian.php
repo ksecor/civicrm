@@ -279,9 +279,7 @@ public function postProcess()
             $params['contact_id']         = $this->_contactID;
             $params['is_parent_guardian'] = true;
             $params['is_income_source'  ] = true;
-            $params['entity_id'] = $this->_personID;
-            $params['entity_table'] = 'quest_person';
-            $params['location']['1']['location_type_id'] = 1;
+            
           
             $ids['id'] = $this->_personID;
             $deceasedYear = $params['deceased_year_date']['Y'];
@@ -304,6 +302,9 @@ public function postProcess()
             require_once 'CRM/Quest/BAO/Person.php';
             $person = CRM_Quest_BAO_Person::create( $params , $ids );
             unset($params['contact_id']);
+            $params['entity_id'] = $person->id;
+            $params['entity_table'] = 'quest_person';
+            $params['location']['1']['location_type_id'] = 1;
             CRM_Core_BAO_Location::add($params, $this->_locationIds, 1);
 
             

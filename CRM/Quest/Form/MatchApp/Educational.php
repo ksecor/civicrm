@@ -109,7 +109,7 @@ class CRM_Quest_Form_MatchApp_Educational extends  CRM_Quest_Form_App
                             CRM_Core_OptionGroup::values( 'educational_interest', true ),
                             true, '<br/>',true,
                             array ('onclick' => "return showHideByValue('educational_interest[245]', '1', 'educational_interest_other', '', 'radio', false);") );
-
+        
         $this->addElement('text', 'educational_interest_other', ts( 'Other Educational Interest' ),
                           $attributes['educational_interest_other'] );
 
@@ -118,10 +118,28 @@ class CRM_Quest_Form_MatchApp_Educational extends  CRM_Quest_Form_App
                             CRM_Core_OptionGroup::values( 'college_type', true ),
                             false, null,true );
 
-    
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Educational', 'formRule'));
         parent::buildQuickForm( );
+    }
+    
+   /* Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        $errors = array( );
 
-    }//end of function
+        if (empty($params['educational_interest_other'])) {
+                $errors['educational_interest_other'] = "Please enter your Educational interest.";
+            }
+        return empty($errors) ? true : $errors;
+    }
+
+    //end of function
     /**
       * process the form after the input has been submitted and validated
       *
