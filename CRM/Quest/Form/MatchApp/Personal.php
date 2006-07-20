@@ -48,6 +48,7 @@ require_once 'CRM/Core/OptionGroup.php';
 class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
 {
     const MAX_SIBLINGS = 10, MAX_NATIONALITY_COUNTRY = 3;
+
     /**
      * Function to set variables up before form is built
      *
@@ -71,7 +72,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         $defaults = array( );
         $studentDefaults = array();
         $contactDefaults = array();
-        
+        $this->_countryPresent = array();
         $params = array( 'contact_id' => $this->_contactID,
                          'id'         => $this->_contactID );
         $defaults = array( );
@@ -90,13 +91,14 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
             $showHide =& new CRM_Core_ShowHideBlocks( );
             for ( $i = 2; $i <= self::MAX_NATIONALITY_COUNTRY; $i++ ) {
                 if ( CRM_Utils_Array::value( "nationality_country_id_$i", $defaults )) {
-                    $showHide->addShow( "id_nationality_country_id_$i" );
+                    $showHide->addShow( "id_nationalityCountry_$i" );
                 } else {
-                    $showHide->addHide( "id_nationality_country_id_$i" );
+                    $showHide->addHide( "id_nationalityCountry_$i" );
                 }
                 $showHide->addToTemplate( );
             }
         }
+
         return $defaults;
     }
     
@@ -198,13 +200,14 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         for ( $i = 1; $i <= self::MAX_NATIONALITY_COUNTRY; $i++ ) {
             $this->addCountry( "nationality_country_id_$i" , ts( 'Country(ries) of family\'s origin' ), false);
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
-                $nationalityCountry[$i] = CRM_Core_ShowHideBlocks::links( $this,"nationality_country_id_$i",
+                $nationalityCountry[$i] = CRM_Core_ShowHideBlocks::links( $this,"nationalityCountry_$i",
                                                                           ts('add another country'),
                                                                           ts('hide this country'),
                                                                           false );
             }
         }
         $this->assign( 'nationalityCountry', $nationalityCountry );
+
         $maxNationalityCountry = self::MAX_NATIONALITY_COUNTRY;
         $this->assign( 'maxNationalityCountry', $maxNationalityCountry + 1 );
 
@@ -228,7 +231,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         $this->addElement('text', 'tribe_affiliation', ts( 'Tribe affiliation' ), $attributes['tribe_affiliation'] );
 
         //Date enrolled in tribe
-        $this->add('date', 'tribe_date', ts('Date enrolled in tribe'), 
+        $this->add('date', 'tribe_enroll_date', ts('Date enrolled in tribe'), 
                    CRM_Core_SelectValues::date('custom', 20, 0, 'M Y'), false);
 
         // race other option

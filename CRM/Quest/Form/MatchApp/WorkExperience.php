@@ -136,8 +136,58 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
         $showHide->addHide('id_earnings');
         $showHide->addHide('id_school_work');    
         $showHide->addToTemplate();
+
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_WorkExperience', 'formRule'));
         parent::buildQuickForm( );
     }
+
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params)
+    {
+        $errors = array( );
+        $fields = array('nature_of_work_' => 'nature of work',
+                        'employer_'       => 'employer',
+                        'hrs_'            => 'approximate hours/week');
+        $dates  = array('start_date_'     => 'start date',
+                        'end_date_'       => 'end date' );
+        for ( $i = 1; $i <= 6; $i++ ) {
+            $filled = false;
+            foreach ( $fields as $field => $title) {
+                if ($params[$field . $i]) {
+                    $filled = true;
+                }
+            }
+            foreach ( $dates as $date => $title ) {
+                if ($params[$date . $i]['M'] || $params[$date . $i]['Y']) {
+                    $filled = true;
+                }
+            }
+            
+            if ($filled) {
+                foreach ( $fields as $field => $title ) {
+                    if (!$params[$field . $i]) {
+                        $errors[$field . $i] = "Please enter the $title";
+                    }
+                }
+                foreach ( $dates as $date => $title ) {
+                    if (!$params[$date . $i]['M'] || !$params[$date . $i]['Y']) {
+                        $errors[$date . $i] = "Please enter a valid $title";
+                    }
+                }
+            }
+        }
+
+        return empty($errors) ? true : $errors;
+        
+    } 
 
     /**
      * process the form after the input has been submitted and validated

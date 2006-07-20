@@ -140,9 +140,12 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         $this->addElement( 'textarea', "hobbies",
                            ts('We encourage you to reply to this question in sentence form, rather than as a list, if you feel this would allow you to better express your interests.') ,"cols=60 rows=5");
 
-        $this->addElement('checkbox', 'varsity_sports',ts( 'Varsity Sports' ), null, array('onClick' => 'showTextField()'));
+        $extra1 = array ('onclick' => "return showHideByValue('varsity_sports', '1', 'varsity_sports_list', '', 'radio', false);");
+        $this->addElement('checkbox', 'varsity_sports',ts( 'Varsity Sports' ) , null, $extra1);
         $this->addElement('text', 'varsity_sports_list' );
-        $this->addElement( 'checkbox','arts',ts('Arts (music, dance/theatre, visual, etc) (list):'), null, array('onClick' => 'showTextField()') );
+
+        $extra2 = array ('onclick' => "return showHideByValue('arts', '1', 'arts_list', '', 'radio', false);");
+        $this->addElement( 'checkbox','arts',ts('Arts (music, dance/theatre, visual, etc) (list):'), null, $extra2);
         $this->addElement('text', 'arts_list' );
  
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_ExtracurricularInfo', 'formRule'));
@@ -241,8 +244,6 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
                 }
             }
 
-//             $params['contactID'] = $this->_contactID;
-//             CRM_Quest_BAO_Essay::create( $params, $ids, $this->_grouping );
             CRM_Quest_BAO_Essay::create( $this->_essays, $params, $this->_contactID, $this->_contactID );
 
             $ids['id'] = $this->_studentID;

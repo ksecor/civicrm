@@ -56,13 +56,17 @@
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 {literal}
 <script type="text/javascript">
+    if (document.getElementById("earnings").value) {
+        show('id_earnings', 'table-row');
+        show('id_school_work', 'table-row');
+    }
     function show_element(trigger_element_id)
     {
         show('id_earnings', 'table-row');
         show('id_school_work', 'table-row');
         element = document.getElementById(trigger_element_id);
         
-        if (element.value=='') {
+        if (element.value == '') {
             hide('id_earnings');
             hide('id_school_work');
         }

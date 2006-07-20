@@ -229,18 +229,16 @@
     <td class="grouplabel">
         {$form.nationality_country_id_1.label}</td>
     <td class="fieldlabel">
-        {*$form.nationality_country_id_1.html*}
   	{section name=rowLoop start=1 loop=$maxNationalityCountry}
 	    {assign var=i value=$smarty.section.rowLoop.index}
-            <div id="id_nationality_country_id_{$i}">
+            <div id="id_nationalityCountry_{$i}">
 	      {assign var=country value="nationality_country_id_"|cat:$i}
               {$form.$country.html}
-              {*edit}{$nationalityCountry.$i.hide}{/edit*}
-            </div>
-            {if $i LT $maxNationalityCountry}
+              {if $i LT $maxNationalityCountry}
                 {assign var=j value=$i+1}
-	        <div id="id_nationality_country_id_{$j}_show">{edit}{$nationalityCountry.$j.show}{/edit}</div>
-	    {/if}
+	        <span id="id_nationalityCountry_{$j}_show">{edit}{$nationalityCountry.$j.show}{/edit}</span>
+	      {/if}
+            </div>
 	{/section}
     </td>
 </tr>

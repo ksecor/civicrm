@@ -86,41 +86,21 @@ Please list your principal extracurricular, community, and family activities and
 </tr>
 </table>
 
-
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
-{literal}
-    <script type="text/javascript">
-	if (document.getElementById("varsity_sports_list").value) {
-	  document.getElementsByName("varsity_sports")[0].checked = true;
-	}
-	if (document.getElementById("arts_list").value) {
-	  document.getElementsByName("arts")[0].checked = true;
-	}
-	if (document.getElementsByName("varsity_sports")[0].checked) {
-	  show("varsity_sports_list");
-	} else {
-          hide("varsity_sports_list");
-	}
-	if (document.getElementsByName("arts")[0].checked) {
-	  show("arts_list");
-	} else {
-          hide("arts_list");
-	}
-
-   	function showTextField() {
-		if (document.getElementsByName("varsity_sports")[0].checked) {
-		  show("varsity_sports_list");
-		} else {
-	          hide("varsity_sports_list");
-		  document.getElementById("varsity_sports_list").value = null;
-		}
-		if (document.getElementsByName("arts")[0].checked) {
-		  show("arts_list");
-		} else {
-	          hide("arts_list");
-		  document.getElementById("arts_list").value = null;
-		}
-	}
-    </script>  
-{/literal}
+{include file="CRM/common/showHideByFieldValue.tpl"
+    trigger_field_id    ="varsity_sports"
+    trigger_value       ="1"
+    target_element_id   ="varsity_sports_list"
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl"
+    trigger_field_id    ="arts"
+    trigger_value       ="1"
+    target_element_id   ="arts_list"
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}
