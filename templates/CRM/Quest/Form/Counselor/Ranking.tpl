@@ -38,17 +38,17 @@
         <td>Excellent</td>
         <td>One of the best<br />of my career</td>
       </tr>
-      <tr><td>{$form.leadership_id.html}</td></tr>
-      <tr><td>{$form.intellectual_id.html}</td></tr>
-      <tr><td>{$form.challenge_id.html}</td></tr>
-      <tr><td>{$form.maturity_id.html}</td></tr>
-      <tr><td>{$form.work_ethic_id.html}</td></tr>
-      <tr><td>{$form.originality_id.html}</td></tr>
-      <tr><td>{$form.humor_id.html}</td></tr>
-      <tr><td>{$form.energy_id.html}</td></tr>
-      <tr><td>{$form.respect_differences_id.html}</td></tr>
-      <tr><td>{$form.respect_faculty_id.html}</td></tr>
-      <tr><td>{$form.respect_peers_id.html}</td></tr> 
+      <tr><td>Leadership Potential</td><td>{$form.leadership_id.html}</td></tr>
+      <tr><td>Intellectual Curiosity</td><td>{$form.intellectual_id.html}</td></tr>
+      <tr><td>Atttitude toward challenges</td><td>{$form.challenge_id.html}</td></tr>
+      <tr><td>Emotional Maturity</td><td>{$form.maturity_id.html}</td></tr>
+      <tr><td>Work ethic</td><td>{$form.work_ethic_id.html}</td></tr>
+      <tr><td>Originality of thought</td><td>{$form.originality_id.html}</td></tr>
+      <tr><td>Sense of humor</td><td>{$form.humor_id.html}</td></tr>
+      <tr><td>Energy</td><td>{$form.energy_id.html}</td></tr>
+      <tr><td>Respect for differences</td><td>{$form.respect_differences_id.html}</td></tr>
+      <tr><td>Respect accorded by faculty</td><td>{$form.respect_faculty_id.html}</td></tr>
+      <tr><td>Respect accorded by peers</td><td>{$form.respect_peers_id.html}</td></tr> 
     </table>
     </td>
 </tr>
@@ -72,10 +72,10 @@
         <td>Excellent</td>
         <td>One of the best<br />of my career</td>
       </tr>
-      <tr><td>{$form.compare_academic_id.html}</td></tr>
-      <tr><td>{$form.compare_extracurricular_id.html}</td></tr>
-      <tr><td>{$form.compare_personal_id.html}</td></tr>
-      <tr><td>{$form.compare_overall_id.html}</td></tr>
+      <tr><td>Academically</td><td>{$form.compare_academic_id.html}</td></tr>
+      <tr><td>Extracurricular accomplishment</td><td>{$form.compare_extracurricular_id.html}</td></tr>
+      <tr><td>Personal qualities and character</td><td>{$form.compare_personal_id.html}</td></tr>
+      <tr><td>Overall</td><td>{$form.compare_overall_id.html}</td></tr>
     </table>
     </td>
 </tr>

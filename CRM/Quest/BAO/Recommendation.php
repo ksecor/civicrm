@@ -132,11 +132,12 @@ class CRM_Quest_BAO_Recommendation {
         $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
         $hash           =  md5( uniqid( rand( ), true ) );
 
-        $params= array( 'first_name'    => $firstName,
-                        'last_name'     => $lastName,
-                        'email'         => $email,
-                        'hash'          => md5( uniqid( rand( ), true ) ),
-                        'location_type' => $locationType->name );
+        $params= array( 'first_name'       => $firstName,
+                        'last_name'        => $lastName,
+                        'email'            => $email,
+                        'hash'             => md5( uniqid( rand( ), true ) ),
+                        'contact_sub_type' => 'Recommender',
+                        'location_type'    => $locationType->name );
         $contact =& crm_create_contact( $params, 'Individual' );
         if ( is_a( $contact, 'CRM_Core_Error' ) ) {
             CRM_Core_Error::fatal( ts( 'Could not create contact' ) );
@@ -164,7 +165,7 @@ class CRM_Quest_BAO_Recommendation {
         }
     }
 
-    static function createRealtionship( $rtypeID, $aID, $bID ) {
+    static function createRelationship( $rtypeID, $aID, $bID ) {
         require_once 'CRM/Contact/DAO/Relationship.php';
 
         $dao =& new CRM_Contact_DAO_Relationship( );

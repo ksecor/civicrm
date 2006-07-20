@@ -135,7 +135,13 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
                             'Personal qualities and character' => 'compare_personal_id',
                             'Overall'                          => 'compare_overall_id',
                             );
-        $optionValues = array('' => $select ) + CRM_Core_OptionGroup::values( 'recommender_ranking' );
+        
+        $optionValues = CRM_Core_OptionGroup::values( 'recommender_ranking' );
+        
+        // delete all the labels since the template takes care of them
+        foreach ( $optionValues as $key => $val ) {
+            $optionValues[$key] = null;
+        }
 
         foreach( $radioBoxes as $label => $name ) {
             $this->addRadio( $name, $label, $optionValues, null, '</td><td>' );

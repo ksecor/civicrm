@@ -40,6 +40,8 @@ class CRM_Quest_Controller_Counselor extends CRM_Core_Controller {
 
     protected $_action;
 
+    protected $_scID;
+
     /**
      * class constructor
      */
@@ -51,6 +53,8 @@ class CRM_Quest_Controller_Counselor extends CRM_Core_Controller {
                                                      $this, false, 'update' );
         $this->assign( 'action', $this->_action );
 
+        $this->_scID = CRM_Utils_Request::retrieve( 'scid', 'Integer', $this, true );
+
         if ( ! $cid ) {
             $cid    = CRM_Utils_Request::retrieve( 'id', 'Positive',
                                                    $this );
@@ -60,13 +64,13 @@ class CRM_Quest_Controller_Counselor extends CRM_Core_Controller {
             if ( $cid ) {
                 require_once 'CRM/Contact/BAO/Contact.php';
                 require_once 'CRM/Utils/System.php';
-                if ( ( $cid != $uid ) && ($this->_action & CRM_Core_Action::UPDATE) ) {
-                    if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) {
-                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Application.') );
-                    } 
-                } else if (($cid != $uid ) && ($this->_action & CRM_Core_Action::VIEW) ) {
-                    if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) {
-                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Application.') );
+                if ( $cid != $uid ) {
+                    if ( ( $this->_action & CRM_Core_Action::UPDATE ) &&
+                         ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) ) {
+                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Recommendation.') );
+                    } else if ( ( $this->_action & CRM_Core_Action::VIEW ) &&
+                                ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) ) {
+                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Recommendation.') );
                     }
                 }
             } else {
@@ -76,19 +80,41 @@ class CRM_Quest_Controller_Counselor extends CRM_Core_Controller {
             if ( ! $cid ) {
                 CRM_Core_Error::fatal( ts( "Could not find a valid contact id" ) );
             }
-            $this->set( 'contactID', $cid );
+            $this->set( 'contactID'       , $cid );
 
             // set contact id and welcome name
        
             $dao =& new CRM_Contact_DAO_Contact( );
             $dao->id = $cid;
-            if ( $dao->find( true ) ) {
+            if ( $dao->find( true ) &&
+                 $dao->contact_sub_type == 'Recommender' ) {
                 $this->set( 'welcome_name',
-                             $dao->display_name );
+                            $dao->display_name );
             } else {
-                CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
+                // CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
             }
-       
+
+            // also set student's name
+            $dao =& new CRM_Contact_DAO_Contact( );
+            $dao->id = $this->_scID;
+            if ( $dao->find( true ) &&
+                 $dao->contact_sub_type == 'Student' ) {
+                $this->set( 'student_welcome_name',
+                            $dao->display_name );
+            } else {
+                // CRM_Core_Error::fatal( ts( "Could not find a valid contact record for the student" ) );
+            }
+
+            // make sure that recommender is a counselor of student
+            require_once 'CRM/Contact/DAO/Relationship.php';
+            $dao =& new CRM_Contact_DAO_Relationship( );
+            $dao->relationship_type_id = 10;
+            $dao->contact_id_a = $this->_scID;
+            $dao->contact_id_b = $cid;
+            $dao->is_active    = true;
+            if ( ! $dao->find( true ) ) {
+                // CRM_Core_Error::fatal( ts( "You do not have permission to create a recommendation for this student" ) );
+            }
         }
 
         require_once 'CRM/Quest/StateMachine/Counselor.php';
@@ -98,28 +124,6 @@ class CRM_Quest_Controller_Counselor extends CRM_Core_Controller {
         $this->addPages( $this->_stateMachine, $this->_action );
 
         $this->addActions( );
-
-        // get the task status object, if not there create one
-        require_once 'CRM/Project/DAO/TaskStatus.php';
-        $dao =& new CRM_Project_DAO_TaskStatus( );
-        $dao->responsible_entity_table = 'civicrm_contact';
-        $dao->responsible_entity_id    = $cid;
-        $status =& CRM_Core_OptionGroup::values( 'task_status', true );
-        if ( ! $dao->find( true ) ) {
-            $dao->task_id             = 2;
-            $dao->target_entity_table = 'civicrm_contact';
-            $dao->target_entity_id    = $cid;
-            $dao->create_date         = date( 'YmdHis' );
-            
-            $dao->status_id = $status['Not Started'];
-            $dao->save( );
-        } else if ( $dao->status_detail ) {
-            $data =& $this->container( );
-            $data['valid'] = unserialize( $dao->status_detail );
-        }
-
-        $this->set( 'taskStatusID', $dao->id );
-        $this->assign( 'taskStatus', array_search( $dao->status_id, $status ) );
 
         //set user context
         $session =& CRM_Core_Session::singleton();
