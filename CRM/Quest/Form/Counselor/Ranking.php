@@ -142,7 +142,9 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
         }
 
         $this->addSelect( 'recommend_student',
-                          ts( 'I recommend this student' ) );
+                          ts( 'I recommend this student' ),
+                          null,
+                          true);
 
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );

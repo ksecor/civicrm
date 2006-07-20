@@ -8,7 +8,7 @@
 </tr>
 <tr>
     <td class="grouplabel" width="30%" valign="top">
-        <label for="app_class_1">{ts}Please list all of the Advanced Placement and International Baccalaureate classes your school offers.{/ts}</label> <span class="marker">*</span></td>
+        <label for="app_class_1">{ts}Please list all of the Advanced Placement and International Baccalaureate classes your school offers.{/ts}</label></td>
     <td>
         <table width="100%"  border="0" class="fieldlabel">
             <tr><td class="optionlist">{$form.ap_class_1.html}</td><td class="optionlist">{$form.ap_class_2.html}</td></tr>

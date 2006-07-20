@@ -25,7 +25,7 @@
     </td>
 </tr>
 <tr>
-    <td colspan="2" class="grouplabel">Based on your experience as a counselor, please comment on the student's characteristics as compared to other students you have encountered in your career.  * <br />
+    <td colspan="2" class="grouplabel">Based on your experience as a counselor, please comment on the student's characteristics as compared to other students you have encountered in your career: <span class="marker">*</span> <br />
     <br />
     <table width="100%" border="1">
       <tr>
@@ -57,6 +57,31 @@
         {$form.essay.rating_reason.label}<br /><br />
         {$form.essay.rating_reason.html} &nbsp;<br /><br />
         {$form.word_count.rating_reason.label} &nbsp;&nbsp;{$form.word_count.rating_reason.html}</td>
+</tr>
+<tr>
+    <td colspan="2" class="grouplabel">How would you compare this student to his or her entire class: <span class="marker">*</span> <br />
+    <br />
+    <table width="100%" border="1">
+      <tr>
+        <td>&nbsp;</td>
+        <td>Unable<br />to comment </td>
+        <td>Below<br />Average</td>
+        <td>Average</td>
+        <td>Above<br />Average</td>
+        <td>Very<br />good</td>
+        <td>Excellent</td>
+        <td>One of the best<br />of my career</td>
+      </tr>
+      <tr><td>{$form.compare_academic_id.html}</td></tr>
+      <tr><td>{$form.compare_extracurricular_id.html}</td></tr>
+      <tr><td>{$form.compare_personal_id.html}</td></tr>
+      <tr><td>{$form.compare_overall_id.html}</td></tr>
+    </table>
+    </td>
+</tr>
+<tr>
+    <td class="grouplabel">{$form.recommend_student_id.label}</td>
+    <td class="fieldlabel">{$form.recommend_student_id.html}</td>
 </tr>
 </table>
 {/strip}

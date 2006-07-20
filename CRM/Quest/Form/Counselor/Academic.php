@@ -90,14 +90,16 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
 
         $this->add( 'text',
                     'gpa_unweighted',
-                    ts( 'The student has a cumulative <strong>unweighted</strong> GPA of' ),
-                    $attributes['gpa_unweighted'] );
+                    ts( 'The student has a cumulative <strong>unweighted</strong> GPA of:' ),
+                    $attributes['gpa_unweighted'],
+                    true);
         $this->addRule( 'gpa_unweighted', ts( 'GPA should be a number between 0 and 4 (0.00 - 4.00)' ), 'money' );
                         
         $this->add( 'text',
                     'gpa_weighted',
-                    ts( 'The student has a cumulative <strong>weighted</strong> GPA of' ),
-                    $attributes['gpa_weighted']);
+                    ts( 'The student has a cumulative <strong>weighted</strong> GPA of:' ),
+                    $attributes['gpa_weighted'],
+                    true);
         $this->addRule( 'gpa_weighted', ts( 'GPA should be a number between 0 and 5 (0.00 - 5.00)' ), 'money' );
         
         $this->addSelect( 'gpa_includes',
@@ -105,8 +107,9 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
                                                                     
         $this->add( 'text',
                     'gpa_weighted_max',
-                    ts( 'The highest weighted GPA in the class is' ),
-                    $attributes['gpa_weighted_max'] );
+                    ts( 'The highest weighted GPA in the class is:' ),
+                    $attributes['gpa_weighted_max'],
+                    true);
         $this->addRule( 'gpa_weighted_max', ts( 'GPA should be a number between 0 and 5 (0.00 - 5.00)' ), 'money' );
 
         foreach ( array( 'a', 'b', 'c', 'd' ) as $alphabet ) {
@@ -146,7 +149,9 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
         $this->addRule( "share_ranking", ts('Number not valid.'), 'integer' );
 
         $this->addSelect( 'course_choice',
-                          ts( 'Which of the following describes the student\'s choices of academic courses and in comparison to other college prep students at your school' ) );
+                          ts( 'Which of the following describes the student\'s choices of academic courses and in comparison to other college prep students at your school' ),
+                          null,
+                          true);
 
         $this->addElement('text',
                           'college_four_year',
