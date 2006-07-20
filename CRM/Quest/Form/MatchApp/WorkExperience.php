@@ -121,11 +121,12 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
                             ts( 'Check if Summer jobs only'),
                             null);
         }
-         $this->addElement('textarea', 'earnings', ts( 'To what use have you put your earnings? ' ), array("rows"=>5,"cols"=>60));
+        $this->addElement('textarea', 'earnings', ts( 'To what use have you put your earnings? ' ), array("rows"=>5,"cols"=>60));
 
-         $this->addRadio( 'school_work', null, array( 'weekends'    => 'Weekends', 
-                                                      'after_school'=> 'After School', 
-                                                      'both'        => 'Both' ) );
+        $schoolWork = array( 'weekends'    => 'Weekends', 
+                             'after_school'=> 'After School', 
+                             'both'        => 'Both' );
+        $this->addRadio( 'school_work', null, $schoolWork );
          
         $maxWork = 6;
         $this->assign( 'maxWork', $maxWork);
