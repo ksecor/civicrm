@@ -67,12 +67,11 @@ class CRM_Quest_Form_MatchApp_Essay_PersonalStat extends CRM_Quest_Form_MatchApp
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
         $radioAttributeArray = array('onclick' => "return show_element(\"id_upload_photo\")");
-        //$radioAttributeArray = array();
-        $this->addRadio( 'personalStat_quests', null,
-                         array( 'Choose a photograph of something important to you and explain its significance. (Stanford University, 2004). You must upload a photograph if you answer this prompt.',
+
+        $personalStatQuests = array( 'Choose a photograph of something important to you and explain its significance. (Stanford University, 2004). You must upload a photograph if you answer this prompt.',
                                 ' Evaluate a significant experience, achievement, risk you have taken, or ethical dilemma you have faced and its impact on you (Common Application, 2004)'
-                                ), 
-                         $radioAttributeArray, '<br/>' );
+                                );
+        $this->addRadio( 'personalStat_quests', null, $personalStatQuests , $radioAttributeArray, '<br/>' );
 
         //file upload
         $this->addElement('file', 'upload_photo', ts( 'Upload photograph:' ), $attributes['upload_photo'] );
