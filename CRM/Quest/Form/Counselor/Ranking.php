@@ -59,6 +59,7 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
     public function preProcess()
     {
 
+        require_once "CRM/Quest/BAO/Essay.php";
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_counselor_ranking', 0, 0 );
 
         parent::preProcess();
@@ -115,7 +116,7 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_App
                             ts( 'This evaluation is based on (check all that apply)' ),
                             CRM_Core_OptionGroup::values( 'counselor_basis', true ),
                             true, '<br/>',true,
-                            array ('onclick' => "return showHideByValue('counselor_basis[5]', '1', 'counselor_basis_other', '', 'radio', false);") );
+                            array ('onclick' => "return showHideByValue('counselor_basis[5]', '1', 'cb_other', 'block', 'radio', false);") );
        
         $radioBoxes = array(
                             'Leadership potential'             => 'leadership_id',

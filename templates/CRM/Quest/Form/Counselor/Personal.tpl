@@ -36,30 +36,37 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        {$form.department.label}</td>
+        {$form.location.1.email.1.email.label}<br />
     <td class="fieldlabel">
-        {$form.department.email.html}</td>
+        {$form.location.1.email.1.email.html}
+    </td>
 </tr>
 <tr>
     <td class="grouplabel">
-        {$form.relationship_id.label}</td>
+        {$form.department.label}</td>
     <td class="fieldlabel">
-        {$form.relationship_id.html}</td>
+        {$form.department.html}</td>
 </tr>
-<tr id="rel_other_row">
+<tr>
     <td class="grouplabel">
-        {$form.relationship_other.label}</td>
+        {$form.recommender_relationship_id.label}</td>
     <td class="fieldlabel">
-        {$form.relationship_other.html}</td>
+        {$form.recommender_relationship_id.html}</td>
+</tr>
+<tr id="rec_rel_other">
+    <td class="grouplabel">
+        {ts}Please specify.{/ts}</td>
+    <td class="fieldlabel">
+        {$form.recommender_relationship_other.html}</td>
 </tr>
 </table>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
 {include file="CRM/common/showHideByFieldValue.tpl"
-    trigger_field_id    ="relationship_id"
-    trigger_value       ="1"
-    target_element_id   ="relationship_other"
-    target_element_type ="6"
+    trigger_field_id    ="recommender_relationship_id"
+    trigger_value       ="6"
+    target_element_id   ="rec_rel_other"
+    target_element_type ="table-row"
     field_type          ="select"
     invert              = 0
 }

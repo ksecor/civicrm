@@ -90,13 +90,13 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
 
         $this->add( 'text',
                     'gpa_unweighted',
-                    ts( 'The student has a cumulative unweighted GPA of' ),
+                    ts( 'The student has a cumulative <strong>unweighted</strong> GPA of' ),
                     $attributes['gpa_unweighted'] );
-        $this->addRule( 'gpa_unweighted', ts( 'GPA should be a number between 0 and 5 (0.00 - 5.00)' ), 'money' );
+        $this->addRule( 'gpa_unweighted', ts( 'GPA should be a number between 0 and 4 (0.00 - 4.00)' ), 'money' );
                         
         $this->add( 'text',
                     'gpa_weighted',
-                    ts( 'The student has a cumulative weighted GPA of' ),
+                    ts( 'The student has a cumulative <strong>weighted</strong> GPA of' ),
                     $attributes['gpa_weighted']);
         $this->addRule( 'gpa_weighted', ts( 'GPA should be a number between 0 and 5 (0.00 - 5.00)' ), 'money' );
         
@@ -132,10 +132,13 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_App
         $this->addElement('date', 'rank_date_high', null,
                           CRM_Core_SelectValues::date( 'custom', 5, 1, "M\001Y" ) );
 
+        $extra = array( 'onchange' => "return showHideByValue('term_type_id','4','term_type_other','block','select',false);");
         $this->addSelectOther('term_type',
                               ts('This cumulative ranking is based on what type of term?'),
-                              array('' => $select ) + CRM_Core_OptionGroup::values( 'term_type' ),
-                              true );
+                              array('' => '- select -' ) + CRM_Core_OptionGroup::values( 'term_type' ),
+                              null,
+                              true,
+                              $extra);
         
         $this->addElement('text', 'share_ranking',
                           ts('How many students share this cumulative ranking?'),

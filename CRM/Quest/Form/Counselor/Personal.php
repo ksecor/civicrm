@@ -115,13 +115,15 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_App
         // department
         $this->add('text', 'department', ts( 'Department' ), $attributes['department'], true );
 
-        // year of high school graduation
-        $options = array('' => $select ) + CRM_Core_OptionGroup::values( 'recommender_relationship' );
+        // relationship to recommender
+        $options = array('' => '- select -' ) + CRM_Core_OptionGroup::values( 'recommender_relationship' );
+        $extra = array( 'onchange' => "return showHideByValue('recommender_relationship_id','6','rec_rel_other','table-row','select',false);");
         $this->addSelectOther('recommender_relationship',
                               ts( 'Which best describes your relationship to the student' ),
                               $options,
                               null,
-                              true );
+                              true,
+                              $extra);
         
         parent::buildQuickForm( );
 
