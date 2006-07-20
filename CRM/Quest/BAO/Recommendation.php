@@ -173,10 +173,11 @@ class CRM_Quest_BAO_Recommendation {
         $dao->relationship_type_id = $rtypeID;
         $dao->contact_id_a         = $aID;
         $dao->contact_id_b         = $bID;
-        if ( ! $dao->find( true ) ) {
-            $dao->is_active = 1;
-            $dao->save( );
-        }
+        $dao->find( true );
+
+        // make sure we set the active field
+        $dao->is_active = 1;
+        $dao->save( );
     }
 
     static function createTaskStatus( $taskID, $responsible, $target, $statusID ) {

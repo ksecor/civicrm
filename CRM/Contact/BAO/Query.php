@@ -877,20 +877,22 @@ class CRM_Contact_BAO_Query {
             $this->_qill  = CRM_Utils_Array::crmArrayMerge( $this->_qill , $this->_customQuery->_qill  );
         }
 
-        $clauses = array( );
-
-        foreach ( $this->_where as $grouping => $values ) {
-            if ( $grouping > 0 && ! empty( $values ) ) {
-                $clauses[$grouping] = ' ( ' . implode( ' AND ', $values ) . ' ) ';
-            }
-        }
-
+        $clauses    = array( );
         $andClauses = array( );
-        if ( ! empty( $this->_where[0] ) ) {
-            $andClauses[] = ' ( ' . implode( ' AND ', $this->_where[0] ) . ' ) ';
-        }
-        if ( ! empty( $clauses ) ) {
-            $andClauses[] = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
+
+        if ( ! empty( $this->_where ) ) {
+            foreach ( $this->_where as $grouping => $values ) {
+                if ( $grouping > 0 && ! empty( $values ) ) {
+                    $clauses[$grouping] = ' ( ' . implode( ' AND ', $values ) . ' ) ';
+                }
+            }
+
+            if ( ! empty( $this->_where[0] ) ) {
+                $andClauses[] = ' ( ' . implode( ' AND ', $this->_where[0] ) . ' ) ';
+            }
+            if ( ! empty( $clauses ) ) {
+                $andClauses[] = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
+            }
         }
 
         // CRM_Core_Error::debug( 'a', $andClauses );

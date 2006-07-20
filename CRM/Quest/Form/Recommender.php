@@ -27,7 +27,7 @@
 
 
 /**
- * Personal Information Form Page
+ * Recommender Form Base Class
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -36,33 +36,24 @@
  *
  */
 
-require_once 'CRM/Quest/Form/Recommender.php';
-require_once 'CRM/Core/OptionGroup.php';
-
+require_once 'CRM/Core/Form.php';
 
 /**
- * This class generates form components for relationship
+ * Base class for the recommender (teacher/counselor) form
  * 
  */
-class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
+class CRM_Quest_Form_Recommender extends CRM_Core_Form
 {
-    protected $_essays;
+    protected $_recommenderID;
+    protected $_studentContactID;
 
-    /**
-     * Function to set variables up before form is built
-     *
-     * @return void
-     * @access public
-     */
-    public function preProcess()
-    {
-        parent::preProcess();
-        
-        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_counselor_eval', 0, 0 );
+    function preProcess( ) {
+        $this->_recommenderID    = $this->get( 'recommenderID' );
+        $this->_studentContactID = $this->get( 'scid'          );
     }
 
     /**
-     * This function sets the default values for the form. Relationship that in edit/view action
+     * This function sets the default values for the form. For edit/view action
      * the default values are retrieved from the database
      * 
      * @access public
@@ -71,11 +62,6 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        $defaults['essay'] = array( );
-        
-        require_once "CRM/Quest/BAO/Essay.php";
-        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
-        
         return $defaults;
     }
     
@@ -88,12 +74,18 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
      */
     public function buildQuickForm( ) 
     {
-        require_once "CRM/Quest/BAO/Essay.php";
-        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
-        
-        parent::buildQuickForm( );
-    }
+        $this->assign       ( 'displayRecent'       , false                            );
+        $this->assign       ( 'welcome_name'        , $this->get('welcome_name'        ) );
+        $this->assign       ( 'student_welcome_name', $this->get('student_welcome_name') );
 
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+            $this->addDefaultButtons( ts('Continue') );
+            $this->freeze();
+        } else {
+            $this->addDefaultButtons( ts('Save & Continue') );
+        }
+    }
+       
     /**
      * process the form after the input has been submitted and validated
      *
@@ -102,26 +94,34 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
      */
     public function postProcess() 
     {
-        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
-            $params = $this->controller->exportValues( $this->_name );
+        // update the task record
+        require_once 'CRM/Project/DAO/TaskStatus.php';
+        $dao =& new CRM_Project_DAO_TaskStatus( );
+        $dao->responsible_entity_table = 'civicrm_contact';
+        $dao->responsible_entity_id    = $this->_recommenderID;
+        $dao->target_entity_table      = 'civicrm_contact';
+        $dao->target_entity_id         = $this->_studentContactID;
+        if ( ! $dao->find( true ) ) {
+            CRM_Core_Error::fatal( "The task status table is inconsistent" );
+        }
+        
+        $status =& CRM_Core_OptionGroup::values( 'task_status', true );
+        if ( $this->_name != 'Evaluation' && $dao->status_id != $status['Completed'] ) {
+            $dao->status_id = $status['In Progress'];
+        } else {
+            $dao->status_id = $status['Completed'];
+        }
 
-            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
-                                         0, 0 );
-       }
+        $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
+        $dao->modified_date = date( 'YmdHis' );
+        
+        // now save all the valid values to fool QFC
+        $data =& $this->controller->container( );
+        $dao->status_detail = serialize( $data['valid'] );
 
-        parent::postProcess( );
-    } //end of function
+        $dao->save( );
+    }//end of function
 
-    /**
-     * Return a descriptive name for the page, used in wizard header
-     *
-     * @return string
-     * @access public
-     */
-    public function getTitle()
-    {
-        return ts('Evaluation');
-    }
 }
 
 ?>
