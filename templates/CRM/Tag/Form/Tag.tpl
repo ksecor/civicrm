@@ -15,9 +15,9 @@
     {/if}
     </p>
     
-      {foreach from=$tag item="row" key = "id"}
+      {foreach from=$tag item="row" key="id"}
 
-        <div class="form-item" id ="rowid{$id}">
+        <div class="form-item" id="rowidtag_{$id}">
          {$form.tagList[$id].html} &nbsp;{$row}
         </div>
 

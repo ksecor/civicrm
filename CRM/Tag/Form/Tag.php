@@ -74,16 +74,16 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         
         // need to append the array with the " checked " if contact is tagged with the tag
         foreach ($allTag as $tagID => $varValue) {
-            $strChecked = '';
             if( in_array($tagID, $entityTag)) {
-                $strChecked = 'checked';
-                
+                $tagAttribute = array('onclick' => "return changeRowColor(\"rowidtag_$tagID\")", 'checked' => 'checked', 'id' => "tag_{$tagID}" );
+            } else {
+                $tagAttribute = array('onclick' => "return changeRowColor(\"rowidtag_$tagID\")", 'id' => "tag_{$tagID}" );
             }
             
-            $tagChk[$tagID] = $this->createElement('checkbox', $tagID, '', '', array('onclick' => "return changeRowColor('rowid$tagID')", $strChecked => 'checked','id' => $tagID ) );
+            $tagChk[$tagID] = $this->createElement('checkbox', $tagID, '', '', $tagAttribute );
         }
 
-        $this->addGroup($tagChk, 'tagList');
+        $this->addGroup($tagChk, 'tagList', null, null, true);
         
         $this->assign('tag', $allTag);
 

@@ -360,7 +360,7 @@ function on_load_init_checkboxes(form)
  */
 
 function changeRowColor (rowid, form) {
-    
+
     switch (document.getElementById(rowid).className) 	{
     case 'even-row'          : 	document.getElementById(rowid).className = 'selected even-row';
 	break;
