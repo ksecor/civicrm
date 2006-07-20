@@ -20,8 +20,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.counselor_basis.label}</td>
-    <td class="fieldlabel">{$form.counselor_basis.html}
-        <div id="cb_other">{$form.counselor_basis_other.html}</div>
+    <td class="fieldlabel">{$form.counselor_basis.html}: {$form.counselor_basis_other.html}
     </td>
 </tr>
 <tr>
@@ -86,12 +85,3 @@
 </table>
 {/strip}
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
-
-{include file="CRM/common/showHideByFieldValue.tpl"
-    trigger_field_id    ="counselor_basis[5]"
-    trigger_value       ="1"
-    target_element_id   ="cb_other"
-    target_element_type ="block"
-    field_type          ="radio"
-    invert              = 0
-}

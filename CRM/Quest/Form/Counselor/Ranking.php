@@ -112,10 +112,10 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_Recommender
                     true );
 
         $this->addCheckBox( 'counselor_basis',
-                            ts( 'This evaluation is based on (check all that apply)' ),
+                            ts( 'This evaluation is based on (check all that apply):' ),
                             CRM_Core_OptionGroup::values( 'counselor_basis', true ),
-                            true, '<br/>',true,
-                            array ('onclick' => "return showHideByValue('counselor_basis[5]', '1', 'cb_other', 'block', 'radio', false);") );
+                            true, '<br/>',true
+                            );
        
         $radioBoxes = array(
                             'Leadership potential'             => 'leadership_id',

@@ -280,6 +280,8 @@
 </tr>
 
 </table>
+<p><a href="#" onclick="hello();">hello</a></p>
+
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
 {literal}

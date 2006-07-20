@@ -540,3 +540,34 @@ function submitCurrentForm(formId,targetPage) {
     document.getElementById(formId).targetPage.value = targetPage;
     document.getElementById(formId).submit();
 }
+
+/**
+ * Function counts and controls maximum word count for textareas.
+ *
+ * @param essay_id string - the id of the essay (textarea) field
+ * @param wc - int - number of words allowed
+ * @return null
+ */
+function countit(essay_id,wc){
+    var text_area       = document.getElementById("essay_" + essay_id);
+    var count_element   = document.getElementById("word_count_" + essay_id);
+    var count           = 0;
+    var text_area_value = text_area.value;
+    var regex           = /\n/g; 
+    var essay           = text_area_value.replace(regex," ");
+    var words           = essay.split(' ');
+    
+    for (z=0; z<words.length; z++){
+        if (words[z].length>0){
+            count++;
+        }
+    }
+    
+    count_element.value     = count;
+    if (count>=wc) {
+        /*text_area.value     = essay;*/
+        text_area.blur();
+        /*count_element.value = count;*/
+        alert("You have reached the "+ wc +" character limit.");
+    }
+}

@@ -24,31 +24,7 @@
 
 {edit}
 {literal}
-    <script type="text/javascript">
-        function countit(essay_id,wc){
-            var text_area       = document.getElementById("essay_" + essay_id);
-            var count_element   = document.getElementById("word_count_" + essay_id);
-            var count           = 0;
-            var text_area_value = text_area.value;
-            var regex           = /\n/g; 
-            var essay           = text_area_value.replace(regex," ");
-            var words           = essay.split(' ');
-                        
-            for (z=0; z<words.length; z++){
-                if (words[z].length>0){
-                    count++;
-                }
-            }
-            
-            count_element.value     = count;
-            if (count>=wc) {
-                /*text_area.value     = essay;*/
-                text_area.blur();
-                /*count_element.value = count;*/
-                alert("You have reached the "+ wc +" character limit.");
-            }
-        }
-        
+    <script type="text/javascript">       
         var trigger_element = document.getElementsByName("personalStat_quests");
         if (trigger_element[0].checked) {
             show('id_upload_photo');

@@ -19,11 +19,11 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.gpa_unweighted.label}</td>
-    <td class="fieldlabel">{$form.gpa_unweighted.html}</td>
+    <td class="fieldlabel">{$form.gpa_unweighted.html} Enter GPA in format "X.xx". Do not enter any spaces.</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.gpa_weighted.label}</td>
-    <td class="fieldlabel">{$form.gpa_weighted.html}</td>
+    <td class="fieldlabel">{$form.gpa_weighted.html} Enter GPA in format "X.xx". Do not enter any spaces.</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.gpa_includes_id.label}</td>
@@ -31,7 +31,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.gpa_weighted_max.label}</td>
-    <td class="fieldlabel">{$form.gpa_weighted_max.html}</td>
+    <td class="fieldlabel">{$form.gpa_weighted_max.html} Enter GPA in format "X.xx". Do not enter any spaces.</td>
 </tr>
 <tr>
     <td class="grouplabel" width="30%">

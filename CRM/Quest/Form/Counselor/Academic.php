@@ -120,7 +120,7 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_Recommender
         }
 
         $this->addElement('text', 'unweighted_rank',
-                          ts( 'The cumulative unweighted rank of the student is' ),
+                          ts( 'The cumulative <strong>unweighted</strong> rank of the student is' ),
                           $attributes['unweighted_rank']);
         $this->addRule( "unweighted_rank", ts('Number not valid.'), 'integer' );
         
@@ -213,7 +213,7 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_Recommender
      */
     public function getTitle()
     {
-        return ts('Academic Information');
+        return ts('Academic Record');
     }
 }
 
