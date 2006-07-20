@@ -217,8 +217,7 @@ public function buildQuickForm( )
                            ts('If there are any extenuating circumstances, or details regarding your parent(s), guardian(s), or household situation that you would like to add or clarify, please do so here'),
                            $attributes['description'] );
         
-        $this->addElement('checkbox','chk_permenent',ts('Same as my Permanent address'));
-        $this->addElement('checkbox','chk_permenentPhone',ts('Same as my Permanent telephone'));
+       
         $this->buildAddressBlock( 1, ts( 'Permanent Address' ),
                                   ts( 'Permanent Telephone' ),
                                   '',
@@ -227,6 +226,12 @@ public function buildQuickForm( )
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_Guardian', 'formRule'));
 
         parent::buildQuickForm();
+        $params = array("contact_id" => $this->_contactID,"entity_table" => "civicrm_contact");
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::retrieve($params,$values,$ids);
+        $this->assign("studentLoaction",$values['location'][1]);
+        
 }
     //end of function
     

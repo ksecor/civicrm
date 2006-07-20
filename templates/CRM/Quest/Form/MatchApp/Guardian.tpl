@@ -68,7 +68,10 @@
     <td class="grouplabel" rowspan="7">
         <label>{ts}Permanent Address{/ts} <span class="marker">*</span></td>
     <td class=fieldlabel">
-        {$form.chk_permenent.html}&nbsp;&nbsp;{$form.chk_permenent.label}<br /></td>
+       {edit}
+        <input type="checkbox" name="copy_address" value="1" onClick="copyAddress()"/> {ts}Same as my Permanent address{/ts}
+       {/edit}
+     </td>
 </tr>
 <tr> 
     <td class="fieldlabel">
@@ -110,7 +113,9 @@
     <td class="grouplabel" rowspan="2">
         <label>{ts}Permanent Telephone{/ts} <span class="marker">*</span></td>
     <td class=fieldlabel">
-        {$form.chk_permenentPhone.html}&nbsp;&nbsp;{$form.chk_permenentPhone.label}<br /></td>
+        {edit}
+           <input type="checkbox" name="copy_phone" value="1" onClick="copyPhone()"/> {ts}Same as my Permanent telephone{/ts}<br/>
+	   {/edit}</td>
 </tr>
 <tr>
     <td class="fieldlabel">
@@ -232,3 +237,58 @@
 }
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
+
+
+
+{literal}
+    <script type="text/javascript">
+        var field = new Array(7);
+        var  original = new Array(7);
+        
+    
+	    field[0] = "street_address";
+	    field[1] = "supplemental_address_1";
+	    field[2] = "city";
+	    field[3] = "postal_code";
+	    field[4] = "postal_code_suffix";
+	    field[5] = "state_province_id";
+	    field[6] = "country_id";
+
+        for (i = 0; i < field.length; i++) {
+ 		  original [i] = document.getElementById("location_1_address_"+field[i]).value ;
+	    }
+        var origanlPhone = document.getElementById("location_1_phone_1_phone").value;      
+        var fieldValue = new Array(7);
+
+        fieldValue[0] = "{/literal}{$studentLoaction.address.street_address}{literal}";
+        fieldValue[1] = "{/literal}{$studentLoaction.address.supplemental_address_1}{literal}";
+        fieldValue[2] = "{/literal}{$studentLoaction.address.city}{literal}";
+        fieldValue[3] = "{/literal}{$studentLoaction.address.postal_code}{literal}";
+        fieldValue[4] = "{/literal}{$studentLoaction.address.postal_code_suffix}{literal}";                
+        fieldValue[5] = "{/literal}{$studentLoaction.address.state_province_id}{literal}";
+        fieldValue[6] = "{/literal}{$studentLoaction.address.country_id}{literal}";
+        var phone     = "{/literal}{$studentLoaction.phone.1.phone}{literal}";        
+ 
+    	function copyAddress() {
+          if (document.getElementsByName("copy_address")[0].checked) {
+      	  	    for (i = 0; i < field.length; i++) {
+ 		   	    document.getElementById("location_1_address_"+field[i]).value = fieldValue[i];
+                }
+	      } else {
+	  	        for (i = 0; i < field.length; i++) {
+ 		           document.getElementById("location_1_address_"+field[i]).value = original [i];
+	   	         }
+	      }
+	    }
+      
+        function copyPhone() {
+            if (document.getElementsByName("copy_phone")[0].checked) {
+ 	   	       document.getElementById("location_1_phone_1_phone").value = phone;
+			} else {
+ 	   	       document.getElementById("location_1_phone_1_phone").value = origanlPhone;
+	        }		
+	    }    
+
+  
+    </script>
+{/literal}
