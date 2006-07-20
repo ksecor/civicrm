@@ -140,9 +140,9 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         $this->addElement( 'textarea', "hobbies",
                            ts('We encourage you to reply to this question in sentence form, rather than as a list, if you feel this would allow you to better express your interests.') ,"cols=60 rows=5");
 
-        //$this->addElement('checkbox', 'varsity_sports',ts( 'Varsity Sports' ));
+        $this->addElement('checkbox', 'varsity_sports',ts( 'Varsity Sports' ), null, array('onClick' => 'showTextField()'));
         $this->addElement('text', 'varsity_sports_list' );
-        //$this->addElement( 'checkbox','arts',ts('Arts (music, dance/theatre, visual, etc) (list):') );
+        $this->addElement( 'checkbox','arts',ts('Arts (music, dance/theatre, visual, etc) (list):'), null, array('onClick' => 'showTextField()') );
         $this->addElement('text', 'arts_list' );
  
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_ExtracurricularInfo', 'formRule'));

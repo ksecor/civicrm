@@ -79,14 +79,8 @@ Please list your principal extracurricular, community, and family activities and
 <tr>
     <td class="grouplabel"> {ts}Are you interested in participating in any of the following in college?{/ts}</td>
     <td class="grouplabel">
-	{edit}
-        	<input type="checkbox" name="varsity_sports" id="varsity_sports" value="1" onClick="showTextField()"/> {ts}Varsity Sports{/ts}
-	{/edit}
-	{$form.varsity_sports_list.html}<br/>
-	{edit}
-        	<input type="checkbox" name="arts" id="arts" value="1" onClick="showTextField()"/> {ts}Arts (music, dance/theatre, visual, etc) (list):{/ts}
-	{/edit}
-	{$form.arts_list.html}
+	{$form.varsity_sports.html}{$form.varsity_sports.label}	{$form.varsity_sports_list.html}<br/>
+	{$form.arts.html}{$form.arts.label}{$form.arts_list.html}
     </td>
     
 </tr>
@@ -97,18 +91,35 @@ Please list your principal extracurricular, community, and family activities and
 
 {literal}
     <script type="text/javascript">
-	hide("varsity_sports_list");
-	hide("arts_list");
+	if (document.getElementById("varsity_sports_list").value) {
+	  document.getElementsByName("varsity_sports")[0].checked = true;
+	}
+	if (document.getElementById("arts_list").value) {
+	  document.getElementsByName("arts")[0].checked = true;
+	}
+	if (document.getElementsByName("varsity_sports")[0].checked) {
+	  show("varsity_sports_list");
+	} else {
+          hide("varsity_sports_list");
+	}
+	if (document.getElementsByName("arts")[0].checked) {
+	  show("arts_list");
+	} else {
+          hide("arts_list");
+	}
+
    	function showTextField() {
-		if (document.getElementById("varsity_sports").checked) {
+		if (document.getElementsByName("varsity_sports")[0].checked) {
 		  show("varsity_sports_list");
 		} else {
 	          hide("varsity_sports_list");
+		  document.getElementById("varsity_sports_list").value = null;
 		}
-		if (document.getElementById("arts").checked) {
+		if (document.getElementsByName("arts")[0].checked) {
 		  show("arts_list");
 		} else {
 	          hide("arts_list");
+		  document.getElementById("arts_list").value = null;
 		}
 	}
     </script>  
