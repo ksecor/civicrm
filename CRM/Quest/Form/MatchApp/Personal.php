@@ -151,15 +151,18 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
                                   true, false, false );
         
         // citizenship status
-        $this->addSelect('citizenship_status', ts( 'U.S. Citizenship Status' ), null , true, array('onChange' => "showCitizenshipCountry()"));
+        $extra1 = array( 'onchange' => "return showHideByValue('citizenship_status_id','234|235|236','citizenship_country_id','','select',false);");
+        $this->addSelect('citizenship_status', ts( 'U.S. Citizenship Status' ), null , true, $extra1);
         
         // citizenship country
         $this->addCountry('citizenship_country_id', ts( 'Country of Citizenship' ), false );
        
         // ethnicity 
-        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" , false, array('onChange' => "showTribeinfoWithDate()"));
+        $extra2 = array( 'onchange' => "showHideByValue('ethnicity_id_1','18','ethnicity_other','','select',false); return showHideByValue('ethnicity_id_1','1','tribe_affiliation|tribe_date', '','select',false );");
+        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" , false, $extra2);
 
         require_once 'CRM/Core/ShowHideBlocks.php';
+
         CRM_Core_ShowHideBlocks::links( $this,"ethnicity_id_2", ts('add another Race/Ethnicity'), ts('hide this Race/Ethnicity field'));
        
         $this->add('date', 'birth_date',
@@ -196,8 +199,8 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
             $this->addCountry( "nationality_country_id_$i" , ts( 'Country(ries) of family\'s origin' ), false);
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
                 $nationalityCountry[$i] = CRM_Core_ShowHideBlocks::links( $this,"nationality_country_id_$i",
-                                                                          ts('add another honor'),
-                                                                          ts('hide this honor'),
+                                                                          ts('add another country'),
+                                                                          ts('hide this country'),
                                                                           false );
             }
         }

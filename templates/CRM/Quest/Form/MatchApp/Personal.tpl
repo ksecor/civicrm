@@ -192,7 +192,7 @@
 {/edit}
     </td>
 </tr>
-<tr id="country_citizenship">
+<tr id = "citizenship_country_id">
     <td class="grouplabel">
         {$form.citizenship_country_id.label}</td>
     <td class="fieldlabel">
@@ -207,19 +207,19 @@
 	{ts}{edit}Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list. Completion of this information is appreciated, but not required.{/edit}{/ts}
     </td>
 </tr>
-<tr id="tribe_info_row">
+<tr id="tribe_affiliation">
     <td class="grouplabel">
         {$form.tribe_affiliation.label}</td>
     <td class="fieldlabel">
         {$form.tribe_affiliation.html}</td>
 </tr>
-<tr id="tribe_date_row">
+<tr id="tribe_date">
     <td class="grouplabel">
         {$form.tribe_date.label}</td>
     <td class="fieldlabel">
         {$form.tribe_date.html}</td>
 </tr>
-<tr id="race_other">
+<tr id="ethnicity_other">
     <td class="grouplabel">
         {$form.ethnicity_other.label}</td>
     <td class="fieldlabel">
@@ -317,53 +317,32 @@
  	   	document.getElementById("location_2_phone_1_phone").value = null;
 	    }		
 	}
-
-	    var status = document.getElementsByName("citizenship_status_id")[0].options[document.getElementsByName("citizenship_status_id")[0].selectedIndex].text;
-	    if (status == "U.S/Dual Citizen" || status == "Permanent Resident" || status == "Non-Citizen") {
-		show("country_citizenship", 'table-row');
-	    } else {
-		hide("country_citizenship", 'table-row');
-	    }
-
-   	function showCitizenshipCountry() {
-	    var status = document.getElementsByName("citizenship_status_id")[0].options[document.getElementsByName("citizenship_status_id")[0].selectedIndex].text;
-	    if (status == "U.S/Dual Citizen" || status == "Permanent Resident" || status == "Non-Citizen") {
-		show("country_citizenship", 'table-row');
-	    } else {
-		hide("country_citizenship", 'table-row');
-	    }
-	}
-
-	    var race = document.getElementsByName("ethnicity_id_1")[0].options[document.getElementsByName("ethnicity_id_1")[0].selectedIndex].text;
-	    if (race == "Native American, Alaska Native") {
-		show("tribe_info_row", 'table-row');
-		show("tribe_date_row", 'table-row');
-		hide("race_other", 'table-row');
-	    } else if (race == "Other") {
-		show("race_other", 'table-row');
-		hide("tribe_info_row", 'table-row');
-		hide("tribe_date_row", 'table-row');
-	    } else {
-		hide("tribe_info_row", 'table-row');
-		hide("tribe_date_row", 'table-row');
-		hide("race_other", 'table-row');
-	    }
-
-	function showTribeinfoWithDate() {
-	    var race = document.getElementsByName("ethnicity_id_1")[0].options[document.getElementsByName("ethnicity_id_1")[0].selectedIndex].text;
-	    if (race == "Native American, Alaska Native") {
-		show("tribe_info_row", 'table-row');
-		show("tribe_date_row", 'table-row');
-		hide("race_other", 'table-row');
-	    } else if (race == "Other") {
-		show("race_other", 'table-row');
-		hide("tribe_info_row", 'table-row');
-		hide("tribe_date_row", 'table-row');
-	    } else {
-		hide("tribe_info_row", 'table-row');
-		hide("tribe_date_row", 'table-row');
-		hide("race_other", 'table-row');
-	    }
-	}
+	
     </script>  
 {/literal}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="citizenship_status_id"
+    trigger_value       ="234|235|236"
+    target_element_id   ="citizenship_country_id" 
+    target_element_type =""
+    field_type          ="select"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="ethnicity_id_1"
+    trigger_value       ="18"
+    target_element_id   ="ethnicity_other" 
+    target_element_type =""
+    field_type          ="select"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="ethnicity_id_1"
+    trigger_value       ="1"
+    target_element_id   ="tribe_affiliation|tribe_date" 
+    target_element_type =""
+    field_type          ="select"
+    invert              = 0
+}
