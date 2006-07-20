@@ -247,7 +247,9 @@ applicants for the following year's application cycle. Please enter contact info
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
 {literal}
+
 <script type="text/javascript">
+    show_element("heard_about_qb_id");
     function show_element(trigger_element_id)
     {
         var element = document.getElementsByName(trigger_element_id);
