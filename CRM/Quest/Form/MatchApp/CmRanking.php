@@ -123,13 +123,14 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         foreach ( $params as $key => $value ) {
+          
             $tempArray = $params;
             unset($tempArray[$key]);
             if ( $value && in_array( $value , $tempArray) ) {
-                $errors['college_ranking_'.$key] = "No two colleges can have the same ranking";
+                $errors[$key] = "No two colleges can have the same ranking";
             }
         }
-       return empty($errors) ? true : $errors;
+        return empty($errors) ? true : $errors;
     }
     
     /**
