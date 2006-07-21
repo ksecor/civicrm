@@ -89,7 +89,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             $this->_testIDs = array();
             
             $testTypes  = CRM_Core_OptionGroup::values( 'test');
-            $testSet1 = array('act','psat','sat','pact');
+            $testSet1 = array('act','sat');
             
             
             $dao = & new CRM_Quest_DAO_Test();

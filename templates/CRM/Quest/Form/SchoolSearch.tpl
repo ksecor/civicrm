@@ -91,13 +91,31 @@ function setSchool(schoolIndex,ceeb,sname,addr,city,state,postal,country,stype)
     var elem = 'custom_2_' + schoolIndex;
     thisOpener.document.getElementById(elem).value = stype;
     thisOpener.focus();
+    var elem = 'location_' + schoolIndex + '_1_phone_1_phone';
+    thisOpener.document.getElementById(elem).focus();
     window.close();
 }
 // Closing window without setting school - so set CEEB code to 0.
 function noSchool(schoolIndex) {
     var elem = 'custom_1_' + schoolIndex;
     thisOpener.document.getElementById(elem).value = 0;
+    var elem = 'organization_name_' + schoolIndex;
+    thisOpener.document.getElementById(elem).value = '';
+    var elem = 'location_' + schoolIndex + '_1_address_street_address';
+    thisOpener.document.getElementById(elem).value = '';
+    var elem = 'location_' + schoolIndex + '_1_address_city';
+    thisOpener.document.getElementById(elem).value = '';
+    var elem = 'location_' + schoolIndex + '_1_address_state_province_id';
+    thisOpener.document.getElementById(elem).value = '';
+    var elem = 'location_' + schoolIndex + '_1_address_postal_code';
+    thisOpener.document.getElementById(elem).value = '';
+    var elem = 'location_' + schoolIndex + '_1_address_country_id';
+    thisOpener.document.getElementById(elem).value = '';
+    var elem = 'custom_2_' + schoolIndex;
+    thisOpener.document.getElementById(elem).value = '';
     thisOpener.focus();
+    var elem = 'organization_name_' + schoolIndex;
+    thisOpener.document.getElementById(elem).focus();
     window.close();
 }
 </script>
