@@ -132,10 +132,6 @@ class CRM_Quest_Form_MatchApp_Educational extends  CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $errors = array( );
-
-        if (empty($params['educational_interest_other'])) {
-                $errors['educational_interest_other'] = "Please enter your Educational interest.";
-            }
         return empty($errors) ? true : $errors;
     }
 
