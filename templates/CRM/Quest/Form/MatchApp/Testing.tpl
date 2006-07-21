@@ -1,4 +1,4 @@
-{* Quest Pre-application: Testing Information section *}
+{* Quest College Match Application: Testing Information section *}
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 
@@ -11,53 +11,8 @@
     <p class="preapp-instruction">{ts}Enter your test scores and dates for any of the tests below which you have taken. Please enter all test component scores and the test date for each completed test. For each test, list the top score received.{/ts}</p>
   </td>
 </tr>
-<tr><td colspan=2 id="sub-category">{ts}PSAT Test{/ts}</td>
-</tr>
-<tr> 
-    <td class="grouplabel">{$form.psat_criticalreading.label}</td>
-    <td class="fieldlabel" width="75%">{$form.psat_criticalreading.html}</td>
-</tr>
-<tr> 
-    <td class="grouplabel">{$form.psat_math.label}</td>
-    <td class="fieldlabel">{$form.psat_math.html}</td>   
-</tr>
-<tr> 
-    <td class="grouplabel">{$form.psat_writing.label}</td>
-    <td class="fieldlabel">{$form.psat_writing.html}</td>  
-</tr>
-<tr>
-    <td class="grouplabel">{$form.psat_date.label}</td>
-    <td class="fieldlabel">{$form.psat_date.html}</td>
-</tr>
 </table>
-<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-<tr><td colspan=2 id="sub-category">{ts}PLAN (Pre-ACT) Test{/ts}</td>
-</tr>
-<tr>
-    <td class="grouplabel"> {$form.pact_english.label}</td>
-    <td class="fieldlabel" width="75%">{$form.pact_english.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.pact_reading.label}</td>
-    <td class="fieldlabel">{$form.pact_reading.html}</td>
-</tr>
-{*<tr>
-    <td class="grouplabel">{$form.pact_writing.label}</td>
-    <td class="fieldlabel">{$form.pact_writing.html}</td>
-</tr>*}
-<tr>
-    <td class="grouplabel">{$form.pact_math.label}</td>
-    <td class="fieldlabel">{$form.pact_math.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.pact_science.label}</td>
-    <td class="fieldlabel">{$form.pact_science.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.pact_date.label}</td>
-    <td class="fieldlabel">{$form.pact_date.html}</td>
-</tr>
-</table>
+
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr><td colspan=2 id="sub-category">{ts}ACT Test{/ts}</td>
 </tr>
@@ -107,6 +62,7 @@
     <td class="fieldlabel">{$form.sat_date.html}</td>
 </tr>
 </table>
+
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr><td colspan=2 id="sub-category">{ts}SAT II Subject Test(s){/ts}</td></tr>
 <tr><td colspan=2>
@@ -177,12 +133,59 @@
 </td></tr>
 </table>
 
+{assign var=prepWinner value=1}
+{if $prepWinner}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr>
+    <td class="grouplabel">{$form.is_SAT_after_prep.label}</td>
+    <td class="fieldlabel" width="75%">{$form.is_SAT_after_prep.html}</td>
+</tr>
+<tr id="SAT_prep_improve">
+    <td class="grouplabel">{$form.is_SAT_prep_improve.label}</td>
+    <td class="fieldlabel">{$form.is_SAT_prep_improve.html}</td>
+</tr>
+<tr id="SAT_prep_improve_how">
+    <td class="grouplabel">{$form.SAT_prep_improve.label}</td>
+    <td class="fieldlabel">{$form.SAT_prep_improve.html}</td>
+</tr>
+</table>
+{/if}
+
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr>
+    <td class="grouplabel">{$form.is_SAT_again.label}</td>
+    <td class="fieldlabel" width="75%">{$form.is_SAT_again.html}</td>
+</tr>
+<tr id="SAT_again_date">
+    <td class="grouplabel">{$form.SAT_plan_date.label}</td>
+    <td class="fieldlabel">{$form.SAT_plan_date.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">{$form.is_ACT_again.label}</td>
+    <td class="fieldlabel">{$form.is_ACT_again.html}</td>
+</tr>
+<tr id="ACT_again_date">
+    <td class="grouplabel">{$form.ACT_plan_date.label}</td>
+    <td class="fieldlabel">{$form.ACT_plan_date.html}</td>
+</tr>
+
+<tr>
+    <td class="grouplabel">{$form.is_more_SATII.label}</td>
+    <td class="fieldlabel">{$form.is_more_SATII.html}</td>
+</tr>
+<tr id="SATII_more_subjects">
+    <td class="grouplabel">{$form.more_SATII_subjects.label}</td>
+    <td class="fieldlabel">{$form.more_SATII_subjects.html}</td>
+</tr>
+<tr id="SATII_more_date">
+    <td class="grouplabel">{$form.SATII_plan_date.label}</td>
+    <td class="fieldlabel">{$form.SATII_plan_date.html}</td>
+</tr>
 <tr>
     <td class="grouplabel">{$form.is_test_tutoring.label}</td>
     <td class="fieldlabel" width="75%">{$form.is_test_tutoring.html}</td>
 </tr>
-<tr>
+<tr id="tutor_tests">
     <td class="grouplabel">{$form.test_tutoring.label}</td>
     <td class="grouplabel">
         {assign var="countCI" value=0}
@@ -197,3 +200,57 @@
 </table>
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_test_tutoring"
+    trigger_value       ="1"
+    target_element_id   ="tutor_tests" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_SAT_again"
+    trigger_value       ="1"
+    target_element_id   ="SAT_again_date" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_ACT_again"
+    trigger_value       ="1"
+    target_element_id   ="ACT_again_date" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_more_SATII"
+    trigger_value       ="1"
+    target_element_id   ="SATII_more_subjects|SATII_more_date" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_SAT_after_prep"
+    trigger_value       ="1"
+    target_element_id   ="SAT_prep_improve" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_SAT_prep_improve"
+    trigger_value       ="1"
+    target_element_id   ="SAT_prep_improve_how" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}

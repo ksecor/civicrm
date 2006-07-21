@@ -532,6 +532,17 @@
       <add>1.5</add>
   </field>
   <field>
+       <name>is_tutoring</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <export>true</export>
+       <title>Received Tutoring</title>
+       <import>true</import>
+       <headerPattern>/tutoring/i</headerPattern>
+       <comment>Has student received tutoring or taken prep classes?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
        <name>test_tutoring</name>
        <type>varchar</type>
        <length>255</length>
@@ -541,7 +552,108 @@
        <comment>Which tests have they received tutoring for. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = test.</comment>
       <add>1.5</add>
   </field>
-  <field>     
+  <field>
+       <name>is_SAT_again</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <export>true</export>
+       <title>Plans to Take SAT Again</title>
+       <import>true</import>
+       <headerPattern>/SAT again/i</headerPattern>
+       <comment>Does student plan to take SAT again?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>SAT_plan_date</name>
+       <type>date</type>
+       <default>NULL</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/SAT again date/i</headerPattern>
+       <comment>Date when student plans to take SAT again. (only MMYYYY is significant).</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_ACT_again</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <export>true</export>
+       <title>Plans to Take ACT Again</title>
+       <import>true</import>
+       <headerPattern>/ACT again/i</headerPattern>
+       <comment>Does student plan to take ACT again?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>ACT_plan_date</name>
+       <type>date</type>
+       <default>NULL</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/ACT again date/i</headerPattern>
+       <comment>Date when student plans to take ACT again. (only MMYYYY is significant).</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_more_SATII</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <export>true</export>
+       <title>Take More SATII Tests?</title>
+       <import>true</import>
+       <headerPattern>/more SATII/i</headerPattern>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>more_SATII_subjects</name>
+       <type>varchar</type>
+       <length>255</length>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/more SATII/i</headerPattern>
+       <comment>Which additional SATII subject tests is student planning to take.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>SATII_plan_date</name>
+       <type>date</type>
+       <default>NULL</default>
+       <export>true</export>
+       <import>true</import>
+       <headerPattern>/SATII more date/i</headerPattern>
+       <comment>Date when student plans to take more SATII tests. (only MMYYYY is significant).</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_SAT_after_prep</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <export>true</export>
+       <title>Took SAT again after Princeton Review prep?</title>
+       <import>true</import>
+       <headerPattern>/took SAT after prep/i</headerPattern>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_SAT_prep_improve</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <export>true</export>
+       <title>Did SAT improve after Princeton Review prep?</title>
+       <import>true</import>
+       <headerPattern>/SAT improve after prep/i</headerPattern>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>SAT_prep_improve</name>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <headerPattern>/how much SAT improve/i</headerPattern>
+      <comment>How much did SAT score improve after Princeton Review prep?</comment>
+      <add>1.5</add>
+  </field>
+  <field>  
        <name>number_siblings</name>  
        <type>int</type>  
        <export>true</export>

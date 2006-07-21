@@ -52,6 +52,11 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
     protected $_sections;
     protected $_parts;
 
+    const ACT_TESTS     = 3;
+    const SAT_TESTS     = 3;
+    const SAT_II_TESTS  = 5;
+    const AP_TESTS      = 8;
+
     /**
      * Function to set variables up before form is built
      *
@@ -150,14 +155,14 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
                 // Assign show and hide blocks lists to the template for optional test blocks (SATII and AP)
                 $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-                for ( $i = 2; $i <= 5; $i++ ) {
+                for ( $i = 2; $i <= self::SAT_II_TESTS; $i++ ) {
                     if ( CRM_Utils_Array::value( "satII_score_$i", $defaults )) {
                         $this->_showHide->addShow( "id_satII_test_$i" );
                     } else {
                         $this->_showHide->addHide( "id_satII_test_$i" );
                     }
                 }
-                for ( $i = 2; $i <= 32; $i++ ) {
+                for ( $i = 2; $i <= self::AP_TESTS; $i++ ) {
                     if ( CRM_Utils_Array::value( "ap_score_id_$i", $defaults )) {
                         $this->_showHide->addShow( "id_ap_test_$i" );
                     } else {
@@ -190,12 +195,10 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                                   'Science'          => 1 );
 
         $this->_tests = array( 'act'  => 1,
-                               'psat' => 2,
-                               'sat'  => 4, 
-                               'pact'=>  1);
+                               'sat'  => 4);
 
-        $this->_multiTests = array( 'satII' => 5,
-                                    'ap'    => 32 );
+        $this->_multiTests = array( 'satII' => self::SAT_II_TESTS,
+                                    'ap'    => self::AP_TESTS );
 
         foreach ( $this->_tests as $testName => $testValue ) {
             foreach ( $this->_sections as $name => $value ) {
@@ -220,19 +223,17 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                               CRM_Core_SelectValues::date( 'custom', 6, 0, "M\001Y" ) );
         }
 
-        $maxSatIITests = 5;
-        $maxAPTests    = 32;
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $defaults = $this->setDefaultValues( );
             $maxSatIITests = 1;
-            for ( $i = 2; $i <= 5; $i++ ) {
+            for ( $i = 2; $i <= self::SAT_II_TESTS; $i++ ) {
                 if ( CRM_Utils_Array::value( "satII_score_$i", $defaults )) {
                     $maxSatIITests++;
                 }
             }
             
             $maxAPTests = 1;
-            for ( $i = 2; $i <= 32; $i++ ) {
+            for ( $i = 2; $i <= self::AP_TESTS; $i++ ) {
                 if ( CRM_Utils_Array::value( "ap_score_id_$i", $defaults )) {
                     $maxAPTests++;
                 }
@@ -240,9 +241,9 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
         }
 
         require_once 'CRM/Core/ShowHideBlocks.php';
-        // add 5 Sat II tests
+        // add multi Sat II tests
         $satII_test = array( );
-        for ( $i = 1; $i <= $maxSatIITests; $i++ ) {
+        for ( $i = 1; $i <= self::SAT_II_TESTS; $i++ ) {
             $this->addSelect( 'satII_subject',
                                ts( 'Subject' ),
                               "_$i" );
@@ -262,11 +263,11 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             }
         }
         $this->assign( 'satII_test', $satII_test );
-        $this->assign( 'maxSAT', $maxSatIITests + 1 );
+        $this->assign( 'maxSAT', self::SAT_II_TESTS + 1 );
 
-        // add 32 AP test
+        // add multi AP tests
         $ap_test = array( );
-        for ( $i = 1; $i <= $maxAPTests; $i++ ) {
+        for ( $i = 1; $i <= self::AP_TESTS; $i++ ) {
             $this->addSelect( 'ap_subject',
                                ts( 'Subject' ),
                               "_$i" );
@@ -285,16 +286,64 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
 
         }
         $this->assign( 'ap_test', $ap_test );
-        $this->assign( 'maxAP', $maxAPTests + 1 );
+        $this->assign( 'maxAP', self::AP_TESTS + 1 );
 
+        $extra1 = array('onchange' => "return showHideByValue('is_test_tutoring', '1', 'tutor_tests','table-row', 'radio', false);");
         $this->addYesNo( 'is_test_tutoring',
-                         ts( 'Have you received tutoring or taken test prep classes for any of the standardized tests above?' ) );
+                         ts( 'Have you received tutoring or taken test prep classes for any of the standardized tests?' ), null,false, $extra1 );
         
         $this->addCheckBox( 'test_tutoring',
                             ts( 'If yes, for which tests?' ),
                             CRM_Core_OptionGroup::values( 'test',true ),
                             false ,null);
 
+        // Plan on taking SAT again?
+        $extra2 = array('onchange' => "return showHideByValue('is_SAT_again', '1', 'SAT_again_date','table-row', 'radio', false);");
+        $this->addYesNo( 'is_SAT_again',
+                         ts( 'Do you plan to take the SAT again?' ), null, false, $extra2 );
+
+        //Date planning on retaking SAT
+        $this->add('date', 'SAT_plan_date', ts('When do you plan to take the SAT?'), 
+                   CRM_Core_SelectValues::date('custom', 0, 1, 'M Y'), false);
+        
+        // Plan on taking ACT again?
+        $extra3 = array('onchange' => "return showHideByValue('is_ACT_again', '1', 'ACT_again_date','table-row', 'radio', false);");
+        $this->addYesNo( 'is_ACT_again',
+                         ts( 'Do you plan to take the ACT again?' ), null, false, $extra3 );
+        
+        //Date planning on retaking ACT
+        $this->add('date', 'ACT_plan_date', ts('When do you plan to take the ACT?'), 
+                   CRM_Core_SelectValues::date('custom', 0, 1, 'M Y'), false);
+
+        // Plan on taking more SATII tests?
+        $extra4 = array('onchange' => "return showHideByValue('is_more_SATII', '1', 'SATII_more_subjects|SATII_more_date','table-row', 'radio', false);");
+        $this->addYesNo( 'is_more_SATII',
+                         ts( 'Do you plan to take any more SAT II tests?' ), null, false, $extra4 );
+
+        // Which subjects?
+        $this->addElement( 'text', 'more_SATII_subjects',
+                           ts( 'Which subjects?' ),
+                           $attributes['more_SATII_subjects'] );
+        
+        //Date planning on taking more SATII tests?
+        $this->add('date', 'SATII_plan_date', ts('When do you plan to take more SATIIs?'), 
+                   CRM_Core_SelectValues::date('custom', 0, 1, 'M Y'), false);
+        
+        // Next 3 questions for students who won Princeton SAT review award in Preapplication?
+        $extra5 = array('onchange' => "return showHideByValue('is_SAT_after_prep', '1', 'SAT_prep_improve','table-row', 'radio', false);");
+        $this->addYesNo( 'is_SAT_after_prep',
+                         ts( 'After using the Princeton Review SAT Prep, did you retake the SAT?' ), null, false, $extra5 );
+
+        $extra6 = array('onchange' => "return showHideByValue('is_SAT_prep_improve', '1', 'SAT_prep_improve_how','table-row', 'radio', false);");
+        $this->addYesNo( 'is_SAT_prep_improve',
+                         ts( 'Did your SAT score improve?' ), null, false, $extra6 );
+
+        // Which subjects?
+        $this->addElement( 'text', 'SAT_prep_improve',
+                           ts( 'By how much?' ),
+                           $attributes['SAT_after_prep_improve'] );
+        
+        
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_Testing', 'formRule'));
        
         parent::buildQuickForm( );
@@ -312,7 +361,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
       public function formRule(&$params) {
         $errors = array( );
            
-        $tests = array( 'act', 'psat', 'sat' ,'pact');
+        $tests = array( 'act', 'sat',);
         $sections = array( 'English', 'Reading', 'CriticalReading', 'Writing', 'Math',
                            'Science');
 
@@ -336,8 +385,8 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             }
         }
 
-        $multiTests = array( 'satII' => 5,
-                             'ap'    => 32 );
+        $multiTests = array( 'satII' => self::SAT_II_TESTS,
+                             'ap'    => self::AP_TESTS );
         
         foreach  (  $multiTests as $testName => $testCount ) { 
             for ( $i = 1; $i <= $testCount; $i++ ) { 
@@ -382,7 +431,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
             
-            $testSet1 = array('act','psat','sat','pact');
+            $testSet1 = array('act','sat');
             $testSet2 = array('satII','ap');
             
             $testTypes = CRM_Core_OptionGroup::values( 'test' ,true);
@@ -421,7 +470,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 }
             }
             
-            // calculate total score for SAT , PSAT , ACT
+            // calculate total score for SAT , ACT
                        
             if( is_array( $testParams1 ) ) {
                 foreach( $testParams1 as $test => $score ) {
@@ -442,14 +491,8 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             if ( $totalACT > 0 && is_array($testParams1['act'])) {
                 $testParams1['act']['score_composite'] = round($totalACT/4);
             }
-            if ( is_array($testParams1['psat'])) {
-                $testParams1['psat']['score_composite'] = $totalPSAT;
-            }
             if (is_array($testParams1['sat'])) {
                 $testParams1['sat']['score_composite']  = $totalSAT;
-            }
-            if ( $totalPACT > 0 && is_array($testParams1['pact'])) {
-                $testParams1['pact']['score_composite'] = round($totalPACT/4);
             }
             
 
@@ -505,7 +548,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             
         
             // add data to database
-            // for 'act','psat','sat','pact'
+            // for 'act','sat'
             foreach ( $testParams1 as $key => $value ) {
                 $testParam = $value;
                 $ids  = array();
@@ -529,12 +572,8 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             // Insert  Student recornd  
             $values = array( );
             $values['score_SAT']     =  $totalSAT;
-            $values['score_PSAT']    =  $totalPSAT;
             if ( $totalACT > 0) {
                 $values['score_ACT'] =  round( $totalACT/4 );
-            }
-            if ( $totalPACT > 0) {
-                $values['score_PLAN'] = round( $totalPACT/4 );
             }
             
             if ( CRM_Utils_Array::value( 'test_tutoring', $params ) &&
