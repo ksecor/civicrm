@@ -19,9 +19,6 @@
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
-{* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
-{include file="CRM/common/showHide.tpl"}
-
 {edit}
 {literal}
     <script type="text/javascript">       
