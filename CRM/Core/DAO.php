@@ -468,10 +468,10 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      * @access public
      */
-    static function getFieldValue( $daoName, $id, $fieldName = 'name' ) {
+    static function getFieldValue( $daoName, $id, $fieldName = 'name', $idName = 'id' ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-        eval( '$object =& new ' . $daoName . '( );' );
-        $object->id    = $id;
+        eval( '$object   =& new ' . $daoName . '( );' );
+        $object->$idName =  $id;
         $object->selectAdd( );
         $object->selectAdd( 'id, ' . $fieldName );
         if ( $object->find( true ) ) {

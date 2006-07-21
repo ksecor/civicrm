@@ -450,14 +450,6 @@ class CRM_Core_Config {
             $this->dsn = CIVICRM_DSN;
         }
 
-        if (defined('UF_DSN')) {
-            $this->ufDSN = UF_DSN;
-        }
-
-        if (defined('UF_USERTABLENAME')) {
-            $this->ufUserTableName = UF_USERTABLENAME;
-        }
-
         if (defined('CIVICRM_DEBUG') ) {
             $this->debug = CIVICRM_DEBUG;
 

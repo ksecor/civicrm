@@ -162,12 +162,14 @@ class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
         require_once "CRM/Quest/BAO/Recommendation.php";
         $result = true;
 
+        require_once 'CRM/Quest/BAO/Recommendation.php';
         $params = $this->exportValues( );
         for ( $i = 1; $i <= 3; $i++ ) {
             $type = ( $i <= 2 ) ?
                 CRM_Quest_BAO_Recommendation::TEACHER :
                 CRM_Quest_BAO_Recommendation::COUNSELOR;
-            $result = $result & CRM_Quest_BAO_Recommendation::process( $params["first_name_$i"],
+            $result = $result & CRM_Quest_BAO_Recommendation::process( $this->_contactID,
+                                                                       $params["first_name_$i"],
                                                                        $params["last_name_$i" ],
                                                                        $params["email_$i"     ],
                                                                        $params["school_id_$i" ],

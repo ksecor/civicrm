@@ -57,6 +57,8 @@ class CRM_Quest_BAO_Recommendation {
     static function process( $contactID, $firstName, $lastName, $email, $schoolID, $type ) {
         list( $recommenderID, $hash, $drupalID ) = self::createContact( $firstName, $lastName, $email );
 
+        CRM_Core_Error::debug( $contactID, $recommenderID );
+
         $ids = array( $recommenderID );
 
         // add person to recommender group(id = 4)
@@ -144,7 +146,7 @@ class CRM_Quest_BAO_Recommendation {
         }
 
         // also create a drupal user
-        $drupalID = quest_create_drupal_user( $email );
+        $drupalID = quest_drupal_create_user( $email );
         if ( ! $drupalID ) {
             CRM_Core_Error::fatal( ts( 'Could not create drupal user' ) );
         }
@@ -181,9 +183,9 @@ class CRM_Quest_BAO_Recommendation {
     }
 
     static function createTaskStatus( $taskID, $responsible, $target, $statusID ) {
-        require_once 'CRM/Core/TaskStatus.php';
+        require_once 'CRM/Project/DAO/TaskStatus.php';
         
-        $dao =& new CRM_Core_TaskStatus( );
+        $dao =& new CRM_Project_DAO_TaskStatus( );
 
         $dao->task_id = $taskID;
         $dao->responsible_entity_table = 'civicrm_contact';
