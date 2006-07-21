@@ -117,6 +117,7 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
             $this->addElement('date', 'end_date_'.$i, ts( 'End Date' ), 
                               CRM_Core_SelectValues::date( 'custom', 7, 2, "M\001Y" ) );
             $this->addElement('text', 'hrs_'.$i, ts( 'Aproximate hours/week' ));
+            $this->addRule('hrs_'.$i , ts('number of hours/week is not valid integer value'),'integer');
             $this->addElement('checkbox','summer_jobs_'.$i,
                             ts( 'Check if Summer jobs only'),
                             null);
@@ -156,8 +157,7 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
         $fields = array('nature_of_work_' => 'nature of work',
                         'employer_'       => 'employer',
                         'hrs_'            => 'approximate hours/week');
-        $dates  = array('start_date_'     => 'start date',
-                        'end_date_'       => 'end date' );
+        $dates  = array('start_date_'     => 'start date');
         for ( $i = 1; $i <= 6; $i++ ) {
             $filled = false;
             foreach ( $fields as $field => $title) {
