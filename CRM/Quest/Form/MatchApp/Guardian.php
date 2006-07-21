@@ -133,12 +133,12 @@ public function buildQuickForm( )
         $this->addElement( 'text', "first_name",
                            ts('First Name'),
                            $attributes['first_name'] );
-        $this->addRule('first_name',ts('Please enter First Name'),'required');
+        //$this->addRule('first_name',ts('Please enter First Name'),'required');
 
         $this->addElement( 'text', "last_name",
                            ts('Last Name'),
                            $attributes['last_name'] );
-        $this->addRule('last_name',ts('Please enter Last Name'),'required');
+        //$this->addRule('last_name',ts('Please enter Last Name'),'required');
 
         $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '43|44|336', 'separated-year', '', 'select', false);" );
         $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
@@ -147,7 +147,7 @@ public function buildQuickForm( )
                            ts( 'Year your parents separated or divorced' ),
                            CRM_Core_SelectValues::date( 'custom', 30, 1, "Y" ) );
         
-        $this->addYesNo( 'is_deceased', ts( 'Deceased?' ), null,true, array ('onchange' => "return showHideByValue('is_deceased', '1', 'deceased_year_date', 'table-row', 'radio', false);"));
+        $this->addYesNo( 'is_deceased', ts( 'Deceased?' ), null,false, array ('onchange' => "return showHideByValue('is_deceased', '1', 'deceased_year_date', 'table-row', 'radio', false);"));
 
         $this->addElement( 'date', 'deceased_year_date', 
                            ts( 'Year Deceased' ),
@@ -175,7 +175,7 @@ public function buildQuickForm( )
         $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'positiveInteger');
 
         $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47|339|301', 'job_organization|job_occupation|job_current_years', '', 'select', true);" );
-        $this->addSelect('industry', ts( 'Industry' ),null, true, $extra1 );
+        $this->addSelect('industry', ts( 'Industry' ),null, false, $extra1 );
 
 
         $this->addElement( 'text', "job_organization",
@@ -190,7 +190,7 @@ public function buildQuickForm( )
         $this->addRule('job_current_years',ts('not a valid number'),'positiveInteger');
 
         $extra2 = array( 'onchange' => "showHideByValue('highest_school_level_id', '118|119|120|121|122|302', 'college_name|college_country|college_grad_year|college_major', '', 'select', false); return showHideByValue('highest_school_level_id', '122|302', 'prof_school_name|prof_school_degree|prof_grad_year', '', 'select', false);" );
-        $this->addSelect('highest_school_level', ts('Highest level of schooling'),null,true,$extra2);
+        $this->addSelect('highest_school_level', ts('Highest level of schooling'),null,false,$extra2);
         $this->addElement( 'text', 'college_name', ts('College Name'),
                            $attributes['college_name'] );
         $this->addCountry( 'college_country_id', ts('Which country is the college located in?'));
@@ -221,7 +221,7 @@ public function buildQuickForm( )
         $this->buildAddressBlock( 1, ts( 'Permanent Address' ),
                                   ts( 'Permanent Telephone' ),
                                   '',
-                                  true, true );
+                                  false, false );
 
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_Guardian', 'formRule'));
 
@@ -248,12 +248,36 @@ public function formRule(&$params)
 {
         $errors = array( );
 
-        if ((!$params['birth_date']['M']) && (!$params['birth_date']['D']) && (!$params['birth_date']['Y']) ) {
-            $errors["birth_date"] = "Please enter the Birthdate for this person.";
-        }
+        if ( $params['is_contact_with_student'] || (!array_key_exists('is_contact_with_student', $params)) ) {
+            
+            $fields = array('first_name'             => 'first name', 
+                            'last_name'              => 'last name',
+                            'industry_id'            => 'industry',
+                            'highest_school_level_id'=> 'highest level of schooling');
+            foreach ($fields as $field => $title) {
+                if (!$params[$field]) {
+                    $errors[$field] = "Please enter the $title";
+                }
+            }
 
-        if ( $params['is_deceased'] && empty($params['deceased_year_date']['Y'])) {
-            $errors["deceased_year_date"] = "Please enter the Year Deceased date.";
+            if ((!$params['birth_date']['M']) && (!$params['birth_date']['D']) && (!$params['birth_date']['Y']) ) {
+                $errors["birth_date"] = "Please enter the Birthdate for this person.";
+            }
+            if (!array_key_exists('is_deceased', $params)) {
+                $errors["is_deceased"] = "Please enter the deceased information";
+            }
+            if ( $params['is_deceased'] && empty($params['deceased_year_date']['Y'])) {
+                $errors["deceased_year_date"] = "Please enter the Year Deceased date.";
+            }
+            if ( !$params['location']['1']['address']['city'] ) {
+                $errors['location[1][address][city]'] = "Please enter the city";
+            }
+            if ( !$params['location']['1']['address']['country_id'] ) {
+                $errors['location[1][address][country_id]'] = "Please enter the country";
+            }
+            if ( !$params['location']['1']['phone']['1']['phone'] ) {
+                $errors['location[1][phone][1][phone]'] = "Please enter the Permanent Telephone";
+            }
         }
 
         return empty($errors) ? true : $errors;

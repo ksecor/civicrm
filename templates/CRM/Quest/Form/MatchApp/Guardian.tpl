@@ -16,13 +16,13 @@
     <td rowspan=2 valign=top class="grouplabel" width="30%">
         <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel" width="70%">
-        {$form.first_name.html}<br />
-        {edit}{$form.first_name.label}{/edit}</td>
+        {$form.first_name.html} <br />
+        {edit}{$form.first_name.label}{/edit} <span class="marker">*</span></td>
 </tr>
 <tr>
     <td class="fieldlabel">
         {$form.last_name.html}<br />
-        {edit}{$form.last_name.label}{/edit}</td>
+        {edit}{$form.last_name.label}{/edit} <span class="marker">*</span></td>
 </tr> 
 <tr>
     <td class="grouplabel">{$form.marital_status_id.label}</td>
@@ -33,7 +33,7 @@
     <td class="fieldlabel">{$form.separated_year.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.is_deceased.label}</td>
+    <td class="grouplabel">{$form.is_deceased.label} <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.is_deceased.html}</td>
 </tr>
 <tr id="deceased_year_date">
@@ -88,7 +88,7 @@
 <tr>
     <td class="fieldlabel">
         {$form.location.1.address.city.html}<br />
-        {edit}{$form.location.1.address.city.label}{/edit}
+        {edit}{$form.location.1.address.city.label}{/edit} <span class="marker">*</span>
         </td>
 </tr>
 <tr>
@@ -106,7 +106,7 @@
 <tr>
     <td class="fieldlabel">
         {$form.location.1.address.country_id.html}<br />
-        {edit}{$form.location.1.address.country_id.label}{/edit}
+        {edit}{$form.location.1.address.country_id.label}{/edit} <span class="marker">*</span>
         </td>
 </tr>
 <tr>
@@ -126,7 +126,7 @@
 
 
 <tr>
-    <td class="grouplabel">{$form.industry_id.label}</td>
+    <td class="grouplabel">{$form.industry_id.label} <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.industry_id.html}</td>
 </tr>
 <tr id="job_organization">
@@ -142,7 +142,7 @@
     <td class="fieldlabel">{$form.job_current_years.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.highest_school_level_id.label}</td>
+    <td class="grouplabel">{$form.highest_school_level_id.label} <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.highest_school_level_id.html}</td>
 </tr>
 <tr id="college_name">
