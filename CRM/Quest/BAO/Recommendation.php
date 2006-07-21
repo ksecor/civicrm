@@ -55,9 +55,7 @@ class CRM_Quest_BAO_Recommendation {
     }
 
     static function process( $contactID, $firstName, $lastName, $email, $schoolID, $type ) {
-        list( $recommenderID, $hash, $drupalID ) = self::createContact( $firstName, $lastName, $email );
-
-        CRM_Core_Error::debug( $contactID, $recommenderID );
+        list( $recommenderID, $hash, $drupalID, $alreadyExists ) = self::createContact( $firstName, $lastName, $email );
 
         $ids = array( $recommenderID );
 
@@ -114,6 +112,8 @@ class CRM_Quest_BAO_Recommendation {
                               "Recommendation please",
                               $message,
                               'recommendations@questbridge.org' );
+
+        return true;
     }
 
     static function createContact( $firstName, $lastName, $email ) {
@@ -125,7 +125,8 @@ class CRM_Quest_BAO_Recommendation {
         if ( $dao ) {
             return array( $dao->contact_id,
                           $dao->hash, 
-                          CRM_Core_BAO_UFMatch::getUFId( $dao->contact_id )
+                          CRM_Core_BAO_UFMatch::getUFId( $dao->contact_id ),
+                          true
                           );
         }
 
@@ -151,9 +152,9 @@ class CRM_Quest_BAO_Recommendation {
             CRM_Core_Error::fatal( ts( 'Could not create drupal user' ) );
         }
 
-        self::createUFMatch( $contact->contact_id, $drupalID, $email );
+        self::createUFMatch( $contact->id, $drupalID, $email );
 
-        return array( $contact->contact_id, $hash, $drupalID );
+        return array( $contact->id, $hash, $drupalID, false );
     }
 
     static function createUFMatch( $contactID, $drupalID, $mail ) {
@@ -193,11 +194,12 @@ class CRM_Quest_BAO_Recommendation {
         $dao->target_entity_table      = 'civicrm_contact';
         $dao->target_entity_id         = $target;
         $dao->status_id                = $statusID;
+        $now                           = date( 'YmdHis' );
         if ( ! $dao->find( true ) ) {
-            $dao->create_date   = date( 'YmdHis' );
-            $dao->modified_date = $dao->create_date; 
-            $dao->save( );
+            $dao->create_date   = $now;
         }
+        $dao->modified_date     = $now;
+        $dao->save( );
     }
 
 }

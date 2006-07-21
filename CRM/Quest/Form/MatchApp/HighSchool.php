@@ -321,15 +321,10 @@ WHERE  o.contact_id IN ( $orgString )
            
             if ( is_array( $this->_orgIDs ) ) {
                 foreach( $this->_orgIDs as $orgID ) {
-                    // delete the contact only if it is a non-ceeb contact
-                    if ( $this->_ceebCodes[$orgID] ) {
-                        // only delete the relationship
-                        $dao = & new CRM_Contact_DAO_Relationship();
-                        $dao->id = $this->_relIDs[$orgID];
-                        $dao->delete( );
-                    } else {
-                        CRM_Contact_BAO_Contact::deleteContact( $orgID );
-                    }
+                    // only delete the relationship
+                    $dao = & new CRM_Contact_DAO_Relationship();
+                    $dao->id = $this->_relIDs[$orgID];
+                    $dao->delete( );
                 }
             }
 

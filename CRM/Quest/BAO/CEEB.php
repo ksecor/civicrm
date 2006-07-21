@@ -51,7 +51,7 @@ FROM   civicrm_organization o,
        civicrm_custom_value v
 WHERE  v.custom_field_id = 1
   AND  v.entity_table    = 'civicrm_contact'
-  AND  v.int_data        = %1
+  AND  v.char_data        = %1
 ";
         $params = array( 1 => array( $code, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
