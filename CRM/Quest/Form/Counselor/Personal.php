@@ -68,6 +68,14 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_Recommender
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        $ids    = array( );
+
+        $params = array( 'contact_id' => $this->_recommenderID,
+                         'id'         => $this->_recommenderID );
+
+        require_once 'CRM/Quest/BAO/Student.php';
+        CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+        
         return $defaults;
     }
     
@@ -138,16 +146,16 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_Recommender
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-
+            $this->_contactID;
             require_once 'CRM/Quest/BAO/Student.php';
             $params['contact_type'] = 'Individual';
-            $params['contact_sub_type'] = 'Student';
+            $params['contact_sub_type'] = 'Recommender';
 
             $params['location'][1]['location_type_id'] = 1;
             $params['location'][1]['is_primary'] = 1 ;
             $params['location'][2]['location_type_id'] = 2;
             
-            $idParams = array( 'id' => $this->_contactID, 'contact_id' => $this->_contactID );
+            $idParams = array( 'id' => $this->_recommenderID, 'contact_id' => $this->_recommenderID );
           
             CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
             $contact = CRM_Contact_BAO_Contact::create($params, $ids, 2);
@@ -161,7 +169,7 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_Recommender
 
        }
 
-        parent::postProcess( );
+        // parent::postProcess( );
      
     } //end of function
 

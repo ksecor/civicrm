@@ -159,6 +159,7 @@ class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
             return;
         }
 
+        require_once "CRM/Quest/BAO/Recommendation.php";
         $result = true;
 
         $params = $this->exportValues( );

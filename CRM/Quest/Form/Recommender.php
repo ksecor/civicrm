@@ -48,7 +48,8 @@ class CRM_Quest_Form_Recommender extends CRM_Core_Form
     protected $_studentContactID;
 
     function preProcess( ) {
-        $this->_recommenderID    = $this->get( 'recommenderID' );
+        //$this->_recommenderID    = $this->get( 'recommenderID' );
+        $this->_recommenderID    = $this->get('contactID' );
         $this->_studentContactID = $this->get( 'scid'          );
     }
 

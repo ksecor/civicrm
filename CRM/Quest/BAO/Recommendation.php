@@ -110,7 +110,7 @@ class CRM_Quest_BAO_Recommendation {
                               "$firstName, $lastName",
                               $email,
                               "Recommendation please",
-                              $message
+                              $message,
                               'recommendations@questbridge.org' );
     }
 
@@ -119,7 +119,7 @@ class CRM_Quest_BAO_Recommendation {
         require_once 'CRM/Contact/BAO/Contact.php';
         require_once 'CRM/Core/BAO/UFMatch.php';
         
-        $dao =& $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $email );
+        $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $email );
         if ( $dao ) {
             return array( $dao->contact_id,
                           $dao->hash, 
