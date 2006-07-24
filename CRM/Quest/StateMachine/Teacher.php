@@ -64,7 +64,7 @@ class CRM_Quest_StateMachine_Teacher extends CRM_Core_StateMachine {
 
         $this->_pages = array(
                               'CRM_Quest_Form_Teacher_Personal' => null,
-                              'CRM_Quest_Form_Teacher_Academic' => null,
+                              // 'CRM_Quest_Form_Teacher_Academic' => null,
                               'CRM_Quest_Form_Teacher_Ranking' => null
                               );
         
@@ -75,8 +75,8 @@ class CRM_Quest_StateMachine_Teacher extends CRM_Core_StateMachine {
         if ( ! self::$_dependency ) {
             self::$_dependency = array(
                                        'Personal' => array( ),
-                                       'Academic' => array( 'Personal'  => 1 ),
-                                       'Ranking'  => array( 'Academic'  => 1 )
+                                       //  'Academic' => array( 'Personal'  => 1 ),
+                                       //   'Ranking'  => array( 'Academic'  => 1 )
                                        );
         }
 

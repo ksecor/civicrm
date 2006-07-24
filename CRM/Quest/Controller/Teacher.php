@@ -37,8 +37,10 @@
 require_once 'CRM/Core/Controller.php';
 
 class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
-
+    
     protected $_action;
+
+    protected $_scID;
 
     /**
      * class constructor
@@ -47,9 +49,13 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
         parent::__construct( $title, $modal );
         
         $cid = $this->get( 'contactID' );
+
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'update' );
         $this->assign( 'action', $this->_action );
+
+        $this->_scID = CRM_Utils_Request::retrieve( 'scid', 'Integer', $this, true );
+
         if ( ! $cid ) {
             $cid    = CRM_Utils_Request::retrieve( 'id', 'Positive',
                                                    $this );
@@ -59,13 +65,13 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
             if ( $cid ) {
                 require_once 'CRM/Contact/BAO/Contact.php';
                 require_once 'CRM/Utils/System.php';
-                if ( ( $cid != $uid ) && ($this->_action & CRM_Core_Action::UPDATE) ) {
-                    if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) {
-                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Application.') );
-                    } 
-                } else if (($cid != $uid ) && ($this->_action & CRM_Core_Action::VIEW) ) {
-                    if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) {
-                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Application.') );
+                if ( $cid != $uid ) {
+                    if ( ( $this->_action & CRM_Core_Action::UPDATE ) &&
+                         ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) ) {
+                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Recommendation.') );
+                    } else if ( ( $this->_action & CRM_Core_Action::VIEW ) &&
+                                ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) ) {
+                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Recommendation.') );
                     }
                 }
             } else {
@@ -75,19 +81,41 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
             if ( ! $cid ) {
                 CRM_Core_Error::fatal( ts( "Could not find a valid contact id" ) );
             }
-            $this->set( 'contactID', $cid );
+            $this->set( 'contactID'       , $cid );
 
             // set contact id and welcome name
        
             $dao =& new CRM_Contact_DAO_Contact( );
             $dao->id = $cid;
-            if ( $dao->find( true ) ) {
+            if ( $dao->find( true ) &&
+                 $dao->contact_sub_type == 'Teacher' ) {
                 $this->set( 'welcome_name',
-                             $dao->display_name );
+                            $dao->display_name );
             } else {
                 CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
             }
-       
+
+            // also set student's name
+            $dao =& new CRM_Contact_DAO_Contact( );
+            $dao->id = $this->_scID;
+            if ( $dao->find( true ) &&
+                 $dao->contact_sub_type == 'Student' ) {
+                $this->set( 'student_welcome_name',
+                            $dao->display_name );
+            } else {
+                CRM_Core_Error::fatal( ts( "Could not find a valid contact record for the student" ) );
+            }
+
+            // make sure that recommender is a teacher of student
+            require_once 'CRM/Contact/DAO/Relationship.php';
+            $dao =& new CRM_Contact_DAO_Relationship( );
+            $dao->relationship_type_id = 9;
+            $dao->contact_id_a = $this->_scID;
+            $dao->contact_id_b = $cid;
+            $dao->is_active    = true;
+            if ( ! $dao->find( true ) ) {
+                CRM_Core_Error::fatal( ts( "You do not have permission to create a recommendation for this student" ) );
+            }
         }
 
         require_once 'CRM/Quest/StateMachine/Teacher.php';
@@ -97,28 +125,6 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
         $this->addPages( $this->_stateMachine, $this->_action );
 
         $this->addActions( );
-
-        // get the task status object, if not there create one
-        require_once 'CRM/Project/DAO/TaskStatus.php';
-        $dao =& new CRM_Project_DAO_TaskStatus( );
-        $dao->responsible_entity_table = 'civicrm_contact';
-        $dao->responsible_entity_id    = $cid;
-        $status =& CRM_Core_OptionGroup::values( 'task_status', true );
-        if ( ! $dao->find( true ) ) {
-            $dao->task_id             = 2;
-            $dao->target_entity_table = 'civicrm_contact';
-            $dao->target_entity_id    = $cid;
-            $dao->create_date         = date( 'YmdHis' );
-            
-            $dao->status_id = $status['Not Started'];
-            $dao->save( );
-        } else if ( $dao->status_detail ) {
-            $data =& $this->container( );
-            $data['valid'] = unserialize( $dao->status_detail );
-        }
-
-        $this->set( 'taskStatusID', $dao->id );
-        $this->assign( 'taskStatus', array_search( $dao->status_id, $status ) );
 
         //set user context
         $session =& CRM_Core_Session::singleton();
@@ -183,70 +189,17 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
         $wizard['steps'] = array( );
 
         $count           = 0;
-        
-        $sections = array( 'Guardian' => array( 'title'     => 'Parent/Guardian Detail',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Sibling'  => array( 'title'     =>'Sibling Information',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Income'   => array( 'title'     => 'Household Income',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Extracurricular' => array( 'title' => 'Extracurricular Information',
-                                                       'processed' => true,
-                                                       'valid'     => true,
-                                                       'index'     => 0 ),
-                           'Academic' => array( 'title' => 'Academic Information',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Essay'    => array( 'title' => 'Essays',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           );
 
-        $subCount = 0;
         $data =& $this->container( );
         foreach ( $this->_pages as $name => $page ) {
-            $subNames = explode( '-', $name );
             $step  = true;
             $link  = $this->_stateMachine->validPage( $name, $data['valid'] ) ? $page->getLink ( ) : null;
-            $valid = ( $name == 'SchoolOther' ) ? 1 : $data['valid'][$name];
-            if ( CRM_Utils_Array::value( $subNames[0], $sections ) ) {
-                $step      = false;
-                $collapsed = true;
-                if ( $sections[$subNames[0]]['processed'] ) {
-                    $count++;
-                    $sections[$subNames[0]]['processed'] = false;
+            $valid = $data['valid'][$name];
 
-                    // remember the index to fix valid status
-                    $sections[$subNames[0]]['index'] = count( $wizard['steps'] );
+            $count++;
+            $stepNumber = $count;
+            $collapsed  = false;
 
-                    $wizard['steps'][] = array( 'name'       => $name,
-                                                'title'      => $sections[$subNames[0]]['title'],
-                                                'link'       => $link,
-                                                'valid'      => $valid,
-                                                'step'       => true,
-                                                'stepNumber' => $count,
-                                                'collapsed'  => false );
-                    $subCount = 1;
-                    $stepNumber = $count . ".$subCount";
-                } else {
-                    $subCount++;
-                    $stepNumber = $count . ".$subCount";
-                }
-                // the section valid is an AND of all subsection valid
-                $sections[$subNames[0]]['valid'] = $valid & $sections[$subNames[0]]['valid'];
-            } else {
-                $count++;
-                $stepNumber = $count;
-                $collapsed  = false;
-            }
             $wizard['steps'][] = array( 'name'       => $name,
                                         'title'      => $page->getTitle( ),
                                         'link'       => $link,
@@ -263,27 +216,7 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
             }
         }
 
-        // fix valid status of all section heads
-        foreach ( $sections as $name => $value ) {
-            $wizard['steps'][$value['index']]['valid'] = $value['valid'];
-        }
-
         $wizard['stepCount']         = $count;
-
-        if ( strpos( $wizard['currentStepNumber'], '.' ) !== false ) {
-            list( $one, $two ) = explode( '.', $wizard['currentStepNumber'] );
-
-            // fix collapsed of sub section
-            foreach ( $wizard['steps'] as $idx => $value ) {
-                if ( $value['stepNumber'] == $one ) {
-                    $wizard['currentStepRootTitle'] = $value['title'] . ': ';
-                }
-                list( $three, $four ) = explode( '.', $value['stepNumber'] );
-                if ( $one == $three ) {
-                    $wizard['steps'][$idx]['collapsed'] = false;
-                }
-            }
-        }
 
         $this->addWizardStyle( $wizard ); 
 
@@ -334,10 +267,10 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
         }
 
         $template =& CRM_Core_Smarty::singleton( );
-        $template->assign( 'pageTitle', '2006 College Prep Scholarship Application' );
+        $template->assign( 'pageTitle', '2006 College Match Teacher Recommendation' );
         $template->assign_by_ref( 'pageHTML', $html );
         
-        echo $template->fetch( "CRM/Quest/Page/View/Preview.tpl" );
+        $template->fetch( "CRM/Quest/Page/View/Preview.tpl" );
         exit( );
     }
 
