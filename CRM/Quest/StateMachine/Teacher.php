@@ -66,6 +66,7 @@ class CRM_Quest_StateMachine_Teacher extends CRM_Core_StateMachine {
                               'CRM_Quest_Form_Teacher_Personal' => null,
                               // 'CRM_Quest_Form_Teacher_Academic' => null,
                               'CRM_Quest_Form_Teacher_Ranking' => null,
+                              'CRM_Quest_Form_Teacher_Evaluation' => null,
                               'CRM_Quest_Form_Teacher_Additional' => null
                               );
         
