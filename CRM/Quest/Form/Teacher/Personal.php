@@ -120,7 +120,7 @@ class CRM_Quest_Form_Teacher_Personal extends CRM_Quest_Form_Recommender
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_StudentRanking' );
 
         // department
-        $this->add('text', 'department', ts( 'Department' ), $attributes['department'], true );
+        $this->add('text', 'department', ts( 'School Department' ), $attributes['department'], true );
 
         // relationship to recommender
         $options = array('' => '- select -' ) + CRM_Core_OptionGroup::values( 'recommender_relationship' );

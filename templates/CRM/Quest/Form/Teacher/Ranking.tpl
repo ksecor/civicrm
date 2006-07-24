@@ -7,24 +7,20 @@
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.counselor_years.label}</td>
-    <td class="fieldlabel">{$form.counselor_years.html}</td>
+    <td class="grouplabel">{$form.teacher_years.label}</td>
+    <td class="fieldlabel">{$form.teacher_years.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.counselor_capacity.label}</td>
-    <td class="fieldlabel">{$form.counselor_capacity.html}</td>
+    <td class="grouplabel">{$form.teacher_subject.label}</td>
+    <td class="fieldlabel">{$form.teacher_subject.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.counselor_meet.label}</td>
-    <td class="fieldlabel">{$form.counselor_meet.html}</td>
+    <td class="grouplabel">{$form.teacher_grade.label}</td>
+    <td class="fieldlabel">{$form.teacher_grade.html}</td>
 </tr>
+
 <tr>
-    <td class="grouplabel">{$form.counselor_basis.label}</td>
-    <td class="fieldlabel">{$form.counselor_basis.html}: {$form.counselor_basis_other.html}
-    </td>
-</tr>
-<tr>
-    <td colspan="2" class="grouplabel">Based on your experience as a counselor, please comment on the student's characteristics as compared to other students you have encountered in your career: <span class="marker">*</span> <br />
+    <td colspan="2" class="grouplabel">Based on your experience as a teacher, please comment on the student's characteristics as compared to other students you have encountered in your career: <span class="marker">*</span> <br />
     <br />
     <table width="100%" border="1">
       <tr>
@@ -51,12 +47,7 @@
     </table>
     </td>
 </tr>
-<tr>
-    <td colspan="2" class="grouplabel">
-        {$form.essay.rating_reason.label}<br /><br />
-        {$form.essay.rating_reason.html} &nbsp;<br /><br />
-        {$form.word_count.rating_reason.label} &nbsp;&nbsp;{$form.word_count.rating_reason.html}</td>
-</tr>
+
 <tr>
     <td colspan="2" class="grouplabel">How would you compare this student to his or her entire class: <span class="marker">*</span> <br />
     <br />

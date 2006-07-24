@@ -94,28 +94,24 @@ class CRM_Quest_Form_Teacher_Ranking extends CRM_Quest_Form_Recommender
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_StudentRanking');
 
         $this->add( 'text',
-                    'counselor_years',
-                    ts( 'How long have you known this student?' ),
-                    $attributes['counselor_years'],
+                    'teacher_years',
+                    ts( 'Years you have been a teacher' ),
+                    $attributes['teacher_years'],
                     true );
 
         $this->add( 'text',
-                    'counselor_capacity',
-                    ts( 'In what capacity?' ),
-                    $attributes['counselor_capacity'],
+                    'teacher_subject',
+                    ts( 'In what subject(s) have you taught him/her?' ),
+                    $attributes['subject'],
                     true );
 
         $this->add( 'text',
-                    'counselor_meet',
-                    ts( 'How often do you meet with this student?' ),
-                    $attributes['counselor_meet'],
+                    'teacher_grade',
+                    ts( 'What grade(s) did he/she receive from you?' ),
+                    $attributes['grade'],
                     true );
 
-        $this->addCheckBox( 'counselor_basis',
-                            ts( 'This evaluation is based on (check all that apply):' ),
-                            CRM_Core_OptionGroup::values( 'counselor_basis', true ),
-                            true, '<br/>',true
-                            );
+     
        
         $radioBoxes = array(
                             'Leadership potential'             => 'leadership_id',
@@ -151,9 +147,7 @@ class CRM_Quest_Form_Teacher_Ranking extends CRM_Quest_Form_Recommender
                           null,
                           true);
 
-        require_once "CRM/Quest/BAO/Essay.php";
-        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
-        
+      
         parent::buildQuickForm( );
 
     }
