@@ -92,16 +92,18 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             $fieldDAO = & new CRM_Core_DAO_UFField();
             $fieldDAO->id = $fid;
             $fieldDAO->find(true);
-           
-            $name = $fieldDAO->field_name;
             
+            $name = $fieldDAO->field_name;
             if ($fieldDAO->location_type_id) {
-                $name .= '-'.$fieldDAO->location_type_id;
+                $name .= '-' . $fieldDAO->location_type_id;
+            } else {
+                $name .= '-Primary';
             }
+            
             if ($fieldDAO->phone_type) {
                 $name .= '-'.$fieldDAO->phone_type;
             }
-           
+            
             $fieldArray[$name]= $this->_fields[$name];
             $this->_fields = $fieldArray;
             if (! is_array($this->_fields[$name])) {
@@ -114,7 +116,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         } else {
             $this->assign('viewOnly',true);
         }
-
+        
         $this->set('fieldId',null);
         $this->assign("fields",$this->_fields); 
     }
