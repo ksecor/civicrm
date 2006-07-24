@@ -57,9 +57,9 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
     public function preProcess()
     {
         parent::preProcess();
-        
+
         require_once "CRM/Quest/BAO/Essay.php";
-        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_counselor_eval', 0, 0 );
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_counselor_eval', $this->_recommenderID, $this->_studentContactID );
     }
 
     /**
@@ -101,6 +101,7 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
         $extra3 = array('onchange' => "return showHideByValue('is_disciplinary_action', '1', 'explain_discipline_row','table-row', 'radio', false);");
         $this->addYesNo( 'is_disciplinary_action',
                          ts( 'To the best of your knowledge, has the student ever violated an Honor Code or been suspended or subjected to any school-related or legal disciplinary action?' ),null,true ,$extra3);
+
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
         
@@ -118,11 +119,10 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
 
-            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
-                                         0, 0 );
+            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], $this->_recommenderID, $this->_studentContactID );
        }
 
-        parent::postProcess( );
+        //parent::postProcess( );
     } //end of function
 
     /**
