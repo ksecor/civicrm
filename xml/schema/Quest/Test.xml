@@ -51,6 +51,12 @@
       <add>1.5</add>
   </field>
   <field>
+      <name>score_composite_alt</name>
+      <type>float</type>
+      <comment>Alternate composite or total score for this test. Used for SAT composite with math and reading only.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
       <name>score_english</name>
       <type>int unsigned</type>
       <comment>English score if applicable for this test.</comment>

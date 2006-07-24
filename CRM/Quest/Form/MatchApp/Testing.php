@@ -89,7 +89,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             $this->_testIDs = array();
             
             $testTypes  = CRM_Core_OptionGroup::values( 'test');
-            $testSet1 = array('act','sat');
+            $testSet1 = array('act','sat','ap');
             
             
             $dao = & new CRM_Quest_DAO_Test();
@@ -97,16 +97,14 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             $dao->find();
             while( $dao->fetch() ) {
                 if( in_array(strtolower($testTypes[$dao->test_id]),$testSet1 )) {
-                    $this->_testIDs[strtolower($testTypes[$dao->test_id])] = $dao->id;
-                } else if ( $testTypes[$dao->test_id] == 'SAT II' ){
+                    $tType = strtolower($testTypes[$dao->test_id]);
+                    $count = count($this->_testIDs[$tType]) + 1;                    
+                    $this->_testIDs[$tType][$count] = $dao->id;
+                } else {
                     $count = count($this->_testIDs['satII']) + 1;
                     $this->_testIDs['satII'][$count] = $dao->id;
-                } else {
-                    $count = count($this->_testIDs['ap']) + 1;
-                    $this->_testIDs['ap'][$count] = $dao->id;
                 }
             }
-            
             
             //set the default values
             $subject = array('english','reading','criticalReading','writing','math','science');
@@ -170,14 +168,14 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                     }
                 }
                 for ( $i = 2; $i <= self::ACT_TESTS; $i++ ) {
-                    if ( CRM_Utils_Array::value( "act_english_$i", $defaults )) {
+                    if ( CRM_Utils_Array::value( "act_score_$i", $defaults )) {
                         $this->_showHide->addShow( "id_act_test_$i" );
                     } else {
                         $this->_showHide->addHide( "id_act_test_$i" );
                     }
                 }
                 for ( $i = 2; $i <= self::SAT_TESTS; $i++ ) {
-                    if ( CRM_Utils_Array::value( "sat_criticalreading_$i", $defaults )) {
+                    if ( CRM_Utils_Array::value( "sat_score_$i", $defaults )) {
                         $this->_showHide->addShow( "id_sat_test_$i" );
                     } else {
                         $this->_showHide->addHide( "id_sat_test_$i" );
@@ -511,28 +509,44 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 }
             }
             
-            // calculate total scores for each instance SAT , ACT
+            // calculate total scores for each instance SAT, ACT.
+            // Calc ACT composite and assign composite score values.
+            // Get highest instance for each type of score a store in maxScores array so we can save to student_summary.
             if ( is_array( $testParams1 ) ) {
+                $maxScores = array();
+                $summaryCols = array( 'ACT_english', 'ACT_reading', 'ACT_math', 'ACT_science', 'ACT_composite',
+                                      'SAT_reading', 'SAT_math', 'SAT_writing', 'SAT_composite', 'SAT_composite_all');
+                foreach ($maxScores as $score) {
+                    $maxScores[$score] = 0;
+                }
+                
                 for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
                     foreach( $testParams1[$i] as $test => $score ) {
-                        if ( $test == 'act' ) {
+                        if ( $test == 'act' && is_array($score) ) {
                             $totalACT[$i] = $score['score_reading']+ $score['score_english']+$score['score_science']+$score['score_math'] ;
+                            if ( $totalACT[$i] > 0 ) {
+                                $testParams1[$i]['act']['score_composite'] = round($totalACT[$i]/4);
+                            }
+                            $maxScores['ACT_english'] = max( $maxScores['ACT_english'], $score['score_english'] );
+                            $maxScores['ACT_reading'] = max( $maxScores['ACT_reading'], $score['score_reading'] );
+                            $maxScores['ACT_math'] = max( $maxScores['ACT_math'], $score['score_math'] );
+                            $maxScores['ACT_science'] = max( $maxScores['ACT_science'], $score['score_science'] );
                         } else if ( $test == 'sat' ) {
-                            $totalSAT[$i] =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
+                            $testParams1[$i]['sat']['score_composite'] =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
+                            $testParams1[$i]['sat']['score_composite_alt'] =  $score['score_reading'] + $score['score_math'];
+                            $maxScores['SAT_reading'] = max( $maxScores['SAT_reading'], $score['score_reading'] );
+                            $maxScores['SAT_math'] = max( $maxScores['SAT_math'], $score['score_math'] );
+                            $maxScores['SAT_writing'] = max( $maxScores['SAT_writing'], $score['score_writing'] );
                         }
                     }
                 }
+                $totalMaxACT = $maxScores['ACT_english'] + $maxScores['ACT_reading'] + $maxScores['ACT_math'] + $maxScores['ACT_science'];
+                if ( $totalMaxACT > 0 ) {
+                    $maxScores['ACT_composite'] = round($totalMaxACT/4);
+                }
+                $maxScores['SAT_composite'] = $maxScores['SAT_reading'] + $maxScores['SAT_math'] + $maxScores['SAT_writing'];
+                $maxScores['SAT_composite_alt'] = $maxScores['SAT_reading'] + $maxScores['SAT_math'];
             }
-            
-            // calcuate(composite & total score)
-            if ( $totalACT > 0 && is_array($testParams1['act'])) {
-                $testParams1['act']['score_composite'] = round($totalACT/4);
-            }
-            if (is_array($testParams1['sat'])) {
-                $testParams1['sat']['score_composite']  = $totalSAT;
-            }
-            
-
 
             // process sat II/ ap stuff
             foreach  ( $this->_multiTests as $testName => $testCount ) { 
@@ -584,13 +598,13 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             $dao->delete();
             
         
-            // add data to database
-            // for 'act','sat'
-            foreach ( $testParams1 as $key => $value ) {
-                $testParam = $value;
-                $ids  = array();
-                $test = CRM_Quest_BAO_Test::create( $testParam ,$ids );
-               
+            // add data to database for 'act','sat'
+            for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
+                foreach ( $testParams1[$i] as $key => $value ) {
+                    $testParam[$i] = $value;
+                    $ids  = array();
+                    $test = CRM_Quest_BAO_Test::create( $testParam[$i] ,$ids );
+                }
             }
             
             
@@ -606,16 +620,18 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 }
             }
             
-            // Calculate scores for Student_summary record and insert.
-            // TBD: Here we'll need to figure out highest of the composites
-            // and highest for each ACT and SAT section.
-            $summaryVals = array()
-            $summaryVals['score_SAT']     =  $totalSAT;
-            if ( $totalACT > 0) {
-                $summaryVals['score_ACT'] =  round( $totalACT/4 );
+            // Insert scores for Student_summary record.
+            $maxScores['contact_id'] =  $this->_contactID;
+            require_once "CRM/Quest/DAO/StudentSummary.php";
+            $dao = & new CRM_Quest_DAO_StudentSummary();
+            $dao->contact_id = $this->_contactID;
+            if ( $dao->find(true) ) {
+                $ids = array( 'id' => $dao->id);
             }
             
-            // Values for Student record
+            $studentSummary = CRM_Quest_BAO_Student::createStudentSummary( $maxScores, $ids);
+            
+            // Insert values for Student record
             $values = array( );
             if ( CRM_Utils_Array::value( 'test_tutoring', $params ) &&
                  is_array( $params['test_tutoring'] ) &&
