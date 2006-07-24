@@ -162,19 +162,19 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             if(!$locationFlag) {
                 continue;
             }
-            $showHide->addShow( "location[$locationId]" );
+            $showHide->addShow( "id_location_{$locationId}" );
             if ( $locationId != 1 ) {
-                $showHide->addHide( "location[$locationId][show]" );
+                $showHide->addHide( "id_location_{$locationId}_show" );
             }
             if ( $locationId < $maxLocationBlocks ) {
                 $nextLocationId = $locationId + 1;
-                $showHide->addShow( "location[$nextLocationId][show]" );
+                $showHide->addShow( "id_location_{$nextLocationId}_show" );
             }
             
             $commPrefs = array( 'phone', 'email', 'im' );
             foreach ( self::$_commPrefs as $block ) {
                 $tmpArray = CRM_Utils_Array::value( $block, $values[$locationId] );
-                self::updateShowHideSubBlocks( $showHide, $block, "location[$locationId]",
+                self::updateShowHideSubBlocks( $showHide, $block, "id_location_{$locationId}",
                                                $tmpArray );
             }
         }
@@ -215,15 +215,14 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                 continue;
             }
 
-            $showHide->addShow( "${prefix}[$name][$blockId]" );
-            $showHide->addHide( "${prefix}[$name][$blockId][show]" );
+            $showHide->addShow( "{$prefix}_{$name}_{$blockId}" );
+            $showHide->addHide( "{$prefix}_{$name}_{$blockId}_show" );
             if ( $blockId < self::BLOCKS ) {
                 $nextBlockId = $blockId + 1;
-                $showHide->addShow( "${prefix}[$name][$nextBlockId][show]" );
+                $showHide->addShow( "{$prefix}_{$name}_{$nextBlockId}_show" );
             }
         }
     }
-    
 }
 
 ?>
