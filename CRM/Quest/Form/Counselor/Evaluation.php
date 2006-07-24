@@ -76,7 +76,16 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
         
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
-        
+
+        $radFields = array('is_context'             => 'explain_context',
+                           'is_problem_behavior'    => 'problem_explain',
+                           'is_disciplinary_action' => 'discipline_explain');
+        foreach ( $radFields as $rad => $field ) {
+            if ( $defaults['essay'][$field] ) {
+                $defaults[$rad] = 1;
+            }
+        }
+
         return $defaults;
     }
     
@@ -118,7 +127,6 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-
             CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], $this->_recommenderID, $this->_studentContactID );
        }
 
