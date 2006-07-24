@@ -12,8 +12,8 @@
     <td>
         <table width="100%"  border="0" class="fieldlabel">
             <tr><td class="optionlist">{$form.ap_class_1.html}</td><td class="optionlist">{$form.ap_class_2.html}</td></tr>
-            <tr><td class="optionlist">{$form.ap_class_3.html}</td><td class="optionlist">{$form.ap_class_3.html}</td></tr>
-            <tr><td class="optionlist">{$form.ap_class_5.html}</td><td class="optionlist">{$form.ap_class_4.html}</td></tr>
+            <tr><td class="optionlist">{$form.ap_class_3.html}</td><td class="optionlist">{$form.ap_class_4.html}</td></tr>
+            <tr><td class="optionlist">{$form.ap_class_5.html}</td><td class="optionlist">{$form.ap_class_6.html}</td></tr>
         </table>
     </td>
 </tr>

@@ -67,7 +67,17 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_Recommender
     function setDefaultValues( ) 
     {
         $defaults = array( );
-
+        require_once 'CRM/Quest/DAO/Academic.php';
+        $dao =&new CRM_Quest_DAO_Academic();
+        $dao->target_contact_id = $this->_studentContactID;
+        $dao->source_contact_id = $this->_recommenderID;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao, $defaults);
+        }
+        $defaults['rank_date_low']  = CRM_Utils_Date::unformat( $defaults['rank_date_low'] , '-' );
+        $defaults['rank_date_high'] = CRM_Utils_Date::unformat( $defaults['rank_date_high'] , '-' );
+        
         return $defaults;
     }
     
@@ -178,30 +188,26 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_Recommender
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-
-            require_once 'CRM/Quest/BAO/Student.php';
-            $params['contact_type'] = 'Individual';
-            $params['contact_sub_type'] = 'Student';
-
-            $params['location'][1]['location_type_id'] = 1;
-            $params['location'][1]['is_primary'] = 1 ;
-            $params['location'][2]['location_type_id'] = 2;
+            $params["target_contact_id"] =  $this->_studentContactID;
+            $params["source_contact_id"] =  $this->_recommenderID;
+            $params['rank_date_low']  = CRM_Utils_Date::format($params['rank_date_low']);
+            $params['rank_date_high'] = CRM_Utils_Date::format($params['rank_date_high']);
             
-            $idParams = array( 'id' => $this->_contactID, 'contact_id' => $this->_contactID );
-          
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-            $contact = CRM_Contact_BAO_Contact::create($params, $ids, 2);
-            
-            $dao =& new CRM_Contact_DAO_Contact( );
-            $dao->id = $this->_contactID;
-            if ( $dao->find( true ) ) {
-                $this->set( 'welcome_name',
-                            $dao->display_name );
+            require_once 'CRM/Quest/DAO/Academic.php';
+            $dao =&new CRM_Quest_DAO_Academic();
+            $dao->target_contact_id = $this->_studentContactID;
+            $dao->source_contact_id = $this->_recommenderID;
+            $ids = array();
+            if ( $dao->find(true) ) {
+                $ids["id"] = $dao->id;
             }
 
+            require_once "CRM/Quest/BAO/Academic.php";
+            CRM_Quest_BAO_Academic::create($params ,$ids );
+            
        }
 
-        parent::postProcess( );
+        //parent::postProcess( );
      
     } //end of function
 

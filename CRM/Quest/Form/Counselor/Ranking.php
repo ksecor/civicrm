@@ -57,11 +57,13 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_Recommender
      */
     public function preProcess()
     {
-
-        require_once "CRM/Quest/BAO/Essay.php";
-        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_counselor_ranking', 0, 0 );
-
         parent::preProcess();
+       
+        require_once "CRM/Quest/BAO/Essay.php";
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_counselor_ranking',$this->_recommenderID,
+                                         $this->_studentContactID);
+      
+        
     }
 
     /**
@@ -74,11 +76,26 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_Recommender
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        require_once 'CRM/Quest/DAO/StudentRanking.php';
+        $dao =&new CRM_Quest_DAO_StudentRanking();
+        $dao->target_contact_id = $this->_studentContactID;
+        $dao->source_contact_id = $this->_recommenderID;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao, $defaults);
+        }
+        if ( $defaults['counselor_basis'] ) {
+            $value = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults['counselor_basis'] );
+            $defaults['counselor_basis'] = array();
+            if ( is_array( $value ) ) {
+                foreach( $value as $v ) {
+                    $defaults['counselor_basis'][$v] = 1;
+                }
+            }
+        }
         $defaults['essay'] = array( );
-        
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
-        
         return $defaults;
     }
     
@@ -168,12 +185,33 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_Recommender
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
+            $params["target_contact_id"] =  $this->_studentContactID;
+            $params["source_contact_id"] =  $this->_recommenderID;
+            if ( $params['counselor_basis'] ) {
+                $params['counselor_basis']       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['counselor_basis']));
+            }
+            
+            require_once 'CRM/Quest/DAO/StudentRanking.php';
+            $dao =&new CRM_Quest_DAO_StudentRanking();
+            $dao->target_contact_id = $this->_studentContactID;
+            $dao->source_contact_id = $this->_recommenderID;
+            $ids = array();
+            if ( $dao->find(true) ) {
+                $ids["id"] = $dao->id;
+            }
 
-            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
-                                         0, 0 );
+            require_once "CRM/Quest/BAO/StudentRanking.php";
+            CRM_Quest_BAO_StudentRanking::create($params ,$ids );
+            
+            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],$this->_recommenderID,
+                                         $this->_studentContactID);
+
+
+            
+
        }
 
-        parent::postProcess( );
+        // parent::postProcess( );
      
     } //end of function
 
