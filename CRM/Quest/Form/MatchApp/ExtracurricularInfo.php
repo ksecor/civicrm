@@ -59,6 +59,7 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
     {
         parent::preProcess();
 
+        $this->_grouping = 'cm_extracurricular_info';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( $this->_grouping, $this->_contactID, $this->_contactID );
     }
     
@@ -115,32 +116,10 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
     public function buildQuickForm( ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Person');
-        
-        for($i=1;$i<=7;$i++) {
 
-            $this->addElement('text', "activity_$i", ts('Activity'), null );
-            for ( $j = 1; $j <= 5; $j++ ) {
-                $this->addElement('checkbox', "grade_level_{$j}_{$i}", null, null );
-            }
-            for ( $j = 1; $j <= 2; $j++ ) {
-                $this->addElement('text', "time_spent_{$j}_{$i}", ts('Approximate time spent'), null );
-                if($j==1){
-                          $this->addRule("time_spent_{$j}_{$i}", ts('Please enter the integer/decimal value'), 'numeric');
-                }else{
-                    $this->addRule("time_spent_{$j}_{$i}", ts('Please enter the integer value'), 'integer');
-                }
-            }
-            $this->addElement('text', "positions_$i", ts('Positions held, honors won,or letters earned'), null );
-        }
-        $this->addElement( 'textarea', "meaningful_commitment",
-                           ts('Describe which single activity/interest listed above represents your most meaningful commitment and why?') ,"cols=40 rows=5");
-        $this->addElement( 'textarea', "past_activities",
-                           ts('List and describe your activities, including jobs, during the past two summers:'),"cols=40 rows=5" );
-       
-        $this->addElement( 'textarea', "hobbies",
-                           ts('We encourage you to reply to this question in sentence form, rather than as a list, if you feel this would allow you to better express your interests.') ,"cols=60 rows=5");
+        require_once 'CRM/Quest/BAO/Extracurricular.php';
+        CRM_Quest_BAO_Extracurricular::buildForm( $this, 'Extracurricular' );
 
-        $extra1 = array ('onclick' => "return showHideByValue('varsity_sports', '1', 'varsity_sports_list', '', 'radio', false);");
         $this->addElement('checkbox', 'varsity_sports',ts( 'Varsity Sports' ) , null, $extra1);
         $this->addElement('text', 'varsity_sports_list' );
 
@@ -148,7 +127,10 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         $this->addElement( 'checkbox','arts',ts('Arts (music, dance/theatre, visual, etc) (list):'), null, $extra2);
         $this->addElement('text', 'arts_list' );
  
-        $this->addFormRule(array('CRM_Quest_Form_MatchApp_ExtracurricularInfo', 'formRule'));
+        $this->addFormRule( array( 'CRM_Quest_Form_MatchApp_ExtracurricularInfo',
+                                   'formRule' ),
+                            'Extracurricular' );
+
         parent::buildQuickForm();
     }
     //end of function
@@ -162,52 +144,9 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
      * @access public
      * @static
      */
-    public function formRule(&$params)
+    public function formRule( &$params, $options )
     {
-        $errors = array( );
-        
-        for ( $i = 1; $i <= 7; $i++ ) {
-            $filled = $anyGrade = false;
-            if ($params["activity_$i"]) {
-                $filled = true;
-            }
-            for ( $j = 1; $j <= 5; $j++ ) {
-                if ($params["grade_level_{$j}_{$i}"]) {
-                    $filled = true;
-                    $anyGrade = true;
-                }
-            }
-            for ( $j = 1; $j <= 2; $j++ ) {
-                if ($params["time_spent_{$j}_{$i}"]) {
-                    $filled = true;
-                }
-            }
-            if ($params["positions_$i"]) {
-                $filled = true;
-            }
-            
-            if ($filled) {
-                if (!$params["activity_$i"]) {
-                    $errors["activity_$i"] = "Please enter the activity.";
-                }
-                if (!$anyGrade) {
-                    for ( $j = 1; $j <= 5; $j++ ) {
-                        $errors["grade_level_{$j}_{$i}"] = "Please specify any grade level.";
-                    }
-                }
-                for ( $j = 1; $j <= 2; $j++ ) {
-                    if (!$params["time_spent_{$j}_{$i}"]) {
-                        $errors["time_spent_{$j}_{$i}"] = "Please enter the time spent.";
-                    }
-                }
-                if (!$params["positions_$i"]) {
-                    $errors["positions_$i"] = "Please specify the position held.";
-                }
-            }
-        }
-
-        return empty($errors) ? true : $errors;
-        
+        return CRM_Quest_BAO_Extracurricular::formRule( $params, $options );
     } 
 
     /** 

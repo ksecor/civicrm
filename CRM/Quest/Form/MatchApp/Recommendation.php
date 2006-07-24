@@ -66,6 +66,48 @@ class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+
+        $query = "
+SELECT cr.id           as contact_id
+       i.first_name    as first_name,
+       i.last_name     as last_name ,
+       e.email         as email     ,
+       rc.contact_id_b as organization_id
+  FROM civicrm_contact      cs,
+       civicrm_contact      cr,
+       civicrm_individual   i,
+       civicrm_email        e,
+       civicrm_location     l,
+       civicrm_relationship rs,
+       civicrm_relationship rc
+ WHERE rs.relationship_type_id IN ( 9, 10 )
+   AND rc.relationship_type_id IN ( 11, 12 )
+   AND rs.contact_id_a = cs.id
+   AND rs.contact_id_b = cr.id
+   AND rs.is_active    = 1
+   AND rc.is_active    = 1
+   AND rc.contact_id_a = cr.id
+   AND cs.id           = {$this->_contactID}
+   AND i.contact_id    = cr.id
+   AND l.entity_table  = 'civicrm_contact'
+   AND l.entity_id     = cr.id
+   AND e.location_id   = l.id
+";
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
+        $this->_oldParams = array( );
+        $count = 1;
+        while ( $dao->fetch( ) ) {
+            $this->_oldParams[$count] = array( );
+            $this->_oldParams[$count]['contact_id'     ] = $dao->contact_id;
+            $this->_oldParams[$count]['first_name'     ] = $dao->first_name;
+            $this->_oldParams[$count]['last_name'      ] = $dao->last_name ;
+            $this->_oldParams[$count]['email'          ] = $dao->email;
+            $this->_oldParams[$count]['organization_id'] = $dao->organization_id;
+            $count++;
+        }
+
         return $defaults;
     }
 
@@ -163,17 +205,37 @@ class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
         $result = true;
 
         require_once 'CRM/Quest/BAO/Recommendation.php';
-        $params = $this->exportValues( );
+        $params = $this->controller->exportValues( $this->_name );
+
         for ( $i = 1; $i <= 3; $i++ ) {
             $type = ( $i <= 2 ) ?
                 CRM_Quest_BAO_Recommendation::TEACHER :
                 CRM_Quest_BAO_Recommendation::COUNSELOR;
-            $result = $result & CRM_Quest_BAO_Recommendation::process( $this->_contactID,
-                                                                       $params["first_name_$i"],
-                                                                       $params["last_name_$i" ],
-                                                                       $params["email_$i"     ],
-                                                                       $params["school_id_$i" ],
-                                                                       $type );
+
+            $process = false;
+            
+            // only process if email and/or school address has changed
+            if ( array_key_exists( $i, $this->_oldParams ) ) {
+                if ( $params["email_$i"    ] != $this->_oldParams[$i]['email'] ||
+                     $params["school_id_$i"] != $this->_oldParams[$i]['organizationID'] ) {
+                    $process = true;
+
+                    // clean up old junk
+                    // remove the relationship between 
+                }
+            } else {
+                $process = true;
+            }
+
+            if ( $process ) {
+                // make sure we unlink the old relationships
+                $result = $result & CRM_Quest_BAO_Recommendation::process( $this->_contactID,
+                                                                           $params["first_name_$i"],
+                                                                           $params["last_name_$i" ],
+                                                                           $params["email_$i"     ],
+                                                                           $params["school_id_$i" ],
+                                                                           $type );
+            }
         }
 
         if ( ! $result ) {

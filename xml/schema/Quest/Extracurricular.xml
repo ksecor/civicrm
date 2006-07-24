@@ -4,7 +4,7 @@
   <base>CRM/Quest</base>
   <class>Extracurricular</class>
   <name>quest_extracurricular</name>
-  <comment>Students extracurricular activites (1 row per activity per student).</comment>
+  <comment>Students extracurricular or sport activites (1 row per activity per student).</comment>
   <add>1.5</add>
   <field>
       <name>id</name>
@@ -30,6 +30,12 @@
        <key>id</key>
        <add>1.5</add>
   </foreignKey>
+  <field>
+       <name>owner</name>
+       <type>enum</type>
+       <values>Extracurricular, Amherst, Bowdoin</values>
+       <comment>Who is the owner for this record</comment>
+       <add>1.5</add>
   <field>
        <name>description</name>
        <type>varchar</type>
@@ -73,6 +79,20 @@
        <add>1.5</add>
   </field>
   <field>
+       <name>is_varsity</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Did student participate in this activity at varsity?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_junior_varsity</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Did student participate in this activity at junior varsity?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
       <name>weekly_hours</name>
       <type>decimal</type>
       <comment>Approximate hours per week for this activity.</comment>
@@ -88,7 +108,21 @@
        <name>position_honor</name>
        <type>varchar</type>
        <length>255</length>
-       <comment>Positions held, honors won, or letters earned.</comment>
+       <comment>Positions held, honors won, or letters earned</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>coach</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Coach for this event</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>varsity_captain</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Who was the varsity captain</comment>
        <add>1.5</add>
   </field>
 </table>

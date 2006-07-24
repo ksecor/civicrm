@@ -72,9 +72,8 @@ class CRM_Quest_BAO_Test extends CRM_Quest_DAO_Test {
         }
         $test = $dao->save();
         return $test;
-       
-                
     }
+
 }
     
 ?>

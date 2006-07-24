@@ -83,6 +83,12 @@
        <add>1.5</add>
   </index>
   <index>
+       <name>index_hash_domain</name>
+       <fieldName>hash</fieldName>
+       <fieldName>domain_id</fieldName>
+       <add>1.5</add>
+  </index>
+  <index>
        <name>index_sort_name</name>
        <fieldName>sort_name</fieldName>
        <add>1.1</add>

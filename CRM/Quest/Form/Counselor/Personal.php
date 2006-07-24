@@ -83,8 +83,9 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_Recommender
         $params = array( 'contact_id' => $this->_recommenderID,
                          'id'         => $this->_recommenderID );
 
-        require_once 'CRM/Quest/BAO/Student.php';
         CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+
+        // fix the names since they differ in the form
         $defaults["recommender_relationship_id"]    = $defaults["relationship_id"] ;
         $defaults["recommender_relationship_other"] = $defaults["relationship_other"] ;
 
@@ -158,8 +159,9 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_Recommender
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-            $this->_contactID;
-            require_once 'CRM/Quest/BAO/Student.php';
+
+            require_once 'CRM/Contact/BAO/Contact.php';
+
             $params['contact_type'] = 'Individual';
             $params['contact_sub_type'] = 'Recommender';
 
@@ -172,10 +174,10 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_Recommender
             CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
             $contact = CRM_Contact_BAO_Contact::create($params, $ids, 2);
 
-
             $params["target_contact_id"] =  $this->_studentContactID;
             $params["source_contact_id"] =  $this->_recommenderID;
-                        require_once 'CRM/Quest/DAO/StudentRanking.php';
+
+            require_once 'CRM/Quest/DAO/StudentRanking.php';
             $dao =&new CRM_Quest_DAO_StudentRanking();
             $dao->target_contact_id = $this->_studentContactID;
             $dao->source_contact_id = $this->_recommenderID;
@@ -189,15 +191,8 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_Recommender
             require_once "CRM/Quest/BAO/StudentRanking.php";
             CRM_Quest_BAO_StudentRanking::create($params ,$ids );
 
-            
-            
-            $dao =& new CRM_Contact_DAO_Contact( );
-            $dao->id = $this->_contactID;
-            if ( $dao->find( true ) ) {
-                $this->set( 'welcome_name',
-                            $dao->display_name );
-            }
-
+            $this->set( 'welcome_name',
+                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_recommenderID, 'display_name' ) );
        }
 
         // parent::postProcess( );

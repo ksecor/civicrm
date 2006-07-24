@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest/Partner</base>
+  <class>Amherst</class>
+  <name>quest_partner_amherst</name>
+  <comment>Amherst College.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique ID</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+     <name>publication</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>representative</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>campus_visit</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>college_counselor</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>website</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>guidebook</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>siblings</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>other</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+      <name>amherst_essay_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.5</add>
+  </field>
+  <field>
+     <name>height</name>
+     <type>varchar</type>
+     <length>16</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>weight</name>
+     <type>varchar</type>
+     <length>16</length>
+     <add>1.5</add> 
+  </field>
+</table>
