@@ -65,7 +65,8 @@ class CRM_Quest_StateMachine_Teacher extends CRM_Core_StateMachine {
         $this->_pages = array(
                               'CRM_Quest_Form_Teacher_Personal' => null,
                               // 'CRM_Quest_Form_Teacher_Academic' => null,
-                              'CRM_Quest_Form_Teacher_Ranking' => null
+                              'CRM_Quest_Form_Teacher_Ranking' => null,
+                              'CRM_Quest_Form_Teacher_Additional' => null
                               );
         
         $this->addSequentialPages( $this->_pages, $action );
