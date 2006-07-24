@@ -5,7 +5,7 @@
 <tr></tr>
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
-    <td></td>
+    
 </tr>
 
 <br />

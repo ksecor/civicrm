@@ -68,6 +68,16 @@ class CRM_Quest_Form_Teacher_Personal extends CRM_Quest_Form_Recommender
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        require_once 'CRM/Quest/DAO/StudentRanking.php';
+        $dao =&new CRM_Quest_DAO_StudentRanking();
+        $dao->target_contact_id = $this->_studentContactID;
+        $dao->source_contact_id = $this->_recommenderID;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao, $defaults);
+        }
+
+
         $ids    = array( );
 
         $params = array( 'contact_id' => $this->_recommenderID,
@@ -75,7 +85,8 @@ class CRM_Quest_Form_Teacher_Personal extends CRM_Quest_Form_Recommender
 
         require_once 'CRM/Quest/BAO/Student.php';
         CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
-        
+        $defaults["recommender_relationship_id"]    = $defaults["relationship_id"] ;
+        $defaults["recommender_relationship_other"] = $defaults["relationship_other"] ;
         return $defaults;
     }
     
@@ -149,7 +160,7 @@ class CRM_Quest_Form_Teacher_Personal extends CRM_Quest_Form_Recommender
             $this->_contactID;
             require_once 'CRM/Quest/BAO/Student.php';
             $params['contact_type'] = 'Individual';
-            $params['contact_sub_type'] = 'Recommender';
+            $params['contact_sub_type'] = 'Teacher';
 
             $params['location'][1]['location_type_id'] = 1;
             $params['location'][1]['is_primary'] = 1 ;
@@ -159,6 +170,23 @@ class CRM_Quest_Form_Teacher_Personal extends CRM_Quest_Form_Recommender
           
             CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
             $contact = CRM_Contact_BAO_Contact::create($params, $ids, 2);
+
+            $params["target_contact_id"] =  $this->_studentContactID;
+            $params["source_contact_id"] =  $this->_recommenderID;
+                        require_once 'CRM/Quest/DAO/StudentRanking.php';
+            $dao =&new CRM_Quest_DAO_StudentRanking();
+            $dao->target_contact_id = $this->_studentContactID;
+            $dao->source_contact_id = $this->_recommenderID;
+            $ids = array();
+            if ( $dao->find(true) ) {
+                $ids["id"] = $dao->id;
+            }
+
+            $params["relationship_id"]     = $params["recommender_relationship_id"];
+            $params["relationship_other"]  = $params["recommender_relationship_other"]; 
+            require_once "CRM/Quest/BAO/StudentRanking.php";
+            CRM_Quest_BAO_StudentRanking::create($params ,$ids );
+
             
             $dao =& new CRM_Contact_DAO_Contact( );
             $dao->id = $this->_contactID;

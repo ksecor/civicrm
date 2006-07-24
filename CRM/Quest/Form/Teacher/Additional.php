@@ -55,12 +55,30 @@ class CRM_Quest_Form_Teacher_Additional extends CRM_Quest_Form_Recommender
      */
     public function preProcess()
     {
-        $this->_grouping = 'cm_teacher_additional';
-        $this->_essays = CRM_Quest_BAO_Essay::getFields( $this->_grouping, $this->_contactID, $this->_contactID );
         parent::preProcess();
+        $this->_grouping = 'cm_teacher_additional';
+                
+        require_once "CRM/Quest/BAO/Essay.php";
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( $this->_grouping ,$this->_recommenderID,
+                                         $this->_studentContactID);
+        
+       
     }
-
-      /**
+    
+    /**
+     * This function sets the default values for the form. Relationship that in edit/view action
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return void
+     */
+    function setDefaultValues( ) 
+    {
+        require_once "CRM/Quest/BAO/Essay.php";
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
+        return $defaults;
+    }
+    /**
      * Function to actually build the form
      *
      * @return void
@@ -74,6 +92,21 @@ class CRM_Quest_Form_Teacher_Additional extends CRM_Quest_Form_Recommender
 
         parent::buildQuickForm();
     }//end of function
+
+    /**
+     * process the form after the input has been submitted and validated
+     *
+     * @access public
+     * @return void
+     */
+    public function postProcess() 
+    {
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+            $params = $this->controller->exportValues( $this->_name );
+            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],$this->_recommenderID,
+                                         $this->_studentContactID);
+        }
+    }
 
     /**
      * Return a descriptive name for the page, used in wizard header
