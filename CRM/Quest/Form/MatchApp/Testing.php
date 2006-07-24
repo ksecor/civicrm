@@ -143,13 +143,13 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             $studDAO = & new CRM_Quest_DAO_Student();
             $studDAO->contact_id =$this->_contactID;
             $studDAO->find(true);
+            CRM_Core_DAO::storeValues( $studDAO , $defaults );
             if ( $studDAO->test_tutoring ) {
                 $selected = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$studDAO->test_tutoring);
                 foreach ($selected as $val ) {
                     $defSeleted[$val] = 1;
                 }
                 $defaults['test_tutoring']    = $defSeleted;
-                $defaults['is_test_tutoring'] = 1;
             }
             
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
@@ -169,7 +169,21 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                         $this->_showHide->addHide( "id_ap_test_$i" );
                     }
                 }
-            
+                for ( $i = 2; $i <= self::ACT_TESTS; $i++ ) {
+                    if ( CRM_Utils_Array::value( "act_english_$i", $defaults )) {
+                        $this->_showHide->addShow( "id_act_test_$i" );
+                    } else {
+                        $this->_showHide->addHide( "id_act_test_$i" );
+                    }
+                }
+                for ( $i = 2; $i <= self::SAT_TESTS; $i++ ) {
+                    if ( CRM_Utils_Array::value( "sat_criticalreading_$i", $defaults )) {
+                        $this->_showHide->addShow( "id_sat_test_$i" );
+                    } else {
+                        $this->_showHide->addHide( "id_sat_test_$i" );
+                    }
+                }
+                
                 $this->_showHide->addToTemplate( );
             }
         }
@@ -189,9 +203,9 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
 
         $this->_sections = array( 'English'          => 1,
                                   'Reading'          => 1,
-                                  'CriticalReading'  => 6,
-                                  'Writing'          => 6,
-                                  'Math'             => 7,
+                                  'CriticalReading'  => 4,
+                                  'Writing'          => 4,
+                                  'Math'             => 5,
                                   'Science'          => 1 );
 
         $this->_tests = array( 'act'  => 1,
@@ -200,28 +214,49 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
         $this->_multiTests = array( 'satII' => self::SAT_II_TESTS,
                                     'ap'    => self::AP_TESTS );
 
-        foreach ( $this->_tests as $testName => $testValue ) {
-            foreach ( $this->_sections as $name => $value ) {
-                if ( $value & $testValue ) {
-                    $fieldName = $name;
-                    $fieldName = ( $name == "CriticalReading" ) ? "Critical Reading" : $name;
-                    $this->addElement( 'text',
-                                       $testName . '_' . strtolower( $name ),
-                                       ts( $fieldName . ' Score' ),
-                                       $attributes['score_english'] );
-                    if ( $name == 'Composite') {
-                        $this->addRule( $testName . '_' . strtolower( $name ), ts( strtolower( $name ).' score not valid.'),'numeric');
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
+            foreach ( $this->_tests as $testName => $testValue ) {
+                foreach ( $this->_sections as $name => $value ) {
+                    if ( $value & $testValue ) {
+                        $fieldName = $name;
+                        $fieldName = ( $name == "CriticalReading" ) ? "Critical Reading" : $name;
+                        $qName = $testName . '_' . strtolower( $name ) . "_$i";
+                        $this->addElement( 'text',
+                                           $qName,
+                                           ts( $fieldName . ' Score' ),
+                                           $attributes['score_english'] );
+                        if ( $name == 'Composite') {
+                            $this->addRule( $qName, ts( strtolower( $name ).' score not valid.'),'numeric');
+                        } else {
+                            $this->addRule( $qName, ts( strtoupper( $testName ).' '.$name.' score must be a whole number.'),'integer');
+                        }
+                    }
+                }
+
+                // add the date field
+                $this->addElement('date', "{$testName}_date_{$i}",
+                                  ts( 'Date Taken (month/year)' ),
+                                  CRM_Core_SelectValues::date( 'custom', 6, 0, "M\001Y" ) );
+                if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+                    if ( $testName == 'act') {
+                        $act_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"{$testName}_test_$i",
+                                                                        ts('Add another ACT test'),
+                                                                        ts('Hide this ACT test'),
+                                                                        false );
                     } else {
-                        $this->addRule( $testName . '_' . strtolower( $name ), ts( strtoupper( $testName ).' '.$name.' score must be a whole number.'),'integer');
+                        $sat_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"{$testName}_test_$i",
+                                                                        ts('Add another SAT test score'),
+                                                                        ts('Hide this SAT test'),
+                                                                        false );
                     }
                 }
             }
-
-            // add the date field
-            $this->addElement('date', $testName . '_date',
-                              ts( 'Date Taken (month/year)' ),
-                              CRM_Core_SelectValues::date( 'custom', 6, 0, "M\001Y" ) );
         }
+        $this->assign( 'maxACT', self::ACT_TESTS + 1 );
+        $this->assign( 'act_test', $act_test );
+        $this->assign( 'maxSAT', self::SAT_TESTS + 1 );
+        $this->assign( 'sat_test', $sat_test );
 
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $defaults = $this->setDefaultValues( );
@@ -240,7 +275,6 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             }
         }
 
-        require_once 'CRM/Core/ShowHideBlocks.php';
         // add multi Sat II tests
         $satII_test = array( );
         for ( $i = 1; $i <= self::SAT_II_TESTS; $i++ ) {
@@ -263,7 +297,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             }
         }
         $this->assign( 'satII_test', $satII_test );
-        $this->assign( 'maxSAT', self::SAT_II_TESTS + 1 );
+        $this->assign( 'maxSATII', self::SAT_II_TESTS + 1 );
 
         // add multi AP tests
         $ap_test = array( );
@@ -288,8 +322,8 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
         $this->assign( 'ap_test', $ap_test );
         $this->assign( 'maxAP', self::AP_TESTS + 1 );
 
-        $extra1 = array('onchange' => "return showHideByValue('is_test_tutoring', '1', 'tutor_tests','table-row', 'radio', false);");
-        $this->addYesNo( 'is_test_tutoring',
+        $extra1 = array('onchange' => "return showHideByValue('is_tutoring', '1', 'tutor_tests','table-row', 'radio', false);");
+        $this->addYesNo( 'is_tutoring',
                          ts( 'Have you received tutoring or taken test prep classes for any of the standardized tests?' ), null,false, $extra1 );
         
         $this->addCheckBox( 'test_tutoring',
@@ -365,20 +399,25 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
         $sections = array( 'English', 'Reading', 'CriticalReading', 'Writing', 'Math',
                            'Science');
 
-        foreach ( $tests as $testName ) {
-            foreach ( $sections as $name ) {
-                if ($params[$testName.'_'.strtolower( $name )]) {
-                    foreach ( $sections as $checkName ) {
-                        if ( (!$params[$testName.'_'.strtolower( $checkName )]) && 
-                             array_key_exists($testName.'_'.strtolower( $checkName ), $params)) {
-                            $errors[$testName.'_'.strtolower( $checkName )]= "Please enter the ".strtoupper($testName)." ".strtolower( $checkName )." score";
+        for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
+            foreach ( $tests as $testName ) {
+                foreach ( $sections as $name ) {
+                    $qName = $testName . '_' . strtolower( $name ) . "_$i";
+                    if ($params[$qName]) {
+                        foreach ( $sections as $checkName ) {
+                            $sName = $testName.'_'.strtolower( $checkName ) . "_$i";
+                            if ( (!$params[$sName]) && 
+                                 array_key_exists($sName, $params)) {
+                                $errors[$sName]= "Please enter the ".strtoupper($testName)." ".strtolower( $checkName )." score";
+                            }
                         }
-                    }
-                    if ( (!$params[$testName.'_date']['M']) && (!$params[$testName.'_date']['Y']) ) {
-                        $errors[$testName.'_date']= "Please enter the ".strtoupper($testName)." test date";
-                    } else {
-                        if ( (!$params[$testName.'_date']['M']) || !($params[$testName.'_date']['Y']) ) {
-                            $errors[$testName.'_date']= "Please enter a valid ".strtoupper($testName)." test date";
+                        $dName = $testName.'_date' . "_$i";
+                        if ( (!$params[$dName]['M']) && (!$params[$dName]['Y']) ) {
+                            $errors[$dName]= "Please enter the ".strtoupper($testName)." test date";
+                        } else {
+                            if ( (!$params[$dName]['M']) || !($params[$dName]['Y']) ) {
+                                $errors[$dName]= "Please enter a valid ".strtoupper($testName)." test date";
+                            }
                         }
                     }
                 }
@@ -440,50 +479,48 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             
             require_once 'CRM/Utils/Date.php';
             
-            foreach ( $this->_tests as $testName => $testValue ) {
-                $filled = false;
-                foreach ( $this->_sections as $name => $value ) {
-                    if ( $value & $testValue ) {
-                        $key   = $testName . '_' . strtolower( $name );
-                        $value = $params[$key];
-                        if ( ! empty( $value ) ) {
-                            $filled = true;
-                            if ($name == 'CriticalReading') {
-                                $testParams1[$testName]["score_reading"] = $value;
-                            } else {
-                                $testParams1[$testName]["score_" . strtolower( $name )] = $value;
+            for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
+                foreach ( $this->_tests as $testName => $testValue ) {
+                    $filled = false;
+                    foreach ( $this->_sections as $name => $value ) {
+                        if ( $value & $testValue ) {
+                            $key   = $testName . '_' . strtolower( $name ) . "_$i";
+                            $value = $params[$key];
+                            if ( ! empty( $value ) ) {
+                                $filled = true;
+                                if ($name == 'CriticalReading') {
+                                    $testParams1[$i][$testName]["score_reading"] = $value;
+                                } else {
+                                    $testParams1[$i][$testName]["score_" . strtolower( $name )] = $value;
+                                }
                             }
                         }
                     }
-                }
-                
-                $key   = "{$testName}_date";
-                $value = $params[$key]; 
-                if ( ! CRM_Utils_System::isNull( $value ) ) {
-                    $filled = true;
-                    $testParams1[$testName]["test_date"] = CRM_Utils_Date::format( $value );
-                }
-                
-                if ( $filled ) {
-                    $testParams1[$testName]['contact_id'] = $this->_contactID;
-                    $testParams1[$testName]['test_id']    = $testTypes[strtoupper($testName)];
+                    
+                    $key   = "{$testName}_date_{$i}";
+                    $value = $params[$key]; 
+                    if ( ! CRM_Utils_System::isNull( $value ) ) {
+                        $filled = true;
+                        $testParams1[$i][$testName]["test_date"] = CRM_Utils_Date::format( $value );
+                    }
+                    
+                    if ( $filled ) {
+                        $testParams1[$i][$testName]['contact_id'] = $this->_contactID;
+                        $testParams1[$i][$testName]['test_id']    = $testTypes[strtoupper($testName)];
+                    }
                 }
             }
             
-            // calculate total score for SAT , ACT
-                       
-            if( is_array( $testParams1 ) ) {
-                foreach( $testParams1 as $test => $score ) {
-                    if ( $test == 'act' ) {
-                        $totalACT = $score['score_reading']+ $score['score_english']+$score['score_science']+$score['score_math'] ;
-                    } else if($test == 'psat') {
-                        $totalPSAT         =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
-                    } else if ( $test == 'sat' ) {
-                        $totalSAT         =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
-                    } else if ( $test == 'pact' ) {
-                        $totalPACT = $score['score_reading']+ $score['score_english']+$score['score_science']+$score['score_math'] ;
+            // calculate total scores for each instance SAT , ACT
+            if ( is_array( $testParams1 ) ) {
+                for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
+                    foreach( $testParams1[$i] as $test => $score ) {
+                        if ( $test == 'act' ) {
+                            $totalACT[$i] = $score['score_reading']+ $score['score_english']+$score['score_science']+$score['score_math'] ;
+                        } else if ( $test == 'sat' ) {
+                            $totalSAT[$i] =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
+                        }
                     }
-
                 }
             }
             
@@ -569,18 +606,35 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 }
             }
             
-            // Insert  Student recornd  
-            $values = array( );
-            $values['score_SAT']     =  $totalSAT;
+            // Calculate scores for Student_summary record and insert.
+            // TBD: Here we'll need to figure out highest of the composites
+            // and highest for each ACT and SAT section.
+            $summaryVals = array()
+            $summaryVals['score_SAT']     =  $totalSAT;
             if ( $totalACT > 0) {
-                $values['score_ACT'] =  round( $totalACT/4 );
+                $summaryVals['score_ACT'] =  round( $totalACT/4 );
             }
             
+            // Values for Student record
+            $values = array( );
             if ( CRM_Utils_Array::value( 'test_tutoring', $params ) &&
                  is_array( $params['test_tutoring'] ) &&
                  ! empty( $params['test_tutoring'] ) ) {
                 require_once 'CRM/Core/BAO/CustomOption.php';
                 $values['test_tutoring'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['test_tutoring']));
+            }
+            
+            $studentFields = array( 'is_tutoring', 'is_SAT_again',
+                                    'is_ACT_again', 'is_more_SATII',
+                                    'more_SATII_subjects', 'is_SAT_after_prep',
+                                    'is_SAT_prep_improve', 'SAT_prep_improve');
+            foreach ( $studentFields as $fld ) {
+                $values[$fld] = $params[$fld];
+            }
+
+            $dateFields = array( 'SAT_plan_date','ACT_plan_date', 'SATII_plan_date');
+            foreach ( $dateFields as $fld ) {
+                $values[$fld] = CRM_Utils_Date::format( $params[$fld] );
             }
             
             $ids = array( 'id'         => $this->_studentID,

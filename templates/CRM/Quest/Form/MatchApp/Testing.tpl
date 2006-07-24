@@ -14,60 +14,91 @@
 </table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-<tr><td colspan=2 id="sub-category">{ts}ACT Test{/ts}</td>
-</tr>
-<tr>
-    <td class="grouplabel"> {$form.act_english.label}</td>
-    <td class="fieldlabel" width="75%">{$form.act_english.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.act_reading.label}</td>
-    <td class="fieldlabel">{$form.act_reading.html}</td>
-</tr>
-{*<tr>
-    <td class="grouplabel">{$form.act_writing.label}</td>
-    <td class="fieldlabel">{$form.act_writing.html}</td>
-</tr>*}
-<tr>
-    <td class="grouplabel">{$form.act_math.label}</td>
-    <td class="fieldlabel">{$form.act_math.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.act_science.label}</td>
-    <td class="fieldlabel">{$form.act_science.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.act_date.label}</td>
-    <td class="fieldlabel">{$form.act_date.html}</td>
-</tr>
+<tr><td colspan=2 id="sub-category">{ts}ACT Test(s){/ts}</td></tr>
+<tr><td colspan=2>
+{section name=rowLoop start=1 loop=$maxACT}
+    {assign var=i value=$smarty.section.rowLoop.index}
+    <div id="id_act_test_{$i}">
+    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+     <tr>
+        {assign var=fld value="act_english_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel" width="75%">{$form.$fld.html}</td>
+    </tr>
+    <tr>
+        {assign var=fld value="act_reading_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel">{$form.$fld.html}</td>
+    </tr>
+    <tr>
+        {assign var=fld value="act_math_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel">{$form.$fld.html}</td>
+    </tr>
+    <tr>
+        {assign var=fld value="act_science_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel">{$form.$fld.html}</td>
+    </tr>
+    <tr>
+        {assign var=fld value="act_date_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel">{$form.$fld.html}
+            {if $i LT $maxACT}
+                {assign var=j value=$i+1}
+                <br /><span id="id_act_test_{$j}_show">{$act_test.$j.show}</span>
+            {/if}        
+        </td>
+    </tr>
+    </table>
+    </div>
+{/section}
+</td></tr>
 </table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-<tr><td colspan=2 id="sub-category">{ts}SAT Test{/ts}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.sat_criticalreading.label}</td>
-    <td class="fieldlabel" width="75%">{$form.sat_criticalreading.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.sat_math.label}</td>
-    <td class="fieldlabel">{$form.sat_math.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.sat_writing.label}</td>
-    <td class="fieldlabel">{$form.sat_writing.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">{$form.sat_date.label}</td>
-    <td class="fieldlabel">{$form.sat_date.html}</td>
-</tr>
+<tr><td colspan=2 id="sub-category">{ts}SAT Test{/ts}</td></tr>
+<tr><td colspan=2>
+{section name=rowLoop start=1 loop=$maxACT}
+    {assign var=i value=$smarty.section.rowLoop.index}
+    <div id="id_sat_test_{$i}">
+    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+     <tr>
+        {assign var=fld value="sat_criticalreading_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel" width="75%">{$form.$fld.html}</td>
+    </tr>
+    <tr>
+        {assign var=fld value="sat_math_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel">{$form.$fld.html}</td>
+    </tr>
+    <tr>
+        {assign var=fld value="sat_writing_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel">{$form.$fld.html}</td>
+    </tr>
+    <tr>
+        {assign var=fld value="sat_date_"|cat:$i}
+        <td class="grouplabel"> {$form.$fld.label}</td>
+        <td class="fieldlabel">{$form.$fld.html}
+            {if $i LT $maxSAT}
+                {assign var=j value=$i+1}
+                <br /><span id="id_sat_test_{$j}_show">{$sat_test.$j.show}</span>
+            {/if}        
+        </td>
+    </tr>
+    </table>
+    </div>
+{/section}
+</td></tr>
 </table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr><td colspan=2 id="sub-category">{ts}SAT II Subject Test(s){/ts}</td></tr>
 <tr><td colspan=2>
 
-{section name=rowLoop start=1 loop=$maxSAT}
+{section name=rowLoop start=1 loop=$maxSATII}
     {assign var=i value=$smarty.section.rowLoop.index}
     <div id="id_satII_test_{$i}">
     <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
@@ -87,7 +118,7 @@
         <td class="grouplabel">{$form.$date.label}</td>
         <td class="fieldlabel">
             {$form.$date.html}
-            {if $i LT $maxSAT}
+            {if $i LT $maxSATII}
                 {assign var=j value=$i+1}
                 <br /><span id="id_satII_test_{$j}_show">{$satII_test.$j.show}</span>
             {/if}        
@@ -182,8 +213,8 @@
     <td class="fieldlabel">{$form.SATII_plan_date.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.is_test_tutoring.label}</td>
-    <td class="fieldlabel" width="75%">{$form.is_test_tutoring.html}</td>
+    <td class="grouplabel">{$form.is_tutoring.label}</td>
+    <td class="fieldlabel" width="75%">{$form.is_tutoring.html}</td>
 </tr>
 <tr id="tutor_tests">
     <td class="grouplabel">{$form.test_tutoring.label}</td>
@@ -202,7 +233,7 @@
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="is_test_tutoring"
+    trigger_field_id    ="is_tutoring"
     trigger_value       ="1"
     target_element_id   ="tutor_tests" 
     target_element_type ="table-row"
