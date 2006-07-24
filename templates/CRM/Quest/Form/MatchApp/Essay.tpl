@@ -18,22 +18,3 @@
 </table>
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
-
-{edit}
-{literal}
-    <script type="text/javascript">       
-        var trigger_element = document.getElementsByName("personalStat_quests");
-        if (trigger_element[0].checked) {
-            show('id_upload_photo');
-        }
-        
-        function show_element(target_element_id) { 
-            if (trigger_element[0].checked) {
-                show('id_upload_photo');
-            } else {   
-                hide(target_element_id);
-            }
-        }
-    </script>  
-{/literal}
-{/edit}

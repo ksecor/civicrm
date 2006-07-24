@@ -8,4 +8,11 @@
 
 {include file="CRM/Quest/Form/MatchApp/Essay.tpl"}
 
-
+{include file="CRM/common/showHideByFieldValue.tpl"
+    trigger_field_id    ="personalStat_quests"
+    trigger_value       ="1"
+    target_element_id   ="id_upload_photo"
+    target_element_type ="block"
+    field_type          ="radio"
+    invert              = 0
+}
