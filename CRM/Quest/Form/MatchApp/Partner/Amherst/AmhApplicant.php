@@ -111,7 +111,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhApplicant extends CRM_Quest_For
         $this->assign_by_ref('fields',$fields);
         // add a checkbox and text box for each of the above
         foreach ( $this->_fields as $name => $titles ) {
-            $cb =& $this->add( 'checkbox', "is_{$name}", $titles[0], null, true );
+            $extra = array('onchange' => "return showHideByValue('is_{$name}', '1', 'id_{$name}_show','block', 'radio', false);");
+            $cb =& $this->addElement( 'checkbox', "is_{$name}", $titles[0], null, $extra );
             $cb->updateAttributes( array( 'id' => "is_{$name}" ) );
             $this->add( 'text', $name, $titles[1], $attributes[$name] );
         }

@@ -5,16 +5,15 @@
     <td colspan="2" id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-    <td width="24%" valign="top" class="grouplabel">How did you learn about <br>
-      Amherst? (check as many <br>as apply, list name(s) when possible)</td>
-    <td width="76%" class="fieldlabel">
-        <table width="100%" class="app">
+    <td valign="top" class="grouplabel" width="33%">How did you learn about Amherst? (check as many as apply, list name(s) when possible)</td>
+    <td class="fieldlabel">
+        <table width="100%">
         {foreach from=$fields key=fld item=dontcare}
             {assign var=cb value="is_"|cat:$fld}
             {assign var=div_id value="id_"|cat:$fld|cat:"_show"}
             <tr><td class="fieldlabel">
                 {$form.$cb.html} {$form.$cb.label}
-                <div id={$div_id}">{$form.$fld.label} {$form.$fld.html}</div>
+                <div id="{$div_id}">{$form.$fld.label} {$form.$fld.html}</div>
             </td></tr>
             {include file="CRM/common/showHideByFieldValue.tpl"
                 trigger_field_id    =$cb
