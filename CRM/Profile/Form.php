@@ -117,6 +117,7 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
+
         if ( ! $this->_gid ) {
             $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                       $this, false, 0, 'GET');
@@ -211,27 +212,34 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
             }
-
+            
             if ( CRM_Core_Permission::access( 'Quest' ) ) {
                 require_once 'CRM/Quest/BAO/Student.php';
-
-                //set student defaults
-                CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
-                $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
-                foreach( $fields as $field ) {
-                    if ( $defaults[$field] ) {
-                        $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
+                // Checking whether the database contains quest_student table.
+                // Now there are two different schemas for core and quest.
+                // So if only core schema in use then withought following check gets the DB error.
+                $student      = new CRM_Quest_BAO_Student();
+                $tableStudent = $student->geTableName();
+                
+                if ($tableStudent) {
+                    //set student defaults
+                    CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
+                    $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
+                    foreach( $fields as $field ) {
+                        if ( $defaults[$field] ) {
+                            $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
                     }
-                    
-                    $defaults[$field] = array();
-                    if ( is_array( $values ) ) {
-                        foreach( $values as $v ) {
-                            $defaults[$field][$v] = 1;
+                        
+                        $defaults[$field] = array();
+                        if ( is_array( $values ) ) {
+                            foreach( $values as $v ) {
+                                $defaults[$field][$v] = 1;
+                            }
                         }
                     }
                 }
             }
-
+            
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
