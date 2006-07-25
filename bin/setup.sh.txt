@@ -85,10 +85,10 @@ if [ -z $DBLOAD ]; then
     echo; echo Populating database with example data - civicrm_generated.mysql
     mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm_generated.mysql
 else
-    echo; echo Populating database with required data - civicrm_data.mysql
-    mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm_data.mysql
     echo; echo Populating database with $DBLOAD data
     mysql -u $DBUSER $PASSWDSECTION $DBNAME < $DBLOAD
+    echo; echo Populating database with required data - civicrm_data.mysql
+    mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm_data.mysql
 fi
 
 echo; echo "DONE!"
