@@ -31,7 +31,7 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-     <name>careers</name>
+     <name>career</name>
      <type>varchar</type>
      <length>255</length>
      <add>1.5</add> 
@@ -49,12 +49,6 @@
        <title>Reside on Campus</title>
        <comment>Resides on Campus.</comment>
        <add>1.5</add>
-  </field>
-  <field>
-      <name>columbia_representative_essay_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <add>1.5</add>
   </field>
   <field>
        <name>is_parent_fulltime</name>
@@ -91,47 +85,5 @@
      <type>varchar</type>
      <length>255</length>
      <add>1.5</add> 
-  </field>
-  <field>
-      <name>columbia_books_essay_id</name>
-      <type>int unsigned</type>
-m      <required>true</required>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>columbia_readings_essay_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>columbia_electronic_essay_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>columbia_films_essay_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>columbia_appealing_essay_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>columbia_foundation_essay_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <add>1.5</add>
-  </field>
-  <field>
-      <name>columbia_personal_essay_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <add>1.5</add>
   </field>
 </table>
