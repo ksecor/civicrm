@@ -280,19 +280,25 @@ WHERE  id = {$value['options']['personID']}
                 
                 unset( $details[$name] );
             }
-            
+            //add values to Student summary
+            require_once "CRM/Quest/DAO/StudentSummary.php";            
+            $summaryValue = array();
+            $ids = array();
+            $membercount = 0;
             for ( $i = 1; $i <= 2; $i++ ) {
+
+                $membercount = $membercount + $params["member_count_$i"] ;
                 $householdParams = array( );
                 $householdParams['contact_id']      = $this->_contactID;
                 $householdParams['household_type'] = ( $i == 1 ) ? 'Current' : 'Previous';
-                $householdParams['member_count']   = $params["member_count_$i"];
+                $householdParams['member_count']   = $params["member_count_$i"] ;
                 $householdParams['years_lived_id'] = $params["years_lived_id_$i"];
                 
                 if ( $i == 1 ) {
                     $householdParams['description'] = $params["description"];
                     $householdParams['foster_child']= $params["foster_child"];
                 }
-                
+               
                 $needed = false;
                 for ( $j = 1; $j <= 2; $j++ ) {
                     $personID = $this->getRelationshipDetail( $details, $relationship, $params, $i, $j );
@@ -315,7 +321,20 @@ WHERE  id = {$value['options']['personID']}
                     $ids = array( 'id' => $id );
                     CRM_Quest_BAO_Household::create( $householdParams , $ids );
                 }
+                
             }
+
+            //store member_count in quest_student_summary
+            $summaryValue['household_member_count'] = $membercount;
+            $summaryValue['contact_id'] =  $this->_contactID;
+            $daoStudent = & new CRM_Quest_DAO_StudentSummary();
+            $daoStudent->contact_id = $this->_contactID;
+            $daoStudent->contact_id = $this->_contactID;
+            if ( $daoStudent->find(true) ) {
+                $ids = array( 'id' => $daoStudent->id);
+            }
+            
+            $studentSummary = CRM_Quest_BAO_Student::createStudentSummary( $summaryValue, $ids);
             
             // reset all parent guardian pages
             self::getPages( $this->controller, true );
@@ -326,6 +345,7 @@ WHERE  id = {$value['options']['personID']}
             $this->controller->rebuild( );
         }
 
+       
         parent::postProcess( );
 } 
    
