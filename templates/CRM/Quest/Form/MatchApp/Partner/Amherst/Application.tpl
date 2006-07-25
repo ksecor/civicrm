@@ -9,7 +9,7 @@
       Amherst? (check as many <br>as apply, list name(s) when possible)</td>
     <td width="76%" class="fieldlabel">
         <table width="100%" class="app">
-        {foreach from=$fields key=fld}
+        {foreach from=$fields key=fld item=dontcare}
             {assign var=cb value="is_"|cat:$fld}
             {assign var=div_id value="id_"|cat:$fld|cat:"_show"}
             <tr><td class="fieldlabel">

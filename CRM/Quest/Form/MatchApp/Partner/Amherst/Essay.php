@@ -72,7 +72,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Essay extends CRM_Quest_Form_App
     {
         $defaults = array( );
 
-        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
+       require_once 'CRM/Quest/DAO/Partner/Amherst.php';
         $dao =& new CRM_Quest_DAO_Partner_Amherst( );
         $dao->contact_id = $this->_contactID;
         if ( $dao->find( true ) ) {
@@ -122,19 +122,6 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Essay extends CRM_Quest_Form_App
     public function getTitle()
     {
          return ts('Recommendations');
-    }
-
-    /**
-     * Function for validation
-     *
-     * @param array $params (ref.) an assoc array of name/value pairs
-     *
-     * @return mixed true or array of errors
-     * @access public
-     * @static
-     */
-    public function formRule(&$params) {
-        return false;
     }
 
     /** 

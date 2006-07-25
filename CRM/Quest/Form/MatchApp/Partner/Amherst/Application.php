@@ -82,8 +82,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
     {
         $defaults = array( );
 
-        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
-        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
+        require_once 'CRM/Quest/Partner/DAO/Amherst.php';
+        $dao =& new CRM_Quest_Partner_DAO_Amherst( );
         $dao->contact_id = $this->_contactID;
         if ( $dao->find( true ) ) {
             foreach ( $this->_fields as $name => $titles ) {
@@ -106,7 +106,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
      */
     public function buildQuickForm( ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Partner_Amherst');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_Partner_DAO_Amherst');
 
         $this->assign_by_ref('fields',$fields);
         // add a checkbox and text box for each of the above
@@ -154,8 +154,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
             return;
         }
 
-        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
-        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
+        require_once 'CRM/Quest/Partner/DAO/Amherst.php';
+        $dao =& new CRM_Quest_Partner_DAO_Amherst( );
         $dao->contact_id = $this->_contactID;
         $dao->find( true );
 
