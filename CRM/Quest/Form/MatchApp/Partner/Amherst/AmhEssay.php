@@ -72,8 +72,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
     {
         $defaults = array( );
 
-       require_once 'CRM/Quest/DAO/Partner/Amherst.php';
-        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
+       require_once 'CRM/Quest/Partner/DAO/Amherst.php';
+        $dao =& new CRM_Quest_Partner_DAO_Amherst( );
         $dao->contact_id = $this->_contactID;
         if ( $dao->find( true ) ) {
             $defaults['amherst_essay_id'] = $dao->amherst_essay_id;
@@ -96,16 +96,19 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
         
         $options = CRM_Core_OptionGroup::values( 'amherst_essay' );
 
-        $options[1] = '"The women\'s movement or movements can no longer think about strategies for empowerment without appreciating the importance of the religious right, and the extend to which the agendas of the religuous right intersect with thouse of feminists in peculiar and often unpredictable ways." Amrita Basu, Dominic J. Paino 1995 Professor of Political Science and Women\'s and Gender Studies at Amherst College';
-        $options[2] = '"I like science -- but only a little. What I love with all my heart is the universe. The world as revealed by science is far more beautiful, and far more interesting, than we had any right to expect. Science is valuable because of the view of the uinverse that it gives." Goerge Greenstein, Sidney Dillon Professor of Astronomy, Amherst College';
+        $options[1] = '"It seems to me incumbent upon this and other schools\’ graduates to recognize their responsibility to the public interest…unless the graduates of this college…are willing to put back into our society those talents, the broad sympathy, the understanding, the compassion… then obviously the presuppositions upon which our democracy are based are bound to be fallible." John F. Kennedy, at the ground breaking for the Amherst College Frost Library, October 26, 1963'; 
 
-        $options[3] = '"When we fear pluralism as the enemy, succumb ot the allure of a seeming emotional unity or seek to enforce a meretricios purity of culure over rationalism and diversity, we turn cruel, whether or not we are conscious of it." From an Opening Convocation Address, September 6, 2004 by Anthony W. Marx, President, Amherst College';
+        $options[2] = '"The world as revealed by science is far more beautiful, and far more interesting, than we had any right to expect. Science is valuable because of the view of the universe that it gives." George Greenstein, Sidney Dillon Professor of Astronomy, Amherst College';
+
+        $options[3] = '"Stereotyped beliefs have the power to become self-fulfilling prophesies for behavior." From Men and Women in Interaction, Reconsidering the Differences by Elizabeth Aries, Professor of Psychology, Amherst College';
         
-        $options[5] = '"I\'m not a machine. I feel and believe, I have options, Some of them are interesting. I could, if you\'d let me, talk and talk ..." From Infinite Jest by David Foster Wallace, Amherst Class of 1985, Roy Edward Disney Professor in Creative Writing, Pomona College';
+        $options[4] = '"Justice seems to require us to take the perspective of an impartial observer…Often this perspective seems to clash with the perspective that most of us take in our daily lives…where ties of love, commitment, friendship and professional responsibilities seem not only to permit, but to demand, that we treat people unequally." From Amherst, Summer 2001, Jyl Gentzler, Professor of Philosophy, Amherst College';
 
-        $options[6] = '"Young as she is, the stuff Of her life is a great cargo, and some of it heavy: I wish her a lucky passage." From The Writer by Richard Wilbur, Amherst Class of 1942, 1987 Poet Laureate of the United States';
+        $options[5] = '"Only in the mystery novel are we delivered final and unquestionable solutions. The joke to me is that fiction gives you a truth that reality can’t deliver." Scott Turow, lawyer, author, Amherst College Trustee, Amherst Class of 1970';
 
-        $this->addRadio( 'amherst_essay', null, $options, null, '<br/>' );
+        $options[6] = '"Young as she is, the stuff<br />Of her life is a great cargo, and some of it heavy:<br />I wish her a lucky passage."<br />From The Writer by Richard Wilbur, Amherst Class of 1942, 1987 Poet Laureate of the United State';
+
+        $this->addRadio( 'amherst_essay', null, $options, null, '<br/><br />' );
 
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
 
@@ -137,8 +140,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
 
         $params = $this->controller->exportValues( $this->_name );
 
-        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
-        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
+        require_once 'CRM/Quest/Partner/DAO/Amherst.php';
+        $dao =& new CRM_Quest_Partner_DAO_Amherst( );
         $dao->contact_id = $this->_contactID;
         $dao->find( true );
         $dao->amherst_essay_id = $params['amherst_essay_id'];
