@@ -104,8 +104,8 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                                                         'options'   => array( ) );
         }
         $dynamicPages["Academic-Testing"]  = array( 'className' => "CRM_Quest_Form_MatchApp_Testing",
-                                                      'title'     => 'Testing Information',
-                                                      'options'   => array( ) );
+                                                    'title'     => 'Testing Information',
+                                                    'options'   => array( ) );
         
         
         $essays = array( 'Short'           => 'Short Answers',
@@ -122,10 +122,28 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
 
         $lastPages = array( 'CRM_Quest_Form_MatchApp_Recommendation' => null,
                             'CRM_Quest_Form_MatchApp_CmRanking'     => null,
-                            'CRM_Quest_Form_MatchApp_ForwardApp'    => null,
-                            'CRM_Quest_Form_MatchApp_Partner_Amherst_AmhApplication' => null );
+                            'CRM_Quest_Form_MatchApp_ForwardApp'    => null );
 
-        $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages );
+        $partners =
+            array(
+                  'Amherst' => array(
+                                     'AmhApplication' => 'Applicant Information',
+                                     'AmhEssay'       => 'Essay',
+                                     'AmhAthletics'   => 'Athletics Supplement',
+                                     'AmhArts'        => 'Arts Supplement'
+                                     ),
+                  );
+
+        $partnerPages = array( );
+        foreach ( $partners as $name => $values ) {
+            foreach ( $values as $key => $title ) {
+                $partnerPages["{$name}-{$key}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Partner_{$name}_{$key}",
+                                                         'title'     => $title,
+                                                         'options'   => array( ) );
+            }
+        }
+
+        $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages, $partnerPages );
         $this->addSequentialPages( $this->_pages, $action );
     }
 

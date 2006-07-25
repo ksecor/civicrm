@@ -121,7 +121,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
      */
     public function getTitle()
     {
-         return ts('Recommendations');
+         return ts('Essay');
     }
 
     /** 
