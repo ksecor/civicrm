@@ -108,6 +108,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Partner_Amherst');
 
+        $this->assign_by_ref('fields',$fields);
         // add a checkbox and text box for each of the above
         foreach ( $this->_fields as $name => $titles ) {
             $this->add( 'checkbox', "is_{$name}", $titles[0], null, true );
