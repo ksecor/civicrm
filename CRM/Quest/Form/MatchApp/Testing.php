@@ -105,7 +105,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                     $this->_testIDs['satII'][$count] = $dao->id;
                 }
             }
-            
+
             //set the default values
             $subject = array('english','reading','criticalReading','writing','math','science');
             foreach ($this->_testIDs as $test => $value ) {
@@ -126,6 +126,14 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                         $dao = & new CRM_Quest_DAO_Test();
                         $dao->id = $v;
                         $dao->find(true);
+                        foreach ( $subject as $sub ) {
+                            $field = "score_$sub";
+                            if ( ($sub == 'criticalReading') && ($dao->score_reading) ) {
+                                $defaults["{$test}_criticalreading_{$k}"] = $dao->score_reading;
+                            } elseif ( $dao->$field )  {
+                                $defaults["{$test}_{$sub}_{$k}"] = $dao->$field;
+                            }
+                        }
                         $defaults["{$test}_subject_id_$k"] = $dao->subject;
                         if ( $test != 'ap') {
                             $defaults["{$test}_score_$k"]   = $dao->score_composite;
@@ -185,6 +193,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 $this->_showHide->addToTemplate( );
             }
         }
+
         return $defaults;
     }
     
@@ -467,7 +476,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-            
+
             $testSet1 = array('act','sat');
             $testSet2 = array('satII','ap');
             
@@ -521,22 +530,24 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 }
                 
                 for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
-                    foreach( $testParams1[$i] as $test => $score ) {
-                        if ( $test == 'act' && is_array($score) ) {
-                            $totalACT[$i] = $score['score_reading']+ $score['score_english']+$score['score_science']+$score['score_math'] ;
-                            if ( $totalACT[$i] > 0 ) {
-                                $testParams1[$i]['act']['score_composite'] = round($totalACT[$i]/4);
+                    if ( is_array($testParams1[$i]) ) {
+                        foreach( $testParams1[$i] as $test => $score ) {
+                            if ( $test == 'act' && is_array($score) ) {
+                                $totalACT[$i] = $score['score_reading']+ $score['score_english']+$score['score_science']+$score['score_math'] ;
+                                if ( $totalACT[$i] > 0 ) {
+                                    $testParams1[$i]['act']['score_composite'] = round($totalACT[$i]/4);
+                                }
+                                $maxScores['ACT_english'] = max( $maxScores['ACT_english'], $score['score_english'] );
+                                $maxScores['ACT_reading'] = max( $maxScores['ACT_reading'], $score['score_reading'] );
+                                $maxScores['ACT_math'] = max( $maxScores['ACT_math'], $score['score_math'] );
+                                $maxScores['ACT_science'] = max( $maxScores['ACT_science'], $score['score_science'] );
+                            } else if ( $test == 'sat' ) {
+                                $testParams1[$i]['sat']['score_composite'] =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
+                                $testParams1[$i]['sat']['score_composite_alt'] =  $score['score_reading'] + $score['score_math'];
+                                $maxScores['SAT_reading'] = max( $maxScores['SAT_reading'], $score['score_reading'] );
+                                $maxScores['SAT_math'] = max( $maxScores['SAT_math'], $score['score_math'] );
+                                $maxScores['SAT_writing'] = max( $maxScores['SAT_writing'], $score['score_writing'] );
                             }
-                            $maxScores['ACT_english'] = max( $maxScores['ACT_english'], $score['score_english'] );
-                            $maxScores['ACT_reading'] = max( $maxScores['ACT_reading'], $score['score_reading'] );
-                            $maxScores['ACT_math'] = max( $maxScores['ACT_math'], $score['score_math'] );
-                            $maxScores['ACT_science'] = max( $maxScores['ACT_science'], $score['score_science'] );
-                        } else if ( $test == 'sat' ) {
-                            $testParams1[$i]['sat']['score_composite'] =  $score['score_reading'] + $score['score_math'] + $score['score_writing'];
-                            $testParams1[$i]['sat']['score_composite_alt'] =  $score['score_reading'] + $score['score_math'];
-                            $maxScores['SAT_reading'] = max( $maxScores['SAT_reading'], $score['score_reading'] );
-                            $maxScores['SAT_math'] = max( $maxScores['SAT_math'], $score['score_math'] );
-                            $maxScores['SAT_writing'] = max( $maxScores['SAT_writing'], $score['score_writing'] );
                         }
                     }
                 }
@@ -600,10 +611,12 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
         
             // add data to database for 'act','sat'
             for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
-                foreach ( $testParams1[$i] as $key => $value ) {
-                    $testParam[$i] = $value;
-                    $ids  = array();
-                    $test = CRM_Quest_BAO_Test::create( $testParam[$i] ,$ids );
+                if ( is_array($testParams1[$i]) ) {
+                    foreach ( $testParams1[$i] as $key => $value ) {
+                        $testParam[$i] = $value;
+                        $ids  = array();
+                        $test = CRM_Quest_BAO_Test::create( $testParam[$i] ,$ids );
+                    }
                 }
             }
             
