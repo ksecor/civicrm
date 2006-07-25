@@ -103,6 +103,65 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
         }
     }
 
+    static function setDefaults( $contactID, $type, &$defaults ) {
+
+        require_once 'CRM/Quest/DAO/Extracurricular.php';
+
+        $dao =& new CRM_Quest_DAO_Extracurricular( );
+        $dao->contact_id = $contactID;
+        $dao->find() ;
+
+        $count = 0;
+        while ( $dao->fetch( ) ) {
+            $count++;
+            $defaults['activity_'.$count]      = $dao->description;   
+            $defaults['grade_level_1_'.$count] = $dao->is_grade_9;
+            $defaults['grade_level_2_'.$count] = $dao->is_grade_10;
+            $defaults['grade_level_3_'.$count] = $dao->is_grade_11;
+            $defaults['grade_level_4_'.$count] = $dao->is_grade_12;
+            $defaults['positions_'.$count]     = $dao->position_honor;
+            if ( $type == 'Extracurricular' ) {
+                $defaults['grade_level_5_'.$count] = $dao->is_post_secondary;
+                $defaults['time_spent_1_'.$count]  = $dao->weekly_hours;
+                $defaults['time_spent_2_'.$count]  = $dao->annual_weeks;
+            } else {
+                $defaults['grade_level_5_'.$count]  = $dao->is_varsity;
+                $defaults['grade_level_6_'.$count]  = $dao->is_junior_varsity;
+                $defaults['coach'.$count]           = $dao->coach;
+                $defaults['varsity_captain'.$count] = $dao->varsity_captain;   
+            }
+        }
+        
+    }
+
+    static function process( $contactID, $type, &$values ) {
+
+        for ( $i= 1; $i<=7 ; $i++) {
+            $params = array();
+            $params['contact_id'] = $contactID;
+
+            if ( $values['activity_'.$i] ) {
+                $params['description']  = $values['activity_'.$i];
+                $params['is_grade_9']   = CRM_Utils_Array::value( 'grade_level_1_'.$i, $values, false );
+                $params['is_grade_10']  = CRM_Utils_Array::value( 'grade_level_2_'.$i, $values, false );
+                $params['is_grade_11']  = CRM_Utils_Array::value( 'grade_level_3_'.$i, $values, false );
+                $params['is_grade_12']  = CRM_Utils_Array::value( 'grade_level_4_'.$i, $values, false );
+                if ( $type == 'Extracurricular' ) {
+                    $params['is_post_secondary'] = CRM_Utils_Array::value( 'grade_level_5_'.$i, $values, false );
+                    $params['weekly_hours']      = $values['time_spent_1'];
+                    $params['annual_weeks']      = $values['time_spent_2'];
+                } else {
+                    $params['is_varsity']        = CRM_Utils_Array::value( 'grade_level_5_'.$i, $values, false );
+                    $params['is_junior_varsity'] = CRM_Utils_Array::value( 'grade_level_6_'.$i, $values, false );
+                    $params['coach']             = $values['coach_'.$i];
+                    $params['varsity_captain']   = $values['varsity_captain_'.$i];
+                }
+                $params['position_honor'] = $values['positions_'.$i];
+                CRM_Quest_BAO_Extracurricular::create( $params, $ids );
+            }
+        }
+    }
+
     static function formRule( &$params, $type ) {
 
         $errors = array( );

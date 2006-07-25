@@ -45,6 +45,9 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form_App
 {
+    
+    protected $_fields;
+
     /**
      * Function to set variables up before form is built
      *
@@ -54,6 +57,18 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
     public function preProcess()
     {
         parent::preProcess();
+        
+        $this->_fields =
+            array(
+                  'publication'       => array( 'Amherst Publication'           , 'Publication Name'        ),
+                  'representative'    => array( 'Amherst Representative'        , 'Representative Name'     ),
+                  'campus_visit'      => array( 'Campus Visit'                  , 'Whom did you Meet?'      ),
+                  'college_counselor' => array( 'College Counselor'             , 'Counselor Name'          ),
+                  'website'           => array( 'Amherst College Website'       , 'Site URL'                ),
+                  'guidebook'         => array( 'Guide Books/Magazines/Websites', 'Name(s)'                 ),
+                  'siblings'          => array( 'Siblings, parents, or grandparents who attended', 'Name(s)'),
+                  'other'             => array( 'Other'                         , 'Name(s)'                 )
+                  );
     }
     
     /**
@@ -66,6 +81,19 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
     function setDefaultValues( ) 
     {
         $defaults = array( );
+
+        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
+        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
+        $dao->contact_id = $this->_contactID;
+        if ( $dao->find( true ) ) {
+            foreach ( $this->_fields as $name => $titles ) {
+                $cond = "is_{$name}";
+                if ( $dao->$cond ) {
+                    $defaults[$cond] = 1;
+                }
+                $defaults[$name] = $dao->$name;
+            }
+        }
 
         return $defaults;
     }
@@ -80,19 +108,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Partner_Amherst');
 
-        $fields = array(
-                        'publication'       => array( 'Amherst Publication'           , 'Publication Name'        ),
-                        'representative'    => array( 'Amherst Representative'        , 'Representative Name'     ),
-                        'campus_visit'      => array( 'Campus Visit'                  , 'Whom did you Meet?'      ),
-                        'college_counselor' => array( 'College Counselor'             , 'Counselor Name'          ),
-                        'website'           => array( 'Amherst College Website'       , 'Site URL'                ),
-                        'guidebook'         => array( 'Guide Books/Magazines/Websites', 'Name(s)'                 ),
-                        'siblings'          => array( 'Siblings, parents, or grandparents who attended', 'Name(s)'),
-                        'other'             => array( 'Other'                         , 'Name(s)'                 )
-                        );
-
         // add a checkbox and text box for each of the above
-        foreach ( $fields as $name => $titles ) {
+        foreach ( $this->_fields as $name => $titles ) {
             $this->add( 'checkbox', "is_{$name}", $titles[0], null, true );
             $this->add( 'text', $name, $titles[1], $attributes[$name] );
         }
@@ -136,6 +153,18 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
             return;
         }
 
+        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
+        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
+        $dao->contact_id = $this->_contactID;
+        $dao->find( true );
+
+        foreach ( $this->_fields as $name => $titles ) {
+            $cond = "is_{$name}";
+            $dao->$cond = CRM_Utils_Array::value( $cond, $params, false );
+            $dao->$name = $params[$name];
+        }
+
+        $dao->save( );
 
         parent::postProcess( );
     } 

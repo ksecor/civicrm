@@ -72,6 +72,17 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Essay extends CRM_Quest_Form_App
     {
         $defaults = array( );
 
+        require_once 'CRM/Quest/BAO/Extracurricular.php';
+        CRM_Quest_BAO_Extracurricular::setDefaults( $this->_contactID, 'Amherst', $defaults );
+
+        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
+        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
+        $dao->contact_id = $this->_contactID;
+        if ( $dao->find( true ) ) {
+            $defaults['height'] = $dao->height;
+            $defaults['weight'] = $dao->weight;
+        }
+
         $defaults['essay'] = array( );
 
         CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
@@ -136,6 +147,10 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Essay extends CRM_Quest_Form_App
         }
 
         $params = $this->controller->exportValues( $this->_name );
+
+        require_once 'CRM/Quest/BAO/Extracurricular.php';
+        CRM_Quest_BAO_Extracurricular::process( $this->_contactID, 'Amherst', $params );
+
         CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
                                      $this->_contactID, $this->_contactID ); 
 

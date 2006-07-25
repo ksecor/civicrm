@@ -72,6 +72,13 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Essay extends CRM_Quest_Form_App
     {
         $defaults = array( );
 
+        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
+        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
+        $dao->contact_id = $this->_contactID;
+        if ( $dao->find( true ) ) {
+            $defaults['amherst_essay_id'] = $dao->amherst_essay_id;
+        }
+
         $defaults['essay'] = array( );
 
         CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
@@ -142,6 +149,14 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Essay extends CRM_Quest_Form_App
         }
 
         $params = $this->controller->exportValues( $this->_name );
+
+        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
+        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
+        $dao->contact_id = $this->_contactID;
+        $dao->find( true );
+        $dao->amherst_essay_id = $params['amherst_essay_id'];
+        $dao->save( );
+
         CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
                                      $this->_contactID, $this->_contactID ); 
 

@@ -74,24 +74,12 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
     function setDefaultValues( )
     {
         $defaults = array( );
-        require_once 'CRM/Quest/DAO/Extracurricular.php';
-        $dao = &new CRM_Quest_DAO_Extracurricular();
-        $dao->contact_id = $this->_contactID;
-        $dao->find() ;
-        $count = 0;
-        while ( $dao->fetch() ) {
-            $count++;
-            $defaults['activity_'.$count]      = $dao->description;   
-            $defaults['grade_level_1_'.$count] = $dao->is_grade_9;
-            $defaults['grade_level_2_'.$count] = $dao->is_grade_10;
-            $defaults['grade_level_3_'.$count] = $dao->is_grade_11;
-            $defaults['grade_level_4_'.$count] = $dao->is_grade_12;
-            $defaults['grade_level_5_'.$count] = $dao->is_post_secondary;
-            $defaults['time_spent_1_'.$count]  = $dao->weekly_hours;
-            $defaults['time_spent_2_'.$count]  = $dao->annual_weeks;
-            $defaults['positions_'.$count]     = $dao->position_honor;
-        }
-        
+
+        require_once 'CRM/Quest/BAO/Extracurricular.php';
+        CRM_Quest_BAO_Extracurricular::setDefaults( $this->_contactID,
+                                                    'Extracurricular',
+                                                    $defaults );
+
         $studentFields = array( 'varsity_sports_list', 'arts_list' );
         $dao = & new CRM_Quest_DAO_Student();
         $dao->contact_id = $this->_contactID;
@@ -101,7 +89,7 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
                     $defaults[$stu] = $dao->$stu;
                 }
             }
-        }        
+        }    
         CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults );
 
         return $defaults;
@@ -176,31 +164,13 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
             $dao->contact_id = $this->_contactID;
             $dao->delete();
 
-            for ( $i= 1; $i<=7 ; $i++) {
-                $extracurricularParams = array();
-                $extracurricularParams['contact_id'] = $this->_contactID;
-                if ( $params['activity_'.$i] ) {
-                    $extracurricularParams['description']  = $params['activity_'.$i];
-                    $extracurricularParams['is_grade_9']   = CRM_Utils_Array::value( 'grade_level_1_'.$i, $params, false );
-                    $extracurricularParams['is_grade_10']  = CRM_Utils_Array::value( 'grade_level_2_'.$i, $params, false );
-                    $extracurricularParams['is_grade_11']  = CRM_Utils_Array::value( 'grade_level_3_'.$i, $params, false );
-                    $extracurricularParams['is_grade_12']  = CRM_Utils_Array::value( 'grade_level_4_'.$i, $params, false );
-                    $extracurricularParams['is_post_secondary'] = CRM_Utils_Array::value( 'grade_level_5_'.$i, $params, false );
-                    $extracurricularParams['weekly_hours'] = CRM_Utils_Array::value( 'time_spent_1_'.$i, $params, false );
-                    $extracurricularParams['annual_weeks'] = CRM_Utils_Array::value( 'time_spent_2_'.$i, $params, false );
-                    $extracurricularParams['position_honor'] = CRM_Utils_Array::value( 'positions_'.$i, $params, false );
-                    CRM_Quest_BAO_Extracurricular::create( $extracurricularParams, $ids );
-                }
-            }
+            CRM_Quest_BAO_Extracurricular::process( $this->_contactID, 'Extracurricular', $params );
 
             CRM_Quest_BAO_Essay::create( $this->_essays, $params, $this->_contactID, $this->_contactID );
 
-            //$ids['id'] = $this->_studentID;
             $ids = array( 'id'         => $this->_studentID,
                           'contact_id' => $this->_contactID );
             CRM_Quest_BAO_Student::create( $params, $ids );
-
-
         }
         
     }
