@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for the amherst essay
  * 
  */
-class CRM_Quest_Form_MatchApp_Partner_Amherst_Arts extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhArts extends CRM_Quest_Form_App
 {
     /**
      * Function to set variables up before form is built

@@ -27,7 +27,7 @@
 
 
 /**
- * Amherst Appliction
+ * Amherst Essay
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -40,13 +40,13 @@ require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * This class generates form components for the amherst application
+ * This class generates form components for the amherst essay
  * 
  */
-class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhAthletics extends CRM_Quest_Form_App
 {
-    
-    protected $_fields;
+
+    protected $_essays;
 
     /**
      * Function to set variables up before form is built
@@ -57,18 +57,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
     public function preProcess()
     {
         parent::preProcess();
-        
-        $this->_fields =
-            array(
-                  'publication'       => array( 'Amherst Publication'           , 'Publication Name'        ),
-                  'representative'    => array( 'Amherst Representative'        , 'Representative Name'     ),
-                  'campus_visit'      => array( 'Campus Visit'                  , 'Whom did you Meet?'      ),
-                  'college_counselor' => array( 'College Counselor'             , 'Counselor Name'          ),
-                  'website'           => array( 'Amherst College Website'       , 'Site URL'                ),
-                  'guidebook'         => array( 'Guide Books/Magazines/Websites', 'Name(s)'                 ),
-                  'siblings'          => array( 'Siblings, parents, or grandparents who attended', 'Name(s)'),
-                  'other'             => array( 'Other'                         , 'Name(s)'                 )
-                  );
+
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_amherst_athletic', $this->_contactID, $this->_contactID );
     }
     
     /**
@@ -82,19 +72,20 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
     {
         $defaults = array( );
 
-        require_once 'CRM/Quest/Partner/DAO/Amherst.php';
-        $dao =& new CRM_Quest_Partner_DAO_Amherst( );
+        require_once 'CRM/Quest/BAO/Extracurricular.php';
+        CRM_Quest_BAO_Extracurricular::setDefaults( $this->_contactID, 'Amherst', $defaults );
+
+        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
+        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
         $dao->contact_id = $this->_contactID;
         if ( $dao->find( true ) ) {
-            foreach ( $this->_fields as $name => $titles ) {
-                $cond = "is_{$name}";
-                if ( $dao->$cond ) {
-                    $defaults[$cond] = 1;
-                }
-                $defaults[$name] = $dao->$name;
-            }
+            $defaults['height'] = $dao->height;
+            $defaults['weight'] = $dao->weight;
         }
 
+        $defaults['essay'] = array( );
+
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
         return $defaults;
     }
 
@@ -106,14 +97,20 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
      */
     public function buildQuickForm( ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_Partner_DAO_Amherst');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Partner_Amherst');
 
-        $this->assign_by_ref('fields',$fields);
-        // add a checkbox and text box for each of the above
-        foreach ( $this->_fields as $name => $titles ) {
-            $this->add( 'checkbox', "is_{$name}", $titles[0], null, true );
-            $this->add( 'text', $name, $titles[1], $attributes[$name] );
-        }
+        require_once 'CRM/Quest/BAO/Extracurricular.php';
+        CRM_Quest_BAO_Extracurricular::buildForm( $this, 'Amherst' );
+
+        $this->add( 'text', 'height', ts( 'Height' ), $attributes['height'] );
+        $this->add( 'text', 'weight', ts( 'Weight' ), $attributes['weight'] );
+
+        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
+
+        $this->addFormRule( array( 'CRM_Quest_Form_MatchApp_Partner_Amherst_AmhAthletics',
+                                   'formRule' ),
+                            'Amherst' );
+
 
         parent::buildQuickForm( );
                 
@@ -127,7 +124,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
      */
     public function getTitle()
     {
-         return ts('Recommendations');
+         return ts('Athletics Supplement');
     }
 
     /**
@@ -139,8 +136,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
      * @access public
      * @static
      */
-    public function formRule(&$params) {
-        return false;
+    public function formRule(&$params, $options) {
+        return CRM_Quest_BAO_Extracurricular::formRule( $params, $options );
     }
 
     /** 
@@ -154,18 +151,13 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
             return;
         }
 
-        require_once 'CRM/Quest/Partner/DAO/Amherst.php';
-        $dao =& new CRM_Quest_Partner_DAO_Amherst( );
-        $dao->contact_id = $this->_contactID;
-        $dao->find( true );
+        $params = $this->controller->exportValues( $this->_name );
 
-        foreach ( $this->_fields as $name => $titles ) {
-            $cond = "is_{$name}";
-            $dao->$cond = CRM_Utils_Array::value( $cond, $params, false );
-            $dao->$name = $params[$name];
-        }
+        require_once 'CRM/Quest/BAO/Extracurricular.php';
+        CRM_Quest_BAO_Extracurricular::process( $this->_contactID, 'Amherst', $params );
 
-        $dao->save( );
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
+                                     $this->_contactID, $this->_contactID ); 
 
         parent::postProcess( );
     } 
