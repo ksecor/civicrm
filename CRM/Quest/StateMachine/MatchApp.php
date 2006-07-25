@@ -127,10 +127,15 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         $partners =
             array(
                   'Amherst' => array(
-                                     'AmhApplication' => 'Applicant Information',
-                                     'AmhEssay'       => 'Essay',
-                                     'AmhAthletics'   => 'Athletics Supplement',
-                                     'AmhArts'        => 'Arts Supplement'
+                                     'AmhApplicant' => 'Applicant Information',
+                                     'AmhEssay'     => 'Essay',
+                                     'AmhAthletics' => 'Athletics Supplement',
+                                     'AmhArts'      => 'Arts Supplement'
+                                     ),
+                  'Bowdoin' => array(
+                                     'BowApplicant' => 'Applicant Information',
+                                     'BowAthletics' => 'Athletics Supplement',
+                                     'BowArts'      => 'Arts Supplement'
                                      ),
                   );
 

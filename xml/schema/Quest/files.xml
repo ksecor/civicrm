@@ -24,5 +24,6 @@
 <xi:include href="CounselorEvaluation.xml"  parse="xml" />
 <xi:include href="Academic.xml"             parse="xml" />
 <xi:include href="Partner/Amherst.xml"      parse="xml" />
+<xi:include href="Partner/Bowdoin.xml"      parse="xml" />
 <xi:include href="Partner/Columbia.xml"     parse="xml" />
 </tables>
