@@ -36,6 +36,7 @@
        <values>Extracurricular, Amherst, Bowdoin</values>
        <comment>Who is the owner for this record</comment>
        <add>1.5</add>
+  </field>
   <field>
        <name>description</name>
        <type>varchar</type>
