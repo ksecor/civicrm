@@ -31,10 +31,22 @@
        <add>1.5</add>
   </foreignKey>
   <field>
+       <name>is_publication</name>
+       <type>boolean</type>
+       <default>0</default>
+       <add>1.5</add>
+  </field>
+  <field>
      <name>publication</name>
      <type>varchar</type>
      <length>255</length>
      <add>1.5</add> 
+  </field>
+  <field>
+       <name>is_representative</name>
+       <type>boolean</type>
+       <default>0</default>
+       <add>1.5</add>
   </field>
   <field>
      <name>representative</name>
@@ -43,10 +55,22 @@
      <add>1.5</add> 
   </field>
   <field>
+       <name>is_campus_visit</name>
+       <type>boolean</type>
+       <default>0</default>
+       <add>1.5</add>
+  </field>
+  <field>
      <name>campus_visit</name>
      <type>varchar</type>
      <length>255</length>
      <add>1.5</add> 
+  </field>
+  <field>
+       <name>is_college_counselor</name>
+       <type>boolean</type>
+       <default>0</default>
+       <add>1.5</add>
   </field>
   <field>
      <name>college_counselor</name>
@@ -55,10 +79,22 @@
      <add>1.5</add> 
   </field>
   <field>
+       <name>is_website</name>
+       <type>boolean</type>
+       <default>0</default>
+       <add>1.5</add>
+  </field>
+  <field>
      <name>website</name>
      <type>varchar</type>
      <length>255</length>
      <add>1.5</add> 
+  </field>
+  <field>
+       <name>is_guidebook</name>
+       <type>boolean</type>
+       <default>0</default>
+       <add>1.5</add>
   </field>
   <field>
      <name>guidebook</name>
@@ -67,10 +103,22 @@
      <add>1.5</add> 
   </field>
   <field>
+       <name>is_siblings</name>
+       <type>boolean</type>
+       <default>0</default>
+       <add>1.5</add>
+  </field>
+  <field>
      <name>siblings</name>
      <type>varchar</type>
      <length>255</length>
      <add>1.5</add> 
+  </field>
+  <field>
+       <name>is_other</name>
+       <type>boolean</type>
+       <default>0</default>
+       <add>1.5</add>
   </field>
   <field>
      <name>other</name>

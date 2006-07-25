@@ -93,7 +93,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
 
         // add a checkbox and text box for each of the above
         foreach ( $fields as $name => $titles ) {
-            $this->add( 'checkbox', "{$name}_cb", $titles[0], null, true );
+            $this->add( 'checkbox', "is_{$name}", $titles[0], null, true );
             $this->add( 'text', $name, $titles[1], $attributes[$name] );
         }
 
