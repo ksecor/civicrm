@@ -56,11 +56,9 @@ class CRM_Quest_Form_Teacher_Evaluation extends CRM_Quest_Form_Recommender
      */
     public function preProcess()
     { 
-        $this->_grouping = 'cm_teacher_eval';
-        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_teacher_eval', $this->_contactID, $this->_contactID );
         parent::preProcess();
-        
-       
+        $this->_grouping = 'cm_teacher_eval';
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_teacher_eval', $this->_recommenderID, $this->_studentContactID );
     }
 
     /**
@@ -77,6 +75,23 @@ class CRM_Quest_Form_Teacher_Evaluation extends CRM_Quest_Form_Recommender
         
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
+
+        $dao =& new CRM_Quest_DAO_TeacherEvaluation();
+        $dao->target_contact_id = $this->_studentContactID;
+        $dao->source_contact_id = $this->_recommenderID;
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao , $defaults );
+        }
+        if ($defaults['success_factor']) {
+            $value = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults['success_factor']);
+        }
+
+        $defaults['success_factor'] = array();
+        if ( is_array( $value ) ) {
+            foreach( $value as $v ) {
+                $defaults['success_factor'][$v] = 1;
+            }
+        }
         
         return $defaults;
     }
@@ -91,26 +106,19 @@ class CRM_Quest_Form_Teacher_Evaluation extends CRM_Quest_Form_Recommender
     public function buildQuickForm( ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_TeacherEvaluation');
+        
         for($i=1;$i<=3;$i++) {
-        $this->add('text', 'word_'.$i, ts( 'What three words would you use to describe this applicant?' ), $attributes['word_'.$i], true );
+            $this->add('text', 'word_'.$i, ts( 'What three words would you use to describe this applicant?' ), $attributes['word_'.$i], true );
         }
        
-        $this->addCheckBox( 'academic_success',
-                            ts( 'Please indicate which of the following factors have most influenced this students academic success, and provide a brief explanation.' ),
-                            CRM_Core_OptionGroup::values( 'academic_success', true ),
+        $this->addCheckBox( 'success_factor', ts( 'Please indicate which of the following factors have most influenced this students academic success, and provide a brief explanation.' ), CRM_Core_OptionGroup::values( 'success_factor', true ),
                             false, null,true );
-        //  $this->addElement('textarea','academic_success_explain');
-
 
          $extra1 = array('onchange' => "return showHideByValue('obstacle', '1', 'obstacle_explain','table-row', 'radio', false);");
-         $this->addYesNo( 'obstacle',
-                          ts( 'Has this applicant faced any special obstacles that make his/her other accomplishments all the more remarkable?' ),null,true ,$extra1);
+         $this->addYesNo( 'is_obstacles', ts( 'Has this applicant faced any special obstacles that make his/her other accomplishments all the more remarkable?' ),null,true ,$extra1);
 
          $extra2 = array('onchange' => "return showHideByValue('interfere', '1', 'interfere_explain','table-row', 'radio', false);");
-         $this->addYesNo( 'interfere',
-                          ts( 'Are there any factors that might interfere wit the candidate academic performance?' ),null,true ,$extra2);
-
-
+         $this->addYesNo( 'is_interfere', ts( 'Are there any factors that might interfere wit the candidate academic performance?' ),null,true ,$extra2);
         
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
@@ -128,12 +136,27 @@ class CRM_Quest_Form_Teacher_Evaluation extends CRM_Quest_Form_Recommender
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
+            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], $this->_recommenderID, $this->_studentContactID );
 
-            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
-                                         0, 0 );
+            if ( $params['success_factor'] ) {
+                $params['success_factor'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                                    array_keys($params['success_factor']));
+            }
+
+            $dao =& new CRM_Quest_DAO_TeacherEvaluation();
+            $params['target_contact_id'] = $dao->target_contact_id = $this->_studentContactID;
+            $params['source_contact_id'] = $dao->source_contact_id = $this->_recommenderID;
+            $ids = array();
+            if ( $dao->find(true) ) {
+                $ids["id"] = $dao->id;
+            }
+            
+            require_once "CRM/Quest/BAO/TeacherEvaluation.php";
+            CRM_Quest_BAO_TeacherEvaluation::create($params ,$ids );
+
        }
 
-        parent::postProcess( );
+        //parent::postProcess( );
     } //end of function
 
     /**
