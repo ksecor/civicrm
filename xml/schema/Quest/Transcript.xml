@@ -53,23 +53,27 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-      <name>gpa_unweighted_calc</name>
+      <name>gp_weighted_total</name>
       <type>float</type>
       <default>NULL</default>
       <title>Calculated GPA (unweighted)</title>
-      <comment>Unweighted Grade Point Average (GPA) calculated for all courses in a given grade.</comment>
-      <export>true</export>
-      <import>true</import>
+      <comment>Unweighted Grade Point  calculated for all courses in a given grade.</comment>
       <add>1.5</add>
   </field>
   <field>
-      <name>gpa_weighted_calc</name>
+      <name>gp_unweighted_total</name>
       <type>float</type>
       <default>NULL</default>
       <title>Calculated GPA (weighted)</title>
-      <comment>Weighted Grade Point Average (GPA)  calculated for all courses in a given grade.</comment>
-      <export>true</export>
-      <import>true</import>
+      <comment>Weighted Grade Point   calculated for all courses in a given grade.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>credit_total</name>
+      <type>float</type>
+      <default>NULL</default>
+      <title>Total Credit</title>
+      <comment>Total Credit</comment>
       <add>1.5</add>
   </field>
   <index>

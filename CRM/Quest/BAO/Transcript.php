@@ -127,9 +127,80 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
                 $dao->save();
             }
         }
-        
-        
+        if ( $school_year != 'Twelve' ) {
+            $gpa = CRM_Quest_BAO_Transcript::calculateGPA( $params );
+            $dao = &new CRM_Quest_DAO_Transcript();
+            $dao->id = $trans->id;
+            
+            $dao->gp_weighted_total   = $gpa['weightedPoints'];
+            $dao->gp_unweighted_total = $gpa['unWeightedPoints'];
+            $dao->credit_total        = $gpa['credit'];
+            $dao->save();
+        }
     }
+
+    /**
+     * function to calculate GPA
+     *
+     * @param array  $params reference array contains the values submitted by the form
+     * @access public
+     * @static 
+     * @return null
+     */
+
+    static function calculateGPA( $params )
+        {
+            $result = array(); 
+            // calculation for weighted GPA
+            $gpaWithHonor  = array ("A+" => 5,   "A" => 4.7,
+                                    "B+" => 4.3, "B" => 4,   "B-" => 3.7,
+                                    "C+" => 3.3, "C" => 3,   "C-" => 2.7, 
+                                    "D+" => 2.3, "D" => 2,   "D-" => 1.7,
+                                    "F" => 0,
+                                    );
+            
+            $gpaWithoutHonor  = array ("A+" => 4,   "A" => 3.7,
+                                       "B+" => 3.3, "B" => 3,   "B-" => 2.7,
+                                       "C+" => 2.3, "C" => 2,   "C-" => 1.7, 
+                                       "D+" => 1.3, "D" => 1,   "D-" => 0.7,
+                                       "F" => 0,
+                                       );
+            
+            $credits = array();
+            $weightedGpaArray = array();
+            $unWeightedGpaArray = array();
+            
+            for ( $i = 1 ; $i <=9; $i++ ) {
+                if ( $params['academic_subject_id_'.$i] ) {
+                    $calGPA = 0;
+                    $calGPAUnWeighed = 0;
+                    $credits[$i] = $params['academic_credit_'.$i]; 
+                    for ($j = 1; $j<=4; $j++ ) {
+                        if ($params['academic_honor_status_id_'.$i]) {
+                            $vlaue = $gpaWithHonor[$params['grade_'.$i."_".$j]];
+                            $calGPA = $calGPA + ( $vlaue * $params['academic_credit_'.$i]);
+                        } else {
+                            $vlaue = $gpaWithoutHonor[$params['grade_'.$i."_".$j]];
+                            $calGPA = $calGPA + ( $vlaue * $params['academic_credit_'.$i]);
+                        }
+                        $vlaue = $gpaWithoutHonor[$params['grade_'.$i."_".$j]];
+                        $calGPAUnWeighed = $calGPAUnWeighed + ( $vlaue * $params['academic_credit_'.$i]);
+                    }
+                    $weightedGpaArray[$i] = $calGPA;
+                }
+                
+            }
+            
+            $totalCredits = array_sum($credits);
+            $weightedGPA  = 0;
+            if ( array_sum ($weightedGpaArray) > 0  ) {
+                $result["weightedPoints"]    =  array_sum ($weightedGpaArray);
+                $result["unWeightedPoints"]  =  array_sum ($weightedGpaArray); 
+                $result["credit"]           =  $totalCredits;  
+            }
+            
+            return $result;
+        }
 
 }
     
