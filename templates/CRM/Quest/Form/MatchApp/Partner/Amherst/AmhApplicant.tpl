@@ -13,16 +13,16 @@
             {assign var=cb value="is_"|cat:$fld}
             {assign var=div_id value="id_"|cat:$fld|cat:"_show"}
             <tr><td class="fieldlabel">
-                {$form.$cb.html}
+                {$form.$cb.html} {$form.$cb.label}
                 <div id={$div_id}">{$form.$fld.label} {$form.$fld.html}</div>
-                <input type="checkbox" name="checkbox" value="checkbox"></td></tr>
-                {include file="CRM/common/showHideByFieldValue.tpl"
-                    trigger_field_id    =$cb
-                    trigger_value       ="1"
-                    target_element_id   =$div_id
-                    target_element_type ="block"
-                    field_type          ="radio"
-                    invert              = 0 }
+            </td></tr>
+            {include file="CRM/common/showHideByFieldValue.tpl"
+                trigger_field_id    =$cb
+                trigger_value       ="1"
+                target_element_id   =$div_id
+                target_element_type ="block"
+                field_type          ="radio"
+                invert              = 0 }
         {/foreach}
         </table>
     </td>

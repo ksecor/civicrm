@@ -27,7 +27,7 @@
 
 
 /**
- * Amherst Applicant
+ * Amherst Appliction
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for the amherst application
  * 
  */
-class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhApplicant extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhApplication extends CRM_Quest_Form_App
 {
     
     protected $_fields;
@@ -115,6 +115,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhApplicant extends CRM_Quest_For
             $this->add( 'text', $name, $titles[1], $attributes[$name] );
         }
 
+        $this->assign_by_ref('fields',$this->_fields);
         parent::buildQuickForm( );
                 
     }//end of function
