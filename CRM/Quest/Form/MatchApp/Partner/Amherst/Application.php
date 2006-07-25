@@ -81,14 +81,14 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_Application extends CRM_Quest_Form
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Partner_Amherst');
 
         $fields = array(
-                        'publication'       => array( 'Amherst Publication'           , 'Publication'           ),
-                        'representative'    => array( 'Amherst Representative'        , 'Name'                  ),
-                        'campus_visit'      => array( 'Campus Visit'                  , 'Whom did you meet?'    ),
-                        'college_counselor' => array( 'College Counselor'             , 'Name'                  ),
-                        'website'           => array( 'Amherst College Website'       , 'Site'                  ),
-                        'guidebook'         => array( 'Guide Books/Magainzes/Websites', 'Name'                  ),
-                        'siblings'          => array( 'Siblings, parents, or grandparents who attended', 'Name' ),
-                        'other'             => array( 'Other'                         , 'Name'                  ),
+                        'publication'       => array( 'Amherst Publication'           , 'Publication Name'        ),
+                        'representative'    => array( 'Amherst Representative'        , 'Representative Name'     ),
+                        'campus_visit'      => array( 'Campus Visit'                  , 'Whom did you Meet?'      ),
+                        'college_counselor' => array( 'College Counselor'             , 'Counselor Name'          ),
+                        'website'           => array( 'Amherst College Website'       , 'Site URL'                ),
+                        'guidebook'         => array( 'Guide Books/Magazines/Websites', 'Name(s)'                 ),
+                        'siblings'          => array( 'Siblings, parents, or grandparents who attended', 'Name(s)'),
+                        'other'             => array( 'Other'                         , 'Name(s)'                 )
                         );
 
         // add a checkbox and text box for each of the above
