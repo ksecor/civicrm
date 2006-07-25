@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest/Partner</base>
+  <class>Columbia</class>
+  <name>quest_partner_columbia</name>
+  <comment>Columbia College.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique ID</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+     <name>careers</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>career_other</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+       <name>is_reside_campus</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <title>Reside on Campus</title>
+       <comment>Resides on Campus.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+      <name>columbia_representative_essay_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.5</add>
+  </field>
+  <field>
+       <name>is_parent_fulltime</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <title>Parent fulltime employee of Columbia</title>
+       <comment>Parent fulltime employee of Columbia.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_financial_aid</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <title>Financial Aid</title>
+       <comment>Requesting Financial Aid.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_visited_campus</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <title>Visited Campus</title>
+       <comment>Visited Comlumbia Campus.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+     <name>interest</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>interest_other</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+      <name>columbia_books_essay_id</name>
+      <type>int unsigned</type>
+m      <required>true</required>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>columbia_readings_essay_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>columbia_electronic_essay_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>columbia_films_essay_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>columbia_appealing_essay_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>columbia_foundation_essay_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>columbia_personal_essay_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.5</add>
+  </field>
+</table>
