@@ -100,4 +100,10 @@
        <comment>Grade for this course for term 4.</comment>
        <add>1.5</add>
   </field>
+  <field>
+       <name>summer_year</name>
+       <type>date</type>
+       <comment>Summer Year</comment>
+       <add>1.5</add>
+  </field>
 </table>

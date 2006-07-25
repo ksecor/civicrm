@@ -106,9 +106,34 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
-        require_once 'CRM/Quest/DAO/Student.php';
+
         $defaults       = array( );
- 
+        
+        require_once 'CRM/Quest/DAO/Transcript.php';
+        $dao = &new CRM_Quest_DAO_Transcript();
+        $dao->contact_id  = $this->_contactID;
+        $dao->school_year = $this->_grade;
+        if ( $dao->find( true ) ) {
+            $defaults['term_system_id'] = $dao->term_system_id;
+            $transcriptId = $dao->id;
+            require_once 'CRM/Quest/DAO/TranscriptCourse.php';
+            $dao = &new CRM_Quest_DAO_TranscriptCourse();
+            $dao->transcript_id = $transcriptId;
+            $dao->find();
+            $count = 0;
+            while( $dao->fetch() ) {
+                $count++;
+                $defaults['academic_subject_id_'.$count] = $dao->academic_subject_id;
+                $defaults['course_title_'.$count]        = $dao->course_title; 
+                $defaults['academic_credit_'.$count]     = $dao->academic_credit;
+                $defaults['academic_honor_status_id_'.$count] = $dao->academic_honor_status_id;
+                $defaults['summer_year_'.$count] = CRM_Utils_Date::unformat( $dao->summer_year ,'-' );
+                for ($j = 1; $j<=4; $j++ ) {
+                    $defaults['grade_'.$count."_".$j] = $dao->{"term_".$j};
+                }
+            }
+        }
+       
         return $defaults;
     }
     
@@ -180,6 +205,9 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
     public function postProcess() 
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+            $params = $this->controller->exportValues( $this->_name );
+            require_once "CRM/Quest/BAO/Transcript.php";
+            CRM_Quest_BAO_Transcript::postProcess( $params, $this->_grade , $this->_contactID );
         }
         parent::postProcess( );
     }//end of function

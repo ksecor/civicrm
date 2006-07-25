@@ -77,7 +77,7 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
         $maxGrades = ( $type == 'Extracurricular' ) ? 5 : 6;
 
         for ( $i = 1; $i <= 7; $i++ ) {
-            $form->addElement('text', "activity_$i", null,, null );
+            $form->addElement('text', "activity_$i", null, null );
 
             for ( $j = 1; $j <= $maxGrades; $j++ ) {
                 $form->addElement('checkbox', "grade_level_{$j}_{$i}", null, null ); 

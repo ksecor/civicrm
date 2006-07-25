@@ -33,7 +33,7 @@
   <field>
        <name>school_year</name>
        <type>enum</type>
-       <values>9, 10, 11, 12, Summer</values>
+       <values>Nine, Ten, Eleven, Twelve, Summer</values>
        <required>true</required>
        <comment>Which school year this transcript is for.</comment>
       <add>1.5</add>
