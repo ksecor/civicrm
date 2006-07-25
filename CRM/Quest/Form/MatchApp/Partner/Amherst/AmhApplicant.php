@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for the amherst application
  * 
  */
-class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhApplication extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhApplicant extends CRM_Quest_Form_App
 {
     
     protected $_fields;
@@ -111,7 +111,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhApplication extends CRM_Quest_F
         $this->assign_by_ref('fields',$fields);
         // add a checkbox and text box for each of the above
         foreach ( $this->_fields as $name => $titles ) {
-            $this->add( 'checkbox', "is_{$name}", $titles[0], null, true );
+            $cb =& $this->add( 'checkbox', "is_{$name}", $titles[0], null, true );
+            $cb->updateAttributes( array( 'id' => "is_{$name}" ) );
             $this->add( 'text', $name, $titles[1], $attributes[$name] );
         }
 
