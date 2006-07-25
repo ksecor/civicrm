@@ -712,7 +712,7 @@ class CRM_Contact_BAO_Query {
             $select = 'SELECT ' . implode( ', ', $this->_select );
             $from = $this->_fromClause;
         }
-
+        
         $where = '';
         if ( ! empty( $this->_whereClause ) ) {
             $where = "WHERE {$this->_whereClause}";
@@ -871,15 +871,20 @@ class CRM_Contact_BAO_Query {
 
             CRM_Core_Component::alterQuery( $this, 'where' );
         }
-
+        
         if ( $this->_customQuery ) {
-            $this->_where = CRM_Utils_Array::crmArrayMerge( $this->_where, $this->_customQuery->_where );
+            // Added following if condition to avoid the wrong value diplay for 'myaccount' / any UF info.
+            // Hope it wont affect the other part of civicrm.. if it does please remove it.
+            if (!empty($this->_customQuery->_where)) {
+                $this->_where = CRM_Utils_Array::crmArrayMerge( $this->_where, $this->_customQuery->_where );
+            }
+            
             $this->_qill  = CRM_Utils_Array::crmArrayMerge( $this->_qill , $this->_customQuery->_qill  );
         }
 
         $clauses    = array( );
         $andClauses = array( );
-
+        
         if ( ! empty( $this->_where ) ) {
             foreach ( $this->_where as $grouping => $values ) {
                 if ( $grouping > 0 && ! empty( $values ) ) {
@@ -894,7 +899,7 @@ class CRM_Contact_BAO_Query {
                 $andClauses[] = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
             }
         }
-
+        
         // CRM_Core_Error::debug( 'a', $andClauses );
         return implode( ' AND ', $andClauses );
     }
