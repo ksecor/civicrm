@@ -12,7 +12,7 @@
 
 {section name=rowLoop start=1 loop=$maxOtherSchool}
     {assign var=i value=$smarty.section.rowLoop.index}
-    <div id="otherSchool_info_{$i}">
+    <div id="id_otherSchool_info_{$i}">
     <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
       <tr>
 	{assign var=org_name value="organization_name_"|cat:$i}
@@ -41,13 +41,16 @@
       <tr>
 	{assign var=note value="note_"|cat:$i}
 	<td class="grouplabel">{$form.$note.label}</td>
-	<td class="fieldlabel">{$form.$note.html}
-	            {if $i LT $maxOtherSchool}
-        	        {assign var=j value=$i+1}
-                	<br /><span id="otherSchool_info_{$j}[show]">{$otherSchool_info.$j.show}</span>
-            	    {/if}        
-	</td>
+	<td class="fieldlabel">{$form.$note.html}</td>
       </tr>
+      {if $i LT $maxOtherSchool}
+        <tr>
+	   <td colspan=2>
+    	        {assign var=j value=$i+1}
+               	<br /><span id="id_otherSchool_info_{$j}_show">{$otherSchool_info.$j.show}</span>
+           </td>
+        </tr> 
+      {/if}
     </table>
     </div>
 {/section}

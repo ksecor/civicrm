@@ -160,10 +160,10 @@ class CRM_Quest_Form_MatchApp_SchoolOther extends CRM_Quest_Form_App
             $this->_showHide =& new CRM_Core_ShowHideBlocks( );
             for ( $i = 2; $i <= 5; $i++ ) {
                 if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
-                    $this->_showHide->addShow( "otherSchool_info_$i" );
-                    $this->_showHide->addHide( 'otherSchool_info_' . $i . '[show]' );
+                    $this->_showHide->addShow( "id_otherSchool_info_$i" );
+                    $this->_showHide->addHide( 'id_otherSchool_info_' . $i . '[show]' );
                 } else {
-                    $this->_showHide->addHide( "otherSchool_info_$i" );
+                    $this->_showHide->addHide( "id_otherSchool_info_$i" );
                 }
             }
             $this->_showHide->addToTemplate( );
@@ -274,12 +274,8 @@ class CRM_Quest_Form_MatchApp_SchoolOther extends CRM_Quest_Form_App
                 //create a realtionship
                 require_once 'CRM/Utils/Date.php';
                 $relationshipParams = array();
-                
-                require_once 'CRM/Contact/DAO/RelationshipType.php';
-                $dao = & new CRM_Contact_DAO_RelationshipType();
-                $dao->name_a_b = 'Student of';
-                $dao->find(true);
-                $relID  = $dao->id ;
+
+                $relID  = 8;
                 
                 $relationshipParams['relationship_type_id'] = $relID.'_a_b';
                 $relationshipParams['start_date']           = $orgParams['date_of_entry'];
