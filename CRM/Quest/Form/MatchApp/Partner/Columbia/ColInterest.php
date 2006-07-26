@@ -70,6 +70,10 @@ class CRM_Quest_Form_MatchApp_Partner_Columbia_ColInterest extends CRM_Quest_For
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        $defaults['essay'] = array( );
+
+        require_once "CRM/Quest/BAO/Essay.php";
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
 
         return $defaults;
     }
@@ -109,6 +113,10 @@ class CRM_Quest_Form_MatchApp_Partner_Columbia_ColInterest extends CRM_Quest_For
         if ( $this->_action &  CRM_Core_Action::VIEW ) {
             return;
         }
+
+        $params = $this->controller->exportValues( $this->_name );
+        
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], $this->_contactID, $this->_contactID );
 
         parent::postProcess( );
     } 

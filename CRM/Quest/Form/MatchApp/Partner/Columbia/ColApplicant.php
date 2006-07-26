@@ -71,6 +71,30 @@ class CRM_Quest_Form_MatchApp_Partner_Columbia_ColApplicant extends CRM_Quest_Fo
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        $defaults['essay'] = array( );
+
+        require_once 'CRM/Quest/Partner/DAO/Columbia.php';
+        $dao =& new CRM_Quest_Partner_DAO_Columbia( );
+        $dao->contact_id = $this->_contactID;
+        if ( $dao->find( true ) ) {
+            $dao->storeValues($dao, $defaults);
+        }
+
+        $fields = array( 'career' => 'columbia_career', 'interest' => 'columbia_interest');
+        foreach( $fields as $key => $field ) {
+            if ( $defaults[$key] ) {
+                $value = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$key] );
+            }
+            $defaults[$field] = array();
+            if ( is_array( $value ) ) {
+                foreach( $value as $v ) {
+                    $defaults[$field][$v] = 1;
+                }
+            }
+        }
+
+        require_once "CRM/Quest/BAO/Essay.php";
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
 
         return $defaults;
     }
@@ -137,24 +161,27 @@ class CRM_Quest_Form_MatchApp_Partner_Columbia_ColApplicant extends CRM_Quest_Fo
         }
 
         $params = $this->controller->exportValues( $this->_name );
-
+        //CRM_Core_Error::debug('d', $params);
         require_once 'CRM/Quest/Partner/DAO/Columbia.php';
         $dao =& new CRM_Quest_Partner_DAO_Columbia( );
         $dao->contact_id = $this->_contactID;
         $dao->find( true );
+
+        $dao->copyValues( $params );
         
         if ( $params['columbia_career'] ) {
             $dao->career = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['columbia_career']));
+            //CRM_Core_Error::debug('ss', $dao->career);
         }
 
         if ( $params['columbia_interest'] ) {
-            $dao->career = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['columbia_interest']));
+            $dao->interest = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['columbia_interest']));
         }
-
-        $dao->copyValues( $params );
 
         $dao->save( );
 
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], $this->_contactID, $this->_contactID );
+                
         parent::postProcess( );
     } 
    
