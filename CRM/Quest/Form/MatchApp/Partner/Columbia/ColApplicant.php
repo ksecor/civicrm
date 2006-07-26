@@ -89,7 +89,7 @@ class CRM_Quest_Form_MatchApp_Partner_Columbia_ColApplicant extends CRM_Quest_Fo
                             ts( 'Select possible careers you see yourself pursuing after schooling (check any that apply)' ),
                             CRM_Core_OptionGroup::values( 'columbia_career', true ),
                             true, '<br/>',true,
-                            array ('onclick' => "return showHideByValue('columbia_carrer[14]', '1', 'career_other', '', 'radio', false);") );
+                            array ('onclick' => "return showHideByValue('columbia_career[14]', '1', 'career_other', '', 'radio', false);") );
 
         $this->addElement('text', 'career_other', ts( 'Other Career' ),
                           $attributes['career_other'] );

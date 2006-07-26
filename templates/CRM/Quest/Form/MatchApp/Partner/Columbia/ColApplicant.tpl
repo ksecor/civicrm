@@ -87,6 +87,15 @@
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
 {include file="CRM/common/showHideByFieldValue.tpl"
+    trigger_field_id    ="columbia_career[14]"
+    trigger_value       ="1"
+    target_element_id   ="career_other"
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl"
     trigger_field_id    ="columbia_interest[14]"
     trigger_value       ="1"
     target_element_id   ="interest_other"
@@ -94,4 +103,3 @@
     field_type          ="radio"
     invert              = 0
 }
-
