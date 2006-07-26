@@ -88,7 +88,7 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
                 $defaults[$name] = $dao->$name;
             }
         }
-
+        
         $defaults['essay'] = array( );
         CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
         
@@ -104,7 +104,7 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
     public function buildQuickForm( ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_Partner_DAO_Pomona');
-
+     
         // add a checkbox and text box for each of the above
         foreach ( $this->_fields as $name ) {
             if ( substr( $name, 0, 3 ) == 'is_' ) {
@@ -114,11 +114,12 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
         }
 
         $this->addYesNo( 'is_broader_context', "Is there a broader context in which we should consider your performance and involvements? Are there any external factors we should consider (e.g. family situation, work, sibling childcare responsibilities or other personal circumstances)?", null, true );
-
+        $this->add( 'text', 'txtBrContext', "If Yes, Please Explain",null );
         $this->addYesNo( 'is_factors_work', "Are there any factors or circumstances that may affect your adjustment to college life or work?", null, true );
-
+        $this->add( 'text','txtFactorWork',"If Yes, Please Explain",null );
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays ); 
-
+        
+        $this->assign( 'fields', $this->_fields);       
         parent::buildQuickForm( );
                 
     }//end of function
@@ -157,7 +158,7 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
                 $dao->$name = $params[$name];
             }
         }
-
+       
         $dao->save( );
 
         CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
