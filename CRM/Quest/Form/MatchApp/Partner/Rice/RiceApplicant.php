@@ -69,6 +69,7 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
                                  'natural_sciences' => 'Natural Sciences',
                                  'social_sciences'  => 'Social Sciences',
                                  'other'            => 'Other' );
+        $this->assign('schools', $this->_schools);
     }
     
     /**
@@ -102,17 +103,40 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
      */
     public function buildQuickForm( ) 
     {
-        $this->addSelect( 'rice_academic', 'Select the academic school you are applying to' );
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_Partner_DAO_Rice');
 
-        foreach ( $this->_sections as $name => $title ) {
+        $this->addRadio( 'rice_academic', 'Select the academic school you are applying to', 
+                         CRM_Core_OptionGroup::values( "rice_academic" ) );
+
+        foreach ( $this->_schools as $name => $title ) {
             $this->addCheckBox( "rice_$name", $title,
-                                CRM_Core_OptionGroup::values( "rice_$name" ),
+                                CRM_Core_OptionGroup::values( "rice_$name", true ),
                                 false, null );
         }
 
+        $this->addCheckBox( "rice_contacts", 'What contacts have you had with Rice (check all that apply)?',
+                            CRM_Core_OptionGroup::values( "rice_contacts", true ),
+                            false, null );
+        
         $this->addYesNo( 'is_medicine', 'Are you interested in the Rice/Baylor College of Medicine Medical Scholars Program? (You must apply under Interim Decision to compete for this program.)', null, true );
         $this->addYesNo( 'is_rotc', 'Do you plan to apply for the Navy, Army, or Air Force ROTC Scholars Program?', null, true );
         $this->addYesNo( 'is_consent', 'Do you consent to the release of your academic and demographic information to outside groups and foundations that offer scholarships directly to Rice students?', null, true );
+
+        $texts = array('music_other' => '', 
+                       'alumni_name' => 'Name:', 
+                       'student_name'=> 'Name:', 
+                       'coach_name'  => 'Name:', 
+                       'faculty_name'=> 'Name:',
+                       'other'       => ''     );
+        foreach ( $texts as $name => $label ) {
+            $this->add('text', $name, ts( $label ), $attributes[$name], false);
+        }
+        $addTextsToChks = array('7' => 'alumni_name', 
+                                '8' => 'student_name', 
+                                '9' => 'coach_name', 
+                                '10'=> 'faculty_name', 
+                                '11'=> 'other');
+        $this->assign('addTexts', $addTextsToChks);
 
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
 

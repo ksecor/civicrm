@@ -83,7 +83,7 @@ table.app td.fieldlabel {
   font-size: 10px;
   font-style: italic;
 }
-table#essay-table label {
+table#essay-table label, td#bold-table-header label {
     font-weight: bold;
 }
 
