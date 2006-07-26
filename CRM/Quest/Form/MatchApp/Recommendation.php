@@ -68,7 +68,7 @@ class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
         $defaults = array( );
 
         $query = "
-SELECT cr.id           as contact_id
+SELECT cr.id           as contact_id,
        i.first_name    as first_name,
        i.last_name     as last_name ,
        e.email         as email     ,
