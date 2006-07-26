@@ -150,6 +150,14 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                   'Rice'   => array(
                                      'RiceApplicant' => 'Applicant Information',
                                      ),
+
+                  'Stanford'=> array(
+                                     'StanfordApplicant' => 'Applicant Information',
+                                     'StfShortEssay'     => 'Short Essay',
+                                     'StfEssay'          => 'Essay',
+                                     'StfArts'           => 'Arts Supplement',
+                                     ),
+
                   'Wellesley'   => array(
                                      'WellApplicant' => 'Applicant Information',
                                      'Essay'         => 'Essay'
@@ -159,6 +167,7 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                                      'WheApplicant'      => 'Applicant Information',
                                      'WheRecommendation' => 'Recommendations'
                                      ),
+
                   );
 
         $partnerPages = array( );
@@ -169,7 +178,6 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                                                          'options'   => array( ) );
             }
         }
-
         $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages, $partnerPages );
         $this->addSequentialPages( $this->_pages, $action );
     }

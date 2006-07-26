@@ -50,7 +50,7 @@
 <tr>
     <td class="grouplabel"> {$form.heard_about_qb_id.label}</td>
     <td class="fieldlabel"> 
-        <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+        <table cellpadding=0 cellspacing=1 border=1 width="90%" >
         {foreach from=$form.heard_about_qb_id item=type key=key}
         {assign var="countEI" value=`$countEI+1`}
         {if $countEI gt 9 }         

@@ -3,7 +3,7 @@
 <tr>
     <td class="grouplabel">
         {$form.essay.$name.label}<br />
-	{if $name eq 'personal'}
+	{if $name eq 'personal' or $name eq 'stanford_essay'}
         <br/>{$form.personalStat_quests.label}{$form.personalStat_quests.html}<br/><br/>
         <div id="id_upload_photo">
 	    {$form.upload_photo.label}&nbsp;{$form.upload_photo.html}<br/>
