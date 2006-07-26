@@ -138,12 +138,17 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                                      'BowAthletics' => 'Athletics Supplement',
                                      'BowArts'      => 'Arts Supplement'
                                      ),
-
                   'Columbia' => array(
                                       'ColApplicant'    => 'Applicant Information',
                                       'ColInterest'       => 'Interests',
                                       'ColPersonal'       => 'Personal Essay',
                                       'ColRecommendation' => 'Recommendations'
+                                     ),
+                  'Pomona' => array(
+                                     'PomApplicant' => 'Applicant Information',
+                                     ),
+                  'Rice'   => array(
+                                     'RiceApplicant' => 'Applicant Information',
                                      ),
 
                   );

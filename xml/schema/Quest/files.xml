@@ -26,4 +26,6 @@
 <xi:include href="Partner/Amherst.xml"      parse="xml" />
 <xi:include href="Partner/Bowdoin.xml"      parse="xml" />
 <xi:include href="Partner/Columbia.xml"     parse="xml" />
+<xi:include href="Partner/Pomona.xml"       parse="xml" />
+<xi:include href="Partner/Rice.xml"         parse="xml" />
 </tables>

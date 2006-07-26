@@ -37,7 +37,6 @@
  */
 
 require_once 'CRM/Quest/Form/App.php';
-require_once 'CRM/Core/OptionGroup.php';
 
 /**
  * This class generates form components for the amherst essay
@@ -45,27 +44,6 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhArts extends CRM_Quest_Form_App
 {
-    /**
-     * Function to set variables up before form is built
-     *
-     * @return void
-     * @access public
-     */
-    public function preProcess()
-    {
-        parent::preProcess();
-    }
-    
-    /**
-     * Function to actually build the form
-     *
-     * @return void
-     * @access public
-     */
-    public function buildQuickForm( ) 
-    {
-    }//end of function
-
     /**
      * Return a descriptive name for the page, used in wizard header
      *
@@ -76,16 +54,6 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhArts extends CRM_Quest_Form_App
     {
          return ts('Arts Supplement');
     }
-
-    /** 
-     * process the form after the input has been submitted and validated 
-     * 
-     * @access public 
-     * @return void 
-     */ 
-    public function postProcess() {
-    } 
-   
 }
 
 ?>

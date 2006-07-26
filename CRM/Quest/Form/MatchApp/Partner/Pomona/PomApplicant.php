@@ -27,7 +27,7 @@
 
 
 /**
- * Amherst Essay
+ * Pomona Applicant
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -40,13 +40,14 @@ require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * This class generates form components for the amherst essay
+ * This class generates form components for the pomona application
  * 
  */
-class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form_App
 {
-
-    protected $_essays;
+    
+    protected $_fields;
+    protected $_essays; 
 
     /**
      * Function to set variables up before form is built
@@ -58,7 +59,13 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
     {
         parent::preProcess();
 
-        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_amherst_essay', $this->_contactID, $this->_contactID );
+        $this->_fields =
+            array( 'name_1', 'department_1', 'relationship_1',
+                   'name_2', 'department_2', 'relationship_2',
+                   'name_3', 'department_3', 'relationship_3',
+                   'is_broader_context', 'is_factors_work' );
+
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_pomona_essay', $this->_contactID, $this->_contactID );
     }
     
     /**
@@ -72,16 +79,19 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
     {
         $defaults = array( );
 
-       require_once 'CRM/Quest/Partner/DAO/Amherst.php';
-        $dao =& new CRM_Quest_Partner_DAO_Amherst( );
+        require_once 'CRM/Quest/Partner/DAO/Pomona.php';
+        $dao =& new CRM_Quest_Partner_DAO_Pomona( );
         $dao->contact_id = $this->_contactID;
+
         if ( $dao->find( true ) ) {
-            $defaults['amherst_essay_id'] = $dao->amherst_essay_id;
+            foreach ( $this->_fields as $name ) {
+                $defaults[$name] = $dao->$name;
+            }
         }
 
         $defaults['essay'] = array( );
         CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
-
+        
         return $defaults;
     }
 
@@ -93,24 +103,21 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
      */
     public function buildQuickForm( ) 
     {
-        
-        $options = CRM_Core_OptionGroup::values( 'amherst_essay' );
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_Partner_DAO_Pomona');
 
-        $options[1] = '"It seems to me incumbent upon this and other schools\’ graduates to recognize their responsibility to the public interest…unless the graduates of this college…are willing to put back into our society those talents, the broad sympathy, the understanding, the compassion… then obviously the presuppositions upon which our democracy are based are bound to be fallible." John F. Kennedy, at the ground breaking for the Amherst College Frost Library, October 26, 1963'; 
+        // add a checkbox and text box for each of the above
+        foreach ( $this->_fields as $name ) {
+            if ( substr( $name, 0, 3 ) == 'is_' ) {
+                continue;
+            }
+            $this->add( 'text', $name, null, $attributes[$name] );
+        }
 
-        $options[2] = '"The world as revealed by science is far more beautiful, and far more interesting, than we had any right to expect. Science is valuable because of the view of the universe that it gives." George Greenstein, Sidney Dillon Professor of Astronomy, Amherst College';
+        $this->addYesNo( 'is_broader_context', "Is there a broader context in which we should consider your performance and involvements? Are there any external factors we should consider (e.g. family situation, work, sibling childcare responsibilities or other personal circumstances)?", null, true );
 
-        $options[3] = '"Stereotyped beliefs have the power to become self-fulfilling prophesies for behavior." From Men and Women in Interaction, Reconsidering the Differences by Elizabeth Aries, Professor of Psychology, Amherst College';
-        
-        $options[4] = '"Justice seems to require us to take the perspective of an impartial observer…Often this perspective seems to clash with the perspective that most of us take in our daily lives…where ties of love, commitment, friendship and professional responsibilities seem not only to permit, but to demand, that we treat people unequally." From Amherst, Summer 2001, Jyl Gentzler, Professor of Philosophy, Amherst College';
+        $this->addYesNo( 'is_factors_work', "Are there any factors or circumstances that may affect your adjustment to college life or work?", null, true );
 
-        $options[5] = '"Only in the mystery novel are we delivered final and unquestionable solutions. The joke to me is that fiction gives you a truth that reality can’t deliver." Scott Turow, lawyer, author, Amherst College Trustee, Amherst Class of 1970';
-
-        $options[6] = '"Young as she is, the stuff<br />Of her life is a great cargo, and some of it heavy:<br />I wish her a lucky passage."<br />From The Writer by Richard Wilbur, Amherst Class of 1942, 1987 Poet Laureate of the United State';
-
-        $this->addRadio( 'amherst_essay', null, $options, null, '<br/><br />' );
-
-        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
+        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays ); 
 
         parent::buildQuickForm( );
                 
@@ -124,7 +131,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
      */
     public function getTitle()
     {
-         return ts('Essay');
+         return ts('Applicant Information');
     }
 
     /** 
@@ -138,13 +145,19 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
             return;
         }
 
-        $params = $this->controller->exportValues( $this->_name );
-
-        require_once 'CRM/Quest/Partner/DAO/Amherst.php';
-        $dao =& new CRM_Quest_Partner_DAO_Amherst( );
+        require_once 'CRM/Quest/Partner/DAO/Pomona.php';
+        $dao =& new CRM_Quest_Partner_DAO_Pomona( );
         $dao->contact_id = $this->_contactID;
         $dao->find( true );
-        $dao->amherst_essay_id = $params['amherst_essay_id'];
+
+        foreach ( $this->_fields as $name => $titles ) {
+            if ( substr( $name, 0, 3 ) == 'is_' ) {
+                $dao->$name = CRM_Utils_Array::value( $name, $params, 0 );
+            } else {
+                $dao->$name = $params[$name];
+            }
+        }
+
         $dao->save( );
 
         CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
