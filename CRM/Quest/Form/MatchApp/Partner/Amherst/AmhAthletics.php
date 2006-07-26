@@ -75,8 +75,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhAthletics extends CRM_Quest_For
         require_once 'CRM/Quest/BAO/Extracurricular.php';
         CRM_Quest_BAO_Extracurricular::setDefaults( $this->_contactID, 'Amherst', $defaults );
 
-        require_once 'CRM/Quest/DAO/Partner/Amherst.php';
-        $dao =& new CRM_Quest_DAO_Partner_Amherst( );
+        require_once 'CRM/Quest/Partner/DAO/Amherst.php';
+        $dao =& new CRM_Quest_Partner_DAO_Amherst( );
         $dao->contact_id = $this->_contactID;
         if ( $dao->find( true ) ) {
             $defaults['height'] = $dao->height;
@@ -97,7 +97,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhAthletics extends CRM_Quest_For
      */
     public function buildQuickForm( ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Partner_Amherst');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_Partner_DAO_Amherst');
 
         require_once 'CRM/Quest/BAO/Extracurricular.php';
         CRM_Quest_BAO_Extracurricular::buildForm( $this, 'Amherst' );
