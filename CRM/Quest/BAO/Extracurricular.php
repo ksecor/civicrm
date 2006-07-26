@@ -136,6 +136,7 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
 
     static function process( $contactID, $type, &$values ) {
 
+        //CRM_Core_Error::debug('s', $values);
         for ( $i= 1; $i<=7 ; $i++) {
             $params = array();
             $params['contact_id'] = $contactID;
@@ -148,8 +149,8 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
                 $params['is_grade_12']  = CRM_Utils_Array::value( 'grade_level_4_'.$i, $values, false );
                 if ( $type == 'Extracurricular' ) {
                     $params['is_post_secondary'] = CRM_Utils_Array::value( 'grade_level_5_'.$i, $values, false );
-                    $params['weekly_hours']      = $values['time_spent_1'];
-                    $params['annual_weeks']      = $values['time_spent_2'];
+                    $params['weekly_hours']      = $values['time_spent_1_' .$i];
+                    $params['annual_weeks']      = $values['time_spent_2_' .$i];
                 } else {
                     $params['is_varsity']        = CRM_Utils_Array::value( 'grade_level_5_'.$i, $values, false );
                     $params['is_junior_varsity'] = CRM_Utils_Array::value( 'grade_level_6_'.$i, $values, false );
