@@ -128,7 +128,7 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                                                      'options'   => array( ) );
         }
 
-        $lastPages = array( 'CRM_Quest_Form_MatchApp_Recommendation' => null,
+        $midPages = array( 'CRM_Quest_Form_MatchApp_Recommendation' => null,
                             'CRM_Quest_Form_MatchApp_CmRanking'     => null,
                             'CRM_Quest_Form_MatchApp_ForwardApp'    => null );
 
@@ -186,7 +186,10 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                                                          'options'   => array( ) );
             }
         }
-        $this->_pages = array_merge( $firstPages, $dynamicPages, $lastPages, $partnerPages );
+
+        $lastPages = array( 'CRM_Quest_Form_MatchApp_Noncustodial' => null );
+
+        $this->_pages = array_merge( $firstPages, $dynamicPages, $midPages, $partnerPages, $lastPages );
         $this->addSequentialPages( $this->_pages, $action );
     }
 
