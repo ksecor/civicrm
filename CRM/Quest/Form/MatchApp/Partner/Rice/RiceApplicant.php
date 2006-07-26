@@ -110,7 +110,10 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
                                 false, null );
         }
 
-        
+        $this->addYesNo( 'is_medicine', 'Are you interested in the Rice/Baylor College of Medicine Medical Scholars Program? (You must apply under Interim Decision to compete for this program.)', null, true );
+        $this->addYesNo( 'is_rotc', 'Do you plan to apply for the Navy, Army, or Air Force ROTC Scholars Program?', null, true );
+        $this->addYesNo( 'is_consent', 'Do you consent to the release of your academic and demographic information to outside groups and foundations that offer scholarships directly to Rice students?', null, true );
+
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
 
         parent::buildQuickForm( );
