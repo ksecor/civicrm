@@ -566,8 +566,18 @@ function countit(essay_id,wc){
     count_element.value     = count;
     if (count>=wc) {
         /*text_area.value     = essay;*/
+
+        var dataString = '';
+        for (z=0; z<wc; z++){
+	  if (words[z].length>0) {
+	    dataString = dataString + words[z] + ' '; 
+	  }
+	}
+
+	text_area.value = dataString; 
         text_area.blur();
-        /*count_element.value = count;*/
+	count = wc;
+        count_element.value = count;
         alert("You have reached the "+ wc +" character limit.");
     }
 }
