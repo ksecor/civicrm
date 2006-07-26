@@ -79,11 +79,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         
         $this->add( 'select', 'header_id', ts( 'Mailing Header' ), CRM_Mailing_PseudoConstant::component( 'Header' ) );
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), CRM_Mailing_PseudoConstant::component( 'Footer' ) );
-        $this->add( 'select', 'reply_id', ts( 'Auto-responder' ), CRM_Mailing_PseudoConstant::component( 'Reply' ) );
-        $this->add( 'select', 'unsubscribe_id', ts( 'Unsubscribe Message' ), CRM_Mailing_PseudoConstant::component( 'Unsubscribe' ) );
-        $this->add( 'select', 'optout_id', ts( 'Opt-out Message' ), CRM_Mailing_PseudoConstant::component( 'OptOut' ) );
-
-
+        $this->add( 'select', 'reply_id', ts( 'Auto-responder' ), CRM_Mailing_PseudoConstant::component( 'Reply' ), true );
+        $this->add( 'select', 'unsubscribe_id', ts( 'Unsubscribe Message' ), CRM_Mailing_PseudoConstant::component( 'Unsubscribe' ), true );
+        $this->add( 'select', 'optout_id', ts( 'Opt-out Message' ), CRM_Mailing_PseudoConstant::component( 'OptOut' ), true );
         
         $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
 
