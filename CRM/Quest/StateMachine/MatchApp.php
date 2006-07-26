@@ -150,7 +150,10 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                   'Rice'   => array(
                                      'RiceApplicant' => 'Applicant Information',
                                      ),
-
+                  'Wheaton' => array(
+                                     'WheApplicant'      => 'Applicant Information',
+                                     'WheRecommendation' => 'Recommendations'
+                                     ),
                   );
 
         $partnerPages = array( );
