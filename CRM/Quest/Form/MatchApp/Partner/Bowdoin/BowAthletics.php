@@ -74,8 +74,8 @@ class CRM_Quest_Form_MatchApp_Partner_Bowdoin_BowAthletics extends CRM_Quest_For
         require_once 'CRM/Quest/BAO/Extracurricular.php';
         CRM_Quest_BAO_Extracurricular::setDefaults( $this->_contactID, 'Bowdoin', $defaults );
 
-        require_once 'CRM/Quest/DAO/Partner/Bowdoin.php';
-        $dao =& new CRM_Quest_DAO_Partner_Bowdoin( );
+        require_once 'CRM/Quest/Partner/DAO/Bowdoin.php';
+        $dao =& new CRM_Quest_Partner_DAO_Bowdoin( );
         $dao->contact_id = $this->_contactID;
         if ( $dao->find( true ) ) {
             $defaults['height'] = $dao->height;
@@ -96,7 +96,7 @@ class CRM_Quest_Form_MatchApp_Partner_Bowdoin_BowAthletics extends CRM_Quest_For
      */
     public function buildQuickForm( ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Partner_Bowdoin');
+       $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_Partner_DAO_Bowdoin');
 
         require_once 'CRM/Quest/BAO/Extracurricular.php';
         CRM_Quest_BAO_Extracurricular::buildForm( $this, 'Bowdoin' );
@@ -157,6 +157,14 @@ class CRM_Quest_Form_MatchApp_Partner_Bowdoin_BowAthletics extends CRM_Quest_For
 
         CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
                                      $this->_contactID, $this->_contactID ); 
+
+        require_once 'CRM/Quest/Partner/DAO/Bowdoin.php';
+        $dao =& new CRM_Quest_Partner_DAO_Bowdoin( );
+        $dao->contact_id = $this->_contactID;
+        $dao->find( true );
+        $dao->height = $params['height'];
+        $dao->weight = $params['weight'];
+        $dao->save( );
 
         parent::postProcess( );
     } 
