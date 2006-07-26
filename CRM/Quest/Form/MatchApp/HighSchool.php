@@ -112,6 +112,7 @@ WHERE  o.contact_id IN ( $orgString )
     function setDefaultValues( ) 
     {
         $defaults = array( );
+
         if (is_array($this->_orgIDs)) {
             foreach ($this->_orgIDs as $key => $value ) {
                 if ( $value  ) {
@@ -153,10 +154,10 @@ WHERE  o.contact_id IN ( $orgString )
         if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
             require_once 'CRM/Core/ShowHideBlocks.php';
             $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-            for ( $i = 2; $i <= 2; $i++ ) {
+            for ( $i = 2; $i <= 3; $i++ ) {
                 if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
                     $this->_showHide->addShow( "id_HighSchool_$i" );
-                    $this->_showHide->addHide( 'id_HighSchool_' . $i . '[show]' );
+                    $this->_showHide->addHide( 'id_HighSchool_' . $i . '_show' );
                 } else {
                     $this->_showHide->addHide( "id_HighSchool_$i" );
                 }
@@ -178,7 +179,7 @@ WHERE  o.contact_id IN ( $orgString )
         
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Organization' );
         $highschool = array( );
-        for ( $i = 1; $i < 3; $i++ ) {
+        for ( $i = 1; $i < 4; $i++ ) {
             // name of school
             if ( $i == 1) {
                 $title = ts("Current High School");
@@ -241,7 +242,7 @@ WHERE  o.contact_id IN ( $orgString )
                                                                   false );
             }
         }
-        $maxHighschool = 2;
+        $maxHighschool = 3;
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $defaults = $this->setDefaultValues( );
             $maxHighschool = 0;
@@ -294,9 +295,16 @@ WHERE  o.contact_id IN ( $orgString )
           }
 
           if ( $params['custom_1_2'] ) {
-              $name = CRM_Core_DAO::getFieldValue( 'CRM_Quest_DAO_CEEB', $params['custom_1_2'], 'school_name' );
+              $name = CRM_Core_DAO::getFieldValue( 'CRM_Quest_DAO_CEEB', $params['custom_1_2'], 'school_name', 'code' );
               if ( $name != trim( $params['organization_name_2'] ) ) {
                   $errors['organization_name_2'] = ts( 'You cannot change school details if you have found your school' );
+              }
+          }
+
+          if ( $params['custom_1_3'] ) {
+              $name = CRM_Core_DAO::getFieldValue( 'CRM_Quest_DAO_CEEB', $params['custom_1_3'], 'school_name', 'code' );
+              if ( $name != trim( $params['organization_name_3'] ) ) {
+                  $errors['organization_name_3'] = ts( 'You cannot change school details if you have found your school' );
               }
           }
 

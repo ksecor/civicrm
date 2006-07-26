@@ -195,8 +195,8 @@ class CRM_Quest_Form_MatchApp_SchoolOther extends CRM_Quest_Form_App
             $this->addElement('textarea', "note_{$i}", ts( 'School Description' ), array("rows"=>5,"cols"=>60));
             if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
                 $otherSchool_info[$i] = CRM_Core_ShowHideBlocks::links( $this,"otherSchool_info_$i",
-                                                                        ts('add another Special Program'),
-                                                                        ts('hide this Program'),
+                                                                        ts('add another School'),
+                                                                        ts('hide this School'),
                                                                         false );
             }
         }
