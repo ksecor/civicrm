@@ -45,6 +45,11 @@
   color: #285A66;
 }
 
+}
+#crm-container label, .labels, .label {
+  font-weight: normal;
+}
+
 table#app-content td.rightside {
   background-color: #fff;
   margin: 10px 10px 10px 10px;
@@ -83,7 +88,7 @@ table.app td.fieldlabel {
   font-size: 10px;
   font-style: italic;
 }
-table#essay-table label, td#bold-table-header label {
+table.app td.essay label, td#bold-table-header label {
     font-weight: bold;
 }
 
@@ -147,10 +152,6 @@ table#app-content td.rightside {
 }
 p.app-instruction {
   font-weight: bold;
-}
-#crm-container label, .labels, .label {
-  font-weight: normal;
-}
 
 #crm-container .partner_college {
  color: blue;
