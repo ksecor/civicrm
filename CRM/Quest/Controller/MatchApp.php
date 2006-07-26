@@ -336,7 +336,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
     }
 
     function addWizardStyle( &$wizard ) {
-        $wizard['style'] = array('barClass'             => 'matchApp',
+        $wizard['style'] = array('barClass'             => 'app',
                                  'stepPrefixCurrent'    => ' ',
                                  'stepPrefixPast'       => ' ',
                                  'stepPrefixFuture'     => ' ', 

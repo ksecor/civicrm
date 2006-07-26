@@ -1,7 +1,7 @@
 /* $Id: quest.css,v 1.0 2006/03/18 dgg */
 
 /* Styles for Wizard Progress Bars */
-#crm-container ul.wizard-bar-preApp {
+#crm-container ul.wizard-bar-app {
   border-collapse: collapse;
   padding: 0em 0em 0em 0em;
   white-space: nowrap;
@@ -12,7 +12,7 @@
   line-height: normal;
   border-bottom: 1px solid #bbb;
 }
-#crm-container ul.wizard-bar-preApp li {
+#crm-container ul.wizard-bar-app li {
   display: block;
   background-color: #F7F7F7;
   border-top: 1px solid #bbb;
@@ -22,26 +22,26 @@
   padding: .5em 1em .5em;
   text-decoration: none;
 }
-#crm-container ul.wizard-bar-preApp li.current-step {
+#crm-container ul.wizard-bar-app li.current-step {
   background-color: #D9D9D9;
   font-weight: bold;
 }
-#crm-container ul.wizard-bar-preApp a {
+#crm-container ul.wizard-bar-app a {
   font-weight: none;
   color: #0000FF;
   text-decoration: none;
 }
-#crm-container ul.wizard-bar-preApp a:hover {
+#crm-container ul.wizard-bar-app a:hover {
   color: #285A66;
   text-decoration: none;
   font-weight: bold;
 }
-#crm-container ul.wizard-bar-preApp li.past-step, #crm-container ul.wizard-bar-preApp li.future-step {
+#crm-container ul.wizard-bar-app li.past-step, #crm-container ul.wizard-bar-app li.future-step {
   background-color: #F7F7F7;
   color: #666;
 }
 
-#crm-container ul.wizard-bar-preApp li.not-valid a {
+#crm-container ul.wizard-bar-app li.not-valid a {
   color: #285A66;
 }
 

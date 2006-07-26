@@ -9,7 +9,7 @@
 </td>
 </tr>
 <tr>
-<td class="grouplabel"> <a href="http://www.questbridge.org/app_staging/cm/appl/bowdoin_arts.html#">Arts Supplement form</a>(pdf)</td>
+<td class="grouplabel"> <a href="">Arts Supplement form</a> (pdf)</td>
 </tr>
 
 </table>
