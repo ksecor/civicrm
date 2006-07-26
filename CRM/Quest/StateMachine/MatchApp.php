@@ -79,7 +79,15 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         }
 
         $dynamicPages['CRM_Quest_Form_MatchApp_Income']     = null;
-        $dynamicPages['CRM_Quest_Form_MatchApp_HighSchool'] = null;
+        //$dynamicPages['CRM_Quest_Form_MatchApp_HighSchool'] = null;
+
+        $highSchool = array( 'HighSchool'  => 'High School Information',
+                             'SchoolOther' => 'Other School' );
+        foreach ( $highSchool as $extra => $title ) {
+            $dynamicPages["School-{$extra}"] = array( 'className' => "CRM_Quest_Form_MatchApp_$extra",
+                                                      'title'     => $title,
+                                                      'options'   => array( ) );
+        }
 
         $extracurricular = array( 'ExtracurricularInfo' => 'Extracurricular Information',
                                   'WorkExperience'      => 'Work Experience' );

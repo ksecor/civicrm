@@ -27,7 +27,7 @@
 
 
 /**
- * Personal Information Form Page
+ * This page is for entering other school information
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
