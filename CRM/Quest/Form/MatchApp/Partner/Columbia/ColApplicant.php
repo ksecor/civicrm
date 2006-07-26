@@ -136,18 +136,24 @@ class CRM_Quest_Form_MatchApp_Partner_Columbia_ColApplicant extends CRM_Quest_Fo
             return;
         }
 
-//         require_once 'CRM/Quest/Partner/DAO/Amherst.php';
-//         $dao =& new CRM_Quest_Partner_DAO_Amherst( );
-//         $dao->contact_id = $this->_contactID;
-//         $dao->find( true );
+        $params = $this->controller->exportValues( $this->_name );
 
-//         foreach ( $this->_fields as $name => $titles ) {
-//             $cond = "is_{$name}";
-//             $dao->$cond = CRM_Utils_Array::value( $cond, $params, false );
-//             $dao->$name = $params[$name];
-//         }
+        require_once 'CRM/Quest/Partner/DAO/Columbia.php';
+        $dao =& new CRM_Quest_Partner_DAO_Columbia( );
+        $dao->contact_id = $this->_contactID;
+        $dao->find( true );
+        
+        if ( $params['columbia_career'] ) {
+            $dao->career = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['columbia_career']));
+        }
 
-//         $dao->save( );
+        if ( $params['columbia_interest'] ) {
+            $dao->career = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['columbia_interest']));
+        }
+
+        $dao->copyValues( $params );
+
+        $dao->save( );
 
         parent::postProcess( );
     } 
