@@ -65,6 +65,13 @@ class CRM_Quest_StateMachine_MatchApp_Essay extends CRM_Quest_StateMachine_Match
         parent::rebuild( $controller, $action );
     }
 
+    public function &getDependency( ) {
+        if ( self::$_dependency == null ) {
+            self::$_dependency = array( );
+        }
+        return self::$_dependency;
+    }
+
 }
 
 ?>

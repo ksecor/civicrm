@@ -55,6 +55,13 @@ class CRM_Quest_StateMachine_MatchApp_College extends CRM_Quest_StateMachine_Mat
         parent::rebuild( $controller, $action );
     }
 
+    public function &getDependency( ) {
+        if ( self::$_dependency == null ) {
+            self::$_dependency = array( );
+        }
+        return self::$_dependency;
+    }
+
 }
 
 ?>

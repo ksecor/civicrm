@@ -42,8 +42,6 @@ require_once 'CRM/Core/StateMachine.php';
  */
 class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
 
-    static $_dependency = null;
-
     /**
      * class constructor
      *
@@ -62,12 +60,7 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         $this->addSequentialPages( $this->_pages, $action );
     }
 
-    public function &getDependency( ) {
-        if ( ! self::$_dependency ) {
-            self::$_dependency = array( );
-        }
-        return self::$_dependency;
-    }
+    abstract public function &getDependency( );
 
     public function checkDependency( &$controller, &$form ) {
         return;

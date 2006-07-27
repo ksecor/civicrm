@@ -70,7 +70,6 @@ class CRM_Quest_StateMachine_MatchApp_Academic extends CRM_Quest_StateMachine_Ma
         if ( self::$_dependency == null ) {
             self::$_dependency = array( );
         }
-
         return self::$_dependency;
     }
 
