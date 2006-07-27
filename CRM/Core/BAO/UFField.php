@@ -420,9 +420,13 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     static function checkProfileGroupType( ) 
     {
         $ufGroup =& new CRM_Core_DAO_UFGroup();
-        $ufGroup->is_active = 1;
 
-        $ufGroup->find();
+        $query = "SELECT ufg.id as id
+                  FROM civicrm_uf_group as ufg, civicrm_uf_join as ufj
+                  WHERE ufg.id = ufj.uf_group_id AND ufj.module='User Registration' AND ufg.is_active=1";
+        
+        $ufGroup =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
         $fields = array( );
         while ( $ufGroup->fetch() ) {
             if (self::getProfileType($ufGroup->id) == 'Individual') {
@@ -433,11 +437,15 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
                 $fields['Other'] +=1;
             }
         }
-        // CRM_Core_Error::debug('s', $fields);
-        if ( ($fields['Individual'] || $fields['Contribution'] ) && ! $fields['Other']  ) {
-            return true;
+        
+        if (!empty ($fields)) {
+            if ( ($fields['Individual'] || $fields['Contribution'] ) && ! $fields['Other']  ) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
 
