@@ -8,7 +8,7 @@
             <td class="greeting">{$welcome_name}</td>
             <td class="app-message" align="center">
              {ts}
-                Note: The application deadline is Oct 1, 2006. ( * = required field)<BR>You must click 'Save &amp; Continue' to save your changes.
+                Note: The application deadline is Oct 1, 2006. ( * = required field)<br />You must click 'Save &amp; Continue' to save your changes.
              {/ts}
             </td>           	
             <td nowrap class="save">
@@ -30,28 +30,43 @@
             <td valign=top nowrap id="app-left-nav">
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
             {include file="CRM/WizardHeader.tpl}
-            <br>
-            <div id="help-box">
+            <br />
+            <div class="help-box">
               <strong>Need Help?</strong><br />
-              <A HREF="http://www.questbridge.org/recruitment/support_student_view.html" TARGET="_blank">Chat</A> with a Quest staff member.<br />
-<!--              <A HREF="mailto:techsupport@questbridge.org">Email us</A> for help with the<BR>application.<br /> //-->
+              <a href="http://www.questbridge.org/recruitment/support_student_view.html" TARGET="_blank">Chat with a Quest staff member.</a><br />
             </div>
 <!--
-            <div id="help-box">
+            <div class="help-box">
               <strong>Need Help?</strong><br />
-              &nbsp;&nbsp;<a href="javascript:chatW=window.open('http://www.questbridge.org/support/live_support.html','Support','width=600,height=470,resizable=yes'); chatW.focus()">Talk to a Quest team<br>&nbsp;&nbsp;member</A><br />
+              &nbsp;&nbsp;<a href="javascript:chatW=window.open('http://www.questbridge.org/support/live_support.html','Support','width=600,height=470,resizable=yes'); chatW.focus()">Talk to a Quest team<br />&nbsp;&nbsp;member</A><br />
             </div>
 //-->
-            <div id="help-box">
+            <div id="application-status">
               <strong>Application Status</strong><br />
               &nbsp;&nbsp;{$taskStatus}
             </div>
-            <div id="help-box">
+
+            <div class="help-box">
               <strong>Navigation Color Guide</strong><br />
-              <B>Green</B>: Section not<BR>completed or section<br>has error(s)<BR>
-              <B>Blue</B>: Section has been<BR>completed or is available<BR>for editing<BR>
-              <B>Gray</B>: Section is not<br>available for editing<BR>
+              <B>Green</B>: Section not<br />completed or section<br />has error(s)<br />
+              <B>Blue</B>: Section has been<br />completed or is available<br />for editing<br />
+              <B>Gray</B>: Section is not<br />available for editing<br />
             </div>
+<!--
+            <div class="help-box">
+                <table cellpadding=0 cellspacing=0 border=0>
+                  <tr>
+                    <td bgcolor="#396872" class="header"><strong> Announcements</strong></td>
+                  </tr>
+                  <tr>
+                    <td class="newstext"> Remember that all applications must be completed by October 1st, 2006. <br /><br />
+                      All recommendations must be completed by October 8th, 2006.<br /><br />
+                    Please be sure to use the "Submit Application" button to make sure that you completed all required fields.
+                    </td>
+                  </tr>
+                </table>
+            </div>
+//-->
 	    </td>
         {/if}
         <!--begin main right cell that contains the application-->

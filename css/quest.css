@@ -167,7 +167,7 @@ p.app-instruction {
   margin: 10px;
 }
 
-#help-box {
+#app-content div.help-box {
   background-color: #f1f1f1;
   color: #285A66;
   font-size: 10px;

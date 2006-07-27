@@ -95,7 +95,7 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         
         $partners = CRM_Quest_BAO_Partner::getPartners();
         foreach ( $partners as $k => $v) {
-            $this->addElement('select','college_ranking_'.$k, ts( 'Ranking' ),CRM_Core_OptionGroup::values('college_ranking'));
+            $this->addElement('select','college_ranking_'.$k, ts( 'Ranking' ),array('' => ts('- select -')) + CRM_Core_OptionGroup::values('college_ranking'));
             $collegeLink =& new CRM_Quest_DAO_Partner();
             $collegeLink->name = $v;
             $collegeLink->find(true);
