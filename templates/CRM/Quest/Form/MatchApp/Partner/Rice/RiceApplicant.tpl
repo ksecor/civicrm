@@ -40,7 +40,8 @@
 	  {/if}
 	  <td class="grouplabel optionlist">{$form.$schFld.$k1.html}
 	    {if ($name eq "music") and ($k1 eq 4)}
-		<br/>{$form.music_other.label}{$form.music_other.html}
+               {assign var=element_id value="music_name_"|cat:$k1 }
+	       <span id={$element_id}>{$form.music_other.label}{$form.music_other.html}</span>
 	    {/if}
 	  </td>	
 	  {if $k1 is even} 
@@ -102,15 +103,12 @@
 		<tr>
 	  {/if}
 	  <td class="grouplabel optionlist">{$form.contacts.$k1.html}
-          {*assign var=heard_about_name value="heard_about_qb_name_"|cat:$key*}  
-
 	        {foreach from=$contact_names key=k2 item=name}
                 {assign var=element_id value="name_"|cat:$k2 }
 	            {if $k2 eq $k1}
 			<span id={$element_id}>{$form.$name.label}{$form.$name.html}</span>
 		    {/if}	
 	 	{/foreach}
-		
 	  </td>	
 	  {if $k1 is even} 
 		</tr>
@@ -146,20 +144,36 @@
 
 {literal}
 <script type="text/javascript">
-    show_element("contacts");
+    /*show_element("contacts");*/
     function show_element(trigger_element_id)
-    {   
-        for ( i=0; i<11; i++) {
-	   var element = document.getElementsByName(trigger_element_id + "[" + (i+1) + "]")[0];
-           if (i < 6) {
-               continue;
+    {   alert(trigger_element_id);
+	alert(document.getElementsByName(trigger_element_id + "[" + (4) + "]")[0].checked);
+	if ( trigger_element_id == "contacts" ) {
+           for ( i=0; i<11; i++) {
+	      var element = document.getElementsByName(trigger_element_id + "[" + (i+1) + "]")[0];
+              if (i < 6) {
+                  continue;
+              }
+              if (element.checked) {
+                  show("name_" + (i+1));
+              } else {
+                  hide("name_" + (i+1));
+              }
            }
-           if (element.checked) {
-               show("name_" + (i+1));
-           } else {
-               hide("name_" + (i+1));
+	}
+	if ( trigger_element_id == "music" ) {
+           for ( i=0; i<4; i++) {
+	      var element = document.getElementsByName(trigger_element_id + "[" + (i+1) + "]")[0];
+              if (i < 3) {
+                  continue;
+              }
+              if (element.checked) {
+                  show("music_name_" + (i+1));
+              } else {
+                  hide("music_name_" + (i+1));
+              }
            }
-        }
+	}
     }
     
 </script>
