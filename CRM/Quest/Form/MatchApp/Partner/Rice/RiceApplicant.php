@@ -196,8 +196,9 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
         $params = $this->controller->exportValues( $this->_name );
         
         foreach ( $this->_allchecks as $name => $title ) {
+            $par = CRM_Utils_Array::value( $name, $params, array());
             $params[$name] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                                     array_keys($params[$name]));
+                                     array_keys($par));
         }
         require_once 'CRM/Quest/Partner/DAO/Rice.php';
         $dao =& new CRM_Quest_Partner_DAO_Rice( );
