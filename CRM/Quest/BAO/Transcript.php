@@ -136,6 +136,37 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
             $dao->gp_unweighted_total = $gpa['unWeightedPoints'];
             $dao->credit_total        = $gpa['credit'];
             $dao->save();
+
+            //calcution of weighed GPA and unweighed GPA
+            $totalWeightedPoints  = $totalUnWeightedPoints = $totalCredits = 0;
+            $queryString = "SELECT gp_weighted_total,gp_unweighted_total, credit_total FROM quest_transcript WHERE contact_id = $contactID AND school_year NOT IN ('Twelve', 'Summer')";
+            $dao = &new CRM_Core_DAO();
+            $dao->query( $queryString );
+            while ( $dao->fetch() ) { 
+                $totalWeightedPoints   = $totalWeightedPoints   + $dao->gp_weighted_total;
+                $totalUnWeightedPoints = $totalUnWeightedPoints + $dao->gp_unweighted_total;
+                $totalCredits          = $totalCredits + $dao->credit_total;
+            }
+            $finalWeightedGPA = $finalUnWeightedGPA = 0;
+            if ( $totalCredits > 0) {
+                $finalWeightedGPA   = $totalWeightedPoints/$totalCredits;
+                $finalUnWeightedGPA = $totalUnWeightedPoints/$totalCredits;
+
+                 //store this in quest_student_summary
+                $ids = array();
+                $summaryValue['gpa_weighted_calc']   = $finalWeightedGPA;
+                $summaryValue['gpa_unweighted_calc'] = $finalUnWeightedGPA;
+                $summaryValue['contact_id'] =  $contactID;
+                require_once "CRM/Quest/DAO/StudentSummary.php";
+                $daoStudent = & new CRM_Quest_DAO_StudentSummary();
+                $daoStudent->contact_id = $contactID;
+                if ( $daoStudent->find(true) ) {
+                    $ids = array( 'id' => $daoStudent->id);
+                }
+                require_once "CRM/Quest/BAO/Student.php";
+                $studentSummary = CRM_Quest_BAO_Student::createStudentSummary( $summaryValue, $ids);
+            }
+
         }
     }
 
@@ -186,7 +217,8 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
                         $vlaue = $gpaWithoutHonor[$params['grade_'.$i."_".$j]];
                         $calGPAUnWeighed = $calGPAUnWeighed + ( $vlaue * $params['academic_credit_'.$i]);
                     }
-                    $weightedGpaArray[$i] = $calGPA;
+                    $weightedGpaArray[$i]   = $calGPA;
+                    $unWeightedGpaArray[$i] = $calGPAUnWeighed;
                 }
                 
             }
@@ -195,7 +227,7 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
             $weightedGPA  = 0;
             if ( array_sum ($weightedGpaArray) > 0  ) {
                 $result["weightedPoints"]    =  array_sum ($weightedGpaArray);
-                $result["unWeightedPoints"]  =  array_sum ($weightedGpaArray); 
+                $result["unWeightedPoints"]  =  array_sum ($unWeightedGpaArray); 
                 $result["credit"]           =  $totalCredits;  
             }
             
