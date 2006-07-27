@@ -70,29 +70,29 @@ class CRM_Quest_Invoke {
                 break;
 
 
-            case 'School':
+            case 'school':
                 require_once 'CRM/Quest/Controller/MatchApp/School.php';
                 $controller =& new CRM_Quest_Controller_MatchApp_School( null, null, false );
                 break;
 
 
-            case 'Academic':
+            case 'academic':
                 require_once 'CRM/Quest/Controller/MatchApp/Academic.php';
                 $controller =& new CRM_Quest_Controller_MatchApp_Academic( null, null, false );
                 break;
 
 
-            case 'Essay':
+            case 'essay':
                 require_once 'CRM/Quest/Controller/MatchApp/Essay.php';
                 $controller =& new CRM_Quest_Controller_MatchApp_Essay( null, null, false );
                 break;
 
-            case 'College':
+            case 'college':
                 require_once 'CRM/Quest/Controller/MatchApp/College.php';
                 $controller =& new CRM_Quest_Controller_MatchApp_College( null, null, false );
                 break;
 
-            case 'Partner':
+            case 'partner':
                 require_once 'CRM/Quest/Controller/MatchApp/Partner.php';
                 $controller =& new CRM_Quest_Controller_MatchApp_Partner( null, null, false );
                 break;

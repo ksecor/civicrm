@@ -108,7 +108,6 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
         require_once "CRM/Quest/StateMachine/MatchApp/$subType.php";
         eval( '$this->_stateMachine =& new CRM_Quest_StateMachine_MatchApp_' . $subType . '( $this, $this->_action );' );
-
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $this->_action );
 
@@ -281,52 +280,16 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
         $this->assign( 'wizard', $wizard );
 
-        $category = array( );
-        $category['steps'] = array( );
+        $category =& self::getCategory( );
+        foreach ( $category['steps'] as $name => $value ) {
+            if ( $name == $this->_subType ) {
+                $category['steps'][$name]['current'] = true;
+            } else {
+                $category['steps'][$name]['current'] = false;
+            }
+        }
 
-        $category['steps']['Personal'] = 
-            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/personal',
-                                                       'reset=1' ),
-                   'title'   => 'Personal Information',
-                   'current' => true,
-                   'valid'   => true );
-        $category['steps']['Household'] = 
-            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/household',
-                                                       'reset=1' ),
-                   'title'   => 'Household Information',
-                   'current' => true,
-                   'valid'   => true );
-        $category['steps']['School'] = 
-            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/school',
-                                                       'reset=1' ),
-                   'title'   => 'School Information',
-                   'current' => true,
-                   'valid'   => true );
-        $category['steps']['Academic'] = 
-            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/academic',
-                                                       'reset=1' ),
-                   'title'   => 'Academic Information',
-                   'current' => true,
-                   'valid'   => true );
-        $category['steps']['Essay'] = 
-            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/essay',
-                                                       'reset=1' ),
-                   'title'   => 'Essays',
-                   'current' => true,
-                   'valid'   => true );
-        $category['steps']['College'] = 
-            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/college',
-                                                       'reset=1' ),
-                   'title'   => 'College Match',
-                   'current' => true,
-                   'valid'   => true );
-        $category['steps']['Partner'] = 
-            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/partner',
-                                                       'reset=1' ),
-                   'title'   => 'Partner Supplements',
-                   'current' => true,
-                   'valid'   => true );
-        $this->assign( 'category', $category );
+        $this->assign_by_ref( 'category', $category );
 
         return $wizard;
     }
@@ -389,6 +352,60 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         } else {
             return 'CRM/index.tpl';
         }
+    }
+
+    static function &getCategory( ) {
+        $session =& CRM_Core_Session::singleton( );
+        $category = $session->get( 'questMatchAppCategory' );
+        if ( ! $category ) {
+            $category = array( );
+            $category['steps'] = array( );
+            
+            $category['steps']['Personal'] = 
+                array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/personal',
+                                                           'reset=1' ),
+                       'title'   => 'Personal Information',
+                       'current' => true,
+                       'valid'   => true );
+            $category['steps']['Household'] = 
+                array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/household',
+                                                           'reset=1' ),
+                       'title'   => 'Household Information',
+                       'current' => false,
+                       'valid'   => true );
+            $category['steps']['School'] = 
+                array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/school',
+                                                           'reset=1' ),
+                       'title'   => 'School Information',
+                       'current' => false,
+                       'valid'   => true );
+            $category['steps']['Academic'] = 
+                array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/academic',
+                                                           'reset=1' ),
+                       'title'   => 'Academic Information',
+                       'current' => false,
+                       'valid'   => true );
+            $category['steps']['Essay'] = 
+                array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/essay',
+                                                           'reset=1' ),
+                       'title'   => 'Essays',
+                       'current' => false,
+                       'valid'   => true );
+            $category['steps']['College'] = 
+                array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/college',
+                                                           'reset=1' ),
+                       'title'   => 'College Match',
+                       'current' => false,
+                       'valid'   => true );
+            $category['steps']['Partner'] = 
+                array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/partner',
+                                                           'reset=1' ),
+                       'title'   => 'Partner Supplements',
+                       'current' => false,
+                       'valid'   => true );
+            $session->set( 'questMatchAppCategory', $category );
+        }
+        return $category;
     }
 
 }

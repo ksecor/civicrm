@@ -36,7 +36,7 @@
 
 require_once 'CRM/Quest/Controller/MatchApp.php';
 
-class CRM_Quest_Controller_MatchApp_Household extends CRM_Quest_Controller_MatchApp {
+class CRM_Quest_Controller_MatchApp_School extends CRM_Quest_Controller_MatchApp {
 
     protected $_action;
 

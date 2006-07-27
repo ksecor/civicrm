@@ -420,6 +420,10 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         self::$_template->assign($var, $value);
     }
 
+    function assign_by_ref( $var, &$value ) {
+        self::$_template->assign_by_ref( $var, $value );
+    }
+
     /**
      * setter for embedded 
      *
