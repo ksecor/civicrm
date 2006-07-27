@@ -150,8 +150,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrinceApplicant   extends CRM_Qu
      */
     public function getTitle()
     {
-        return  array( 'app_info' => ts('Applicant Information'),
-                       'acd_intr' => ts('Academic Interests'));
+        
     }
 
    
