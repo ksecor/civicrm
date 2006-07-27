@@ -194,7 +194,7 @@
 </tr>
 <tr id = "citizenship_country_id">
     <td class="grouplabel">
-        {$form.citizenship_country_id.label}</td>
+        Please specify country of Citizenship <span class="marker">*</span></td>
     <td class="fieldlabel">
         {$form.citizenship_country_id.html}</td>
 </tr>
