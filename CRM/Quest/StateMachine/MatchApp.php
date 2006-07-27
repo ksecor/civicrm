@@ -40,7 +40,7 @@ require_once 'CRM/Core/StateMachine.php';
  * State machine for managing different states of the Quest process.
  *
  */
-class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
+abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
 
     /**
      * class constructor
