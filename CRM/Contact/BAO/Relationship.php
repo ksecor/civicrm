@@ -162,6 +162,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $relationship->contact_id_a         = $contact_a;
         $relationship->relationship_type_id = $type;
         $relationship->is_active            = 1;
+        $relationship->description          = CRM_Utils_Array::value( 'description', $params );
         $relationship->start_date           = CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
         if ( ! $relationship->start_date ) {
             $relationship->start_date = 'NULL';
@@ -523,6 +524,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                               civicrm_relationship_type.id as civicrm_relationship_type_id,
                               civicrm_relationship.start_date as start_date,
                               civicrm_relationship.end_date as end_date,
+                              civicrm_relationship.description as description,
                               civicrm_relationship.is_active as is_active ';
 
             if ( $direction == 'a_b' ) {
@@ -658,6 +660,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 $values[$rid]['state']      = $relationship->state;
                 $values[$rid]['start_date'] = $relationship->start_date;
                 $values[$rid]['end_date']   = $relationship->end_date;
+                $values[$rid]['description']= $relationship->description;
                 $values[$rid]['is_active']  = $relationship->is_active;
 
                 if ($relationship->name_a_b == $relationship->relation) {

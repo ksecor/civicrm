@@ -15,6 +15,9 @@
             {if $row.end_date}
                 <dt>{ts}End Date:{/ts}</dt><dd>{$row.end_date|crmDate}</dd>
             {/if}
+            {if $row.description}
+                <dt>{ts}Description:{/ts}</dt><dd>{$row.description}</dd>
+            {/if}
 	    {foreach from=$viewNote item="rec"}
 		    {if $rec.note}
 			<dt>{ts}Note:{/ts}</dt><dd>{$rec.note}</dd>	
@@ -117,6 +120,8 @@
                 <dd>{$form.end_date.html}{include file="CRM/common/calendar/desc.tpl" trigger=trigger_relationship_2} 
 {include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=1985 endDate=2025 trigger=trigger_relationship_2}
                 </dd>
+                <dt>{$form.description.label}</dt>
+                <dd>{$form.description.html}</dd>
                 <dt> </dt>
                     <dd class="description">
                         {ts}If this relationship has start and/or end dates, specify them here.{/ts}
