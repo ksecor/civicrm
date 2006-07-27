@@ -155,6 +155,12 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                   'Pomona' => array(
                                      'PomApplicant' => 'Applicant Information',
                                      ),
+
+
+                  'Princeton' => array(
+                                    'PrinceApplicant' => 'Applicant Information',
+                                    ),
+
                   'Rice'   => array(
                                      'RiceApplicant' => 'Applicant Information',
                                      ),
