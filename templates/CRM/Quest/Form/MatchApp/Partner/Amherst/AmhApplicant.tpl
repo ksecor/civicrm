@@ -11,7 +11,7 @@
         {foreach from=$fields key=fld item=dontcare}
             {assign var=cb value="is_"|cat:$fld}
             {assign var=div_id value="id_"|cat:$fld|cat:"_show"}
-            <tr><td class="fieldlabel">
+            <tr><td class="fieldlabel optionlist">
                 {$form.$cb.html} {$form.$cb.label}
                 <div id="{$div_id}">{$form.$fld.label} {$form.$fld.html}</div>
             </td></tr>

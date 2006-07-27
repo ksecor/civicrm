@@ -2,7 +2,7 @@
 <tr>
     <td colspan=2 class="grouplabel">
     <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
-       <tr>
+       <tr class="tr-vertical-center-text">
           <td><strong>Sport</strong></td>
           <td colspan="4"><strong>Years Played</strong></td>
           <td colspan="2"><strong>Letters</strong></td>
@@ -10,7 +10,7 @@
           <td><strong>Coach</strong></td>
           <td><strong>Varsity Captain</strong></td>
        </tr> 
-       <tr>
+       <tr class="italic-text">
           <td></td>
           <td>9</td>
           <td>10</td>

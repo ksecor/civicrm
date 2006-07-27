@@ -4,11 +4,11 @@
 <tr>
     <td colspan="2" id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
-<tr>
-    <td class="grouplabel" width="30%">
+<tr class="tr-vertical-center-text">
+    <td class="grouplabel">
         {$form.columbia_career.label}</td>
     <td>
-        <table class="app">
+        <table>
         {assign var="countEI" value=0}
         {foreach from=$form.columbia_career item=type key=key}
             {assign var="countEI" value=`$countEI+1`}
@@ -31,7 +31,7 @@
         </table>
     </td>
 </tr>
-<tr>
+<tr class="tr-vertical-center-text">
     <td class="grouplabel"> {$form.is_reside_campus.label}</td>
     <td class="fieldlabel"> {$form.is_reside_campus.html}</td>
 </tr>
@@ -43,20 +43,20 @@
         {$form.word_count.representative.label} &nbsp;&nbsp;{$form.word_count.representative.html}
     </td> 
 </tr>
-<tr>
+<tr class="tr-vertical-center-text">
     <td class="grouplabel"> {$form.is_parent_fulltime.label}</td>
     <td class="fieldlabel"> {$form.is_parent_fulltime.html}</td>
 </tr>
-<tr>
+<tr class="tr-vertical-center-text">
     <td class="grouplabel"> {$form.is_financial_aid.label}</td>
     <td class="fieldlabel"> {$form.is_financial_aid.html}</td>
 </tr>
-<tr>
+<tr class="tr-vertical-center-text">
     <td class="grouplabel"> {$form.is_visited_campus.label}</td>
     <td class="fieldlabel"> {$form.is_visited_campus.html}</td>
 </tr>
-<tr>
-    <td class="grouplabel" width="30%">
+<tr class="tr-vertical-center-text">
+    <td class="grouplabel">
         {$form.columbia_interest.label}</td>
     <td>
         <table class="app">

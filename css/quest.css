@@ -90,6 +90,9 @@ table.app td.fieldlabel {
 #crm-container td.essay label, td#bold-table-header label, #crm-container .bold-label{
     font-weight: bold;
 }
+#crm-container .italic-text{
+  font-style: italic;
+}
 #crm-container tr.tr-vertical-center-text td, #crm-container .vertical-center-text{
   vertical-align: middle;
 }

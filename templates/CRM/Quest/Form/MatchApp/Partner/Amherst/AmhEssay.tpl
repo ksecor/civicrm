@@ -2,11 +2,18 @@
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
-    <td colspan="2" id="category">Amherst College - Short Answer</td>
+    <td id="category">Amherst College - Short Answer</td>
 </tr>
 <tr>
-    <td class="grouplabel" colspan="2">
-        {$form.essay.short_essay.label}<br />
+    <td class="grouplabel">
+        {$form.essay.short_essay.label}
+    </td>
+</tr>
+<tr>
+    <td>
+        <div class="bold-label">
+        {ts}What is your favorite section of the library or bookstore?*{/ts}
+        </div>
         {$form.essay.short_essay.html} &nbsp;<br /><br />
         {$form.word_count.short_essay.label} &nbsp;&nbsp;{$form.word_count.short_essay.html}
     </td> 

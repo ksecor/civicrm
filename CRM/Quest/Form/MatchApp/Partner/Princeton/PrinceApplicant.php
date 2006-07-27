@@ -109,7 +109,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrinceApplicant   extends CRM_Qu
         $this->addCheckBox( 'ab_department',ts('A.B. Departments'), CRM_Core_OptionGroup::values( 'ab_department', true ),
                             false,null );
 
-        $this->addCheckBox( 'bsc_department',ts(' B.S.E Departments'), CRM_Core_OptionGroup::values( 'bsc_department', true ),
+        $this->addCheckBox( 'bse_department',ts(' B.S.E Departments'), CRM_Core_OptionGroup::values( 'bse_department', true ),
                             false,null );
 
         $this->addCheckBox( 'certificate_programs',null, CRM_Core_OptionGroup::values( 'certificate_programs', true ),
@@ -150,7 +150,8 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrinceApplicant   extends CRM_Qu
      */
     public function getTitle()
     {
-        return  ts('Princeton University');
+        return  array( 'app_info' => ts('Applicant Information'),
+                       'acd_intr' => ts('Academic Interests'));
     }
 
    
