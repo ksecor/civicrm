@@ -73,7 +73,7 @@
      <add>1.5</add> 
   </field>
   <field>
-     <name>social_studies</name>
+     <name>social_sciences</name>
      <type>varchar</type>
      <length>64</length>
      <add>1.5</add> 

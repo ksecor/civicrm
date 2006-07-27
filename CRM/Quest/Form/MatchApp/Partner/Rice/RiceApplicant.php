@@ -50,6 +50,8 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
 
     protected $_schools;
 
+    protected $_allchecks;
+
     /**
      * Function to set variables up before form is built
      *
@@ -70,6 +72,9 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
                                  'social_sciences'  => 'Social Sciences',
                                  'other'            => 'Other' );
         $this->assign('schools', $this->_schools);
+
+        $this->_allchecks = array( 'contacts' => 'Contacts' );
+        $this->_allchecks = array_merge( $this->_schools, $this->_allchecks);
     }
     
     /**
@@ -84,17 +89,30 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
         $defaults = array( );
 
        require_once 'CRM/Quest/Partner/DAO/Rice.php';
-        $dao =& new CRM_Quest_Partner_DAO_Rice( );
-        $dao->contact_id = $this->_contactID;
-        if ( $dao->find( true ) ) {
-        }
+       $dao =& new CRM_Quest_Partner_DAO_Rice( );
+       $dao->contact_id = $this->_contactID;
+       if ( $dao->find( true ) ) {
+            CRM_Core_DAO::storeValues( $dao , $defaults );
+       }
 
-        $defaults['essay'] = array( );
-        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
-
+       $defaults['essay'] = array( );
+       CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
+       
+       foreach ( $this->_allchecks as $name => $title ) {
+           if ($defaults[$name]) {
+               $value = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$name]);
+           }
+           if ( is_array( $value ) ) {
+               $defaults[$name] = array();
+               foreach( $value as $v ) {
+                   $defaults[$name][$v] = 1;
+               }
+           }
+       }
+       
         return $defaults;
     }
-
+    
     /**
      * Function to actually build the form
      *
@@ -105,18 +123,19 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_Partner_DAO_Rice');
 
-        $this->addRadio( 'rice_academic', 'Select the academic school you are applying to', 
+        $this->addRadio( 'rice_academic_id', 'Select the academic school you are applying to', 
                          CRM_Core_OptionGroup::values( "rice_academic" ) );
 
         foreach ( $this->_schools as $name => $title ) {
-            $this->addCheckBox( "rice_$name", $title,
+            $this->addCheckBox( "$name", $title,
                                 CRM_Core_OptionGroup::values( "rice_$name", true ),
                                 false, null );
         }
 
-        $this->addCheckBox( "rice_contacts", 'What contacts have you had with Rice (check all that apply)?',
+        $extra1 = array('onclick' => "return show_element('contacts');");
+        $this->addCheckBox( "contacts", 'What contacts have you had with Rice (check all that apply)?',
                             CRM_Core_OptionGroup::values( "rice_contacts", true ),
-                            false, null );
+                            false, null, null, $extra1 );
         
         $this->addYesNo( 'is_medicine', 'Are you interested in the Rice/Baylor College of Medicine Medical Scholars Program? (You must apply under Interim Decision to compete for this program.)', null, true );
         $this->addYesNo( 'is_rotc', 'Do you plan to apply for the Navy, Army, or Air Force ROTC Scholars Program?', null, true );
@@ -127,16 +146,24 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
                        'student_name'=> 'Name:', 
                        'coach_name'  => 'Name:', 
                        'faculty_name'=> 'Name:',
-                       'other'       => ''     );
+                       'other_name'  => ''     );
         foreach ( $texts as $name => $label ) {
             $this->add('text', $name, ts( $label ), $attributes[$name], false);
         }
-        $addTextsToChks = array('7' => 'alumni_name', 
-                                '8' => 'student_name', 
-                                '9' => 'coach_name', 
-                                '10'=> 'faculty_name', 
-                                '11'=> 'other');
-        $this->assign('addTexts', $addTextsToChks);
+        $contact_names = array('7' => 'alumni_name', 
+                               '8' => 'student_name', 
+                               '9' => 'coach_name', 
+                               '10'=> 'faculty_name', 
+                               '11'=> 'other_name');
+        $this->assign('contact_names', $contact_names);
+
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide = new CRM_Core_ShowHideBlocks();
+        foreach ( $contact_names as $id => $name ) {
+            //$this->addElement('text','heard_about_qb_name_'.$value,null,null);
+            $showHide->addHide("name_".$id);
+        }
+        $showHide->addToTemplate();
 
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
 
@@ -167,12 +194,16 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
         }
 
         $params = $this->controller->exportValues( $this->_name );
-
+        
+        foreach ( $this->_allchecks as $name => $title ) {
+            $params[$name] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                     array_keys($params[$name]));
+        }
         require_once 'CRM/Quest/Partner/DAO/Rice.php';
         $dao =& new CRM_Quest_Partner_DAO_Rice( );
         $dao->contact_id = $this->_contactID;
         $dao->find( true );
-        $dao->learn = $params['learn'];
+        $dao->copyValues($params);
         $dao->save( );
 
         CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],

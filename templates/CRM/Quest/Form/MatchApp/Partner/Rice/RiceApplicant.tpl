@@ -5,20 +5,20 @@
     <td colspan="2" id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.rice_academic.label}</td>
+    <td class="grouplabel">{$form.rice_academic_id.label}</td>
     <td class="grouplabel">
        <table>
 	<tr>
-	  <td class="optionlist grouplabel">{$form.rice_academic.1.html}</td>
-	  <td class="optionlist grouplabel">{$form.rice_academic.2.html}</td>
+	  <td class="optionlist grouplabel">{$form.rice_academic_id.1.html}</td>
+	  <td class="optionlist grouplabel">{$form.rice_academic_id.2.html}</td>
 	</tr>
 	<tr>
-	  <td class="optionlist grouplabel">{$form.rice_academic.3.html}</td>
-	  <td class="optionlist grouplabel">{$form.rice_academic.4.html}</td>
+	  <td class="optionlist grouplabel">{$form.rice_academic_id.3.html}</td>
+	  <td class="optionlist grouplabel">{$form.rice_academic_id.4.html}</td>
 	</tr>
 	<tr>
-	  <td class="optionlist grouplabel">{$form.rice_academic.5.html}</td>
-	  <td class="optionlist grouplabel">{$form.rice_academic.6.html}</td>
+	  <td class="optionlist grouplabel">{$form.rice_academic_id.5.html}</td>
+	  <td class="optionlist grouplabel">{$form.rice_academic_id.6.html}</td>
 	</tr>
        </table>
     </td>
@@ -28,7 +28,7 @@
      <td class="grouplabel">
        <table>
         {foreach from=$schools key=name item=title}
-        {assign var=schFld value="rice_"|cat:$name}
+        {assign var=schFld value=$name}
         <tr><td colspan="2" class="grouplabel optionlist" id="bold-table-header">{$form.$schFld.label}</td></tr>
         {assign var=count value=1}
         {foreach from=$form.$schFld key=k1 item=dnc1}
@@ -94,17 +94,20 @@
        <table>
 
         {assign var=count value=1}
-        {foreach from=$form.rice_contacts key=k1 item=dnc1}
+        {foreach from=$form.contacts key=k1 item=dnc1}
 	{if $count lt 10} 
         {assign var=count value=$count+1}
         {else}
 	  {if $k1 is odd} 
 		<tr>
 	  {/if}
-	  <td class="grouplabel optionlist">{$form.rice_contacts.$k1.html}
-	        {foreach from=$addTexts key=k2 item=name}
+	  <td class="grouplabel optionlist">{$form.contacts.$k1.html}
+          {*assign var=heard_about_name value="heard_about_qb_name_"|cat:$key*}  
+
+	        {foreach from=$contact_names key=k2 item=name}
+                {assign var=element_id value="name_"|cat:$k2 }
 	            {if $k2 eq $k1}
-			<br/>{$form.$name.label}{$form.$name.html}
+			<span id={$element_id}>{$form.$name.label}{$form.$name.html}</span>
 		    {/if}	
 	 	{/foreach}
 		
@@ -141,3 +144,23 @@
 </table>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
+{literal}
+<script type="text/javascript">
+    show_element("contacts");
+    function show_element(trigger_element_id)
+    {   
+        for ( i=0; i<11; i++) {
+	   var element = document.getElementsByName(trigger_element_id + "[" + (i+1) + "]")[0];
+           if (i < 6) {
+               continue;
+           }
+           if (element.checked) {
+               show("name_" + (i+1));
+           } else {
+               hide("name_" + (i+1));
+           }
+        }
+    }
+    
+</script>
+{/literal}
