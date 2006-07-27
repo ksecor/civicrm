@@ -433,8 +433,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
                 $fields['Other'] +=1;
             }
         }
-        
-        if ( ($fields['Individual'] && $fields['Other']) || $fields['Contribution'] && $fields['Other'] ) {
+        // CRM_Core_Error::debug('s', $fields);
+        if ( ($fields['Individual'] || $fields['Contribution'] ) && ! $fields['Other']  ) {
             return true;
         }
         return false;
