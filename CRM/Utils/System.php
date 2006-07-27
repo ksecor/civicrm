@@ -605,6 +605,19 @@ class CRM_Utils_System {
         echo "$title: $mem<p>";
         flush( );
     }
+
+    static function fixURL( $url ) {
+        $components = parse_url( $url );
+
+        if ( ! $components ) {
+            return null;
+        }
+
+        // at some point we'll add code here to make sure the url is not
+        // something that will mess up up, so we need to clean it up here
+        return $url;
+    }
+
 }
 
 ?>

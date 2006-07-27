@@ -359,6 +359,10 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                     $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name, $cfID, $this->_options );
+                } else if ( $name == 'home_URL' &&
+                            ! empty( $result->$name ) ) {
+                    $url = CRM_Utils_System::fixURL( $result->$name );
+                    $row[] = "<a href=\"$url\">{$result->$name}</a>";
                 } else {
                     $row[] = $result->$name;
                 }

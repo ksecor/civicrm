@@ -576,8 +576,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                             if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                                 $params[$index] = $details->$name;
                                 $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
-                            } else {
-                                $values[$index] = $details->$name;
+                            } else if ( $name == 'home_URL' &&
+                                        ! empty( $details->$name ) ) {
+                                $url = CRM_Utils_System::fixURL( $details->$name );
+                                $values[$index] = "<a href=\"$url\">{$details->$name}</a>";
                             }
                         }
                     }
