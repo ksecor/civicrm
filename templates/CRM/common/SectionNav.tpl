@@ -9,7 +9,7 @@
             {else}
                 {assign var="stepClass" value="future-step"}
             {/if}
-            {if !step.valid}
+            {if !$step.valid}
                 {assign var="stepClass" value="$stepClass not-valid"}
             {/if}
             {* step.link value is passed for section usages which allow clickable navigation AND when section state is clickable *} 
