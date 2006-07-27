@@ -598,11 +598,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             break;
 
         case 'Select State/Province':
-            $display = CRM_Core_PseudoConstant::stateProvince($value);
+            if ( empty( $value ) ) {
+                $display = '';
+            } else {
+                $display = CRM_Core_PseudoConstant::stateProvince($value);
+            }
             break;
 
         case 'Select Country':
-            $display = CRM_Core_PseudoConstant::country($value);
+            if ( empty( $value ) ) {
+                $display = '';
+            } else {
+                $display = CRM_Core_PseudoConstant::country($value);
+            }
             break;
         }
 
