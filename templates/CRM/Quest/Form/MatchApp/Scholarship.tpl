@@ -76,7 +76,7 @@
      We have found that fellow students are a valuable source of information in identifying qualified
 applicants for the following year's application cycle. Please enter contact information for current juniors that you think would be strong applicants for next year.
     <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
-     <tr>
+     <tr class="bold-label tr-vertical-center-text">
           <td>Last Name</td>
           <td>First Name</td>
           <td>School</td>
@@ -112,7 +112,7 @@ applicants for the following year's application cycle. Please enter contact info
     <td class="grouplabel" colspan=2> 
     Please enter contact information for 3 teachers or counselors in your local area who you think would be helpful in identifying students like you who would qualify for and benefit from particiaption in QuestBridge. (Please ask these teachers or counselors for permission to include their contact information. We will use this information in future years to help us identify students to apply to QuestBridge)
      <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
-      <tr>
+      <tr class="bold-label">
           <td>Last Name</td>
           <td>First Name</td>
           <td>School</td>
@@ -145,7 +145,7 @@ applicants for the following year's application cycle. Please enter contact info
     <td colspan=2 class="grouplabel">
      {ts}For any of your relatives who are alumni/ae at any of our partner colleges/universities, please list their names, relationship to you and years of graduation, if known:{/ts}
     <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
-       <tr>
+       <tr class="bold-label vertical-center-text">
           <td>Partner Institution</td>
           <td>Last Name</td>
           <td>First Name</td>
@@ -180,7 +180,7 @@ applicants for the following year's application cycle. Please enter contact info
     {ts}Please list any of your family members or relatives who are presently employed at any of our partner colleges/universities.{/ts}
     <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
       <table cellpadding=0 cellspacing=2 border=1 width="90%" class="app">
-       <tr>
+       <tr class="bold-label vertical-center-text">
           <td>Partner Institution</td>
           <td>Last Name</td>
           <td>First Name</td>
@@ -207,8 +207,6 @@ applicants for the following year's application cycle. Please enter contact info
        
         
     </table>  
-
-        
     </td>        
     </tr>
  <tr>

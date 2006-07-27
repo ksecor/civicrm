@@ -87,10 +87,12 @@ table.app td.fieldlabel {
   font-size: 10px;
   font-style: italic;
 }
-#crm-container td.essay label, td#bold-table-header label {
+#crm-container td.essay label, td#bold-table-header label, #crm-container .bold-label{
     font-weight: bold;
 }
-
+#crm-container tr.tr-vertical-center-text td, #crm-container .vertical-center-text{
+  vertical-align: middle;
+}
 table.app td.optionlist {
   border: 2px solid #fff;
 }
