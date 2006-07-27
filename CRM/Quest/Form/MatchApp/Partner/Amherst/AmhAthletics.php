@@ -154,6 +154,14 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhAthletics extends CRM_Quest_For
         $params = $this->controller->exportValues( $this->_name );
 
         require_once 'CRM/Quest/BAO/Extracurricular.php';
+
+        require_once 'CRM/Quest/Partner/DAO/Amherst.php';
+        $dao =& new CRM_Quest_Partner_DAO_Amherst( );
+        $dao->contact_id = $this->_contactID;
+        $dao->find( true );
+        $dao->copyValues($params);
+        $dao->save();
+
         CRM_Quest_BAO_Extracurricular::process( $this->_contactID, 'Amherst', $params );
 
         CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],

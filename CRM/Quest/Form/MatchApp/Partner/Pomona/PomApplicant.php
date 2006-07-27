@@ -65,7 +65,8 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
                    'name_3', 'department_3', 'relationship_3',
                    'is_broader_context', 'is_factors_work' );
 
-        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_pomona_essay', $this->_contactID, $this->_contactID );
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_pomona_applicant', $this->_contactID, $this->_contactID );
+      
     }
     
     /**
@@ -90,7 +91,7 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
         }
         
         $defaults['essay'] = array( );
-        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults );
         
         return $defaults;
     }
@@ -114,10 +115,16 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
         }
 
         $this->addYesNo( 'is_broader_context', "Is there a broader context in which we should consider your performance and involvements? Are there any external factors we should consider (e.g. family situation, work, sibling childcare responsibilities or other personal circumstances)?", null, true );
-        $this->add( 'text', 'txtBrContext', "If Yes, Please Explain",null );
+        
         $this->addYesNo( 'is_factors_work', "Are there any factors or circumstances that may affect your adjustment to college life or work?", null, true );
-        $this->add( 'text','txtFactorWork',"If Yes, Please Explain",null );
-        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays ); 
+        
+        $this->addElement( 'textarea', "broader_context",
+                           ts('If yes, please explain:'),"cols=45 rows=5" );
+        
+        $this->addElement( 'textarea', "factors_work",
+                           ts('If yes, please explain:') ,"cols=45 rows=5");
+        
+        //CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays ); 
         
         $this->assign( 'fields', $this->_fields);       
         parent::buildQuickForm( );
@@ -145,23 +152,22 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
         if ( $this->_action &  CRM_Core_Action::VIEW ) {
             return;
         }
-
+        $params = $this->controller->exportValues( $this->_name );
         require_once 'CRM/Quest/Partner/DAO/Pomona.php';
         $dao =& new CRM_Quest_Partner_DAO_Pomona( );
         $dao->contact_id = $this->_contactID;
         $dao->find( true );
 
-        foreach ( $this->_fields as $name => $titles ) {
+        foreach ( $this->_fields as $name ) {
             if ( substr( $name, 0, 3 ) == 'is_' ) {
                 $dao->$name = CRM_Utils_Array::value( $name, $params, 0 );
             } else {
                 $dao->$name = $params[$name];
             }
         }
-       
         $dao->save( );
-
-        CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
+       
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params,
                                      $this->_contactID, $this->_contactID ); 
 
         parent::postProcess( );

@@ -158,12 +158,7 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             require_once 'CRM/Quest/BAO/Extracurricular.php';
             $params = $this->controller->exportValues( $this->_name );
-            $ids = array();
-            // delete all actvities before inserting new 
-            $dao = &new CRM_Quest_DAO_Extracurricular();
-            $dao->contact_id = $this->_contactID;
-            $dao->delete();
-
+            
             CRM_Quest_BAO_Extracurricular::process( $this->_contactID, 'Extracurricular', $params );
 
             CRM_Quest_BAO_Essay::create( $this->_essays, $params, $this->_contactID, $this->_contactID );

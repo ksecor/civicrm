@@ -38,8 +38,8 @@
             <td class="grouplabel" colspan="2">{$form.$name.html}</td>
         </tr>
         <tr>
-            <td class="grouplabel">{$form.txtBrContext.label}</td>
-            <td class="grouplabel" colspan="2">{$form.txtBrContext.html}</td> 
+            <td class="grouplabel">{$form.broader_context.label}</td>
+            <td class="grouplabel" colspan="2">{$form.broader_context.html}</td> 
         </tr>
         {/if}
         
@@ -49,8 +49,8 @@
              <td class="grouplabel" colspan="2">{$form.$name.html}</td>
         </tr>
         <tr>
-            <td class="grouplabel">{$form.txtBrContext.label}</td>
-            <td class="grouplabel" colspan="2">{$form.txtBrContext.html}</td> 
+            <td class="grouplabel">{$form.factors_work.label}</td>
+            <td class="grouplabel" colspan="2">{$form.factors_work.html}</td> 
         </tr>
         {/if}
     {/foreach}

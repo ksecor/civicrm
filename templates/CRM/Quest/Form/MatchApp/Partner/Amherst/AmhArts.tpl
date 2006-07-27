@@ -11,4 +11,5 @@ If you've made a substantial commitment of time and energy to one or more of the
 <a href="supply link here">Arts Supplement form (pdf)</a>
 </td>
 </tr>
+</table>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}

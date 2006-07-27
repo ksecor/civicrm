@@ -40,7 +40,7 @@ require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * This class generates form components for the columbia applicant
+ * This class generates form components for the Wellesley applicant
  * 
  */
 class CRM_Quest_Form_MatchApp_Partner_Wellesley_WellApplicant extends CRM_Quest_Form_App
@@ -57,7 +57,7 @@ class CRM_Quest_Form_MatchApp_Partner_Wellesley_WellApplicant extends CRM_Quest_
     public function preProcess()
     {
         parent::preProcess();
-        
+        $this->_fields = array ("departmental_majors" ,"interdepartmental_major","preprofessional_interest" ) ;
        
     }
     
@@ -71,7 +71,23 @@ class CRM_Quest_Form_MatchApp_Partner_Wellesley_WellApplicant extends CRM_Quest_
     function setDefaultValues( ) 
     {
         $defaults = array( );
-
+        require_once 'CRM/Quest/Partner/DAO/Wellesley.php';
+        $dao =& new CRM_Quest_Partner_DAO_Wellesley( );
+        $dao->contact_id = $this->_contactID;
+        if ( $dao->find( true ) ) {
+            CRM_Core_DAO::storeValues( $dao, $defaults);
+            foreach ( $this->_fields as $name ) {
+                if ( $defaults[$name] ) {
+                    $value = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$defaults[$name]);
+                    if ( is_array( $value ) ) {
+                        $defaults[$name] = array();
+                        foreach( $value as $v ) {
+                            $defaults[$name][$v] = 1;
+                        }
+                    }
+                }
+            }
+        }
         return $defaults;
     }
 
@@ -92,12 +108,12 @@ class CRM_Quest_Form_MatchApp_Partner_Wellesley_WellApplicant extends CRM_Quest_
       
 
         $this->addCheckBox( 'interdepartmental_major',ts('Interdepartmental Major'),
-                            CRM_Core_OptionGroup::values( 'interdepartmental_major', true ),
+                            CRM_Core_OptionGroup::values('interdepartmental_major', true ),
                             false, null );
 
 
         $this->addCheckBox( 'preprofessional_interest', ts('Preprofessional Interest'),
-                            CRM_Core_OptionGroup::values( 'preprofessional_interest', true ),
+                            CRM_Core_OptionGroup::values('preprofessional_interest', true ),
                             true, null );
 
        
@@ -128,19 +144,18 @@ class CRM_Quest_Form_MatchApp_Partner_Wellesley_WellApplicant extends CRM_Quest_
         if ( $this->_action &  CRM_Core_Action::VIEW ) {
             return;
         }
-
-//         require_once 'CRM/Quest/Partner/DAO/Amherst.php';
-//         $dao =& new CRM_Quest_Partner_DAO_Amherst( );
-//         $dao->contact_id = $this->_contactID;
-//         $dao->find( true );
-
-//         foreach ( $this->_fields as $name => $titles ) {
-//             $cond = "is_{$name}";
-//             $dao->$cond = CRM_Utils_Array::value( $cond, $params, false );
-//             $dao->$name = $params[$name];
-//         }
-
-//         $dao->save( );
+        $params = $this->controller->exportValues( $this->_name );
+        $params['undecided'] = CRM_Utils_Array::value( $params['undecided'] , $params, false);
+        foreach ( $this->_fields as $name ) {
+            $par = CRM_Utils_Array::value( $name, $params, array());
+            $params[$name] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($par));
+        }
+        require_once 'CRM/Quest/Partner/DAO/Wellesley.php';
+        $dao =& new CRM_Quest_Partner_DAO_Wellesley( );
+        $dao->contact_id = $this->_contactID;
+        $dao->find( true );
+        $dao->copyValues($params);
+        $dao->save( );
 
         parent::postProcess( );
     } 

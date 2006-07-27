@@ -109,6 +109,7 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
 
         $dao =& new CRM_Quest_DAO_Extracurricular( );
         $dao->contact_id = $contactID;
+        $dao->owner      = $type;    
         $dao->find() ;
 
         $count = 0;
@@ -127,8 +128,8 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
             } else {
                 $defaults['grade_level_5_'.$count]  = $dao->is_varsity;
                 $defaults['grade_level_6_'.$count]  = $dao->is_junior_varsity;
-                $defaults['coach'.$count]           = $dao->coach;
-                $defaults['varsity_captain'.$count] = $dao->varsity_captain;   
+                $defaults['coach_'.$count]           = $dao->coach;
+                $defaults['varsity_captain_'.$count] = $dao->varsity_captain;   
             }
         }
         
@@ -136,11 +137,17 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
 
     static function process( $contactID, $type, &$values ) {
 
+        // delete all actvities before inserting new 
+        $dao = &new CRM_Quest_DAO_Extracurricular();
+        $dao->contact_id = $contactID;
+        $dao->owner      = $type;   
+        $dao->delete();
+
         //CRM_Core_Error::debug('s', $values);
         for ( $i= 1; $i<=7 ; $i++) {
             $params = array();
             $params['contact_id'] = $contactID;
-
+            $params['owner']      = $type;
             if ( $values['activity_'.$i] ) {
                 $params['description']  = $values['activity_'.$i];
                 $params['is_grade_9']   = CRM_Utils_Array::value( 'grade_level_1_'.$i, $values, false );

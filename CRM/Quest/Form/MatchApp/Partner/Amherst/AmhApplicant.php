@@ -143,7 +143,8 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhApplicant extends CRM_Quest_For
         if ( $this->_action &  CRM_Core_Action::VIEW ) {
             return;
         }
-
+        
+        $params = $this->controller->exportValues( $this->_name );
         require_once 'CRM/Quest/Partner/DAO/Amherst.php';
         $dao =& new CRM_Quest_Partner_DAO_Amherst( );
         $dao->contact_id = $this->_contactID;

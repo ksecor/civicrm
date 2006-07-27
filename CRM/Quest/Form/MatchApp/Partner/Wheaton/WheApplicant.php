@@ -48,6 +48,37 @@ class CRM_Quest_Form_MatchApp_Partner_Wheaton_WheApplicant extends CRM_Quest_For
     
     protected $_fields;
     
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess()
+    {
+        parent::preProcess();
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_wheaton_essay', $this->_contactID, $this->_contactID );
+    }
+
+    /**
+     * This function sets the default values for the form. Relationship that in edit/view action
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return void
+     */
+    function setDefaultValues( ) 
+    {
+        $defaults = array( );
+        require_once 'CRM/Quest/Partner/DAO/Wheaton.php';
+        $dao =& new CRM_Quest_Partner_DAO_Wheaton( );
+        $dao->contact_id = $this->_contactID;
+        if ( $dao->find( true )) {
+            CRM_Core_DAO::storeValues( $dao ,$defaults );
+        }
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay']);
+        return $defaults;
+    }
      /**
      * Function to actually build the form
      *
@@ -62,10 +93,34 @@ class CRM_Quest_Form_MatchApp_Partner_Wheaton_WheApplicant extends CRM_Quest_For
       $this->add( 'text', 'church_name', ts( 'Church Name' ), null );
       
       require_once 'CRM/Quest/BAO/Essay.php';
-      $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_wheaton_essay', $this->_contactID, $this->_contactID );
+      
       CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
+      parent::buildQuickForm( ) ;
     }
-  /**
+    
+    /** 
+     * process the form after the input has been submitted and validated 
+     * 
+     * @access public 
+     * @return void 
+     */ 
+    public function postProcess() {
+        if ( $this->_action &  CRM_Core_Action::VIEW ) {
+            return;
+        }
+        $params = $this->controller->exportValues( $this->_name );
+        require_once 'CRM/Quest/Partner/DAO/Wheaton.php';
+        $dao =& new CRM_Quest_Partner_DAO_Wheaton( );
+        $dao->contact_id = $this->_contactID;
+        $dao->find( true );
+        $dao->copyValues($params);
+        $dao->save();
+        
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'] ,
+                                     $this->_contactID, $this->_contactID ); 
+    }
+    
+    /**
      * Return a descriptive name for the page, used in wizard header
      *
      * @return string
