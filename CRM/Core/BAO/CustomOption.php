@@ -285,25 +285,27 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
                 $customValueSaveDAO->id = $customValueDAO->id;
                 $customValueSaveDAO->int_data = $params['value'];
                 $customValueSaveDAO->save();
-            }
-            if ($customValueDAO->float_data == $oldValue) {
+            } else if ($customValueDAO->float_data == $oldValue) {
                 $customValueSaveDAO->id = $customValueDAO->id;
                 $customValueSaveDAO->float_data = $params['value'];
                 $customValueSaveDAO->save();
-            }
-            if ($customValueDAO->decimal_data == $oldValue) {
+            } else if ($customValueDAO->decimal_data == $oldValue) {
                 $customValueSaveDAO->id = $customValueDAO->id;
                 $customValueSaveDAO->decimal_data = $params['value'];
                 $customValueSaveDAO->save();
-            }
-            if ($customValueDAO->char_data == $oldValue) {
-                $customValueSaveDAO->id = $customValueDAO->id;
-                $customValueSaveDAO->char_data = $params['value'];
-                $customValueSaveDAO->save();
-            }
-            if ($customValueDAO->memo_data == $oldValue) {
+            } else if ($customValueDAO->memo_data == $oldValue) {
                 $customValueSaveDAO->id = $customValueDAO->id;
                 $customValueSaveDAO->memo_data = $params['value'];
+                $customValueSaveDAO->save();
+            } else {
+                if ( $customValueDAO->char_data == $oldValue) {
+                    $updateValue = $params['value'];
+                } else {
+                    $updateValue = str_replace(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $oldValue . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $params['value'] . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValueDAO->char_data );
+                }
+                
+                $customValueSaveDAO->id = $customValueDAO->id;
+                $customValueSaveDAO->char_data = $updateValue;
                 $customValueSaveDAO->save();
             }
         }
