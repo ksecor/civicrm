@@ -61,8 +61,47 @@ class CRM_Quest_Invoke {
             break;
 
         case 'matchapp':
-            require_once 'CRM/Quest/Controller/MatchApp.php';
-            $controller =& new CRM_Quest_Controller_MatchApp( null, null, false );
+            
+            switch( $args[3] ) {
+
+            case 'household':
+                require_once 'CRM/Quest/Controller/MatchApp/Household.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Household( null, null, false );
+                break;
+
+
+            case 'School':
+                require_once 'CRM/Quest/Controller/MatchApp/School.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_School( null, null, false );
+                break;
+
+
+            case 'Academic':
+                require_once 'CRM/Quest/Controller/MatchApp/Academic.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Academic( null, null, false );
+                break;
+
+
+            case 'Essay':
+                require_once 'CRM/Quest/Controller/MatchApp/Essay.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Essay( null, null, false );
+                break;
+
+            case 'College':
+                require_once 'CRM/Quest/Controller/MatchApp/College.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_College( null, null, false );
+                break;
+
+            case 'Partner':
+                require_once 'CRM/Quest/Controller/MatchApp/Partner.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Partner( null, null, false );
+                break;
+
+            default        :
+                require_once 'CRM/Quest/Controller/MatchApp/Personal.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Personal( null, null, false );
+                break;
+            }
             break;
 
         case 'teacher':

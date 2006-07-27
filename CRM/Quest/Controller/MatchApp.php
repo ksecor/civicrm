@@ -40,16 +40,22 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
     protected $_action;
 
+    protected $_subType;
+
+    protected $_sections;
+
     /**
      * class constructor
      */
-    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
+    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true, $subType = null ) {
         parent::__construct( $title, $modal );
         
         $cid = $this->get( 'contactID' );
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'update' );
         $this->assign( 'action', $this->_action );
+        $this->_subType = $subType;
+
         if ( ! $cid ) {
             $cid    = CRM_Utils_Request::retrieve( 'id', 'Positive',
                                                    $this );
@@ -100,8 +106,8 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
             }
         }
 
-        require_once 'CRM/Quest/StateMachine/MatchApp.php';
-        $this->_stateMachine =& new CRM_Quest_StateMachine_MatchApp( $this, $this->_action );
+        require_once "CRM/Quest/StateMachine/MatchApp/$subType.php";
+        eval( '$this->_stateMachine =& new CRM_Quest_StateMachine_MatchApp_' . $subType . '( $this, $this->_action );' );
 
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $this->_action );
@@ -196,72 +202,6 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
         $count           = 0;
         
-        $sections = array( 'Guardian' => array( 'title'     => 'Parent/Guardian Detail',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Sibling'  => array( 'title'     =>'Sibling Information',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Income'   => array( 'title'     => 'Household Income',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'School'   => array( 'title'     => 'High School Information',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Extracurricular' => array( 'title' => 'Extracurricular Information',
-                                                       'processed' => true,
-                                                       'valid'     => true,
-                                                       'index'     => 0 ),
-                           'Academic' => array( 'title' => 'Academic Information',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Essay'    => array( 'title' => 'Essays',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Amherst'  => array( 'title'     => 'Amherst College',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Bowdoin'  => array( 'title'     => 'Bowdoin College',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Columbia'  => array( 'title'     => 'Columbia University',
-                                                 'processed' => true,
-                                                 'valid'     => true,
-                                                 'index'     => 0 ),
-                           'Pomona'   => array( 'title'     => 'Pomona College',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Princeton'=> array( 'title'     => 'Princeton University',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Rice'     => array( 'title'     => 'Rice University',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Stanford' => array( 'title'     => 'Stanford University',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Wellesley' => array( 'title'     => 'Wellesley College',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-                           'Wheaton'  => array( 'title'     => 'Wheaton College',
-                                                'processed' => true,
-                                                'valid'     => true,
-                                                'index'     => 0 ),
-          );
-
         $subCount = 0;
         $data =& $this->container( );
         foreach ( $this->_pages as $name => $page ) {
@@ -269,18 +209,18 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
             $step  = true;
             $link  = $this->_stateMachine->validPage( $name, $data['valid'] ) ? $page->getLink ( ) : null;
             $valid = ( $name == 'SchoolOther' ) ? 1 : $data['valid'][$name];
-            if ( CRM_Utils_Array::value( $subNames[0], $sections ) ) {
+            if ( CRM_Utils_Array::value( $subNames[0], $this->_sections ) ) {
                 $step      = false;
                 $collapsed = true;
-                if ( $sections[$subNames[0]]['processed'] ) {
+                if ( $this->_sections[$subNames[0]]['processed'] ) {
                     $count++;
-                    $sections[$subNames[0]]['processed'] = false;
+                    $this->_sections[$subNames[0]]['processed'] = false;
 
                     // remember the index to fix valid status
-                    $sections[$subNames[0]]['index'] = count( $wizard['steps'] );
+                    $this->_sections[$subNames[0]]['index'] = count( $wizard['steps'] );
 
                     $wizard['steps'][] = array( 'name'       => $name,
-                                                'title'      => $sections[$subNames[0]]['title'],
+                                                'title'      => $this->_sections[$subNames[0]]['title'],
                                                 'link'       => $link,
                                                 'valid'      => $valid,
                                                 'step'       => true,
@@ -293,7 +233,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                     $stepNumber = $count . ".$subCount";
                 }
                 // the section valid is an AND of all subsection valid
-                $sections[$subNames[0]]['valid'] = $valid & $sections[$subNames[0]]['valid'];
+                $this->_sections[$subNames[0]]['valid'] = $valid & $this->_sections[$subNames[0]]['valid'];
             } else {
                 $count++;
                 $stepNumber = $count;
@@ -316,7 +256,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         }
 
         // fix valid status of all section heads
-        foreach ( $sections as $name => $value ) {
+        foreach ( $this->_sections as $name => $value ) {
             $wizard['steps'][$value['index']]['valid'] = $value['valid'];
         }
 
@@ -340,6 +280,54 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         $this->addWizardStyle( $wizard ); 
 
         $this->assign( 'wizard', $wizard );
+
+        $category = array( );
+        $category['steps'] = array( );
+
+        $category['steps']['Personal'] = 
+            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/personal',
+                                                       'reset=1' ),
+                   'title'   => 'Personal Information',
+                   'current' => true,
+                   'valid'   => true );
+        $category['steps']['Household'] = 
+            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/household',
+                                                       'reset=1' ),
+                   'title'   => 'Household Information',
+                   'current' => true,
+                   'valid'   => true );
+        $category['steps']['School'] = 
+            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/school',
+                                                       'reset=1' ),
+                   'title'   => 'School Information',
+                   'current' => true,
+                   'valid'   => true );
+        $category['steps']['Academic'] = 
+            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/academic',
+                                                       'reset=1' ),
+                   'title'   => 'Academic Information',
+                   'current' => true,
+                   'valid'   => true );
+        $category['steps']['Essay'] = 
+            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/essay',
+                                                       'reset=1' ),
+                   'title'   => 'Essays',
+                   'current' => true,
+                   'valid'   => true );
+        $category['steps']['College'] = 
+            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/college',
+                                                       'reset=1' ),
+                   'title'   => 'College Match',
+                   'current' => true,
+                   'valid'   => true );
+        $category['steps']['Partner'] = 
+            array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/partner',
+                                                       'reset=1' ),
+                   'title'   => 'Partner Supplements',
+                   'current' => true,
+                   'valid'   => true );
+        $this->assign( 'category', $category );
+
         return $wizard;
     }
 
