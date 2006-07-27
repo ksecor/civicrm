@@ -158,7 +158,8 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                   'Princeton'=> array(
                                       'PrinceApplicant' => 'Applicant Information',
                                       'PrShortAnswer' => 'Short Answers',
-                                      'PrEssay'       => 'Essay'
+                                      'PrEssay'       => 'Essay',
+                                      'PrEnggEssay'   => 'Enginering Essay'
                                       ),
                   'Rice'   => array(
                                     'RiceApplicant' => 'Applicant Information',
