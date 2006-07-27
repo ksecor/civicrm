@@ -161,7 +161,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
        
         // ethnicity 
         $extra2 = array( 'onchange' => "showHideByValue('ethnicity_id_1','18','ethnicity_other','','select',false); return showHideByValue('ethnicity_id_1','1','tribe_affiliation|tribe_date', '','select',false );");
-        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" , false, $extra2);
+        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" , true, $extra2);
 
         require_once 'CRM/Core/ShowHideBlocks.php';
 
@@ -220,8 +220,8 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         // year of high school graduation
         $this->addElement('date', 'high_school_grad_year', ts( 'Year of high school graduation'),
                           CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
-        $this->addRule('high_school_grad_year', ts('Select a valid date.'), 'qfDate');
-        $this->addRule('high_school_grad_year', ts('Select a valid  date.'), 'required');
+        $this->addRule('high_school_grad_year', ts('Select a valid graduation year.'), 'qfDate');
+        $this->addRule('high_school_grad_year', ts('Select a valid graduation year.'), 'required');
 
         
         //file upload

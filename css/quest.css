@@ -45,7 +45,6 @@
   color: #285A66;
 }
 
-}
 #crm-container label, .labels, .label {
   font-weight: normal;
 }
@@ -88,7 +87,7 @@ table.app td.fieldlabel {
   font-size: 10px;
   font-style: italic;
 }
-table.app td.essay label, td#bold-table-header label {
+#crm-container td.essay label, td#bold-table-header label {
     font-weight: bold;
 }
 

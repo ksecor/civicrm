@@ -182,7 +182,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         $this->addYesNo( 'register_standarized_tests',
                          ts( 'Did you use fee waivers to register for standarized tests?' ) ,null,false);
 
-        $this->addElement('textarea','displacement', ts('If you are a resident of Alabama, Florida, Louisina, Mississippi, or Texas, are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), "cols=60,rows=8");
+        $this->addElement('textarea','displacement', ts('If you are a resident of Alabama, Florida, Louisina, Mississippi, or Texas, are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), "cols=40 rows=3");
         $radioAttribute = array('onclick' => "return show_element('heard_about_qb_id');");
         
         $this->addRadio( 'heard_about_qb_id',

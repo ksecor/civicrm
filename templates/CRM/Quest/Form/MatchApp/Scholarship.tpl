@@ -6,8 +6,8 @@
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-     <td class="grouplabel"> {$form.internet_access_id.label} </td>
-     <td class="fieldlabel">{$form.internet_access_id.html}</td>
+     <td class="grouplabel" width="30%"> {$form.internet_access_id.label} </td>
+     <td class="fieldlabel" width="70%">{$form.internet_access_id.html}</td>
 </tr> 
 <tr id="internet_access_other">
      <td class="grouplabel"> {$form.internet_access_other.label}</td>
@@ -54,7 +54,7 @@
         {foreach from=$form.heard_about_qb_id item=type key=key}
         {assign var="countEI" value=`$countEI+1`}
         {if $countEI gt 9 }         
-        <tr><td class="fieldlabel"> {$form.heard_about_qb_id.$key.html}
+        <tr><td class="optionlist"> {$form.heard_about_qb_id.$key.html}
         {assign var=heard_about_name value="heard_about_qb_name_"|cat:$key}  
         {if $form.$heard_about_name.html}
             {assign var=element_id value="heard_about_name_"|cat:$key }

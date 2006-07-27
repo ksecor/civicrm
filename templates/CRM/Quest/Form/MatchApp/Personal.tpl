@@ -215,9 +215,9 @@
 </tr>
 <tr id="tribe_date">
     <td class="grouplabel">
-        {$form.tribe_date.label}</td>
+        {$form.tribe_enroll_date.label}</td>
     <td class="fieldlabel">
-        {$form.tribe_date.html}</td>
+        {$form.tribe_enroll_date.html}</td>
 </tr>
 <tr id="ethnicity_other">
     <td class="grouplabel">
@@ -302,6 +302,7 @@
  		   	document.getElementById("location_2_address_"+field[i]).value = 
 				document.getElementById("location_1_address_"+field[i]).value;
 	         }
+             document.Personal.copy_phone.focus();
 	    } else {
 	  	 for (i = 0; i < field.length; i++) {
  		    document.getElementById("location_2_address_"+field[i]).value = null;
@@ -311,8 +312,8 @@
 
    	function copyPhone() {
 	    if (document.getElementsByName("copy_phone")[0].checked) {
- 	   	document.getElementById("location_2_phone_1_phone").value = 
-			document.getElementById("location_1_phone_1_phone").value;
+            document.getElementById("location_2_phone_1_phone").value = document.getElementById("location_1_phone_1_phone").value;
+            document.getElementById("location_2_phone_2_phone").focus();
 	    } else {
  	   	document.getElementById("location_2_phone_1_phone").value = null;
 	    }		
