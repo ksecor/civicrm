@@ -240,7 +240,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                                                 'processed' => true,
                                                 'valid'     => true,
                                                 'index'     => 0 ),
-                           'Princeton'   => array( 'title'  => 'Princeton University',
+                           'Princeton'=> array( 'title'     => 'Princeton University',
                                                 'processed' => true,
                                                 'valid'     => true,
                                                 'index'     => 0 ),

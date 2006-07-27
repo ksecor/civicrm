@@ -153,25 +153,24 @@ class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                                       'ColRecommendation' => 'Recommendations'
                                      ),
                   'Pomona' => array(
-                                     'PomApplicant' => 'Applicant Information',
-                                     ),
-
-
-                  'Princeton' => array(
-                                    'PrinceApplicant' => 'Applicant Information',
+                                    'PomApplicant' => 'Applicant Information',
                                     ),
-
+                  'Princeton'=> array(
+                                      'PrinceApplicant' => 'Applicant Information',
+                                      'PrShortAnswer' => 'Short Answers',
+                                      'PrEssay'       => 'Essay'
+                                      ),
                   'Rice'   => array(
-                                     'RiceApplicant' => 'Applicant Information',
-                                     ),
-
+                                    'RiceApplicant' => 'Applicant Information',
+                                    ),
+                  
                   'Stanford'=> array(
                                      'StanfordApplicant' => 'Applicant Information',
                                      'StfShortEssay'     => 'Short Essay',
                                      'StfEssay'          => 'Essay',
                                      'StfArts'           => 'Arts Supplement',
                                      ),
-
+                  
                   'Wellesley'   => array(
                                      'WellApplicant' => 'Applicant Information',
                                      'Essay'         => 'Essay'
