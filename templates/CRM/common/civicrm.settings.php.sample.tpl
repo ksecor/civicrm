@@ -489,6 +489,14 @@ define('CIVICRM_ENABLE_SSL', 0 );
 define('CIVICRM_DOMAIN_ID' , 1 );
 
 /**
+ * Location Blocks display for Contacts
+ *
+ * CiviCRM by default shows 2 location blocks when editing a contact, change this number if you
+ * want to increase the location blocks
+ */
+// define( 'CIVICRM_MAX_LOCATION_BLOCKS', 2 );
+
+/**
  * Debugging:
  *
  * Enable CIVICRM_DEBUG (value = 1) when you need to use one of the debug-related tools. These are 

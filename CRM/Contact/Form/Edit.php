@@ -213,7 +213,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     function setDefaultValues( ) {
         $defaults = array( );
         $params   = array( );
-        
+
+        $config =& CRM_Core_Config::singleton( );
         if ( $this->_action & CRM_Core_Action::ADD ) {
             // set group and tag defaults if any
             if ( $this->_gid ) {
@@ -223,7 +224,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $defaults['tag'][$this->_tid] = 1;
             }
 
-            if ( self::LOCATION_BLOCKS >= 1 ) {
+            if ( $config->maxLocationBlocks >= 1 ) {
                 // set the is_primary location for the first location
                 $defaults['location']    = array( );
                 
@@ -231,9 +232,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 sort( $locationTypeKeys );
                 
                 // also set the location types for each location block
-                for ( $i = 0; $i < self::LOCATION_BLOCKS; $i++ ) {
+                for ( $i = 0; $i < $config->maxLocationBlocks; $i++ ) {
                     $defaults['location'][$i+1] = array( );
-                    //$defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
                     if ( $i == 0 ) {
                         $defaultLocation =& new CRM_Core_BAO_LocationType();
                         $locationType = $defaultLocation->getDefault();
@@ -312,8 +312,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         // first do the defaults showing
+        $config =& CRM_Core_Config::singleton( );
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
-                                                        self::LOCATION_BLOCKS );
+                                                        $config->maxLocationBlocks );
  
         if ( $this->_action & CRM_Core_Action::ADD ) {
             // notes are only included in the template for New Contact
@@ -345,9 +346,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
         if ( $force ) {
             $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
+            $config =& CRM_Core_Config::singleton( );
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        $locationDefaults,
-                                                       self::LOCATION_BLOCKS );
+                                                       $config->maxLocationBlocks );
         }
         
         $this->_showHide->addToTemplate( );
@@ -375,7 +377,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     public function buildQuickForm( ) {
         // assign a few constants used by all display elements
         // we can obsolete this when smarty can access class constans directly
-        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1 );
+        $config =& CRM_Core_Config::singleton( );
+        $this->assign( 'locationCount', $config->maxLocationBlocks + 1 );
         $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
         $this->assign( 'contact_type' , $this->_contactType );
 
@@ -386,7 +389,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         self::buildCommunicationBlock($this);
 
         /* Entering the compact location engine */ 
-        $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
+        $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, $config->maxLocationBlocks );
 
         /* End of locations */
         
@@ -465,7 +468,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $params['deceased_date'] = null;
         }
         
-        $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
+        $config  =& CRM_Core_Config::singleton( );
+        $contact = CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks );
         
         //add contact to gruoup
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );

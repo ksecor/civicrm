@@ -369,6 +369,13 @@ class CRM_Core_Config {
     public $legacyEncoding = 'Windows-1252';
 
     /**
+     * max location blocks in address
+     *
+     * @var integer
+     */
+    public $maxLocationBlocks        = 2;
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -747,6 +754,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_LEGACY_ENCODING' ) ) {
             $this->legacyEncoding = CIVICRM_LEGACY_ENCODING;
+        }
+
+        if ( defined( 'CIVICRM_MAX_LOCATION_BLOCKS' ) ) {
+            $this->maxLocationBlocks = CIVICRM_MAX_LOCATION_BLOCKS;
         }
 
         require_once 'CRM/Core/Component.php';
