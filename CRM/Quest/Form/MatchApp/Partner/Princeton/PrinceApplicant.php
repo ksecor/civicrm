@@ -79,26 +79,30 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrinceApplicant   extends CRM_Qu
      */
     public function buildQuickForm( ) 
     {
-     
-
         $this->addYesNo( 'is_diploma', ts( 'Are you an International Baccalaureate diploma candidate?' ) ,null,true);
 
-           
+       
+        
         for ( $i = 1; $i <= 7; $i++ ) {
-            $this->addElement('text', "subject_$i", ts('Subject'), null );
+            $this->addElement('text', "subject_{$i}", ts('Subject'), null );
             
-            $this->addElement('date', 'test_date_$i',
+            $this->addElement('date', "test_date_{$i}",
                               ts(' Month/Year)'),
                               CRM_Core_SelectValues::date('custom', 50, 0, "M\001Y" ));
-            $this->addElement('radio', 'sl_hl', ts('SL  or HL'));
-                              
-            $this->addElement('text', "score_$i", ts('Score'), null );
-        } 
+            //            $this->addElement('radio', null, null, ts('SL  or HL'), "sl_hl_{$i}");
 
+            $slhl = array();
+            $slhl[] =  $this->createElement( 'radio', null, null, ts( 'SL' ), 'sl', null );
+            $slhl[] =  $this->createElement( 'radio', null, null, ts( 'HL' ), 'hl', null );
+            $this->addGroup( $slhl, "slhl_{$i}", null );
+            
+            $this->addElement('text', "score_{$i}", ts('Score'), null );
+        } 
+        
         $this->addCheckBox( 'princeton_activities',ts('Please indicate the three activities in which, at this time, you would be most inclined to participate at Princeton.  '), CRM_Core_OptionGroup::values( 'princeton_activities', true ),
                             true,null );
         
-        $this->addElement('text', "Please choose a four digit pin number.", null, null ); 
+        $this->addElement('text', 'pin_no',"Please choose a four digit pin number.", null, null ); 
 
         $this->addRadio( 'princeton_degree', ts('Which degree would you most likely pursue at Princeton? (Your choice is not binding in any way.)'),CRM_Core_OptionGroup::values('princeton_degree') );
 
