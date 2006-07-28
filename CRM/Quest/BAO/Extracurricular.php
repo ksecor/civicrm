@@ -171,7 +171,7 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
     }
 
     static function formRule( &$params, $type ) {
-
+       
         $errors = array( );
         
         for ( $i = 1; $i <= 7; $i++ ) {
@@ -224,6 +224,16 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
                         if (!$params["time_spent_{$j}_{$i}"]) {
                             $errors["time_spent_{$j}_{$i}"] = "Please enter the time spent.";
                         }
+                    }
+                }
+                if ( $type == 'Extracurricular' ) {
+                    if( $params['varsity_sports'] && !$params['varsity_sports_list']) {
+                        $errors['varsity_sports_list'] = "Please Enter Varsity Sports";
+                    }
+                }
+                if ( $type == 'Extracurricular' ) {
+                    if( $params['arts'] && !$params['arts_list']) {
+                        $errors['arts_list'] = "Please Enter Art List";
                     }
                 }
 
