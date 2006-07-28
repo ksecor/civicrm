@@ -27,7 +27,7 @@
 
 
 /**
- * Amherst Appliction
+ * Princeton ShortAnswer
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -40,7 +40,7 @@ require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * This class generates form components for the amherst application
+ * This class generates form components for the Princeton application
  * 
  */
 class CRM_Quest_Form_MatchApp_Partner_Princeton_PrShortAnswer extends CRM_Quest_Form_App

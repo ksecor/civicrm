@@ -1,4 +1,4 @@
-{* Quest College Match: Partner: Amherst: Applicant Info section *}
+{* Quest College Match: Partner: Rice: Applicant Info section *}
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
@@ -146,8 +146,8 @@
 <script type="text/javascript">
     /*show_element("contacts");*/
     function show_element(trigger_element_id)
-    {   alert(trigger_element_id);
-	alert(document.getElementsByName(trigger_element_id + "[" + (4) + "]")[0].checked);
+    {   /*alert(trigger_element_id);
+	alert(document.getElementsByName(trigger_element_id + "[" + (4) + "]")[0].checked);*/
 	if ( trigger_element_id == "contacts" ) {
            for ( i=0; i<11; i++) {
 	      var element = document.getElementsByName(trigger_element_id + "[" + (i+1) + "]")[0];

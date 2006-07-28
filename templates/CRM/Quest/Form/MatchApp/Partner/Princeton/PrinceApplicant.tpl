@@ -54,7 +54,11 @@
 	            {if $k1 is odd} 
 		        <tr>
 	            {/if}
-	            <td class="grouplabel optionlist">{$form.princeton_activities.$k1.html}</td>	
+	            <td class="grouplabel optionlist">{$form.princeton_activities.$k1.html}
+                {if $k1 eq 11}
+                    <span id="activities_other">{$form.activities_other.html}</span>
+                {/if}
+                </td>
 	            {if $k1 is even} 
 		        </tr>
 	            {/if}
@@ -190,3 +194,12 @@
 </tr>
 </table>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
+
+{include file="CRM/common/showHideByFieldValue.tpl"
+    trigger_field_id    ="princeton_activities"
+    trigger_value       ="1"
+    target_element_id   ="activities_other"
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}

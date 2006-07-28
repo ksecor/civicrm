@@ -80,8 +80,6 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrinceApplicant   extends CRM_Qu
     public function buildQuickForm( ) 
     {
         $this->addYesNo( 'is_diploma', ts( 'Are you an International Baccalaureate diploma candidate?' ) ,null,true);
-
-       
         
         for ( $i = 1; $i <= 7; $i++ ) {
             $this->addElement('text', "subject_{$i}", ts('Subject'), null );
@@ -89,8 +87,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrinceApplicant   extends CRM_Qu
             $this->addElement('date', "test_date_{$i}",
                               ts(' Month/Year)'),
                               CRM_Core_SelectValues::date('custom', 50, 0, "M\001Y" ));
-            //            $this->addElement('radio', null, null, ts('SL  or HL'), "sl_hl_{$i}");
-
+                        
             $slhl = array();
             $slhl[] =  $this->createElement( 'radio', null, null, ts( 'SL' ), 'sl', null );
             $slhl[] =  $this->createElement( 'radio', null, null, ts( 'HL' ), 'hl', null );
@@ -98,11 +95,12 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrinceApplicant   extends CRM_Qu
             
             $this->addElement('text', "score_{$i}", ts('Score'), null );
         } 
-        
+        $extra =array('onclick' => "return showHideByValue('princeton_activities[11]', '1', 'activities_other', '', 'radio', false);");
         $this->addCheckBox( 'princeton_activities',ts('Please indicate the three activities in which, at this time, you would be most inclined to participate at Princeton.  '), CRM_Core_OptionGroup::values( 'princeton_activities', true ),
-                            true,null );
+                            true,'<br/>',null,$extra);
+        $this->addElement('text', 'activities_other',null);
         
-        $this->addElement('text', 'pin_no',"Please choose a four digit pin number.", null, null ); 
+        $this->addElement('text', 'pin_no',ts("Please choose a four digit pin number."), null, null ); 
 
         $this->addRadio( 'princeton_degree', ts('Which degree would you most likely pursue at Princeton? (Your choice is not binding in any way.)'),CRM_Core_OptionGroup::values('princeton_degree') );
 
@@ -111,11 +109,16 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrinceApplicant   extends CRM_Qu
 
         $this->addCheckBox( 'bse_department',ts(' B.S.E Departments'), CRM_Core_OptionGroup::values( 'bse_department', true ),
                             false,null );
-
+        
         $this->addCheckBox( 'certificate_programs',null, CRM_Core_OptionGroup::values( 'certificate_programs', true ),
                             false,null );
-
+        
         parent::buildQuickForm();
+        
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide = new CRM_Core_ShowHideBlocks();
+        $showHide->addHide('activities_other');
+        $showHide->addToTemplate();
     }
     //end of function
     

@@ -59,7 +59,7 @@
     <td class="grouplabel">
         {$form.columbia_interest.label}</td>
     <td>
-        <table class="app">
+        <table>
         {assign var="countEI" value=0}
         {foreach from=$form.columbia_interest item=type key=key}
             {assign var="countEI" value=`$countEI+1`}
