@@ -1017,7 +1017,9 @@ class CRM_Contact_BAO_Query {
             }
 
             if ( ! empty( $field['where'] ) ) {
-                $value = strtolower( addslashes( $value ) );
+                if ( $op != 'IN' ) {
+                    $value = strtolower( addslashes( $value ) );
+                }
                 if ( $wildcard ) {
                     $value = "%$value%"; 
                 }
@@ -1038,7 +1040,11 @@ class CRM_Contact_BAO_Query {
                         $tName = $locationType[$locType[1]] . "-address";
                     }
                     $where = "`$tName`.$fldName";
-                    $this->_where[$grouping][] = "LOWER( $where ) $op '$value'";
+                    if ( $op != 'IN' ) {
+                        $this->_where[$grouping][] = "LOWER( $where ) $op '$value'";
+                    } else {
+                        $this->_where[$grouping][] = "LOWER( $where ) $op $value";
+                    }
                     $this->_whereTables[$tName] = $this->_tables[$tName];
                     if ( $locType[2] && ( strtolower( $locType[2] ) != ts( 'phone' ) ) ) {
                         $this->_qill[$grouping][]  = ts( "%1-%4 (%3) $op '%2'", array( 1 => $field['title'],
@@ -1055,8 +1061,10 @@ class CRM_Contact_BAO_Query {
                     
                     if ( $tableName == 'civicrm_contact' ) {
                         $this->_where[$grouping][] = "LOWER( contact_a.{$fieldName} ) $op '$value'";
-                    } else {
+                    } else if ( $op != 'IN' ) {
                         $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
+                    } else {
+                        $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op $value";
                     }
                     $this->_qill[$grouping][]  = ts( "%1 $op '%2'", array( 1 => $field['title'], 2 => $value ) );
                 }
