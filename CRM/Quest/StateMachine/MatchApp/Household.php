@@ -57,16 +57,41 @@ class CRM_Quest_StateMachine_MatchApp_Household extends CRM_Quest_StateMachine_M
             $this->_pages = array_merge( $this->_pages, $pages );
         }
         $this->_pages['CRM_Quest_Form_MatchApp_Income']       = null;
-        $this->_pages['CRM_Quest_Form_MatchApp_Noncustodial'] = null;
+
+        if ( $this->includeNonCustodial( ) ) {
+            $this->_pages['CRM_Quest_Form_MatchApp_Noncustodial'] = null;
+        }
         parent::rebuild( $controller, $action );
     }
 
     public function &getDependency( ) {
         if ( self::$_dependency == null ) {
-            self::$_dependency = array( 'Household'   => array( 'Guardian'  => 1 ) );
+            self::$_dependency = array( 'Household'    => array( ),
+                                        'Guardian'     => array( 'Household'  => 1 ),
+                                        'Sibling'      => array( ),
+                                        'Income'       => array( 'Guardian'   => 1 ),
+                                        'Noncustodial' => array( ),
+                                        );
         }
 
         return self::$_dependency;
+    }
+
+    public function includeNonCustodial( ) {
+        $includeNonCustodial = $this->_controller->get( 'includeNonCustodial' );
+        if ( $includeNonCustodial === null ) {
+            $cid = $this->_controller->get( 'contactID' );
+            $query = "
+SELECT count( p.id )
+  FROM quest_person p
+ WHERE p.contact_id              = $cid
+   AND p.is_parent_guardian      = 1
+   AND p.is_contact_with_student = 0
+";
+            $includeNonCustodial = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray ) ? 1 : 0;
+            $this->_controller->set( 'includeNonCustodial', $includeNonCustodial );
+        }
+        return $includeNonCustodial;
     }
 
 }

@@ -156,9 +156,9 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
 SELECT p.name as name
 FROM   quest_partner p,
        quest_partner_ranking r
-WHERE  r.contact_id = $cid
-  AND  r.partner_id = p.id
-  AND  r.ranking_id >= 1
+WHERE  r.contact_id  = $cid
+  AND  r.partner_id  = p.id
+  AND  r.ranking     >= 1
   AND  r.is_forward  = 1
 ";
             self::$_validPartners = array( );
