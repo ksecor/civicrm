@@ -265,20 +265,22 @@ $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_1', '30
             
             // unset all details other than father and mother
             // also set the other parent guardians as null
-            foreach ( $details as $name => $value ) {
-                if ( $name == "Guardian-Mother" || $name == "Guardian-Father" ) {
-                    continue;
-                }
-                
-                $query = "
+            if (is_array($details)) {
+                foreach ( $details as $name => $value ) {
+                    if ( $name == "Guardian-Mother" || $name == "Guardian-Father" ) {
+                        continue;
+                    }
+                    
+                    $query = "
 UPDATE quest_person
 SET    is_parent_guardian = 0
 WHERE  id = {$value['options']['personID']}
 ";
-                $par = array();
-                CRM_Core_DAO::executeQuery( $query,$par );
-                
-                unset( $details[$name] );
+                    $par = array();
+                    CRM_Core_DAO::executeQuery( $query,$par );
+                    
+                    unset( $details[$name] );
+                }
             }
             //add values to Student summary
             require_once "CRM/Quest/DAO/StudentSummary.php";            
@@ -340,6 +342,7 @@ WHERE  id = {$value['options']['personID']}
             self::getPages( $this->controller, true );
 
             // also recreate all income pages
+            require_once "CRM/Quest/Form/MatchApp/Income.php";
             CRM_Quest_Form_MatchApp_Income::getPages( $this->controller, true );
             
             $this->controller->rebuild( );

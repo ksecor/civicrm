@@ -10,7 +10,7 @@
     <td class="grouplabel" width="30%">
         {$form.educational_interest.label}</td>
     <td>
-        <table class="app">
+        <table>
         {assign var="countEI" value=0}
         {foreach from=$form.educational_interest item=type key=key}
             {assign var="countEI" value=`$countEI+1`}
@@ -37,7 +37,7 @@
     <td class="grouplabel" width="30%">
         {$form.college_type.label}</td>
     <td>
-        <table class="app">
+        <table>
         {assign var="countCT" value=0}
         {foreach from=$form.college_type item=type key=key}
             {assign var="countCT" value=`$countCT+1`}
