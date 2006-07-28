@@ -61,11 +61,7 @@ class CRM_Quest_StateMachine_MatchApp_Personal extends CRM_Quest_StateMachine_Ma
 
     public function &getDependency( ) {
         if ( self::$_dependency == null ) {
-            self::$_dependency = array(
-                                       'Personal'    => array( ),
-                                       'Scholarship' => array( 'Personal'  => 1 ),
-                                       'Educational' => array( 'Personal'  => 1 )
-                                       );
+            self::$_dependency = array( );
         }
 
         return self::$_dependency;
