@@ -1,6 +1,6 @@
 
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-{include file="CRM/WizardHeader.tpl}
+{include file="CRM/common/WizardHeader.tpl"}
 <div id="help">
     {ts}Use this form to configure the Membership section for this Online Contribution Page. You can hide the section completely by un-checking the Enabled field. You can set separate section titles and introductory messages for new memberships and for renewals.{/ts}
 </div>

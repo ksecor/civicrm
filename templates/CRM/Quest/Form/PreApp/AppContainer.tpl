@@ -33,7 +33,7 @@
           {if ! ( $action & 1024 )}
             <td valign=top nowrap id="preapp-left-nav">
             {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-            {include file="CRM/WizardHeader.tpl}
+            {include file="CRM/common/WizardHeader.tpl"}
             <br>
             <div id="help-box">
               <strong>Need Help?</strong><br />

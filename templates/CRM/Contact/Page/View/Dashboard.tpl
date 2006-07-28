@@ -5,7 +5,7 @@
 
     {if $rows}
         <form title="activity_pager" action="{crmURL}" method="post">
-        {include file="CRM/pager.tpl" location="top"}
+        {include file="CRM/common/pager.tpl" location="top"}
         {strip}
         <table>
           <tr class="columnheader">
@@ -41,7 +41,7 @@
         {/foreach}
         </table>
         {/strip}
-        {include file="CRM/pager.tpl" location="bottom"}
+        {include file="CRM/common/pager.tpl" location="bottom"}
         </form>
     {else}
     <div>

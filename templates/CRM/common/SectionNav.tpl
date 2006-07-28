@@ -15,7 +15,7 @@
             {* step.link value is passed for section usages which allow clickable navigation AND when section state is clickable *} 
             <li class="{$stepClass}">{if $step.link && $step.valid && !$step.current}<a href="{$step.link}">{/if}{$step.title}{if $step.link}</a>{/if}</li>
             {if $step.current}
-                {include file="CRM/WizardHeader.tpl}
+                {include file="CRM/common/WizardHeader.tpl"}
             {/if}
     {/foreach}
    </ul>

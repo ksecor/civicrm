@@ -1,5 +1,5 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-{include file="CRM/WizardHeader.tpl}
+{include file="CRM/common/WizardHeader.tpl"}
 
 <div id="help">
     <p>{ts}Use this form to configure Contribution Amount options. You can give contributors the ability to enter their own contribution amounts - and/or provide a fixed list of amounts. For fixed amounts, you can enter a label for each 'level' of contribution (e.g. Friend, Sustainer, etc.).{/ts}</p>

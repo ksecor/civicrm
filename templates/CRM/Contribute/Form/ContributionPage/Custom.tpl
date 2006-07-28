@@ -1,5 +1,5 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-{include file="CRM/WizardHeader.tpl}
+{include file="CRM/common/WizardHeader.tpl"}
 <div id="help">
     <p>{ts}You may want to collect information from contributors in addition to the name and address required for billing purposes. Add these custom elements to your page by selecting CiviCRM Profiles (collections of fields) to include at the beginning of the page, and/or below the billing section.{/ts}</p>
     {capture assign=crmURL}{crmURL p='civicrm/admin/uf/group' q="reset=1&action=browse"}{/capture}

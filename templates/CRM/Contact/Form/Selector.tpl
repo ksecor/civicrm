@@ -1,6 +1,6 @@
-{include file="CRM/pager.tpl" location="top"}
+{include file="CRM/common/pager.tpl" location="top"}
 
-{include file="CRM/pagerAToZ.tpl"}
+{include file="CRM/common/pagerAToZ.tpl"}
 
 {strip}
 <table>
@@ -117,4 +117,4 @@
  </script>
 
 
-{include file="CRM/pager.tpl" location="bottom"}
+{include file="CRM/common/pager.tpl" location="bottom"}

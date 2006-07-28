@@ -5,7 +5,7 @@
 
 {* show profile listings criteria ($qill) *}
 {if $rows}
-    {include file="CRM/pager.tpl" location="top"}
+    {include file="CRM/common/pager.tpl" location="top"}
     {* Search criteria are passed to tpl in the $qill array *}
     {if $qill}
      <p>
@@ -41,7 +41,7 @@
       {/foreach}
     </table>
     {/strip}
-    {include file="CRM/pager.tpl" location="bottom"}
+    {include file="CRM/common/pager.tpl" location="bottom"}
 {elseif ! $isReset}
     {include file="CRM/Contact/Form/Search/EmptyResults.tpl" context="Profile"}
 {/if}

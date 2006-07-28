@@ -1,4 +1,4 @@
-{include file="CRM/WizardHeader.tpl}
+{include file="CRM/common/WizardHeader.tpl"}
 
 <div class="form-item">
 <fieldset>

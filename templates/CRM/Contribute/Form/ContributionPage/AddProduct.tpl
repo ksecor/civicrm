@@ -1,6 +1,6 @@
 
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-{include file="CRM/WizardHeader.tpl}
+{include file="CRM/common/WizardHeader.tpl"}
 <div id="help">
     {if $action eq 1024}
         {ts}This is a preview of this product as it will appear on your Contributions page(s).{/ts}

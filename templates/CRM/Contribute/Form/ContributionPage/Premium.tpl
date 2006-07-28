@@ -1,6 +1,6 @@
 
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-{include file="CRM/WizardHeader.tpl}
+{include file="CRM/common/WizardHeader.tpl"}
 <div id="help">
     {ts}Use this form to configure the Premiums section for this Online Contribution Page. You can hide the section completely by un-checking the Enabled field. You can set a section title and a message about the premiums here (e.g ...in appreciation of your support, you will be able to select from a number of exciting thank-you gifts...). You can optionally provide a contact email address and/or phone number for inquiries.{/ts}
 </div>

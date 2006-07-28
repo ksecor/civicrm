@@ -1,5 +1,5 @@
 {if $context EQ 'Search'}
-    {include file="CRM/pager.tpl" location="top"}
+    {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
 {if $context EQ 'Contact Summary'}
@@ -71,5 +71,5 @@
 {/if}
 
 {if $context EQ 'Search'}
-    {include file="CRM/pager.tpl" location="bottom"}
+    {include file="CRM/common/pager.tpl" location="bottom"}
 {/if}
