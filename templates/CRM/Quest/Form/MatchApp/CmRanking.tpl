@@ -19,7 +19,7 @@
     <td class="grouplabel"><strong>Colleges</strong></td>
     <td class = "nowrap"><strong>Ranking</strong></td>
 </tr>
-{section name=rowLoop start=1 loop=15}
+{section name=rowLoop start=1 loop=16}
       {assign var=i value=$smarty.section.rowLoop.index}
       {assign var=collegeTypes value=$collegeType}
       {assign var=collegeRank value="college_ranking_"|cat:$i}   

@@ -94,8 +94,17 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         require_once "CRM/Quest/DAO/Partner.php";
         
         $partners = CRM_Quest_BAO_Partner::getPartners();
+
+        for ($i = 1; $i<=count($partners); $i++ ) {
+            $ranking[$i] = $i;
+        }
+
+        $ranking  = $ranking + array('Not Interested');
+        
         foreach ( $partners as $k => $v) {
-            $this->addElement('select','college_ranking_'.$k, ts( 'Ranking' ),array('' => ts('- select -')) + CRM_Core_OptionGroup::values('college_ranking'));
+            $this->addElement('select',"college_ranking_{$k}", ts( 'Ranking' ),array('' => ts('- select -')) + $ranking, 'required');
+            $this->addRule( "college_ranking_{$k}", ts("Please select a ranking for \"{$v}\""), 'required' );
+
             $collegeLink =& new CRM_Quest_DAO_Partner();
             $collegeLink->name = $v;
             $collegeLink->find(true);
@@ -151,7 +160,7 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
                 $ranking = array();
                 $ranking['contact_id'] = $this->_contactID;
                 $ranking['partner_id'] = $key;
-                $ranking['ranking_id'] = $params['college_ranking_'.$key];
+                $ranking['ranking'] = $params['college_ranking_'.$key];
                 $dao->partner_id = $key;
                 $dao->find(true);
                 $dao->copyValues( $ranking );
