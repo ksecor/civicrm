@@ -44,7 +44,7 @@ require_once 'CRM/Quest/BAO/Essay.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_MatchApp_Partner_Princeton_PrinceApplicant   extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_Form_App
 {
 
     protected $_allChecks;

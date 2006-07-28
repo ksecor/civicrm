@@ -50,6 +50,14 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true, $subType = null ) {
         parent::__construct( $title, $modal );
         
+        $subTypeTasks = array( 'Personal'  => 14,
+                               'Household' => 15,
+                               'School'    => 16,
+                               'Academic'  => 17,
+                               'Essay'     => 18,
+                               'College'   => 19,
+                               'Partner'   => 20 );
+
         $cid = $this->get( 'contactID' );
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'update' );
@@ -120,9 +128,9 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         $dao =& new CRM_Project_DAO_TaskStatus( );
         $dao->responsible_entity_table = 'civicrm_contact';
         $dao->responsible_entity_id    = $cid;
+        $dao->task_id                  = $subTypeTasks[$this->_subType];
         $status =& CRM_Core_OptionGroup::values( 'task_status', true );
         if ( ! $dao->find( true ) ) {
-            $dao->task_id             = 2;
             $dao->target_entity_table = 'civicrm_contact';
             $dao->target_entity_id    = $cid;
             $dao->create_date         = date( 'YmdHis' );
@@ -366,43 +374,43 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                                                            'reset=1' ),
                        'title'   => 'Personal',
                        'current' => true,
-                       'valid'   => true );
+                       'valid'   => false );
             $category['steps']['Household'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/household',
                                                            'reset=1' ),
                        'title'   => 'Household',
                        'current' => false,
-                       'valid'   => true );
+                       'valid'   => false );
             $category['steps']['School'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/school',
                                                            'reset=1' ),
                        'title'   => 'Schools / Recommendations',
                        'current' => false,
-                       'valid'   => true );
+                       'valid'   => false );
             $category['steps']['Academic'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/academic',
                                                            'reset=1' ),
                        'title'   => 'Academic / Test Scores',
                        'current' => false,
-                       'valid'   => true );
+                       'valid'   => false );
             $category['steps']['Essay'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/essay',
                                                            'reset=1' ),
                        'title'   => 'Essays',
                        'current' => false,
-                       'valid'   => true );
+                       'valid'   => false );
             $category['steps']['College'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/college',
                                                            'reset=1' ),
                        'title'   => 'College Match',
                        'current' => false,
-                       'valid'   => true );
+                       'valid'   => false );
             $category['steps']['Partner'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/partner',
                                                            'reset=1' ),
                        'title'   => 'Partner Supplements',
                        'current' => false,
-                       'valid'   => true );
+                       'valid'   => false );
             $session->set( 'questMatchAppCategory', $category );
         }
         return $category;

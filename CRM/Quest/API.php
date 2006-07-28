@@ -48,37 +48,81 @@ class CRM_Quest_API {
         return;
     }
 
-    static function &getTaskStatus( $id ) {
+    static function &getTaskStatus( $sourceID, $targetID, $taskID ) {
         require_once 'CRM/Project/DAO/TaskStatus.php';
         $dao =& new CRM_Project_DAO_TaskStatus( );
         $dao->responsible_entity_table = 'civicrm_contact';
-        $dao->responsible_entity_id    = $id;
-        $dao->task_id                  = 2;
+        $dao->responsible_entity_id    = $sourceID;
+        $dao->target_entity_table      = 'civicrm_contact';
+        $dao->target_entity_id         = $targetID;
+        $dao->task_id                  = $taskID;
         
         if ( $dao->find( true ) ) {
-            return $dao;
-        }
-        return null;
-    }
-
-    static function getApplicationStatus( $id ) {
-        self::initialize( );
-
-        $task =& self::getTaskStatus( $id );
-        if ( ! $task ) {
-            return ts( 'Not Started' );
+            require_once 'CRM/Core/OptionGroup.php';
+            $status =& CRM_Core_OptionGroup::values( 'task_status' );
+            return $status[$dao->status_id];
         }
 
-        require_once 'CRM/Core/OptionGroup.php';
-        $status =& CRM_Core_OptionGroup::values( 'task_status' );
-        return $status[$task->status_id];
+        return ts( 'Not Started' );
     }
 
-    static function &getApplicationInfo( $id ) {
+    static function getRecommendationStatus( $sourceID ) {
+
+        $query = "
+SELECT cr.id           as contact_id,
+       cr.display_name as display_name,
+       ts.status_id    as status_id
+  FROM civicrm_contact      cs,
+       civicrm_contact      cr,
+       civicrm_relationship rs,
+       civicrm_task_status  ts
+ WHERE rs.relationship_type_id IN ( 9, 10 )
+   AND rs.contact_id_a = cs.id
+   AND rs.contact_id_b = cr.id
+   AND rs.is_active    = 1
+   AND cs.id           = $sourceID
+   AND ts.task_id      = 10
+   AND ts.responsible_entity_table = 'civicrm_contact'
+   AND ts.responsible_entity_id    = cr.id
+   AND ts.target_entity_table      = 'civicrm_contact'
+   AND ts.target_entity_id         = $sourceID
+";
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $params = array( );
+        $count  = 0;
+        while ( $dao->fetch( ) ) {
+            $params[$count] = $dao->contact_id;
+            $params[$count]['contact_id'     ] = $dao->contact_id;
+            $params[$count]['display_name'   ] = $dao->display_name;
+            $params[$count]['email'          ] = $dao->email;
+            $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
+            $count++;
+        }
+    }
+
+    static function getMatchAppURL( $sourceID, $action ) {
+        require_once 'CRM/Utils/System.php';
+        return CRM_Utils_System::url( 'civicrm/quest/matchapp', "reset=1&id=$sourceID&action=$action" );
+    }
+
+    static function getRecommendationURL( $sourceID, $targetID, $type, $action ) {
+        require_once 'CRM/Utils/System.php';
+        return CRM_Utils_System::url( "civicrm/quest/$type/recommendation", "reset=1&id=$sourceID&scid=$targetID&action=$action" );
+    }
+
+    static function &getTaskStatusInfo( $sourceID, $targetID, $taskID ) {
         self::initialize( );
 
-        $task =& self::getTaskStatus( $id );
-        if ( ! $task ) {
+        require_once 'CRM/Project/DAO/TaskStatus.php';
+        $dao =& new CRM_Project_DAO_TaskStatus( );
+        $dao->responsible_entity_table = 'civicrm_contact';
+        $dao->responsible_entity_id    = $sourceID;
+        $dao->target_entity_table      = 'civicrm_contact';
+        $dao->target_entity_id         = $targetID;
+        $dao->task_id                  = $taskID;
+        
+        if ( $dao->find( true ) ) {
             $result = array( );
             $result['status'] = ts( 'Not Started' );
             return $result;
@@ -86,13 +130,48 @@ class CRM_Quest_API {
 
         require_once 'CRM/Core/OptionGroup.php';
         $status =& CRM_Core_OptionGroup::values( 'task_status' );
-
+        
         $result = array( );
-        $result['status'       ] = $status[$task->status_id];
-        $result['create_date'  ] = $task->create_date;
-        $result['modified_date'] = $task->modified_date;
-        $result['link'         ] = CRM_Utils_System::url( 'civicrm/quest/preapp', 'reset=1&redirect=1' );
+        $result['status'       ] = $status[$dao->status_id];
+        $result['create_date'  ] = $dao->create_date;
+        $result['modified_date'] = $dao->modified_date;
+        $result['link'         ] = CRM_Utils_System::url( 'civicrm/quest/matchapp', "reset=1&id=$sourceID" );
         return $result;
+    }
+
+    static function getRecommenderStudentInfo( $sourceID ) {
+
+        $query = "
+SELECT cr.id           as contact_id,
+       cr.display_name as display_name,
+       ts.status_id    as status_id
+  FROM civicrm_contact      cs,
+       civicrm_contact      cr,
+       civicrm_relationship rs,
+       civicrm_task_status  ts
+ WHERE rs.relationship_type_id IN ( 9, 10 )
+   AND rs.contact_id_a = cs.id
+   AND rs.contact_id_b = cr.id
+   AND rs.is_active    = 1
+   AND cr.id           = $sourceID
+   AND ts.task_id      = 10
+   AND ts.responsible_entity_table = 'civicrm_contact'
+   AND ts.responsible_entity_id    = $sourceID
+   AND ts.target_entity_table      = 'civicrm_contact'
+   AND ts.target_entity_id         = cs.id
+";
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $params = array( );
+        $count  = 0;
+        while ( $dao->fetch( ) ) {
+            $params[$count] = $dao->contact_id;
+            $params[$count]['contact_id'     ] = $dao->contact_id;
+            $params[$count]['display_name'   ] = $dao->display_name;
+            $params[$count]['email'          ] = $dao->email;
+            $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
+            $count++;
+        }
     }
 
     static function getContactInfo( $id ) {

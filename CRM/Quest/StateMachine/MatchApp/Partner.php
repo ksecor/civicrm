@@ -72,7 +72,7 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
                                         'PomApplicant' => 'Applicant Information',
                                         ),
                       'Princeton'=> array(
-                                          'PrinceApplicant' => 'Applicant Information',
+                                          'PrApplicant' => 'Applicant Information',
                                           'PrShortAnswer' => 'Short Answers',
                                           'PrEssay'       => 'Essay',
                                           'PrEnggEssay'   => 'Enginering Essay'
@@ -82,10 +82,10 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
                                         ),
                   
                       'Stanford'=> array(
-                                         'StanfordApplicant' => 'Applicant Information',
-                                         'StfShortEssay'     => 'Short Essay',
-                                         'StfEssay'          => 'Essay',
-                                         'StfArts'           => 'Arts Supplement',
+                                         'StfApplicant'  => 'Applicant Information',
+                                         'StfShortEssay' => 'Short Essay',
+                                         'StfEssay'      => 'Essay',
+                                         'StfArts'       => 'Arts Supplement',
                                          ),
                   
                       'Wellesley'   => array(

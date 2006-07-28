@@ -133,9 +133,6 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
         $dao->modified_date = date( 'YmdHis' );
         
-        // this prevent Databject from destroying this field
-        // $dao->create_date   = 'NULL';
-
         // now save all the valid values to fool QFC
         $data =& $this->controller->container( );
         $dao->status_detail = serialize( $data['valid'] );
