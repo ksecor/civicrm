@@ -102,7 +102,7 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StanfordApplicant extends CRM_Que
         }
         
         $this->addYesNo( 'is_parent_employed', ts( 'Is either parent or step-parent currently employed by Stanford University?' ) ,null,false);
-        $extra = array('onchange' => "return showHideByValue('is_sibling_applying', '1', 'sibling_id_application_status','table-row', 'radio', false);");
+        $extra = array('onclick' => "return showHideByValue('is_sibling_applying', '1', 'tr_sibling_application_status','table-row', 'radio', false);");
 
         $this->addYesNo( 'is_sibling_applying', ts( 'Are any siblings or step-siblings applying to the undergraduate program at Stanford this year? ' ) ,null,true, $extra);
        

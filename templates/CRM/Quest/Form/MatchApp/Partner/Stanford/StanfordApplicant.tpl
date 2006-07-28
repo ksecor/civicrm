@@ -5,7 +5,7 @@
     <td colspan="2" id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-    	<td class="grouplabel" rowspan="4"><label>{ts}Place of birth{/ts}</label></td>
+    	<td class="grouplabel" rowspan="4" width="33%"><label>{ts}Place of birth{/ts}</label></td>
 </tr>
 <tr>
 	<td class="fieldlabel">{$form.location.1.address.city.html}<br>{ts}{edit}City{/edit}{/ts}</td>
@@ -24,10 +24,10 @@
 <tr>
     <td class="grouplabel"> {$form.area_of_major_1.label}</td>
     <td> 
-       <table> 
-        <tr><td>{$form.area_of_major_1.html}</td></tr>
-        <tr><td>{$form.area_of_major_2.html}</td></tr>
-        <tr><td>{$form.area_of_major_3.html}</td></tr>
+       <table>
+        <tr><td class="grouplabel optionlist"><span class="italic-text">1. </span>{$form.area_of_major_1.html}</td></tr>
+        <tr><td class="grouplabel optionlist"><span class="italic-text">2. </span>{$form.area_of_major_2.html}</td></tr>
+        <tr><td class="grouplabel optionlist"><span class="italic-text">3. </span>{$form.area_of_major_3.html}</td></tr>
        </table>
     </td>
 </tr>
@@ -40,7 +40,7 @@
     <td class="fieldlabel"> {$form.is_sibling_applying.html}</td>
 </tr>
 {if $totalSibligs > 0}
-<tr id="sibling_id_application_status">
+<tr id="tr_sibling_application_status">
     <td>
      {ts}Who?{/ts}
     </td>
@@ -66,7 +66,7 @@
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_sibling_applying"
     trigger_value       ="1"
-    target_element_id   ="sibling_id_application_status" 
+    target_element_id   ="tr_sibling_application_status" 
     target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0

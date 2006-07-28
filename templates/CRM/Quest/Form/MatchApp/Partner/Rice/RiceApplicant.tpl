@@ -90,29 +90,28 @@
     </td> 
 </tr>
 <tr>
-     <td class="grouplabel">{$form.rice_contacts.label}</td>
+     <td class="grouplabel">{ts}What contacts have you had with Rice (check all that apply)? *{/ts}</td>
      <td class="grouplabel">
        <table>
-
         {assign var=count value=1}
         {foreach from=$form.contacts key=k1 item=dnc1}
-	{if $count lt 10} 
+	    {if $count lt 10} 
         {assign var=count value=$count+1}
         {else}
-	  {if $k1 is odd} 
+	    {if $k1 is odd} 
 		<tr>
-	  {/if}
-	  <td class="grouplabel optionlist">{$form.contacts.$k1.html}
+	    {/if}
+        <td class="grouplabel optionlist">{$form.contacts.$k1.html}
 	        {foreach from=$contact_names key=k2 item=name}
                 {assign var=element_id value="name_"|cat:$k2 }
 	            {if $k2 eq $k1}
 			<span id={$element_id}>{$form.$name.label}{$form.$name.html}</span>
 		    {/if}	
 	 	{/foreach}
-	  </td>	
-	  {if $k1 is even} 
+	    </td>	
+	    {if $k1 is even} 
 		</tr>
-	  {/if}
+	    {/if}
     	{/if}
  	{/foreach}
 	{if $k1 is odd}
