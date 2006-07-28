@@ -310,10 +310,6 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
                 $this->set( 'welcome_name',
                             $dao->display_name );
             }
-
-            // also trigger the sibling generation in case number_siblings has changes
-            require_once 'CRM/Quest/Form/MatchApp/Sibling.php';
-            CRM_Quest_Form_MatchApp_Sibling::getPages( $this->controller, true );
        }
 
         parent::postProcess( );

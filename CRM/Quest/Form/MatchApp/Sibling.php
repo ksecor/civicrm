@@ -284,7 +284,7 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
             if ( $dao->find( true ) ) {
                 $totalSiblings = $dao->number_siblings;
             } else {
-                // its still too early, so return an empty arrat
+                // its still too early, so return an empty array
                 return array( );
             }
 
