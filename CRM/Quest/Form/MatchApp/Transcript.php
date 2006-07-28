@@ -93,8 +93,17 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess( );
-
-        $this->_isAlternateGrading = true;
+        // need to set AlternateGrading
+        $params = array( 'contact_id' => $this->_contactID,
+                         'id'         => $this->_contactID );
+        $values =  $ids = array();
+        require_once "CRM/Quest/BAO/Student.php";
+        CRM_Quest_BAO_Student::retrieve( $params, $values, $ids );
+        if ( $values['is_alternate_grading'] ) {
+            $this->_isAlternateGrading = true;
+        } else {
+            $this->_isAlternateGrading = false;
+        }
     }
 
     /**
@@ -207,7 +216,7 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
             require_once "CRM/Quest/BAO/Transcript.php";
-            CRM_Quest_BAO_Transcript::postProcess( $params, $this->_grade , $this->_contactID );
+             CRM_Quest_BAO_Transcript::postProcess( $params, $this->_grade , $this->_contactID );
         }
         parent::postProcess( );
     }//end of function

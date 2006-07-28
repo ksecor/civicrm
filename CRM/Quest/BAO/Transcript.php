@@ -101,7 +101,7 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
             $ids['id'] = $dao->id;
         }
         $trans = CRM_Quest_BAO_Transcript::create($transcript,$ids );
-
+       
         //delete all transcript cources before inserting new one
         require_once 'CRM/Quest/DAO/TranscriptCourse.php';
         $dao = &new CRM_Quest_DAO_TranscriptCourse();
@@ -129,44 +129,45 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
         }
         if ( $school_year != 'Twelve' ) {
             $gpa = CRM_Quest_BAO_Transcript::calculateGPA( $params );
-            $dao = &new CRM_Quest_DAO_Transcript();
-            $dao->id = $trans->id;
-            
-            $dao->gp_weighted_total   = $gpa['weightedPoints'];
-            $dao->gp_unweighted_total = $gpa['unWeightedPoints'];
-            $dao->credit_total        = $gpa['credit'];
-            $dao->save();
-
-            //calcution of weighed GPA and unweighed GPA
-            $totalWeightedPoints  = $totalUnWeightedPoints = $totalCredits = 0;
-            $queryString = "SELECT gp_weighted_total,gp_unweighted_total, credit_total FROM quest_transcript WHERE contact_id = $contactID AND school_year NOT IN ('Twelve', 'Summer')";
-            $dao = &new CRM_Core_DAO();
-            $dao->query( $queryString );
-            while ( $dao->fetch() ) { 
-                $totalWeightedPoints   = $totalWeightedPoints   + $dao->gp_weighted_total;
-                $totalUnWeightedPoints = $totalUnWeightedPoints + $dao->gp_unweighted_total;
-                $totalCredits          = $totalCredits + $dao->credit_total;
-            }
-            $finalWeightedGPA = $finalUnWeightedGPA = 0;
-            if ( $totalCredits > 0) {
-                $finalWeightedGPA   = $totalWeightedPoints/$totalCredits;
-                $finalUnWeightedGPA = $totalUnWeightedPoints/$totalCredits;
-
-                 //store this in quest_student_summary
-                $ids = array();
-                $summaryValue['gpa_weighted_calc']   = $finalWeightedGPA;
-                $summaryValue['gpa_unweighted_calc'] = $finalUnWeightedGPA;
-                $summaryValue['contact_id'] =  $contactID;
-                require_once "CRM/Quest/DAO/StudentSummary.php";
-                $daoStudent = & new CRM_Quest_DAO_StudentSummary();
-                $daoStudent->contact_id = $contactID;
-                if ( $daoStudent->find(true) ) {
-                    $ids = array( 'id' => $daoStudent->id);
+            if (!empty( $gpa )) {
+                $dao = &new CRM_Quest_DAO_Transcript();
+                $dao->id = $trans->id;
+                
+                $dao->gp_weighted_total   = $gpa['weightedPoints'];
+                $dao->gp_unweighted_total = $gpa['unWeightedPoints'];
+                $dao->credit_total        = $gpa['credit'];
+                $dao->save();
+                
+                //calcution of weighed GPA and unweighed GPA
+                $totalWeightedPoints  = $totalUnWeightedPoints = $totalCredits = 0;
+                $queryString = "SELECT gp_weighted_total,gp_unweighted_total, credit_total FROM quest_transcript WHERE contact_id = $contactID AND school_year NOT IN ('Twelve', 'Summer')";
+                $dao = &new CRM_Core_DAO();
+                $dao->query( $queryString );
+                while ( $dao->fetch() ) { 
+                    $totalWeightedPoints   = $totalWeightedPoints   + $dao->gp_weighted_total;
+                    $totalUnWeightedPoints = $totalUnWeightedPoints + $dao->gp_unweighted_total;
+                    $totalCredits          = $totalCredits + $dao->credit_total;
                 }
-                require_once "CRM/Quest/BAO/Student.php";
-                $studentSummary = CRM_Quest_BAO_Student::createStudentSummary( $summaryValue, $ids);
+                $finalWeightedGPA = $finalUnWeightedGPA = 0;
+                if ( $totalCredits > 0) {
+                    $finalWeightedGPA   = $totalWeightedPoints/$totalCredits;
+                    $finalUnWeightedGPA = $totalUnWeightedPoints/$totalCredits;
+                    
+                    //store this in quest_student_summary
+                    $ids = array();
+                    $summaryValue['gpa_weighted_calc']   = $finalWeightedGPA;
+                    $summaryValue['gpa_unweighted_calc'] = $finalUnWeightedGPA;
+                    $summaryValue['contact_id'] =  $contactID;
+                    require_once "CRM/Quest/DAO/StudentSummary.php";
+                    $daoStudent = & new CRM_Quest_DAO_StudentSummary();
+                    $daoStudent->contact_id = $contactID;
+                    if ( $daoStudent->find(true) ) {
+                        $ids = array( 'id' => $daoStudent->id);
+                    }
+                    require_once "CRM/Quest/BAO/Student.php";
+                    $studentSummary = CRM_Quest_BAO_Student::createStudentSummary( $summaryValue, $ids);
+                }
             }
-
         }
     }
 

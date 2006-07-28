@@ -120,7 +120,7 @@ SELECT cr.id           as contact_id,
     public function buildQuickForm( ) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
-
+        require_once "CRM/Quest/BAO/Student.php";
         for ( $i = 1; $i <= 3; $i++ ) {
 
             $this->add( 'text',
