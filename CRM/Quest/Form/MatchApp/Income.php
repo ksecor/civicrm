@@ -367,6 +367,7 @@ WHERE  i.person_id  = p.id
             $ids = array( 'id' => $dao->id);
         }
         
+        require_once "CRM/Quest/BAO/Student.php";
         $studentSummary = CRM_Quest_BAO_Student::createStudentSummary( $summaryValue, $ids);
         
     }

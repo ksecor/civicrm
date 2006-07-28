@@ -122,7 +122,7 @@ public function buildQuickForm( )
 
         require_once 'CRM/Quest/DAO/Household.php';
         $householdDAO = & new CRM_Quest_DAO_Household();
-        $householdDAO->household_type= 'Current';
+        $householdDAO->household_type= 'Previous';
         $householdDAO->contact_id = $this->_contactID;
         $householdDAO->find(true);
         
