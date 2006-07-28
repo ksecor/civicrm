@@ -149,7 +149,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 
         // primary method to access internet
         
-        $extra1 = array( 'onchange' => "return showHideByValue('internet_access_id','23','internet_access_other','','select',false);");
+        $extra1 = array( 'onchange' => "return showHideByValue('internet_access_id','23','internet_access_other','table-row','select',false);");
         $this->addSelectOther('internet_access',
                               ts('What is your primary method of accessing the Internet?'),
                               array('' => ts('- select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),

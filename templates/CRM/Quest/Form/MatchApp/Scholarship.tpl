@@ -271,7 +271,7 @@ applicants for the following year's application cycle. Please enter contact info
     trigger_field_id    ="is_home_computer"
     trigger_value       ="1"
     target_element_id   ="is_home_internet" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
 }
@@ -279,7 +279,7 @@ applicants for the following year's application cycle. Please enter contact info
     trigger_field_id    ="is_take_SAT_ACT"
     trigger_value       ="1"
     target_element_id   ="study_method_id" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
 }
@@ -289,7 +289,7 @@ applicants for the following year's application cycle. Please enter contact info
     trigger_field_id    ="is_dismissed"
     trigger_value       ="1"
     target_element_id   ="explain_dismissed" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
 }
@@ -297,7 +297,7 @@ applicants for the following year's application cycle. Please enter contact info
     trigger_field_id    ="is_convicted"
     trigger_value       ="1"
     target_element_id   ="explain_convicted" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
 }
@@ -306,7 +306,7 @@ applicants for the following year's application cycle. Please enter contact info
     trigger_field_id    ="internet_access_id"
     trigger_value       ="23"
     target_element_id   ="internet_access_other" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="select"
     invert              = 0
 }

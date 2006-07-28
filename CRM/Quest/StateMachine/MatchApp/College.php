@@ -49,8 +49,8 @@ class CRM_Quest_StateMachine_MatchApp_College extends CRM_Quest_StateMachine_Mat
         $this->_states = array( );
 
         $this->_pages = array( 'CRM_Quest_Form_MatchApp_CmRanking'    => null,
-                               'CRM_Quest_Form_MatchApp_ForwardApp'   => null,
-                               'CRM_Quest_Form_MatchApp_Noncustodial' => null );
+                               'CRM_Quest_Form_MatchApp_ForwardApp'   => null
+                               );
 
         parent::rebuild( $controller, $action );
     }

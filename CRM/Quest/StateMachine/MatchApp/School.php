@@ -50,10 +50,23 @@ class CRM_Quest_StateMachine_MatchApp_School extends CRM_Quest_StateMachine_Matc
 
         $this->_pages = array( 'CRM_Quest_Form_MatchApp_HighSchool'         => null,
                                'CRM_Quest_Form_MatchApp_SchoolOther'        => null,
-                               'CRM_Quest_Form_MatchApp_ExtracurricularInfo'=> null,
-                               'CRM_Quest_Form_MatchApp_WorkExperience'     => null,
-                               'CRM_Quest_Form_MatchApp_Recommendation'     => null
+                               'CRM_Quest_Form_MatchApp_Academic'           => null,
                                );
+        
+        $grades = array( 'Nine'   => '9th Grade',
+                         'Ten'    => '10th Grade',
+                         'Eleven' => '11th Grade',
+                         'Twelve' => '12th Grade',
+                         'Summer' => 'Summer School' );
+        foreach ( $grades as $grade => $title ) {
+            $this->_pages["Transcript-{$grade}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Transcript_$grade",
+                                                          'title'     => $title,
+                                                          'options'   => array( ) );
+        }
+        
+        $this->_pages['CRM_Quest_Form_MatchApp_Testing'] = null;
+
+        $this->_pages['CRM_Quest_Form_MatchApp_Recommendation'] = null;
 
         parent::rebuild( $controller, $action );
     }

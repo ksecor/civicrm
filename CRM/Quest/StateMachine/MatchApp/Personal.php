@@ -49,9 +49,11 @@ class CRM_Quest_StateMachine_MatchApp_Personal extends CRM_Quest_StateMachine_Ma
         $this->_states = array( );
 
         $this->_pages = array(
-                              'CRM_Quest_Form_MatchApp_Personal'      => null,
-                              'CRM_Quest_Form_MatchApp_Scholarship'   => null,
-                              'CRM_Quest_Form_MatchApp_Educational'   => null,
+                              'CRM_Quest_Form_MatchApp_Personal'            => null,
+                              'CRM_Quest_Form_MatchApp_Scholarship'         => null,
+                              'CRM_Quest_Form_MatchApp_Educational'         => null,
+                              'CRM_Quest_Form_MatchApp_ExtracurricularInfo' => null,
+                              'CRM_Quest_Form_MatchApp_WorkExperience'      => null,
                               );
 
         parent::rebuild( $controller, $action );

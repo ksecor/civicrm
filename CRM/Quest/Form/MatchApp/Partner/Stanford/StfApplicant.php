@@ -43,7 +43,7 @@ require_once 'CRM/Core/OptionGroup.php';
  * This class generates form components for the Stanford applicant
  * 
  */
-class CRM_Quest_Form_MatchApp_Partner_Stanford_StanfordApplicant extends CRM_Quest_Form_App
+class CRM_Quest_Form_MatchApp_Partner_Stanford_StfApplicant extends CRM_Quest_Form_App
 {
     
     protected $_fields;
