@@ -12,11 +12,11 @@
     <td>
         <table  cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
         <tr>
-    	    <th rowspan="2" class="grouplabel"><strong>Specific nature of work </strong></th>
-            <th rowspan="2" nowrap="nowrap"><strong>Employer</strong></th>
-            <th colspan="2" nowrap="nowrap"><strong>Approximate dates of employment</strong></th>
-            <th rowspan="2" nowrap="nowrap"><strong>Approximate <br />hours/week </strong></th>
-            <th rowspan="2" nowrap="nowrap"><strong>Check if <br />Summer <br />job only </strong></th>
+    	    <td rowspan="2" class="grouplabel"><strong>Specific nature of work </strong></td>
+            <td rowspan="2" nowrap="nowrap" class="grouplabel"><strong>Employer</strong></td>
+            <td colspan="2" nowrap="nowrap" class="grouplabel"><strong>Approximate dates of employment</strong></td>
+            <td rowspan="2" nowrap="nowrap" class="grouplabel"><strong>Approximate <br />hours/week </strong></td>
+            <td rowspan="2" nowrap="nowrap" class="grouplabel"><strong>Check if <br />Summer <br />job only </strong></td>
         </tr>
         <tr>
             <td class="fieldlabel" nowrap="nowrap"> &nbsp;&nbsp;&nbsp;Start Date </td>
@@ -31,11 +31,11 @@
         {assign var=hrs value="hrs_"|cat:$i}
         {assign var=summer_jobs value="summer_jobs_"|cat:$i}  
         <tr>
-       	    <td>{$form.$nature_of_work.html} </td>
-            <td>{$form.$employer.html}</td>
+       	    <td>{$form.$nature_of_work.html|crmReplace:class:eight} </td>
+            <td>{$form.$employer.html|crmReplace:class:eight}</td>
             <td class="fieldlabel" nowrap="nowrap">{$form.$start_date.html}</td>
             <td class="fieldlabel" nowrap="nowrap">{$form.$end_date.html} </td>
-       	    <td>{$form.$hrs.html} </td>
+       	    <td>{$form.$hrs.html|crmReplace:class:four} </td>
     	    <td class="fieldlabel" nowrap="nowrap"><div align="center">{$form.$summer_jobs.html}</td>
         </tr>
         {/section}

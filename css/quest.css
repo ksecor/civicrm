@@ -75,7 +75,7 @@ table.app td {
   text-align: left;
 }
 
-table.app td.grouplabel {
+table.app td.grouplabel, table.app th.grouplabel {
   background-color: #f1f1f1;
   color: #285A66;
   font-size: 12px;
