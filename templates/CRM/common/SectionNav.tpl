@@ -5,9 +5,9 @@
     {foreach from=$category.steps item=step}
             {assign var=i value=$smarty.section.step.iteration}
             {if $step.current}
-                {assign var="stepClass" value="current-step"}
+                {assign var="stepClass" value="current-section"}
             {else}
-                {assign var="stepClass" value="future-step"}
+                {assign var="stepClass" value="future-section"}
             {/if}
             {if !$step.valid}
                 {assign var="stepClass" value="$stepClass not-valid"}

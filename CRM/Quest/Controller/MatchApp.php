@@ -296,9 +296,9 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
     function addWizardStyle( &$wizard ) {
         $wizard['style'] = array('barClass'             => 'app',
-                                 'stepPrefixCurrent'    => ' ',
-                                 'stepPrefixPast'       => ' ',
-                                 'stepPrefixFuture'     => ' ', 
+                                 'stepPrefixCurrent'    => '&nbsp; ',
+                                 'stepPrefixPast'       => '&nbsp; ',
+                                 'stepPrefixFuture'     => '&nbsp; ', 
                                  'subStepPrefixCurrent' => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                  'subStepPrefixPast'    => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                  'subStepPrefixFuture'  => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
@@ -364,25 +364,25 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
             $category['steps']['Personal'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/personal',
                                                            'reset=1' ),
-                       'title'   => 'Personal Information',
+                       'title'   => 'Personal',
                        'current' => true,
                        'valid'   => true );
             $category['steps']['Household'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/household',
                                                            'reset=1' ),
-                       'title'   => 'Household Information',
+                       'title'   => 'Household',
                        'current' => false,
                        'valid'   => true );
             $category['steps']['School'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/school',
                                                            'reset=1' ),
-                       'title'   => 'School Information',
+                       'title'   => 'Schools / Recommendations',
                        'current' => false,
                        'valid'   => true );
             $category['steps']['Academic'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/academic',
                                                            'reset=1' ),
-                       'title'   => 'Academic Information',
+                       'title'   => 'Academic / Test Scores',
                        'current' => false,
                        'valid'   => true );
             $category['steps']['Essay'] = 
