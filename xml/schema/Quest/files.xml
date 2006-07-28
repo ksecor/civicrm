@@ -27,6 +27,7 @@
 <xi:include href="Partner/Bowdoin.xml"      parse="xml" />
 <xi:include href="Partner/Columbia.xml"     parse="xml" />
 <xi:include href="Partner/Pomona.xml"       parse="xml" />
+<xi:include href="Partner/Princeton.xml"    parse="xml" />
 <xi:include href="Partner/Rice.xml"         parse="xml" />
 <xi:include href="Partner/Stanford.xml"     parse="xml" />
 <xi:include href="Partner/Wellesley.xml"    parse="xml" />
