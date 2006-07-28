@@ -96,13 +96,15 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             $dao->contact_id = $this->_contactID;
             $dao->find();
             while( $dao->fetch() ) {
-                if( in_array(strtolower($testTypes[$dao->test_id]),$testSet1 )) {
-                    $tType = strtolower($testTypes[$dao->test_id]);
-                    $count = count($this->_testIDs[$tType]) + 1;                    
-                    $this->_testIDs[$tType][$count] = $dao->id;
-                } else {
-                    $count = count($this->_testIDs['satII']) + 1;
-                    $this->_testIDs['satII'][$count] = $dao->id;
+                if (array_key_exists($dao->test_id, $testTypes)) {
+                    if( in_array(strtolower($testTypes[$dao->test_id]),$testSet1 )) {
+                        $tType = strtolower($testTypes[$dao->test_id]);
+                        $count = count($this->_testIDs[$tType]) + 1;                    
+                        $this->_testIDs[$tType][$count] = $dao->id;
+                    } else {
+                        $count = count($this->_testIDs['satII']) + 1;
+                        $this->_testIDs['satII'][$count] = $dao->id;
+                    }
                 }
             }
 
@@ -603,11 +605,14 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             
             require_once 'CRM/Quest/BAO/Test.php';
             
+            $testTypes  = CRM_Core_OptionGroup::values( 'test');
             //delete all the tests records that are previously
-            $dao             = & new CRM_Quest_DAO_Test();
-            $dao->contact_id = $this->_contactID;
-            $dao->delete();
-            
+            foreach ( $testTypes as $id => $label ) {
+                $dao             = & new CRM_Quest_DAO_Test();
+                $dao->contact_id = $this->_contactID;
+                $dao->test_id    = $id;
+                $dao->delete();
+            }
         
             // add data to database for 'act','sat'
             for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
@@ -642,6 +647,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 $ids = array( 'id' => $dao->id);
             }
             
+            require_once "CRM/Quest/BAO/Student.php";
             $studentSummary = CRM_Quest_BAO_Student::createStudentSummary( $maxScores, $ids);
             
             // Insert values for Student record

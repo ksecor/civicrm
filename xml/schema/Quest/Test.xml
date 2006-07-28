@@ -94,6 +94,12 @@
       <add>1.5</add>
   </field>
   <field>
+       <name>sl_hl</name>
+       <type>varchar</type>
+       <length>64</length>
+       <add>1.5</add>
+  </field>
+  <field>
        <name>test_date</name>
        <type>date</type>
        <comment>Date that the test was taken (month and year are significant).</comment>
