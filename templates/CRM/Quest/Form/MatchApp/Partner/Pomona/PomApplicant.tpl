@@ -27,34 +27,48 @@
             {/if}
         {/if}
         {if ($id eq 9) }
-            {if ( ($i-1)%3 == 0) }
+            {if ( ($i-1) % 3 == 0) }
             </tr>
             {/if}
         </table>
         </td>
         </tr>
-        <tr>
-            <td class="grouplabel">{$form.$name.label}</td>
+        <tr class="tr-vertical-center-text">
+            <td class="grouplabel" width="32%">{$form.$name.label}</td>
             <td class="grouplabel" colspan="2">{$form.$name.html}</td>
         </tr>
-        <tr>
+        <tr id="tr_broader_context">
             <td class="grouplabel">{$form.broader_context.label}</td>
             <td class="grouplabel" colspan="2">{$form.broader_context.html}</td> 
         </tr>
         {/if}
         
         {if ($id eq 10) }
-        <tr>
+        <tr class="tr-vertical-center-text">
             <td class="grouplabel">{$form.$name.label}</td>
              <td class="grouplabel" colspan="2">{$form.$name.html}</td>
         </tr>
-        <tr>
+        <tr id="tr_factors_work">
             <td class="grouplabel">{$form.factors_work.label}</td>
             <td class="grouplabel" colspan="2">{$form.factors_work.html}</td> 
         </tr>
         {/if}
     {/foreach}
-
-
 </table>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
+{include file="CRM/common/showHideByFieldValue.tpl"
+    trigger_field_id    ="broader_context"
+    trigger_value       ="1"
+    target_element_id   ="tr_broader_context"
+    target_element_type ="table_row"
+    field_type          ="radio"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl"
+    trigger_field_id    ="factors_work"
+    trigger_value       ="1"
+    target_element_id   ="tr_factors_work"
+    target_element_type ="table_row"
+    field_type          ="radio"
+    invert              = 0
+}

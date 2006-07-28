@@ -299,7 +299,7 @@
    	function copyAddress() {
 	    if (document.getElementsByName("copy_address")[0].checked) {
 	  	 for (i = 0; i < field.length; i++) {
- 		   	document.getElementById("location_2_address_"+field[i]).value = 
+ 		   	    document.getElementById("location_2_address_"+field[i]).value =
 				document.getElementById("location_1_address_"+field[i]).value;
 	         }
              document.Personal.copy_phone.focus();

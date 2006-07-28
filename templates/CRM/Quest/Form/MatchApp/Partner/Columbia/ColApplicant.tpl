@@ -16,7 +16,11 @@
                 {if $countEI is not odd}
                 <tr>
                 {/if}
-                <td class="optionlist">{$form.columbia_career.$key.html}</td>
+                <td class="optionlist">{$form.columbia_career.$key.html}
+                {if $key eq 14}
+                    <div id="career_other">{$form.career_other.html|crmReplace:class:medium}</div>
+                {/if}
+                </td>
                 {if $countEI is not even}
                 </tr>
                 {/if}
@@ -25,9 +29,6 @@
         {if ($countEI gt 9) and ($countEI is not odd) }
         <td class="optionlist"></td></tr>
         {/if}
-        <tr id="career_other">
-        <td colspan=2 class="optionlist">{$form.career_other.html|crmReplace:class:large}</td>
-        </tr>
         </table>
     </td>
 </tr>
@@ -67,7 +68,11 @@
                 {if $countEI is not odd}
                 <tr>
                 {/if}
-                <td class="optionlist">{$form.columbia_interest.$key.html}</td>
+                <td class="optionlist">{$form.columbia_interest.$key.html}
+                {if $key eq 14}
+                    <div id="interest_other">{$form.interest_other.html|crmReplace:class:medium}</div>
+                {/if}
+                </td>
                 {if $countEI is not even}
                 </tr>
                 {/if}
@@ -76,9 +81,6 @@
         {if ($countEI gt 9) and ($countEI is not odd) }
         <td class="optionlist"></td></tr>
         {/if}
-        <tr id="interest_other">
-        <td colspan=2 class="optionlist">{$form.interest_other.html|crmReplace:class:large}</td>
-        </tr>
         </table>
     </td>
 </tr>

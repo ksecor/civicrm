@@ -113,10 +113,12 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
             }
             $this->add( 'text', $name, null, $attributes[$name] );
         }
-
-        $this->addYesNo( 'is_broader_context', "Is there a broader context in which we should consider your performance and involvements? Are there any external factors we should consider (e.g. family situation, work, sibling childcare responsibilities or other personal circumstances)?", null, true );
         
-        $this->addYesNo( 'is_factors_work', "Are there any factors or circumstances that may affect your adjustment to college life or work?", null, true );
+        $attr_bc = array('onclick' => "return showHideByValue('is_broader_context', '1', 'tr_broader_context', 'table-row', 'radio', false);");
+        $this->addYesNo( 'is_broader_context', "Is there a broader context in which we should consider your performance and involvements? Are there any external factors we should consider (e.g. family situation, work, sibling childcare responsibilities or other personal circumstances)?", null, true, $attr_bc);
+        
+        $attr_fw = array('onclick' => "return showHideByValue('is_factors_work', '1', 'tr_factors_work', 'table-row', 'radio', false);");
+        $this->addYesNo( 'is_factors_work', "Are there any factors or circumstances that may affect your adjustment to college life or work?", null, true, $attr_fw );
         
         $this->addElement( 'textarea', "broader_context",
                            ts('If yes, please explain:'),"cols=45 rows=5" );

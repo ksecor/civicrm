@@ -66,7 +66,11 @@
                 {if $id3 is odd}
                 <tr>
                 {/if}
-                <td class="optionlist">{$form.preprofessional_interest.$id3.html}</td>
+                <td class="optionlist">{$form.preprofessional_interest.$id3.html}
+                {if $id3 eq 3}
+                    <div id="preprofessional_interest_other">{$form.preprofessional_interest_other.html}</div>
+                {/if}
+                </td>
                 {if $id3 is even}
                 </tr>
                 {/if}
@@ -81,4 +85,11 @@
 </table>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
-
+{include file="CRM/common/showHideByFieldValue.tpl"
+    trigger_field_id    ="preprofessional_interest[3]"
+    trigger_value       ="1"
+    target_element_id   ="preprofessional_interest_other"
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}

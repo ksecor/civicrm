@@ -100,29 +100,51 @@ class CRM_Quest_Form_MatchApp_Partner_Wellesley_WellApplicant extends CRM_Quest_
     public function buildQuickForm( ) 
     {
         $this->addElement( 'checkbox','undecided',ts('Undecided.'));
-
+        
         $this->addCheckBox( 'departmental_majors',ts('Departmental Majors '),
                             CRM_Core_OptionGroup::values( 'departmental_majors', true ),
                             false,null );
-
-      
-
+        
         $this->addCheckBox( 'interdepartmental_major',ts('Interdepartmental Major'),
                             CRM_Core_OptionGroup::values('interdepartmental_major', true ),
                             false, null );
-
-
+        
+        $js_pi = array('onclick' => "return showHideByValue('preprofessional_interest[3]', '1', 'preprofessional_interest_other', '', 'radio', false);");
         $this->addCheckBox( 'preprofessional_interest', ts('Preprofessional Interest'),
                             CRM_Core_OptionGroup::values('preprofessional_interest', true ),
-                            true, null );
-
-       
-       
-        
+                            true, null, null, $js_pi );
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Partner_Wellesley_WellApplicant', 'formRule'));
         parent::buildQuickForm( );
                 
     }//end of function
-
+    
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        $errors = array( );
+                
+        if ( count($params['departmental_majors']) > 2 ) {
+            $errors['departmental_majors'] = 'Only 2 academic interests can be selected from Departmental Majors';
+        }
+        
+        if ( count($params['interdepartmental_major']) > 2 ) {
+            $errors['interdepartmental_major'] = 'Only 2 academic interests can be selected from Interdepartmental Majors';
+        }
+        
+        if ( count($params['preprofessional_interest']) > 2 ) {
+            $errors['preprofessional_interest'] = 'Only 2 academic interests can be selected from Preprofessional Interest';
+        }
+        
+        return empty($errors) ? true : $errors;
+    }
+    
     /**
      * Return a descriptive name for the page, used in wizard header
      *
