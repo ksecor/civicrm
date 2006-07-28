@@ -48,25 +48,12 @@ class CRM_Quest_StateMachine_MatchApp_School extends CRM_Quest_StateMachine_Matc
         // ensure the states array is reset
         $this->_states = array( );
 
-        $this->_pages = array( );
-
-        $highSchool = array( 'HighSchool'  => 'High School Information',
-                             'SchoolOther' => 'Other School' );
-        foreach ( $highSchool as $extra => $title ) {
-            $this->_pages["School-{$extra}"] = array( 'className' => "CRM_Quest_Form_MatchApp_$extra",
-                                                      'title'     => $title,
-                                                      'options'   => array( ) );
-        }
-
-        $extracurricular = array( 'ExtracurricularInfo' => 'Extracurricular Information',
-                                  'WorkExperience'      => 'Work Experience' );
-        foreach ( $extracurricular as $extra => $title ) {
-            $this->_pages["Extracurricular-{$extra}"] = array( 'className' => "CRM_Quest_Form_MatchApp_$extra",
-                                                               'title'     => $title,
-                                                               'options'   => array( ) );
-        }
-
-        $this->_pages[ 'CRM_Quest_Form_MatchApp_Recommendation' ] = null;
+        $this->_pages = array( 'CRM_Quest_Form_MatchApp_HighSchool'         => null,
+                               'CRM_Quest_Form_MatchApp_SchoolOther'        => null,
+                               'CRM_Quest_Form_MatchApp_ExtracurricularInfo'=> null,
+                               'CRM_Quest_Form_MatchApp_WorkExperience'     => null,
+                               'CRM_Quest_Form_MatchApp_Recommendation'     => null
+                               );
 
         parent::rebuild( $controller, $action );
     }

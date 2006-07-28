@@ -48,7 +48,7 @@ class CRM_Quest_StateMachine_MatchApp_Household extends CRM_Quest_StateMachine_M
         // ensure the states array is reset
         $this->_states = array( );
 
-        $this->_pages = array( );
+        $this->_pages = array( 'CRM_Quest_Form_MatchApp_Household'     => null );
 
         $dynamic = array( 'Household', 'Sibling', 'Income' );
         foreach ( $dynamic as $d ) {
@@ -63,7 +63,7 @@ class CRM_Quest_StateMachine_MatchApp_Household extends CRM_Quest_StateMachine_M
 
     public function &getDependency( ) {
         if ( self::$_dependency == null ) {
-            self::$_dependency = array( );
+            self::$_dependency = array( 'Household'   => array( 'Guardian'  => 1 ) );
         }
 
         return self::$_dependency;

@@ -133,7 +133,7 @@
 <field>
       <name>citizenship_country_id</name>
       <type>int unsigned</type>
-      <comment>Country where person is born.</comment>
+      <comment>Country of citizenship (or second citizenship) if citizenship_status is NOT US Citizen.</comment>
       <add>1.5</add>
   </field>
   <foreignKey>

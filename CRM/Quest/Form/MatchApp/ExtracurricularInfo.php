@@ -180,7 +180,7 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        return $this->_title ? $this->_title : ts('Extra Curricular Information');
+        return $this->_title ? $this->_title : ts('Extracurricular Information');
     }
 
     public function getRootTitle( ) {

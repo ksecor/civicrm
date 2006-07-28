@@ -52,7 +52,6 @@ class CRM_Quest_StateMachine_MatchApp_Personal extends CRM_Quest_StateMachine_Ma
                               'CRM_Quest_Form_MatchApp_Personal'      => null,
                               'CRM_Quest_Form_MatchApp_Scholarship'   => null,
                               'CRM_Quest_Form_MatchApp_Educational'   => null,
-                              'CRM_Quest_Form_MatchApp_Household'     => null,
                               );
 
         parent::rebuild( $controller, $action );
@@ -63,8 +62,7 @@ class CRM_Quest_StateMachine_MatchApp_Personal extends CRM_Quest_StateMachine_Ma
             self::$_dependency = array(
                                        'Personal'    => array( ),
                                        'Scholarship' => array( 'Personal'  => 1 ),
-                                       'Educational' => array( 'Personal'  => 1 ),
-                                       'Household'   => array( 'Personal'  => 1 ),
+                                       'Educational' => array( 'Personal'  => 1 )
                                        );
         }
 

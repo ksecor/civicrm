@@ -56,16 +56,7 @@ class CRM_Quest_Controller_MatchApp_School extends CRM_Quest_Controller_MatchApp
      * @access public
      */
     function wizardHeader( $currentPageName ) {
-        $this->_sections = array(
-                                 'School'   => array( 'title'     => 'High School Information',
-                                                      'processed' => true,
-                                                      'valid'     => true,
-                                                      'index'     => 0 ),
-                                 'Extracurricular' => array( 'title' => 'Extracurricular Information',
-                                                             'processed' => true,
-                                                             'valid'     => true,
-                                                             'index'     => 0 ),
-                                 );
+        $this->_sections = array( );
         parent::wizardHeader( $currentPageName );
     }
 
