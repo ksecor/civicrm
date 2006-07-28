@@ -44,18 +44,12 @@
        <add>1.5</add>
   </foreignKey>
   <field>
-      <name>ranking_id</name>
+      <name>ranking</name>
       <title>College Match Ranking</title>
       <type>int unsigned</type>
-       <comment>FK to civicrm_option_value. Uses partner_ranking option group values.</comment>
+      <comment>Integer rank assigned by student. 0 means Not Interested.</comment>
      <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>ranking_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.5</add>
-  </foreignKey>
   <field>
        <name>is_forward</name>
        <type>boolean</type>
