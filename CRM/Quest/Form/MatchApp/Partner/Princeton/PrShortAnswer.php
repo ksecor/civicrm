@@ -47,6 +47,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrShortAnswer extends CRM_Quest_
 {
     
     protected $_fields;
+    protected $_essays;
 
     /**
      * Function to set variables up before form is built
@@ -61,18 +62,39 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrShortAnswer extends CRM_Quest_
         
         $this->_fields =
             array(
-                  'Favorite1' => ( 'Your favorite book:'),
-                  'Favorite2' => ( 'Your favorite movie:'),
-                  'Favorite3' => ( 'Your favorite website:'),
-                  'Favorite4' => ( 'Your favorite line from a movie:'),
-                  'Favorite6' => ( 'Your favorite recording:'),
-                  'Favorite7' => ( 'Your favorite keepsake or memento:'),
-                  'Favorite8' => ( 'Your favorite source of inspiration:'),
-                  'Favorite9' => ( 'Your favorite word:'),
-                  'Favorite10'=> ( 'Two adjectives your friends would use to describe you:')
+                  'favorite_book' => ( 'Your favorite book:'),
+                  'favorite_movie' => ( 'Your favorite movie:'),
+                  'favorite_website' => ( 'Your favorite website:'),
+                  'favorite_movie_line' => ( 'Your favorite line from a movie:'),
+                  'favorite_recording' => ( 'Your favorite recording:'),
+                  'favorite_keepsake' => ( 'Your favorite keepsake or memento:'),
+                  'favorite_source_inspiration' => ( 'Your favorite source of inspiration:'),
+                  'favorite_word' => ( 'Your favorite word:'),
+                  'adjectives'=> ( 'Two adjectives your friends would use to describe you:')
                   );
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_princeton_short_essay', $this->_contactID, $this->_contactID );
     }
     
+
+    function setDefaultValues( ) 
+    {
+        $defaults = array( );
+        
+        require_once 'CRM/Quest/Partner/DAO/Princeton.php';
+        $dao =& new CRM_Quest_Partner_DAO_Princeton( );
+        $dao->contact_id = $this->_contactID;
+        if( $dao->find( true ) ) {
+            CRM_Core_DAO::storeValues( $dao ,$defaults );
+        }
+        
+        
+        $defaults['essay'] = array( );
+        
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
+        return $defaults;
+    }
+
+
    
      /**
      * Function to actually build the form
@@ -90,6 +112,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrShortAnswer extends CRM_Quest_
             CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
            
             $this->assign_by_ref('fields',$this->_fields);
+            parent::buildQuickForm( );
     }
   /**
      * Return a descriptive name for the page, used in wizard header
@@ -102,5 +125,31 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrShortAnswer extends CRM_Quest_
          return ts('Short Answers');
     }
 
+
+   /** 
+     * process the form after the input has been submitted and validated 
+     * 
+     * @access public 
+     * @return void 
+     */ 
+    public function postProcess() {
+        if ( $this->_action &  CRM_Core_Action::VIEW ) {
+            return;
+        }
+        $params = $this->controller->exportValues( $this->_name );
+        require_once 'CRM/Quest/Partner/DAO/Princeton.php';
+        $dao =& new CRM_Quest_Partner_DAO_Princeton( );
+        $dao->contact_id = $this->_contactID;
+        $dao->find( true );
+        $dao->copyValues($params);
+        $dao->save( );
+       
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
+                                     $this->_contactID, $this->_contactID ); 
+        
+        parent::postProcess( );
+    } 
+    
+    
 }
 ?>

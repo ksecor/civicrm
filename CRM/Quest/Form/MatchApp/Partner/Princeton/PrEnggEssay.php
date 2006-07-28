@@ -40,13 +40,34 @@ require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * This class generates form components for the amherst application
+ * This class generates form components for the Princeton application
  * 
  */
 class CRM_Quest_Form_MatchApp_Partner_Princeton_PrEnggEssay extends CRM_Quest_Form_App
 {
   
    
+    public function preProcess()
+    {
+        
+        parent::preProcess();
+        
+        $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_princeton_engg_essay', $this->_contactID, $this->_contactID );
+    }
+    
+
+    function setDefaultValues( ) 
+    {
+        $defaults = array( );
+        
+        $defaults['essay'] = array( );
+        CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
+        return $defaults;
+    }
+
+
+
+
      /**
      * Function to actually build the form
      *
@@ -60,6 +81,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrEnggEssay extends CRM_Quest_Fo
         require_once 'CRM/Quest/BAO/Essay.php';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_princeton_engg_essay', $this->_contactID, $this->_contactID );
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
+        parent::buildQuickForm( );
     }
   /**
      * Return a descriptive name for the page, used in wizard header
@@ -71,6 +93,25 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrEnggEssay extends CRM_Quest_Fo
     {
          return ts('Engineering Essay');
     }
+
+
+    /** 
+     * process the form after the input has been submitted and validated 
+     * 
+     * @access public 
+     * @return void 
+     */ 
+    public function postProcess() {
+     
+        if ( $this->_action &  CRM_Core_Action::VIEW ) {
+            return;
+        }
+        $params = $this->controller->exportValues( $this->_name );   
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],
+                                     $this->_contactID, $this->_contactID ); 
+        
+        parent::postProcess( );
+    } 
 
 }
 ?>

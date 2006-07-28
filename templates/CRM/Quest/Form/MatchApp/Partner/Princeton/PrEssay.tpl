@@ -8,9 +8,9 @@
    <td colspan="2" class="grouplabel">
     <label>In addition to the essays you have written for the College Match Application, please select one of the following themes and write an essay of about 300 words in response. Please do not repeat, in full or in part, the essay you wrote for the College Match Application. * (300 words max)
     </label><br /><br />
-   {$form.person_name.html}  {$form.person_name.label}<br /><br />      
+  
          <label>Using one of the quotes below (or your own favorite quotation) as a jumping off point, tell us about an event or experience that helped you define one of your values. </strong>. </label> <br /><br />
-      {$form.princeton_essay.html}&nbsp;&nbsp; {$form.princeton_essay.label}      
+      {$form.essay_theme.html}&nbsp;&nbsp; {$form.princeton_essay.label}      
     {include file="CRM/Quest/Form/MatchApp/Essay.tpl"} </td>
     </tr>
 </table>
