@@ -97,7 +97,7 @@ class CRM_Quest_BAO_Recommendation {
                                                                                 'display_name' ) );
         
         $template =& CRM_Core_Smarty::singleton( );
-        $template->assign( $params );
+        $template->assign_by_ref( $params );
         if ( $verify ) {
             $message = $template->fetch( 'CRM/Quest/MatchApp/Page/Recommendation/TeacherFirst.tpl' );
         } else {

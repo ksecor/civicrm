@@ -96,12 +96,12 @@ applicants for the following year's application cycle. Please enter contact info
             {assign var=phone value="referral_student_phone_"|cat:$i}
             
             <tr>    
-            <td>{$form.$last_name.html|crmReplace:class:six}</td>      
-            <td>{$form.$first_name.html|crmReplace:class:six}</td>
-            <td>{$form.$school.html}</td>
+            <td>{$form.$last_name.html|crmReplace:class:eight}</td>      
+            <td>{$form.$first_name.html|crmReplace:class:eight}</td>
+            <td>{$form.$school.html|crmReplace:class:eight}</td>
             <td>{$form.$year.html}</td>
-            <td>{$form.$email.html}</td>
-            <td>{$form.$phone.html|crmReplace:class:six}</td>
+            <td>{$form.$email.html|crmReplace:class:eight}</td>
+            <td>{$form.$phone.html|crmReplace:class:eight}</td>
            </tr>
      {/section} 
 
@@ -129,12 +129,12 @@ applicants for the following year's application cycle. Please enter contact info
             {assign var=email value="referral_educator_email_"|cat:$i}
             {assign var=phone value="referral_educator_phone_"|cat:$i}
             <tr>    
-            <td>{$form.$last_name.html|crmReplace:class:six}</td>      
-            <td>{$form.$first_name.html|crmReplace:class:six}</td>
-            <td>{$form.$school.html}</td>
+            <td>{$form.$last_name.html|crmReplace:class:eight}</td>      
+            <td>{$form.$first_name.html|crmReplace:class:eight}</td>
+            <td>{$form.$school.html|crmReplace:class:eight}</td>
             <td>{$form.$position.html}</td>
-            <td>{$form.$email.html}</td>
-            <td>{$form.$phone.html|crmReplace:class:six}</td>
+            <td>{$form.$email.html|crmReplace:class:eight}</td>
+            <td>{$form.$phone.html|crmReplace:class:eight}</td>
            </tr>
         {/section} 
 
@@ -163,10 +163,10 @@ applicants for the following year's application cycle. Please enter contact info
              {assign var=relationship value="alumni_relationship_"|cat:$i}  
    
              <td class="fieldlabel">{$form.$partner_institution.html}</td>  
-             <td class="fieldlabel">{$form.$last_name.html}</td>
-             <td class="fieldlabel">{$form.$first_name.html}</td>
+             <td class="fieldlabel">{$form.$last_name.html|crmReplace:class:eight}</td>
+             <td class="fieldlabel">{$form.$first_name.html|crmReplace:class:eight}</td>
              <td class="fieldlabel">{$form.$class_year.html}</td> 
-             <td class="fieldlabel">{$form.$relationship.html}</td>  
+             <td class="fieldlabel">{$form.$relationship.html|crmReplace:class:eight}</td>  
              </tr>
           {/section} 
        
@@ -198,10 +198,10 @@ applicants for the following year's application cycle. Please enter contact info
              {assign var=relationship value="employee_relationship_"|cat:$i}  
    
              <td class="fieldlabel">{$form.$partner_institution.html}</td>  
-             <td class="fieldlabel">{$form.$last_name.html}</td>
-             <td class="fieldlabel">{$form.$first_name.html}</td>
-             <td class="fieldlabel">{$form.$department.html}</td> 
-             <td class="fieldlabel">{$form.$relationship.html}</td>  
+             <td class="fieldlabel">{$form.$last_name.html|crmReplace:class:eight}</td>
+             <td class="fieldlabel">{$form.$first_name.html|crmReplace:class:eight}</td>
+             <td class="fieldlabel">{$form.$department.html|crmReplace:class:eight}</td> 
+             <td class="fieldlabel">{$form.$relationship.html|crmReplace:class:eight}</td>  
              </tr>
           {/section} 
        
