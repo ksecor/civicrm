@@ -97,6 +97,31 @@ class CRM_Quest_Controller_MatchApp_Partner extends CRM_Quest_Controller_MatchAp
         parent::wizardHeader( $currentPageName );
     }
 
+    function validateCategory( ) {
+        $valid = $this->get( 'validCategory' );
+        if ( ! $valid ) {
+            $cid = $this->get( 'contactID' );
+
+            // make sure the college task is complete before they can fill this section
+            require_once 'CRM/Project/DAO/TaskStatus.php';
+            $dao =& new CRM_Project_DAO_TaskStatus( );
+            $dao->responsible_entity_table = 'civicrm_contact';
+            $dao->responsible_entity_id    = $cid;
+            $dao->target_entity_table      = 'civicrm_contact';
+            $dao->target_entity_id         = $cid;
+            $dao->task_id                  = 18;
+            if ( $dao->find( true ) && $dao->status_id == 328 ) {
+                $this->set( 'validCategory', 1 );
+            } else {
+                $session =& CRM_Core_Session::singleton( );
+                $session->setStatus( "The College Match section must be completed before you can go to Partner Supplement ." );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/matchapp/college',
+                                                                   "reset=1" ) );
+            }
+        }
+        return true;
+    }
+
 }
 
 ?>

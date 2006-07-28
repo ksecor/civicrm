@@ -60,7 +60,11 @@ class CRM_Quest_StateMachine_MatchApp_School extends CRM_Quest_StateMachine_Matc
 
     public function &getDependency( ) {
         if ( self::$_dependency == null ) {
-            self::$_dependency = array( );
+            self::$_dependency = array( 'HighSchool'           => array( ),
+                                        'SchoolOther'          => array( ),
+                                        'ExtracurricularInfo'  => array( ),
+                                        'WorkExperience'       => array( ),
+                                        'Recommendation'       => array( 'HighSchool' => 1 ) );
         }
 
         return self::$_dependency;

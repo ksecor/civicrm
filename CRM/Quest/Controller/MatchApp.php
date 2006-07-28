@@ -40,7 +40,8 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
     protected $_action;
 
-    protected $_subType;
+    // public so that the state machine can access this
+    public    $_subType;
 
     protected $_sections;
 
@@ -114,6 +115,9 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
             }
         }
 
+        // make sure this controller is ok to go
+        $this->validateCategory( );
+
         require_once "CRM/Quest/StateMachine/MatchApp/$subType.php";
         eval( '$this->_stateMachine =& new CRM_Quest_StateMachine_MatchApp_' . $subType . '( $this, $this->_action );' );
         // create and instantiate the pages
@@ -129,6 +133,8 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         $dao->responsible_entity_table = 'civicrm_contact';
         $dao->responsible_entity_id    = $cid;
         $dao->task_id                  = $subTypeTasks[$this->_subType];
+        
+        require_once 'CRM/Core/OptionGroup.php';
         $status =& CRM_Core_OptionGroup::values( 'task_status', true );
         if ( ! $dao->find( true ) ) {
             $dao->target_entity_table = 'civicrm_contact';
@@ -414,6 +420,10 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
             $session->set( 'questMatchAppCategory', $category );
         }
         return $category;
+    }
+
+    function validateCategory( ) {
+        return true;
     }
 
 }

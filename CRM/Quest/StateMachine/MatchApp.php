@@ -63,9 +63,10 @@ abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
     abstract public function &getDependency( );
 
     public function checkDependency( &$controller, &$form ) {
-        return;
-
         $dependency =& $this->getDependency( );
+        if ( empty( $dependency ) ) {
+            return;
+        }
 
         $name = explode( '-', $form->getName( ) );
         $formName = $name[0];
@@ -81,7 +82,7 @@ abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                         $otherTitle = $controller->_pages[$pageName]->getCompleteTitle( );
                         $session =& CRM_Core_Session::singleton( );
                         $session->setStatus( "The $otherTitle section must be completed before you can go to $title ." );
-                        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/matchapp',
+                        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/matchapp/' . strtolower( $controller->_subType ),
                                                                            "_qf_{$name}_display=1" ) );
                     }
                 }
@@ -89,9 +90,8 @@ abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         }
     }
 
+    // NEED TO FIX THIS
     public function checkApplication( &$controller ) {
-        return;
-
         $data =& $controller->container( );
 
         foreach ( $this->_pageNames as $pageName ) {

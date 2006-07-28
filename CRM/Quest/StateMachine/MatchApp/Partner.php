@@ -46,56 +46,67 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
 
     static $_partners   = null;
 
+    static $_validPartners = null;
+
     static function &partners( ) {
         if ( ! self::$_partners ) {
             self::$_partners = 
                 array(
                       'Amherst' => array(
-                                         'AmhApplicant' => 'Applicant Information',
-                                         'AmhEssay'     => 'Essay',
-                                         'AmhAthletics' => 'Athletics Supplement',
-                                         'AmhArts'      => 'Arts Supplement'
+                                         'title' => 'Amherst College',
+                                         'steps' => array( 'AmhApplicant' => 'Applicant Information',
+                                                           'AmhEssay'     => 'Essay',
+                                                           'AmhAthletics' => 'Athletics Supplement',
+                                                           'AmhArts'      => 'Arts Supplement' ),
                                          ),
 
                       'Bowdoin' => array(
-                                         'BowApplicant' => 'Applicant Information',
-                                         'BowAthletics' => 'Athletics Supplement',
-                                         'BowArts'      => 'Arts Supplement'
+                                         'title' => 'Bowdoin College',
+                                         'steps' => array( 'BowApplicant' => 'Applicant Information',
+                                                           'BowAthletics' => 'Athletics Supplement',
+                                                           'BowArts'      => 'Arts Supplement' ),
                                          ),
                       'Columbia' => array(
-                                          'ColApplicant'    => 'Applicant Information',
-                                          'ColInterest'       => 'Interests',
-                                          'ColPersonal'       => 'Personal Essay',
-                                          'ColRecommendation' => 'Recommendations'
+                                          'title' => 'Columbia University',
+                                          'steps' => array( 'ColApplicant'    => 'Applicant Information',
+                                                            'ColInterest'       => 'Interests',
+                                                            'ColPersonal'       => 'Personal Essay',
+                                                            'ColRecommendation' => 'Recommendations' ),
                                           ),
                       'Pomona' => array(
-                                        'PomApplicant' => 'Applicant Information',
+                                        'title' => 'Pomona College',
+                                        'steps' => array( 'PomApplicant' => 'Applicant Information', ),
                                         ),
                       'Princeton'=> array(
-                                          'PrApplicant' => 'Applicant Information',
-                                          'PrShortAnswer' => 'Short Answers',
-                                          'PrEssay'       => 'Essay',
-                                          'PrEnggEssay'   => 'Enginering Essay'
+                                          'title' => 'Princeton University',
+                                          'steps' => array( 'PrApplicant' => 'Applicant Information',
+                                                            'PrShortAnswer' => 'Short Answers',
+                                                            'PrEssay'       => 'Essay',
+                                                            'PrEnggEssay'   => 'Enginering Essay' ),
                                           ),
                       'Rice'   => array(
-                                        'RiceApplicant' => 'Applicant Information',
+                                        'title' => 'Rice University',
+                                        'steps' => array( 'RiceApplicant' => 'Applicant Information', ),
                                         ),
                   
                       'Stanford'=> array(
-                                         'StfApplicant'  => 'Applicant Information',
-                                         'StfShortEssay' => 'Short Essay',
-                                         'StfEssay'      => 'Essay',
-                                         'StfArts'       => 'Arts Supplement',
+                                         'title' => 'Stanford University',
+                                         'steps' => array( 'StfApplicant'  => 'Applicant Information',
+                                                           'StfShortEssay' => 'Short Essay',
+                                                           'StfEssay'      => 'Essay',
+                                                           'StfArts'       => 'Arts Supplement', ),
                                          ),
                   
                       'Wellesley'   => array(
-                                             'WellApplicant' => 'Applicant Information',
-                                             'Essay'         => 'Essay'
+                                             'title' => 'Wellesley College',
+                                             'steps' => array( 'WellApplicant' => 'Applicant Information', 
+                                                               'Essay'         => 'Essay', ),
                                              ),
 
                       'Wheaton' => array(
-                                         'WheApplicant'      => 'Applicant Information',
-                                         'WheRecommendation' => 'Recommendations'
+                                         'title' => 'Wheaton College',
+                                         'steps' => array( 'WheApplicant'      => 'Applicant Information',
+                                                           'WheRecommendation' => 'Recommendations', ),
                                          ),
 
                       );
@@ -110,12 +121,16 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
 
         $partners =& self::partners( );
 
+        $validPartners =& $this->getValidPartners( );
+
         $this->_pages = array( );
         foreach ( $partners as $name => $values ) {
-            foreach ( $values as $key => $title ) {
-                $this->_pages["{$name}-{$key}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Partner_{$name}_{$key}",
-                                                         'title'     => $title,
-                                                         'options'   => array( ) );
+            if ( $validPartners[$values['title']] ) {
+                foreach ( $values['steps'] as $key => $title ) {
+                    $this->_pages["{$name}-{$key}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Partner_{$name}_{$key}",
+                                                             'title'     => $title,
+                                                             'options'   => array( ) );
+                }
             }
         }
 
@@ -127,6 +142,32 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
             self::$_dependency = array( );
         }
         return self::$_dependency;
+    }
+
+    public function getValidPartners( ) {
+        if ( ! self::$_validPartners ) {
+            self::$_validPartners = $this->_controller->get( 'validPartners' );
+            if ( self::$_validPartners ) {
+                break;
+            }
+
+            $cid = $this->_controller->get( 'contactID' );
+            $query = "
+SELECT p.name as name
+FROM   quest_partner p,
+       quest_partner_ranking r
+WHERE  r.contact_id = $cid
+  AND  r.partner_id = p.id
+  AND  r.ranking_id >= 1
+  AND  r.is_forward  = 1
+";
+            self::$_validPartners = array( );
+            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            while ( $dao->fetch( ) ) {
+                self::$_validPartners[$dao->name] = 1;
+            }
+        }
+        return self::$_validPartners;
     }
 
 }
