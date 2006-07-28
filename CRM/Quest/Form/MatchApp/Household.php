@@ -119,7 +119,7 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Household');
         for ( $i = 1; $i <= 2; $i++ ) {
             if ( $i == 1 ) {
-                $title = ts( 'How many people live with you in your current household?' );
+                $title = ts( 'How many people live with you in your current household (including yourself)?' );
                 
             } else {
                 $title = ts( 'How many people lived with you in your previous household?' );
@@ -174,7 +174,7 @@ $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_1', '30
         
     
         $this->addYesNo( 'foster_child',
-                         ts( 'Are you a foster child?' ) ,null,false);
+                         ts( 'Are you, or have you been, in foster care?' ) ,null,false);
         parent::buildQuickForm( );
                 
     }//end of function
@@ -347,9 +347,7 @@ WHERE  id = {$value['options']['personID']}
             
             $this->controller->rebuild( );
         }
-
-       
-        parent::postProcess( );
+       parent::postProcess( );
 } 
    
     public function getRelationshipDetail( &$details, &$relationship, &$params, $i, $j )

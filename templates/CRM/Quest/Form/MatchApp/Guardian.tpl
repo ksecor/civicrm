@@ -52,6 +52,22 @@
     </td>
 </tr>
 <tr>
+    <td class="grouplabel">{$form.citizenship_status.label}</td>
+    <td class="fieldlabel">{$form.citizenship_status.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">{$form.birth_place.label}</td>
+    <td class="fieldlabel">{$form.birth_place.html}<br />
+    <label>{ts}City or State{/ts}</label></td>
+</tr>
+<tr>
+    <td class="grouplabel">{$form.citizenship_country_id.label}</td>
+    <td class="fieldlabel">
+        {$form.citizenship_country_id.html}<br />
+        {edit}{$form.citizenship_country_id.label}{/edit}
+        <span class="marker">*</span></td>
+</tr>
+<tr>
     <td class="grouplabel"><label>{ts}How long have you lived with this person?{/ts}</label></td>
     <td>
         <table border="0">

@@ -163,11 +163,11 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 
         // internet access at home
         $this->addYesNo( 'is_home_internet',
-                         ts( 'If yes, do you have internet access at home?' ));
+                         ts( 'Do you have internet access at home?' ));
 
         // federal lunch program
         $this->addSelect( 'fed_lunch',
-                          ts( 'Are you eligible for Federal Free or Reduced Price Lunches?' ),null,true);
+                          ts( 'Are you eligible for Federal Free or Reduced Price Meals?' ),null,true);
         $extra3 = array('onchange' => "return showHideByValue('is_take_SAT_ACT', '1', 'study_method_id','table-row', 'radio', false);");
         $this->addYesNo( 'is_take_SAT_ACT',
                          ts( 'Did you study for the SAT or ACT?' ) ,null,true, $extra3);
@@ -177,10 +177,10 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                           ts( 'How did you study for the SAT or ACT?' ));
         // plan to be a financial aid applican
         $this->addYesNo( 'financial_aid_applicant',
-                         ts( 'Do you plan on applying for financial aid??' ) ,null,false);
+                         ts( 'Do you plan to apply for college financial aid??' ) ,null,false);
         // fee waivers to register for standarized tests.
         $this->addYesNo( 'register_standarized_tests',
-                         ts( 'Did you use fee waivers to register for standarized tests?' ) ,null,false);
+                         ts( 'Did you use fee waivers to register for SAT or ACT?' ) ,null,false);
 
         $this->addElement('textarea','displacement', ts('If you are a resident of Alabama, Florida, Louisina, Mississippi, or Texas, are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), "cols=40 rows=3");
         $radioAttribute = array('onclick' => "return show_element('heard_about_qb_id');");
@@ -220,7 +220,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         
         include_once 'CRM/Quest/BAO/Partner.php';
         $partners = CRM_Quest_BAO_Partner::getPartners();
-        for($i=1;$i<=6;$i++) {
+        for($i=1;$i<=5;$i++) {
            $this->addElement('select','alumni_partner_institution_id_'.$i ,ts('Partner Institution') ,
                               array('' => ts('- select -')) + $partners,null ); 
            $this->addElement('text', 'alumni_last_name_'.$i, ts('Last Name'), null );
@@ -229,7 +229,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
            $this->addElement('text', 'alumni_relationship_'.$i, ts('Relationship'), null );
            
         }
-        for($i=1;$i<=6;$i++) {
+        for($i=1;$i<=5; $i++) {
             $this->addElement('select','employee_partner_institution_id_'.$i,ts('Partner Institution') ,
                               array('' => ts('- select -')) + $partners ,null ); 
             
@@ -248,17 +248,16 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         $extra4 = array('onchange' => "return showHideByValue('is_dismissed', '1', 'explain_dismissed','table-row', 'radio', false);");
         $this->addYesNo( 'is_dismissed',
                          ts( 'Have you ever violated an Honor code, or been dismissed, suspended from school, put on probation or subjected to any school-related or legal disciplinary action?' ),null,false, $extra4 );
-        
+        $this->addRule('is_dismissed',ts('Please select '),'required');
         $this->addElement('textarea', 'explain_dismissed', ts( 'Please explain' ), $attributes['explain_dismissed'] );
+
         // wheather convicted
         $extra5 = array('onchange' => "return showHideByValue('is_convicted', '1', 'explain_convicted','table-row', 'radio', false);");
         $this->addYesNo( 'is_convicted',
                          ts( 'Have you ever been been convicted of a crime, had a criminal charge sustained against you in a juvenile proceeding, or been placed on court-supervised probation?' ),null,false, $extra5);
-        
+        $this->addRule('is_convicted',ts('Please select '),'required');
         $this->addElement('textarea', 'explain_convicted', ts( 'Please explain' ), $attributes['explain_convicted'] );
-        
-        
-        
+                        
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_Scholarship', 'formRule'));
         parent::buildQuickForm( );   
 

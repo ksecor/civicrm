@@ -131,18 +131,18 @@ public function buildQuickForm( )
         }
 
         $this->addElement( 'text', "first_name",
-                           ts('First Name'),
+                           ts('First name'),
                            $attributes['first_name'] );
         //$this->addRule('first_name',ts('Please enter First Name'),'required');
 
         $this->addElement( 'text', "last_name",
-                           ts('Last Name'),
+                           ts('Last name'),
                            $attributes['last_name'] );
         //$this->addRule('last_name',ts('Please enter Last Name'),'required');
 
         $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '43|44|336', 'separated-year', '', 'select', false);" );
         $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
-
+       
         $this->addElement( 'date', 'separated_year', 
                            ts( 'Year your parents separated or divorced' ),
                            CRM_Core_SelectValues::date( 'custom', 30, 1, "Y" ) );
@@ -158,7 +158,16 @@ public function buildQuickForm( )
                           CRM_Core_SelectValues::date('custom', 100, 0, "M\001d\001Y" ),
                           true);
         $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
-
+        
+        // citizenship status
+        $this->addYesNo( 'citizenship_status', ts( 'Is this guardian a U.S. Citizen?' ), null,false);
+        $this->addRule('citizenship_status', ts('Please select guardian citizenship.'), 'required');
+        // place of birth
+        $this->addElement( 'text', "birth_place", ts('Place of birth'), null );
+        
+        // country of birth
+        $this->addCountry('citizenship_country_id', ts( 'Country of birth' ), false );
+        
         $extra2 = array ('onclick' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', '', 'radio', true);");
         $choice = array( );
         $choice[] = $this->createElement( 'radio', null, '11', ts( 'All my life' ), '1', $extra2 );
@@ -278,6 +287,7 @@ public function formRule(&$params)
             if ( !$params['location']['1']['phone']['1']['phone'] ) {
                 $errors['location[1][phone][1][phone]'] = "Please enter the Permanent Telephone";
             }
+           
         }
 
         return empty($errors) ? true : $errors;
@@ -291,6 +301,7 @@ public function formRule(&$params)
      */ 
 public function postProcess()  
 {
+   
     if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params  = $this->controller->exportValues( $this->_name );
             

@@ -153,7 +153,7 @@ applicants for the following year's application cycle. Please enter contact info
           <td>Relationship</td>  
 
         </tr> 
-           {section name=rowLoop start=1 loop=7}
+           {section name=rowLoop start=1 loop=6}
              {assign var=i value=$smarty.section.rowLoop.index}
              <tr>
              {assign var=partner_institution value="alumni_partner_institution_id_"|cat:$i}  
@@ -188,7 +188,7 @@ applicants for the following year's application cycle. Please enter contact info
           <td>Relationship</td>  
 
         </tr> 
-          {section name=rowLoop start=1 loop=7}
+          {section name=rowLoop start=1 loop=6}
              {assign var=i value=$smarty.section.rowLoop.index}
              <tr>
              {assign var=partner_institution value="employee_partner_institution_id_"|cat:$i}  

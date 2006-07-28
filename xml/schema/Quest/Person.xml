@@ -116,6 +116,32 @@
       <comment>Persons birth date .</comment>
       <add>1.5</add>
   </field>
+    <field>
+       <name>citizenship_status</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this person a U.S. citizen?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>birth_place</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Place of birth</comment>
+      <add>1.5</add>
+  </field>
+<field>
+      <name>citizenship_country_id</name>
+      <type>int unsigned</type>
+      <comment>Country where person is born.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>citizenship_country_id</name>
+       <table>civicrm_country</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
   <field>
       <name>lived_with_from_age</name>
       <type>int unsigned</type>
