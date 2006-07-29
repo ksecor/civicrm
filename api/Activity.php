@@ -43,9 +43,6 @@
  */
 require_once 'api/utils.php';
 
-//require_once 'CRM/Core/BAO/OtherActivity.php';
-//require_once 'CRM/Core/BAO/Meeting.php';
-//require_once 'CRM/Core/BAO/Phonecall.php';
 require_once 'CRM/Activity/BAO/Activity.php';
 
 /**
@@ -93,13 +90,15 @@ function &crm_create_activity( &$params, $activityName) {
     
     //check the type of activity
     if ( $activityName == 'Meeting' ) {
-        $activity = CRM_Core_BAO_Meeting::add( $params, $ids );
+        $activityType = $activityName;
     } elseif ( $activityName == 'Phone Call' ) {
-        $activity = CRM_Core_BAO_Phonecall::add( $params, $ids );
+        $activityType = 'Phonecall';
     } else {
-        $activity = CRM_Core_BAO_OtherActivity::add( $params, $ids );
+        $activityType = 'Activity';
     }
     
+    $activity = CRM_Activity_BAO_Activity::add( $params, $ids, $activityType );
+
     $activityArray = array(); 
     _crm_object_to_array( $activity, $activityArray);
     
@@ -128,9 +127,9 @@ function &crm_get_contact_activities($contactID)
     $activity = array( );
 
     // get all the activities of a contact with $contactID
-    $activity['meeting'  ]  =& _crm_get_activities( $contactID, 'CRM_Core_DAO_Meeting'   );
-    $activity['phonecall']  =& _crm_get_activities( $contactID, 'CRM_Core_DAO_Phonecall' );
-    $activity['activity' ]  =& _crm_get_activities( $contactID, 'CRM_Core_DAO_Activity'  );
+    $activity['meeting'  ]  =& _crm_get_activities( $contactID, 'CRM_Activity_DAO_Meeting'   );
+    $activity['phonecall']  =& _crm_get_activities( $contactID, 'CRM_Activity_DAO_Phonecall' );
+    $activity['activity' ]  =& _crm_get_activities( $contactID, 'CRM_Activity_DAO_Activity'  );
     
     return $activity;
 }
@@ -167,11 +166,11 @@ function &crm_update_activity( &$params,$activityName ) {
     _crm_check_activity_name( $activityName, 'CRM_Core_DAO_ActivityType' );
     
     if ( $activityName == 'Meeting' ) {
-        $activity = _crm_update_activity( $params, 'CRM_Core_DAO_Meeting'   );
+        $activity = _crm_update_activity( $params, 'CRM_Activity_DAO_Meeting'   );
     } elseif ( $activityName == 'PhoneCall') {
-        $activity = _crm_update_activity( $params, 'CRM_Core_DAO_Phonecall' );
+        $activity = _crm_update_activity( $params, 'CRM_Activity_DAO_Phonecall' );
     } else {
-        $activity = _crm_update_activity($params, 'CRM_Core_DAO_Activity');
+        $activity = _crm_update_activity($params, 'CRM_Activity_DAO_Activity');
     }
     
     return $activity;
@@ -201,14 +200,17 @@ function crm_delete_activity($params, $activityName) {
     _crm_check_activity_name( $activityName, 'CRM_Core_DAO_ActivityType' );
     
     //check the type of activity
-    
-    if( $activityName == 'Meeting' ) {
-        CRM_Core_BAO_Meeting::del( $params['id'] );
-    } elseif ( $activityName == 'PhoneCall'){
-        CRM_Core_BAO_Phonecall::del( $params['id'] );
+     
+    //check the type of activity
+    if ( $activityName == 'Meeting' ) {
+        $activityType = $activityName;
+    } elseif ( $activityName == 'Phone Call' ) {
+        $activityType = 'Phonecall';
     } else {
-        CRM_Core_BAO_OtherActivity::del( $params['id'] );
+        $activityType = 'Activity';
     }
+    
+    $activity = CRM_Activity_BAO_Activity::del( $params['id'], $activityType );
 }
 
 /**
