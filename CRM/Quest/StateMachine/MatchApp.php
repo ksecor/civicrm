@@ -72,18 +72,19 @@ abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         $formName = $name[0];
         
         $data =& $controller->container( );
-
-        foreach ( $dependency[$formName] as $name => $value ) {
-            // for each name check that all pages are valid
-            foreach ( $this->_pageNames as $pageName ) {
-                if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
-                    if ( ! $data['valid'][$pageName] ) {
-                        $title = $form->getCompleteTitle( );
-                        $otherTitle = $controller->_pages[$pageName]->getCompleteTitle( );
-                        $session =& CRM_Core_Session::singleton( );
-                        $session->setStatus( "The $otherTitle section must be completed before you can go to $title ." );
-                        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/matchapp/' . strtolower( $controller->_subType ),
-                                                                           "_qf_{$name}_display=1" ) );
+        if (is_array ( $dependency[$formName] ) ) {
+            foreach ( $dependency[$formName] as $name => $value ) {
+                // for each name check that all pages are valid
+                foreach ( $this->_pageNames as $pageName ) {
+                    if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
+                        if ( ! $data['valid'][$pageName] ) {
+                            $title = $form->getCompleteTitle( );
+                            $otherTitle = $controller->_pages[$pageName]->getCompleteTitle( );
+                            $session =& CRM_Core_Session::singleton( );
+                            $session->setStatus( "The $otherTitle section must be completed before you can go to $title ." );
+                            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/matchapp/' . strtolower( $controller->_subType ),
+                                                                               "_qf_{$name}_display=1" ) );
+                        }
                     }
                 }
             }
