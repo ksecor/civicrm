@@ -126,7 +126,7 @@ public function buildQuickForm( )
         $householdDAO->contact_id = $this->_contactID;
         $householdDAO->find(true);
         
-        if (($personDAO->relationship_id == 29 || $personDAO->relationship_id ==28 ) && ( $householdDAO->person_1_id == $this->_personID  || $householdDAO->person_2_id == $this->_personID )) {
+        if (($personDAO->relationship_id == 29 || $personDAO->relationship_id ==28 ) && ( $householdDAO->person_1_id != $this->_personID  && $householdDAO->person_2_id != $this->_personID )) {
             $this->addYesNo( 'is_contact_with_student', ts( 'Do you have contact with this parent?' ), null,false);
         }
 
@@ -166,7 +166,7 @@ public function buildQuickForm( )
         $this->addElement( 'text', "birth_place", ts('Place of birth'), null );
         
         // country of birth
-        $this->addCountry('citizenship_country_id', ts( 'Country of birth' ), false );
+        $this->addCountry('citizenship_country_id', ts( 'Country of birth' ), true );
         
         $extra2 = array ('onclick' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', '', 'radio', true);");
         $choice = array( );

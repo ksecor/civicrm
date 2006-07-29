@@ -76,8 +76,7 @@
     </div>
 {/section}
 </td></tr>
-<tr></tr>
-<tr ><td colspan=2>{$form.total_amount.label}:${$form.total_amount.html|crmReplace:class:texttolabel}</td></tr>
+<tr><td colspan="2" class="grouplabel">{$form.total_amount.label}: &nbsp; $ {$form.total_amount.html|crmReplace:class:texttolabel}</td></tr>
 </table>
 
 {edit}

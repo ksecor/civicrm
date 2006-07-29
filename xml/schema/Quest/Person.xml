@@ -119,7 +119,6 @@
     <field>
        <name>citizenship_status</name>
        <type>boolean</type>
-       <default>0</default>
        <comment>Is this person a U.S. citizen?</comment>
        <add>1.5</add>
   </field>
@@ -258,6 +257,7 @@
   <field>
       <name>is_contact_with_student</name>
       <type>int unsigned</type>
+      <default>1</default>
       <comment>Do you have contact with this parent?</comment>
       <add>1.5</add>
   </field>

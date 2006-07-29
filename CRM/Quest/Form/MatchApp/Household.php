@@ -335,7 +335,7 @@ WHERE  id = {$value['options']['personID']}
             if ( $daoStudent->find(true) ) {
                 $ids = array( 'id' => $daoStudent->id);
             }
-            
+            require_once 'CRM/Quest/BAO/Student.php';
             $studentSummary = CRM_Quest_BAO_Student::createStudentSummary( $summaryValue, $ids);
             
             // reset all parent guardian pages

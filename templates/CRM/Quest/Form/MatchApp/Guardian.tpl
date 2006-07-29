@@ -62,10 +62,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.citizenship_country_id.label}</td>
-    <td class="fieldlabel">
-        {$form.citizenship_country_id.html}<br />
-        {edit}{$form.citizenship_country_id.label}{/edit}
-        <span class="marker">*</span></td>
+    <td class="fieldlabel">{$form.citizenship_country_id.html}</td>
 </tr>
 <tr>
     <td class="grouplabel"><label>{ts}How long have you lived with this person?{/ts}</label></td>

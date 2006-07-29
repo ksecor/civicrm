@@ -35,7 +35,7 @@
     <td class="fieldlabel">{$form.sibling_relationship_id.html}</td>
 </tr> 
 <tr>
-    <td class="grouplabel">{$form.birth_date.label} <span class="marker">*</span></td>
+    <td class="grouplabel">{$form.birth_date.label}</td>
     <td class="fieldlabel">{$form.birth_date.html}
 {edit}
      <div class="description"> 
