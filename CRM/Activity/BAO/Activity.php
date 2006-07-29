@@ -70,7 +70,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             return null;
         }
         
-        eval ('$activity =& new CRM_Core_DAO_' . $activityType .'( );');
+        eval ('$activity =& new CRM_Activity_DAO_' . $activityType .'( );');
         
         $activity->copyValues($params);
         
@@ -115,7 +115,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     static function retrieve( &$params, &$defaults, $activityType ) 
     {
-        eval ( '$activity =& new CRM_Core_DAO_' . $activityType . '( );' );
+        eval ( '$activity =& new CRM_Activity_DAO_' . $activityType . '( );' );
         $activity->copyValues( $params );
         if ( $activity->find( true ) ) {
             CRM_Core_DAO::storeValues( $activity, $defaults );
@@ -137,7 +137,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     static function del ( $id , $activityType ) 
     {
-        eval ('$activity =& new CRM_Core_DAO_' .$activityType. '( );');
+        eval ('$activity =& new CRM_Activity_DAO_' .$activityType. '( );');
         $activity->id = $id;
         $activity->delete();
     }
@@ -160,11 +160,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         foreach ($activity as $key) {
             
             // need to delete for both source and target
-            eval ('$dao =& new CRM_Core_DAO_' . $key . '();');
+            eval ('$dao =& new CRM_Activity_DAO_' . $key . '();');
             $dao->source_contact_id = $id;
             $dao->delete();
 
-            eval ('$dao =& new CRM_Core_DAO_' . $key . '();');
+            eval ('$dao =& new CRM_Activity_DAO_' . $key . '();');
             $dao->target_entity_table = 'civicrm_contact';
             $dao->target_entity_id    = $id;        
             $dao->delete();
