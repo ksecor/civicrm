@@ -167,19 +167,11 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
         $credits =& self::creditSelector( );
 
         for ( $i = 1; $i <= 10; $i++ ) {
-            $this->addSelect( 'academic_subject',
-                              null,
-                              "_$i" );
-            $this->addElement( 'text',
-                               "course_title_$i",
-                               null,
-                               $attributes['course_title'] );
-            $this->addElement( 'select',
-                               "academic_credit_$i", null,
-                               $credits );
-            $this->addSelect( 'academic_honor_status',
-                              null,
-                              "_$i", null, null, '' );
+            $this->addSelect( 'academic_subject', null, "_$i" );
+            $this->addElement( 'text', "course_title_$i", null, $attributes['course_title'] );
+            $this->addElement( 'select', "academic_credit_$i", null, $credits );
+            $this->addSelect( 'academic_honor_status', null, "_$i", null, null, '' );
+
             if ( $this->_grade == 'Twelve' ) {
                 continue;
             } else {
@@ -201,9 +193,61 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
                 }
             }
         }
-
+        $this->addFormRule( array('CRM_Quest_Form_MatchApp_Transcript', 'formRule') );
+        
         parent::buildQuickForm( );
     }
+
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule( &$params )
+    {
+        $errors = array( );
+        
+        $academicFields = array( 'academic_subject_id_'     => 'academic subject',
+                                 'course_title_'            => 'course title',
+                                 'academic_credit_'         => 'credit',
+                                 'academic_honor_status_id_'=> 'honor status' );
+
+        for ( $i = 1; $i <= 9; $i++ ) {
+            $filled = false;
+
+            foreach ( $academicFields as $name => $title ) {
+                if ($params[$name . $i]) {
+                    $filled = true;
+                    break;
+                }
+            }
+            for ( $j = 1; $j <= 4; $j++ ) {
+                if ($params['grade_' . $i . '_' . $j]) {
+                    $filled = true;
+                    break;
+                }
+            }
+
+            if ($filled) {
+                foreach ( $academicFields as $name => $title ) {
+                    if (!$params[$name . $i]) {
+                        $errors[$name . $i] = "Please enter the $title.";
+                    }
+                }
+                for ( $j = 1; $j <= 4; $j++ ) {
+                    if (!$params['grade_' . $i . '_' . $j]) {
+                        $errors['grade_' . $i . '_' . $j] = "Please enter grade $j.";
+                    }
+                }
+            }
+        }
+
+        return empty($errors) ? true : $errors;
+    } 
 
     /**
      * process the form after the input has been submitted and validated
