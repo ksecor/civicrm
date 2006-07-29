@@ -36,8 +36,8 @@
  */
 
 require_once 'CRM/Activity/Form.php';
-require_once 'CRM/Core/BAO/OtherActivity.php';
 require_once 'CRM/Core/BAO/ActivityType.php';
+
 /**
  * This class generates form components for OtherActivity
  * 
@@ -46,26 +46,10 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
 {
 
     /**
-     * variable to store BAO name
+     * variable to store activity type name
      *
      */
-    public $_BAOName = 'CRM_Core_BAO_OtherActivity';
-    public $description = array(); 
-
-    public function preProcess()
-    {
-        parent::preProcess();
-        $params = array('id' => $this->_id);
-        $defaults = array();
-        $bao =& new CRM_Core_BAO_OtherActivity();
-        $bao->retrieve($params, $defaults);
-        $this->description = CRM_Core_BAO_ActivityType::getActivityDescription();
-        $this->assign('ActivityTypeDescription',$this->description);
-        if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
-            $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
-        }
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Activity',$this->_id,0);
-    }
+    public $_activityType = 'Activity';
 
     /**
      * Function to build the form
@@ -75,7 +59,6 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
      */
     public function buildQuickForm( ) 
     {
-
         parent::buildQuickForm( );
         
         if ($this->_action & CRM_Core_Action::DELETE ) { 
@@ -104,13 +87,6 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'details' ) );
         
         $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus(), true );
-
-        
-        if ($this->_action & CRM_Core_Action::VIEW ) { 
-            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
-        } else {
-            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        }
         
     }
 
@@ -127,7 +103,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
 
         if ($this->_action & CRM_Core_Action::DELETE ) { 
-            CRM_Core_BAO_OtherActivity::del( $this->_id);
+            CRM_Activity_BAO_Activity::del( $this->_id, $this->_activityType);
+            CRM_Core_Session::setStatus( ts("Selected Meeting is deleted sucessfully."));
             return;
         }
 
@@ -139,8 +116,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $params['scheduled_date_time']= CRM_Utils_Date::format( $params['scheduled_date_time'] );
 
         // store the contact id and current drupal user id
-        $params['source_contact_id'] = $this->_sourceCID;
-        $params['target_entity_id'] = $this->_targetCID;
+        $params['source_contact_id'  ] = $this->_sourceCID;
+        $params['target_entity_id'   ] = $this->_targetCID;
         $params['target_entity_table'] = 'civicrm_contact';
 
         //set parent id if exists for follow up activities
@@ -149,87 +126,12 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['otherActivity'] = $this->_id;
+            $ids['id'] = $this->_id;
         }
-        
-        $otherActivity = CRM_Core_BAO_OtherActivity::add($params, $ids);
-      
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
 
-        // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Activity',$otherActivity->id); 
-
-
-        $activityType = CRM_Core_PseudoConstant::activityType(true);
-        
-        if($otherActivity->status=='Completed'){
-            // we need to insert an activity history record here
-            $params = array('entity_table'     => 'civicrm_contact',
-                            'entity_id'        => $this->_sourceCID,
-                            'activity_type'    => $activityType[$params['activity_type_id']],
-                            'module'           => 'CiviCRM',
-                            'callback'         => 'CRM_Activity_Form_OtherActivity::showOtherActivityDetails',
-                            'activity_id'      => $otherActivity->id,
-                            'activity_summary' => $otherActivity->subject,
-                            'activity_date'    => $otherActivity->scheduled_date_time
-                            );
-            
-            
-            if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) {
-                return false;
-            }
-
-            // now set activity history for the target cid
-            $params['entity_id'] = $this->_targetCID;
-            if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) {
-                return false;
-            }
-        }
-             
-        if($otherActivity->status=='Completed'){
-            CRM_Core_Session::setStatus( ts('Activity "%1" has been logged to Activity History.', array( 1 => $otherActivity->subject)) );
-        } else if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully."));
-        }   else{
-            CRM_Core_Session::setStatus( ts('Activity "%1" has been saved.', array( 1 => $otherActivity->subject)) );
-        }
-    }//end of function
-
-    /**
-     * compose the url to show details of this specific OtherActivity
-     *
-     * @param int $id
-     * @param int $activityHistoryId
-     *
-     * @static
-     * @access public
-     *
-     */
-    static function showOtherActivityDetails( $id, $activityHistoryId )
-    {
-        //require_once 'CRM/Core/DAO/Activity.php';  
-        //$dao =& new CRM_Core_DAO_Activity( );  
-        //$dao->id = $id;  
-        
-        $params   = array( );
-        $defaults = array( );
-        $params['id'          ] = $activityHistoryId;
-        $params['entity_table'] = 'civicrm_contact';
-        
-        require_once 'CRM/Core/BAO/History.php'; 
-        $history   = CRM_Core_BAO_History::retrieve($params, $defaults);
-        $contactId = CRM_Utils_Array::value('entity_id', $defaults);
-        
-        //if ( $dao->find( true ) ) {                                   
-        if ( $contactId ) {
-            // return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=2&cid={$dao->source_contact_id}&action=view&id=$id&status=true&history=1");  
-             return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=5&cid=$contactId&action=view&id=$id&status=true&history=1");  
-        } else {  
-            return CRM_Utils_System::url('civicrm' );  
-        }             
+        require_once "CRM/Activity/BAO/Activity.php";
+        CRM_Activity_BAO_Activity::createActivity($params, $ids, $this->_activityType);
     }
-
-
 }
 
 ?>

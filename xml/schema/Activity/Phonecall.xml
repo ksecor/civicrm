@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <table>
-  <base>CRM/Core</base>
-  <class>Meeting</class>
-  <name>civicrm_meeting</name>
-  <comment>Meeting details stored here include contact, location, details.</comment>
+  <base>CRM/Activity</base>
+  <class>Phonecall</class>
+  <name>civicrm_phonecall</name>
+  <comment>Record details regarding phone call to a contact</comment>
   <add>1.1</add>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Unique Meeting ID</comment>
-       <add>1.1</add>
+      <comment>Unique Phone call ID</comment>
+      <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -20,8 +20,8 @@
       <name>source_contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Contact ID of person scheduling or logging this meeting. This will generally an authenticated user.</comment>
-       <add>1.1</add>
+      <comment>Contact ID of person making the call. This will generally an authenticated user.</comment>
+      <add>1.1</add>
   </field>
   <foreignKey>
        <name>source_contact_id</name>
@@ -29,7 +29,6 @@
        <key>id</key>
        <add>1.1</add>
   </foreignKey>
-  
   <field>
        <name>target_entity_table</name>
        <type>varchar</type>
@@ -45,61 +44,72 @@
        <comment>Foreign key to the referenced item.</comment>
        <add>1.1</add>
   </field>
-
- <field>
+  <field>
       <name>subject</name>
       <type>varchar</type>
       <length>64</length>
-      <comment>The subject/purpose of this meeting.</comment>
-       <add>1.1</add>
+      <comment>Short description of the subject of this call.</comment>
+      <add>1.1</add>
   </field>
   <field>
      <name>scheduled_date_time</name>
      <type>datetime</type>
-     <comment>Date and time meeting is scheduled to occur.</comment>
-       <add>1.1</add>
+     <comment>Date and time phonecall is scheduled to be made.</comment>
+     <add>1.1</add>
   </field>
   <field>
       <name>duration_hours</name>
       <type>int unsigned</type>
-      <comment>Planned or actual duration of meeting - hours.</comment>
+      <comment>Planned or actual duration of call - hours.</comment>
        <add>1.1</add>
   </field>
   <field>
       <name>duration_minutes</name>
       <type>int unsigned</type>
-      <comment>Planned or actual duration of meeting - minutes.</comment>
+      <comment>Planned or actual duration of call - minutes.</comment>
        <add>1.1</add>
   </field>
   <field>
-      <name>location</name>
+      <name>phone_id</name>
+      <type>int unsigned</type>
+      <comment>Phone ID of the number called (optional - used if an existing phone number is selected).</comment>
+       <add>1.1</add>
+  </field>
+  <foreignKey>
+       <name>phone_id</name>
+       <table>civicrm_phone</table>
+       <key>id</key>
+       <add>1.1</add>
+  </foreignKey>
+  <field>
+      <name>phone_number</name>
       <type>varchar</type>
-      <length>255</length>
-      <comment>Where will the meeting be held ?</comment>
+      <length>64</length>
+      <comment>Phone number in case the number does not exist in the civicrm_phone table.</comment>
        <add>1.1</add>
   </field>
   <field>
       <name>details</name>
       <type>text</type>
-      <comment>Details about the meeting (agenda, notes, etc).</comment>
+      <comment>Details about the call.</comment>
        <add>1.1</add>
   </field>
   <field>
       <name>status</name>
       <type>enum</type>
-      <values>Scheduled, Completed</values>
-      <comment>What is the status of this meeting? Completed meeting status results in activity history entry.</comment>
+      <values>Scheduled, Left Message, Unreachable, Completed</values>
+      <comment>What is the status of this phone call? Completed calls result in activity history entry.</comment>
        <add>1.1</add>
   </field>
   <field>
       <name>parent_id</name>
       <type>int unsigned</type>
-      <comment>Parent meeting ID (if this is a follow-up item). This is not currently implemented</comment>
+      <comment>Parent phone call ID (if this is a follow-up item). This is not currently implemented</comment>
        <add>1.1</add>
   </field>
   <foreignKey>
        <name>parent_id</name>
-       <table>civicrm_meeting</table>
+       <table>civicrm_phonecall</table>
        <key>id</key>
        <add>1.1</add>
   </foreignKey>

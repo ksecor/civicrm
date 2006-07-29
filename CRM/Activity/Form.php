@@ -101,6 +101,12 @@ class CRM_Activity_Form extends CRM_Core_Form
         }
         $this->_status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                       $this, false );
+        
+        if ($this->_activityType == 'Activity') {
+            $this->assign('ActivityTypeDescription', CRM_Core_BAO_ActivityType::getActivityDescription());
+        }
+        
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_activityType, $this->_id, 0);
     }
 
     /**
@@ -117,8 +123,13 @@ class CRM_Activity_Form extends CRM_Core_Form
 
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->_BAOName) . ".php");
-            eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
+
+            require_once "CRM/Activity/BAO/Activity.php";
+            CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityType );
+            
+            if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
+                $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
+            }
 
             $sourceName = CRM_Contact_BAO_Contact::displayName($defaults['source_contact_id']);
             $targetName = CRM_Contact_BAO_Contact::displayName($defaults['target_entity_id']);
@@ -225,6 +236,12 @@ class CRM_Activity_Form extends CRM_Core_Form
                                            'name'      => ts('Cancel')),
                                     )
                               );
+        }
+
+        if ($this->_action & CRM_Core_Action::VIEW ) { 
+            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+        } else {
+            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }
     }
 }

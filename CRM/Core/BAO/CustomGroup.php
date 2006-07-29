@@ -663,7 +663,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         case 'Relationship':  
             $tableName = 'civicrm_relationship';
             break;
-        case 'PhoneCall':
+        case 'Phonecall':
             $tableName = 'civicrm_phonecall';
             break;
         case 'Meeting':

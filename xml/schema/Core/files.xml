@@ -3,7 +3,6 @@
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 
 <xi:include href="ACL.xml"              parse="xml" />
-<xi:include href="Activity.xml"         parse="xml" />
 <xi:include href="ActivityHistory.xml"  parse="xml" />
 <xi:include href="ActivityType.xml"     parse="xml" />
 <xi:include href="Address.xml"          parse="xml" />
@@ -29,11 +28,9 @@
 <xi:include href="LocationType.xml"     parse="xml" />
 <xi:include href="Mapping.xml"          parse="xml" />
 <xi:include href="MappingField.xml"     parse="xml" />
-<xi:include href="Meeting.xml"          parse="xml" />
 <xi:include href="MobileProvider.xml"   parse="xml" />
 <xi:include href="Note.xml"             parse="xml" />
 <xi:include href="Phone.xml"            parse="xml" />
-<xi:include href="Phonecall.xml"        parse="xml" />
 <xi:include href="StateProvince.xml"    parse="xml" />
 <xi:include href="Tag.xml"              parse="xml" />
 <xi:include href="UFGroup.xml"          parse="xml" />

@@ -45,25 +45,10 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
 {
 
     /**
-     * variable to store BAO name
+     * variable to store activity type name
      *
      */
-    public $_BAOName = 'CRM_Core_BAO_Phonecall';
-
-
-    public function preProcess()
-    {
-        require_once 'CRM/Core/BAO/Phonecall.php';
-        parent::preProcess();
-        $params = array('id' => $this->_id);
-        $defaults = array();
-        $bao =& new CRM_Core_BAO_Phonecall();
-        $bao->retrieve($params, $defaults);
-        if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
-            $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
-        }
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('PhoneCall',$this->_id,0);
-    }
+    public $_activityType = 'Phonecall';
 
     /**
      * Function to build the form
@@ -95,20 +80,11 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         $this->add('select', 'duration_hours', '', CRM_Core_SelectValues::getHours());
         $this->add('select', 'duration_minutes', '', CRM_Core_SelectValues::getMinutes());
         
-        $status =& $this->add('select','status',ts('Status'),CRM_Core_SelectValues::ActivityStatus(true));
+        $status =& $this->add('select','status',ts('Status'),CRM_Core_SelectValues::activityStatus(true));
         $this->addRule( 'status', ts('Please select status.'), 'required' );
         
         $this->add('textarea', 'details'       , ts('Details')       ,CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'details' ));
         
-        
-        //CRM_Core_Error::debug( 'g', $this->_groupTree );
-        if ($this->_action & CRM_Core_Action::VIEW ) { 
-            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
-        } else {
-            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        }
-        $this->assign('groupTree', $this->_groupTree); 
-
     }
 
        
@@ -124,12 +100,12 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
             return;
         }
         if ($this->_action & CRM_Core_Action::DELETE ) { 
-            CRM_Core_BAO_Phonecall::del( $this->_id);
+            CRM_Activity_BAO_Activity::del( $this->_id, $this->_activityType);
             CRM_Core_Session::setStatus( ts("Selected Phone Call is deleted sucessfully."));
             return;
         }
 
-         // store the submitted values in an array
+        // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );       
         $ids = array();
         
@@ -141,8 +117,8 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         $params['scheduled_date_time']= $dateTime;
         
         // store the contact id and current drupal user id
-        $params['source_contact_id'] = $this->_sourceCID;
-        $params['target_entity_id'] = $this->_targetCID;
+        $params['source_contact_id'  ] = $this->_sourceCID;
+        $params['target_entity_id'   ] = $this->_targetCID;
         $params['target_entity_table'] = 'civicrm_contact';
         
         //set parent id if exists for follow up activities
@@ -151,84 +127,13 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         }
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['call'] = $this->_id;
+            $ids['id'] = $this->_id;
         }
       
-        $call = CRM_Core_BAO_Phonecall::add($params, $ids);
+        require_once "CRM/Activity/BAO/Activity.php";
+        CRM_Activity_BAO_Activity::createActivity($params, $ids, $this->_activityType);
 
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
-
-        // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'PhoneCall',$call->id); 
-
-        if($call->status=='Completed'){
-            // we need to insert an activity history record here
-            $params = array('entity_table'     => 'civicrm_contact',
-                            'entity_id'        => $this->_sourceCID,
-                            'activity_type'    => ts('Phone Call'),
-                            'module'           => 'CiviCRM',
-                            'callback'         => 'CRM_Activity_Form_Phonecall::showCallDetails',
-                            'activity_id'      => $call->id,
-                            'activity_summary' => $call->subject,
-                            'activity_date'    => $call->scheduled_date_time
-                            );
-            
-            
-            if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) {
-                return false;
-            }
-
-            // now set activity history for the target cid
-            $params['entity_id'] = $this->_targetCID;
-            if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) {
-                return false;
-            }
-
-        }
-        
-        // print_r($params);
-        if ( $call->status=='Completed' ) {
-            CRM_Core_Session::setStatus( ts('Phone Call "%1" has been logged to Activity History.', array( 1 => $call->subject)) );
-        } else {
-            CRM_Core_Session::setStatus( ts('Phone Call "%1" has been saved.', array( 1 => $call->subject)) );
-        }
     }
-
-
-
-    /**
-     * compose the url to show details of this specific Call
-     *
-     * @param int $id
-     * @param int $activityHistoryId
-     *
-     * @static
-     * @access public
-     */
-    static function showCallDetails( $id, $activityHistoryId )
-    {
-        //require_once 'CRM/Core/DAO/Phonecall.php'; 
-        //$dao =& new CRM_Core_DAO_Phonecall( ); 
-        //echo $dao->id = $id; 
-
-        $params   = array( );
-        $defaults = array( );
-        $params['id'          ] = $activityHistoryId;
-        $params['entity_table'] = 'civicrm_contact';
-        
-        require_once 'CRM/Core/BAO/History.php'; 
-        $history   = CRM_Core_BAO_History::retrieve($params, $defaults);
-        $contactId = CRM_Utils_Array::value('entity_id', $defaults);
-
-        //if ( $dao->find( true ) ) { 
-        if ( $contactId ) {
-            //return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=2&cid={$dao->source_contact_id}&action=view&id=$id&status=true&history=1"); 
-            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=2&cid=$contactId&action=view&id=$id&status=true&history=1"); 
-        } else { 
-            return CRM_Utils_System::url('civicrm' ); 
-        } 
-    }
-
 }
 
 ?>

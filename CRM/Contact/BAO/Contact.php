@@ -1145,8 +1145,8 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      */
     function deleteContact( $id ) {
         require_once 'CRM/Core/BAO/EmailHistory.php';
-        require_once 'CRM/Core/BAO/Meeting.php';
-        require_once 'CRM/Core/BAO/Phonecall.php';
+        require_once 'CRM/Activity/BAO/Activity.php';
+
         // make sure we have edit permission for this contact
         // before we delete
         if ( ! self::permissionedContact( $id, CRM_Core_Permission::EDIT ) ) {
@@ -1204,10 +1204,10 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         require_once 'CRM/Core/BAO/UFMatch.php';
         CRM_Core_BAO_UFMatch::deleteContact( $id );
         
-        // need to remove them from email, meeting and phonecall
+        // need to remove them from email, meeting , phonecall and other activities
         CRM_Core_BAO_EmailHistory::deleteContact($id);
-        CRM_Core_BAO_Meeting::deleteContact($id);
-        CRM_Core_BAO_Phonecall::deleteContact($id);
+        
+        CRM_Activity_BAO_Activity::deleteContact($id);
 
         // location shld be deleted after phonecall, since fields in phonecall are
         // fkeyed into location/phone.
