@@ -43,9 +43,10 @@
  */
 require_once 'api/utils.php';
 
-require_once 'CRM/Core/BAO/OtherActivity.php';
-require_once 'CRM/Core/BAO/Meeting.php';
-require_once 'CRM/Core/BAO/Phonecall.php';
+//require_once 'CRM/Core/BAO/OtherActivity.php';
+//require_once 'CRM/Core/BAO/Meeting.php';
+//require_once 'CRM/Core/BAO/Phonecall.php';
+require_once 'CRM/Activity/BAO/Activity.php';
 
 /**
  * Create a new Activity.
