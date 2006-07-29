@@ -1,6 +1,5 @@
 {* Quest college Match application:Forward Application  section *}
 
-
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 {strip}
 <table cellpadding=0 cellspacing=1 width="90%" class="app">
@@ -17,24 +16,22 @@
 
 <tr><td class="grouplabel">
     <table cellpadding=0 cellspacing=1  width="90%" class="app">
-    {foreach from=$partner item=type key=key}
-    {assign var=regular_admission value="regular_addmission_"|cat:$key}
-        {if ($key eq 0) or (($key - 1)%2 eq 0) }
+    {assign var=count value=0}
+    {foreach from=$partner item=type key=k1}
+    {assign var=count value=$count+1}
+    {assign var=regular_admission value="regular_addmission_"|cat:$k1}
+        {if $count is odd }
             <tr>
         {/if}
-            <td class="optionlist">{$form.$regular_admission.html} {$form.$regular_admission.label} &nbsp;<a href={$url_link.$key}>(<u>learn more</u>)</a></td>
-        {if ( ($key%2) eq 0 ) }
+            <td class="optionlist">{$form.$regular_admission.html} {$form.$regular_admission.label} &nbsp;<a href={$url_link.$k1}>(<u>learn more</u>)</a></td>
+        {if $count is even }
             </tr>
         {/if}
     {/foreach}
-
-    {if ( ($key%2) neq 0 ) }
-        
-        {if ( ($key+1)%2 eq 0 ) }
-            <td class="optionlist"></td>
-        {/if}
-        
-        </tr>
+    
+    {if $count is odd }
+        <td class="optionlist"></td></tr>
+        {assign var=count value=$count-1}
     {/if}
     </table>
 </td></tr>
@@ -50,22 +47,20 @@
     QuestBridge is forming partnerships by which select scholarships have the opportunity to receive information about our applicants. Please check any scholarships you want QuestBridge to forward your information to. (You will still need to fill out the scholarship's regular application if you are contacted by the scholarship provider).
     <br/><br/>
     <table cellpadding=0 cellspacing=1  width="90%" class="app">
-
-    {foreach from=$partner_s item=type key=key}
-    {assign var=regular_admission_s value="scholarship_addmission_"|cat:$key}
-        {if ($key eq 0) or (($key - 1)%2 eq 0) }
+    {foreach from=$partner_s item=type key=k2}
+    {assign var=count value=$count+1}
+    {assign var=regular_admission_s value="scholarship_addmission_"|cat:$k2}
+        {if $count is odd}
             <tr>
         {/if}
-            <td class="optionlist">{$form.$regular_admission_s.html} {$form.$regular_admission_s.label} &nbsp;<a href="{$scholarshipUrl_link.$key}">(<u>learn more</u>)</a></td>
-        {if ( ($key%2) eq 0 ) }
+            <td class="optionlist">{$form.$regular_admission_s.html} {$form.$regular_admission_s.label} &nbsp;<a href="{$scholarshipUrl_link.$k2}">(<u>learn more</u>)</a></td>
+        {if $count is even}
             </tr>
         {/if}
     {/foreach}
-    {if ( ($key%2) neq 0 ) }
-        {if ( ($key+1)%2 eq 0 ) }
-            <td class="optionlist"></td>
-        {/if}
-        </tr>
+    
+    {if $count is odd}
+            <td class="optionlist"></td><tr>
     {/if}
     </table>
    </td>
