@@ -75,7 +75,7 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         $dao->contact_id = $this->contact_id;
         $dao->find();
         while( $dao->fetch() ){
-            $defaults['college_ranking_'.$dao->partner_id] = $dao->ranking_id ;
+            $defaults['college_ranking_'.$dao->partner_id] = $dao->ranking ;
         }
         return $defaults;
     }
