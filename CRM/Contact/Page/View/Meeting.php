@@ -70,9 +70,9 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject )){
             
-            require_once 'CRM/Core/BAO/Meeting.php';
+            require_once 'CRM/Activity/BAO/Activity.php';
             
-            CRM_Core_BAO_Meeting::del( $this->_id);
+            CRM_Activity_BAO_Activity::del( $this->_id, 'Meeting');
             CRM_Utils_System::redirect($url);
         }
 
