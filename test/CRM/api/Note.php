@@ -23,7 +23,6 @@ class TestOfNoteAPI extends UnitTestCase
                             'modified_date' =>'20060318'
                             );
         $note =& crm_create_note($noteParams);
-        CRM_Core_Error::debug('Create Note', $note);
      }
     
     function testGetNote()
@@ -51,7 +50,6 @@ class TestOfNoteAPI extends UnitTestCase
                             'entity_table'  => 'civicrm_relationship'
                             );
         $note =& crm_get_note($noteParams);
-        CRM_Core_Error::debug('Get Note', $note);
     }
     
     function testDeleteNote()
@@ -81,7 +79,6 @@ class TestOfNoteAPI extends UnitTestCase
                             'contact_id'    => 100
                             );
         $note =& crm_delete_note($noteParams);
-        CRM_Core_Error::debug('Number of Notes Deleted', $note);
     }
     
     function testUpdateNote()
@@ -94,16 +91,13 @@ class TestOfNoteAPI extends UnitTestCase
                             'modified_date' =>'20060318'
                             );
         $note1 =& crm_create_note($noteParams1);
-        CRM_Core_Error::debug('Created Note', $note1);
-        
+               
         $noteParams = array('id'            => $note1['id'],
                             'entity_id'     => 100,
                             'entity_table'  => 'civicrm_contact',
                             'note'          => 'bbbbbbbb',
                             );
         $note =& crm_update_note($noteParams);
-        CRM_Core_Error::debug('Updated Note', $note);
-    }
-       
+    }       
 }
 ?>

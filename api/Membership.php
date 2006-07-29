@@ -225,6 +225,7 @@ function crm_create_membership_status($params)
  * Get a membership status.
  * 
  * This api is used for finding an existing membership status.
+ * Required parrmeters : id of a membership status
  * 
  * @params  array $params  an associative array of name/value property values of civicrm_membership_status
  *
