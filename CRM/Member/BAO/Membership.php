@@ -225,9 +225,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $membership = & new CRM_Member_DAO_Membership( );
         $membership->id = $membershipId;
         if ( $membership->find( true ) ) {
-            $membership->delete();;
+            $count = $membership->delete();;
         }
-        return true;
+        
+        // Changing the "return true" to "return count".
+        // Reason for change is "return true" can not be used to check 
+        // whether membership deleted or not. 
+        // ( The returned value is always true even in case no membership deleted. )
+        return $count;
+        //return true;
     }
     
 

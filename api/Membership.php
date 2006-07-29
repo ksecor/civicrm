@@ -238,8 +238,8 @@ function crm_get_membership_statuses($params)
         return _crm_error('Params is not an array.');
     }
     
-    if ( empty($params) ) {
-        return _crm_error('Params can not be empty.');
+    if ( ! isset($params['id'])) {
+        return _crm_error('Required parameters missing.');
     }
     
     require_once 'CRM/Member/BAO/MembershipStatus.php';
