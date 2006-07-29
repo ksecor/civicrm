@@ -35,15 +35,15 @@
  *
  */
 
-require_once 'CRM/Core/DAO/Meeting.php';
-require_once 'CRM/Core/DAO/Phonecall.php';
-require_once 'CRM/Core/DAO/Activity.php';
+require_once 'CRM/Activity/DAO/Meeting.php';
+require_once 'CRM/Activity/DAO/Phonecall.php';
+require_once 'CRM/Activity/DAO/Activity.php';
 
 /**
  * This class is for activity functions
  *
  */
-class CRM_Activity_BAO_Activity extends CRM_Core_DAO_Activity
+class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 {
     /**
      * class constructor

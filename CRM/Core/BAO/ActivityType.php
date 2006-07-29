@@ -183,7 +183,7 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType
      */
     static function del($activityTypeId) 
     {
-        require_once 'CRM/Core/DAO/Activity.php';
+        require_once 'CRM/Activity/DAO/Activity.php';
         //check dependencies
         
         $activityIds = array( );

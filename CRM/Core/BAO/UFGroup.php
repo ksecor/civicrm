@@ -580,6 +580,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                         ! empty( $details->$name ) ) {
                                 $url = CRM_Utils_System::fixURL( $details->$name );
                                 $values[$index] = "<a href=\"$url\">{$details->$name}</a>";
+                            } else {
+                                $values[$index] = $details->$name;
                             }
                         }
                     }

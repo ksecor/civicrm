@@ -57,7 +57,8 @@ require_once 'CRM/Core/BAO/Note.php';
 require_once 'CRM/Contact/BAO/Query.php';
 require_once 'CRM/Contact/BAO/Relationship.php';
 require_once 'CRM/Contact/BAO/GroupContact.php';
-require_once 'CRM/Core/DAO/Meeting.php';
+require_once 'CRM/Activity/DAO/Meeting.php';
+require_once 'CRM/Activity/DAO/Phonecall.php';
 require_once 'CRM/Core/Permission.php';
 require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
 
@@ -1394,7 +1395,6 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * @static
      */
     static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity', $admin = false) {
-        require_once 'CRM/Core/DAO/Phonecall.php';
         $dao =& new CRM_Core_DAO();
         if ( $admin ) {
             $clause = null;
@@ -1499,8 +1499,8 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             $rowCnt++;
         }
         foreach ($values as $key => $array) {
-            CRM_Core_DAO_Meeting::addDisplayEnums($values[$key]);
-            CRM_Core_DAO_Phonecall::addDisplayEnums($values[$key]);
+            CRM_Activity_DAO_Meeting::addDisplayEnums($values[$key]);
+            CRM_Activity_DAO_Phonecall::addDisplayEnums($values[$key]);
         }
         return $values;
     }

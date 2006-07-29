@@ -74,7 +74,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $this->add('text', 'description', ts('Description'),
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ), false);
 
-        $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'subject' ), true );
+        $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), true );
 
         $this->add('date', 'scheduled_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('datetime'), true);
         $this->addRule('scheduled_date_time', ts('Select a valid date.'), 'qfDate');
@@ -82,9 +82,9 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $this->add('select','duration_hours',ts('Duration'),CRM_Core_SelectValues::getHours());
         $this->add('select','duration_minutes', null,CRM_Core_SelectValues::getMinutes());
 
-        $this->add('text', 'location', ts('Location'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'location' ) );
+        $this->add('text', 'location', ts('Location'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'location' ) );
         
-        $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Activity', 'details' ) );
+        $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
         
         $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus(), true );
         
