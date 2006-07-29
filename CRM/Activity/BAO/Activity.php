@@ -254,14 +254,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
         if ($history->activity_type == 'Meeting') {
             $activityId = 1;
-        } else if ($history->activity_type == 'Phonecall') {
+        } else if ($history->activity_type == 'Phone Call') {
             $activityId = 2;
         } else {
             $activityId = 5;
         }
 
         if ( $contactId ) {
-            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=$activityId&cid=$contactId&action=view&id=$id&status=true&history=1"); 
+            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=$activityId&cid=$contactId&action=view&id=$activityHistoryId&status=true&history=1"); 
         } else { 
             return CRM_Utils_System::url('civicrm' ); 
         } 
