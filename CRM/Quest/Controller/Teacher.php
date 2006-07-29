@@ -88,7 +88,7 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
             $dao =& new CRM_Contact_DAO_Contact( );
             $dao->id = $cid;
             if ( $dao->find( true ) &&
-                 $dao->contact_sub_type == 'Teacher' ) {
+                 $dao->contact_sub_type == 'Recommender' ) {
                 $this->set( 'welcome_name',
                             $dao->display_name );
             } else {

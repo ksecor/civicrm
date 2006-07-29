@@ -160,7 +160,7 @@ class CRM_Quest_Form_Teacher_Personal extends CRM_Quest_Form_Recommender
             $this->_contactID;
             require_once 'CRM/Quest/BAO/Student.php';
             $params['contact_type'] = 'Individual';
-            $params['contact_sub_type'] = 'Teacher';
+            $params['contact_sub_type'] = 'Recommender';
 
             $params['location'][1]['location_type_id'] = 1;
             $params['location'][1]['is_primary'] = 1 ;

@@ -99,6 +99,8 @@ class CRM_Quest_Form_Teacher_Ranking extends CRM_Quest_Form_Recommender
                     ts( 'Years you have been a teacher' ),
                     $attributes['teacher_years'],
                     true );
+        $this->addRule('teacher_years', ts('Year must be an integer'), 'integer');
+
 
         $this->add( 'text',
                     'teacher_subject',
@@ -141,6 +143,7 @@ class CRM_Quest_Form_Teacher_Ranking extends CRM_Quest_Form_Recommender
 
         foreach( $radioBoxes as $label => $name ) {
             $this->addRadio( $name, $label, $optionValues, null, '</td><td>' );
+            $this->addRule($name, ts('Please Select the field'), 'required');
         }
 
         $this->addSelect( 'recommend_student',
