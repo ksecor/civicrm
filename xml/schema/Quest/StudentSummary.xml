@@ -60,7 +60,7 @@
       <add>1.5</add>
   </field>
   <field>
-      <name>SAT_composite_all</name>
+      <name>SAT_composite_alt</name>
       <type>int unsigned</type>
       <export>true</export>
       <import>true</import>
