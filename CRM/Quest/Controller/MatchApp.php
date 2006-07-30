@@ -62,6 +62,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'update' );
         $this->assign( 'action', $this->_action );
+        $this->assign( 'appName', 'MatchApp');
         $this->_subType = $subType;
 
         if ( ! $cid ) {

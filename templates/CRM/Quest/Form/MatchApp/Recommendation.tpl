@@ -22,15 +22,15 @@
     <td class="grouplabel"><label>{ts}School{/ts}</label></td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.first_name_1.html}</td>
-    <td class="fieldlabel">{$form.last_name_1.html}</td>
-    <td class="fieldlabel">{$form.email_1.html}</td>
+    <td class="fieldlabel">{$form.first_name_1.html|crmReplace:class:eight}</td>
+    <td class="fieldlabel">{$form.last_name_1.html|crmReplace:class:eight}</td>
+    <td class="fieldlabel">{$form.email_1.html|crmReplace:class:eight}</td>
     <td class="fieldlabel">{$form.school_id_1.html}</td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.first_name_2.html}</td>
-    <td class="fieldlabel">{$form.last_name_2.html}</td>
-    <td class="fieldlabel">{$form.email_2.html}</td>
+    <td class="fieldlabel">{$form.first_name_2.html|crmReplace:class:eight}</td>
+    <td class="fieldlabel">{$form.last_name_2.html|crmReplace:class:eight}</td>
+    <td class="fieldlabel">{$form.email_2.html|crmReplace:class:eight}</td>
     <td class="fieldlabel">{$form.school_id_2.html}</td>
 </tr>
 <tr>
@@ -44,9 +44,9 @@
     <td class="grouplabel"><label>{ts}School{/ts}</label></td>
 </tr>
 <tr>
-    <td class="fieldlabel">{$form.first_name_3.html}</td>
-    <td class="fieldlabel">{$form.last_name_3.html}</td>
-    <td class="fieldlabel">{$form.email_3.html}</td>
+    <td class="fieldlabel">{$form.first_name_3.html|crmReplace:class:eight}</td>
+    <td class="fieldlabel">{$form.last_name_3.html|crmReplace:class:eight}</td>
+    <td class="fieldlabel">{$form.email_3.html|crmReplace:class:eight}</td>
     <td class="fieldlabel">{$form.school_id_3.html}</td>
 </tr>
 </table>

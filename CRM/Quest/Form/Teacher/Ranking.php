@@ -143,7 +143,7 @@ class CRM_Quest_Form_Teacher_Ranking extends CRM_Quest_Form_Recommender
 
         foreach( $radioBoxes as $label => $name ) {
             $this->addRadio( $name, $label, $optionValues, null, '</td><td>' );
-            $this->addRule($name, ts('Please Select the field'), 'required');
+            $this->addRule($name, ts('Please select a ranking for %1', array( 1 => $label)), 'required');
         }
 
         $this->addSelect( 'recommend_student',

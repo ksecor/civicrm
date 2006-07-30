@@ -53,6 +53,7 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'update' );
         $this->assign( 'action', $this->_action );
+        $this->assign( 'appName', 'Teacher');
 
         $this->_scID = CRM_Utils_Request::retrieve( 'scid', 'Integer', $this, true );
 

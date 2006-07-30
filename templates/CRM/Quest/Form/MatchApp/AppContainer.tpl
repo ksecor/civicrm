@@ -28,8 +28,27 @@
         <tr>
           {if ! ( $action & 1024 )}
             <td valign=top nowrap id="app-left-nav">
-            {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-            {include file="CRM/common/SectionNav.tpl}
+
+            {if $appName EQ 'Teacher' || $appName EQ 'Counselor'}
+                {* Counselor and Teacher forms don't have sections. *}
+                {include file="CRM/common/WizardHeader.tpl}
+                <br />
+                <div class="newsblock">
+                    <table cellpadding=0 cellspacing=0 border=0>
+                      <tr>
+                        <td class="header">Recommendation Information</td>
+                      </tr>
+                      <tr>
+                        <td class="newstext">Thank you for filling out<br />this recommendation for: <br />                      <br>
+                            <strong>{$student_welcome_name}</strong>
+                        </td>
+                      </tr>
+                    </table>
+                </div>
+            {else}
+                {include file="CRM/common/SectionNav.tpl"}
+            {/if}
+            
             <br />
             <div class="help-box">
               <strong>Need Help?</strong><br />
