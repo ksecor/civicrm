@@ -360,7 +360,7 @@ class CRM_Core_BAO_CustomQuery {
                         $value  = array_search( $value, $countries );
                     }
                     if ( $value ) {
-                        $this->_where[$grouping][] = self::PREFIX . $field['id'] . '.int_data {$op} ' . CRM_Utils_Type::escape( $value, 'Int' );
+                        $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".int_data {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$countries[$value]}";
                     }
                     continue;
@@ -399,11 +399,11 @@ class CRM_Core_BAO_CustomQuery {
 
     function searchRange( &$id, &$label, $type, &$value ) {
         $qill = array( );
-
         $crmType = CRM_Core_BAO_CustomValue::fieldToType( $type );
 
         if ( isset( $value['from'] ) ) {
             $val = CRM_Utils_Type::escape( $value['from'], $crmType );
+
             if ( $type == 'char_data' ) {
                 $this->_where[] = self::PREFIX . "$id.$type >= '$val'";
             } else {
@@ -425,6 +425,7 @@ class CRM_Core_BAO_CustomQuery {
         if ( ! empty( $qill ) ) { 
             $this->_qill[] = $label . ' - ' . implode( ' ' . ts('and') . ' ', $qill );
         }
+        
     }
 
 }

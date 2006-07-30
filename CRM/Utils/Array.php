@@ -134,14 +134,20 @@ class CRM_Utils_Array {
      */
     static function crmArrayMerge( $a1, $a2 ) 
     {
+        if ( empty($a1) ) {
+            return $a2;
+        }
+
         foreach ( $a1 as $key => $value) {
             if ( is_array($a2[$key])) {
                 $a3[$key] = array_merge($a1[$key], $a2[$key]);
+            } else {
+                $a3[$key] = $a2;
             }
         }
+
         return $a3;
     }
-
 }
 
 ?>
