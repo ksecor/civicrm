@@ -604,6 +604,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     $value = $params['value'   ][$key][$k];
                     if ( $fldName == 'groups' || $fldName == 'tags' ) {
                         $fldName = substr( $fldName, 0, -1 );
+                        
+                        $value = str_replace( '(', '', $value);
+                        $value = str_replace( ')', '', $value);
+                    
                         $v = explode( ',', $value );
                         $value = array( );
                         foreach ( $v as $i ) {

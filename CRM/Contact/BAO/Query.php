@@ -761,7 +761,6 @@ class CRM_Contact_BAO_Query {
     }
 
     function whereClauseSingle( &$values ) {
-
         // do not process custom fields or prefixed contact ids or component params
         if ( CRM_Core_BAO_CustomField::getKeyID( $values[0] ) ||
              ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ||
@@ -1683,21 +1682,19 @@ class CRM_Contact_BAO_Query {
         }
 
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        
+
         $this->_tables['civicrm_location'] = $this->_tables['civicrm_address' ] = 1;
         $this->_whereTables['civicrm_location'] = $this->_whereTables['civicrm_address' ] = 1;
 
         if ( $name == 'postal_code' ) {
-            $this->_where[$grouping][] = 'civicrm_address.postal_code $op "' .
-                CRM_Utils_Type::escape( $value, 'String' ) .
-                '"'; 
+            $this->_where[$grouping][] = "civicrm_address.postal_code {$op} '" . CRM_Utils_Type::escape( $value, 'String' ) ."'"; 
             $this->_qill[$grouping][] = ts('Postal code - "%1"', array( 1 => $value ) );
-        } else if ( $name =='postal_code_from') { 
-            $this->_where[$grouping][] = ' civicrm_address.postal_code >= "' .
+        } else if ( $name =='postal_code_low') { 
+            $this->_where[$grouping][] = ' ( civicrm_address.postal_code >= "' .
                 CRM_Utils_Type::escape( $value, 'String' ) . 
                 '" ) ';
             $this->_qill[$grouping][] = ts('Postal code greater than "%1"', array( 1 => $value ) );
-        } else if ( $name == 'postal_code_to' ) {
+        } else if ( $name == 'postal_code_high' ) {
             $this->_where[$grouping][] = ' ( civicrm_address.postal_code <= "' .
                 CRM_Utils_Type::escape( $value, 'String' ) .
                 '" ) ';
