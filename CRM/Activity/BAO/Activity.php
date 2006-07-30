@@ -249,19 +249,20 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $params['entity_table'] = 'civicrm_contact';
         
         require_once 'CRM/Core/BAO/History.php'; 
-        $history   = CRM_Core_BAO_History::retrieve($params, $defaults);
-        $contactId = CRM_Utils_Array::value('entity_id', $defaults);
+        $history    = CRM_Core_BAO_History::retrieve($params, $defaults);
+        $contactId  = CRM_Utils_Array::value('entity_id', $defaults);
+        $activityId = $history->activity_id;
 
         if ($history->activity_type == 'Meeting') {
-            $activityId = 1;
+            $activityTypeId = 1;
         } else if ($history->activity_type == 'Phone Call') {
-            $activityId = 2;
+            $activityTypeId = 2;
         } else {
-            $activityId = 5;
+            $activityTypeId = 5;
         }
 
         if ( $contactId ) {
-            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=$activityId&cid=$contactId&action=view&id=$activityHistoryId&status=true&history=1"); 
+            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=$activityTypeId&cid=$contactId&action=view&id=$activityId&status=true&history=1"); 
         } else { 
             return CRM_Utils_System::url('civicrm' ); 
         } 
