@@ -330,6 +330,10 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         $this->_stateMachine->checkApplication( $this );
     }
 
+    function isApplicationComplete( ) {
+        return $this->_stateMachine->isApplicationComplete( $this );
+    }
+
     function preview( ) {
         // lets switch to print mode
         $this->_print = true;

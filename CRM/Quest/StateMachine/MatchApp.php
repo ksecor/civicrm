@@ -106,6 +106,17 @@ abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         }
     }
 
+    public function isApplicationComplete( &$controller ) {
+        $data =& $controller->container( );
+
+        foreach ( $this->_pageNames as $pageName ) {
+            if ( ! $data['valid'][$pageName] ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function validPage( $name, &$valid ) {
         return true;
 

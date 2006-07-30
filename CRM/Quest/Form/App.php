@@ -124,10 +124,10 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         }
         
         $status =& CRM_Core_OptionGroup::values( 'task_status', true );
-        if ( $this->_name != 'Submit' && $dao->status_id != $status['Completed'] ) {
-            $dao->status_id = $status['In Progress'];
-        } else {
+        if ( $this->controller->isApplicationComplete( ) ) {
             $dao->status_id = $status['Completed'];
+        } else {
+            $dao->status_id = $status['In Progress'];
         }
 
         $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
