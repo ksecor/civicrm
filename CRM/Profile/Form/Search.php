@@ -75,12 +75,16 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
 
         // note we intentionally overwrite value since we use it as defaults
         // and its all pass by value
+        // we need to figure out the type, so we can either set an array element
+        // or a scalar -- FIX ME sometime please
         foreach ( $_GET as $key => $value ) {
             if ( substr( $key, 0, 7 ) == 'custom_' ) {
-                $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
-                $value = array( );
-                foreach ( $v as $item ) {
-                    $value[$item] = 1;
+                if ( strpos( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value ) !== false ) {
+                    $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                    $value = array( );
+                    foreach ( $v as $item ) {
+                        $value[$item] = 1;
+                    }
                 }
             } else if ( $key == 'group' || $key == 'tag' ) {
                 $v = explode( ',', $value );

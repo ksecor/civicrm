@@ -158,7 +158,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static 
      * @access public 
      */ 
-    static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null ,$searchable =null ) {
+    static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null, $searchable = null ) {
         if ($ufGroupId) {
             $subset = self::getFields( $ufGroupId, false, $action, $visibility, $searchable);
             if ($considerSelector) {
@@ -263,7 +263,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
 
             while ( $field->fetch( ) ) {
-                if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
+                if ( $searchable || 
+                     ( $field->is_view && $action == CRM_Core_Action::VIEW ) ||
+                     ! $field->is_view ) {
                     $name  = $title = $locType = $phoneType = '';
                     $name  = $field->field_name;
                     $title = $field->label;
