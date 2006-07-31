@@ -47,7 +47,6 @@
        <name>ap_class_1</name>
        <type>varchar</type>
        <length>64</length>
-       <required>true</required>
        <comment>Advanced placement class offered by school.</comment>
       <add>1.5</add>
   </field>
@@ -55,7 +54,6 @@
        <name>ap_class_2</name>
        <type>varchar</type>
        <length>64</length>
-       <required>true</required>
        <comment>Advanced placement class offered by school.</comment>
       <add>1.5</add>
   </field>
@@ -63,7 +61,6 @@
        <name>ap_class_3</name>
        <type>varchar</type>
        <length>64</length>
-       <required>true</required>
        <comment>Advanced placement class offered by school.</comment>
       <add>1.5</add>
   </field>
@@ -71,7 +68,6 @@
        <name>ap_class_4</name>
        <type>varchar</type>
        <length>64</length>
-       <required>true</required>
        <comment>Advanced placement class offered by school.</comment>
       <add>1.5</add>
   </field>
@@ -79,7 +75,6 @@
        <name>ap_class_5</name>
        <type>varchar</type>
        <length>64</length>
-       <required>true</required>
        <comment>Advanced placement class offered by school.</comment>
       <add>1.5</add>
   </field>
@@ -87,7 +82,6 @@
        <name>ap_class_6</name>
        <type>varchar</type>
        <length>64</length>
-       <required>true</required>
        <comment>Advanced placement class offered by school.</comment>
       <add>1.5</add>
   </field>

@@ -130,7 +130,18 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
             CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], $this->_recommenderID, $this->_studentContactID );
        }
 
-        //parent::postProcess( );
+        require_once 'CRM/Quest/DAO/CounselorEvaluation.php';
+        $dao =& new CRM_Quest_DAO_CounselorEvaluation();
+        $params['target_contact_id'] = $dao->target_contact_id = $this->_studentContactID;
+        $params['source_contact_id'] = $dao->source_contact_id = $this->_recommenderID;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            $ids["id"] = $dao->id;
+        }
+        
+        require_once "CRM/Quest/BAO/CounselorEvaluation.php";
+        CRM_Quest_BAO_CounselorEvaluation::create($params ,$ids );
+        
     } //end of function
 
     /**

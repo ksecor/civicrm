@@ -23,37 +23,37 @@
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
  | at http://www.openngo.org/faqs/licensing.html                       |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
- *
+*
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @copyright Donald A. Lobo (c) 2006
  * $Id$
  *
  */
 
 /** 
- *  This file contains functions for Teacher Evaluation of students
- */
+*  This file contains functions for Counselor Evaluation of students
+*/
 
 
-require_once 'CRM/Quest/DAO/TeacherEvaluation.php';
+require_once 'CRM/Quest/DAO/CounselorEvaluation.php';
 
-class CRM_Quest_BAO_TeacherEvaluation extends CRM_Quest_DAO_TeacherEvaluation {
-
+class CRM_Quest_BAO_CounselorEvaluation extends CRM_Quest_DAO_CounselorEvaluation {
+    
     
     /**
-     * class constructor
+    * class constructor
      */
     function __construct( ) {
         parent::__construct( );
     }
-
     
-     /**
-     * function to add/update partner Information
+    
+    /**
+    * function to add/update CounselorEvaluation record
      *
      * @param array $params reference array contains the values submitted by the form
      * @param array $ids    reference array contains the id
@@ -63,7 +63,7 @@ class CRM_Quest_BAO_TeacherEvaluation extends CRM_Quest_DAO_TeacherEvaluation {
      * @return object
      */
     static function &create(&$relativeParams, &$ids) {
-        $dao = & new CRM_Quest_DAO_TeacherEvaluation();
+        $dao = & new CRM_Quest_DAO_CounselorEvaluation();
         $dao->copyValues($relativeParams);
         if( $ids['id'] ) {
             $dao->id = $ids['id'];
@@ -72,7 +72,7 @@ class CRM_Quest_BAO_TeacherEvaluation extends CRM_Quest_DAO_TeacherEvaluation {
         
         return $dao;
     }
-
-}
     
+}
+
 ?>
