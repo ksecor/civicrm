@@ -291,13 +291,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         //date-format part ends
 
         $errorMessage = null;
-
+        
         //checking error in custom data
+     
         $this->isErrorInCustomData($params, $errorMessage);
 
         //checking error in core data
         $this->isErrorInCoreData($params, $errorMessage);
-
+        
         if ( $errorMessage ) {
             $tempMsg = "Invalid value for field(s) : $errorMessage";
             array_unshift($values, $tempMsg);
@@ -453,6 +454,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             $relationship = true;
         }
         if ( $relationship ) {
+           
             $primaryContactId = null;
             if ( self::isDuplicate($newContact) ) {
                 if ( CRM_Utils_Rule::integer( $newContact->_errors[0]['params'] ) ) {
@@ -519,15 +521,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                             }
                             continue;
                         }
-                        
+                       
                         $value = array($k => $v);
                         if (array_key_exists($k, $contactFields)) {
                             $value['contact_type'] = $params[$key]['contact_type'];
                         }
                         _crm_add_formatted_param($value, $formatting);
                     }
-
+                    
                     $relatedNewContact = crm_create_contact_formatted( $formatting, $onDuplicate );
+                    
                     
                     if ( self::isDuplicate($relatedNewContact) ) {
                         foreach ($relatedNewContact->_errors[0]['params'] as $cid) {
@@ -758,6 +761,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                         }
                     }
                 }
+            } else if (is_array($params[$key]) && $params[$key]["contact_type"]) {
+                self::isErrorInCustomData( $params[$key] ,$errorMessage );
             }
         }
         //return true;
@@ -777,8 +782,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 switch( $key ) {
                 case 'birth_date': 
                     if (! CRM_Utils_Rule::date($value)) {
-                        //return _crm_error('Birth Date');
                         self::addToErrorMsg('Birth Date', $errorMessage);
+                    }
+                    break;
+                case 'deceased_date': 
+                    if (! CRM_Utils_Rule::date($value)) {
+                        self::addToErrorMsg('Deceased Date', $errorMessage);
                     }
                     break;
                 case 'gender':    
@@ -868,6 +877,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                                 }
                             }
                         }
+                    }
+                default : 
+                    if (is_array($params[$key]) && $params[$key]["contact_type"]) {
+                        //check for any relationship data ,FIX ME
+                        self::isErrorInCoreData($params[$key],$errorMessage);
                     }
                 }
             }
