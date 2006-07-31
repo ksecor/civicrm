@@ -51,7 +51,6 @@ class CRM_Quest_BAO_Recommendation {
      * class constructor
      */
     function __construct( ) {
-        parent::__construct( );
     }
 
     static function process( $contactID, $firstName, $lastName, $email, $schoolID, $type ) {
