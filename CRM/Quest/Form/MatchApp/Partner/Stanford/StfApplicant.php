@@ -124,10 +124,36 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfApplicant extends CRM_Quest_Fo
             $choice[] = $this->createElement( 'radio', null, '11', ts( 'Transfer' ) , '0', null );
             $this->addGroup( $choice, "sibling_application_status_".$i, null );
         }
-
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Partner_Stanford_StfApplicant', 'formRule'));
+            
         parent::buildQuickForm( );
                 
     }//end of function
+
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    
+    public function formRule( &$params, $options )
+    {
+        foreach ( $params as $key => $value ) {
+          
+            $tempArray = $params;
+            unset($tempArray[$key]);
+            if ( $value && in_array( $value , $tempArray) ) {
+                $errors[$key] = "All three selections must be unique";
+            }
+        }
+        return empty($errors) ? true : $errors;
+           return true;
+    }
+
 
     /**
      * Return a descriptive name for the page, used in wizard header
@@ -151,7 +177,7 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfApplicant extends CRM_Quest_Fo
             return;
         }
         
-        $params = $this->controller->exportValues( $this->_name );
+        $params = $this->controller->exportValues( $this->_name );//print_r($params);
         require_once 'CRM/Quest/Partner/DAO/Stanford.php';
         $dao  = &new CRM_Quest_Partner_DAO_Stanford();
         $dao->contact_id = $this->_contactID;

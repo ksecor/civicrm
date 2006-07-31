@@ -2,7 +2,7 @@
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
-    <td id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}Applicant Information</td>
+    <td id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 
 <tr>
@@ -89,7 +89,7 @@
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app"> 
 <tr>
-    <td colspan="2" id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}Academic Interests</td>
+    <td colspan="2" id="category">{$wizard.currentStepRootTitle}Academic Interests</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.princeton_degree.label}<br/>

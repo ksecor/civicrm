@@ -132,6 +132,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
             $slhl[] =  $this->createElement( 'radio', null, null, ts( 'HL' ), 'hl', null );
             $this->addGroup( $slhl, "slhl_{$i}", null );
             $this->addElement('text', "score_{$i}", ts('Score'), null );
+            $this->addRule("score_{$i}",ts('Score must be an integer' ),'integer');
         } 
         $extra =array('onclick' => "return showHideByValue('princeton_activities[11]', '1', 'activities_other', '', 'radio', false);");
         $this->addCheckBox( 'princeton_activities',ts('Please indicate the three activities in which, at this time, you would be most inclined to participate at Princeton.  '), CRM_Core_OptionGroup::values( 'princeton_activities', true ),
@@ -157,6 +158,9 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
         $showHide = new CRM_Core_ShowHideBlocks();
         $showHide->addHide('activities_other');
         $showHide->addToTemplate();
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant', 'formRule'));
+ 
+
     }
     //end of function
     
@@ -171,9 +175,46 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
      */
     public function formRule( &$params, $options )
     {
-      
-    } 
+        
+        $errors = array( );
+        
+        for ( $i = 1; $i <= 6; $i++ ) {
+            
+            $filled = false;
+            if ($params["subject_{$i}"]) {
+                $filled = true;
+            }
+            if ($params["test_date_{$i}"]['M'] || $params["test_date_{$i}"]['Y']) {
+                    $filled = true;
+            }
+            if ($params["slhl_{$i}"]) {
+                $filled = true;
+            }
+            if ($params["score_{$i}"]) {
+                $filled = true;
+            }
+            
+            if ($filled) {
+                
+                if (!$params["subject_{$i}"]) {
+                    $errors["subject_{$i}"] = "Please enter the subject.";
+                }
+                if (!$params["test_date_{$i}"]['M'] || !$params["test_date_{$i}"]['Y']) {
+                    $errors["test_date_{$i}"] = "Please enter the date.";
+                }
+                if (!$params["slhl_{$i}"]) {
+                    $errors["slhl_{$i}"] = "Please select the SL or HL.";
+                }
+                if (!$params["score_{$i}"]) {
+                    $errors["score_{$i}"] = "Please enter the score.";
+                }
+              
+            }
+        }
 
+        return empty($errors) ? true : $errors;
+        
+    } 
     /** 
      * process the form after the input has been submitted and validated 
      * 
@@ -186,7 +227,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
             return;
         }
         
-        $params = $this->controller->exportValues( $this->_name );
+        $params = $this->controller->exportValues( $this->_name );//print_r($params);
 
         foreach ( $this->_allChecks as $name ) {
             $par = CRM_Utils_Array::value( $name, $params, array());

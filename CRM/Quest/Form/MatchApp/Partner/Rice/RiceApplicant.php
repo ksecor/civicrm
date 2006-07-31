@@ -124,8 +124,12 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_Partner_DAO_Rice');
 
+
+        $extra = array('onchange' => "return showHideByValue('rice_academic_id', '1', 'experiences|academics','', 'radio', false);");
+
+
         $this->addRadio( 'rice_academic_id', 'Select the academic school you are applying to', 
-                         CRM_Core_OptionGroup::values( "rice_academic" ) );
+                         CRM_Core_OptionGroup::values( "rice_academic" ) ,$extra);
 
         foreach ( $this->_schools as $name => $title ) {
             $extra1 = array('onclick' => "return show_element(\"$name\");");

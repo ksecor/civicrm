@@ -130,12 +130,29 @@
         {$form.essay.other_colleges.html} 
     </td> 
 </tr>
+
 <tr>
     <td class="grouplabel">
         {$form.is_consent.label}
     </td>
     <td class="grouplabel">
         {$form.is_consent.html} 
+    </td> 
+</tr>
+<tr id ="experiences">
+    <td class="grouplabel">
+        {$form.essay.experiences.label}
+    </td>
+    <td class="grouplabel">
+        {$form.essay.experiences.html} 
+    </td> 
+</tr>
+<tr id ="academics">
+    <td class="grouplabel">
+        {$form.essay.academics.label}
+    </td>
+    <td class="grouplabel">
+        {$form.essay.academics.html} 
     </td> 
 </tr>
 </table>
@@ -177,3 +194,12 @@
     
 </script>
 {/literal}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="rice_academic_id"
+    trigger_value       ="1"
+    target_element_id   ="experiences|academics" 
+    target_element_type =""
+    field_type          ="radio"
+    invert              = 0
+}
