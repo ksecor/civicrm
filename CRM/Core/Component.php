@@ -80,7 +80,6 @@ class CRM_Core_Component {
                        'search'  => 1,
                        'metaTpl' => 'quest',
                        'formTpl' => 'quest',
-                       'css'     => 'quest.css' ,
                        'task'    => array( '32' => array( 'title'  => 'Export XML',
                                                           'class'  => 'CRM_Quest_Form_Task_XML',
                                                           'result' => false ),
@@ -123,11 +122,10 @@ class CRM_Core_Component {
                         $template->assign( 'formTpl', $info[$name]['formTpl'] );
                     }
                     if ( CRM_Utils_Array::value( 'css', $info[$name] ) ) {
-                        $styleSheets .= '<style type="text/css">@import url(' . "{$config->resourceBase}css/{$info[$name]['css']});</style>";
+                        $styleSheets = '<style type="text/css">@import url(' . "{$config->resourceBase}css/{$info[$name]['css']});</style>";
 
                         CRM_Utils_System::addHTMLHead( $styleSheet );
                     }
-                    drupal_set_html_head( $styleSheets );
                 }
                 eval( $className . '::' . $type . '( $args );' );
                 return true;
