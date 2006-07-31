@@ -235,7 +235,7 @@ class CRM_Core_BAO_CustomQuery {
 
             foreach ( $values as $tuple ) {
                 list( $name, $op, $value, $grouping, $wildcard ) = $tuple;
-            
+                
                 // fix $value here to escape sql injection attacks
                 $field = $this->_fields[$id];
                 $qillValue = CRM_Core_BAO_CustomField::getDisplayValue( $value, $id, $this->_options );
@@ -250,11 +250,12 @@ class CRM_Core_BAO_CustomQuery {
                     $sql = 'LOWER(' . self::PREFIX . $field['id'] . '.char_data) ';
                     // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
                     if ( is_array( $value ) ) { 
+                        //ignoring $op value for checkbox and multi select
                         if ($field['html_type'] == 'CheckBox') {
-                            $this->_where[$grouping][] = $sql . "$op '%" . implode( '%', array_keys( $value ) ) . "%'";
+                            $this->_where[$grouping][] = $sql . "like '%" . implode( '%', array_keys( $value ) ) . "%'";
                             $this->_qill[$grouping][]  = ts('%1 %3 %2', array(1 => $field['label'], 2 => $qillValue, 3 => $op));
                         } else { // for multi select
-                            $this->_where[$grouping][] = $sql . "{$op} '%" . implode( '%',  $value ) . "%'";
+                            $this->_where[$grouping][] = $sql . "like '%" . implode( '%',  $value ) . "%'";
                             $this->_qill[$grouping][]  = ts('%1 %3 %2', array(1 => $field['label'], 2 => $qillValue, 3 => $$op));
                         }                    
                     } else {
@@ -364,13 +365,6 @@ class CRM_Core_BAO_CustomQuery {
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$countries[$value]}";
                     }
                     continue;
-
-                case 'File':
-                    $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
-                    $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".char_data {$op} '%{$val}%'";
-                    $this->_qill[$grouping][] = ts('%1 %3 %2', array(1 => $field['label'], 2 => $value, 3 => $op));
-                    continue;
-               
                 }
             
             }

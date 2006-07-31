@@ -565,10 +565,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case "CheckBox":
         case "Multi-Select":
             if ( is_array( $value ) ) {
-                $checkedData = array_keys( $value );
+                $checkedData = $value;
             } else {
                 $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             }
+
             $v = array( );
             $p = array( );
             foreach ( $checkedData as $dontCare => $val ) {

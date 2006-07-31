@@ -1764,6 +1764,7 @@ class CRM_Contact_BAO_Query {
         $name = trim( $value );
 
         // split the string into pieces 
+        /*
         $pieces =  explode( ' ', $name ); 
         $sub    = array( );
         foreach ( $pieces as $piece ) {
@@ -1772,8 +1773,14 @@ class CRM_Contact_BAO_Query {
             $sub[] = " LOWER(civicrm_activity_history.activity_type) $op '$v'";
         } 
         $this->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) ';
+        */
+        
+        $v = strtolower(addslashes(trim($name)));
+
+        $this->_where[$grouping][] = " LOWER(civicrm_activity_history.activity_type) $op '$v'";
+
         $this->_tables['civicrm_activity_history'] = $this->_whereTables['civicrm_activity_history'] = 1; 
-        $this->_qill[$grouping][]  = ts( "Activity Type %2 - '%1'", array( 2 => $op, 1 => $name ) );
+        $this->_qill[$grouping][]  = ts( "Activity Type %2 '%1'", array( 1 => $name,  2 => $op ) );
     }
     
 
