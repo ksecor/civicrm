@@ -228,7 +228,12 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
                 $locations[$i + 1] = clone($location);
             }
         }
-       return $locations;
+        if ( empty( $values['location'] ) ) {
+            // mark the first location as primary if none exists
+            $values['location'][1] = array( );
+            $values['location'][1]['is_primary'] = 1;
+        }
+        return $locations;
     }
 
     /**

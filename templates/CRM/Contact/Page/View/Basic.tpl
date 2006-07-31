@@ -146,7 +146,7 @@
 <div id="contributions_show" class="data-group">
   {if $contribute_pager->_totalItems}
     <dl><dt><a href="#" onclick="hide('contributions_show'); show('contributions'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Contributions{/ts}</label></dt>
-    <dd><strong>{ts}Total Contributed{/ts} - {if $total_amount}{$total_amount|crmMoney}{else}n/a{/if}
+    <dd><strong>{ts}Total Contributed{/ts} - {if $summary.total.amount}{$summary.total.amount|crmMoney}{else}n/a{/if}
         &nbsp; {ts}# Contributions{/ts} - {$contribute_pager->_totalItems}</strong></dd>
     </dl>
   {else}
