@@ -134,29 +134,31 @@ class CRM_Quest_Form_Teacher_Evaluation extends CRM_Quest_Form_Recommender
      */
     public function postProcess() 
     {
-        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
-            $params = $this->controller->exportValues( $this->_name );
-            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], $this->_recommenderID, $this->_studentContactID );
+        if ( $this->_action &  CRM_Core_Action::VIEW ) {
+            return;
+        }
 
-            if ( $params['success_factor'] ) {
-                $params['success_factor'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                                                    array_keys($params['success_factor']));
-            }
+        $params = $this->controller->exportValues( $this->_name );
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], $this->_recommenderID, $this->_studentContactID );
 
-            $dao =& new CRM_Quest_DAO_TeacherEvaluation();
-            $params['target_contact_id'] = $dao->target_contact_id = $this->_studentContactID;
-            $params['source_contact_id'] = $dao->source_contact_id = $this->_recommenderID;
-            $ids = array();
-            if ( $dao->find(true) ) {
-                $ids["id"] = $dao->id;
-            }
-            
-            require_once "CRM/Quest/BAO/TeacherEvaluation.php";
-            CRM_Quest_BAO_TeacherEvaluation::create($params ,$ids );
+        if ( $params['success_factor'] ) {
+            $params['success_factor'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                                array_keys($params['success_factor']));
+        }
+
+        $dao =& new CRM_Quest_DAO_TeacherEvaluation();
+        $params['target_contact_id'] = $dao->target_contact_id = $this->_studentContactID;
+        $params['source_contact_id'] = $dao->source_contact_id = $this->_recommenderID;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            $ids["id"] = $dao->id;
+        }
+        
+        require_once "CRM/Quest/BAO/TeacherEvaluation.php";
+        CRM_Quest_BAO_TeacherEvaluation::create($params ,$ids );
 
        }
 
-        //parent::postProcess( );
     } //end of function
 
     /**

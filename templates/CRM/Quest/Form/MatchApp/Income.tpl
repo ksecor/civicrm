@@ -106,8 +106,8 @@
     document.getElementById("total_amount").readOnly = 1;
     function calculateIncome() 
     {
-      var amount_1,amount_2,amount_3;    
-      amount_1 = amount_2 = amount_3 = 0;
+      var amount_1,amount_2,amount_3,amount_total;
+      amount_1 = amount_2 = amount_3 = amount_total = 0;
 
       amount_1 = document.getElementById("amount_1").value;
       amount_2 = document.getElementById("amount_2").value;
@@ -115,7 +115,26 @@
       if ( !(parseInt(amount_1) > 0)) {amount_1 = 0} 
       if ( !(parseInt(amount_2) > 0)) {amount_2 =0} 
       if ( !(parseInt(amount_3) > 0)) {amount_3 =0} 
-      document.getElementById("total_amount").value = parseInt(amount_1) + parseInt(amount_2) + parseInt(amount_3);
+      document.getElementById("total_amount").value
+      amount_total = parseInt(amount_1) + parseInt(amount_2) + parseInt(amount_3);
+      document.getElementById("total_amount").value = formatCurrency(amount_total);
     }
+    
+    function formatCurrency(num) {
+        num = num.toString().replace(/\$|\,/g,'');
+        if(isNaN(num))
+        num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num*100+0.50000000001);
+        cents = num%100;
+        num = Math.floor(num/100).toString();
+        if(cents<10)
+        cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+        num = num.substring(0,num.length-(4*i+3))+','+
+        num.substring(num.length-(4*i+3));
+        return (((sign)?'':'-') + '$' + num + '.' + cents);
+    }
+
     </script>
 {/literal}

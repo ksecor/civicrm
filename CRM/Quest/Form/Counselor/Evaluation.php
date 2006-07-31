@@ -125,10 +125,12 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
      */
     public function postProcess() 
     {
-        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
-            $params = $this->controller->exportValues( $this->_name );
-            CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], $this->_recommenderID, $this->_studentContactID );
-       }
+        if ( $this->_action &  CRM_Core_Action::VIEW ) {
+            return;
+        }
+        
+        $params = $this->controller->exportValues( $this->_name );
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], $this->_recommenderID, $this->_studentContactID );
 
         require_once 'CRM/Quest/DAO/CounselorEvaluation.php';
         $dao =& new CRM_Quest_DAO_CounselorEvaluation();

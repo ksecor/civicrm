@@ -125,8 +125,9 @@ public function buildQuickForm( )
         $householdDAO->household_type= 'Previous';
         $householdDAO->contact_id = $this->_contactID;
         $householdDAO->find(true);
-        
-        if (($personDAO->relationship_id == 29 || $personDAO->relationship_id ==28 ) && ( $householdDAO->person_1_id != $this->_personID  && $householdDAO->person_2_id != $this->_personID )) {
+        CRM_Core_Error::debug('RelID', $personDAO->relationship_id ); CRM_Core_Error::debug('PersonID', $this->_personID ); exit();
+        if (($personDAO->relationship_id == 29 || $personDAO->relationship_id ==28 ) &&
+            ( ( $householdDAO->person_1_id != $this->_personID  && $householdDAO->person_2_id != $this->_personID ) || (!$this->_personID) )) {
             $this->addYesNo( 'is_contact_with_student', ts( 'Do you have contact with this parent?' ), null,false);
         }
 
