@@ -305,8 +305,8 @@ class CRM_Core_BAO_CustomQuery {
                 
                 case 'Memo':
                     $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
-                    $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".memo_data {$op} '%{$val}%'";
-                    $this->_qill[$grouping][] = ts('%1 like %3 %2', array(1 => $field['label'], 2 => $value, 3 => $op));
+                    $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".memo_data {$op} '{$val}'";
+                    $this->_qill[$grouping][] = ts('%1 %3 %2', array(1 => $field['label'], 2 => $value, 3 => $op));
                     continue;
                 
                 case 'Date':
