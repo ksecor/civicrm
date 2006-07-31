@@ -52,14 +52,8 @@
             <br />
             <div class="help-box">
               <strong>Need Help?</strong><br />
-              <a href="http://www.questbridge.org/recruitment/support_student_view.html" TARGET="_blank">Chat with a Quest staff member.</a><br />
+              Email us with your questions
             </div>
-<!--
-            <div class="help-box">
-              <strong>Need Help?</strong><br />
-              &nbsp;&nbsp;<a href="javascript:chatW=window.open('http://www.questbridge.org/support/live_support.html','Support','width=600,height=470,resizable=yes'); chatW.focus()">Talk to a Quest team<br />&nbsp;&nbsp;member</A><br />
-            </div>
-//-->
             <div id="application-status">
               <strong>Application Status</strong><br />
               &nbsp;&nbsp;{$taskStatus}
@@ -71,21 +65,12 @@
               <B>Blue</B>: Section has been<br />completed or is available<br />for editing<br />
               <B>Gray</B>: Section is not<br />available for editing<br />
             </div>
-<!--
             <div class="help-box">
-                <table cellpadding=0 cellspacing=0 border=0>
-                  <tr>
-                    <td bgcolor="#396872" class="header"><strong> Announcements</strong></td>
-                  </tr>
-                  <tr>
-                    <td class="newstext"> Remember that all applications must be completed by October 1st, 2006. <br /><br />
-                      All recommendations must be completed by October 8th, 2006.<br /><br />
-                    Please be sure to use the "Submit Application" button to make sure that you completed all required fields.
-                    </td>
-                  </tr>
-                </table>
+              <strong> Announcements</strong><br />
+              Remember that all<br />applications must be<br />completed by<br />October 1st, 2006. <br /><br />
+              All recommendations<br />must be completed by<br />October 8th, 2006.<br /><br />
+              Please be sure to use the<br />"Submit Application"<br />button to make sure that<br />you completed all<br />required fields.
             </div>
-//-->
 	    </td>
         {/if}
         <!--begin main right cell that contains the application-->
