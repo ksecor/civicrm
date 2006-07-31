@@ -591,6 +591,15 @@ CREATE TABLE civicrm_log (
 
 -- /*******************************************************
 -- *
+-- * Modify the civicrm_relationship  Table Structure
+-- *
+-- *******************************************************/
+
+
+	 ALTER TABLE `civicrm_relationship` ADD `description` varchar(255)   COMMENT 'Optional verbose description for the relationship.' ;
+
+-- /*******************************************************
+-- *
 -- * Modify the civicrm_saved_search Table Structure
 -- *
 -- *******************************************************/
