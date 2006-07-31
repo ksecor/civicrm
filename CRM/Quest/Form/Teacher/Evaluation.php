@@ -111,14 +111,14 @@ class CRM_Quest_Form_Teacher_Evaluation extends CRM_Quest_Form_Recommender
             $this->add('text', 'word_'.$i, ts( 'What three words would you use to describe this applicant?' ), $attributes['word_'.$i], true );
         }
        
-        $this->addCheckBox( 'success_factor', ts( 'Please indicate which of the following factors have most influenced this students academic success, and provide a brief explanation.' ), CRM_Core_OptionGroup::values( 'success_factor', true ),
+        $this->addCheckBox( 'success_factor', ts( 'Please indicate which of the following factors have most influenced this students academic success, and provide a brief explanation. (150 words max)' ), CRM_Core_OptionGroup::values( 'success_factor', true ),
                             false, null,true );
 
          $extra1 = array('onchange' => "return showHideByValue('is_obstacles', '1', 'obstacle_explain','table-row', 'radio', false);");
          $this->addYesNo( 'is_obstacles', ts( 'Has this applicant faced any special obstacles that make his/her other accomplishments all the more remarkable?' ),null,true ,$extra1);
 
          $extra2 = array('onchange' => "return showHideByValue('is_interfere', '1', 'interfere_explain','table-row', 'radio', false);");
-         $this->addYesNo( 'is_interfere', ts( 'Are there any factors that might interfere wit the candidate academic performance?' ),null,true ,$extra2);
+         $this->addYesNo( 'is_interfere', ts( 'Are there any factors that might interfere with the candidate\'s academic performance?' ),null,true ,$extra2);
         
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
