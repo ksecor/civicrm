@@ -121,28 +121,24 @@
   <field>
        <name>numeric_grade_a</name>
        <type>decimal</type>
-       <required>true</required>
        <comment>Equivalent numeric value for grade A.</comment>
       <add>1.5</add>
   </field>
   <field>
        <name>numeric_grade_b</name>
        <type>decimal</type>
-       <required>true</required>
        <comment>Equivalent numeric value for grade B.</comment>
       <add>1.5</add>
   </field>
   <field>
        <name>numeric_grade_c</name>
        <type>decimal</type>
-       <required>true</required>
        <comment>Equivalent numeric value for grade C.</comment>
       <add>1.5</add>
   </field>
   <field>
        <name>numeric_grade_d</name>
        <type>decimal</type>
-       <required>true</required>
        <comment>Equivalent numeric value for grade D.</comment>
       <add>1.5</add>
   </field>
