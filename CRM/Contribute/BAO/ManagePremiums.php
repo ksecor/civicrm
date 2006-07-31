@@ -72,6 +72,7 @@ class CRM_Contribute_BAO_ManagePremiums extends CRM_Contribute_DAO_Product
         $premium =& new CRM_Contribute_DAO_Product( );
         $premium->copyValues( $params );
         if ( $premium->find( true ) ) {
+            $premium->product_name = $premium->name;
             CRM_Core_DAO::storeValues( $premium, $defaults );
             return $premium;
         }
@@ -118,7 +119,7 @@ class CRM_Contribute_BAO_ManagePremiums extends CRM_Contribute_DAO_Product
         // action is taken depending upon the mode
         $premium               =& new CRM_Contribute_DAO_Product( );
         $premium->copyValues( $params );
-        
+
         $premium->id = CRM_Utils_Array::value( 'premium', $ids );
         $premium->save( );
         return $premium;

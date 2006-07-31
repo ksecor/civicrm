@@ -302,11 +302,12 @@ class CRM_Core_DAO extends DB_DataObject {
         $allNull = true;
         foreach ( $fields as $name => $value ) {
             if ( array_key_exists( $name, $params ) ) {
+                $dbName = $value['name'];
                 // if there is no value then make the variable NULL
                 if ( $params[$name] == '' ) {
-                    $this->$name = 'null';
+                    $this->$dbName = 'null';
                 } else {
-                    $this->$name = $params[$name];
+                    $this->$dbName = $params[$name];
                     $allNull = false;
                 }
             }
@@ -329,8 +330,9 @@ class CRM_Core_DAO extends DB_DataObject {
     function storeValues( &$object, &$values ) {
         $fields =& $object->fields( );
         foreach ( $fields as $name => $value ) {
-            if ( isset( $object->$name ) ) {
-                $values[$name] = $object->$name;
+            $dbName = $value['name'];
+            if ( isset( $object->$dbName ) ) {
+                $values[$name] = $object->$dbName;
             }
         }
     }

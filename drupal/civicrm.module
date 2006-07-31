@@ -443,8 +443,7 @@ function civicrm_view_data($user )
             
             if ( $pageContent ) {
                 if ( $config->userFrameworkVersion >= 4.7 ) {
-                    $item = array( 'title' => $title['title'],
-                                   'value' => $pageContent );
+                    $item = array( 'value' => $pageContent );
                     $data[$title['title']][] = $item;
                 } else {
                     $data[$title['title']] = $pageContent;

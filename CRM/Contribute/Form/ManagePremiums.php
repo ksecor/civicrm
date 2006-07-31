@@ -129,9 +129,9 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a product name.'), 'required' );
-        $this->addRule( 'name', ts('A product with this name already exists. Please select another name.'), 'objectExists', array( 'CRM_Contribute_DAO_Product', $this->_id ) );
+        $this->add('text', 'product_name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'name' ) );
+        $this->addRule( 'product_name', ts('Please enter a product name.'), 'required' );
+        $this->addRule( 'product_name', ts('A product with this name already exists. Please select another name.'), 'objectExists', array( 'CRM_Contribute_DAO_Product', $this->_id ) );
         $this->add('text', 'sku', ts('SKU'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'sku' ));
 
         $this->add('textarea', 'description', ts('Description'), 'rows=3, cols=60' );
@@ -273,6 +273,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             $config = & CRM_Core_Config::singleton();
            
             $params = $ids = array( );
+
             // store the submitted values in an array
             $params = $this->exportValues();
             $params['domain_id'] = CRM_Core_Config::domainID( );
