@@ -76,32 +76,35 @@ class CRM_Quest_BAO_Recommendation {
 
         $verify = quest_drupal_is_user_verified( $drupalID );
 
-        if ( $verify ) {
+        if ( ! $verify ) {
             $md5Email = md5( $email );
             $url = CRM_Utils_System::url( 'civicrm/quest/verify',
-                                          "reset=1&h={$hash}&m={$md5Email}" );
+                                          "reset=1&h={$hash}&m={$md5Email}",
+                                          true, null, false );
         } else {
             $url = CRM_Utils_System::url( 'user/login' );
         }
+
+        $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                    $contactID,
+                                                    'display_name' );
 
         // send email to the recommender
         $params = array( 'recommenderFirstName' => $firstName,
                          'recommenderLastName'  => $lastName,
                          'recommenderEmail'     => $email,
-                         'studentName'          => CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                                $contactID,
-                                                                                'display_name' ),
+                         'recommenderURL'       => $url,
+                         'studentName'          => $displayName,
                          'schoolName'           => CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                                 $schoolID,
                                                                                 'display_name' ) );
         
         $template =& CRM_Core_Smarty::singleton( );
-        //$template->assign_by_ref( $params );
-        $template->assign_by_ref( "params",$params );//fix for warnning message
-        if ( $verify ) {
-            $message = $template->fetch( 'CRM/Quest/MatchApp/Page/Recommendation/TeacherFirst.tpl' );
+        $template->assign( $params );
+        if ( ! $verify ) {
+            $message = $template->fetch( 'CRM/Quest/Page/MatchApp/Recommendation/RecommenderFirst.tpl' );
         } else {
-            $message = $template->fetch( 'CRM/Quest/MatchApp/Page/Recommendation/TeacherRepeat.tpl' );
+            $message = $template->fetch( 'CRM/Quest/Page/MatchApp/Recommendation/RecommenderRepeat.tpl' );
         }
 
         // send the mail
@@ -109,10 +112,9 @@ class CRM_Quest_BAO_Recommendation {
         CRM_Utils_Mail::send( '"QuestBridge Scholars" <questbridge@questbridge.org>',
                               "$firstName, $lastName",
                               $email,
-                              "Recommendation please",
+                              "Online Recommendation for {$displayName}",
                               $message,
                               'recommendations@questbridge.org' );
-
         return true;
     }
 
