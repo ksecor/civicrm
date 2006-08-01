@@ -121,7 +121,7 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
             $dao->contact_id_b = $cid;
             $dao->is_active    = true;
             if ( ! $dao->find( true ) ) {
-                // CRM_Core_Error::fatal( ts( "You do not have permission to create a recommendation for this student" ) );
+                CRM_Core_Error::fatal( ts( "You do not have permission to create a recommendation for this student" ) );
             }
         }
 
