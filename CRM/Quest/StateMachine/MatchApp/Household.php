@@ -77,9 +77,9 @@ class CRM_Quest_StateMachine_MatchApp_Household extends CRM_Quest_StateMachine_M
         return self::$_dependency;
     }
 
-    public function includeNonCustodial( ) {
+    public function includeNonCustodial( $force=false) {
         $includeNonCustodial = $this->_controller->get( 'includeNonCustodial' );
-        if ( $includeNonCustodial === null ) {
+        if ( $includeNonCustodial === null || $force ) {
             $cid = $this->_controller->get( 'contactID' );
             $query = "
 SELECT count( p.id )

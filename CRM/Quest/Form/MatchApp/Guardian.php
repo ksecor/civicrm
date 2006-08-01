@@ -271,7 +271,6 @@ public function formRule(&$params)
             
             $fields = array('industry_id'            => 'Industry',
                             'highest_school_level_id'=> 'Highest Level of Schooling',
-                            'citizenship_status'     => 'Citizenship Status',
                             'citizenship_country_id' => 'Country of Birth',
                             );
             foreach ($fields as $field => $title) {
@@ -282,6 +281,9 @@ public function formRule(&$params)
 
             if ((!$params['birth_date']['M']) && (!$params['birth_date']['D']) && (!$params['birth_date']['Y']) ) {
                 $errors["birth_date"] = "Please enter the Birthdate for this person.";
+            }
+            if (!array_key_exists('citizenship_status', $params)) {
+                $errors["citizenship_status"] = "Please answer the Citizenship Status question.";
             }
             if (!array_key_exists('is_deceased', $params)) {
                 $errors["is_deceased"] = "Please answer whether this person is deceased.";
@@ -325,10 +327,8 @@ public function postProcess()
             $params['is_parent_guardian'] = true;
             $params['is_income_source'  ] = true;
  
-            if ( array_key_exists( 'is_contact_with_student', $params ) &&
-                 $params['is_contact_with_student'] == 0) {
-                $this->set( 'includeNonCustodial', 1);
-            }
+
+            $this->set( 'includeNonCustodial', null);
           
             $ids['id'] = $this->_personID;
             $deceasedYear = $params['deceased_year_date']['Y'];
