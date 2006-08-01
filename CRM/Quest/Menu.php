@@ -114,6 +114,16 @@ class CRM_Quest_Menu {
                               'crmType' => CRM_Core_Menu::CALLBACK,
                               'weight'  => 0, 
                               ),
+                       array( 
+                             'path'    => 'civicrm/quest/verify',
+                             'query'   => 'reset=1',
+                             'title'   => ts( '2006 College Match User Verification Form' ), 
+                             'access'  => 1,
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::CALLBACK,
+                             'weight'  => 0, 
+                             ),
+                       
                        );
         return $items;
     }
