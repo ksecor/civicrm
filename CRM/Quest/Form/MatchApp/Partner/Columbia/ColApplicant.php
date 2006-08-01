@@ -57,7 +57,8 @@ class CRM_Quest_Form_MatchApp_Partner_Columbia_ColApplicant extends CRM_Quest_Fo
     public function preProcess()
     {
         parent::preProcess();
-        
+
+        require_once 'CRM/Quest/BAO/Essay.php';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_columbia_applicant', $this->_contactID, $this->_contactID );        
     }
     

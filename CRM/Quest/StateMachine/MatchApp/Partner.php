@@ -158,8 +158,8 @@ FROM   quest_partner p,
        quest_partner_ranking r
 WHERE  r.contact_id  = $cid
   AND  r.partner_id  = p.id
-  AND  r.ranking     >= 1
-  AND  r.is_forward  = 1
+  AND  ( r.ranking     >= 1 OR
+         r.is_forward  = 1 )
 ";
             self::$_validPartners = array( );
             $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
