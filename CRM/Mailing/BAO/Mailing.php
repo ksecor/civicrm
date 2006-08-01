@@ -542,7 +542,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $params = array('contact_id' => $contactId, 'id' => $contactId);
         $contact = array();
         $ids    = array();
-        CRM_Contact_BAO_Contact::retrieve($params, $contact, $ids);
+        // let's switch a BAO call to an API call, fixes CRM-1127
+        // CRM_Contact_BAO_Contact::retrieve($params, $contact, $ids);
+        $contact =& crm_fetch_contact($params);
         $message =& new Mail_Mime("\n");
 
         /* Do contact-specific token replacement in text mode, and add to the
