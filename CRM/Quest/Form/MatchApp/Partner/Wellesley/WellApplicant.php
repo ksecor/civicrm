@@ -153,7 +153,7 @@ class CRM_Quest_Form_MatchApp_Partner_Wellesley_WellApplicant extends CRM_Quest_
      */
     public function getTitle()
     {
-         return ts('Wellesley College');
+         return ts('Applicant Information');
     }
 
     /** 
