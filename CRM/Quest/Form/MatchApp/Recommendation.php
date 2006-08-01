@@ -72,7 +72,7 @@ SELECT cr.id           as contact_id,
        i.first_name    as first_name,
        i.last_name     as last_name ,
        e.email         as email     ,
-       rc.contact_id_b as organization_id
+       rc.contact_id_b as school_id
   FROM civicrm_contact      cs,
        civicrm_contact      cr,
        civicrm_individual   i,
@@ -100,14 +100,20 @@ SELECT cr.id           as contact_id,
         $count = 1;
         while ( $dao->fetch( ) ) {
             $this->_oldParams[$count] = array( );
-            $this->_oldParams[$count]['contact_id'     ] = $dao->contact_id;
-            $this->_oldParams[$count]['first_name'     ] = $dao->first_name;
-            $this->_oldParams[$count]['last_name'      ] = $dao->last_name ;
-            $this->_oldParams[$count]['email'          ] = $dao->email;
-            $this->_oldParams[$count]['organization_id'] = $dao->organization_id;
+            $this->_oldParams[$count]['contact_id'] = $dao->contact_id;
+            $this->_oldParams[$count]['first_name'] = $dao->first_name;
+            $this->_oldParams[$count]['last_name' ] = $dao->last_name ;
+            $this->_oldParams[$count]['email'     ] = $dao->email;
+            $this->_oldParams[$count]['school_id' ] = $dao->school_id;
             $count++;
         }
 
+        $defaults = array( );
+        foreach ( $this->_oldParams as $count => $values ) {
+            foreach ( $values as $name => $value ) {
+                $defaults["{$name}_{$count}"] = $value;
+            }
+        }
         return $defaults;
     }
 
@@ -217,7 +223,7 @@ SELECT cr.id           as contact_id,
             // only process if email and/or school address has changed
             if ( array_key_exists( $i, $this->_oldParams ) ) {
                 if ( $params["email_$i"    ] != $this->_oldParams[$i]['email'] ||
-                     $params["school_id_$i"] != $this->_oldParams[$i]['organizationID'] ) {
+                     $params["school_id_$i"] != $this->_oldParams[$i]['school_id'] ) {
                     $process = true;
 
                     // clean up old junk
