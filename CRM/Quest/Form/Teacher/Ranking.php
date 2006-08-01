@@ -181,10 +181,8 @@ class CRM_Quest_Form_Teacher_Ranking extends CRM_Quest_Form_Recommender
             require_once "CRM/Quest/BAO/StudentRanking.php";
             CRM_Quest_BAO_StudentRanking::create($params ,$ids );
           
-       }
-
-        //parent::postProcess( );
-     
+            parent::postProcess( );
+        }
     } //end of function
 
     /**

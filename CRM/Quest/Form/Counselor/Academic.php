@@ -207,8 +207,7 @@ class CRM_Quest_Form_Counselor_Academic extends CRM_Quest_Form_Recommender
             
        }
 
-        //parent::postProcess( );
-     
+        parent::postProcess( );
     } //end of function
 
     /**

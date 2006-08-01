@@ -124,6 +124,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
         require_once "CRM/Quest/StateMachine/MatchApp/$subType.php";
         eval( '$this->_stateMachine =& new CRM_Quest_StateMachine_MatchApp_' . $subType . '( $this, $this->_action );' );
+
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $this->_action );
 
@@ -131,34 +132,39 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         $config =& CRM_Core_Config::singleton( );
         $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
 
-        // get the task status object, if not there create one
-        require_once 'CRM/Project/DAO/TaskStatus.php';
-        $dao =& new CRM_Project_DAO_TaskStatus( );
-        $dao->responsible_entity_table = 'civicrm_contact';
-        $dao->responsible_entity_id    = $cid;
-        $dao->task_id                  = $subTypeTasks[$this->_subType];
+        $taskStatusID = $this->get( 'taskStatusID' );
+        $taskStatus   = $this->get( 'taskStatus'   );
+
+        if ( ! $taskStatusID ) {
+            // get the task status object, if not there create one
+            require_once 'CRM/Project/DAO/TaskStatus.php';
+            $dao =& new CRM_Project_DAO_TaskStatus( );
+            $dao->responsible_entity_table = 'civicrm_contact';
+            $dao->responsible_entity_id    = $cid;
+            $dao->task_id                  = $subTypeTasks[$this->_subType];
         
-        require_once 'CRM/Core/OptionGroup.php';
-        $status =& CRM_Core_OptionGroup::values( 'task_status', true );
-        if ( ! $dao->find( true ) ) {
-            $dao->target_entity_table = 'civicrm_contact';
-            $dao->target_entity_id    = $cid;
-            $dao->create_date         = date( 'YmdHis' );
-            
-            $dao->status_id = $status['Not Started'];
-            $dao->save( );
-        } else if ( $dao->status_detail ) {
-            $data =& $this->container( );
-            $data['valid'] = unserialize( $dao->status_detail );
+            require_once 'CRM/Core/OptionGroup.php';
+            $status =& CRM_Core_OptionGroup::values( 'task_status', true );
+            if ( ! $dao->find( true ) ) {
+                $dao->target_entity_table = 'civicrm_contact';
+                $dao->target_entity_id    = $cid;
+                $dao->create_date         = date( 'YmdHis' );
+                
+                $dao->status_id = $status['Not Started'];
+                $dao->save( );
+            } 
+
+            if ( $dao->status_detail ) {
+                $data =& $this->container( );
+                $data['valid'] = unserialize( $dao->status_detail );
+            }
+            $this->set( 'taskStatusID', $dao->id );
+
+            $taskStatus = array_search( $dao->status_id, $status );
+            $this->set( 'taskStatus'  , $taskStatus );
         }
 
-        $this->set( 'taskStatusID', $dao->id );
-        $this->assign( 'taskStatus', array_search( $dao->status_id, $status ) );
-
-        //set user context
-        $session =& CRM_Core_Session::singleton();
-        $userContext = $session->readUserContext( );
-        $this->assign( 'userContext', $userContext );
+        $this->assign( 'taskStatus', $taskStatus );
     }
 
     /**

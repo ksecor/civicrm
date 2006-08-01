@@ -157,8 +157,7 @@ class CRM_Quest_Form_Teacher_Evaluation extends CRM_Quest_Form_Recommender
         require_once "CRM/Quest/BAO/TeacherEvaluation.php";
         CRM_Quest_BAO_TeacherEvaluation::create($params ,$ids );
 
-       }
-
+        parent::postProcess( );
     } //end of function
 
     /**

@@ -212,8 +212,7 @@ class CRM_Quest_Form_Counselor_Ranking extends CRM_Quest_Form_Recommender
 
        }
 
-        // parent::postProcess( );
-     
+        parent::postProcess( );
     } //end of function
 
     /**

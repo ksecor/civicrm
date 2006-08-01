@@ -40,7 +40,7 @@ require_once 'CRM/Core/StateMachine.php';
  * State machine for managing different states of the Quest process.
  *
  */
-class CRM_Quest_StateMachine_Teacher extends CRM_Core_StateMachine {
+class CRM_Quest_StateMachine_Recommender extends CRM_Core_StateMachine {
 
     static $_dependency = null;
 
@@ -59,30 +59,7 @@ class CRM_Quest_StateMachine_Teacher extends CRM_Core_StateMachine {
     }
 
     public function rebuild( &$controller, $action = CRM_Core_Action::NONE ) {
-        // ensure the states array is reset
-        $this->_states = array( );
-
-        $this->_pages = array(
-                              'CRM_Quest_Form_Teacher_Personal' => null,
-                              // 'CRM_Quest_Form_Teacher_Academic' => null,
-                              'CRM_Quest_Form_Teacher_Ranking' => null,
-                              'CRM_Quest_Form_Teacher_Evaluation' => null,
-                              'CRM_Quest_Form_Teacher_Additional' => null
-                              );
-        
         $this->addSequentialPages( $this->_pages, $action );
-    }
-
-    public function &getDependency( ) {
-        if ( ! self::$_dependency ) {
-            self::$_dependency = array(
-                                       'Personal' => array( ),
-                                       //  'Academic' => array( 'Personal'  => 1 ),
-                                       //   'Ranking'  => array( 'Academic'  => 1 )
-                                       );
-        }
-
-        return self::$_dependency;
     }
 
     public function checkDependency( &$controller, &$form ) {
@@ -93,19 +70,17 @@ class CRM_Quest_StateMachine_Teacher extends CRM_Core_StateMachine {
         
         $data =& $controller->container( );
 
-        if (is_array( $dependency[$formName])) {
-            foreach ( $dependency[$formName] as $name => $value ) {
-                // for each name check that all pages are valid
-                foreach ( $this->_pageNames as $pageName ) {
-                    if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
-                        if ( ! $data['valid'][$pageName] ) {
-                            $title = $form->getCompleteTitle( );
-                            $otherTitle = $controller->_pages[$pageName]->getCompleteTitle( );
-                            $session =& CRM_Core_Session::singleton( );
-                            $session->setStatus( "The $otherTitle section must be completed before you can go to $title ." );
-                            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/matchapp',
-                                                                               "_qf_{$name}_display=1" ) );
-                        }
+        foreach ( $dependency[$formName] as $name => $value ) {
+            // for each name check that all pages are valid
+            foreach ( $this->_pageNames as $pageName ) {
+                if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
+                    if ( ! $data['valid'][$pageName] ) {
+                        $title = $form->getCompleteTitle( );
+                        $otherTitle = $controller->_pages[$pageName]->getCompleteTitle( );
+                        $session =& CRM_Core_Session::singleton( );
+                        $session->setStatus( "The $otherTitle section must be completed before you can go to $title ." );
+                        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/counselor',
+                                                                           "_qf_{$name}_display=1" ) );
                     }
                 }
             }
@@ -120,16 +95,28 @@ class CRM_Quest_StateMachine_Teacher extends CRM_Core_StateMachine {
                 $title = $controller->_pages[$pageName]->getCompleteTitle( );
                 $session =& CRM_Core_Session::singleton( );
                 $session->setStatus( "The $title section must be completed before you can submit the application" );
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/matchapp',
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/counselor',
                                                                    "_qf_{$pageName}_display=1" ) );
             }
         }
     }
 
-    public function validPage( $name, &$valid ) {
-        return true;
+    public function isApplicationComplete( &$controller ) {
+        $data =& $controller->container( );
 
+        foreach ( $this->_pageNames as $pageName ) {
+            if ( ! $data['valid'][$pageName] ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function validPage( $name, &$valid ) {
         $dependency =& $this->getDependency( );
+        if ( empty( $dependency ) ) {
+            return true;
+        }
 
         $name = explode( '-', $name );
         $formName = $name[0];

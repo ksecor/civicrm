@@ -195,10 +195,9 @@ class CRM_Quest_Form_Teacher_Personal extends CRM_Quest_Form_Recommender
                             $dao->display_name );
             }
 
+            parent::postProcess( );
        }
 
-        // parent::postProcess( );
-     
     } //end of function
 
     /**

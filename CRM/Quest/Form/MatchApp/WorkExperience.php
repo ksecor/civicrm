@@ -197,41 +197,47 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
-        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
-            require_once 'CRM/Quest/BAO/WorkExperience.php';
-            $params = $this->controller->exportValues( $this->_name );
-            $ids = array();
-            //delete all the entries before inserting new one 
-            $dao = &new CRM_Quest_DAO_WorkExperience();
-            $dao->contact_id = $this->_contactID;
-            $dao->delete();
+        if ( $this->_action &  CRM_Core_Action::VIEW ) {
+            return;
+        }
+
+        require_once 'CRM/Quest/BAO/WorkExperience.php';
+        $params = $this->controller->exportValues( $this->_name );
+        $ids = array();
+        //delete all the entries before inserting new one 
+        $dao = &new CRM_Quest_DAO_WorkExperience();
+        $dao->contact_id = $this->_contactID;
+        $dao->delete();
             
-            $workExpParams = array();
-            for( $i = 1; $i <= 6; $i++  ) {
-                if ($params['nature_of_work_'.$i]) {
-                    $workExpParams['contact_id']  = $this->_contactID;
-                    $workExpParams['description'] = $params['nature_of_work_'.$i];  
-                    $workExpParams['employer']    = $params['employer_'.$i];
-                    $workExpParams['start_date']  = CRM_Utils_Date::format($params['start_date_'.$i]);
-                    $workExpParams['end_date']    = CRM_Utils_Date::format($params['end_date_'.$i]);
-                    $workExpParams['weekly_hours']= $params['hrs_'.$i];
+        $workExpParams = array();
+        for( $i = 1; $i <= 6; $i++  ) {
+            if ($params['nature_of_work_'.$i]) {
+                $workExpParams['contact_id']  = $this->_contactID;
+                $workExpParams['description'] = $params['nature_of_work_'.$i];  
+                $workExpParams['employer']    = $params['employer_'.$i];
+                $workExpParams['start_date']  = CRM_Utils_Date::format($params['start_date_'.$i]);
+                $workExpParams['end_date']    = CRM_Utils_Date::format($params['end_date_'.$i]);
+                $workExpParams['weekly_hours']= $params['hrs_'.$i];
+                if ( ! CRM_Utils_System::isNull( $workExpParams ) ) {
                     CRM_Quest_BAO_WorkExperience::create( $workExpParams, $ids );
                 }
             }
+        }
 
-            CRM_Quest_BAO_Essay::create( $this->_essays, $params, 
-                                         $this->_contactID, $this->_contactID );
-
-            //$ids['id'] = $this->_studentID;
-            $ids = array( 'id'         => $this->_studentID,
-                          'contact_id' => $this->_contactID );
+        //$ids['id'] = $this->_studentID;
+        $ids = array( 'id'         => $this->_studentID,
+                      'contact_id' => $this->_contactID );
             
+        // make sure the school_work stuff is set
+        if ( array_key_exists( 'school_work', $params ) ) {
             require_once "CRM/Quest/BAO/Student.php";
             CRM_Quest_BAO_Student::create( $params, $ids );
-       }
+        }
+
         parent::postProcess( );
     }
-/**
+
+    /**
      * Return a descriptive name for the page, used in wizard header
      *
      * @return string

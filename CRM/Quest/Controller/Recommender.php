@@ -36,27 +36,32 @@
 
 require_once 'CRM/Core/Controller.php';
 
-class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
-    
+class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
+
     protected $_action;
 
     protected $_scID;
 
+    // public so that the state machine can access this
+    public    $_subType;
+
     /**
      * class constructor
      */
-    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
+    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true,
+                          $subType ) {
         parent::__construct( $title, $modal );
-        
-        $cid = $this->get( 'contactID' );
 
+        $cid = $this->get( 'contactID' );
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'update' );
         $this->assign( 'action', $this->_action );
-        $this->assign( 'appName', 'Teacher');
+        $this->assign( 'appName', $subType );
 
         $this->_scID = CRM_Utils_Request::retrieve( 'scid', 'Integer', $this, true );
 
+        $this->_subType = $subType; 
+        
         if ( ! $cid ) {
             $cid    = CRM_Utils_Request::retrieve( 'id', 'Positive',
                                                    $this );
@@ -108,20 +113,56 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
                 CRM_Core_Error::fatal( ts( "Could not find a valid contact record for the student" ) );
             }
 
-            // make sure that recommender is a teacher of student
+            // make sure that recommender is a counselor of student
             require_once 'CRM/Contact/DAO/Relationship.php';
             $dao =& new CRM_Contact_DAO_Relationship( );
-            $dao->relationship_type_id = 9;
+            $dao->relationship_type_id = 10;
             $dao->contact_id_a = $this->_scID;
             $dao->contact_id_b = $cid;
             $dao->is_active    = true;
             if ( ! $dao->find( true ) ) {
-                CRM_Core_Error::fatal( ts( "You do not have permission to create a recommendation for this student" ) );
+                // CRM_Core_Error::fatal( ts( "You do not have permission to create a recommendation for this student" ) );
             }
         }
 
-        require_once 'CRM/Quest/StateMachine/Teacher.php';
-        $this->_stateMachine =& new CRM_Quest_StateMachine_Teacher( $this, $this->_action );
+
+        // fix all task related stuff
+        $taskStatusID = $this->get( 'taskStatusID' );
+        $taskStatus   = $this->get( 'taskStatus'   );
+
+        if ( ! $taskStatusID ) {
+            // get the task status object, if not there create one
+            require_once 'CRM/Project/DAO/TaskStatus.php';
+            $dao =& new CRM_Project_DAO_TaskStatus( );
+            $dao->responsible_entity_table = 'civicrm_contact';
+            $dao->responsible_entity_id    = $cid;
+            $dao->target_entity_table      = 'civicrm_contact';
+            $dao->target_entity_id         = $this->_scID;
+            $dao->task_id                  = 10;
+        
+            require_once 'CRM/Core/OptionGroup.php';
+            $status =& CRM_Core_OptionGroup::values( 'task_status', true );
+            if ( ! $dao->find( true ) ) {
+                $dao->create_date         = date( 'YmdHis' );
+                
+                $dao->status_id = $status['Not Started'];
+                $dao->save( );
+            } 
+
+            if ( $dao->status_detail ) {
+                $data =& $this->container( );
+                $data['valid'] = unserialize( $dao->status_detail );
+            }
+            $this->set( 'taskStatusID', $dao->id );
+
+            $taskStatus = array_search( $dao->status_id, $status );
+            $this->set( 'taskStatus'  , $taskStatus );
+        }
+
+        $this->assign( 'taskStatus', $taskStatus );
+
+        require_once "CRM/Quest/StateMachine/Recommender/$subType.php";
+        eval( '$this->_stateMachine =& new CRM_Quest_StateMachine_Recommender_' . $subType . '( $this, $this->_action );' );
 
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $this->_action );
@@ -269,10 +310,15 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
         }
 
         $template =& CRM_Core_Smarty::singleton( );
-        $template->assign( 'pageTitle', '2006 College Match Teacher Recommendation' );
+        if ( $this->_subType == 'Counselor' ) {
+            $template->assign( 'pageTitle', '2006 College Match Counselor Recommendation' );
+        } else {
+            $template->assign( 'pageTitle', '2006 College Match Teacher Recommendation' );
+        }
+
         $template->assign_by_ref( 'pageHTML', $html );
         
-        $template->fetch( "CRM/Quest/Page/View/Preview.tpl" );
+        echo $template->fetch( "CRM/Quest/Page/View/Preview.tpl" );
         exit( );
     }
 
@@ -284,6 +330,10 @@ class CRM_Quest_Controller_Teacher extends CRM_Core_Controller {
         } else {
             return 'CRM/index.tpl';
         }
+    }
+
+    function isApplicationComplete( ) {
+        return $this->_stateMachine->isApplicationComplete( $this );
     }
 
 }

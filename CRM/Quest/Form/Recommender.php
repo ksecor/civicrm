@@ -98,19 +98,16 @@ class CRM_Quest_Form_Recommender extends CRM_Core_Form
         // update the task record
         require_once 'CRM/Project/DAO/TaskStatus.php';
         $dao =& new CRM_Project_DAO_TaskStatus( );
-        $dao->responsible_entity_table = 'civicrm_contact';
-        $dao->responsible_entity_id    = $this->_recommenderID;
-        $dao->target_entity_table      = 'civicrm_contact';
-        $dao->target_entity_id         = $this->_studentContactID;
+        $dao->id = $this->get( 'taskStatusID' );
         if ( ! $dao->find( true ) ) {
             CRM_Core_Error::fatal( "The task status table is inconsistent" );
         }
         
         $status =& CRM_Core_OptionGroup::values( 'task_status', true );
-        if ( $this->_name != 'Evaluation' && $dao->status_id != $status['Completed'] ) {
-            $dao->status_id = $status['In Progress'];
-        } else {
+        if ( $this->controller->isApplicationComplete( ) ) { 
             $dao->status_id = $status['Completed'];
+        } else {
+            $dao->status_id = $status['In Progress'];
         }
 
         $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );

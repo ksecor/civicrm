@@ -118,19 +118,22 @@ abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
     }
 
     public function validPage( $name, &$valid ) {
-        return true;
-
         $dependency =& $this->getDependency( );
+        if ( empty( $dependency ) ) {
+            return;
+        }
 
         $name = explode( '-', $name );
         $formName = $name[0];
-        
-        foreach ( $dependency[$formName] as $name => $value ) {
-            // for each name check that all pages are valid
-            foreach ( $this->_pageNames as $pageName ) {
-                if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
-                    if ( ! $valid[$pageName] ) {
-                        return false;
+
+        if (is_array ( $dependency[$formName] ) ) { 
+            foreach ( $dependency[$formName] as $name => $value ) {
+                // for each name check that all pages are valid
+                foreach ( $this->_pageNames as $pageName ) {
+                    if ( substr( $pageName, 0, strlen( $name ) ) == $name ) {
+                        if ( ! $valid[$pageName] ) {
+                            return false;
+                        }
                     }
                 }
             }

@@ -105,6 +105,7 @@ class CRM_Quest_Form_Teacher_Additional extends CRM_Quest_Form_Recommender
             $params = $this->controller->exportValues( $this->_name );
             CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'],$this->_recommenderID,
                                          $this->_studentContactID);
+            parent::postProcess( );
         }
     }
 

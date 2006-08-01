@@ -195,8 +195,7 @@ class CRM_Quest_Form_Counselor_Personal extends CRM_Quest_Form_Recommender
                         CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_recommenderID, 'display_name' ) );
        }
 
-        // parent::postProcess( );
-     
+        parent::postProcess( );
     } //end of function
 
     /**

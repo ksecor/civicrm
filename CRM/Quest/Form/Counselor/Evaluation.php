@@ -143,7 +143,8 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
         
         require_once "CRM/Quest/BAO/CounselorEvaluation.php";
         CRM_Quest_BAO_CounselorEvaluation::create($params ,$ids );
-        
+
+        parent::postProcess( );
     } //end of function
 
     /**
