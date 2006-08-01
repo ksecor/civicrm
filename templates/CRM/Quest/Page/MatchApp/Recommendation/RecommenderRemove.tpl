@@ -1,6 +1,6 @@
-Dear {$recommenderFirstName} {$recommenderLastName}:
+Dear {$recommenderFirstName} {$recommenderLastName},
 
-Your Student {$studentName} from {$schoolName} has cancelled their request for a recommendation from you.
+Your Student {$studentName}, from {$schoolName}, has cancelled his/her request for a recommendation from you.
 
 Thanx
 
