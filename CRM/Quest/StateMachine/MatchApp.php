@@ -120,7 +120,7 @@ abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
     public function validPage( $name, &$valid ) {
         $dependency =& $this->getDependency( );
         if ( empty( $dependency ) ) {
-            return;
+            return true;
         }
 
         $name = explode( '-', $name );
