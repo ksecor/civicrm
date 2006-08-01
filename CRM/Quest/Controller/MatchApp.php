@@ -40,8 +40,9 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
     protected $_action;
 
-    // public so that the state machine can access this
+    // public so that the state machine can access thi
     public    $_subType;
+    public    $_subTypeTasks;
 
     protected $_sections;
 
@@ -51,13 +52,13 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true, $subType = null ) {
         parent::__construct( $title, $modal );
         
-        $subTypeTasks = array( 'Personal'  => 14,
-                               'Household' => 15,
-                               'School'    => 16,
-                               'Essay'     => 17,
-                               'College'   => 18,
-                               'Partner'   => 19 );
-
+        $this->_subTypeTasks = array( 'Personal'  => 14,
+                                      'Household' => 15,
+                                      'School'    => 16,
+                                      'Essay'     => 17,
+                                      'College'   => 18,
+                                      'Partner'   => 19 );
+        
         $cid = $this->get( 'contactID' );
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'update' );
@@ -132,39 +133,19 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         $config =& CRM_Core_Config::singleton( );
         $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
 
-        $taskStatusID = $this->get( 'taskStatusID' );
-        $taskStatus   = $this->get( 'taskStatus'   );
+        require_once 'CRM/Project/BAO/TaskStatus.php';
+        CRM_Project_BAO_TaskStatus::getTaskStatusInitial( $this,
+                                                          'civicrm_contact', $cid,
+                                                          'civicrm_contact', $cid,
+                                                          $this->_subTypeTasks[$this->_subType] );
 
-        if ( ! $taskStatusID ) {
-            // get the task status object, if not there create one
-            require_once 'CRM/Project/DAO/TaskStatus.php';
-            $dao =& new CRM_Project_DAO_TaskStatus( );
-            $dao->responsible_entity_table = 'civicrm_contact';
-            $dao->responsible_entity_id    = $cid;
-            $dao->task_id                  = $subTypeTasks[$this->_subType];
-        
-            require_once 'CRM/Core/OptionGroup.php';
-            $status =& CRM_Core_OptionGroup::values( 'task_status', true );
-            if ( ! $dao->find( true ) ) {
-                $dao->target_entity_table = 'civicrm_contact';
-                $dao->target_entity_id    = $cid;
-                $dao->create_date         = date( 'YmdHis' );
-                
-                $dao->status_id = $status['Not Started'];
-                $dao->save( );
-            } 
+        // also initialize application task status
+        CRM_Project_BAO_TaskStatus::getTaskStatusInitial( $this,
+                                                          'civicrm_contact', $cid,
+                                                          'civicrm_contact', $cid,
+                                                          8,
+                                                          'appTaskStatus', false );
 
-            if ( $dao->status_detail ) {
-                $data =& $this->container( );
-                $data['valid'] = unserialize( $dao->status_detail );
-            }
-            $this->set( 'taskStatusID', $dao->id );
-
-            $taskStatus = array_search( $dao->status_id, $status );
-            $this->set( 'taskStatus'  , $taskStatus );
-        }
-
-        $this->assign( 'taskStatus', $taskStatus );
     }
 
     /**
@@ -432,6 +413,22 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
     function validateCategory( ) {
         return true;
+    }
+
+    function matchAppComplete( ) {
+        $values = implode( ',', array_values( $this->_subTypeTasks ) );
+        $query = "
+SELECT count(*)
+FROM   civicrm_task_status t
+WHERE  t.responsible_entity_table = 'civicrm_contact'
+  AND  t.responsible_entity_id    = $cid
+  AND  t.target_entity_table      = 'civicrm_contact'
+  AND  t.target_entity_id         = $cid
+  AND  t.task_id IN ( $values )
+  AND  t.status_id = 328
+";
+        $result = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+        return ( $result == count( $values ) ) ? true : false;
     }
 
 }

@@ -115,31 +115,23 @@ class CRM_Quest_Form_App extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        // update the task record
-        require_once 'CRM/Project/DAO/TaskStatus.php';
-        $dao =& new CRM_Project_DAO_TaskStatus( );
-        $dao->id = $this->get( 'taskStatusID' );
-        if ( ! $dao->find( true ) ) {
-            CRM_Core_Error::fatal( "The task status table is inconsistent" );
-        }
-        
-        $status =& CRM_Core_OptionGroup::values( 'task_status', true );
-        if ( $this->controller->isApplicationComplete( ) ) {
-            $dao->status_id = $status['Completed'];
-            $this->set( 'taskStatus', 'Completed' );
+        require_once 'CRM/Project/BAO/TaskStatus.php';
+        CRM_Project_BAO_TaskStatus::updateTaskStatus( $this );
+
+        // also update the appStatus
+        $taskStatus = $this->get( 'TaskStatus' );
+        if ( $taskStatus == 'Completed' &&
+             $this->controller->matchAppComplete( ) ) {
+            CRM_Project_BAO_TaskStatus::updateTaskStatusWithValue( $this,
+                                                                   $taskStatus,
+                                                                   'appTaskStatus' );
         } else {
-            $dao->status_id = $status['In Progress'];
-            $this->set( 'taskStatus', 'In Progress' );
+            $taskStatus = 'In Progress';
+            CRM_Project_BAO_TaskStatus::updateTaskStatusWithValue( $this,
+                                                                   $taskStatus,
+                                                                   'appTaskStatus' );
         }
 
-        $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
-        $dao->modified_date = date( 'YmdHis' );
-        
-        // now save all the valid values to fool QFC
-        $data =& $this->controller->container( );
-        $dao->status_detail = serialize( $data['valid'] );
-
-        $dao->save( );
     }//end of function
 
 }
