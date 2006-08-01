@@ -115,6 +115,35 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
         
         parent::buildQuickForm( );
+        $this->addFormRule(array('CRM_Quest_Form_Counselor_Evaluation', 'formRule'));
+    }
+
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        $errors = array( );
+        $radEssay = array('is_context'             => array( 'name'  => 'explain_context',
+                                                             'title' => 'contexts'),
+                          'is_problem_behavior'    => array( 'name'  => 'problem_explain',
+                                                             'title' => 'observed problematic behaviors'),
+                          'is_disciplinary_action' => array( 'name'  => 'discipline_explain',
+                                                             'title' => 'disciplinary action'),
+                          );
+        foreach ( $radEssay as $rad => $essay ) {
+            if ( $params[$rad] ) {
+                if ( !$params['essay'][$essay['name']] ) {
+                    $errors['essay['.$essay['name'].']'] = 'Briefly explain '.$essay['title'];
+                }
+            }
+        }
+        return empty($errors) ? true : $errors;
     }
 
     /**

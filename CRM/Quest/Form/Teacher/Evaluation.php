@@ -123,9 +123,36 @@ class CRM_Quest_Form_Teacher_Evaluation extends CRM_Quest_Form_Recommender
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
         
+        $this->addFormRule(array('CRM_Quest_Form_Teacher_Evaluation', 'formRule'));
         parent::buildQuickForm( );
     }
 
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        $errors = array( );
+
+        $radEssay = array('is_obstacles' => array( 'name'  => 'obstacle_explain',
+                                                   'title' => 'obstacles'),
+                          'is_interfere' => array( 'name'  => 'interfere_explain',
+                                                   'title' => 'interfere factors'));
+        foreach ( $radEssay as $rad => $essay ) {
+            if ( $params[$rad] ) {
+                if ( !$params['essay'][$essay['name']] ) {
+                    $errors['essay['.$essay['name'].']'] = 'Briefly explain these '.$essay['title'];
+                }
+            }
+        }
+        return empty($errors) ? true : $errors;
+    }
+    
     /**
      * process the form after the input has been submitted and validated
      *
