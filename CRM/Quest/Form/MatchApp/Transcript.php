@@ -48,6 +48,7 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
     protected $_isAlternateGrading;
 
     protected $_grade;
+    protected $_previousGrade = null;
 
     static $_gradeSelector  = null;
 
@@ -140,6 +141,11 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
                 for ($j = 1; $j<=4; $j++ ) {
                     $defaults['grade_'.$count."_".$j] = $dao->{"term_".$j};
                 }
+            }
+        } else {
+            // see if we can get the term system id from the previous year
+            if ( $this->_previousGrade ) {
+                $defaults['term_system_id'] = $this->controller->exportValue( "Transcript-{$this->_previousGrade}", 'term_system_id' );
             }
         }
        

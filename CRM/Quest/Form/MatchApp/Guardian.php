@@ -355,7 +355,6 @@ public function postProcess()
             $params['entity_table'] = 'quest_person';
             $params['location']['1']['location_type_id'] = 1;
             CRM_Core_BAO_Location::add($params, $this->_locationIds, 1);
-
             
             // fix the details array
             $details = $this->controller->get( 'householdDetails' );

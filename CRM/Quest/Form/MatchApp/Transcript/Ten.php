@@ -53,6 +53,7 @@ class CRM_Quest_Form_MatchApp_Transcript_Ten extends CRM_Quest_Form_MatchApp_Tra
     public function preProcess()
     {
         $this->_grade = 'Ten';
+        $this->_previousGrade = 'Nine';
         parent::preProcess( );
     }
 
