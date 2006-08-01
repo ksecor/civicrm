@@ -527,7 +527,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 $maxScores = array();
                 $summaryCols = array( 'ACT_english', 'ACT_reading', 'ACT_math', 'ACT_science', 'ACT_composite',
                                       'SAT_reading', 'SAT_math', 'SAT_writing', 'SAT_composite', 'SAT_composite_all');
-                foreach ($maxScores as $score) {
+                foreach ($summaryCols as $score) {
                     $maxScores[$score] = 0;
                 }
                 
