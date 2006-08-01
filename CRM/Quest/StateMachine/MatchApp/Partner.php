@@ -100,7 +100,7 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
                       'Wellesley'   => array(
                                              'title' => 'Wellesley College',
                                              'steps' => array( 'WellApplicant' => 'Applicant Information', 
-                                                               'Essay'         => 'Essay', ),
+                                                               'WellEssay'     => 'Essay', ),
                                              ),
 
                       'Wheaton' => array(

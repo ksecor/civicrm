@@ -63,8 +63,8 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
     {
         parent::preProcess();
 
+        require_once 'CRM/Quest/BAO/Essay.php';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_rice_applicant', $this->_contactID, $this->_contactID );
-
         $this->_schools = array( 'architecture'     => 'Architecture', 
                                  'engineering'      => 'Engineering',
                                  'humanities'       => 'Humanities',

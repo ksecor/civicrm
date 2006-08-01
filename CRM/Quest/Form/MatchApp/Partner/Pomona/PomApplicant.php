@@ -65,6 +65,7 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
                    'name_3', 'department_3', 'relationship_3',
                    'is_broader_context', 'is_factors_work' );
 
+        require_once 'CRM/Quest/BAO/Essay.php';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_pomona_applicant', $this->_contactID, $this->_contactID );
       
     }

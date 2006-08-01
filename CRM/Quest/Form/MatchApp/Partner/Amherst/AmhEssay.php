@@ -57,7 +57,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
     public function preProcess()
     {
         parent::preProcess();
-
+        require_once 'CRM/Quest/BAO/Essay.php';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_amherst_essay', $this->_contactID, $this->_contactID );
     }
     
@@ -108,7 +108,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
 
         $options[6] = '"Young as she is, the stuff<br />Of her life is a great cargo, and some of it heavy:<br />I wish her a lucky passage."<br />From The Writer by Richard Wilbur, Amherst Class of 1942, 1987 Poet Laureate of the United State';
 
-        $this->addRadio( 'amherst_essay', null, $options, null, '<br/><br />' );
+        $this->addRadio( 'amherst_essay_id', null, $options, null, '<br/><br />' );
 
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
 

@@ -26,7 +26,7 @@
         <td colspan="2" class="grouplabel">
             <label>In addition to the essay you're asked to write as part of the College Match Application, Amherst requires another essay (250-500 words). We do not offer interviews as part of the application process at Amherst. However, we are eager to know more about you. Your essays provide you with an opportunity to speak to us. Please keep this in mind when responding to one of the following quotations. <strong>It is not necessary to research, read, or refer to the texts from which these quotations are taken; we are looking for original, personal responses to these short excerpts rather than book reviews or book reports</strong>.</label> <span class="marker">*</span> (500 words max)<br />
             <br />
-            {$form.amherst_essay.html}
+            {$form.amherst_essay_id.html}
         </td>
     </tr>
     <tr>

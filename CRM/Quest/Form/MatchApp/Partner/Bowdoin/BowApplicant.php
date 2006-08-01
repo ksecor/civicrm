@@ -57,7 +57,7 @@ class CRM_Quest_Form_MatchApp_Partner_Bowdoin_BowApplicant extends CRM_Quest_For
     public function preProcess()
     {
         parent::preProcess();
-
+        require_once 'CRM/Quest/BAO/Essay.php';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_bowdoin_applicant', $this->_contactID, $this->_contactID );
     }
     

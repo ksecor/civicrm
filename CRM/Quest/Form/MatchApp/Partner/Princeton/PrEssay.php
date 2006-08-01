@@ -55,11 +55,9 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrEssay extends CRM_Quest_Form_A
      * @access public
      */
     public function preProcess()
-    {
-        
+    {       
         parent::preProcess();
-        
-       
+        require_once 'CRM/Quest/BAO/Essay.php';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_princeton_essay', $this->_contactID, $this->_contactID );
     }
     

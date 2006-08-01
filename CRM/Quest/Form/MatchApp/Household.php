@@ -286,10 +286,8 @@ WHERE  id = {$value['options']['personID']}
             require_once "CRM/Quest/DAO/StudentSummary.php";            
             $summaryValue = array();
             $ids = array();
-            $membercount = 0;
             for ( $i = 1; $i <= 2; $i++ ) {
 
-                $membercount = $membercount + $params["member_count_$i"] ;
                 $householdParams = array( );
                 $householdParams['contact_id']      = $this->_contactID;
                 $householdParams['household_type'] = ( $i == 1 ) ? 'Current' : 'Previous';
@@ -327,7 +325,7 @@ WHERE  id = {$value['options']['personID']}
             }
 
             //store member_count in quest_student_summary
-            $summaryValue['household_member_count'] = $membercount;
+            $summaryValue['household_member_count'] = $params['member_count_1'];
             $summaryValue['contact_id'] =  $this->_contactID;
             $daoStudent = & new CRM_Quest_DAO_StudentSummary();
             $daoStudent->contact_id = $this->_contactID;

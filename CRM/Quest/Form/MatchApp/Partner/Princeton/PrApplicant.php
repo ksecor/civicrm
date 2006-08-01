@@ -38,7 +38,6 @@
 
 require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
-require_once 'CRM/Quest/BAO/Essay.php';
 
 /**
  * This class generates form components for relationship

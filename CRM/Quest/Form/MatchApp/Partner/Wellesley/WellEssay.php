@@ -42,7 +42,7 @@ require_once 'CRM/Quest/Form/MatchApp/Essay.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_MatchApp_Partner_Wellesley_Essay extends CRM_Quest_Form_MatchApp_Essay
+class CRM_Quest_Form_MatchApp_Partner_WellEssay extends CRM_Quest_Form_MatchApp_Essay
 {
 
     /**

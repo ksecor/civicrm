@@ -72,6 +72,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrShortAnswer extends CRM_Quest_
                   'favorite_word' => ( 'Your favorite word:'),
                   'adjectives'=> ( 'Two adjectives your friends would use to describe you:')
                   );
+        require_once 'CRM/Quest/BAO/Essay.php';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_princeton_short_essay', $this->_contactID, $this->_contactID );
     }
     
