@@ -232,18 +232,18 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
                 }
             }
 
-            if ($filled) {
-                foreach ( $academicFields as $name => $title ) {
-                    if (!$params[$name . $i]) {
-                        $errors[$name . $i] = "Please enter the $title.";
-                    }
-                }
-                for ( $j = 1; $j <= 4; $j++ ) {
-                    if (!$params['grade_' . $i . '_' . $j]) {
-                        $errors['grade_' . $i . '_' . $j] = "Please enter grade $j.";
-                    }
-                }
-            }
+            // if ($filled) {
+//                 foreach ( $academicFields as $name => $title ) {
+//                     if (!$params[$name . $i]) {
+//                         $errors[$name . $i] = "Please enter the $title.";
+//                     }
+//                 }
+//                 for ( $j = 1; $j <= 4; $j++ ) {
+//                     if (!$params['grade_' . $i . '_' . $j]) {
+//                         $errors['grade_' . $i . '_' . $j] = "Please enter grade $j.";
+//                     }
+//                 }
+//             }
         }
 
         return empty($errors) ? true : $errors;
