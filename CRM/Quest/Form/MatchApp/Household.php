@@ -141,9 +141,9 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
 
             for ( $j = 1; $j <= 2; $j++ ) {
                 if($j ==1) {
-$extra = array( 'onchange' => "return showHideByValue('relationship_id_1_1', '30|31|32|33|34', 'foster_child', '', 'select', false);" );
+                    $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_1', '30|31|32|33|34', 'foster_child_show', 'table-row', 'select', false);" );
                 } else {
-                $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_2', '30|31|32|33|34', 'foster_child', '', 'select', false);" );
+                $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_2', '30|31|32|33|34', 'foster_child_show', 'table-row', 'select', false);" );
                 }
                
                 $this->addSelect( "relationship",

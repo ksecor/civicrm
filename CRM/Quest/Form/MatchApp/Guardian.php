@@ -116,29 +116,38 @@ public function buildQuickForm( )
 {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Person');
         
-        $personDAO = & new CRM_Quest_DAO_Person();
-        $personDAO->id = $this->_personID ;
-        $personDAO->find(true);
-
         require_once 'CRM/Quest/DAO/Household.php';
-        $householdDAO = & new CRM_Quest_DAO_Household();
-        $householdDAO->household_type= 'Current';
-        $householdDAO->contact_id = $this->_contactID;
-        $householdDAO->find(true);
-        if (($personDAO->relationship_id == 29 || $personDAO->relationship_id ==28 ) &&
-            ( ( $householdDAO->person_1_id != $this->_personID  && $householdDAO->person_2_id != $this->_personID ) || (!$this->_personID) )) {
+        $householdCurrent = & new CRM_Quest_DAO_Household();
+        $householdCurrent->household_type= 'Current';
+        $householdCurrent->contact_id = $this->_contactID;
+        $householdCurrent->find(true);
+        $householdPrevious = & new CRM_Quest_DAO_Household();
+        $householdPrevious->household_type= 'Previous';
+        $householdPrevious->contact_id = $this->_contactID;
+        $householdPrevious->find(true);
+        
+        /*
+        CRM_Core_Error::debug('thisPerson',$this->_personID);
+        CRM_Core_Error::debug('hHold Cur1',$householdCurrent->person_1_id);
+        CRM_Core_Error::debug('hHold Cur2',$householdCurrent->person_2_id);
+        CRM_Core_Error::debug('hHold Pre1',$householdPrevious->person_1_id);
+        CRM_Core_Error::debug('hHold Pre2',$householdPrevious->person_2_id);
+        CRM_Core_Error::debug('Rel_id',$this->_relationshipID);
+        */
+        // Only show this field if this person is mother or father AND is not referenced in Household section.
+        if ( ($this->_relationshipID == 29 || $this->_relationshipID == 28 ) &&
+            ( ( $householdCurrent->person_1_id != $this->_personID  && $householdCurrent->person_2_id != $this->_personID && $householdPrevious->person_1_id != $this->_personID && $householdPrevious->person_2_id != $this->_personID)
+              || (!$this->_personID) ) ) {
             $this->addYesNo( 'is_contact_with_student', ts( 'Do you have contact with this parent?' ), null,false);
         }
 
         $this->addElement( 'text', "first_name",
                            ts('First name'),
                            $attributes['first_name'] );
-        //$this->addRule('first_name',ts('Please enter First Name'),'required');
 
         $this->addElement( 'text', "last_name",
                            ts('Last name'),
                            $attributes['last_name'] );
-        //$this->addRule('last_name',ts('Please enter Last Name'),'required');
 
         $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '43|44|336', 'separated-year', '', 'select', false);" );
         $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
@@ -161,12 +170,11 @@ public function buildQuickForm( )
         
         // citizenship status
         $this->addYesNo( 'citizenship_status', ts( 'Is this guardian a U.S. Citizen?' ), null,false);
-        $this->addRule('citizenship_status', ts('Please select guardian citizenship.'), 'required');
         // place of birth
         $this->addElement( 'text', "birth_place", ts('Place of birth'), null );
         
         // country of birth
-        $this->addCountry('citizenship_country_id', ts( 'Country of birth' ), true );
+        $this->addCountry('citizenship_country_id', ts( 'Country of birth' ), false );
         
         $extra2 = array ('onclick' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', '', 'radio', true);");
         $choice = array( );
@@ -239,7 +247,7 @@ public function buildQuickForm( )
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::retrieve($params,$values,$ids);
-        $this->assign("studentLoaction",$values['location'][1]);
+        $this->assign("studentLocation",$values['location'][1]);
         
 }
     //end of function
@@ -259,10 +267,13 @@ public function formRule(&$params)
 
         if ( $params['is_contact_with_student'] || (!array_key_exists('is_contact_with_student', $params)) ) {
             
-            $fields = array('first_name'             => 'first name', 
-                            'last_name'              => 'last name',
-                            'industry_id'            => 'industry',
-                            'highest_school_level_id'=> 'highest level of schooling');
+            $fields = array('first_name'             => 'First Name', 
+                            'last_name'              => 'Last Name',
+                            'industry_id'            => 'Industry',
+                            'highest_school_level_id'=> 'Highest Level of Schooling',
+                            'citizenship_status'     => 'Citizenship Status',
+                            'citizenship_country_id' => 'Country of Birth',
+                            );
             foreach ($fields as $field => $title) {
                 if (!$params[$field]) {
                     $errors[$field] = "Please enter the $title";
@@ -273,7 +284,7 @@ public function formRule(&$params)
                 $errors["birth_date"] = "Please enter the Birthdate for this person.";
             }
             if (!array_key_exists('is_deceased', $params)) {
-                $errors["is_deceased"] = "Please enter the deceased information";
+                $errors["is_deceased"] = "Please answer whether this person is deceased.";
             }
             if ( $params['is_deceased'] && empty($params['deceased_year_date']['Y'])) {
                 $errors["deceased_year_date"] = "Please enter the Year Deceased date.";

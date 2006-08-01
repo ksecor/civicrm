@@ -25,7 +25,7 @@
         {edit}{$form.last_name.label}{/edit} <span class="marker">*</span></td>
 </tr> 
 <tr>
-    <td class="grouplabel">{$form.marital_status_id.label}</td>
+    <td class="grouplabel">{$form.marital_status_id.label} <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.marital_status_id.html}</td>
 </tr>
 <tr id="separated-year">
@@ -52,7 +52,7 @@
     </td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.citizenship_status.label}</td>
+    <td class="grouplabel">{$form.citizenship_status.label} <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.citizenship_status.html}</td>
 </tr>
 <tr>
@@ -77,12 +77,11 @@
 
 
 <tr>
-     
     <td class="grouplabel" rowspan="7">
         <label>{ts}Permanent Address{/ts} <span class="marker">*</span></td>
     <td class=fieldlabel">
        {edit}
-        <input type="checkbox" name="copy_address" value="1" onClick="copyAddress()"/> {ts}Same as my Permanent address{/ts}
+        <input type="checkbox" name="copy_address" value="1" onclick="copyAddress()"/> {ts}Same as my Permanent address{/ts}
        {/edit}
      </td>
 </tr>
@@ -127,7 +126,7 @@
         <label>{ts}Permanent Telephone{/ts} <span class="marker">*</span></td>
     <td class=fieldlabel">
         {edit}
-           <input type="checkbox" name="copy_phone" value="1" onClick="copyPhone()"/> {ts}Same as my Permanent telephone{/ts}<br/>
+           <input type="checkbox" id="copy_phone" name="copy_phone" value="1" onclick="copyPhone()"/> {ts}Same as my Permanent telephone{/ts}<br/>
 	   {/edit}</td>
 </tr>
 <tr>
@@ -136,7 +135,6 @@
         {ts}{edit}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/edit}{/ts}
     </td>
 </tr>
-
 
 <tr>
     <td class="grouplabel">{$form.industry_id.label} <span class="marker">*</span></td>
@@ -267,38 +265,36 @@
 	    field[5] = "state_province_id";
 	    field[6] = "country_id";
 
-        for (i = 0; i < field.length; i++) {
- 		  original [i] = document.getElementById("location_1_address_"+field[i]).value ;
-	    }
-        var origanlPhone = document.getElementById("location_1_phone_1_phone").value;      
         var fieldValue = new Array(7);
 
-        fieldValue[0] = "{/literal}{$studentLoaction.address.street_address}{literal}";
-        fieldValue[1] = "{/literal}{$studentLoaction.address.supplemental_address_1}{literal}";
-        fieldValue[2] = "{/literal}{$studentLoaction.address.city}{literal}";
-        fieldValue[3] = "{/literal}{$studentLoaction.address.postal_code}{literal}";
-        fieldValue[4] = "{/literal}{$studentLoaction.address.postal_code_suffix}{literal}";                
-        fieldValue[5] = "{/literal}{$studentLoaction.address.state_province_id}{literal}";
-        fieldValue[6] = "{/literal}{$studentLoaction.address.country_id}{literal}";
-        var phone     = "{/literal}{$studentLoaction.phone.1.phone}{literal}";        
+        fieldValue[0] = "{/literal}{$studentLocation.address.street_address}{literal}";
+        fieldValue[1] = "{/literal}{$studentLocation.address.supplemental_address_1}{literal}";
+        fieldValue[2] = "{/literal}{$studentLocation.address.city}{literal}";
+        fieldValue[3] = "{/literal}{$studentLocation.address.postal_code}{literal}";
+        fieldValue[4] = "{/literal}{$studentLocation.address.postal_code_suffix}{literal}";                
+        fieldValue[5] = "{/literal}{$studentLocation.address.state_province_id}{literal}";
+        fieldValue[6] = "{/literal}{$studentLocation.address.country_id}{literal}";
+        var phone     = "{/literal}{$studentLocation.phone.1.phone}{literal}";        
  
     	function copyAddress() {
           if (document.getElementsByName("copy_address")[0].checked) {
       	  	    for (i = 0; i < field.length; i++) {
- 		   	    document.getElementById("location_1_address_"+field[i]).value = fieldValue[i];
+                    document.getElementById("location_1_address_"+field[i]).value = fieldValue[i];
                 }
-	      } else {
+                document.getElementById("copy_phone").focus();
+            } else {
 	  	        for (i = 0; i < field.length; i++) {
- 		           document.getElementById("location_1_address_"+field[i]).value = original [i];
+ 		           document.getElementById("location_1_address_"+field[i]).value = "";
 	   	         }
-	      }
+	       }
 	    }
       
         function copyPhone() {
             if (document.getElementsByName("copy_phone")[0].checked) {
  	   	       document.getElementById("location_1_phone_1_phone").value = phone;
+               document.getElementById("industry_id").focus();
 			} else {
- 	   	       document.getElementById("location_1_phone_1_phone").value = origanlPhone;
+ 	   	       document.getElementById("location_1_phone_1_phone").value = "";
 	        }		
 	    }    
 
