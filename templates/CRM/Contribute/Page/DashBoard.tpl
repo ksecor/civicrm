@@ -1,4 +1,4 @@
-{* CiviContribute Dashboard (launch page) *}
+{* CiviContribute DashBoard (launch page) *}
 <div id="help" class="solid-border-bottom">
     {capture assign=findContactURL}{crmURL p="civicrm/contact/search/basic" q="reset=1"}{/capture}
     {capture assign=importURL}{crmURL p="civicrm/contribute/import" q="reset=1"}{/capture}
@@ -40,6 +40,6 @@
 {if $pager->_totalItems}
     <h3>{ts}Recent Contributions{/ts}</h3>
     <div class="form-item">
-        {include file="CRM/Contribute/Form/Selector.tpl" context="Dashboard"}
+        {include file="CRM/Contribute/Form/Selector.tpl" context="DashBoard"}
     </div>
 {/if}

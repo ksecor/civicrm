@@ -1,4 +1,4 @@
-{* CiviMember Dashboard (launch page) *}
+{* CiviMember DashBoard (launch page) *}
 <div id="help" class="solid-border-bottom">
     {capture assign=findContactURL}{crmURL p="civicrm/contact/search/basic" q="reset=1"}{/capture}
     {capture assign=importURL}{crmURL p="civicrm/member/import" q="reset=1"}{/capture}
@@ -42,6 +42,6 @@
 {* if $pager->_totalItems *}
     <h3>{ts}Recent Memberships{/ts}</h3>
     <div class="form-item">
-        { include file="CRM/Member/Form/Selector.tpl" context="Dashboard" }
+        { include file="CRM/Member/Form/Selector.tpl" context="DashBoard" }
     </div>
 {* /if *}

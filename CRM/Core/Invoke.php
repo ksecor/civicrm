@@ -328,8 +328,8 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function dashboard( $args ) {
-        require_once 'CRM/Contact/Page/View/Dashboard.php';
-        $view =& new CRM_Contact_Page_View_Dashboard( );
+        require_once 'CRM/Contact/Page/View/DashBoard.php';
+        $view =& new CRM_Contact_Page_View_DashBoard( );
         return $view->run();
     }
 

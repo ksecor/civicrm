@@ -56,7 +56,7 @@
     <td colspan="7"><a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&force=1&cid=$contactId"}">&raquo; {ts}View all contributions from this contact{/ts}... </a></td>
   </tr>
 {/if}
-{if ($context EQ 'Dashboard') AND $pager->_totalItems GT $limit}
+{if ($context EQ 'DashBoard') AND $pager->_totalItems GT $limit}
   <tr class="even-row">
     <td colspan="9"><a href="{crmURL p='civicrm/contribute/search' q='reset=1&force=1'}">&raquo; {ts}List more contributions{/ts}... </a></td>
   </tr>

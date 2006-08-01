@@ -41,7 +41,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
  *
  */
 
-class CRM_Contact_Page_View_Dashboard extends CRM_Contact_Page_View {
+class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View {
 
     protected $_rows = array();
     protected $_totalCountOpenActivity = array();
