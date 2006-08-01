@@ -76,9 +76,30 @@ class CRM_Quest_Form_MatchApp_Essay_PersonalStat extends CRM_Quest_Form_MatchApp
         //file upload
         $this->addElement('file', 'upload_photo', ts( 'Upload photograph:' ), $attributes['upload_photo'] );
         
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Essay_PersonalStat', 'formRule'));
+
         parent::buildQuickForm();
-        
     }//end of function
+
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     */
+    public function formRule(&$params, &$files ) {
+        $errors = array( );
+
+        if ( $params['personalStat_quests'] == 0 ) {
+            // ensure that there is a file upload
+            if ( ! file_exists( $files['upload_photo']['tmp_name'] ) ) {
+                $errors['upload_photo'] = ts( 'Please upload a photo' );
+            }
+        }
+        return empty($errors) ? true : $errors;
+    }
     
     /**
      * Return a descriptive name for the page, used in wizard header

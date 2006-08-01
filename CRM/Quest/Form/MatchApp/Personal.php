@@ -242,6 +242,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
                          CRM_Core_OptionGroup::values('home_area') );
 
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_Personal', 'formRule'));
+
         parent::buildQuickForm( );
 
     }
@@ -253,7 +254,6 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
      *
      * @return mixed true or array of errors
      * @access public
-     * @static
      */
     public function formRule(&$params) {
         $errors = array( );
