@@ -275,11 +275,6 @@ WHERE  o.contact_id IN ( $orgString )
       public function formRule(&$params) {
           $errors = array( );
           
-          if ( (!$params['date_of_entry_1']['M']) && (!$params['date_of_entry_1']['Y']) 
-               && (!$params['date_of_exit_1']['M']) && (!$params['date_of_exit_1']['Y'])) {
-              $errors["date_of_exit_1"] = "Please enter the date";
-          }
-
           if ( $params['organization_name_2'] &&
                (!$params['date_of_entry_2']['M']) && (!$params['date_of_entry_2']['Y'])  
                && (!$params['date_of_exit_2']['M']) && (!$params['date_of_exit_2']['Y']) ) {
