@@ -413,6 +413,11 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 foreach ( $sections as $name ) {
                     $qName = $testName . '_' . strtolower( $name ) . "_$i";
                     if ($params[$qName]) {
+                        if ( $testName == 'act' && ( $params[$qName] < 1 || $params[$qName] > 36 ) ) {
+                            $errors[$qName] = "ACT scores should be between 1 and 36";
+                        } else if ( $testName == 'sat' && ( $params[$qName] < 200 || $params[$qName] > 800 ) ) {
+                            $errors[$qName] = "SAT scores should be between 200 and 800";
+                        }
                         foreach ( $sections as $checkName ) {
                             $sName = $testName.'_'.strtolower( $checkName ) . "_$i";
                             if ( (!$params[$sName]) && 
