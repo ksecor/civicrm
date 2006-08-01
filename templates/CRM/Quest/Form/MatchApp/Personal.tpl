@@ -305,7 +305,7 @@
              document.Personal.copy_phone.focus();
 	    } else {
 	  	 for (i = 0; i < field.length; i++) {
- 		    document.getElementById("location_2_address_"+field[i]).value = null;
+ 		    document.getElementById("location_2_address_"+field[i]).value = '';
 	   	 }
 	    }
 	}
@@ -315,7 +315,7 @@
             document.getElementById("location_2_phone_1_phone").value = document.getElementById("location_1_phone_1_phone").value;
             document.getElementById("location_2_phone_2_phone").focus();
 	    } else {
- 	   	document.getElementById("location_2_phone_1_phone").value = null;
+ 	   	document.getElementById("location_2_phone_1_phone").value = '';
 	    }		
 	}
 	
