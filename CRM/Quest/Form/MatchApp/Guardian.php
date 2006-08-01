@@ -141,13 +141,15 @@ public function buildQuickForm( )
             $this->addYesNo( 'is_contact_with_student', ts( 'Do you have contact with this parent?' ), null,false);
         }
 
-        $this->addElement( 'text', "first_name",
-                           ts('First name'),
-                           $attributes['first_name'] );
+        $this->add( 'text', "first_name",
+                    ts('First name'),
+                    $attributes['first_name'],
+                    true);
 
-        $this->addElement( 'text', "last_name",
-                           ts('Last name'),
-                           $attributes['last_name'] );
+        $this->add( 'text', "last_name",
+                    ts('Last name'),
+                    $attributes['last_name'],
+                    true);
 
         $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '43|44|336', 'separated-year', '', 'select', false);" );
         $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
@@ -267,9 +269,7 @@ public function formRule(&$params)
 
         if ( $params['is_contact_with_student'] || (!array_key_exists('is_contact_with_student', $params)) ) {
             
-            $fields = array('first_name'             => 'First Name', 
-                            'last_name'              => 'Last Name',
-                            'industry_id'            => 'Industry',
+            $fields = array('industry_id'            => 'Industry',
                             'highest_school_level_id'=> 'Highest Level of Schooling',
                             'citizenship_status'     => 'Citizenship Status',
                             'citizenship_country_id' => 'Country of Birth',

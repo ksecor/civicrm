@@ -9,7 +9,9 @@
 {if $form.is_contact_with_student }
 <tr>
     <td class="grouplabel">{$form.is_contact_with_student.label}</td>
-    <td class="fieldlabel">{$form.is_contact_with_student.html}</td>
+    <td class="fieldlabel">{$form.is_contact_with_student.html}<br />
+        <span class="font-red">If you do not have contact with this parent, you only need to to complete First and Last Name (or enter "Unknown" in both fields).
+    </td>
 </tr>
 {/if}
 <tr>
@@ -17,12 +19,12 @@
         <label>{ts}Name{/ts}</label> <span class="marker">*</span></td>
     <td class="fieldlabel" width="70%">
         {$form.first_name.html} <br />
-        {edit}{$form.first_name.label}{/edit} <span class="marker">*</span></td>
+        {edit}{$form.first_name.label}{/edit}</td>
 </tr>
 <tr>
     <td class="fieldlabel">
         {$form.last_name.html}<br />
-        {edit}{$form.last_name.label}{/edit} <span class="marker">*</span></td>
+        {edit}{$form.last_name.label}{/edit}</td>
 </tr> 
 <tr>
     <td class="grouplabel">{$form.marital_status_id.label} <span class="marker">*</span></td>
@@ -61,7 +63,7 @@
     <label>{ts}City or State{/ts}</label></td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.citizenship_country_id.label}</td>
+    <td class="grouplabel">{$form.citizenship_country_id.label}  <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.citizenship_country_id.html}</td>
 </tr>
 <tr>
