@@ -131,12 +131,25 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
      * @static
      */
     public function formRule(&$params) {
+        $ranks = array();
         foreach ( $params as $key => $value ) {
-          
             $tempArray = $params;
             unset($tempArray[$key]);
             if ( $value && in_array( $value , $tempArray) ) {
                 $errors[$key] = "No two colleges can have the same ranking";
+            } else if ( $value && substr($key,0,15) =="college_ranking")  {
+                $ranks[$key] = $value;   
+            }
+        }
+        // check  if values are in sequence 
+        if ( empty( $errors ) ) {
+            asort($ranks);
+            $fields = array_keys ($ranks);
+            sort($ranks);
+            foreach ( $ranks as $key=>$value) {
+                if ( $ranks[$key+1] && ( $ranks[$key+1] != $value+1)) {
+                    $errors[$fields[$key+1]] = "Please assign rankings sequentially (e.g. 1, 2, 3...).";
+                }
             }
         }
         return empty($errors) ? true : $errors;
