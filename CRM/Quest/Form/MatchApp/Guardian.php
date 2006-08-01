@@ -312,7 +312,6 @@ public function formRule(&$params)
      */ 
 public function postProcess()  
 {
-   
     if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params  = $this->controller->exportValues( $this->_name );
             
@@ -325,7 +324,11 @@ public function postProcess()
             $params['contact_id']         = $this->_contactID;
             $params['is_parent_guardian'] = true;
             $params['is_income_source'  ] = true;
-            
+ 
+            if ( array_key_exists( 'is_contact_with_student', $params ) &&
+                 $params['is_contact_with_student'] == 0) {
+                $this->set( 'includeNonCustodial', 1);
+            }
           
             $ids['id'] = $this->_personID;
             $deceasedYear = $params['deceased_year_date']['Y'];
