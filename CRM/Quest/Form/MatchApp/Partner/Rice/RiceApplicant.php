@@ -130,6 +130,7 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
 
         $this->addRadio( 'rice_academic_id', 'Select the academic school you are applying to', 
                          CRM_Core_OptionGroup::values( "rice_academic" ) ,$extra);
+        $this->addRule( 'rice_academic_id', 'Please select the academic school you are applying to', 'required');
 
         foreach ( $this->_schools as $name => $title ) {
             $extra1 = array('onclick' => "return show_element(\"$name\");");
