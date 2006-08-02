@@ -140,7 +140,7 @@ class CRM_Quest_BAO_Recommendation {
         $params= array( 'first_name'       => $firstName,
                         'last_name'        => $lastName,
                         'email'            => $email,
-                        'hash'             => md5( uniqid( rand( ), true ) ),
+                        'hash'             => $hash,
                         'contact_sub_type' => 'Recommender',
                         'location_type'    => $locationType->name );
         $contact =& crm_create_contact( $params, 'Individual' );
