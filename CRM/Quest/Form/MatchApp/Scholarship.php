@@ -157,7 +157,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         $this->addElement('text','internet_access_other',ts('Please specify'),null);
 
         // computer at home
-        $extra2 = array('onchange' => "return showHideByValue('is_home_computer', '1', 'is_home_internet','table-row', 'radio', false);");
+        $extra2 = array('onclick' => "return showHideByValue('is_home_computer', '1', 'is_home_internet','table-row', 'radio', false);");
         $this->addYesNo( 'is_home_computer',
                          ts( 'Do you have a computer at home?' ),null,true ,$extra2);
 
@@ -245,14 +245,14 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                          ts( 'Have either of your parents/guardians graduated from a four-year college?' ),1,true );
         
         // wheather dismissed
-        $extra4 = array('onchange' => "return showHideByValue('is_dismissed', '1', 'explain_dismissed','table-row', 'radio', false);");
+        $extra4 = array('onclick' => "return showHideByValue('is_dismissed', '1', 'explain_dismissed','table-row', 'radio', false);");
         $this->addYesNo( 'is_dismissed',
                          ts( 'Have you ever violated an Honor code, or been dismissed, suspended from school, put on probation or subjected to any school-related or legal disciplinary action?' ),null,false, $extra4 );
         $this->addRule('is_dismissed',ts('Please select '),'required');
         $this->addElement('textarea', 'explain_dismissed', ts( 'Please explain' ), $attributes['explain_dismissed'] );
 
         // wheather convicted
-        $extra5 = array('onchange' => "return showHideByValue('is_convicted', '1', 'explain_convicted','table-row', 'radio', false);");
+        $extra5 = array('onclick' => "return showHideByValue('is_convicted', '1', 'explain_convicted','table-row', 'radio', false);");
         $this->addYesNo( 'is_convicted',
                          ts( 'Have you ever been been convicted of a crime, had a criminal charge sustained against you in a juvenile proceeding, or been placed on court-supervised probation?' ),null,false, $extra5);
         $this->addRule('is_convicted',ts('Please select '),'required');
