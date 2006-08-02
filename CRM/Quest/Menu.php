@@ -117,7 +117,7 @@ class CRM_Quest_Menu {
                        array( 
                              'path'    => 'civicrm/quest/verify',
                              'query'   => 'reset=1',
-                             'title'   => ts( '2006 College Match User Verification Form' ), 
+                             'title'   => ts( 'QuestBridge Recommender Verification' ), 
                              'access'  => 1,
                              'type'    => CRM_Core_Menu::CALLBACK,  
                              'crmType' => CRM_Core_Menu::CALLBACK,

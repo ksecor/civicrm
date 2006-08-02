@@ -66,7 +66,7 @@ class CRM_Quest_Form_Verify extends CRM_Quest_Form_App
         $this->addElement('password', 'password_2'   , ts('Re-enter Password' ) );
         $this->addRule( array( 'password_1', 'password_2' ), ts( 'The passwords do not match' ), 'compare', null );
 
-        $verifyBtn = ts('Verify Registration');
+        $verifyBtn = ts('Verify Registration and Sign-in');
         $this->addElement( 'submit', $this->getButtonName('refresh'), $verifyBtn, array( 'class' => 'form-submit' ) );
         $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );
     }
@@ -94,7 +94,7 @@ class CRM_Quest_Form_Verify extends CRM_Quest_Form_App
 
         // if we are here, something messed up, so redirect
         $session =& CRM_Core_Session::singleton( );
-        $session->setStatus( ts( 'We could not verify your information, please check your email and try again' ) );
+        $session->setStatus( ts( 'We could not verify your information. Please check that you have entered the email address where you received this Recommendation Request and try again.' ) );
         CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/verify' ) );
     }
     

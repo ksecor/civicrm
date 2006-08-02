@@ -123,7 +123,7 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
 
         $validPartners =& $this->getValidPartners( );
 
-        $this->_pages = array( );
+        $this->_pages = array( 'CRM_Quest_Form_MatchApp_Partner_PartnerIntro' => null);
         foreach ( $partners as $name => $values ) {
             if ( $validPartners[$values['title']] ) {
                 foreach ( $values['steps'] as $key => $title ) {
