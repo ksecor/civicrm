@@ -278,7 +278,12 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         if ( $params['internet_access_id'] == 23 && $params['internet_access_other'] == '') {
             $errors["internet_access_other"] = "Please describe your other method for accessing the internet.";
         }
-        
+        if ($params['is_dismissed'] && !$params['explain_dismissed'] ) {
+            $errors["explain_dismissed"] = "Please Enter the Explaination";
+        }
+        if ($params['is_convicted'] && !$params['explain_convicted'] ) {
+            $errors["explain_convicted"] = "Please Enter the Explaination";
+        }
         return empty($errors) ? true : $errors;
         
     }

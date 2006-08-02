@@ -143,10 +143,10 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
         $this->addRadio( 'princeton_degree', ts('Which degree would you most likely pursue at Princeton? (Your choice is not binding in any way.)'),CRM_Core_OptionGroup::values('princeton_degree'), null, null, true );
 
         $this->addCheckBox( 'ab_department',ts('A.B. Departments'), CRM_Core_OptionGroup::values( 'ab_department', true ),
-                            false,null,true );
+                            false,null);
         
         $this->addCheckBox( 'bse_department',ts(' B.S.E Departments'), CRM_Core_OptionGroup::values( 'bse_department', true ),
-                            false,null,true );
+                            false,null);
         
         $this->addCheckBox( 'certificate_programs',null, CRM_Core_OptionGroup::values( 'certificate_programs', true ),
                             false,null );
@@ -176,7 +176,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
     {
         
         $errors = array( );
-        
+       
         for ( $i = 1; $i <= 6; $i++ ) {
             
             $filled = false;
@@ -209,6 +209,9 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
                 }
               
             }
+        }
+        if ((count($params['ab_department']) + count($params['bse_department'])) < 3) {
+            $errors["ab_department"] = "Please Check at least 3  from A.B. Departments or B.S.E Departments ";
         }
 
         return empty($errors) ? true : $errors;
