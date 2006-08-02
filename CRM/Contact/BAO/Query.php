@@ -732,7 +732,7 @@ class CRM_Contact_BAO_Query {
         return null;
     }
 
-    static function &fixWhereValues( $id, &$values ) {
+    static function &fixWhereValues( $id, &$values, $wildcard = 0 ) {
         // skip a few search variables
         static $skipWhere   = null;
         static $arrayValues = null;
@@ -756,7 +756,7 @@ class CRM_Contact_BAO_Query {
         } else if ( $id == 'group' || $id == 'tag' ) {
             return array( $id, 'IN', $values, 0, 0 );
         } else {
-            return array( $id, '=', $values, 0, 0 );
+            return array( $id, '=', $values, 0, $wildcard );
         }
     }
 
@@ -1005,6 +1005,7 @@ class CRM_Contact_BAO_Query {
             $value = strtolower( addslashes( $value ) );
             if ( $wildcard ) {
                 $value = "%$value%"; 
+                $op    = 'LIKE';
             }
             $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
             $this->_qill[$grouping][]  = ts( '%1 $op "%2"', array( 1 => $field['title'], 2 => $value ) );
@@ -1021,6 +1022,7 @@ class CRM_Contact_BAO_Query {
                 }
                 if ( $wildcard ) {
                     $value = "%$value%"; 
+                    $op    = 'LIKE';
                 }
 
                 if (is_numeric($locType[1])) {
@@ -1599,7 +1601,12 @@ class CRM_Contact_BAO_Query {
         // if we have a comma in the string, search for the entire string 
         if ( strpos( $name, ',' ) !== false ) {
             $value = strtolower(addslashes($name));
-            $value = ( $wildcard ) ? "'%$value%'" : "'$value'";
+            if ( $wildcard ) {
+                $value = "'%$value%'";
+                $op    = 'LIKE';
+            } else {
+                $value = "'$value'";
+            }
             $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
             if ( $config->includeEmailInSearch ) {
                 $sub[] = " ( LOWER(civicrm_email.email) $op $value )";
@@ -1611,7 +1618,12 @@ class CRM_Contact_BAO_Query {
             $pieces =  explode( ' ', $name ); 
             foreach ( $pieces as $piece ) { 
                 $value = strtolower(addslashes(trim($piece)));
-                $value = ( $wildcard ) ? "'%$value%'" : "'$value'";
+                if ( $wildcard ) {
+                    $value = "'%$value%'";
+                    $op    = 'LIKE';
+                } else {
+                    $value = "'$value'";
+                }
                 $sub[] = " ( LOWER(contact_a.sort_name) $op $value )";
                 if ( $config->includeEmailInSearch ) {
                     $sub[] = " ( LOWER(civicrm_email.email) $op $value )";
@@ -1745,7 +1757,12 @@ class CRM_Contact_BAO_Query {
 
         // do the same for location name
         $name = strtolower(addslashes($value));
-        $name = ( $wildcard ) ? "'%$name%'" : "'$name'";
+        if ( $wildcard ) {
+            $name = "'%$name%'";
+            $op   = 'LIKE';
+        } else {
+            $name = "'$name'";
+        }
         $this->_where[$grouping][] = "civicrm_location.name $op $name";
         $this->_tables['civicrm_location'] = 1;
         $this->_whereTables['civicrm_location'] = 1;
@@ -1763,22 +1780,8 @@ class CRM_Contact_BAO_Query {
 
         $name = trim( $value );
 
-        // split the string into pieces 
-        /*
-        $pieces =  explode( ' ', $name ); 
-        $sub    = array( );
-        foreach ( $pieces as $piece ) {
-            $v = strtolower(addslashes(trim($piece)));
-            $v = $wildcard ? "%$v%" : $v;
-            $sub[] = " LOWER(civicrm_activity_history.activity_type) $op '$v'";
-        } 
-        $this->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) ';
-        */
-        
         $v = strtolower(addslashes(trim($name)));
-
         $this->_where[$grouping][] = " LOWER(civicrm_activity_history.activity_type) $op '$v'";
-
         $this->_tables['civicrm_activity_history'] = $this->_whereTables['civicrm_activity_history'] = 1; 
         $this->_qill[$grouping][]  = ts( "Activity Type %2 '%1'", array( 1 => $name,  2 => $op ) );
     }

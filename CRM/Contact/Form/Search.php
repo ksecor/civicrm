@@ -607,7 +607,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         return;
     }
 
-    function &convertFormValues( &$formValues ) {
+    function &convertFormValues( &$formValues, $wildcard = 0 ) {
         $params = array( );
 
         if ( empty( $formValues ) ) {
@@ -625,7 +625,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                     } 
                 }
             } else {
-                $values =& CRM_Contact_BAO_Query::fixWhereValues( $id, $values );
+                $values =& CRM_Contact_BAO_Query::fixWhereValues( $id, $values, $wildcard );
                 
                 if ( ! $values ) {
                     continue;
