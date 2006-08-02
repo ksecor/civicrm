@@ -125,7 +125,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
             $this->addElement('text', "subject_{$i}", ts('Subject'), null );
             $this->addElement('date', "test_date_{$i}",
                               ts(' Month/Year)'),
-                              CRM_Core_SelectValues::date('custom', 50, 0, "M\001Y" ));
+                              CRM_Core_SelectValues::date('custom', 10, 1, "M\001Y" ));
             $slhl = array();
             $slhl[] =  $this->createElement( 'radio', null, null, ts( 'SL' ), 'sl', null );
             $slhl[] =  $this->createElement( 'radio', null, null, ts( 'HL' ), 'hl', null );
@@ -135,18 +135,18 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
         } 
         $extra =array('onclick' => "return showHideByValue('princeton_activities[11]', '1', 'activities_other', '', 'radio', false);");
         $this->addCheckBox( 'princeton_activities',ts('Please indicate the three activities in which, at this time, you would be most inclined to participate at Princeton.  '), CRM_Core_OptionGroup::values( 'princeton_activities', true ),
-                            true,'<br/>',null,$extra);
+                            true,'<br/>',true,$extra);
         $this->addElement('text', 'activities_other',null);
         
-        $this->addElement('text', 'pin_no',ts("Please choose a four digit pin number."), null, null ); 
+        $this->add('text', 'pin_no',ts("Please choose a four digit pin number."), null, true ); 
 
-        $this->addRadio( 'princeton_degree', ts('Which degree would you most likely pursue at Princeton? (Your choice is not binding in any way.)'),CRM_Core_OptionGroup::values('princeton_degree') );
+        $this->addRadio( 'princeton_degree', ts('Which degree would you most likely pursue at Princeton? (Your choice is not binding in any way.)'),CRM_Core_OptionGroup::values('princeton_degree'), null, null, true );
 
         $this->addCheckBox( 'ab_department',ts('A.B. Departments'), CRM_Core_OptionGroup::values( 'ab_department', true ),
-                            false,null );
+                            false,null,true );
         
         $this->addCheckBox( 'bse_department',ts(' B.S.E Departments'), CRM_Core_OptionGroup::values( 'bse_department', true ),
-                            false,null );
+                            false,null,true );
         
         $this->addCheckBox( 'certificate_programs',null, CRM_Core_OptionGroup::values( 'certificate_programs', true ),
                             false,null );
@@ -196,16 +196,16 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
             if ($filled) {
                 
                 if (!$params["subject_{$i}"]) {
-                    $errors["subject_{$i}"] = "Please enter the subject.";
+                    $errors["subject_{$i}"] = "Please enter the International Baccalaureate test Subject.";
                 }
                 if (!$params["test_date_{$i}"]['M'] || !$params["test_date_{$i}"]['Y']) {
-                    $errors["test_date_{$i}"] = "Please enter the date.";
+                    $errors["test_date_{$i}"] = "Please enter the International Baccalaureate test Date.";
                 }
                 if (!$params["slhl_{$i}"]) {
-                    $errors["slhl_{$i}"] = "Please select the SL or HL.";
+                    $errors["slhl_{$i}"] = "Please select SL or HL for the International Baccalaureate test.";
                 }
                 if (!$params["score_{$i}"]) {
-                    $errors["score_{$i}"] = "Please enter the score.";
+                    $errors["score_{$i}"] = "Please enter the  International Baccalaureate test Score.";
                 }
               
             }

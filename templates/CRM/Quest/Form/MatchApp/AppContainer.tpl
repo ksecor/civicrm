@@ -56,6 +56,8 @@
             </div>
             <div id="application-status">
               <strong>Application Status</strong><br />
+              &nbsp;&nbsp;{$appTaskStatus}<br />
+              <strong>Section Status</strong><br />
               &nbsp;&nbsp;{$taskStatus}
             </div>
 
