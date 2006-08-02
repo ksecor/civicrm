@@ -14,7 +14,7 @@ When you log into our Online Recommendations, you will have access to the QuestB
 
 Completing your recommendation online is easy, reliable, and completely secure. QuestBridge prefers, and requires online submission of recommendations as it streamlines the entire process.
 
-Remember to login at {$recommenderURL} with the User ID and Password provided above.
+Remember to login at {$recommenderURL} with the email address shown above.
 
 Thank you from {$studentName} and Quest Scholars Program.
 

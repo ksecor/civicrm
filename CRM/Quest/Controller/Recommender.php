@@ -116,7 +116,8 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
             // make sure that recommender is a counselor of student
             require_once 'CRM/Contact/DAO/Relationship.php';
             $dao =& new CRM_Contact_DAO_Relationship( );
-            $dao->relationship_type_id = 10;
+            $rid = ( $this->_subType == 'Teacher' ) ? 9 : 10;
+            $dao->relationship_type_id = $rid;
             $dao->contact_id_a = $this->_scID;
             $dao->contact_id_b = $cid;
             $dao->is_active    = true;
