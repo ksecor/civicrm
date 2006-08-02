@@ -122,7 +122,7 @@ SELECT cr.id           as contact_id,
         $dao->target_entity_id         = $targetID;
         $dao->task_id                  = $taskID;
         
-        if ( $dao->find( true ) ) {
+        if ( ! $dao->find( true ) ) {
             $result = array( );
             $result['status'] = ts( 'Not Started' );
             return $result;

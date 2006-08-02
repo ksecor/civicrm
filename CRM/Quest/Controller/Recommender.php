@@ -79,7 +79,7 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
                                 ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) ) {
                         CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Recommendation.') );
                     }
-                    $this->assign('questURL', 'questURL');
+                    $this->assign('questURL', CRM_Utils_System::url( 'civicrm/contact/search' ) );
                 }
             } else {
                 $cid = $uid;
