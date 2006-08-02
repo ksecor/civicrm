@@ -89,7 +89,7 @@ class CRM_Quest_Form_Verify extends CRM_Quest_Form_App
             $params = array( 'email'    => $params['email'],
                              'drupalID' => $drupalID,
                              'password' => $params['password_1'] );
-            $result = quest_drupal_user_verify( $params );
+            $result = quest_drupal_user_update_and_redirect( $params );
         }
 
         // if we are here, something messed up, so redirect
