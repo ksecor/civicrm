@@ -54,11 +54,17 @@
               <strong>Need Help?</strong><br />
               <A HREF="mailto:questions@questbridge.org">Email us</A> with your<br />questions
             </div>
+
             <div id="application-status">
-              <strong>Application Status</strong><br />
-              &nbsp;&nbsp;{$appTaskStatus}<br /><br />
-              <strong>Current Section Status</strong><br />
-              &nbsp;&nbsp;{$taskStatus}
+                {if $appName EQ 'Teacher' || $appName EQ 'Counselor'}
+                  <strong>Recommendation Status</strong><br />
+                  &nbsp;&nbsp;{$taskStatus}
+                {else}
+                  <strong>Application Status</strong><br />
+                  &nbsp;&nbsp;{$appTaskStatus}<br /><br />
+                  <strong>Current Section Status</strong><br />
+                  &nbsp;&nbsp;{$taskStatus}
+                {/if}
             </div>
 
             <div class="help-box">
