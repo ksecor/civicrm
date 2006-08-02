@@ -150,8 +150,8 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
                 }
                 $finalWeightedGPA = $finalUnWeightedGPA = 0;
                 if ( $totalCredits > 0) {
-                    $finalWeightedGPA   = $totalWeightedPoints/$totalCredits;
-                    $finalUnWeightedGPA = $totalUnWeightedPoints/$totalCredits;
+                    $finalWeightedGPA   = round($totalWeightedPoints/$totalCredits,2);
+                    $finalUnWeightedGPA = round($totalUnWeightedPoints/$totalCredits,2);
                     
                     //store this in quest_student_summary
                     $ids = array();
@@ -206,7 +206,6 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
                 if ( $params['academic_subject_id_'.$i] ) {
                     $calGPA = 0;
                     $calGPAUnWeighed = 0;
-                    $credits[$i] = $params['academic_credit_'.$i]; 
                     for ($j = 1; $j<=4; $j++ ) {
                         if ($params['academic_honor_status_id_'.$i]) {
                             $vlaue = $gpaWithHonor[$params['grade_'.$i."_".$j]];
@@ -214,6 +213,9 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
                         } else {
                             $vlaue = $gpaWithoutHonor[$params['grade_'.$i."_".$j]];
                             $calGPA = $calGPA + ( $vlaue * $params['academic_credit_'.$i]);
+                        }
+                        if ( $params['grade_'.$i."_".$j] ) {
+                            $credits[] = $params['academic_credit_'.$i];
                         }
                         $vlaue = $gpaWithoutHonor[$params['grade_'.$i."_".$j]];
                         $calGPAUnWeighed = $calGPAUnWeighed + ( $vlaue * $params['academic_credit_'.$i]);
