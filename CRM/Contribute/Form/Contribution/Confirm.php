@@ -591,6 +591,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $contribParams = array(
                         'contact_id'            => $contactID,
                         'contribution_type_id'  => $contributionType->id,
+                        'contribution_page_id'  => $this->_id,
                         'payment_instrument_id' => 1,
                         'receive_date'          => $now,
                         'non_deductible_amount' => $nonDeductibleAmount,

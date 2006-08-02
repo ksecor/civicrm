@@ -89,6 +89,12 @@
       <comment>if other amounts allowed, user can configure maximum allowed.</comment> 
       <add>1.3</add> 
   </field>
+  <field>    
+      <name>goal_amount</name> 
+      <type>decimal</type> 
+      <comment>The target goal for this page, allows people to build a goal meter</comment> 
+      <add>1.5</add> 
+  </field>
   <field>
        <name>thankyou_title</name>
        <title>Thank-you Title</title>

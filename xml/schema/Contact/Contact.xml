@@ -133,8 +133,11 @@
   </field>
   <field>
        <name>source</name>
+       <title>Source of Contact Data</title>
+       <uniqueName>contact_source</uniqueName>
        <type>varchar</type>
        <length>255</length>
+       <import>true</import>
        <comment>where domain_id contact come from, e.g. import, donate module insert...</comment>
        <add>1.1</add>
   </field>
