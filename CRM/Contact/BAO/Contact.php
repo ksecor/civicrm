@@ -1783,6 +1783,13 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * @access public
      */
     static function createProfileContact( &$params, &$fields, $contactID = null, $addToGroupID = null, $ufGroupId = null ) {
+        require_once 'CRM/Utils/Hook.php';
+        if ( $contactID ) {
+            CRM_Utils_Hook::pre( 'edit'  , 'Profile', $contactID, $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', 'Profile', null, $params ); 
+        }
+
         $data = array( );
         if ($ufGroupId) {
             $data['contact_type'] = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
@@ -2026,7 +2033,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         
         require_once 'CRM/Contact/BAO/Contact.php';
                 
-        $contact = CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
+        $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
         
         // Process group and tag  
         if ( CRM_Utils_Array::value('group', $fields )) {
@@ -2062,6 +2069,13 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             }
             CRM_Quest_BAO_Student::create( $params, $ids);
         }
+
+        if ( $contactID ) {
+            CRM_Utils_Hook::post( 'edit'  , 'Profile', $contactID  , $params );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Profile', $contact->id, $params ); 
+        }
+
     }
 
     /**

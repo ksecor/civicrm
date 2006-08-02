@@ -1,0 +1,57 @@
+<?php
+
+function civitest_help( $section ) {
+	switch ($section) { 
+	case 'admin/help#civitest':
+        return t( 'CiviTest module v0.01' );
+
+    case 'admin/modules#description':
+        return t( 'CiviTest module v0.01' );
+
+    }
+}
+
+function civitest_civicrm_post( $op, $objectName, $objectId, &$objectRef ) {
+    // only interested in the profile object and create operation for now
+    if ( $objectName != 'Profile' || $op != 'create' ) {
+        return;
+    }
+
+    // send an email to the user and cc administrator
+    // with a welcome message
+    civicrm_initialize( true );
+
+    require_once 'CRM/Utils/Mail.php';
+
+    $fromName  = 'My Org Administrator';
+    $fromEmail = 'from@myorg.org';
+    $from      = CRM_Utils_Mail::encodeAddressHeader( $fromName, $fromEmail );
+    
+    $toEmail   = $objectRef['email-1'];
+    $toName    = "{$objectRef['first_name']} {$objectRef['last_name']}";
+
+    $params    = print_r( $objectRef, true );
+    $subject   = "Thank you for supporting My Org";
+    $message   = "
+Dear $to:
+
+Thank you for your show of support. The details u signed up with are:
+
+$params
+
+Regards
+
+My Org Team
+";
+    $cc       = 'cc@myorg.org';
+
+    CRM_Utils_Mail::send( $from,
+                          $toName,
+                          $toEmail,
+                          $subject,
+                          $message,
+                          $cc );
+    
+}
+
+?>
