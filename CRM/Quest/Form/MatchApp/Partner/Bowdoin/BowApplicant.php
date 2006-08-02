@@ -94,7 +94,7 @@ class CRM_Quest_Form_MatchApp_Partner_Bowdoin_BowApplicant extends CRM_Quest_For
     public function buildQuickForm( ) 
     {
         
-        $this->add( 'text', 'learn',ts( 'How did you first learn about Bowdoin?' ) ,CRM_Core_DAO::getAttribute( 'CRM_Quest_Partner_DAO_Bowdoin', 'learn' ));
+        $this->add( 'text', 'learn',ts( 'How did you first learn about Bowdoin?' ) ,CRM_Core_DAO::getAttribute( 'CRM_Quest_Partner_DAO_Bowdoin', 'learn' ), true);
         
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
 
