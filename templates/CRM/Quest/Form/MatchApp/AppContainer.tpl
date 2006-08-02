@@ -52,12 +52,12 @@
             <br />
             <div class="help-box">
               <strong>Need Help?</strong><br />
-              Email us with your questions
+              <A HREF="mailto:questions@questbridge.org">Email us</A> with your<br />questions
             </div>
             <div id="application-status">
               <strong>Application Status</strong><br />
-              &nbsp;&nbsp;{$appTaskStatus}<br />
-              <strong>Section Status</strong><br />
+              &nbsp;&nbsp;{$appTaskStatus}<br /><br />
+              <strong>Current Section Status</strong><br />
               &nbsp;&nbsp;{$taskStatus}
             </div>
 
