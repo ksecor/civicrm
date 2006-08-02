@@ -239,6 +239,8 @@ BEGIN {
         $civicrm_soap_proxy
         $civicrm_soap_login
         $civicrm_soap_pass
+        @civicrm_sql_dsn
+        $sql_select_civicrm_soap
     )],
 	'platform' => [qw(
 	    $can_truncate
@@ -5031,7 +5033,7 @@ use vars qw($av_output @virusname @detecting_scanners
 	    @banned_filename @bad_headers);
 
 use vars qw($amcl_in_obj $smtp_in_obj); # Amavis::In::AMCL and In::SMTP objects
-use vars qw($sql_policy $sql_wblist);   # Amavis::Lookup::SQL objects
+use vars qw($sql_policy $sql_wblist $sql_civicrm);   # Amavis::Lookup::SQL objects
 
 ### Net::Server hook
 ### This hook occurs after chroot, change of user, and change of group has
@@ -6475,7 +6477,7 @@ sub fetch_modules_extra() {
     my($sa_version);
     if ($extra_code_sql) {
 	push(@modules, 'DBI');
-	for (@lookup_sql_dsn) {
+	for (@lookup_sql_dsn, @civicrm_sql_dsn) {
 	    my(@dsn) = split(/:/,$_->[0],-1);
 	    push(@modules, 'DBD::'.$dsn[1])  if uc($dsn[0]) eq 'DBI';
 	}
@@ -6594,7 +6596,7 @@ Amavis::Conf::read_config($config_file);
 # Master configuration
 my(@modules_basic) = keys %INC;
 
-if (!@lookup_sql_dsn) { $extra_code_sql = undef }
+if (!@lookup_sql_dsn && !@civicrm_sql_dsn) { $extra_code_sql = undef }
 else {
     eval $extra_code_sql or die "Problem in the Lookup::SQL code: $@";
     $extra_code_sql = 1;   # release memory occupied by the source code
@@ -6992,6 +6994,17 @@ sub store_dbh($$$) {
 	do_log(5,"SQL prepare: ".$sel);
 	$self->{"sth$n"} = $dbh->prepare($sel);
     }
+    $self->clear_cache;  # let's start afresh just in case
+    $self;
+}
+
+# store DBI handle and prepared selects into existing Lookup::SQL obj
+sub store_civicrm_dbh($$$) {
+    my($self, $dbh, $select_clause) = @_;
+    $self->{dbh} = $dbh;  # save DBI handle
+    my($sel) = $select_clause;
+    do_log(5,"SQL prepare: ".$sel);
+    $self->{"sth1"} = $dbh->prepare($sel);
     $self->clear_cache;  # let's start afresh just in case
     $self;
 }
@@ -8444,7 +8457,7 @@ use Mail::Verp;
 use HTTP::Cookies;
 
 use subs @EXPORT_OK;
-use vars qw($soapClient $soapKey);
+use vars qw($soapClient $soapKey $civicrm_sql_connected);
 
 BEGIN {
     import Amavis::Conf qw(:platform :civicrm);
@@ -8454,19 +8467,106 @@ BEGIN {
 sub init() {
     do_log(1, "CiviCRM: initializing");
     
-    $soapClient = SOAP::Lite
-        -> proxy($civicrm_soap_proxy, 
-            cookie_jar => HTTP::Cookies->new(ignore_discard => 1))
-        -> uri('urn:civicrm');
-    
-    authenticate();
+    # If we're not configuring via the database then we set up the soapClient 
+    # once, so we do it while initializing CiviCRM.  If we are configuring via
+    # the database, then we set up the soapClient each time we process a CiviCRM
+    # mail.
+    if (!@civicrm_sql_dsn) {
+      $soapClient = SOAP::Lite
+          -> proxy($civicrm_soap_proxy, 
+              cookie_jar => HTTP::Cookies->new(ignore_discard => 1))
+          -> uri('urn:civicrm');
+
+      authenticate(0);
+    }
     
     do_log(1, "CiviCRM: done");
 }
 
-sub authenticate() {
+# Connect to a database.  Take a list of database connection
+# parameters and try each until one succeeds.
+#  -- based on code from Ben Ransford <amavis@uce.ransford.org> 2002-09-22
+sub connect_to_sql(@) {
+    my(@dsns) = @_;  # a list of DSNs to try connecting to sequentially
+    my($dbh);
+    do_log(3,"Connecting to SQL database server");
+    for my $tmpdsn (@dsns) {
+	my($dsn, $username, $password) = @$tmpdsn;
+	do_log(4, "connect_to_sql: trying '$dsn'");
+	$dbh = DBI->connect($dsn, $username, $password,
+			    {PrintError => 0, RaiseError => 0, Taint => 1} );
+	if ($dbh) { do_log(3,"connect_to_sql: '$dsn' succeeded"); last }
+	do_log(0, "connect_to_sql: unable to connect to DSN '$dsn': " .
+		  $DBI::errstr);
+    }
+    do_log(0, "connect_to_sql: unable to connect to any DSN at all!"
+	  )  if !$dbh && @dsns>1;
+    $civicrm_sql_connected = 1  if $dbh;
+    $dbh;
+}
+
+# The SQL select clause to fetch per-domain_id soap proxy settings.
+$sql_select_civicrm_soap =
+    'SELECT proxy, login, pass FROM civicrm_soap'.
+    ' WHERE domain_id = ?';
+
+sub authenticate($) {
+
+    my($domain_id) = shift(@_);
+    my($proxy, $login, $pass);
+
+    if (@civicrm_sql_dsn) {
+      if (!$civicrm_sql_connected) {
+        do_log(3, "CiviCRM: connecting to database");
+        my($civicrm_sql_dbh) = connect_to_sql(@civicrm_sql_dsn);
+        defined($civicrm_sql_dbh) or die "CiviCRM SQL server(s) not reachable";
+        $civicrm_sql_dbh->{'RaiseError'} = 1;
+        $Amavis::sql_civicrm = Amavis::Lookup::SQL->new;
+        $Amavis::sql_civicrm->store_civicrm_dbh($civicrm_sql_dbh, $sql_select_civicrm_soap)
+          if defined $sql_select_civicrm_soap;
+      }
+      my($sth) = $Amavis::sql_civicrm->{"sth1"};
+      my($a_ref,$found,$match); $match = {};
+      eval {
+        $sth->execute($domain_id);
+        while (defined($a_ref=$sth->fetchrow_arrayref)) {
+          my(@names) = @{$sth->{NAME_lc}};
+          $found = 1; $match = {}; @$match{@names} = @$a_ref;
+          $proxy = $match->{'proxy'};
+          $login = $match->{'login'};
+          $pass = $match->{'pass'};
+          do_log(3, "authenticate sql lookup, found match for domain_id \"$domain_id\"");
+        }
+        $sth->finish();
+      };
+      if ($@ ne '') {
+        my($err) = $@;
+        do_log(0, "authenticate sql lookup: $DBI::err, $DBI::errstr");
+        if ($sth && ($sth->err eq '2006' ||        # MySQL server has gone away
+          $sth->errstr =~ /\bserver has gone away\b/ ||
+          $sth->err eq '2013' ||
+          $sth->errstr =~ /\bLost connection to\b/)) {
+          do_log(0,"NOTICE: Disconnected from SQL server");
+          $civicrm_sql_connected = 0;  $Amavis::sql_civicrm->{dbh}->disconnect;
+        }
+        die $err;
+      }
+      if (!$found) {
+        $match = undef;
+        do_log(3, "authenticate sql lookup, no match for domain_id \"$domain_id\"");
+      }
+      $soapClient = SOAP::Lite
+          -> proxy($proxy, 
+              cookie_jar => HTTP::Cookies->new(ignore_discard => 1))
+          -> uri('urn:civicrm');
+    }
+    else {
+      $login = $civicrm_soap_login;
+      $pass = $civicrm_soap_pass;
+    }
+
     my $result = 
-        $soapClient->authenticate($civicrm_soap_login, $civicrm_soap_pass);
+        $soapClient->authenticate($login, $pass);
     
     if ($result->fault) {
         # Authentication error, fail!
@@ -8493,6 +8593,10 @@ sub process($$) {
     my $result;
     
     my $attempt = 0;
+
+    if (@civicrm_sql_dsn && defined($domainId)) {
+      authenticate($domainId);
+    }
     
     if (defined($hash)) {
         if ($dest eq 'bounce') {
@@ -8506,7 +8610,7 @@ sub process($$) {
                 last unless $result->fault;
                 
                 if ($attempt < 1) {
-                    authenticate();
+                    authenticate($domainId);
                     $attempt++;
                     next;
                 }
@@ -8533,7 +8637,7 @@ sub process($$) {
                 last unless $result->fault;
                 
                 if ($attempt < 1) {
-                    authenticate();
+                    authenticate($domainId);
                     $attempt++;
                     next;
                 } 
@@ -8555,7 +8659,7 @@ sub process($$) {
                 last unless $result->fault;
                 
                 if ($attempt < 1) {
-                    authenticate();
+                    authenticate($domainId);
                     $attempt++;
                     next;
                 }
@@ -8577,7 +8681,7 @@ sub process($$) {
                 last unless $result->fault;
 
                 if ($attempt < 1) {
-                    authenticate();
+                    authenticate($domainId);
                     $attempt++;
                     next;
                 }
@@ -8598,7 +8702,7 @@ sub process($$) {
             
                 last unless $result->fault;
                 if ($attempt< 1) {
-                    authenticate();
+                    authenticate($domainId);
                     $attempt++;
                     next;
                 }
@@ -8627,7 +8731,7 @@ sub process($$) {
 
             last unless $result->fault;
             if ($attempt < 1) {
-                authenticate();
+                authenticate($domainId);
                 $attempt++;
                 next;
             }
