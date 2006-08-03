@@ -275,12 +275,6 @@ WHERE  o.contact_id IN ( $orgString )
       public function formRule(&$params) {
           $errors = array( );
           
-          if ( $params['organization_name_2'] &&
-               (!$params['date_of_entry_2']['M']) && (!$params['date_of_entry_2']['Y'])  
-               && (!$params['date_of_exit_2']['M']) && (!$params['date_of_exit_2']['Y']) ) {
-              $errors["date_of_exit_2"] = "Please enter the date for the additional high school";
-          }
-
           // make sure that the user has not messed with school details etc
           if ( $params['custom_1_1'] ) {
               $name = CRM_Core_DAO::getFieldValue( 'CRM_Quest_DAO_CEEB', $params['custom_1_1'], 'school_name', 'code' );
