@@ -30,12 +30,13 @@
             <td colspan="2"><label>{ts}Paid By{/ts}</label> {$form.contribution_payment_instrument_id.html}</td> 
         </tr>
         <tr>
-            <td class="label">{ts}Status{/ts}</td> 
-            <td>{$form.contribution_status.html}</td>
+            <td class="label">{ts}Contribution Page{/ts}</td> 
+            <td>{$form.contribution_page_id.html}</td> 
             <td colspan="2">{$form.contribution_receipt_date_isnull.html}&nbsp;<label>{ts}Receipt not sent?{/ts}</label></td>
         </tr>
         <tr>
-            <td colspan="2">&nbsp;</td>
+            <td class="label">{ts}Status{/ts}</td> 
+            <td>{$form.contribution_status.html}</td>
             <td colspan="2">{$form.contribution_thankyou_date_isnull.html}&nbsp;<label>{ts}Thank-you not sent?{/ts}</label></td>
         </tr>
         <tr>

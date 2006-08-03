@@ -48,6 +48,13 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
     private static $contributionType;
 
     /**
+     * contribution pages
+     * @var array
+     * @static
+     */
+    private static $contributionPage;
+
+    /**
      * payment instruments
      *
      * @var array
@@ -77,13 +84,29 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
                                                'CRM_Contribute_DAO_ContributionType' );
         }
         if ($id) {
-            if (array_key_exists($id, self::$contributionType)) {
-                return self::$contributionType[$id];
-            } else {
-                return null;
-            }
+            return CRM_Utils_Array::value( $id, self::$contributionType );
         }
         return self::$contributionType;
+    }
+
+    /**
+     * Get all the contribution pages
+     *
+     * @access public
+     * @return array - array reference of all contribution pages if any
+     * @static
+     */
+    public static function &contributionPage($id = null)
+    {
+        if ( ! self::$contributionPage ) {
+            CRM_Core_PseudoConstant::populate( self::$contributionPage,
+                                               'CRM_Contribute_DAO_ContributionPage',
+                                               false, 'title' );
+        }
+        if ( $id ) {
+            return CRM_Utils_Array::value( $id, self::$contributionPage );
+        }
+        return self::$contributionPage;
     }
 
     /**

@@ -43,6 +43,9 @@ function clearAmountOther() {
     {if $is_allow_other_amount}
         <tr><td class="label">{$form.amount_other.label}</td><td>{$form.amount_other.html}</td></tr>
     {/if}
+    {if $displayThermometer}
+       <tr><td colspan=2><img border="0" src="{$config->userFrameworkResourceURL}extern/thermometer.php?c={$currentAmount}&g={$goalAmount}"></td></tr>
+    {/if}
     <tr>
         <td class="label">{$form.email.label}</td><td>{$form.email.html}</td>
     </tr>

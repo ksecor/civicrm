@@ -190,6 +190,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
         $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
+
+        // add current and goal amounts
+        if ( 0 ) {
+            list( $goal, $current ) = CRM_Contribute_BAO_Contribution::getCurrentandGoalAmount( $this->_id );
+            if ( $goal && $current ) {
+                $this->assign( 'displayThermometer', 1 );
+                $this->assign( 'goalAmount'   , $goal );
+                $this->assign( 'currentAmount', $current );
+            }
+        }
     }
 
     /**  
