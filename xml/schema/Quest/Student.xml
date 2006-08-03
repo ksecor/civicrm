@@ -241,8 +241,17 @@
        <export>true</export>
        <title>Partner Share</title>
        <import>true</import>
-       <headerPattern>/partner share/i</headerPattern>
        <comment>OK to share this persons info with partner schools.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_recommendation_waived</name>
+       <type>boolean</type>
+       <default>0</default>
+       <export>true</export>
+       <title>Right to Waive Recommendations</title>
+       <import>true</import>
+       <comment>waive my right of access to my recommendations</comment>
        <add>1.5</add>
   </field>
   <field>

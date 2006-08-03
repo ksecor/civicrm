@@ -21,10 +21,9 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | at http://www.openngo.org/faqs/licensing.html                       |
  +--------------------------------------------------------------------+
 */
-
 
 /**
  *
@@ -35,75 +34,32 @@
  *
  */
 
-require_once 'CRM/Quest/Form/App.php';
-require_once 'CRM/Core/OptionGroup.php';
+require_once 'CRM/Quest/Controller/MatchApp.php';
 
-/**
- * This class generates form components for relationship
- * 
- */
-class CRM_Quest_Form_MatchApp_Submit extends CRM_Quest_Form_App
-{
+class CRM_Quest_Controller_MatchApp_Submit extends CRM_Quest_Controller_MatchApp {
+
+    protected $_action;
+
     /**
-     * This function sets the default values for the form. Relationship that in edit/view action
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return void
+     * class constructor
      */
-    function setDefaultValues( ) 
-    {
-        $defaults = array( );
-        return $defaults;
+    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
+        parent::__construct( $title, $action, $modal, 'Submit' );
     }
-    
 
     /**
-     * Function to actually build the form
+     * Create the header for the wizard from the list of pages
+     * Store the created header in smarty
      *
-     * @return void
+     * @param string $currentPageName name of the page being displayed
+     * @return array
      * @access public
      */
-    public function buildQuickForm( ) 
-    {
-        $this->add( 'checkbox', "is_partner_share", null, null, true );
-
-        $values = array(
-                        '0' => 'I hereby <b>do not waive</b> my right of access to my recommendations.',
-                        '1' => 'I hereby <b>waive</b> my right of access to my recommendations.',
-                        );
-        $this->addRadio( 'is_recommendation_waived', null, $values, null, null, true );
-        
-        parent::buildQuickForm();
-    }//end of function
-
-    
-    /**
-     * process the form after the input has been submitted and validated
-     *
-     * @access public
-     * @return void
-     */
-    public function postProcess() 
-    {
-        // make sure that all forms are valid at this stage
-        // if not jump to that page
-        $this->controller->checkApplication( );
-
-        parent::postProcess( );
-    }//end of function
-
-
-    /**
-     * Return a descriptive name for the page, used in wizard header
-     *
-     * @Return string
-     * @access public
-     */
-    public function getTitle()
-    {
-        return ts('Submit Application');
+    function wizardHeader( $currentPageName ) {
+        $this->_sections = array( );
+        parent::wizardHeader( $currentPageName );
     }
+
 }
 
 ?>

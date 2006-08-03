@@ -81,43 +81,38 @@ class CRM_Quest_Form_App extends CRM_Core_Form
     {
         $this->assign       ( 'displayRecent' , false );
         $this->assign       ( 'welcome_name'  , $this->get('welcome_name'));
-        if ( $this->_name == 'Personal' ) {
-            if ( $this->_action & CRM_Core_Action::VIEW ) {
+
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
+            if ( $this->_name == 'Personal' ) {
                 $this->addDefaultButtons(ts('Continue'), 'next', null);
             } else {
-                $this->addDefaultButtons(ts('Save & Continue'), 'upload', null);
-            }
-        } else if ( $this->_name == 'Submit' ) {
-            if ( $this->_action & CRM_Core_Action::VIEW ) {
                 $this->addDefaultButtons( ts('Continue') );
-            } else {
-                $this->addDefaultButtons( ts('Submit Application') );
             }
-        } else if ( $this->_name == "Essay-PersonalStat" ) {
-            if ( $this->_action & CRM_Core_Action::VIEW ) {
-                $this->addDefaultButtons(ts('Continue'), 'next');
-            } else {
-                $this->addDefaultButtons(ts('Save & Continue'), 'upload');
-            }
-        } else if ($this->_name == "Stanford-StfEssay") { 
-            if ( $this->_action & CRM_Core_Action::VIEW ) {
-                $this->addDefaultButtons(ts('Continue'), 'next');
-            } else {
-                $this->addDefaultButtons(ts('Save & Continue'), 'upload');
-            }
+            $this->freeze();
         } else {
-            if ( $this->_action & CRM_Core_Action::VIEW ) {
-                $this->addDefaultButtons( ts('Continue') );
-            } else {
+            switch ( $this->_name ) {
+            case 'Personal':
+                $this->addDefaultButtons(ts('Save & Continue'), 'upload', null);
+                break;
+
+            case 'Submit':
+                $this->addDefaultButtons( ts('Submit Application') );
+                break;
+        
+            case 'Essay-PersonalStat':
+                $this->addDefaultButtons(ts('Save & Continue'), 'upload');
+                break;
+
+            case 'Stanford-StfEssay':
+                $this->addDefaultButtons(ts('Save & Continue'), 'upload');
+                break;
+
+            default:
                 $this->addDefaultButtons( ts('Save & Continue') );
             }
         }
-
-        if ( $this->_action & CRM_Core_Action::VIEW ) {
-            $this->freeze();
-        }
-
     }
+
        
     /**
      * process the form after the input has been submitted and validated
@@ -134,14 +129,13 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         $taskStatus = $this->get( 'TaskStatus' );
         if ( $taskStatus == 'Completed' &&
              $this->controller->matchAppComplete( ) ) {
-            CRM_Project_BAO_TaskStatus::updateTaskStatusWithValue( $this,
-                                                                   $taskStatus,
-                                                                   'appTaskStatus' );
+            $this->controller->setSubmitApplication( true );
         } else {
             $taskStatus = 'In Progress';
             CRM_Project_BAO_TaskStatus::updateTaskStatusWithValue( $this,
                                                                    $taskStatus,
                                                                    'appTaskStatus' );
+            $this->controller->setSubmitApplication( false );
         }
 
     }//end of function

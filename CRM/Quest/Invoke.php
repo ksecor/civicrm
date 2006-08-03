@@ -97,6 +97,12 @@ class CRM_Quest_Invoke {
                 $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
                 break;
 
+            case 'submit':
+                require_once 'CRM/Quest/Controller/MatchApp/Submit.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Submit( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+                break;
+
             default        :
                 require_once 'CRM/Quest/Controller/MatchApp/Personal.php';
                 $controller =& new CRM_Quest_Controller_MatchApp_Personal( null, null, false );

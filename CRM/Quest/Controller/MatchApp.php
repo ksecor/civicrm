@@ -44,7 +44,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
     public    $_subType;
     public    $_subTypeTasks;
 
-    protected $_sections;
+    protected $_categories;
 
     /**
      * class constructor
@@ -57,7 +57,8 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                                       'School'    => 16,
                                       'Essay'     => 17,
                                       'College'   => 18,
-                                      'Partner'   => 19 );
+                                      'Partner'   => 19,
+                                      'Submit'    =>  8 );
         
         $cid = $this->get( 'contactID' );
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
@@ -368,58 +369,78 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
     static function &getCategory( ) {
         $session =& CRM_Core_Session::singleton( );
-        $category = $session->get( 'questMatchAppCategory' );
-        if ( ! $category ) {
-            $category = array( );
-            $category['steps'] = array( );
+        $this->_categories = $session->get( 'questMatchAppCategory' );
+        if ( ! $this->_categories ) {
+            $this->_categories = array( );
+            $this->_categories['steps'] = array( );
             
-            $category['steps']['Personal'] = 
+            $this->_categories['steps']['Personal'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/personal',
                                                            'reset=1' ),
                        'title'   => 'Personal Information',
                        'current' => true,
                        'valid'   => false );
-            $category['steps']['Household'] = 
+            $this->_categories['steps']['Household'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/household',
                                                            'reset=1' ),
                        'title'   => 'Household Information',
                        'current' => false,
                        'valid'   => false );
-            $category['steps']['School'] = 
+            $this->_categories['steps']['School'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/school',
                                                            'reset=1' ),
                        'title'   => 'School Information',
                        'current' => false,
                        'valid'   => false );
-            $category['steps']['Essay'] = 
+            $this->_categories['steps']['Essay'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/essay',
                                                            'reset=1' ),
                        'title'   => 'Essays',
                        'current' => false,
                        'valid'   => false );
-            $category['steps']['College'] = 
+            $this->_categories['steps']['College'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/college',
                                                            'reset=1' ),
                        'title'   => 'College Match',
                        'current' => false,
                        'valid'   => false );
-            $category['steps']['Partner'] = 
+            $this->_categories['steps']['Partner'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/partner',
                                                            'reset=1' ),
                        'title'   => 'Partner Supplements',
                        'current' => false,
                        'valid'   => false );
-            $session->set( 'questMatchAppCategory', $category );
+            $this->_categories['steps']['Submit'] = 
+                array( 'link'    => null,
+                       'title'   => 'Submit Application',
+                       'current' => false,
+                       'valid'   => false );
+            $session->set( 'questMatchAppCategory', $this->_categories );
         }
-        return $category;
+        return $this->_categories;
     }
 
     function validateCategory( ) {
         return true;
     }
 
+    function setSubmitCategory( $valid ) {
+        if ( $valid ) {
+            $this->_categories['steps']['Submit']['link'] = CRM_Utils_System::url( 'civicrm/quest/matchapp/submit',
+                                                                                   'reset=1' );
+        } else {
+            $this->_categories['steps']['Submit']['link'] = null;
+        }
+
+        $session =& CRM_Core_Session::singleton( );
+        $session->set( 'questMatchAppCategory', $this->_categories );
+    }
+
     function matchAppComplete( ) {
-        $values = implode( ',', array_values( $this->_subTypeTasks ) );
+
+        $tasks = $this->_subTypeTasks;
+        unset( $tasks['Submit'] );
+        $values = implode( ',', array_values( $tasks ) );
         $query = "
 SELECT count(*)
 FROM   civicrm_task_status t
@@ -431,7 +452,7 @@ WHERE  t.responsible_entity_table = 'civicrm_contact'
   AND  t.status_id = 328
 ";
         $result = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
-        return ( $result == count( $values ) ) ? true : false;
+        return ( $result == count( $tasks ) ) ? true : false;
     }
 
 }

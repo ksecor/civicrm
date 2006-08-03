@@ -68,9 +68,10 @@ class CRM_Quest_API {
 
     static function getRecommendationStatus( $sourceID ) {
         $query = "
-SELECT cr.id           as contact_id,
-       cr.display_name as display_name,
-       ts.status_id    as status_id
+SELECT cr.id                   as contact_id,
+       cr.display_name         as display_name,
+       ts.status_id            as status_id,
+       rs.relationship_type_id as rid
   FROM civicrm_contact      cs,
        civicrm_contact      cr,
        civicrm_relationship rs,
@@ -95,6 +96,7 @@ SELECT cr.id           as contact_id,
             $params[$count]['contact_id'     ] = $dao->contact_id;
             $params[$count]['display_name'   ] = $dao->display_name;
             $params[$count]['email'          ] = $dao->email;
+            $params[$count]['type'           ] = ( $dao->rid == 9 ) ? 'Teacher' : 'Counselor';
             $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
             $count++;
         }
@@ -107,7 +109,7 @@ SELECT cr.id           as contact_id,
 
     static function getRecommendationURL( $sourceID, $targetID, $type, $action ) {
         require_once 'CRM/Utils/System.php';
-        return CRM_Utils_System::url( "civicrm/quest/$type/recommendation", "reset=1&id=$sourceID&scid=$targetID&action=$action" );
+        return CRM_Utils_System::url( "civicrm/quest/$type", "reset=1&id=$sourceID&scid=$targetID&action=$action" );
     }
 
     static function &getTaskStatusInfo( $sourceID, $targetID, $taskID ) {
@@ -143,9 +145,10 @@ SELECT cr.id           as contact_id,
         $status =& CRM_Core_OptionGroup::values( 'task_status' );
         
         $query = "
-SELECT cs.id           as contact_id,
-       cs.display_name as display_name,
-       ts.status_id    as status_id
+SELECT cs.id                   as contact_id,
+       cs.display_name         as display_name,
+       ts.status_id            as status_id,
+       rs.relationship_type_id as rid
   FROM civicrm_contact      cs,
        civicrm_contact      cr,
        civicrm_relationship rs,
@@ -170,6 +173,7 @@ SELECT cs.id           as contact_id,
             $params[$count] = array( );
             $params[$count]['contact_id'     ] = $dao->contact_id;
             $params[$count]['display_name'   ] = $dao->display_name;
+            $params[$count]['type'           ] = ( $dao->rid == 9 ) ? 'Teacher' : 'Counselor';
             $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
             $count++;
         }
