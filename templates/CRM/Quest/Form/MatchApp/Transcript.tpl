@@ -96,7 +96,4 @@
   </tr>
 </table>
 </div>
-</div>
-</td></tr>
-</table>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}

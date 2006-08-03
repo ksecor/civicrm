@@ -58,12 +58,7 @@ class CRM_Quest_StateMachine_Recommender_Teacher extends CRM_Quest_StateMachine_
 
     public function &getDependency( ) {
         if ( ! self::$_dependency ) {
-            self::$_dependency = array(
-                                       'Personal' => array( ),
-                                       'Ranking'  => array( 'Personal'  => 1 ),
-                                       'Evaluation' => array( 'Ranking' => 1 ),
-                                       'Additional' => array( 'Evaluation' => 1 ),
-                                       );
+            self::$_dependency = array();
         }
 
         return self::$_dependency;
