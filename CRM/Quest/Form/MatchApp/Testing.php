@@ -331,7 +331,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
         $this->assign( 'ap_test', $ap_test );
         $this->assign( 'maxAP', self::AP_TESTS + 1 );
 
-        $extra1 = array('onchange' => "return showHideByValue('is_tutoring', '1', 'tutor_tests','table-row', 'radio', false);");
+        $extra1 = array('onclick' => "return showHideByValue('is_tutoring', '1', 'tutor_tests','table-row', 'radio', false);");
         $this->addYesNo( 'is_tutoring',
                          ts( 'Have you received tutoring or taken test prep classes for any of the standardized tests?' ), null,false, $extra1 );
         
@@ -341,7 +341,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                             false ,null);
 
         // Plan on taking SAT again?
-        $extra2 = array('onchange' => "return showHideByValue('is_SAT_again', '1', 'SAT_again_date','table-row', 'radio', false);");
+        $extra2 = array('onclick' => "return showHideByValue('is_SAT_again', '1', 'SAT_again_date','table-row', 'radio', false);");
         $this->addYesNo( 'is_SAT_again',
                          ts( 'Do you plan to take the SAT again?' ), null, false, $extra2 );
 
@@ -350,7 +350,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                    CRM_Core_SelectValues::date('custom', 0, 1, 'M Y'), false);
         
         // Plan on taking ACT again?
-        $extra3 = array('onchange' => "return showHideByValue('is_ACT_again', '1', 'ACT_again_date','table-row', 'radio', false);");
+        $extra3 = array('onclick' => "return showHideByValue('is_ACT_again', '1', 'ACT_again_date','table-row', 'radio', false);");
         $this->addYesNo( 'is_ACT_again',
                          ts( 'Do you plan to take the ACT again?' ), null, false, $extra3 );
         
@@ -359,7 +359,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                    CRM_Core_SelectValues::date('custom', 0, 1, 'M Y'), false);
 
         // Plan on taking more SATII tests?
-        $extra4 = array('onchange' => "return showHideByValue('is_more_SATII', '1', 'SATII_more_subjects|SATII_more_date','table-row', 'radio', false);");
+        $extra4 = array('onclick' => "return showHideByValue('is_more_SATII', '1', 'SATII_more_subjects|SATII_more_date','table-row', 'radio', false);");
         $this->addYesNo( 'is_more_SATII',
                          ts( 'Do you plan to take any more SAT II tests?' ), null, false, $extra4 );
 
@@ -373,11 +373,11 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                    CRM_Core_SelectValues::date('custom', 0, 1, 'M Y'), false);
         
         // Next 3 questions for students who won Princeton SAT review award in Preapplication?
-        $extra5 = array('onchange' => "return showHideByValue('is_SAT_after_prep', '1', 'SAT_prep_improve','table-row', 'radio', false);");
+        $extra5 = array('onclick' => "return showHideByValue('is_SAT_after_prep', '1', 'SAT_prep_improve','table-row', 'radio', false);");
         $this->addYesNo( 'is_SAT_after_prep',
                          ts( 'After using the Princeton Review SAT Prep, did you retake the SAT?' ), null, false, $extra5 );
 
-        $extra6 = array('onchange' => "return showHideByValue('is_SAT_prep_improve', '1', 'SAT_prep_improve_how','table-row', 'radio', false);");
+        $extra6 = array('onclick' => "return showHideByValue('is_SAT_prep_improve', '1', 'SAT_prep_improve_how','table-row', 'radio', false);");
         $this->addYesNo( 'is_SAT_prep_improve',
                          ts( 'Did your SAT score improve?' ), null, false, $extra6 );
 

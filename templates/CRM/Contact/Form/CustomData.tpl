@@ -63,7 +63,7 @@
               <span>
                
 		      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_customdata_$field_id}
-		      {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years trigger=trigger1 }
+		      {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years trigger=trigger_customdata_$field_id} 
 		      </span>
 	          {/if}
               {/if}

@@ -168,7 +168,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         // federal lunch program
         $this->addSelect( 'fed_lunch',
                           ts( 'Are you eligible for Federal Free or Reduced Price Meals?' ),null,true);
-        $extra3 = array('onchange' => "return showHideByValue('is_take_SAT_ACT', '1', 'study_method_id','table-row', 'radio', false);");
+        $extra3 = array('onclick' => "return showHideByValue('is_take_SAT_ACT', '1', 'study_method_id','table-row', 'radio', false);");
         $this->addYesNo( 'is_take_SAT_ACT',
                          ts( 'Did you study for the SAT or ACT?' ) ,null,true, $extra3);
 
