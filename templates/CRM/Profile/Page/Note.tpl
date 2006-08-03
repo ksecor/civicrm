@@ -6,7 +6,7 @@
           <div class="form-item">
             <label>{ts}Date:{/ts}</label> {$note.modified_date|crmDate}
             <p>{$note.note}</p>
-            <input type="button" name='cancel' value="{ts}Done{/ts}" onClick="location.href='{crmURL p='civicrm/profile/note' q='action=browse'}';">        
+            <input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/profile/note' q='action=browse'}';">        
           </div>
         </fieldset>
         </p>
