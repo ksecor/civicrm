@@ -25,7 +25,7 @@
       {assign var=collegeRank value="college_ranking_"|cat:$i}   
       {assign var=urlLink value=$url_link}   
       <tr>
-        <td class="grouplabel">{$collegeTypes[$i]}&nbsp;&nbsp;<a href={$urlLink[$i]}>(<u>learn more</u>)</a></td>
+        <td class="grouplabel">{$collegeTypes[$i]}&nbsp;&nbsp;<a href={$urlLink[$i]} target="_blank">(<u>learn more</u>)</a></td>
         <td class="nowrap">{$form.$collegeRank.html}</td>
       </tr>
 {/section} 
