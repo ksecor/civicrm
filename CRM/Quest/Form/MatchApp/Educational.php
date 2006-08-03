@@ -108,7 +108,7 @@ class CRM_Quest_Form_MatchApp_Educational extends  CRM_Quest_Form_App
                             ts( 'Please select all of your educational interests' ),
                             CRM_Core_OptionGroup::values( 'educational_interest', true ),
                             true, '<br/>',true,
-                            array ('onclick' => "return showHideByValue('educational_interest[245]', '1', 'educational_interest_other', '', 'radio', false);") );
+                            array ('onclick' => "return showHideByValue('educational_interest[245]', '1', 'educational_interest_other', 'table-row', 'radio', false);") );
         
         $this->addElement('text', 'educational_interest_other', ts( 'Other Educational Interest' ),
                           $attributes['educational_interest_other'] );

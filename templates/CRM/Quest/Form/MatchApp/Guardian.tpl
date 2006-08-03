@@ -199,7 +199,7 @@
     trigger_field_id    ="marital_status_id"
     trigger_value       ="43,44"
     target_element_id   ="separated-year" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="select"
     invert              = 0
 }
@@ -208,7 +208,7 @@
     trigger_field_id    ="is_deceased"
     trigger_value       ="1"
     target_element_id   ="deceased_year_date" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
 }
@@ -226,7 +226,7 @@
     trigger_field_id    ="industry_id"
     trigger_value       ="47"
     target_element_id   ="job_organization|job_occupation|job_current_years" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="select"
     invert              = 1
 }
@@ -236,7 +236,7 @@
     trigger_field_id    ="highest_school_level_id"
     trigger_value       ="118|119|120|121|122|302"
     target_element_id   ="college_name|college_country|college_grad_year|college_major" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="select"
     invert              = 0
 }
@@ -244,21 +244,18 @@
     trigger_field_id    ="highest_school_level_id"
     trigger_value       ="122|302"
     target_element_id   ="prof_school_name|prof_school_degree|prof_grad_year" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="select"
     invert              = 0
 }
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
-
-
 {literal}
     <script type="text/javascript">
         var field = new Array(7);
         var  original = new Array(7);
-        
-    
+   
 	    field[0] = "street_address";
 	    field[1] = "supplemental_address_1";
 	    field[2] = "city";
@@ -299,7 +296,6 @@
  	   	       document.getElementById("location_1_phone_1_phone").value = "";
 	        }		
 	    }    
-
   
     </script>
 {/literal}

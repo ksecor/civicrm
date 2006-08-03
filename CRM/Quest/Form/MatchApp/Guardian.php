@@ -151,14 +151,14 @@ public function buildQuickForm( )
                     $attributes['last_name'],
                     true);
 
-        $extra = array( 'onchange' => "return showHideByValue('marital_status_id', '43|44|336', 'separated-year', '', 'select', false);" );
+        $extra = array( 'onclick' => "return showHideByValue('marital_status_id', '43|44|336', 'separated-year', 'table-row', 'select', false);" );
         $this->addSelect('marital_status', ts( 'Marital Status?' ), null, null, $extra );
        
         $this->addElement( 'date', 'separated_year', 
                            ts( 'Year your parents separated or divorced' ),
                            CRM_Core_SelectValues::date( 'custom', 30, 1, "Y" ) );
         
-        $this->addYesNo( 'is_deceased', ts( 'Deceased?' ), null,false, array ('onchange' => "return showHideByValue('is_deceased', '1', 'deceased_year_date', 'table-row', 'radio', false);"));
+        $this->addYesNo( 'is_deceased', ts( 'Deceased?' ), null,false, array ('onclick' => "return showHideByValue('is_deceased', '1', 'deceased_year_date', 'table-row', 'radio', false);"));
 
         $this->addElement( 'date', 'deceased_year_date', 
                            ts( 'Year Deceased' ),
@@ -178,7 +178,7 @@ public function buildQuickForm( )
         // country of birth
         $this->addCountry('citizenship_country_id', ts( 'Country of birth' ), false );
         
-        $extra2 = array ('onclick' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', '', 'radio', true);");
+        $extra2 = array ('onclick' => "return showHideByValue('all_life', '1', 'lived_with_from_age|lived_with_to_age', 'table-row', 'radio', true);");
         $choice = array( );
         $choice[] = $this->createElement( 'radio', null, '11', ts( 'All my life' ), '1', $extra2 );
         $choice[] = $this->createElement( 'radio', null, '11', ts( 'From' ) , '0', $extra2 );
@@ -193,7 +193,7 @@ public function buildQuickForm( )
                            $attributes['lived_with_to_age']);
         $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'positiveInteger');
 
-        $extra1 = array( 'onchange' => "return showHideByValue('industry_id', '47|339|301', 'job_organization|job_occupation|job_current_years', '', 'select', true);" );
+        $extra1 = array( 'onclick' => "return showHideByValue('industry_id', '47|339|301', 'job_organization|job_occupation|job_current_years', 'table-row', 'select', true);" );
         $this->addSelect('industry', ts( 'Industry' ),null, false, $extra1 );
 
 
@@ -208,7 +208,7 @@ public function buildQuickForm( )
                            $attributes['job_current_years']);
         $this->addRule('job_current_years',ts('not a valid number'),'positiveInteger');
 
-        $extra2 = array( 'onchange' => "showHideByValue('highest_school_level_id', '118|119|120|121|122|302', 'college_name|college_country|college_grad_year|college_major', '', 'select', false); return showHideByValue('highest_school_level_id', '122|302', 'prof_school_name|prof_school_degree|prof_grad_year', '', 'select', false);" );
+        $extra2 = array( 'onclick' => "showHideByValue('highest_school_level_id', '118|119|120|121|122|302', 'college_name|college_country|college_grad_year|college_major', '', 'select', false); return showHideByValue('highest_school_level_id', '122|302', 'prof_school_name|prof_school_degree|prof_grad_year', 'table-row', 'select', false);" );
         $this->addSelect('highest_school_level', ts('Highest level of schooling'),null,false,$extra2);
         $this->addElement( 'text', 'college_name', ts('College Name'),
                            $attributes['college_name'] );
