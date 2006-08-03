@@ -74,7 +74,7 @@ class CRM_Quest_Form_MatchApp_Essay_PersonalStat extends CRM_Quest_Form_MatchApp
         $this->addRadio( 'personalStat_quests', null, $personalStatQuests , $radioAttributeArray, '<br /><br />' );
 
         //file upload
-        $this->addElement('file', 'upload_photo', ts( 'Upload photograph:' ), $attributes['upload_photo'] );
+        $this->addElement('file', 'uploadFile', ts( 'Upload photograph:' ), null);
         
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_Essay_PersonalStat', 'formRule'));
 
@@ -94,8 +94,8 @@ class CRM_Quest_Form_MatchApp_Essay_PersonalStat extends CRM_Quest_Form_MatchApp
 
         if ( $params['personalStat_quests'] == 0 ) {
             // ensure that there is a file upload
-            if ( ! file_exists( $files['upload_photo']['tmp_name'] ) ) {
-                $errors['upload_photo'] = ts( 'Please upload a photo' );
+            if ( ! $files['uploadFile'])  {
+                $errors['uploadFile'] = ts( 'Please upload a photo' );
             }
         }
         return empty($errors) ? true : $errors;

@@ -85,13 +85,25 @@ class CRM_Quest_Form_App extends CRM_Core_Form
             if ( $this->_action & CRM_Core_Action::VIEW ) {
                 $this->addDefaultButtons(ts('Continue'), 'next', null);
             } else {
-                $this->addDefaultButtons(ts('Save & Continue'), 'next', null);
+                $this->addDefaultButtons(ts('Save & Continue'), 'upload', null);
             }
         } else if ( $this->_name == 'Submit' ) {
             if ( $this->_action & CRM_Core_Action::VIEW ) {
                 $this->addDefaultButtons( ts('Continue') );
             } else {
                 $this->addDefaultButtons( ts('Submit Application') );
+            }
+        } else if ( $this->_name == "Essay-PersonalStat" ) {
+            if ( $this->_action & CRM_Core_Action::VIEW ) {
+                $this->addDefaultButtons(ts('Continue'), 'next');
+            } else {
+                $this->addDefaultButtons(ts('Save & Continue'), 'upload');
+            }
+        } else if ($this->_name == "Stanford-StfEssay") { 
+            if ( $this->_action & CRM_Core_Action::VIEW ) {
+                $this->addDefaultButtons(ts('Continue'), 'next');
+            } else {
+                $this->addDefaultButtons(ts('Save & Continue'), 'upload');
             }
         } else {
             if ( $this->_action & CRM_Core_Action::VIEW ) {

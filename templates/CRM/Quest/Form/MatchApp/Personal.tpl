@@ -34,9 +34,9 @@
 </tr>
 <tr>
     <td class="grouplabel">
-        {$form.upload_pics.label}</td>
+        {$form.uploadFile.label}</td>
     <td class="fieldlabel">
-        {$form.upload_pics.html}<br/>
+        {$form.uploadFile.html}<br/>
 	{edit}{ts}The file should be of type GIF or JPEG. The file size should be at most 2MB.{/ts}{/edit}</td>
 </tr>
 <tr>

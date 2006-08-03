@@ -10,7 +10,7 @@
 	{if $name eq 'personal' or $name eq 'stanford_essay'}
         <br/>{$form.personalStat_quests.label}{$form.personalStat_quests.html}<br/><br/>
         <div id="id_upload_photo">
-	    {$form.upload_photo.label}&nbsp; {$form.upload_photo.html}<br/>
+	    {$form.uploadFile.label}&nbsp; {$form.uploadFile.html}<br/>
 	    {ts}(The file should be of type GIF or JPEG. The file size should be at most 2MB.){/ts}<br/><br/>
         </div>
 	{/if}

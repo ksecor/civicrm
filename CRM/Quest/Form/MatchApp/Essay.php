@@ -101,9 +101,20 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
     {
         if ( ! ( $this->getAction( ) &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-
+                        
             CRM_Quest_BAO_Essay::create( $this->_essays, $params['essay'], 
                                          $this->_contactID, $this->_contactID );
+
+            //process file upload stuff
+            if( $params['uploadFile'] ) {
+                require_once "CRM/Core/BAO/File.php";
+                if ($this->_name == "Essay-PersonalStat") {
+                    CRM_Core_BAO_File::filePostProcess($params['uploadFile'],5,"civicrm_contact",$this->_contactID,"Student");
+                } else if ($this->_name == "Stanford-StfEssay") {
+                    CRM_Core_BAO_File::filePostProcess($params['uploadFile'],6,"civicrm_contact",$this->_contactID,"Student");
+                }
+                    
+            }
 
             parent::postProcess( );
         }

@@ -225,7 +225,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
 
         
         //file upload
-        $this->addElement('file', 'upload_pics', ts( 'Upload your picture' ), $attributes['upload_pics'] );
+        $this->addElement('file', 'uploadFile', ts( 'Upload your picture' ), $attributes['upload_pics'] );
 
         // tribe affiliation
         $this->addElement('text', 'tribe_affiliation', ts( 'Tribe affiliation' ), $attributes['tribe_affiliation'] );
@@ -276,7 +276,6 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-
             require_once 'CRM/Quest/BAO/Student.php';
             $params['contact_type'] = 'Individual';
             $params['contact_sub_type'] = 'Student';
@@ -300,6 +299,12 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
             $params['high_school_grad_year'] = CRM_Utils_Date::format($params['high_school_grad_year']) ;
             
             $student =& CRM_Quest_BAO_Student::create( $params , $ids);
+
+            //process file upload stuff
+            if( $params['uploadFile'] ) {
+                require_once "CRM/Core/BAO/File.php";
+                CRM_Core_BAO_File::filePostProcess($params['uploadFile'],4,"civicrm_contact",$this->_contactID,"Student");
+            }
             
             $this->set( 'studentID', $student->id );
             //$this->set( 'welcome_name', $params['first_name'] ); 

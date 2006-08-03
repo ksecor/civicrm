@@ -74,7 +74,7 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfEssay extends CRM_Quest_Form_M
         $this->addRadio( 'personalStat_quests', null, $personalStatQuests , $radioAttributeArray, '<br/>' );
 
         //file upload
-        $this->addElement('file', 'upload_photo', ts( 'Upload photograph:' ), $attributes['upload_photo'] );
+        $this->addElement('file', 'uploadFile', ts( 'Upload photograph:' ), null );
         
         parent::buildQuickForm();
         

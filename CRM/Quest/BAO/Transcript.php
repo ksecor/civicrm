@@ -150,8 +150,8 @@ class CRM_Quest_BAO_Transcript extends CRM_Quest_DAO_Transcript {
                 }
                 $finalWeightedGPA = $finalUnWeightedGPA = 0;
                 if ( $totalCredits > 0) {
-                    $finalWeightedGPA   = round($totalWeightedPoints/$totalCredits,2);
-                    $finalUnWeightedGPA = round($totalUnWeightedPoints/$totalCredits,2);
+                    $finalWeightedGPA   = round($totalWeightedPoints/$totalCredits,1);
+                    $finalUnWeightedGPA = round($totalUnWeightedPoints/$totalCredits,1);
                     
                     //store this in quest_student_summary
                     $ids = array();

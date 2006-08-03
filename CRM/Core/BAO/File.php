@@ -68,6 +68,57 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         return array( null, null );
     }
 
+    
+    public function filePostProcess($data ,$fileID ,$entityTable, $entityId ,$entitySubtype) {
+        require_once 'CRM/Core/DAO/File.php';
+        $config = & CRM_Core_Config::singleton();
+        
+        $path = explode( '/', $data );
+        $filename = $path[count($path) - 1];
+        
+        // rename this file to go into the secure directory
+        $directoryName = $config->customFileUploadDir.$entitySubtype.DIRECTORY_SEPARATOR.$entityId;
+        require_once "CRM/Utils/File.php";
+        CRM_Utils_File::createDir($directoryName);
+        if ( ! rename( $data, $directoryName .DIRECTORY_SEPARATOR. $filename ) ) {
+            CRM_Utils_System::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
+            break;
+        }
+        
+        $mimeType = $_FILES['uploadFile']['type'];
+        
+        require_once 'CRM/Core/DAO/EntityFile.php'; 
+        $entityFileDAO =& new CRM_Core_DAO_EntityFile();
+        $fileDAO =& new CRM_Core_DAO_File();
+        $entityFileDAO->entity_table = $entityTable;
+        $entityFileDAO->entity_id    = $entityId;
+        if ( $entityFileDAO->find(true) ) {
+            $fileDAO->id = $entityFileDAO->file_id;
+            $fileDAO->find(true);
+            if ($fileDAO->file_type_id !=$fileID ) {
+                $fileDAO =& new CRM_Core_DAO_File();
+            }
+        }
+        
+        $fileDAO->uri               = $filename;
+        $fileDAO->mime_type         = $mimeType;
+        $fileDAO->file_type_id      = $fileID;
+        $fileDAO->upload_date       = date('Ymdhis'); 
+        $fileDAO->save();
+    
+        // need to add/update civicrm_entity_file
+        
+        $entityFileDAO =& new CRM_Core_DAO_EntityFile();
+        
+        $entityFileDAO->entity_table = $entityTable;
+        $entityFileDAO->entity_id    = $entityId;
+        $entityFileDAO->file_id      = $fileDAO->id;
+        $entityFileDAO->find(true);
+        $entityFileDAO->save();
+        
+    }
+
+
 }
 
 ?>
