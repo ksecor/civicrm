@@ -136,10 +136,10 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 
         $this->add('textarea', 'description', ts('Description'), 'rows=3, cols=60' );
 
-        $image['image']     = $this->createElement('radio',null, null,ts('Upload from my computer'),'image','onClick="add_upload_file_block(\'image\');');
-        $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations on the web:'),'thumbnail', 'onClick="add_upload_file_block(\'thumbnail\');');
-        $image['default_image']   = $this->createElement('radio',null, null,ts('Use default image'),'default_image', 'onClick="add_upload_file_block(\'default\');');
-        $image['noImage']   = $this->createElement('radio',null, null,ts('Do not display an image'),'noImage','onClick="add_upload_file_block(\'noImage\');');
+        $image['image']     = $this->createElement('radio',null, null,ts('Upload from my computer'),'image','onclick="add_upload_file_block(\'image\');');
+        $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations on the web:'),'thumbnail', 'onclick="add_upload_file_block(\'thumbnail\');');
+        $image['default_image']   = $this->createElement('radio',null, null,ts('Use default image'),'default_image', 'onclick="add_upload_file_block(\'default\');');
+        $image['noImage']   = $this->createElement('radio',null, null,ts('Do not display an image'),'noImage','onclick="add_upload_file_block(\'noImage\');');
 
         $this->addGroup($image,'imageOption',ts('Premium Image'));
         $this->addRule( 'imageOption', ts('Please select an option for the premium image.'), 'required' );

@@ -230,14 +230,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         foreach ($dt as $key => $value) {
             $it[$key] = self::$_dataToLabels[$key];
         }
-        $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), 'onClick="custom_option_html_type(this.form)"; onBlur="custom_option_html_type(this.form)";', '&nbsp;&nbsp;&nbsp;' );
+        $sel =& $this->addElement('hierselect', "data_type", ts('Data and Input Field Type'), 'onclick="custom_option_html_type(this.form)"; onBlur="custom_option_html_type(this.form)";', '&nbsp;&nbsp;&nbsp;' );
         $sel->setOptions(array($dt, $it));
 
         $Options = CRM_Core_BAO_CustomOption::getCustomOption($this->_id);
         if ($this->_action == CRM_Core_Action::UPDATE && (! empty($Options))) {
             $this->freeze('data_type');
         }
-        
+      
         // form fields of Custom Option rows
         $defaultOption = array();
         $_showHide =& new CRM_Core_ShowHideBlocks('','');
@@ -257,21 +257,21 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
             // value
             $this->add('text', 'option_value['.$i.']', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'));
-            //$this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field.'), 'qfVariable');
+            //  $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field.'), 'qfVariable');
 
             // weight
             $this->add('text', 'option_weight['.$i.']', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'));
 
             // is active ?
             $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
-
+            
             $defaultOption[$i] = $this->createElement('radio', null, null, null, $i);
 
             //for checkbox handling of default option
             $this->add('checkbox', 'default_checkbox_option['.$i.']', null);
-
         }
-
+        
+        
         $_showHide->addToTemplate();                
         //default option selection
         $tt =& $this->addGroup($defaultOption, 'default_option');
@@ -350,7 +350,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->addElement( 'button',
                                'done',
                                ts('Done'),
-                               array( 'onClick' => "location.href='$url'" ) );
+                               array( 'onclick' => "location.href='$url'" ) );
         }
     }
     
@@ -370,6 +370,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         if ( $default ) {
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             switch ( $dataType ) {
+           
             case 'Int':
                 if ( ! CRM_Utils_Rule::integer( $default ) ) {
                     $errors['default_value'] = ts( 'Please enter a valid integer as default value.' );
@@ -511,7 +512,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     }
                 }
                 
-                
                 $showBlocks = 'optionField_'.$i;
                 if ($_flagOption) {
                     $_showHide->addShow($showBlocks);
@@ -527,9 +527,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $hideBlock = 'additionalOption';
                     $_showHide->addHide($hideBlock);
                 }
-
+                
                 $_flagOption = $_emptyRow = 0;
             }
+            //temporary commented
+            // if (CRM_Core_Action::ADD && !empty($fields['option_label']) && !empty($fields['option_value']) ) {
+//                 $errors[$fields['option_label'][1]] = ts('label and value blank');
+//             }
             
             if ($_rowError) {
                 $_showHide->addToTemplate();
@@ -554,7 +558,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $_fieldError = 0;
                     CRM_Core_Page::assign('fieldError', $_fieldError);
                 }
-                
                 
                 for ($idx=1; $idx<= self::NUM_OPTION; $idx++) {
                     $showBlocks = 'optionField_'.$idx;
