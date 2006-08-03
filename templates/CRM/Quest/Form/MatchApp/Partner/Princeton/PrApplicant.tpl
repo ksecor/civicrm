@@ -185,7 +185,7 @@
     trigger_field_id    ="princeton_activities[11]"
     trigger_value       ="1"
     target_element_id   ="activities_other"
-    target_element_type =""
+    target_element_type ="inline"
     field_type          ="radio"
     invert              = 0
 }

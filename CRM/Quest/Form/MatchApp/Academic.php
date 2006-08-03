@@ -142,7 +142,7 @@ class CRM_Quest_Form_MatchApp_Academic extends CRM_Quest_Form_App
                           null, true );
 
         $this->addYesNo( 'is_class_ranking',
-                         ts( 'Does your school give class rankings?' ),null,true,array ('onclick' => "return showHideByValue('is_class_ranking', '1', 'class_rank', '', 'radio', false);") );
+                         ts( 'Does your school give class rankings?' ),null,true,array ('onclick' => "return showHideByValue('is_class_ranking', '1', 'class_rank', 'table-row', 'radio', false);") );
 
         $this->addElement('text', 'class_rank',
                           ts( 'If yes, what is your class rank?' ),
@@ -161,7 +161,7 @@ class CRM_Quest_Form_MatchApp_Academic extends CRM_Quest_Form_App
                           $attributes['gpa_explanation'] );
 
         $this->addYesNo( 'is_alternate_grading',
-                         ts( 'Did any school you attended throughout high school use a grading system other than A-B-C-D-F.' ),null,true,array ('onclick' => "return showHideByValue('is_alternate_grading', '1', 'alternate_grading_explanation', '', 'radio', false);") );
+                         ts( 'Did any school you attended throughout high school use a grading system other than A-B-C-D-F.' ),null,true,array ('onclick' => "return showHideByValue('is_alternate_grading', '1', 'alternate_grading_explanation', 'table-row', 'radio', false);") );
 
         $this->addElement('textarea', 'alternate_grading_explanation',
                           ts( 'If your school uses an alternate grading system, please explain the system.' ),

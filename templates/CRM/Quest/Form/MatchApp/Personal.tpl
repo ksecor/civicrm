@@ -325,7 +325,7 @@
     trigger_field_id    ="citizenship_status_id"
     trigger_value       ="234|235|236"
     target_element_id   ="citizenship_country_id" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="select"
     invert              = 0
 }
@@ -334,7 +334,7 @@
     trigger_field_id    ="ethnicity_id_1"
     trigger_value       ="18"
     target_element_id   ="ethnicity_other" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="select"
     invert              = 0
 }
@@ -343,7 +343,7 @@
     trigger_field_id    ="ethnicity_id_1"
     trigger_value       ="1"
     target_element_id   ="tribe_affiliation|tribe_date" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="select"
     invert              = 0
 }

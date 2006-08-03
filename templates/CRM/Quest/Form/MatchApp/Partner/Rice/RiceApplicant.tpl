@@ -199,7 +199,7 @@
     trigger_field_id    ="rice_academic_id"
     trigger_value       ="1"
     target_element_id   ="experiences|academics" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
 }

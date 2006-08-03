@@ -153,14 +153,14 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
                                   true, false, false );
         
         // citizenship status
-        $extra1 = array( 'onchange' => "return showHideByValue('citizenship_status_id','234|235|236','citizenship_country_id','','select',false);");
+        $extra1 = array( 'onclick' => "return showHideByValue('citizenship_status_id','234|235|236','citizenship_country_id','table-row','select',false);");
         $this->addSelect('citizenship_status', ts( 'U.S. Citizenship Status' ), null , true, $extra1);
         
         // citizenship country
         $this->addCountry('citizenship_country_id', ts( 'Country of Citizenship' ), false );
        
         // ethnicity 
-        $extra2 = array( 'onchange' => "showHideByValue('ethnicity_id_1','18','ethnicity_other','','select',false); return showHideByValue('ethnicity_id_1','1','tribe_affiliation|tribe_date', '','select',false );");
+        $extra2 = array( 'onclick' => "showHideByValue('ethnicity_id_1','18','ethnicity_other','table-row','select',false); return showHideByValue('ethnicity_id_1','1','tribe_affiliation|tribe_date', 'table-row','select',false );");
         $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" , true, $extra2);
 
         require_once 'CRM/Core/ShowHideBlocks.php';

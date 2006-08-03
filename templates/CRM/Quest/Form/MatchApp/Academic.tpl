@@ -76,7 +76,7 @@
     trigger_field_id    ="is_class_ranking"
     trigger_value       ="1"
     target_element_id   ="class_rank" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
 }
@@ -85,7 +85,7 @@
     trigger_field_id    ="is_alternate_grading"
     trigger_value       ="1"
     target_element_id   ="alternate_grading_explanation" 
-    target_element_type =""
+    target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0
 }
