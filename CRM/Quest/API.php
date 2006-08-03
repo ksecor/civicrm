@@ -138,11 +138,13 @@ SELECT cr.id           as contact_id,
         return $result;
     }
 
-    static function getRecommenderStudentInfo( $sourceID ) {
-
+    static function &getRecommenderStudentInfo( $sourceID ) {
+        require_once 'CRM/Core/OptionGroup.php';
+        $status =& CRM_Core_OptionGroup::values( 'task_status' );
+        
         $query = "
-SELECT cr.id           as contact_id,
-       cr.display_name as display_name,
+SELECT cs.id           as contact_id,
+       cs.display_name as display_name,
        ts.status_id    as status_id
   FROM civicrm_contact      cs,
        civicrm_contact      cr,
@@ -161,16 +163,17 @@ SELECT cr.id           as contact_id,
 ";
 
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
         $params = array( );
         $count  = 0;
         while ( $dao->fetch( ) ) {
-            $params[$count] = $dao->contact_id;
+            $params[$count] = array( );
             $params[$count]['contact_id'     ] = $dao->contact_id;
             $params[$count]['display_name'   ] = $dao->display_name;
-            $params[$count]['email'          ] = $dao->email;
             $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
             $count++;
         }
+	return $params;
     }
 
     static function getContactInfo( $id ) {
