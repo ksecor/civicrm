@@ -67,7 +67,6 @@ class CRM_Quest_API {
     }
 
     static function getRecommendationStatus( $sourceID ) {
-
         $query = "
 SELECT cr.id           as contact_id,
        cr.display_name as display_name,

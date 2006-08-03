@@ -56,7 +56,6 @@ class CRM_Quest_StateMachine_MatchApp_Household extends CRM_Quest_StateMachine_M
             eval( '$pages =& CRM_Quest_Form_MatchApp_' . $d . '::getPages( $controller );' );
             $this->_pages = array_merge( $this->_pages, $pages );
         }
-        $this->_pages['CRM_Quest_Form_MatchApp_Income']       = null;
 
         if ( $this->includeNonCustodial( ) ) {
             $this->_pages['CRM_Quest_Form_MatchApp_Noncustodial'] = null;
