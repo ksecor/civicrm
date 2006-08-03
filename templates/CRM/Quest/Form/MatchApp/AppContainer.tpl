@@ -33,17 +33,10 @@
                 {* Counselor and Teacher forms don't have sections. *}
                 {include file="CRM/common/WizardHeader.tpl}
                 <br />
-                <div class="newsblock">
-                    <table cellpadding=0 cellspacing=0 border=0>
-                      <tr>
-                        <td class="header">Recommendation Information</td>
-                      </tr>
-                      <tr>
-                        <td class="newstext">Thank you for filling out<br />this recommendation for: <br />                      <br>
-                            <strong>{$student_welcome_name}</strong>
-                        </td>
-                      </tr>
-                    </table>
+                <div class="help-box">
+                    <strong>Recommendation Information</strong><br />
+                    Thank you for filling out<br />this recommendation for:<br /><br />
+                    <strong>{$student_welcome_name}</strong>
                 </div>
             {else}
                 {include file="CRM/common/SectionNav.tpl"}
