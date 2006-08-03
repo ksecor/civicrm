@@ -1,6 +1,6 @@
 {* Quest College Match New Recommender Verification Form *}
 <div id="app-content">
-<table cellpadding=0 cellspacing=1 border=1>
+<table cellpadding=0 cellspacing=1 border=1 class="app">
 <tr>
     <td colspan=2 id="category">{ts}Registration Verification{/ts}</td>
 </tr>
