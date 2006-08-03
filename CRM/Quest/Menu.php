@@ -79,6 +79,15 @@ class CRM_Quest_Menu {
                               'weight'  => 0, 
                               ),
                        array( 
+                              'path'    => 'civicrm/quest/schoolsearch', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( 'QuestBridge School Search' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
                               'path'    => 'civicrm/quest/counselor', 
                               'query'   => 'reset=1',
                               'title'   => ts( '2006 College Match Recommendation Form' ), 
