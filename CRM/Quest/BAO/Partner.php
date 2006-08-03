@@ -92,6 +92,27 @@ class CRM_Quest_BAO_Partner extends CRM_Quest_DAO_Partner {
         return $dao;
     }
 
+    static function &getPartnersForContact( $cid, $is_supplement = null ) {
+        $query = "
+SELECT p.name as name
+FROM   quest_partner p,
+       quest_partner_ranking r
+WHERE  r.contact_id  = $cid
+  AND  r.partner_id  = p.id
+  AND  ( r.ranking     >= 1 OR
+         r.is_forward  = 1 )
+";
+        if ( $is_supplement !== null ) {
+            $query .= " AND p.is_supplement = $is_supplement";
+        }
+
+        $partners = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $partners[$dao->name] = 1;
+        }
+        return $partners;
+    }
 }
     
 ?>

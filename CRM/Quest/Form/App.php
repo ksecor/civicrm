@@ -127,16 +127,34 @@ class CRM_Quest_Form_App extends CRM_Core_Form
 
         // also update the appStatus
         $taskStatus = $this->get( 'TaskStatus' );
+        $valid = ( $taskStatus == 'Completed' ) ? 1 : 0;
+
+        $changes = array( $this->controller->_subType => array( 'valid' => $valid ) );
+
         if ( $taskStatus == 'Completed' &&
              $this->controller->matchAppComplete( ) ) {
-            $this->controller->setSubmitApplication( true );
+            $url = CRM_Utils_System::url( 'civicrm/quest/matchapp/submit',
+                                          'reset=1' );
+            $changes['Submit'] = array( 'link' => $url );
         } else {
-            $taskStatus = 'In Progress';
             CRM_Project_BAO_TaskStatus::updateTaskStatusWithValue( $this,
-                                                                   $taskStatus,
+                                                                   'In Progress',
                                                                    'appTaskStatus' );
-            $this->controller->setSubmitApplication( false );
+            $changes['Submit'] = array( 'link' => null );
         }
+
+        // if college match section is processed, then check for partners and if so enable it
+        if ( $this->controller->_subType == 'College' ) {
+            require_once 'CRM/Quest/BAO/Partner.php';
+            $partners =& CRM_Quest_BAO_Partner::getPartnersForContact( $this->_contactID );
+            if ( ! empty( $partners ) ) {
+                $url = CRM_Utils_System::url( 'civicrm/quest/matchapp/partner',
+                                              'reset=1' );
+                $changes['Partner'] = array( 'link' => $url );
+            }
+        }
+
+        $this->controller->changeCategoryValues( $changes );
 
     }//end of function
 

@@ -147,24 +147,10 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
     public function getValidPartners( ) {
         if ( ! self::$_validPartners ) {
             self::$_validPartners = $this->_controller->get( 'validPartners' );
-            if ( self::$_validPartners ) {
-                break;
-            }
-
-            $cid = $this->_controller->get( 'contactID' );
-            $query = "
-SELECT p.name as name
-FROM   quest_partner p,
-       quest_partner_ranking r
-WHERE  r.contact_id  = $cid
-  AND  r.partner_id  = p.id
-  AND  ( r.ranking     >= 1 OR
-         r.is_forward  = 1 )
-";
-            self::$_validPartners = array( );
-            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            while ( $dao->fetch( ) ) {
-                self::$_validPartners[$dao->name] = 1;
+            if ( ! self::$_validPartners ) {
+                $cid = $this->_controller->get( 'contactID' );
+                require_once 'CRM/Quest/BAO/Partner.php';
+                self::$_validPartners = CRM_Quest_BAO_Partner::getPartnersForContact( $cid );
             }
         }
         return self::$_validPartners;

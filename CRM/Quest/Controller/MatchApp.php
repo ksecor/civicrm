@@ -40,7 +40,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
     protected $_action;
 
-    // public so that the state machine can access thi
+    // public so that the state machine can access this
     public    $_subType;
     public    $_subTypeTasks;
 
@@ -289,7 +289,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
         $this->assign( 'wizard', $wizard );
 
-        $category =& self::getCategory( );
+        $category =& $this->getCategory( );
         foreach ( $category['steps'] as $name => $value ) {
             if ( $name == $this->_subType ) {
                 $category['steps'][$name]['current'] = true;
@@ -367,7 +367,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         }
     }
 
-    static function &getCategory( ) {
+    public function &getCategory( ) {
         $session =& CRM_Core_Session::singleton( );
         $this->_categories = $session->get( 'questMatchAppCategory' );
         if ( ! $this->_categories ) {
@@ -405,8 +405,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['Partner'] = 
-                array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/partner',
-                                                           'reset=1' ),
+                array( 'link'    => null,
                        'title'   => 'Partner Supplements',
                        'current' => false,
                        'valid'   => false );
@@ -424,12 +423,11 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         return true;
     }
 
-    function setSubmitCategory( $valid ) {
-        if ( $valid ) {
-            $this->_categories['steps']['Submit']['link'] = CRM_Utils_System::url( 'civicrm/quest/matchapp/submit',
-                                                                                   'reset=1' );
-        } else {
-            $this->_categories['steps']['Submit']['link'] = null;
+    function changeCategoryValues( &$values ) {
+        foreach ( $values as $name => $value ) {
+            foreach ( $value as $k => $v ) {
+                $this->_categories['steps'][$name][$k] = $v;
+            }
         }
 
         $session =& CRM_Core_Session::singleton( );
