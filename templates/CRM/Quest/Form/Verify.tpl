@@ -1,5 +1,6 @@
 {* Quest College Match New Recommender Verification Form *}
-<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<div id="app-content">
+<table cellpadding=0 cellspacing=1 border=1>
 <tr>
     <td colspan=2 id="category">{ts}Registration Verification{/ts}</td>
 </tr>
@@ -20,3 +21,4 @@
 </tr>
 <tr><td class="grouplabel" colspan=2>{$form._qf_Verify_refresh.html}</td>
 </table>
+</div>
