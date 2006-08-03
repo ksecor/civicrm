@@ -115,6 +115,7 @@ class CRM_Project_BAO_TaskStatus {
         if ( $statusDetail ) {
             // now save all the valid values to fool QFC
             $data =& $form->controller->container( );
+            // CRM_Core_Error::debug( 'd', $data );
             $dao->status_detail = serialize( $data['valid'] );
         }
 

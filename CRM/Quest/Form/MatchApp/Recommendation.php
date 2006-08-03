@@ -250,7 +250,7 @@ SELECT cr.id           as contact_id,
         }
 
         parent::postProcess( );
-    } 
+    }
    
 }
 

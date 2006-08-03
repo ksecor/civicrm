@@ -34,7 +34,6 @@
       <name>citizenship_status_id</name>
       <title>US Citizenship Status</title>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>FK to civicrm_option_value.</comment>
       <export>true</export>
       <import>true</import>
@@ -209,7 +208,6 @@
       <name>years_in_us</name>
       <title>Years in US</title>
       <type>int unsigned</type>
-      <required>true</required>
       <export>true</export>
       <import>true</import>
       <headerPattern>/years us/i</headerPattern>
@@ -345,7 +343,6 @@
        <htmlType>textarea</htmlType>
        <rows>3</rows>
        <cols>50</cols>
-       <required>true</required>
        <comment>Dismissed question response.</comment>
       <add>1.5</add>
   </field>
@@ -366,7 +363,6 @@
        <htmlType>textarea</htmlType>
        <rows>3</rows>
        <cols>50</cols>
-       <required>true</required>
        <comment>Convicted question response.</comment>
       <add>1.5</add>
   </field>

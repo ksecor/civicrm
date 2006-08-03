@@ -117,6 +117,9 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
             $dao->contact_id = $cid;
             if ( $dao->find( true ) ) {
                 $this->set( 'studentID', $dao->id );
+            } else {
+                $dao->save( );
+                $this->set( 'studentID', $dao->id );
             }
         }
 
