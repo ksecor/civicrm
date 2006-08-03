@@ -131,7 +131,7 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
         $this->addRadio( 'rice_academic_id', 'Select the academic school you are applying to', 
                          CRM_Core_OptionGroup::values( "rice_academic" ) ,$extra);
         $this->addRule( 'rice_academic_id', 'Please select the academic school you are applying to', 'required');
-
+        
         foreach ( $this->_schools as $name => $title ) {
             $extra1 = array('onclick' => "return show_element(\"$name\");");
             if ( $name != "music" ) {
@@ -178,6 +178,7 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
 
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
 
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant', 'formRule'));
         parent::buildQuickForm( );
                 
     }//end of function
@@ -193,6 +194,26 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
          return ts('Applicant Information');
     }
 
+   /* Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params) {
+        $errors = array( );
+
+        $principleAreas = array('architecture','engineering', 'music', 'natural_sciences', 'social_sciences', 'other');
+        if (!$params['architecture'] && !$params['engineering'] && !$params['music'] && 
+            !$params['natural_sciences'] && !$params['social_sciences'] && !$params['other']) {
+            $errors['architecture'] = "please select any principal area(s) of interest";
+        }
+
+        return empty($errors) ? true : $errors;
+    }
+
     /** 
      * process the form after the input has been submitted and validated 
      * 
@@ -205,7 +226,7 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
         }
 
         $params = $this->controller->exportValues( $this->_name );
-        
+
         foreach ( $this->_allchecks as $name => $title ) {
             $par = CRM_Utils_Array::value( $name, $params, array());
             $params[$name] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,

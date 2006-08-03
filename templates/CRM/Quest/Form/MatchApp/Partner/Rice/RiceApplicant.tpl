@@ -90,7 +90,7 @@
     </td> 
 </tr>
 <tr>
-     <td class="grouplabel">{ts}What contacts have you had with Rice (check all that apply)? *{/ts}</td>
+     <td class="grouplabel">{ts}What contacts have you had with Rice (check all that apply)? <span class="marker">*</span>{/ts}</td>
      <td class="grouplabel">
        <table>
         {assign var=count value=1}
