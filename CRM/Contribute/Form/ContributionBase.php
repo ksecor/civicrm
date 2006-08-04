@@ -113,14 +113,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive',
                                                   $this );
         if ( ! $this->_id ) {
-            $pastContributionId = $session->get( 'pastContributionId' );
-            if ( ! $pastContributionId ) {
+            $pastContributionID = $session->get( 'pastContributionId' );
+            if ( ! $pastContributionID ) {
                 CRM_Core_Error::fatal( ts( 'We could not find contribution details for your request. Please try your request again.' ) );
             } else {
-                CRM_Core_Error::fatal( ts( 'This contribution has already been submitted. Click <a href="%1">here</a> if you want to make another contribution.', array( 1 => CRM_Utils_System::url( 'civicrm/contribute/transact', 'reset=1&id=' . $pastContributionId ) ) ) );
+                CRM_Core_Error::fatal( ts( 'This contribution has already been submitted. Click <a href="%1">here</a> if you want to make another contribution.', array( 1 => CRM_Utils_System::url( 'civicrm/contribute/transact', 'reset=1&id=' . $pastContributionID ) ) ) );
             }
         } else {
-            $session->set( 'pastContributionId', $this->_id );
+            $session->set( 'pastContributionID', $this->_id );
         }
 
         // we do not want to display recently viewed items, so turn off
@@ -144,7 +144,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $this->_fields = array( );
 
             CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $this->_values );
-            
+
+            $session->set( 'pastContributionThermometer', $this->_values['is_thermometer'] );
+
             // check if form is active
             if ( ! $this->_values['is_active'] ) {
                 // form is inactive, bounce user back to front page of CMS
