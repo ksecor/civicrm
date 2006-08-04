@@ -74,11 +74,31 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
 
         // create the selector, controller and run - store results in session
         $queryParams =  $this->get( 'queryParams' );
-        $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
+
+        $addressProperties = array('street_address'         => 1, 
+                                   'supplemental_address_1' => 1, 
+                                   'supplemental_address_2' => 1, 
+                                   'city'                   => 1, 
+                                   'postal_code'            => 1, 
+                                   'postal_code_suffix'     => 1, 
+                                   'state_province'         => 1, 
+                                   'country'                => 1,
+                                   'geo_code_1'             => 1,
+                                   'geo_code_2'             => 1,
+                                   'email'                  => 1, 
+                                   'phone'                  => 1, 
+                                   'im'                     => 1, 
+                                   );
+        $nameStyle         = array('sort_name'    => ts('Sort Name'), 
+                                   'display_name' => ts('Display Name'),
+                                   );
+        $returnProperties  = array_merge( $addressProperties, $nameStyle );
+        
+        $query       =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, null, false, false, 
                                                    CRM_Contact_BAO_Query::MODE_MEMBER );
         
-       
-        $header = array('contact_id'             => ts('Contact ID'),
+        $header = array(// membership fields
+                        'contact_id'             => ts('Contact ID'),
                         'membership_id'          => ts('Membership ID'),
                         'sort_name'              => ts('Sort Name'), 
                         'display_name'           => ts('Display Name'),
@@ -87,11 +107,25 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
                         'start_date'             => ts('Start Date'),
                         'end_date'               => ts('End Date'),
                         'source'                 => ts('Source'),
-                        'status_id'              => ts('Status')
+                        'status_id'              => ts('Status'),
+                        // address fields
+                        'street_address'         => ts('Street Address'), 
+                        'supplemental_address_1' => ts('Supplemental Address 1'), 
+                        'supplemental_address_2' => ts('Supplemental Address 2'), 
+                        'city'                   => ts('City'), 
+                        'postal_code'            => ts('Postal Code'), 
+                        'postal_code_suffix'     => ts('Postal Code Suffix'), 
+                        'state_province'         => ts('State'), 
+                        'country'                => ts('Country'),
+                        'geo_code_1'             => ts('Geo Code 1'),
+                        'geo_code_2'             => ts('Geo Code 2'),
+                        'email'                  => ts('Email'), 
+                        'phone'                  => ts('Phone'), 
+                        'im'                     => ts('IM Screen Name'), 
                         );
-        
+       
         $properties = array_keys( $header );
-
+        
         $result = $query->searchQuery( 0, 0, null,
                                        false, false,
                                        false, false,
@@ -100,7 +134,7 @@ class CRM_Member_Form_Task_Export extends CRM_Member_Form_Task {
 
         require_once 'CRM/Member/PseudoConstant.php';
         $statusTypes  = CRM_Member_PseudoConstant::membershipStatus( );
-
+        
         $rows = array( ); 
         while ( $result->fetch( ) ) {
             $row   = array( );
