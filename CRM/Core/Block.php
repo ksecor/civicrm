@@ -178,7 +178,6 @@ class CRM_Core_Block {
         $session =& CRM_Core_Session::singleton( );
         if ( ! $session->get( 'pastContributionID' ) ||
              ! $session->get( 'pastContributionThermometer' ) ) {
-            CRM_Core_Error::debug( 'c', $session );
             return true;
         }
 
