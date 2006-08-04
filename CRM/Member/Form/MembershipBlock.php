@@ -171,12 +171,13 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
         }
         
         $membershipTypes = array();
-        foreach( $params['membership_type'] as $k => $v) {
-            if ( $v ) {
-                $membershipTypes[] = $k;
+        if ( is_array($params['membership_type']) ) {
+            foreach( $params['membership_type'] as $k => $v) {
+                if ( $v ) {
+                    $membershipTypes[] = $k;
+                }
             }
         }
-        
         $params['membership_types']              =  implode(',', $membershipTypes);
         $params['is_required']                   =  CRM_Utils_Array::value( 'is_required', $params, false );
         $params['is_active']                     =  CRM_Utils_Array::value( 'is_active', $params, false );
