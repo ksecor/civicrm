@@ -40,7 +40,8 @@
     <td class="fieldlabel"> {$form.is_sibling_applying.html}</td>
 </tr>
 {if $totalSibligs > 0}
-<tr id="tr_sibling_application_status">
+<tr id = "tr_sibling_application_status">
+
     <td>
      {ts}Who?{/ts}
     </td>
@@ -63,6 +64,7 @@
 </table>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
+{if $totalSibligs > 0}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_sibling_applying"
     trigger_value       ="1"
@@ -71,3 +73,4 @@
     field_type          ="radio"
     invert              = 0
 }
+{/if}
