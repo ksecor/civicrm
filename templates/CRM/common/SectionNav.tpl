@@ -12,10 +12,14 @@
             {if !$step.valid}
                 {assign var="stepClass" value="$stepClass not-valid"}
             {/if}
-            {* step.link value is passed for section usages which allow clickable navigation AND when section state is clickable *} 
-            <li class="{$stepClass}">{if $step.link && !$step.current}<a href="{$step.link}">{/if}{$step.title}{if $step.link}</a>{/if}</li>
-            {if $step.current}
-                {include file="CRM/common/WizardHeader.tpl"}
+            {* Skip "Submit Application" category - it is shown separately *}
+            {if $step.title EQ 'Submit Application' || ($step.title EQ 'Partner Supplements' && !$step.link)}
+            {else}
+                {* step.link value is passed for section usages which allow clickable navigation AND when section state is clickable *} 
+                <li class="{$stepClass}">{if $step.link && !$step.current}<a href="{$step.link}">{/if}{$step.title}{if $step.link}</a>{/if}</li>
+                {if $step.current}
+                    {include file="CRM/common/WizardHeader.tpl"}
+                {/if}
             {/if}
     {/foreach}
    </ul>

@@ -46,9 +46,11 @@
                   <li class="current-section">
                     <div align="center"><a href="#" onclick="saveDraft(); return false;">Save Draft</a></div>
                   </li>
+                  {if $category.steps.Submit.link}
                   <li class="current-section">
                     <div align="center"><strong><a href="submit.html">Submit Application</a></strong></div>
                   </li>
+                  {/if}
                 </ul>
                 <br />
                 </div>
