@@ -125,7 +125,7 @@ function civicrm_search_count( &$params ) {
  * @return int 
  * @access public 
  */ 
-function civicrm_search( &$params $return_properties = null, $sort = null, $offset = 0, $row_count = 25) {
+function civicrm_search( &$params, $return_properties = null, $sort = null, $offset = 0, $row_count = 25) {
     $sortString = CRM_Core_DAO::getSortString( $sort );
     require_once 'CRM/Contact/Form/Search.php';
     return CRM_Contact_BAO_Query::apiQuery( $params, $return_properties, null, $sortString, $offset, $row_count );

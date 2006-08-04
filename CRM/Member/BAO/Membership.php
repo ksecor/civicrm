@@ -224,9 +224,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         require_once 'CRM/Member/DAO/Membership.php';
         $membership = & new CRM_Member_DAO_Membership( );
         $membership->id = $membershipId;
-        if ( $membership->find( true ) ) {
-            $count = $membership->delete();;
-        }
+        $count = $membership->delete( );
         
         // Changing the "return true" to "return count".
         // Reason for change is "return true" can not be used to check 
@@ -236,6 +234,37 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         //return true;
     }
     
+
+    /**                                                           
+     * Delete the object records that are associated with this contact 
+     *                    
+     * @param  int  $contactId id of the contact to delete                                                                           
+     * 
+     * @return boolean  true if deleted, false otherwise
+     * @access public 
+     * @static 
+     */ 
+    static function deleteContact( $contactID ) {
+        $membership =& new CRM_Member_DAO_Membership( );
+        $membership->contact_id = $contactID;
+        $membership->find( );
+
+        while ( $membership->fetch( ) ) {
+            self::deleteMembership( $membership->id );
+        }
+
+        // also we need to fix any membership types which point to this contact
+        // for now lets just make this point to the current userID
+        $session =& CRM_Core_Session::singleton( );
+        $userID  = $session->get( 'userID' );
+        $query = "
+UPDATE civicrm_membership_type
+  SET  member_of_contact_id = %1
+ WHERE member_of_contact_id = %2
+";
+        $params = array( 1 => array( $userID, 'Integer' ), 2 => array( $contactID, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $params );
+    }
 
     /** Function to obtain active/inactive memberships from the list of memberships passed to it.
      * 

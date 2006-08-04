@@ -1196,6 +1196,9 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
 
         CRM_Contribute_BAO_Contribution::deleteContact( $id );
 
+        require_once 'CRM/Member/BAO/Membership.php';
+        CRM_Member_BAO_Membership::deleteContact( $id );
+
         CRM_Core_BAO_Note::deleteContact($id);
 
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_CustomValue', $id );

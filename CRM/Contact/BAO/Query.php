@@ -290,7 +290,7 @@ class CRM_Contact_BAO_Query {
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        //CRM_Core_Error::debug( 'q', $this );
+        // CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -847,6 +847,7 @@ class CRM_Contact_BAO_Query {
      */ 
     function whereClause( ) {
         $this->_where[0] = array( );
+        $this->_qill[0]  = array( );
 
         $config =& CRM_Core_Config::singleton( );
 
@@ -877,7 +878,7 @@ class CRM_Contact_BAO_Query {
             if ( !empty($this->_customQuery->_where) ) {
                 $this->_where = CRM_Utils_Array::crmArrayMerge( $this->_where, $this->_customQuery->_where );
             }
-            
+
             $this->_qill  = CRM_Utils_Array::crmArrayMerge( $this->_qill , $this->_customQuery->_qill  );
         }
 
@@ -1059,7 +1060,6 @@ class CRM_Contact_BAO_Query {
                     }
                 } else {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
-                    
                     if ( $tableName == 'civicrm_contact' ) {
                         $this->_where[$grouping][] = "LOWER( contact_a.{$fieldName} ) $op '$value'";
                     } else if ( $op != 'IN' ) {

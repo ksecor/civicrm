@@ -138,11 +138,16 @@ class CRM_Utils_Array {
             return $a2;
         }
 
+        if ( empty( $a2 ) ) {
+            return $a1;
+        }
+
+        $a3 = array( );
         foreach ( $a1 as $key => $value) {
-            if ( is_array($a2[$key])) {
+            if ( array_key_exists($key, $a2) ) {
                 $a3[$key] = array_merge($a1[$key], $a2[$key]);
             } else {
-                $a3[$key] = $a2;
+                $a3[$key] = $a1[$key];
             }
         }
 
