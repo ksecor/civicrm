@@ -49,6 +49,8 @@
     <dt>&nbsp;</dt><dd class="description">{ts}When CAPTCHA is included in an add / edit profile form, users are required to read an image with letters and numbers and enter the value in a field. This helps prevent abuse by automated scripts. <strong>Do not enable this feature for stand-alone profile forms. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.</strong>{/ts}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}When mapping is enabled, you can map your contacts in profile listings and detail pages{/ts}</dd>
     <dt></dt><dd>{$form.is_map.html} {$form.is_map.label}</dd>
+    <dt></dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the title for this fieldset to be displayed when the page is initially loaded (fields are hidden).{/ts}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
         
     

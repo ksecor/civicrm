@@ -154,6 +154,8 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
          // add CAPTCHA To this group ?
         $this->addElement('checkbox', 'add_captcha', ts('Include CAPTCHA?') );
 
+        // is this group collapsed or expanded ?
+        $this->addElement('checkbox', 'collapse_display', ts('Collapse this group on initial display'));
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
