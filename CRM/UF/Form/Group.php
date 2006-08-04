@@ -136,6 +136,9 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );
 
+        // should mapping be enabled for this group
+        $this->addElement('checkbox', 'is_map', ts('Should mapping be enabled on this profile??') );
+
         $this->addElement('text', 'post_URL', ts('Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'post_URL') );
         $this->addRule('post_URL', ts('Enter a valid URL.'), 'url');
 
@@ -218,6 +221,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             }
         } else {
             $defaults['is_active'] = 1;
+            $defaults['is_map'   ] = 0;
         }
         
         return $defaults;
@@ -245,7 +249,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         }
         // get the submitted form values.
         $params = $ids = array( );
-        $params = $this->controller->exportValues('Group');
+        $params = $this->controller->exportValues( $this->_name );
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $ids['ufgroup'] = $this->_id;

@@ -33,7 +33,7 @@
   <field>
        <name>is_active</name>
        <type>boolean</type>
-        <default>1</default>
+       <default>1</default>
        <comment>Is this form currently active? If false, hide all related fields for all sharing contexts.</comment>
        <add>1.1</add>
   </field>
@@ -114,7 +114,14 @@
        <comment>Should a CAPTCHA widget be included this Profile form.</comment>
        <add>1.1</add>
   </field>
-<field>
+  <field>
+       <name>is_map</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Do we want to map results from this profile.</comment>
+       <add>1.5</add>
+  </field>
+  <field>
        <name>cancel_URL</name>
        <type>varchar</type>
        <length>255</length>
