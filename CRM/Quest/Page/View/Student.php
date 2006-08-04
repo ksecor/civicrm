@@ -123,8 +123,10 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
         }
 
         // get the Student application status (pre-application for now)
+        /* Commented out until we implement getTaskStatus for the tasks we care about. dgg
         require_once 'CRM/Quest/API.php';
         $this->assign( 'preapplicationStatus', CRM_Quest_API::getApplicationStatus( $this->_contactId ));
+        */
         
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();

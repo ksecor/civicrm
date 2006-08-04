@@ -88,18 +88,20 @@ SELECT cr.id                   as contact_id,
    AND ts.target_entity_id         = $sourceID
 ";
 
+        require_once 'CRM/Core/OptionGroup.php';
+        $status =& CRM_Core_OptionGroup::values( 'task_status' );
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $params = array( );
         $count  = 0;
         while ( $dao->fetch( ) ) {
-            $params[$count] = $dao->contact_id;
+            $params[$count] = array();
             $params[$count]['contact_id'     ] = $dao->contact_id;
             $params[$count]['display_name'   ] = $dao->display_name;
-            $params[$count]['email'          ] = $dao->email;
             $params[$count]['type'           ] = ( $dao->rid == 9 ) ? 'Teacher' : 'Counselor';
             $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
             $count++;
         }
+        return $params;
     }
 
     static function getMatchAppURL( $sourceID, $action ) {

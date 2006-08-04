@@ -747,16 +747,10 @@
       <title>How did you hear about QuestBridge?</title>
       <type>int unsigned</type>
       <add>1.5</add>
-  </field>
-  <foreignKey>
-       <name>heard_about_qb_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.5</add>
-  </foreignKey>
+ </field>
  <field>
       <name>heard_about_qb_name</name>
-      <title>reffrence form where you heard about QuestBridge</title>
+      <title>reference from where you heard about QuestBridge</title>
       <type>varchar</type>
       <length>255</length>
       <add>1.5</add>
@@ -792,5 +786,25 @@
       <default>NULL</default>
       <comment>time of work during the school year</comment>
       <add>1.5</add>
-  </field>
+ </field>
+ <field>
+      <name>match_likely_id</name>
+      <title>How likely is student to go through binding College Match?</title>
+      <type>int unsigned</type>
+       <export>true</export>
+       <import>true</import>
+      <comment>Uses option_value records with option_group = match_likely.</comment>
+      <add>1.5</add>
+ </field>
+ <field>
+       <name>is_health_insurance</name>
+       <type>boolean</type>
+       <default>0</default>
+       <export>true</export>
+       <import>true</import>
+       <title>Does student have health insurance?</title>
+       <headerPattern>/health insurance/i</headerPattern>
+       <comment>Did this student have health insurance.</comment>
+       <add>1.5</add>
+ </field>
 </table>
