@@ -36,13 +36,13 @@
  */
 
 require_once 'CRM/Core/SelectValues.php';
-require_once 'CRM/Quest/Form/App.php';
+require_once 'CRM/Core/Form.php';
 
 /**
  * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_Verify extends CRM_Quest_Form_App
+class CRM_Quest_Form_Verify extends CRM_Core_Form
 {
     protected $_hash;
     protected $_md5;
@@ -61,6 +61,8 @@ class CRM_Quest_Form_Verify extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
+        $this->assign       ( 'displayRecent' , false );
+
         $this->addElement('text'    , 'email'      , ts('Email Address'     ) );
         $this->addElement('password', 'password_1'   , ts('Password'          ) );
         $this->addElement('password', 'password_2'   , ts('Re-enter Password' ) );

@@ -110,6 +110,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
             default:
                 $this->addDefaultButtons( ts('Save & Continue') );
             }
+            $this->add('hidden','is_save_draft', '0');
         }
     }
 

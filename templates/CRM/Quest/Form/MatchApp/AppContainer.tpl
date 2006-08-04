@@ -40,6 +40,19 @@
                 </div>
             {else}
                 {include file="CRM/common/SectionNav.tpl"}
+                {edit}
+                <br /><br />
+                <ul class="section-list">
+                  <li class="current-section">
+                    <div align="center"><a href="#" onclick="saveDraft(); return false;">Save Draft</a></div>
+                  </li>
+                  <li class="current-section">
+                    <div align="center"><strong><a href="submit.html">Submit Application</a></strong></div>
+                  </li>
+                </ul>
+                <br />
+                </div>
+                {/edit}
             {/if}
             
             <br />
@@ -108,5 +121,14 @@
   {edit}
     {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
     {include file="CRM/common/showHide.tpl"}
+    <script type="text/javascript">
+        var thisForm = document.forms["{$wizard.currentStepName}"];
+        {literal}
+        function saveDraft() {
+            thisForm.is_save_draft.value = 1;
+            thisForm.submit();
+        }
+        {/literal}
+    </script>  
   {/edit}
 {/if}
