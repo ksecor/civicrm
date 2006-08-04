@@ -111,7 +111,10 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
         for( $i = 1; $i <= 6; $i++ ){
             $natureOfWork = array('onkeyup' => "return show_element('nature_of_work_'+$i);");
             $this->addElement('text', 'nature_of_work_'.$i, ts( 'Specific Nature of Work' ), $natureOfWork);
-            $this->addElement('text', 'employer_'.$i, ts( 'Employer' ));
+            
+            $employer     = array('onkeyup' => "return show_element('employer_'+$i);");
+            $this->addElement('text', 'employer_'.$i, ts( 'Employer' ), $employer);
+            
             $this->addElement('date', 'start_date_'.$i, ts( 'Start Date' ), 
                               CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
             $this->addElement('date', 'end_date_'.$i, ts( 'End Date' ), 

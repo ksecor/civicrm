@@ -56,6 +56,7 @@
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 {literal}
 <script type="text/javascript">
+    
     if (document.getElementById("earnings").value) {
         show('id_earnings', '');
         show('id_school_work', '');
@@ -63,7 +64,9 @@
     
     for (var i=1; i<6; i++) {
         var nature_of_work_element = document.getElementById("nature_of_work_" + i);
-        if (nature_of_work_element.value != null) {
+        var employer_element       = document.getElementById("employer_" + i);
+        
+        if ( (nature_of_work_element.value != '') || (employer_element.value != '') ) {
             show('id_earnings', '');
             show('id_school_work', '');
         }
@@ -71,8 +74,8 @@
     
     function show_element(trigger_element_id)
     {
-        show('id_earnings', 'table-row');
-        show('id_school_work', 'table-row');
+        show('id_earnings', '');
+        show('id_school_work', '');
         var element = document.getElementById(trigger_element_id);
         
         if (element.value == '') {
