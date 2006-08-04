@@ -368,9 +368,10 @@ function civicrm_register_data($edit, &$user, $category, $reset)
     if ( $html ) {
         $config =& CRM_Core_Config::singleton( );
         if ( $config->userFrameworkVersion >= 4.7 ) {
-            $output[$category] = array( '#title' => $category,
-                                        '#value' => $html,
-                                        '#weight' => 1 );
+            $index = empty( $category ) ? 'civicrm-profile-register' : $category;
+            $output[$index] = array( '#title' => $category,
+                                     '#value' => $html,
+                                     '#weight' => 1 );
         } else {
             $output[] = array( 'title' => null, 'data' => $html, 'weight' => 0 );
         }
@@ -403,9 +404,10 @@ function civicrm_form_data($edit, &$user, $category, $reset)
     if ( $html ) {
         $config =& CRM_Core_Config::singleton( );
         if ( $config->userFrameworkVersion >= 4.7 ) {
-            $output[$category] = array( '#title' => $category,
-                                        '#value' => $html,
-                                        '#weight' => 1 );
+            $index = empty( $category ) ? 'civicrm-profile-my-account' : $category;
+            $output[$index] = array( '#title' => $category,
+                                     '#value' => $html,
+                                     '#weight' => 1 );
         } else {
             $output[] = array( 'title' => $category, 'data' => $html, 'weight' => 0 );
         }
