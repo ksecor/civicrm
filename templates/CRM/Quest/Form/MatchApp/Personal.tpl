@@ -32,6 +32,24 @@
     <td class="fieldlabel">
         {$form.nick_name.html}</td>
 </tr>
+{if $attachment}
+<tr>
+   <td class="grouplabel">
+   <strong>Your Picture</strong>
+   </td>
+   <td class="fieldlabel">
+    <a href="{crmURL p='civicrm/file' q="action=view&eid=`$attachment.entity_id`&id=`$attachment.file_id`&quest=1"}">{$attachment.file_type}    </a><br/>
+
+    <div id="upload_show"> 
+    <a href="#" onclick="hide('upload_show'); show('upload'); return false;">{ts}&raquo; <label>Upload a new photo</label>{/ts}</a>
+    </div>
+    <div id="upload">
+    {$form.uploadFile.html}<br/>
+    {edit}{ts}The file should be of type GIF or JPEG. The file size should be at most 2MB.{/ts}{/edit}
+    </div>
+  </td>
+</tr>
+{else}
 <tr>
     <td class="grouplabel">
         {$form.uploadFile.label}</td>
@@ -39,6 +57,7 @@
         {$form.uploadFile.html}<br/>
 	{edit}{ts}The file should be of type GIF or JPEG. The file size should be at most 2MB.{/ts}{/edit}</td>
 </tr>
+{/if}
 <tr>
     <td class="grouplabel">
         {$form.gender_id.label}</td>
@@ -286,6 +305,12 @@
 
 {literal}
     <script type="text/javascript">
+    {/literal} 
+    {if $attachment} {literal}
+       hide('upload');
+    {/literal}
+    {/if}
+    {literal}   
 	var field = new Array(7);
 
 	field[0] = "street_address";

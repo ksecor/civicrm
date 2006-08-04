@@ -99,6 +99,22 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
             }
         }
 
+        //do some setting for file upload
+        require_once 'api/File.php';
+        $attachments =& crm_get_files_by_entity( $this->_contactID );
+        $attach = array();
+        if ( ! is_a( $attachments, CRM_Core_Error )) {
+            foreach($attachments as $key=>$value ) {
+                if ($value['file_type_id'] == '4' ) {
+                    $attach = $value;
+                }
+            }
+        }
+        if ( !empty($attach) ) {
+            $this->assign("attachment" ,$attach );
+        }
+        
+        
         return $defaults;
     }
     

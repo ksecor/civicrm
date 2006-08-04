@@ -70,7 +70,7 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
         require_once 'CRM/Quest/DAO/PartnerRanking.php';
         $dao = & new CRM_Quest_DAO_PartnerRanking();
         $dao->is_forward = '1';
-        $dao->contact_id = $this->contact_id;
+        $dao->contact_id = $this->_contactID;
         $dao->find();
         while( $dao->fetch() ){
             if (array_key_exists($dao->partner_id ,$partner_s )) {
@@ -146,6 +146,7 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
                 $ranking['partner_id'] = $key;
                 $ranking['is_forward'] = $params['regular_addmission_'.$key];
                 $dao->partner_id = $key;
+                $dao->contact_id = $this->_contactID;
                 $dao->find(true);
                 $dao->copyValues( $ranking );
                 $dao->save();
@@ -160,6 +161,7 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
                 $ranking['partner_id'] = $key;
                 $ranking['is_forward'] = $params['scholarship_addmission_'.$key];
                 $dao->partner_id = $key;
+                $dao->contact_id = $this->_contactID;
                 $dao->find(true);
                 $dao->copyValues( $ranking );
                 $dao->save();
