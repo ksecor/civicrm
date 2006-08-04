@@ -408,12 +408,17 @@ class CRM_Core_Block {
             return null;
         }
 
-        if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
-             ( ! CRM_Core_Permission::check( 'add contacts' ) ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
+        if ( $id == self::CONTRIBUTE ) {
+            if ( self::hideContributeBlock( ) ) {
+                return null;
+            }
+        } else if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
             return null;
-        } else if ( ( $id == self::CONTRIBUTE ) && self::hideContributeBlock( ) ) {
+        } else if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
+                    ( ! CRM_Core_Permission::check( 'add contacts' ) ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
             return null;
         }
+
 
         self::setTemplateValues( $id );
 

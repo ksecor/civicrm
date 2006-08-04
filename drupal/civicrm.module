@@ -148,24 +148,20 @@ function civicrm_perm()
 function civicrm_block($op='list', $delta='0')
 {
     if ( ( arg(0) != 'civicrm' && arg(0) != 'admin' ) ||
-         ( $op == 'configure' ) || 
-         ( ! user_access( 'access CiviCRM' ) ) ) {
+         ( $op == 'configure' ) ) {
         return;
     }
 
     // The $op parameter determines what piece of information is being requested.
-    global $user;
-    if ($user->uid) {
-        require_once 'CRM/Core/Block.php';
+    require_once 'CRM/Core/Block.php';
 
-        $menu_arr = civicrm_menu(true);
-        if ($op == 'list') {
-            $block = CRM_Core_Block::getInfo();
-        } else {
-            $block = CRM_Core_Block::getContent ($delta);
-        }
-        return $block;
+    $menu_arr = civicrm_menu(true);
+    if ($op == 'list') {
+        $block = CRM_Core_Block::getInfo();
+    } else {
+        $block = CRM_Core_Block::getContent ($delta);
     }
+    return $block;
 }
 
 /**
