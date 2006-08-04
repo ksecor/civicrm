@@ -95,7 +95,41 @@ function crm_contact_search( &$params, $return_properties = null, $sort = null, 
     $newP =& CRM_Contact_Form_Search::convertFormValues( $params );
     return CRM_Contact_BAO_Query::apiQuery( $newP, $return_properties, null, $sortString, $offset, $row_count );
 } 
- 
+
+/** 
+ * Returns the number of Contact objects which match the search criteria specified in $params.
+ * This matches the new search format
+ *
+ * @param array  $params
+ *
+ * @return int
+ * @access public
+ */
+function civicrm_search_count( &$params ) {
+    require_once 'CRM/Contact/Form/Search.php';
+    $query =& new CRM_Contact_BAO_Query( $params );
+    return $query->searchQuery( 0, 0, null, true );
+}
+
+/**  
+ * returns a number of contacts from the offset that match the criteria
+ * specified in $params. return_properties are the values that are returned
+ * to the calling function. This matches the new search format
+ * 
+ * @param array  $params
+ * @param array  $returnProperties
+ * @param object|array  $sort      object or array describing sort order for sql query.
+ * @param int    $offset   the row number to start from
+ * @param int    $rowCount the number of rows to return
+ * 
+ * @return int 
+ * @access public 
+ */ 
+function civicrm_search( &$params $return_properties = null, $sort = null, $offset = 0, $row_count = 25) {
+    $sortString = CRM_Core_DAO::getSortString( $sort );
+    require_once 'CRM/Contact/Form/Search.php';
+    return CRM_Contact_BAO_Query::apiQuery( $params, $return_properties, null, $sortString, $offset, $row_count );
+}
 
 
 

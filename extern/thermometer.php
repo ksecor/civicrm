@@ -20,7 +20,7 @@
  */
 class CRM_GD_Thermometer {
 
-    static function draw( $current, $goal, $width, $height, $font ) {
+    function draw( $current, $goal, $width, $height, $font ) {
         $bar = 0.50;
 
         // create the image
