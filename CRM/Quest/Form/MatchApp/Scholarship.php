@@ -147,8 +147,11 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student');
 
-        // primary method to access internet
-        
+        // has health insurance
+        $this->addYesNo( 'is_health_insurance',
+                         ts( 'Will you be covered by medical insurance while at college?' ),null,true);
+
+        // primary method to access internet        
         $extra1 = array( 'onchange' => "return showHideByValue('internet_access_id','23','internet_access_other','table-row','select',false);");
         $this->addSelectOther('internet_access',
                               ts('What is your primary method of accessing the Internet?'),

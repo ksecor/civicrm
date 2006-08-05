@@ -6,8 +6,12 @@
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
-     <td class="grouplabel" width="30%"> {$form.internet_access_id.label} </td>
-     <td class="fieldlabel" width="70%">{$form.internet_access_id.html}</td>
+     <td class="grouplabel" width="30%"> {$form.is_health_insurance.label} </td>
+     <td class="fieldlabel" width="70%">{$form.is_health_insurance.html}</td>
+</tr> 
+<tr>
+     <td class="grouplabel"> {$form.internet_access_id.label} </td>
+     <td class="fieldlabel">{$form.internet_access_id.html}</td>
 </tr> 
 <tr id="internet_access_other">
      <td class="grouplabel"> {$form.internet_access_other.label}</td>

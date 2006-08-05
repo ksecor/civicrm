@@ -799,7 +799,6 @@
  <field>
        <name>is_health_insurance</name>
        <type>boolean</type>
-       <default>0</default>
        <export>true</export>
        <import>true</import>
        <title>Does student have health insurance?</title>
