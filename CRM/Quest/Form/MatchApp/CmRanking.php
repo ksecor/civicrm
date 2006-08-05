@@ -136,6 +136,13 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $ranks = array();
+        //remoave the elements the are not 'college_ranking'
+        foreach( $params as $k => $value) {
+            if (substr($k,0,15) !="college_ranking") {
+                unset($params[$k]);
+            }
+        }
+        
         foreach ( $params as $key => $value ) {
             $tempArray = $params;
             unset($tempArray[$key]);
