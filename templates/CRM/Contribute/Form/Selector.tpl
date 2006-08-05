@@ -46,7 +46,7 @@
     <td>{$row.receive_date|truncate:10:''|crmDate}</td>
     <td>{$row.thankyou_date|truncate:10:''|crmDate}</td>
     <td>{$row.cancel_date|truncate:10:''|crmDate}</td>
-    <td>{$row.name}</td>
+    <td>{$row.product_name}</td>
     <td>{$row.action}</td>
   </tr>
   {/foreach}
