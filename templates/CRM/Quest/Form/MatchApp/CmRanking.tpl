@@ -16,8 +16,8 @@
     </td>
 </tr>
 <tr>
-    <td class="grouplabel"><strong>Colleges</strong></td>
-    <td class = "nowrap"><strong>Ranking</strong></td>
+    <td class="grouplabel" width="33%"><strong>Colleges</strong></td>
+    <td class ="grouplabel" width="77%"><strong>Ranking</strong></td>
 </tr>
 {section name=rowLoop start=1 loop=16}
       {assign var=i value=$smarty.section.rowLoop.index}
@@ -28,7 +28,12 @@
         <td class="grouplabel">{$collegeTypes[$i]}&nbsp;&nbsp;<a href={$urlLink[$i]} target="_blank">(<u>learn more</u>)</a></td>
         <td class="nowrap">{$form.$collegeRank.html}</td>
       </tr>
-{/section} 
+{/section}
+<tr><td class="grouplabel" colspan="2">&nbsp;</td</tr>
+<tr>
+    <td class="grouplabel">{$form.match_likely_id.label}</td>
+    <td class="fieldlabel">{$form.match_likely_id.html}</td>
+</tr>
 </table>
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}

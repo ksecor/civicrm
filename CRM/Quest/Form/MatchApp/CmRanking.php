@@ -111,6 +111,10 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
             $link[$k] = $collegeLink->url_learn;
             unset($collegeLink);
         }
+        $this->addRadio( 'match_likely_id',
+                         ts('How likely are you about going through the College Match Program\'s binding process?'),
+                         CRM_Core_OptionGroup::values('match_likely'),null,null,true );
+        
         
         $this->assign( 'collegeType', $partners);
 

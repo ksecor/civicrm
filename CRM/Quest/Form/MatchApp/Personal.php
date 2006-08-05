@@ -253,10 +253,6 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         // race other option
         $this->addElement('text', 'ethnicity_other', ts( 'Please specify' ), $attributes['ethnicity_other'] );
 
-        $this->addRadio( 'home_area_id',
-                         ts('Would you describe your home area as'),
-                         CRM_Core_OptionGroup::values('home_area') );
-
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_Personal', 'formRule'));
 
         parent::buildQuickForm( );

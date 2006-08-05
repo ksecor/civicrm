@@ -35,13 +35,13 @@
 {if $attachment}
 <tr>
    <td class="grouplabel">
-   <strong>Your Picture</strong>
+   Your Photo
    </td>
-   <td class="fieldlabel">
-    <a href="{crmURL p='civicrm/file' q="action=view&eid=`$attachment.entity_id`&id=`$attachment.file_id`&quest=1"}">{$attachment.file_type}    </a><br/>
+   <td class="grouplabel">
+    <a class="underline" href="{crmURL p='civicrm/file' q="action=view&eid=`$attachment.entity_id`&id=`$attachment.file_id`&quest=1"}" class="grouplabel">View your current {$attachment.file_type}</a><br/>
 
     <div id="upload_show"> 
-    <a href="#" onclick="hide('upload_show'); show('upload'); return false;">{ts}&raquo; <label>Upload a new photo</label>{/ts}</a>
+    <a class="underline" href="#" onclick="hide('upload_show'); show('upload'); return false;">{ts}&raquo; <label>Upload a new photo</label>{/ts}</a>
     </div>
     <div id="upload">
     {$form.uploadFile.html}<br/>
