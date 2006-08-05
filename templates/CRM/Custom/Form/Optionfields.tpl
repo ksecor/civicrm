@@ -57,5 +57,5 @@
     }
     {/literal}
     {* hide and display the appropriate blocks as directed by the php code *}
-    on_load_init_blocks( showRows, hideBlocks, 'table-row' );
+    on_load_init_blocks( showRows, hideBlocks, '' );
 </script>

@@ -233,7 +233,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $this->_location_types = array($defaultLocationType->id => $defaultLocation) +  $this->_location_types;
         }
         
-        $this->_location_types = array (' ' => 'Primary') + $this->_location_types;
+        $this->_location_types = array ('' => 'Primary') + $this->_location_types;
 
         $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
 

@@ -514,11 +514,11 @@ div.spacer, .spacer {
  font-weight: bold;
 }
 
-#crm-container #search-status ul, #crm-container td ul {
+#crm-container #search-status ul, #crm-container ul.left-alignment, #crm-container td ul {
  margin: 0em 0em 0em -2.0em;
 }
 
-#crm-container #search-status ul li{
+#crm-container #search-status ul li, #crm-container ul.left-alignment li{
  display: list-item;
  margin-left: 2.0em;
  list-style-position: inside;

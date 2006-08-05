@@ -115,7 +115,8 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $this->add('text', 'email_return_path', ts('Send Emails RETURN-PATH:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
         $this->addRule( "email_return_path", ts('Email is not valid.'), 'email' );
         
-        $this->assign( 'locationCount', $config->maxLocationBlocks + 1 );
+        //$this->assign( 'locationCount', $config->maxLocationBlocks + 1 );
+        $this->assign( 'locationCount', 2 );
         $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
         
         $this->addButtons( array(
