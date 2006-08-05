@@ -1,3 +1,4 @@
+<script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 {if ! empty( $fields )}
 {* wrap in crm-container div so crm styles are used *}
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
@@ -13,6 +14,7 @@
     {assign var=zeroField value="Initial Non Existent Fieldset"}
     {assign var=fieldset  value=$zeroField}
     {foreach from=$fields item=field key=name}
+
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
             {if $addCAPTCHA }
@@ -34,12 +36,19 @@
 
            {if $mode ne 8}
               </fieldset>
+              </div>
            {/if}
         {/if}
 
 
         {if $mode ne 8} 
-            <fieldset><legend>{$field.groupTitle}</legend>
+           {assign var="groupId" value="id_"|cat:$field.group_id}
+           <div id="{$groupId}_show" class="data-group">
+              <a href="#" onclick="hide('{$groupId}_show'); show('{$groupId}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$field.groupTitle}{/ts}</label><br />
+           </div>
+
+           <div id="{$groupId}">
+            <fieldset><legend><a href="#" onclick="hide('{$groupId}'); show('{$groupId}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$field.groupTitle}{/ts}</legend>
         {/if}
         {assign var=fieldset  value=`$field.groupTitle`}
         {assign var=groupHelpPost  value=`$field.groupHelpPost`}
@@ -48,7 +57,7 @@
         {/if}
         <table class="form-layout-compressed">
      {/if}
-    
+
     {assign var=n value=$field.name}
     {if $field.options_per_line}
 	<tr>
@@ -109,16 +118,27 @@
 {if $field.groupHelpPost}
     <div class="messages help">{$field.groupHelpPost}</div>
 {/if}
+    {if $mode ne 8}
+    </fieldset>
+    </div>
+    {/if}
 {if $mode eq 4}
 <div class="crm-submit-buttons"> 
      {$form.buttons.html}
 </div>
-{/if}
-    {if $mode ne 8}
-    </fieldset>
 {/if}
      {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>{/if}
     {/strip}
 
 </div> {* end crm-container div *}
 {/if} {* fields array is not empty *}
+
+{if $mode ne 8}
+  <script type="text/javascript">
+    var showBlocks = new Array({$showBlocks});
+    var hideBlocks = new Array({$hideBlocks});
+
+    {* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showBlocks, hideBlocks );
+  </script>
+{/if}

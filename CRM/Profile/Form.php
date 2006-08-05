@@ -489,6 +489,32 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->_addToGroupID = $addToGroupId;
             }
         }
+        
+        $sBlocks = array( );
+        $hBlocks = array( );
+
+        $dao = new CRM_Core_DAO_UFGroup();
+        $dao->id        = $this->_gid;
+        $dao->is_active = 1;
+        
+        $dao->find();
+
+        while (  $dao->fetch() ) {
+            if ( $dao->collapse_display ) {
+                $sBlocks[] = "'id_". $dao->id  . "_show'" ; 
+                $hBlocks[] = "'id_". $dao->id ."'"; 
+            } else {
+                $hBlocks[] = "'id_". $dao->id . "_show'" ; 
+                $sBlocks[] = "'id_". $dao->id ."'"; 
+            }
+        }
+        
+        $showBlocks = implode(",",$sBlocks); 
+        $hideBlocks = implode(",",$hBlocks); 
+        
+        $this->assign( 'showBlocks', $showBlocks ); 
+        $this->assign( 'hideBlocks', $hideBlocks ); 
+        
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
