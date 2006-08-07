@@ -1194,7 +1194,7 @@ function _crm_add_formatted_param(&$values, &$params) {
             $imBlock = count($params['location'][$locBlock]['im']) + 1;
 
             $params['location'][$locBlock]['im'][$imBlock] = array();
-            
+            $values['name'] = $values['im'];
             if (!isset($fields['IM'])) {
                 $fields['IM'] = CRM_Core_DAO_IM::fields();
             }
