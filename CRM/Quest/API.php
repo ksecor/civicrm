@@ -138,6 +138,7 @@ SELECT cr.id                   as contact_id,
         if ( ! $dao->find( true ) ) {
             $result = array( );
             $result['status'] = ts( 'Not Started' );
+            $result['link'  ] = CRM_Utils_System::url( 'civicrm/quest/matchapp', "reset=1&id=$sourceID" );
             return $result;
         }
 
