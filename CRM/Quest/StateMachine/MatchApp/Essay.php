@@ -49,7 +49,12 @@ class CRM_Quest_StateMachine_MatchApp_Essay extends CRM_Quest_StateMachine_Match
         $this->_states = array( );
 
         $this->_pages = array( );
+        self::setPages( $this->_pages, $this, $controller );
 
+        parent::rebuild( $controller, $action );
+    }
+
+    static public function setPages( &$pages, &$stateMachine, &$controller ) {
         $essays = array( 'Short'           => 'Short Answers',
                          'Extracurricular' => 'Extracurricular Essay',
                          'Experience'      => 'Experience that excites you',
@@ -57,12 +62,10 @@ class CRM_Quest_StateMachine_MatchApp_Essay extends CRM_Quest_StateMachine_Match
                          'PersonalStat'    => 'Personal Statement',
                          'Optional'        => 'Optional Essay' );
         foreach ( $essays as $essay => $title ) {
-            $this->_pages["Essay-{$essay}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Essay_$essay",
-                                                     'title'     => $title,
-                                                     'options'   => array( ) );
+            $pages["Essay-{$essay}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Essay_$essay",
+                                              'title'     => $title,
+                                              'options'   => array( ) );
         }
-
-        parent::rebuild( $controller, $action );
     }
 
     public function &getDependency( ) {

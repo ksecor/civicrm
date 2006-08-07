@@ -48,17 +48,20 @@ class CRM_Quest_StateMachine_MatchApp_Personal extends CRM_Quest_StateMachine_Ma
         // ensure the states array is reset
         $this->_states = array( );
 
-        $this->_pages = array(
-                              'CRM_Quest_Form_MatchApp_Personal'            => null,
-                              'CRM_Quest_Form_MatchApp_Scholarship'         => null,
-                              'CRM_Quest_Form_MatchApp_Educational'         => null,
-                              'CRM_Quest_Form_MatchApp_ExtracurricularInfo' => null,
-                              'CRM_Quest_Form_MatchApp_WorkExperience'      => null,
-                              );
+        $this->_pages = array( );
+        self::setPages( $this->_pages, $this, $controller );
 
         parent::rebuild( $controller, $action );
     }
 
+    static public function setPages( &$pages, &$stateMachine, &$controller ) {
+        $pages['CRM_Quest_Form_MatchApp_Personal'            ] = null;
+        $pages['CRM_Quest_Form_MatchApp_Scholarship'         ] = null;
+        $pages['CRM_Quest_Form_MatchApp_Educational'         ] = null;
+        $pages['CRM_Quest_Form_MatchApp_ExtracurricularInfo' ] = null;
+        $pages['CRM_Quest_Form_MatchApp_WorkExperience'      ] = null;
+    }
+        
     public function &getDependency( ) {
         if ( self::$_dependency == null ) {
             self::$_dependency = array( );

@@ -13,7 +13,7 @@ function civitest_help( $section ) {
 
 function civitest_civicrm_post( $op, $objectName, $objectId, &$objectRef ) {
     // only interested in the profile object and create operation for now
-    if ( $objectName != 'Profile' || $op != 'create' ) {
+    if ( $objectName != 'Profile' || ( $op != 'create' && $op != 'edit' ) ) {
         return;
     }
 

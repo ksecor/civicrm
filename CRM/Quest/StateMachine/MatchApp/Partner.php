@@ -119,24 +119,28 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
         // ensure the states array is reset
         $this->_states = array( );
 
-        $partners =& self::partners( );
-
-        $validPartners =& $this->getValidPartners( );
-
-        $this->_pages = array( 'CRM_Quest_Form_MatchApp_Partner_PartnerIntro' => null);
-        foreach ( $partners as $name => $values ) {
-            if ( $validPartners[$values['title']] ) {
-                foreach ( $values['steps'] as $key => $title ) {
-                    $this->_pages["{$name}-{$key}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Partner_{$name}_{$key}",
-                                                             'title'     => $title,
-                                                             'options'   => array( ) );
-                }
-            }
-        }
+        $this->_pages = array( );
+        self::setPages( $this->_pages, $this, $controller );
 
         parent::rebuild( $controller, $action );
     }
 
+    static public function setPages( &$pages, &$stateMachine, &$controller ) {
+        $partners =& self::partners( );
+
+        $validPartners =& $stateMachine->getValidPartners( );
+
+        foreach ( $partners as $name => $values ) {
+            if ( $validPartners[$values['title']] ) {
+                foreach ( $values['steps'] as $key => $title ) {
+                    $pages["{$name}-{$key}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Partner_{$name}_{$key}",
+                                                      'title'     => $title,
+                                                      'options'   => array( ) );
+                }
+            }
+        }
+    }
+    
     public function &getDependency( ) {
         if ( self::$_dependency == null ) {
             self::$_dependency = array( );

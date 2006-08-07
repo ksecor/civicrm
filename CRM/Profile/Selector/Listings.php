@@ -355,7 +355,10 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $row = array( );
             $empty = true;
             $row[] = CRM_Contact_BAO_Contact::getImage( $result->contact_type );
-            $row['sort_name'] = $result->sort_name;
+            if ( $result->sort_name ) {
+                $row['sort_name'] = $result->sort_name;
+                $empty            = false;
+            }
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                     $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name, $cfID, $this->_options );

@@ -48,19 +48,25 @@ class CRM_Quest_StateMachine_MatchApp_Household extends CRM_Quest_StateMachine_M
         // ensure the states array is reset
         $this->_states = array( );
 
-        $this->_pages = array( 'CRM_Quest_Form_MatchApp_Household'     => null );
+        $this->_pages = array( );
+        self::setPages( $this->_pages, $this, $controller );
+
+        parent::rebuild( $controller, $action );
+    }
+
+    static public function setPages( &$pages, &$stateMachine, &$controller ) {
+        $pages['CRM_Quest_Form_MatchApp_Household'] = null;
 
         $dynamic = array( 'Household', 'Sibling', 'Income' );
         foreach ( $dynamic as $d ) {
             require_once "CRM/Quest/Form/MatchApp/$d.php";
-            eval( '$pages =& CRM_Quest_Form_MatchApp_' . $d . '::getPages( $controller );' );
-            $this->_pages = array_merge( $this->_pages, $pages );
+            eval( '$newPages =& CRM_Quest_Form_MatchApp_' . $d . '::getPages( $controller );' );
+            $pages = array_merge( $pages, $newPages );
         }
 
-        if ( $this->includeNonCustodial( ) ) {
-            $this->_pages['CRM_Quest_Form_MatchApp_Noncustodial'] = null;
+        if ( self::includeNonCustodial( $stateMachine, $controller ) ) {
+            $pages['CRM_Quest_Form_MatchApp_Noncustodial'] = null;
         }
-        parent::rebuild( $controller, $action );
     }
 
     public function &getDependency( ) {
@@ -76,10 +82,10 @@ class CRM_Quest_StateMachine_MatchApp_Household extends CRM_Quest_StateMachine_M
         return self::$_dependency;
     }
 
-    public function includeNonCustodial( $force=false) {
-        $includeNonCustodial = $this->_controller->get( 'includeNonCustodial' );
+    public function includeNonCustodial( &$stateMachine, &$controller, $force = false ) {
+        $includeNonCustodial = $controller->get( 'includeNonCustodial' );
         if ( $includeNonCustodial === null || $force ) {
-            $cid = $this->_controller->get( 'contactID' );
+            $cid = $controller->get( 'contactID' );
             $query = "
 SELECT count( p.id )
   FROM quest_person p
@@ -88,7 +94,7 @@ SELECT count( p.id )
    AND p.is_contact_with_student = 0
 ";
             $includeNonCustodial = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray ) ? 1 : 0;
-            $this->_controller->set( 'includeNonCustodial', $includeNonCustodial );
+            $controller->set( 'includeNonCustodial', $includeNonCustodial );
         }
         return $includeNonCustodial;
     }

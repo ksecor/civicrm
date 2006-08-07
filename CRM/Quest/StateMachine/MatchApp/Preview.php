@@ -40,22 +40,23 @@ require_once 'CRM/Quest/StateMachine/MatchApp.php';
  * State machine for managing different states of the Quest process.
  *
  */
-class CRM_Quest_StateMachine_MatchApp_Submit extends CRM_Quest_StateMachine_MatchApp {
+class CRM_Quest_StateMachine_MatchApp_Preview extends CRM_Quest_StateMachine_MatchApp {
 
     static $_dependency = null;
-    
+
     public function rebuild( &$controller, $action = CRM_Core_Action::NONE ) {
         // ensure the states array is reset
         $this->_states = array( );
 
         $this->_pages = array( );
-        self::setPages( $this->_pages, $this, $controller );
+        
+        $sections = array( 'Personal', 'Household', 'School', 'Essay', 'Submit' );
+        foreach ( $sections as $section ) {
+            require_once "CRM/Quest/StateMachine/MatchApp/{$section}.php";
+            eval( "CRM_Quest_StateMachine_MatchApp_{$section}::setPages( " . '$this->_pages, $this, $controller );' );
+        }
 
         parent::rebuild( $controller, $action );
-    }
-
-    static public function setPages( &$pages, &$stateMachine, &$controller ) {
-        $pages['CRM_Quest_Form_MatchApp_Submit'] = null;
     }
 
     public function &getDependency( ) {

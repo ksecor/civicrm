@@ -34,36 +34,30 @@
  *
  */
 
-require_once 'CRM/Quest/StateMachine/MatchApp.php';
+require_once 'CRM/Quest/Controller/MatchApp.php';
 
-/**
- * State machine for managing different states of the Quest process.
- *
- */
-class CRM_Quest_StateMachine_MatchApp_Submit extends CRM_Quest_StateMachine_MatchApp {
+class CRM_Quest_Controller_MatchApp_Preview extends CRM_Quest_Controller_MatchApp {
 
-    static $_dependency = null;
-    
-    public function rebuild( &$controller, $action = CRM_Core_Action::NONE ) {
-        // ensure the states array is reset
-        $this->_states = array( );
+    protected $_action;
 
-        $this->_pages = array( );
-        self::setPages( $this->_pages, $this, $controller );
-
-        parent::rebuild( $controller, $action );
+    /**
+     * class constructor
+     */
+    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
+        parent::__construct( $title, $action, $modal, 'Preview' );
     }
 
-    static public function setPages( &$pages, &$stateMachine, &$controller ) {
-        $pages['CRM_Quest_Form_MatchApp_Submit'] = null;
-    }
-
-    public function &getDependency( ) {
-        if ( self::$_dependency == null ) {
-            self::$_dependency = array( );
-        }
-
-        return self::$_dependency;
+    /**
+     * Create the header for the wizard from the list of pages
+     * Store the created header in smarty
+     *
+     * @param string $currentPageName name of the page being displayed
+     * @return array
+     * @access public
+     */
+    function wizardHeader( $currentPageName ) {
+        $this->_sections = array( );
+        parent::wizardHeader( $currentPageName );
     }
 
 }

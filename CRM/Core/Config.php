@@ -826,7 +826,7 @@ class CRM_Core_Config {
         if ( ! isset( self::$_mail ) ) {
             if ( self::$_singleton->smtpServer == '' ||
                  self::$_singleton->smtpServer == 'YOUR SMTP SERVER' ) {
-                CRM_Utils_System::fatal( ts( 'CIVICRM_SMTP_SERVER is not set in the config file' ) ); 
+                CRM_Core_Error::fatal( ts( 'CIVICRM_SMTP_SERVER is not set in the config file' ) ); 
             }
 
             $params['host'] = self::$_singleton->smtpServer;

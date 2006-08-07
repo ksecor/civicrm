@@ -48,10 +48,16 @@ class CRM_Quest_StateMachine_MatchApp_School extends CRM_Quest_StateMachine_Matc
         // ensure the states array is reset
         $this->_states = array( );
 
-        $this->_pages = array( 'CRM_Quest_Form_MatchApp_HighSchool'         => null,
-                               'CRM_Quest_Form_MatchApp_SchoolOther'        => null,
-                               'CRM_Quest_Form_MatchApp_Academic'           => null,
-                               );
+        $this->_pages = array( );
+        self::setPages( $this->_pages, $this, $controller );
+
+        parent::rebuild( $controller, $action );
+    }
+
+    static public function setPages( &$pages, &$stateMachine, &$controller ) {
+        $pages['CRM_Quest_Form_MatchApp_HighSchool' ] = null;
+        $pages['CRM_Quest_Form_MatchApp_SchoolOther'] = null; 
+        $pages['CRM_Quest_Form_MatchApp_Academic'   ] = null;
         
         $grades = array( 'Nine'   => '9th Grade',
                          'Ten'    => '10th Grade',
@@ -59,16 +65,13 @@ class CRM_Quest_StateMachine_MatchApp_School extends CRM_Quest_StateMachine_Matc
                          'Twelve' => '12th Grade',
                          'Summer' => 'Summer School' );
         foreach ( $grades as $grade => $title ) {
-            $this->_pages["Transcript-{$grade}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Transcript_$grade",
-                                                          'title'     => $title,
-                                                          'options'   => array( ) );
+            $pages["Transcript-{$grade}"] = array( 'className' => "CRM_Quest_Form_MatchApp_Transcript_$grade",
+                                                   'title'     => $title,
+                                                   'options'   => array( ) );
         }
         
-        $this->_pages['CRM_Quest_Form_MatchApp_Testing'] = null;
-
-        $this->_pages['CRM_Quest_Form_MatchApp_Recommendation'] = null;
-
-        parent::rebuild( $controller, $action );
+        $pages['CRM_Quest_Form_MatchApp_Testing'       ] = null;
+        $pages['CRM_Quest_Form_MatchApp_Recommendation'] = null;
     }
 
     public function &getDependency( ) {
