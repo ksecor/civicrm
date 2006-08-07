@@ -307,7 +307,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                               'location_type_id' => $field->location_type_id,
                               'phone_type'       => $field->phone_type,
                               'group_id'         => $group->id,
-                              'add_to_group_id'  => $group->add_to_group_id
+                              'add_to_group_id'  => $group->add_to_group_id,
+                              'collapse_display' => $group->collapse_display
                               );
                     //adding custom field property 
                     if ( substr($name, 0, 6) == 'custom' ) {

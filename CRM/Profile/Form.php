@@ -126,7 +126,6 @@ class CRM_Profile_Form extends CRM_Core_Form
         //check for mix profile display in registration
         if ( $this->_mode == self::MODE_REGISTER ) {
             //check for mix profile fields (eg:  individual + other contact type)
-            //if ( CRM_Core_BAO_UFField::checkProfileGroupType( ) != 'Individual' ) {
             if ( ! CRM_Core_BAO_UFField::checkProfileGroupType( ) ) {
                 CRM_Utils_System::setUFMessage( ts( "Organization and/or Household-related fields can not be included in a User Registration Profile form. Please contact the site administrator to report this problem.") );
                 $config  =& CRM_Core_Config::singleton( );
@@ -320,7 +319,9 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @access public
      */
     public function buildQuickForm()
-    {
+    {   
+        $sBlocks = array( );
+        $hBlocks = array( );
         if ( $this->_mode != self::MODE_REGISTER ) {
             //check for mix profile fields (eg:  individual + other contact type)
             if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
@@ -335,15 +336,6 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->assign( 'fields'      , $this->_fields   );
         $this->assign( 'fieldset'    , $this->_fieldset ); 
         
-        /*  if ($this->_mode & self::MODE_EDIT) {
-            $group =& new CRM_Core_DAO_UFGroup();
-            $group->id = $this->_gid;
-            if ($group->find(true)) {
-                $this->assign('help_pre',  $group->help_pre);
-                $this->assign('help_post', $group->help_post);
-            }
-        }*/
-
         // do we need inactive options ?
         if ($this->_action & CRM_Core_Action::VIEW ) {
             $inactiveNeeded = true;
@@ -470,8 +462,18 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
                 }
             }
+            
+            //build show/hide array for uf groups
+            if($field['collapse_display']){
+                $sBlocks[] = "'id_". $field['group_id']  . "_show'" ; 
+                $hBlocks[] = "'id_". $field['group_id'] ."'"; 
+            }
+            else{
+                $hBlocks[] = "'id_". $field['group_id'] . "_show'" ; 
+                $sBlocks[] = "'id_". $field['group_id'] ."'";   
+            }
         }
-       
+
         if ( $this->_mode != self::MODE_SEARCH ) {
             $dao = new CRM_Core_DAO_UFGroup();
             $dao->id = $this->_gid;
@@ -487,25 +489,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->add('hidden', "group[$addToGroupId]", 1 );
                 $this->assign( 'addToGroupId' , $addToGroupId );
                 $this->_addToGroupID = $addToGroupId;
-            }
-        }
-        
-        $sBlocks = array( );
-        $hBlocks = array( );
-
-        $dao = new CRM_Core_DAO_UFGroup();
-        $dao->id        = $this->_gid;
-        $dao->is_active = 1;
-        
-        $dao->find();
-
-        while (  $dao->fetch() ) {
-            if ( $dao->collapse_display ) {
-                $sBlocks[] = "'id_". $dao->id  . "_show'" ; 
-                $hBlocks[] = "'id_". $dao->id ."'"; 
-            } else {
-                $hBlocks[] = "'id_". $dao->id . "_show'" ; 
-                $sBlocks[] = "'id_". $dao->id ."'"; 
             }
         }
         
