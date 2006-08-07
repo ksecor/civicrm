@@ -111,6 +111,9 @@ class CRM_Quest_Form_App extends CRM_Core_Form
                 $this->addDefaultButtons( ts('Save & Continue') );
             }
             $this->add('hidden','is_save_draft', '0');
+
+            // also make sure we set this as a constant
+            $this->setConstants( array( 'is_save_draft' => 0 ) );
         }
     }
 
@@ -156,6 +159,11 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         }
 
         $this->controller->changeCategoryValues( $changes );
+
+        // if save draft is set, redirect to locker
+        if ( CRM_Utils_Array::value( 'is_save_draft', $_POST ) ) {
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'locker', 'reset=1' ) );
+        }
 
     }//end of function
 
