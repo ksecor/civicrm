@@ -23,7 +23,11 @@
     <td class="grouplabel">{$form.state_province_id.label}</td>
     <td class="fieldlabel">{$form.state_province_id.html}</td>
 </tr>
-<tr><td class="grouplabel" colspan=2>{$form._qf_SchoolSearch_refresh.html}</td>
+<tr><td class="grouplabel" colspan=2>
+        <input type="hidden" name="schoolIndex" value="{$schoolIndex}">
+        {$form._qf_SchoolSearch_refresh.html}
+    </td>
+</tr>
 </table>
 </div>
 

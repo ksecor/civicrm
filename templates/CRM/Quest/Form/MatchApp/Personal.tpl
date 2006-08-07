@@ -38,7 +38,7 @@
    Your Photo
    </td>
    <td class="grouplabel">
-    <a class="underline" href="{crmURL p='civicrm/file' q="action=view&eid=`$attachment.entity_id`&id=`$attachment.file_id`&quest=1"}" class="grouplabel">View your current {$attachment.file_type}</a><br/>
+    <a class="underline" target="_blank" href="{crmURL p='civicrm/file' q="action=view&eid=`$attachment.entity_id`&id=`$attachment.file_id`&quest=1"}" class="grouplabel">View your current {$attachment.file_type}</a><br/>
 
     <div id="upload_show"> 
     <a class="underline" href="#" onclick="hide('upload_show'); show('upload'); return false;">{ts}&raquo; <label>Upload a new photo</label>{/ts}</a>

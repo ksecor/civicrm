@@ -99,15 +99,15 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
     public function buildQuickForm( ) 
     {
         // broader context
-        $extra1 = array('onchange' => "return showHideByValue('is_context', '1', 'explain_context_row','table-row', 'radio', false);");
+        $extra1 = array('onclick' => "return showHideByValue('is_context', '1', 'explain_context_row','table-row', 'radio', false);");
         $this->addYesNo( 'is_context',
                          ts( 'Is there a broader context in which we should consider the candidate\'s performance and involvements?' ),null,true ,$extra1);
         
-        $extra2 = array('onchange' => "return showHideByValue('is_problem_behavior', '1', 'explain_problem_row','table-row', 'radio', false);");
+        $extra2 = array('onclick' => "return showHideByValue('is_problem_behavior', '1', 'explain_problem_row','table-row', 'radio', false);");
         $this->addYesNo( 'is_problem_behavior',
                          ts( 'Are there any observed problematic behaviors, e.g. discipline problems, violence, intolerance or anti-social behavior in interactions with peers or teachers, perhaps separable from academic performance, which should be explored further by a college considering this student?' ),null,true ,$extra2);
 
-        $extra3 = array('onchange' => "return showHideByValue('is_disciplinary_action', '1', 'explain_discipline_row','table-row', 'radio', false);");
+        $extra3 = array('onclick' => "return showHideByValue('is_disciplinary_action', '1', 'explain_discipline_row','table-row', 'radio', false);");
         $this->addYesNo( 'is_disciplinary_action',
                          ts( 'To the best of your knowledge, has the student ever violated an Honor Code or been suspended or subjected to any school-related or legal disciplinary action?' ),null,true ,$extra3);
 
