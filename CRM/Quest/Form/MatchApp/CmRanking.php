@@ -191,6 +191,9 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
                 $dao->copyValues( $ranking );
                 $dao->save();
             }
+            $ids = array( 'id'         => $this->_studentID,
+                          'contact_id' => $this->_contactID );
+            $student = CRM_Quest_BAO_Student::create( $params, $ids);            
         }
         parent::postProcess( );
     }
