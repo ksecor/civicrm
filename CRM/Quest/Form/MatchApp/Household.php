@@ -138,17 +138,21 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
                 $this->addRule( "years_lived_id_$i", ts( 'Please select a value for years lived in this household.' ), 'required' );
             }
             $this->addRule('member_count_'.$i,ts('Not a valid number.'),'positiveInteger');
-
+            
             for ( $j = 1; $j <= 2; $j++ ) {
-                if($j ==1) {
-                    $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_1', '30|31|32|33|34', 'foster_child_show', 'table-row', 'select', false);" );
-                } else {
-                $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_2', '30|31|32|33|34', 'foster_child_show', 'table-row', 'select', false);" );
+                // if($j ==1) {
+//                     $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_1', '30|31|32|33|34', 'foster_child_show', 'table-row', 'select', false);" );
+//                 } else {
+//                 $extra = array( 'onchange' => "return showHideByValue('relationship_id_1_2', '30|31|32|33|34', 'foster_child_show', 'table-row', 'select', false);" );
+//                 }
+                $extra = array();
+                if($i == 1) {
+                    $extra = array( 'onchange' => "show_foster('relationship_id_" . $i . "','foster_child_show');" );
                 }
-               
                 $this->addSelect( "relationship",
                                    ts( 'Relationship' ),
                                   "_".$i."_".$j ,null ,$extra);
+                
                 $this->addElement( 'text', "first_name_".$i."_".$j,
                                    ts('First Name'),
                                    $attributes['first_name'] );
@@ -162,7 +166,10 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
                     $this->addElement( 'checkbox', $checkboxName, null, null, array('onclick' => "copyNames(\"$checkboxName\",$j);") );
                 }
             }
-
+            require_once 'CRM/Core/ShowHideBlocks.php';
+            $showHide = new CRM_Core_ShowHideBlocks();
+            $showHide->addHide('foster_child_show');
+            $showHide->addToTemplate();
         }
 
         $this->addElement('textarea',
@@ -171,8 +178,7 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
                           CRM_Core_DAO::getAttribute( 'CRM_Quest_DAO_Household', 'description' ) );
 
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_Household', 'formRule'));
-        
-    
+                
         $this->addYesNo( 'foster_child',
                          ts( 'Are you, or have you been, in foster care?' ) ,null,false);
         parent::buildQuickForm( );

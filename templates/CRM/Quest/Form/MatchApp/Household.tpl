@@ -116,22 +116,38 @@
 		    }
         }
     }
+    
+    function show_foster(trigger_element_name,target_element_name) {
+        var index_1 = document.getElementById(trigger_element_name + "_1").selectedIndex;
+        var index_2 = document.getElementById(trigger_element_name + "_2").selectedIndex;
+        if ( ( ( index_1 > 2 ) && ( index_2 > 2 ) ) ) {
+            show(target_element_name, '');
+        } else if ( ( ( index_1 == 0 ) && ( index_2 == 0 ) ) ) {
+            hide(target_element_name);
+        } else if ( ( ( index_1 == 0 ) && ( index_2 > 2 ) ) ) {
+            show(target_element_name, '');
+        } else if ( ( ( index_2 == 0 ) && ( index_1 > 2 ) ) ) {
+            show(target_element_name, '');
+        } else {
+            hide(target_element_name);
+        }
+    }
     </script>
 {/literal}
 
-{include file="CRM/common/showHideByFieldValue.tpl" 
+{*include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="relationship_id_1_1"
     trigger_value       ="30|31|32|33|34"
     target_element_id   ="foster_child_show" 
     target_element_type ="table-row"
     field_type          ="select"
     invert              = 0
-}
-{include file="CRM/common/showHideByFieldValue.tpl" 
+*}
+{*include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="relationship_id_1_2"
     trigger_value       ="30|31|32|33|34"
     target_element_id   ="foster_child_show" 
     target_element_type ="table-row"
     field_type          ="select"
     invert              = 0
-}
+*}
