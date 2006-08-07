@@ -83,7 +83,13 @@ class CRM_Quest_Form_Recommender extends CRM_Core_Form
             $this->addDefaultButtons( ts('Continue') );
             $this->freeze();
         } else {
-            $this->addDefaultButtons( ts('Save & Continue') );
+            switch ( $this->_name ) {
+                case 'Personal':
+                    $this->addDefaultButtons(ts('Save & Continue'), 'next', null);
+                    break;
+                default:
+                    $this->addDefaultButtons( ts('Save & Continue') );
+            }
         }
     }
        
