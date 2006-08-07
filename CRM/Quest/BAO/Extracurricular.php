@@ -215,7 +215,7 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
                 }
                 if (!$anyGrade) {
                     for ( $j = 1; $j <= $maxGrades; $j++ ) {
-                        $errors["grade_level_{$j}_{$i}"] = "Please specify any grade level.";
+                        $errors["grade_level_{$j}_{$i}"] = "Please specify at least one grade level.";
                     }
                 }
                 
@@ -228,7 +228,7 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
                 }
                 if ( $type == 'Extracurricular' ) {
                     if( $params['varsity_sports'] && !$params['varsity_sports_list']) {
-                        $errors['varsity_sports_list'] = "Please Enter Varsity Sports";
+                        $errors['varsity_sports_list'] = "Please enter Varsity sport(s).";
                     }
                 }
                 if ( $type == 'Extracurricular' ) {
