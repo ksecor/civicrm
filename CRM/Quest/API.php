@@ -94,11 +94,21 @@ SELECT cr.id                   as contact_id,
         $params = array( );
         $count  = 0;
         while ( $dao->fetch( ) ) {
+            if ( $dao->rid == 9 ) {
+                $type = 'Teacher';
+                $url  = CRM_Utils_System::url( 'civicrm/quest/teacher',
+                                               "reset=1&id={$dao->contact_id}&scid={$sourceID}" ); 
+           } else {
+                $type = 'Counselor';
+                $url  = CRM_Utils_System::url( 'civicrm/quest/counselor',
+                                               "reset=1&id={$dao->contact_id}&scid={$sourceID}" );
+            }
             $params[$count] = array();
             $params[$count]['contact_id'     ] = $dao->contact_id;
             $params[$count]['display_name'   ] = $dao->display_name;
-            $params[$count]['type'           ] = ( $dao->rid == 9 ) ? 'Teacher' : 'Counselor';
+            $params[$count]['type'           ] = $type;
             $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
+            $params[$count]['link'           ] = $link;
             $count++;
         }
         return $params;
@@ -172,14 +182,24 @@ SELECT cs.id                   as contact_id,
         $params = array( );
         $count  = 0;
         while ( $dao->fetch( ) ) {
+            if ( $dao->rid == 9 ) {
+                $type = 'Teacher';
+                $url  = CRM_Utils_System::url( 'civicrm/quest/teacher',
+                                               "reset=1&id={$sourceID}&scid={$dao->contact_id}" );
+            } else {
+                $type = 'Counselor';
+                $url  = CRM_Utils_System::url( 'civicrm/quest/counselor',
+                                               "reset=1&id={$sourceID}&scid={$dao->contact_id}" );
+            }
             $params[$count] = array( );
             $params[$count]['contact_id'     ] = $dao->contact_id;
             $params[$count]['display_name'   ] = $dao->display_name;
-            $params[$count]['type'           ] = ( $dao->rid == 9 ) ? 'Teacher' : 'Counselor';
+            $params[$count]['type'           ] = $type;
             $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
+            $params[$count]['link'           ] = $url;
             $count++;
         }
-	return $params;
+        return $params;
     }
 
     static function getContactInfo( $id ) {
