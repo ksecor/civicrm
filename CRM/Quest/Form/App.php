@@ -150,7 +150,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         // if college match section is processed, then check for partners and if so enable it
         if ( $this->controller->_subType == 'College' ) {
             require_once 'CRM/Quest/BAO/Partner.php';
-            $partners =& CRM_Quest_BAO_Partner::getPartnersForContact( $this->_contactID );
+            $partners =& CRM_Quest_BAO_Partner::getPartnersForContact( $this->_contactID, true );
             if ( ! empty( $partners ) ) {
                 $url = CRM_Utils_System::url( 'civicrm/quest/matchapp/partner',
                                               'reset=1' );

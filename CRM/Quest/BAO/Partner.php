@@ -102,6 +102,7 @@ WHERE  r.contact_id  = $cid
   AND  ( r.ranking     >= 1 OR
          r.is_forward  = 1 )
 ";
+
         if ( $is_supplement !== null ) {
             $query .= " AND p.is_supplement = $is_supplement";
         }
