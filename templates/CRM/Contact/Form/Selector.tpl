@@ -3,16 +3,20 @@
 {include file="CRM/common/pagerAToZ.tpl"}
 
 {strip}
-<table>
+<table summary="{ts}Search results listings.{/ts}">
+  <caption>{ts}Search results listings.{/ts}</caption>
   <tr class="columnheader">
-  <th>{$form.toggleSelect.html}</th>
+  {assign var="hdrId" value="1"}
+  <th id="selHeader{$hdrId}">{$form.toggleSelect.html}</th>
+  {assign var="hdrId" value=$hdrId+1}
   {if $context eq 'smog'}
-  <th>
-    {ts}Status{/ts}
-  </th>
+      <th id="selHeader{$hdrId}">
+        {ts}Status{/ts}
+      </th>
+      {assign var="hdrId" value=$hdrId+1}
   {/if}
   {foreach from=$columnHeaders item=header}
-    <th>
+    <th id="selHeader{$hdrId}">
     {if $header.sort}
       {assign var='key' value=$header.sort}
       {$sort->_response.$key.link}
@@ -20,6 +24,7 @@
       {$header.name}
     {/if}
     </th>
+    {assign var="hdrId" value=$hdrId+1}
   {/foreach}
   </tr>
 
@@ -29,19 +34,22 @@
       {foreach from=$rows item=row}
         <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
             {assign var=cbName value=$row.checkbox}
-            <td>{$form.$cbName.html}</td>
+            {assign var="hdrId" value="1"}
+            <td headers="selHeader{$hdrId}">{$form.$cbName.html}</td>
             {if $context eq 'smog'}
-              {if $row.status eq 'Pending'}<td class="status-pending"}>
-              {elseif $row.status eq 'Removed'}<td class="status-removed">
-              {else}<td>{/if}
+              {if $row.status eq 'Pending'}<td headers="selHeader{$hdrId}" class="status-pending"}>
+              {elseif $row.status eq 'Removed'}<td headers="selHeader{$hdrId}" class="status-removed">
+              {else}<td headers="selHeader{$hdrId}">{/if}
               {$row.status}</td>
+              {assign var="hdrId" value=$hdrId+1}
             {/if}
-            <td>{$row.contact_type}</td>
-            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
+            <td headers="selHeader{$hdrId}">{$row.contact_type}</td>
+            {assign var="hdrId" value=$hdrId+1}
+            <td headers="selHeader{$hdrId}"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
+            {assign var="hdrId" value=$hdrId+1}
             {foreach from=$row item=value key=key} 
                {if ($key neq "checkbox") and ($key neq "action") and ($key neq "contact_type") and ($key neq "status") and ($key neq "sort_name") and ($key neq "contact_id")}
-
-                <td>
+                <td headers="selHeader{$hdrId}">
                 {if $key EQ "household_income_total" }
                     {$value|crmMoney}
                 {else}
@@ -49,64 +57,58 @@
                 {/if}
                      &nbsp;
                  </td>
-               {/if}   
+               {/if}
+               {assign var="hdrId" value=$hdrId+1}
             {/foreach}
-            <td>{$row.action}</td>
+            <td headers="selHeader{$hdrId}">{$row.action}</td>
         </tr>
      {/foreach}
   {else}
       {foreach from=$rows item=row}
          <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
             {assign var=cbName value=$row.checkbox}
-            <td>{$form.$cbName.html}</td>
+            {assign var="hdrId" value="1"}
+            <td headers="selHeader{$hdrId}">{$form.$cbName.html}</td>
+            {assign var="hdrId" value=$hdrId+1}
             {if $context eq 'smog'}
                 {if $row.status eq 'Pending'}<td class="status-pending"}>
                 {elseif $row.status eq 'Removed'}<td class="status-removed">
                 {else}<td>{/if}
                 {$row.status}</td>
+                {assign var="hdrId" value=$hdrId+1}
             {/if}
-            <td>{$row.contact_type}</td>	
-            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
+            <td headers="selHeader{$hdrId}">{$row.contact_type}</td>	
+            {assign var="hdrId" value=$hdrId+1}
+            <td headers="selHeader{$hdrId}"><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
+            {assign var="hdrId" value=$hdrId+1}
             {if $action eq 512 or $action eq 256}
-              <td>{$row.street_address|mb_truncate:22:"...":true}</td>
-              <td>{$row.city}</td>
-              <td>{$row.state_province}</td>
-              <td>{$row.postal_code}</td>
-              <td>{$row.country}</td>
-              <td>{$row.email|mb_truncate:17:"...":true}</td>
-              <td>{$row.phone}</td>
+              <td headers="selHeader{$hdrId}">{$row.street_address|mb_truncate:22:"...":true}</td>
+              {assign var="hdrId" value=$hdrId+1}
+              <td headers="selHeader{$hdrId}">{$row.city}</td>
+              {assign var="hdrId" value=$hdrId+1}
+              <td headers="selHeader{$hdrId}">{$row.state_province}</td>
+              {assign var="hdrId" value=$hdrId+1}
+              <td headers="selHeader{$hdrId}">{$row.postal_code}</td>
+              {assign var="hdrId" value=$hdrId+1}
+              <td headers="selHeader{$hdrId}">{$row.country}</td>
+              {assign var="hdrId" value=$hdrId+1}
+              <td headers="selHeader{$hdrId}">{$row.email|mb_truncate:17:"...":true}</td>
+              {assign var="hdrId" value=$hdrId+1}
+              <td headers="selHeader{$hdrId}">{$row.phone}</td>
+              {assign var="hdrId" value=$hdrId+1}
             {else}
               {foreach from=$row item=value key=key}
                 {if ($key neq "checkbox") and ($key neq "action") and ($key neq "contact_type") and ($key neq "contact_sub_type") and ($key neq "status") and ($key neq "sort_name") and ($key neq "contact_id")}
-                 <td>{$value}&nbsp;</td>
+                 <td headers="selHeader{$hdrId}">{$value}&nbsp;</td>
+                 {assign var="hdrId" value=$hdrId+1}
                 {/if}   
               {/foreach}
             {/if}
-            <td>{$row.action}</td>
+            <td headers="selHeader{$hdrId}">{$row.action}</td>
+            {assign var="hdrId" value=$hdrId+1}
          </tr>
     {/foreach}
-
-
   {/if}
-
-
-{*
-      {foreach from=$rows item=row}
-      <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
-        {assign var=cbName value=$row.checkbox}
-        <td>{$form.$cbName.html}</td>
-        {if $context eq 'smog'}
-          {if $row.status eq 'Pending'}<td class="status-pending"}>
-          {elseif $row.status eq 'Removed'}<td class="status-removed">
-          {else}<td>{/if}
-          {$row.status}</td>
-        {/if}
-        <td>{$row.contact_type}</td>
-        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
-        <td>{$row.action}</td>
-      </tr>
-      {/foreach}
-*}
 </table>
 {/strip}
 
@@ -115,6 +117,5 @@
     var fname = "{$form.formName}";	
     on_load_init_checkboxes(fname);
  </script>
-
 
 {include file="CRM/common/pager.tpl" location="bottom"}

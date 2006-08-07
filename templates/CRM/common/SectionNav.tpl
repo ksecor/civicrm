@@ -16,7 +16,7 @@
             {if $step.title EQ 'Submit Application' || ($step.title EQ 'Partner Supplements' && !$step.link)}
             {else}
                 {* step.link value is passed for section usages which allow clickable navigation AND when section state is clickable *} 
-                <li class="{$stepClass}">{if $step.link && !$step.current}<a href="{$step.link}">{/if}{$step.title}{if $step.link}</a>{/if}</li>
+                <li class="{$stepClass}">{if $step.link && !$step.current}<a href="{$step.link}">{/if}{$step.title}{if $step.link && !$step.current}</a>{/if}</li>
                 {if $step.current}
                     {include file="CRM/common/WizardHeader.tpl"}
                 {/if}

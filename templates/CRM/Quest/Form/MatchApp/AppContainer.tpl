@@ -3,7 +3,7 @@
   <div id="app-content">
   {if ! ( $action & 1024 ) }{* We skip greeting and nav buttons and .js for preview action, but include them for edit and view actions. *}
     <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
-    <table cellpadding=0 cellspacing=0 border=0 id="app-content">
+    <table cellpadding="0" cellspacing="0" border="0" id="app-content">
         <tr>
             <td class="greeting">{$welcome_name}</td>
             <td class="app-message" align="center">
@@ -24,10 +24,10 @@
         </tr>
      </table>
    {/if}
-    <table cellpadding=0 cellspacing=0 border=0 id="app-content">
+    <table cellpadding="0" cellspacing="0" border="0" id="app-content">
         <tr>
           {if ! ( $action & 1024 )}
-            <td valign=top nowrap id="app-left-nav">
+            <td valign="top" nowrap id="app-left-nav">
 
             {if $appName EQ 'Teacher' || $appName EQ 'Counselor'}
                 {* Counselor and Teacher forms don't have sections. *}
@@ -59,7 +59,7 @@
             <br />
             <div class="help-box">
               <strong>Need Help?</strong><br />
-              <A HREF="mailto:questions@questbridge.org">Email us</A> with your<br />questions
+              <a href="mailto:questions@questbridge.org">Email us</a> with your<br />questions
             </div>
 
             <div id="application-status">
@@ -76,9 +76,9 @@
 
             <div class="help-box">
               <strong>Navigation Color Guide</strong><br />
-              <B>Green</B>: Section not<br />completed or section<br />has error(s)<br />
-              <B>Blue</B>: Section has been<br />completed or is available<br />for editing<br />
-              <B>Gray</B>: Section is not<br />available for editing<br />
+              <strong>Green</strong>: Section not<br />completed or section<br />has error(s)<br />
+              <strong>Blue</strong>: Section has been<br />completed or is available<br />for editing<br />
+              <strong>Gray</strong>: Section is not<br />available for editing<br />
             </div>
             <div class="help-box">
               <strong> Announcements</strong><br />
@@ -89,7 +89,7 @@
 	    </td>
         {/if}
         <!--begin main right cell that contains the application-->
-        <td valign=top class="rightside">
+        <td valign="top" class="rightside">
         {include file="CRM/common/status.tpl"}
         {include file="CRM/Form/body.tpl"}
 {/if}
@@ -109,9 +109,9 @@
     </tr>
     </table>
   {if ! ( $action & 1024 )}
-    <table cellpadding=0 cellspacing=0 border=0 id="app-content">
+    <table cellpadding="0" cellspacing="0" border="0" id="app-content">
         <tr>
-           <td class="app-message" colspan=2>
+           <td class="app-message" colspan="2">
              {ts}
                You must click 'Save &amp; Continue' to save your changes.
              {/ts}
