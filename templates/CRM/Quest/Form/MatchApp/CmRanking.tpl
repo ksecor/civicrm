@@ -7,7 +7,7 @@
 </tr>
 <tr>
     <td colspan="2" class="grouplabel">
-      The College Match program uses a ranking system for matching students with our partner colleges. Our process consists of two rankings, a preliminary ranking and a final ranking. The preliminary ranking is not binding, the final ranking is binding. With this application you will be asked to enter your preliminary ranking. Two weeks after the application deadline, you will be asked for your final ranking. <br />
+      The College Match program uses a ranking system for matching students with our partner colleges. Our process consists of two rankings, a preliminary ranking and a final ranking. The preliminary ranking is not binding, the final ranking is binding. With this application you will be asked to enter your preliminary ranking. If you are selected as a finalist, your final rankings will be due on November 1st.<br />
       <br />
       You can learn more about the <a href="" target="_blank">College Match Process</u></a>
       <br />

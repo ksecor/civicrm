@@ -11,7 +11,7 @@
 </tr> 
 <tr>
     <td class="grouplabel">{$form.gpa_weighted_id.label}</td>
-    <td class="fieldlabel">{$form.gpa_weighted_id.html} <br/>{ts} {edit}Please give your GPA on an weighted, 4.0 scale{/edit}. View instructions for <A HREF="http://www.asfdn.org/content.cfm?page=scholarships_programs_GPA2" TARGET="_blank">calculating an weighted score</A>{/ts}</td>
+    <td class="fieldlabel">{$form.gpa_weighted_id.html} <br/>{ts} {edit}Please give your GPA on a weighted, 4.0 scale{/edit}. View instructions for <A HREF="http://www.asfdn.org/content.cfm?page=scholarships_programs_GPA2" TARGET="_blank">calculating an weighted score</A>{/ts}</td>
 </tr> 
 <tr>
     <td class="grouplabel">{$form.is_class_ranking.label}</td>

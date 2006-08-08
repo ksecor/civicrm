@@ -132,7 +132,7 @@
         <label>{ts}Permanent Telephone{/ts} <span class="marker">*</span></td>
     <td class="fieldlabel">
         {$form.location.1.phone.1.phone.html}<br />
-        {ts}{edit}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/edit}{/ts}
+        {ts}{edit}Area Code and Number. Include extension, if applicable (XXX-XXX-XXXX).<br />Include country code, if not US or Canada (XXX-XXX-XXXXXXX; country code, area code, phone number).{/edit}{/ts}
     </td>
 </tr>
 <tr>
@@ -188,7 +188,7 @@
            <input type="checkbox" name="copy_phone" value="1" onClick="copyPhone()"/> {ts}Check if same as Permanent Phone{/ts}<br/>
 	{/edit}
         {$form.location.2.phone.1.phone.html}<br />
-        {ts}{edit}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/edit}{/ts}
+        {ts}{edit}Area Code and Number. Include extension, if applicable (XXX-XXX-XXXX).<br />Include country code, if not US or Canada (XXX-XXX-XXXXXXX; country code, area code, phone number).{/edit}{/ts}
     </td>
 </tr>
 <tr>
@@ -196,7 +196,7 @@
         <label>{ts}Alternate Telephone{/ts}</td>
     <td class="fieldlabel">
         {$form.location.2.phone.2.phone.html}<br />
-        {ts}{edit}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/edit}{/ts}
+        {ts}{edit}Area Code and Number. Include extension, if applicable (XXX-XXX-XXXX).<br />Include country code, if not US or Canada (XXX-XXX-XXXXXXX; country code, area code, phone number).{/edit}{/ts}
     </td>
 </tr>
 <tr>
@@ -223,7 +223,7 @@
     </td>
     <td class="fieldlabel">
         {$form.ethnicity_id_1.html}<br/>
-	{ts}{edit}Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list. Completion of this information is appreciated, but not required.{/edit}{/ts}
+	{ts}{edit}Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list.{/edit}{/ts}
     </td>
 </tr>
 <tr id="tribe_affiliation">

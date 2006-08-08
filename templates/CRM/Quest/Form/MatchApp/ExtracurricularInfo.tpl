@@ -75,7 +75,7 @@ Please list your principal extracurricular, community, and family activities and
     <td class="fieldlabel" colspan=2 >{$form.hobbies.html}</td>
 </tr>    
 <tr>
-    <td class="grouplabel"> {ts}Are you interested in participating in any of the following in college?{/ts}</td>
+    <td class="grouplabel"> {ts}Are you interested in participating in either of the following in college?{/ts}</td>
     <td class="grouplabel">
 	{$form.varsity_sports.html}{$form.varsity_sports.label}	{$form.varsity_sports_list.html}<br/>
 	{$form.arts.html}{$form.arts.label}{$form.arts_list.html}

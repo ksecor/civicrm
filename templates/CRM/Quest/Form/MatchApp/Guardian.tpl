@@ -120,12 +120,12 @@
 <tr>
     <td class="fieldlabel">
         {$form.location.1.address.country_id.html}<br />
-        {edit}{$form.location.1.address.country_id.label}{/edit} <span class="marker">*</span>
+        {edit}{$form.location.1.address.country_id.label}{/edit}
         </td>
 </tr>
 <tr>
     <td class="grouplabel" rowspan="2">
-        <label>{ts}Permanent Telephone{/ts} <span class="marker">*</span></td>
+        <label>{ts}Permanent Telephone{/ts}</td>
     <td class=fieldlabel">
         {edit}
            <input type="checkbox" id="copy_phone" name="copy_phone" value="1" onclick="copyPhone()"/> {ts}Same as my Permanent telephone{/ts}<br/>
@@ -134,7 +134,7 @@
 <tr>
     <td class="fieldlabel">
         {$form.location.1.phone.1.phone.html}<br />
-        {ts}{edit}Area Code and Number. Include extension, if applicable. Include country code, if not US or Canada.{/edit}{/ts}
+        {ts}{edit}Area Code and Number. Include extension, if applicable (XXX-XXX-XXXX).<br />Include country code, if not US or Canada (XXX-XXX-XXXXXXX; country code, area code, phone number).{/edit}{/ts}
     </td>
 </tr>
 

@@ -9,7 +9,7 @@
 
 <tr>
     <td class="grouplabel">
-        {ts}Most of our partner colleges allow the QuestBridge application to serve as a free application for regular admission to their college. A majority of the QuestBridge applicants go through the College Match Program, although many of the applicants do not get matched. In the event you do not get matched, allowing us to forward your application will make you a candidate for regular admissions at our partner colleges. <br/><br/>{/ts}
+        {ts}Most of our partner colleges allow the QuestBridge application to serve as an application for admission to their college. A majority of the QuestBridge applicants go through the College Match program. In the event you are not a finalist or do not get matched, we will forward your application to our partner colleges for either Early Decision or Regular Decision admissions.<br/><br/>{/ts}
         {ts}Select the colleges to which you would like QuestBridge to forward your application for regular admissions. <span class="marker" title="This field is required.">*</span>{/ts} 
     </td>
 </tr>
