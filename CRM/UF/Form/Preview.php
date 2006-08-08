@@ -85,9 +85,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         } else {
             $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid );
         }
-
+        
         // preview for field
-       
+        $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
+        
         if( $field ) {
             $fieldDAO = & new CRM_Core_DAO_UFField();
             $fieldDAO->id = $fid;
@@ -96,7 +97,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             $name = $fieldDAO->field_name;
             if ($fieldDAO->location_type_id) {
                 $name .= '-' . $fieldDAO->location_type_id;
-            } else {
+            } else if ( in_array( $name, $specialFields ) ) {
                 $name .= '-Primary';
             }
             
