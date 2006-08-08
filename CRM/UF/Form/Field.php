@@ -110,7 +110,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         } else {
             $this->_fields =& CRM_Contact_BAO_Contact::importableFields('All', true);
         }
-        
+    
         $this->_fields = array_merge (CRM_Contribute_BAO_Contribution::getContributionFields(), $this->_fields);
 
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
@@ -131,6 +131,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         // lets add group and tag to this list
         $this->_selectFields['group'] = ts('Group(s)');
         $this->_selectFields['tag'  ] = ts('Tag(s)');
+       
     }
 
     /**
@@ -163,7 +164,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
 
             if ( !$defaults['location_type_id'] && in_array($defaults['field_name'], $specialFields)  ) {
-                $defaults['location_type_id'] = ' ';
+                $defaults['location_type_id'] = 0;
             }
             
             $defaults[ 'field_name' ] = array ($defaults['field_type'], $defaults['field_name'], $defaults['location_type_id'], $defaults['phone_type']);
@@ -220,20 +221,19 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
 
         require_once 'CRM/Core/BAO/LocationType.php';
         $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
-        
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-        
+
        /* FIXME: dirty hack to make the default option show up first.  This
         * avoids a mozilla browser bug with defaults on dynamically constructed
         * selector widgets. */
         
-        if ($defaultLocationType) {
+        if ($defaultLocationType) { 
             $defaultLocation = $this->_location_types[$defaultLocationType->id];
             unset($this->_location_types[$defaultLocationType->id]);
             $this->_location_types = array($defaultLocationType->id => $defaultLocation) +  $this->_location_types;
         }
         
-        $this->_location_types = array ('' => 'Primary') + $this->_location_types;
+        $this->_location_types = array ('Primary') + $this->_location_types;
 
         $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
 
@@ -250,7 +250,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         
         $sel3[''] = null;
         $phoneTypes = CRM_Core_SelectValues::phoneType();
-        
+     
         foreach ($sel1 as $k=>$sel ) {
             if ($k) {
                 foreach ($this->_location_types as $key => $value) {                        
@@ -258,7 +258,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                 }
             }
         }
-        
+      
         foreach ($sel1 as $k=>$sel ) {
             if ($k) {
                 if (is_array($this->_mapperFields[$k])) {
@@ -279,24 +279,33 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
       
         $sel =& $this->addElement('hierselect', "field_name", ts('Field Name'), 'onclick="showLabel();"');  
         $formValues = array();
-        
-        //$formValues = $this->controller->exportValues( $this->_name );
-        $formValues = $_POST; // using $_POST since export values don't give values on first submit
+         
+        $formValues = $this->exportValues( );
 
         if ( empty( $formValues ) ) {
             for ( $k = 1; $k < 4; $k++ ) {
-                if (!$defaults['field_name'][$k]) {
+                if (!$defaults['field_name'][$k] ) {
                     $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
                 }
             }
         } else {
-            foreach ( $formValues['field_name'] as $value) {
-                for ( $k = 1; $k < 4; $k++ ) {
-                    if (!$formValues['field_name'][$k]) {
-                        $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
+            if ( !empty($formValues['field_name']) ) {
+                foreach ( $formValues['field_name'] as $value) {
+                    for ( $k = 1; $k < 4; $k++ ) {
+                        if (!$formValues['field_name'][$k]) {
+                            $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
+                        } else {
+                            $js .= "{$formName}['field_name[$k]'].style.display = '';\n"; 
+                        }
                     }
                 }
-            }
+            } else {
+                for ( $k = 1; $k < 4; $k++ ) {
+                    if ( ! isset($defaults['field_name'][$k]) ) {
+                         $js .= "{$formName}['field_name[$k]'].style.display = 'none';\n"; 
+                     }
+                }
+            } 
         }
         
         $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
@@ -368,7 +377,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
         $ids = array( );
-        
+       
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['uf_field'] = $this->_id;
         }

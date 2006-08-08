@@ -160,7 +160,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField                   =& new CRM_Core_DAO_UFField();
         $ufField->field_type       = $params['field_name'][0];
         $ufField->field_name       = $params['field_name'][1];
-        if ( $params['field_name'][2] ) {
+        if ( $params['field_name'][2] && $params['field_name'][2] >= 0 ) {
             $ufField->location_type_id = $params['field_name'][2];
         } else {
             $ufField->location_type_id = 'NULL';
