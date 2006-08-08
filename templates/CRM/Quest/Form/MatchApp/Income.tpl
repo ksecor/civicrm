@@ -1,7 +1,7 @@
-{* Quest Pre-application:  section *}
+{* Quest College Match application: Household Income section *}
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
-<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<table cellpadding="0" cellspacing="1" border="1" width="90%" class="app">
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
@@ -43,7 +43,7 @@
         {$form.last_name.html}<br />
         {edit}{$form.last_name.label}{/edit}</td>
 </tr>
-<tr><td colspan=2>
+<tr><td colspan="2">
 {section name=rowLoop start=1 loop=$maxIncome}
     {assign var=i value=$smarty.section.rowLoop.index}
     <div id="id_income_{$i}">
@@ -98,8 +98,6 @@
     </table>
 {/if}
 {/edit}
-
-</table>
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 {literal}

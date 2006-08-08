@@ -163,10 +163,17 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
 
-        $this->addSelect( 'term_system',
-                          ts( 'Term System' ),
-                          null, true );
-
+        // Summer Transcript is optional form and term is not required.
+        if ( $this->_grade == 'Summer' ) {
+            $this->addSelect( 'term_system',
+                              ts( 'Term System' ),
+                              null, false );
+        } else {
+            $this->addSelect( 'term_system',
+                              ts( 'Term System' ),
+                              null, true );
+        }
+        
         $this->assign( 'grade', $this->_grade );
 
         $grades  =& self::gradeSelector( );
@@ -237,19 +244,6 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
                     break;
                 }
             }
-
-            // if ($filled) {
-//                 foreach ( $academicFields as $name => $title ) {
-//                     if (!$params[$name . $i]) {
-//                         $errors[$name . $i] = "Please enter the $title.";
-//                     }
-//                 }
-//                 for ( $j = 1; $j <= 4; $j++ ) {
-//                     if (!$params['grade_' . $i . '_' . $j]) {
-//                         $errors['grade_' . $i . '_' . $j] = "Please enter grade $j.";
-//                     }
-//                 }
-//             }
         }
 
         return empty($errors) ? true : $errors;

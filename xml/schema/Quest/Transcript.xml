@@ -32,26 +32,20 @@
   </foreignKey>
   <field>
        <name>school_year</name>
-       <type>enum</type>
-       <values>Nine, Ten, Eleven, Twelve, Summer</values>
+       <type>varchar</type>
+       <length>8</length>
        <required>true</required>
-       <comment>Which school year this transcript is for.</comment>
+       <comment>Which school year this transcript is for. Expected values are Nine, Ten, Eleven, Twelve and Summer.</comment>
       <add>1.5</add>
   </field>
   <field>
       <name>term_system_id</name>
       <title>Term System</title>
       <type>int unsigned</type>
-      <required>true</required>
-      <comment>FK to civicrm_option_value. Uses term_system option group values.</comment>
+      <default>null</default>
+      <comment>Implicit FK to civicrm_option_value. Uses term_system option group values.</comment>
      <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>term_system_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.5</add>
-  </foreignKey>
   <field>
       <name>gp_weighted_total</name>
       <type>float</type>
