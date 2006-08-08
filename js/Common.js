@@ -580,6 +580,6 @@ function countit(essay_id,wc){
         text_area.blur();
 	count = wc;
         count_element.value = count;
-        alert("You have reached the "+ wc +" character limit.");
+        alert("You have reached the "+ wc +" word limit.");
     }
 }
