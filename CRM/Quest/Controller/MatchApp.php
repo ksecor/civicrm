@@ -127,7 +127,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         }
 
         // make sure this controller is ok to go
-        $this->validateCategory( );
+        $this->validateCategory( $this->_contactID );
 
         require_once "CRM/Quest/StateMachine/MatchApp/$subType.php";
         eval( '$this->_stateMachine =& new CRM_Quest_StateMachine_MatchApp_' . $subType . '( $this, $this->_action );' );
@@ -406,11 +406,6 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                        'title'   => 'College Match',
                        'current' => false,
                        'valid'   => false );
-            $this->_categories['steps']['Partner'] = 
-                array( 'link'    => null,
-                       'title'   => 'Partner Supplements',
-                       'current' => false,
-                       'valid'   => false );
             $this->_categories['steps']['Submit'] = 
                 array( 'link'    => null,
                        'title'   => 'Submit Application',
@@ -439,8 +434,42 @@ SELECT t.task_id as task_id
         return $this->_categories;
     }
 
-    function validateCategory( ) {
-        return true;
+    function validateCategory( $cid ) {
+        if ( $this->_subType != 'Submit' ) {
+            return true;
+        }
+
+        // make sure that all the other sections are complete
+        // else jump to the first non complete section
+        $tasks = $this->_subTypeTasks;
+
+        // partner and submit are not really part of the application
+        unset( $tasks['Submit' ] );
+        unset( $tasks['Partner'] );
+
+        $values = implode( ',', array_values( $tasks ) );
+        $query = "
+SELECT t.task_id as task_id, t.status_id as status_id
+FROM   civicrm_task_status t
+WHERE  t.responsible_entity_table = 'civicrm_contact'
+  AND  t.responsible_entity_id    = $cid
+  AND  t.target_entity_table      = 'civicrm_contact'
+  AND  t.target_entity_id         = $cid
+  AND  t.task_id IN ( $values )
+ORDER BY t.task_id
+";
+        $result =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $result->fetch( ) ) {
+            if ( $result->status_id != 328 ) {
+                // jump to that section
+                $session =& CRM_Core_Session::singleton( );
+                $section = array_search( $result->task_id, $tasks );
+                $session->setStatus( "The $section section must be completed before you can submit the application" );
+                $section = strtolower( $section );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( "civicrm/quest/matchapp/$section",
+                                                                   "reset=1&id=$cid" ) );
+            }
+        }
     }
 
     function changeCategoryValues( &$values ) {
@@ -455,9 +484,12 @@ SELECT t.task_id as task_id
     }
 
     function matchAppComplete( $cid ) {
-
         $tasks = $this->_subTypeTasks;
-        unset( $tasks['Submit'] );
+
+        // partner and submit are not really part of the application
+        unset( $tasks['Submit' ] );
+        unset( $tasks['Partner'] );
+
         $values = implode( ',', array_values( $tasks ) );
         $query = "
 SELECT count(*)

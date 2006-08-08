@@ -88,7 +88,7 @@ class CRM_Quest_Invoke {
             case 'college':
                 require_once 'CRM/Quest/Controller/MatchApp/College.php';
                 $controller =& new CRM_Quest_Controller_MatchApp_College( null, null, false );
-                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/matchapp/partner', 'reset=1' ) );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/matchapp/submit', 'reset=1' ) );
                 break;
 
             case 'partner':

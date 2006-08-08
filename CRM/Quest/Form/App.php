@@ -147,17 +147,6 @@ class CRM_Quest_Form_App extends CRM_Core_Form
             $changes['Submit'] = array( 'link' => null );
         }
 
-        // if college match section is processed, then check for partners and if so enable it
-        if ( $this->controller->_subType == 'College' ) {
-            require_once 'CRM/Quest/BAO/Partner.php';
-            $partners =& CRM_Quest_BAO_Partner::getPartnersForContact( $this->_contactID, true );
-            if ( ! empty( $partners ) ) {
-                $url = CRM_Utils_System::url( 'civicrm/quest/matchapp/partner',
-                                              'reset=1' );
-                $changes['Partner'] = array( 'link' => $url );
-            }
-        }
-
         $this->controller->changeCategoryValues( $changes );
 
         // if save draft is set, redirect to locker
