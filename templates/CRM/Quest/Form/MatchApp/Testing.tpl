@@ -164,8 +164,8 @@
 </td></tr>
 </table>
 
-{assign var=prepWinner value=1}
-{if $prepWinner}
+{* Next 3 fields are only included if student won the SAT Prep Scholarship. *}
+{if $isPrepWinner}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td class="grouplabel">{$form.is_SAT_after_prep.label}</td>
@@ -268,20 +268,22 @@
     invert              = 0
 }
 
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="is_SAT_after_prep"
-    trigger_value       ="1"
-    target_element_id   ="SAT_prep_improve" 
-    target_element_type ="table-row"
-    field_type          ="radio"
-    invert              = 0
-}
+{if $isPrepWinner}
+    {include file="CRM/common/showHideByFieldValue.tpl" 
+        trigger_field_id    ="is_SAT_after_prep"
+        trigger_value       ="1"
+        target_element_id   ="SAT_prep_improve" 
+        target_element_type ="table-row"
+        field_type          ="radio"
+        invert              = 0
+    }
 
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="is_SAT_prep_improve"
-    trigger_value       ="1"
-    target_element_id   ="SAT_prep_improve_how" 
-    target_element_type ="table-row"
-    field_type          ="radio"
-    invert              = 0
-}
+    {include file="CRM/common/showHideByFieldValue.tpl" 
+        trigger_field_id    ="is_SAT_prep_improve"
+        trigger_value       ="1"
+        target_element_id   ="SAT_prep_improve_how" 
+        target_element_type ="table-row"
+        field_type          ="radio"
+        invert              = 0
+    }
+{/if}

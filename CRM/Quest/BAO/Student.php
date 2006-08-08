@@ -876,6 +876,25 @@ WHERE  r.relationship_type_id = 8
         return $dao;
     }
     
+    static function &isPrepTestScholarshipWinner( $id ) {
+        // determine if this student was a winner for SAT Prep Test Scholarship
+        $query = "
+SELECT count( id ) AS cnt
+FROM civicrm_custom_value
+WHERE custom_field_id
+IN ( 13, 14 )
+AND entity_table = 'civicrm_contact'
+AND entity_id = $id
+AND char_data = '3'
+";
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray ); 
+        if ($dao->fetch()) {
+            return $dao->cnt;
+        }
+        return 0;
+    }
+    
 }
     
 ?>

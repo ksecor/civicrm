@@ -373,19 +373,22 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                    CRM_Core_SelectValues::date('custom', 0, 1, 'M Y'), false);
         
         // Next 3 questions for students who won Princeton SAT review award in Preapplication?
-        $extra5 = array('onclick' => "return showHideByValue('is_SAT_after_prep', '1', 'SAT_prep_improve','table-row', 'radio', false);");
-        $this->addYesNo( 'is_SAT_after_prep',
-                         ts( 'After using the Princeton Review SAT Prep, did you retake the SAT?' ), null, false, $extra5 );
+        require_once 'CRM/Quest/BAO/Student.php';
+        $isPrepWinner = CRM_Quest_BAO_Student::isPrepTestScholarshipWinner( $this->_contactID );
+        $this->assign('isPrepWinner', $isPrepWinner);
+        if ( $isPrepWinner ) {
+            $extra5 = array('onclick' => "return showHideByValue('is_SAT_after_prep', '1', 'SAT_prep_improve','table-row', 'radio', false);");
+            $this->addYesNo( 'is_SAT_after_prep',
+                             ts( 'After using the Princeton Review SAT Prep, did you retake the SAT?' ), null, false, $extra5 );
 
-        $extra6 = array('onclick' => "return showHideByValue('is_SAT_prep_improve', '1', 'SAT_prep_improve_how','table-row', 'radio', false);");
-        $this->addYesNo( 'is_SAT_prep_improve',
-                         ts( 'Did your SAT score improve?' ), null, false, $extra6 );
-
-        // Which subjects?
-        $this->addElement( 'text', 'SAT_prep_improve',
-                           ts( 'By how much?' ),
-                           $attributes['SAT_after_prep_improve'] );
-        
+            $extra6 = array('onclick' => "return showHideByValue('is_SAT_prep_improve', '1', 'SAT_prep_improve_how','table-row', 'radio', false);");
+            $this->addYesNo( 'is_SAT_prep_improve',
+                             ts( 'Did your SAT score improve?' ), null, false, $extra6 );
+            // Which subjects?
+            $this->addElement( 'text', 'SAT_prep_improve',
+                               ts( 'By how much?' ),
+                               $attributes['SAT_after_prep_improve'] );
+        }
         
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_Testing', 'formRule'));
        
@@ -645,14 +648,13 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             
             // Insert scores for Student_summary record.
             $maxScores['contact_id'] =  $this->_contactID;
-            require_once "CRM/Quest/DAO/StudentSummary.php";
-            $dao = & new CRM_Quest_DAO_StudentSummary();
+            require_once 'CRM/Quest/DAO/StudentSummary.php';
+            $dao =& new CRM_Quest_DAO_StudentSummary();
             $dao->contact_id = $this->_contactID;
             if ( $dao->find(true) ) {
                 $ids = array( 'id' => $dao->id);
             }
             
-            require_once "CRM/Quest/BAO/Student.php";
             $studentSummary = CRM_Quest_BAO_Student::createStudentSummary( $maxScores, $ids);
             
             // Insert values for Student record
