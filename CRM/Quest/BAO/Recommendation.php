@@ -53,6 +53,42 @@ class CRM_Quest_BAO_Recommendation {
     function __construct( ) {
     }
 
+    static function cleanup( $contactID, $recommenderID, $schoolID, $rsTypeID, $rcTypeID,
+                             $firstName, $lastName, $email ) {
+        // remove the relationships 
+        self::deactivateRelationship( $rsTypeID, $contactID, $recommenderID ); 
+        self::deactivateRelationship( $rcTypeID, $recommenderID, $schoolID  );
+
+        self::deleteTaskStatus( 10, $recommenderID, $contactID );
+
+        $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                    $contactID,
+                                                    'display_name' );
+
+        // send email to the recommender
+        $params = array( 'recommenderFirstName' => $firstName,
+                         'recommenderLastName'  => $lastName,
+                         'recommenderEmail'     => $email,
+                         'studentName'          => $displayName,
+                         'schoolName'           => CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                $schoolID,
+                                                                                'display_name' ) );
+        
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( $params );
+        $message = $template->fetch( 'CRM/Quest/Page/MatchApp/Recommendation/RecommenderReplace.tpl' );
+
+        // send the mail
+        require_once 'CRM/Utils/Mail.php';
+        CRM_Utils_Mail::send( '"QuestBridge Scholars" <questbridge@questbridge.org>',
+                              "$firstName, $lastName",
+                              $email,
+                              "Online Recommendation for {$displayName} Cancelled",
+                              $message,
+                              'recommendations@questbridge.org' );
+        return true;
+    }
+
     static function process( $contactID, $firstName, $lastName, $email, $schoolID, $type ) {
         list( $recommenderID, $hash, $drupalID, $alreadyExists ) = self::createContact( $firstName, $lastName, $email );
 
@@ -185,6 +221,24 @@ class CRM_Quest_BAO_Recommendation {
         $dao->save( );
     }
 
+    static function deactivateRelationship( $rtypeID, $aID, $bID ) {
+        require_once 'CRM/Contact/DAO/Relationship.php';
+
+        $dao =& new CRM_Contact_DAO_Relationship( );
+
+        $dao->relationship_type_id = $rtypeID;
+        $dao->contact_id_a         = $aID;
+        $dao->contact_id_b         = $bID;
+        if ( $dao->find( true ) ) {
+            // make sure we set the active field
+            $dao->is_active = 0;
+        } else {
+            CRM_Core_Error::fatal( "Could not find relationship for: $rtypeID, $aID, $bID" );
+        }
+
+        $dao->save( );
+    }
+
     static function createTaskStatus( $taskID, $responsible, $target, $statusID ) {
         require_once 'CRM/Project/DAO/TaskStatus.php';
         
@@ -202,6 +256,24 @@ class CRM_Quest_BAO_Recommendation {
         }
         $dao->modified_date     = $now;
         $dao->save( );
+    }
+
+    static function cancelTaskStatus( $taskID, $responsible, $target ) {
+        require_once 'CRM/Project/DAO/TaskStatus.php';
+        
+        $dao =& new CRM_Project_DAO_TaskStatus( );
+
+        $dao->task_id = $taskID;
+        $dao->responsible_entity_table = 'civicrm_contact';
+        $dao->responsible_entity_id    = $responsible;
+        $dao->target_entity_table      = 'civicrm_contact';
+        $dao->target_entity_id         = $target;
+        if ( $dao->find( true ) ) {
+            $dao->status_id = 330;
+            $dao->save( );
+        } else {
+            CRM_Core_Error::fatal( "Could not find task status for: $taskID, $responsible, $target" );
+        }
     }
 
 }

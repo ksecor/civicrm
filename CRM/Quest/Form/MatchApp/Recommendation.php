@@ -45,6 +45,10 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
 {
+    protected $_defaults = null;
+
+    protected $_oldParams = null;
+
     /**
      * Function to set variables up before form is built
      *
@@ -54,6 +58,9 @@ class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
     public function preProcess()
     {
         parent::preProcess();
+
+        // also set up the default values and old params
+        $this->setDefaultValues( );
     }
     
     /**
@@ -65,21 +72,25 @@ class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
      */
     function setDefaultValues( ) 
     {
-        $defaults = array( );
+        if ( ! $this->_defaults ) {
 
-        $query = "
+            $query = "
 SELECT cr.id           as contact_id,
        i.first_name    as first_name,
        i.last_name     as last_name ,
        e.email         as email     ,
-       rc.contact_id_b as school_id
+       rc.contact_id_b as school_id ,
+       rs.relationship_type_id as rs_type_id,
+       rc.relationship_type_id as rc_type_id,
+       t.status_id             as status_id
   FROM civicrm_contact      cs,
        civicrm_contact      cr,
        civicrm_individual   i,
        civicrm_email        e,
        civicrm_location     l,
        civicrm_relationship rs,
-       civicrm_relationship rc
+       civicrm_relationship rc,
+       civicrm_task_status  t
  WHERE rs.relationship_type_id IN ( 9, 10 )
    AND rc.relationship_type_id IN ( 11, 12 )
    AND rs.contact_id_a = cs.id
@@ -92,29 +103,42 @@ SELECT cr.id           as contact_id,
    AND l.entity_table  = 'civicrm_contact'
    AND l.entity_id     = cr.id
    AND e.location_id   = l.id
+   AND t.responsible_entity_table = 'civicrm_contact'
+   AND t.responsible_entity_id    = cr.id
+   AND t.target_entity_table      = 'civicrm_contact'
+   AND t.target_entity_id         = cs.id
 ";
 
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
-        $this->_oldParams = array( );
-        $count = 1;
-        while ( $dao->fetch( ) ) {
-            $this->_oldParams[$count] = array( );
-            $this->_oldParams[$count]['contact_id'] = $dao->contact_id;
-            $this->_oldParams[$count]['first_name'] = $dao->first_name;
-            $this->_oldParams[$count]['last_name' ] = $dao->last_name ;
-            $this->_oldParams[$count]['email'     ] = $dao->email;
-            $this->_oldParams[$count]['school_id' ] = $dao->school_id;
-            $count++;
-        }
+            $this->_oldParams = array( );
+            $count = 1;
+            while ( $dao->fetch( ) ) {
+                $this->_oldParams[$count] = array( );
+                $this->_oldParams[$count]['contact_id'] = $dao->contact_id;
+                $this->_oldParams[$count]['first_name'] = $dao->first_name;
+                $this->_oldParams[$count]['last_name' ] = $dao->last_name ;
+                $this->_oldParams[$count]['email'     ] = $dao->email;
+                $this->_oldParams[$count]['school_id' ] = $dao->school_id;
+                $this->_oldParams[$count]['rs_type_id'] = $dao->rs_type_id;
+                $this->_oldParams[$count]['rc_type_id'] = $dao->rc_type_id;
+                $this->_oldParams[$count]['status_id' ] = $dao->status_id;
+                $count++;
+            }
 
-        $defaults = array( );
-        foreach ( $this->_oldParams as $count => $values ) {
-            foreach ( $values as $name => $value ) {
-                $defaults["{$name}_{$count}"] = $value;
+            // make sure we have all 3 recommenders
+            if ( $count != 1 && $count != 4 ) {
+                CRM_Core_Error::fatal( "We could not retrieve any of your old recommenders" );
+            }
+
+            $this->_defaults = array( );
+            foreach ( $this->_oldParams as $count => $values ) {
+                foreach ( $values as $name => $value ) {
+                    $this->_defaults["{$name}_{$count}"] = $value;
+                }
             }
         }
-        return $defaults;
+        return $this->_defaults;
     }
 
     /**
@@ -127,32 +151,40 @@ SELECT cr.id           as contact_id,
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
         require_once "CRM/Quest/BAO/Student.php";
-        for ( $i = 1; $i <= 3; $i++ ) {
 
-            $this->add( 'text',
-                        "first_name_$i",
-                        ts( 'First Name' ),
-                        $attributes['first_name'],
-                        true );
-            $this->add( 'text',
-                        "last_name_$i",
-                        ts( 'Last Name' ),
-                        $attributes['last_name'],
-                        true );
-            $this->add( 'text',
-                        "email_$i",
-                        ts( 'Email' ),
-                        $attributes['first_name'],
-                        true );
+        for ( $i = 1; $i <= 3; $i++ ) {
+            $firstName =& $this->add( 'text',
+                                      "first_name_$i",
+                                      ts( 'First Name' ),
+                                      $attributes['first_name'],
+                                      true );
+            $lastName =& $this->add( 'text',
+                                     "last_name_$i",
+                                     ts( 'Last Name' ),
+                                     $attributes['last_name'],
+                                     true );
+            $email =& $this->add( 'text',
+                                  "email_$i",
+                                  ts( 'Email' ),
+                                  $attributes['first_name'],
+                                  true );
             $this->addRule( "email_$i",
                             ts('Email is not valid.'), 'email' );
 
-            $this->add( 'select',
-                        "school_id_$i",
-                        ts( 'School' ),
-                        array('' => ts('- select -')) + CRM_Quest_BAO_Student::getSchoolSelect( $this->_contactID ),
-                        true );
+            $school =& $this->add( 'select',
+                                   "school_id_$i",
+                                   ts( 'School' ),
+                                   array('' => ts('- select -')) + CRM_Quest_BAO_Student::getSchoolSelect( $this->_contactID ),
+                                   true );
 
+            if ( array_key_exists( $i, $this->_oldParams ) &&
+                 ( $this->_oldParams[$i]['status_id'] == 328 ) ) {
+                // freeze all the elements
+                $firstName->freeze( );
+                $lastName->freeze( );
+                $email->freeze( );
+                $school->freeze( );
+            }
         }
 
         parent::buildQuickForm( );
@@ -207,41 +239,74 @@ SELECT cr.id           as contact_id,
             return;
         }
 
-        require_once "CRM/Quest/BAO/Recommendation.php";
-        $result = true;
-
         require_once 'CRM/Quest/BAO/Recommendation.php';
         $params = $this->controller->exportValues( $this->_name );
 
+        $ignore  = array( 1 => false, 2 => false, 3 => false );
+        $cleanup = array( 1 => true , 2 => true , 3 => true  );
+
+        // if we have old recommenders
+        if ( ! empty( $this->_oldParams ) ) {
+            for ( $i = 1; $i <= 3; $i++ ) {
+                
+                // make sure we dont mix counselors and teachers :)
+                if ( $i <= 2 ) {
+                    $start = 1;
+                    $end   = 2;
+                } else {
+                    $start = $end  = 3;
+                }
+                
+                // for all the old recommenders
+                for ( $j = $start; $j <= $end; $j++ ) {
+                    // if the new recommender is present and has the same value as the old
+                    // ignore and do not process
+                    if ( $params["email_$i"]     == $this->_oldParams[$j]['email'] &&
+                         $params["school_id_$i"] == $this->_oldParams[$j]['school_id'] ) {
+                        $ignore [$i] = true ;
+                        $cleanup[$j] = false;
+                        break;
+                    }
+                }
+            }
+
+            // now cleanup all the old recommenders
+            for ( $i = 1; $i <= 3; $i++ ) {
+                if ( ! $cleanup[$i] ) {
+                    continue;
+                }
+                // cleanup oldParams
+                CRM_Quest_BAO_Recommendation::cleanup( $this->_contactID,
+                                                       $this->_oldParams[$i]['contact_id'],
+                                                       $this->_oldParams[$i]['school_id' ],
+                                                       $this->_oldParams[$i]['rs_type_id'],
+                                                       $this->_oldParams[$i]['rc_type_id'],
+                                                       $this->_oldParams[$i]['first_name'],
+                                                       $this->_oldParams[$i]['last_name' ],
+                                                       $this->_oldParams[$i]['email'     ]
+                                                       );
+            }
+        }
+
+
+        $result = true;
         for ( $i = 1; $i <= 3; $i++ ) {
+            if ( $ignore[$i] ) {
+                continue;
+            }
+
             $type = ( $i <= 2 ) ?
                 CRM_Quest_BAO_Recommendation::TEACHER :
                 CRM_Quest_BAO_Recommendation::COUNSELOR;
 
-            $process = false;
             
-            // only process if email and/or school address has changed
-            if ( array_key_exists( $i, $this->_oldParams ) ) {
-                if ( $params["email_$i"    ] != $this->_oldParams[$i]['email'] ||
-                     $params["school_id_$i"] != $this->_oldParams[$i]['school_id'] ) {
-                    $process = true;
-
-                    // clean up old junk
-                    // remove the relationship between 
-                }
-            } else {
-                $process = true;
-            }
-
-            if ( $process ) {
-                // make sure we unlink the old relationships
-                $result = $result & CRM_Quest_BAO_Recommendation::process( $this->_contactID,
-                                                                           $params["first_name_$i"],
-                                                                           $params["last_name_$i" ],
-                                                                           $params["email_$i"     ],
-                                                                           $params["school_id_$i" ],
-                                                                           $type );
-            }
+            // make sure we unlink the old relationships
+            $result = $result & CRM_Quest_BAO_Recommendation::process( $this->_contactID,
+                                                                       $params["first_name_$i"],
+                                                                       $params["last_name_$i" ],
+                                                                       $params["email_$i"     ],
+                                                                       $params["school_id_$i" ],
+                                                                       $type );
         }
 
         if ( ! $result ) {
