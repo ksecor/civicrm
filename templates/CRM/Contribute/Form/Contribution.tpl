@@ -71,6 +71,33 @@
       </fieldset>
       {/if} 
       {include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1}
+
+      {literal}
+        <script type="text/javascript">
+            var min_amount = document.getElementById("min_amount");
+            min_amount.readOnly = 1;
+    	    function showMinContrib( ) {
+               var product = document.getElementsByName("product_name[0]")[0];
+               var product_id = product.options[product.selectedIndex].value;
+               var min_amount = document.getElementById("min_amount");
+               var amount = new Array();
+               amount[0] = '';  
+      {/literal}
+      var index = 1;
+      {foreach from= $mincontribution item=amt key=id}
+            {literal}amount[index]{/literal} = "{$amt}"
+            {literal}index = index + 1{/literal}
+      {/foreach}
+      {literal}
+          if(amount[product_id]) {  
+              min_amount.value = '$'+amount[product_id];
+          } else {
+              min_amount.value = "";
+        }           
+     }  
+     </script> 
+     {/literal}
+
      {/if} 
     <dl>    
       <dt>&nbsp;</dt><dt>{$form.buttons.html}</dt> 
@@ -79,32 +106,7 @@
 </div> 
 
 
-{literal}
-<script type="text/javascript">
-    var min_amount = document.getElementById("min_amount");
-    min_amount.readOnly = 1;
-	function showMinContrib( ) {
-       var product = document.getElementsByName("product_name[0]")[0];
-       var product_id = product.options[product.selectedIndex].value;
-       var min_amount = document.getElementById("min_amount");
-    
-       var amount = new Array();
-       amount[0] = '';  
-      {/literal}
-         var index = 1;
-      {foreach from= $mincontribution item=amt key=id}
-        {literal}amount[index]{/literal} = "{$amt}"
-        {literal}index = index + 1{/literal}
-      {/foreach}
-      {literal}
-       if(amount[product_id]) {  
-        min_amount.value = '$'+amount[product_id];
-       } else {
-        min_amount.value = "";
-       }           
-     } 
-</script> 
-{/literal}
+
 
 
 {if $action eq 1 or $action eq 2 }
