@@ -180,7 +180,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                           ts( 'How did you study for the SAT or ACT?' ));
         // plan to be a financial aid applican
         $this->addYesNo( 'financial_aid_applicant',
-                         ts( 'Do you plan to apply for college financial aid??' ) ,null,false);
+                         ts( 'Do you plan to apply for college financial aid?' ) ,null,false);
         // fee waivers to register for standarized tests.
         $this->addYesNo( 'register_standarized_tests',
                          ts( 'Did you use fee waivers to register for SAT or ACT?' ) ,null,false);
@@ -228,7 +228,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                               array('' => ts('- select -')) + $partners,null ); 
            $this->addElement('text', 'alumni_last_name_'.$i, ts('Last Name'), null );
            $this->addElement('text', 'alumni_first_name_'.$i, ts('First Name'), null );
-           $this->addElement('date', 'alumni_class_year_'.$i, ts('Class Year'),CRM_Core_SelectValues::date( 'custom',25, 25, "Y" ));
+           $this->addElement('date', 'alumni_class_year_'.$i, ts('Class Year'),CRM_Core_SelectValues::date( 'custom',25, 6, "Y" ));
            $this->addElement('text', 'alumni_relationship_'.$i, ts('Relationship'), null );
            
         }

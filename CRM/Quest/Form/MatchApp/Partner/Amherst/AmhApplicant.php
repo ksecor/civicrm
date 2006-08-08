@@ -67,6 +67,7 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhApplicant extends CRM_Quest_For
                   'website'           => array( 'Amherst College Website'       , 'Site URL'                ),
                   'guidebook'         => array( 'Guide Books/Magazines/Websites', 'Name(s)'                 ),
                   'siblings'          => array( 'Siblings, parents, or grandparents who attended', 'Name(s)'),
+                  'quest'             => array( 'QuestBridge'			, 'Specify how'),
                   'other'             => array( 'Other'                         , 'Name(s)'                 )
                   );
     }

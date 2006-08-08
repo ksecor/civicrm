@@ -138,7 +138,7 @@ public function buildQuickForm( )
         if ( ($this->_relationshipID == 29 || $this->_relationshipID == 28 ) &&
             ( ( $householdCurrent->person_1_id != $this->_personID  && $householdCurrent->person_2_id != $this->_personID && $householdPrevious->person_1_id != $this->_personID && $householdPrevious->person_2_id != $this->_personID)
               || (!$this->_personID) ) ) {
-            $this->addYesNo( 'is_contact_with_student', ts( 'Do you have contact with this parent?' ), null,false);
+            $this->addYesNo( 'is_contact_with_student', ts( 'Do you have contact with this parent?' ), null,true);
         }
 
         $this->add( 'text', "first_name",
