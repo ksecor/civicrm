@@ -237,8 +237,10 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
                     }
                 }
 
-                if (!$params["positions_$i"]) {
-                    $errors["positions_$i"] = "Please specify the position held.";
+                if ( $type != 'Extracurricular' ) {
+                    if (!$params["positions_$i"]) {
+                        $errors["positions_$i"] = "Please specify the position held.";
+                    }
                 }
 
                 if ( $type != 'Extracurricular' ) {

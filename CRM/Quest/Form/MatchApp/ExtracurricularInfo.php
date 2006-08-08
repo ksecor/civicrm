@@ -108,10 +108,7 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         require_once 'CRM/Quest/BAO/Extracurricular.php';
         CRM_Quest_BAO_Extracurricular::buildForm( $this, 'Extracurricular' );
         
-        $this->addElement( 'textarea', "meaningful_commitment",
-                           ts('Describe which single activity/interest listed above represents your most meaningful commitment and why?') ,"cols=40 rows=5");
-        $this->addElement( 'textarea', "past_activities",
-                           ts('List and describe your activities, including jobs, during the past two summers:'),"cols=40 rows=5" );
+        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
         
         $this->addElement( 'textarea', "hobbies",
                            ts('We encourage you to reply to this question in sentence form, rather than as a list, if you feel this would allow you to better express your interests.') ,"cols=60 rows=5");

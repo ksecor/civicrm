@@ -55,20 +55,28 @@ Please list your principal extracurricular, community, and family activities and
     </td>        
 </tr>
 <tr>
-    <td class="grouplabel" width="30%">{$form.meaningful_commitment.label}</td>
-    <td class="fieldlabel" width="70%">{$form.meaningful_commitment.html}</td>
+    <td class="grouplabel" width="30%">{$form.essay.meaningful_commitment.label}</td>
+    <td class="fieldlabel" width="70%">
+        {$form.essay.meaningful_commitment.html}
+        <br /><br />
+        {$form.word_count.meaningful_commitment.label} &nbsp;&nbsp;{$form.word_count.meaningful_commitment.html}
+    </td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.past_activities.label}</td>
-    <td class="fieldlabel">{$form.past_activities.html}</td>
+    <td class="grouplabel" width="30%">{$form.essay.past_activities.label}</td>
+    <td class="fieldlabel" width="70%">
+        {$form.essay.past_activities.html}
+        <br /><br />
+        {$form.word_count.past_activities.label} &nbsp;&nbsp;{$form.word_count.past_activities.html}
+    </td>
 </tr>
 </table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
     <td class="grouplabel" colspan=2 >
-    <strong>What are your hobbies? </strong><br>
-    {$form.hobbies.label}
+    <strong>What are your hobbies?</strong><br />
+    {ts}We encourage you to reply to this question in sentence form, rather than as a list, if you feel this would allow you to better express your interests.{/ts}
     </td>
 </tr>
 <tr>

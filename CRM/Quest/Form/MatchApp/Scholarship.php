@@ -151,43 +151,18 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         $this->addYesNo( 'is_health_insurance',
                          ts( 'Will you be covered by medical insurance while at college?' ),null,true);
 
-        // primary method to access internet        
-        $extra1 = array( 'onchange' => "return showHideByValue('internet_access_id','23','internet_access_other','table-row','select',false);");
-        $this->addSelectOther('internet_access',
-                              ts('What is your primary method of accessing the Internet?'),
-                              array('' => ts('- select -')) + CRM_Core_OptionGroup::values( 'internet_access' ),
-                              $attributes ,true, $extra1 );
-        $this->addElement('text','internet_access_other',ts('Please specify'),null);
-
-        // computer at home
-        $extra2 = array('onclick' => "return showHideByValue('is_home_computer', '1', 'is_home_internet','table-row', 'radio', false);");
-        $this->addYesNo( 'is_home_computer',
-                         ts( 'Do you have a computer at home?' ),null,true ,$extra2);
-
-        // internet access at home
-        $this->addYesNo( 'is_home_internet',
-                         ts( 'Do you have internet access at home?' ));
-
         // federal lunch program
         $this->addSelect( 'fed_lunch',
                           ts( 'Are you eligible for Federal Free or Reduced Price Meals?' ),null,true);
         $extra3 = array('onclick' => "return showHideByValue('is_take_SAT_ACT', '1', 'study_method_id','table-row', 'radio', false);");
-        $this->addYesNo( 'is_take_SAT_ACT',
-                         ts( 'Did you study for the SAT or ACT?' ) ,null,true, $extra3);
 
-
-        $this->addSelect( 'study_method',
-                          ts( 'How did you study for the SAT or ACT?' ));
         // plan to be a financial aid applican
         $this->addYesNo( 'financial_aid_applicant',
                          ts( 'Do you plan to apply for college financial aid?' ) ,null,false);
-        // fee waivers to register for standarized tests.
-        $this->addYesNo( 'register_standarized_tests',
-                         ts( 'Did you use fee waivers to register for SAT or ACT?' ) ,null,false);
 
         $this->addElement('textarea','displacement', ts('If you are a resident of Alabama, Florida, Louisina, Mississippi, or Texas, are you currently displaced by Hurricane Katrina or Rita? If so, please take a moment to provide details of your displacement'), "cols=40 rows=3");
-        $radioAttribute = array('onclick' => "return show_element('heard_about_qb_id');");
         
+        $radioAttribute = array('onclick' => "return show_element('heard_about_qb_id');");
         $this->addRadio( 'heard_about_qb_id',
                          ts('How did you hear about QuestBridge?'),
                          CRM_Core_OptionGroup::values('heard_about_qb'),
@@ -278,9 +253,6 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $errors = array( );
-        if ( $params['internet_access_id'] == 23 && $params['internet_access_other'] == '') {
-            $errors["internet_access_other"] = "Please describe your other method for accessing the internet.";
-        }
         if ($params['is_dismissed'] && !$params['explain_dismissed'] ) {
             $errors["explain_dismissed"] = "Please Enter the Explaination";
         }

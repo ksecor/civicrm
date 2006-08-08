@@ -126,14 +126,6 @@ public function buildQuickForm( )
         $householdPrevious->contact_id = $this->_contactID;
         $householdPrevious->find(true);
         
-        /*
-        CRM_Core_Error::debug('thisPerson',$this->_personID);
-        CRM_Core_Error::debug('hHold Cur1',$householdCurrent->person_1_id);
-        CRM_Core_Error::debug('hHold Cur2',$householdCurrent->person_2_id);
-        CRM_Core_Error::debug('hHold Pre1',$householdPrevious->person_1_id);
-        CRM_Core_Error::debug('hHold Pre2',$householdPrevious->person_2_id);
-        CRM_Core_Error::debug('Rel_id',$this->_relationshipID);
-        */
         // Only show this field if this person is mother or father AND is not referenced in Household section.
         if ( ($this->_relationshipID == 29 || $this->_relationshipID == 28 ) &&
             ( ( $householdCurrent->person_1_id != $this->_personID  && $householdCurrent->person_2_id != $this->_personID && $householdPrevious->person_1_id != $this->_personID && $householdPrevious->person_2_id != $this->_personID)
@@ -172,9 +164,6 @@ public function buildQuickForm( )
         
         // citizenship status
         $this->addYesNo( 'citizenship_status', ts( 'Is this guardian a U.S. Citizen?' ), null,false);
-        // place of birth
-        $this->addElement( 'text', "birth_place", ts('Place of birth'), null );
-        
         // country of birth
         $this->addCountry('citizenship_country_id', ts( 'Country of birth' ), false );
         
@@ -290,17 +279,7 @@ public function formRule(&$params)
             }
             if ( $params['is_deceased'] && empty($params['deceased_year_date']['Y'])) {
                 $errors["deceased_year_date"] = "Please enter the Year Deceased date.";
-            }
-            if ( !$params['location']['1']['address']['city'] ) {
-                $errors['location[1][address][city]'] = "Please enter the city";
-            }
-            if ( !$params['location']['1']['address']['country_id'] ) {
-                $errors['location[1][address][country_id]'] = "Please enter the country";
-            }
-            if ( !$params['location']['1']['phone']['1']['phone'] ) {
-                $errors['location[1][phone][1][phone]'] = "Please enter the Permanent Telephone";
-            }
-           
+            }           
         }
 
         return empty($errors) ? true : $errors;

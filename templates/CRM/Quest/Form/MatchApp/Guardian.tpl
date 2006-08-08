@@ -58,11 +58,6 @@
     <td class="fieldlabel">{$form.citizenship_status.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.birth_place.label}</td>
-    <td class="fieldlabel">{$form.birth_place.html}<br />
-    <label>{ts}City or State{/ts}</label></td>
-</tr>
-<tr>
     <td class="grouplabel">{$form.citizenship_country_id.label}  <span class="marker">*</span></td>
     <td class="fieldlabel">{$form.citizenship_country_id.html}</td>
 </tr>
@@ -77,10 +72,9 @@
     </td>
 </tr>
 
-
 <tr>
     <td class="grouplabel" rowspan="7">
-        <label>{ts}Permanent Address{/ts} <span class="marker">*</span></td>
+        <label>{ts}Permanent Address{/ts}</td>
     <td class=fieldlabel">
        {edit}
         <input type="checkbox" name="copy_address" value="1" onclick="copyAddress()"/> {ts}Same as my Permanent address{/ts}
@@ -102,13 +96,13 @@
 <tr>
     <td class="fieldlabel">
         {$form.location.1.address.city.html}<br />
-        {edit}{$form.location.1.address.city.label}{/edit} <span class="marker">*</span>
+        {edit}{$form.location.1.address.city.label}{/edit}
         </td>
 </tr>
 <tr>
     <td class="fieldlabel">
         {$form.location.1.address.state_province_id.html}<br />
-        {edit}{ts}State (required only for USA, Canada, and Mexico) {/ts}<span class="marker">*</span>{/edit}
+        {edit}{ts}State (required only for USA, Canada, and Mexico) {/ts}{/edit}
     </td>
 </tr>
 <tr>
@@ -123,6 +117,7 @@
         {edit}{$form.location.1.address.country_id.label}{/edit}
         </td>
 </tr>
+
 <tr>
     <td class="grouplabel" rowspan="2">
         <label>{ts}Permanent Telephone{/ts}</td>
@@ -193,6 +188,7 @@
 </tr>
 </table>
 
+{edit}
 {* Include Javascript to show/hide fields based on value of other fields. *}
 {* Marital status field *}
 {include file="CRM/common/showHideByFieldValue.tpl" 
@@ -299,3 +295,4 @@
   
     </script>
 {/literal}
+{/edit}

@@ -10,42 +10,12 @@
      <td class="fieldlabel" width="70%">{$form.is_health_insurance.html}</td>
 </tr> 
 <tr>
-     <td class="grouplabel"> {$form.internet_access_id.label} </td>
-     <td class="fieldlabel">{$form.internet_access_id.html}</td>
-</tr> 
-<tr id="internet_access_other">
-     <td class="grouplabel"> {$form.internet_access_other.label}</td>
-     <td class="fieldlabel">{$form.internet_access_other.html}<br />
-        {ts}{edit}Describe your primary internet access method.{/edit}{/ts}
-    </td>
-</tr>
-<tr>
-    <td class="grouplabel"> {$form.is_home_computer.label}</td>
-    <td class="fieldlabel"> {$form.is_home_computer.html} </td>
-</tr> 
-<tr id="is_home_internet">
-    <td class="grouplabel"> {$form.is_home_internet.label} </td>
-    <td class="fieldlabel"> {$form.is_home_internet.html} </td>
-</tr> 
-<tr>
     <td class="grouplabel"> {$form.fed_lunch_id.label}</td>
     <td class="fieldlabel"> {$form.fed_lunch_id.html}</td>
 </tr>
 <tr>
-    <td class="grouplabel"> {$form.is_take_SAT_ACT.label}</td>
-    <td class="fieldlabel"> {$form.is_take_SAT_ACT.html}</td>
-</tr>
-<tr id="study_method_id">
-    <td class="grouplabel"> {$form.study_method_id.label}</td>
-    <td class="fieldlabel"> {$form.study_method_id.html}</td>
-</tr>
-<tr>
     <td class="grouplabel"> {$form.financial_aid_applicant.label}</td>
     <td class="fieldlabel"> {$form.financial_aid_applicant.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel"> {$form.register_standarized_tests.label}</td>
-    <td class="fieldlabel"> {$form.register_standarized_tests.html} </td>
 </tr>
 <tr>
     <td class="grouplabel"> {$form.displacement.label}</td>
@@ -248,8 +218,8 @@ applicants for the following year's application cycle. Please enter contact info
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
+{edit}
 {literal}
-
 <script type="text/javascript">
     show_element("heard_about_qb_id");
     function show_element(trigger_element_id)
@@ -272,24 +242,6 @@ applicants for the following year's application cycle. Please enter contact info
 {/literal}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="is_home_computer"
-    trigger_value       ="1"
-    target_element_id   ="is_home_internet" 
-    target_element_type ="table-row"
-    field_type          ="radio"
-    invert              = 0
-}
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="is_take_SAT_ACT"
-    trigger_value       ="1"
-    target_element_id   ="study_method_id" 
-    target_element_type ="table-row"
-    field_type          ="radio"
-    invert              = 0
-}
-
-
-{include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_dismissed"
     trigger_value       ="1"
     target_element_id   ="explain_dismissed" 
@@ -305,12 +257,4 @@ applicants for the following year's application cycle. Please enter contact info
     field_type          ="radio"
     invert              = 0
 }
-
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="internet_access_id"
-    trigger_value       ="23"
-    target_element_id   ="internet_access_other" 
-    target_element_type ="table-row"
-    field_type          ="select"
-    invert              = 0
-}
+{/edit}
