@@ -46,6 +46,8 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
     protected $_categories;
 
+    protected $_contactID;
+
     /**
      * class constructor
      */
@@ -60,23 +62,23 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                                       'Partner'   => 19,
                                       'Submit'    =>  8 );
         
-        $cid = $this->get( 'contactID' );
+        $this->_contactID = $this->get( 'contactID' );
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'update' );
         $this->assign( 'action', $this->_action );
         $this->assign( 'appName', 'MatchApp');
         $this->_subType = $subType;
 
-        if ( ! $cid ) {
-            $cid    = CRM_Utils_Request::retrieve( 'id', 'Positive',
+        if ( ! $this->_contactID ) {
+            $this->_contactID    = CRM_Utils_Request::retrieve( 'id', 'Positive',
                                                    $this );
             $session =& CRM_Core_Session::singleton( );
             $uid     = $session->get( 'userID' );
 
-            if ( $cid ) {
+            if ( $this->_contactID ) {
                 require_once 'CRM/Contact/BAO/Contact.php';
                 require_once 'CRM/Utils/System.php';
-                if ( $cid != $uid ) {
+                if ( $this->_contactID != $uid ) {
                     if ($this->_action & CRM_Core_Action::UPDATE) {
                         if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) {
                             CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Application.') );
@@ -90,18 +92,18 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                     $this->assign('questURL', CRM_Utils_System::url( 'civicrm/contact/search' ) );
                 }
             } else {
-                $cid = $uid;
+                $this->_contactID = $uid;
             }
 
-            if ( ! $cid ) {
+            if ( ! $this->_contactID ) {
                 CRM_Core_Error::fatal( ts( "Could not find a valid contact id" ) );
             }
-            $this->set( 'contactID', $cid );
+            $this->set( 'contactID', $this->_contactID );
 
             // set contact id and welcome name
        
             $dao =& new CRM_Contact_DAO_Contact( );
-            $dao->id = $cid;
+            $dao->id = $this->_contactID;
             if ( $dao->find( true ) ) {
                 $this->set( 'welcome_name',
                              $dao->display_name );
@@ -115,7 +117,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         if ( ! $studentID ) {
             require_once 'CRM/Quest/DAO/Student.php';
             $dao =& new CRM_Quest_DAO_Student( );
-            $dao->contact_id = $cid;
+            $dao->contact_id = $this->_contactID;
             if ( $dao->find( true ) ) {
                 $this->set( 'studentID', $dao->id );
             } else {
@@ -139,14 +141,14 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
         require_once 'CRM/Project/BAO/TaskStatus.php';
         CRM_Project_BAO_TaskStatus::getTaskStatusInitial( $this,
-                                                          'civicrm_contact', $cid,
-                                                          'civicrm_contact', $cid,
+                                                          'civicrm_contact', $this->_contactID,
+                                                          'civicrm_contact', $this->_contactID,
                                                           $this->_subTypeTasks[$this->_subType] );
 
         // also initialize application task status
         CRM_Project_BAO_TaskStatus::getTaskStatusInitial( $this,
-                                                          'civicrm_contact', $cid,
-                                                          'civicrm_contact', $cid,
+                                                          'civicrm_contact', $this->_contactID,
+                                                          'civicrm_contact', $this->_contactID,
                                                           8,
                                                           'appTaskStatus', false );
 
@@ -376,31 +378,31 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
             
             $this->_categories['steps']['Personal'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/personal',
-                                                           'reset=1' ),
+                                                           "reset=1&id={$this->_contactID}" ),
                        'title'   => 'Personal Information',
                        'current' => true,
                        'valid'   => false );
             $this->_categories['steps']['Household'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/household',
-                                                           'reset=1' ),
+                                                           "reset=1&id={$this->_contactID}" ),
                        'title'   => 'Household Information',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['School'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/school',
-                                                           'reset=1' ),
+                                                           "reset=1&id={$this->_contactID}" ),
                        'title'   => 'School Information',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['Essay'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/essay',
-                                                           'reset=1' ),
+                                                           "reset=1&id={$this->_contactID}" ),
                        'title'   => 'Essays',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['College'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/college',
-                                                           'reset=1' ),
+                                                           "reset=1&id={$this->_contactID}" ),
                        'title'   => 'College Match',
                        'current' => false,
                        'valid'   => false );
@@ -414,6 +416,24 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                        'title'   => 'Submit Application',
                        'current' => false,
                        'valid'   => false );
+
+            // we need to mark as valid all the categories that have their task complete
+            $tasks = implode( ',', array_values( $this->_subTypeTasks ) );
+            $query = "
+SELECT t.task_id as task_id
+  FROM civicrm_task_status t
+ WHERE t.task_id IN ( $tasks )
+   AND t.status_id = 328
+   AND t.responsible_entity_table = 'civicrm_contact'
+   AND t.responsible_entity_id    = {$this->_contactID}
+   AND t.target_entity_table      = 'civicrm_contact'
+   AND t.target_entity_id         = {$this->_contactID}
+";
+            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            while ( $dao->fetch( ) ) {
+                $category = array_search( $dao->task_id, $this->_subTypeTasks );
+                $this->_categories['steps'][$category]['valid'] = true;
+            }
             $session->set( 'questMatchAppCategory', $this->_categories );
         }
         return $this->_categories;
@@ -434,7 +454,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         $session->set( 'questMatchAppCategory', $this->_categories );
     }
 
-    function matchAppComplete( ) {
+    function matchAppComplete( $cid ) {
 
         $tasks = $this->_subTypeTasks;
         unset( $tasks['Submit'] );

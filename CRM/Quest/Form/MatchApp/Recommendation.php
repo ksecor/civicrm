@@ -246,7 +246,6 @@ SELECT cr.id           as contact_id,
 
         if ( ! $result ) {
             CRM_Core_Error::fatal( ts( "there was an error when processing some of your recommendations" ) );
-            return;
         }
 
         parent::postProcess( );

@@ -130,13 +130,13 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         CRM_Project_BAO_TaskStatus::updateTaskStatus( $this );
 
         // also update the appStatus
-        $taskStatus = $this->get( 'TaskStatus' );
+        $taskStatus = $this->get( 'taskStatus' );
         $valid = ( $taskStatus == 'Completed' ) ? 1 : 0;
 
         $changes = array( $this->controller->_subType => array( 'valid' => $valid ) );
 
         if ( $taskStatus == 'Completed' &&
-             $this->controller->matchAppComplete( ) ) {
+             $this->controller->matchAppComplete( $this->_contactID ) ) {
             $url = CRM_Utils_System::url( 'civicrm/quest/matchapp/submit',
                                           'reset=1' );
             $changes['Submit'] = array( 'link' => $url );

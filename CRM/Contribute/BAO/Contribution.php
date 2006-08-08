@@ -193,6 +193,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         // let's create an (or update the relevant) Acitivity History record
+        require_once 'CRM/Contribute/PseudoConstant.php';
         $contributionType = CRM_Contribute_PseudoConstant::contributionType($contribution->contribution_type_id);
         if (!$contributionType) {
             $contributionType = ts('Contribution');

@@ -208,7 +208,7 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
  * @access public
  */
 function _crm_check_contrib_params( &$params ) {
-    static $required = array( 'contact_id', 'total_amount', 'contribution_type' );
+    static $required = array( 'contact_id', 'total_amount', 'contribution_type_id' );
 
     // cannot create a contribution with empty params
     if ( empty( $params ) ) {
@@ -455,6 +455,7 @@ function _crm_format_contrib_params( &$params, &$values ) {
         }
 
         switch ($key) {
+
         case 'contact_id':
             if (!CRM_Utils_Rule::integer($value)) {
                 return _crm_error("contact_id not valid: $value");
@@ -465,6 +466,7 @@ function _crm_format_contrib_params( &$params, &$values ) {
                 return _crm_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
             break;
+
         case 'receive_date':
         case 'cancel_date':
         case 'receipt_date':
@@ -473,6 +475,7 @@ function _crm_format_contrib_params( &$params, &$values ) {
                 return _crm_error("$key not a valid date: $value");
             }
             break;
+
         case 'non_deductible_amount':
         case 'total_amount':
         case 'fee_amount':
@@ -481,13 +484,16 @@ function _crm_format_contrib_params( &$params, &$values ) {
                 return _crm_error("$key not a valid amount: $value");
             }
             break;
+
         case 'currency':
             if (!CRM_Utils_Rule::currencyCode($value)) {
                 return _crm_error("currency not a valid code: $value");
             }
             break;
+
         default:
             break;
+
         }
     }
 

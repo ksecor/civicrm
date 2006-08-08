@@ -2111,12 +2111,11 @@ LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact
 LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
 WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
        $p = array( 1 => array( $mail, 'String' ),
-                        2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
+                   2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
  
        
        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
 
-       //if ( $dao->find( true ) ) {
        if ( $dao->fetch() ) {
           return $dao;
        }
