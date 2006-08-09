@@ -292,6 +292,13 @@ class CRM_Core_Config {
     public $mapProvider = null;
 
     /**
+     * Map GeoCoding 
+     *
+     * @var boolean
+     */
+    public $mapGeoCoding = null;
+
+    /**
      * Map API Key 
      *
      * @var boolean
@@ -715,6 +722,9 @@ class CRM_Core_Config {
             $this->mapAPIKey = CIVICRM_MAP_API_KEY;
         }
 
+        if ( defined( 'CIVICRM_MAP_GEOCODING' ) ) {
+            $this->mapGeoCoding = CIVICRM_MAP_GEOCODING;
+        }
 
         if ( defined( 'CIVICRM_GEOCODE_METHOD' ) ) {
             if ( CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_ZipTable' ||

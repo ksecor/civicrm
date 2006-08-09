@@ -369,8 +369,9 @@ define( 'CIVICRM_LC_MONETARY', 'en_US' );
  * automatic Geocode lookup methods described in the next section.
  *
  */
-define('CIVICRM_MAP_PROVIDER' , '' );
-define('CIVICRM_MAP_API_KEY'  , '' );
+define('CIVICRM_MAP_PROVIDER'  , '' );
+define('CIVICRM_MAP_API_KEY'   , '' );
+define('CIVICRM_MAP_GEOCODING' , '' );
 
 /**
  * Geocode (latitude and longitude) Lookup:
