@@ -1537,7 +1537,7 @@ function _crm_validate_formatted_contribution(&$params) {
                 return _crm_error("contact_id not valid: $value");
             }
             $dao =& new CRM_Core_DAO();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value");
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",CRM_Core_DAO::$_nullArray);
             if (!$svq) {
                 return _crm_error("there's no contact with contact_id of $value");
             }
@@ -1562,6 +1562,16 @@ function _crm_validate_formatted_contribution(&$params) {
             if (!CRM_Utils_Rule::currencyCode($value)) {
                 return _crm_error("currency not a valid code: $value");
             }
+            break;
+        case 'contribution_type':
+             require_once 'CRM/Contribute/PseudoConstant.php';
+             $contributionType = CRM_Contribute_PseudoConstant::contributionType();
+             
+             foreach ($contributionType as $v) {
+                 if (strtolower($v) == strtolower($value)) {
+                     $params[$key] = $v;
+                 }
+             }
             break;
         default:
             break;
