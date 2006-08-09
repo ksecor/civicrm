@@ -29,7 +29,7 @@
           {if ! ( $action & 1024 )}
             <td valign="top" nowrap id="app-left-nav">
 
-            {if $appName EQ 'Teacher' || $appName EQ 'Counselor'}
+            {if $appName EQ 'Teacher' || $appName EQ 'Counselor' || $sectionName EQ 'Partner'}
                 {* Counselor and Teacher forms don't have sections. *}
                 {include file="CRM/common/WizardHeader.tpl}
                 <br />
