@@ -181,6 +181,11 @@ class CRM_Core_Block {
             return true;
         }
 
+        // hey we can show it, so might as well fix the block subject
+        if ( $config->contributeThermometerTitle ) {
+            self::$_properties[self::CONTRIBUTE]['subject'] = $config->contributeThermometerTitle;
+        }
+
         return false;
     }
 

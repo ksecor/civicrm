@@ -464,11 +464,12 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
             //build show/hide array for uf groups
-            if($field['collapse_display']){
+            // dont do this if gid is set (i.e. only one group)
+            if ( $field['collapse_display'] ) {
                 $sBlocks[] = "'id_". $field['group_id']  . "_show'" ; 
                 $hBlocks[] = "'id_". $field['group_id'] ."'"; 
             }
-            else{
+            else {
                 $hBlocks[] = "'id_". $field['group_id'] . "_show'" ; 
                 $sBlocks[] = "'id_". $field['group_id'] ."'";   
             }

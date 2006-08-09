@@ -466,6 +466,10 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL', 'www.paypal.com');
 // Hostname for "PayPal Express" button submit in live mode. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.
 
+
+// if u r using a thermometer and want a different title set this value
+define( 'CIVICRM_CONTRIBUTE_THERMOMETER_TITLE', '' );
+
 /**
  * Force SSL Redirect for Online Contribution Pages:
  *

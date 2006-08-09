@@ -186,6 +186,16 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     function run( ) {
         $this->preProcess( );
 
+        
+        $this->assign( 'recentlyViewed', false );
+        if ( $this->_gid ) {
+            // set the title of the page
+            $title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'title' );
+            if ( $title ) {
+                CRM_Utils_System::setTitle( $title );
+            }
+        }
+
         // do not do any work if we are in reset mode
         if ( ! CRM_Utils_Array::value( 'reset', $_GET ) || CRM_Utils_Array::value( 'force', $_GET ) ) {
             $this->assign( 'isReset', false );

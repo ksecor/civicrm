@@ -101,7 +101,11 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         
         $ufGroup->id = $this->_gid;
         $ufGroup->find(true);
-        
+
+        // set the title
+        CRM_Utils_System::setTitle( ts( "Add %1", array( 1 => $ufGroup->title ) ) );
+        $this->assign( 'recentlyViewed', false );
+
         $postURL   = CRM_Utils_Array::value( 'postURL', $_POST );
         $cancelURL = CRM_Utils_Array::value( 'cancelURL', $_POST );
 

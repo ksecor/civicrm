@@ -157,7 +157,7 @@ class CRM_Quest_Form_Teacher_Personal extends CRM_Quest_Form_Recommender
     {
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-            $this->_contactID;
+
             require_once 'CRM/Quest/BAO/Student.php';
             $params['contact_type'] = 'Individual';
             $params['contact_sub_type'] = 'Recommender';
@@ -173,7 +173,8 @@ class CRM_Quest_Form_Teacher_Personal extends CRM_Quest_Form_Recommender
 
             $params["target_contact_id"] =  $this->_studentContactID;
             $params["source_contact_id"] =  $this->_recommenderID;
-                        require_once 'CRM/Quest/DAO/StudentRanking.php';
+
+            require_once 'CRM/Quest/DAO/StudentRanking.php';
             $dao =&new CRM_Quest_DAO_StudentRanking();
             $dao->target_contact_id = $this->_studentContactID;
             $dao->source_contact_id = $this->_recommenderID;
