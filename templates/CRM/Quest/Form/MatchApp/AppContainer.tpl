@@ -30,31 +30,42 @@
             <td valign="top" nowrap id="app-left-nav">
 
             {if $appName EQ 'Teacher' || $appName EQ 'Counselor' || $sectionName EQ 'Partner'}
-                {* Counselor and Teacher forms don't have sections. *}
+                {* Counselor, Teacher and Partner Supplement apps don't have sections. *}
                 {include file="CRM/common/WizardHeader.tpl}
                 <br />
+            {/if}
+            {if $appName EQ 'Teacher' || $appName EQ 'Counselor'}
                 <div class="help-box">
                     <strong>Recommendation Information</strong><br />
                     Thank you for filling out<br />this recommendation for:<br /><br />
                     <strong>{$student_welcome_name}</strong>
                 </div>
-            {else}
+            {/if}
+            {if $appName EQ 'MatchApp' && $sectionName NEQ 'Partner'}
                 {include file="CRM/common/SectionNav.tpl"}
-                {edit}
+            {/if}
+            {edit}
                 <br /><br />
                 <ul class="section-list">
                   <li class="current-section">
                     <div align="center"><a href="#" onclick="saveDraft(); return false;">Save Draft</a></div>
                   </li>
                   
+                {if $appName EQ 'MatchApp' && $sectionName NEQ 'Partner'}
+                  {* Submit is a category step for MatchApp and a wizard step for Recommendations and Partner Supplement apps *} 
                   <li class="current-section">
                     <div align="center"><strong>{if $category.steps.Submit.link}<a href="submit.html">{/if}Submit Application{if $category.steps.Submit.link}</a>{/if}</strong></div>
                   </li>
+                {else}
+                    {assign var="submitStep" value=$wizard.count}
+                  <li class="current-section">
+                    <div align="center"><strong>{if $wizard.steps.$submitStep.link}<a href="{$wizard.steps.$submitStep.link}">{/if}{$wizard.steps.$submitStep.title}{if $wizard.steps.$submitStep.link}</a>{/if}</strong></div>
+                  </li>
+                {/if}
                 </ul>
                 <br />
                 </div>
-                {/edit}
-            {/if}
+            {/edit}
             
             <br />
             <div class="help-box">

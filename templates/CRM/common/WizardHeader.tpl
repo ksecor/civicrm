@@ -1,12 +1,10 @@
-{assign var=last value=$wizard.count}
-<b>{$wizard.count}, {$last}, {$wizard.steps.$last.title}, {$wizard.steps.$last.link}</b>
 {if count( $wizard.steps ) > 1}
 {* wizard.style variable is passed by some Wizards to allow alternate styling for progress "bar". *}
 <div id="wizard-steps">
    <ul class="wizard-bar{if $wizard.style.barClass}-{$wizard.style.barClass}{/if}">
     {section name=step loop=$wizard.steps}
-        {* Show each wizard link unless collapsed value is true. *}
-        {if !$wizard.steps[step].collapsed}
+        {* Show each wizard link unless collapsed value is true. Also excluding quest app submit steps. Should create separate WizardHeader for Quest at some point.*}
+        {if !$wizard.steps[step].collapsed && $wizard.steps[step].name NEQ 'Submit' && $wizard.steps[step].name NEQ 'PartnerSubmit'}
             {assign var=i value=$smarty.section.step.iteration}
             {if $wizard.currentStepNumber > $wizard.steps[step].stepNumber}
                 {assign var="stepClass" value="past-step"}
