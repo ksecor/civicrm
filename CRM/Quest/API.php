@@ -71,6 +71,7 @@ class CRM_Quest_API {
 SELECT cr.id                   as contact_id,
        cr.display_name         as display_name,
        ts.status_id            as status_id,
+       ts.modified_date        as modified_date,
        rs.relationship_type_id as rid
   FROM civicrm_contact      cs,
        civicrm_contact      cr,
@@ -108,6 +109,7 @@ SELECT cr.id                   as contact_id,
             $params[$count]['display_name'   ] = $dao->display_name;
             $params[$count]['type'           ] = $type;
             $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
+            $params[$count]['modified_date'  ] = $dao->modified_date;
             $params[$count]['link'           ] = $link;
             $count++;
         }
@@ -161,6 +163,7 @@ SELECT cr.id                   as contact_id,
 SELECT cs.id                   as contact_id,
        cs.display_name         as display_name,
        ts.status_id            as status_id,
+       ts.modified_date        as modified_date,
        rs.relationship_type_id as rid
   FROM civicrm_contact      cs,
        civicrm_contact      cr,
@@ -197,6 +200,7 @@ SELECT cs.id                   as contact_id,
             $params[$count]['display_name'   ] = $dao->display_name;
             $params[$count]['type'           ] = $type;
             $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
+            $params[$count]['modified_date'  ] = $dao->modified_date;
             $params[$count]['link'           ] = $url;
             $count++;
         }
