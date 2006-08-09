@@ -66,7 +66,7 @@ class CRM_Quest_Form_MatchApp_Submit extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
-        $this->add( 'checkbox', "is_partner_share", null, null, true );
+        $this->add( 'checkbox', "is_partner_share", ts("Submission Agreement"), null, true );
 
         $values = array(
                         '0' => 'I hereby <b>do not waive</b> my right of access to my recommendations.',

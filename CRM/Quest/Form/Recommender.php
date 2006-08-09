@@ -89,6 +89,7 @@ class CRM_Quest_Form_Recommender extends CRM_Core_Form
                     break;
                 case 'Submit':
                     $this->addDefaultButtons(ts('Submit Recommendation'), 'next');
+                    break;
                 default:
                     $this->addDefaultButtons( ts('Save & Continue') );
             }

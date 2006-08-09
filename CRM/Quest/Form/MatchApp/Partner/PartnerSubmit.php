@@ -66,7 +66,7 @@ class CRM_Quest_Form_MatchApp_Partner_PartnerSubmit extends CRM_Quest_Form_App
      */
     public function buildQuickForm( ) 
     {
-        $this->add( 'checkbox', "is_partner_supplement_share", null, null, true );        
+        $this->add( 'checkbox', "is_partner_supplement_share", ts("Submission Agreement"), null, true );        
         parent::buildQuickForm();
     }//end of function
 

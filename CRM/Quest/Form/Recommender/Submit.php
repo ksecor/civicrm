@@ -35,14 +35,14 @@
  *
  */
 
-require_once 'CRM/Quest/Form/App.php';
+require_once 'CRM/Quest/Form/Recommender.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
 * This class generates form components for relationship
  * 
  */
-class CRM_Quest_Form_Recommender_Submit extends CRM_Quest_Form_App
+class CRM_Quest_Form_Recommender_Submit extends CRM_Quest_Form_Recommender
 {
     /**
     * This function sets the default values for the form. Relationship that in edit/view action
@@ -66,7 +66,7 @@ class CRM_Quest_Form_Recommender_Submit extends CRM_Quest_Form_App
  */
 public function buildQuickForm( ) 
 {
-    $this->add( 'checkbox', "is_partner_share", null, null, true );
+    $this->add( 'checkbox', "is_partner_share", ts("Submission Agreement"), null, true );
         
     parent::buildQuickForm();
 }//end of function
