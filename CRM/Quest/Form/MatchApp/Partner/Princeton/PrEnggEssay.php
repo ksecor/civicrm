@@ -77,14 +77,38 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrEnggEssay extends CRM_Quest_Fo
      */
     public function buildQuickForm( ) 
     {
-       
-
-        require_once 'CRM/Quest/BAO/Essay.php';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_princeton_engg_essay', $this->_contactID, $this->_contactID );
         CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
+        
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Partner_Princeton_PrEnggEssay', 'formRule'), $this->_contactID);
+
         parent::buildQuickForm( );
     }
-  /**
+
+    /**
+    * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params, $contactID) {
+        // Engineering essay is only required if princeton_degree is BSE (value = 2)
+        $errors = array( );
+        $princeton_degree = CRM_Core_DAO::getFieldValue( 'CRM_Quest_Partner_DAO_Princeton',
+                                          null,
+                                          'princeton_degree',
+                                          $contactID );
+        if ( $params['essay']['intrested_in_study'] == '' &&  $princeton_degree == 2 ) {
+            $errors['essay[intrested_in_study]'] = "This essay is required for applicants interested in the BSE Degree.";
+        }
+        return empty($errors) ? true : $errors;
+
+    }
+    
+    /**
      * Return a descriptive name for the page, used in wizard header
      *
      * @return string

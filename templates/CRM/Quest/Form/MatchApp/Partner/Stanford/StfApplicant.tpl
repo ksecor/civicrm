@@ -22,7 +22,7 @@
 </tr>
 
 <tr>
-    <td class="grouplabel"> {$form.area_of_major_1.label}</td>
+    <td class="grouplabel"> {$form.area_of_major_1.label} <span class="mark">*</span></td>
     <td> 
        <table>
         <tr><td class="grouplabel optionlist"><span class="italic-text">1. </span>{$form.area_of_major_1.html}</td></tr>
@@ -35,19 +35,18 @@
     <td class="grouplabel"> {$form.is_parent_employed.label}</td>
     <td class="fieldlabel"> {$form.is_parent_employed.html}</td>
 </tr>
+{if $totalSiblings > 0}
 <tr>
     <td class="grouplabel"> {$form.is_sibling_applying.label}</td>
     <td class="fieldlabel"> {$form.is_sibling_applying.html}</td>
 </tr>
-{if $totalSibligs > 0}
 <tr id = "tr_sibling_application_status">
-
-    <td>
+    <td class="grouplabel">
      {ts}Who?{/ts}
     </td>
     <td>
      <table>
-     {section name=rowLoop start=1 loop=$totalSibligs+1}
+     {section name=rowLoop start=1 loop=$totalSiblings+1}
      
      {assign var=i value=$smarty.section.rowLoop.index}
      {assign var=sibling_id value="sibling_id_"|cat:$i}
@@ -64,7 +63,7 @@
 </table>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
-{if $totalSibligs > 0}
+{if $totalSiblings > 0}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_sibling_applying"
     trigger_value       ="1"

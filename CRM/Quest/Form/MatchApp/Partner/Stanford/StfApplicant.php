@@ -98,7 +98,7 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfApplicant extends CRM_Quest_Fo
 
         $this->addYesNo( 'is_enrolled_full_time', ts( 'Have you been enrolled full-time in college/university (other than summer session)?' ) ,null,true);
         for ($i=1; $i<=3; $i++ ) {
-            $this->addElement('select' ,'area_of_major_'.$i, ts("Please select possible area of major, in order of preference") , array("- Select -") + CRM_Core_OptionGroup::values('stanford_area_of_major_id') );
+            $this->addElement('select' ,'area_of_major_'.$i, ts("Please select possible area of major, in order of preference") , array("- select -") + CRM_Core_OptionGroup::values('stanford_area_of_major_id') );
         }
         
         $this->addYesNo( 'is_parent_employed', ts( 'Is either parent or step-parent currently employed by Stanford University?' ) ,null,false);
@@ -113,21 +113,20 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfApplicant extends CRM_Quest_Fo
             $siblings[$dao->id] =  $dao->first_name . " " . $dao->last_name ; 
         }
         $count = count($siblings) ;
-        $this->assign("totalSibligs" , $count);
-        for ( $i=1; $i<=$count; $i++ ) {
-            $this->addElement('select' ,'sibling_id_'.$i , null, array("- Select -") + $siblings  );
-            $choice = array( );
-            $choice[] = $this->createElement( 'radio', null, '11', ts( 'Freshman' ), '1', null );
-            $choice[] = $this->createElement( 'radio', null, '11', ts( 'Transfer' ) , '0', null );
-            $this->addGroup( $choice, "sibling_application_status_".$i, null );
-        }
-    
-        $extra = null;
-        if($count) {
-        $extra = array('onclick' => "return showHideByValue('is_sibling_applying', '1', 'tr_sibling_application_status','table-row', 'radio', false);");
-        }
-        $this->addYesNo( 'is_sibling_applying', ts( 'Are any siblings or step-siblings applying to the undergraduate program at Stanford this year? ' ) ,null,true, $extra);
+        $this->assign("totalSiblings" , $count);
+        if ( $count ) {
+            for ( $i=1; $i<=$count; $i++ ) {
+                $this->addElement('select' ,'sibling_id_'.$i , null, array("- select -") + $siblings  );
+                $choice = array( );
+                $choice[] = $this->createElement( 'radio', null, '11', ts( 'Freshman' ), '1', null );
+                $choice[] = $this->createElement( 'radio', null, '11', ts( 'Transfer' ) , '0', null );
+                $this->addGroup( $choice, "sibling_application_status_".$i, null );
+            }
         
+            $extra = null;
+            $extra = array('onclick' => "return showHideByValue('is_sibling_applying', '1', 'tr_sibling_application_status','table-row', 'radio', false);");
+            $this->addYesNo( 'is_sibling_applying', ts( 'Are any siblings or step-siblings applying to the undergraduate program at Stanford this year? ' ) ,null,true, $extra);
+        }        
 
 
 
@@ -149,16 +148,18 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfApplicant extends CRM_Quest_Fo
     
     public function formRule( &$params, $options )
     {
-        foreach ( $params as $key => $value ) {
-          
-            $tempArray = $params;
-            unset($tempArray[$key]);
-            if ( $value && in_array( $value , $tempArray) ) {
-                $errors[$key] = "All three selections must be unique";
+        for ( $i=1; $i<=3; $i++ ) {
+            if ( $params['area_of_major_'.$i] == 0 ) {
+                $errors['area_of_major_'.$i] = "Please select three major areas in order of preference.";
+            }
+            for ( $j=$i+1; $j<=3; $j++ ) {
+                if ( $params['area_of_major_'.$j] == $params['area_of_major_'.$i] ) {
+                    $errors['area_of_major_'.$j] = "All three major preference selections must be unique.";
+                }
             }
         }
         return empty($errors) ? true : $errors;
-           return true;
+        return true;
     }
 
 
