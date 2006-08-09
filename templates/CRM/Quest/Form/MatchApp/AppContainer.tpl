@@ -7,9 +7,13 @@
         <tr>
             <td class="greeting">{$welcome_name}</td>
             <td class="app-message" align="center">
-             {ts}
-                Note: The application deadline is Oct 1, 2006. ( * = required field)<br />You must click 'Save &amp; Continue' to save your changes.
-             {/ts}
+            {if $appName EQ 'Teacher' || $appName EQ 'Counselor'}
+                {ts}Please note: the Recommendations deadline is Oct 8, 2006.  ( * = required field){/ts}
+            {elseif $sectionName EQ 'Partner'}
+                {ts}Please note: the Partner Supplements deadline is Oct 15, 2006.  ( * = required field){/ts}
+            {else}
+                {ts}Note: The Application deadline is Oct 1, 2006. ( * = required field)<br />You must click 'Save &amp; Continue' to save your changes.{/ts}
+            {/if}
             </td>           	
             <td nowrap class="save">
             <div class="crm-submit-buttons">
