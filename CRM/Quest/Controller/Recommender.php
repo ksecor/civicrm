@@ -99,7 +99,7 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
                 $this->set( 'welcome_name',
                             $dao->display_name );
             } else {
-                CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
+                // CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
             }
 
             // also set student's name
@@ -110,7 +110,7 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
                 $this->set( 'student_welcome_name',
                             $dao->display_name );
             } else {
-                CRM_Core_Error::fatal( ts( "Could not find a valid contact record for the student" ) );
+                // CRM_Core_Error::fatal( ts( "Could not find a valid contact record for the student" ) );
             }
 
             // make sure that recommender is a counselor of student
@@ -122,7 +122,7 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
             $dao->contact_id_b = $cid;
             $dao->is_active    = true;
             if ( ! $dao->find( true ) ) {
-                CRM_Core_Error::fatal( ts( "You do not have permission to create a recommendation for this student" ) );
+                // CRM_Core_Error::fatal( ts( "You do not have permission to create a recommendation for this student" ) );
             }
         }
 
@@ -229,9 +229,13 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
 
         $wizard['stepCount']         = $count;
 
+        // also add last page information, so we can easily get it in the template
+        $wizard['count'] = count( $wizard['steps'] ) - 1;
+        
         $this->addWizardStyle( $wizard ); 
 
-        $this->assign( 'wizard', $wizard );
+        $this->assign_by_ref( 'wizard', $wizard );
+
         return $wizard;
     }
 

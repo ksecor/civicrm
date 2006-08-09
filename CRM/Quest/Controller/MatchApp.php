@@ -288,9 +288,12 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
             }
         }
 
+        // also add last page information, so we can easily get it in the template
+        $wizard['count'] = count( $wizard['steps'] ) - 1;
+        
         $this->addWizardStyle( $wizard ); 
 
-        $this->assign( 'wizard', $wizard );
+        $this->assign_by_ref( 'wizard', $wizard );
 
         $category =& $this->getCategory( );
         foreach ( $category['steps'] as $name => $value ) {

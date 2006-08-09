@@ -1,3 +1,5 @@
+{assign var=last value=$wizard.count}
+<b>{$wizard.count}, {$last}, {$wizard.steps.$last.title}, {$wizard.steps.$last.link}</b>
 {if count( $wizard.steps ) > 1}
 {* wizard.style variable is passed by some Wizards to allow alternate styling for progress "bar". *}
 <div id="wizard-steps">
