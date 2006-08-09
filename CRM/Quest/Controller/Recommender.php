@@ -99,7 +99,7 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
                 $this->set( 'welcome_name',
                             $dao->display_name );
             } else {
-                // CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
+                CRM_Core_Error::fatal( ts( "Could not find a valid contact record" ) );
             }
 
             // also set student's name
@@ -110,7 +110,7 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
                 $this->set( 'student_welcome_name',
                             $dao->display_name );
             } else {
-                // CRM_Core_Error::fatal( ts( "Could not find a valid contact record for the student" ) );
+                CRM_Core_Error::fatal( ts( "Could not find a valid contact record for the student" ) );
             }
 
             // make sure that recommender is a counselor of student
@@ -122,7 +122,7 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
             $dao->contact_id_b = $cid;
             $dao->is_active    = true;
             if ( ! $dao->find( true ) ) {
-                // CRM_Core_Error::fatal( ts( "You do not have permission to create a recommendation for this student" ) );
+                CRM_Core_Error::fatal( ts( "You do not have permission to create a recommendation for this student" ) );
             }
         }
 

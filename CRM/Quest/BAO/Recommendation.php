@@ -59,7 +59,7 @@ class CRM_Quest_BAO_Recommendation {
         self::deactivateRelationship( $rsTypeID, $contactID, $recommenderID ); 
         self::deactivateRelationship( $rcTypeID, $recommenderID, $schoolID  );
 
-        self::deleteTaskStatus( 10, $recommenderID, $contactID );
+        self::cancelTaskStatus( 10, $recommenderID, $contactID );
 
         $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                     $contactID,
@@ -76,7 +76,7 @@ class CRM_Quest_BAO_Recommendation {
         
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( $params );
-        $message = $template->fetch( 'CRM/Quest/Page/MatchApp/Recommendation/RecommenderReplace.tpl' );
+        $message = $template->fetch( 'CRM/Quest/Page/MatchApp/Recommendation/RecommenderRemove.tpl' );
 
         // send the mail
         require_once 'CRM/Utils/Mail.php';
