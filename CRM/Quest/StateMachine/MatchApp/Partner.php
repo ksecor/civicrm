@@ -126,6 +126,7 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
     }
 
     static public function setPages( &$pages, &$stateMachine, &$controller ) {
+        $pages['CRM_Quest_Form_MatchApp_Partner_PartnerIntro'] = null;
         $partners =& self::partners( );
 
         $validPartners =& $stateMachine->getValidPartners( );
@@ -139,6 +140,7 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
                 }
             }
         }
+        $pages['CRM_Quest_Form_MatchApp_Partner_PartnerSubmit'] = null;
     }
     
     public function &getDependency( ) {

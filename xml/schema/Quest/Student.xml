@@ -806,4 +806,14 @@
        <comment>Did this student have health insurance.</comment>
        <add>1.5</add>
  </field>
+ <field>
+       <name>is_partner_supplement_share</name>
+       <type>boolean</type>
+       <default>0</default>
+       <export>true</export>
+       <title>Partner Supplement Share</title>
+       <import>true</import>
+       <comment>OK to share this persons info with partner schools.</comment>
+       <add>1.5</add>
+  </field>
 </table>

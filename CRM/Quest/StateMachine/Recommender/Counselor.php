@@ -52,6 +52,7 @@ class CRM_Quest_StateMachine_Recommender_Counselor extends CRM_Quest_StateMachin
                               'CRM_Quest_Form_Counselor_Academic'   => null,
                               'CRM_Quest_Form_Counselor_Ranking'    => null,
                               'CRM_Quest_Form_Counselor_Evaluation' => null,
+                              'CRM_Quest_Form_Recommender_Submit'   => null,
                               );
 
         parent::rebuild( $controller, $action );
@@ -59,7 +60,12 @@ class CRM_Quest_StateMachine_Recommender_Counselor extends CRM_Quest_StateMachin
 
     public function &getDependency( ) {
         if ( ! self::$_dependency ) {
-            self::$_dependency = array();
+            self::$_dependency = array( 'Personal'   => array( ),
+                                        'Academic'   => array( 'Personal'   => 1),
+                                        'Ranking'    => array( 'Academic'   => 1),
+                                        'Evaluation' => array( 'Ranking'    => 1),
+                                        'Submit'     => array( 'Evaluation' => 1)
+                                        );
         }
 
         return self::$_dependency;

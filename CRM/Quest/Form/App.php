@@ -99,6 +99,10 @@ class CRM_Quest_Form_App extends CRM_Core_Form
                 $this->addDefaultButtons( ts('Submit Application') );
                 break;
         
+            case 'Partner-Submit':
+                $this->addDefaultButtons( ts('Submit Partner Supplement') );
+                break;
+
             case 'Essay-PersonalStat':
                 $this->addDefaultButtons(ts('Save & Continue'), 'upload');
                 break;

@@ -320,6 +320,15 @@
        <key>value</key>
        <add>1.5</add>
   </foreignKey>
+  <field>
+       <name>is_partner_share</name>
+       <type>boolean</type>
+       <default>0</default>
+       <title>Partner Share Agreement</title>
+       <import>true</import>
+       <comment>Agrees to share their recommendation with partner schools.</comment>
+       <add>1.5</add>
+  </field>
   <index>
     <name>UI_target_source</name>
     <fieldName>target_contact_id</fieldName>

@@ -21,12 +21,13 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
-*/
+ */
+
 
 /**
- *
+*
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo (c) 2005
@@ -34,41 +35,69 @@
  *
  */
 
-require_once 'CRM/Quest/StateMachine/Recommender.php';
+require_once 'CRM/Quest/Form/App.php';
+require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * State machine for managing different states of the Quest process.
- *
+* This class generates form components for relationship
+ * 
  */
-class CRM_Quest_StateMachine_Recommender_Teacher extends CRM_Quest_StateMachine_Recommender {
+class CRM_Quest_Form_Recommender_Submit extends CRM_Quest_Form_App
+{
+    /**
+    * This function sets the default values for the form. Relationship that in edit/view action
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return void
+     */
+    function setDefaultValues( ) 
+{
+        $defaults = array( );
+        return $defaults;
+}
 
-    public function rebuild( &$controller, $action = CRM_Core_Action::NONE ) {
-        // ensure the states array is reset
-        $this->_states = array( );
 
-        $this->_pages = array(
-                              'CRM_Quest_Form_Teacher_Personal'     => null,
-                              'CRM_Quest_Form_Teacher_Ranking'      => null,
-                              'CRM_Quest_Form_Teacher_Evaluation'   => null,
-                              'CRM_Quest_Form_Teacher_Additional'   => null,
-                              'CRM_Quest_Form_Recommender_Submit'   => null,
-                              );
+/**
+* Function to actually build the form
+ *
+ * @return void
+ * @access public
+ */
+public function buildQuickForm( ) 
+{
+    $this->add( 'checkbox', "is_partner_share", null, null, true );
         
-        parent::rebuild( $controller, $action );
-    }
+    parent::buildQuickForm();
+}//end of function
 
-    public function &getDependency( ) {
-        if ( ! self::$_dependency ) {
-            self::$_dependency = array( 'Personal'   => array( ),
-                                        'Ranking'    => array( 'Personal'   => 1),
-                                        'Evaluation' => array( 'Ranking'    => 1),
-                                        'Additional' => array( 'Evaluation' => 1)
-                                        'Submit'     => array( 'Additional' => 1)
-                                        );
-        }
 
-        return self::$_dependency;
-    }
+/**
+* process the form after the input has been submitted and validated
+ *
+ * @access public
+ * @return void
+ */
+public function postProcess() 
+{
+    // make sure that all forms are valid at this stage
+    // if not jump to that page
+    $this->controller->checkApplication( );
+    
+    parent::postProcess( );
+}//end of function
+
+
+/**
+* Return a descriptive name for the page, used in wizard header
+ *
+ * @Return string
+ * @access public
+ */
+public function getTitle()
+{
+    return ts('Submit Recommendation');
+}
 }
 
 ?>
