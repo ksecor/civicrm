@@ -14,7 +14,7 @@
  *      define( 'ENABLE_COMPONENTS', 'CiviContribute, CiviMail' );
  *
  */
-define( 'ENABLE_COMPONENTS', '' );
+define( 'ENABLE_COMPONENTS', 'CiviContribute,CiviMember' );
 
 /**
  * Content Management System (CMS) Host:

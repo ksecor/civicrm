@@ -54,6 +54,18 @@ class CRM_Quest_Form_MatchApp_Submit extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        
+        require_once 'CRM/Quest/DAO/Student.php';
+        $dao =& new CRM_Quest_DAO_Student( );
+        $dao->id = $this->_studentID;
+
+        if ( $dao->find( true ) ) {
+            if ( $dao->is_partner_share ) {
+                $defaults['is_partner_share'] = 1;
+            }
+            $defaults['is_recommendation_waived'] = $dao->is_recommendation_waived;
+        }
+
         return $defaults;
     }
     
@@ -86,6 +98,16 @@ class CRM_Quest_Form_MatchApp_Submit extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
+
+        $params = $this->controller->exportValues( $this->_name );
+
+        $dao =& new CRM_Quest_DAO_Student( );
+        $dao->id = $this->_studentID;
+
+        $dao->is_partner_share         = $params['is_partner_share'];
+        $dao->is_recommendation_waived = $params['is_recommendation_waived'];
+        $dao->save( );
+
         // make sure that all forms are valid at this stage
         // if not jump to that page
         $this->controller->checkApplication( );

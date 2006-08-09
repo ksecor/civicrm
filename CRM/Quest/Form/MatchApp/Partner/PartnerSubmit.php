@@ -54,6 +54,16 @@ class CRM_Quest_Form_MatchApp_Partner_PartnerSubmit extends CRM_Quest_Form_App
     function setDefaultValues( ) 
     {
         $defaults = array( );
+
+        require_once 'CRM/Quest/DAO/Student.php';
+        $dao =& new CRM_Quest_DAO_Student( );
+        $dao->id = $this->_studentID;
+
+        if ( $dao->find( true ) &&
+             $dao->is_partner_supplement_share ) {
+            $defaults['is_partner_supplement_share'] = 1;
+        }
+        
         return $defaults;
     }
     
@@ -79,6 +89,15 @@ class CRM_Quest_Form_MatchApp_Partner_PartnerSubmit extends CRM_Quest_Form_App
      */
     public function postProcess() 
     {
+        $params = $this->controller->exportValues( $this->_name );
+
+        require_once 'CRM/Quest/DAO/Student.php';
+        $dao =& new CRM_Quest_DAO_Student( );
+        $dao->id = $this->_studentID;
+
+        $dao->is_partner_supplement_share = $params['is_partner_supplement_share'];
+        $dao->save( );
+
         // make sure that all forms are valid at this stage
         // if not jump to that page
         $this->controller->checkApplication( );
