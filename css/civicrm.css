@@ -689,3 +689,12 @@ div.crm-pager a {
 #crm-container .show-row {
   display: table-row;
 }
+
+#crm-container .submit-link {
+   color: #285286;
+   background-color: transparent;
+   text-decoration: underline;
+   border: none;
+   cursor: pointer;
+   cursor: hand;
+  }

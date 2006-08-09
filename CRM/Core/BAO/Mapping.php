@@ -346,7 +346,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $form->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
             $form->addFormRule( array( 'CRM_Contact_Form_Task_Export_Map', 'formRule' ) );
         } else  if ($mappingType == 'Search Builder') { 
-            $form->addElement('submit', "addBlock", 'Also include contacts where', array( 'class' => 'form-submit' ) );
+            $form->addElement('submit', "addBlock", 'Also include contacts where', array( 'class' => 'form-submit submit-link' ) );
         }
         
         $defaults        = array( );
@@ -503,7 +503,6 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 } 
                 
                 $formValues = $form->exportValues( );
-                
                 if ( ! $jsSet ) {
                     if ( empty( $formValues ) ) {
                         for ( $k = 1; $k < 4; $k++ ) {
@@ -546,7 +545,9 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             } else {
                 $title = ts('Select more fields');
             }
-            $form->addElement('submit', "addMore[$x]", $title, array( 'class' => 'form-submit' ) );
+            
+            $form->addElement('submit', "addMore[$x]", $title, array( 'class' => 'submit-link' ) );            
+            
         } //end of block for
 
         $js .= "</script>\n";
