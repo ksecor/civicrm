@@ -52,9 +52,11 @@
                 {if $element.customValue.data}
                 <span class="html-adjust">
                    &nbsp;Attached File : &nbsp
-                   <a href="javascript:popUp('{$element.customValue.data}')">
-                        {$element.customValue.fileName}
-                   </a>
+                   {if $groupTree.$group_id.fields.$field_id.customValue.displayURL }
+                      <a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}"><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a>
+                   {else}
+                      <a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a>
+                   {/if}
                 </span>  
                {/if} 
               {/if}

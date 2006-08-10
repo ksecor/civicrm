@@ -165,7 +165,7 @@ define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 define( 'CIVICRM_UF_RESOURCEURL'  , '%%resourceURL%%' );
 define( 'CIVICRM_RESOURCEBASE'    , '%%resourceBase%%' );
 define( 'CIVICRM_IMAGE_UPLOADURL' , '%%imageUploadURL%%' );
-
+define( 'CIVICRM_CUSTOM_FILE_UPLOADURL','%%customFileUploadURL%%' );
 /**
  * CiviCRM Database Settings:
  *

@@ -56,7 +56,14 @@
                            <dt>{$cd_value.label}</dt>
                          {if $groupTree.$group_id.fields.$field_id.data_type == 'File'}
                             {if $form.$element_name.html}
-                                 <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a></dd>
+                             <dd class="html-adjust">
+                             {if $groupTree.$group_id.fields.$field_id.customValue.displayURL }
+                               <a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}"><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a>
+                             {else}
+                               <a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a>
+                             {/if}
+                            </dd>        
+                         {* <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a></dd>*}
                             {/if}
                          {else}
                            <dd class="html-adjust">{$form.$element_name.html}&nbsp;</dd>

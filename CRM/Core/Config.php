@@ -129,6 +129,12 @@ class CRM_Core_Config {
      */
     public $imageUploadURL   = null;
 
+     /**
+     * The url that we can use to display the uploaded images
+     */
+    public $customUploadURL   = null;
+    
+
     /**
      * Are we generating clean url's and using mod_rewrite
      * @var string
@@ -514,6 +520,10 @@ class CRM_Core_Config {
             $this->imageUploadDir = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADDIR );
 
             CRM_Utils_File::createDir( $this->imageUploadDir );
+        }
+
+        if ( defined( 'CIVICRM_CUSTOM_FILE_UPLOADURL' ) ) {
+            $this->customUploadURL = self::addTrailingSlash( CIVICRM_CUSTOM_FILE_UPLOADURL, '/' );
         }
 
         if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
