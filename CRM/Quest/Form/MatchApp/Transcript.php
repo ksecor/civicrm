@@ -231,18 +231,25 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
 
         for ( $i = 1; $i <= 9; $i++ ) {
             $filled = false;
+            $allFilled = true;
+            $gradeFilled = false;
 
             foreach ( $academicFields as $name => $title ) {
                 if ($params[$name . $i]) {
                     $filled = true;
-                    break;
+                } else {
+                    $allFilled = false;
                 }
             }
             for ( $j = 1; $j <= 4; $j++ ) {
                 if ($params['grade_' . $i . '_' . $j]) {
                     $filled = true;
-                    break;
+                    $gradeFilled = true;
                 }
+            }
+
+            if ( $filled && ! $allFilled && ! $gradeFilled ) {
+                $errors["academic_subject_id_$i"] = "Please fill all the fields in this row";
             }
         }
 

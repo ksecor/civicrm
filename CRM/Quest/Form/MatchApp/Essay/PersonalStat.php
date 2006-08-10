@@ -94,7 +94,7 @@ class CRM_Quest_Form_MatchApp_Essay_PersonalStat extends CRM_Quest_Form_MatchApp
 
         if ( $params['personalStat_quests'] == 0 ) {
             // ensure that there is a file upload
-            if ( ! $files['uploadFile'])  {
+            if ( empty( $files['uploadFile']['tmp_name'] ) )  {
                 $errors['uploadFile'] = ts( 'Please upload a photo' );
             }
         }
