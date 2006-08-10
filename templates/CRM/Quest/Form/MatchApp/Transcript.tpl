@@ -49,7 +49,7 @@
         <td class="fieldlabel" width="15%"> {$form.$as.html}</td>
     {if $grade eq 'Summer'}
         {assign var=as value="summer_year_"|cat:$i}
-        <td class="fieldlabel">{$form.$as.html}</td>
+        <td class="fieldlabel nowrap">{$form.$as.html}</td>
         {assign var=as value="grade_"|cat:$i|cat:"_1"}
         <td class="fieldlabel" width="15%">{$form.$as.html|crmReplace:class:four}</td>
     {elseif $grade ne 'Twelve'}
