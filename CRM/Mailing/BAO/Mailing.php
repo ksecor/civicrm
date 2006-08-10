@@ -536,15 +536,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $html = $this->html;
         $text = $this->text;
         
-        if ($html && !$test && $this->url_tracking) {
-            CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
-                                                           $this->id,
-                                                           $event_queue_id);
-            CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
-                                                           $this->id,
-                                                           $event_queue_id);
-        }
-
         $params  = array( 'contact_id' => $contactId );
         $contact =& crm_fetch_contact( $params );
         if ( is_a( $contact, 'CRM_Core_Error' ) ) {
@@ -564,10 +555,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $verp, $urls, false);
             // render the &amp; entities in text mode, so that the links work
             $text = str_replace('&amp;', '&', $text);
-                                        
-            $message->setTxtBody($text);
-            
-            unset( $text );
         }
 
 
@@ -585,11 +572,31 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 $html .= '<img src="' . $config->userFrameworkResourceURL . 
                 "extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>";
             }
+        }
+        
+        if ($html && !$test && $this->url_tracking) {
+            CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
+                                $this->id, $event_queue_id);
+            CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
+                                $this->id, $event_queue_id);
+        }
+        
+        if ($test || !$html || $contact['preferred_mail_format'] == 'Text' ||
+            $contact['preferred_mail_format'] == 'Both') 
+        {
+            $message->setTxtBody($text);
+            
+            unset( $text );
+        }
+
+        if ($html && ($test || $contact['preferred_mail_format'] == 'HTML' ||
+            $contact['preferred_mail_format'] == 'Both'))
+        {
             $message->setHTMLBody($html);
 
             unset( $html );
         }
-        
+
         $recipient = "\"{$contact['display_name']}\" <$email>";
         $headers['To'] = $recipient;
 
