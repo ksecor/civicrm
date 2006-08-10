@@ -222,7 +222,11 @@
         {$form.ethnicity_id_1.label}
     </td>
     <td class="fieldlabel">
-        {$form.ethnicity_id_1.html}<br/>
+        {$form.ethnicity_id_1.html}
+        <div id="id_ethnicity_id_2_show">{edit}{$ethnicity_id_2.show}{/edit}</div>
+        <div id="id_ethnicity_id_2">
+            {$form.ethnicity_id_2.html}
+        </div>
 	{ts}{edit}Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list.{/edit}{/ts}
     </td>
 </tr>

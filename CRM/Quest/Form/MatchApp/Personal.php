@@ -89,14 +89,23 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
 
         if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
             $showHide =& new CRM_Core_ShowHideBlocks( );
-            for ( $i = 2; $i <= self::MAX_NATIONALITY_COUNTRY; $i++ ) {
+            for ( $i = 1; $i <= self::MAX_NATIONALITY_COUNTRY; $i++ ) {
                 if ( CRM_Utils_Array::value( "nationality_country_id_$i", $defaults )) {
                     $showHide->addShow( "id_nationalityCountry_$i" );
+                    $showHide->addHide( 'id_nationalityCountry_'. ($i+1) .'_show' );
                 } else {
-                    $showHide->addHide( "id_nationalityCountry_$i" );
+                    if ( $i != 1 ) {
+                        $showHide->addHide( "id_nationalityCountry_$i" );
+                    }
                 }
-                $showHide->addToTemplate( );
             }
+            if ( CRM_Utils_Array::value( 'ethnicity_id_2', $defaults )) {
+                $showHide->addShow( "id_ethnicity_id_2" );
+                $showHide->addHide( "id_ethnicity_id_2_show" );
+            } else {
+                $showHide->addHide( "id_ethnicity_id_2" );
+            }
+            $showHide->addToTemplate( );
         }
 
         //do some setting for file upload
@@ -113,7 +122,6 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         if ( !empty($attach) ) {
             $this->assign("attachment" ,$attach );
         }
-        
         
         return $defaults;
     }
@@ -178,17 +186,19 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         // ethnicity 
         $extra2 = array( 'onclick' => "showHideByValue('ethnicity_id_1','18','ethnicity_other','table-row','select',false); return showHideByValue('ethnicity_id_1','1','tribe_affiliation|tribe_date', 'table-row','select',false );");
         $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_1" , true, $extra2);
+        $this->addSelect( 'ethnicity', ts( 'Race/Ethnicity' ), "_2" );
 
         require_once 'CRM/Core/ShowHideBlocks.php';
+        CRM_Core_ShowHideBlocks::links( $this,"ethnicity_id_2", 
+                                        ts('add another Race/Ethnicity'), 
+                                        ts('hide this Race/Ethnicity field'));
 
-        CRM_Core_ShowHideBlocks::links( $this,"ethnicity_id_2", ts('add another Race/Ethnicity'), ts('hide this Race/Ethnicity field'));
-       
         $this->add('date', 'birth_date',
                    ts(' Birthdate (month/day/year)'),
                    CRM_Core_SelectValues::date('custom', 20, 0, "M\001d\001Y" ),
                    true);        
         $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
-
+        
         $this->addRadio( 'home_area_id',
                          ts('Would you describe your home area as'),
                          CRM_Core_OptionGroup::values('home_area') );
