@@ -666,7 +666,16 @@ class CRM_Core_Invoke {
             return $view->run();
         }
 
-        
+
+        if ($secondArg == 'map' ) {
+            // set the userContext stack
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile' ) );
+
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
+        }
+
         if ( $secondArg == 'edit' || $secondArg == 'create' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton(); 

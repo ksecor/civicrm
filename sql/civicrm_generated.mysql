@@ -964,7 +964,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_uf_group` DISABLE KEYS */;
 LOCK TABLES `civicrm_uf_group` WRITE;
-INSERT INTO `civicrm_uf_group` (`id`, `domain_id`, `is_active`, `form_type`, `title`, `help_pre`, `help_post`, `limit_listings_group_id`, `post_URL`, `add_to_group_id`, `add_captcha`, `cancel_URL`) VALUES (1,1,1,'CiviCRM Profile','Constituent Information','',NULL,NULL,NULL,NULL,0,NULL),(2,1,1,'CiviCRM Profile','Contributor Info','Tell us about the issue that is most important for you, and your experience in prior campaigns.',NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `civicrm_uf_group` (`id`, `domain_id`, `is_active`, `form_type`, `title`, `help_pre`, `help_post`, `limit_listings_group_id`, `post_URL`, `add_to_group_id`, `add_captcha`, `is_map`, `cancel_URL`) VALUES (1,1,1,'CiviCRM Profile','Constituent Information','',NULL,NULL,NULL,NULL,0,NULL),(2,1,1,'CiviCRM Profile','Contributor Info','Tell us about the issue that is most important for you, and your experience in prior campaigns.',NULL,NULL,NULL,NULL,0,1,NULL);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_uf_group` ENABLE KEYS */;
 

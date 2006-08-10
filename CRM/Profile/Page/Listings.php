@@ -203,7 +203,12 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                 $this->map( );
                 return;
             } else {
-                $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid );
+                $map = 0;
+                if ( $this->_gid ) {
+                    $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map' );
+                }
+                $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid,
+                                                                $map );
                 $controller =& new CRM_Core_Selector_Controller($selector ,
                                                                 $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                                 $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -232,7 +237,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
 
         // make sure this group can be mapped
         if ( ! $details['is_map'] ) {
-            CRM_Core_Error::statusBounce( 'This profile does not have the map feature turned on' );
+            CRM_Utils_System::statusBounce( 'This profile does not have the map feature turned on' );
         }
 
         $groupId = CRM_Utils_Array::value('limit_listings_group_id', $details);
@@ -265,54 +270,8 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                                            true, false );                            
         $contactIds = explode( ',', $ids );
 
-        $config =& CRM_Core_Config::singleton( );
-
-        $this->assign( 'query', 'CiviCRM Search Query' );
-        $this->assign( 'mapProvider', $config->mapProvider );
-        $this->assign( 'mapKey', $config->mapAPIKey );
-       
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $locations =& CRM_Contact_BAO_Contact::getMapInfo( $contactIds );
-
-        if ( empty( $locations ) ) {
-            CRM_Utils_System::statusBounce(ts('This contact\'s primary address does not contain latitude/longitude information and can not be mapped.'));
-        } else {
-            $session =& CRM_Core_Session::singleton(); 
-            $redirect = $session->readUserContext(); 
-            $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('CiviCRM Profile') . '</a>';
-            CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-        }
-
-        $this->assign_by_ref( 'locations', $locations );
-        
-        $sumLat = $sumLng = 0;
-        $maxLat = $maxLng = -400;
-        $minLat = $minLng = +400;
-        foreach ( $locations as $location ) {
-            $sumLat += $location['lat'];
-            $sumLng += $location['lng'];
-
-            if ( $location['lat'] > $maxLat ) {
-                $maxLat = $location['lat'];
-            }
-            if ( $location['lat'] < $minLat ) {
-                $minLat = $location['lat'];
-            }
-
-            if ( $location['lng'] > $maxLng ) {
-                $maxLng = $location['lng'];
-            }
-            if ( $location['lng'] < $minLng ) {
-                $minLng = $location['lng'];
-            }
-        }
-
-        $center = array( 'lat' => (float ) $sumLat / count( $locations ),
-                         'lng' => (float ) $sumLng / count( $locations ) );
-        $span   = array( 'lat' => (float ) ( $maxLat - $minLat ),
-                         'lng' => (float ) ( $maxLng - $minLng ) );
-        $this->assign_by_ref( 'center', $center );
-        $this->assign_by_ref( 'span'  , $span   );
+        require_once 'CRM/Contact/Form/Task/Map.php';
+        CRM_Contact_Form_Task_Map::createMapXML( $contactIds, null, $this, false );
 
         $template =& CRM_Core_Smarty::singleton( );
         $content = $template->fetch( 'CRM/Contact/Form/Task/Map.tpl' );

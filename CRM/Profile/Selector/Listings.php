@@ -116,7 +116,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */ 
     protected $_gid; 
 
-
+    /**
+     * Do we enable mapping of users
+     *
+     * @var boolean
+     */
+    protected $_map;
+    
     /**
      * Class constructor
      *
@@ -125,11 +131,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Profile
      * @access public
      */
-    function __construct( &$params, &$customFields, $ufGroupId = null )
+    function __construct( &$params, &$customFields, $ufGroupId = null, $map = false )
     {
         $this->_params = $params;
         
         $this->_gid = $ufGroupId;
+
+        $this->_map = $map;
 
         //get the details of the uf group 
         $ufGroupParam   = array('id' => $ufGroupId);
@@ -173,7 +181,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @access public
      *
      */
-    static function &links()
+    static function &links( $map = false )
     {
         if ( ! self::$_links ) {
             self::$_links = array( 
@@ -184,6 +192,14 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                                    'title' => ts('View Profile Details'),
                                                                    ),
                                   ); 
+            if ( $map ) {
+                self::$_links[CRM_Core_Action::MAP] = array(
+                                                            'name'  => ts('Map'),
+                                                            'url'   => 'civicrm/profile/map',
+                                                            'qs'    => 'reset=1&cid=%%id%%&gid=%%gid%%',
+                                                            'title' => ts('Map'),
+                                                            );
+            }
         }
         return self::$_links;
     } //end of function
@@ -318,7 +334,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         require_once 'CRM/Core/PseudoConstant.php';
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
-        $links =& self::links( );
+        $links =& self::links( $this->_map );
+        
         $names = array( );
         static $skipFields = array( 'group', 'tag' ); 
         foreach ( $this->_fields as $key => $field ) {
@@ -375,7 +392,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                 }
             }
 
-            $row[] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $result->contact_id, 'gid' => $this->_gid));
+            $row[] = CRM_Core_Action::formLink($links, $mask, array('id' => $result->contact_id, 'gid' => $this->_gid));
 
             if ( ! $empty ) {
                 $rows[] = $row;

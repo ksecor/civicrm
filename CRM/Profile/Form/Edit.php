@@ -155,7 +155,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
     {
         parent::postProcess( );
 
-        CRM_Core_Session::setStatus(ts('Thank you. Your contact information has been saved.'));
+        CRM_Core_Session::setStatus(ts('Thank you. Your information has been saved.'));
     }
 
     /**

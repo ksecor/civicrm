@@ -137,7 +137,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );
 
         // should mapping be enabled for this group
-        $this->addElement('checkbox', 'is_map', ts('Should mapping be enabled on this profile??') );
+        $this->addElement('checkbox', 'is_map', ts('Should mapping be enabled on this profile?') );
 
         $this->addElement('text', 'post_URL', ts('Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'post_URL') );
         $this->addRule('post_URL', ts('Enter a valid URL.'), 'url');
@@ -155,7 +155,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->addElement('checkbox', 'add_captcha', ts('Include CAPTCHA?') );
 
         // is this group collapsed or expanded ?
-        $this->addElement('checkbox', 'collapse_display', ts('Collapse this group on initial display'));
+        $this->addElement('checkbox', 'collapse_display', ts('Collapse this group on initial display?'));
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
