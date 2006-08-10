@@ -136,11 +136,32 @@ SELECT cr.id                   as contact_id,
         $dao->target_entity_table      = 'civicrm_contact';
         $dao->target_entity_id         = $targetID;
         $dao->task_id                  = $taskID;
-        
+
+        $result = array( );
+
+        switch ( $taskID ) {
+
+        case 14:
+            $section = 'personal'; break;
+        case 15:
+            $section = 'household'; break;
+        case 16:
+            $section = 'school'; break;
+        case 17:
+            $section = 'essay'; break;
+        case 18:
+            $section = 'college'; break;
+        case 19:
+            $section = 'partner'; break;
+        default:
+            $section = 'personal'; break;
+
+        }
+
+        $result['link'  ] = CRM_Utils_System::url( "civicrm/quest/matchapp/$section", "reset=1&id=$sourceID" );
+
         if ( ! $dao->find( true ) ) {
-            $result = array( );
             $result['status'] = ts( 'Not Started' );
-            $result['link'  ] = CRM_Utils_System::url( 'civicrm/quest/matchapp', "reset=1&id=$sourceID" );
             return $result;
         }
 
@@ -151,7 +172,6 @@ SELECT cr.id                   as contact_id,
         $result['status'       ] = $status[$dao->status_id];
         $result['create_date'  ] = $dao->create_date;
         $result['modified_date'] = $dao->modified_date;
-        $result['link'         ] = CRM_Utils_System::url( 'civicrm/quest/matchapp', "reset=1&id=$sourceID" );
         return $result;
     }
 
