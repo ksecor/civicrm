@@ -92,7 +92,9 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
             for ( $i = 1; $i <= self::MAX_NATIONALITY_COUNTRY; $i++ ) {
                 if ( CRM_Utils_Array::value( "nationality_country_id_$i", $defaults )) {
                     $showHide->addShow( "id_nationalityCountry_$i" );
-                    $showHide->addHide( 'id_nationalityCountry_'. ($i+1) .'_show' );
+                    if (CRM_Utils_Array::value( "nationality_country_id_". ($i+1), $defaults )) {
+                        $showHide->addHide( 'id_nationalityCountry_'. ($i+1) .'_show' );
+                    }
                 } else {
                     if ( $i != 1 ) {
                         $showHide->addHide( "id_nationalityCountry_$i" );
