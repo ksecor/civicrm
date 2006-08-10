@@ -118,6 +118,8 @@ class CRM_Utils_System {
                                                 'optionvalue'        => 'OptionValue',
                                                 );
     
+    static $_callbacks = null;
+
     /**
      * Compose a new url string from the current url string
      * Used by all the framework components, specifically,
@@ -616,6 +618,42 @@ class CRM_Utils_System {
         // at some point we'll add code here to make sure the url is not
         // something that will mess up up, so we need to clean it up here
         return $url;
+    }
+
+    /**
+     * make sure the callback is valid in the current context
+     *
+     * @param string $callback the name of the function
+     *
+     * @return boolean
+     * @static
+     */
+    static function validCallback( $callback ) {
+        if ( self::$_callbacks === null ) {
+            self::$_callbacks = array( );
+        }
+
+        if ( ! array_key_exists( $callback, self::$_callbacks ) ) {
+            if ( strpos( $callback, '::' ) !== false ) {
+                list($className, $methodName) = explode('::', $callback);
+                $fileName = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+                @include_once( $fileName ); // ignore errors if any
+                if ( ! class_exists( $className ) ) {
+                    self::$_callbacks[$callback] = false;
+                } else {
+                    // instantiate the class
+                    $object =& new $className();
+                    if ( ! method_exists( $object, $methodName ) ) {
+                        self::$_callbacks[$callback] = false; 
+                    } else {
+                        self::$_callbacks[$callback] = true;
+                    }
+                }
+            } else {
+                self::$_callbacks[$callback] = function_exists( $callback );
+            }
+        }
+        return self::$_callbacks[$callback];
     }
 
 }

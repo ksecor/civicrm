@@ -759,7 +759,7 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_FATAL_ERROR_HANDLER' ) ) {
-            $this->fatalErrorTemplate = CIVICRM_FATAL_ERROR_HANDLER;
+            $this->fatalErrorHandler = CIVICRM_FATAL_ERROR_HANDLER;
         }
 
         if ( defined( 'CIVICRM_LEGACY_ENCODING' ) ) {

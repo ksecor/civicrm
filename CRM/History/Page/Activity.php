@@ -59,42 +59,20 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
         $dao->id = $id;
         if ( $dao->find( true ) ) {
             // get the callback and activity id
+            if ( ! CRM_Utils_System::validCallback( $dao->callback ) ) {
+                CRM_Utils_System::statusBounce( ts( "Could not find callback %1", array( 1 => $dao->callback ) ) );
+            }
             $callback = $dao->callback;
             $activityId = $dao->activity_id;
-            $errorString = "";
             if ( strpos( $callback, '::' ) !== false ) {
                 list($className, $methodName) = explode('::', $callback);
-                $fileName = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-                if (! @include_once($fileName)) {
-                    // we could not include the file
-                    // ignore this error, CRM-751
-                }
-                
-                // file is included so lets move on to checking if class exists
-                if (!class_exists($className)) {
-                    // we could not find the class
-                    $errorString .= ts('Cannot find class "%1"', array(1 => $className));
-                    return $this->_processError($errorString);
-                }
-                
+
                 // instantiate the class
                 $object =& new $className();
-                
-                // class exists so lets move on to checking if method exists
-                if (!method_exists($object, $methodName)) {
-                    // we could not find the method
-                    $errorString .= ts('Cannot find method "%1" for class "%2"', array(1 => $methodName, 2 => $className));
-                    $this->_processError($errorString);
-                }
-                
+
                 // invoke the callback method and obtain the url to redirect to
                 $url = $object->$methodName($activityId, $id);
             } else {
-                if ( ! function_exists( $callback ) ) {
-                    $errorString .= ts('Cannot find function "%1"', array(1 => $callback) );
-                    $this->_processError($errorString);
-                }
-
                 // invoke the callback method and obtain the url to redirect to 
                 $url = $callback( $activityId, $id );
             }

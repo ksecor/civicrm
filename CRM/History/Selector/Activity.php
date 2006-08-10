@@ -225,7 +225,8 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
             $row =& $rows[$k];
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
-                if ($row['callback']) {
+                if ( $row['callback'] &&
+                     CRM_Utils_System::validCallback( $row['callback'] ) ) {
                     $row['action'] = CRM_Core_Action::formLink($links,
                                                                $mask,
                                                                array( 'id' => $k,
@@ -234,7 +235,6 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 } else {
                     $actionLinks = $links;
                     unset($actionLinks[CRM_Core_Action::VIEW]);
-                    //$row['action'] = CRM_Core_Action::formLink($actionLinks, $mask, array('id'=>$k));
                     $row['action'] = CRM_Core_Action::formLink($actionLinks, $mask, array('id'=>$k,'cid' => $this->_entityId));
                 }
             }
