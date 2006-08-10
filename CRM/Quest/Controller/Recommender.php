@@ -58,8 +58,6 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
         $this->assign( 'action', $this->_action );
         $this->assign( 'appName', $subType );
 
-	$session =& CRM_Core_Session::singleton( );
-	$session->debug( 1 );
         $this->_scID = CRM_Utils_Request::retrieve( 'scid', 'Integer', $this, true );
 
         $this->_subType = $subType; 
