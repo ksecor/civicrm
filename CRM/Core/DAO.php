@@ -100,10 +100,7 @@ class CRM_Core_DAO extends DB_DataObject {
      */
     function init( $dsn, $debug = 0 ) {
         $options =& PEAR::getStaticProperty('DB_DataObject', 'options');
-        $options =  array(
-                          'database'         => $dsn,
-                          );
-    
+        $options['database'] = $dsn;
         if ( $debug ) {
             self::DebugLevel($debug);
         }
