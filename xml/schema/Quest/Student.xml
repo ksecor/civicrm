@@ -726,7 +726,7 @@
   <field>
        <name>is_alternate_grading</name>
        <type>boolean</type>
-       <default>0</default>
+       <default>NULL</default>
        <export>true</export>
        <title>Uses Alternate Grading</title>
        <headerPattern>/alternate grading/i</headerPattern>
