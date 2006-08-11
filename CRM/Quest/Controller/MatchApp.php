@@ -411,7 +411,8 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['Submit'] = 
-                array( 'link'    => null,
+                array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/submit',
+                                                           "reset=1&id={$this->_contactID}" ),
                        'title'   => 'Submit Application',
                        'current' => false,
                        'valid'   => false );

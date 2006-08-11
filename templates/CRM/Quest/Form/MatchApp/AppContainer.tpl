@@ -58,7 +58,7 @@
                 {if $appName EQ 'MatchApp' && $sectionName NEQ 'Partner'}
                   {* Submit is a category step for MatchApp and a wizard step for Recommendations and Partner Supplement apps *} 
                   <li class="current-section">
-                    <div align="center"><strong>{if $category.steps.Submit.link}<a href="submit.html">{/if}Submit Application{if $category.steps.Submit.link}</a>{/if}</strong></div>
+                    <div align="center"><strong>{if $category.steps.Submit.link}<a href="{$category.steps.Submit.link}">{/if}Submit Application{if $category.steps.Submit.link}</a>{/if}</strong></div>
                   </li>
                 {else}
                     {assign var="submitStep" value=$wizard.count}
