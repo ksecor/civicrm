@@ -14,8 +14,8 @@ Completing your recommendation online is easy, reliable, and completely secure. 
 
 Remember to login at {$recommenderURL} with the User ID and Password.
 
-Thank you from {$studentName} and Quest Scholars Program.
+Thank you from {$studentName} and QuestBridge.
 
 For technical support, please visit our Help Center:
-http://www.questbridge.org/students/faqs.html
+http://www.questbridge.org/educators/faqs.htm
 

@@ -1,7 +1,6 @@
 Dear {$recommenderFirstName} {$recommenderLastName},
 
-Your Student {$studentName}, from {$schoolName}, has cancelled his/her request for a recommendation from you.
+Your student {$studentName}, from {$schoolName}, has cancelled his/her request for a recommendation from you. You do not need to complete the recommendation for this student.
 
-Thanx
 
-The QuestBridge Team
+-- QuestBridge Team
