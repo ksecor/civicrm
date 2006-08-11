@@ -227,6 +227,8 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
             }
         }
 
+        CRM_Quest_BAO_Essay::create( $this->_essays, $params, $this->_contactID, $this->_contactID );
+
         //$ids['id'] = $this->_studentID;
         $ids = array( 'id'         => $this->_studentID,
                       'contact_id' => $this->_contactID );
