@@ -168,7 +168,6 @@ SELECT cr.id                   as contact_id,
         require_once 'CRM/Core/OptionGroup.php';
         $status =& CRM_Core_OptionGroup::values( 'task_status' );
         
-        $result = array( );
         $result['status'       ] = $status[$dao->status_id];
         $result['create_date'  ] = $dao->create_date;
         $result['modified_date'] = $dao->modified_date;

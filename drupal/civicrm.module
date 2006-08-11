@@ -297,6 +297,12 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         $config =& CRM_Core_Config::singleton( );
         if ( empty( $_POST ) || $config->userFrameworkVersion < 4.7 ) {
             return civicrm_register_data($edit, $user, $category, true);
+        } else {
+            // we need to validate and make sure that the form is valid, if not valid
+            // lets return the form
+            if ( ! civicrm_validate_data( $edit, $user, $category ) ) {
+                return civicrm_register_data( $edit, $user, $category, true );
+            }
         }
         return;
 
@@ -466,12 +472,20 @@ function civicrm_view_data($user )
 
 function civicrm_validate_data($edit, &$user, $title) 
 {
+    static $validated = false;
+
+    if ( $validated ) {
+        return;
+    }
+
+    $validated = true;
+
     require_once 'CRM/Utils/Array.php';
 
     // if this is an admin creator, dont validate
     if ( ( $_GET['q'] == 'admin/user/create' ) ||
          ! CRM_Utils_Array::value( '_qf_default', $_POST ) ) {
-        return;
+        return true;
     }
 
     require_once 'CRM/Core/BAO/UFMatch.php';
@@ -479,7 +493,7 @@ function civicrm_validate_data($edit, &$user, $title)
 
     $register = ( arg(1) == 'register' ) ? true : false;
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-	$errors = Crm_Core_BAO_UFGroup::isValid( $userID, $title, $register );
+	$errors = CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register );
     if ( is_array( $errors ) ) {
         if ( $register ) {
             foreach ( $errors as $name => $error ) {
@@ -488,8 +502,9 @@ function civicrm_validate_data($edit, &$user, $title)
         } else {
             form_set_error( 'error', "Please complete and save required values in the tab $title" );
         }
+        return false;
     }
-    return;
+    return true;
 }
 
 ?>
