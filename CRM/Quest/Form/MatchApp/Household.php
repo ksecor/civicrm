@@ -106,6 +106,7 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
                 }
             }
         }
+
         return $defaults;
     }
     /**
@@ -234,6 +235,15 @@ class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
             if ($params["relationship_id_".$i."_1"] || $params["relationship_id_".$i."_2"]) {
                 if (! $params["years_lived_id_".$i]) {
                     $errors["years_lived_id_".$i] = "Please specify the number of years you lived in the household.";
+                }
+            }
+        }
+
+        //error trapping for same as above
+        for ( $i = 1; $i <= $numBlocks; $i++ ) {
+            if ($params['same_2_'.$i]) {
+                if( $params['relationship_id_2_'.$i] != $params['relationship_id_1_'.$i]) {
+                    $errors['relationship_id_2_'.$i] = "Please enter the same relationship as relationship is current household";  
                 }
             }
         }
