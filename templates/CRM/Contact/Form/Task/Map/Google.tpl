@@ -41,11 +41,12 @@
 	    }
 	  );
 	}
+      
       {/literal}
       {foreach from=$locations item=location}
       {literal} 
 
-	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}{literal}";
+	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br />From<input type=text id=from size=10>&nbsp;To<input type=text id=to size=10>&nbsp;<a href=\"javascript:popUp();\">Find Direction</a>{literal}";
 	 var address = "{/literal}{$location.address}{literal}";
 	 var geoCodeEnabled = {/literal}{$enableGeoCoding}{literal};
 
@@ -64,6 +65,16 @@
 
      //]]>  
    }
+
+    function popUp() {
+       var from = document.getElementById('from').value;
+       var to   = document.getElementById('to').value;
+       var URL  = "http://maps.google.com/maps?saddr=" + from + "&daddr=" + to;
+       day = new Date();
+       id = day.getTime();
+       eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=780,height=640,left = 202,top = 100');");
+    }
+
   </script>
 
 {/literal}
