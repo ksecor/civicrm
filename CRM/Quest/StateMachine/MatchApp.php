@@ -100,7 +100,7 @@ abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
                 $title = $controller->_pages[$pageName]->getCompleteTitle( );
                 $session =& CRM_Core_Session::singleton( );
                 $session->setStatus( "The $title section must be completed before you can submit the application" );
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/matchapp',
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/matchapp/' . strtolower( $controller->_subType ),
                                                                    "_qf_{$pageName}_display=1" ) );
             }
         }
