@@ -66,6 +66,19 @@ class CRM_Quest_API {
         return ts( 'Not Started' );
     }
 
+    static function &getPartnerSupplementStatus( $contactID ) {
+        // make sure college match is complete
+        $info = self::getTaskStatus( $contactID, $contactID, 18 );
+        if ( $info['status'] != 'Completed' ) {
+            return 0;
+        }
+
+        // now make sure student has selected a partner that needs additional info
+        require_once 'CRM/Quest/BAO/Partner.php';
+        $partners = CRM_Quest_BAO_Partner::getPartnersForContact( $contactID, true );
+        return empty( $partners ) ? 0 : 1;
+    }
+
     static function getRecommendationStatus( $sourceID ) {
         $query = "
 SELECT cr.id                   as contact_id,
