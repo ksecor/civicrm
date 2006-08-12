@@ -115,7 +115,7 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
 
 
         $extra1 = array ('onclick' => "return showHideByValue('varsity_sports', '1', 'varsity_sports_list', '', 'radio', false);");
-        $this->addElement('checkbox', 'varsity_sports',ts( 'Varsity Sports' ) , null, $extra1);
+        $this->addElement('checkbox', 'varsity_sports',ts( 'Varsity Sports (list):' ) , null, $extra1);
         $this->addElement('text', 'varsity_sports_list' );
 
         $extra2 = array ('onclick' => "return showHideByValue('arts', '1', 'arts_list', '', 'radio', false);");
