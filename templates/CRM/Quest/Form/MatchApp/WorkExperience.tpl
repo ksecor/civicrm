@@ -16,7 +16,7 @@
             <td rowspan="2" nowrap="nowrap" class="grouplabel"><strong>Employer</strong></td>
             <td colspan="2" nowrap="nowrap" class="grouplabel"><strong>Approximate dates of employment</strong></td>
             <td rowspan="2" nowrap="nowrap" class="grouplabel"><strong>Approximate <br />hours/week </strong></td>
-            <td rowspan="2" nowrap="nowrap" class="grouplabel"><strong>Check if <br />Summer <br />job only </strong></td>
+            <td rowspan="2" nowrap="nowrap" class="grouplabel"><strong>Check if <br />summer <br />job only </strong></td>
         </tr>
         <tr>
             <td class="fieldlabel" nowrap="nowrap"> &nbsp;&nbsp;&nbsp;Start Date </td>
