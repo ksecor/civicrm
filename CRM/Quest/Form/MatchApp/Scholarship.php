@@ -253,6 +253,43 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $errors = array( );
+        for($i=1;$i<=3;$i++) {
+            if ( $params['referral_student_last_name_'.$i] ) {
+                if ( !$params['referral_student_email_'.$i] ) {
+                    $errors['referral_student_email_'.$i]= 'Please provide an email address for the student you are referring.';
+                }
+            }
+        }
+
+        for($i=1;$i<=5;$i++) {
+          if ( $params['alumni_partner_institution_id_'.$i] ) {
+              if ( !$params['alumni_last_name_'.$i] ) {
+                  $errors['alumni_last_name_'.$i]= 'Please enter last name for your alumni/ae relative.';
+              }
+              if ( !$params['alumni_first_name_'.$i] ) {
+                  $errors['alumni_first_name_'.$i]= 'Please enter first name for your alumni/ae relative.';
+              }
+              if ( !$params['alumni_relationship_'.$i] ) {
+                  $errors['alumni_relationship_'.$i]= 'Please enter relationship for your alumni/ae relative.';
+              }
+          }
+        }
+
+        for($i=1;$i<=5;$i++) {
+            if ( $params['employee_partner_institution_id_'.$i] ) {
+                if ( !$params['employee_last_name_'.$i] ) {
+                    $errors['employee_last_name_'.$i]= 'Please enter last name for your employee relative.';
+                }
+                if ( !$params['employee_first_name_'.$i] ) {
+                    $errors['employee_first_name_'.$i]= 'Please enter first name for your employee relative.';
+                }
+                if ( !$params['employee_relationship_'.$i] ) {
+                    $errors['employee_relationship_'.$i]= 'Please enter relationship for your employee relative.';
+                }
+            }
+        }
+        
+
         if ($params['is_dismissed'] && !$params['explain_dismissed'] ) {
             $errors["explain_dismissed"] = "Please Enter the Explaination";
         }
@@ -280,7 +317,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                           'contact_id' => $this->_contactID );
             $student = CRM_Quest_BAO_Student::create( $params, $ids);
 
-            //delete prvious records before iserting new
+            //delete previous records before inserting new
             if ( is_array($this->_referralIDs) ) {
                 foreach ( $this->_referralIDs as $key => $referralID ) {
                     $dao     = & new CRM_Quest_DAO_Referral();
