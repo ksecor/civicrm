@@ -27,18 +27,24 @@
         <table cellpadding=0 cellspacing=1 border=1 width="90%" >
         {foreach from=$form.heard_about_qb_id item=type key=key}
         {assign var="countEI" value=`$countEI+1`}
-        {if $countEI gt 9 }         
-        <tr><td class="optionlist"> {$form.heard_about_qb_id.$key.html}
-        {assign var=heard_about_name value="heard_about_qb_name_"|cat:$key}  
-        {if $form.$heard_about_name.html}
-            {assign var=element_id value="heard_about_name_"|cat:$key }
-            {if $key eq 3}
-            <span id={$element_id}>( Website: {$form.$heard_about_name.html} )
-            {else}
-            <span id={$element_id}>( Name: {$form.$heard_about_name.html} )</span>
-            {/if}
-        {/if}
-        </td></tr>
+        {if $countEI gt 9 }
+	   {if $key is odd}		
+              <tr>
+ 	   {/if}
+		<td class="optionlist"> {$form.heard_about_qb_id.$key.html}
+	        {assign var=heard_about_name value="heard_about_qb_name_"|cat:$key}  
+	        {if $form.$heard_about_name.html}
+	            {assign var=element_id value="heard_about_name_"|cat:$key }
+	            {if $key eq 3}
+	            <span id={$element_id}>( Website: {$form.$heard_about_name.html} )
+	            {else}
+	            <span id={$element_id}>( Name: {$form.$heard_about_name.html} )</span>
+	            {/if}
+	        {/if}
+	        </td>
+	   {if $key is even}		
+              </tr>
+ 	   {/if}
         {/if}
         {/foreach}
         </table>
