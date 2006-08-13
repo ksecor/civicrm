@@ -34,11 +34,11 @@
             <td class="label">{$form.sort_name.label}</td>
             <td colspan={if $context EQ 'smog'}"7"{else}"5"{/if}>{$form.sort_name.html}</td>
         </tr>
-        <tr>
-            <td colspan={if $context EQ 'smog'}"6"{else}"4"{/if}>
-                <div class="description font-italic">
+        <tr><td>&nbsp;</td>
+            <td colspan={if $context EQ 'smog'}"6"{else}"4" class="report"{/if}>
+                <div class="font-italic">
                 {ts}Complete OR partial contact name OR email. To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
-                </div></td><td></td>
+                </div></td>
             <td class="label">{$form.buttons.html}</td>
         </tr>
         <tr>
