@@ -24,7 +24,7 @@
     </td>
 </tr>
 <tr>
-     <td class="grouplabel" width="33%">{ts}Check principal area(s) of interest, including areas outside the school to which you are applying. Subjects in blue are not majors at Rice, but some courses in these disciplines are offered.{/ts}</td>
+     <td class="grouplabel" width="33%">{ts}Check principal area(s) of interest, including areas outside the school to which you are applying. Subjects in asterisk (*) are not majors at Rice, but some courses in these disciplines are offered.{/ts}</td>
      <td class="grouplabel">
        <table>
         {foreach from=$schools key=name item=title}
