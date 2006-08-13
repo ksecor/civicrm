@@ -114,7 +114,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrEssay extends CRM_Quest_Form_A
      */
     public function getTitle()
     {
-         return ts(' Essay');
+         return ts('Essay');
     }
 
 
