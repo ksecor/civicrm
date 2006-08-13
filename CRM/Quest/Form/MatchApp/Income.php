@@ -27,7 +27,7 @@
 
 
 /**
- * Personal Information Form Page
+ * Income Form Page
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -40,7 +40,7 @@ require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * This class generates form components for relationship
+ * This class generates form components for income
  * 
  */
 class CRM_Quest_Form_MatchApp_Income extends CRM_Quest_Form_App
@@ -190,7 +190,9 @@ class CRM_Quest_Form_MatchApp_Income extends CRM_Quest_Form_App
         $this->_deleteButtonName = $this->getButtonName( 'next'   , 'delete' );
         $this->assign( 'deleteButtonName', $this->_deleteButtonName );
         $this->add( 'submit', $this->_deleteButtonName, ts( 'Delete this Income Source' ) );
-        
+     
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Income', 'formRule'));
+   
         parent::buildQuickForm();
             
     } //end of function
@@ -452,7 +454,42 @@ WHERE  i.person_id = p.id
         }
 
         return $details;
-    }   
+    }
+
+    /**
+     * Function for form rules
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params)
+    {
+        $errors = array( );
+
+        //CRM_Core_Error::debug('d', $params);
+
+        for ( $i = 2; $i <= 4; $i++ ) {
+            if ( $params["amount_{$i}"] && !$params["type_of_income_id_{$i}"] ) {
+                $errors["type_of_income_id_{$i}"] = "Please select Type of Income.";
+            }
+
+            if ( !$params["amount_{$i}"] && $params["type_of_income_id_{$i}"] ) {
+                $errors["amount_{$i}"] = "Please enter total 2005 income from this source.";
+            }
+
+            if ( $params["amount_{$i}"] ) {
+                if ( !is_numeric($params["amount_{$i}"]) ) {
+                    $errors["amount_{$i}"]  = "Please enter a valid income.";
+                }
+            }
+        }
+        
+        return empty($errors) ? true : $errors;
+    } 
+
 }
 
 ?>

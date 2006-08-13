@@ -79,12 +79,12 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
                 CRM_Core_DAO::storeValues( $dao , $defaults );
             }
             $defaults['sibling_relationship_id'] = $defaults['relationship_id'];
-            
-            if ( !$defaults['lived_with_from_age'] &&  ! $defaults['lived_with_to_age'] ) {
-                $defaults['all_life'] = 1;
-            } else {
-                $defaults['all_life'] = 0;
-            }
+        }
+        
+        if ( !$defaults['lived_with_from_age'] &&  ! $defaults['lived_with_to_age'] ) {
+            $defaults['all_life'] = 1;
+        } else {
+            $defaults['all_life'] = 0;
         }
 
         return $defaults;
@@ -128,13 +128,13 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
 
         $this->addElement( 'text', "lived_with_from_age", ts( 'From Age' ),
                            $attributed['lived_with_from_age'] );
-        $this->addRule('lived_with_from_age',ts('Please enter a valid number for From Age.'),'integer');
+        $this->addRule('lived_with_from_age',ts('Please enter a valid number for From Age.'),'positiveInteger');
 
         $this->addElement( 'text', "lived_with_to_age", ts( 'To Age' ),
                            $attributed['lived_with_to_age'] );
-        $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'integer');
+        $this->addRule('lived_with_to_age',ts('Please enter a valid number for To Age.'),'positiveInteger');
 
-        $extra1 = array( 'onchange' => "return showHideByValue('current_school_level_id', '141', 'highest_school_level|college_country|college_grad_year|college_major|prof_school_name|prof_school_degree|prof_grad_year', 'table-row', 'select', false);" );
+        $extra1 = array( 'onchange' => "return showHideByValue('current_school_level_id', '141', 'highest_school_level|college_country|college_grad_year|college_major|prof_school_name|prof_school_degree|prof_grad_year', 'table-row', 'select', true);" );
 
         $this->addSelect('current_school_level', ts('Year in school'), null, true, $extra1);
 
@@ -159,9 +159,7 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
                            'prof_grad_year',
                            ts('Year in which graduate degree was received'),
                            CRM_Core_SelectValues::date( 'custom', 50, 1, "Y" ) );
-        $this->addSelect( 'prof_school_degree', ts('Degree received in professional or graduate school ') );
-     
-       
+        $this->addSelect( 'prof_school_degree', ts('Degree received in professional or graduate school ') );           
 
         $this->addElement( 'text', 'college_name', ts('College attending or attended (if any)'),
                            $attributes['college_name'] );
@@ -176,11 +174,14 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
         $this->_deleteButtonName = $this->getButtonName( 'next'   , 'delete' );
         $this->assign( 'deleteButtonName', $this->_deleteButtonName );
         $this->add( 'submit', $this->_deleteButtonName, ts( 'Delete this Sibling' ) );
-        
+       
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Sibling', 'formRule'));
+ 
         parent::buildQuickForm();
     }
     
-    function validate( ) {
+    function validate( ) 
+    {
         // check if the delete button has been submitted 
         // if so skip all validation
         $buttonName = $this->controller->getButtonName( ); 
@@ -190,6 +191,34 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
 
         return parent::validate( );
     }
+
+
+    /**
+     * Function for form rules
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params)
+    {
+        $errors = array( );
+        
+        if ( $params['all_life'] == 0 ) {
+            if ( !$params['lived_with_from_age'] ) {
+                $errors['lived_with_from_age'] = "Please enter the From Age.";
+            }
+
+            if ( !$params['lived_with_to_age'] ) {
+                $errors['lived_with_to_age'] = "Please enter the To Age.";
+            }
+        }
+        
+        return empty($errors) ? true : $errors;
+    } 
+
 
     public function postProcess()  
     {

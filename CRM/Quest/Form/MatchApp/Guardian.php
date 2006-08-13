@@ -27,7 +27,7 @@
 
 
 /**
- * Personal Information Form Page
+ * Gaurdian Form Page
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -40,7 +40,7 @@ require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * This class generates form components for relationship
+ * This class generates form components for guardian information
  * 
  */
 class CRM_Quest_Form_MatchApp_Guardian extends CRM_Quest_Form_App
@@ -58,7 +58,7 @@ class CRM_Quest_Form_MatchApp_Guardian extends CRM_Quest_Form_App
     {
         parent::preProcess();
         $this->_personID        = $this->_options['personID'];
-      
+        
         $this->_relationshipID  = $this->_options['relationshipID'];
     }
     
@@ -71,7 +71,7 @@ class CRM_Quest_Form_MatchApp_Guardian extends CRM_Quest_Form_App
      * @return void
      */
     function setDefaultValues( )
-{
+    {
         $defaults = array( );
         if ( $this->_personID ) {
             $dao = & new CRM_Quest_DAO_Person();
@@ -104,16 +104,16 @@ class CRM_Quest_Form_MatchApp_Guardian extends CRM_Quest_Form_App
         CRM_Core_BAO_Location::getValues( $gaurdParams, $defaults, $ids, 3);
         $this->_locationIds = $ids;
         return $defaults;
-} 
-     
+    } 
+    
     /**
      * Function to actually build the form
      *
      * @return void
      * @access public
      */
-public function buildQuickForm( ) 
-{
+    public function buildQuickForm( ) 
+    {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Person');
         
         require_once 'CRM/Quest/DAO/Household.php';
@@ -240,7 +240,7 @@ public function buildQuickForm( )
         $contact = CRM_Contact_BAO_Contact::retrieve($params,$values,$ids);
         $this->assign("studentLocation",$values['location'][1]);
         
-}
+    }
     //end of function
     
     /**
@@ -252,10 +252,10 @@ public function buildQuickForm( )
      * @access public
      * @static
      */
-public function formRule(&$params)
-{
+    public function formRule(&$params)
+    {
         $errors = array( );
-
+        
         if ( $params['is_contact_with_student'] || (!array_key_exists('is_contact_with_student', $params)) ) {
             
             $fields = array('industry_id'            => 'Industry',
@@ -281,19 +281,29 @@ public function formRule(&$params)
                 $errors["deceased_year_date"] = "Please enter the Year Deceased date.";
             }           
         }
+        
+        if ( $params['all_life'] == 0 ) {
+            if ( !$params['lived_with_from_age'] ) {
+                $errors['lived_with_from_age'] = "Please enter the From Age.";
+            }
 
+            if ( !$params['lived_with_to_age'] ) {
+                $errors['lived_with_to_age'] = "Please enter the To Age.";
+            }
+        }
+        
         return empty($errors) ? true : $errors;
     } 
-
+    
     /** 
      * process the form after the input has been submitted and validated 
      * 
      * @access public 
      * @return void 
      */ 
-public function postProcess()  
-{
-    if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
+    public function postProcess()  
+    {
+        if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params  = $this->controller->exportValues( $this->_name );
             
             $params['relationship_id'] = $this->_relationshipID;
@@ -305,10 +315,10 @@ public function postProcess()
             $params['contact_id']         = $this->_contactID;
             $params['is_parent_guardian'] = true;
             $params['is_income_source'  ] = true;
- 
+            
 
             $this->set( 'includeNonCustodial', null);
-          
+            
             $ids['id'] = $this->_personID;
             $deceasedYear = $params['deceased_year_date']['Y'];
 

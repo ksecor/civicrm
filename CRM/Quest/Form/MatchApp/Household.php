@@ -27,7 +27,7 @@
 
 
 /**
- * Personal Information Form Page
+ * Household Information Form Page
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -40,7 +40,7 @@ require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * This class generates form components for relationship
+ * This class generates form components for Household Information
  * 
  */
 class CRM_Quest_Form_MatchApp_Household extends CRM_Quest_Form_App
