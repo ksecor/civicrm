@@ -171,10 +171,11 @@ class CRM_Quest_BAO_Essay extends CRM_Quest_DAO_Essay {
         }     
     } 
 
-    static function buildForm( &$form, &$essays ) {
+    static function buildForm( &$form, &$essays, $countit=true ) {
         foreach ( $essays as $name => $essay ) {
-            $essay['attributes'] .= " onkeyup=countit(\"{$essay['name']}\",\"{$essay['wordCount']}\");";
-            
+            if ($countit) {
+                $essay['attributes'] .= " onkeyup=countit(\"{$essay['name']}\",\"{$essay['wordCount']}\");";
+            }
             $form->add( 'textarea',
                         "essay[{$essay['name']}]",
                         $essay['label'] . " ({$essay['wordCount']} words max)",
