@@ -161,7 +161,7 @@ class CRM_Quest_Form_MatchApp_SchoolOther extends CRM_Quest_Form_App
             for ( $i = 2; $i <= 5; $i++ ) {
                 if ( CRM_Utils_Array::value( "organization_name_$i", $defaults )) {
                     $this->_showHide->addShow( "id_otherSchool_info_$i" );
-                    $this->_showHide->addHide( 'id_otherSchool_info_' . $i . '[show]' );
+                    $this->_showHide->addHide( 'id_otherSchool_info_' . $i . '_show' );
                 } else {
                     $this->_showHide->addHide( "id_otherSchool_info_$i" );
                 }
