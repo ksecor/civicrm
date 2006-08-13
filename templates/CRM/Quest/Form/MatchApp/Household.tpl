@@ -132,22 +132,7 @@
             hide(target_element_name);
         }
     }
+
+    show_foster('relationship_id_1','foster_child_show');
     </script>
 {/literal}
-
-{*include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="relationship_id_1_1"
-    trigger_value       ="30|31|32|33|34"
-    target_element_id   ="foster_child_show" 
-    target_element_type ="table-row"
-    field_type          ="select"
-    invert              = 0
-*}
-{*include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="relationship_id_1_2"
-    trigger_value       ="30|31|32|33|34"
-    target_element_id   ="foster_child_show" 
-    target_element_type ="table-row"
-    field_type          ="select"
-    invert              = 0
-*}
