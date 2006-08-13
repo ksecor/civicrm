@@ -93,7 +93,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrEssay extends CRM_Quest_Form_A
         
       
         $options[1]='Tell us about a person who has influenced you in a significant way.';
-        $options[2] = '"Princeton in the Nations Service" was the title of a speech given by Woodrow Wilson on the 150th anniversary of the University. It became the unofficial Princeton motto and was expanded for the Universitys 250th anniversary to "Princeton in the nations service and in the service of all nations". Woodrow Wilson, Princeton Class of 1879, served on the faculty and was Princetons president from 1902-1910.';
+        $options[2] = '"Princeton in the Nation\'s Service" was the title of a speech given by Woodrow Wilson on the 150th anniversary of the University. It became the unofficial Princeton motto and was expanded for the University\'s 250th anniversary to "Princeton in the nation\'s service and in the service of all nations". Woodrow Wilson, Princeton Class of 1879, served on the faculty and was Princeton\'s president from 1902-1910.';
         $options[3] = '"The important thing is not to stop questioning. Curiosity has its own reason for existing. One cannot help but be in awe when one contemplates the mysteries of eternity, of life, of the marvelous structure of reality. It is enough if one tries to comprehend only a little of this mystery every day." Albert Einstein, Princeton resident 1933 - 1955';
         $options[4] = '"Some questions cannot be answered,/They become familiar weights in the hand,/ Round stones pulled from the pocket, unyielding and cool." Jane Hirshfield, poet, Princeton Class of 1973"';
         
