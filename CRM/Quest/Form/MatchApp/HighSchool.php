@@ -27,7 +27,7 @@
 
 
 /**
- * Personal Information Form Page
+ * High School Form Page
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -40,7 +40,7 @@ require_once 'CRM/Quest/Form/App.php';
 require_once 'CRM/Core/OptionGroup.php';
 
 /**
- * This class generates form components for relationship
+ * This class generates form components for high school
  * 
  */
 class CRM_Quest_Form_MatchApp_HighSchool extends CRM_Quest_Form_App
@@ -112,7 +112,6 @@ WHERE  o.contact_id IN ( $orgString )
     function setDefaultValues( ) 
     {
         $defaults = array( );
-
         if (is_array($this->_orgIDs)) {
             foreach ($this->_orgIDs as $key => $value ) {
                 if ( $value  ) {
@@ -165,7 +164,7 @@ WHERE  o.contact_id IN ( $orgString )
             
             $this->_showHide->addToTemplate( );
         }
-        
+
         return $defaults;
     }
             
@@ -274,7 +273,7 @@ WHERE  o.contact_id IN ( $orgString )
      */
       public function formRule(&$params) {
           $errors = array( );
-          
+
           // make sure that the user has not messed with school details etc
           if ( $params['custom_1_1'] ) {
               $name = CRM_Core_DAO::getFieldValue( 'CRM_Quest_DAO_CEEB', $params['custom_1_1'], 'school_name', 'code' );
@@ -312,7 +311,7 @@ WHERE  o.contact_id IN ( $orgString )
 
         if ( ! ( $this->_action &  CRM_Core_Action::VIEW ) ) {
             $params = $this->controller->exportValues( $this->_name );
-            
+          
             //delete all contact entries
             require_once 'CRM/Contact/BAO/Contact.php';
            

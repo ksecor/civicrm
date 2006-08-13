@@ -46,9 +46,8 @@ class CRM_Quest_BAO_CEEB extends CRM_Quest_DAO_CEEB {
     static function &createOrganization( $code, $phone = null ) {
         // check if the organization exists
         $query = "
-SELECT o.contact_id as contact_id
-FROM   civicrm_organization o,
-       civicrm_custom_value v
+SELECT v.entity_id as contact_id
+FROM   civicrm_custom_value v
 WHERE  v.custom_field_id = 1
   AND  v.entity_table    = 'civicrm_contact'
   AND  v.char_data        = %1
