@@ -149,7 +149,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
 
         // has health insurance
         $this->addYesNo( 'is_health_insurance',
-                         ts( 'Will you be covered by medical insurance while at college?' ),null,true);
+                         ts( 'Will you be covered by your parents\' medical insurance while at college?' ),null,true);
 
         // federal lunch program
         $this->addSelect( 'fed_lunch',
