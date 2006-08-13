@@ -206,8 +206,10 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
                 }
             }
         }
-        $this->addFormRule( array('CRM_Quest_Form_MatchApp_Transcript', 'formRule') );
-        
+        $this->addElement( 'hidden', "gradeTitle", $this->_grade);
+
+        $this->addFormRule( array('CRM_Quest_Form_MatchApp_Transcript', 'formRule'), $this->_grade );
+
         parent::buildQuickForm( );
     }
 
@@ -220,39 +222,49 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
      * @access public
      * @static
      */
-    public function formRule( &$params )
+    public function formRule( &$params, $current )
     {
         $errors = array( );
-        
+
         $academicFields = array( 'academic_subject_id_'     => 'academic subject',
                                  'course_title_'            => 'course title',
                                  'academic_credit_'         => 'credit',
                                  'academic_honor_status_id_'=> 'honor status' );
 
-        for ( $i = 1; $i <= 9; $i++ ) {
-            $filled = false;
-            $allFilled = true;
-            $gradeFilled = false;
-
-            foreach ( $academicFields as $name => $title ) {
-                if ($params[$name . $i]) {
-                    $filled = true;
-                } else {
-                    $allFilled = false;
+        if ( $params['gradeTitle'] != 'Eleven' ) {
+            for ( $i = 1; $i <= 9; $i++ ) {
+                $filled = false;
+                $allFilled = true;
+                $gradeFilled = false;
+                
+                foreach ( $academicFields as $name => $title ) {
+                    if ($params[$name . $i]) {
+                        $filled = true;
+                    } else {
+                        $allFilled = false;
+                    }
                 }
-            }
-            for ( $j = 1; $j <= 4; $j++ ) {
-                if ($params['grade_' . $i . '_' . $j]) {
-                    $filled = true;
+                for ( $j = 1; $j <= 4; $j++ ) {
+                    if ($params['grade_' . $i . '_' . $j]) {
+                        $filled = true;
+                        $gradeFilled = true;
+                    }
+                }
+                if ( $params['gradeTitle'] == 'Twelve' ) {
                     $gradeFilled = true;
                 }
-            }
-
-            if ( $filled && ! $allFilled && ! $gradeFilled ) {
-                $errors["academic_subject_id_$i"] = "Please fill all the fields in this row";
+                if ( $params['gradeTitle'] == 'Summer' ) {
+                    if ($params['summer_year_' . $i]['Y']) {
+                        $filled = true;
+                    } else {
+                        $allFilled = false;
+                    }
+                }
+                if ( ($filled && ! $allFilled) || ( $filled && ! $gradeFilled ) ) {
+                    $errors["academic_subject_id_$i"] = "Please fill all the fields in this row";
+                }
             }
         }
-
         return empty($errors) ? true : $errors;
     } 
 
