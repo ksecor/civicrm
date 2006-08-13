@@ -521,6 +521,19 @@ CREATE TABLE civicrm_entity_file (
 	ALTER TABLE `civicrm_custom_field` CHANGE `html_type` `html_type` ENUM( 'Text', 'TextArea', 'Select', 'Multi-Select', 'Radio', 'CheckBox', 'Select Date', 'Select State/Province', 'Select Country','File') DEFAULT NULL COMMENT 'HTML types plus several built-in extended types.';
 
 	ALTER TABLE `civicrm_custom_field` CHANGE `data_type` `data_type` ENUM('String', 'Int', 'Float', 'Money', 'Memo', 'Date', 'Boolean', 'StateProvince', 'Country', 'File') DEFAULT NULL COMMENT 'Controls location of data storage in extended_data table.';
+	
+	ALTER TABLE `civicrm_custom_field` ADD `is_search_range` tinyint DEFAULT 0 COMMENT 'Is this property range searchable.';
+	
+	ALTER TABLE `civicrm_custom_field` ADD  `start_date_years` int unsigned    COMMENT 'Date may be up to start_date_years years prior to tcurrent date  ';
+
+	ALTER TABLE `civicrm_custom_field` ADD `end_date_years` int unsigned    COMMENT 'Date may be up to end_date_years years after to tcurrent date ';
+
+	ALTER TABLE `civicrm_custom_field` ADD `date_parts` varchar(255)    COMMENT 'which date part included in display ';
+
+	ALTER TABLE `civicrm_custom_field` ADD `note_columns` int unsigned    COMMENT ' Number of columns in Note Field ';
+
+	ALTER TABLE `civicrm_custom_field` ADD `note_rows` int unsigned    COMMENT ' Number of rows in Note Field ';
+	
 
 
 -- /*******************************************************
