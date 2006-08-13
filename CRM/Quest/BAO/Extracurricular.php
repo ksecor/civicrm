@@ -89,7 +89,7 @@ class CRM_Quest_BAO_Extracurricular extends CRM_Quest_DAO_Extracurricular {
                     if ( $j == 1 ) {
                         $form->addRule("time_spent_{$j}_{$i}", ts('Please enter the integer/decimal value'), 'numeric');
                     } else {
-                        $form->addRule("time_spent_{$j}_{$i}", ts('Please enter the integer value'), 'integer');
+                        $form->addRule("time_spent_{$j}_{$i}", ts('Please enter a valid number'), 'positiveInteger');
                     }
                 }
             }
