@@ -8,7 +8,7 @@
 </tr>
 <tr>
   <td colspan="4" class="grouplabel">
-    <p class="preapp-instruction">{ts}List two teachers and a guidance counselor that you would like to use as recommenders. We will send an email to your recommenders with instructions on how they can complete the recommendation. Please verify all the contact information you enter about the recommenders.{/ts}</p>
+    <p class="preapp-instruction">{ts}List two teachers and a guidance counselor that you would like to use as recommenders. We will send an email to your recommenders with instructions on how to complete their recommendations. Please verify all the contact information you enter for your recommenders.{/ts}</p>
   </td>
 </tr>
 <tr>
