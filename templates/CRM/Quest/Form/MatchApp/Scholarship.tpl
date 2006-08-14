@@ -174,7 +174,7 @@
 	            {if $key eq 3}
 	            <span id={$element_id}>( Website: {$form.$heard_about_name.html} )
 	            {else}
-	            <span id={$element_id}>( Name: {$form.$heard_about_name.html} )</span>
+	            <span id={$element_id}>( Please specify: {$form.$heard_about_name.html} )</span>
 	            {/if}
 	        {/if}
 	        </td>
