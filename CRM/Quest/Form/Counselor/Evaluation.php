@@ -80,12 +80,20 @@ class CRM_Quest_Form_Counselor_Evaluation extends CRM_Quest_Form_Recommender
         $radFields = array('is_context'             => 'explain_context',
                            'is_problem_behavior'    => 'problem_explain',
                            'is_disciplinary_action' => 'discipline_explain');
-        foreach ( $radFields as $rad => $field ) {
-            if ( $defaults['essay'][$field] ) {
-                $defaults[$rad] = 1;
-            }
+        //  foreach ( $radFields as $rad => $field && $defaults[$rad] ) {
+        //             if ( $defaults['essay'][$field] ) {
+        //                 $defaults[$rad] = 1;
+        //             }
+        //         }
+        
+        require_once "CRM/Quest/DAO/CounselorEvaluation.php";
+        $dao = & new CRM_Quest_DAO_CounselorEvaluation();
+        $dao->source_contact_id = $this->_recommenderID;
+        $dao->target_contact_id = $this->_studentContactID;
+        if ($dao->find(true)) {
+            CRM_Core_DAO::storeValues($dao,$defaults);
         }
-
+        
         return $defaults;
     }
     
