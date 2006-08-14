@@ -155,11 +155,17 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
                 $ranks[$key] = $value;   
             }
         }
+        
         // check  if values are in sequence 
         if ( empty( $errors ) ) {
             asort($ranks);
             $fields = array_keys ($ranks);
             sort($ranks);
+            
+            if ($ranks[0] != 1) {
+                $errors['_qf_default'] = "Please assign rankings sequentially (e.g. 1, 2, 3...).";
+            }
+            
             foreach ( $ranks as $key=>$value) {
                 if ( $ranks[$key+1] && ( $ranks[$key+1] != $value+1)) {
                     $errors[$fields[$key+1]] = "Please assign rankings sequentially (e.g. 1, 2, 3...).";
