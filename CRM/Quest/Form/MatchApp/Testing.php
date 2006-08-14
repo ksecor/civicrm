@@ -56,6 +56,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
     const SAT_TESTS     = 3;
     const SAT_II_TESTS  = 5;
     const AP_TESTS      = 8;
+    const TOEFL_TESTS   = 3;
 
     /**
      * Function to set variables up before form is built
@@ -89,7 +90,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             $this->_testIDs = array();
             
             $testTypes  = CRM_Core_OptionGroup::values( 'test');
-            $testSet1 = array('act','sat','ap');
+            $testSet1 = array('act','sat','ap','toefl');
             
             
             $dao = & new CRM_Quest_DAO_Test();
@@ -99,13 +100,13 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 if (array_key_exists($dao->test_id, $testTypes)) {
                     if( in_array(strtolower($testTypes[$dao->test_id]),$testSet1 )) {
                         $tType = strtolower($testTypes[$dao->test_id]);
-                        $count = count($this->_testIDs[$tType]) + 1;                    
+                        $count = count($this->_testIDs[$tType]) + 1;
                         $this->_testIDs[$tType][$count] = $dao->id;
                     } else {
                         $count = count($this->_testIDs['satII']) + 1;
                         $this->_testIDs['satII'][$count] = $dao->id;
                     }
-                }
+                } 
             }
 
             //set the default values
@@ -191,6 +192,14 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                         $this->_showHide->addHide( "id_sat_test_$i" );
                     }
                 }
+
+                for ( $i = 2; $i <= self::TOEFL_TESTS; $i++ ) {
+                    if ( CRM_Utils_Array::value( "toefl_score_$i", $defaults )) {
+                        $this->_showHide->addShow( "id_toefl_test_$i" );
+                    } else {
+                        $this->_showHide->addHide( "id_toefl_test_$i" );
+                    }
+                }
                 
                 $this->_showHide->addToTemplate( );
             }
@@ -221,7 +230,8 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                                'sat'  => 4);
 
         $this->_multiTests = array( 'satII' => self::SAT_II_TESTS,
-                                    'ap'    => self::AP_TESTS );
+                                    'ap'    => self::AP_TESTS,
+                                    'toefl' => self::TOEFL_TESTS );
 
         require_once 'CRM/Core/ShowHideBlocks.php';
         for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
@@ -326,10 +336,29 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                                                                ts('hide this AP test'),
                                                                false );
             }
-
         }
+
         $this->assign( 'ap_test', $ap_test );
         $this->assign( 'maxAP', self::AP_TESTS + 1 );
+
+        $toefl_test = array( );
+        for ( $i = 1; $i <= self::TOEFL_TESTS; $i++ ) {
+         
+            $this->addElement('text', 'toefl_score_'. $i, ts( 'Score' ));
+        
+            $this->addElement('date', 'toefl_date_' . $i,
+                              ts( 'Date Taken (month/year)' ),
+                              CRM_Core_SelectValues::date( 'custom', 6, 0, "M\001Y" ) );
+            if ( ! ( $this->_action & CRM_Core_Action::VIEW ) ) {
+                $toefl_test[$i] = CRM_Core_ShowHideBlocks::links( $this,"toefl_test_$i",
+                                                               ts('add another TOEFL test score'),
+                                                               ts('hide this TOEFL test'),
+                                                               false );
+            }
+
+        }
+        $this->assign( 'toefl_test', $toefl_test );
+        $this->assign( 'maxTOEFL', self::TOEFL_TESTS + 1 );
 
         $extra1 = array('onclick' => "return showHideByValue('is_tutoring', '1', 'tutor_tests','table-row', 'radio', false);");
         $this->addYesNo( 'is_tutoring',
@@ -404,13 +433,13 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
      * @access public
      * @static
      */
-      public function formRule(&$params) {
+    public function formRule(&$params) {
         $errors = array( );
-           
-        $tests = array( 'act', 'sat',);
+        
+        $tests = array( 'act', 'sat');
         $sections = array( 'English', 'Reading', 'CriticalReading', 'Writing', 'Math',
                            'Science');
-
+        
         for( $i = 1; $i <= self::ACT_TESTS; $i++ ) {
             foreach ( $tests as $testName ) {
                 foreach ( $sections as $name ) {
@@ -440,6 +469,8 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 }
             }
         }
+        
+    
 
         $multiTests = array( 'satII' => self::SAT_II_TESTS,
                              'ap'    => self::AP_TESTS );
@@ -474,7 +505,9 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
         }
 
         return empty($errors) ? true : $errors;
+
     }
+
 
     /**
      * process the form after the input has been submitted and validated
@@ -488,7 +521,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             $params = $this->controller->exportValues( $this->_name );
 
             $testSet1 = array('act','sat');
-            $testSet2 = array('satII','ap');
+            $testSet2 = array('satII','ap', 'toefl');
             
             $testTypes = CRM_Core_OptionGroup::values( 'test' ,true);
             
@@ -574,13 +607,14 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 for ( $i = 1; $i <= $testCount; $i++ ) { 
                     $filled = false;
                     
-                    $key   = "{$testName}_subject_id_$i";
-                    $value = $params[$key];
-                    if ( ! empty( $value ) ) {
-                        $filled = true;
-                        $testParams2[$testName][$i]["subject"] = $value;
+                    if( $testName != 'toefl') {
+                        $key   = "{$testName}_subject_id_$i";
+                        $value = $params[$key];
+                        if ( ! empty( $value ) ) {
+                            $filled = true;
+                            $testParams2[$testName][$i]["subject"] = $value;
+                        }
                     }
-                    
                     if ( $testName != 'ap' ) {
                         $key   = "{$testName}_score_$i";
                     } else {
@@ -599,15 +633,18 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                         $filled = true;
                         $testParams2[$testName][$i]["test_date"] = CRM_Utils_Date::format( $value );
                     }
-                    
+                  
                     if ( $filled ) {
                         $testParams2[$testName][$i]['contact_id'] = $this->_contactID;
+
                         if ( $testName == 'satII' ) {
                             $testParams2[$testName][$i]['test_id']    = $testTypes[strtoupper('sat II')];
+                        } elseif ($testName == 'toefl') {
+                            $testParams2[$testName][$i]['test_id']    = $testTypes[strtoupper('toefl')];
                         } else {
                             $testParams2[$testName][$i]['test_id']    = $testTypes[strtoupper($testName)];
-                        }
-                    }
+                        } 
+                    } 
                 }
             }
             
@@ -687,7 +724,7 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
             
         }         
         parent::postProcess( );
-    }//end of function
+    }   //end of function
 
     /**
      * Return a descriptive name for the page, used in wizard header

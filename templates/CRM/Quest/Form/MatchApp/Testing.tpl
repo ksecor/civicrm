@@ -164,6 +164,36 @@
 </td></tr>
 </table>
 
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr><td colspan=2 id="sub-category">{ts}TOEFL Test(s){/ts}</td></tr>
+<tr><td colspan=2>
+{section name=rowLoop start=1 loop=$maxTOEFL}
+    {assign var=i value=$smarty.section.rowLoop.index}
+    <div id="id_toefl_test_{$i}">
+    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+      <tr>
+        {assign var=score value="toefl_score_"|cat:$i}
+        <td class="grouplabel">{$form.$score.label}</td>
+        <td class="fieldlabel" width="75%">{$form.$score.html}</td>
+    </tr>
+    <tr>
+        {assign var=date value="toefl_date_$i"}
+        <td class="grouplabel">{$form.$date.label}</td>
+        <td class="fieldlabel">
+            {$form.$date.html}
+            {if $i LT $maxTOEFL}
+                {assign var=j value=$i+1}
+                <br /><span id="id_toefl_test_{$j}_show">{$toefl_test.$j.show}</span>
+            {/if}        
+        </td>
+    </tr>
+    </table>
+    </div>
+{/section}
+</td></tr>
+</table>
+
+
 {* Next 3 fields are only included if student won the SAT Prep Scholarship. *}
 {if $isPrepWinner}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
