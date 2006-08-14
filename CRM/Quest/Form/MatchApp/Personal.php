@@ -202,7 +202,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
         $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
         
         $this->addRadio( 'home_area_id',
-                         ts('Would you describe your home area as'),
+                         ts('Please select the option that best describes your home area'),
                          CRM_Core_OptionGroup::values('home_area') );
 
         // grow up area
