@@ -77,7 +77,7 @@
         <label>{ts}Permanent Address{/ts}</td>
     <td class=fieldlabel">
        {edit}
-        <input type="checkbox" name="copy_address" value="1" onclick="copyAddress()"/> {ts}Same as my Permanent address{/ts}
+        <input type="checkbox" name="copy_address" value="1" onclick="copyAddress()"/> {ts}Same as my permanent address{/ts}
        {/edit}
      </td>
 </tr>

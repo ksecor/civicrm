@@ -103,7 +103,6 @@
     <td class="grouplabel">{$form.description.label}</td>
     <td class="fieldlabel">
         {$form.description.html}<br />
-        {ts}{edit}If important information regarding your relationship with this sibling is not captured above, please enter it here.{/edit}{/ts}
     </td>
 </tr>
 </table>
