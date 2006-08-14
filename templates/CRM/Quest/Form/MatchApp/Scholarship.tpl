@@ -5,9 +5,11 @@
 <tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
+</table>
+
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
-     <td class="grouplabel" width="30%"> {$form.is_health_insurance.label} </td>
-     <td class="fieldlabel" width="70%">{$form.is_health_insurance.html}</td>
+     <td class="grouplabel" colspan="2"> <b>Income Information</b> </td>
 </tr> 
 <tr>
     <td class="grouplabel"> {$form.fed_lunch_id.label}</td>
@@ -17,10 +19,144 @@
     <td class="grouplabel"> {$form.financial_aid_applicant.label}</td>
     <td class="fieldlabel"> {$form.financial_aid_applicant.html}</td>
 </tr>
+</table>
+<br/>
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr>
+     <td class="grouplabel" colspan="2"> <b>Family Information</b> </td>
+</tr> 
+<tr>
+    <td class="grouplabel">
+        {$form.parent_grad_college_id.label}</td>
+    <td class="fieldlabel">
+        {$form.parent_grad_college_id.html}</td>
+</tr>
+<tr>
+    <td colspan=2 class="grouplabel">
+     {ts}For any of your relatives who are alumni/ae at any of our partner colleges/universities, please list their names, relationship to you and years of graduation, if known:{/ts}
+    <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
+       <tr class="bold-label vertical-center-text">
+          <td>Partner Institution</td>
+          <td>Last Name</td>
+          <td>First Name</td>
+          <td>Class year</td> 
+          <td>Relationship</td>  
+
+        </tr> 
+           {section name=rowLoop start=1 loop=6}
+             {assign var=i value=$smarty.section.rowLoop.index}
+             <tr>
+             {assign var=partner_institution value="alumni_partner_institution_id_"|cat:$i}  
+             {assign var=last_name value="alumni_last_name_"|cat:$i}  
+             {assign var=first_name value="alumni_first_name_"|cat:$i}  
+             {assign var=class_year value="alumni_class_year_"|cat:$i}  
+             {assign var=relationship value="alumni_relationship_"|cat:$i}  
+   
+             <td class="fieldlabel">{$form.$partner_institution.html}</td>  
+             <td class="fieldlabel">{$form.$last_name.html|crmReplace:class:eight}</td>
+             <td class="fieldlabel">{$form.$first_name.html|crmReplace:class:eight}</td>
+             <td class="fieldlabel">{$form.$class_year.html}</td> 
+             <td class="fieldlabel">{$form.$relationship.html|crmReplace:class:eight}</td>  
+             </tr>
+          {/section} 
+       
+        
+    </table>  
+    </td>        
+</tr>
+<tr>
+    <td colspan=2 class="grouplabel">
+    {ts}Please list any of your family members or relatives who are presently employed at any of our partner colleges/universities.{/ts}
+    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+      <table cellpadding=0 cellspacing=2 border=1 width="90%" class="app">
+       <tr class="bold-label vertical-center-text">
+          <td>Partner Institution</td>
+          <td>Last Name</td>
+          <td>First Name</td>
+          <td>Department</td> 
+          <td>Relationship</td>  
+
+        </tr> 
+          {section name=rowLoop start=1 loop=6}
+             {assign var=i value=$smarty.section.rowLoop.index}
+             <tr>
+             {assign var=partner_institution value="employee_partner_institution_id_"|cat:$i}  
+             {assign var=last_name value="employee_last_name_"|cat:$i}  
+             {assign var=first_name value="employee_first_name_"|cat:$i}  
+             {assign var=department value="employee_department_"|cat:$i}  
+             {assign var=relationship value="employee_relationship_"|cat:$i}  
+   
+             <td class="fieldlabel">{$form.$partner_institution.html}</td>  
+             <td class="fieldlabel">{$form.$last_name.html|crmReplace:class:eight}</td>
+             <td class="fieldlabel">{$form.$first_name.html|crmReplace:class:eight}</td>
+             <td class="fieldlabel">{$form.$department.html|crmReplace:class:eight}</td> 
+             <td class="fieldlabel">{$form.$relationship.html|crmReplace:class:eight}</td>  
+             </tr>
+          {/section} 
+       
+        
+    </table>  
+    </td>        
+</tr>
+</table>
+<br/>
+
+
+
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr>
+     <td class="grouplabel" colspan="2"> <b>Legal and Disciplinary Information</b> </td>
+</tr> 
+<tr>
+    <td class="grouplabel" width="80%">
+        {$form.is_dismissed.label}</td>
+    <td class="fieldlabel" width="20%">
+        {$form.is_dismissed.html}</td>
+</tr>
+<tr id = "explain_dismissed">
+    <td  class="grouplabel">
+        {$form.explain_dismissed.label}</td>
+    <td class="fieldlabel">
+        {$form.explain_dismissed.html}</td>
+</tr>
+<tr>
+    <td class="grouplabel">
+        {$form.is_convicted.label}</td>
+    <td class="fieldlabel">
+        {$form.is_convicted.html}</td>
+</tr>
+<tr id = "explain_convicted">
+    <td class="grouplabel">
+        {$form.explain_convicted.label}</td>
+    <td class="fieldlabel">
+        {$form.explain_convicted.html}</td>
+</tr>
+</table>
+<br/>
+
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr>
+     <td class="grouplabel" colspan="2"> <b>Other Information</b> </td>
+</tr> 
+<tr>
+     <td class="grouplabel" width="30%"> {$form.is_health_insurance.label} </td>
+     <td class="fieldlabel" width="70%">{$form.is_health_insurance.html}</td>
+</tr> 
 <tr>
     <td class="grouplabel"> {$form.displacement.label}</td>
     <td class="fieldlabel"> {$form.displacement.html} </td>
 </tr>
+</table>
+<br/>
+
+
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr>
+     <td class="grouplabel" colspan="2"> 
+          <b>Survey Information</b><br/>
+          The following questions are not required in order to complete your application. However, we would appreciate any information you may be able to provide.
+     </td>
+</tr> 
 <tr>
     <td class="grouplabel"> {$form.heard_about_qb_id.label}</td>
     <td class="fieldlabel"> 
@@ -120,107 +256,9 @@ applicants for the following year's application cycle. Please enter contact info
 
     </table>
     </td>
-  </tr>
-    <tr>
-    <td colspan=2 class="grouplabel">
-     {ts}For any of your relatives who are alumni/ae at any of our partner colleges/universities, please list their names, relationship to you and years of graduation, if known:{/ts}
-    <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
-       <tr class="bold-label vertical-center-text">
-          <td>Partner Institution</td>
-          <td>Last Name</td>
-          <td>First Name</td>
-          <td>Class year</td> 
-          <td>Relationship</td>  
-
-        </tr> 
-           {section name=rowLoop start=1 loop=6}
-             {assign var=i value=$smarty.section.rowLoop.index}
-             <tr>
-             {assign var=partner_institution value="alumni_partner_institution_id_"|cat:$i}  
-             {assign var=last_name value="alumni_last_name_"|cat:$i}  
-             {assign var=first_name value="alumni_first_name_"|cat:$i}  
-             {assign var=class_year value="alumni_class_year_"|cat:$i}  
-             {assign var=relationship value="alumni_relationship_"|cat:$i}  
-   
-             <td class="fieldlabel">{$form.$partner_institution.html}</td>  
-             <td class="fieldlabel">{$form.$last_name.html|crmReplace:class:eight}</td>
-             <td class="fieldlabel">{$form.$first_name.html|crmReplace:class:eight}</td>
-             <td class="fieldlabel">{$form.$class_year.html}</td> 
-             <td class="fieldlabel">{$form.$relationship.html|crmReplace:class:eight}</td>  
-             </tr>
-          {/section} 
-       
-        
-    </table>  
-    </td>        
-    </tr>
-    
-    <tr>
-    <td colspan=2 class="grouplabel">
-    {ts}Please list any of your family members or relatives who are presently employed at any of our partner colleges/universities.{/ts}
-    <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
-      <table cellpadding=0 cellspacing=2 border=1 width="90%" class="app">
-       <tr class="bold-label vertical-center-text">
-          <td>Partner Institution</td>
-          <td>Last Name</td>
-          <td>First Name</td>
-          <td>Department</td> 
-          <td>Relationship</td>  
-
-        </tr> 
-          {section name=rowLoop start=1 loop=6}
-             {assign var=i value=$smarty.section.rowLoop.index}
-             <tr>
-             {assign var=partner_institution value="employee_partner_institution_id_"|cat:$i}  
-             {assign var=last_name value="employee_last_name_"|cat:$i}  
-             {assign var=first_name value="employee_first_name_"|cat:$i}  
-             {assign var=department value="employee_department_"|cat:$i}  
-             {assign var=relationship value="employee_relationship_"|cat:$i}  
-   
-             <td class="fieldlabel">{$form.$partner_institution.html}</td>  
-             <td class="fieldlabel">{$form.$last_name.html|crmReplace:class:eight}</td>
-             <td class="fieldlabel">{$form.$first_name.html|crmReplace:class:eight}</td>
-             <td class="fieldlabel">{$form.$department.html|crmReplace:class:eight}</td> 
-             <td class="fieldlabel">{$form.$relationship.html|crmReplace:class:eight}</td>  
-             </tr>
-          {/section} 
-       
-        
-    </table>  
-    </td>        
-    </tr>
- <tr>
-    <td class="grouplabel">
-        {$form.parent_grad_college_id.label}</td>
-    <td class="fieldlabel">
-        {$form.parent_grad_college_id.html}</td>
- </tr>
-<tr>
-    <td class="grouplabel">
-        {$form.is_dismissed.label}</td>
-    <td class="fieldlabel">
-        {$form.is_dismissed.html}</td>
 </tr>
-<tr id = "explain_dismissed">
-    <td  class="grouplabel">
-        {$form.explain_dismissed.label}</td>
-    <td class="fieldlabel">
-        {$form.explain_dismissed.html}</td>
-</tr>
-<tr>
-    <td class="grouplabel">
-        {$form.is_convicted.label}</td>
-    <td class="fieldlabel">
-        {$form.is_convicted.html}</td>
-</tr>
-<tr id = "explain_convicted">
-    <td class="grouplabel">
-        {$form.explain_convicted.label}</td>
-    <td class="fieldlabel">
-        {$form.explain_convicted.html}</td>
-</tr>
-
 </table>
+    
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
 
