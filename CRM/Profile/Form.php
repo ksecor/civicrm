@@ -402,8 +402,14 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
             } else if ($field['name'] === 'preferred_communication_method') {
-                $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_SelectValues::pcm());
+                $communicationFields = CRM_Core_SelectValues::pcm();
+                foreach ( $communicationFields as $key => $var ) {
+                    if ( $key == '' ) {
+                        continue;
+                    }
+                    $communicationOptions[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+                }
+                $this->addGroup($communicationOptions, $name, $field['title'], '<br/>' );
             } else if ($field['name'] === 'preferred_mail_format') {
                 $this->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
             } else if ( $field['name'] === 'group' ) {

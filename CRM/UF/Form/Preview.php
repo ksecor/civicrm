@@ -179,11 +179,16 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
             } else if ($field['name'] === 'preferred_communication_method') {
-                $this->add('select', $name, $field['title'],
-                           array('' => ts('- select -')) + CRM_Core_SelectValues::pcm());
+                $values = CRM_Core_SelectValues::pcm();
+                foreach ( $values as $key => $var ) {
+                    if ( $key == '' ) {
+                        continue;
+                    }
+                    $options[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+                }
+                $this->addGroup($options, $name, $field['title'], '<br/>' );
             } else if ($field['name'] === 'preferred_mail_format') {
-                $this->add('select', $name, $field['title'], 
-                           array(CRM_Core_SelectValues::pcm()));
+                $this->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
             } else if ( substr($field['name'], 0, 7) === 'do_not_' ) {  
                 $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
             } else if ( $field['name'] === 'group' ) {
