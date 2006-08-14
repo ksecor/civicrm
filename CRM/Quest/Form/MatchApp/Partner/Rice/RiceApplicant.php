@@ -146,7 +146,7 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
         $extra2 = array('onclick' => "return show_element('contacts');");
         $this->addCheckBox( "contacts", 'What contacts have you had with Rice (check all that apply)?',
                             CRM_Core_OptionGroup::values( "rice_contacts", true ),
-                            false, null, null, $extra2 );
+                            false, null, 'required' , $extra2 );
         
         $this->addYesNo( 'is_medicine', 'Are you interested in the Rice/Baylor College of Medicine Medical Scholars Program? (You must apply under Interim Decision to compete for this program.)', null, true );
         $this->addYesNo( 'is_rotc', 'Do you plan to apply for the Navy, Army, or Air Force ROTC Scholars Program?', null, true );
