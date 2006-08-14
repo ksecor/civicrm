@@ -79,14 +79,16 @@ class CRM_Quest_Form_MatchApp_ExtracurricularInfo extends CRM_Quest_Form_App
         CRM_Quest_BAO_Extracurricular::setDefaults( $this->_contactID,
                                                     'Extracurricular',
                                                     $defaults );
-
-        $studentFields = array( 'varsity_sports_list', 'arts_list' );
+        
+        $studentFields   = array( 'varsity_sports' => 'varsity_sports_list', 'arts' => 'arts_list' );
+        //$studentCheckBox = array( 'varsity_sports', 'arts' );
         $dao = & new CRM_Quest_DAO_Student();
         $dao->contact_id = $this->_contactID;
         if ( $dao->find( true ) ) {
-            foreach ( $studentFields as $stu ) {
+            foreach ( $studentFields as $chkBox => $stu ) {
                 if ( $dao->$stu ) {
                     $defaults[$stu] = $dao->$stu;
+                    $defaults[$chkBox] = 1;
                 }
             }
         }    

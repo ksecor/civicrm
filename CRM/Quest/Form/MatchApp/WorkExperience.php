@@ -81,7 +81,7 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
             $defaults['employer_'.$count] = $dao->employer;
             $defaults['start_date_'.$count] = CRM_Utils_Date::unformat( $dao->start_date,'-' );
             $defaults['end_date_'.$count]   = CRM_Utils_Date::unformat( $dao->end_date,'-' );
-            $defaults['hrs_'.$count] = $dao->weekly_hours;
+            $defaults['hrs_'.$count] = (int) $dao->weekly_hours;
         }
         CRM_Quest_BAO_Essay::setDefaults( $this->_grouping, $defaults );
         
