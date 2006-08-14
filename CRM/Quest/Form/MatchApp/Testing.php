@@ -472,10 +472,10 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
         for($i = 1; $i<=self::TOEFL_TESTS;$i++) {
             if ($params["toefl_score_".$i] ) {
                 if ($params["toefl_score_".$i]< 40 || $params["toefl_score_".$i] > 677) {
-                    $errors["toefl_score_".$i] = "TOEFL score should be in between 40 and 677 and not in 301 and 309 ";
+                    $errors["toefl_score_".$i] = "TOEFL scores entered should be between 40-677 (301-309 is not valid).";
                 }
                 if ($params["toefl_score_".$i] > 301 && $params["toefl_score_".$i] < 309){
-                    $errors["toefl_score_".$i] = "TOEFL score should be in between 40 and 677 and not in 301 and 309 ";
+                    $errors["toefl_score_".$i] = "TOEFL scores entered should be between 40-677 (301-309 is not valid).";
                 }
                 
             }
