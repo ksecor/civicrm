@@ -9,9 +9,9 @@
 
 <tr>
     <td class="grouplabel">
-        {ts}Most of our partner colleges accept the QuestBridge application for regular admissions process, and all of our partner colleges will waive their application fees for qualified low-income QuestBridge applicants. In the event you are not awarded a College Match scholarship, allowing us to forward your application will make you a candidate for regular admissions at our partner colleges.<br/><br/>{/ts}
-        {ts}By selecting a college below, QuestBridge will forward your application to that college. Although you will need to contact the college or university to have your application be considered for regular admissions. You might also need to complete other documents, as required by the college or university.<br/><br/>{/ts} 
-        {ts}Select the colleges to which you would like QuestBridge to forward your application for regular admissions. <span class="marker" title="This field is required.">*</span>{/ts} 
+        {ts}Most of our partner colleges accept the QuestBridge application for admission and will waive their application fees for qualified low-income QuestBridge applicants. In the event you are not selected as a finalist or awarded a College Match scholarship, allowing us to forward your application will make you a candidate for regular admissions at our partner colleges.<br/><br/>{/ts}
+        {ts}By selecting a college below, QuestBridge will forward your application to that college. Although you will need to contact the college or university directly to have your application considered for admissions and you might also need to complete other documents, as required by the college or university.<br/><br/>{/ts} 
+        {ts}Select the colleges to which you would like QuestBridge to forward your application for admissions. <span class="marker" title="This field is required.">*</span>{/ts} 
     </td>
 </tr>
 
