@@ -33,7 +33,7 @@
     <td class="grouplabel">{$form.$custom_1.label}</td>
     <td class="fieldlabel">
         {$form.$custom_1.html|crmReplace:class:six}<br />
-        <span class="font-red">This field (CEEB code) is populated by the School Search popup if your school is in our database. If you are entering your school manually because you did not find it in the database - this field should be set to 0.</span>
+        <span class="font-red">This field (CEEB code) is populated by the 'Find Your School' popup if your school is in our database. If you are entering your school manually because you did not find it in the database, this field should be set to 0.</span>
     </td>
 </tr>
 <tr>
