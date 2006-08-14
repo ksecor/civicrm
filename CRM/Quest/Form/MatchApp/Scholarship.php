@@ -232,7 +232,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         // wheather convicted
         $extra5 = array('onclick' => "return showHideByValue('is_convicted', '1', 'explain_convicted','table-row', 'radio', false);");
         $this->addYesNo( 'is_convicted',
-                         ts( 'Have you ever been been convicted of a crime, had a criminal charge sustained against you in a juvenile proceeding, or been placed on court-supervised probation?' ),null,false, $extra5);
+                         ts( 'Have you ever been been convicted of or pled guilty or nolo contendere to any crime (except minor traffic citations),had a criminal charge sustained against you in a juvenile proceeding (except minor traffic citations), or been placed on court-supervised probation?' ),null,false, $extra5);
         $this->addRule('is_convicted',ts('Please select '),'required');
         $this->addElement('textarea', 'explain_convicted', ts( 'Please explain' ), $attributes['explain_convicted'] );
                         
