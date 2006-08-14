@@ -5,7 +5,7 @@
         {$form.essay.$name.label}<br /><br />
     {if $name eq 'personal'}
         These questions come from college undergraduate admissions applications.<br /><br />
-        This question is considered the main essay question in this application and, consequently, your answer should be somewhat longer and more thought out than your responses to the short answer questions.<br />
+        This question is considered the main essay question in this application and, consequently, your answer should be somewhat longer and more thought out than your responses to the short essay questions.<br />
     {/if}
 	{if $name eq 'personal' or $name eq 'stanford_essay'}
         <br/>{$form.personalStat_quests.label}{$form.personalStat_quests.html}<br/><br/>
