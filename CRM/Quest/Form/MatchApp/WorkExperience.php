@@ -81,7 +81,7 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
             $defaults['employer_'.$count] = $dao->employer;
             $defaults['start_date_'.$count] = CRM_Utils_Date::unformat( $dao->start_date,'-' );
             $defaults['end_date_'.$count]   = CRM_Utils_Date::unformat( $dao->end_date,'-' );
-            $defaults['hrs_'.$count] = (int) $dao->weekly_hours;
+            $defaults['hrs_'.$count] = $dao->weekly_hours;
         }
         CRM_Quest_BAO_Essay::setDefaults( $this->_grouping, $defaults );
         
@@ -116,11 +116,13 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
             $this->addElement('text', 'employer_'.$i, ts( 'Employer' ), $employer);
             
             $this->addElement('date', 'start_date_'.$i, ts( 'Start Date' ), 
-                              CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ) );
+                              CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ));
+            $this->addRule( 'start_date_'.$i, ts('Please enter valid date for Start Date.'), 'qfDate');
             $this->addElement('date', 'end_date_'.$i, ts( 'End Date' ), 
                               CRM_Core_SelectValues::date( 'custom', 7, 2, "M\001Y" ) );
+            $this->addRule( 'end_date_'.$i, ts('Please enter valid date for End Date.'), 'qfDate');
             $this->addElement('text', 'hrs_'.$i, ts( 'Aproximate hours/week' ));
-            $this->addRule('hrs_'.$i , ts('please enter a valid hours/week'),'positiveInteger');
+            $this->addRule('hrs_'.$i , ts('Please enter a numeric value for hours/week'),'numeric');
             $this->addElement('checkbox','summer_jobs_'.$i,
                             ts( 'Check if Summer jobs only'),
                             null);
@@ -157,12 +159,14 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
     public function formRule(&$params)
     {
         $errors = array( );
-        $fields = array('nature_of_work_' => 'nature of work',
-                        'employer_'       => 'employer',
-                        'hrs_'            => 'approximate hours/week'
+        $fields = array('nature_of_work_' => 'Nature of work',
+                        'employer_'       => 'Employer',
+                        'hrs_'            => 'Approximate hours/week'
                         );
-        $dates  = array('start_date_'     => 'start date',
-                        'end_date_'       => 'end date');
+        $dates  = array('start_date_'     => 'Start date',
+                        'end_date_'       => 'End date'
+                        );
+
         for ( $i = 1; $i <= 6; $i++ ) {
             $filled = false;
             foreach ( $fields as $field => $title) {
@@ -182,9 +186,14 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
                         $errors[$field . $i] = "Please enter the $title";
                     }
                 }
-                foreach ( $dates as $date => $title ) {
-                    if (!$params[$date . $i]['M'] || !$params[$date . $i]['Y']) {
-                        $errors[$date . $i] = "Please enter a valid $title";
+                
+                if (!$params['start_date_' . $i]['M'] || !$params['start_date_' . $i]['Y']) {
+                    $errors[$date . $i] = "Please enter a valid Start date.";
+                } elseif ( $params['end_date_' . $i]['M'] && $params['end_date_' . $i]['Y'] ) {
+                    $sDate = strtotime( $params['start_date_' . $i]['Y'] . $params['start_date_' . $i]['M'] );
+                    $eDate = strtotime( $params['end_date_' . $i]['Y'].$params['end_date_' . $i]['M'] );
+                    if ( $sDate > $eDate ) {
+                        $errors['end_date_' . $i] = "End Date can not be earlier than Start Date.";
                     }
                 }
             }
