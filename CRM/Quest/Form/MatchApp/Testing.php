@@ -435,7 +435,6 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
      */
     public function formRule(&$params) {
         $errors = array( );
-        
         $tests = array( 'act', 'sat');
         $sections = array( 'English', 'Reading', 'CriticalReading', 'Writing', 'Math',
                            'Science');
@@ -469,6 +468,19 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                 }
             }
         }
+        //Rule for toefl
+        for($i = 1; $i<=self::TOEFL_TESTS;$i++) {
+            if ($params["toefl_score_".$i] ) {
+                if ($params["toefl_score_".$i]< 40 || $params["toefl_score_".$i] > 677) {
+                    $errors["toefl_score_".$i] = "TOEFL score should be in between 40 and 677 and not in 301 and 309 ";
+                }
+                if ($params["toefl_score_".$i] > 301 && $params["toefl_score_".$i] < 309){
+                    $errors["toefl_score_".$i] = "TOEFL score should be in between 40 and 677 and not in 301 and 309 ";
+                }
+                
+            }
+        }
+        
         
     
 
