@@ -136,7 +136,7 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
 
         $extra1 = array( 'onchange' => "return showHideByValue('current_school_level_id', '141', 'highest_school_level|college_country|college_grad_year|college_major|prof_school_name|prof_school_degree|prof_grad_year', 'table-row', 'select', true);" );
 
-        $this->addSelect('current_school_level', ts('Year in school'), null, true, $extra1);
+        $this->addSelect('current_school_level', ts('Current year in school'), null, true, $extra1);
 
 
         $extra2 = array( 'onchange' => "showHideByValue('highest_school_level_id', '118|119|120|121|122', 'college_country|college_grad_year|college_major', 'table-row', 'select', false); return showHideByValue('highest_school_level_id', '122', 'prof_school_name|prof_school_degree|prof_grad_year', 'table-row', 'select', false);" );
@@ -168,7 +168,7 @@ class CRM_Quest_Form_MatchApp_Sibling extends CRM_Quest_Form_App
                            $attributes['job_occupation'] );
         $this->addElement( 'textarea',
                            'description',
-                           ts('Comments'),
+                           ts('If important information regarding your relationship with this sibling is not captured above, please enter it here.'),
                            $attributes['description'] );
 
         $this->_deleteButtonName = $this->getButtonName( 'next'   , 'delete' );

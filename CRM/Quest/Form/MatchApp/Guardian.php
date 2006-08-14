@@ -222,7 +222,7 @@ class CRM_Quest_Form_MatchApp_Guardian extends CRM_Quest_Form_App
         $this->addSelect( 'prof_school_degree', ts('Degree received in professional or graduate school ') );
         $this->addElement( 'textarea',
                            'description',
-                           ts('If there are any extenuating circumstances, or details regarding your parent(s), guardian(s), or household situation that you would like to add or clarify, please do so here'),
+                           ts('If there are any extenuating circumstances or details regarding this parent or guardian that you would like to add or clarify, please do so here'),
                            $attributes['description'] );
         
        
