@@ -74,6 +74,13 @@ class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
     {
         if ( ! $this->_defaults ) {
 
+            // also get all the schools the student goes to, so we restrict the recommenders
+            // from that school only
+            require_once 'CRM/Quest/BAO/Student.php';
+            $schoolSelect = CRM_Quest_BAO_Student::getSchoolSelect( $this->_contactID );
+            unset( $schoolSelect[''] );
+            $schoolIDs = implode( ',', array_keys( $schoolSelect ) );
+
             $query = "
 SELECT cr.id           as contact_id,
        i.first_name    as first_name,
@@ -95,6 +102,8 @@ SELECT cr.id           as contact_id,
    AND rc.relationship_type_id IN ( 11, 12 )
    AND rs.contact_id_a = cs.id
    AND rs.contact_id_b = cr.id
+   AND rc.contact_id_a = cr.id
+   AND rc.contact_id_b IN ( $schoolIDs )
    AND rs.is_active    = 1
    AND rc.is_active    = 1
    AND rc.contact_id_a = cr.id
@@ -126,8 +135,10 @@ SELECT cr.id           as contact_id,
                 $count++;
             }
 
+
             // make sure we have all 3 recommenders
             if ( $count != 1 && $count != 4 ) {
+                CRM_Core_Error::debug( 'p', $this->_oldParams );
                 CRM_Core_Error::fatal( "We could not retrieve your old recommenders" );
             }
 

@@ -90,6 +90,7 @@ class CRM_Utils_System {
                                                 'locationtype'       => 'LocationType',
                                                 'managepremiums'     => 'ManagePremiums',
                                                 'mapfield'           => 'MapField',
+                                                'membershiptype'     => 'MembershipType',
                                                 'mobileprovider'     => 'MobileProvider',
                                                 'pseudoconstant'     => 'PseudoConstant',
                                                 'pagerAToZ'          => 'pagerAToZ',//not needed here 
