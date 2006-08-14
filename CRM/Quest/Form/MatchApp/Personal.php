@@ -206,7 +206,7 @@ class CRM_Quest_Form_MatchApp_Personal extends CRM_Quest_Form_App
                          CRM_Core_OptionGroup::values('home_area') );
 
         // grow up area
-        $this->addCountry('growup_country_id', ts( 'Where did you grow up (if different from address)' ));
+        $this->addCountry('growup_country_id', ts( 'Where did you grow up (if different from current country of residence)' ));
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
 
