@@ -225,7 +225,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
         // wheather dismissed
         $extra4 = array('onclick' => "return showHideByValue('is_dismissed', '1', 'explain_dismissed','table-row', 'radio', false);");
         $this->addYesNo( 'is_dismissed',
-                         ts( 'Have you ever violated an Honor code, or been dismissed, suspended from school, put on probation or subjected to any school-related or legal disciplinary action?' ),null,false, $extra4 );
+                         ts( 'Have you ever violated an Honor code, or been dismissed, suspended from school, put on probation or subjected to any legal disciplinary action?' ),null,false, $extra4 );
         $this->addRule('is_dismissed',ts('Please select '),'required');
         $this->addElement('textarea', 'explain_dismissed', ts( 'Please explain' ), $attributes['explain_dismissed'] );
 
