@@ -206,7 +206,7 @@
         {$form.citizenship_status_id.html}<br />
 {edit}
         {ts}<strong>If you were born in the U.S., you are most likely a U.S. citizen, not a permanent resident.</strong>{/ts}<br />
-        {ts}The information collected by Quest in response to this question will not be forwarded to any government agency and will be used solely for the purpose of your application to Quest. Please note that Quest does not require students to be citizens of the United States.{/ts}<br />
+        {ts}The information collected by Quest in response to this question will not be forwarded to any government agency and unless legally required to do so. Please note that Quest does not require students to be citizens of the United States.{/ts}<br />
         <a href="javascript:popUp('http://questscholars.stanford.edu/appFAQans.htm#q6')">{ts}Please click here for more information{/ts}</a>.
 {/edit}
     </td>
@@ -227,7 +227,7 @@
         <div id="id_ethnicity_id_2">
             {$form.ethnicity_id_2.html}
         </div>
-	{ts}{edit}Quest Scholars seeks to enroll a diverse student body. Please select a response from the following list.{/edit}{/ts}
+	{ts}{edit}QuestBridge seeks to enroll a diverse student body. Please select a response from the following list.{/edit}{/ts}
     </td>
 </tr>
 <tr id="tribe_affiliation">

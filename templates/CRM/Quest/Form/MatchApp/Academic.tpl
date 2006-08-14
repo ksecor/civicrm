@@ -19,7 +19,7 @@
 </tr> 
 <tr id="class_rank">
     <td class="grouplabel">{$form.class_rank.label}</td>
-    <td class="fieldlabel">{$form.class_rank.html}  {$form.class_num_students.html}<br/>{ts}{edit}Your rank   &nbsp;&nbsp;&nbsp;Total number students in your class{/edit}{/ts}</td>
+    <td class="fieldlabel">{$form.class_rank.html} &nbsp; out of &nbsp; {$form.class_num_students.html}<br/>{ts}{edit}Your rank   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total number students in your class{/edit}{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.class_rank_percent_id.label}</td>

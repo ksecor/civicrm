@@ -67,7 +67,6 @@
     </tr>
 {/section}
 </table>
-<div class="horizontal-center">
 <table width="670" border="1" cellpadding="0" cellspacing="1" class="app">
   <tr>
     <td colspan="5" id="category">Academic Subject Guide</td>
@@ -76,7 +75,7 @@
     <td width="25%"><strong>History/Social Science</strong><br />
         <small>U.S. History; Civics, American Government; World History, Cultures and Geography; European History</small> <br />
     </td>
-    <td width="221" colspan="2"><strong>English (Language of Instruction)</strong><br />
+    <td width="221" colspan="2"><strong>English</strong><br />
         <small>Composition, Literature (American, English, World, etc.)</small></td>
     <td width="25%"><strong>Mathematics</strong><br />
           <small>Algebra, Geometry, Advanced Algebra, Trigonometry, Pre-Calculus, Integrated Math, Calculus, Statistics, Math Analysis</small></span></td>
@@ -95,5 +94,4 @@
           <small>Drama, Music, Physical Education, Home Economics, Engineering, Auto Shop, Wood-working, Engineering, Welding, etc.</small></span></td>
   </tr>
 </table>
-</div>
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="end"}
