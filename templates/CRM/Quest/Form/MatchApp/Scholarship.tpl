@@ -37,8 +37,8 @@
     <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
        <tr class="bold-label vertical-center-text">
           <td>Partner Institution</td>
-          <td>Last Name</td>
           <td>First Name</td>
+          <td>Last Name</td>
           <td>Class year</td> 
           <td>Relationship</td>  
 
@@ -47,14 +47,14 @@
              {assign var=i value=$smarty.section.rowLoop.index}
              <tr>
              {assign var=partner_institution value="alumni_partner_institution_id_"|cat:$i}  
-             {assign var=last_name value="alumni_last_name_"|cat:$i}  
              {assign var=first_name value="alumni_first_name_"|cat:$i}  
+             {assign var=last_name value="alumni_last_name_"|cat:$i}  
              {assign var=class_year value="alumni_class_year_"|cat:$i}  
              {assign var=relationship value="alumni_relationship_"|cat:$i}  
    
              <td class="fieldlabel">{$form.$partner_institution.html}</td>  
-             <td class="fieldlabel">{$form.$last_name.html|crmReplace:class:eight}</td>
              <td class="fieldlabel">{$form.$first_name.html|crmReplace:class:eight}</td>
+             <td class="fieldlabel">{$form.$last_name.html|crmReplace:class:eight}</td>
              <td class="fieldlabel">{$form.$class_year.html}</td> 
              <td class="fieldlabel">{$form.$relationship.html|crmReplace:class:eight}</td>  
              </tr>
@@ -71,8 +71,8 @@
       <table cellpadding=0 cellspacing=2 border=1 width="90%" class="app">
        <tr class="bold-label vertical-center-text">
           <td>Partner Institution</td>
-          <td>Last Name</td>
           <td>First Name</td>
+          <td>Last Name</td>
           <td>Department</td> 
           <td>Relationship</td>  
 
@@ -81,14 +81,14 @@
              {assign var=i value=$smarty.section.rowLoop.index}
              <tr>
              {assign var=partner_institution value="employee_partner_institution_id_"|cat:$i}  
-             {assign var=last_name value="employee_last_name_"|cat:$i}  
              {assign var=first_name value="employee_first_name_"|cat:$i}  
+             {assign var=last_name value="employee_last_name_"|cat:$i}  
              {assign var=department value="employee_department_"|cat:$i}  
              {assign var=relationship value="employee_relationship_"|cat:$i}  
    
              <td class="fieldlabel">{$form.$partner_institution.html}</td>  
-             <td class="fieldlabel">{$form.$last_name.html|crmReplace:class:eight}</td>
              <td class="fieldlabel">{$form.$first_name.html|crmReplace:class:eight}</td>
+             <td class="fieldlabel">{$form.$last_name.html|crmReplace:class:eight}</td>
              <td class="fieldlabel">{$form.$department.html|crmReplace:class:eight}</td> 
              <td class="fieldlabel">{$form.$relationship.html|crmReplace:class:eight}</td>  
              </tr>
@@ -193,8 +193,8 @@
 applicants for the following year's application cycle. Please enter contact information for current juniors that you think would be strong applicants for next year.
     <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
      <tr class="bold-label tr-vertical-center-text">
-          <td>Last Name</td>
           <td>First Name</td>
+          <td>Last Name</td>
           <td>School</td>
           <td>Year of Graduation</td> 
           <td>Email</td>
@@ -204,16 +204,16 @@ applicants for the following year's application cycle. Please enter contact info
      {section name=rowLoop start=1 loop=4}
           {assign var=i value=$smarty.section.rowLoop.index}
           
-           {assign var=last_name value="referral_student_last_name_"|cat:$i}  
             {assign var=first_name value="referral_student_first_name_"|cat:$i}
+            {assign var=last_name value="referral_student_last_name_"|cat:$i}  
             {assign var=school value="referral_student_school_"|cat:$i}
             {assign var=year value="referral_student_year_"|cat:$i}            
             {assign var=email value="referral_student_email_"|cat:$i}
             {assign var=phone value="referral_student_phone_"|cat:$i}
             
             <tr>    
-            <td>{$form.$last_name.html|crmReplace:class:eight}</td>      
             <td>{$form.$first_name.html|crmReplace:class:eight}</td>
+            <td>{$form.$last_name.html|crmReplace:class:eight}</td>      
             <td>{$form.$school.html|crmReplace:class:eight}</td>
             <td>{$form.$year.html}</td>
             <td>{$form.$email.html|crmReplace:class:eight}</td>
@@ -229,8 +229,8 @@ applicants for the following year's application cycle. Please enter contact info
     Please enter contact information for 3 teachers or counselors in your local area who you think would be helpful in identifying students like you who would qualify for and benefit from particiaption in QuestBridge. (Please ask these teachers or counselors for permission to include their contact information. We will use this information in future years to help us identify students to apply to QuestBridge)
      <table cellpadding=0 cellspacing=1 border=2 width="90%" class="app">
       <tr class="bold-label">
-          <td>Last Name</td>
           <td>First Name</td>
+          <td>Last Name</td>
           <td>School</td>
           <td>Position</td> 
           <td>Email</td>
@@ -238,15 +238,15 @@ applicants for the following year's application cycle. Please enter contact info
       </tr> 
         {section name=rowLoop start=1 loop=4}
           {assign var=i value=$smarty.section.rowLoop.index}   
-            {assign var=last_name value="referral_educator_last_name_"|cat:$i}  
             {assign var=first_name value="referral_educator_first_name_"|cat:$i}
+            {assign var=last_name value="referral_educator_last_name_"|cat:$i}  
             {assign var=school value="referral_educator_school_"|cat:$i}
             {assign var=position value="referral_educator_position_id_"|cat:$i}            
             {assign var=email value="referral_educator_email_"|cat:$i}
             {assign var=phone value="referral_educator_phone_"|cat:$i}
             <tr>    
-            <td>{$form.$last_name.html|crmReplace:class:eight}</td>      
             <td>{$form.$first_name.html|crmReplace:class:eight}</td>
+            <td>{$form.$last_name.html|crmReplace:class:eight}</td>      
             <td>{$form.$school.html|crmReplace:class:eight}</td>
             <td>{$form.$position.html}</td>
             <td>{$form.$email.html|crmReplace:class:eight}</td>
