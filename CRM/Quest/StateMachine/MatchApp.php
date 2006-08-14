@@ -96,6 +96,11 @@ abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
         $data =& $controller->container( );
 
         foreach ( $this->_pageNames as $pageName ) {
+            // skip the submit page
+            if ( $pageName == 'Submit' || $pageName == 'PartnerSubmit' ) {
+                continue;
+            }
+
             if ( ! $data['valid'][$pageName] ) {
                 $title = $controller->_pages[$pageName]->getCompleteTitle( );
                 $session =& CRM_Core_Session::singleton( );

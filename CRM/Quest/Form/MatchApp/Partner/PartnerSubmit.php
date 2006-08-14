@@ -44,6 +44,12 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_MatchApp_Partner_PartnerSubmit extends CRM_Quest_Form_App
 {
+
+    // make sure that the application is complete
+    function preProcess( ) {
+        $this->controller->checkApplication( );
+    }
+
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database

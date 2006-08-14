@@ -91,6 +91,10 @@ class CRM_Quest_StateMachine_Recommender extends CRM_Core_StateMachine {
         $data =& $controller->container( );
 
         foreach ( $this->_pageNames as $pageName ) {
+            if ( $pageName == 'Submit' ) {
+                continue;
+            }
+
             if ( ! $data['valid'][$pageName] ) {
                 $title = $controller->_pages[$pageName]->getCompleteTitle( );
                 $session =& CRM_Core_Session::singleton( );

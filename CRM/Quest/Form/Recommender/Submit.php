@@ -44,6 +44,11 @@ require_once 'CRM/Core/OptionGroup.php';
  */
 class CRM_Quest_Form_Recommender_Submit extends CRM_Quest_Form_Recommender
 {
+    // make sure that the application is complete
+    function preProcess( ) {
+        $this->controller->checkApplication( );
+    }
+
     /**
      * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
