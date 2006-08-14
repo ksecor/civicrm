@@ -80,7 +80,7 @@ class CRM_Quest_BAO_Recommendation {
 
         // send the mail
         require_once 'CRM/Utils/Mail.php';
-        CRM_Utils_Mail::send( '"QuestBridge Scholars" <questbridge@questbridge.org>',
+        CRM_Utils_Mail::send( '"QuestBridge" <questbridge@questbridge.org>',
                               "$firstName $lastName",
                               $email,
                               "Online Recommendation for {$displayName} Cancelled",
@@ -145,7 +145,7 @@ class CRM_Quest_BAO_Recommendation {
 
         // send the mail
         require_once 'CRM/Utils/Mail.php';
-        CRM_Utils_Mail::send( '"QuestBridge Scholars" <questbridge@questbridge.org>',
+        CRM_Utils_Mail::send( '"QuestBridge" <questbridge@questbridge.org>',
                               "$firstName $lastName",
                               $email,
                               "Online Recommendation for {$displayName}",
