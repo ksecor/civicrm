@@ -187,18 +187,12 @@ class CRM_Quest_Form_Teacher_Personal extends CRM_Quest_Form_Recommender
             $params["relationship_other"]  = $params["recommender_relationship_other"]; 
             require_once "CRM/Quest/BAO/StudentRanking.php";
             CRM_Quest_BAO_StudentRanking::create($params ,$ids );
-
-            
-            $dao =& new CRM_Contact_DAO_Contact( );
-            $dao->id = $this->_contactID;
-            if ( $dao->find( true ) ) {
-                $this->set( 'welcome_name',
-                            $dao->display_name );
-            }
-
-            parent::postProcess( );
+                        
+            $this->set( 'welcome_name',
+                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_recommenderID, 'display_name' ) );
+           
        }
-
+         parent::postProcess( );
     } //end of function
 
     /**
