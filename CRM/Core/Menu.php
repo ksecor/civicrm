@@ -341,7 +341,7 @@ class CRM_Core_Menu {
                       array( 
                             'path'    => 'civicrm/file', 
                             'title'   => ts( 'Browse Uploaded files' ), 
-                            'access'  => CRM_Core_Permission::check( 'access CiviCRM files' ),
+                            'access'  => CRM_Core_Permission::check( 'access uploaded files' ),
                             'type'    => self::CALLBACK,  
                             'crmType' => self::CALLBACK,  
                             'weight'  => 0,  
