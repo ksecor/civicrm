@@ -424,7 +424,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         } else {
             $buttonType = 'next';
         }
-       
+
         $this->addButtons( array(
                                  array ( 'type'      => $buttonType,
                                          'name'      => ts('Save'),
@@ -484,7 +484,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type_display)));
 
         $buttonName = $this->controller->getButtonName( );
-        if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
+        if ( ($buttonName == $this->getButtonName( 'next', 'new' )) || ($buttonName == $this->getButtonName( 'upload', 'new' ))) {
             // add the recently viewed contact
             list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $contact->id );
             CRM_Utils_Recent::add( $displayName,
