@@ -92,7 +92,7 @@
     <td><strong>College Preparatory Academic Electives</strong><br />
           <small>Social Science, Anthropology, Economics, Psychology, Sociology, Computer Science, etc. </small></span></td>
     <td><strong>Electives</strong><br />
-          <small>Physical Education, Home Economics, Auto Shop, Wood-working, Engineering, Welding, etc.</small></span></td>
+          <small>Drama, Music, Physical Education, Home Economics, Engineering, Auto Shop, Wood-working, Engineering, Welding, etc.</small></span></td>
   </tr>
 </table>
 </div>
