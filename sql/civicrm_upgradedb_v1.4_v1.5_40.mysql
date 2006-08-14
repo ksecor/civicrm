@@ -382,6 +382,7 @@ CREATE TABLE civicrm_task_status (
   
 )  TYPE=InnoDB  ;
 
+
 -- /*******************************************************
 -- *
 -- * civicrm_log
@@ -410,6 +411,7 @@ CREATE TABLE civicrm_log (
      FOREIGN KEY (modified_id) REFERENCES civicrm_contact(id)
   
 )  TYPE=InnoDB  ;
+
 
 -- /*******************************************************
 -- *
@@ -487,13 +489,12 @@ CREATE TABLE civicrm_entity_file (
  	 ALTER TABLE `civicrm_contact` DROP `hash`;
 	
 	 ALTER TABLE `civicrm_contact` ADD hash varchar(32) DEFAULT NULL COMMENT 'Key for validating requests related to this contact.';
-	
 	 ALTER TABLE `civicrm_contact` ADD contact_sub_type varchar(64) DEFAULT NULL COMMENT 'May be used to over-ride contact view and edit templates.';
 
 	 ALTER TABLE `civicrm_contact` ADD preferred_communication_method varchar(255) DEFAULT NULL COMMENT 'What is the preferred mode of communication.';
 
 	 ALTER TABLE `civicrm_contact` ADD INDEX index_sort_name_domain(sort_name, domain_id, hash);
-	
+
 	 ALTER TABLE `civicrm_contact` ADD INDEX index_hash_domain(hash, domain_id);	
 
 
@@ -501,15 +502,15 @@ CREATE TABLE civicrm_entity_file (
 -- *
 -- * Modify the civicrm_contribution_page  Table Structure
 -- *******************************************************/
-	ALTER TABLE `civicrm_contribution_page` ADD amount_block_is_active int(4) unsigned DEFAULT 1 COMMENT 'Is this property active?';
-        ALTER TABLE `civicrm_contribution_page` ADD goal_amount  decimal(20,2) COMMENT 'The target goal for this page, allows people to build a goal meter'; 
+	ALTER TABLE `civicrm_contribution_page` ADD amount_block_is_active tinyint unsigned DEFAULT 1 COMMENT 'Is this property active?';
+	ALTER TABLE `civicrm_contribution_page` ADD goal_amount  decimal(20,2) COMMENT 'The target goal for this page, allows people to build a goal meter';
 	ALTER TABLE `civicrm_contribution_page` ADD is_thermometer int(4) unsigned DEFAULT 1 COMMENT 'Should this contribution have the thermometer block enabled?';
 
 -- /*******************************************************
 -- *
 -- * Modify the civicrm_contribution  Table Structure
 -- *******************************************************/
-        ALTER TABLE `civicrm_contribution` ADD `contribution_page_id` int(10) unsigned DEFAULT NULL;
+        ALTER TABLE `civicrm_contribution` ADD `contribution_page_id` int(10) unsigned DEFAULT NULL  COMMENT 'The Contribution Page which triggered this contribution';
         ALTER TABLE `civicrm_contribution` ADD FOREIGN KEY (`contribution_page_id`) REFERENCES `civicrm_contribution_page`(`id`);
         ALTER TABLE `civicrm_contribution` ADD INDEX (`contribution_page_id`);
 
@@ -551,12 +552,10 @@ CREATE TABLE civicrm_entity_file (
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_custom_value` ADD file_id int(10) unsigned DEFAULT NULL COMMENT 'FK to civicrm_file';
-
+	ALTER TABLE `civicrm_custom_value` ADD FOREIGN KEY (`file_id`) REFERENCES `civicrm_file`(`id`);
 	ALTER TABLE `civicrm_custom_value` ADD INDEX (`file_id`);
-
-	ALTER TABLE `civicrm_custom_value` ADD FOREIGN KEY (`file_id`) REFERENCES `civicrm_file` (`id`);
-
 	
+
 -- /*******************************************************
 -- *
 -- * Modify the  civicrm_email Table Structure
@@ -565,7 +564,6 @@ CREATE TABLE civicrm_entity_file (
 
 	ALTER TABLE `civicrm_email` ADD INDEX `UI_email` (`email`);
 
-
 -- /*******************************************************
 -- *
 -- * Modify the  civicrm_mapping Table Structure
@@ -573,7 +571,7 @@ CREATE TABLE civicrm_entity_file (
 -- *******************************************************/
 
 
-	ALTER TABLE `civicrm_mapping` CHANGE `mapping_type` `mapping_type` ENUM('Export', 'Import', 'Export Contributions', 'Import Contributions', 'Import Activity History', 'Search Builder') COMMENT 'Type of Mapping.';
+	ALTER TABLE `civicrm_mapping` CHANGE `mapping_type` `mapping_type` ENUM('Export', 'Import', 'Export Contributions', 'Import Contributions', 'Import Activity History', 'Search Builder') default NULL COMMENT 'Type of Mapping.';
 
 
 -- /*******************************************************
@@ -582,7 +580,7 @@ CREATE TABLE civicrm_entity_file (
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_mapping_field` ADD grouping int(10) unsigned DEFAULT 0 COMMENT 'Used to group mapping_field records into related sets (e.g. for criteria sets in search builder mappings).';
+	ALTER TABLE `civicrm_mapping_field` ADD grouping int(10) unsigned DEFAULT 1 COMMENT 'Used to group mapping_field records into related sets (e.g. for criteria sets in search builder mappings).';
 
 	ALTER TABLE `civicrm_mapping_field` ADD operator ENUM('=','!=','>','<','>=','<=','IN','NOT IN','LIKE','NOT LIKE') DEFAULT NULL COMMENT 'SQL WHERE operator for search-builder mapping fields (search criteria).';
 
@@ -638,8 +636,6 @@ CREATE TABLE civicrm_entity_file (
 
 	ALTER TABLE `civicrm_saved_search` ADD `mapping_id` INT UNSIGNED COMMENT 'Foreign key to civicrm_mapping used for saved search-builder searches.';
 
-	ALTER TABLE `civicrm_saved_search` ADD INDEX (`mapping_id`);	
-	
 	ALTER TABLE `civicrm_saved_search` ADD FOREIGN KEY (`mapping_id`) REFERENCES `civicrm_mapping` (`id`);
 
 	ALTER TABLE `civicrm_saved_search` DROP FOREIGN KEY `civicrm_saved_search_ibfk_1`;
@@ -647,7 +643,6 @@ CREATE TABLE civicrm_entity_file (
 	ALTER TABLE `civicrm_saved_search` DROP `query`,
 					   DROP `domain_id`,	
 					   DROP `is_active`;
-
 -- /*******************************************************
 -- *
 -- * Modify the civicrm_custom_value  Table Structure

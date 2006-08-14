@@ -1,123 +1,3 @@
--- /*******************************************************
--- *
--- * civicrm_option_group
--- *
--- *******************************************************/
-CREATE TABLE civicrm_option_group (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Option Group ID',
-     domain_id int unsigned NOT NULL   COMMENT 'Which domain owns this group of options.',
-     name varchar(64) NOT NULL   COMMENT 'Option group name. Used as selection key by class properties which lookup options in civicrm_option_value.',
-     description varchar(255)    COMMENT 'Option group description.',
-     is_reserved tinyint    COMMENT 'Is this a predefined system option group (i.e. it can not be deleted)?',
-     is_active tinyint    COMMENT 'Is this option group active?' 
-,
-    PRIMARY KEY ( id )
- 
-    ,     UNIQUE INDEX option_group_name_domain_id(
-        name
-      , domain_id
-  )
-  
-,      
-     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
-
--- /*******************************************************
--- *
--- * civicrm_option_value
--- *
--- *******************************************************/
-CREATE TABLE civicrm_option_value (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Option ID',
-     option_group_id int unsigned NOT NULL   COMMENT 'Group which this option belongs to.',
-     label varchar(64) NOT NULL   COMMENT 'Option string as displayed to users - e.g. the label in an HTML OPTION tag.',
-     value int unsigned NOT NULL   COMMENT 'The actual value stored (as a foreign key) in the data record. Functions which need lookup option_value.title should use civicrm_option_value.option_group_id plus civicrm_option_value.value as the key.',
-     name varchar(64)    COMMENT 'May be used to store an option string that is different from the display title. One use case is when a non-translated value needs to be set / sent to another application (e.g. for Credit Card type).',
-     grouping varchar(64)    COMMENT 'Use to sort and/or set display properties for sub-set(s) of options within an option group. EXAMPLE: Use for college_interest field, to differentiate partners from non-partners.',
-     filter int unsigned NOT NULL   COMMENT 'Bitwise logic can be used to create subsets of options within an option_group for different uses.',
-     is_default tinyint   DEFAULT 0 COMMENT 'Is this the default option for the group?',
-     weight int unsigned NOT NULL   COMMENT 'Controls display sort order.',
-     description varchar(255)    COMMENT 'Optional description.',
-     is_optgroup tinyint   DEFAULT 0 COMMENT 'Is this row simply a display header? Expected usage is to render these as OPTGROUP tags within a SELECT field list of options?',
-     is_reserved tinyint   DEFAULT 0 COMMENT 'Is this a predefined system object?',
-     is_active tinyint   DEFAULT 1 COMMENT 'Is this option active?' 
-,
-    PRIMARY KEY ( id )
- 
-    ,     INDEX index_option_group_id_value(
-        value
-      , option_group_id
-  )
-  
-,      
-     FOREIGN KEY (option_group_id) REFERENCES civicrm_option_group(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
--- * civicrm_file
--- *
--- * Data store for uploaded (attached) files (pointer to file on disk OR blob). Maybe be joined to entities via custom_value.file_id or entity_file table.
--- *
--- *******************************************************/
-CREATE TABLE civicrm_file (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique ID',
-     file_type_id int unsigned    COMMENT 'Type of file (e.g. Transcript, Income Tax Return, etc). FK to civicrm_option_value.',
-     mime_type varchar(255)    COMMENT 'mime type of the document',
-     uri varchar(255)    COMMENT 'uri of the file on disk',
-     document mediumblob    COMMENT 'contents of the document',
-     description varchar(255)    COMMENT 'Additional descriptive text regarding this attachment (optional).',
-     upload_date datetime    COMMENT 'Date and time that this attachment was uploaded or written to server.' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (file_type_id) REFERENCES civicrm_option_value(value)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
--- * civicrm_entity_file
--- *
--- * Attaches (joins)  uploaded files (images, documents, etc.) to entities (Contacts, Groups, Actions).
--- *
--- *******************************************************/
-CREATE TABLE civicrm_entity_file (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'primary key',
-     entity_table varchar(64)    COMMENT 'physical tablename for entity being joined to file, e.g. civicrm_contact',
-     entity_id int unsigned NOT NULL   COMMENT 'FK to entity table specified in entity_table column.',
-     file_id int unsigned NOT NULL   COMMENT 'FK to civicrm_file' 
-,
-    PRIMARY KEY ( id )
- 
-    ,     INDEX index_entity(
-        entity_table
-      , entity_id
-  )
-  ,     INDEX index_entity_file_id(
-        entity_table
-      , entity_id
-      , file_id
-  )
-  
-,      
-     FOREIGN KEY (file_id) REFERENCES civicrm_file(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
 
 -- /*******************************************************
 -- *
@@ -193,7 +73,6 @@ CREATE TABLE civicrm_membership_status (
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
-
 -- /*******************************************************
 -- *
 -- * civicrm_membership
@@ -223,36 +102,6 @@ CREATE TABLE civicrm_membership (
      FOREIGN KEY (membership_type_id) REFERENCES civicrm_membership_type(id)
 ,      
      FOREIGN KEY (status_id) REFERENCES civicrm_membership_status(id)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
--- * civicrm_membership_log
--- *
--- * Logs actions which affect a Membership record (signup, status override, renewal, etc.)
--- *
--- *******************************************************/
-CREATE TABLE civicrm_membership_log (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  ,
-     membership_id int unsigned NOT NULL   COMMENT 'FK to Membership table',
-     status_id int unsigned NOT NULL   COMMENT 'New status assigned to membership by this action. FK to Membership Status',
-     start_date date    COMMENT 'New membership period start date',
-     end_date date    COMMENT 'New membership period expiration date.',
-     modified_id int unsigned    COMMENT 'FK to Contact ID of person under whose credentials this data modification was made.',
-     modified_date date    COMMENT 'Date this membership modification action was logged.' 
-,
-    PRIMARY KEY ( id )
- 
- 
-,      
-     FOREIGN KEY (membership_id) REFERENCES civicrm_membership(id)
-,      
-     FOREIGN KEY (status_id) REFERENCES civicrm_membership_status(id)
-,      
-     FOREIGN KEY (modified_id) REFERENCES civicrm_contact(id)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
@@ -293,6 +142,36 @@ CREATE TABLE civicrm_membership_block (
 
 -- /*******************************************************
 -- *
+-- * civicrm_membership_log
+-- *
+-- * Logs actions which affect a Membership record (signup, status override, renewal, etc.)
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_membership_log (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  ,
+     membership_id int unsigned NOT NULL   COMMENT 'FK to Membership table',
+     status_id int unsigned NOT NULL   COMMENT 'New status assigned to membership by this action. FK to Membership Status',
+     start_date date    COMMENT 'New membership period start date',
+     end_date date    COMMENT 'New membership period expiration date.',
+     modified_id int unsigned    COMMENT 'FK to Contact ID of person under whose credentials this data modification was made.',
+     modified_date date    COMMENT 'Date this membership modification action was logged.' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      
+     FOREIGN KEY (membership_id) REFERENCES civicrm_membership(id)
+,      
+     FOREIGN KEY (status_id) REFERENCES civicrm_membership_status(id)
+,      
+     FOREIGN KEY (modified_id) REFERENCES civicrm_contact(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+-- /*******************************************************
+-- *
 -- * civicrm_membership_payment
 -- *
 -- * Membership Payment
@@ -315,6 +194,104 @@ CREATE TABLE civicrm_membership_payment (
   
 ,      
      FOREIGN KEY (membership_id) REFERENCES civicrm_membership(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_option_group
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_option_group (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Option Group ID',
+     domain_id int unsigned NOT NULL   COMMENT 'Which domain owns this group of options.',
+     name varchar(64) NOT NULL   COMMENT 'Option group name. Used as selection key by class properties which lookup options in civicrm_option_value.',
+     description varchar(255)    COMMENT 'Option group description.',
+     is_reserved tinyint    COMMENT 'Is this a predefined system option group (i.e. it can not be deleted)?',
+     is_active tinyint    COMMENT 'Is this option group active?' 
+,
+    PRIMARY KEY ( id )
+ 
+    ,     UNIQUE INDEX option_group_name_domain_id(
+        name
+      , domain_id
+  )
+  
+,      
+     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_option_value
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_option_value (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Option ID',
+     option_group_id int unsigned NOT NULL   COMMENT 'Group which this option belongs to.',
+     label varchar(64) NOT NULL   COMMENT 'Option string as displayed to users - e.g. the label in an HTML OPTION tag.',
+     value int unsigned NOT NULL   COMMENT 'The actual value stored (as a foreign key) in the data record. Functions which need lookup option_value.title should use civicrm_option_value.option_group_id plus civicrm_option_value.value as the key.',
+     name varchar(64)    COMMENT 'May be used to store an option string that is different from the display title. One use case is when a non-translated value needs to be set / sent to another application (e.g. for Credit Card type).',
+     grouping varchar(64)    COMMENT 'Use to sort and/or set display properties for sub-set(s) of options within an option group. EXAMPLE: Use for college_interest field, to differentiate partners from non-partners.',
+     filter int unsigned NOT NULL   COMMENT 'Bitwise logic can be used to create subsets of options within an option_group for different uses.',
+     is_default tinyint   DEFAULT 0 COMMENT 'Is this the default option for the group?',
+     weight int unsigned NOT NULL   COMMENT 'Controls display sort order.',
+     description varchar(255)    COMMENT 'Optional description.',
+     is_optgroup tinyint   DEFAULT 0 COMMENT 'Is this row simply a display header? Expected usage is to render these as OPTGROUP tags within a SELECT field list of options?',
+     is_reserved tinyint   DEFAULT 0 COMMENT 'Is this a predefined system object?',
+     is_active tinyint   DEFAULT 1 COMMENT 'Is this option active?' 
+,
+    PRIMARY KEY ( id )
+ 
+    ,     INDEX index_option_group_id_value(
+        value
+      , option_group_id
+  )
+  
+,      
+     FOREIGN KEY (option_group_id) REFERENCES civicrm_option_group(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_project
+-- *
+-- * Instantiate projects, programs, campaigns, etc.
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_project (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Project ID',
+     domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this record.',
+     title varchar(64)    COMMENT 'Project name.',
+     description text    COMMENT 'Optional verbose description of the project. May be used for display - HTML allowed.',
+     logo varchar(255)    COMMENT 'Full or relative URL to optional uploaded logo image for project.',
+     owner_entity_table varchar(64) NOT NULL   COMMENT 'Name of table where project owner being referenced is stored (e.g. civicrm_contact or civicrm_group).',
+     owner_entity_id int unsigned NOT NULL   COMMENT 'Foreign key to project owner (contact, group, etc.).',
+     start_date datetime    COMMENT 'Project start date.',
+     end_date datetime    COMMENT 'Project end date.',
+     is_active tinyint    COMMENT 'Is this record active? For Projects: can tasks be created for it, does it appear on project listings, etc.',
+     status_id int unsigned    COMMENT 'Configurable status value (e.g. Planned, Active, Closed...). FK to civicrm_option_value.' 
+,
+    PRIMARY KEY ( id )
+ 
+    ,     UNIQUE INDEX UI_project_owner(
+        id
+      , owner_entity_table
+      , owner_entity_id
+  )
+  
+,      
+     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+,      
+     FOREIGN KEY (status_id) REFERENCES civicrm_option_value(value)
   
 )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
 
@@ -408,43 +385,6 @@ CREATE TABLE civicrm_task_status (
 
 -- /*******************************************************
 -- *
--- * civicrm_project
--- *
--- * Instantiate projects, programs, campaigns, etc.
--- *
--- *******************************************************/
-CREATE TABLE civicrm_project (
-
-
-     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Project ID',
-     domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this record.',
-     title varchar(64)    COMMENT 'Project name.',
-     description text    COMMENT 'Optional verbose description of the project. May be used for display - HTML allowed.',
-     logo varchar(255)    COMMENT 'Full or relative URL to optional uploaded logo image for project.',
-     owner_entity_table varchar(64) NOT NULL   COMMENT 'Name of table where project owner being referenced is stored (e.g. civicrm_contact or civicrm_group).',
-     owner_entity_id int unsigned NOT NULL   COMMENT 'Foreign key to project owner (contact, group, etc.).',
-     start_date datetime    COMMENT 'Project start date.',
-     end_date datetime    COMMENT 'Project end date.',
-     is_active tinyint    COMMENT 'Is this record active? For Projects: can tasks be created for it, does it appear on project listings, etc.',
-     status_id int unsigned    COMMENT 'Configurable status value (e.g. Planned, Active, Closed...). FK to civicrm_option_value.' 
-,
-    PRIMARY KEY ( id )
- 
-    ,     UNIQUE INDEX UI_project_owner(
-        id
-      , owner_entity_table
-      , owner_entity_id
-  )
-  
-,      
-     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
-,      
-     FOREIGN KEY (status_id) REFERENCES civicrm_option_value(value)
-  
-)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
-
--- /*******************************************************
--- *
 -- * civicrm_log
 -- *
 -- * Log can be linked to any object in the application.
@@ -475,17 +415,84 @@ CREATE TABLE civicrm_log (
 
 -- /*******************************************************
 -- *
+-- * civicrm_file
+-- *
+-- * Data store for uploaded (attached) files (pointer to file on disk OR blob). Maybe be joined to entities via custom_value.file_id or entity_file table.
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_file (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique ID',
+     file_type_id int unsigned    COMMENT 'Type of file (e.g. Transcript, Income Tax Return, etc). FK to civicrm_option_value.',
+     mime_type varchar(255)    COMMENT 'mime type of the document',
+     uri varchar(255)    COMMENT 'uri of the file on disk',
+     document mediumblob    COMMENT 'contents of the document',
+     description varchar(255)    COMMENT 'Additional descriptive text regarding this attachment (optional).',
+     upload_date datetime    COMMENT 'Date and time that this attachment was uploaded or written to server.' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      
+     FOREIGN KEY (file_type_id) REFERENCES civicrm_option_value(value)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+-- /*******************************************************
+-- *
+-- * civicrm_entity_file
+-- *
+-- * Attaches (joins)  uploaded files (images, documents, etc.) to entities (Contacts, Groups, Actions).
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_entity_file (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'primary key',
+     entity_table varchar(64)    COMMENT 'physical tablename for entity being joined to file, e.g. civicrm_contact',
+     entity_id int unsigned NOT NULL   COMMENT 'FK to entity table specified in entity_table column.',
+     file_id int unsigned NOT NULL   COMMENT 'FK to civicrm_file' 
+,
+    PRIMARY KEY ( id )
+ 
+    ,     INDEX index_entity(
+        entity_table
+      , entity_id
+  )
+  ,     INDEX index_entity_file_id(
+        entity_table
+      , entity_id
+      , file_id
+  )
+  
+,      
+     FOREIGN KEY (file_id) REFERENCES civicrm_file(id)
+  
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+
+-- /*******************************************************
+-- *
+-- * Modify the civicrm_individual  Table Structure
+-- *******************************************************/
+
+	 ALTER TABLE `civicrm_individual` ADD deceased_date date COMMENT 'Date of deceased';
+
+-- /*******************************************************
+-- *
 -- * Modify the civicrm_contact  Table Structure
 -- *******************************************************/
 	 ALTER TABLE `civicrm_contact` DROP INDEX `index_sort_name`;
 	 ALTER TABLE `civicrm_contact` DROP `preferred_communication_method`;
-       	 ALTER TABLE `civicrm_contact` DROP `hash`;
+ 	 ALTER TABLE `civicrm_contact` DROP `hash`;
 	
 	 ALTER TABLE `civicrm_contact` ADD hash varchar(32) DEFAULT NULL COMMENT 'Key for validating requests related to this contact.';
 	 ALTER TABLE `civicrm_contact` ADD contact_sub_type varchar(64) DEFAULT NULL COMMENT 'May be used to over-ride contact view and edit templates.';
 
 	 ALTER TABLE `civicrm_contact` ADD preferred_communication_method varchar(255) DEFAULT NULL COMMENT 'What is the preferred mode of communication.';
-		
+
 	 ALTER TABLE `civicrm_contact` ADD INDEX index_sort_name_domain(sort_name, domain_id, hash);
 
 	 ALTER TABLE `civicrm_contact` ADD INDEX index_hash_domain(hash, domain_id);	
@@ -559,13 +566,6 @@ CREATE TABLE civicrm_log (
 
 -- /*******************************************************
 -- *
--- * Modify the civicrm_individual  Table Structure
--- *******************************************************/
-
-	 ALTER TABLE `civicrm_individual` ADD deceased_date date COMMENT 'Date of deceased';
-
--- /*******************************************************
--- *
 -- * Modify the  civicrm_mapping Table Structure
 -- *
 -- *******************************************************/
@@ -592,16 +592,16 @@ CREATE TABLE civicrm_log (
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_uf_group` ADD add_to_group_id int unsigned DEFAULT NULL COMMENT 'foreign key to civicrm_group_id' ;
+	ALTER TABLE `civicrm_uf_group` ADD add_to_group_id int unsigned DEFAULT NULL COMMENT 'foreign key to civicrm_group_id';
 	ALTER TABLE `civicrm_uf_group` ADD FOREIGN KEY (`add_to_group_id`) REFERENCES `civicrm_group` (`id`);	
 	ALTER TABLE `civicrm_uf_group` ADD INDEX (`add_to_group_id`);
 	
-	ALTER TABLE `civicrm_uf_group` ADD add_captcha tinyint DEFAULT 0 COMMENT 'Should a CAPTCHA widget be included this Profile form.' ;
+	ALTER TABLE `civicrm_uf_group` ADD add_captcha tinyint DEFAULT 0 COMMENT 'Should a CAPTCHA widget be included this Profile form.';
 
 	ALTER TABLE `civicrm_uf_group` ADD cancel_URL varchar(255) DEFAULT NULL COMMENT 'Redirect to URL when Cancle button clik .';
 	ALTER TABLE `civicrm_uf_group` ADD is_map tinyint DEFAULT 0 COMMENT 'Do we want to map results from this profile.';
 	ALTER TABLE `civicrm_uf_group` ADD collapse_display int(10) unsigned DEFAULT 0 COMMENT 'Will this group be in collapsed or expanded mode on initial display ?';
-	
+
 -- /*******************************************************
 -- *
 -- * Modify the civicrm_uf_match  Table Structure
