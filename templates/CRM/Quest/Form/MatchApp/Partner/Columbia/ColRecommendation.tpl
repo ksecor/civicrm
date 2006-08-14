@@ -7,7 +7,7 @@
 <tr>
     <td class="grouplabel">
         {ts}Columbia University has 3 recommendations (2 from teachers and one from your guidance counselor) that need to be completed for your application to be processed.{/ts} </br>
-{ts}You can find the recommendation forms below. Please print out the forms and have them filled out by the appropriate recommender.{/ts}</br></br>
+{ts}You can find the recommendation forms below. Please print out the forms and have them filled out and submitted by the appropriate recommender.{/ts}</br></br>
         <div>
            <a href="#" > Teacher Recommendation Form</a> (pdf)</br>
            <a href="#" > Secondary School Report</a> (pdf)
