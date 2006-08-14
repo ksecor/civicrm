@@ -105,7 +105,7 @@ class CRM_Quest_Form_MatchApp_Educational extends  CRM_Quest_Form_App
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student');
         
         $this->addCheckBox( 'educational_interest',
-                            ts( 'Please select all of your educational interests' ),
+                            ts( 'Please select your educational interests' ),
                             CRM_Core_OptionGroup::values( 'educational_interest', true ),
                             true, '<br/>',true,
                             array ('onclick' => "return showHideByValue('educational_interest[245]', '1', 'educational_interest_other', 'table-row', 'radio', false);") );
@@ -114,7 +114,7 @@ class CRM_Quest_Form_MatchApp_Educational extends  CRM_Quest_Form_App
                           $attributes['educational_interest_other'] );
 
         $this->addCheckBox( 'college_type',
-                            ts( 'Please select the type(s) of college you are interested in attending' ),
+                            ts( 'Please select the type(s) of college(s) you are interested in attending' ),
                             CRM_Core_OptionGroup::values( 'college_type', true ),
                             false, null,true );
 
