@@ -204,13 +204,22 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
      */
     public function formRule(&$params) {
         $errors = array( );
-
+        
+        if (array_key_exists('rice_academic_id', $params) && ( $params['rice_academic_id'] == 1 ) ) {
+            if (empty($params['essay']['experiences'])) {
+                    $errors['essay[experiences]'] = ts("What aspirations, experiences, or relationships have motivated you to pursue the study of architecture? is required field");
+            }
+            if (empty($params['essay']['academics'])) {
+                    $errors['essay[academics]'] = ts("Outside of academics, what do you enjoy most or find most challenging? is required field");
+            }
+        }
+        
         $principleAreas = array('architecture','engineering', 'music', 'natural_sciences', 'social_sciences', 'other');
         if (!$params['architecture'] && !$params['engineering'] && !$params['music'] && 
             !$params['natural_sciences'] && !$params['social_sciences'] && !$params['other']) {
             $errors['architecture'] = "please select any principal area(s) of interest";
         }
-
+        
         return empty($errors) ? true : $errors;
     }
 
