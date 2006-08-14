@@ -106,7 +106,7 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfApplicant extends CRM_Quest_Fo
         require_once 'CRM/Quest/DAO/Person.php';
         $siblings = array();
         $dao = & new CRM_Quest_DAO_Person();
-        $dao->contact_id = $cid;
+        $dao->contact_id = $this->_contactID;
         $dao->is_sibling = true;
         $dao->find();
         while ( $dao->fetch() ) {
