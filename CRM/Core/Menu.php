@@ -338,6 +338,15 @@ class CRM_Core_Menu {
                             'weight'  => 0,  
                             ),
 
+                      array( 
+                            'path'    => 'civicrm/file', 
+                            'title'   => ts( 'Browse Uploaded files' ), 
+                            'access'  => CRM_Core_Permission::check( 'access CiviCRM files' ),
+                            'type'    => self::CALLBACK,  
+                            'crmType' => self::CALLBACK,  
+                            'weight'  => 0,  
+                            ),
+
                       array(
                             'path'   => 'civicrm/dashboard',
                             'title'  => ts('CiviCRM Home'),

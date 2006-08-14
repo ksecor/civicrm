@@ -147,20 +147,23 @@ class CRM_Quest_Form_App extends CRM_Core_Form
 
         $changes = array( $this->controller->_subType => array( 'valid' => $valid ) );
 
-        if ( $taskStatus == 'Completed' &&
-             $this->controller->matchAppComplete( $this->_contactID ) ) {
-            $url = CRM_Utils_System::url( 'civicrm/quest/matchapp/submit',
-                                          'reset=1' );
-            $changes['Submit'] = array( 'link' => $url );
-        } else {
-            CRM_Project_BAO_TaskStatus::updateTaskStatusWithValue( $this,
-                                                                   'In Progress',
-                                                                   'appTaskStatus' );
-            $changes['Submit'] = array( 'link' => null );
+        // since partner is now a seperate app, we dont touch appStatus for partner
+        if ( $this->controller->_subType != 'Partner' ) {
+            if ( $taskStatus == 'Completed' &&
+                 $this->controller->matchAppComplete( $this->_contactID ) ) {
+                $url = CRM_Utils_System::url( 'civicrm/quest/matchapp/submit',
+                                              'reset=1' );
+                $changes['Submit'] = array( 'link' => $url );
+            } else {
+                CRM_Project_BAO_TaskStatus::updateTaskStatusWithValue( $this,
+                                                                       'In Progress',
+                                                                       'appTaskStatus' );
+                $changes['Submit'] = array( 'link' => null );
+            }
         }
 
         $this->controller->changeCategoryValues( $changes );
-
+            
         // if save draft is set, redirect to locker
         if ( CRM_Utils_Array::value( 'is_save_draft', $_POST ) ) {
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'locker', 'reset=1' ) );

@@ -42,8 +42,8 @@ class CRM_Core_Page_File extends CRM_Core_Page {
         require_once 'CRM/Utils/Request.php';
         require_once 'CRM/Core/DAO.php';
 
-        $eid         = CRM_Utils_Request::retrieve( 'eid', 'Positive', CRM_Core_DAO::$_nullObject, true );
-        $id          = CRM_Utils_Request::retrieve( 'id' , 'Positive', CRM_Core_DAO::$_nullObject, true );
+        $eid         = CRM_Utils_Request::retrieve( 'eid'   , 'Positive', CRM_Core_DAO::$_nullObject, true );
+        $id          = CRM_Utils_Request::retrieve( 'id'    , 'Positive', CRM_Core_DAO::$_nullObject, true );
         $quest       = CRM_Utils_Request::retrieve( 'quest' , 'Positive', CRM_Core_DAO::$_nullObject );
 
         // make sure that the id (file_id) belongs to eid (contact_id)
