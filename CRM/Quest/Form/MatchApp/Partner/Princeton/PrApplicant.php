@@ -229,7 +229,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
             return;
         }
         
-        $params = $this->controller->exportValues( $this->_name );//print_r($params);
+        $params = $this->controller->exportValues( $this->_name );
 
         foreach ( $this->_allChecks as $name ) {
             $par = CRM_Utils_Array::value( $name, $params, array());
@@ -261,7 +261,10 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
                 CRM_Quest_BAO_Test::create( $values, $ids );
             }
         }
-
+        
+        self::getPages( $this->controller, true );
+        $this->controller->rebuild( );
+        
         parent::postProcess( );
     }
     
@@ -276,8 +279,21 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
         return ts('Applicant Information');        
     }
 
+    static function &getPages( &$controller, $reset = false ) 
+    {
+        $details = $controller->get( 'PrincetonDetails' );
+        if ( ! $details || $reset ) {
+            $cid = $controller->get( 'contactID' ); 
+            $details = array( );
+            $degree = CRM_Core_DAO::getFieldValue( 'CRM_Quest_Partner_DAO_Princeton', $cid, 'princeton_degree', 'contact_id' );
+            if ( $degree == 2 ) {
+                $details = array( 'PrEnggEssay'  => 'Enginering Essay' );
+            }
+            $controller->set( 'PrincetonDetails', $details );
+        }
+        return $details;
+    }
    
-
 }
 
 ?>

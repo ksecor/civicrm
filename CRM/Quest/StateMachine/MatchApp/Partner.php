@@ -82,7 +82,8 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
                                           'steps' => array( 'PrApplicant' => 'Applicant Information',
                                                             'PrShortAnswer' => 'Short Answers',
                                                             'PrEssay'       => 'Essay',
-                                                            'PrEnggEssay'   => 'Enginering Essay' ),
+                                                            //'PrEnggEssay'   => 'Enginering Essay' 
+                                                            ),
                                           ),
                       'Rice'   => array(
                                         'title' => 'Rice University',
@@ -128,6 +129,13 @@ class CRM_Quest_StateMachine_MatchApp_Partner extends CRM_Quest_StateMachine_Mat
     static public function setPages( &$pages, &$stateMachine, &$controller ) {
         $pages['CRM_Quest_Form_MatchApp_Partner_PartnerIntro'] = null;
         $partners =& self::partners( );
+
+        $dynamic = array( 'Princeton' => 'PrApplicant' );
+        foreach ( $dynamic as $d => $v ) {
+            require_once "CRM/Quest/Form/MatchApp/Partner/$d/$v.php";
+            eval( '$newPages =& CRM_Quest_Form_MatchApp_Partner_' . $d . '_'  . $v . '::getPages( $controller );' );
+            $partners[$d]['steps'] = array_merge( $partners[$d]['steps'], $newPages );
+        }
 
         $validPartners =& $stateMachine->getValidPartners( );
 
