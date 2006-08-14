@@ -103,8 +103,8 @@ class CRM_Quest_Form_MatchApp_Partner_Bowdoin_BowAthletics extends CRM_Quest_For
 
         $this->add( 'text', 'height', ts( 'Height' ), $attributes['height'] );
         $this->add( 'text', 'weight', ts( 'Weight' ), $attributes['weight'] );
-
-        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
+        
+        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays, false );
 
         $this->addFormRule( array( 'CRM_Quest_Form_MatchApp_Partner_Bowdoin_BowAthletics',
                                    'formRule' ),

@@ -176,7 +176,7 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
         $showHide->addHide("music_name_4");
         $showHide->addToTemplate();
 
-        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays );
+        CRM_Quest_BAO_Essay::buildForm( $this, $this->_essays, false );
 
         $this->addFormRule(array('CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant', 'formRule'));
         parent::buildQuickForm( );
