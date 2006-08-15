@@ -79,20 +79,25 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
         CRM_Quest_BAO_Essay::setDefaults( $this->_essays, $defaults['essay'] );
 
         //do some setting for file upload
-        if ( $this->_name == "Essay-PersonalStat" || $this->_name == "Stanford-StfEssay") {
+        if ( $this->_name == "Essay-PersonalStat" || $this->_name == "Stanford-StfEssay" ) {
             require_once 'api/File.php'; 
-            $fileId = $this->_name == "Essay-PersonalStat" ? 5 : 6; 
-            $attachments =& crm_get_files_by_entity( $this->_contactID );
+            $fileID = $this->_name == "Essay-PersonalStat" ? 5 : 6; 
+            $attachments =& crm_get_files_by_entity( $this->_contactID, 'civicrm_contact', $fileID );
             $attach = array();
-            if ( ! is_a( $attachments, CRM_Core_Error )) {
+            if ( ! is_a( $attachments, CRM_Core_Error ) ) {
                 foreach($attachments as $key=>$value ) {
                     if ($value['file_type_id'] == $fileId ) {
                         $attach = $value;
                     }
                 }
             }
+
             if ( !empty($attach) ) {
                 $this->assign("attachment" ,$attach );
+                $defaults['personalStat_quests'] = 0;
+            } else {
+                $this->assign("attachment" , null );
+                $defaults['personalStat_quests'] = 1;
             }
         }
         

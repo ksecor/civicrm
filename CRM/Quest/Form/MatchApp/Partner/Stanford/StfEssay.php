@@ -76,10 +76,32 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfEssay extends CRM_Quest_Form_M
         //file upload
         $this->addElement('file', 'uploadFile', ts( 'Upload photograph:' ), null );
         
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Partner_Stanford_StfEssay', 'formRule'));
+
         parent::buildQuickForm();
         
     }//end of function
     
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     */
+    public function formRule(&$params, &$files ) {
+        $errors = array( );
+
+        if ( $params['personalStat_quests'] == 0 ) {
+            // ensure that there is a file upload
+            if ( empty( $files['uploadFile']['tmp_name'] ) )  {
+                $errors['uploadFile'] = ts( 'Please upload a photo' );
+            }
+        }
+        return empty($errors) ? true : $errors;
+    }
+
     /**
      * Return a descriptive name for the page, used in wizard header
      *

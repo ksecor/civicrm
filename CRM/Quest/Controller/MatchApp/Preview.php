@@ -44,7 +44,11 @@ class CRM_Quest_Controller_MatchApp_Preview extends CRM_Quest_Controller_MatchAp
      * class constructor
      */
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
+        // we only use this for preview, so force the GET variable
+        $_GET['action'] = 'preview';
+
         parent::__construct( $title, $action, $modal, 'Preview' );
+
     }
 
     /**

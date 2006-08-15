@@ -238,7 +238,7 @@ function crm_create_entity_file(&$fileID, &$entityID, $entity_table = 'civicrm_c
  * @return array   nested array of entity-file property values.
  * @access public
  */
-function crm_get_files_by_entity($entityID, $entityTable = 'civicrm_contact')
+function crm_get_files_by_entity($entityID, $entityTable = 'civicrm_contact', $fileID = null)
 {
     if ( ! $entityID ) {
         return _crm_error('Required parameters missing');
@@ -250,6 +250,9 @@ function crm_get_files_by_entity($entityID, $entityTable = 'civicrm_contact')
     $entityFileDAO =& new CRM_Core_DAO_EntityFile();
     $entityFileDAO->entity_table = $entityTable;
     $entityFileDAO->entity_id = $entityID;
+    if ( $fileID ) {
+        $entityFileDAO->file_id   = $fileID;
+    }
     if ( $entityFileDAO->find() ) {
         $entityFile = array();
         while ($entityFileDAO->fetch()) {

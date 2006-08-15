@@ -50,7 +50,7 @@ class CRM_Quest_StateMachine_MatchApp_Preview extends CRM_Quest_StateMachine_Mat
 
         $this->_pages = array( );
         
-        $sections = array( 'Personal', 'Household', 'School', 'Essay', 'Submit' );
+        $sections = array( 'Personal', 'Household', 'School', 'Essay', 'College', 'Submit' );
         foreach ( $sections as $section ) {
             require_once "CRM/Quest/StateMachine/MatchApp/{$section}.php";
             eval( "CRM_Quest_StateMachine_MatchApp_{$section}::setPages( " . '$this->_pages, $this, $controller );' );
