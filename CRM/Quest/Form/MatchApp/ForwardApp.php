@@ -179,7 +179,7 @@ class CRM_Quest_Form_MatchApp_ForwardApp extends CRM_Quest_Form_App
      */
     public function getTitle()
     {
-        return ts('Forward Application ');
+        return ts('Application Forwarding ');
     }
 
 }
