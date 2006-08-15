@@ -19,7 +19,7 @@
   	      <dt>{ts}With Contact{/ts}</dt><dd>{$targetName}&nbsp;</dd>
     	  <dt>{ts}Created By{/ts}</dt><dd>{$sourceName}&nbsp;</dd>
         {/if}
-    	<dt>{$form.activity_type_id.label} <dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd></dt>
+    	<dt>{$form.activity_type_id.label}</dt><dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd>
 	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
         <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
         {if $action eq 4}
@@ -29,9 +29,12 @@
             <dd>{$form.scheduled_date_time.html}</dd>
             <dt>&nbsp;</dt>
             <dd class="description">
-               {include file="CRM/common/calendar/desc.tpl"}
+               {include file="CRM/common/calendar/desc.tpl" trigger=trigger_otheractivity_1}
             </dd>
-{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1}
+            <dt>&nbsp;</dt>
+            <dd class="description">
+{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1 trigger=trigger_otheractivity_1}
+            </dd>
         {/if}
     	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	    <dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
@@ -42,16 +45,18 @@
 
         <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
         
+        <dt></dt><dd class="description">
 	    {if $action eq 4} 
          {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
         {else}
           {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
         {/if} 
+        </dd>
 	
       {else}
          <div class="messages status">
           <dl>
-           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
            <dd>    
              {ts}Cannot display Activity History details since activity type for this activity has been deleted.{/ts}
            </dd>

@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -59,6 +59,7 @@ class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
         if (! $q) {
             return null;
         }
+        $q->free( ); 
         $delivered =& new CRM_Mailing_Event_BAO_Delivered();
         $delivered->time_stamp = date('YmdHis');
         $delivered->copyValues($params);

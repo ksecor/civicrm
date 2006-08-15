@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -79,13 +79,19 @@ class CRM_Member_Form extends CRM_Core_Form
             eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
         }
 
+        $this->assign( 'membershipStatus', $defaults['status'] );
+
         if ($this->_action == CRM_Core_Action::DELETE) {
             $this->assign( 'delName', $defaults['name'] );
         }
-
+        
         // its ok if there is no element called is_active
         $defaults['is_active'] = 1;
-
+        
+        if ( $defaults['member_of_contact_id'] ) {
+            $defaults['member_org'] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', 
+                                                                  $defaults['member_of_contact_id'], 'display_name');
+        }
         return $defaults;
     }
 

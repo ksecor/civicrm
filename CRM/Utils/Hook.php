@@ -1,7 +1,7 @@
 <?php 
 /* 
  +--------------------------------------------------------------------+ 
- | CiviCRM version 1.4                                                | 
+ | CiviCRM version 1.5                                                | 
  +--------------------------------------------------------------------+ 
  | Copyright (c) 2005 Donald A. Lobo                                  | 
  +--------------------------------------------------------------------+ 
@@ -35,7 +35,8 @@
  */ 
 
 require_once 'CRM/Utils/System/Drupal.php'; 
-require_once 'CRM/Utils/System/Mambo.php' ; 
+require_once 'CRM/Utils/System/Joomla.php' ; 
+require_once 'CRM/Utils/System/Soap.php' ; 
  
 class CRM_Utils_Hook {
 
@@ -48,7 +49,7 @@ class CRM_Utils_Hook {
      * information page) 
      * 
      * @param string $op         the type of operation being performed 
-     * @param string $objectName the BAO class name of the object 
+     * @param string $objectName the name of the object 
      * @param object $id         the object id if available
      * @param array  $params     the parameters used for object creation / editing
      *  
@@ -72,7 +73,7 @@ class CRM_Utils_Hook {
      * information page) 
      * 
      * @param string $op         the type of operation being performed 
-     * @param string $objectName the BAO class name of the object 
+     * @param string $objectName the name of the object 
      * @param int    $objectId   the unique identifier for the object 
      * @param object $objectRef  the reference to the object if available 
      *  
@@ -85,6 +86,25 @@ class CRM_Utils_Hook {
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
             eval( 'return ' . $config->userHookClass . '::post( $op, $objectName, $objectId, $objectRef );' );  
+    }
+
+    /**
+     * This hook retrieves links from other modules and injects it into
+     * CiviCRM forms
+     *
+     * @param string $op         the type of operation being performed
+     * @param string $objectName the name of the object
+     * @param int    $objectId   the unique identifier for the object 
+     *
+     * @return array|null        an array of arrays, each element is a tuple consisting of url, img, title
+     *
+     * @access public
+     */
+    static function links( $op, $objectName, $objectId ) {
+        $config =& CRM_Core_Config::singleton( );  
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        return   
+            eval( 'return ' . $config->userHookClass . '::links( $op, $objectName, $objectId, $objectRef );' );  
     }
 
 }

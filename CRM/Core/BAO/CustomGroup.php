@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -129,7 +129,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                        'is_required', 'help_post','options_per_line','start_date_years','end_date_years','date_parts'),
-                           'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post', 'collapse_display'),
+                           'civicrm_custom_group' => array('id', 'name', 'title', 'help_pre', 'help_post', 'collapse_display'),
                            );
 
         // since we have an entity id, lets get it's custom values too.
@@ -253,6 +253,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     break;
                 case 'File':
                     require_once 'CRM/Core/DAO/File.php';
+                    $config =& CRM_Core_Config::singleton( );
                     $fileDAO =& new CRM_Core_DAO_File();
                     $fileDAO->id = $crmDAO->civicrm_custom_value_file_id;
                     if ( $fileDAO->find(true) ) {
@@ -260,7 +261,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']       = $fileDAO->id;
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL']   = 
                             CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid=$entityId" );
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']  = basename( $fileDAO->uri );
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']   = basename( $fileDAO->uri );
+                        if ($config->customUploadURL && ( $fileDAO->mime_type =="image/jpeg" || $fileDAO->mime_type =="image/gif" || $fileDAO->mime_type =="image/png")) {
+                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = $config->customUploadURL.basename( $fileDAO->uri );
+                        } else {
+                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = null;
+                        }
                     }
                     
                     break; 
@@ -493,7 +499,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                            'is_required', 'help_post','options_per_line', 'is_searchable','start_date_years','end_date_years', 'is_search_range','date_parts','note_columns','note_rows'),
-                           'civicrm_custom_group' => array('id', 'title', 'help_pre', 'help_post' ),
+                           'civicrm_custom_group' => array('id', 'name', 'title', 'help_pre', 'help_post' ),
                            );
 
         // create select
@@ -546,6 +552,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             if (!array_key_exists($groupId, $groupTree)) {
                 $groupTree[$groupId] = array();
                 $groupTree[$groupId]['id'] = $groupId;
+                $groupTree[$groupId]['name'] = $crmDAO->civicrm_custom_group_name;
                 $groupTree[$groupId]['title'] = $crmDAO->civicrm_custom_group_title;
                 $groupTree[$groupId]['help_pre'] = $crmDAO->civicrm_custom_group_help_pre;
                 $groupTree[$groupId]['help_post'] = $crmDAO->civicrm_custom_group_help_post;
@@ -610,7 +617,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $menu = array();
             $menu['path']    = $path;
             $menu['title']   = "$customGroupDAO->title";
-            $menu['qs']      = 'reset=1&gid=' . $customGroupDAO->id . '&cid=%%cid%%';
+            $menu['query']   = 'reset=1&gid=' . $customGroupDAO->id . '&cid=%%cid%%';
             $menu['type']    = CRM_Core_Menu::CALLBACK;
             $menu['crmType'] = CRM_Core_Menu::LOCAL_TASK;
             $menu['weight']  = $startWeight++;
@@ -662,7 +669,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         case 'Relationship':  
             $tableName = 'civicrm_relationship';
             break;
-        case 'PhoneCall':
+        case 'Phonecall':
             $tableName = 'civicrm_phonecall';
             break;
         case 'Meeting':
@@ -983,11 +990,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             } 
  
             if ( $group['collapse_display'] ) { 
-                $sBlocks[] = "'". $group['title'] . "[show]'" ; 
-                $hBlocks[] = "'". $group['title'] ."'"; 
+                $sBlocks[] = "'". $group['name'] . "_show'" ; 
+                $hBlocks[] = "'". $group['name'] ."'"; 
             } else { 
-                $hBlocks[] = "'". $group['title'] . "[show]'" ; 
-                $sBlocks[] = "'". $group['title'] ."'"; 
+                $hBlocks[] = "'". $group['name'] . "_show'" ; 
+                $sBlocks[] = "'". $group['name'] ."'"; 
             } 
         } 
              
@@ -1134,11 +1141,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
             //showhide group
             if ( $group['collapse_display'] ) {
-                $sBlocks[] = "'". $group['title'] . "[show]'" ;
-                $hBlocks[] = "'". $group['title'] ."'";
+                $sBlocks[] = "'". $group['name'] . "_show'" ;
+                $hBlocks[] = "'". $group['name'] ."'";
             } else {
-                $hBlocks[] = "'". $group['title'] . "[show]'" ;
-                $sBlocks[] = "'". $group['title'] ."'";
+                $hBlocks[] = "'". $group['name'] . "_show'" ;
+                $sBlocks[] = "'". $group['name'] ."'";
             }
         }
         

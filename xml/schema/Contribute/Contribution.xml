@@ -72,6 +72,17 @@
        <import>true</import>
        <add>1.3</add>  
   </foreignKey>  
+  <field> 
+      <name>contribution_page_id</name> 
+      <type>int unsigned</type>                 
+      <comment>The Contribution Page which triggered this contribution</comment> 
+      <add>1.5</add> 
+  </field> 
+  <foreignKey> 
+       <name>contribution_page_id</name> 
+       <table>civicrm_contribution_page</table> 
+       <key>id</key> 
+  </foreignKey>
   <field>   
       <name>payment_instrument_id</name>   
       <type>int unsigned</type>   

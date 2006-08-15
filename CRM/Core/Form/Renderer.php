@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -111,6 +111,8 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
             $id = $element->getAttribute('id');
             if ( ! empty( $id ) ) {
                 $el['label'] = '<label for="' . $id . '">' . $el['label'] . '</label>';
+            } else {
+                $el['label'] = "<label>{$el['label']}</label>";
             }
         }
 
@@ -133,10 +135,10 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
         if (!$element->getAttribute('id')) {
             $name = $element->getAttribute('name');
             if ($name) {
-                $element->updateAttributes(array('id' => $name ));
-            } else {
-                $element->_generateId( );
-            }
+                $element->updateAttributes(array('id' => str_replace(array("]", "["), array("", "_"), $name) ));
+            } // else {
+            // $element->_generateId( );
+            // }
         }
         
         $class = $element->getAttribute('class');

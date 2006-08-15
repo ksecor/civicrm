@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -103,7 +103,7 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      * @access public
      * @static
      */
-    static function getFormValues( $id ) {
+    static function &getFormValues( $id ) {
         $fv = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'form_values' );
         if ( $fv ) {
             // make sure u unserialize - since it's stored in serialized form
@@ -113,7 +113,15 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
     }
 
     static function &getSearchParams( $id ) {
-        CRM_Core_Error::fatal( 'Funtion not yet implemented' );
+        $fv =& self::getFormValues( $id );
+        //check if the saved seach has mapping id
+        if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'mapping_id' ) ) {
+            require_once 'CRM/Core/BAO/Mapping.php';
+            return CRM_Core_BAO_Mapping::formattedFields( $fv );
+        } else {
+            require_once 'CRM/Contact/Form/Search.php';
+            return CRM_Contact_Form_Search::convertFormValues( $fv );
+        }
     }
 
     /**

@@ -2,7 +2,7 @@
  {if $groupCount eq 0 }  		
   <div class="messages status">
     <dl>
-      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
       <dd>{ts}This contact does not currently belong to any groups.{/ts}</dd>
     </dl>
   </div>	
@@ -11,7 +11,7 @@
   	{if $groupIn }
         
 	<div class="form-item">
-	<div><label>{ts}Current Group Memberships{/ts}</label></div>
+	<div><label>{ts}Current Groups{/ts}</label></div>
 	
 	<div>
 	{strip}
@@ -43,8 +43,8 @@
     
     {if $groupPending }
 	<div class="form-item">
-        <div class="label status-pending">{ts}Pending Memberships{/ts}</div> 
-        <div class="description">{ts}Membership in these group(s) is pending confirmation by this contact.{/ts}</div>
+        <div class="label status-pending">{ts}Pending{/ts}</div> 
+        <div class="description">{ts}Joining these group(s) is pending confirmation by this contact.{/ts}</div>
 		
 	<div>
 	{strip}
@@ -76,8 +76,8 @@
        	
 	{if $groupOut }
 	<div class="form-item">
-	<div class="label status-removed">{ts}Past Memberships{/ts}</div>
-    <div class="description">{ts 1=$displayName}%1 is no longer a member of these group(s).{/ts}</div>
+	<div class="label status-removed">{ts}Past Groups{/ts}</div>
+    <div class="description">{ts 1=$displayName}%1 is no longer part of these group(s).{/ts}</div>
 	
 	<div>
         {strip}

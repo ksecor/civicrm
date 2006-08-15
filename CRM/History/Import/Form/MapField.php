@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -219,6 +219,13 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
  
             list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($savedMapping);
 
+            //get loaded Mapping Fields
+            $mappingName        = $mappingName[1];
+            $mappingContactType = $mappingContactType[1];
+            $mappingLocation    = $mappingLocation[1];
+            $mappingPhoneType   = $mappingPhoneType[1];
+            $mappingRelation    = $mappingRelation[1];
+           
             $this->assign('loadedMapping', $savedMapping);
 
             $params = array('id' => $savedMapping);

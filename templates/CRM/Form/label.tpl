@@ -4,5 +4,5 @@
   {$label}
 {/if}
 {if $required}
-   <span class="marker">*</span>
+   <span class="marker" title="{ts}This field is required.{/ts}">*</span>
 {/if}

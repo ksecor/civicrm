@@ -1,5 +1,5 @@
 <div class="menu">
-<ul>
+<ul class="indented">
 {foreach from=$menu item=menuItem}
 {if $menuItem.start}<li class="no-display"><ul class="indented">{/if}
 <li class="{$menuItem.class}"><a href="{$menuItem.url}" {$menuItem.active}>{$menuItem.title}</a></li>

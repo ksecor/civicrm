@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -113,13 +113,24 @@ class CRM_Profile_Form extends CRM_Core_Form
     function preProcess() 
     { 
         require_once 'CRM/Core/BAO/UFGroup.php';
-        require_once 'CRM/Quest/BAO/Student.php';
+        require_once "CRM/Core/BAO/UFField.php";
 
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
+
         if ( ! $this->_gid ) {
             $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                       $this, false, 0, 'GET');
+        }
+
+        //check for mix profile display in registration
+        if ( $this->_mode == self::MODE_REGISTER ) {
+            //check for mix profile fields (eg:  individual + other contact type)
+            if ( ! CRM_Core_BAO_UFField::checkProfileGroupType( ) ) {
+                CRM_Utils_System::setUFMessage( ts( "Organization and/or Household-related fields can not be included in a User Registration Profile form. Please contact the site administrator to report this problem.") );
+                $config  =& CRM_Core_Config::singleton( );
+                CRM_Utils_System::redirect( $config->userFrameworkBaseURL );            
+            }
         }
 
         // if we dont have a gid use the default, else just use that specific gid
@@ -201,23 +212,34 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
             }
-
-            //set student defaults
-            CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
-            $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
-            foreach( $fields as $field ) {
-                if ( $defaults[$field] ) {
-                    $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
-                }
+            
+            if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                require_once 'CRM/Quest/BAO/Student.php';
+                // Checking whether the database contains quest_student table.
+                // Now there are two different schemas for core and quest.
+                // So if only core schema in use then withought following check gets the DB error.
+                $student      = new CRM_Quest_BAO_Student();
+                $tableStudent = $student->geTableName();
                 
-                $defaults[$field] = array();
-                if ( is_array( $values ) ) {
-                    foreach( $values as $v ) {
-                        $defaults[$field][$v] = 1;
+                if ($tableStudent) {
+                    //set student defaults
+                    CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
+                    $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
+                    foreach( $fields as $field ) {
+                        if ( $defaults[$field] ) {
+                            $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
+                    }
+                        
+                        $defaults[$field] = array();
+                        if ( is_array( $values ) ) {
+                            foreach( $values as $v ) {
+                                $defaults[$field][$v] = 1;
+                            }
+                        }
                     }
                 }
             }
-
+            
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
@@ -297,10 +319,11 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @access public
      */
     public function buildQuickForm()
-    {
+    {   
+        $sBlocks = array( );
+        $hBlocks = array( );
         if ( $this->_mode != self::MODE_REGISTER ) {
-            //check for mix profile (eg:  individual + other contact type)
-            require_once "CRM/Core/BAO/UFField.php";
+            //check for mix profile fields (eg:  individual + other contact type)
             if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
                 CRM_Utils_System::setUFMessage( ts( "This Profile includes fields for contact types other than 'Individuals' and can not be used to create/update contacts.") );
                 $config  =& CRM_Core_Config::singleton( );
@@ -313,15 +336,6 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->assign( 'fields'      , $this->_fields   );
         $this->assign( 'fieldset'    , $this->_fieldset ); 
         
-        /*  if ($this->_mode & self::MODE_EDIT) {
-            $group =& new CRM_Core_DAO_UFGroup();
-            $group->id = $this->_gid;
-            if ($group->find(true)) {
-                $this->assign('help_pre',  $group->help_pre);
-                $this->assign('help_post', $group->help_post);
-            }
-        }*/
-
         // do we need inactive options ?
         if ($this->_action & CRM_Core_Action::VIEW ) {
             $inactiveNeeded = true;
@@ -388,8 +402,14 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
             } else if ($field['name'] === 'preferred_communication_method') {
-                $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_SelectValues::pcm());
+                $communicationFields = CRM_Core_SelectValues::pcm();
+                foreach ( $communicationFields as $key => $var ) {
+                    if ( $key == '' ) {
+                        continue;
+                    }
+                    $communicationOptions[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+                }
+                $this->addGroup($communicationOptions, $name, $field['title'], '<br/>' );
             } else if ($field['name'] === 'preferred_mail_format') {
                 $this->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
             } else if ( $field['name'] === 'group' ) {
@@ -418,11 +438,18 @@ class CRM_Profile_Form extends CRM_Core_Form
             } else if ($field['name'] == 'contribution_type' ) {
                 $this->add('select', 'contribution_type', ts( 'Contribution Type' ),
                            array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
-            } else if ( ! CRM_Quest_BAO_Student::buildStudentForm( $field, $this ) ) {
-                if ( substr($field['name'], 0, 3) === 'is_' or substr($field['name'], 0, 7) === 'do_not_' ) {
-                    $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
-                } else {
-                    $this->add('text', $name, $field['title'], $field['attributes'], $required );
+            } else {
+                $processed = false;
+                if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                    require_once 'CRM/Quest/BAO/Student.php';
+                    $processed = CRM_Quest_BAO_Student::buildStudentForm( $field, $this );
+                }
+                if ( ! $processed ) {
+                    if ( substr($field['name'], 0, 3) === 'is_' or substr($field['name'], 0, 7) === 'do_not_' ) {
+                        $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
+                    } else {
+                        $this->add('text', $name, $field['title'], $field['attributes'], $required );
+                    }
                 }
             }
             
@@ -441,8 +468,19 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
                 }
             }
+            
+            //build show/hide array for uf groups
+            // dont do this if gid is set (i.e. only one group)
+            if ( $field['collapse_display'] ) {
+                $sBlocks[] = "'id_". $field['group_id']  . "_show'" ; 
+                $hBlocks[] = "'id_". $field['group_id'] ."'"; 
+            }
+            else {
+                $hBlocks[] = "'id_". $field['group_id'] . "_show'" ; 
+                $sBlocks[] = "'id_". $field['group_id'] ."'";   
+            }
         }
-       
+
         if ( $this->_mode != self::MODE_SEARCH ) {
             $dao = new CRM_Core_DAO_UFGroup();
             $dao->id = $this->_gid;
@@ -460,6 +498,13 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->_addToGroupID = $addToGroupId;
             }
         }
+        
+        $showBlocks = implode(",",$sBlocks); 
+        $hideBlocks = implode(",",$hBlocks); 
+        
+        $this->assign( 'showBlocks', $showBlocks ); 
+        $this->assign( 'hideBlocks', $hideBlocks ); 
+        
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
@@ -489,7 +534,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         }
 
         // hack add the email, does not work in registration, we need the real user object
-        // hack this will not work in mambo/joomla, not sure why we need it
+        // hack this will not work in joomla, not sure why we need it
         global $user; 
         if ( isset( $user ) && ! CRM_Utils_Array::value( 'email', $fields ) ) {
             $fields['email'] = $user->mail; 
@@ -656,7 +701,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             CRM_Core_BAO_Address::setOverwrite( false );
         }
         
-        CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields, $this->_id, $this->_addToGroupID );
+        CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields, $this->_id, $this->_addToGroupID, $this->_gid );
     }
 }
 

@@ -89,6 +89,12 @@
       <comment>if other amounts allowed, user can configure maximum allowed.</comment> 
       <add>1.3</add> 
   </field>
+  <field>    
+      <name>goal_amount</name> 
+      <type>decimal</type> 
+      <comment>The target goal for this page, allows people to build a goal meter</comment> 
+      <add>1.5</add> 
+  </field>
   <field>
        <name>thankyou_title</name>
        <title>Thank-you Title</title>
@@ -165,6 +171,12 @@
        <name>is_active</name>
        <type>boolean</type>
        <comment>Is this property active?</comment>
+       <add>1.3</add>
+  </field>
+  <field>
+       <name>is_thermometer</name>
+       <type>boolean</type>
+       <comment>Should this contribution have the thermometer block enabled?</comment>
        <add>1.3</add>
   </field>
   <field>

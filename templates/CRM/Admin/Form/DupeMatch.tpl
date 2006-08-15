@@ -11,7 +11,7 @@
 {if $action eq 8}
       <div class="messages status">
         <dl>
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
           {ts}Are you sure you want to delete this Duplicate Matching Rule?{/ts}
           </dd>

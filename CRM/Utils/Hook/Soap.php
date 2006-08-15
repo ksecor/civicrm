@@ -1,7 +1,7 @@
 <?php 
 /* 
  +--------------------------------------------------------------------+ 
- | CiviCRM version 1.4                                                | 
+ | CiviCRM version 1.5                                                | 
  +--------------------------------------------------------------------+ 
  | Copyright (c) 2005 Donald A. Lobo                                  | 
  +--------------------------------------------------------------------+ 
@@ -76,6 +76,22 @@ class CRM_Utils_Hook_Soap {
      */ 
     static function post( $op, $objectName, $objectId, &$objectRef ) {
         return;
+    }
+
+    /**
+     * This hook retrieves links from other modules and injects it into
+     * CiviCRM forms
+     *
+     * @param string $op         the type of operation being performed
+     * @param string $objectName the name of the object
+     * @param int    $objectId   the unique identifier for the object 
+     *
+     * @return array|null        an array of arrays, each element is a tuple consisting of url, img, title
+     *
+     * @access public
+     */
+    static function links( $op, $objectName, $objectId ) {
+        return null;
     }
 
 }

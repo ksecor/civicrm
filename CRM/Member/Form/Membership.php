@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -58,6 +58,27 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
     }
 
     /**
+     * This function sets the default values for the form. MobileProvider that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    public function setDefaultValues( ) {
+        $defaults = array( );
+        $defaults =& parent::setDefaultValues( );
+        
+        //setting default join date
+        if ($this->_action == CRM_Core_Action::ADD) {
+            $joinDate = getDate();
+            $defaults['join_date']['M'] = $joinDate['mon'];
+            $defaults['join_date']['d'] = $joinDate['mday'];
+            $defaults['join_date']['Y'] = $joinDate['year'];
+        }
+        return $defaults;
+    }
+
+    /**
      * Function to build the form
      *
      * @return None
@@ -90,10 +111,31 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->add('select', 'status_id', ts( 'Status' ), 
                    array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
 
-        $this->add('checkbox', 'is_override', ts('Override?'));
+        $this->addElement('checkbox', 'is_override', ts('Status Hold?'), null, array( 'onChange' => 'showHideMemberStatus()'));
 
+        $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
     }
 
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule( &$params ) {
+        $errors = array( );
+
+        if ( !($params['join_date']['M'] && $params['join_date']['d'] && $params['join_date']['Y']) ) {
+            $errors['join_date'] = "Please enter the Join Date.";
+        }
+        if ( $params['is_override'] && !$params['status_id'] ) {
+            $errors['status_id'] = "Please enter the status.";
+        }
+        return empty($errors) ? true : $errors;
+    }
        
     /**
      * Function to process the form
@@ -104,6 +146,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
     public function postProcess() 
     {
         require_once 'CRM/Member/BAO/Membership.php';
+        require_once 'CRM/Member/BAO/MembershipType.php';
+        require_once 'CRM/Member/BAO/MembershipStatus.php';
+
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             CRM_Member_BAO_Membership::deleteMembership( $this->_id );
             return;
@@ -126,7 +171,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
-
+       
+        $joinDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
+        $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['membership_type_id'], $joinDate);
+        
         $dates = array( 'join_date',
                         'start_date',
                         'end_date'
@@ -134,15 +182,20 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $currentTime = getDate();        
         foreach ( $dates as $d ) {
             if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
-                $formValues[$d]['H'] = $currentTime['hours'];
-                $formValues[$d]['i'] = $currentTime['minutes'];
-                $formValues[$d]['s'] = '00';
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
+            } else {
+                $params[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
             }
         }
-        
+
+        if ( !$params['is_override'] ) {
+            $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
+            $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
+            $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
+            $params['status_id'] = $calcStatus['id'];
+        }
+
         $ids['membership'] = $params['id'] = $this->_id;
-        
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         CRM_Core_Session::setStatus( ts('The membership information has been saved.') );
 

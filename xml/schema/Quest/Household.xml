@@ -92,4 +92,11 @@
        <comment>Description of additional household circumstances.</comment>
       <add>1.5</add>
   </field>
+ <field>
+       <name>foster_child</name>
+       <type>int unsigned</type>
+       <comment>Are you a foster child</comment>
+      <add>1.5</add>
+  </field>
+
 </table>

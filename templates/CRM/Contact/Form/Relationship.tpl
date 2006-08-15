@@ -2,7 +2,7 @@
 
 {if $action eq 4 } {* action = view *}
     <div class="form-item">
-        <fieldset><legend>{ts}View Relationship{/ts}</legend>
+      <fieldset><legend>{ts}View Relationship{/ts}</legend>
 
         <div class="form-item">
 	    {foreach from=$viewRelationship item="row"}
@@ -15,13 +15,18 @@
             {if $row.end_date}
                 <dt>{ts}End Date:{/ts}</dt><dd>{$row.end_date|crmDate}</dd>
             {/if}
+            {if $row.description}
+                <dt>{ts}Description:{/ts}</dt><dd>{$row.description}</dd>
+            {/if}
 	    {foreach from=$viewNote item="rec"}
 		    {if $rec.note}
 			<dt>{ts}Note:{/ts}</dt><dd>{$rec.note}</dd>	
 	   	    {/if}
             {/foreach}
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
-		{include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+            </dl>
+	 	    {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+            <dl>
             <dt></dt>
             <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"/></dd>
             </dl>
@@ -108,20 +113,24 @@
             <div class="form-item">
                 <dl>
                 <dt>{$form.start_date.label}</dt>
-                <dd>{$form.start_date.html} {include file="CRM/common/calendar/desc.tpl" trigger=trigger1}
-{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=1985 endDate=2025 trigger=trigger1}
+                <dd>{$form.start_date.html} {include file="CRM/common/calendar/desc.tpl" trigger=trigger_relationship_1}
+{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=1985 endDate=2025 trigger=trigger_relationship_1}
                 </dd>
                 <dt>{$form.end_date.label}</dt>
-                <dd>{$form.end_date.html}{include file="CRM/common/calendar/desc.tpl" trigger=trigger2} 
-{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=1985 endDate=2025 trigger=trigger2}
+                <dd>{$form.end_date.html}{include file="CRM/common/calendar/desc.tpl" trigger=trigger_relationship_2} 
+{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=1985 endDate=2025 trigger=trigger_relationship_2}
                 </dd>
+                <dt>{$form.description.label}</dt>
+                <dd>{$form.description.html}</dd>
                 <dt> </dt>
                     <dd class="description">
                         {ts}If this relationship has start and/or end dates, specify them here.{/ts}
                     </dd>
 		<dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
-		{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
-                <dt></dt><dd>{$form.buttons.html}</dd>
+        </dl>
+	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+        <dl>
+      	<dt></dt><dd>{$form.buttons.html}</dd>
                 </dl>
             </div>
             </div></fieldset>

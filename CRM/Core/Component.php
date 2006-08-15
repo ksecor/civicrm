@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -42,43 +42,50 @@ class CRM_Core_Component {
     static $_contactSubTypes = null;
 
     static function &info( ) {
-        if ( self::$_info == null ) {
-            self::$_info = array( 
-                                 'CiviContribute' => array( 'title'   => 'CiviCRM Contribution Engine',
-                                                            'path'    => 'CRM_Contribute_',
-                                                            'url'     => 'contribute',
-                                                            'perm'    => array( 'access CiviContribute',
-                                                                                'edit contributions',
-                                                                                'make online contributions' ),
-                                                            'search'  => 1 ),
-                                 'CiviMember'     => array( 'title'   => 'CiviCRM Membership Engine',
-                                                            'path'    => 'CRM_Member_',
-                                                            'url'     => 'member',
-                                                            'perm'    => array( 'access CiviMember',
-                                                                                'edit members',
-                                                                                'view members' ),
-                                                            'search'  => 0 ),
-                                 'CiviMail'       => array( 'title'   => 'CiviCRM Mailing Engine',
-                                                            'path'    => 'CRM_Mailing_',
-                                                            'url'     => 'mailing',
-                                                            'perm'    => array( 'access CiviMail' ),
-                                                            'search'  => 0 ),
-                                 'Quest'          => array( 'title'   => 'Quest Application Process',
-                                                            'path'    => 'CRM_Quest_',
-                                                            'url'     => 'quest',
-                                                            'perm'    => array( 'edit Quest Application'  ,
-                                                                                'view Quest Application'   ),
-                                                            'search'  => 1,
-                                                            'metaTpl' => 'quest',
-                                                            'formTpl' => 'quest',
-                                                            'css'     => 'quest.css' ,
-                                                            'task'    => array( '32' => array( 'title'  => 'Export XML',
-                                                                                               'class'  => 'CRM_Quest_Form_Task_XML',
-                                                                                               'result' => false ),
-                                                                                '33' => array( 'title'  => 'Export PDF',
-                                                                                               'class'  => 'CRM_Quest_Form_Task_PDF',
-                                                                                               'result' => false ) ) ),
-                                 );
+        if ( self::$_info == null ) { 
+            self::$_info = array( );
+
+            self::$_info['CiviContribute'] = 
+                array( 'title'   => 'CiviCRM Contribution Engine',
+                       'path'    => 'CRM_Contribute_',
+                       'url'     => 'contribute',
+                       'perm'    => array( 'access CiviContribute',
+                                           'edit contributions',
+                                           'make online contributions' ),
+                       'search'  => 1 );
+
+            self::$_info['CiviMember'] = 
+                array( 'title'   => 'CiviCRM Membership Engine',
+                       'path'    => 'CRM_Member_',
+                       'url'     => 'member',
+                       'perm'    => array( 'access CiviMember',
+                                           'edit members'),
+                       'search'  => 1 );
+
+            self::$_info['CiviMail'] = 
+                array( 'title'   => 'CiviCRM Mailing Engine',
+                       'path'    => 'CRM_Mailing_',
+                       'url'     => 'mailing',
+                       'perm'    => array( 'access CiviMail' ),
+                       'search'  => 0 );
+
+            self::$_info['Quest'] =
+                array( 'title'   => 'Quest Application Process',
+                       'path'    => 'CRM_Quest_',
+                       'url'     => 'quest',
+                       'perm'    => array( 'edit Quest Application',
+                                           'view Quest Application',
+                                           'edit Quest Recommendation',
+                                           'view Quest Recommendation'),
+                       'search'  => 1,
+                       'metaTpl' => 'quest',
+                       'formTpl' => 'quest',
+                       'task'    => array( '32' => array( 'title'  => 'Export XML',
+                                                          'class'  => 'CRM_Quest_Form_Task_XML',
+                                                          'result' => false ),
+                                           '33' => array( 'title'  => 'Export PDF',
+                                                          'class'  => 'CRM_Quest_Form_Task_PDF',
+                                                          'result' => false ) ) );
         }
         return self::$_info;
     }
@@ -115,11 +122,10 @@ class CRM_Core_Component {
                         $template->assign( 'formTpl', $info[$name]['formTpl'] );
                     }
                     if ( CRM_Utils_Array::value( 'css', $info[$name] ) ) {
-                        $styleSheets .= '<style type="text/css">@import url(' . "{$config->resourceBase}css/{$info[$name]['css']});</style>";
+                        $styleSheets = '<style type="text/css">@import url(' . "{$config->resourceBase}css/{$info[$name]['css']});</style>";
 
                         CRM_Utils_System::addHTMLHead( $styleSheet );
                     }
-                    drupal_set_html_head( $styleSheets );
                 }
                 eval( $className . '::' . $type . '( $args );' );
                 return true;
@@ -160,7 +166,6 @@ class CRM_Core_Component {
     static function &getQueryFields( ) {
         $info =& self::info( );
         $config =& CRM_Core_Config::singleton( );
-
         $fields = array( );
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) &&
@@ -292,10 +297,12 @@ class CRM_Core_Component {
 
     static function &taskList( ) {
         $info =& self::info( );
-        
+        $config =& CRM_Core_Config::singleton( );
+
         $tasks = array( );
         foreach ( $info as $name => $value ) {
-            if ( CRM_Utils_Array::value( 'task', $info[$name] ) ) {
+            if ( in_array( $name, $config->enableComponents ) && 
+                 CRM_Utils_Array::value( 'task', $info[$name] ) ) {
                 $tasks += $info[$name]['task'];
             }
         }

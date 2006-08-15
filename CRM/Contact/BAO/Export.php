@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -60,7 +60,7 @@ class CRM_Contact_BAO_Export {
             foreach ( $fields as $key => $value) {
                 list($contactType, $fieldName, $locTypeId, $phoneTypeId) =  $value;
 
-                if ($locTypeId) {
+                if (is_numeric($locTypeId)) {
                     if ($phoneTypeId) {
                         $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
                     } else {
@@ -123,9 +123,13 @@ class CRM_Contact_BAO_Export {
         }
         //hack for student data
         require_once 'CRM/Core/OptionGroup.php';
-        require_once 'CRM/Quest/BAO/Student.php';
-        $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
-        $multipleSelectFields = array_merge( $multipleSelectFields,array("preferred_communication_method" => 1));
+        $multipleSelectFields = array( 'preferred_communication_method' => 1 );
+
+        if ( CRM_Core_Permission::access( 'Quest' ) ) { 
+            require_once 'CRM/Quest/BAO/Student.php';
+            $multipleSelectFields = array_merge( $multipleSelectFields,
+                                                 CRM_Quest_BAO_Student::$multipleSelectFields );
+        }
         
         $temp = array( );
         $dao =& CRM_Core_DAO::executeQuery($queryString, $temp);

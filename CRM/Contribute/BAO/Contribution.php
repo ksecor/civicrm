@@ -1,7 +1,7 @@
 <?php
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 1.4                                                |
+   | CiviCRM version 1.5                                                |
    +--------------------------------------------------------------------+
    | Copyright (c) 2005 Donald A. Lobo                                  |
    +--------------------------------------------------------------------+
@@ -193,6 +193,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         // let's create an (or update the relevant) Acitivity History record
+        require_once 'CRM/Contribute/PseudoConstant.php';
         $contributionType = CRM_Contribute_PseudoConstant::contributionType($contribution->contribution_type_id);
         if (!$contributionType) {
             $contributionType = ts('Contribution');
@@ -553,6 +554,31 @@ WHERE  domain_id = $domainID AND $whereCond
         $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Contribution');
         return $fields;
     }
+
+    static function getCurrentandGoalAmount( $pageID ) {
+        $query = "
+SELECT p.goal_amount as goal, sum( c.total_amount ) as total
+  FROM civicrm_contribution_page p,
+       civicrm_contribution      c
+ WHERE p.id = c.contribution_page_id
+   AND p.id = %1
+   AND c.cancel_date is null
+   AND p.domain_id = %2
+GROUP BY p.id
+";
+
+        $config =& CRM_Core_Config::singleton( );
+        $params = array( 1 => array( $pageID, 'Integer' ),
+                         2 => array( $config->domainID( ), 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        
+        if ( $dao->fetch( ) ) {
+            return array( $dao->goal, $dao->total );
+        } else {
+            return array( null, null );
+        }
+    }
+
 }
 
 ?>

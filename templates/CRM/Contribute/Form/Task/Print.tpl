@@ -37,7 +37,7 @@
 {else}
    <div class="messages status">
     <dl>
-    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
     <dd>
         {ts}There are no records selected for Print.{/ts}
     </dd>

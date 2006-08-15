@@ -33,8 +33,8 @@ require_once 'CRM/Core/Config.php';
 global $ufClass;
 
 $server =& new SoapServer(null, 
-			  array('uri' => 'urn:civicrm',
-				'soap_version' => SOAP_1_2));
+                          array(' uri' => 'urn:civicrm',
+                                'soap_version' => SOAP_1_2 ) );
 
 
 require_once 'CRM/Utils/SoapServer.php';

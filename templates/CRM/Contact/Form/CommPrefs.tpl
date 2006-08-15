@@ -22,8 +22,7 @@
                   {else}
                    <td class="labels font-light">{$form.preferred_communication_method.$key.html}</td>
                     {if $count == 5}
-                    </tr>
-                    <tr>
+                    
                     {assign var="count" value="1"}
                     {else}
                     {assign var="count" value=`$count+1`}

@@ -116,11 +116,11 @@
  {include file="CRM/Contact/Form/Location.tpl"}
 
 {if $contact_type eq 'Individual'}
- <div id = "demographics[show]" class="data-group label">
+ <div id = "id_demographics_show" class="data-group label">
     {$demographics.show}{ts}Demographics{/ts}
  </div>
 
- <div id="demographics">
+ <div id="id_demographics">
  <fieldset><legend>{$demographics.hide}{ts}Demographics{/ts}</legend>
     <div class="form-item">
         <span class="labels">
@@ -136,11 +136,12 @@
         </span>
         <span class="fields">
 		{$form.birth_date.html}
-                <div class="description"> 
-                   {include file="CRM/common/calendar/desc.tpl"}
-                </div>
+                
         </span>
-        {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear}
+        <div class="description"> 
+                   {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_1}
+        </div>
+        {include file="CRM/common/calendar/body.tpl" dateVar=birth_date startDate=1905 endDate=currentYear trigger=trigger_demographics_1 }
     </div>
 	<div class="form-item">
         {$form.is_deceased.html}
@@ -152,11 +153,12 @@
         </span>
         <span class="fields">
 		{$form.deceased_date.html}
-                <div class="description"> 
-                   {include file="CRM/common/calendar/desc.tpl"}
-                </div>
         </span>
-        {include file="CRM/common/calendar/body.tpl" dateVar=deceased_date startDate=1905 endDate=currentYear}
+                <div class="description"> 
+                   {include file="CRM/common/calendar/desc.tpl" trigger=trigger_demographics_2}
+                </div>
+        
+        {include file="CRM/common/calendar/body.tpl" dateVar=deceased_date startDate=1905 endDate=currentYear trigger=trigger_demographics_2 }
     </div>
 
   </fieldset>
@@ -187,11 +189,11 @@
 
  {* Notes block only included for Add Contact (since it navigates from Edit form...) *}
  {if $action eq 1}
-     <div id = "notes[show]" class="data-group">
+     <div id = "id_notes_show" class="data-group">
         {$notes.show}<label>{ts}Notes{/ts}</label>
      </div>
 
-     <div id = "notes">
+     <div id = "id_notes">
          <fieldset><legend>{$notes.hide}{ts}Contact Notes{/ts}</legend>
             <div class="form-item">
                 {$form.note.html}
@@ -199,15 +201,15 @@
          </fieldset>
      </div>
 {/if}
- <!-- End of "notes" div -->
+ {* -- End of "notes" div -- *}
 
  {* Groups and Tags block *} 
-<div id="group[show]" class="data-group">
-    <a href="#" onclick="hide('group[show]'); show('group'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Tags and Groups{/ts}</label><br />
+<div id="group_show" class="data-group">
+    <a href="#" onclick="hide('group_show'); show('group'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Tags and Groups{/ts}</label><br />
 </div>
 
 <div id="group">
-    <fieldset><legend><a href="#" onclick="hide('group'); show('group[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Tags and Groups{/ts}</legend>
+    <fieldset><legend><a href="#" onclick="hide('group'); show('group_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Tags and Groups{/ts}</legend>
     {strip}
     <div class="form-item">
 	<table class="form-layout">

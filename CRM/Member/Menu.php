@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -27,7 +27,7 @@
 
 /**
  *
- * Menu for the contribute module
+ * Menu for the civimember module
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -45,34 +45,34 @@ class CRM_Member_Menu {
                        array(
                              'path'    => 'civicrm/admin/member/membershipType',
                              'title'   => ts('Membership Types'),
-                             'qs'     => 'reset=1',
+                             'query'  => 'reset=1',
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviMember' ),
                              'type'    => CRM_Core_Menu::CALLBACK,
                              'crmType' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviMember',
-                             'icon'    => 'admin/contribution_types.png',
+                             'icon'    => 'admin/membership_type.png',
                              'weight'  => 370
                              ),
                       
                        array(
                              'path'    => 'civicrm/admin/member/membershipStatus',
                              'title'   => ts('Membership Status Rules'),
-                             'qs'     => 'reset=1',
+                             'query'  => 'reset=1',
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviMember' ),
                              'type'    => CRM_Core_Menu::CALLBACK,
                              'crmType' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviMember',
-                             'icon'    => 'admin/payment_instruments.png',
+                             'icon'    => 'admin/membership_status.png',
                              'weight'  => 380
                              ),
 
                        array( 
                              'path'    => 'civicrm/contact/view/membership', 
-                             'qs'      => 'reset=1&force=1&cid=%%cid%%', 
+                             'query'   => 'reset=1&force=1&cid=%%cid%%', 
                              'access'  => CRM_Core_Permission::check('access CiviMember'),
-                             'title'   => ts('Membership'), 
+                             'title'   => ts('Memberships'), 
                              'type'    => CRM_Core_Menu::CALLBACK, 
                              'crmType' => CRM_Core_Menu::LOCAL_TASK, 
                              'weight'  => 2
@@ -81,7 +81,7 @@ class CRM_Member_Menu {
 
                         array( 
                              'path'    => 'civicrm/member', 
-                             'qs'      => 'reset=1',
+                             'query'   => 'reset=1',
                              'title'   => ts('CiviMember'), 
                              'access'  => CRM_Core_Permission::check( 'access CiviMember'), 
                              'type'    => CRM_Core_Menu::CALLBACK,  
@@ -91,23 +91,23 @@ class CRM_Member_Menu {
 
                        array( 
                              'path'    => 'civicrm/member/search',
-                             'qs'      => 'reset=1',
-                             'title'   => ts( 'Find Member' ), 
+                             'query'   => 'reset=1',
+                             'title'   => ts( 'Find Members' ),
                              'access'  => CRM_Core_Permission::check( 'access CiviMember'), 
                              'type'    => CRM_Core_Menu::CALLBACK,  
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                              'weight'  => 710,  
                              ),
-                       array( 
-                             'path'    => 'civicrm/member/import', 
-                             'qs'      => 'reset=1',
-                             'title'   => ts( 'Import Members' ), 
-                             'access' => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviMember' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                             'weight'  => 720,  
-                             ),
+//                        array( 
+//                              'path'    => 'civicrm/member/import', 
+//                              'query'   => 'reset=1',
+//                              'title'   => ts( 'Import Members' ), 
+//                              'access' => CRM_Core_Permission::check('administer CiviCRM') &&
+//                              CRM_Core_Permission::check( 'access CiviMember' ),
+//                              'type'    => CRM_Core_Menu::CALLBACK,  
+//                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
+//                              'weight'  => 720,  
+//                              ),
                        
                        );
 

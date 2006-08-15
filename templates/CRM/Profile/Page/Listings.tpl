@@ -5,21 +5,16 @@
 
 {* show profile listings criteria ($qill) *}
 {if $rows}
-    {include file="CRM/pager.tpl" location="top"}
+    {include file="CRM/common/pager.tpl" location="top"}
+    {* Search criteria are passed to tpl in the $qill array *}
     {if $qill}
      <p>
      <div id="search-status">
         {ts}Displaying contacts where:{/ts}
-        <ul>
-          {foreach from=$qill item=orClauses}
-           {foreach from=$orClauses item=criteria}
-            <li>{$criteria}</li>
-           {/foreach}
-          {/foreach}
-        </ul>
+        {include file="CRM/common/displaySearchCriteria.tpl"}
      </div>
      </p>
-     {/if}
+    {/if}
 
     {strip}
     <table>
@@ -46,7 +41,7 @@
       {/foreach}
     </table>
     {/strip}
-    {include file="CRM/pager.tpl" location="bottom"}
+    {include file="CRM/common/pager.tpl" location="bottom"}
 {elseif ! $isReset}
     {include file="CRM/Contact/Form/Search/EmptyResults.tpl" context="Profile"}
 {/if}

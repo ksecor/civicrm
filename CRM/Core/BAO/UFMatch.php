@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -64,7 +64,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         if ( $uf == 'Drupal' ) {
             $key  = 'uid';
             $mail = 'mail';
-        } else if ( $uf == 'Mambo' ) {
+        } else if ( $uf == 'Joomla' ) {
             $key  = 'id';
             $mail = 'email';
         } else {
@@ -84,8 +84,8 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $session->reset( );
         }
 
-        // make sure we load the mambo object to get valid information
-        if ( $uf == 'Mambo' ) {
+        // make sure we load the joomla object to get valid information
+        if ( $uf == 'Joomla' ) {
             $user->load( );
         }
 
@@ -155,26 +155,15 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
         $ufmatch->uf_id = $userKey;
         $ufmatch->domain_id = CRM_Core_Config::domainID( );
         if ( ! $ufmatch->find( true ) ) {
-            
-            $query = "
-SELECT    civicrm_contact.id as contact_id, civicrm_contact.domain_id as domain_id
-FROM      civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                civicrm_contact.id  = civicrm_location.entity_id AND 
-                                civicrm_location.is_primary = 1 )
-LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
-WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
-            $p = array( 1 => array( $mail, 'String' ),
-                        2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
 
-            $dao =& CRM_Core_DAO::executeQuery( $query, $p );
-            if ( $dao->fetch( ) ) {
+            $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $mail );
+            if ( $dao ) {
                 $ufmatch->contact_id = $dao->contact_id;
                 $ufmatch->domain_id  = $dao->domain_id ;
                 $ufmatch->email      = $mail           ;
             } else {
-                if ( $uf == 'Mambo' ) {
-                    CRM_Utils_System_Mambo::setEmail( $user );
+                if ( $uf == 'Joomla' ) {
+                    CRM_Utils_System_Joomla::setEmail( $user );
                 }
                 
                 require_once 'CRM/Core/BAO/LocationType.php';

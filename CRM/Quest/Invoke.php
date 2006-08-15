@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -48,19 +48,103 @@ class CRM_Quest_Invoke {
      * @access public  
      */  
     static function main( &$args ) {  
-
         if ( $args[1] !== 'quest' ) {
             return;
         }
 
-        if ( $args[2] == 'preapp' ) {
-            $session =& CRM_Core_Session::singleton();
-            //commented for Issue CRM-872
-            //$session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+        $controller =  null;
+        $session    =& CRM_Core_Session::singleton( );
+
+        switch ( $args[2] ) {
+        case 'preapp':
             require_once 'CRM/Quest/Controller/PreApp.php';
             $controller =& new CRM_Quest_Controller_PreApp( null, null, false );
+            break;
+
+        case 'matchapp':
+            
+            switch( $args[3] ) {
+
+            case 'household':
+                require_once 'CRM/Quest/Controller/MatchApp/Household.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Household( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/matchapp/school', 'reset=1' ) );
+                break;
+
+
+            case 'school':
+                require_once 'CRM/Quest/Controller/MatchApp/School.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_School( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/matchapp/essay', 'reset=1' ) );
+                break;
+
+
+            case 'essay':
+                require_once 'CRM/Quest/Controller/MatchApp/Essay.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Essay( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/matchapp/college', 'reset=1' ) );
+                break;
+
+            case 'college':
+                require_once 'CRM/Quest/Controller/MatchApp/College.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_College( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/matchapp/submit', 'reset=1' ) );
+                break;
+
+            case 'partner':
+                require_once 'CRM/Quest/Controller/MatchApp/Partner.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Partner( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+                break;
+
+            case 'submit':
+                require_once 'CRM/Quest/Controller/MatchApp/Submit.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Submit( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+                break;
+
+            case 'preview':
+                require_once 'CRM/Quest/Controller/MatchApp/Preview.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Preview( null, CRM_Core_Action::PREVIEW, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+                break;
+
+            default        :
+                require_once 'CRM/Quest/Controller/MatchApp/Personal.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Personal( null, null, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/quest/matchapp/household', 'reset=1' ) );
+                break;
+            }
+            break;
+
+        case 'teacher':
+            require_once 'CRM/Quest/Controller/Recommender/Teacher.php';
+            $controller =& new CRM_Quest_Controller_Recommender_Teacher( null, null, false );
+            $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+            break;
+
+        case 'counselor':
+            require_once 'CRM/Quest/Controller/Recommender/Counselor.php';
+            $controller =& new CRM_Quest_Controller_Recommender_Counselor( null, null, false );
+            $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+            break;
+            
+        case 'schoolsearch':
+            require_once 'CRM/Core/Controller/Simple.php';
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Quest_Form_SchoolSearch', ts( 'CEEB School Search' ), null );
+            break;
+
+        case 'verify':
+            require_once 'CRM/Core/Controller/Simple.php';
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Quest_Form_Verify', ts( 'Verify your Registration' ), null );
+            return $controller->run( );
+
+        }
+
+        if ( $controller ) {
             return $controller->run( );
         }
+
     }
 
     static function admin( &$args ) {

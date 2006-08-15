@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -106,6 +106,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     public $_params;
 
     /**
+     * The return properties used for search
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_returnProperties;
+
+    /**
      * represent the type of selector
      *
      * @var int
@@ -140,15 +148,15 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues, &$params, $action = CRM_Core_Action::NONE) 
+    function __construct(&$formValues, &$params, &$returnProperties, $action = CRM_Core_Action::NONE) 
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact =& new CRM_Contact_BAO_Contact();
 
         // submitted form values
-        $this->_formValues =& $formValues;
-
-        $this->_params     =& $params;
+        $this->_formValues       =& $formValues;
+        $this->_params           =& $params;
+        $this->_returnProperties =& $returnProperties;
 
         // type of selector
         $this->_action = $action;
@@ -166,15 +174,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             
             $this->_customFields =& CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
 
-            $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
-            $returnProperties['contact_type'] = 1;
-            $returnProperties['contact_sub_type'] = 1;
-            $returnProperties['sort_name'   ] = 1;
-            $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $returnProperties );
-            $this->_options =& $this->_query->_options;
-        } else {
-            $this->_query =& new CRM_Contact_BAO_Query( $this->_params );
+            $this->_returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
+            $this->_returnProperties['contact_type'] = 1;
+            $this->_returnProperties['contact_sub_type'] = 1;
+            $this->_returnProperties['sort_name'   ] = 1;
         }
+
+        $this->_query   =& new CRM_Contact_BAO_Query( $this->_params, $this->_returnProperties );
+        $this->_options =& $this->_query->_options;
     }//end of constructor
 
 
@@ -251,6 +258,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      */
     function &getColumnHeaders($action = null, $output = null) 
     {
+
         if ( $output == CRM_Core_Selector_Controller::EXPORT || $output == CRM_Core_Selector_Controller::SCREEN ) {
             $csvHeaders = array( ts('Contact Id'), ts('Contact Type') );
             foreach ( self::_getColumnHeaders() as $column ) {
@@ -292,6 +300,37 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     self::$_columnHeaders[] = array('desc' => ts('Actions'));
                 }
             }
+            return self::$_columnHeaders;
+        } else if ( ! empty( $this->_returnProperties ) ) { 
+
+            self::$_columnHeaders = array( array( 'name' => '' ),
+                                           array(
+                                                 'name'      => ts('Name'),
+                                                 'sort'      => 'sort_name',
+                                                 'direction' => CRM_Utils_Sort::ASCENDING,
+                                                 )
+                                           );
+            $properties =& self::makeProperties( $this->_returnProperties );
+
+            foreach ( $properties as $prop ) {
+                if ( $prop == 'contact_type' || $prop == 'contact_sub_type' || $prop == 'sort_name' ) {
+                    continue;
+                }
+
+                if ( strpos($prop, '-') ) {
+                    list ($loc, $fld, $phoneType) = explode('-', $prop);
+                    $title = $this->_query->_fields[$fld]['title'];
+                    if (trim($phoneType) && !is_numeric($phoneType) && strtolower($phoneType) != $fld) {
+                        $title .= "-{$phoneType}";
+                    }
+                    $title .= " ($loc)";
+                } else {
+                    $title = $this->_query->_fields[$prop]['title'];
+                }
+
+                self::$_columnHeaders[] = array( 'name' => $title, 'desc' => $prop );
+            }
+            self::$_columnHeaders[] = array('desc' => ts('Actions'));
             return self::$_columnHeaders;
         } else {
             return self::_getColumnHeaders();
@@ -395,14 +434,20 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             
             $names[] =  "status";
             
+        } else if ( ! empty( $this->_returnProperties ) ) {
+            $names =& self::makeProperties( $this->_returnProperties );
         } else {
             $names = self::$_properties;
         }
 
         //hack for student data (checkboxs)
+        $multipleSelectFields = null;
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            require_once 'CRM/Quest/BAO/Student.php';
+            $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+        }
+
         require_once 'CRM/Core/OptionGroup.php';
-        require_once 'CRM/Quest/BAO/Student.php';
-        $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         $links =& self::links( );
 
         while ($result->fetch()) {
@@ -416,7 +461,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($property)) {
                     $row[$property] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$property, $cfID, $this->_options );
-                }  else if ( array_key_exists($property, $multipleSelectFields ) ) { //fix to display student checkboxes
+                }  else if ( $multipleSelectFields &&
+                             array_key_exists($property, $multipleSelectFields ) ) { //fix to display student checkboxes
                     $key = $property;
                     $paramsNew = array($key => $result->$property );
                     if ( $key == 'test_tutoring') {
@@ -426,7 +472,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                     $row[$key] = $paramsNew[$key]; 
-                    
                 } else {
                     $row[$property] = $result->$property;
                 }
@@ -477,8 +522,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $row['contact_type'] = $contact_type;
                 $row['contact_id'  ] = $result->contact_id;
                 $row['sort_name'   ] = $result->sort_name;
+                
             }
-
         
             if ( ! $empty ) {
                 $rows[] = $row;
@@ -568,6 +613,25 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     
     function &getQuery( ) {
         return $this->_query;
+    }
+
+    function &makeProperties( &$returnProperties ) {
+        $properties = array( );
+        foreach ( $returnProperties as $name => $value ) {
+            if ( $name != 'location' ) {
+                $properties[] = $name;
+            } else {
+                // extract all the location stuff
+                foreach ( $value as $n => $v ) {
+                    foreach ( $v as $n1 => $v1 ) {
+                        if ( ! strpos( '_id', $n1 ) && $n1 != 'location_type' ) {
+                            $properties[] = "{$n}-{$n1}";
+                        }
+                    }
+                }
+            }
+        }
+        return $properties;
     }
 
 }//end of class

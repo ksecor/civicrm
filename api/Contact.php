@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -142,6 +142,8 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 function &crm_create_contact_formatted( &$params , $onDuplicate) {
     _crm_initialize( );
 
+    CRM_Core_DAO::freeResult( );
+
     // return error if we have no params
     if ( empty( $params ) ) {
         return _crm_error( 'Input Parameters empty' );
@@ -170,6 +172,7 @@ function &crm_create_contact_formatted( &$params , $onDuplicate) {
 
     $contact = CRM_Contact_BAO_Contact::create( $params, $ids, 
                                                 count($params['location']));
+
     return $contact;
 }
 
@@ -184,7 +187,7 @@ function &crm_replace_contact_formatted($contactId, &$params) {
 function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) {
     //$contact = crm_get_contact(array('contact_id' => $contactId));
     $contact =& CRM_Contact_BAO_Contact::check_contact_exists($contactId); 
-    if ( !is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
+    if ( !is_a( $contact, 'CRM_Contact_DAO_Contact' ) ) {
         return _crm_error("Could not find valid contact for: $contactId");
     }
     return _crm_update_contact($contact, $params, $overwrite);
@@ -282,34 +285,10 @@ function &crm_get_contact( $params, $returnProperties = null ) {
 
 
 /**
- * Fetch an existing contact.
+ * Fetch an existing contacts based on given search criteria
  *
- * Returns a single existing Contact object which matches ALL property
- * values passed in $params. An error object is returned if there is
- * no match, or more than one match. This API can be used to retrieve
- * the CRM internal identifier (contact_id) based on a unique property
- * (e.g. email address). It can also be used to retrieve any desired
- * contact properties based on a known contact_id. Available
- * properties for each type of Contact are listed in the {@link
- * http://objectledge.org/confluence/display/CRM/Data+Model#DataModel-ContactRef
- * CRM Data Model.} Modules may also invoke crm_get_class_properties()
- * to retrieve all available property names, including extended
- * (i.e. custom) properties.contact of the specific type that matches
- * the input params  
  *
- * <b>Primary Location and Communication Info</b>
- *
- * <ul>
- * <li>Primary location properties (email address, phone, postal address,
- * etc.) are available in the Contact data objects. Primary email and
- * phone number are returned by default. Postal address fields and
- * primary instant messenger identifier are returned when specified in
- * $return_properties. For contacts with multiple locations, use
- * crm_get_locations() to retrieve additional location data.</li> 
- * </ul>
- *
- * @see crm_get_class_properties()
- * @see crm_get_locations()
+ * @see crm_contact_search()
  *
  * @example api/Contact.php
  *
@@ -319,9 +298,8 @@ function &crm_get_contact( $params, $returnProperties = null ) {
  *                                returned Contact object. If NULL, the default
  *                                set of properties will be included.
  *
- * @return CRM_Contact|CRM_Core_Error  Return the Contact Object if found, else
+ * @return CRM_Contact|CRM_Core_Error  Returns the array of contact if found, else
  *                                Error Object
- *
  * @access public
  *
  */
@@ -342,7 +320,7 @@ function &crm_fetch_contact( $params, $returnProperties = null ) {
     if ( count( $contacts ) != 1 ) {
         return _crm_error( count( $contacts ) . " contacts matching input params." );
     }
-
+    
     $contacts = array_values( $contacts );
     return $contacts[0];
 }
@@ -586,17 +564,18 @@ function &crm_get_property_values( $name ) {
  * function to add/edit/register contacts through profile.
  *
  * @params  array  $params       Array of profile fields to be edited/added.
- * @params  int    $contactID    contact_id of the contact to be edited/added.
  * @params  array  $fields       array of fields from UFGroup
- * @params  int    addToGroupID  specifies the default group to which contact is added.
+ * @params  int    $ufGroupId    uf group id
+ * @params  int    $contactID    contact_idof the contact to be edited/added.
+ * @params  int    $addToGroupID specifies the default group to which contact is added.
  *
  * @return null
  * @access public
  */
 
-function crm_create_profile_contact( $params, $fields, $contactID = null, $addToGroupID = null ) {
+function crm_create_profile_contact( $params, $fields, $ufGroupId, $contactID = null, $addToGroupID = null ) {
     require_once 'CRM/Contact/BAO/Contact.php';
-    CRM_Contact_BAO_Contact::createProfileContact($params, $fields, $contactID, $addToGroupID );
+    CRM_Contact_BAO_Contact::createProfileContact($params, $fields, $contactID, $addToGroupID, $ufGroupId );
 
 }
 

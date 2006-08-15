@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -433,7 +433,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case 'Select State/Province':
             //Add State
             if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                $stateOption = array('' => ts('')) + CRM_Core_PseudoConstant::stateProvince();
+                $stateOption = array('' => '') + CRM_Core_PseudoConstant::stateProvince();
             } else { 
                 $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
             }
@@ -443,7 +443,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case 'Select Country':
             //Add Country
             if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                $countryOption = array('' => ts('')) + CRM_Core_PseudoConstant::country();
+                $countryOption = array('' => '') + CRM_Core_PseudoConstant::country();
 	    } else {
                 $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
             }
@@ -499,26 +499,30 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         //delete first all custon values
         $customValue = & new CRM_Core_DAO_CustomValue();
         $customValue->custom_field_id = $id;
-        $customValue->delete();
+        if ($customValue->find()) {
+            $customValue->delete();
+        }
         
-         //delete first all custon values for file related data
+        //delete first all custon values for file related data
+        /*
         require_once 'CRM/Core/DAO/File.php';
         $customFile = & new CRM_Core_DAO_File();
         $customFile->custom_field_id = $id;
-        $customFile->delete();
-
-
+        if ($customFile->find()) {
+            $customFile->delete();
+        }
+        */
         //delete first all custom option
         $customOption = & new CRM_Core_DAO_CustomOption();
         $customOption->entity_id    = $id;
         $customOption->entity_table = 'civicrm_custom_field';
         $customOption->delete();
         
-        
         //delete  custom field
         $field = & new CRM_Core_DAO_CustomField();
         $field->id = $id; 
         $field->delete();
+        
         return true;
     }
 
@@ -561,10 +565,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case "CheckBox":
         case "Multi-Select":
             if ( is_array( $value ) ) {
-                $checkedData = array_keys( $value );
+                $checkedData = $value;
             } else {
                 $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             }
+
             $v = array( );
             $p = array( );
             foreach ( $checkedData as $dontCare => $val ) {
@@ -594,11 +599,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             break;
 
         case 'Select State/Province':
-            $display = CRM_Core_PseudoConstant::stateProvince($value);
+            if ( empty( $value ) ) {
+                $display = '';
+            } else {
+                $display = CRM_Core_PseudoConstant::stateProvince($value);
+            }
             break;
 
         case 'Select Country':
-            $display = CRM_Core_PseudoConstant::country($value);
+            if ( empty( $value ) ) {
+                $display = '';
+            } else {
+                $display = CRM_Core_PseudoConstant::country($value);
+            }
             break;
         }
 

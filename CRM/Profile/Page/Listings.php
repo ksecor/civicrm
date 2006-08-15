@@ -1,7 +1,7 @@
 <?php 
 /* 
  +--------------------------------------------------------------------+ 
- | CiviCRM version 1.4                                                | 
+ | CiviCRM version 1.5                                                | 
  +--------------------------------------------------------------------+ 
  | Copyright (c) 2005 Donald A. Lobo                                  | 
  +--------------------------------------------------------------------+ 
@@ -83,6 +83,12 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
      */ 
     protected $_search; 
     
+    /**
+     * Should we display a map
+     *
+     * @var int
+     */
+    protected $_map;
 
     /**
      * extracts the parameters from the request and constructs information for
@@ -95,20 +101,26 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     function preProcess( ) {
         
         $this->_search = true;
-        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
-                                                  $this, false, 0, 'GET');
         
-        $search = CRM_Utils_Request::retrieve('search', 'Boolean',
-                                              $this, false, 0, 'GET');
+        $search = CRM_Utils_Request::retrieve( 'search', 'Boolean',
+                                               $this, false, 0, 'GET' );
         if( isset( $search ) && $search == 0) {
             $this->_search = false;
         }
+
+        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+                                                  $this, false, 0, 'GET' );
+
+        $this->_map = CRM_Utils_Request::retrieve( 'map', 'Boolean',
+                                                   $this, false, 0, 'GET' );
+        // map only one specific profile
+        $this->_map = $this->_gid ? $this->_map : 0;
         
         require_once 'CRM/Core/BAO/UFGroup.php';
         $this->_fields =
             CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::UPDATE,
                                                     CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
-                                                    false, $this->_gid );
+                                                    false, $this->_gid, true );
 
         $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
         $this->_params   = array( );
@@ -174,16 +186,36 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
     function run( ) {
         $this->preProcess( );
 
+        
+        $this->assign( 'recentlyViewed', false );
+        if ( $this->_gid ) {
+            // set the title of the page
+            $title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'title' );
+            if ( $title ) {
+                CRM_Utils_System::setTitle( $title );
+            }
+        }
+
         // do not do any work if we are in reset mode
         if ( ! CRM_Utils_Array::value( 'reset', $_GET ) || CRM_Utils_Array::value( 'force', $_GET ) ) {
             $this->assign( 'isReset', false );
-            $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid );
-            $controller =& new CRM_Core_Selector_Controller($selector ,
-                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                            CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TEMPLATE );
-            $controller->setEmbedded( true );
-            $controller->run( );
+            if ( $this->_map ) {
+                $this->map( );
+                return;
+            } else {
+                $map = 0;
+                if ( $this->_gid ) {
+                    $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map' );
+                }
+                $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid,
+                                                                $map );
+                $controller =& new CRM_Core_Selector_Controller($selector ,
+                                                                $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                                $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                                CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TEMPLATE );
+                $controller->setEmbedded( true );
+                $controller->run( );
+            }
         } else {
             $this->assign( 'isReset', true );
         }
@@ -196,6 +228,55 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         }
 
         return parent::run( );
+    }
+
+    function map( ) {
+        $details = array( );
+        $ufGroupParam   = array('id' => $this->_gid );
+        CRM_Core_BAO_UFGroup::retrieve($ufGroupParam, $details);
+
+        // make sure this group can be mapped
+        if ( ! $details['is_map'] ) {
+            CRM_Utils_System::statusBounce( 'This profile does not have the map feature turned on' );
+        }
+
+        $groupId = CRM_Utils_Array::value('limit_listings_group_id', $details);
+        $groupId = CRM_Utils_Array::value('limit_listings_group_id', $details);
+        
+        // add group id to params if a uf group belong to a any group
+        if ($groupId) {
+            if ( CRM_Utils_Array::value('group', $this->_params ) ) {
+                $this->_params['group'][$groupId] = 1;
+            } else {
+                $this->_params['group'] = array($groupId => 1);
+            }
+        }
+        
+        $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
+                                                                 CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
+                                                                 CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
+                                                                 false, $this->_gid );
+
+        $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
+        $returnProperties['contact_type'] = 1;
+        $returnProperties['sort_name'   ] = 1;
+
+        require_once 'CRM/Contact/Form/Search.php';
+        $queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_params, 1 );
+        $this->_query   =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, $this->_fields );
+        
+        $ids = $this->_query->searchQuery( 0, 0, null, 
+                                           false, false, false, 
+                                           true, false );                            
+        $contactIds = explode( ',', $ids );
+
+        require_once 'CRM/Contact/Form/Task/Map.php';
+        CRM_Contact_Form_Task_Map::createMapXML( $contactIds, null, $this, false );
+
+        $template =& CRM_Core_Smarty::singleton( );
+        $content = $template->fetch( 'CRM/Contact/Form/Task/Map.tpl' );
+        echo CRM_Utils_System::theme( 'page', $content, null, false );
+        return;
     }
 
 }

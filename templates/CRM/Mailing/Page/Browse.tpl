@@ -1,5 +1,5 @@
 {if $rows}
-{include file="CRM/pager.tpl" location="top"}
+{include file="CRM/common/pager.tpl" location="top"}
 
 {strip}
 <table>
@@ -22,11 +22,11 @@
 </table>
 {/strip}
 
-{include file="CRM/pager.tpl" location="bottom"}
+{include file="CRM/common/pager.tpl" location="bottom"}
 {else}
 <div class="messages status">
     <dl>
-        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
         {capture assign=crmURL}{crmURL p='civicrm/mailing/send' q='reset=1'}{/capture}
         <dd>{ts 1=$crmURL}There are no sent mails. You can <a href="%1">send one</a>.{/ts}</dd>
     </dl>

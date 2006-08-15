@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -175,13 +175,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $showHide =& new CRM_Core_ShowHideBlocks('','');
         
         $showHide->addHide( 'relationship' );
-        $showHide->addShow( 'relationship[show]' );
+        $showHide->addShow( 'relationship_show' );
         
         CRM_Core_Component::addShowHide( $showHide );
 
         if ( ! empty( $groupTitle ) ) {
             foreach ($groupTitle as $key => $title) {
-                $showBlocks = $title . '[show]' ;
+                $showBlocks = $title . '_show' ;
                 $hideBlocks = $title;
                 
                 $showHide->addShow($hideBlocks);
@@ -202,13 +202,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     public function customDataSearch() {
         
         // expand on search result if criteria entered
-        
         $customDataSearch = $this->get('customDataSearch');
+        
         if ( !empty($customDataSearch)) {
             $customAssignHide = array();
             $customAssignShow = array();
             foreach(array_unique($customDataSearch) as $v) {
-                $customAssignHide[] = $v . '[show]';
+                $customAssignHide[] = $v . '_show';
                 $customAssignShow[] = $v;
             }
             
@@ -223,8 +223,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->assign('groupTree', $groupDetails);
 
         foreach ($groupDetails as $group) {
-            $_groupTitle[]           = $group['title'];
-            CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
+            $_groupTitle[]           = $group['name'];
+            CRM_Core_ShowHideBlocks::links( $this, $group['name'], '', '');
             
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
@@ -308,6 +308,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
       
         $this->_params =& $this->convertFormValues( $this->_formValues );
+        $this->_returnProperties =& $this->returnProperties( );
         $this->postProcessCommon( );
     }
 

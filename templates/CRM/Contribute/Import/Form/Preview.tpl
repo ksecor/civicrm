@@ -2,7 +2,7 @@
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
  {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
- {include file="CRM/WizardHeader.tpl}
+ {include file="CRM/common/WizardHeader.tpl"}
  
  <div id="help">
     <p>
@@ -59,11 +59,11 @@
         <td class="explanation">{ts}Total rows to be imported.{/ts}</td>
     </tr>
  </table>
- <br /> 
+  
 
  {* Table for mapping preview *}
  {include file="CRM/Contribute/Import/Form/MapTable.tpl}
- <br />
+ 
  
  <div id="crm-submit-buttons">
     {$form.buttons.html}

@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -258,6 +258,9 @@ class CRM_Core_I18n
 // function defined in global scope so it will be available everywhere
 function ts($text, $params = array())
 {
+    if ($text == '') {
+        return '';
+    }
     $i18n =& CRM_Core_I18n::singleton();
     return $i18n->crm_translate($text, $params);
 }

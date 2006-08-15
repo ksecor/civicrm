@@ -2,7 +2,7 @@
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-{include file="CRM/WizardHeader.tpl"}
+{include file="CRM/common/WizardHeader.tpl"}
 
 <div id="help">
 <p>{ts}<strong>Export PRIMARY contact fields</strong> provides the most commonly used data values. This includes primary address information, preferred phone and email, as well as all custom data.{/ts}</p>

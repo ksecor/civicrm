@@ -11,11 +11,11 @@
 
 <body>
 
-<div id="crm-container">
+<div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
 
 <div class="messages status">
   <dl>
-  <dt><img src="{$config->resourceBase}i/Error.gif" alt="{ts}unrecoverable error{/ts}"></dt>
+  <dt><img src="{$config->resourceBase}i/Error.gif" alt="{ts}unrecoverable error{/ts}" /></dt>
   <dd>
       {ts}Sorry. A non-recoverable error has occurred.{/ts}
       <p>{$message}</p>

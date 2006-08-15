@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -130,6 +130,13 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
     protected $_defaults;
 
     /** 
+     * prefix for the controller
+     * 
+     */
+    protected $_prefix = "contribute_";
+
+
+    /** 
      * processing needed for buildForm and later 
      * 
      * @return void 
@@ -154,13 +161,13 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
                                                        CRM_Core_DAO::$_nullObject ); 
         $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
-                                                       CRM_Core_DAO::$_nullObject, false ); 
+                                                       $this, false ); 
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
                                                        $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this );
 
-        $this->assign( 'limit', $this->_limit );
+        $this->assign( "{$this->_prefix}limit", $this->_limit );
 
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
@@ -172,6 +179,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         if ( $this->_force ) { 
             $this->postProcess( );
+            $this->set( 'force', 0 );
         }
 
         $sortID = null; 
@@ -188,18 +196,27 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                          $this->_single,
                                                          $this->_limit,
                                                          $this->_context ); 
+        $prefix = null;
+        if ( $this->_context == 'basic' ) {
+            $prefix = $this->_prefix;
+        }
+        
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
                                                         $sortID,  
                                                         CRM_Core_Action::VIEW, 
                                                         $this, 
-                                                        CRM_Core_Selector_Controller::TRANSFER );
+                                                        CRM_Core_Selector_Controller::TRANSFER,
+                                                        $prefix);
 
         $controller->setEmbedded( true ); 
         $controller->moveFromSessionToTemplate(); 
+
+        $this->assign( 'summary', $this->get( 'summary' ) );
     }
 
-    function setDefaultValues( ) { 
+    function setDefaultValues( ) 
+    { 
         return $this->_defaults; 
     } 
 
@@ -231,18 +248,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                    null, null, 
                                    array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                    ); 
-
-                if ( $row['cancel_date'] ) {
-                    $cancel += $row['total_amount'];
-                } else {
-                    $total     += $row['total_amount'];
-                }
             }
 
-            $this->assign( 'total_amount' , $total  );
-            $this->assign( 'cancel_amount', $cancel );
-            $this->assign( 'num_amount'   , count( $rows ) );
-            $this->assign( 'single', $this->_single );
+            $this->assign( "{$this->_prefix}single", $this->_single );
 
             // also add the action and radio boxes
             require_once 'CRM/Contribute/Task.php';
@@ -301,6 +309,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         $this->fixFormValues( );
 
+        require_once 'CRM/Contact/Form/Search.php';
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
 
         $this->set( 'formValues' , $this->_formValues  );
@@ -330,15 +339,24 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                          $this->_single,
                                                          $this->_limit,
                                                          $this->_context ); 
+        $prefix = null;
+        if ( $this->_context == 'basic' ) {
+            $prefix = $this->_prefix;
+        }
+
         $controller =& new CRM_Core_Selector_Controller($selector , 
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ), 
                                                         $sortID, 
                                                         CRM_Core_Action::VIEW,
                                                         $this,
-                                                        CRM_Core_Selector_Controller::SESSION );
+                                                        CRM_Core_Selector_Controller::SESSION,
+                                                        $prefix);
         $controller->setEmbedded( true ); 
-        $controller->run(); 
 
+        $query   =& $selector->getQuery( );
+        $summary =& $query->summaryContribution( );
+        $this->set( 'summary', $summary );
+        $controller->run(); 
     }
 
     function fixFormValues( ) {
@@ -372,6 +390,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             CRM_Core_DAO::$_nullObject );
+
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {

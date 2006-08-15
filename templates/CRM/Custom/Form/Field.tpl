@@ -7,13 +7,14 @@
         var data_type = document.getElementsByName("data_type[0]")[0];
         if (data_type.selectedIndex < 4) {
             if (html_type_name != "Text") {
-        	    document.getElementById("showoption").style.display="block";		
+	    	document.getElementById("showoption").style.display="block";		
                 document.getElementById("hideDefaultValTxt").style.display="none";
                 document.getElementById("hideDefaultValDef").style.display="none";
                 document.getElementById("hideDescTxt").style.display="none";
                 document.getElementById("hideDescDef").style.display="none";
                 document.getElementsByName("is_search_range")[1].checked = true;
-         		document.getElementById("searchByRange").style.display = "none";
+         	document.getElementById("searchByRange").style.display = "none";
+ 	        document.getElementById("is_searchable").style.display = "block";
 
             } else {
     	        document.getElementById("showoption").style.display="none";
@@ -22,8 +23,16 @@
                 document.getElementById("hideDefaultValDef").style.display="block";
                 document.getElementById("hideDescTxt").style.display="block";
                 document.getElementById("hideDescDef").style.display="block";
+ 	        document.getElementById("is_searchable").style.display = "block";
             }
         } else {
+
+	    if (data_type.selectedIndex == 9 ) {
+	        document.getElementById("is_searchable").style.display = "none";
+            } else {
+ 	        document.getElementById("is_searchable").style.display = "block";
+	    }
+
     	    document.getElementById("showoption").style.display="none";
             document.getElementById("hideDefaultValTxt").style.display="block";
             document.getElementById("hideDefaultValDef").style.display="block";
@@ -109,7 +118,7 @@
         <div id='showoption' class="hide-block">{ include file="CRM/Custom/Form/Optionfields.tpl"}</div>
     {/if}
         <dl>
-	    <dt id="optionsPerLine" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 EQ 'CheckBox' || $form.data_type.value.1.0 EQ 'Radio' )}class="show-block"{else} class="hide-block" {/if}>{$form.options_per_line.label}</dt>	
+	<dt id="optionsPerLine" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 EQ 'CheckBox' || $form.data_type.value.1.0 EQ 'Radio' )}class="show-block"{else} class="hide-block" {/if}>{$form.options_per_line.label}</dt>	
 	    <dd id="optionsPerLineDef" {if $action eq 2 && ($form.data_type.value.0.0 < 4 && $form.data_type.value.1.0 EQ 'CheckBox' || $form.data_type.value.1.0 EQ 'Radio' )}class="show-block"{else} class="hide-block"{/if}>{$form.options_per_line.html|crmReplace:class:two}</dd>
 
 	<dt id="startDateRange" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block" {/if}>{$form.start_date_years.label}</dt><dd id="startDateRangeDef" {if $action eq 2 && ($form.data_type.value.0.0 == 5)}class="show-block"{else} class="hide-block"{/if}>{$form.start_date_years.html} {ts}years prior to current date.{/ts}</dd> 
@@ -139,18 +148,26 @@
         <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed to users for this field.{/ts}</dd>
         {/if}
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
+    </dl>
+	<div id ="is_searchable">
+	  <dl>
 	    <dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
+      </dl>
+	</div>        
         {if $action neq 4}
+        <dl>
         <dt>&nbsp;</dt><dd class="description">{ts}Is this field included in the Advanced Search form? NOTE: This feature is only available to custom fields used for <strong>Contacts</strong> at this time.{/ts}</dd>
-        {/if}
-    	<div id="searchByRange" {if $action eq 2 && $form.is_searchable.value && ($form.data_type.value.0.0 eq 1 OR $form.data_type.value.0.0 eq 2 OR $form.data_type.value.0.0 eq 3 OR $form.data_type.value.0.0 eq 5) && ($form.data_type.value.1.0 eq 'Text' OR $form.data_type.value.1.0 eq 'Select Date')} class="show-block"{else} class="hide-block"{/if} >
-    	      <dl>
-	        <dt>{$form.is_search_range.label}</dt><dd>&nbsp;{$form.is_search_range.html}</dd>
-    	      </dl>
-    	</div>
-        <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
         </dl>
-    </div>
+        {/if}        
+    	<div id="searchByRange" {if $action eq 2 && $form.is_searchable.value && ($form.data_type.value.0.0 eq 1 OR $form.data_type.value.0.0 eq 2 OR $form.data_type.value.0.0 eq 3 OR $form.data_type.value.0.0 eq 5) && ($form.data_type.value.1.0 eq 'Text' OR $form.data_type.value.1.0 eq 'Select Date')} class="show-block"{else} class="hide-block"{/if} >
+    	    <dl>
+	        <dt>{$form.is_search_range.label}</dt><dd>&nbsp;{$form.is_search_range.html}</dd>
+    	    </dl>
+    	</div>        
+        <dl>
+        <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
+        </dl>    
+   </div>
     
     <div id="crm-submit-buttons" class="form-item">
     <dl>
@@ -159,9 +176,8 @@
     {else}
         <dt>&nbsp;</dt><dd>{$form.done.html}</dd>
     {/if} {* $action ne view *}
-    </dl>
-    </div>
-
+    </dl>    
+    </div> 
 </fieldset>
 
 <script type="text/javascript">

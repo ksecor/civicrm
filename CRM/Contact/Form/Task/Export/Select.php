@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -146,7 +146,7 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
             $export =& new CRM_Contact_BAO_Export( );
             $export->exportContacts( $this->_selectAll,
                                      $this->_contactIds,
-                                     $this->get( 'formValues' ),
+                                     $this->get( 'queryParams' ),
                                      $this->get( CRM_Utils_Sort::SORT_ORDER ) );
         }
     }

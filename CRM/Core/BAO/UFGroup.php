@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -158,7 +158,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static 
      * @access public 
      */ 
-    static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null ,$searchable =null ) {
+    static function getListingFields( $action, $visibility, $considerSelector = false, $ufGroupId = null, $searchable = null ) {
         if ($ufGroupId) {
             $subset = self::getFields( $ufGroupId, false, $action, $visibility, $searchable);
             if ($considerSelector) {
@@ -215,6 +215,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         $group =& new CRM_Core_DAO_UFGroup( );
         $group->id = $id;
+        $group->is_active = 1;
         if ( $group->find( true ) ) {
             if( $searchable ) {
                 $where = "WHERE uf_group_id = {$group->id} AND is_searchable = 1"; 
@@ -262,7 +263,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
 
             while ( $field->fetch( ) ) {
-                if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
+                if ( $searchable || 
+                     ( $field->is_view && $action == CRM_Core_Action::VIEW ) ||
+                     ! $field->is_view ) {
                     $name  = $title = $locType = $phoneType = '';
                     $name  = $field->field_name;
                     $title = $field->label;
@@ -304,7 +307,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                               'location_type_id' => $field->location_type_id,
                               'phone_type'       => $field->phone_type,
                               'group_id'         => $group->id,
-                              'add_to_group_id'  => $group->add_to_group_id
+                              'add_to_group_id'  => $group->add_to_group_id,
+                              'collapse_display' => $group->collapse_display
                               );
                     //adding custom field property 
                     if ( substr($name, 0, 6) == 'custom' ) {
@@ -312,6 +316,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                 }
             }
+        } else {
+            CRM_Core_Error::fatal( ts( 'The requested profile page is currently inactive or does not exist. Please contact the site administrator if you need assistance.' ) );
         }
         return $fields;
     }
@@ -485,9 +491,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     public static function getValues( $cid, &$fields, &$values ) {
         $options = array( );
 
-        //studnet fields ( check box ) 
-        require_once 'CRM/Quest/BAO/Student.php';
-        $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+        $studentFields = array( );
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            //student fields ( check box ) 
+            require_once 'CRM/Quest/BAO/Student.php';
+            $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+        }
 
         // get the contact details (hier)
         $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
@@ -554,18 +563,29 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $names, false );
                     $values[$index] = $paramsNew[$name];
-                } else if ( ! CRM_Quest_BAO_Student::getValues( $field, $details, $values ) ) {
-                    if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
-                        if ($details->$name) {
-                            $values[$index] = '[ x ]';
-                        }
-                    } else {
-                        require_once 'CRM/Core/BAO/CustomField.php';
-                        if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                            $params[$index] = $details->$name;
-                            $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                } else {
+                    $processed = false;
+                    if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                        require_once 'CRM/Quest/BAO/Student.php';
+                        $processed = CRM_Quest_BAO_Student::buildStudentForm( $field, $this );
+                    }
+                    if ( ! $processed ) {
+                        if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
+                            if ($details->$name) {
+                                $values[$index] = '[ x ]';
+                            }
                         } else {
-                            $values[$index] = $details->$name;
+                            require_once 'CRM/Core/BAO/CustomField.php';
+                            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
+                                $params[$index] = $details->$name;
+                                $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                            } else if ( $name == 'home_URL' &&
+                                        ! empty( $details->$name ) ) {
+                                $url = CRM_Utils_System::fixURL( $details->$name );
+                                $values[$index] = "<a href=\"$url\">{$details->$name}</a>";
+                            } else {
+                                $values[$index] = $details->$name;
+                            }
                         }
                     }
                 }
@@ -836,8 +856,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         require_once 'CRM/Contact/BAO/Query.php';
         
         //this is the fix to ignore the groups/ tags for dupe checking CRM-664, since we never use them for dupe checking
-        $params['group'] = array( );
-        $params['tag']   = array( );
+        unset( $params['group'] );
+        unset( $params['tag']   );
+
+        // also eliminate all the params that are not present in fields
+        foreach ( $params as $name => $value ) {
+            if ( ! array_key_exists( $name, $fields ) ) {
+                unset( $params[$name] );
+            }
+        }
+
         $params =& CRM_Contact_Form_Search::convertFormValues( $params );
         $whereTables = array( );
         return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, $whereTables, true );
@@ -1035,6 +1063,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         $ufGroups = array( );
         while ($dao->fetch( )) {
+            if ( $moduleName && $moduleName != 'User Registration' && !self::filterUFGroups($dao->id)) {
+                continue;
+            }
+            
             $ufGroups[$dao->id]['name'     ] = $dao->title;
             $ufGroups[$dao->id]['title'    ] = $dao->title;
             $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
@@ -1114,6 +1146,40 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             CRM_Core_DAO::executeQuery($query, $p);
         }
     }
+
+    /**
+     * Function to filter ufgroups based on logged in user contact type
+     *
+     * @params int $ufGroupId uf group id (profile id)
+     *
+     * @return boolean true or false
+     * @static
+     * @access public
+     */
+    static function filterUFGroups ($ufGroupId) 
+    {
+        global $user;
+
+        require_once "CRM/Core/BAO/UFMatch.php";
+        $contactId = CRM_Core_BAO_UFMatch::getContactId($user->uid);
+
+        if ($contactId) {
+            //get the contact type
+            require_once "CRM/Contact/BAO/Contact.php";
+            $contactType = CRM_Contact_BAO_Contact::getContactType($contactId);
+            
+            //match if exixting contact type is same as profile contact type
+            require_once "CRM/Core/BAO/UFField.php";
+            $profileType = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
+
+            if ($contactType == $profileType) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
 
 ?>

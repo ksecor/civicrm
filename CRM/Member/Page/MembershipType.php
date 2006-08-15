@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Page/Basic.php';
-
+require_once 'CRM/Member/BAO/MembershipType.php';
 /**
  * Page for displaying list of membership types
  */
@@ -135,7 +135,7 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
     }
 
     /**
-     * Browse all custom data groups.
+     * Browse all membership types.
      *  
      * 
      * @return void
@@ -144,12 +144,12 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
      */
     function browse()
     {
-        // get all custom groups sorted by weight
+        // get all membership types sorted by weight
         $membershipType = array();
         require_once 'CRM/Member/DAO/MembershipType.php';
         $dao =& new CRM_Member_DAO_MembershipType();
 
-        $dao->orderBy('name');
+        $dao->orderBy('weight');
         $dao->find();
 
         while ($dao->fetch()) {
@@ -172,6 +172,8 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
             $membershipType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                             array('id' => $dao->id));
         }
+
+        CRM_Member_BAO_MembershipType::convertDayFormat( $membershipType );
         $this->assign('rows', $membershipType);
     }
 

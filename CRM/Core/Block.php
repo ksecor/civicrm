@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -52,8 +52,9 @@ class CRM_Core_Block {
         MENU       =  1,
         SHORTCUTS  =  2,
         SEARCH     =  4,
-        ADD        =  8;
-
+        ADD        =  8,
+        CONTRIBUTE = 16;
+    
     /**
      * template file names for the above blocks
      */
@@ -89,7 +90,11 @@ class CRM_Core_Block {
                                        self::MENU        => array( 'template' => 'Menu.tpl',
                                                                    'info'     => ts('CiviCRM Menu'),
                                                                    'subject'  => ts('CiviCRM'),
-                                                                   'active'   => true )
+                                                                   'active'   => true ),
+                                       self::CONTRIBUTE  => array( 'template' => 'Contribute.tpl',
+                                                                   'info'     => ts( 'CiviContribute Thermometer' ),
+                                                                   'subject'  => ts( 'CiviContribute Thermometer' ),
+                                                                   'active'   => true ),
                                        );
         }
     }
@@ -153,10 +158,35 @@ class CRM_Core_Block {
                       ( ! CRM_Core_Permission::check('add contacts') ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
                      continue;
                  }
-                $block[$id]['info'] = $value['info'];
+                 $block[$id]['info'] = $value['info'];
             }
         }
         return $block;
+    }
+
+    static function hideContributeBlock( ) {
+        // make sure it is a transactions and online contributions is enables
+        $config =& CRM_Core_Config::singleton( );
+        $args = explode ( '/', $_GET[$config->userFrameworkURLVar] );
+        if ( $args[1] != 'contribute' ||
+             $args[2] != 'transact'   ||
+             ! CRM_Core_Permission::check( 'make online contributions' ) ) {
+            return true;
+        }
+
+        // also make sure that there is a pageID and that page has thermometer enabled
+        $session =& CRM_Core_Session::singleton( );
+        if ( ! $session->get( 'pastContributionID' ) ||
+             ! $session->get( 'pastContributionThermometer' ) ) {
+            return true;
+        }
+
+        // hey we can show it, so might as well fix the block subject
+        if ( $config->contributeThermometerTitle ) {
+            self::$_properties[self::CONTRIBUTE]['subject'] = $config->contributeThermometerTitle;
+        }
+
+        return false;
     }
 
     /**
@@ -189,6 +219,8 @@ class CRM_Core_Block {
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );
         } else if ( $id == self::MENU ) {
             self::setTemplateMenuValues( );
+        } else if ( $id == self::CONTRIBUTE ) {
+            self::setTemplateContributeValues( );
         }
     }
 
@@ -204,20 +236,20 @@ class CRM_Core_Block {
         if (!($shortCuts)) {
             if (CRM_Core_Permission::check('add contacts')) {
                 $shortCuts = array( array( 'path'  => 'civicrm/contact/add',
-                                           'qs'    => 'ct=Individual&reset=1',
+                                           'query' => 'ct=Individual&reset=1',
                                            'title' => ts('New Individual') ),
                                     array( 'path'  => 'civicrm/contact/add',
-                                           'qs'    => 'ct=Organization&reset=1',
+                                           'query' => 'ct=Organization&reset=1',
                                            'title' => ts('New Organization') ),
                                     array( 'path'  => 'civicrm/contact/add',
-                                           'qs'    => 'ct=Household&reset=1',
+                                           'query' => 'ct=Household&reset=1',
                                            'title' => ts('New Household') ),
                                     );
             }
 
             if( CRM_Core_Permission::check('edit groups')) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
-                                                                   'qs'    => 'reset=1',
+                                                                   'query' => 'reset=1',
                                                                    'title' => ts('New Group') ) ));
             }
 
@@ -231,7 +263,7 @@ class CRM_Core_Block {
 
         foreach ( $shortCuts as $short ) {
             $value = array( );
-            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['qs'] );
+            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['query'] );
             $value['title'] = $short['title'];
             $values[] = $value;
         }
@@ -249,10 +281,10 @@ class CRM_Core_Block {
         
         if (!($shortCuts)) {
              $shortCuts = array( array( 'path'  => 'civicrm/mailing/send',
-                                        'qs'    => 'reset=1',
+                                        'query' => 'reset=1',
                                         'title' => ts('Send Mailing') ),
                                  array( 'path'  => 'civicrm/mailing/browse',
-                                        'qs'    => 'reset=1',
+                                        'query' => 'reset=1',
                                         'title' => ts('Browse Sent Mailings') ),
                                  );
         }
@@ -260,7 +292,7 @@ class CRM_Core_Block {
         $values = array( );
         foreach ( $shortCuts as $short ) {
             $value = array( );
-            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['qs'] );
+            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['query'] );
             $value['title'] = $short['title'];
             $values[] = $value;
         }
@@ -287,7 +319,7 @@ class CRM_Core_Block {
                  ( $item['crmType'] >= CRM_Core_Menu::NORMAL_ITEM ) &&
                  $item['access'] ) {
                 $value = array( );
-                $value['url'  ]  = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'qs', $item ) );
+                $value['url'  ]  = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'query', $item ) );
                 $value['title']  = $item['title'];
                 $value['path']   = $item['path'];
                 $value['class']  = 'leaf';
@@ -352,6 +384,22 @@ class CRM_Core_Block {
     }
 
     /**
+     * set the contribute values for a given page
+     *
+     * @return void
+     * @access private
+     */
+    private function setTemplateContributeValues( ) {
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        
+        $session =& CRM_Core_Session::singleton( );
+        $pageID = $session->get( 'pastContributionID' );
+        list( $goal, $current ) = CRM_Contribute_BAO_Contribution::getCurrentandGoalAmount( $pageID );
+        self::setProperty( self::CONTRIBUTE, 'templateValues', array( 'goal'    => $goal,
+                                                                      'current' => $current ) );
+    }
+
+    /**
      * Given an id creates a subject/content array
      *
      * @param int $id id of the block
@@ -360,24 +408,32 @@ class CRM_Core_Block {
      * @access public
      */
     static function getContent( $id ) {
-        self::setTemplateValues( $id );
-        $block = array( );
         if ( ! self::getProperty( $id, 'active' ) ) {
             return null;
         }
 
-         if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
-              ( ! CRM_Core_Permission::check( 'add contacts' ) ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
-             return null;
-         }
+        if ( $id == self::CONTRIBUTE ) {
+            if ( self::hideContributeBlock( ) ) {
+                return null;
+            }
+        } else if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
+            return null;
+        } else if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
+                    ( ! CRM_Core_Permission::check( 'add contacts' ) ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
+            return null;
+        }
 
+
+        self::setTemplateValues( $id );
+
+        $block = array( );
         $block['name'   ] = 'block-civicrm';
         $block['id'     ] = $block['name'] . '_' . $id;
         $block['subject'] = self::fetch( $id, 'Subject.tpl',
                                          array( 'subject' => self::getProperty( $id, 'subject' ) ) );
         $block['content'] = self::fetch( $id, self::getProperty( $id, 'template' ),
                                          self::getProperty( $id, 'templateValues' ) );
-
+        
         return $block;
     }
 

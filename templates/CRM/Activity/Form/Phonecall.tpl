@@ -31,9 +31,12 @@
         <dd>{$form.scheduled_date_time.html}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
-               {include file="CRM/common/calendar/desc.tpl"}
+               {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity_1}
         </dd>
-{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1}
+        <dt>&nbsp;</dt>
+        <dd class="description">               
+{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1 trigger=trigger_activity_1}
+        </dd>
     {/if}
 	<dt>{ts}Duration{/ts}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
@@ -44,12 +47,14 @@
     
 
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+    <dt>&nbsp;</dt>
+        <dd class="description"> 
     {if $action eq 4} 
       {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
     {else}
       {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
     {/if}
-    
+        </dd>
 {/if}
     {if $action eq 8 }
     <div class="status">{ts} Are you sure you want to delete "{$delName}" ?{/ts}</div>

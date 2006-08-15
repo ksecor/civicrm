@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -127,7 +127,7 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType
         $config   =& CRM_Core_Config::singleton( );
         $domainID =  $config->domainID( );
         $query =
-            "SELECT id ,description FROM civicrm_activity_type WHERE is_active = 1 AND id > 3 AND domain_id = $domainID ORDER BY name";
+            "SELECT id ,description FROM civicrm_activity_type WHERE is_active = 1 AND id > 4 AND domain_id = $domainID ORDER BY name";
         $dao   =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $description =array();
         while($dao->fetch()) {
@@ -183,12 +183,12 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType
      */
     static function del($activityTypeId) 
     {
-        require_once 'CRM/Core/DAO/Activity.php';
+        require_once 'CRM/Activity/DAO/Activity.php';
         //check dependencies
         
         $activityIds = array( );
         //get the list of activities from civicrm_activity for this activity type
-        $activity =& new CRM_Core_DAO_Activity( );
+        $activity =& new CRM_Activity_DAO_Activity( );
         $activity->activity_type_id = $activityTypeId;
         $activity->find();
         while ($activity->fetch()) {

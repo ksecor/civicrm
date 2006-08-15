@@ -1,12 +1,12 @@
-<p>
-
 {if $rows } 
 <div class="form-item">
      <span class="element-right">{$form.buttons.html}</span>
 </div>
+
 <div class="spacer"></div>
+
+<div>
 <br />
-<p>
 <table>
   <tr class="columnheader">
     <th>{ts}Name{/ts}</th>
@@ -31,6 +31,7 @@
     </tr>
 {/foreach}
 </table>
+</div>
 
 <div class="form-item">
      <span class="element-right">{$form.buttons.html}</span>
@@ -39,7 +40,7 @@
 {else}
    <div class="messages status">
     <dl>
-    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
     <dd>
         {ts}There are no records selected for Print.{/ts}
     </dd>

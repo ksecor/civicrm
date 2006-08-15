@@ -5,7 +5,7 @@
 	{if $action eq 8}
       <div class="messages status">
         <dl>
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
           {ts 1=$title}Delete %1 Profile?{/ts}
           </dd>
@@ -20,15 +20,15 @@
         <dt>&nbsp;</dt><dd class="description">
         {capture assign=siteRoot}&lt;{ts}site root{/ts}&gt;{/capture}
         <table class="form-layout-compressed">
-        <tr><td>{ts}Profiles can be explicitly linked to a module page. Any Profile form/listings page can also be linked directly by adding it's ID to the civicrm/profile path. (Example: <em>{$siteRoot}/civicrm/profile?reset=1&id=3</em>){/ts}
+        <tr><td>{ts 1="$siteRoot/civicrm/profile?reset=1&amp;gid=3"}Profiles can be explicitly linked to a module page. Any Profile form/listings page can also be linked directly by adding its ID to the civicrm/profile path. (Example: <em>%1</em>)
         {if $config->userFramework EQ 'Drupal'}
-        <ul>
-            <li>{ts}Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form.{/ts}
-            <li>{ts}Check <strong>View/Edit User Account</strong> to include it in the view and edit screens for existing user accounts.{/ts}
-            <li>{ts}Check <strong>Profile</strong> if you want it included in the default contact listing and view screens for the civicrm/profile path.{/ts}
-            <li>{ts}Check <strong>Search Listings</strong> to use this profile as an alternate set of columns for CiviCRM search results.{/ts}
+        <ul class="left-alignment">
+          <li>{ts}Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form.{/ts}</li>
+          <li>{ts}Check <strong>View/Edit User Account</strong> to include it in the view and edit screens for existing user accounts.{/ts}</li>
+          <li>{ts}Check <strong>Profile</strong> if you want it included in the default contact listing and view screens for the civicrm/profile path.{/ts}</li>
+          <li>{ts}Check <strong>Search Listings</strong> to use this profile as an alternate set of columns for CiviCRM search results.{/ts}</li>
         </ul>
-        {/if}
+        {/if}{/ts}
         </td></tr></table></dd>
     {/if}
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
@@ -47,11 +47,17 @@
     <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL if they click the Cancel button - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed.{/ts}</dd>
     <dt></dt><dd>{$form.add_captcha.html} {$form.add_captcha.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}When CAPTCHA is included in an add / edit profile form, users are required to read an image with letters and numbers and enter the value in a field. This helps prevent abuse by automated scripts.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}<strong>Do not enable this feature for stand-alone profile forms. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.</strong>{/ts}</dd>
+    <dt></dt><dd>{$form.is_map.html} {$form.is_map.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}When mapping is enabled, you can map your contacts in profile listings and detail pages{/ts}</dd>
+    <dt></dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the title for this fieldset to be displayed when the page is initially loaded (fields are hidden).{/ts}</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
         
     
     </dl>
     {/if}
+    <dl>
     {if $action ne 4}
         <dt></dt>
         <dd>
@@ -61,7 +67,8 @@
         <div id="crm-done-button">
         <dt></dt><dd>{$form.done.html}</dd>
         </div>
-    {/if} {* $action ne view *}			
+    {/if} {* $action ne view *}
+    </dl>			
     </fieldset>
 </div>
 {if $action eq 2 or $action eq 4 } {* Update or View*}

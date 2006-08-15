@@ -11,33 +11,33 @@
         <span class="fields">
             {$form.location.$index.phone.1.phone_type.html}{$form.location.$index.phone.1.phone.html}
             <!-- Link to add a field.-->
-            <span id="location[{$index}][phone][2][show]" class="add-remove-link">
+            <span id="id_location_{$index}_phone_2_show" class="add-remove-link">
                 {$form.location.$index.phone.2.show.html}
             </span>
         </span>
 
     </div>
-    <!-- Spacer div contains floated elements -->
+    {* Spacer div contains floated elements *}
     <div class="spacer"></div>
 
     {section name = innerLoop start = 2 loop = $blockCount}
        {assign var=innerIndex value=$smarty.section.innerLoop.index}
 
     <!-- Phone block {$innerIndex}.-->
-    <div id="location[{$index}][phone][{$innerIndex}]" class="form-item">
+    <div id="id_location_{$index}_phone_{$innerIndex}" class="form-item">
         <span class="labels">
             <label>{$form.location.$index.phone.$innerIndex.phone.label}</label>
         </span>
         <span class="fields">
             <span>{$form.location.$index.phone.$innerIndex.phone_type.html}</span><span>{$form.location.$index.phone.$innerIndex.phone.html}</span>
-            <!-- Link to hide this field -->
-            <span id="location[{$index}][phone][{$innerIndex}][hide]" class="add-remove-link element-right">
+            {* Link to hide this field *}
+            <span id="id_location_{$index}_phone_{$innerIndex}_hide" class="add-remove-link element-right">
             {$form.location.$index.phone.$innerIndex.hide.html}
             </span>
-            <!-- Link to add another field.-->
+            {* Link to add another field.*}
             {if $innerIndex LT $blockCount}
             {assign var=j value=$innerIndex+1}
-            <span id="location[{$index}][phone][{$j}][show]" class="add-remove-link">
+            <span id="id_location_{$index}_phone_{$j}_show" class="add-remove-link">
                 {$form.location.$index.phone.$j.show.html}
             </span>        
             {* changing the code as there should not be any <div> within <span>*} 
@@ -47,7 +47,7 @@
             {/if}
         </span>
 		
-        <!-- Spacer div contains floated elements -->
+        {* Spacer div contains floated elements *}
         <div class="spacer"></div>
 	 </div>
 

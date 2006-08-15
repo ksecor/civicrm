@@ -22,7 +22,7 @@ $DM_PHP5PATH/php $P/converter.php $DM_SOURCEDIR/drupal/civicrm.module > $DM_GENF
 
 rsyncOptions="-avC --exclude=svn"
 rsync="rsync $rsyncOptions"
-for code in css i js l10n packages PEAR templates bin sql mambo; do
+for code in css i js l10n packages PEAR templates bin sql joomla; do
   echo $code
   [ -d $DM_SOURCEDIR/$code ] && $rsync $DM_SOURCEDIR/$code $DM_GENFILESDIR
 done

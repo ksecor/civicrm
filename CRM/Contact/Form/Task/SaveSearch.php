@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -62,6 +62,8 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         // we'll need to get fv from either search or adv search in the future
         if ( $this->_action == CRM_Core_Action::ADVANCED ) {
             $values = $this->controller->exportValues( 'Advanced' );
+        } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
+            $values = $this->controller->exportValues( 'Builder' );
         } else {
             $values = $this->controller->exportValues( 'Search' );
         }
@@ -121,14 +123,39 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
     public function postProcess()
     {
         // saved search form values
-        $formValues = $this->controller->exportValues($this->_name);
+        //$formValues = $this->controller->exportValues($this->_name);
+        $formValues = $this->controller->exportValues();
 
-        // save the search
+        $session =& CRM_Core_Session::singleton();
+        if ( $session ->get('isSearchBuilder') ) {
+            //save the mapping for search builder
+            require_once "CRM/Core/BAO/Mapping.php";
+
+            if ( !$this->_id ) {
+                //save record in mapping table
+                $mappingParams = array('mapping_type' => 'Search Builder');
+                $temp      = array();
+                $mapping   = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+                $mappingId = $mapping->id;                 
+            } else {
+                //get the mapping id from saved search
+                require_once "CRM/Contact/BAO/SavedSearch.php";
+                
+                $savedSearch     =& new CRM_Contact_BAO_SavedSearch();
+                $savedSearch->id = $this->_id;
+                $savedSearch->find(true);
+                $mappingId = $savedSearch->mapping_id; 
+            }
+            
+            //save mapping fields
+            CRM_Core_BAO_Mapping::saveMappingFields($formValues , $mappingId);
+        }
+
+        //save the search
         $savedSearch =& new CRM_Contact_BAO_SavedSearch();
         $savedSearch->id          = $this->_id;
-        $savedSearch->domain_id   = CRM_Core_Config::domainID( );
         $savedSearch->form_values = serialize($this->get( 'formValues' ));
-        $savedSearch->is_active = 1;
+        $savedSearch->mapping_id  = $mappingId;
         $savedSearch->save();
         $this->set('ssID',$savedSearch->id);
         CRM_Core_Session::setStatus( ts('Your smart group has been saved as "%1".', array(1 => $formValues['title'])) );
@@ -137,7 +164,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $params = array( );
         $params['domain_id'  ]     = CRM_Core_Config::domainID( );
         $params['title'      ]     = $formValues['title'];
-        $params['description']     =  $formValues['description'];
+        $params['description']     = $formValues['description'];
         $params['visibility' ]     = 'User and User Admin Only';
         $params['saved_search_id'] = $savedSearch->id;
         $params['is_active']       = 1;
@@ -147,6 +174,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         }
 
         $group =& CRM_Contact_BAO_Group::create( $params );
+
     }
 }
 

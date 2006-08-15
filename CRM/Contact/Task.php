@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -55,7 +55,8 @@ class CRM_Contact_Task {
         MAP_CONTACTS          =    12,
         SAVE_SEARCH           =    13,
         SAVE_SEARCH_UPDATE    =    14,
-        PRINT_CONTACTS        =    15;
+        PRINT_CONTACTS        =    15,
+        LABEL_CONTACTS        =    16;
 
     /**
      * the task array
@@ -122,6 +123,9 @@ class CRM_Contact_Task {
                                   15    => array( 'title'  => ts( 'Print Contacts'                ),
                                                   'class'  => 'CRM_Contact_Form_Task_Print',
                                                   'result' => false ),
+                                  16    => array( 'title'  => ts( 'Make Mailing Lables'       ),
+                                                  'class'  => 'CRM_Contact_Form_Task_Label',
+                                                  'result' => true ),
                                   );
 
             self::$_tasks += CRM_Core_Component::taskList( );

@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -160,7 +160,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField                   =& new CRM_Core_DAO_UFField();
         $ufField->field_type       = $params['field_name'][0];
         $ufField->field_name       = $params['field_name'][1];
-        if ( $params['field_name'][2] ) {
+        if ( $params['field_name'][2] && $params['field_name'][2] >= 0 ) {
             $ufField->location_type_id = $params['field_name'][2];
         } else {
             $ufField->location_type_id = 'NULL';
@@ -351,7 +351,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
 
 
     /**
-     * function to check for mix profiles (eg: individual + other contact types)
+     * function to check for mix profile fields (eg: individual + other contact types)
      *
      * @params int $ufGroupId  uf group id 
      *
@@ -382,5 +382,72 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         }
         return false;
     }
+
+    /**
+     * function to get the profile type (eg: individual/organization/household)
+     *
+     * @params int $ufGroupId  uf group id 
+     *
+     * @return  contact_type
+     * @acess public
+     * @static
+     */
+    static function getProfileType($ufGroupId) 
+    {
+        $contactTypes = array ( );
+        require_once "CRM/Core/SelectValues.php";
+        $contactTypes = CRM_Core_SelectValues::contactType();
+
+        $ufField =& new CRM_Core_DAO_UFField();
+        $ufField->uf_group_id = $ufGroupId;
+        
+        $ufField->find();
+        
+        while ( $ufField->fetch() ) {
+            if ( array_key_exists( $ufField->field_type, $contactTypes ) ) {
+                return $ufField->field_type;
+            }
+        }
+    }
+
+    /**
+     * function to check for mix profiles groups (eg: individual + other contact types)
+     *
+     * @return  true for mix profile group else false
+     * @acess public
+     * @static
+     */
+    static function checkProfileGroupType( ) 
+    {
+        $ufGroup =& new CRM_Core_DAO_UFGroup();
+
+        $query = "SELECT ufg.id as id
+                  FROM civicrm_uf_group as ufg, civicrm_uf_join as ufj
+                  WHERE ufg.id = ufj.uf_group_id AND ufj.module='User Registration' AND ufg.is_active=1";
+        
+        $ufGroup =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        $fields = array( );
+        while ( $ufGroup->fetch() ) {
+            if (self::getProfileType($ufGroup->id) == 'Individual') {
+                $fields['Individual'] += 1;
+            } else if (self::getProfileType($ufGroup->id) == 'Contribution') {
+                $fields['Contribution'] += 1;
+            } else {
+                $fields['Other'] +=1;
+            }
+        }
+        
+        if (!empty ($fields)) {
+            if ( ($fields['Individual'] || $fields['Contribution'] ) && ! $fields['Other']  ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }
 ?>

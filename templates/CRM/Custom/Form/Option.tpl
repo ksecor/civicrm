@@ -3,7 +3,7 @@
       {if $action eq 8}
       <div class="messages status">
         <dl>
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
           {ts}WARNING: Deleting this custom option will result in the loss of all data.{/ts} {ts}This action cannot be undone.{/ts} {ts}Do you want to continue?{/ts}
           </dd>
@@ -16,7 +16,7 @@
         <dt>{$form.weight.label}</dt><dd>&nbsp;{$form.weight.html}</dd>
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
 	    <dt>{$form.default_value.label}</dt><dd>&nbsp;{$form.default_value.html}</dd>
-        <dt>&nbsp;</dt><dd class="description">{ts}Make this option value 'selected' by default?{/ts}</span></dd>
+        <dt>&nbsp;</dt><dd class="description"><span>{ts}Make this option value 'selected' by default?{/ts}</span></dd>
 	</dl>
       {/if}
     

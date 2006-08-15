@@ -1,4 +1,4 @@
-{include file="CRM/pager.tpl" location="top"}
+{include file="CRM/common/pager.tpl" location="top"}
 
 {strip}
 <table>
@@ -21,4 +21,4 @@
 </table>
 {/strip}
 
-{include file="CRM/pager.tpl" location="bottom"}
+{include file="CRM/common/pager.tpl" location="bottom"}

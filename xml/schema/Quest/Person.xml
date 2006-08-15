@@ -116,6 +116,31 @@
       <comment>Persons birth date .</comment>
       <add>1.5</add>
   </field>
+    <field>
+       <name>citizenship_status</name>
+       <type>boolean</type>
+       <comment>Is this person a U.S. citizen?</comment>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>birth_place</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Place of birth</comment>
+      <add>1.5</add>
+  </field>
+<field>
+      <name>citizenship_country_id</name>
+      <type>int unsigned</type>
+      <comment>Country of citizenship (or second citizenship) if citizenship_status is NOT US Citizen.</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>citizenship_country_id</name>
+       <table>civicrm_country</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
   <field>
       <name>lived_with_from_age</name>
       <type>int unsigned</type>
@@ -227,6 +252,13 @@
       <name>prof_school_degree_id</name>
       <type>int unsigned</type>
       <comment>Professional or graduate school degree type.</comment>
+      <add>1.5</add>
+  </field>
+  <field>
+      <name>is_contact_with_student</name>
+      <type>int unsigned</type>
+      <default>1</default>
+      <comment>Do you have contact with this parent?</comment>
       <add>1.5</add>
   </field>
   <foreignKey>

@@ -1,5 +1,6 @@
 {if ! empty( $row )} 
-<div id="crm-container">
+{* wrap in crm-container div so crm styles are used *}
+<div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
 <fieldset>
 <table class="form-layout-compressed">                               
 {foreach from=$row item=value key=name}

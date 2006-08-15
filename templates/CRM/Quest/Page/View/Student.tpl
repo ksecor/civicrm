@@ -17,7 +17,7 @@
     {if $lastModified} Last Modified By: &nbsp; &nbsp; <a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$lastModified.id`"}">{$lastModified.name}</a>{/if}
     &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View Preapp{/ts}</a></span>
     {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=edit&id=$contactId"}">&raquo; {ts}Edit Preapp{/ts}</a></span>
+        &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=update&id=$contactId"}">&raquo; {ts}Edit Preapp{/ts}</a></span>
     {/if}
     {if $url } &nbsp; &nbsp; <span class="nowrap"><a href="{$url}">&raquo; {ts}View User Record{/ts}</a></span>{/if}
     
@@ -31,6 +31,54 @@
 {if $permission EQ 'edit'}
     {include file="CRM/Contact/Page/View/ActivityLinks.tpl"}
 {/if}
+
+{* Display only those custom groups having style as Inline*}
+ <div>
+    {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+ </div>
+
+ <div id="demographics[show]" class="data-group">
+  <a href="#" onclick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Demographics and Family Information{/ts}</label><br />
+ </div>
+
+ <div id="demographics">
+  <fieldset>
+   <legend><a href="#" onclick="hide('demographics'); show('demographics[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Demographics and Family Information{/ts}</legend>
+   <table class="form-layout-compressed" border="0" width="90%">
+    <tr>
+        <td class="label">{ts}Gender:{/ts}</td><td>{$gender_display}</td>
+        <td class="label">{ts}Ethnicity:{/ts}</td><td>{$ethnicity_1}{if $ethnicity_2}<br />{$ethnicity_2}{/if}</td>
+    </tr>
+    <tr>
+        <td class="label">{ts}Date of Birth:{/ts}</td><td>{$birth_date|crmDate}</td>
+        <td class="label">{ts}Citizenship Status:{/ts}</td><td>{$citizenship_status}</td>
+    </tr>
+    <tr>
+        <td class="label" colspan="2">{ts}Total Household Income:{/ts}</td><td colspan="2">{$household_income_total|crmMoney}</td>
+    </tr>
+   </table>
+  </fieldset>
+ </div>
+
+{* Academic Info fieldset (quest_student record) *}
+ <div id="academic[show]" class="data-group">
+  <a href="#" onclick="hide('academic[show]'); show('academic'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Academic Information{/ts}</label><br />
+ </div>
+
+ <div id="academic">
+  <fieldset>
+   <legend><a href="#" onclick="hide('academic'); show('academic[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Academic Information{/ts}</legend>
+   <div class="col1">
+    <label>{ts}GPA:{/ts}</label> {$gpa}<br />
+    <label>{ts}Rank in Class:{/ts}</label> {$class_rank} of {$class_num_students}
+   </div>
+   <div class="col2">
+    <label>{ts}Educational Interests:{/ts}</label> {$educational_interest_display}<br />
+    <label>{ts}College Interests:{/ts}</label> {$college_interest_display}<br />
+   </div>
+   <div class="spacer"></div>
+  </fieldset>
+ </div>
 
 {* Display populated Locations. Primary location expanded by default. *}
 {foreach from=$location item=loc key=locationIndex}
@@ -89,53 +137,6 @@
  </div>
 {/foreach}
 
-{* Display only those custom groups having style as Inline*}
- <div>
-    {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
- </div>
-
- <div id="demographics[show]" class="data-group">
-  <a href="#" onclick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Demographics and Family Information{/ts}</label><br />
- </div>
-
- <div id="demographics">
-  <fieldset>
-   <legend><a href="#" onclick="hide('demographics'); show('demographics[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Demographics and Family Information{/ts}</legend>
-   <table class="form-layout-compressed" border="0" width="90%">
-    <tr>
-        <td class="label">{ts}Gender:{/ts}</td><td>{$gender_display}</td>
-        <td class="label">{ts}Ethnicity:{/ts}</td><td>{$ethnicity_1}{if $ethnicity_2}<br />{$ethnicity_2}{/if}</td>
-    </tr>
-    <tr>
-        <td class="label">{ts}Date of Birth:{/ts}</td><td>{$birth_date|crmDate}</td>
-        <td class="label">{ts}Citizenship Status:{/ts}</td><td>{$citizenship_status}</td>
-    </tr>
-    <tr>
-        <td class="label" colspan="2">{ts}Total Household Income:{/ts}</td><td colspan="2">{$household_income_total|crmMoney}</td>
-    </tr>
-   </table>
-  </fieldset>
- </div>
-
-{* Academic Info fieldset (quest_student record) *}
- <div id="academic[show]" class="data-group">
-  <a href="#" onclick="hide('academic[show]'); show('academic'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Academic Information{/ts}</label><br />
- </div>
-
- <div id="academic">
-  <fieldset>
-   <legend><a href="#" onclick="hide('academic'); show('academic[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Academic Information{/ts}</legend>
-   <div class="col1">
-    <label>{ts}GPA:{/ts}</label> {$gpa}<br />
-    <label>{ts}Rank in Class:{/ts}</label> {$class_rank} of {$class_num_students}
-   </div>
-   <div class="col2">
-    <label>{ts}Educational Interests:{/ts}</label> {$educational_interest_display}<br />
-    <label>{ts}College Interests:{/ts}</label> {$college_interest_display}<br />
-   </div>
-   <div class="spacer"></div>
-  </fieldset>
- </div>
 
 {* Supplementary Documents (attachments) *}
  <div id="attachments[show]" class="data-group">

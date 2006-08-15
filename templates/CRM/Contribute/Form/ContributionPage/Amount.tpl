@@ -1,5 +1,5 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-{include file="CRM/WizardHeader.tpl}
+{include file="CRM/common/WizardHeader.tpl"}
 
 <div id="help">
     <p>{ts}Use this form to configure Contribution Amount options. You can give contributors the ability to enter their own contribution amounts - and/or provide a fixed list of amounts. For fixed amounts, you can enter a label for each 'level' of contribution (e.g. Friend, Sustainer, etc.).{/ts}</p>
@@ -14,6 +14,7 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Uncheck this box of you do not want users to select or enter contribution amounts on this page (e.g. for membership signup forms with fixed membership fees).{/ts}</dd>
     </dl>
     
+    <dl>
     <dt>{$form.is_allow_other_amount.label}</dt><dd>{$form.is_allow_other_amount.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to give users the option to enter their own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>.{/ts}</dd>
     </dl>
@@ -25,7 +26,7 @@
     </dl>
     </div>
     <p>{ts}Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}</p>
-    <table id="map-field">
+    <table id="map-field-table">
     <tr class="columnheader"><th>{ts}Contribution Label{/ts}</th><th>{ts}Amount{/ts}</th><th>{ts}Default?{/ts}</th></tr>
     {section name=loop start=1 loop=11}
        {assign var=idx value=$smarty.section.loop.index}

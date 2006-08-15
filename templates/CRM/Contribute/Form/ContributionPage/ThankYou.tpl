@@ -1,5 +1,5 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-{include file="CRM/WizardHeader.tpl}
+{include file="CRM/common/WizardHeader.tpl"}
 <div id="help">
     <p>{ts}Use this form to configure the thank-you message and receipting options. Contributors will see a confirmation and thank-you page after whenever an online contribution is successfully processed. You provide the content and layout of the thank-you section below. You also control whether an electronic receipt is automatically emailed to each contributor - and can add a custom message to that receipt.{/ts}</p>
 </div>
@@ -19,7 +19,7 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Enter the FROM name to be used when receipts are emailed to contributors.{/ts}</dd>
     <dt>{$form.receipt_from_email.label}</dt><dd>{$form.receipt_from_email.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter the FROM email address to be used when receipts are emailed to contributors.{/ts}</dd>
-    <dt>{$form.receipt_text.label}</dt><dd>{$form.receipt_text.html}
+    <dt>{$form.receipt_text.label}</dt><dd>{$form.receipt_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter a message you want included at the beginning of emailed receipts. NOTE: Receipt emails are TEXT ONLY - do not include HTML tags here.{/ts}</dd>
     <dt>{$form.cc_receipt.label}</dt><dd>{$form.cc_receipt.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If you want member(s) of your organization to receive a carbon copy of each emailed receipt, enter one or more email addresses here. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>

@@ -1,7 +1,7 @@
 <?php 
 /* 
  +--------------------------------------------------------------------+ 
- | CiviCRM version 1.4                                                | 
+ | CiviCRM version 1.5                                                | 
  +--------------------------------------------------------------------+ 
  | Copyright (c) 2005 Donald A. Lobo                                  | 
  +--------------------------------------------------------------------+ 
@@ -199,7 +199,7 @@ class CRM_Quest_BAO_Query
     static function addShowHide( &$showHide ) 
     {
         $showHide->addHide( 'questForm' );
-        $showHide->addShow( 'questForm[show]' ); 
+        $showHide->addShow( 'questForm_show' ); 
     }
 
     static function searchAction( &$row, $id ) {

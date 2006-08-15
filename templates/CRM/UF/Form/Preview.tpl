@@ -6,7 +6,8 @@
 {include file="CRM/common/info.tpl"}
 {if ! empty( $fields )}
 {if $viewOnly }
-<div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
+{* wrap in crm-container div so crm styles are used *}
+<div id="crm-container-inner" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
     {strip}
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}
@@ -41,24 +42,23 @@
 	    {assign var="count" value="1"}
         {strip}
         <table class="form-layout-compressed">
-        <tr>
+       
           {* sort by fails for option per line. Added a variable to iterate through the element array*}
           {assign var="index" value="1"}
           {foreach name=outer key=key item=item from=$form.$n}
           {if $index < 10}
-              {assign var="index" value=`$index+1`}
+            {assign var="index" value=`$index+1`}
           {else}
-              <td class="labels font-light">{$form.$n.$key.html}</td>
+            <tr><td class="labels font-light">{$form.$n.$key.html}</td></tr>
               {if $count == $field.options_per_line}
-                  </tr>
-                   <tr>
+                  
                    {assign var="count" value="1"}
               {else}
           	       {assign var="count" value=`$count+1`}
               {/if}
           {/if}
           {/foreach}
-        </tr>
+        
         </table>
         {/strip}
         </td>
@@ -83,7 +83,7 @@
                 </td>
              </tr>
     {/if}   
-    </table>
+    </table></fieldset>
     {if $field.groupHelpPost}
     <div class="messages help">{$field.groupHelpPost}</div>
     {/if}

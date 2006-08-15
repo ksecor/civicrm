@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -116,7 +116,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */ 
     protected $_gid; 
 
-
+    /**
+     * Do we enable mapping of users
+     *
+     * @var boolean
+     */
+    protected $_map;
+    
     /**
      * Class constructor
      *
@@ -125,11 +131,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Profile
      * @access public
      */
-    function __construct( &$params, &$customFields, $ufGroupId = null )
+    function __construct( &$params, &$customFields, $ufGroupId = null, $map = false )
     {
         $this->_params = $params;
         
         $this->_gid = $ufGroupId;
+
+        $this->_map = $map;
 
         //get the details of the uf group 
         $ufGroupParam   = array('id' => $ufGroupId);
@@ -159,7 +167,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $returnProperties['contact_type'] = 1;
         $returnProperties['sort_name'   ] = 1;
         require_once 'CRM/Contact/Form/Search.php';
-        $queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_params );
+        $queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_params, 1 );
         $this->_query   =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, $this->_fields );
         $this->_options =& $this->_query->_options;
         //CRM_Core_Error::debug( 'q', $this->_query );
@@ -173,7 +181,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @access public
      *
      */
-    static function &links()
+    static function &links( $map = false )
     {
         if ( ! self::$_links ) {
             self::$_links = array( 
@@ -184,6 +192,14 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                                    'title' => ts('View Profile Details'),
                                                                    ),
                                   ); 
+            if ( $map ) {
+                self::$_links[CRM_Core_Action::MAP] = array(
+                                                            'name'  => ts('Map'),
+                                                            'url'   => 'civicrm/profile/map',
+                                                            'qs'    => 'reset=1&cid=%%id%%&gid=%%gid%%',
+                                                            'title' => ts('Map'),
+                                                            );
+            }
         }
         return self::$_links;
     } //end of function
@@ -318,7 +334,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         require_once 'CRM/Core/PseudoConstant.php';
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
-        $links =& self::links( );
+        $links =& self::links( $this->_map );
+        
         $names = array( );
         static $skipFields = array( 'group', 'tag' ); 
         foreach ( $this->_fields as $key => $field ) {
@@ -355,10 +372,17 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $row = array( );
             $empty = true;
             $row[] = CRM_Contact_BAO_Contact::getImage( $result->contact_type );
-            $row['sort_name'] = $result->sort_name;
+            if ( $result->sort_name ) {
+                $row['sort_name'] = $result->sort_name;
+                $empty            = false;
+            }
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                     $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name, $cfID, $this->_options );
+                } else if ( $name == 'home_URL' &&
+                            ! empty( $result->$name ) ) {
+                    $url = CRM_Utils_System::fixURL( $result->$name );
+                    $row[] = "<a href=\"$url\">{$result->$name}</a>";
                 } else {
                     $row[] = $result->$name;
                 }
@@ -368,7 +392,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                 }
             }
 
-            $row[] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $result->contact_id, 'gid' => $this->_gid));
+            $row[] = CRM_Core_Action::formLink($links, $mask, array('id' => $result->contact_id, 'gid' => $this->_gid));
 
             if ( ! $empty ) {
                 $rows[] = $row;

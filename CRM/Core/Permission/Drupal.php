@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -158,19 +158,21 @@ class CRM_Core_Permission_Drupal {
                 $tables['civicrm_group_contact'] = 1;
                 $whereTables['civicrm_group_contact'] = 1;
 
+        
                 // foreach group that is potentially a saved search, add the saved search clause
                 foreach ( array_keys( self::$_viewPermissionedGroups ) as $id ) {
                     $group     =& new CRM_Contact_DAO_Group( );
                     $group->id = $id;
                     if ( $group->find( true ) && $group->saved_search_id ) {
                         require_once 'CRM/Contact/BAO/SavedSearch.php';
-                        $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables );
+                        $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables, $whereTables );
                     }
                 }
 
                 $clause = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
             }
         }
+        
         return $clause;
     }
 

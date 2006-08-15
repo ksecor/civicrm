@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -136,6 +136,9 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );
 
+        // should mapping be enabled for this group
+        $this->addElement('checkbox', 'is_map', ts('Should mapping be enabled on this profile?') );
+
         $this->addElement('text', 'post_URL', ts('Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'post_URL') );
         $this->addRule('post_URL', ts('Enter a valid URL.'), 'url');
 
@@ -151,6 +154,8 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
          // add CAPTCHA To this group ?
         $this->addElement('checkbox', 'add_captcha', ts('Include CAPTCHA?') );
 
+        // is this group collapsed or expanded ?
+        $this->addElement('checkbox', 'collapse_display', ts('Collapse this group on initial display?'));
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
@@ -165,7 +170,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // views are implemented as frozen form
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
-            $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/uf/group?reset=1&action=browse'"));
+            $this->addElement('button', 'done', ts('Done'), array('onclick' => "location.href='civicrm/admin/uf/group?reset=1&action=browse'"));
         }
     }
 
@@ -218,6 +223,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             }
         } else {
             $defaults['is_active'] = 1;
+            $defaults['is_map'   ] = 0;
         }
         
         return $defaults;
@@ -245,7 +251,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         }
         // get the submitted form values.
         $params = $ids = array( );
-        $params = $this->controller->exportValues('Group');
+        $params = $this->controller->exportValues( $this->_name );
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $ids['ufgroup'] = $this->_id;

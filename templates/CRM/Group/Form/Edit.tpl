@@ -18,7 +18,9 @@
         <dt>{$form.visibility.label}</dt><dd>{$form.visibility.html}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">{ts}Select 'User and User Admin Only' if membership in this group is controlled by authorized CiviCRM users only. If you want to allow contacts to join and remove themselves from this group via the Registration and Account Profile forms, select 'Public User Pages'. If you also want to include group membership search and sharing in the Profile screens, select 'Public User Pages and Listings'.{/ts}</dd> 
-	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+    </dl>
+    {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+    <dl>
        <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
     </dl>
 </fieldset>
@@ -28,4 +30,4 @@
     {if $group.saved_search_id} 
         <br /><a href="{crmURL p="civicrm/contact/search/advanced" q="reset=1&force=1&ssID=`$group.saved_search_id`"}">&raquo; {ts}Edit Smart Group Criteria{/ts}</a>
     {/if}
-<div>
+</div>

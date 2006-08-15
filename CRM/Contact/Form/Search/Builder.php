@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -44,14 +44,6 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
 {
     
     /**
-     * mapper fields
-     *
-     * @var array
-     * @access protected
-     */
-    protected $_mapperFields;
-
-    /**
      * number of columns in where
      *
      * @var int
@@ -60,6 +52,14 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     protected $_columnCount;
 
     /**
+     * number of blocks to be shown
+     *
+     * @var int
+     * @access protected
+     */
+    protected $_blockCount;
+    
+    /**
      * Function to actually build the form
      *
      * @return None
@@ -67,32 +67,44 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      */
     public function preProcess() {
         parent::preProcess( );
-
-        $this->_columnCount = array();
-        $this->_columnCount = $this->get('columnCount');
-
-        if (! $this->_columnCount[1] ) {
-            $this->_columnCount[1] = 1;
+        //get the block count
+        $this->_blockCount = $this->get('blockCount');
+        if ( !$this->_blockCount ) {
+            $this->_blockCount = 3;
         }
 
-        if (! $this->_columnCount[2] ) {
-            $this->_columnCount[2] = 1;
+        //get the column count
+        $this->_columnCount = array();
+        $this->_columnCount = $this->get('columnCount');
+        
+        for ( $i = 1; $i < $this->_blockCount; $i++ ){
+            if ( !$this->_columnCount[$i] ) {
+                $this->_columnCount[$i] = 1;
+            }
         }
 
         $this->_loadedMappingId =  $this->get('savedMapping');
     }
     
     public function buildQuickForm( ) {
-
-        CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $this->_mappingId, $this->_columnCount);
+        //get the saved search mapping id
+        $mappingId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' );
+            
+        CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $mappingId, $this->_columnCount, $this->_blockCount);
         
-        $this->addButtons( array(
-                                 array ( 'type'      => 'refresh',
-                                         'name'      => ts('Search')
-                                         ))
-                           );
+        $this->buildQuickFormCommon();
     }
     
+
+    /**
+     * Add local and global form rules
+     *
+     * @access protected
+     * @return void
+     */
+    function addRules( ) {
+        $this->addFormRule( array( 'CRM_Contact_Form_Search_Builder', 'formRule' ) );
+    }
     
     /**
      * global validation rules for the form
@@ -103,15 +115,80 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
      * @static
      * @access public
      */
-    
-    static function formRule( &$fields ) {
+    static function formRule( &$values ) {
+        //CRM_Core_Error::debug('s', $values);
+        if ( $values['addMore'] || $values['addBlock']) {
+            return true;
+        }
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $fields = array ();
+        $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', false, true );
+        
+        require_once 'CRM/Core/Component.php';
+        $compomentFields =& CRM_Core_Component::getQueryFields( );
+        
+        $fields = array_merge( $fields, $compomentFields );
+
+        $fld = array ();
+        $fld = CRM_Core_BAO_Mapping::formattedFields($values, true);
+
+        require_once 'CRM/Utils/Type.php';
+        $errorMsg = array ();
+        foreach ($fld as $k => $v) {
+            if ( $v[0] == 'group' ) {
+                $grpId = array_keys($v[2]);
+
+                if ( $v[1] == '=') {
+
+                    $error = CRM_Utils_Type::validate( $grpId[0], 'Integer', false );
+                    if ( $error != $grpId[0] ) {
+                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid group id.";
+                    }
+
+                } else if ( $v[1] == 'IN') {
+                    foreach ($grpId as $val) {
+                        $error = CRM_Utils_Type::validate( $val, 'Integer', false );
+                        if ( $error != $val  ) { 
+                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";
+                            break;
+                        }
+                    }
+                    
+                }
+            } else {
+                if ( substr($v[0], 0, 7) == 'custom_' ) {
+                    $type = $fields[$v[0]]['data_type'];
+                } else{
+                    $fldType = $fields[$v[0]]['type'];
+                    $type  = CRM_Utils_Type::typeToString( $fldType );
+                }
+                
+                if ( trim($v[2]) && $type ) {
+                    $error = CRM_Utils_Type::validate( $v[2], $type, false );
+                    if ( $error != $v[2]  ) {
+                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";;
+                    }
+                }
+            }
+        }
+
+        if ( !empty($errorMsg) ) {
+            return $errorMsg;
+        }
+        
+        return true;
+
     }    
     
     public function normalizeFormValues( ) {
     }
 
     public function &convertFormValues( &$formValues ) {
-        return CRM_Core_BAO_Mapping::returnFormatedFields( $formValues );
+        return CRM_Core_BAO_Mapping::formattedFields( $formValues );
+    }
+
+    public function &returnProperties( ) {
+        return CRM_Core_BAO_Mapping::returnProperties( $this->_formValues );
     }
 
     /**
@@ -123,32 +200,40 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
     public function postProcess( ) {
         $session =& CRM_Core_Session::singleton();
         $session->set('isAdvanced', '2');
-
-        $params = $this->controller->exportValues( $this->_name );
-        for ($x = 1; $x <= 3; $x++ ) {
-            if ( $params['addMore'][$x] )  {
-                $this->_columnCount[$x] = $this->_columnCount[$x] + 1;
-                $this->set( 'columnCount', $this->_columnCount );
-                return;
-            }
-        }
-
-        foreach ($params['mapper'] as $key => $value) {
-            foreach ($value as $k => $v) {
-                if ($v[0]) {
-                    $checkEmpty++;
-                }
-            }
-        }
-
-        if (!$checkEmpty ) {
-            require_once 'CRM/Utils/System.php';            
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/builder', '_qf_Builder_display=true' ) );
-        }
-
-        $session =& CRM_Core_Session::singleton();
         $session->set('isSearchBuilder', '1');
 
+        $params = $this->controller->exportValues( $this->_name );
+        
+        if (!empty($params)) {
+            if ( $params['addBlock'] )  { 
+                $this->_blockCount = $this->_blockCount + 1;
+                $this->set( 'blockCount', $this->_blockCount );
+                return;
+            }
+            
+            for ($x = 1; $x <= $this->_blockCount; $x++ ) {
+                if ( $params['addMore'][$x] )  {
+                    $this->_columnCount[$x] = $this->_columnCount[$x] + 1;
+                    $this->set( 'columnCount', $this->_columnCount );
+                    return;
+                }
+            }
+            
+            foreach ($params['mapper'] as $key => $value) {
+                foreach ($value as $k => $v) {
+                    if ($v[0]) {
+                        $checkEmpty++;
+                    }
+                }
+            }
+            
+            if (!$checkEmpty ) {
+                require_once 'CRM/Utils/System.php';            
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/builder', '_qf_Builder_display=true' ) );
+            }
+            
+        }
+        
         // get user submitted values
         // get it from controller only if form has been submitted, else preProcess has set this
         if ( ! empty( $_POST ) ) {
@@ -167,6 +252,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         }
 
         $this->_params =& $this->convertFormValues( $this->_formValues );
+        $this->_returnProperties =& $this->returnProperties( );
         $this->postProcessCommon( );
     }
     

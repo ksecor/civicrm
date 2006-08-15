@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -70,6 +70,8 @@ class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
         if ( isset( $ssID ) ) {
             if ( $this->_action == CRM_Core_Action::BASIC ) {
                 $fragment = 'search';
+            } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
+                $fragment = 'search/builder';
             } else {
                 $fragment = 'search/advanced';
             }

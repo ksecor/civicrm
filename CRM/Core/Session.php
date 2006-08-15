@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -230,8 +230,6 @@ class CRM_Core_Session {
 
         return CRM_Utils_Array::value( $name, $session );
     }
-
-  
 
     /**
      * Gets all the variables in the current session scope

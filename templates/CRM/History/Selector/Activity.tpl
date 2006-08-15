@@ -11,14 +11,14 @@
             {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
             <dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
         {else}
-            {ts}There are no open activities for this contact.{/ts}
+            <dd>{ts}There are no open activities for this contact.{/ts}</dd>
         {/if}
         </dl>
         </div>
     {/if}
 {else}
     {* Showing History *}
-    <div id="openActivities[show]" class="data-group">
+    <div id="openActivities_show" class="data-group">
         {if $totalCountOpenActivity}
             <a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=0&cid=$contactId"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Open Activities{/ts}</label> ({$totalCountOpenActivity})
         {else}
@@ -28,7 +28,7 @@
                 {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
                 <dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
             {else}
-                {ts}There are no open activities for this contact.{/ts}
+                <dd>{ts}There are no open activities for this contact.{/ts}</dd>
             {/if}
             </dl>
         {/if}
@@ -45,7 +45,7 @@
 {if $rows}
     <form title="activity_pager" action="{crmURL}" method="post">
 
-    {include file="CRM/pager.tpl" location="top"}
+    {include file="CRM/common/pager.tpl" location="top"}
 
     {strip}
     <table>
@@ -101,14 +101,14 @@
     </table>
     {/strip}
 
-    {include file="CRM/pager.tpl" location="bottom"}
+    {include file="CRM/common/pager.tpl" location="bottom"}
     </form>
     </fieldset>
 {/if}
 
 {if $history NEQ 1}
     {* Showing Open Activities - give link for History toggle *}
-    <div id="activityHx[show]" class="data-group">
+    <div id="activityHx_show" class="data-group">
         {if $totalCountActivity}
             <a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=1&cid=$contactId"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Activity History{/ts}</label> ({$totalCountActivity})
         {else}

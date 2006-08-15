@@ -1382,36 +1382,82 @@ class CRM_GCD {
 INSERT INTO civicrm_membership
         (contact_id, membership_type_id, join_date, start_date, end_date, source, status_id)
 VALUES
-        ( ". $randomContacts[0]  .", 1, null, '2004-10-21', '2005-01-20', 'Payment', 1),
-        ( ". $randomContacts[1]  .", 2, '2004-01-10', null,'2033-12-09', 'Donation', 2),
-        ( ". $randomContacts[2]  .", 2, null,'2004-03-05', '2005-01-04', 'Check', 3),
-        ( ". $randomContacts[3]  .", 1, null,'2005-10-21', '2006-01-20', 'Payment', 1),
-        ( ". $randomContacts[4]  .", 2, '2005-01-10', null,'2034-12-09', 'Donation', 2),
-        ( ". $randomContacts[5]  .", 2, null,'2005-03-05', '2034-01-04', 'Check', 3),
-        ( ". $randomContacts[6]  .", 1, null, '2006-10-21', '2007-01-20', 'Payment', 1),
-        ( ". $randomContacts[7]  .", 2, '2006-01-10', null,'2035-12-09', 'Donation', 2),
-        ( ". $randomContacts[8]  .", 2, null,'2005-03-05', '2006-01-04', 'Check', 3),
-        ( ". $randomContacts[9]  .", 1, null, '2004-10-21', '2005-01-20', 'Payment', 1),
-        ( ". $randomContacts[10]  .", 2, '2006-01-10', null,'2035-12-09', 'Donation', 2),
-        ( ". $randomContacts[11]  .", 2, null,'2006-03-05', '2007-01-04', 'Check', 3),
-        ( ". $randomContacts[12]  .", 1, null, '2005-10-21', '2006-01-20', 'Payment', 1),
-        ( ". $randomContacts[13]  .", 2, '2004-01-10', null,'2033-12-09', 'Donation', 2),
-        ( ". $randomContacts[14]  .", 2, null,'2005-03-05', '2006-01-04', 'Check', 3),
-        ( ". $randomContacts[15]  .", 1, null, '2004-10-21', '2005-01-20', 'Payment', 1),
-        ( ". $randomContacts[16]  .", 2, '2005-01-10', null,'2034-12-09', 'Donation', 2),
-        ( ". $randomContacts[17]  .", 2, null,'2004-03-05', '2005-01-04', 'Check', 3),
-        ( ". $randomContacts[18]  .", 1, null, '2005-10-21', '2006-01-20', 'Payment', 1),
-        ( ". $randomContacts[19]  .", 2, '2006-01-10', null,'2035-12-09', 'Donation', 2),
-        ( ". $randomContacts[20]  .", 2, null,'2005-03-05', '2006-01-04', 'Check', 3),
-        ( ". $randomContacts[21]  .", 1, null, '2004-10-21', '2005-01-20', 'Payment', 1),
-        ( ". $randomContacts[22]  .", 2, '2005-01-10', null,'2034-12-09', 'Donation', 2),
-        ( ". $randomContacts[23]  .", 2, null,'2004-03-05', '2005-01-04', 'Check', 3),
-        ( ". $randomContacts[24]  .", 2, null,'2005-03-05', '2006-01-04', 'Check', 3);
+        ( ". $randomContacts[0]  .", 1, '2006-01-21', '2006-01-21', '2006-12-21', 'Payment', 1),
+        ( ". $randomContacts[1]  .", 2, '2005-05-07', '2005-05-07', '2006-05-07', 'Donation', 1),
+        ( ". $randomContacts[2]  .", 1, '2005-05-05', '2005-05-05', '2006-05-10', 'Check', 1) ,
+        ( ". $randomContacts[3]  .", 1, '2005-10-21', '2005-10-21', '2006-10-22', 'Payment', 1),
+        ( ". $randomContacts[4]  .", 2, '2005-01-10', '2005-01-10', '2006-07-09', 'Donation', 1),
+        ( ". $randomContacts[5]  .", 2, '2005-03-05', '2005-03-05', '2005-12-04', 'Check', 1),
+        ( ". $randomContacts[6]  .", 1, '2006-07-21', '2006-07-21', '2007-01-20', 'Payment', 1),
+        ( ". $randomContacts[7]  .", 2, '2006-03-07', '2006-03-07', '2006-12-31', 'Donation', 1),
+        ( ". $randomContacts[8]  .", 3, '2005-02-05', '2005-02-05', '2006-02-10', 'Check', 1),
+        ( ". $randomContacts[9]  .", 1, '2005-02-01', '2005-02-01', '2006-02-10', 'Payment', 1),
+        ( ". $randomContacts[10]  .", 2, '2006-01-10','2006-01-10', '2007-12-09', 'Donation', 1),
+        ( ". $randomContacts[11]  .", 3, '2006-03-06','2006-03-06', '2007-01-04', 'Check', 1),
+        ( ". $randomContacts[12]  .", 1, '2005-06-04', '2005-06-04', '2006-06-07', 'Payment', 1),
+        ( ". $randomContacts[13]  .", 2, '2004-01-10', '2004-01-10', '2005-02-09', 'Donation', 1),
+        ( ". $randomContacts[14]  .", 2, '2005-07-04', '2005-07-04', '2006-07-04', 'Check', 1),
+        ( ". $randomContacts[15]  .", 1, '2006-01-21', '2006-01-21', '2007-01-20', 'Payment', 1),
+        ( ". $randomContacts[16]  .", 2, '2005-01-10', '2005-01-10', '2007-12-09', 'Donation', 1),
+        ( ". $randomContacts[17]  .", 3, '2006-03-05', '2006-03-05', '2007-11-04', 'Check', 1),
+        ( ". $randomContacts[18]  .", 1, '2005-10-21', '2005-10-21', '2006-01-20', 'Payment', 1),
+        ( ". $randomContacts[19]  .", 2, '2006-01-10', '2006-01-10', '2006-12-09', 'Donation', 1),
+        ( ". $randomContacts[20]  .", 2, '2005-03-25', '2005-03-25', '2006-03-26', 'Check', 1),
+        ( ". $randomContacts[21]  .", 1, '2006-10-21', '2006-10-21', '2006-11-20', 'Payment', 1),
+        ( ". $randomContacts[22]  .", 2, '2005-01-10', '2005-01-10', '2007-12-09', 'Donation', 1),
+        ( ". $randomContacts[23]  .", 2, '2005-03-11', '2005-03-11', '2006-01-04', 'Check', 1),
+        ( ". $randomContacts[24]  .", 3, '2005-04-05', '2005-04-05', '2006-01-04', 'Check', 1);
 ";
         CRM_Core_DAO::executeQuery( $membership, CRM_Core_DAO::$_nullArray );
+        
+        require_once 'CRM/Member/DAO/Membership.php';
+        require_once 'api/crm.php';
+        $membership = new CRM_Member_DAO_Membership();
+        $membership->query("SELECT id FROM civicrm_membership");
+        while ($membership->fetch()) {
+            $ids[]=$membership->id;
+            //update the status ids
+            $status = crm_calc_membership_status($membership->id);
+            if ($status) {
+                crm_update_contact_membership( array('id'        => $membership->id,
+                                                     'status_id' => $status['id']) );
+            }
+        }
     }
+    
+    static function repairDate($date) {
+        $dropArray = array('-' => '', ':' => '', ' ' => '');
+        return strtr($date, $dropArray);
+    }
+    
+    
+    function addMembershipLog()
+    {
+        $membership = new CRM_Member_DAO_Membership();
+        $membership->query("SELECT id FROM civicrm_membership");
+        while ( $membership->fetch() ) {
+            $ids[] = $membership->id;
+        }
+        require_once 'CRM/Member/DAO/MembershipLog.php';
+        foreach ( $ids as $id) {
+            $membership = new CRM_Member_DAO_Membership();
+            $membership->id = $id;
+            $membershipLog = new CRM_Member_DAO_MembershipLog();
+            if ( $membership->find(true) ) {
+                $membershipLog->membership_id = $membership->id;
+                $membershipLog->status_id     = $membership->status_id;
+                $membershipLog->start_date    = self::repairDate($membership->start_date);
+                $membershipLog->end_date      = self::repairDate($membership->end_date);
+                $membershipLog->modified_id   = $membership->contact_id;
+                $membershipLog->modified_date = date("Ymd");
+                $membershipLog->save();
+            }
+            $membershipLog = null;
+        }
+        
+    }
+    
 }
-
 function user_access( $str = null ) {
     return true;
 }
@@ -1471,7 +1517,7 @@ $obj1->addActivityHistory();
 add_contributions( );
 $obj1->addMembershipType();
 $obj1->addMembership();
-
+$obj1->addMembershipLog();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
 ?>

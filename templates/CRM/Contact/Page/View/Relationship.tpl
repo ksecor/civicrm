@@ -2,7 +2,8 @@
 
 {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8} {* add, update or view *}
     {include file="CRM/Contact/Form/Relationship.tpl"}
-    <br />
+    <div class="spacer"></div>
+    
 {/if}
 
 {* start of code to show current relationships *}
@@ -51,7 +52,7 @@
   {if $action NEQ 1} {* show 'no relationships' message - unless already in 'add' mode. *}
        <div class="messages status">
            <dl>
-           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
            {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add"}{/capture}
            <dd>
                 {if $permission EQ 'edit'}
@@ -74,7 +75,7 @@
   </div>
 
 {/if}
-<br />
+<div class="spacer"></div>
 
 {* start of code to show past relationships *}
 {if $pastRelationships}

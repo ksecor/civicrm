@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -75,6 +75,10 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     protected $_contactId;
 
+    protected $_admin;
+
+    protected $_context;
+
     /**
      * Class constructor
      *
@@ -84,11 +88,12 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Activity
      * @access public
      */
-    function __construct($contactId, $permission,$showLink =null) 
+    function __construct($contactId, $permission, $admin = false, $context = 'activity' ) 
     {
         $this->_contactId  = $contactId;
         $this->_permission = $permission;
-        $this->_showLink   = $showLink;
+        $this->_admin      = $admin;
+        $this->_context    = $context;
     }
 
 
@@ -116,14 +121,14 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                     CRM_Core_Action::UPDATE => array(
                                                                      'name'     => ts('Edit'),
                                                                      'url'      => 'civicrm/contact/view/activity',
-                                                                     'qs'       => 'activity_id='.$activityType.'&action=update&reset=1&id=%%id%%&cid=%%cid%%',
+                                                                     'qs'       => "activity_id={$activityType}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%",
                                                                      'title'    => ts('View Activity'),
                                                                      ),
                                     CRM_Core_Action::DELETE => array(
                                                                      'name'     => ts('Delete'),
                                                                      'url'      => 'civicrm/contact/view/activity',
-                                                                     'qs'       => $extra.'&activity_id='.$activityType.'&action=delete&reset=1&id=%%id%%&cid=%%cid%%',
-                                                                     'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&confirmed=1\'; else return false;"',
+                                                                     'qs'       => "{$extra}&activity_id={$activityType}&action=delete&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%",
+                                                                     'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',
                                                                      'title'    => ts('Delete Activity'),
                                                                      ),
                                     );
@@ -184,7 +189,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     function getTotalCount($action)
     {
-        return CRM_Contact_BAO_Contact::getNumOpenActivity($this->_contactId);
+        return CRM_Contact_BAO_Contact::getNumOpenActivity($this->_contactId, $this->_admin);
     }
 
 
@@ -201,7 +206,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $params['contact_id'] = $this->_contactId;
-        $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity');
+        $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin);
 
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
@@ -214,12 +219,15 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                     $row['activity_type'] = ts('Meeting');
                 }
             }
-           
-            if($this->_showLink){
-                $actionLinks =array();
-            }else {
-                $actionLinks =& self::actionLinks($row['activity_type_id']);
+
+            // add class to this row if overdue
+            if ( CRM_Utils_Date::overdue( $row['date'] ) ) {
+                $row['class'] = 'status-overdue';
+            } else {
+                $row['class'] = 'status-ontime';
             }
+
+            $actionLinks =& self::actionLinks($row['activity_type_id']);
                      
             $actionMask  =  array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
 
@@ -232,12 +240,14 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                      'callback'=>$row['callback'],
                                                                      'module'=>$row['module'],
                                                                      'activity_id'=>$row['activity_id'],
-                                                                     'cid' => $this->_contactId ) );
+                                                                     'cid' => $this->_contactId,
+                                                                     'cxt' => $this->_context ) );
                 } else {
                     $row['action'] = CRM_Core_Action::formLink($actionLinks,
                                                                $actionMask,
                                                                array('id'  => $row['id'],
-                                                                     'cid' => $this->_contactId ) );
+                                                                     'cid' => $this->_contactId,
+                                                                     'cxt' => $this->_context ) );
                 }
             }
             unset($row);
@@ -268,7 +278,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     {
         if (!isset(self::$_columnHeaders)) {
             self::$_columnHeaders = array(
-                                          array('name'      => ts('Activity Type'),
+                                          array('name'      => ts('Activity'),
                                                 'sort'      => 'activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
@@ -278,7 +288,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                           array(
                                                 'name'      => ts('Scheduled'),
                                                 'sort'      => 'date',
-                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                'direction' => CRM_Utils_Sort::ASCENDING,
                                                 ),
                                           array('name'      => ts('Status')),
 

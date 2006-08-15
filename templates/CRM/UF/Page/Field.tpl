@@ -12,7 +12,7 @@
         <tr class="columnheader">
             <th>{ts}CiviCRM Field Name{/ts}</th>
             <th>{ts}Visibility{/ts}</th>
-            <th>{ts}Searchable?{/ts}
+            <th>{ts}Searchable?{/ts}</th>
             <th>{ts}In Selector?{/ts}</th>
             <th>{ts}Weight{/ts}</th>
             <th>{ts}Active{/ts}</th>	
@@ -23,7 +23,7 @@
         {foreach from=$ufField item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}
             {if NOT $row.is_active}disabled{/if}">
-            <td>{$row.label}<br>({$row.field_type})</td>
+            <td>{$row.label}<br/>({$row.field_type})</td>
             <td>{$row.visibility_display}</td>
             <td>{if $row.is_searchable   eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{if $row.in_selector     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>

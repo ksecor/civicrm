@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -115,7 +115,8 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $this->add('text', 'email_return_path', ts('Send Emails RETURN-PATH:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
         $this->addRule( "email_return_path", ts('Email is not valid.'), 'email' );
         
-        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1 );
+        //$this->assign( 'locationCount', $config->maxLocationBlocks + 1 );
+        $this->assign( 'locationCount', 2 );
         $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
         
         $this->addButtons( array(
@@ -144,16 +145,17 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         require_once 'CRM/Core/BAO/Domain.php';
 
         $params = array( );
-        $params = $this->exportValues();
-        $params['domain_id'] = $this->_id;
         
+        $params = $this->exportValues();
+        $params['entity_id'] = $this->_id;
+        $params['entity_table'] = CRM_Core_BAO_Domain::getTableName();
         $domain = CRM_Core_BAO_Domain::edit($params, $this->_id);
 
         $location = array();
         for ($locationId = 1; $locationId <= self::LOCATION_BLOCKS ; $locationId++) { // start of for loop for location
             $location[$locationId] = CRM_Core_BAO_Location::add($params, $this->_ids, $locationId);
         }
-
+        
         CRM_Core_Session::setStatus( ts('The Domain "%1" has been saved.', array( 1 => $domain->name )) );
         
     }

@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -46,6 +46,7 @@ require_once 'CRM/Utils/Pager.php';
 require_once 'CRM/Utils/PagerAToZ.php';
 require_once 'CRM/Utils/Sort.php';
 require_once 'CRM/Core/Report/Excel.php';
+require_once 'CRM/Contact/Form/Task/Label.php';
 
 class CRM_Core_Selector_Controller {
 
@@ -59,7 +60,8 @@ class CRM_Core_Selector_Controller {
         TEMPLATE  = 2,
         TRANSFER  = 4, // move the values from the session to the template
         EXPORT    = 8,
-        SCREEN    = 16;
+        SCREEN    = 16,
+        PDF       = 32;
 
     /**
      * a CRM Object that implements CRM_Core_Selector_API
@@ -157,6 +159,13 @@ class CRM_Core_Selector_Controller {
     protected $_output;
 
     /**
+     * Prefif for the selector variables
+     *
+     * @var int
+     */
+    protected $_prefix;
+
+    /**
      * cache the smarty template for efficiency reasons
      *
      * @var CRM_Core_Smarty
@@ -185,15 +194,16 @@ class CRM_Core_Selector_Controller {
      * @return Object
      * @access public
      */
-    function __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE)
+    function __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE, $prefix = null)
     {
-  
+        
         $this->_object = $object;
         $this->_pageID = $pageID ? $pageID : 1;
         $this->_sortID = $sortID ? $sortID : null;
         $this->_action = $action;
         $this->_store  = $store;
         $this->_output = $output;
+        $this->_prefix = $prefix;
 
         // fix sortID
         if ( $this->_sortID && strpos( $this->_sortID, '_' ) === false ) {
@@ -217,7 +227,7 @@ class CRM_Core_Selector_Controller {
          * session values instead
          */
         if ( $output == self::TRANSFER ) {
-            $params['total'] = $this->_store->get( 'rowCount' );
+            $params['total'] = $this->_store->get( $this->_prefix . 'rowCount' );
         } else {
             $params['total'] = $this->_object->getTotalCount($action);
         }
@@ -228,7 +238,7 @@ class CRM_Core_Selector_Controller {
         /*
          * Set the default values of RowsPerPage
          */
-        $storeRowCount = $store->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
+        $storeRowCount = $store->get( $this->_prefix . CRM_Utils_Pager::PAGE_ROWCOUNT );
         if ( $storeRowCount ) {
             $params['rowCount'] = $storeRowCount;
         } else if ( ! isset( $params['rowCount'] ) ) {
@@ -254,13 +264,15 @@ class CRM_Core_Selector_Controller {
          * if we are in reset state, i.e the store is cleaned out, we return false
          * we also return if we dont have a record of the sort id or page id
          */
-        if ( $reset || $this->_store->get( CRM_Utils_Pager::PAGE_ID ) == null || $this->_store->get( CRM_Utils_Sort::SORT_ID ) == null ) {
+        if ( $reset ||
+             $this->_store->get( $this->_prefix . CRM_Utils_Pager::PAGE_ID ) == null ||
+             $this->_store->get( $this->_prefix . CRM_Utils_Sort::SORT_ID ) == null ) {
             return false;
         }
 
-        if ( $this->_store->get( CRM_Utils_Pager::PAGE_ID       ) != $this->_pager->getCurrentPageID       ( ) ||
-             $this->_store->get( CRM_Utils_Sort::SORT_ID        ) != $this->_sort->getCurrentSortID        ( ) || 
-             $this->_store->get( CRM_Utils_Sort::SORT_DIRECTION ) != $this->_sort->getCurrentSortDirection ( ) ) {
+        if ( $this->_store->get( $this->_prefix . CRM_Utils_Pager::PAGE_ID       ) != $this->_pager->getCurrentPageID       ( ) ||
+             $this->_store->get( $this->_prefix . CRM_Utils_Sort::SORT_ID        ) != $this->_sort->getCurrentSortID        ( ) || 
+             $this->_store->get( $this->_prefix . CRM_Utils_Sort::SORT_DIRECTION ) != $this->_sort->getCurrentSortDirection ( ) ) {
             return true;
         }
         return false;
@@ -285,17 +297,14 @@ class CRM_Core_Selector_Controller {
      */
     function run( )
     {
-
+        
         // get the column headers
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $this->_output );
-
+       
         // we need to get the rows if we are exporting or printing them
-        if ($this->_output == self::EXPORT || $this->_output == self::SCREEN) {
+        if ($this->_output == self::EXPORT || $this->_output == self::SCREEN ) {
             // get rows (without paging criteria)
-            $rows          =& $this->_object->getRows( $this->_action,
-                                                       0, 0,
-                                                       $this->_sort,
-                                                       $this->_output );
+            $rows = self::getRows( $this );
             if ( $this->_output == self::EXPORT ) {
                 // export the rows.
                 CRM_Core_Report_Excel::writeCSVFile( $this->_object->getExportFileName( ),
@@ -306,41 +315,59 @@ class CRM_Core_Selector_Controller {
                 // assign to template and display them.
                 self::$_template->assign_by_ref( 'rows'         , $rows          );
             }
+            
         } else {
             // output requires paging/sorting capability
-            // get rows with paging criteria
-            $rows          =& $this->_object->getRows( $this->_action,
-                                                       $this->_pagerOffset,
-                                                       $this->_pagerRowCount,
-                                                       $this->_sort,
-                                                       $this->_output );
+            $rows = self::getRows( $this );
             $rowsEmpty = count( $rows ) ? false : true;
             $qill      = $this->getQill( );
 
             // if we need to store in session, lets update session
             if ($this->_output & self::SESSION) {
-                $this->_store->set( 'columnHeaders', $columnHeaders );
-                $this->_store->set( 'rows'         , $rows          );
-                $this->_store->set( 'rowCount'     , $this->_total  );
-                $this->_store->set( 'rowsEmpty'    , $rowsEmpty     );
-                $this->_store->set( 'qill'         , $qill          );
+                $this->_store->set( "{$this->_prefix}columnHeaders", $columnHeaders );
+                $this->_store->set( "{$this->_prefix}rows"         , $rows          );
+                $this->_store->set( "{$this->_prefix}rowCount"     , $this->_total  );
+                $this->_store->set( "{$this->_prefix}rowsEmpty"    , $rowsEmpty     );
+                $this->_store->set( "{$this->_prefix}qill"         , $qill          );
             } else {
-                self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
-                self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
+                self::$_template->assign_by_ref( "{$this->_prefix}pager"  , $this->_pager   );
+                self::$_template->assign_by_ref( "{$this->_prefix}sort"   , $this->_sort    );
 
-                self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
-                self::$_template->assign_by_ref( 'rows'         , $rows          );
-                self::$_template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
-                self::$_template->assign       ( 'qill'         , $qill          );
+                self::$_template->assign_by_ref( "{$this->_prefix}columnHeaders", $columnHeaders );
+                self::$_template->assign_by_ref( "{$this->_prefix}rows"         , $rows          );
+                self::$_template->assign       ( "{$this->_prefix}rowsEmpty"    , $rowsEmpty     );
+                self::$_template->assign       ( "{$this->_prefix}qill"         , $qill          );
             }
 
-            // always store the current pageID and sortID
-            $this->_store->set( CRM_Utils_Pager::PAGE_ID      , $this->_pager->getCurrentPageID       ( ) );
-            $this->_store->set( CRM_Utils_Sort::SORT_ID       , $this->_sort->getCurrentSortID        ( ) );
-            $this->_store->set( CRM_Utils_Sort::SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
-            $this->_store->set( CRM_Utils_Sort::SORT_ORDER    , $this->_sort->orderBy                 ( ) );
-            $this->_store->set( CRM_Utils_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
 
+            // always store the current pageID and sortID
+            $this->_store->set( $this->_prefix . CRM_Utils_Pager::PAGE_ID      ,
+                                $this->_pager->getCurrentPageID       ( ) );
+            $this->_store->set( $this->_prefix . CRM_Utils_Sort::SORT_ID       ,
+                                $this->_sort->getCurrentSortID        ( ) );
+            $this->_store->set( $this->_prefix . CRM_Utils_Sort::SORT_DIRECTION,
+                                $this->_sort->getCurrentSortDirection ( ) );
+            $this->_store->set( $this->_prefix . CRM_Utils_Sort::SORT_ORDER    ,
+                                $this->_sort->orderBy                 ( ) );
+            $this->_store->set( $this->_prefix . CRM_Utils_Pager::PAGE_ROWCOUNT,
+                                $this->_pager->_perPage                   );
+
+        }
+    }
+
+    /**
+     * function to retrieve rows.
+     *
+     * @return array of rows
+     * @access public
+     */
+    public function getRows( $form ) {
+        if ($form->_output == self::EXPORT || $form->_output == self::SCREEN ) {
+            //get rows (without paging criteria)
+            return $form->_object->getRows( $form->_action, 0, 0, $form->_sort, $form->_output );
+        } else {
+            return $form->_object->getRows( $form->_action, $form->_pagerOffset, $form->_pagerRowCount,
+                                            $form->_sort, $form->_output );
         }
     }
 
@@ -385,19 +412,19 @@ class CRM_Core_Selector_Controller {
      */
     function moveFromSessionToTemplate()
     {
-        self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
+        self::$_template->assign_by_ref( "{$this->_prefix}pager"  , $this->_pager   );
 
-        $rows = $this->_store->get( 'rows' );
+        $rows = $this->_store->get( "{$this->_prefix}rows" );
         if ( $rows ) {
-            self::$_template->assign( 'aToZ'  ,
-                                      $this->_store->get( 'AToZBar' ) );
+            self::$_template->assign( "{$this->_prefix}aToZ"  ,
+                                      $this->_store->get( "{$this->_prefix}AToZBar" ) );
         }
-        
-        self::$_template->assign_by_ref( 'sort'  , $this->_sort    );
-        self::$_template->assign( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
-        self::$_template->assign( 'rows'         , $rows                                 );
-        self::$_template->assign( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
-        self::$_template->assign( 'qill'         , $this->_store->get( 'qill' )          );
+
+        self::$_template->assign_by_ref( "{$this->_prefix}sort"  , $this->_sort    );
+        self::$_template->assign( "{$this->_prefix}columnHeaders", $this->_store->get( "{$this->_prefix}columnHeaders" ) );
+        self::$_template->assign( "{$this->_prefix}rows"         , $rows                                 );
+        self::$_template->assign( "{$this->_prefix}rowsEmpty"    , $this->_store->get( "{$this->_prefix}rowsEmpty" )     );
+        self::$_template->assign( "{$this->_prefix}qill"         , $this->_store->get( "{$this->_prefix}qill" )          );
 
         if ( $this->_embedded ) {
             return;
@@ -412,7 +439,6 @@ class CRM_Core_Selector_Controller {
         echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
 
     }
-
 
     /**
      * setter for embedded 

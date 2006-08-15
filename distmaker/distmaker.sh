@@ -43,8 +43,8 @@ display_usage()
 	echo "  all - generate all available tarballs"
 	echo "  d5  - generate Drupal PHP5 module"
 	echo "  d4  - generate Drupal PHP4 module"
-	echo "  m5  - generate Mambo PHP5 module"
-	echo "  m4  - generate Mambo PHP4 module"
+	echo "  m5  - generate Joomla PHP5 module"
+	echo "  m4  - generate Joomla PHP4 module"
 	echo
 	echo "You also need to have distmaker.conf file in place."
 	echo "See distmaker.conf.dist for example contents."
@@ -92,9 +92,9 @@ case $1 in
 	D5PACK=1
 	;;
 
-	# MAMBO PHP5
+	# JOOMLA PHP5
 	m5)
-	echo; echo "Generating Mambo PHP5 module"; echo;
+	echo; echo "Generating Joomla PHP5 module"; echo;
 	M5PACK=1
 	;;
 
@@ -105,9 +105,9 @@ case $1 in
 	PHP4CONV=1
 	;;
 
-	# MAMBO PHP4
+	# JOOMLA PHP4
 	m4)
-	echo; echo "Generating Mambo PHP4 module"; echo;
+	echo; echo "Generating Joomla PHP4 module"; echo;
 	M4PACK=1
 	PHP4CONV=1
 	;;
@@ -154,8 +154,8 @@ if [ $D5PACK = 1 ]; then
 fi
 
 if [ $M5PACK = 1 ]; then
-	echo; echo "Packaging for Mambo, PHP5 version"; echo;
-	sh $P/dists/mambo_php5.sh
+	echo; echo "Packaging for Joomla, PHP5 version"; echo;
+	sh $P/dists/joomla_php5.sh
 fi
 
 
@@ -166,9 +166,9 @@ if [ $D4PACK = 1 ]; then
 fi
 
 if [ $M4PACK = 1 ]; then
-	echo; echo "Packaging for Mambo, PHP4 version"; echo;
+	echo; echo "Packaging for Joomla, PHP4 version"; echo;
 	check_php4
-	sh $P/dists/mambo_php4.sh
+	sh $P/dists/joomla_php4.sh
 fi
 
 unset DM_SOURCEDIR DM_GENFILESDIR DM_TARGETDIR DM_TMPDIR DM_PHP5PATH

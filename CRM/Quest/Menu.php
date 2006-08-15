@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -44,13 +44,95 @@ class CRM_Quest_Menu {
         $items = array(
                        array( 
                              'path'    => 'civicrm/quest/preapp', 
-                             'qs'      => 'reset=1',
+                             'query'   => 'reset=1',
                              'title'   => ts( '2006 College Prep Scholarship Application' ), 
                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
                              'type'    => CRM_Core_Menu::CALLBACK,  
                              'crmType' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 0, 
                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/preapp/view', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Prep Scholarship Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'view Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/matchapp', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/matchapp/view', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'view Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/schoolsearch', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( 'QuestBridge School Search' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/counselor', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Recommendation Form' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Recommendation' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/counselor/view', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Recommendation Form' ), 
+                              'access'  => CRM_Core_Permission::check( 'view Quest Recommendation' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/teacher', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Recommendation Form' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Recommendation' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/teacher/view', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Recommendation Form' ), 
+                              'access'  => CRM_Core_Permission::check( 'view Quest Recommendation' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                             'path'    => 'civicrm/quest/verify',
+                             'query'   => 'reset=1',
+                             'title'   => ts( 'QuestBridge Recommender Verification' ), 
+                             'access'  => 1,
+                             'type'    => CRM_Core_Menu::CALLBACK,  
+                             'crmType' => CRM_Core_Menu::CALLBACK,
+                             'weight'  => 0, 
+                             ),
+                       
                        );
         return $items;
     }

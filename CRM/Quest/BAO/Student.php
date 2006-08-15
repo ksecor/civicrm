@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -841,6 +841,60 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             return false;
         }       
     }
+
+    static function &getSchoolSelect( $id ) {
+        // get the org id and the name of all schools that this
+        // student has a relationship to
+        $query = "
+SELECT o.contact_id as id,
+       o.organization_name as name
+FROM   civicrm_organization o,
+       civicrm_relationship r
+WHERE  r.relationship_type_id = 8
+  AND  r.contact_id_a         = $id
+  AND  r.is_active            = 1
+  AND  r.contact_id_b         = o.contact_id
+";
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $schools = array( '' => ts( '- select -' ) );
+        while ( $dao->fetch( ) ) {
+            $schools[$dao->id] = $dao->name;
+        }
+
+        return $schools;
+    }
+
+    static function createStudentSummary( $params ,$ids ) {
+        require_once "CRM/Quest/DAO/StudentSummary.php";
+        $dao = & new CRM_Quest_DAO_StudentSummary();
+        $dao->copyValues($params);
+        if( $ids['id'] ) {
+            $dao->id = $ids['id'];
+        }
+        $dao->save();
+        return $dao;
+    }
+    
+    static function &isPrepTestScholarshipWinner( $id ) {
+        // determine if this student was a winner for SAT Prep Test Scholarship
+        $query = "
+SELECT count( id ) AS cnt
+FROM civicrm_custom_value
+WHERE custom_field_id
+IN ( 13, 14 )
+AND entity_table = 'civicrm_contact'
+AND entity_id = $id
+AND char_data = '3'
+";
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray ); 
+        if ($dao->fetch()) {
+            return $dao->cnt;
+        }
+        return 0;
+    }
+    
 }
     
 ?>

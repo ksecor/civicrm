@@ -1,7 +1,7 @@
 <?php 
 /* 
  +--------------------------------------------------------------------+ 
- | CiviCRM version 1.4                                                | 
+ | CiviCRM version 1.5                                                | 
  +--------------------------------------------------------------------+ 
  | Copyright (c) 2005 Donald A. Lobo                                  | 
  +--------------------------------------------------------------------+ 
@@ -123,6 +123,15 @@ class CRM_Contribute_BAO_Query {
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
             
+        case 'contribution_page_id':
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $cPage = $value;
+            $pages = CRM_Contribute_PseudoConstant::contributionPage( );
+            $query->_where[$grouping][] = "civicrm_contribution.contribution_page_id = $cPage";
+            $query->_qill[$grouping ][] = ts( 'Contribution Page - %1', array( 1 => $pages[$cPage] ) );
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            return;
+            
         case 'contribution_payment_instrument_id':
             require_once 'CRM/Contribute/PseudoConstant.php';
             $pi = $value;
@@ -167,11 +176,11 @@ class CRM_Contribute_BAO_Query {
                 $from = " $side JOIN civicrm_contribution_type ON civicrm_contribution.contribution_type_id = civicrm_contribution_type.id ";
             }
             break;
-            
-      //   case 'civicrm_contribution_product':
-//             $from = " $side  JOIN civicrm_contribution_product ON civicrm_contribution_product.contribution_id = civicrm_contribution.id";
-//             break;
-            
+
+        case 'civicrm_contribution_page':
+            $from = " $side JOIN civicrm_contribution_page ON civicrm_contribution.contribution_page ON civicrm_contribution.contribution_page.id";
+            break;
+
         case 'civicrm_product':
             $from = " $side  JOIN civicrm_contribution_product ON civicrm_contribution_product.contribution_id = civicrm_contribution.id";
             $from .= " $side  JOIN civicrm_product ON civicrm_contribution_product.product_id =civicrm_product.id ";
@@ -258,6 +267,12 @@ class CRM_Contribute_BAO_Query {
                    ts( 'Contribution Type' ),
                    array( '' => ts( '- select -' ) ) +
                    CRM_Contribute_PseudoConstant::contributionType( ) );
+
+        $form->add('select', 'contribution_page_id', 
+                   ts( 'Contribution Page' ),
+                   array( '' => ts( '- select -' ) ) +
+                   CRM_Contribute_PseudoConstant::contributionPage( ) );
+
         
         $form->add('select', 'contribution_payment_instrument_id', 
                    ts( 'Payment Instrument' ), 
@@ -299,7 +314,7 @@ class CRM_Contribute_BAO_Query {
 
     static function addShowHide( &$showHide ) {
         $showHide->addHide( 'contributeForm' );
-        $showHide->addShow( 'contributeForm[show]' );
+        $showHide->addShow( 'contributeForm_show' );
     }
 
     static function searchAction( &$row, $id ) {

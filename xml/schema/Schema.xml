@@ -5,7 +5,7 @@
 <character_set>utf8</character_set>
 <collate>utf8_unicode_ci</collate>
 <table_type>InnoDB</table_type>
-<comment>Schema for the CRM Module</comment>
+<comment>Schema for CiviCRM</comment>
 
 <xi:include href="Core/files.xml"          parse="xml" />
 <xi:include href="Contact/files.xml"       parse="xml" />
@@ -14,6 +14,6 @@
 <xi:include href="Contribute/files.xml"    parse="xml" />  
 <xi:include href="SMS/files.xml"           parse="xml" />
 <xi:include href="Project/files.xml"       parse="xml" />
-<xi:include href="Quest/files.xml"         parse="xml" />  
-<xi:include href="Member/file.xml"         parse="xml" />  
+<xi:include href="Member/files.xml"        parse="xml" />  
+<xi:include href="Activity/files.xml"      parse="xml" />  
 </database>

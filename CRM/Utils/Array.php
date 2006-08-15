@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -123,6 +123,36 @@ class CRM_Utils_Array {
         }
     }
 
+    /**
+     * Funtion to merge to two arrays recursively
+     * 
+     * @param array $a1 
+     * @param array $a2
+     *
+     * @return  $a3
+     * @static
+     */
+    static function crmArrayMerge( $a1, $a2 ) 
+    {
+        if ( empty($a1) ) {
+            return $a2;
+        }
+
+        if ( empty( $a2 ) ) {
+            return $a1;
+        }
+
+        $a3 = array( );
+        foreach ( $a1 as $key => $value) {
+            if ( array_key_exists($key, $a2) ) {
+                $a3[$key] = array_merge($a1[$key], $a2[$key]);
+            } else {
+                $a3[$key] = $a1[$key];
+            }
+        }
+
+        return $a3;
+    }
 }
 
 ?>

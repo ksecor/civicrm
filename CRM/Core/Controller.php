@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -418,6 +418,10 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      */
     function assign( $var, $value = null) {
         self::$_template->assign($var, $value);
+    }
+
+    function assign_by_ref( $var, &$value ) {
+        self::$_template->assign_by_ref( $var, $value );
     }
 
     /**

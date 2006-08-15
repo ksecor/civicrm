@@ -26,7 +26,11 @@
               {ts}{$membership_name} Membership:<strong>{$minimum_fee|crmMoney}</strong>{/ts}
              {/if}         
         {else}
+           {if $amount }
            <strong>{$amount|crmMoney}</strong>
+           {else}
+            <strong>{$minimum_fee|crmMoney}</strong> 
+           {/if}
         {/if}    
     </div>
     

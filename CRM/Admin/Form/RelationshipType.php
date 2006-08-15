@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -83,7 +83,7 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
 
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
-            $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/reltype?reset=1&action=browse'"));
+            $this->addElement('button', 'done', ts('Done'), array('onclick' => "location.href='civicrm/admin/reltype?reset=1&action=browse'"));
         }
   
     }

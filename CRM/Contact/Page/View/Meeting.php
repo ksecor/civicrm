@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -54,18 +54,25 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
         //set the path depending on open activity or activity history (view mode)
         $history = CRM_Utils_Request::retrieve( 'history', 'Boolean',
                                                 $this ); 
+        $context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                $this );
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/contact/view/activity', 'show=1&action=browse&reset=1&history='.$history.'&cid='.$this->_contactId );
+        if ( $context == 'Home' ) {
+            $url = CRM_Utils_System::url('civicrm', 'reset=1' );
+        } else {
+            $url = CRM_Utils_System::url('civicrm/contact/view/activity',
+                                         "show=1&action=browse&reset=1&history={$history}&cid={$this->_contactId}" );
+        }
         $session->pushUserContext( $url );
         
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject )){
-
-            require_once 'CRM/Core/BAO/Meeting.php';
-
-            CRM_Core_BAO_Meeting::del( $this->_id);
+            
+            require_once 'CRM/Activity/BAO/Activity.php';
+            
+            CRM_Activity_BAO_Activity::del( $this->_id, 'Meeting');
             CRM_Utils_System::redirect($url);
         }
 

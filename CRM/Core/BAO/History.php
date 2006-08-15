@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -133,7 +133,7 @@ class CRM_Core_BAO_History {
         // get the total number of histories
         $values['activity']['totalCount'] =& CRM_Core_BAO_History::getNumHistory($params['entity_id'], $type);
 
-        return $values;
+        return null;
     }
 
     /**

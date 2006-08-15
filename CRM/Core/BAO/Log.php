@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -56,7 +56,7 @@ class CRM_Core_BAO_Log extends CRM_Core_DAO_Log {
             return array( 'id'    => $log->modified_id,
                           'name'  => $displayName,
                           'image' => $contactImage,
-                          'date'  => $dao->modified_date );
+                          'date'  => $log->modified_date );
         }
         return null;
     }

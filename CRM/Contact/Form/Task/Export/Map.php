@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -114,8 +114,8 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
      */
     static function formRule( &$fields ) {
         $errors  = array( );
-        //updated for CRM-965 
-        if ( CRM_Utils_Array::value( 'saveMapping', $fields ) && ! $fields['_qf_Map_done']) {
+
+        if ( CRM_Utils_Array::value( 'saveMapping', $fields ) && $fields['_qf_Map_next']) {
             $nameField = CRM_Utils_Array::value( 'saveMappingName', $fields );
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = "Name is required to save Export Mapping";
@@ -148,7 +148,7 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
      */
     public function postProcess( ) {
         $params = $this->controller->exportValues( $this->_name );
-        
+
         //To Refresh the Page 
         //updated for CRM-965
         
@@ -172,7 +172,6 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
         }
 
         //reload the mapfield if load mapping is pressed
-        //if ( CRM_Utils_Array::value( 'savedMapping', $params ) ) {
         if ( $this->controller->exportValue( $this->_name, 'loadMapping' ) )  {
             CRM_Utils_Array::value( 'savedMapping', $params );
             $this->set('savedMapping', $params['savedMapping']);
@@ -180,9 +179,6 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             return;
         }
 
-        
-        //$mapperKeys = $this->controller->exportValue( $this->_name,
-        //'mapper1' );  
         $mapperKeys = $params['mapper'][1];  
        
         $checkEmpty = 0;
@@ -197,84 +193,26 @@ class CRM_Contact_Form_Task_Export_Map extends CRM_Core_Form {
             require_once 'CRM/Utils/System.php';            
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', '_qf_Map_display=true' ) );
         }
-        
 
-        //Updating Mapping Records
-        if ( CRM_Utils_Array::value('updateMapping', $params)) {
+        //when Export button is clicked then save the details 
+        //changed for CRM-965
+        if ( $buttonName1 == '_qf_Map_next' ) {
             
-            $mappingFields =& new CRM_Core_DAO_MappingField();
-            $mappingFields->mapping_id = $params['mappingId'];
-            $mappingFields->find( );
-           
-            $mappingFieldsId = array();                
-            while($mappingFields->fetch()) {
-                if ( $mappingFields->id ) {
-                    $mappingFieldsId[$mappingFields->column_number] = $mappingFields->id;
-                }
+            if ( CRM_Utils_Array::value('updateMapping', $params)) { 
+                //save mapping fields
+                CRM_Core_BAO_Mapping::saveMappingFields($params, $params['mappingId']);
             }
-            for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-                if ( !empty($mapperKeys[$i][0]) ) {
-                    $updateMappingFields =& new CRM_Core_DAO_MappingField();
-                    $updateMappingFields->id = $mappingFieldsId[$i];
-                    $updateMappingFields->mapping_id = $params['mappingId'];
-                    $updateMappingFields->name = $mapperKeys[$i][1];
-                    $updateMappingFields->contact_type =  $mapperKeys[$i][0];
-                    $updateMappingFields->column_number = $i;
-                    
-                    $locationId = $mapperKeys[$i][2];
-                    $updateMappingFields->location_type_id = isset($locationId) ? $locationId : null;
-                    
-                    $relation = $mapperKeys[$i][1];
-                    list($id, $first, $second) = explode('_', $relation);
-                    if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-                        $updateMappingFields->relationship_type_id = $id;
-                    } else {
-                        $updateMappingFields->relationship_type_id = null;
-                    }
-                    
-                    $phoneType = $mapperKeys[$i][3];
-                    $updateMappingFields->phone_type = isset($phoneType) ? $phoneType : null;
-                    
-                    $updateMappingFields->save();                
-                }
-            }
-        }
-        
-        //Saving Mapping Details and Records
-        if ( CRM_Utils_Array::value('saveMapping', $params)) {
-            $mappingParams = array('name'         => $params['saveMappingName'],
-                                   'description'  => $params['saveMappingDesc'],
-                                   'mapping_type' => 'Export');
             
-            $temp = array();
-            //when Export button is clicked then save the details 
-            //changed for CRM-965
-            if( $buttonName1 == '_qf_Map_next' ){
+            if ( CRM_Utils_Array::value('saveMapping', $params)) { 
+                $mappingParams = array('name'         => $params['saveMappingName'],
+                                       'description'  => $params['saveMappingDesc'],
+                                       'mapping_type' => 'Export');
+                
+                $temp = array();
                 $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
-            }
-            for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-                if ( !empty($mapperKeys[$i][0]) ) {
-                    $saveMappingFields =& new CRM_Core_DAO_MappingField();
-                    $saveMappingFields->mapping_id = $saveMapping->id;
-                    $saveMappingFields->name =  $mapperKeys[$i][1];
-                    $saveMappingFields->contact_type =  $mapperKeys[$i][0];
-                    $saveMappingFields->column_number = $i;
-                    
-                    $locationId = $mapperKeys[$i][2];
-                    $saveMappingFields->location_type_id = isset($locationId) ? $locationId : null;
-                    
-                    $saveMappingFields->phone_type = $mapperKeys[$i][3];
-                    
-                    $relation = $mapperKeys[$i][1];
-                    list($id, $first, $second) = explode('_', $relation);
-                    if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-                        $saveMappingFields->relationship_type_id = $id;
-                    } else {
-                        $saveMappingFields->relationship_type_id = null;
-                    }
-                    
-                    $saveMappingFields->save();
-                }
+                
+                //save mapping fields
+                CRM_Core_BAO_Mapping::saveMappingFields($params, $saveMapping->id);
             }
         }
         

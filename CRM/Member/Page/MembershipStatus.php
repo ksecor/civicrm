@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -149,7 +149,7 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
         require_once 'CRM/Member/DAO/MembershipStatus.php';
         $dao =& new CRM_Member_DAO_MembershipStatus();
 
-        $dao->orderBy('name');
+        $dao->orderBy('weight');
         $dao->find();
 
         while ($dao->fetch()) {
@@ -170,7 +170,9 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
             }
             
             $membershipStatus[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                            array('id' => $dao->id));
+                                                                              array('id' => $dao->id));
+            $membershipStatus[$dao->id]['start_event'] = str_replace("_", " ", $membershipStatus[$dao->id]['start_event']);
+            $membershipStatus[$dao->id]['end_event']   = str_replace("_", " ", $membershipStatus[$dao->id]['end_event']);
         }
         $this->assign('rows', $membershipStatus);
     }

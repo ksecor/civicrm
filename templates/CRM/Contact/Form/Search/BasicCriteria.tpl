@@ -4,7 +4,7 @@
 <script type="text/javascript" src="{$config->resourceBase}js/Search.js"></script>
 *}
 <fieldset>
-    <legend>{if $context EQ 'smog'}<span id="searchForm[hide]"><a href="#" onClick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a></span>{/if}
+    <legend>{if $context EQ 'smog'}<span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>{/if}
         {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
         {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
         {else}{ts}Search Criteria{/ts}{/if}
@@ -34,9 +34,9 @@
             <td class="label">{$form.sort_name.label}</td>
             <td colspan={if $context EQ 'smog'}"7"{else}"5"{/if}>{$form.sort_name.html}</td>
         </tr>
-        <tr><td></td>
-            <td colspan={if $context EQ 'smog'}"6"{else}"4"{/if}>
-                <div class="description font-italic">
+        <tr><td>&nbsp;</td>
+            <td colspan={if $context EQ 'smog'}"6"{else}"4" class="report"{/if}>
+                <div class="font-italic">
                 {ts}Complete OR partial contact name OR email. To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
                 </div></td>
             <td class="label">{$form.buttons.html}</td>

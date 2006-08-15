@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -67,7 +67,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         } else {
             parent::preProcess( );
         }
-        $this->createLocation( $this->_contactIds, $lid );
+        self::createMapXML( $this->_contactIds, $lid, $this, true );
         $this->assign( 'single', $this->_single );
     }
     
@@ -107,27 +107,37 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      * @return string           the location of the file we have created
      * @access protected
      */
-    function createLocation( $contactIds, $locationId = null ) {
+    static function createMapXML( $contactIds, $locationId, &$page, $addBreadCrumb ) {
         $config =& CRM_Core_Config::singleton( );
 
-        $this->assign( 'query', 'CiviCRM Search Query' );
-        $this->assign( 'mapProvider', $config->mapProvider );
-        $this->assign( 'mapKey', $config->mapAPIKey );
-       
+        $page->assign( 'query', 'CiviCRM Search Query' );
+        $page->assign( 'mapProvider', $config->mapProvider );
+        $page->assign( 'mapKey', $config->mapAPIKey );
+        $page->assign( 'enableGeoCoding', ($config->mapGeoCoding ? 1 : 0) );
+
         require_once 'CRM/Contact/BAO/Contact.php';
-        $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds , $locationId );
+        $locations =& CRM_Contact_BAO_Contact::getMapInfo( $contactIds , $locationId );
 
         if ( empty( $locations ) ) {
             CRM_Utils_System::statusBounce(ts('This contact\'s primary address does not contain latitude/longitude information and can not be mapped.'));
-        } else {
+        }
+
+        if ( $addBreadCrumb ) {
             $session =& CRM_Core_Session::singleton(); 
             $redirect = $session->readUserContext(); 
             $additionalBreadCrumb = "<a href=\"$redirect\">" . ts('Search Results') . '</a>';
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
         }
 
-        $this->assign_by_ref( 'locations', $locations );
+        if ( $config->mapGeoCoding ) {
+            $i=0;
+            while($locations[$i]['address']) {
+                self::geoCodeAddressFormat($locations[$i]);
+                $i++;
+            }
+        }
 
+        $page->assign_by_ref( 'locations', $locations );
         
         $sumLat = $sumLng = 0;
         $maxLat = $maxLng = -400;
@@ -155,9 +165,27 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
                          'lng' => (float ) $sumLng / count( $locations ) );
         $span   = array( 'lat' => (float ) ( $maxLat - $minLat ),
                          'lng' => (float ) ( $maxLng - $minLng ) );
-        $this->assign_by_ref( 'center', $center );
-        $this->assign_by_ref( 'span'  , $span   );
+        $page->assign_by_ref( 'center', $center );
+        $page->assign_by_ref( 'span'  , $span   );
     }
+
+    /**
+     * Formats the address as required by Google GeoCoder
+     *
+     * @access public
+     * @return None
+     */
+    public function geoCodeAddressFormat( &$location ) {
+        $location['geoCodeAddress'] = str_replace("<br />", ",", $location['address']);           
+        $locs = explode(",", $location['geoCodeAddress']);
+        $location['geoCodeAddress'] = ltrim($locs[0]).",".ltrim($locs[1]).",".ltrim($locs[2]);
+
+        $dao =& new CRM_Core_DAO_Country( );
+        $dao->name = ltrim($locs[4]);
+        if ($dao->find(true)) {
+            $location['geoCodeAddress'] = $location['geoCodeAddress'] . "," . $dao->iso_code;
+        }
+    }//end of function
 
 }
 

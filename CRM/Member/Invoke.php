@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -49,17 +49,17 @@ class CRM_Member_Invoke {
 
         case 'membershipType':
             require_once 'CRM/Member/Page/MembershipType.php';
-            $view =& new CRM_Member_Page_MembershipType(ts('Contribution Types'));
+            $view =& new CRM_Member_Page_MembershipType(ts('Membership Types'));
             break;
             
         case 'membershipStatus':
             require_once 'CRM/Member/Page/MembershipStatus.php';
-            $view =& new CRM_Member_Page_MembershipStatus(ts('Contribution Types'));
+            $view =& new CRM_Member_Page_MembershipStatus(ts('Membership Status'));
             break;
             
         default:
             require_once 'CRM/Member/Page/MembershipType.php';
-            $view =& new CRM_Member_Page_MembershipType(ts('Contribution Types'));
+            $view =& new CRM_Member_Page_MembershipType(ts('Membership Types'));
             break;
         }
 
@@ -86,6 +86,13 @@ class CRM_Member_Invoke {
         $session =& CRM_Core_Session::singleton( );
         $config  =& CRM_Core_Config::singleton ( );
         if ($args[2] == 'search') {
+            require_once 'CRM/Member/Controller/Search.php';
+            $controller =& new CRM_member_Controller_Search($title, $mode); 
+            $url = 'civicrm/member/search';
+            $session->pushUserContext(CRM_Utils_System::url($url, 'force=1')); 
+            $controller->set( 'context', 'search' );
+            return $controller->run();
+            
             
         } elseif ($args[2] == 'import') {
             

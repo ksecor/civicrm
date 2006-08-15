@@ -13,4 +13,4 @@
     {include file=$tplFile}
 {/if}
 
-{include file="CRM/common/feedback.tpl"}
+{include file="CRM/common/footer.tpl"}

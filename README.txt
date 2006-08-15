@@ -42,7 +42,7 @@ extern - a few small php files that are invoked directly via a url (used in Civi
 i    - images
 js   - javascript
 l10n - language packs
-mambo - mambo / joomla specific files
+joomla - joomla specific files
 drupal - drupal specific files
 packages - all 3rd party php libraries are stored here
 sql - sql code

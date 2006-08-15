@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -196,7 +196,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             // if view mode pls freeze it with the done button.
             if ($this->_action & CRM_Core_Action::VIEW) {
                 $this->freeze();
-                $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field/option?reset=1&action=browse&fid=" . $this->_fid . "'"));
+                $this->addElement('button', 'done', ts('Done'), array('onclick' => "location.href='civicrm/admin/custom/group/field/option?reset=1&action=browse&fid=" . $this->_fid . "'"));
             }
         }
     }

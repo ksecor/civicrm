@@ -3,7 +3,7 @@
     {if $context EQ "makeContribution"}
 
 {literal}
-<script language="javascript">
+<script type="text/javascript">
 <!--
 // Selects the product (radio button) if user selects an option for that product.
 // Putting this function directly in template so they are available for standalone forms.
@@ -46,14 +46,14 @@ function selectPremium(optionField) {
     {strip}
         <table id="premiums-listings" class="no-border">
         {foreach from=$products item=row}
-        <tr {if $context EQ "makeContribution"}class="odd-row" {/if}valign="top">
+        <tr {if $context EQ "makeContribution"}class="odd-row" {/if}valign="top"> 
             {if $showRadio }
                 {assign var="pid" value=$row.id}
                 <td>{$form.selectProduct.$pid.html}</td>
             {/if}
-            <td>{if $row.thumbnail}<a href="javascript:popUp('{$row.image}')"><img src="{$row.thumbnail}" alt="{$row.name}" border="0"></a>{else}&nbsp;{/if}</td>    	
+            <td>{if $row.thumbnail}<a href="javascript:popUp('{$row.image}')" ><img src="{$row.thumbnail}" alt="{$row.name}" class="no-border" /></a>{else}&nbsp;{/if}</td>    	
 	        <td>
-                <strong>{$row.name}</strong><br />
+                <strong>{$row.product_name}</strong><br />
                 {$row.description} &nbsp;
                 {if ( ($premiumBlock.premiums_display_min_contribution AND $context EQ "makeContribution") OR $preview EQ 1) AND $row.min_contribution GT 0 }
                     {ts 1=$row.min_contribution|crmMoney}(Contribute at least %1 to be eligible for this gift.){/ts}

@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -214,20 +214,19 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
         $params = array('entity_table' => 'civicrm_contact', 'entity_id' => $this->_entityId);
         $rows =& CRM_Core_BAO_History::getHistory($params, $offset, $rowCount, $sort, 'Activity');
         
-      
-        
         if($this->_showLink){
             $links = array();
         }else{
             $links =& self::actionLinks();
         }
-       
+
         $mask  =  array_sum(array_keys($links)) & CRM_Core_Action::mask( $this->_permission );
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
-                if ($row['callback']) {
+                if ( $row['callback'] &&
+                     CRM_Utils_System::validCallback( $row['callback'] ) ) {
                     $row['action'] = CRM_Core_Action::formLink($links,
                                                                $mask,
                                                                array( 'id' => $k,
@@ -236,7 +235,6 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 } else {
                     $actionLinks = $links;
                     unset($actionLinks[CRM_Core_Action::VIEW]);
-                    //$row['action'] = CRM_Core_Action::formLink($actionLinks, $mask, array('id'=>$k));
                     $row['action'] = CRM_Core_Action::formLink($actionLinks, $mask, array('id'=>$k,'cid' => $this->_entityId));
                 }
             }

@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -76,6 +76,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
+
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
                 CRM_Core_DAO::transaction('BEGIN');
@@ -127,12 +128,9 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $recipients =& $mailing->getRecipients($this->id);
         }
         
-//         foreach ($recipients as $recipient) {
         while ($recipients->fetch()) {
             $params = array(
                 'job_id'        => $this->id,
-//                 'email_id'      => $recipient['email_id'],
-//                 'contact_id'    => $recipient['contact_id']
                 'email_id'      => $recipients->email_id,
                 'contact_id'    => $recipients->contact_id
             );
@@ -197,12 +195,18 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                     
         $eq->query($query);
 
-        while ($eq->fetch()) {
-            static $config = null;
-            if ($config == null) $config =& CRM_Core_Config::singleton();
+        static $config = null;
+        static $mailsProcessed = 0;
+        if ( $config == null ) {
+            $config =& CRM_Core_Config::singleton();
+        }
 
-            // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
-            static $mailsProcessed = 0;
+        // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
+        while ($eq->fetch()) {
+            // if ( ( $mailsProcessed % 100 ) == 0 ) {
+            // CRM_Utils_System::xMemory( "$mailsProcessed: " );
+            // }
+
             if ($config->mailerBatchLimit > 0 and $mailsProcessed >= $config->mailerBatchLimit) {
                 exit;
             }
@@ -210,12 +214,13 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             
             /* Compose the mailing */
             $recipient = null;
-            $message = $mailing->compose(   $this->id, $eq->id, $eq->hash,
-                                            $eq->contact_id, $eq->email,
-                                            $recipient);
+            $message =& $mailing->compose(   $this->id, $eq->id, $eq->hash,
+                                             $eq->contact_id, $eq->email,
+                                             $recipient);
+
             /* Send the mailing */
-            $body = $message->get();
-            $headers = $message->headers();
+            $body    =& $message->get();
+            $headers =& $message->headers();
             
             /* TODO: when we separate the content generator from the delivery
              * engine, maybe we should dump the messages into a table */
@@ -225,7 +230,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                                     'catchSMTP'));
             $result = $mailer->send($recipient, $headers, $body);
             CRM_Core_Error::setCallback();
-            
+
             $params = array('event_queue_id' => $eq->id,
                             'job_id' => $this->id,
                             'hash' => $eq->hash);
@@ -241,6 +246,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                 /* Register the delivery event */
                 CRM_Mailing_Event_BAO_Delivered::create($params);
             }
+
+            unset( $result );
         }
     }
 

@@ -56,7 +56,11 @@ createDir( $smarty->compile_dir );
 
 $smarty->clear_all_cache();
 
-$file = 'schema/Schema.xml';
+if ( isset( $argv[1] ) && ! empty( $argv[1] ) ) {
+    $file = $argv[1];
+} else {
+    $file = 'schema/Schema.xml';
+}
 
 $sqlCodePath = '../sql/';
 $phpCodePath = '../';
@@ -640,6 +644,7 @@ function getField( &$fieldXML, &$fields ) {
     }
     $field['headerPattern'] = value( 'headerPattern', $fieldXML );
     $field['dataPattern'] = value( 'dataPattern', $fieldXML );
+    $field['uniqueName'] = value( 'uniqueName', $fieldXML );
 
     $fields[$name] =& $field;
 }

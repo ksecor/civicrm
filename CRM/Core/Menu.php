@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -74,7 +74,7 @@ class CRM_Core_Menu {
      * This is a super super gross hack, please fix sometime soon
      *
      * using constants from DRUPAL/includes/menu.inc, so that we can reuse 
-     * the same code in both drupal and mambo
+     * the same code in both drupal and joomla
      */
     const
         CALLBACK           =    4,
@@ -102,12 +102,12 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin',
                             'title'   => ts('Administer CiviCRM'),
-                            'qs'      => 'reset=1',
+                            'query'   => 'reset=1',
                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                                          CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'    => self::CALLBACK,
                             'crmType' => self::NORMAL_ITEM,
-                            'weight'  => 40,
+                            'weight'  => 9000,
                             ),
 
                       array(
@@ -152,7 +152,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/uf/group',
                             'title'   => ts('CiviCRM Profile'),
-                            'qs'      => 'reset=1',
+                            'query'   => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -163,7 +163,7 @@ class CRM_Core_Menu {
                       array(
                             'path'   => 'civicrm/admin/uf/group/field',
                             'title'  => ts('CiviCRM Profile Fields'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             'weight' => 221
@@ -172,7 +172,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/custom/group',
                             'title'   => ts('Custom Data'),
-                            'qs'      => 'reset=1',
+                            'query'   => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -183,7 +183,7 @@ class CRM_Core_Menu {
                       array(
                             'path'   => 'civicrm/admin/custom/group/field',
                             'title'  => ts('Custom Data Fields'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             'weight' => 231
@@ -192,7 +192,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/locationType',
                             'title'   => ts('Location Types (Home, Work...)'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -203,7 +203,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/tag',
                             'title'   => ts('Tags (Categories)'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -214,7 +214,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/mapping',
                             'title'   => ts('Import/Export Mapping'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -225,7 +225,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/contact/domain',
                             'title'   => ts('Edit Domain Information'),
-                            'qs'     => 'reset=1&action=update',
+                            'query'  => 'reset=1&action=update',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -236,7 +236,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/reltype',
                             'title'   => ts('Relationship Types'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -246,17 +246,17 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/optionGroup',
                             'title'   => ts('Options'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
-                            'icon'    => 'admin/duplicate_matching.png',
+                            'icon'    => 'admin/option.png',
                             'weight'  => 280
                             ),
                       array(
                             'path'    => 'civicrm/admin/dupematch',
                             'title'   => ts('Duplicate Matching'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -267,7 +267,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/gender',
                             'title'   => ts('Gender Options (Male, Female...)'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -278,7 +278,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/IMProvider',
                             'title'   => ts('Instant Messenger Services'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -289,7 +289,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/mobileProvider',
                             'title'   => ts('Mobile Phone Providers'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -300,7 +300,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/prefix',
                             'title'   => ts('Individual Prefixes (Ms, Mr...)'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -311,7 +311,7 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/suffix',
                             'title'   => ts('Individual Suffixes (Jr, Sr...)'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -338,10 +338,29 @@ class CRM_Core_Menu {
                             'weight'  => 0,  
                             ),
 
+                      array( 
+                            'path'    => 'civicrm/file', 
+                            'title'   => ts( 'Browse Uploaded files' ), 
+                            'access'  => CRM_Core_Permission::check( 'access uploaded files' ),
+                            'type'    => self::CALLBACK,  
+                            'crmType' => self::CALLBACK,  
+                            'weight'  => 0,  
+                            ),
+
+                      array(
+                            'path'   => 'civicrm/dashboard',
+                            'title'  => ts('CiviCRM Home'),
+                            'query'  => 'reset=1',
+                            'type'   => self::CALLBACK,
+                            'crmType'=> self::NORMAL_ITEM,
+                            'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
+                            'weight' => 0,
+                            ),
+
                       array(
                             'path'    => 'civicrm/contact/search',
                             'title'   => ts('Contacts'),
-                            'qs'      => 'reset=1',
+                            'query'   => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::ROOT_LOCAL_TASK,
                             'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
@@ -351,36 +370,36 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/contact/search/basic',
                             'title'   => ts('Find Contacts'),
-                            'qs'      => 'reset=1',
+                            'query'   => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
                             'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight'  => 0
+                            'weight'  => 1
                             ),
 
                       array(
                             'path'    => 'civicrm/contact/search/advanced',
-                            'qs'      => 'reset=1',
+                            'query'   => 'reset=1',
                             'title'   => ts('Advanced Search'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 1
+                            'weight'  => 2
                             ),
 
                       array(
                             'path'    => 'civicrm/contact/search/builder',
                             'title'   => ts('Search Builder'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 2
+                            'weight'  => 3
                             ),
 
 
                       array(
                             'path'   => 'civicrm/contact/add',
                             'title'  => ts('New Contact'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'access' => CRM_Core_Permission::check('add contacts') &&
                                         CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'   => self::CALLBACK,
@@ -390,7 +409,7 @@ class CRM_Core_Menu {
                 
                       array(
                             'path'    => 'civicrm/contact/view',
-                            'qs'      => 'reset=1&cid=%%cid%%',
+                            'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('View Contact'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::ROOT_LOCAL_TASK,
@@ -399,7 +418,7 @@ class CRM_Core_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/basic',
-                            'qs'      => 'reset=1&cid=%%cid%%',
+                            'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Contact Summary'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::DEFAULT_LOCAL_TASK,
@@ -408,7 +427,7 @@ class CRM_Core_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/activity',
-                            'qs'      => 'show=1&reset=1&cid=%%cid%%',
+                            'query'   => 'show=1&reset=1&cid=%%cid%%',
                             'title'   => ts('Activities'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -417,7 +436,7 @@ class CRM_Core_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/rel',
-                            'qs'      => 'reset=1&cid=%%cid%%',
+                            'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Relationships'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -426,7 +445,7 @@ class CRM_Core_Menu {
         
                       array(
                             'path'    => 'civicrm/contact/view/group',
-                            'qs'      => 'reset=1&cid=%%cid%%',
+                            'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Groups'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -435,7 +454,7 @@ class CRM_Core_Menu {
                       
                       array(
                             'path'    => 'civicrm/contact/view/note',
-                            'qs'      => 'reset=1&cid=%%cid%%',
+                            'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Notes'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -444,7 +463,7 @@ class CRM_Core_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/tag',
-                            'qs'      => 'reset=1&cid=%%cid%%',
+                            'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Tags'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -461,21 +480,13 @@ class CRM_Core_Menu {
                       array(
                             'path'   => 'civicrm/group',
                             'title'  => ts('Manage Groups'),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'type'   => self::CALLBACK,
                             'crmType'=> self::NORMAL_ITEM,
                             'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight' => 20,
+                            'weight' => 30,
                             ),
-                      array(
-                            'path'   => 'civicrm/activityView',
-                            'title'  => ts('View User Activity'),
-                            'qs'     => 'reset=1',
-                            'type'   => self::CALLBACK,
-                            'crmType'=> self::NORMAL_ITEM,
-                            'access' => CRM_Core_Permission::check( 'access CiviCRM' ),
-                            'weight' => 21,
-                            ),
+
                       array(
                             'path'   => 'civicrm/group/search',
                             'title'  => ts('Group Members'),
@@ -496,7 +507,7 @@ class CRM_Core_Menu {
                       array(
                             'path'   => 'civicrm/import',
                             'title'  => ts( 'Import' ),
-                            'qs'     => 'reset=1',
+                            'query'  => 'reset=1',
                             'access' => CRM_Core_Permission::check( 'import contacts' ) &&
                                         CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'   =>  CRM_Core_Menu::CALLBACK,
@@ -505,7 +516,7 @@ class CRM_Core_Menu {
                             ),
                       array( 
                              'path'    => 'civicrm/import/contact',
-                             'qs'      => 'reset=1',
+                             'query'   => 'reset=1',
                              'title'   => ts( 'Contacts' ), 
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                                           CRM_Core_Permission::check( 'access CiviCRM' ), 
@@ -515,7 +526,7 @@ class CRM_Core_Menu {
                              ),
                        array( 
                              'path'    => 'civicrm/import/activityHistory', 
-                             'qs'      => 'reset=1',
+                             'query'   => 'reset=1',
                              'title'   => ts( 'Activity History' ), 
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                                           CRM_Core_Permission::check( 'access CiviCRM' ),
@@ -607,7 +618,7 @@ class CRM_Core_Menu {
         self::items( );
 
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Mambo' ) {
+        if ( $config->userFramework == 'Joomla' ) {
             static $processed = false;
             if ( ! $processed ) {                
                 $processed = true;
@@ -639,7 +650,7 @@ class CRM_Core_Menu {
                             $klass = 'active';
                         }
                     }
-                    $qs  = CRM_Utils_Array::value( 'qs', self::$_items[$index] );
+                    $qs  = CRM_Utils_Array::value( 'query', self::$_items[$index] );
                     if ( self::$_params ) {
                         foreach ( self::$_params as $n => $v ) {
                             $qs = str_replace( "%%$n%%", $v, $qs );
@@ -728,6 +739,39 @@ class CRM_Core_Menu {
         }
     }
 
+    /**
+     * Get the breadcrumb for a give menu task
+     *
+     * @param string $path the current path for which we need the bread crumb
+     *
+     * @return string       the breadcrumb for this path
+     *
+     * @static
+     * @access public
+     */
+    public static function &breadcrumb( $args ) {
+
+        // we dont care about the current menu item
+        array_pop( $args );
+
+        $menus =& self::items( );
+
+        $crumbs      = array( );
+        $currentPath = null;
+        foreach ( $args as $arg ) {
+            $currentPath = $currentPath ? "{$currentPath}/{$arg}" : $arg;
+
+            foreach ( $menus as $menu ) {
+                if ( $menu['path'] == $currentPath ) {
+                    $crumbs[] = array('title' => $menu['title'], 
+                                      'url'   => CRM_Utils_System::url( $menu['path'] ) );
+                }
+            }
+        }
+
+        return $crumbs;
+        // CRM_Core_Error::debug( 'bc', $crumbs );
+    }
 
     /**
      * Get children for a particular menu path sorted by ascending weight

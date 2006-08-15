@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -162,6 +162,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     protected $_params;
 
     /**
+     * The return properties used for search
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_returnProperties;
+
+    /**
      * The sort by character
      * 
      * @var string
@@ -249,6 +257,13 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // also set ssID if this is a saved search
             $ssID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $this->_groupID, 'saved_search_id' );
             $this->assign( 'ssID', $ssID );
+            
+            //get the saved search mapping id
+            $ssMappingId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $ssID, 'mapping_id' );
+            if ( $ssMappingId  ) {
+                $this->assign( 'ssMappingID', $ssMappingId );
+            }
+            
             $group_contact_status = array();
             foreach(CRM_Core_SelectValues::groupContactStatus() as $k => $v) {
                 if (! empty($k)) {
@@ -261,6 +276,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->addGroupRule('group_contact_status', ts('Please select at least one membership status.'), 'required', null, 1);
             // Set dynamic page title for 'Show Members of Group'
             CRM_Utils_System::setTitle( ts('Group Members: %1', array(1 => $this->_group[$this->_groupID])) );
+
+            // check if user has permission to edit members of this group
+            if ( CRM_Contact_BAO_Group::checkPermission( $this->_groupID, $this->_group[$this->_groupID] ) ==
+                 CRM_Core_Permission::EDIT ) {
+                $this->assign( 'permissionedForGroup', true );
+            } else {
+                $this->assign( 'permissionedForGroup', false );
+            }
         }
         
         /*
@@ -286,8 +309,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         
         // need to perform tasks on all or selected items ? using radio_ts(task selection) for it
-        $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => null) );
-        //$this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
+        $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked' ) );
         
         $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName().");" ) );
 
@@ -439,6 +461,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues = $this->controller->exportValues($this->_name); 
             $this->normalizeFormValues( );
             $this->_params =& $this->convertFormValues( $this->_formValues );
+            $this->_returnProperties =& $this->returnProperties( );
 
             // CRM_Core_Error::debug( 'fv', $this->_formValues );
 
@@ -453,6 +476,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         } else {
             $this->_formValues = $this->get( 'formValues' );
             $this->_params =& $this->convertFormValues( $this->_formValues );
+            $this->_returnProperties =& $this->returnProperties( );
         }
 
         if ( empty( $this->_formValues ) ) {
@@ -460,6 +484,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                 // we only retrieve the saved search values if out current values are null
                 $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
                 $this->_params =& $this->convertFormValues( $this->_formValues );
+                $this->_returnProperties =& $this->returnProperties( );
             } else if ( isset( $this->_ufGroupID ) ) {
                 // also set the uf group id if not already present
                 $this->_formValues['uf_group_id'] = $this->_ufGroupID;
@@ -478,7 +503,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->assign( 'context', $this->_context );
 
-        $selector =& new CRM_Contact_Selector($this->_formValues, $this->_params, $this->_action);
+        //CRM_Core_Error::debug( 'f', $this->_formValues );
+        //CRM_Core_Error::debug( 'p', $this->_params );
+        $selector =& new CRM_Contact_Selector( $this->_formValues, $this->_params,
+                                               $this->_returnProperties,
+                                               $this->_action );
         $controller =& new CRM_Contact_Selector_Controller($selector ,
                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -517,16 +546,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     function postProcess( ) {
         
         $session =& CRM_Core_Session::singleton();
-        $session ->set('is<Advanced','0');
+        $session ->set('isAdvanced','0');
+        $session ->set('isSearchBuilder','0');
 
         // get user submitted values
         // get it from controller only if form has been submitted, else preProcess has set this
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name);
             $this->normalizeFormValues( );
-            $this->_params =& $this->convertFormValues( $this->_formValues );
-
-            // CRM_Core_Error::debug( 'fv', $this->_formValues );
 
             // also reset the sort by character
             $this->_sortByCharacter = null;
@@ -535,15 +562,17 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
             $this->_formValues['group'][$this->_groupID] = 1;
-
-            // add group_contact_status as added if not present
-            if ( ! CRM_Utils_Array::value( 'group_contact_status', $this->_formValues ) ) {
-                $this->_formValues['group_contact_status'] = array( 'Added' => true );
-            }
         } else if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
+
+        $this->_params           =& $this->convertFormValues( $this->_formValues );
+        $this->_returnProperties =& $this->returnProperties( );
+
+        // CRM_Core_Error::debug( 'fv', $this->_formValues );
+        // CRM_Core_Error::debug( 'p',  $this->_params );
+        // CRM_Core_Error::debug( 'rp', $this->_returnProperties );
 
         $this->postProcessCommon( );
     }
@@ -578,7 +607,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         return;
     }
 
-    function &convertFormValues( &$formValues ) {
+    function &convertFormValues( &$formValues, $wildcard = 0 ) {
         $params = array( );
 
         if ( empty( $formValues ) ) {
@@ -596,7 +625,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                     } 
                 }
             } else {
-                $values =& CRM_Contact_BAO_Query::fixWhereValues( $id, $values );
+                $values =& CRM_Contact_BAO_Query::fixWhereValues( $id, $values, $wildcard );
                 
                 if ( ! $values ) {
                     continue;
@@ -642,9 +671,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues['uf_group_id'] = $this->_ufGroupID;
         }
 
-        $this->set( 'type'       , $this->_action );
-        $this->set( 'formValues' , $this->_formValues );
-        $this->set( 'queryParams', $this->_params ); 
+        $this->set( 'type'            , $this->_action );
+        $this->set( 'formValues'      , $this->_formValues );
+        $this->set( 'queryParams'     , $this->_params );
+        $this->set( 'returnProperties', $this->_returnProperties );
         
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {
             // check actionName and if next, then do not repeat a search, since we are going to the next page
@@ -663,7 +693,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
 
             // create the selector, controller and run - store results in session
-            $selector =& new CRM_Contact_Selector($this->_formValues, $this->_params, $this->_action);
+            $selector =& new CRM_Contact_Selector($this->_formValues, $this->_params,
+                                                  $this->_returnProperties, $this->_action);
 
             // added the sorting  character to the form array
             // lets recompute the aToZ bar without the sortByCharacter
@@ -725,6 +756,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
     function getTitle( ) {
         return ts( 'Find Contacts' );
+    }
+
+    public function &returnProperties( ) {
+        return null;
+        // return CRM_Contact_BAO_Query::defaultReturnProperties( );
     }
 
 }

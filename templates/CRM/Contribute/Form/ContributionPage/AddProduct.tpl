@@ -1,6 +1,6 @@
 
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
-{include file="CRM/WizardHeader.tpl}
+{include file="CRM/common/WizardHeader.tpl"}
 <div id="help">
     {if $action eq 1024}
         {ts}This is a preview of this product as it will appear on your Contributions page(s).{/ts}
@@ -14,7 +14,7 @@
    {if $action eq 8}
       <div class="messages status">
         <dl>
-          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+          <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
           {ts}Are you sure you want to remove this premium product from this Contribution page?{/ts}
           </dd>

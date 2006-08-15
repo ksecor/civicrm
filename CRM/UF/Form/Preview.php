@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -85,23 +85,26 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         } else {
             $this->_fields   = CRM_Core_BAO_UFGroup::getFields( $this->_gid );
         }
-
+        
         // preview for field
-       
+        $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
+        
         if( $field ) {
             $fieldDAO = & new CRM_Core_DAO_UFField();
             $fieldDAO->id = $fid;
             $fieldDAO->find(true);
-           
-            $name = $fieldDAO->field_name;
             
+            $name = $fieldDAO->field_name;
             if ($fieldDAO->location_type_id) {
-                $name .= '-'.$fieldDAO->location_type_id;
+                $name .= '-' . $fieldDAO->location_type_id;
+            } else if ( in_array( $name, $specialFields ) ) {
+                $name .= '-Primary';
             }
+            
             if ($fieldDAO->phone_type) {
                 $name .= '-'.$fieldDAO->phone_type;
             }
-           
+            
             $fieldArray[$name]= $this->_fields[$name];
             $this->_fields = $fieldArray;
             if (! is_array($this->_fields[$name])) {
@@ -114,7 +117,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         } else {
             $this->assign('viewOnly',true);
         }
-
+        
         $this->set('fieldId',null);
         $this->assign("fields",$this->_fields); 
     }
@@ -176,11 +179,16 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
             } else if ($field['name'] === 'preferred_communication_method') {
-                $this->add('select', $name, $field['title'],
-                           array('' => ts('- select -')) + CRM_Core_SelectValues::pcm());
+                $values = CRM_Core_SelectValues::pcm();
+                foreach ( $values as $key => $var ) {
+                    if ( $key == '' ) {
+                        continue;
+                    }
+                    $options[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+                }
+                $this->addGroup($options, $name, $field['title'], '<br/>' );
             } else if ($field['name'] === 'preferred_mail_format') {
-                $this->add('select', $name, $field['title'], 
-                           array(CRM_Core_SelectValues::pcm()));
+                $this->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
             } else if ( substr($field['name'], 0, 7) === 'do_not_' ) {  
                 $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
             } else if ( $field['name'] === 'group' ) {

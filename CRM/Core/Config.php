@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -112,12 +112,12 @@ class CRM_Core_Config {
     /**
      * The directory to store uploaded files
      */
-    public $uploadDir         = './upload/';
+    public $uploadDir         = null;
     
     /**
      * The directory to store uploaded image files
      */
-    public $imageUploadDir   ='./persist/contribute/';
+    public $imageUploadDir   = null;
     
     /**
      * The directory to store uploaded  files in custom data 
@@ -128,6 +128,12 @@ class CRM_Core_Config {
      * The url that we can use to display the uploaded images
      */
     public $imageUploadURL   = null;
+
+     /**
+     * The url that we can use to display the uploaded images
+     */
+    public $customUploadURL   = null;
+    
 
     /**
      * Are we generating clean url's and using mod_rewrite
@@ -292,6 +298,13 @@ class CRM_Core_Config {
     public $mapProvider = null;
 
     /**
+     * Map GeoCoding 
+     *
+     * @var boolean
+     */
+    public $mapGeoCoding = null;
+
+    /**
      * Map API Key 
      *
      * @var boolean
@@ -360,6 +373,20 @@ class CRM_Core_Config {
      * @var string
      */
     public $fatalErrorHandler = null;
+
+    /**
+     * legacy encoding for file encoding conversion
+     *
+     * @var string
+     */
+    public $legacyEncoding = 'Windows-1252';
+
+    /**
+     * max location blocks in address
+     *
+     * @var integer
+     */
+    public $maxLocationBlocks        = 2;
 
     /**
      * the domainID for this instance. 
@@ -443,14 +470,6 @@ class CRM_Core_Config {
             $this->dsn = CIVICRM_DSN;
         }
 
-        if (defined('UF_DSN')) {
-            $this->ufDSN = UF_DSN;
-        }
-
-        if (defined('UF_USERTABLENAME')) {
-            $this->ufUserTableName = UF_USERTABLENAME;
-        }
-
         if (defined('CIVICRM_DEBUG') ) {
             $this->debug = CIVICRM_DEBUG;
 
@@ -501,6 +520,10 @@ class CRM_Core_Config {
             $this->imageUploadDir = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADDIR );
 
             CRM_Utils_File::createDir( $this->imageUploadDir );
+        }
+
+        if ( defined( 'CIVICRM_CUSTOM_FILE_UPLOADURL' ) ) {
+            $this->customUploadURL = self::addTrailingSlash( CIVICRM_CUSTOM_FILE_UPLOADURL, '/' );
         }
 
         if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
@@ -683,7 +706,7 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_MYSQL_PATH' ) ) {
-            $this->mysqlPath = CIVICRM_MYSQL_PATH;
+            $this->mysqlPath = self::addTrailingSlash( CIVICRM_MYSQL_PATH );
         }
 
         $size = trim( ini_get( 'upload_max_filesize' ) );
@@ -709,6 +732,9 @@ class CRM_Core_Config {
             $this->mapAPIKey = CIVICRM_MAP_API_KEY;
         }
 
+        if ( defined( 'CIVICRM_MAP_GEOCODING' ) ) {
+            $this->mapGeoCoding = CIVICRM_MAP_GEOCODING;
+        }
 
         if ( defined( 'CIVICRM_GEOCODE_METHOD' ) ) {
             if ( CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_ZipTable' ||
@@ -743,7 +769,15 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CIVICRM_FATAL_ERROR_HANDLER' ) ) {
-            $this->fatalErrorTemplate = CIVICRM_FATAL_ERROR_HANDLER;
+            $this->fatalErrorHandler = CIVICRM_FATAL_ERROR_HANDLER;
+        }
+
+        if ( defined( 'CIVICRM_LEGACY_ENCODING' ) ) {
+            $this->legacyEncoding = CIVICRM_LEGACY_ENCODING;
+        }
+
+        if ( defined( 'CIVICRM_MAX_LOCATION_BLOCKS' ) ) {
+            $this->maxLocationBlocks = CIVICRM_MAX_LOCATION_BLOCKS;
         }
 
         require_once 'CRM/Core/Component.php';
@@ -812,7 +846,7 @@ class CRM_Core_Config {
         if ( ! isset( self::$_mail ) ) {
             if ( self::$_singleton->smtpServer == '' ||
                  self::$_singleton->smtpServer == 'YOUR SMTP SERVER' ) {
-                CRM_Utils_System::fatal( ts( 'CIVICRM_SMTP_SERVER is not set in the config file' ) ); 
+                CRM_Core_Error::fatal( ts( 'CIVICRM_SMTP_SERVER is not set in the config file' ) ); 
             }
 
             $params['host'] = self::$_singleton->smtpServer;

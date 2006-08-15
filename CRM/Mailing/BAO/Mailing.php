@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -413,16 +413,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         $eq->query($query);
         return $eq;
-
-//         $results = array();
-//         while ($eq->fetch()) {
-//             $results[] = array(
-//                 'email_id' => $eq->email_id,
-//                 'contact_id' => $eq->contact_id,
-//             );
-//         }
-
-//         return $results;
     }
 
     /**
@@ -433,13 +423,19 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access private
      */
     private function getHeaderFooter() {
-        $this->header =& new CRM_Mailing_BAO_Component();
-        $this->header->id = $this->header_id;
-        $this->header->find(true);
+        if ( ! $this->header ) {
+            $this->header =& new CRM_Mailing_BAO_Component();
+            $this->header->id = $this->header_id;
+            $this->header->find(true);
+            $this->header->free( );
+        }
         
-        $this->footer =& new CRM_Mailing_BAO_Component();
-        $this->footer->id = $this->footer_id;
-        $this->footer->find(true);
+        if ( ! $this->footer ) {
+            $this->footer =& new CRM_Mailing_BAO_Component();
+            $this->footer->id = $this->footer_id;
+            $this->footer->find(true);
+            $this->footer->free( );
+        }
     }
 
 
@@ -460,9 +456,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                 $email, &$recipient, $test = false) 
     {
         if ($test) {
+            $domain_id = 'DOMAIN';
             $job_id = 'JOB';
             $event_queue_id = 'QUEUE';
             $hash = 'HASH';
+        } else {
+            $domain_id = $this->domain_id;
         }
         if ($this->_domain == null) {
             require_once 'CRM/Core/BAO/Domain.php';
@@ -470,6 +469,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 CRM_Core_BAO_Domain::getDomainByID($this->domain_id);
         }
 
+        require_once 'api/Contact.php';
         /**
          * Inbound VERP keys:
          *  reply:          user replied to mailing
@@ -479,11 +479,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          */
         $config =& CRM_Core_Config::singleton( );
 
+        $verp = array( );
         foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) 
         {
             $verp[$key] = implode($config->verpSeparator,
                                   array(
                                         $key, 
+                                        $domain_id,
                                         $job_id, 
                                         $event_queue_id,
                                         $hash
@@ -518,31 +520,28 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,
                                 $this, true);
             }
-            
-            $this->text = $this->header->body_text . "\n"
-                        . $this->body_text . "\n"
-                        . $this->footer->body_text;
-            
-            $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
-                            $this->_domain, false);
-            $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
-                            $this, true);
+
+            if ( $this->body_text ) {
+                $this->text = $this->header->body_text . "\n"
+                    . $this->body_text . "\n"
+                    . $this->footer->body_text;
+                
+                $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
+                                                                   $this->_domain, false);
+                $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
+                                                                    $this, true);
+            }
         }
         
         $html = $this->html;
         $text = $this->text;
         
-        if ($html && !$test && $this->url_tracking) {
-            CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
-                                $this->id, $event_queue_id);
-            CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
-                                $this->id, $event_queue_id);
+        $params  = array( 'contact_id' => $contactId );
+        $contact =& crm_fetch_contact( $params );
+        if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+            return null;
         }
-        
-        $params = array('contact_id' => $contactId, 'id' => $contactId);
-        $contact = array();
-        $ids    = array();
-        CRM_Contact_BAO_Contact::retrieve($params, $contact, $ids);
+
         $message =& new Mail_Mime("\n");
 
         /* Do contact-specific token replacement in text mode, and add to the
@@ -556,8 +555,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $verp, $urls, false);
             // render the &amp; entities in text mode, so that the links work
             $text = str_replace('&amp;', '&', $text);
-                                        
-            $message->setTxtBody($text);
         }
 
 
@@ -575,9 +572,31 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 $html .= '<img src="' . $config->userFrameworkResourceURL . 
                 "extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>";
             }
-            $message->setHTMLBody($html);
         }
         
+        if ($html && !$test && $this->url_tracking) {
+            CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
+                                $this->id, $event_queue_id);
+            CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
+                                $this->id, $event_queue_id);
+        }
+        
+        if ($test || !$html || $contact['preferred_mail_format'] == 'Text' ||
+            $contact['preferred_mail_format'] == 'Both') 
+        {
+            $message->setTxtBody($text);
+            
+            unset( $text );
+        }
+
+        if ($html && ($test || $contact['preferred_mail_format'] == 'HTML' ||
+            $contact['preferred_mail_format'] == 'Both'))
+        {
+            $message->setHTMLBody($html);
+
+            unset( $html );
+        }
+
         $recipient = "\"{$contact['display_name']}\" <$email>";
         $headers['To'] = $recipient;
 
@@ -590,7 +609,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             );
         $message->get($mailMimeParams);
         $message->headers($headers);
-        
+
+        // make sure we unset a lot of stuff
+        unset( $verp );
+        unset( $urls );
+        unset( $params );
+        unset( $contact );
+        unset( $ids );
+
         return $message;
     }
 

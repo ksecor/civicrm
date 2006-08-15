@@ -17,7 +17,7 @@
 <div id="header">
 <table width=900 cellpadding=0 cellspacing=0 border=0>
 <tr>
-  <td background="{$config->userFrameworkBaseURL}themes/quest/appbanner4.png" height=72>
+  <td background="{$config->userFrameworkBaseURL}themes/quest/cm_app_banner.jpg" height=72>
    <p>&nbsp;</p>
   </td>
 </tr>

@@ -14,16 +14,16 @@
  *      define( 'ENABLE_COMPONENTS', 'CiviContribute, CiviMail' );
  *
  */
-define( 'ENABLE_COMPONENTS', '' );
+define( 'ENABLE_COMPONENTS', 'CiviContribute,CiviMember' );
 
 /**
  * Content Management System (CMS) Host:
  *
- * CiviCRM can be hosted in either Drupal or Mambo. Retain the default settings
+ * CiviCRM can be hosted in either Drupal or Joomla. Retain the default settings
  * for Drupal.
  * 
- * Settings for Mambo:
- *      define( 'CIVICRM_UF'        , 'Mambo' );
+ * Settings for Joomla:
+ *      define( 'CIVICRM_UF'        , 'Joomla' );
  *      define( 'CIVICRM_UF_VERSION', '1.0.8' );
  *      define( 'CIVICRM_UF_URLVAR' , 'task'  );
  */
@@ -34,7 +34,7 @@ define( 'CIVICRM_UF_URLVAR'        , '%%cmsURLVar%%'  );
 /**
  * Content Management System (CMS) Datasource:
  *
- * Update this setting with your CMS (Drupal or Mambo) database username, server and DB name.
+ * Update this setting with your CMS (Drupal or Joomla) database username, server and DB name.
  * Datasource (DSN) format:
  *      define( 'CIVICRM_UF_DSN', 'mysql://cms_db_username:cms_db_password@db_server/cms_database?new_link=true');
  */
@@ -90,7 +90,7 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * the CIVICRM_CUSTOM_FILE_UPLOADDIR could be:
  *      define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR', '/var/crm_docs/' );
  *
- * EXAMPLE - Joomla/Mambo Installations:
+ * EXAMPLE - Joomla Installations:
  * If the path to the Joomla home directory is /var/www/htdocs/joomla
  * the $civicrm_root setting would be:
  *      $civicrm_root = '/var/www/htdocs/joomla/administrator/components/com_civicrm/civicrm/';
@@ -140,7 +140,7 @@ define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
  *      define( 'CIVICRM_IMAGE_UPLOADURL'    , 'http://www.example.com/civicspace/files/civicrm/persist/' );
  *
  *
- * EXAMPLES - Joomla/Mambo Installations:
+ * EXAMPLES - Joomla Installations:
  * If your site's home url is http://www.example.com/joomla/
  *
  * CIVICRM_UF_BASEURL - home URL for your site:
@@ -165,7 +165,7 @@ define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 define( 'CIVICRM_UF_RESOURCEURL'  , '%%resourceURL%%' );
 define( 'CIVICRM_RESOURCEBASE'    , '%%resourceBase%%' );
 define( 'CIVICRM_IMAGE_UPLOADURL' , '%%imageUploadURL%%' );
-
+define( 'CIVICRM_CUSTOM_FILE_UPLOADURL','%%customFileUploadURL%%' );
 /**
  * CiviCRM Database Settings:
  *
@@ -173,7 +173,7 @@ define( 'CIVICRM_IMAGE_UPLOADURL' , '%%imageUploadURL%%' );
  * CiviCRM has been optimized for MySQL 4.1, but will also run on many 4.0.x versions.
  * If you are using a 4.0.x release of MySQL, you MUST change CIVICRM_MYSQL_VERSION to 4.0
  *
- * Define the database URL (CIVICRM_DSN) for the CiviCRM database and the Drupal/Mambo database
+ * Define the database URL (CIVICRM_DSN) for the CiviCRM database and the Drupal/Joomla database
  * Database URL format:
  *      define( 'CIVICRM_DSN', 'mysql://crm_db_username:crm_db_password@db_server/crm_database?new_link=true');
  *
@@ -369,8 +369,9 @@ define( 'CIVICRM_LC_MONETARY', 'en_US' );
  * automatic Geocode lookup methods described in the next section.
  *
  */
-define('CIVICRM_MAP_PROVIDER' , '' );
-define('CIVICRM_MAP_API_KEY'  , '' );
+define('CIVICRM_MAP_PROVIDER'  , '' );
+define('CIVICRM_MAP_API_KEY'   , '' );
+define('CIVICRM_MAP_GEOCODING' , '' );
 
 /**
  * Geocode (latitude and longitude) Lookup:
@@ -465,6 +466,10 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL', 'www.paypal.com');
 // Hostname for "PayPal Express" button submit in live mode. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.
 
+
+// if u r using a thermometer and want a different title set this value
+define( 'CIVICRM_CONTRIBUTE_THERMOMETER_TITLE', '' );
+
 /**
  * Force SSL Redirect for Online Contribution Pages:
  *
@@ -487,6 +492,14 @@ define('CIVICRM_ENABLE_SSL', 0 );
  * Refer to the 'Multi-site Support' section of the Installation Guide for more info.
  */
 define('CIVICRM_DOMAIN_ID' , 1 );
+
+/**
+ * Location Blocks display for Contacts
+ *
+ * CiviCRM by default shows 2 location blocks when editing a contact, change this number if you
+ * want to increase the location blocks
+ */
+// define( 'CIVICRM_MAX_LOCATION_BLOCKS', 2 );
 
 /**
  * Debugging:
@@ -567,6 +580,16 @@ define( 'CIVICRM_UF_FRONTEND', %%frontEnd%% );
  */
 define( 'CIVICRM_FATAL_ERROR_TEMPLATE', 'CRM/error.tpl' );
 define( 'CIVICRM_FATAL_ERROR_HANDLER',  '');
+
+/**
+ * File encoding conversion:
+ *
+ * CiviCRM expects the import files to be in the UTF-8 encoding. That said,
+ * in most cases (Excel CSV files) the encoding is not UTF-8. In such cases,
+ * CiviCRM will recode any non-UTF-8 file to UTF-8 assuming the file's encoding
+ * is the one specified below.
+ */
+define( 'CIVICRM_LEGACY_ENCODING', 'Windows-1252' );
 
 /**
  * 

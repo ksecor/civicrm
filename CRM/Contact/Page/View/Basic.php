@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -145,7 +145,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         // get the contributions, new style of doing stuff
         // do the below only if the person has access to contributions
         $config =& CRM_Core_Config::singleton( );
-        if ( CRM_Utils_System::accessCiviContribute( ) ) {
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $this->assign( 'accessContribution', true );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $this->_action );  
             $controller->setEmbedded( true );                           
@@ -159,6 +159,24 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         } else {
             $this->assign( 'accessContribution', false );
         }
+
+        // get the memberships, new style of doing stuff
+        // do the below only if the person has access to memberships
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            $this->assign( 'accessMembership', true );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_Search', ts('Memberships'), $this->_action );  
+            $controller->setEmbedded( true );                           
+            $controller->reset( );  
+            $controller->set( 'limit', 3 ); 
+            $controller->set( 'force', 1 );
+            $controller->set( 'cid'  , $this->_contactId );
+            $controller->set( 'context', 'basic' ); 
+            $controller->process( );  
+            $controller->run( );
+        } else {
+            $this->assign( 'accessMembership', false );
+        }
+
     }
 
 
@@ -173,22 +191,27 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         require_once 'CRM/Core/ShowHideBlocks.php';
 
         $showHide =& new CRM_Core_ShowHideBlocks( array( 'commPrefs'           => 1,
-                                                         'notes[show]'          => 1,
-                                                         'relationships[show]'  => 1,
-                                                         'groups[show]'         => 1,
-                                                         'openActivities[show]' => 1,
-                                                         'activityHx[show]'     => 1 ),
+                                                         'notes_show'          => 1,
+                                                         'relationships_show'  => 1,
+                                                         'groups_show'         => 1,
+                                                         'openActivities_show' => 1,
+                                                         'activityHx_show'     => 1 ),
                                                   array( 'notes'                => 1,
-                                                         'commPrefs[show]'      => 1,
+                                                         'commPrefs_show'      => 1,
                                                          'relationships'        => 1,
                                                          'groups'               => 1,
                                                          'openActivities'       => 1,
                                                          'activityHx'           => 1 ) );
 
         $config =& CRM_Core_Config::singleton( ); 
-        if ( CRM_Utils_System::accessCiviContribute( ) ) {
-            $showHide->addShow( 'contributions[show]' ); 
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            $showHide->addShow( 'contributions_show' ); 
             $showHide->addHide( 'contributions' ); 
+        }
+
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            $showHide->addShow( 'memberships_show' ); 
+            $showHide->addHide( 'memberships' ); 
         }
 
         if ( $defaults['contact_type'] == 'Individual' ) {
@@ -197,9 +220,9 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
                  CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
                  CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
                 $showHide->addShow( 'demographics' );
-                $showHide->addHide( 'demographics[show]' );
+                $showHide->addHide( 'demographics_show' );
             } else {
-                $showHide->addShow( 'demographics[show]' );
+                $showHide->addShow( 'demographics_show' );
                 $showHide->addHide( 'demographics' );
             }
         }
@@ -207,13 +230,13 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         if ( array_key_exists( 'location', $defaults ) ) {
             $numLocations = count( $defaults['location'] );
             if ( $numLocations > 0 ) {
-                $showHide->addShow( 'location[1]' );
-                $showHide->addHide( 'location[1][show]' );
+                $showHide->addShow( 'location_1' );
+                $showHide->addHide( 'location_1_show' );
             }
             for ( $i = 1; $i < $numLocations; $i++ ) {
                 $locationIndex = $i + 1;
-                $showHide->addShow( "location[$locationIndex][show]" );
-                $showHide->addHide( "location[$locationIndex]" );
+                $showHide->addShow( "location_{$locationIndex}_show" );
+                $showHide->addHide( "location_{$locationIndex}" );
             }
         }
         

@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -146,7 +146,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->_showHide =& new CRM_Core_ShowHideBlocks('','');
         
         foreach ($groupTitle as $key => $title) {
-          $showBlocks = $title . '[show]' ;
+          $showBlocks = $title . '_show' ;
           $hideBlocks = $title;
            
           if ($groupCollapseDisplay[$key]) {

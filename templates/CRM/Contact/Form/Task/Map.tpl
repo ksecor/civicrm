@@ -7,12 +7,11 @@
   {include file="CRM/Contact/Form/Task/Map/Yahoo.tpl"}
 {/if}
 
-<p>                                                                                                           
+<p></p>
 <div class="form-item">                     
     <p> 
     {$form.buttons.html}                                                                                      
     </p>    
 </div>                            
-</p>
 
 </html>

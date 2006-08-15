@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -80,16 +80,17 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
             $checkBoxes = array( );
             $chekFlag = 0;
             foreach ( $searchRows as $id => $row ) {
-                $checked = '';
                 if (!$chekFlag) {
-                    $checked = array( 'checked' => null);
-                    $chekFlag++;
+                    $chekFlag = $id;
                 }
                 
-                $checkBoxes[$id] = $this->createElement('radio',null, null,null,$id, $checked );
+                $checkBoxes[$id] = $this->createElement('radio',null, null,null,$id);
             }
             
             $this->addGroup($checkBoxes, 'contact_check');
+            if ( $chekFlag ) {
+                $checkBoxes[$chekFlag]->setChecked( true );
+            }
             $this->assign('searchRows', $searchRows );
 
         }
@@ -166,13 +167,13 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
                             ts('Total Selected Contact(s): %1', array(1 => $valid+$invalid+$duplicate))
                             );
             if ( $valid ) {
-                $status[] = ts('New relationship record(s) created: %1.', array(1 => $valid)) . '<br>';
+                $status[] = ts('New relationship record(s) created: %1.', array(1 => $valid)) . '<br/>';
             }
             if ( $invalid ) {
-                $status[] = ts('Relationship record(s) not created due to invalid target contact type: %1.', array(1 => $invalid)) . '<br>';
+                $status[] = ts('Relationship record(s) not created due to invalid target contact type: %1.', array(1 => $invalid)) . '<br/>';
             }
             if ( $duplicate ) {
-                $status[] = ts('Relationship record(s) not created - duplicate of existing relationship: %1.', array(1 => $duplicate)) . '<br>';
+                $status[] = ts('Relationship record(s) not created - duplicate of existing relationship: %1.', array(1 => $duplicate)) . '<br/>';
             }
             CRM_Core_Session::setStatus( $status );
         }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Quest/Partner</base>
+  <class>Pomona</class>
+  <name>quest_partner_pomona</name>
+  <comment>Pomona College.</comment>
+  <add>1.5</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique ID</comment>
+      <add>1.5</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+      <add>1.5</add>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>1.5</add>
+  </foreignKey>
+  <field>
+     <name>name_1</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>department_1</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>relationship_1</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>name_2</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>department_2</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>relationship_2</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>name_3</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>department_3</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+     <name>relationship_3</name>
+     <type>varchar</type>
+     <length>255</length>
+     <add>1.5</add> 
+  </field>
+  <field>
+       <name>is_broader_context</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <add>1.5</add>
+  </field>
+  <field>
+       <name>is_factors_work</name>
+       <type>boolean</type>
+       <default>NULL</default>
+       <add>1.5</add>
+  </field>
+</table>

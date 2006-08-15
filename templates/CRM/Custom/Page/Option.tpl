@@ -40,7 +40,7 @@
     {if $action eq 16}
         <div class="messages status">
         <dl>
-        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         <dd>{capture assign=crmURL}{crmURL p='civicrm/admin/custom/group/field/option' q="action=add&fid=$fid"}{/capture}{ts 1=$fieldTitle 2=$crmURL}There are no multiple choice options for the custom field "%1", <a href="%2">add one</a>.{/ts}</dd>
         </dl>
         </div>

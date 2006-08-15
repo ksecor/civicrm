@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -60,16 +60,20 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
         foreach ( $groups as $group ) {
             $adminPanel[$group] = array( );
             foreach ( $items as $item ) {
-                if ( $config->userFramework == 'Mambo' &&
+                if ( $config->userFramework == 'Joomla' &&
                      $item['path'] == 'civicrm/admin/access' ) {
-                    // access control not yet implemented for mambo
+                    // access control not yet implemented for joomla
                     continue;
                 }
 
                 if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
                     $value = array( 'title' => $item['title'],
+                                    'id'    => strtr($item['title'], array('('=>'_', ')'=>'', ' '=>'',
+                                                                           ','=>'_', '/'=>'_' 
+                                                                           )
+                                                     ),
                                     'url'   => CRM_Utils_System::url( $item['path'],
-                                                                      CRM_Utils_Array::value( 'qs', $item ) ),
+                                                                      CRM_Utils_Array::value( 'query', $item ) ),
                                     'icon'  => $item['icon'],
                                     'extra' => CRM_Utils_Array::value( 'extra', $item ) );
                     $adminPanel[$group][$item['weight'] . '.' . $item['title']] = $value;

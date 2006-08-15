@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -182,7 +182,7 @@ class CRM_Core_SelectValues {
                               );
             if ( $unitType == 'duration' ) {
                 $unitAdd = array(
-                                 'life_time'      => ts('life time')
+                                 'lifetime'      => ts('life time')
                                  );
                 $unitList = array_merge( $unitList, $unitAdd);
             }
@@ -233,9 +233,9 @@ class CRM_Core_SelectValues {
         if (!$eventDate) {
             $eventDate = array(
                  ''             => ts('- select -'),
-                 'start_date'   => ts('start Date'),
-                 'end_date'     => ts('end Date'),
-                 'join_date'    => ts('join Date')
+                 'start_date'   => ts('start date'),
+                 'end_date'     => ts('end date'),
+                 'join_date'    => ts('join date')
              );
         }
         return $eventDate;

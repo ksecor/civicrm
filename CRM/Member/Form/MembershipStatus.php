@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -43,6 +43,29 @@ require_once 'CRM/Member/Form.php';
  */
 class CRM_Member_Form_MembershipStatus extends CRM_Member_Form
 {
+
+    /**
+     * This function sets the default values for the form. MobileProvider that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    public function setDefaultValues( ) {
+        $defaults = array( );
+        $defaults =& parent::setDefaultValues( );
+
+        //finding default weight to be put 
+        if ( ! $defaults['weight'] ) {
+            $query = "SELECT max( `weight` ) as weight FROM `civicrm_membership_status`";
+            $dao =& new CRM_Core_DAO( );
+            $dao->query( $query );
+            $dao->fetch();
+            $defaults['weight'] = ($dao->weight + 1);
+        }
+        return $defaults;
+    }
+
     /**
      * Function to build the form
      *
@@ -64,16 +87,18 @@ class CRM_Member_Form_MembershipStatus extends CRM_Member_Form
                         'objectExists', array( 'CRM_Member_DAO_MembershipStatus', $this->_id ) );
 
         $this->add('select', 'start_event', ts('Start Event'), CRM_Core_SelectValues::eventDate( ) );
-        $this->add('select', 'start_event_adjust_unit', ts('Start Event Adjust Unit'), CRM_Core_SelectValues::unitList( ) );
+        $this->add('select', 'start_event_adjust_unit', ts('Start Event Adjust'), CRM_Core_SelectValues::unitList( ) );
         $this->add('text', 'start_event_adjust_interval', ts('Start Event Adjust Interval'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipStatus', 'start_event_adjust_interval' ) );
         $this->add('select', 'end_event', ts('End Event'), CRM_Core_SelectValues::eventDate( ) );
-        $this->add('select', 'end_event_adjust_unit', ts('End Event Adjust Unit'), CRM_Core_SelectValues::unitList( ) );
+        $this->add('select', 'end_event_adjust_unit', ts('End Event Adjust'), CRM_Core_SelectValues::unitList( ) );
         $this->add('text', 'end_event_adjust_interval', ts('End Event Adjust Interval'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipStatus', 'end_event_adjust_interval' ) );
         $this->add('checkbox', 'is_current_member', ts('Is Current Member?'));
         $this->add('checkbox', 'is_admin', ts('Is Admin?'));
 
+        $this->add('text', 'weight', ts('Weight'), 
+                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipStatus', 'weight' ) );
         $this->add('checkbox', 'is_default', ts('Default?'));
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 

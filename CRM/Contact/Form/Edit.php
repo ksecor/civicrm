@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -213,7 +213,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     function setDefaultValues( ) {
         $defaults = array( );
         $params   = array( );
-        
+
+        $config =& CRM_Core_Config::singleton( );
         if ( $this->_action & CRM_Core_Action::ADD ) {
             // set group and tag defaults if any
             if ( $this->_gid ) {
@@ -223,7 +224,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $defaults['tag'][$this->_tid] = 1;
             }
 
-            if ( self::LOCATION_BLOCKS >= 1 ) {
+            if ( $config->maxLocationBlocks >= 1 ) {
                 // set the is_primary location for the first location
                 $defaults['location']    = array( );
                 
@@ -231,9 +232,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 sort( $locationTypeKeys );
                 
                 // also set the location types for each location block
-                for ( $i = 0; $i < self::LOCATION_BLOCKS; $i++ ) {
+                for ( $i = 0; $i < $config->maxLocationBlocks; $i++ ) {
                     $defaults['location'][$i+1] = array( );
-                    //$defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
                     if ( $i == 0 ) {
                         $defaultLocation =& new CRM_Core_BAO_LocationType();
                         $locationType = $defaultLocation->getDefault();
@@ -307,18 +307,19 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
                                                          '') ;
         if ( $this->_contactType == 'Individual' ) {
-            $this->_showHide->addShow( 'demographics[show]' );
-            $this->_showHide->addHide( 'demographics' );
+            $this->_showHide->addShow( 'id_demographics_show' );
+            $this->_showHide->addHide( 'id_demographics' );
         }
 
         // first do the defaults showing
+        $config =& CRM_Core_Config::singleton( );
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
-                                                        self::LOCATION_BLOCKS );
+                                                        $config->maxLocationBlocks );
  
         if ( $this->_action & CRM_Core_Action::ADD ) {
             // notes are only included in the template for New Contact
-            $this->_showHide->addShow( 'notes[show]' );
-            $this->_showHide->addHide( 'notes' );
+            $this->_showHide->addShow( 'id_notes_show' );
+            $this->_showHide->addHide( 'id_notes' );
         }
 
         //add group and tags
@@ -329,27 +330,26 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
         
         if ( empty($contactGroup) || empty($contactTag) ) {
-            $this->_showHide->addShow( 'group[show]' );
+            $this->_showHide->addShow( 'group_show' );
             $this->_showHide->addHide( 'group' );
         } else {
             $this->_showHide->addShow( 'group' );
-            $this->_showHide->addHide( 'group[show]' );
+            $this->_showHide->addHide( 'group_show' );
         }
-
-
 
         // is there any demographics data?
         if ( CRM_Utils_Array::value( 'gender_id'     , $defaults ) ||
              CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
              CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
-            $this->_showHide->addShow( 'demographics' );
-            $this->_showHide->addHide( 'demographics[show]' );
+            $this->_showHide->addShow( 'id_demographics' );
+            $this->_showHide->addHide( 'id_demographics_show' );
         }
         if ( $force ) {
             $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
+            $config =& CRM_Core_Config::singleton( );
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        $locationDefaults,
-                                                       self::LOCATION_BLOCKS );
+                                                       $config->maxLocationBlocks );
         }
         
         $this->_showHide->addToTemplate( );
@@ -377,7 +377,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     public function buildQuickForm( ) {
         // assign a few constants used by all display elements
         // we can obsolete this when smarty can access class constans directly
-        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1 );
+        $config =& CRM_Core_Config::singleton( );
+        $this->assign( 'locationCount', $config->maxLocationBlocks + 1 );
         $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
         $this->assign( 'contact_type' , $this->_contactType );
 
@@ -388,7 +389,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         self::buildCommunicationBlock($this);
 
         /* Entering the compact location engine */ 
-        $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
+        $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, $config->maxLocationBlocks );
 
         /* End of locations */
         
@@ -423,7 +424,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         } else {
             $buttonType = 'next';
         }
-       
+
         $this->addButtons( array(
                                  array ( 'type'      => $buttonType,
                                          'name'      => ts('Save'),
@@ -450,11 +451,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( $buttonName == $this->_dedupeButtonName ) {
             return;
         }
-
+        
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
-
+                
         // action is taken depending upon the mode
         $ids = array();
         if ($this->_action & CRM_Core_Action::UPDATE) {
@@ -467,9 +467,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if( ! $params['is_deceased'] == 1 ) { 
             $params['deceased_date'] = null;
         }
-      
-        $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
-       
+        
+        $config  =& CRM_Core_Config::singleton( );
+        $contact = CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks );
+        
         //add contact to gruoup
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
@@ -483,7 +484,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type_display)));
 
         $buttonName = $this->controller->getButtonName( );
-        if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
+        if ( ($buttonName == $this->getButtonName( 'next', 'new' )) || ($buttonName == $this->getButtonName( 'upload', 'new' ))) {
             // add the recently viewed contact
             list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $contact->id );
             CRM_Utils_Recent::add( $displayName,

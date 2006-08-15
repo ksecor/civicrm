@@ -1,6 +1,6 @@
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -110,6 +110,8 @@ function on_load_init_blocks(showBlocks, hideBlocks, elementType)
 function showHideByValue(trigger_field_id, trigger_value, target_element_id, target_element_type, field_type, invert ) {
     if ( target_element_type == null ) {
         var target_element_type = 'block';
+    } else if ( target_element_type == 'table-row' ) {
+	var target_element_type = '';
     }
     
     if (field_type == 'select') {
@@ -360,7 +362,7 @@ function on_load_init_checkboxes(form)
  */
 
 function changeRowColor (rowid, form) {
-    
+
     switch (document.getElementById(rowid).className) 	{
     case 'even-row'          : 	document.getElementById(rowid).className = 'selected even-row';
 	break;
@@ -437,7 +439,7 @@ function showrow()
     
     if(rowcounter == 0) {
 	for (var i=2; i<=11; i++) {
-            rowid = 'optionField['+i+']';
+            rowid = 'optionField_'+i;
 
             if (i == 11) {
 		    document.getElementById('additionalOption').style.display = '';
@@ -456,7 +458,7 @@ function showrow()
         rowcounter--;
 	
 	for (var i=2; i<=11; i++) {
-            rowid = 'optionField['+i+']';
+            rowid = 'optionField_'+i;
 	    
 	    if (i == 11) {
 		    document.getElementById('additionalOption').style.display = '';
@@ -539,4 +541,45 @@ function submitCurrentForm(formId,targetPage) {
     alert(formId + ' ' + targetPage);
     document.getElementById(formId).targetPage.value = targetPage;
     document.getElementById(formId).submit();
+}
+
+/**
+ * Function counts and controls maximum word count for textareas.
+ *
+ * @param essay_id string - the id of the essay (textarea) field
+ * @param wc - int - number of words allowed
+ * @return null
+ */
+function countit(essay_id,wc){
+    var text_area       = document.getElementById("essay_" + essay_id);
+    var count_element   = document.getElementById("word_count_" + essay_id);
+    var count           = 0;
+    var text_area_value = text_area.value;
+    var regex           = /\n/g; 
+    var essay           = text_area_value.replace(regex," ");
+    var words           = essay.split(' ');
+    
+    for (z=0; z<words.length; z++){
+        if (words[z].length>0){
+            count++;
+        }
+    }
+    
+    count_element.value     = count;
+    if (count>=wc) {
+        /*text_area.value     = essay;*/
+
+        var dataString = '';
+        for (z=0; z<wc; z++){
+	  if (words[z].length>0) {
+	    dataString = dataString + words[z] + ' '; 
+	  }
+	}
+
+	text_area.value = dataString; 
+        text_area.blur();
+	count = wc;
+        count_element.value = count;
+        alert("You have reached the "+ wc +" word limit.");
+    }
 }

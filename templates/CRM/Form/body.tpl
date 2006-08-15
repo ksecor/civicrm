@@ -3,7 +3,7 @@
 {/if}
 
 {if $form.hidden}
-  {$form.hidden}
+  <div>{$form.hidden}</div>
 {/if}
 
 {if count($form.errors) gt 0}

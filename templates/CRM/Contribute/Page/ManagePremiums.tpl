@@ -28,7 +28,7 @@
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-	        <td>{$row.name}</td>	
+	        <td>{$row.product_name}</td>	
 	        <td>{$row.sku}</td>
                 <td>{$row.price }</td>
 	        <td>{$row.min_contribution}</td>
@@ -40,7 +40,7 @@
         {/strip}
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}" id=newManagePremium >&raquo; {ts}New Premium{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}" id="newManagePremium" >&raquo; {ts}New Premium{/ts}</a>
         </div>
         {/if}
     </div>

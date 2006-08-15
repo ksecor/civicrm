@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -56,7 +56,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      
         $this->assign( 'intro_text', $this->_values['intro_text'] );
         $this->assign( 'footer_text', $this->_values['footer_text'] );
-
+        
         // to process Custom data that are appended to URL
         require_once 'CRM/Core/BAO/CustomGroup.php';
         CRM_Core_BAO_CustomGroup::extractGetParams( $this, 'Contribution' );
@@ -73,6 +73,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $fields[$name] = 1;
             }
             $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+            
             $contact =& CRM_Contact_BAO_Contact::contactDetails( $contactID, $options, $fields );
 
             foreach ($fields as $name => $dontCare ) {
@@ -87,6 +88,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     }
                 }
             }
+        }
+
+        //set default membership for mership block
+        require_once 'CRM/Member/BAO/Membership.php';
+        if ( $membershipBlock = CRM_Member_BAO_Membership::getMemershipBlock($this->id) ) {
+            $this->_defaults['selectMembership'] = $membershipBlock['membership_type_default'];
         }
 
         // hack to simplify credit card entry for testing
@@ -116,7 +123,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $this->_values['amount_block_is_active'] ) {
             $this->buildAmount( );
         }
-
+              
         $config =& CRM_Core_Config::singleton( );
         require_once 'CRM/Contribute/BAO/Premium.php';
         CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
@@ -244,8 +251,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     static function formRule( &$fields, &$files, &$self ) { 
        
         $errors = array( ); 
-
-        if( $fields['selectProduct'] && $fields['selectProduct'] != 'no_thanks' ) {
+       
+        if( $fields['selectProduct'] && $fields['selectProduct'] != 'no_thanks' && $self->_values['amount_block_is_active'] ) {
             require_once 'CRM/Contribute/DAO/Product.php';
             require_once 'CRM/Utils/Money.php';
             $productDAO =& new CRM_Contribute_DAO_Product();
@@ -263,7 +270,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
         
-        if( $fields['selectMembership'] && $fields['selectMembership'] != 'no_thanks' ) {
+        if( $fields['selectMembership'] && $fields['selectMembership'] != 'no_thanks') {
             require_once 'CRM/Member/BAO/Membership.php';
             require_once 'CRM/Member/BAO/MembershipType.php';
             $memBlock       = CRM_Member_BAO_Membership::getMemershipBlock( $self->_id );

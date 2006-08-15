@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -21,7 +21,7 @@
  | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
  | questions about the Affero General Public License or the licensing |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | at http://www.openngo.org/faqs/licensing.html                      |
  +--------------------------------------------------------------------+
 */
 
@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Permission/Drupal.php';
-require_once 'CRM/Core/Permission/Mambo.php';
+require_once 'CRM/Core/Permission/Joomla.php';
 
 /**
  * This is the basic permission class wrapper
@@ -112,6 +112,12 @@ class CRM_Core_Permission {
     public static function &group( ) {
         $config   =& CRM_Core_Config::singleton( );
         return eval( 'return ' . $config->userPermissionClass . '::group( );' );
+    }
+
+    static function access( $module ) {
+        $config =& CRM_Core_Config::singleton( );
+        return ( CRM_Core_Permission::check( "access $module" ) &&
+                 in_array( $module, $config->enableComponents ) ) ? true : false;
     }
 
 }

@@ -7,14 +7,9 @@
    {else}
       {ts count=$pager->_totalItems plural='Found %count contacts'}Found %count contact{/ts}
   {/if}
+  {* Search criteria are passed to tpl in the $qill array *}
   {if $qill}
-    <ul>
-    {foreach from=$qill item=orClauses}
-     {foreach from=$orClauses item=criteria}
-      <li>{$criteria}</li>
-     {/foreach}
-    {/foreach}
-    </ul>
+      {include file="CRM/common/displaySearchCriteria.tpl"}
   {/if}
  </div>
 
@@ -24,6 +19,8 @@
      {if $context NEQ 'amtg'}
         {if $action eq 512}
           {$form._qf_Advanced_next_print.html}&nbsp;&nbsp;
+        {elseif $action eq 8192}
+          {$form._qf_Builder_next_print.html}&nbsp;&nbsp;
         {else}
           {$form._qf_Search_next_print.html}&nbsp;&nbsp;
         {/if}
@@ -31,10 +28,12 @@
      {/if}
      {if $action eq 512}
        {$form._qf_Advanced_next_action.html}
+     {elseif $action eq 8192}
+       {$form._qf_Builder_next_action.html}&nbsp;&nbsp;
      {else}
        {$form._qf_Search_next_action.html}
      {/if}
-     <br />
+     <br/>
      <label>{$form.radio_ts.ts_sel.html} {ts}selected records only{/ts}</label>&nbsp; <label>{$form.radio_ts.ts_all.html} {ts count=$pager->_totalItems plural='all %count records'}the found record{/ts}</label>
    </div>
  </div>  

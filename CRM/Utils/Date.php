@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -50,6 +50,10 @@ class CRM_Utils_Date {
      */
     static function format( $date, $separator = '' )
     {
+        if ( is_numeric($date) && ( strlen($date) == 8 ) ) {
+            return $date;
+        }
+        
         if ( ! is_array( $date ) || CRM_Utils_System::isNull( $date ) ) {
             return null;
         }
@@ -290,8 +294,14 @@ class CRM_Utils_Date {
 
         if (!$format) {
             $config =& CRM_Core_Config::singleton();
-            $month  = (int) substr($dateString,  5, 2);
-            $day    = (int) substr($dateString,  8, 2);
+            if ( strpos($dateString, '-') ) {
+                $month  = (int) substr($dateString,  5, 2);
+                $day    = (int) substr($dateString,  8, 2);
+            } else {
+                $month  = (int) substr($dateString,  4, 2);
+                $day    = (int) substr($dateString,  6, 2);
+            }
+
             if (strlen($dateString) > 10) {
                 $format = $config->dateformatDatetime;
             } elseif ($day > 0) {
@@ -352,7 +362,8 @@ class CRM_Utils_Date {
                           '%P' => $type,
                           '%Y' => $year
                           );
-
+            //CRM_Core_Error::debug('f',$format);
+            //CRM_Core_Error::debug('d',$date);
             return strtr($format, $date);
 
         } else {
@@ -571,7 +582,18 @@ class CRM_Utils_Date {
         }
         return true;
     }
-             
+
+    static function overdue( $date, $now = null ) {
+        $mysqlDate = self::isoToMysql( $date );
+        if ( ! $now ) {
+            $now = date( 'YmdHis' );
+        } else {
+            $now = self::isoToMysql( $now );
+        }
+
+        return ( $mysqlDate >= $now ) ? false : true;
+    }
+
 }
 
 ?>

@@ -4,7 +4,6 @@
   <base>CRM/Member</base>
   <class>Membership</class>
   <name>civicrm_membership</name>
-  <log>true</log>
   <comment>Contact Membership records.</comment>
   <add>1.5</add>
   <field>

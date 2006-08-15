@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -53,6 +53,7 @@ class CRM_Core_Invoke {
         require_once 'CRM/Utils/Wrapper.php';
         require_once 'CRM/Core/Action.php';
         require_once 'CRM/Utils/Request.php';
+        require_once 'CRM/Core/Menu.php';
 
         if ( $args[0] !== 'civicrm' ) {
             return;
@@ -63,9 +64,9 @@ class CRM_Core_Invoke {
         // also initialize the i18n framework
         $i18n   =& CRM_Core_I18n::singleton( );
 
-        if ( $config->userFramework == 'Mambo' ) {
-            require_once 'CRM/Core/Mambo.php';
-            CRM_Core_Mambo::sidebarLeft( );
+        if ( $config->userFramework == 'Joomla' ) {
+            require_once 'CRM/Core/Joomla.php';
+            CRM_Core_Joomla::sidebarLeft( );
         }
 
         // set active Component
@@ -91,8 +92,8 @@ class CRM_Core_Invoke {
             self::group   ( $args );
             break;
         
-        case 'activityView':
-            self::viewActivity($args);
+        case 'dashboard':
+            self::dashboard($args);
             break;
             
         case 'import'   : 
@@ -124,7 +125,7 @@ class CRM_Core_Invoke {
             if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
             }
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search/basic', 'reset=1' ) );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' ) );
             break;
 
         }
@@ -141,7 +142,6 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function contact( $args ) {
-       
         //code added for testing ajax
         if ($args[2] == 'test') {
             $wrapper =& new CRM_Utils_Wrapper( );
@@ -317,7 +317,7 @@ class CRM_Core_Invoke {
             return self::search( $args );
         }
         
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'reset=1', true) );
+        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/dashboard', 'reset=1', true) );
     }
 
     /**
@@ -327,12 +327,12 @@ class CRM_Core_Invoke {
      * @static
      * @access public
      */
-    static function viewActivity( $args ) {
-
-    require_once 'CRM/Contact/Page/View/ViewActivity.php';
-    $view =& new CRM_Contact_Page_View_ViewActivity( );
-    return $view->run();
+    static function dashboard( $args ) {
+        require_once 'CRM/Contact/Page/View/DashBoard.php';
+        $view =& new CRM_Contact_Page_View_DashBoard( );
+        return $view->run();
     }
+
     /**
      * This function contains the actions for search arguments
      *
@@ -589,7 +589,7 @@ class CRM_Core_Invoke {
             return $view->run( );
         }
 
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search/basic', 'reset=1', false) );
+        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin', 'reset=1', false) );
     }
 
     /**
@@ -666,14 +666,23 @@ class CRM_Core_Invoke {
             return $view->run();
         }
 
-        
+
+        if ($secondArg == 'map' ) {
+            // set the userContext stack
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile' ) );
+
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
+        }
+
         if ( $secondArg == 'edit' || $secondArg == 'create' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton(); 
             $session->pushUserContext( CRM_Utils_System::url('civicrm/profile/edit', 'reset=1' ) ); 
 
             $userID = $session->get( 'userID' );
-            if ( $userID ) {
+            if ( $secondArg == 'edit' && $userID ) {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create Profile'), $action );
                 $controller->set( 'id', $userID );
                 $controller->process( );
@@ -681,9 +690,9 @@ class CRM_Core_Invoke {
             } else {
                 $buttonType = $_POST['_qf_Edit_cancel'];
                 if ( $buttonType == 'Cancel' ) {
-                    $calcelURL = CRM_Utils_Request::retrieve('cancelURL','String', CRM_Core_DAO::$_nullObject,false,null,$_POST );
-                    if ( $calcelURL ) {
-                        CRM_Utils_System::redirect( $calcelURL );
+                    $cancelURL = CRM_Utils_Request::retrieve('cancelURL','String', CRM_Core_DAO::$_nullObject,false,null,$_POST );
+                    if ( $cancelURL ) {
+                        CRM_Utils_System::redirect( $cancelURL );
                     }
                 }
                 $wrapper =& new CRM_Utils_Wrapper( ); 
@@ -727,7 +736,7 @@ class CRM_Core_Invoke {
             return; 
         } 
 
-	require_once 'CRM/Core/Page/File.php';
+        require_once 'CRM/Core/Page/File.php';
         $page =& new CRM_Core_Page_File( );
         return $page->run( );
     }

@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -129,17 +129,17 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a product name.'), 'required' );
-        $this->addRule( 'name', ts('A product with this name already exists. Please select another name.'), 'objectExists', array( 'CRM_Contribute_DAO_Product', $this->_id ) );
+        $this->add('text', 'product_name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'name' ) );
+        $this->addRule( 'product_name', ts('Please enter a product name.'), 'required' );
+        $this->addRule( 'product_name', ts('A product with this name already exists. Please select another name.'), 'objectExists', array( 'CRM_Contribute_DAO_Product', $this->_id ) );
         $this->add('text', 'sku', ts('SKU'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'sku' ));
 
         $this->add('textarea', 'description', ts('Description'), 'rows=3, cols=60' );
 
-        $image['image']     = $this->createElement('radio',null, null,ts('Upload from my computer'),'image','onClick="add_upload_file_block(\'image\');');
-        $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations on the web:'),'thumbnail', 'onClick="add_upload_file_block(\'thumbnail\');');
-        $image['default_image']   = $this->createElement('radio',null, null,ts('Use default image'),'default_image', 'onClick="add_upload_file_block(\'default\');');
-        $image['noImage']   = $this->createElement('radio',null, null,ts('Do not display an image'),'noImage','onClick="add_upload_file_block(\'noImage\');');
+        $image['image']     = $this->createElement('radio',null, null,ts('Upload from my computer'),'image','onclick="add_upload_file_block(\'image\');');
+        $image['thumbnail'] = $this->createElement('radio',null, null,ts('Display image and thumbnail from these locations on the web:'),'thumbnail', 'onclick="add_upload_file_block(\'thumbnail\');');
+        $image['default_image']   = $this->createElement('radio',null, null,ts('Use default image'),'default_image', 'onclick="add_upload_file_block(\'default\');');
+        $image['noImage']   = $this->createElement('radio',null, null,ts('Do not display an image'),'noImage','onclick="add_upload_file_block(\'noImage\');');
 
         $this->addGroup($image,'imageOption',ts('Premium Image'));
         $this->addRule( 'imageOption', ts('Please select an option for the premium image.'), 'required' );
@@ -273,6 +273,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             $config = & CRM_Core_Config::singleton();
            
             $params = $ids = array( );
+
             // store the submitted values in an array
             $params = $this->exportValues();
             $params['domain_id'] = CRM_Core_Config::domainID( );

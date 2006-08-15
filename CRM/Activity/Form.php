@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -56,6 +56,8 @@ class CRM_Activity_Form extends CRM_Core_Form
      * @var int
      */
     protected $_contactId;
+    protected $_sourceCID;
+    protected $_targetCID;
 
     /**
      * The id of the logged in user, used when add / edit 
@@ -99,6 +101,12 @@ class CRM_Activity_Form extends CRM_Core_Form
         }
         $this->_status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                       $this, false );
+        
+        if ($this->_activityType == 'Activity') {
+            $this->assign('ActivityTypeDescription', CRM_Core_BAO_ActivityType::getActivityDescription());
+        }
+        
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_activityType, $this->_id, 0);
     }
 
     /**
@@ -115,14 +123,26 @@ class CRM_Activity_Form extends CRM_Core_Form
 
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->_BAOName) . ".php");
-            eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
+
+            require_once "CRM/Activity/BAO/Activity.php";
+            CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityType );
+            
+            if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
+                $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
+            }
 
             $sourceName = CRM_Contact_BAO_Contact::displayName($defaults['source_contact_id']);
             $targetName = CRM_Contact_BAO_Contact::displayName($defaults['target_entity_id']);
 
             $this->assign('sourceName', $sourceName);
             $this->assign('targetName', $targetName);
+
+            // change _contactId to be the target of the activity
+            $this->_sourceCID = $defaults['source_contact_id'];
+            $this->_targetCID = $defaults['target_entity_id'];
+        } else {
+            $this->_sourceCID = $this->_userId;
+            $this->_targetCID = $this->_contactId;
         }
 
         if ($this->_action == CRM_Core_Action::DELETE) {
@@ -159,8 +179,6 @@ class CRM_Activity_Form extends CRM_Core_Form
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
         return $defaults;
-
-       
     }
 
     /**
@@ -218,6 +236,12 @@ class CRM_Activity_Form extends CRM_Core_Form
                                            'name'      => ts('Cancel')),
                                     )
                               );
+        }
+
+        if ($this->_action & CRM_Core_Action::VIEW ) { 
+            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+        } else {
+            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }
     }
 }

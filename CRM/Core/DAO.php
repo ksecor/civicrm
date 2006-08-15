@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.4                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -100,10 +100,7 @@ class CRM_Core_DAO extends DB_DataObject {
      */
     function init( $dsn, $debug = 0 ) {
         $options =& PEAR::getStaticProperty('DB_DataObject', 'options');
-        $options =  array(
-                          'database'         => $dsn,
-                          );
-    
+        $options['database'] = $dsn;
         if ( $debug ) {
             self::DebugLevel($debug);
         }
@@ -238,9 +235,9 @@ class CRM_Core_DAO extends DB_DataObject {
 
         $table = array();
         foreach ( $fields as $name => $value ) {
-            $table[$name] = $value['type'];
+            $table[$value['name']] = $value['type'];
             if ( CRM_Utils_Array::value( 'required', $value ) ) {
-                $table[$name] += self::DB_DAO_NOTNULL;
+                $table[$value['name']] += self::DB_DAO_NOTNULL;
             }
         }
 
@@ -302,11 +299,12 @@ class CRM_Core_DAO extends DB_DataObject {
         $allNull = true;
         foreach ( $fields as $name => $value ) {
             if ( array_key_exists( $name, $params ) ) {
+                $dbName = $value['name'];
                 // if there is no value then make the variable NULL
                 if ( $params[$name] == '' ) {
-                    $this->$name = 'null';
+                    $this->$dbName = 'null';
                 } else {
-                    $this->$name = $params[$name];
+                    $this->$dbName = $params[$name];
                     $allNull = false;
                 }
             }
@@ -329,8 +327,9 @@ class CRM_Core_DAO extends DB_DataObject {
     function storeValues( &$object, &$values ) {
         $fields =& $object->fields( );
         foreach ( $fields as $name => $value ) {
-            if ( isset( $object->$name ) ) {
-                $values[$name] = $object->$name;
+            $dbName = $value['name'];
+            if ( isset( $object->$dbName ) ) {
+                $values[$name] = $object->$dbName;
             }
         }
     }
@@ -373,7 +372,7 @@ class CRM_Core_DAO extends DB_DataObject {
                 $attributes['rows'] = $rows;
                 $attributes['cols'] = $cols;
                 return $attributes;
-            } else if ( $field['type'] == CRM_Utils_Type::T_INT || $field['type'] == CRM_Utils_Type::T_FLOAT ) {
+            } else if ( $field['type'] == CRM_Utils_Type::T_INT || $field['type'] == CRM_Utils_Type::T_FLOAT || $field['type'] == CRM_Utils_Type::T_MONEY ) {
                 $attributes['size']      = 4;
                 $attributes['maxlength'] = 8; 
                 return $attributes;
@@ -468,10 +467,10 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      * @access public
      */
-    static function getFieldValue( $daoName, $id, $fieldName = 'name' ) {
+    static function getFieldValue( $daoName, $id, $fieldName = 'name', $idName = 'id' ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-        eval( '$object =& new ' . $daoName . '( );' );
-        $object->id    = $id;
+        eval( '$object   =& new ' . $daoName . '( );' );
+        $object->$idName =  $id;
         $object->selectAdd( );
         $object->selectAdd( 'id, ' . $fieldName );
         if ( $object->find( true ) ) {
@@ -636,6 +635,36 @@ class CRM_Core_DAO extends DB_DataObject {
             }
         }
         return strtr( $query, $tr );
+    }
+
+    static function freeResult( $ids = null ) {
+        global $_DB_DATAOBJECT;
+
+        /***
+        $q = array( );
+        foreach ( array_keys( $_DB_DATAOBJECT['RESULTS'] ) as $id ) {
+            $q[] = $_DB_DATAOBJECT['RESULTS'][$id]->query;
+        }
+        CRM_Core_Error::debug( 'k', $q );
+        return;
+        ***/
+
+        if ( ! $ids ) {
+            $ids = array_keys( $_DB_DATAOBJECT['RESULTS'] );
+        }
+
+        foreach ( $ids as $id ) {
+            if ( isset( $_DB_DATAOBJECT['RESULTS'][$id] ) ) {
+                if ( is_resource( $_DB_DATAOBJECT['RESULTS'][$id]->result ) ) {
+                    mysql_free_result( $_DB_DATAOBJECT['RESULTS'][$id]->result );
+                }
+                unset( $_DB_DATAOBJECT['RESULTS'][$id] );
+            }
+            
+            if ( isset( $_DB_DATAOBJECT['RESULTFIELDS'][$id] ) ) {
+                unset( $_DB_DATAOBJECT['RESULTFIELDS'][$id] );
+            }
+        }
     }
 
 }

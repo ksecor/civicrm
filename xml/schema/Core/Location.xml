@@ -69,6 +69,7 @@
   </field>
 <field>
        <name>name</name>
+       <uniqueName>location_name</uniqueName>
        <title>Location Name</title>
        <type>varchar</type>
        <length>255</length>

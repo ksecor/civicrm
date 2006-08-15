@@ -2,7 +2,7 @@
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
  {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
- {include file="CRM/WizardHeader.tpl}
+ {include file="CRM/common/WizardHeader.tpl"}
  
  <div id="help">
     <p>
@@ -59,20 +59,20 @@
         <td class="explanation">{ts}Total rows to be imported.{/ts}</td>
     </tr>
  </table>
- <br /> 
+  
 
  {* Table for mapping preview *}
  {include file="CRM/Import/Form/MapTable.tpl}
- <br />
+ 
  
  {* Group options *}
  {* New Group *}
-<div id="newGroup[show]" class="data-group">
-    <a href="#" onclick="hide('newGroup[show]'); show('newGroup'); return false;">&raquo; {$form.newGroup.label}</a>
+<div id="newGroup_show" class="data-group">
+    <a href="#" onclick="hide('newGroup_show'); show('newGroup'); return false;">{ts}&raquo; <label> Create a new group from imported records</label>{/ts}{*$form.newGroup.label*}</a>
 </div>
 
 <div id="newGroup" class="data-group">
-    <a href="#" onclick="hide('newGroup'); show('newGroup[show]'); return false;">&raquo; {$form.newGroup.label}</a>
+    <a href="#" onclick="hide('newGroup'); show('newGroup_show'); return false;">{ts}&raquo; <label> Create a new group from imported records</label>{/ts}</a>
     <div class="form-item">
         <dl>
 	    <dt class="description">{$form.newGroupName.label}</dt><dd>{$form.newGroupName.html}</dd>
@@ -82,13 +82,13 @@
 </div>
   {* Existing Group *}
 {if $form.groups}
-<div id="existingGroup[show]" class="data-group">
-    <a href="#" onclick="hide('existingGroup[show]'); show('existingGroup'); return false;">&raquo; {$form.groups.label}</a>
+<div id="existingGroup_show" class="data-group">
+    <a href="#" onclick="hide('existingGroup_show'); show('existingGroup'); return false;">&raquo; {$form.groups.label}</a>
 </div>
 {/if}
 
 <div id="existingGroup" class="data-group">
-    <a href="#" onclick="hide('existingGroup'); show('existingGroup[show]'); return false;">&raquo; {$form.groups.label}</a>
+    <a href="#" onclick="hide('existingGroup'); show('existingGroup_show'); return false;">&raquo; {$form.groups.label}</a>
     <div class="form-item">
         <dl>
         <dt></dt><dd>{$form.groups.html}</dd>
@@ -98,11 +98,11 @@
 
 {* Tag options *}
 {* New Tag *}
-<div id="newTag[show]" class="data-group">
-    <a href="#" onclick="hide('newTag[show]'); show('newTag'); return false;">&raquo; {$form.newTag.label}</a>
+<div id="newTag_show" class="data-group">
+    <a href="#" onclick="hide('newTag_show'); show('newTag'); return false;">{ts}&raquo; <label> Create a new tag and assign it to imported records</label>{/ts}</a>
 </div> 
 <div id="newTag" class="data-group">
-    <a href="#" onclick="hide('newTag'); show('newTag[show]'); return false;">&raquo; {$form.newTag.label}</a>
+    <a href="#" onclick="hide('newTag'); show('newTag_show'); return false;">{ts}&raquo; <label> Create a new tag and assign it to imported records</label>{/ts}</a>
         <div class="form-item">
         <dl>
 	    <dt class="description">{$form.newTagName.label}</dt><dd>{$form.newTagName.html}</dd>
@@ -112,12 +112,12 @@
 </div>
 {* Existing Tag Imported Contact *}
 
-<div id="tag[show]" class="data-group">
-    <a href="#" onclick="hide('tag[show]'); show('tag'); return false;">&raquo; <label>{ts}Tag imported{/ts}</label></a>
+<div id="tag_show" class="data-group">
+    <a href="#" onclick="hide('tag_show'); show('tag'); return false;">&raquo; <label>{ts}Tag imported records{/ts}</label></a>
 </div>
 
 <div id="tag" class="data-group">
-    <a href="#" onclick="hide('tag'); show('tag[show]'); return false;">&raquo; <label>{ts}Tag imported{/ts}</label></a>
+    <a href="#" onclick="hide('tag'); show('tag_show'); return false;">&raquo; <label>{ts}Tag imported records{/ts}</label></a>
     <dl>
         <dt></dt><dd class="listing-box" style="margin-bottom: 0em; width: 15em;">
        {foreach from=$form.tag item="tag_val"} 
