@@ -79,7 +79,7 @@ class CRM_Quest_StateMachine_Recommender extends CRM_Core_StateMachine {
                         $otherTitle = $controller->_pages[$pageName]->getCompleteTitle( );
                         $session =& CRM_Core_Session::singleton( );
                         $session->setStatus( "The $otherTitle section must be completed before you can go to $title ." );
-                        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/counselor',
+                        CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/'. strtolower( $this->controller->_subType ),
                                                                            "_qf_{$name}_display=1" ) );
                     }
                 }
@@ -104,7 +104,7 @@ class CRM_Quest_StateMachine_Recommender extends CRM_Core_StateMachine {
                 $title = $controller->_pages[$pageName]->getCompleteTitle( );
                 $session =& CRM_Core_Session::singleton( );
                 $session->setStatus( "The $title section must be completed before you can submit the application" );
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/counselor',
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/quest/'. strtolower( $this->controller->_subType ),
                                                                    "_qf_{$pageName}_display=1" ) );
             }
         }
