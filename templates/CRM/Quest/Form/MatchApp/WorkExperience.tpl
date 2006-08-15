@@ -72,13 +72,14 @@
         }
     }
     
-    function show_element(trigger_element_id)
+    function show_element(elId1, elId2)
     {
         show('id_earnings', '');
         show('id_school_work', '');
-        var element = document.getElementById(trigger_element_id);
+        var element1 = document.getElementById(elId1);
+        var element2 = document.getElementById(elId2);
         
-        if (element.value == '') {
+        if (element1.value == '' && element2.value == '' ) {
             hide('id_earnings');
             hide('id_school_work');
         }

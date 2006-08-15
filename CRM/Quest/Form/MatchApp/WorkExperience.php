@@ -109,11 +109,14 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
     public function buildQuickForm( ) 
     {
         for( $i = 1; $i <= 6; $i++ ){
-            $natureOfWork = array('onkeyup' => "return show_element('nature_of_work_'+$i);");
-            $this->addElement('text', 'nature_of_work_'.$i, ts( 'Specific Nature of Work' ), $natureOfWork);
+            if ( $i == 1 ) {
+                $extra = array('onchange' => "return show_element('nature_of_work_1','employer_1');");
+            } else {
+                $extra = null;
+            }
+            $this->addElement('text', 'nature_of_work_'.$i, ts( 'Specific Nature of Work' ), $extra);
             
-            $employer     = array('onkeyup' => "return show_element('employer_'+$i);");
-            $this->addElement('text', 'employer_'.$i, ts( 'Employer' ), $employer);
+            $this->addElement('text', 'employer_'.$i, ts( 'Employer' ), $extra);
             
             $this->addElement('date', 'start_date_'.$i, ts( 'Start Date' ), 
                               CRM_Core_SelectValues::date( 'custom', 7, 0, "M\001Y" ));
