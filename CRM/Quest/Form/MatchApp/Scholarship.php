@@ -203,7 +203,7 @@ class CRM_Quest_Form_MatchApp_Scholarship extends CRM_Quest_Form_App
                               array('' => ts('- select -')) + $partners,null ); 
            $this->addElement('text', 'alumni_last_name_'.$i, ts('Last Name'), null );
            $this->addElement('text', 'alumni_first_name_'.$i, ts('First Name'), null );
-           $this->addElement('date', 'alumni_class_year_'.$i, ts('Class Year'),CRM_Core_SelectValues::date( 'custom',25, 4, "Y" ));
+           $this->addElement('date', 'alumni_class_year_'.$i, ts('Class Year'),CRM_Core_SelectValues::date( 'custom',50, 4, "Y" ));
            $this->addElement('text', 'alumni_relationship_'.$i, ts('Relationship'), null );
            
         }
