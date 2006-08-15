@@ -99,7 +99,7 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrEssay extends CRM_Quest_Form_A
         
        
         
-        $this->addRadio( 'essay_theme', null, $options, null, '<br/><br />' );
+        $this->addRadio( 'essay_theme', 'Please select an essay topic.', $options, null, '<br/><br />', true );
 
         require_once 'CRM/Quest/BAO/Essay.php';
         $this->_essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_princeton_essay', $this->_contactID, $this->_contactID );
