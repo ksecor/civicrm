@@ -109,13 +109,17 @@ SELECT cr.id                   as contact_id,
         $count  = 0;
         while ( $dao->fetch( ) ) {
             if ( $dao->rid == 9 ) {
-                $type = 'Teacher';
-                $url  = CRM_Utils_System::url( 'civicrm/quest/teacher',
-                                               "reset=1&id={$dao->contact_id}&scid={$sourceID}" ); 
-           } else {
-                $type = 'Counselor';
-                $url  = CRM_Utils_System::url( 'civicrm/quest/counselor',
-                                               "reset=1&id={$dao->contact_id}&scid={$sourceID}" );
+                $type    = 'Teacher';
+                $link    = CRM_Utils_System::url( 'civicrm/quest/teacher',
+                                                  "reset=1&id={$dao->contact_id}&scid={$sourceID}" ); 
+                $preview = CRM_Utils_System::url( 'civicrm/quest/teacher',
+                                                  "reset=1&id={$dao->contact_id}&scid={$sourceID}&action=preview" ); 
+            } else {
+                $type    = 'Counselor';
+                $link    = CRM_Utils_System::url( 'civicrm/quest/counselor',
+                                                  "reset=1&id={$dao->contact_id}&scid={$sourceID}" );
+                $preview = CRM_Utils_System::url( 'civicrm/quest/teacher',
+                                               "reset=1&id={$dao->contact_id}&scid={$sourceID}&action=preview" ); 
             }
             $params[$count] = array();
             $params[$count]['contact_id'     ] = $dao->contact_id;
@@ -124,14 +128,20 @@ SELECT cr.id                   as contact_id,
             $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
             $params[$count]['modified_date'  ] = $dao->modified_date;
             $params[$count]['link'           ] = $link;
+            $params[$count]['preview'        ] = $preview;
             $count++;
         }
         return $params;
     }
 
-    static function getMatchAppURL( $sourceID, $action ) {
+    static function getMatchAppURL( $sourceID, $action = 'update' ) {
         require_once 'CRM/Utils/System.php';
         return CRM_Utils_System::url( 'civicrm/quest/matchapp', "reset=1&id=$sourceID&action=$action" );
+    }
+
+    static function getMatchAppPreviewURL( $sourceID ) {
+        require_once 'CRM/Utils/System.php';
+        return CRM_Utils_System::url( 'civicrm/quest/matchapp/preview', "reset=1&id=$sourceID" );
     }
 
     static function getRecommendationURL( $sourceID, $targetID, $type, $action ) {
@@ -171,7 +181,8 @@ SELECT cr.id                   as contact_id,
 
         }
 
-        $result['link'  ] = CRM_Utils_System::url( "civicrm/quest/matchapp/$section", "reset=1&id=$sourceID" );
+        $result['link'   ] = CRM_Utils_System::url( "civicrm/quest/matchapp/$section", "reset=1&id=$sourceID" );
+        $result['preview'] = CRM_Utils_System::url( "civicrm/quest/matchapp/$section", "reset=1&id=$sourceID&action=preview" );
 
         if ( ! $dao->find( true ) ) {
             $result['status'] = ts( 'Not Started' );
@@ -219,13 +230,17 @@ SELECT cs.id                   as contact_id,
         $count  = 0;
         while ( $dao->fetch( ) ) {
             if ( $dao->rid == 9 ) {
-                $type = 'Teacher';
-                $url  = CRM_Utils_System::url( 'civicrm/quest/teacher',
-                                               "reset=1&id={$sourceID}&scid={$dao->contact_id}" );
+                $type    = 'Teacher';
+                $link    = CRM_Utils_System::url( 'civicrm/quest/teacher',
+                                                  "reset=1&id={$sourceID}&scid={$dao->contact_id}" );
+                $preview = CRM_Utils_System::url( 'civicrm/quest/teacher',
+                                                  "reset=1&id={$sourceID}&scid={$dao->contact_id}&action=preview" );
             } else {
-                $type = 'Counselor';
-                $url  = CRM_Utils_System::url( 'civicrm/quest/counselor',
-                                               "reset=1&id={$sourceID}&scid={$dao->contact_id}" );
+                $type    = 'Counselor';
+                $link    = CRM_Utils_System::url( 'civicrm/quest/counselor',
+                                                  "reset=1&id={$sourceID}&scid={$dao->contact_id}" );
+                $preview = CRM_Utils_System::url( 'civicrm/quest/counselor',
+                                                  "reset=1&id={$sourceID}&scid={$dao->contact_id}&action=preview" );
             }
             $params[$count] = array( );
             $params[$count]['contact_id'     ] = $dao->contact_id;
@@ -233,7 +248,8 @@ SELECT cs.id                   as contact_id,
             $params[$count]['type'           ] = $type;
             $params[$count]['status'         ] = $dao->status_id ? $status[$dao->status_id] : 'Not Started';
             $params[$count]['modified_date'  ] = $dao->modified_date;
-            $params[$count]['link'           ] = $url;
+            $params[$count]['link'           ] = $link;
+            $params[$count]['preview'        ] = $preview;
             $count++;
         }
         return $params;
