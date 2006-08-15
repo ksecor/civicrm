@@ -12,7 +12,7 @@
 <tr>
     <td>
         <div class="bold-label">
-        {ts}What is your favorite section of the library or bookstore?*{/ts}
+        {ts}What is your favorite section of the library or bookstore?{/ts}
         </div>
         {$form.essay.short_essay.html} &nbsp;<br /><br />
         {$form.word_count.short_essay.label} &nbsp;&nbsp;{$form.word_count.short_essay.html}
