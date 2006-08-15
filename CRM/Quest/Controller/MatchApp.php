@@ -463,6 +463,7 @@ WHERE  t.responsible_entity_table = 'civicrm_contact'
   AND  t.task_id IN ( $values )
 ORDER BY t.task_id
 ";
+
         $result =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $result->fetch( ) ) {
             if ( $result->status_id != 328 ) {

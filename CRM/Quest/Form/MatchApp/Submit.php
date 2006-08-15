@@ -47,6 +47,8 @@ class CRM_Quest_Form_MatchApp_Submit extends CRM_Quest_Form_App
     // make sure that the application is complete
     function preProcess( ) {
         $this->controller->checkApplication( );
+
+        parent::preProcess( );
     }
 
     /**

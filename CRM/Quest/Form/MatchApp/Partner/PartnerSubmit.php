@@ -48,6 +48,8 @@ class CRM_Quest_Form_MatchApp_Partner_PartnerSubmit extends CRM_Quest_Form_App
     // make sure that the application is complete
     function preProcess( ) {
         $this->controller->checkApplication( );
+
+        parent::preProcess( );
     }
 
     /**
@@ -100,7 +102,6 @@ class CRM_Quest_Form_MatchApp_Partner_PartnerSubmit extends CRM_Quest_Form_App
         require_once 'CRM/Quest/DAO/Student.php';
         $dao =& new CRM_Quest_DAO_Student( );
         $dao->id = $this->_studentID;
-
         $dao->is_partner_supplement_share = $params['is_partner_supplement_share'];
         $dao->save( );
 

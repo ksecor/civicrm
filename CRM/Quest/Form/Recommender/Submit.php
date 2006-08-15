@@ -47,6 +47,8 @@ class CRM_Quest_Form_Recommender_Submit extends CRM_Quest_Form_Recommender
     // make sure that the application is complete
     function preProcess( ) {
         $this->controller->checkApplication( );
+
+        parent::preProcess( );
     }
 
     /**
