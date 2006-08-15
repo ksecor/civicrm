@@ -194,6 +194,10 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
          return ts('Applicant Information');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Rice University' );
+    }
+
    /* Function for validation
      *
      * @param array $params (ref.) an assoc array of name/value pairs

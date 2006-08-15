@@ -127,6 +127,10 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhEssay extends CRM_Quest_Form_Ap
          return ts('Essay');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Amherst College' );
+    }
+
     /** 
      * process the form after the input has been submitted and validated 
      * 

@@ -54,6 +54,10 @@ class CRM_Quest_Form_MatchApp_Partner_Bowdoin_BowArts extends CRM_Quest_Form_App
          return ts('Arts Supplement');
     }
    
+    public function getRootTitle( ) {
+        return ts( 'Bowdoin College' );
+    }
+
 }
 
 ?>

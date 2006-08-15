@@ -127,6 +127,10 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhAthletics extends CRM_Quest_For
          return ts('Athletics Supplement');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Amherst College' );
+    }
+
     /**
      * Function for validation
      *

@@ -54,6 +54,11 @@ class CRM_Quest_Form_MatchApp_Partner_Wheaton_WheRecommendation extends CRM_Ques
     {
          return ts('Recommendation');
     }
+
+    public function getRootTitle( ) {
+        return ts( 'Wheaton College' );
+    }
+
 }
 
 ?>

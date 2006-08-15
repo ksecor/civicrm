@@ -117,6 +117,9 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrEssay extends CRM_Quest_Form_A
          return ts('Essay');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Princeton University' );
+    }
 
     public function postProcess() {
         if ( $this->_action &  CRM_Core_Action::VIEW ) {

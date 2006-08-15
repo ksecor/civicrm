@@ -54,6 +54,11 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfArts extends CRM_Quest_Form_Ap
     {
          return ts('Arts Supplement');
     }
+
+    public function getRootTitle( ) {
+        return ts( 'Stanford University' );
+    }
+
 }
 
 ?>

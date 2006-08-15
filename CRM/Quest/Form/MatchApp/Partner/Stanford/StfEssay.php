@@ -91,6 +91,10 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfEssay extends CRM_Quest_Form_M
         return ts('Essay');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Stanford University' );
+    }
+
 }
 
 ?>

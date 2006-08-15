@@ -69,6 +69,10 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfShortEssay extends CRM_Quest_F
         return ts('Short Answers');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Stanford University' );
+    }
+
 }
 
 ?>

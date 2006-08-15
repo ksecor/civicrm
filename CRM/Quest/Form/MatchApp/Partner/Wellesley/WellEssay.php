@@ -69,6 +69,10 @@ class CRM_Quest_Form_MatchApp_Partner_Wellesley_WellEssay extends CRM_Quest_Form
         return ts('Essay');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Wellesley College' );
+    }
+
 }
 
 ?>

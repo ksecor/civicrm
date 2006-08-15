@@ -174,6 +174,10 @@ class CRM_Quest_Form_MatchApp_Partner_Stanford_StfApplicant extends CRM_Quest_Fo
          return ts('Applicant Information');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Stanford University' );
+    }
+
     /** 
      * process the form after the input has been submitted and validated 
      * 

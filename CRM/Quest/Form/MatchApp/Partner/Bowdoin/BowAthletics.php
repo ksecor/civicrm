@@ -126,6 +126,10 @@ class CRM_Quest_Form_MatchApp_Partner_Bowdoin_BowAthletics extends CRM_Quest_For
          return ts('Athletics Supplement');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Bowdoin College' );
+    }
+
     /**
      * Function for validation
      *

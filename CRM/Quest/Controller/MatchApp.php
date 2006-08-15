@@ -345,6 +345,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         // we need to run each form and display it
         $pageNames = array_keys( $this->_pages );
         $html = array( );
+        
         foreach ( $pageNames as $name ) {
             // build the form and then display it
             $this->_pages[$name]->setAction( CRM_Core_Action::VIEW | CRM_Core_Action::PREVIEW );

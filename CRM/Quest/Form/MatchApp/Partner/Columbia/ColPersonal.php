@@ -103,6 +103,10 @@ class CRM_Quest_Form_MatchApp_Partner_Columbia_ColPersonal extends CRM_Quest_For
         return ts('Personal Essay');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Columbia University' );
+    }
+
     /** 
      * process the form after the input has been submitted and validated 
      * 

@@ -54,6 +54,11 @@ class CRM_Quest_Form_MatchApp_Partner_Amherst_AmhArts extends CRM_Quest_Form_App
     {
          return ts('Arts Supplement');
     }
+
+    public function getRootTitle( ) {
+        return ts( 'Amherst College' );
+    }
+
 }
 
 ?>

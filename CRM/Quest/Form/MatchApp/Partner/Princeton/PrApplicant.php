@@ -279,6 +279,10 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrApplicant   extends CRM_Quest_
         return ts('Applicant Information');        
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Princeton University' );
+    }
+
     static function &getPages( &$controller, $reset = false ) 
     {
         $details = $controller->get( 'PrincetonDetails' );

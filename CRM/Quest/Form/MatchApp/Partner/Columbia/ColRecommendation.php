@@ -55,6 +55,11 @@ class CRM_Quest_Form_MatchApp_Partner_Columbia_ColRecommendation extends CRM_Que
     {
         return ts('Recommendations');
     }
+
+    public function getRootTitle( ) {
+        return ts( 'Columbia University' );
+    }
+
 }
 
 ?>

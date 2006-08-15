@@ -126,6 +126,9 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrShortAnswer extends CRM_Quest_
          return ts('Short Answers');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Princeton University' );
+    }
 
    /** 
      * process the form after the input has been submitted and validated 

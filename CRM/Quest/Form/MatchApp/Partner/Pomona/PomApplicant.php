@@ -145,6 +145,10 @@ class CRM_Quest_Form_MatchApp_Partner_Pomona_PomApplicant extends CRM_Quest_Form
          return ts('Applicant Information');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Pomona College' );
+    }
+
     /** 
      * process the form after the input has been submitted and validated 
      * 

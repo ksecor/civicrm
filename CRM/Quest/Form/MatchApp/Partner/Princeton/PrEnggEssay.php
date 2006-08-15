@@ -119,6 +119,9 @@ class CRM_Quest_Form_MatchApp_Partner_Princeton_PrEnggEssay extends CRM_Quest_Fo
          return ts('Engineering Essay');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Princeton University' );
+    }
 
     /** 
      * process the form after the input has been submitted and validated 

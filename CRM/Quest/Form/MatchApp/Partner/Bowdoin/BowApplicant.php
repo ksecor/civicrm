@@ -113,6 +113,10 @@ class CRM_Quest_Form_MatchApp_Partner_Bowdoin_BowApplicant extends CRM_Quest_For
          return ts('Applicant Information');
     }
 
+    public function getRootTitle( ) {
+        return ts( 'Bowdoin College' );
+    }
+
     /** 
      * process the form after the input has been submitted and validated 
      * 
