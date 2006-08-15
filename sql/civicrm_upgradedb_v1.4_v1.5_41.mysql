@@ -649,6 +649,7 @@ CREATE TABLE civicrm_entity_file (
 -- *
 -- *******************************************************/
 
+  SET NAMES utf8;
   UPDATE `civicrm_custom_value`, `civicrm_custom_field`
     SET `char_data` = CONCAT(char(1),`char_data`,char(1))
     WHERE `custom_field_id` = `civicrm_custom_field`.`id`
