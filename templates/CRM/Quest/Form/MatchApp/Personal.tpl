@@ -40,16 +40,19 @@
    <td class="grouplabel">
     <a class="underline" target="_blank" href="{crmURL p='civicrm/file' q="action=view&eid=`$attachment.entity_id`&id=`$attachment.file_id`&quest=1"}" class="grouplabel">View your current {$attachment.file_type}</a><br/>
 
+    {edit}    
     <div id="upload_show"> 
     <a class="underline" href="#" onclick="hide('upload_show'); show('upload'); return false;">{ts}&raquo; <label>Upload a new photo</label>{/ts}</a>
     </div>
     <div id="upload">
     {$form.uploadFile.html}<br/>
-    {edit}{ts}The file should be of type GIF or JPEG. The file size should be at most 2MB.{/ts}{/edit}
+    {ts}The file should be of type GIF or JPEG. The file size should be at most 2MB.{/ts}
     </div>
+    {/edit}
   </td>
 </tr>
 {else}
+{edit}
 <tr>
     <td class="grouplabel">
         {$form.uploadFile.label}</td>
@@ -57,6 +60,7 @@
         {$form.uploadFile.html}<br/>
 	{edit}{ts}The file should be of type GIF or JPEG. The file size should be at most 2MB.{/ts}{/edit}</td>
 </tr>
+{/edit}
 {/if}
 <tr>
     <td class="grouplabel">
