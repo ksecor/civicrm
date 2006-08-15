@@ -48,6 +48,9 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
 
     protected $_contactID;
 
+    // these pages are always valid!
+    static $_validAlwaysPages = null;
+
     /**
      * class constructor
      */
@@ -199,6 +202,16 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         return $pageName;
     }
 
+    static function isPageAlwaysValid( $name ) {
+        if ( ! self::$_validAlwaysPages ) {
+            self::$_validAlwaysPages = array( 'SchoolOther'         => 1,
+                                              'Transcript-Summer'   => 1,
+                                              'ExtracurricularInfo' => 1,
+                                              'WorkExperience'      => 1 );
+        }
+        return array_key_exists( $name, self::$_validAlwaysPages ) ? 1 : 0;
+    }
+
     /**
      * Create the header for the wizard from the list of pages
      * Store the created header in smarty
@@ -219,7 +232,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
             $subNames = explode( '-', $name );
             $step  = true;
             $link  = $this->_stateMachine->validPage( $name, $data['valid'] ) ? $page->getLink ( ) : null;
-            $valid = ( $name == 'SchoolOther' || $name == 'Transcript-Summer') ? 1 : $data['valid'][$name];
+            $valid = self::isPageAlwaysValid( $name ) ? 1 : $data['valid'][$name];
             if ( CRM_Utils_Array::value( $subNames[0], $this->_sections ) ) {
                 $step      = false;
                 $collapsed = true;
