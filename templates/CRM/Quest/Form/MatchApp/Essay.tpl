@@ -33,7 +33,7 @@
         {/if}
 	{/if}
     {if $name eq 'optional'}
-      <em>You may include any additional information you feel will help us get to know you better. Please feel free to include any information on your relationship to a non-custodial parent, any extra medical expenses, special ways your school calculates GPA&quot;s, etc.</em><br /><br />
+      <em>You may include any additional information you feel will help us get to know you better. Please feel free to include any information on your relationship to a non-custodial parent, any extra medical expenses, special ways your school calculates GPA's, etc.</em><br /><br />
     {/if}
         {$form.essay.$name.html} &nbsp;<br /><br />
         {edit}Current word count: &nbsp; {$form.word_count.$name.html}{/edit}
