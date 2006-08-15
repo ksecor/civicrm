@@ -74,6 +74,8 @@ class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
     {
         if ( ! $this->_defaults ) {
 
+            $this->_oldParams = array( );
+
             // also get all the schools the student goes to, so we restrict the recommenders
             // from that school only
             require_once 'CRM/Quest/BAO/Student.php';
@@ -81,7 +83,8 @@ class CRM_Quest_Form_MatchApp_Recommendation extends CRM_Quest_Form_App
             unset( $schoolSelect[''] );
             $schoolIDs = implode( ',', array_keys( $schoolSelect ) );
 
-            $query = "
+            if ( $schoolIDs ) {
+                $query = "
 SELECT cr.id           as contact_id,
        i.first_name    as first_name,
        i.last_name     as last_name ,
@@ -118,28 +121,28 @@ SELECT cr.id           as contact_id,
    AND t.target_entity_id         = cs.id
 ";
 
-            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
-            $this->_oldParams = array( );
-            $count = 1;
-            while ( $dao->fetch( ) ) {
-                $this->_oldParams[$count] = array( );
-                $this->_oldParams[$count]['contact_id'] = $dao->contact_id;
-                $this->_oldParams[$count]['first_name'] = $dao->first_name;
-                $this->_oldParams[$count]['last_name' ] = $dao->last_name ;
-                $this->_oldParams[$count]['email'     ] = $dao->email;
-                $this->_oldParams[$count]['school_id' ] = $dao->school_id;
-                $this->_oldParams[$count]['rs_type_id'] = $dao->rs_type_id;
-                $this->_oldParams[$count]['rc_type_id'] = $dao->rc_type_id;
-                $this->_oldParams[$count]['status_id' ] = $dao->status_id;
-                $count++;
-            }
+                $count = 1;
+                while ( $dao->fetch( ) ) {
+                    $this->_oldParams[$count] = array( );
+                    $this->_oldParams[$count]['contact_id'] = $dao->contact_id;
+                    $this->_oldParams[$count]['first_name'] = $dao->first_name;
+                    $this->_oldParams[$count]['last_name' ] = $dao->last_name ;
+                    $this->_oldParams[$count]['email'     ] = $dao->email;
+                    $this->_oldParams[$count]['school_id' ] = $dao->school_id;
+                    $this->_oldParams[$count]['rs_type_id'] = $dao->rs_type_id;
+                    $this->_oldParams[$count]['rc_type_id'] = $dao->rc_type_id;
+                    $this->_oldParams[$count]['status_id' ] = $dao->status_id;
+                    $count++;
+                }
 
 
-            // make sure we have all 3 recommenders
-            if ( $count != 1 && $count != 4 ) {
-                CRM_Core_Error::debug( 'p', $this->_oldParams );
-                CRM_Core_Error::fatal( "We could not retrieve your old recommenders" );
+                // make sure we have all 3 recommenders
+                if ( $count != 1 && $count != 4 ) {
+                    CRM_Core_Error::debug( 'p', $this->_oldParams );
+                    CRM_Core_Error::fatal( "We could not retrieve your old recommenders" );
+                }
             }
 
             $this->_defaults = array( );

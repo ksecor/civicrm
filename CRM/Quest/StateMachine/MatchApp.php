@@ -93,6 +93,11 @@ abstract class CRM_Quest_StateMachine_MatchApp extends CRM_Core_StateMachine {
 
     // NEED TO FIX THIS
     public function checkApplication( &$controller ) {
+        // if view or preview skip
+        if ( $this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::PREVIEW ) ) {
+            return;
+        }
+
         $data =& $controller->container( );
 
         foreach ( $this->_pageNames as $pageName ) {

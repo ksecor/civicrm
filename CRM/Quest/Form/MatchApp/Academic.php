@@ -118,6 +118,7 @@ class CRM_Quest_Form_MatchApp_Academic extends CRM_Quest_Form_App
             }
             $this->_showHide->addToTemplate( );
         }
+
         return $defaults;
     }
     
