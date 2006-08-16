@@ -392,7 +392,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                             break;
                         }
                         
-                        $customValueDAO->char_data = $config->customFileUploadDir . $filename;
+                        //$customValueDAO->char_data = $config->customFileUploadDir . $filename;
+                        $customValueDAO->char_data =  $filename;
                         $mimeType = $_FILES['custom_'.$field['id']]['type'];
                         
                         $fileDAO =& new CRM_Core_DAO_File();

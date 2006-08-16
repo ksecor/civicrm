@@ -1888,10 +1888,20 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                     $data['gender_id'] = $value;
                 } else if (substr($key, 0, 6) === 'custom') {
                     if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+                        
+                        $str = "custom_value_{$customFieldID}_id";
+                        
+                        if ($contactDetails[$str]) {
+                            $customOptionValueId = $contactDetails[$str];
+                        }
+
+                        
                         //fix checkbox
                         if ( $customFields[$customFieldID][3] == 'CheckBox' ) {
                             $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-                        } if ( $customFields[$customFieldID][3] == 'Multi-Select' ) {
+                        } 
+                        
+                        if ( $customFields[$customFieldID][3] == 'Multi-Select' ) {
                             $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                         }
                         // fix the date field 
@@ -1903,21 +1913,66 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                             $value = $date;
                         }
                         
+                        if ( $customFields[$customFieldID][2] == 'File' ) { 
+                            require_once 'CRM/Core/DAO/File.php';
+                            $config = & CRM_Core_Config::singleton();
+                        
+                            $path = explode( '/', $value );
+                            $filename = $path[count($path) - 1];
+
+                            // rename this file to go into the secure directory
+                            if ( ! rename( $value, $config->customFileUploadDir . $filename ) ) {
+                                CRM_Utils_System::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
+                                break;
+                            }
+
+                            $mimeType = $params["custom_{$customFieldID}_type"];
+          
+                            $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $customOptionValueId, 'file_id', 'id' );
+                            $fileDAO =& new CRM_Core_DAO_File();
+                            
+                            if ( $fileId ) {
+                                $fileDAO->id = $fileId;
+                            }
+                            
+                            $fileDAO->uri               = $filename;
+                            $fileDAO->mime_type         = $mimeType; 
+                            $fileDAO->upload_date       = date('Ymdhis'); 
+                            $fileDAO->save();
+                            
+                            $fileId    = $fileDAO->id;
+                            
+                            // need to add/update civicrm_entity_file
+                            require_once 'CRM/Core/DAO/EntityFile.php'; 
+                            $entityFileDAO =& new CRM_Core_DAO_EntityFile();
+                            
+                            $tableName = 'civicrm_contact';
+
+                            if ( $fileId ) {
+                                $entityFileDAO->file_id = $fileId;
+                                $entityFileDAO->find(true);
+                            }
+                            
+                            $entityFileDAO->entity_table = $tableName;
+                            $entityFileDAO->entity_id    = $contactID;
+                            $entityFileDAO->file_id      = $fileDAO->id;
+                            $entityFileDAO->save();
+                            
+                            $value =  $filename;
+                        }
+
                         //to add the id of custom value if exits
                         //$this->_contact['custom_value_5_id'] = 123; 
                         
-                        $str = 'custom_value_' . $customFieldID . '_id';
-                        if ($contactDetails[$str]) {
-                            $id = $contactDetails[$str];
-                        }
                         
                         
                         $data['custom'][$customFieldID] = array( 
-                                                                'id'      => $id,
+                                                                'id'      => $customOptionValueId,
                                                                 'value'   => $value,
                                                                 'extends' => $customFields[$customFieldID][3],
                                                                 'type'    => $customFields[$customFieldID][2],
                                                                 'custom_field_id' => $customFieldID,
+                                                                'file_id' => $fileId
                                                                 );
                     }
                 } else if ($key == 'edit') {
@@ -2034,6 +2089,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             }
         }
         
+        //CRM_Core_Error::debug('s', $data);
         require_once 'CRM/Contact/BAO/Contact.php';
                 
         $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );

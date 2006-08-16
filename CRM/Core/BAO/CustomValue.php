@@ -153,7 +153,8 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
             }
             
             break;
-            
+      
+        case 'File':
         case 'String':
             $customValue->char_data = $params['value'];
             break;

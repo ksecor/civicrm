@@ -11,3 +11,12 @@
 </div>
 {/if} 
 {* fields array is not empty *}
+
+{literal}
+<script>
+function popUp (path) 
+{
+window.open(path,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,screenX=150,screenY=150,top=150,left=150')
+}
+</script>
+{/literal}

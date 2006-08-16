@@ -510,6 +510,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             return;
         }
 
+        //CRM_Core_Error::debug('s', $details);
+        //CRM_Core_Error::debug('s', $fields);
+        
+        $config =& CRM_Core_Config::singleton( );
+        
         require_once 'CRM/Core/PseudoConstant.php'; 
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
@@ -518,7 +523,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $index   = $field['title'];
             $params[$index] = $values[$index] = '';
             if ( $details->$name || $name == 'group' || $name == 'tag') {//hack for CRM-665
-                //to handle custom data (checkbox) to be written
                 // to handle gender / suffix / prefix
                 if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix' ) ) ) {
                     $values[$index] = $details->$name;
@@ -577,8 +581,24 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         } else {
                             require_once 'CRM/Core/BAO/CustomField.php';
                             if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                                $params[$index] = $details->$name;
-                                $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                                
+                                $customOptionValueId = "custom_value_{$cfID}_id";
+
+                                $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $details->$customOptionValueId, 'file_id', 'id' );
+                                if ($fileId) {
+                                    $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File', $fileId, 'mime_type', 'id' );
+                                    //CRM_Core_Error::debug('s', $config->customUploadURL);
+                                    if ( $config->customUploadURL && ( $fileType =="image/jpeg" || $fileType =="image/gif" || $fileType =="image/png") ) { 
+                                        $url = $config->customUploadURL . $details->$name;
+                                        //CRM_Core_Error::debug('s', $url);
+                                        $params[$index] = $values[$index] = "<a href='#' onclick='popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
+                                    }
+                                    
+                                } else {
+                                    
+                                    $params[$index] = $details->$name;
+                                    $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                                }
                             } else if ( $name == 'home_URL' &&
                                         ! empty( $details->$name ) ) {
                                 $url = CRM_Utils_System::fixURL( $details->$name );

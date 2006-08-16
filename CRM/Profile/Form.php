@@ -693,8 +693,17 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
-        $params = $this->controller->exportValues( $this->_name );
+        $params = $this->exportValues( );
+        //$params['custom_15'] = '/home/kurund/public_html/drupal/files/civicrm/upload/custom/DSC00470_70aa2d9914931260fb30968ced60d1a2.JPG';
 
+        //for custom data of type file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                if ($value['type']) {
+                    $params["{$key}_type"] = $value['type']; 
+                }
+            }
+        }
 
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
