@@ -57,7 +57,6 @@ class CRM_Quest_BAO_Recommendation {
                              $firstName, $lastName, $email ) {
         // remove the relationships 
         self::deactivateRelationship( $rsTypeID, $contactID, $recommenderID ); 
-        self::deactivateRelationship( $rcTypeID, $recommenderID, $schoolID  );
 
         self::cancelTaskStatus( 10, $recommenderID, $contactID );
 

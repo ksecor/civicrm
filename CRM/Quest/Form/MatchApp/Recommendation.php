@@ -119,6 +119,7 @@ SELECT cr.id           as contact_id,
    AND t.responsible_entity_id    = cr.id
    AND t.target_entity_table      = 'civicrm_contact'
    AND t.target_entity_id         = cs.id
+ ORDER BY rs.relationship_type_id
 ";
 
                 $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
