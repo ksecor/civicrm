@@ -91,6 +91,7 @@ class CRM_Utils_System {
                                                 'managepremiums'     => 'ManagePremiums',
                                                 'mapfield'           => 'MapField',
                                                 'membershiptype'     => 'MembershipType',
+                                                'membershipstatus'   => 'MembershipStatus',
                                                 'mobileprovider'     => 'MobileProvider',
                                                 'pseudoconstant'     => 'PseudoConstant',
                                                 'pagerAToZ'          => 'pagerAToZ',//not needed here 
