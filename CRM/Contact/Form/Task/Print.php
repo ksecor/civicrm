@@ -52,13 +52,21 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
     {
         // set print view, so that print templates are called
         $this->controller->setPrint( true );
-
+        
         // create the selector, controller and run - store results in session
-        $fv               =  $this->get( 'formValues' );
+        $fv               = $this->get( 'formValues' );
+       
         $params           = $this->get( 'queryParams' );
         $returnProperties = $this->get( 'returnProperties' );
+        
+        $sortID = null;
+        if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
+            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+        }
+       
         $selector   =& new CRM_Contact_Selector($fv, $params, $returnPropeties, $this->_action);
-        $controller =& new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
+        $controller =& new CRM_Core_Selector_Controller($selector , null, $sortID, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
         $controller->setEmbedded( true );
         $controller->run();
     }

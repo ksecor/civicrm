@@ -110,6 +110,11 @@ class CRM_Contact_BAO_Export {
 
         list( $select, $from, $where ) = $query->query( );
         $queryString = "$select $from $where";
+        
+        if ( CRM_Utils_Array::value( 'tags', $returnProperties ) || CRM_Utils_Array::value( 'groups', $returnProperties ) ) { 
+            $queryString .= " GROUP BY contact_a.id";
+        }
+        
         if ( $order ) {
             list( $field, $dir ) = explode( ' ', $order, 2 );
             $field = trim( $field );
@@ -118,9 +123,7 @@ class CRM_Contact_BAO_Export {
             }
         }
         
-        if ( CRM_Utils_Array::value( 'tags', $returnProperties ) || CRM_Utils_Array::value( 'groups', $returnProperties ) ) { 
-            $queryString .= " GROUP BY contact_a.id";
-        }
+
         //hack for student data
         require_once 'CRM/Core/OptionGroup.php';
         $multipleSelectFields = array( 'preferred_communication_method' => 1 );
@@ -130,7 +133,7 @@ class CRM_Contact_BAO_Export {
             $multipleSelectFields = array_merge( $multipleSelectFields,
                                                  CRM_Quest_BAO_Student::$multipleSelectFields );
         }
-        
+      
         $temp = array( );
         $dao =& CRM_Core_DAO::executeQuery($queryString, $temp);
         $header = false;
