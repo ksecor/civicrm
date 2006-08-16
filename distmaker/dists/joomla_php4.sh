@@ -70,7 +70,7 @@ cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch
 REV=`svnversion -n $SRC`
-echo "trunk.$REV Joomla PHP4" > $TRG/civicrm-version.txt
+echo "1.5BETA.$REV Joomla PHP4" > $TRG/civicrm-version.txt
 
 
 # gen zip file
@@ -85,7 +85,7 @@ $DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
 
 cp -r com_civicrm/civicrm/joomla/* com_civicrm
 
-zip -r -9 $DM_TARGETDIR/civicrm-joomla-php4-SNAPSHOT-rev$REV.zip com_civicrm
+zip -r -9 $DM_TARGETDIR/civicrm-joomla-php4-1.5BETA-rev$REV.zip com_civicrm
 
 # clean up
 rm -rf com_civicrm
