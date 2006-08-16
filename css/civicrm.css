@@ -690,11 +690,13 @@ div.crm-pager a {
   display: table-row;
 }
 
-#crm-container .submit-link {
+#crm-container input.submit-link:before {content: "&raquo; ";}
+
+#crm-container input.submit-link {
    color: #285286;
    background-color: transparent;
    text-decoration: underline;
    border: none;
    cursor: pointer;
-   cursor: hand;
+//   cursor: hand;
   }
