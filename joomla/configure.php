@@ -163,6 +163,7 @@ function civicrm_config( $frontend = false ) {
                 'uploadDir' => $uploadDir,
                 'imageUploadDir' => $imageUploadDir,
                 'imageUploadURL' => $mosConfig_live_site . '/media/civicrm/',
+                'customFileUploadDir' => $imageUploadDir,
                 'baseURL' => $mosConfig_live_site . '/administrator/',
                 'resourceURL' => $mosConfig_live_site . '/administrator/components/com_civicrm/civicrm/',
                 'resourceBase' => $resourceBase,

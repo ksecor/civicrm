@@ -297,13 +297,9 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
     case 'register':
         $config =& CRM_Core_Config::singleton( );
         if ( empty( $_POST ) || $config->userFrameworkVersion < 4.7 ) {
-            return civicrm_register_data($edit, $user, $category, true);
+            return civicrm_register_data($edit, $user, $category, true, false );
         } else {
-            // we need to validate and make sure that the form is valid, if not valid
-            // lets return the form
-            if ( ! civicrm_validate_data( $edit, $user, $category ) ) {
-                return civicrm_register_data( $edit, $user, $category, true );
-            }
+            return civicrm_register_data( $edit, $user, $category, false, true );
         }
         return;
 
@@ -354,7 +350,7 @@ function civicrm_categories( )
     return $ufGroups;
 }
 
-function civicrm_register_data($edit, &$user, $category, $reset) 
+function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess = false ) 
 {
     require_once 'CRM/Core/BAO/UFMatch.php';
     require_once 'CRM/Core/BAO/UFGroup.php';
@@ -366,9 +362,9 @@ function civicrm_register_data($edit, &$user, $category, $reset)
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
 
     if ( $userID ) {
-        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '', CRM_Core_Action::UPDATE, true, $reset );
+        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '', CRM_Core_Action::UPDATE, true, $reset, null, $doNotProcess );
     } else {
-        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '', CRM_Core_Action::ADD, true, $reset );
+        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '', CRM_Core_Action::ADD, true, $reset, null, $doNotProcess );
     }
 
     $output = array( );
@@ -498,7 +494,7 @@ function civicrm_validate_data($edit, &$user, $title)
     if ( is_array( $errors ) ) {
         if ( $register ) {
             foreach ( $errors as $name => $error ) {
-                form_set_error( 'error', $error );
+                form_set_error( $name, $error );
             }
         } else {
             form_set_error( 'error', "Please complete and save required values in the tab $title" );
