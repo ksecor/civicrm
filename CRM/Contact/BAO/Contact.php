@@ -1217,6 +1217,12 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         // fkeyed into location/phone.
         CRM_Core_BAO_Location::deleteContact( $id );
 
+        require_once 'CRM/Core/DAO/EntityTag.php';
+        $eTag=& new CRM_Core_DAO_EntityTag();
+        $eTag->entity_id    = $id;
+        $eTag->entity_table = 'civicrm_contact';
+        $eTag->delete();
+
         // fix household and org primary contact ids
         static $misc = array( 'Household', 'Organization' );
         foreach ( $misc as $name ) {
