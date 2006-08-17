@@ -92,8 +92,8 @@ class CRM_Core_Block {
                                                                    'subject'  => ts('CiviCRM'),
                                                                    'active'   => true ),
                                        self::CONTRIBUTE  => array( 'template' => 'Contribute.tpl',
-                                                                   'info'     => ts( 'CiviContribute Thermometer' ),
-                                                                   'subject'  => ts( 'CiviContribute Thermometer' ),
+                                                                   'info'     => ts( 'CiviContribute Progress Meter' ),
+                                                                   'subject'  => ts( 'CiviContribute Progress Meter' ),
                                                                    'active'   => true ),
                                        );
         }
@@ -176,15 +176,14 @@ class CRM_Core_Block {
 
         // also make sure that there is a pageID and that page has thermometer enabled
         $session =& CRM_Core_Session::singleton( );
-        if ( ! $session->get( 'pastContributionID' ) ||
+        $id = $session->get( 'pastContributionID' );
+        if ( ! $id ||  
              ! $session->get( 'pastContributionThermometer' ) ) {
             return true;
         }
-
-        // hey we can show it, so might as well fix the block subject
-        if ( $config->contributeThermometerTitle ) {
-            self::$_properties[self::CONTRIBUTE]['subject'] = $config->contributeThermometerTitle;
-        }
+        
+        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $id, 'thermometer_title');
+        self::$_properties[self::CONTRIBUTE]['subject'] = $title;
 
         return false;
     }

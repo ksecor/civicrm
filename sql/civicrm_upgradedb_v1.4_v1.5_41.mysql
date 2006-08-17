@@ -505,6 +505,7 @@ CREATE TABLE civicrm_entity_file (
 	ALTER TABLE `civicrm_contribution_page` ADD amount_block_is_active tinyint unsigned DEFAULT 1 COMMENT 'Is this property active?';
 	ALTER TABLE `civicrm_contribution_page` ADD goal_amount  decimal(20,2) COMMENT 'The target goal for this page, allows people to build a goal meter';
 	ALTER TABLE `civicrm_contribution_page` ADD is_thermometer int(4) unsigned DEFAULT 1 COMMENT 'Should this contribution have the thermometer block enabled?';
+	ALTER TABLE `civicrm_contribution_page` ADD thermometer_title varchar(255) DEFAULT NULL COMMENT 'Title for contribution page thermometer block.';
 
 -- /*******************************************************
 -- *

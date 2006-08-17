@@ -102,13 +102,6 @@ class CRM_Contribute_Config {
     public $paymentProcessorButton = null;
 
     /**
-     * Title of the thermometer block
-     *
-     * @var string
-     */
-    public $contributeThermometerTitle = null;
-
-    /**
      * Function to add additional config paramters to the core Config class
      * if CiviContribute is enabled
      *
@@ -186,10 +179,6 @@ class CRM_Contribute_Config {
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD' ) ) {
             $config->paymentPassword['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD;
-        }
-        
-        if ( defined( 'CIVICRM_CONTRIBUTE_THERMOMETER_TITLE' ) ) {
-            $config->contributeThermometerTitle = CIVICRM_CONTRIBUTE_THERMOMETER_TITLE;
         }
         
     }
