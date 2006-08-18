@@ -595,8 +595,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                         $url = $config->customUploadURL . $details->$name;
                                         //CRM_Core_Error::debug('s', $url);
                                         $params[$index] = $values[$index] = "<a href='#' onclick='popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
-                                    }
-                                    
+                                    } else { // for non image files
+                                        //$params[$index] = $values[$index] = "<a href='#' onclick='popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
+                                    }                                    
                                 } else {
                                     
                                     $params[$index] = $details->$name;

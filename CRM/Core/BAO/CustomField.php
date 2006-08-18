@@ -428,6 +428,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         case 'File':
             $element =& $qf->add(strtolower($field->html_type), $elementName, $label,
                                  $field->attributes, (($useRequired || $field->is_required) && !$search));
+
+            $session =& CRM_Core_Session::singleton( );
+            $uploadNames = array();
+            $uploadNames = $session->get('uploadNames');
+            $uploadNames[] = $elementName;
+            
+            $session->set('uploadNames', $uploadNames);
             break;
 
         case 'Select State/Province':
@@ -699,6 +706,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $cv->entity_id       = $contactId;
             if ( $cv->find( true ) ) {
                 switch ($customField->data_type) {
+                case 'File':
                 case 'String':
                     $value = $cv->char_data;
                     break;
@@ -758,6 +766,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 }
             }                            
         
+            break;
+        case 'File':
+            $defaults["custom_value_{$customFieldId}_id"] = $cv->id; 
+            $defaults[$elementName] = $value;
+
             break;
             
         default:
