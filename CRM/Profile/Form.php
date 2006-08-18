@@ -243,7 +243,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
-    } 
+    }
     
     /** 
      * This function sets the default values for the form. Note that in edit/view mode 
@@ -323,15 +323,15 @@ class CRM_Profile_Form extends CRM_Core_Form
         $hBlocks = array( );
         
         $config  =& CRM_Core_Config::singleton( );
-
-        if ( $this->_mode != self::MODE_REGISTER ) {
+        
+        if ( $this->_mode != self::MODE_REGISTER && $this->_mode != self::MODE_SEARCH) {
             //check for mix profile fields (eg:  individual + other contact type)
             if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
                 CRM_Utils_System::setUFMessage( ts( "This Profile includes fields for contact types other than 'Individuals' and can not be used to create/update contacts.") );
                 CRM_Utils_System::redirect( $config->userFrameworkBaseURL );            
             }
         }
-
+        
         $this->assign( 'mode'        , $this->_mode     );
         $this->assign( 'action'      , $this->_action   );
         $this->assign( 'fields'      , $this->_fields   );
