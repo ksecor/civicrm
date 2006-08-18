@@ -161,6 +161,13 @@ class CRM_Core_PseudoConstant {
     private static $currencyCode;
 
     /**
+     * project tasks
+     * @var array
+     * @static
+     */
+    private static $tasks;
+
+    /**
      * populate the object from the database. generic populate
      * method
      *
@@ -625,6 +632,21 @@ class CRM_Core_PseudoConstant {
             self::populate( self::$ufGroup, 'CRM_Core_DAO_UFGroup', false, 'title', 'is_active', null, 'title' );
         }
         return self::$ufGroup;
+    }
+
+    /**
+     * Get all the project tasks
+     *
+     * @access public
+     * @return array - array reference of all tasks
+     * @static
+     */
+    public static function &tasks( )
+    {
+        if ( ! self::$tasks ) {
+            self::populate( self::$tasks, 'CRM_Project_DAO_Task', false, 'title', 'is_active', null, 'title' );
+        }
+        return self::$tasks;
     }
 
     /**

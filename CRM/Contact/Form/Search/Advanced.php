@@ -138,8 +138,19 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
         $this->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
 
+        // add task components
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::buildSearchForm( $this );
+
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            $this->assign( 'showTask', 1 );
+
+            // add the task search stuff
+            // we add 2 select boxes, one for the task from the task table
+            $taskSelect       = array( '' => '- select -' ) + CRM_Core_PseudoConstant::tasks( );
+            $this->addElement( 'select', 'task_id', ts( 'Task' ), $taskSelect );
+            $this->addSelect( 'task_status', ts( 'Task Status' ) );
+        }
 
         //relationsship fileds
         
@@ -177,6 +188,11 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $showHide->addHide( 'relationship' );
         $showHide->addShow( 'relationship_show' );
         
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            $showHide->addHide( 'task' );
+            $showHide->addShow( 'task_show' );
+        }
+
         CRM_Core_Component::addShowHide( $showHide );
 
         if ( ! empty( $groupTitle ) ) {
