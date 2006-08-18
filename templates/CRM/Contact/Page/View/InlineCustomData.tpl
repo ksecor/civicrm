@@ -58,7 +58,8 @@
                          {if $groupTree.$group_id.fields.$field_id.data_type == 'File'}
                             {if $viewForm.$element_name.html}
                              {if $groupTree.$group_id.fields.$field_id.customValue.displayURL }
-                               <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}"><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a></dd> 
+                              {* <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}"><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a></dd> *}
+                               <dd class="html-adjust"><a href="javascript:popUp('{$groupTree.$group_id.fields.$field_id.customValue.displayURL}')" ><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a></dd>
                              {else}
                                <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a></dd>
                              {/if}
