@@ -136,7 +136,7 @@ class TestOfSearch extends UnitTestCase
         }
     }
 
-    **/
+    
 
     function testSearchByContactID( ) {
         $params = array( 'contact_id' => 11 );
@@ -151,7 +151,12 @@ class TestOfSearch extends UnitTestCase
         $result = crm_contact_search_count( $params, $returnProperties );
         CRM_Core_Error::debug( 'Search Smart Group', $result );
     }
-    
+    **/
+    function testSearchGroup( ) {
+        $params = array( 'group' => 1 );
+        $result = crm_contact_search( $params );
+        CRM_Core_Error::debug( 'Search by Group', $result );
+    }
 }
 
 ?>
