@@ -9,8 +9,9 @@
         {ts}Columbia University has 3 recommendations (2 from teachers and one from your guidance counselor) that need to be completed for your application to be processed.{/ts} </br>
 {ts}You can find the recommendation forms below. Please print out the forms and have them filled out and submitted by the appropriate recommender.{/ts}</br></br>
         <div>
-           <a href="#" > Teacher Recommendation Form</a> (pdf)</br>
-           <a href="#" > Secondary School Report</a> (pdf)
+           <a href="http://www.questbridge.org/downloadable_forms/CM_Columbia_Teacher_Report_A.pdf"  target="_blank">Teacher Report A Form<a/> (pdf)<br/><br/>
+           <a href="http://www.questbridge.org/downloadable_forms/CM_Columbia_Teacher_Report_B.pdf"  target="_blank">Teacher Report B Form<a/> (pdf)<br/><br/>
+           <a href="http://www.questbridge.org/downloadable_forms/CM_Columbia_Secondary_Report.pdf" target="_blank" >Secondary School Report</a> (pdf)
         </div>
     </td> 
 </tr>
