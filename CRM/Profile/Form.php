@@ -111,7 +111,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @access public 
      */ 
     function preProcess() 
-    { 
+    {
         require_once 'CRM/Core/BAO/UFGroup.php';
         require_once "CRM/Core/BAO/UFField.php";
 
@@ -485,14 +485,14 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
                 }
             }
-            
+
             //build show/hide array for uf groups
             // dont do this if gid is set (i.e. only one group)
-            if ( $field['collapse_display'] ) {
+
+            if ( $field['collapse_display'] && !in_array("'id_". $field['group_id']  . "_show'" , $sBlocks )) {
                 $sBlocks[] = "'id_". $field['group_id']  . "_show'" ; 
                 $hBlocks[] = "'id_". $field['group_id'] ."'"; 
-            }
-            else {
+            } else if ( !$field['collapse_display'] && !in_array("'id_". $field['group_id']  . "_show'" , $hBlocks )) {
                 $hBlocks[] = "'id_". $field['group_id'] . "_show'" ; 
                 $sBlocks[] = "'id_". $field['group_id'] ."'";   
             }
