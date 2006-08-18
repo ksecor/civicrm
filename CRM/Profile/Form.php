@@ -441,7 +441,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                             $url = $config->customUploadURL . $defaults[$field['name']];
                             $customFiles[$field['name']] = "<a href='#' onclick='popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
                         } else { //for files other than images
-                            //$customFiles[$field['name']] = "<a href='#' onclick='popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
+                            $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileId}&eid=$this->_id" );
+                            $customFiles[$field['name']] = "Attached File : <a href=$url>" . $defaults[$field['name']] . "</a>";
                         }
                     }
                 }

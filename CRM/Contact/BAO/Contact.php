@@ -568,7 +568,7 @@ ORDER BY
                                   'value'           => $customValue['value'],
                                   'type'            => $customValue['type'],
                                   'custom_field_id' => $customValue['custom_field_id'],
-                                  'field_id'        => $customValue['field_id'],
+                                  'file_id'         => $customValue['file_id'],
                                   );
                 
                 if ($customValue['id']) {
@@ -1949,22 +1949,6 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                             
                             $fileId    = $fileDAO->id;
                             
-                            // need to add/update civicrm_entity_file
-                            require_once 'CRM/Core/DAO/EntityFile.php'; 
-                            $entityFileDAO =& new CRM_Core_DAO_EntityFile();
-                            
-                            $tableName = 'civicrm_contact';
-
-                            if ( $fileId ) {
-                                $entityFileDAO->file_id = $fileId;
-                                $entityFileDAO->find(true);
-                            }
-                            
-                            $entityFileDAO->entity_table = $tableName;
-                            $entityFileDAO->entity_id    = $contactID;
-                            $entityFileDAO->file_id      = $fileDAO->id;
-                            $entityFileDAO->save();
-                            
                             $value =  $filename;
                         }
 
@@ -2091,7 +2075,8 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             }
         }
         
-        //CRM_Core_Error::debug('s', $data);
+//         CRM_Core_Error::debug('s', $data);
+//         exit();
         require_once 'CRM/Contact/BAO/Contact.php';
 
         $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
