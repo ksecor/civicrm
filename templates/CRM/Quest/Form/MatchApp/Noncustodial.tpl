@@ -8,7 +8,7 @@
     <td class="grouplabel">
         Our partners require financial information from both natural parents to determine a student's financial aid eligibility. Download, complete and mail this form to request that the financial information from your noncustodial parent be waived. Mail the completed form to all partner colleges that you are applying to.<br>
         <br />
-        <a href="ncp.pdf">Noncustodial Parent Waiver Petition</a> (pdf)
+        <a href="http://www.questbridge.org/downloadable_forms/CM_NCP_Waiver_Form.pdf">Noncustodial Parent Waiver Petition</a> (pdf)
     </td>
 </tr>
 </table>
