@@ -66,11 +66,15 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * CIVICRM_IMAGE_UPLOADDIR is the file system path where image files are uploaded
  * (e.g. premium product images).
  *
- * CIVICRM_CUSTOM_FILE_UPLOADDIR is the file system path where files are uploaded which need to be
- * secure/privacy-protected. This directory SHOULD NOT BE LOCATED UNDER YOUR WEBROOT.
+ * CIVICRM_CUSTOM_FILE_UPLOADDIR is the file system path where documents and images which
+ * are attachments to contacts records are stored (e.g. contact photos, resumes, contracts, etc.)
+ * You define these types of files as "custom fields" with field-type = FILE. Generally these
+ * files need to be secure/privacy-protected (CiviCRM provides authenticated users with
+ * appropriate permissions to access to these files through indirect URLs). Therefore,
+ * this directory SHOULD NOT BE LOCATED UNDER YOUR WEBROOT.
  *
  * IMPORTANT: The COMPILEDIR, UPLOADDIR, IMAGE_UPLOADDIR, and CUSTOM_FILE_UPLOADDIR directories must exist,
- * and your web server must have write access to these directories.
+ * and your web server must have read/write access to these directories.
  *
  *
  * EXAMPLE - CivicSpace / Drupal:
@@ -112,7 +116,6 @@ $civicrm_root = '%%crmRoot%%';
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
 define( 'CIVICRM_UPLOADDIR'          , '%%uploadDir%%'  );
 define( 'CIVICRM_IMAGE_UPLOADDIR'    , '%%imageUploadDir%%');
-
 define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
 
 /**
@@ -235,7 +238,7 @@ define( 'CIVICRM_SMTP_PASSWORD', ''    );
  * is a comma-separated list of country ISO codes (US for United States, PL for
  * Poland, etc.). If you're not sure what is the code for a given country, you
  * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
- * file. The empty default does not limit the country list.
+ * file. ALL countries are included in country drop-down fields if this setting is empty.
  */
 define( 'CIVICRM_COUNTRY_LIMIT' , 'US' );
 
@@ -248,8 +251,8 @@ define( 'CIVICRM_COUNTRY_LIMIT' , 'US' );
  * available to the users of this CiviCRM install. The format of this option
  * is a comma-separated list of country ISO codes (US for United States, PL for
  * Poland, etc.). If you're not sure what is the code for a given country, you
- * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
- * file. The default limits the province list to United States.
+ * can check it in the civicrm_country table or the file xml/templates/civicrm_country.tpl
+ * file. The default limits the state/province list to the United States.
  */
 define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
 
