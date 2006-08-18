@@ -9,7 +9,7 @@
 <br />
 A recommendation from a pastor, youth pastor, former pastor, Bible study leader, or church official is required. This person should be a mature Christian adult who has had opportunity to observe your spiritual life, but should not be a relative. Complete Part 1 of the attached form and give it to your reference person, requesting that he/she send the form directly to the Admissions Office or return it to you in a signed and sealed envelope, which you will submit, unopened.
 <br /><br />
-<a href="http://www.questbridge.org/app_staging/cm/appl/wheaton_recs.html"><u>Pastor Recommendation form</u> (pdf)</a>
+<a href="http://www.questbridge.org/downloadable_forms/CM_Wheaton_Pastor_Recommendation.pdf"><u>Pastor Recommendation form</u></a> (pdf)
 </td>
 </tr>
 </table>
