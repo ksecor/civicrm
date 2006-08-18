@@ -500,7 +500,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                            'is_required', 'help_post','options_per_line', 'is_searchable','start_date_years','end_date_years', 'is_search_range','date_parts','note_columns','note_rows'),
-                           'civicrm_custom_group' => array('id', 'name', 'title', 'help_pre', 'help_post' ),
+                           'civicrm_custom_group' => array('id', 'name', 'title', 'help_pre', 'help_post','collapse_display' ),
                            );
 
         // create select
@@ -545,7 +545,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // process records
         while($crmDAO->fetch()) {
-
             $groupId = $crmDAO->civicrm_custom_group_id;
             $fieldId = $crmDAO->civicrm_custom_field_id;
 
@@ -557,7 +556,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 $groupTree[$groupId]['title'] = $crmDAO->civicrm_custom_group_title;
                 $groupTree[$groupId]['help_pre'] = $crmDAO->civicrm_custom_group_help_pre;
                 $groupTree[$groupId]['help_post'] = $crmDAO->civicrm_custom_group_help_post;
+                $groupTree[$groupId]['collapse_display'] = $crmDAO->civicrm_custom_group_collapse_display;       
                 $groupTree[$groupId]['fields'] = array();
+                
             }
             
             // add the fields now (note - the query row will always contain a field)

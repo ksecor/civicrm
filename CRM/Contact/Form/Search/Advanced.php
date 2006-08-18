@@ -170,7 +170,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * @access   protected
      */
     
-    protected function setShowHide(&$groupTitle)
+    protected function setShowHide(&$groupTitle , $groupDetails = null)
     {
         $showHide =& new CRM_Core_ShowHideBlocks('','');
         
@@ -181,14 +181,24 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         if ( ! empty( $groupTitle ) ) {
             foreach ($groupTitle as $key => $title) {
-                $showBlocks = $title . '_show' ;
-                $hideBlocks = $title;
-                
+                if( !empty($groupDetails) ) {
+                    if( $groupDetails[$key]['collapse_display'] ) {
+                        $hideBlocks = $title . '_show' ;
+                        $showBlocks = $title;
+                    } else {
+                        $showBlocks = $title . '_show' ;
+                        $hideBlocks = $title;
+                    }
+                    
+                } else {
+                    $showBlocks = $title . '_show' ;
+                    $hideBlocks = $title;
+                }
+                                
                 $showHide->addShow($hideBlocks);
                 $showHide->addHide($showBlocks);
             }
         }
-
         $showHide->addToTemplate();
     }
 
@@ -203,7 +213,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         
         // expand on search result if criteria entered
         $customDataSearch = $this->get('customDataSearch');
-        
         if ( !empty($customDataSearch)) {
             $customAssignHide = array();
             $customAssignShow = array();
@@ -222,8 +231,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Contact', 'Individual', 'Household', 'Organization' ) );
         $this->assign('groupTree', $groupDetails);
 
-        foreach ($groupDetails as $group) {
-            $_groupTitle[]           = $group['name'];
+        foreach ($groupDetails as $key => $group) {
+            $_groupTitle[$key] = $group['name'];
             CRM_Core_ShowHideBlocks::links( $this, $group['name'], '', '');
             
             $groupId = $group['id'];
@@ -237,8 +246,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                                                                false, false, true );
             }
         }
-
-        $this->setShowHide($_groupTitle);
+        $this->setShowHide($_groupTitle , $groupDetails );
     }
     
     /**
