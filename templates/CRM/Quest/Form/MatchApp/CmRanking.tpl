@@ -9,7 +9,7 @@
     <td colspan="2" class="grouplabel">
       The College Match program uses a ranking system for matching students with our partner colleges. Our process consists of two rankings, a preliminary ranking and a final ranking. The preliminary ranking is not binding, the final ranking is binding. With this application you will be asked to enter your preliminary ranking. If you are selected as a finalist, your final rankings will be due on November 1st.<br />
       <br />
-      You can learn more about the <a href="" target="_blank">College Match Process</u></a>
+      You can learn more about the <a href="http://www.questbridge.org/programs/college_match.htm" target="_blank">College Match Process</u></a>
       <br />
       <br />
       Please enter your preliminary ranking of colleges and universities you are interested in attending. If you are not interested in a college, select 'Not Interested' as the ranking. We recommend you research the colleges before you select a ranking for them. You can learn more about the colleges and universities by clicking on the link next to each college name. <span class="marker" title="This field is required.">*</span>
