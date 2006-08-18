@@ -51,7 +51,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
      */
     function preProcess( )
     {
-        $id = CRM_Utils_Request::retrieve('cid', 'Positive',
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                           $this, true);
         $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this);

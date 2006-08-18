@@ -1,4 +1,4 @@
-<?php
+S<?php
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 1.5                                                |
@@ -188,7 +188,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'  => ts('Details'),
                                                                    'url'   => 'civicrm/profile/view',
-                                                                   'qs'    => 'reset=1&cid=%%id%%&gid=%%gid%%',
+                                                                   'qs'    => 'reset=1&id=%%id%%&gid=%%gid%%',
                                                                    'title' => ts('View Profile Details'),
                                                                    ),
                                   ); 

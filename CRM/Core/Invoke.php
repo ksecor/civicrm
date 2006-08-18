@@ -679,12 +679,12 @@ class CRM_Core_Invoke {
         if ( $secondArg == 'edit' || $secondArg == 'create' ) {
             // set the userContext stack
             $session =& CRM_Core_Session::singleton(); 
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile/edit', 'reset=1' ) ); 
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile', 'reset=1' ) ); 
 
             $userID = $session->get( 'userID' );
             if ( $secondArg == 'edit' && $userID ) {
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create Profile'), $action );
-                $controller->set( 'id', $userID );
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create Profile'), CRM_Core_Action::UPDATE );
+                $controller->set( 'edit', 1 );
                 $controller->process( );
                 return $controller->run( );
             } else {
