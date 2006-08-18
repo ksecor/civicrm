@@ -690,11 +690,24 @@ div.crm-pager a {
   display: table-row;
 }
 
-#crm-container .submit-link {
-   color: #285286;
-   background-color: transparent;
-   text-decoration: underline;
-   border: none;
-   cursor: pointer;
-   cursor: hand;
-  }
+#crm-container input.submit-link {
+  color: #285286;
+  background-color: transparent;
+  /*text-decoration: underline;*/
+  border: none;
+  cursor: pointer;
+  cursor: hand;
+  margin: 0em -0.5em 0em -0.5em;
+}
+
+#crm-container .underline-effect {
+  color: #285286;
+}
+
+#crm-container .underline-effect:hover {
+  text-decoration: underline;
+}
+
+#crm-container .underline-effect:before {
+  content: "\00BB";
+}

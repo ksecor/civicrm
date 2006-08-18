@@ -63,7 +63,7 @@ cp $SRC/civicrm.config.php $TRG
 cp $SRC/civicrm.settings.php.sample $TRG
 
 # final touch
-REV=`svnversion -n $SRC`
+REV=`svnversion -n $SRC | cut -d'M' -f1`
 echo "trunk.$REV Joomla PHP5" > $TRG/civicrm-version.txt
 
 

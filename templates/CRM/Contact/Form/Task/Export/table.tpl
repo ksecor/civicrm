@@ -49,7 +49,7 @@
         {/section}
     
         <tr>
-           <td class="form-item even-row">
+           <td class="form-item even-row underline-effect">
                {$form.addMore.1.html}
            </td>
         </tr>            

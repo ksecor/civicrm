@@ -1,5 +1,15 @@
 {if ! empty( $fields )}
-<p>
+ {if $groupId }
+    <div id="id_{$groupId}_show" class="data-group">
+       <a href="#" onclick="hide('id_{$groupId}_show'); show('id_{$groupId}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$field.groupTitle}{/ts}</label><br />
+    </div>
+
+    <div id="id_{$groupId}">
+      <fieldset><legend><a href="#" onclick="hide('id_{$groupId}'); show('id_{$groupId}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$field.groupTitle}{/ts}</legend>
+{else}
+    <div>
+{/if}
+
     <table class="form-layout-compressed">
     {foreach from=$fields item=field key=name}
         {assign var=n value=$field.name}
@@ -50,5 +60,15 @@
     {/foreach}
     <tr><td></td><td>{$form.buttons.html}</td></tr>
     </table>
-</p>
+</div>
+{/if}
+
+{if $groupId}
+<script type="text/javascript">
+    var showBlocks = new Array({$showBlocks});
+    var hideBlocks = new Array({$hideBlocks});
+
+    {* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showBlocks, hideBlocks );
+</script>
 {/if}

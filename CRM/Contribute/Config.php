@@ -102,13 +102,6 @@ class CRM_Contribute_Config {
     public $paymentProcessorButton = null;
 
     /**
-     * Title of the thermometer block
-     *
-     * @var string
-     */
-    public $contributeThermometerTitle = null;
-
-    /**
      * Function to add additional config paramters to the core Config class
      * if CiviContribute is enabled
      *
@@ -140,7 +133,7 @@ class CRM_Contribute_Config {
             $config->paymentProcessor = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
             switch ( $config->paymentProcessor ) {
             case 'PayPal':
-                $config->paymentClass = 'CRM_Contribute_Payment_PayPal';
+                $config->paymentClass = 'CRM_Contribute_Payment_PayPalImpl';
                 $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
                 $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
                 $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
@@ -150,7 +143,7 @@ class CRM_Contribute_Config {
                 break;
 
             case 'PayPal_Express':
-                $config->paymentClass = 'CRM_Contribute_Payment_PayPal';
+                $config->paymentClass = 'CRM_Contribute_Payment_PayPalImpl';
                 $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_BUTTON;
                 $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
                 $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
@@ -186,10 +179,6 @@ class CRM_Contribute_Config {
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD' ) ) {
             $config->paymentPassword['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD;
-        }
-        
-        if ( defined( 'CIVICRM_CONTRIBUTE_THERMOMETER_TITLE' ) ) {
-            $config->contributeThermometerTitle = CIVICRM_CONTRIBUTE_THERMOMETER_TITLE;
         }
         
     }

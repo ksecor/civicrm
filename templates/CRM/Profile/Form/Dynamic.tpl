@@ -90,6 +90,9 @@
     </tr>
 	{else}
         <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
+	  {if $form.$n.type eq 'file'}
+	      <tr><td class="label"></td><td>{$customFiles.$n}</td></tr>
+	  {/if} 
 	{/if}
         {* Show explanatory text for field if not in 'view' mode *}
         {if $field.help_post && $action neq 4}<tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
@@ -133,12 +136,21 @@
 </div> {* end crm-container div *}
 {/if} {* fields array is not empty *}
 
-{if $mode ne 8}
-  <script type="text/javascript">
+<script type="text/javascript">
+  {if $mode ne 8}
+
     var showBlocks = new Array({$showBlocks});
     var hideBlocks = new Array({$hideBlocks});
 
     {* hide and display the appropriate blocks as directed by the php code *}
     on_load_init_blocks( showBlocks, hideBlocks );
-  </script>
-{/if}
+    
+  {/if}
+
+  {literal}
+  function popUp (path) 
+  {
+     window.open(path,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,screenX=150,screenY=150,top=150,left=150')
+  }
+  {/literal}	
+</script>

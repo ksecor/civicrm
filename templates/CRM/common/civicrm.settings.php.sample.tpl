@@ -1,6 +1,6 @@
 <?php
 /**
- * CiviCRM Configuration File - v1.4
+ * CiviCRM Configuration File - v1.5
  */
 
 /**
@@ -364,14 +364,17 @@ define( 'CIVICRM_LC_MONETARY', 'en_US' );
  * Enter either your Google API key OR Yahoo Application ID in the CIVICRM_MAP_API_KEY
  * setting below.
  * 
- * IMPORTANT: Both mapping providers require that Contact addresses include latitude
+ * IMPORTANT: Yahoo! requires that Contact addresses include latitude
  * and longitude. You can populate these manually, or you must enable one of the
  * automatic Geocode lookup methods described in the next section.
+ * Google allows you to send the address rather than lat/long. This feature is enabled
+ * by default. If you are using another geocoding service, make sure to disable the
+ * CIVICRM_MAP_GEOCODING setting
  *
  */
 define('CIVICRM_MAP_PROVIDER'  , '' );
 define('CIVICRM_MAP_API_KEY'   , '' );
-define('CIVICRM_MAP_GEOCODING' , '' );
+define('CIVICRM_MAP_GEOCODING' , 1  );
 
 /**
  * Geocode (latitude and longitude) Lookup:
@@ -465,10 +468,6 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL', 'www.paypal.com');
 // Hostname for "PayPal Express" button submit in live mode. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.
-
-
-// if u r using a thermometer and want a different title set this value
-define( 'CIVICRM_CONTRIBUTE_THERMOMETER_TITLE', '' );
 
 /**
  * Force SSL Redirect for Online Contribution Pages:

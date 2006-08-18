@@ -17,13 +17,13 @@
         {/section}
     
          <tr>
-           <td class="form-item even-row">
+           <td class="form-item even-row underline-effect">
                {$form.addMore[$x].html}
            </td>
          </tr>            
        </table>
       </fieldset>
     {/section}
-    <span>{$form.addBlock.html}</span> 
+    <div class="underline-effect">{$form.addBlock.html}</div> 
   {/strip}
  </div>

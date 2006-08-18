@@ -83,17 +83,6 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
     {
         require_once 'CRM/UF/Form/Group.php';
 
-
-        $this->addButtons(array(
-                                array ('type'      => 'next',
-                                       'name'      => ts('Save'),
-                                       'isDefault' => true),
-                                array ('type'      => 'cancel',
-                                       'name'      => ts('Cancel'),
-                                       'isDefault' => true)
-                                )
-                          );
-
         // add the hidden field to redirect the postProcess from
 
         require_once 'CRM/Core/DAO/UFGroup.php';
@@ -103,7 +92,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         $ufGroup->find(true);
 
         // set the title
-        CRM_Utils_System::setTitle( ts( "Add %1", array( 1 => $ufGroup->title ) ) );
+        CRM_Utils_System::setTitle( $ufGroup->title );
         $this->assign( 'recentlyViewed', false );
 
         $postURL   = CRM_Utils_Array::value( 'postURL', $_POST );
@@ -141,6 +130,29 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         $session->replaceUserContext( $postURL ); 
 
         parent::buildQuickForm( );
+
+        //get the value from session, this is set if there is any file
+        //upload field
+
+        $session =& CRM_Core_Session::singleton( );
+        $uploadNames = $session->get('uploadNames');
+        
+        if ( !empty($uploadNames) ) {
+            $buttonName = 'upload'; 
+        } else {
+            $buttonName = 'next'; 
+        }
+       
+        $this->addButtons(array(
+                                array ('type'      => $buttonName,
+                                       'name'      => ts('Save'),
+                                       'isDefault' => true),
+                                array ('type'      => 'cancel',
+                                       'name'      => ts('Cancel'),
+                                       'isDefault' => true)
+                                )
+                          );
+
 
         $this->addFormRule( array( 'CRM_Profile_Form', 'formRule' ), $this->_id );
     }

@@ -155,6 +155,21 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
             break;
       
         case 'File':
+            // need to add/update civicrm_entity_file
+            require_once 'CRM/Core/DAO/EntityFile.php'; 
+            $entityFileDAO =& new CRM_Core_DAO_EntityFile();
+            
+            
+            if ( $params['file_id'] ) {
+                $entityFileDAO->file_id = $params['file_id'];
+                $entityFileDAO->find(true);
+            }
+            
+            $entityFileDAO->entity_table = $params['entity_table'];
+            $entityFileDAO->entity_id    = $params['entity_id'];
+            $entityFileDAO->file_id      = $params['file_id'];
+            $entityFileDAO->save();
+            
         case 'String':
             $customValue->char_data = $params['value'];
             break;

@@ -243,7 +243,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
-    } 
+    }
     
     /** 
      * This function sets the default values for the form. Note that in edit/view mode 
@@ -308,7 +308,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-        
         return $defaults;
     }
 
@@ -322,15 +321,17 @@ class CRM_Profile_Form extends CRM_Core_Form
     {   
         $sBlocks = array( );
         $hBlocks = array( );
-        if ( $this->_mode != self::MODE_REGISTER ) {
+        
+        $config  =& CRM_Core_Config::singleton( );
+        
+        if ( $this->_mode != self::MODE_REGISTER && $this->_mode != self::MODE_SEARCH) {
             //check for mix profile fields (eg:  individual + other contact type)
             if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
                 CRM_Utils_System::setUFMessage( ts( "This Profile includes fields for contact types other than 'Individuals' and can not be used to create/update contacts.") );
-                $config  =& CRM_Core_Config::singleton( );
                 CRM_Utils_System::redirect( $config->userFrameworkBaseURL );            
             }
         }
-
+        
         $this->assign( 'mode'        , $this->_mode     );
         $this->assign( 'action'      , $this->_action   );
         $this->assign( 'fields'      , $this->_fields   );
@@ -358,7 +359,6 @@ class CRM_Profile_Form extends CRM_Core_Form
         require_once "CRM/Contribute/PseudoConstant.php";
 
         $search = ( $this->_mode == self::MODE_SEARCH ) ? true : false;
-
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
@@ -428,7 +428,24 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
                 CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required, $search, $field['title']);
                 CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id , $this->_mode);
+                $file = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
+
+                if ( $file == 'File') {
                 
+                    $customOptionValueId = "custom_value_{$customFieldID}_id";
+                    
+                    $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $defaults[$customOptionValueId], 'file_id', 'id' );
+                    if ($fileId) {
+                        $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File', $fileId, 'mime_type', 'id' );
+                        if ( $config->customUploadURL && ( $fileType =="image/jpeg" || $fileType =="image/gif" || $fileType =="image/png") ) { 
+                            $url = $config->customUploadURL . $defaults[$field['name']];
+                            $customFiles[$field['name']] = "<a href='#' onclick='popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
+                        } else { //for files other than images
+                            $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileId}&eid=$this->_id" );
+                            $customFiles[$field['name']] = "Attached File : <a href=$url>" . $defaults[$field['name']] . "</a>";
+                        }
+                    }
+                }
             } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
                 $this->addRule($field['name'], ts('Select a valid date.'), 'qfDate');
@@ -505,6 +522,10 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->assign( 'showBlocks', $showBlocks ); 
         $this->assign( 'hideBlocks', $hideBlocks ); 
         
+        $this->assign( 'customFiles', $customFiles ); 
+
+        $this->assign( 'groupId', $this->_gid ); 
+
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
@@ -693,9 +714,8 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
-        $params = $this->exportValues( );
-        //$params['custom_15'] = '/home/kurund/public_html/drupal/files/civicrm/upload/custom/DSC00470_70aa2d9914931260fb30968ced60d1a2.JPG';
-
+        $params = $this->controller->exportValues( $this->_name );
+        
         //for custom data of type file
         if ( !empty($_FILES) ) {
             foreach ( $_FILES as $key => $value) {

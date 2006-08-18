@@ -363,7 +363,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     {
         $ufField =& new CRM_Core_DAO_UFField();
         $ufField->uf_group_id = $ufGroupId;
-        
+        $ufField->is_active = 1;
         $ufField->find();
         $fields = array( );
         

@@ -383,17 +383,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                  $action = null,
                                  $register = false,
                                  $reset = false,
-                                 $profileID = null ) {
+                                 $profileID = null,
+                                 $doNotProcess  = false ) {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
-            if ( $reset ) {
+            if ( $reset || $doNotProcess ) {
                 // hack to make sure we do not process this form
                 $oldQFDefault = $_POST['_qf_default'];
                 unset( $_POST['_qf_default'] );
                 unset( $_REQUEST['_qf_default'] );
-                $controller->reset( );
+                if ( $reset ) {
+                    $controller->reset( );
+                }
             }
             $controller->set( 'id'      , $userID );
             $controller->set( 'register', 1 );
@@ -402,7 +405,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $controller->run( );
 
             // we are done processing so restore the POST/REQUEST vars
-            if ( $reset ) {
+            if ( $reset || $doNotProcess ) {
                 $_POST['_qf_default'] = $_REQUEST['_qf_default'] = $oldQFDefault;
             }
 
@@ -587,13 +590,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                 $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $details->$customOptionValueId, 'file_id', 'id' );
                                 if ($fileId) {
                                     $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File', $fileId, 'mime_type', 'id' );
-                                    //CRM_Core_Error::debug('s', $config->customUploadURL);
                                     if ( $config->customUploadURL && ( $fileType =="image/jpeg" || $fileType =="image/gif" || $fileType =="image/png") ) { 
                                         $url = $config->customUploadURL . $details->$name;
-                                        //CRM_Core_Error::debug('s', $url);
                                         $params[$index] = $values[$index] = "<a href='#' onclick='popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
-                                    }
-                                    
+                                    } else { // for non image files
+                                        $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id=$fileId&eid=$cid" );
+                                        $params[$index] = $values[$index] = "<a href=$url>" . $details->$name ."</a>";
+                                    }                                    
                                 } else {
                                     
                                     $params[$index] = $details->$name;

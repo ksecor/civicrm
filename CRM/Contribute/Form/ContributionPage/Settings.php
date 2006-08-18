@@ -59,22 +59,44 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
                    ts( 'Contribution Type' ),
                    CRM_Contribute_PseudoConstant::contributionType( ) );
 
-        // also collect goal amount
-        $this->add('text', 'goal_amount', ts('Goal Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
-        $this->addRule( 'goal_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
-
         // intro_text and footer_text
         $this->add('textarea', 'intro_text', ts('Introductory Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'intro_text'), true);
         $this->add('textarea', 'footer_text', ts('Footer Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'footer_text'), false);
 
+        // collect goal amount
+        $this->add('text', 'goal_amount', ts('Goal Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $this->addRule( 'goal_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+        
         // should the thermometer be enabled
         $this->addElement('checkbox', 'is_thermometer', ts( 'Should a thermometer block be displayed during a contribution?' ) );
+        // thermometer block title
+        $this->add('text', 'thermometer_title', ts('Thermometer Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thermometer_title') );
 
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Online Contribution Page Active?') );
 
+        $this->addFormRule(array('CRM_Contribute_Form_ContributionPage_Settings', 'formRule'));
+
         parent::buildQuickForm( );
     }
+    /**
+    * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    public function formRule(&$params)
+    {
+        $errors = array( );
+        if ( ! $params['goal_amount'] && $params['is_thermometer'] ) {
+            $errors['goal_amount'] = ts('You must enter a contribution page Goal Amount if you want to track progress by enabling the Progress Thermometer block.');
+        }
+        
+        return empty($errors) ? true : $errors;
+    } 
 
     /**
      * Process the form

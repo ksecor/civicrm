@@ -63,9 +63,9 @@ VALUES
    (1,'CiviContribute','civicrm_contribution_page',1,2,2);
 
 INSERT INTO civicrm_contribution_page
-  (domain_id,title,intro_text,contribution_type_id,is_allow_other_amount,default_amount,min_amount,max_amount,thankyou_title,thankyou_text,thankyou_footer,receipt_from_name,receipt_from_email,is_email_receipt,cc_receipt,bcc_receipt,receipt_text,is_active)
+  (domain_id,title,intro_text,contribution_type_id,is_allow_other_amount,default_amount,min_amount,max_amount,thankyou_title,thankyou_text,thankyou_footer,receipt_from_name,receipt_from_email,is_email_receipt,cc_receipt,bcc_receipt,receipt_text,is_active,goal_amount,is_thermometer,thermometer_title)
 VALUES
-  (%%CIVICRM_DOMAIN_ID%%,'Support CiviCRM!','Do you love CiviCRM? Do you use CiviCRM? Then please support CiviCRM and Contribute NOW by trying out our new online contribution features!',1,1,'500.00','10.00','10000.00','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about CiviCRM!</p>','<p><a href=http://www.openngo.org>Back to OpenNGO Home Page</a></p>','OpenNGO Membership Dept.','memberships@openngo.org',1,'receipt@example.com','bcc@example.com','Your donation is tax deductible under IRS 501(c)(3) regulation. Our tax identification number is: 93-123-4567',1);
+  (%%CIVICRM_DOMAIN_ID%%,'Support CiviCRM!','Do you love CiviCRM? Do you use CiviCRM? Then please support CiviCRM and Contribute NOW by trying out our new online contribution features!',1,1,'500.00','10.00','10000.00','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about CiviCRM!</p>','<p><a href=http://www.openngo.org>Back to OpenNGO Home Page</a></p>','OpenNGO Membership Dept.','memberships@openngo.org',1,'receipt@example.com','bcc@example.com','Your donation is tax deductible under IRS 501(c)(3) regulation. Our tax identification number is: 93-123-4567',1,50000,1,'Track Our Progress');
 
 INSERT INTO civicrm_uf_field
     (uf_group_id, field_name, weight, is_active, is_view, is_required, visibility, help_post, in_selector, location_type_id,is_searchable,field_type, label)

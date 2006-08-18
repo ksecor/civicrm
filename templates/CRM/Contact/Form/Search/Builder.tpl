@@ -9,7 +9,7 @@
 
 </div>
 
-{* Table for mapping data to CRM fields *}
+{* Table for adding search criteria. *}
 {include file="CRM/Contact/Form/Search/table.tpl"}
 
 
