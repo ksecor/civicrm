@@ -592,7 +592,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                     $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File', $fileId, 'mime_type', 'id' );
                                     if ( $config->customUploadURL && ( $fileType =="image/jpeg" || $fileType =="image/gif" || $fileType =="image/png") ) { 
                                         $url = $config->customUploadURL . $details->$name;
-                                        $params[$index] = $values[$index] = "<a href='#' onclick='popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
+                                        $params[$index] = $values[$index] = "<a href='javascript:popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
                                     } else { // for non image files
                                         $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id=$fileId&eid=$cid" );
                                         $params[$index] = $values[$index] = "<a href=$url>" . $details->$name ."</a>";
