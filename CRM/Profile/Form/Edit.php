@@ -103,7 +103,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         $ufGroup->find(true);
 
         // set the title
-        CRM_Utils_System::setTitle( ts( "Add %1", array( 1 => $ufGroup->title ) ) );
+        CRM_Utils_System::setTitle( $ufGroup->title );
         $this->assign( 'recentlyViewed', false );
 
         $postURL   = CRM_Utils_Array::value( 'postURL', $_POST );

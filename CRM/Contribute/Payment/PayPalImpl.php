@@ -36,7 +36,7 @@
 
 require_once 'CRM/Contribute/Payment.php';
 
-class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
+class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
     const
         CHARSET  = 'iso-8859-1';
     
@@ -57,9 +57,9 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
      * @return void 
      */ 
     function __construct( $mode ) {
-        require_once 'Services/PayPal.php';
-        require_once 'Services/PayPal/Profile/Handler/File.php';
-        require_once 'Services/PayPal/Profile/API.php';
+        require_once 'PayPal.php';
+        require_once 'PayPal/Profile/Handler/File.php';
+        require_once 'PayPal/Profile/API.php';
 
         $config =& CRM_Core_Config::singleton( );
         $this->_handler =& ProfileHandler_File::getInstance( array(
@@ -68,21 +68,21 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
                                                                    )
                                                              );
         
-        if ( Services_PayPal::isError( $handler ) ) {
+        if ( PayPal::isError( $handler ) ) {
             return self::error( $handler );
         }
 
         $this->_profile =& APIProfile::getInstance( $config->paymentKey[$mode], $this->_handler );
 
-        if ( Services_PayPal::isError( $this->_profile ) ) {
+        if ( PayPal::isError( $this->_profile ) ) {
             return self::error( $this->_profile );
         }
 
         $this->_profile->setAPIPassword( $config->paymentPassword[$mode] );
 
-        $this->_caller =& Services_PayPal::getCallerServices( $this->_profile );
+        $this->_caller =& PayPal::getCallerServices( $this->_profile );
 
-        if ( Services_PayPal::isError( $this->_caller ) ) {
+        if ( PayPal::isError( $this->_caller ) ) {
             $ret = self::error( $this->_caller );
             $this->_caller = null;
             return $ret;
@@ -100,7 +100,7 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
      */ 
     static function &singleton( $mode ) {
         if (self::$_singleton === null ) { 
-            self::$_singleton =& new CRM_Contribute_Payment_Paypal( $mode );
+            self::$_singleton =& new CRM_Contribute_Payment_PaypalImpl( $mode );
         } 
         return self::$_singleton; 
     } 
@@ -117,17 +117,17 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
             return self::error( );
         }
 
-        $orderTotal =& Services_PayPal::getType( 'BasicAmountType' );
+        $orderTotal =& PayPal::getType( 'BasicAmountType' );
 
-        if ( Services_PayPal::isError( $orderTotal ) ) {
+        if ( PayPal::isError( $orderTotal ) ) {
             return self::error( $orderTotal );
         }
 
         $orderTotal->setattr('currencyID', $params['currencyID'] );
         $orderTotal->setval( $params['amount'], self::CHARSET );
-        $setExpressCheckoutRequestDetails =& Services_PayPal::getType( 'SetExpressCheckoutRequestDetailsType' );
+        $setExpressCheckoutRequestDetails =& PayPal::getType( 'SetExpressCheckoutRequestDetailsType' );
 
-        if ( Services_PayPal::isError( $setExpressCheckoutRequestDetails ) ) {
+        if ( PayPal::isError( $setExpressCheckoutRequestDetails ) ) {
             return self::error( $setExpressCheckoutRequestDetails );
         }
 
@@ -135,9 +135,9 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
         $setExpressCheckoutRequestDetails->setReturnURL ( $params['returnURL'], self::CHARSET  );
         $setExpressCheckoutRequestDetails->setInvoiceID ( $params['invoiceID'], self::CHARSET  );
         $setExpressCheckoutRequestDetails->setOrderTotal( $orderTotal );
-        $setExpressCheckout =& Services_PayPal::getType ( 'SetExpressCheckoutRequestType' );
+        $setExpressCheckout =& PayPal::getType ( 'SetExpressCheckoutRequestType' );
 
-        if ( Services_PayPal::isError( $setExpressCheckout ) ) {
+        if ( PayPal::isError( $setExpressCheckout ) ) {
             return self::error( $setExpressCheckout );
         }
 
@@ -145,7 +145,7 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
 
         $result = $this->_caller->SetExpressCheckout( $setExpressCheckout );
 
-        if (Services_PayPal::isError( $result  ) ) { 
+        if (PayPal::isError( $result  ) ) { 
             return self::error( $result );
         }
 
@@ -171,9 +171,9 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
             return self::error( );
         }
 
-        $getExpressCheckoutDetails =& Services_PayPal::getType('GetExpressCheckoutDetailsRequestType');
+        $getExpressCheckoutDetails =& PayPal::getType('GetExpressCheckoutDetailsRequestType');
 
-        if ( Services_PayPal::isError( $getExpressCheckoutDetails ) ) {
+        if ( PayPal::isError( $getExpressCheckoutDetails ) ) {
             return self::error( $getExpressCheckoutDetails );
         }
 
@@ -181,7 +181,7 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
 
         $result = $this->_caller->GetExpressCheckoutDetails( $getExpressCheckoutDetails );
 
-        if ( Services_PayPal::isError( $result ) ) { 
+        if ( PayPal::isError( $result ) ) { 
             return self::error( $result );
         }
 
@@ -225,25 +225,25 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
             return self::error( );
         }
 
-        $orderTotal =& Services_PayPal::getType( 'BasicAmountType' ); 
+        $orderTotal =& PayPal::getType( 'BasicAmountType' ); 
  
-        if ( Services_PayPal::isError( $orderTotal ) ) { 
+        if ( PayPal::isError( $orderTotal ) ) { 
             return self::error( $orderTotal ); 
         } 
  
         $orderTotal->setattr('currencyID', $params['currencyID'] ); 
         $orderTotal->setval( $params['amount'], self::CHARSET ); 
-        $paymentDetails =& Services_PayPal::getType( 'SetExpressCheckoutRequestDetailsType' ); 
+        $paymentDetails =& PayPal::getType( 'SetExpressCheckoutRequestDetailsType' ); 
         
-        if ( Services_PayPal::isError( $paymentDetails ) ) {
+        if ( PayPal::isError( $paymentDetails ) ) {
             return self::error( $paymentDetails );
         }
 
         $paymentDetails->setOrderTotal( $orderTotal );
         $paymentDetails->setInvoiceID( $params['invoiceID'], self::CHARSET );
-        $doExpressCheckoutPaymentRequestDetails =& Services_PayPal::getType( 'DoExpressCheckoutPaymentRequestDetailsType' );
+        $doExpressCheckoutPaymentRequestDetails =& PayPal::getType( 'DoExpressCheckoutPaymentRequestDetailsType' );
 
-        if ( Services_PayPal::isError( $doExpressCheckoutPaymentRequestDetails ) ) {
+        if ( PayPal::isError( $doExpressCheckoutPaymentRequestDetails ) ) {
             return self::error( $doExpressCheckoutPaymentRequestDetails );
         }
 
@@ -251,9 +251,9 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
         $doExpressCheckoutPaymentRequestDetails->setPayerID       ( $params['payer_id']      , self::CHARSET  );
         $doExpressCheckoutPaymentRequestDetails->setToken         ( $params['token']         , self::CHARSET  );
         $doExpressCheckoutPaymentRequestDetails->setPaymentAction ( $params['payment_action'], self::CHARSET  );
-        $doExpressCheckoutPayment =& Services_PayPal::getType( 'DoExpressCheckoutPaymentRequestType' );
+        $doExpressCheckoutPayment =& PayPal::getType( 'DoExpressCheckoutPaymentRequestType' );
 
-        if ( Services_PayPal::isError( $doExpressCheckoutPayment ) ) {
+        if ( PayPal::isError( $doExpressCheckoutPayment ) ) {
             return self::error( $doExpressCheckoutPayment );
         }
 
@@ -261,7 +261,7 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
 
         $result = $this->_caller->DoExpressCheckoutPayment( $doExpressCheckoutPayment );
 
-        if ( Services_PayPal::isError( $result ) ) { 
+        if ( PayPal::isError( $result ) ) { 
             return self::error( $result );
         }
 
@@ -314,27 +314,27 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
             return self::error( );
         }
 
-        $orderTotal =& Services_PayPal::getType( 'BasicAmountType' );  
+        $orderTotal =& PayPal::getType( 'BasicAmountType' );  
   
-        if ( Services_PayPal::isError( $orderTotal ) ) {  
+        if ( PayPal::isError( $orderTotal ) ) {  
             return self::error( $orderTotal );  
         }  
   
         $orderTotal->setattr( 'currencyID', $params['currencyID'] );  
         $orderTotal->setval( $params['amount'], self::CHARSET  );  
 
-        $payerName =& Services_PayPal::getType( 'PersonNameType' );
+        $payerName =& PayPal::getType( 'PersonNameType' );
 
-        if ( Services_PayPal::isError( $payerName ) ) {
+        if ( PayPal::isError( $payerName ) ) {
             return self::error( $payerName );
         }
 
         $payerName->setLastName  ( $params['last_name'  ], self::CHARSET  );
         $payerName->setMiddleName( $params['middle_name'], self::CHARSET  );
         $payerName->setFirstName ( $params['first_name' ], self::CHARSET  );
-        $address =& Services_PayPal::getType('AddressType');
+        $address =& PayPal::getType('AddressType');
 
-        if (Services_PayPal::isError($address)) {
+        if (PayPal::isError($address)) {
             return self::error( $address );
         }
 
@@ -343,9 +343,9 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
         $address->setStateOrProvince( $params['state_province'], self::CHARSET );
         $address->setPostalCode     ( $params['postal_code']   , self::CHARSET );
         $address->setCountry        ( $params['country']       , self::CHARSET );
-        $cardOwner =& Services_PayPal::getType( 'PayerInfoType' );
+        $cardOwner =& PayPal::getType( 'PayerInfoType' );
 
-        if ( Services_PayPal::isError( $cardOwner ) ) {
+        if ( PayPal::isError( $cardOwner ) ) {
             return self::error( $cardOwner );
         }
 
@@ -353,9 +353,9 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
         $cardOwner->setAddress( $address );
         $cardOwner->setPayerCountry( $params['country'], self::CHARSET  );
         $cardOwner->setPayerName( $payerName );
-        $creditCard =& Services_PayPal::getType( 'CreditCardDetailsType' );
+        $creditCard =& PayPal::getType( 'CreditCardDetailsType' );
 
-        if ( Services_PayPal::isError( $creditCard ) ) {
+        if ( PayPal::isError( $creditCard ) ) {
             return self::error( $creditCard );
         }
 
@@ -365,11 +365,11 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
         $creditCard->setExpMonth        ( $params['month']             , self::CHARSET  );
         $creditCard->setCreditCardNumber( $params['credit_card_number'], self::CHARSET  );
         $creditCard->setCreditCardType  ( $params['credit_card_type']  , self::CHARSET  );
-        $doDirectPaymentRequestDetails =& Services_PayPal::getType( 'DoDirectPaymentRequestDetailsType' );
+        $doDirectPaymentRequestDetails =& PayPal::getType( 'DoDirectPaymentRequestDetailsType' );
 
-        $paymentDetails =& Services_PayPal::getType( 'PaymentDetailsType' );
+        $paymentDetails =& PayPal::getType( 'PaymentDetailsType' );
 
-        if ( Services_PayPal::isError( $paymentDetails ) ) {
+        if ( PayPal::isError( $paymentDetails ) ) {
             return self::error( $paymentDetails );
         }
 
@@ -380,7 +380,7 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
         $shipToAddress->setName( $params['first_name' ] . ' ' . $params['last_name'] );
         $paymentDetails->setShipToAddress( $shipToAddress );
 
-        if ( Services_PayPal::isError( $doDirectPaymentRequestDetails ) ) {
+        if ( PayPal::isError( $doDirectPaymentRequestDetails ) ) {
             return self::error( $doDirectPaymentRequestDetails );
         }
 
@@ -388,9 +388,9 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
         $doDirectPaymentRequestDetails->setPaymentDetails( $paymentDetails );
         $doDirectPaymentRequestDetails->setIPAddress     ( $params['ip_address'    ], self::CHARSET  );
         $doDirectPaymentRequestDetails->setPaymentAction ( $params['payment_action'], self::CHARSET  );
-        $doDirectPayment =& Services_PayPal::getType( 'DoDirectPaymentRequestType' );
+        $doDirectPayment =& PayPal::getType( 'DoDirectPaymentRequestType' );
 
-        if ( Services_PayPal::isError( $doDirectPayment ) ) {
+        if ( PayPal::isError( $doDirectPayment ) ) {
             return self::error( $doDirectPayment );
         }
 
@@ -398,7 +398,7 @@ class CRM_Contribute_Payment_PayPal extends CRM_Contribute_Payment {
 
         $result = $this->_caller->DoDirectPayment( $doDirectPayment );
 
-        if ( Services_PayPal::isError( $result ) ) { 
+        if ( PayPal::isError( $result ) ) { 
             return self::error( $result );
         }
 

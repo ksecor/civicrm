@@ -356,6 +356,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $query   =& $selector->getQuery( );
         $summary =& $query->summaryContribution( );
         $this->set( 'summary', $summary );
+        $this->assign( 'summary', $summary );
         $controller->run(); 
     }
 
