@@ -830,6 +830,14 @@ class CRM_Contact_BAO_Query {
             // since this case is handled with the above
             return;
 
+        case 'task_status_id':
+            $this->task( $values );
+            return;
+
+        case 'task_id':
+            // since this case is handled with the above
+            return;
+
         default:
             $this->restWhere( $values );
             return;
@@ -1401,7 +1409,12 @@ class CRM_Contact_BAO_Query {
             case 'civicrm_group':
                 $from .= " $side  JOIN civicrm_group ON civicrm_group_contact.group_id = civicrm_group.id ";
                 continue; 
-                
+
+            case 'civicrm_task_status':
+                $from .= " $side JOIN civicrm_task_status ON ( civicrm_task_status.responsible_entity_table = 'civicrm_contact'
+                                                          AND contact_a.id = civicrm_task_status.responsible_entity_id )";
+                continue;
+
             default:
                 $from .= CRM_Core_Component::from( $name, $mode, $side );
                 continue;
@@ -1805,6 +1818,44 @@ class CRM_Contact_BAO_Query {
             $title = $name;
         }
         $this->_qill[$grouping][]  = ts( "%1 %2 %3", array( 1 => $title, 2 => $op, 3 => $value ) );
+    }
+
+    /**
+     * where / qill clause for task / task status
+     *
+     * @return void
+     * @access public
+     */
+    function task( &$values ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+
+        // also get values array for relation_target_name
+        $targetName = $this->getWhereValues( 'task_id', $grouping );
+        if ( ! $targetName ) {
+            return;
+        }
+
+        $taskID   = CRM_Utils_Type::escape( $targetName[2], 'Integer' );
+        $clause   = "civicrm_task_status.task_id = $taskID ";
+
+        $statusID = null;
+        if ( $value ) {
+            $statusID = CRM_Utils_Type::escape( $value, 'Integer' );
+            $clause  .= " AND civicrm_task_status.status_id = $statusID";
+        }
+
+        $this->_where[$grouping][] = "civicrm_task_status.task_id = $taskID AND civicrm_task_status.status_id = $statusID";
+        $this->_tables['civicrm_task_status'] = $this->_whereTables['civicrm_task_status'] = 1;
+
+        $taskSelect =  CRM_Core_PseudoConstant::tasks( );
+        $this->_qill[$grouping][] = ts( "Task: %1",
+                                        array( 1 => $taskSelect[$taskID] ) );
+        if ( $statusID ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            $statusSelect = CRM_Core_OptionGroup::values( 'task_status' );
+            $this->_qill[$grouping][] = ts( "Task Status: %1", 
+                                            array( 1 => $statusSelect[$statusID] ) );
+        }
     }
 
     /**

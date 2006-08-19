@@ -139,12 +139,15 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
      */
     public function formRule(&$params, &$files) {
         if ( $params['is_active'] ) {
-            $membershipType = array_values($params['membership_type']);
-            if ( array_sum($membershipType) == 0 ) {
+            if (!is_array($params['membership_type'])) {
                 $errors['membership_type'] = 'Please select at least one Membership Type to include in the Membership section of this page.';
+            } else {
+                $membershipType = array_values($params['membership_type']);
+                if ( array_sum($membershipType) == 0 ) {
+                    $errors['membership_type'] = 'Please select at least one Membership Type to include in the Membership section of this page.';
+                }
             }
-        }
-     
+        }     
         return empty($errors) ? true : $errors;
     }
 

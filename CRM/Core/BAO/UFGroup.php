@@ -275,7 +275,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $locType  = " ( {$locationType[$field->location_type_id]} ) ";
                     } else {                                                           
                         if ( in_array($field->field_name, $specialFields))  {
-                            $name    .= '-Primary';
+                            //$name    .= '-Primary';        //Fix for CRM-1155
                             $locType  = ' ( Primary ) ';
                         }
                     }
@@ -592,7 +592,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                     $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File', $fileId, 'mime_type', 'id' );
                                     if ( $config->customUploadURL && ( $fileType =="image/jpeg" || $fileType =="image/gif" || $fileType =="image/png") ) { 
                                         $url = $config->customUploadURL . $details->$name;
-                                        $params[$index] = $values[$index] = "<a href='#' onclick='popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
+                                        $params[$index] = $values[$index] = "<a href='javascript:popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
                                     } else { // for non image files
                                         $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id=$fileId&eid=$cid" );
                                         $params[$index] = $values[$index] = "<a href=$url>" . $details->$name ."</a>";
@@ -792,11 +792,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @return object
      */
     static function add(&$params, &$ids) {
-        $params['is_active'   ] = CRM_Utils_Array::value('is_active', $params, false);
-        $params['add_captcha' ] = CRM_Utils_Array::value('add_captcha', $params, false);
-        
+        $params['is_active'              ] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['add_captcha'            ] = CRM_Utils_Array::value('add_captcha', $params, false);
+        $params['is_map'                 ] = CRM_Utils_Array::value('is_map', $params, false);
+        $params['collapse_display'       ] = CRM_Utils_Array::value('collapse_display', $params, false);
         $params['limit_listings_group_id'] = CRM_Utils_Array::value('group', $params);
-        $params['add_to_group_id'] = CRM_Utils_Array::value('add_contact_to_group', $params);
+        $params['add_to_group_id'        ] = CRM_Utils_Array::value('add_contact_to_group', $params);
     
         $ufGroup             =& new CRM_Core_DAO_UFGroup();
         $ufGroup->domain_id  = CRM_Core_Config::domainID( );

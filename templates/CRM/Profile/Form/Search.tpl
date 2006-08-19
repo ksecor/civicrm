@@ -1,11 +1,11 @@
 {if ! empty( $fields )}
  {if $groupId }
     <div id="id_{$groupId}_show" class="data-group">
-       <a href="#" onclick="hide('id_{$groupId}_show'); show('id_{$groupId}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$field.groupTitle}{/ts}</label><br />
+       <a href="#" onclick="hide('id_{$groupId}_show'); show('id_{$groupId}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}New Search{/ts}</label><br />
     </div>
 
     <div id="id_{$groupId}">
-      <fieldset><legend><a href="#" onclick="hide('id_{$groupId}'); show('id_{$groupId}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}{$field.groupTitle}{/ts}</legend>
+      <fieldset><legend><a href="#" onclick="hide('id_{$groupId}'); show('id_{$groupId}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Search Criteria{/ts}</legend>
 {else}
     <div>
 {/if}

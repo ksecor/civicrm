@@ -166,8 +166,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                        $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this );
-
-        $this->assign( "{$this->_prefix}limit", $this->_limit );
+        
+        $this->assign( "{$this->_prefix}limit"  , $this->_limit );
+        $this->assign( "{$this->_prefix}context", $this->_context );
 
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
@@ -230,17 +231,19 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
     {
         // text for sort_name 
         $this->addElement('text', 'sort_name', ts('Contributor'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-
+        
         require_once 'CRM/Contribute/BAO/Query.php';
         CRM_Contribute_BAO_Query::buildSearchForm( $this );
-
+        
         /* 
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 
          * of all elements being declared in builQuickForm 
          */ 
         $rows = $this->get( 'rows' ); 
         if ( is_array( $rows ) ) {
-            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onChange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            if (!$this->_single) {
+                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            }
             
             $total = $cancel = 0;
             foreach ($rows as $row) { 
@@ -249,9 +252,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                    array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                    ); 
             }
-
+            
             $this->assign( "{$this->_prefix}single", $this->_single );
-
+            
             // also add the action and radio boxes
             require_once 'CRM/Contribute/Task.php';
             $tasks = array( '' => ts('- more actions -') ) + CRM_Contribute_Task::tasks( );
@@ -259,25 +262,25 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) ); 
-
+            
             $this->add('submit', $this->_printButtonName, ts('Print'), 
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
-
+            
             
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => null) ); 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
         }
-
-         // add buttons 
-        $this->addButtons( array( 
-                                 array ( 'type'      => 'refresh', 
-                                         'name'      => ts('Search') , 
-                                         'isDefault' => true     ) 
-                                 )         
+        
+        // add buttons 
+        $this->addButtons( array ( 
+                                  array ( 'type'      => 'refresh', 
+                                          'name'      => ts('Search') , 
+                                          'isDefault' => true     ) 
+                                  )
                            ); 
-
+        
     }
 
     /**

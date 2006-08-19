@@ -58,7 +58,7 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this, false, 0);
         $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('/civicrm/admin/optionValue', 'reset=1&action=browse&gid='.$this->_gid); 
+        $url = CRM_Utils_System::url('civicrm/admin/optionValue', 'reset=1&action=browse&gid='.$this->_gid); 
         $session->pushUserContext( $url );
     }
     /**

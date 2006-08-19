@@ -59,6 +59,20 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
     function preProcess()
     {
         $this->_mode = CRM_Profile_Form::MODE_CREATE;
+
+        if ( $this->get( 'edit' ) ) {
+            // make sure we have right permission to edit this user
+            $session =& CRM_Core_Session::singleton();
+            $userID = $session->get( 'userID' );
+            $id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false, $userID );
+
+            require_once 'CRM/Contact/BAO/Contact.php';
+            if ( $id != $userID &&
+                 ! CRM_Contact_BAO_Contact::permissionedContact( $id, CRM_Core_Permission::EDIT ) ) {
+                CRM_Utils_System::statusBounce( ts( 'You do not have permission to edit this contact' ) );
+            }
+        }
+
         parent::preProcess( );
     }
 
@@ -68,7 +82,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
      * @access protected
      * @return array the default array reference
      */
-    function &setDefaultValues()
+     function &setDefaultValues()
     {
         return parent::setContactValues( );
     }
@@ -168,6 +182,10 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         parent::postProcess( );
 
         CRM_Core_Session::setStatus(ts('Thank you. Your information has been saved.'));
+
+        $session =& CRM_Core_Session::singleton( );
+        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/profile/view',
+                                                             "reset=1&id={$this->_id}&gid={$this->_gid}" ) );
     }
 
     /**

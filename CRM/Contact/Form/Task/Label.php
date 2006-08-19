@@ -113,13 +113,12 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         
         //get the contact information
         foreach ($this->_contactIds as $value) {
-            $params  = array( array( 'contact_id', '=', $value, 0, 0 ) );
+            $params  = array( 'contact_id'=> $value );
             $contact[$value] =& crm_fetch_contact( $params, $returnProperties );
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
         }
-        
         //format the contact array before sending tp pdf
         foreach ($contact as $k => $v) {
             foreach ($v as $k1 => $v1) {

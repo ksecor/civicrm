@@ -233,8 +233,9 @@ class CRM_Member_Form_Search extends CRM_Core_Form {
          */ 
         $rows = $this->get( 'rows' ); 
         if ( is_array( $rows ) ) {
-            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onChange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
-            
+            if ($this->_context == 'search') {
+                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            }
             $total = $cancel = 0;
             foreach ($rows as $row) { 
                 $this->addElement( 'checkbox', $row['checkbox'], 

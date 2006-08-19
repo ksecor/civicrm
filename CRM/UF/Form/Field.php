@@ -212,17 +212,26 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             }
         }
 
+        $noSearchable = array();
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 $this->_mapperFields[$key][$key1] = $value1['title'];
                 $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
+
+                //for hiding the 'is searchable' field for 'File' custom data
+                if ( ($value1['data_type'] == 'File') && ($value1['html_type'] == 'File') ) {
+                    if (!in_array($value1['title'], $noSearchable)) {
+                        $noSearchable[] = $value1['title'];
+                    }
+                }
             }
         }
+        $this->assign('noSearchable', $noSearchable);
 
         require_once 'CRM/Core/BAO/LocationType.php';
         $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-
+        
        /* FIXME: dirty hack to make the default option show up first.  This
         * avoids a mozilla browser bug with defaults on dynamically constructed
         * selector widgets. */
@@ -236,8 +245,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $this->_location_types = array ('Primary') + $this->_location_types;
 
         $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
-
-        $sel1['Student'] = 'Students';
+        
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            $sel1['Student'] = 'Students';
+        }
+        
         if ( ! empty( $contribFields ) ) {
             $sel1['Contribution'] = 'Contributions';
         }

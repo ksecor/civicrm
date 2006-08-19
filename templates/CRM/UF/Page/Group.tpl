@@ -10,6 +10,7 @@
     <p>{ts}The HTML code below will display a form consisting of the active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts}</p>
     <p>{ts}You can control the web page that someone is directed to AFTER completing the form by modifying the contents of the hidden <strong>postURL</strong> input field. Replace the default value with any valid complete URL prior to saving the form code to the desired page(s).{/ts}</p>
     <p>{ts}EXAMPLE:{/ts} <strong>&lt;input type="hidden" name="postURL" value="http://www.example.com/thank_you.html"&gt;</strong></p>
+    <p>{ts}If the form is submitted with errors (i.e. required field not completed...) - the default behavior is to display the errors within the "built-in" profile form. You can override this behavior - specifying your own error page - by adding a hidden <strong>errorURL</strong> input field{/ts} (<a href="http://wiki.civicrm.org/confluence/display/CRM/Configure+CiviCRM+Profile" target="_blank">{ts}more info{/ts}...</a>).</p>
     <p><strong>{ts}Make sure the CAPTCHA feature is NOT enabled for this profile when you are grabbing the HTML code for a stand-alone form. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.{/ts}</strong></p>
     </div>
    
@@ -41,8 +42,6 @@
     <li>{ts 1=$siteRoot 2='civicrm/profile/create?reset=1&amp;gid=3'}<strong>Contact Signup Forms (built-in pages)</strong> - Create link(s) to "new contact" input form(s) for your Profiles using the following path: <em>%1/%2</em>. (This example links to an input form for Profile ID 3.){/ts}</li>
     <li>{ts}<strong>Standalone Forms</strong> - If you want more control over form layout, or want to add Profile input forms to non-CiviCRM blocks, pages and/or sites...click the *Standalone Form* action link for a Profile below - and copy and paste the HTML form code into any web page.{/ts}</li>
     </ul>
-    {* Multi-profile standalone forms not supported for 1.3. dgg *}
-    {* <p>{ts 1=$crmURL}Use the <strong>Stand-alone Form</strong> links to get the HTML code needed to add a profile form to any block or page on any website (e.g. for a signup form). You can also get the <a href="%1">HTML for ALL Active Profiles</a> as a single form.{/ts}</p> *}
     </div>
 
     {if $rows}

@@ -111,7 +111,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @access public 
      */ 
     function preProcess() 
-    { 
+    {
         require_once 'CRM/Core/BAO/UFGroup.php';
         require_once "CRM/Core/BAO/UFField.php";
 
@@ -439,7 +439,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File', $fileId, 'mime_type', 'id' );
                         if ( $config->customUploadURL && ( $fileType =="image/jpeg" || $fileType =="image/gif" || $fileType =="image/png") ) { 
                             $url = $config->customUploadURL . $defaults[$field['name']];
-                            $customFiles[$field['name']] = "<a href='#' onclick='popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
+                            $customFiles[$field['name']] = "Attached File : <a href='javascript:popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
                         } else { //for files other than images
                             $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileId}&eid=$this->_id" );
                             $customFiles[$field['name']] = "Attached File : <a href=$url>" . $defaults[$field['name']] . "</a>";
@@ -485,14 +485,14 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
                 }
             }
-            
+
             //build show/hide array for uf groups
             // dont do this if gid is set (i.e. only one group)
-            if ( $field['collapse_display'] ) {
+
+            if ( $field['collapse_display'] && !in_array("'id_". $field['group_id']  . "_show'" , $sBlocks )) {
                 $sBlocks[] = "'id_". $field['group_id']  . "_show'" ; 
                 $hBlocks[] = "'id_". $field['group_id'] ."'"; 
-            }
-            else {
+            } else if ( !$field['collapse_display'] && !in_array("'id_". $field['group_id']  . "_show'" , $hBlocks )) {
                 $hBlocks[] = "'id_". $field['group_id'] . "_show'" ; 
                 $sBlocks[] = "'id_". $field['group_id'] ."'";   
             }
