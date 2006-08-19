@@ -378,7 +378,10 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                           array('desc' => ts('Actions') ),
                                           );
 
-            if ( ! $this->_single ) {
+            //if ( ! $this->_single && ! $this->_limit ) {
+            
+            if ( ( $this->_context == 'dashboard') || 
+                 ( $this->_context == 'search' ) ) {
                 $pre = array( 
                              array('desc' => ts('Contact Type') ), 
                              array( 

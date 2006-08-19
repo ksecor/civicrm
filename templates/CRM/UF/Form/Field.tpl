@@ -102,13 +102,17 @@ they are currently causing sporadic failures in insert and delete - so commentin
 
        var input = document.getElementById('label');
        input.value = labelValue;
-
-       var field2 = document.getElementsByName("field_name[1]")[0][document.getElementsByName("field_name[1]")[0].selectedIndex].text;
-       var noSearch;
+       //alert(document.getElementsByName("field_name[1]")[0].selectedIndex);
        show("is_search_label");
        show("is_search_html");
        show("is_search_desDt");
        show("is_search_desDd");
+       
+       if (document.getElementsByName("field_name[1]")[0].selectedIndex == -1) {
+        return;
+       }
+       var field2 = document.getElementsByName("field_name[1]")[0][document.getElementsByName("field_name[1]")[0].selectedIndex].text;
+       var noSearch;
        {/literal}
          {foreach from=$noSearchable key=dnc item=val}
 	   {literal}noSearch = "{/literal}{$val}{literal}";
