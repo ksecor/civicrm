@@ -294,7 +294,10 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
              //fix status display
              $row['status']   = $statusTypes[$row['status_id']];
              
-             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
+             if ($this->_context == 'search') {
+                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
+             }
+             
              $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
                                                            array( 'id'  => $result->membership_id,
                                                                   'cid' => $result->contact_id,
