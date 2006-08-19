@@ -275,7 +275,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $locType  = " ( {$locationType[$field->location_type_id]} ) ";
                     } else {                                                           
                         if ( in_array($field->field_name, $specialFields))  {
-                            $name    .= '-Primary';
+                            //$name    .= '-Primary';        //Fix for CRM-1155
                             $locType  = ' ( Primary ) ';
                         }
                     }
