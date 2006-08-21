@@ -441,13 +441,19 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_
 /*
  * TEST Payment Server (Sandbox) Settings:
  */
-// PayPal ONLY - File system path where API Profile files should be created and stored.
+
+// PayPal ONLY - File system path where API Profile files should be created and stored if using cert
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
+
+// PayPal ONLY - Username on account if using signature
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME'      , '' );
 
 // API Password (PayPal) or API Token (Moneris)
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , '' ); 
 
-// Authentication key. For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value.
+// Authentication key. 
+// For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value. (if using cert)
+//            - Paypal API Signature
 // For Moneris - storeid.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , '' ); 
 
@@ -461,10 +467,14 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypa
 // PayPal ONLY - File system path where API Profile files should be created and stored.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
 
+// PayPal ONLY - Username on account if using signature
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME'      , '' );
+
 // API Password (PayPal) or API Token (Moneris)
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , '' );
 
-// Authentication key. For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value.
+// Authentication key. For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value. (is using cert)
+//                                - Paypal API Signature
 // For Moneris - storeid.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
 

@@ -88,6 +88,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         require_once 'CRM/Contact/DAO/SubscriptionHistory.php';
         CRM_Utils_Hook::pre( 'delete', 'Group', $id );
 
+        CRM_Core_DAO::transaction('BEGIN');
+
         // delete all Subscription  records with the selected group id
         $subHistory = & new CRM_Contact_DAO_SubscriptionHistory( );
         $subHistory ->group_id = $id;
@@ -99,14 +101,19 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $groupContact->delete();
 
         // make all the 'add_to_group_id' field of 'civicrm_uf_group table', pointing to this group, as null
-        $query = "update civicrm_uf_group SET `add_to_group_id`= NULL where `add_to_group_id`= ".$id;
-        $dao =new CRM_Core_DAO();
-        $dao->query($query);
+        $params = array( 1 => array( $id, 'Integer' ) );
+        $query = "update civicrm_uf_group SET `add_to_group_id`= NULL where `add_to_group_id` = %1";
+        CRM_Core_DAO::executeQuery( $query, $params );
+
+        $query = "update civicrm_uf_group SET `limit_listings_group_id`= NULL where `limit_listings_group_id` = %1";
+        CRM_Core_DAO::executeQuery( $query, $params );
 
         // delete from group table
         $group =& new CRM_Contact_DAO_Group( );
         $group->id = $id;
-        $group->delete();
+        $group->delete( );
+
+        CRM_Core_DAO::transaction('COMMIT');
 
         CRM_Utils_Hook::post( 'delete', 'Group', $id, $group );
     }

@@ -58,27 +58,52 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
      */ 
     function __construct( $mode ) {
         require_once 'PayPal.php';
-        require_once 'PayPal/Profile/Handler/File.php';
         require_once 'PayPal/Profile/API.php';
 
         $config =& CRM_Core_Config::singleton( );
-        $this->_handler =& ProfileHandler_File::getInstance( array(
-                                                                   'path' => $config->paymentCertPath[$mode],
-                                                                   'charset' => self::CHARSET,
-                                                                   )
-                                                             );
+        if ( $config->paymentUsername[$mode] ) {
+            require_once 'PayPal/Profile/Handler/Array.php';
+            $environment = ( $mode == 'test' ) ? 'sandbox' : 'live';
+            $this->_handler =& ProfileHandler_Array::getInstance( array(
+                                                                        'username'        => $config->paymentUsername[$mode],
+                                                                        'certificateFile' => null,
+                                                                        'subject'         => null,
+                                                                        'environment'     => $environment,
+                                                                        )
+                                                                  );
+            if ( PayPal::isError( $handler ) ) {
+                return self::error( $handler );
+            }
+
+            $pid            =  ProfileHandler::generateID( );
+            $this->_profile =& APIProfile::getInstance( $pid, $this->_handler );
+
+            if ( PayPal::isError( $this->_profile ) ) {
+                return self::error( $this->_profile );
+            }
+
+            $this->_profile->setAPIPassword( $config->paymentPassword[$mode] );
+            $this->_profile->setSignature  ( $config->paymentKey     [$mode] );
+        } else {
+            require_once 'PayPal/Profile/Handler/File.php';
+            $this->_handler =& ProfileHandler_File::getInstance( array(
+                                                                       'path' => $config->paymentCertPath[$mode],
+                                                                       'charset' => self::CHARSET,
+                                                                       )
+                                                                 );
         
-        if ( PayPal::isError( $handler ) ) {
-            return self::error( $handler );
+            if ( PayPal::isError( $handler ) ) {
+                return self::error( $handler );
+            }
+        
+            $this->_profile =& APIProfile::getInstance( $config->paymentKey[$mode], $this->_handler );
+
+            if ( PayPal::isError( $this->_profile ) ) {
+                return self::error( $this->_profile );
+            }
+
+            $this->_profile->setAPIPassword( $config->paymentPassword[$mode] );
         }
-
-        $this->_profile =& APIProfile::getInstance( $config->paymentKey[$mode], $this->_handler );
-
-        if ( PayPal::isError( $this->_profile ) ) {
-            return self::error( $this->_profile );
-        }
-
-        $this->_profile->setAPIPassword( $config->paymentPassword[$mode] );
 
         $this->_caller =& PayPal::getCallerServices( $this->_profile );
 

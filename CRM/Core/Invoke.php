@@ -291,8 +291,14 @@ class CRM_Core_Invoke {
                 return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
 
             default:
-                $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject, true ); 
-                $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/basic', 'reset=1&cid='.$id ) );
+                $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject ); 
+                if ( ! $id ) {
+                    $id = $session->get( 'view.id' );
+                    if ( ! $id ) {
+                        CRM_Utils_System::statusBounce( ts( 'Could not retrieve a valid contact' ) );
+                    }
+                }
+                $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/basic', "reset=1&cid=$id" ) );
                 
                 $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
                 $contact_type     = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type'     );

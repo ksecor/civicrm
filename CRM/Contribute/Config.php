@@ -74,7 +74,14 @@ class CRM_Contribute_Config {
     public $paymentCertPath = array( );
 
     /** 
-     * What is the payment file key
+     * What is the payment User name
+     * 
+     * @var string                
+     */ 
+    public $paymentUsername = array( );
+
+    /** 
+     * What is the payment file key or api signature
      * 
      * @var string                
      */ 
@@ -122,8 +129,9 @@ class CRM_Contribute_Config {
         $config->paymentClass           = null;
         $config->paymentBillingMode     = null;
         $config->paymentCertPath        = null;
-        $config->paymentKey             = null;
+        $config->paymentUsername        = null;
         $config->paymentPassword        = null;
+        $config->paymentKey             = null;
         $config->paymentProcessorButton = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif";
         $config->paymentPayPalExpressUrl = "www.paypal.com";
         $config->paymentPayPalExpressTestUrl = "www.sandbox.paypal.com";
@@ -163,6 +171,14 @@ class CRM_Contribute_Config {
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH' ) ) {
             $config->paymentCertPath['test'] = CRM_Core_Config::addTrailingSlash( CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH );
+        }
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME' ) ) {
+            $config->paymentUsername['live'] = CIVICRM_CONTRIBUTE_PAYMENT_USERNAME;
+        }
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME' ) ) {
+            $config->paymentUsername['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME;
         }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY' ) ) {
