@@ -90,6 +90,7 @@ class CRM_Utils_System {
                                                 'locationtype'       => 'LocationType',
                                                 'managepremiums'     => 'ManagePremiums',
                                                 'mapfield'           => 'MapField',
+                                                'membershipblock'    => 'MembershipBlock',
                                                 'membershiptype'     => 'MembershipType',
                                                 'membershipstatus'   => 'MembershipStatus',
                                                 'mobileprovider'     => 'MobileProvider',
