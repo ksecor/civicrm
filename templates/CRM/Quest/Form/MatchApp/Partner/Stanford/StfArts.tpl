@@ -12,7 +12,7 @@ Please note: this form is only a supplement to the application process. Its subm
 <p>
 To fill out the Arts Supplement form, please download, complete, and mail the following Art Supplement form to Stanford University.<p>
 <p>
-<a href="supply link here">Arts Supplement form (pdf)</a>
+<a href="http://www.questbridge.org/downloadable_forms/CM_Stanford_Arts_Supplement.pdf">Arts Supplement form (pdf)</a>
 </td>
 </tr>
 </table>

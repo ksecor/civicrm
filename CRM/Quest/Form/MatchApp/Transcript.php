@@ -228,8 +228,7 @@ class CRM_Quest_Form_MatchApp_Transcript extends CRM_Quest_Form_App
 
         $academicFields = array( 'academic_subject_id_'     => 'academic subject',
                                  'course_title_'            => 'course title',
-                                 'academic_credit_'         => 'credit',
-                                 'academic_honor_status_id_'=> 'honor status' );
+                                 'academic_credit_'         => 'credit' );
 
         if ( $params['gradeTitle'] != 'Eleven' ) {
             for ( $i = 1; $i <= 9; $i++ ) {
