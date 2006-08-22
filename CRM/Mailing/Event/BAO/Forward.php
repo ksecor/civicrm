@@ -277,7 +277,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             $query .= " GROUP BY $queue.id ";
         }
 
-        $query .= " ORDER BY $contact.sort_name, $forward.time_stamp ";
+        $query .= " ORDER BY $contact.sort_name, $forward.time_stamp DESC ";
 
         if ($offset) {
             $query .= ' LIMIT ' 

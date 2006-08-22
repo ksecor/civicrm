@@ -173,7 +173,7 @@ class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
             $query .= " GROUP BY $queue.id ";
         }
 
-        $query .= " ORDER BY $contact.sort_name, $delivered.time_stamp ";
+        $query .= " ORDER BY $contact.sort_name, $delivered.time_stamp DESC ";
 
         if ($offset) {
             $query .= ' LIMIT ' 

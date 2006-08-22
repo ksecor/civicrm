@@ -1117,7 +1117,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ON  $job.mailing_id = $mailing.id
             WHERE       $mailing.domain_id = $domain_id
             GROUP BY    $mailing.id
-            ORDER BY    $mailing.id, $job.end_date";
+            ORDER BY    $mailing.id DESC, $job.end_date DESC";
 
         if ($rowCount) {
             $query .= " LIMIT $offset, $rowCount ";
