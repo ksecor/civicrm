@@ -166,7 +166,7 @@ class HTML_Common {
                 if (is_int($key)) {
                     $key = $value = strtolower($value);
                 } else {
-                    $key = strtolower($key);
+                    // $key = strtolower($key);
                 }
                 $ret[$key] = $value;
             }
