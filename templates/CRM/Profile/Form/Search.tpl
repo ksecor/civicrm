@@ -65,9 +65,13 @@
 
 {if $groupId}
 <script type="text/javascript">
-    var showBlocks = new Array({$showBlocks});
-    var hideBlocks = new Array({$hideBlocks});
-
+    {if empty($rows) }
+	var showBlocks = new Array("id_{$groupId}");
+        var hideBlocks = new Array("id_{$groupId}_show");
+    {else}
+	var showBlocks = new Array("id_{$groupId}_show");
+        var hideBlocks = new Array("id_{$groupId}");
+    {/if}
     {* hide and display the appropriate blocks as directed by the php code *}
     on_load_init_blocks( showBlocks, hideBlocks );
 </script>

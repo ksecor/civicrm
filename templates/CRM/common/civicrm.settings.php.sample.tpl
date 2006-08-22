@@ -440,47 +440,63 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_
 
 /*
  * TEST Payment Server (Sandbox) Settings:
+ * NOTE: Not all settings are used by all payment processors and authentication credential methods.
+ * 
  */
 
-// PayPal ONLY - File system path where API Profile files should be created and stored if using cert
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
-
-// PayPal ONLY - Username on account if using signature
+// API Username
+// PayPal API Signature credential only: API Username value (from your PayPal account - View API Signature screen).
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME'      , '' );
 
-// API Password (PayPal) or API Token (Moneris)
+// API Password
+// PayPal API Signature credential: API Password value (from your PayPal account - View API Signature screen).
+// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+// Moneris: API Token value.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , '' ); 
 
-// Authentication key. 
-// For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value. (if using cert)
-//            - Paypal API Signature
-// For Moneris - storeid.
+// API Signature or Key 
+// PayPal API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
+// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+// Moneris: Use the storeid value.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , '' ); 
 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypal.com');
+// API Certificate Path
+// PayPal API Certificate credential only: File system path where API Profile files should be created and stored.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
+
 // Hostname for "PayPal Express" button submit in test-drive mode. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypal.com');
 
 /*
  * LIVE Payment Server Settings:
+ * NOTE: Not all settings are used by all payment processors and authentication credential methods.
+ * 
  */
-// PayPal ONLY - File system path where API Profile files should be created and stored.
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
 
-// PayPal ONLY - Username on account if using signature
+// API Username
+// PayPal API Signature credential only: API Username value (from your PayPal account - View API Signature screen).
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME'      , '' );
 
-// API Password (PayPal) or API Token (Moneris)
+// API Password
+// PayPal API Signature credential: API Password value (from your PayPal account - View API Signature screen)
+// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+// Moneris: API Token value.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , '' );
 
-// Authentication key. For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value. (is using cert)
-//                                - Paypal API Signature
-// For Moneris - storeid.
+// API Signature or Key 
+// PayPal API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
+// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+// Moneris: Use the storeid value.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL', 'www.paypal.com');
+// API Certificate Path
+// PayPal API Certificate credential only: File system path where API Profile files should be created and stored.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
+
 // Hostname for "PayPal Express" button submit in live mode. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL', 'www.paypal.com');
 
 /**
  * Force SSL Redirect for Online Contribution Pages:
