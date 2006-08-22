@@ -109,12 +109,12 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
         
         $customValue->copyValues($params);
         
+        // lets find the object if one exists
+        // this allow us to use only one custom value / field for a given contact
+        $customValue->find( true );
+
         switch($params['type']) {
         case 'StateProvince':
-            //$states =& CRM_Core_PseudoConstant::stateProvince();
-            //$customValue->int_data = CRM_Utils_Array::key($params['value'], $states);
-            //$customValue->char_data = $params['value'];
-            
             if ( !is_numeric($params['value'])) {
                 $states = array( );
                 $states['state_province'] = $params['value'];
@@ -133,10 +133,6 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
             break;
             
         case 'Country':
-            //$countries =& CRM_Core_PseudoConstant::country();
-            //$customValue->int_data = CRM_Utils_Array::key($params['value'], $countries);
-            //$customValue->char_data = $params['value'];
-            
             if ( !is_numeric($params['value'])) {
                 $countries = array( );
                 $countries['country'] = $params['value'];
