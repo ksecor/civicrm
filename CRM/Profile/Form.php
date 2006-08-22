@@ -514,13 +514,14 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $this->assign( 'addToGroupId' , $addToGroupId );
                 $this->_addToGroupID = $addToGroupId;
             }
+        
+        
+            $showBlocks = implode(",",$sBlocks); 
+            $hideBlocks = implode(",",$hBlocks); 
+            
+            $this->assign( 'showBlocks', $showBlocks ); 
+            $this->assign( 'hideBlocks', $hideBlocks ); 
         }
-        
-        $showBlocks = implode(",",$sBlocks); 
-        $hideBlocks = implode(",",$hBlocks); 
-        
-        $this->assign( 'showBlocks', $showBlocks ); 
-        $this->assign( 'hideBlocks', $hideBlocks ); 
         
         $this->assign( 'customFiles', $customFiles ); 
 
