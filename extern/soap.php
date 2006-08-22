@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.3                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
  | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
@@ -29,8 +29,6 @@ session_start( );
 
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
-
-global $ufClass;
 
 $server =& new SoapServer(null, 
                           array(' uri' => 'urn:civicrm',
