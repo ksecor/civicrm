@@ -54,9 +54,7 @@ class CRM_Utils_File {
         }
 
         $ascii = true;
-        $lineCount = 0;
-        while ( ! feof( $fd ) & $lineCount <= 5 ) {
-            $lineCount++;
+        while (!feof($fd)) {
             $line = fgets( $fd, 8192 );
             if ( ! CRM_Utils_String::isAscii( $line ) ) {
                 $ascii = false;
