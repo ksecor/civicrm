@@ -130,13 +130,33 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $this->addRule( 'title', ts('Name already exists in Database.'),
                         'objectExists', array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );
 
+        require_once "CRM/Contribute/PseudoConstant.php";
+        $sel1 = CRM_Core_SelectValues::customGroupExtends();
+        $sel2['Contact']      = CRM_Core_SelectValues::contactType();
+        $sel2['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType(true , null);
+        $sel2['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
+
+        $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
+        $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
+        $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
+        $allRelationshipType =array();
+        $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
+        $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+
+      
+        $sel2['Relationship'] = array("" => "-- Any --") + $allRelationshipType;
+        
+        $sel =& $this->addElement('hierselect', "extends", ts('Used For'));
+        $sel->setOptions(array($sel1,$sel2));
+        $js .= "</script>\n";
+        $this->assign('initHideBoxes', $js);
 
         // which entity is this custom data group for ?
         // for update action only allowed if there are no custom values present for this group.
-        $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::customGroupExtends());
+        // $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::customGroupExtends());
 
         if ($this->_action == CRM_Core_Action::UPDATE) { 
-            $extendsElement->freeze();
+            $sel->freeze();
             $this->assign('gid', $this->_id);
         }
 
@@ -224,12 +244,11 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     {
         // get the submitted form values.
         $params = $this->controller->exportValues('Group');
-
         // create custom group dao, populate fields and then save.
         $group =& new CRM_Core_DAO_CustomGroup();
         $group->title            = $params['title'];
         $group->name             = CRM_Utils_String::titleToVar($params['title']);
-        $group->extends          = $params['extends'];
+        $group->extends          = $params['extends'][0];
         $group->style            = $params['style'];
         $group->collapse_display = CRM_Utils_Array::value('collapse_display', $params, false);
 

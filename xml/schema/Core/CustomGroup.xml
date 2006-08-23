@@ -53,6 +53,21 @@
        <add>1.1</add>
   </field>
   <field>
+     <name>extends_entity_column_name</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>linking custom group for dynamic object</comment>
+     <add>1.6</add>
+  </field>
+
+   <field>
+     <name>extends_entity_column_value</name>
+     <type>int unsigned</type>
+     <comment>linking custom group for dynamic object</comment>
+     <add>1.6</add>
+  </field>
+ 
+  <field>
      <name>style</name>
      <type>enum</type>
      <values>Tab, Inline</values>
