@@ -51,11 +51,10 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
         $config   =& CRM_Core_Config::singleton( );
         $domainID =  CRM_Core_Config::domainID( );
         $attributes = array( 'dojoType'     => 'ComboBox',
-                             'style'        => 'width: 300px;',
                              'mode'         => 'remote',
                              'dataUrl'      => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/search&d={$domainID}&s=%{searchString}",
                              );
-        $attributes = $attributes + CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
+        $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
         $this->add( 'text', 'sort_name', ts('Name'), $attributes );
 
         $attributes = array( 'dojoType'     => 'Select',

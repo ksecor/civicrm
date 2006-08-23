@@ -1,16 +1,4 @@
-{literal}
-<script type="text/javascript">
-  djConfig = {
-	isDebug: true
-  };
-</script>
-<script type="text/javascript" src="/~lobo/dojo/dojo.js"></script>
-<script type="text/javascript">
-  dojo.require("dojo.widget.Select");
-  dojo.require("dojo.widget.ComboBox");
-</script>
-{/literal}
-
+{include file="CRM/common/dojo.tpl" dojoIncludes="dojo.widget.Select,dojo.widget.ComboBox"}
 <table>
         <tr> 
             <td class="label">{$form.sort_name.label}</td> 

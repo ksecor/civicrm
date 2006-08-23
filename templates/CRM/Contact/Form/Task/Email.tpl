@@ -4,6 +4,7 @@
 <p>{ts}Your setup enforces SMTP authentication, but does not provide SMTP username and/or password. Please fix your civicrm.settings.php file.{/ts}</p>
 </div>
 {else}
+{include file="CRM/common/dojo.tpl" dojoIncludes="dojo.widget.ComboBox,dojo.widget.Editor"}
 <fieldset>
 <legend>{ts}Send an Email{/ts}</legend>
 {if $suppressedEmails > 0}
@@ -18,8 +19,13 @@
 {else}
 <dt>{$form.to.label}</dt><dd>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</dd>
 {/if}
-<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
-<dt>{$form.message.label}</dt><dd>{$form.message.html}</dd>
+  <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
+  <dt>{$form.message.label}</dt>
+  <dd>
+    <div dojoType="LayoutContainer" style="height: 20em; overflow: auto">
+      {$form.message.html}
+    </div>
+  </dd>
 {if $single eq false}
     <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
 {/if}

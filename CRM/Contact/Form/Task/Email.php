@@ -142,7 +142,6 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $this->assign('to', implode(', ', $toArray));
             $this->assign('suppressedEmails', $suppressedEmails);
         } else {
-            
             if ( $this->_noEmails ) {
                 $to = $this->add( 'select', 'to', ts('To'), $this->_emails );
                 $this->add('text', 'emailAddress', null, CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
@@ -176,10 +175,17 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         
         $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
         $this->assign( 'from', $from );
-        
-        $this->add( 'text'    , 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' ), true );
-        $this->add( 'textarea', 'message', ts('Message'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'message' ), true );
 
+        $attributes = array( 'dojoType' => 'ComboBox',
+                             'style'    => 'width: 600px;' );
+        $attributes += CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' );
+        $this->add( 'text'    , 'subject', ts('Subject'), $attributes, true );
+
+        $attributes = array( 'dojoType'     => 'Editor',
+                             'htmlEditing'  => 'true' );
+        $attributes += CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'message' );
+        $this->add( 'textarea', 'message', ts('Message'), $attributes, true );
+        
         if ( $this->_single ) {
             // also fix the user context stack
             $session->replaceUserContext( CRM_Utils_System::url('civicrm/contact/view/activity',
