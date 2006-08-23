@@ -566,14 +566,20 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
-
+        
+        // we dont want to store the sortByCharacter in the formValue, it is more like 
+        // a filter on the result set
+        // this filter is reset if we click on the search button
+        if ( $this->_sortByCharacter && empty( $_POST ) ) {
+            if ( $this->_sortByCharacter == 1 ) {
+                $this->_formValues['sortByCharacter'] = null;
+            } else {
+                $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
+            }
+        }
         $this->_params           =& $this->convertFormValues( $this->_formValues );
         $this->_returnProperties =& $this->returnProperties( );
-
-        // CRM_Core_Error::debug( 'fv', $this->_formValues );
-        // CRM_Core_Error::debug( 'p',  $this->_params );
-        // CRM_Core_Error::debug( 'rp', $this->_returnProperties );
-
+        
         $this->postProcessCommon( );
     }
 
@@ -652,25 +658,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             return;
         }
         $this->_done = true;
-
+        
         //get the button name
         $buttonName = $this->controller->getButtonName( );
-
-        // we dont want to store the sortByCharacter in the formValue, it is more like 
-        // a filter on the result set
-        // this filter is reset if we click on the search button
-        if ( $this->_sortByCharacter && $buttonName != $this->_searchButtonName) {
-            if ( $this->_sortByCharacter == 1 ) {
-                $this->_formValues['sortByCharacter'] = null;
-            } else {
-                $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
-            }
-        }
-            
+        
         if ( isset( $this->_ufGroupID ) && ! CRM_Utils_Array::value( 'uf_group_id', $this->_formValues ) ) { 
             $this->_formValues['uf_group_id'] = $this->_ufGroupID;
         }
-
+        
         $this->set( 'type'            , $this->_action );
         $this->set( 'formValues'      , $this->_formValues );
         $this->set( 'queryParams'     , $this->_params );
@@ -703,8 +698,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $config =& CRM_Core_Config::singleton( );
             if ( $config->includeAlphabeticalPager ) {
                 $query =& $selector->getQuery( );
-                $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $query, $this->_sortByCharacter );
-                $this->set( 'AToZBar', $aToZBar );
+                if ($this->_reset || !$this->_sortByCharacter) {
+                    $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $query, $this->_sortByCharacter );
+                    $this->set( 'AToZBar', $aToZBar );
+                }
             }
 
             $sortID = null;
