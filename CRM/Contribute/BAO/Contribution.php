@@ -50,6 +50,15 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      */
     static $_importableFields = null;
 
+    /**
+     * static field for all the contribution information that we can potentially export
+     *
+     * @var array
+     * @static
+     */
+    static $_exportableFields = null;
+
+
     function __construct()
     {
         parent::__construct();
@@ -355,17 +364,24 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     }
 
     function &exportableFields( ) {
-        require_once 'CRM/Contribute/DAO/Product.php';
-        require_once 'CRM/Contribute/DAO/ContributionProduct.php';
-        //$impFields = self::importableFields( );
-        $impFields = CRM_Contribute_DAO_Contribution::import( );
-        $expFieldProduct = CRM_Contribute_DAO_Product::export( );
-        $expFieldsContrib = CRM_Contribute_DAO_ContributionProduct::export( );
-        $typeField = CRM_Contribute_DAO_ContributionType::export( );
-        $fields = array_merge($impFields, $typeField);
-        $fields = array_merge($fields, $expFieldProduct );
-        $fields = array_merge($fields, $expFieldsContrib );
-        return $fields;
+        if ( ! self::$_exportableFields ) {
+            if ( ! self::$_exportableFields ) {
+                self::$_exportableFields = array();
+            }
+            require_once 'CRM/Contribute/DAO/Product.php';
+            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            $impFields = CRM_Contribute_DAO_Contribution::import( );
+            $expFieldProduct = CRM_Contribute_DAO_Product::export( );
+            $expFieldsContrib = CRM_Contribute_DAO_ContributionProduct::export( );
+            $typeField = CRM_Contribute_DAO_ContributionType::export( );
+            $fields = array_merge($impFields, $typeField);
+            $fields = array_merge($fields, $expFieldProduct );
+            $fields = array_merge($fields, $expFieldsContrib );
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
+            
+            self::$_exportableFields = $fields;
+        }
+        return self::$_exportableFields;
     }
 
     function getTotalAmountAndCount( $status = null, $startDate = null, $endDate = null ) {
