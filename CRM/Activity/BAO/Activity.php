@@ -69,7 +69,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-        
+        if ( $activityType == 1) {
+            $activityType = "Meeting";
+        } else if($activityType == 2) {
+            $activityType = "Phonecall";
+        } else {
+            $activityType = "Activity";
+        }
         eval ('$activity =& new CRM_Activity_DAO_' . $activityType .'( );');
         
         $activity->copyValues($params);
@@ -115,6 +121,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     static function retrieve( &$params, &$defaults, $activityType ) 
     {
+
+        if ( $activityType == 1) {
+            $activityType = "Meeting";
+        } else if($activityType == 2) {
+            $activityType = "Phonecall";
+        } else {
+            $activityType = "Activity";
+        }
         eval ( '$activity =& new CRM_Activity_DAO_' . $activityType . '( );' );
         $activity->copyValues( $params );
         if ( $activity->find( true ) ) {
@@ -186,11 +200,18 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     public static function createActivity( &$params, &$ids, $activityType = 'Meeting') 
     {
         $activity = self::add($params, $ids, $activityType);
-
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($activityType, $ids['id'], 0);
+        
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $ids['id'], 0,$activityType);
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
         
         // do the updates/inserts
+        if ( $activityType == 1) {
+            $activityType = "Meeting";
+        } else if($activityType == 2) {
+            $activityType = "Phonecall";
+        } else {
+            $activityType = "Activity";
+        }
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $activityType, $activity->id); 
         
         if ( $activityType == 'Phonecall' ) {

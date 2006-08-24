@@ -118,7 +118,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function &getTree($entityType, $entityId=null, $groupId=0)
+    public static function &getTree($entityType, $entityId=null, $groupId=0, $subType = null)
     {
         // create a new tree
         $groupTree = array();
@@ -150,7 +150,18 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // from, where, order by
         $strFrom = " FROM civicrm_custom_group LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicrm_custom_group.id)";
         if ($entityId) {
-            $tableName = self::_getTableName($entityType);
+            if ($entityType == "Activity") {
+                if ( $subType == 1) {
+                    $activityType = "Meeting";
+                } else if($subType == 2) {
+                    $activityType = "Phonecall";
+                } else {
+                    $activityType = "Activity";
+                }
+                $tableName = self::_getTableName($activityType);
+            } else {
+                $tableName = self::_getTableName($entityType);
+            }
             $strFrom .= " LEFT JOIN civicrm_custom_value
                                  ON ( civicrm_custom_value.custom_field_id = civicrm_custom_field.id 
                                 AND   civicrm_custom_value.entity_table = '$tableName' 
@@ -163,9 +174,14 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         } else {
             $in = "'$entityType'";
         }
-
-        $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
-            " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)";
+        if ( $subType ) {
+            $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
+                " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)
+                  AND (civicrm_custom_group.extends_entity_column_value = '$subType' || civicrm_custom_group.extends_entity_column_value = '')";
+        } else {
+            $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
+                " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)";
+        }
 
         $params = array( );
         if ($groupId > 0) {

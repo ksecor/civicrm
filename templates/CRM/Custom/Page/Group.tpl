@@ -17,6 +17,7 @@
             <th>{ts}Group Title{/ts}</th>
             <th>{ts}Status?{/ts}</th>
             <th>{ts}Used For{/ts}</th>
+            <th>{ts}Type{/ts}</th>
             <th>{ts}Weight{/ts}</th>
             <th>{ts}Style{/ts}</th>
             <th></th>
@@ -26,6 +27,7 @@
             <td>{$row.title}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{if $row.extends eq 'Contact'}{ts}All Contact Types{/ts}{else}{$row.extends_display}{/if}</td>
+            <td>{$row.extends_entity_column_value}</td>
             <td>{$row.weight}</td>
             <td>{$row.style_display}</td>
             <td>{$row.action}</td>

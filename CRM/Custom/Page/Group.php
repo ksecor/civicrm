@@ -257,6 +257,38 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
             CRM_Core_DAO_CustomGroup::addDisplayEnums($customGroup[$key]);
             $customGroup[$key]['extends_display'] = $customGroupExtends[$customGroup[$key]['extends']];
         }
+        //print_r($customGroup);
+        //fix for Diplay the subTypes  
+        
+        $subTypes= array();
+        require_once "CRM/Contribute/PseudoConstant.php";
+        $subTypes['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType(true , null);
+        $subTypes['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
+
+        $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
+        $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
+        $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
+        $allRelationshipType =array();
+        $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
+        $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+        
+        
+        $subTypes['Relationship'] = array("" => "-- Any --") + $allRelationshipType;
+
+        require_once "CRM/Core/Component.php";
+        $cSubTypes = CRM_Core_Component::contactSubTypes();
+        $contactSubTypes = array();
+        foreach($cSubTypes as $key => $value ) {
+            $contactSubTypes[$key] = $key;
+        }
+        $subTypes['Contact']  =  array("" => "-- Any --") +$contactSubTypes;
+        foreach($customGroup as $key => $values ) {
+            $sub  = $customGroup[$key]["extends_entity_column_value"];
+            $type = $customGroup[$key]["extends"];
+            
+            $customGroup[$key]["extends_entity_column_value"] = $subTypes[$type][$sub];
+        }
+        
         $this->assign('rows', $customGroup);
     }
 }

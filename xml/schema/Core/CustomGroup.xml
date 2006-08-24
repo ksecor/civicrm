@@ -62,7 +62,8 @@
 
    <field>
      <name>extends_entity_column_value</name>
-     <type>int unsigned</type>
+     <type>varchar</type>
+     <length>64</length>
      <comment>linking custom group for dynamic object</comment>
      <add>1.6</add>
   </field>

@@ -106,7 +106,7 @@ class CRM_Activity_Form extends CRM_Core_Form
             $this->assign('ActivityTypeDescription', CRM_Core_BAO_ActivityType::getActivityDescription());
         }
         
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_activityType, $this->_id, 0);
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_id, 0,$this->_activityType);
     }
 
     /**

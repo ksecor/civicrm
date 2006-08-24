@@ -48,7 +48,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
      * variable to store activity type name
      *
      */
-    public $_activityType = 'Meeting';
+    public $_activityType = 1;
 
     /**
      * Function to build the form

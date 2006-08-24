@@ -324,6 +324,9 @@ class CRM_Core_SelectValues {
         if (!$customGroupExtends) {
             $customGroupExtends = array(
                 'Contact'      => ts('Contacts'),
+                'Individual'   => ts('Individuals'),
+                'Household'    => ts('Households'),
+                'Organization' => ts('Organizations'),
                 'Activity'     => ts('Activities'),
                 'Relationship' => ts('Relationships'),
                 'Contribution' => ts('Contributions'),

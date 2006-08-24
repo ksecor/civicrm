@@ -132,7 +132,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         require_once "CRM/Contribute/PseudoConstant.php";
         $sel1 = CRM_Core_SelectValues::customGroupExtends();
-        $sel2['Contact']      = CRM_Core_SelectValues::contactType();
+        //$sel2['Contact']      = CRM_Core_SelectValues::contactType();
+        $sel2= array();
         $sel2['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType(true , null);
         $sel2['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
 
@@ -142,10 +143,18 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $allRelationshipType =array();
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
-
-      
-        $sel2['Relationship'] = array("" => "-- Any --") + $allRelationshipType;
         
+        
+        $sel2['Relationship'] = array("" => "-- Any --") + $allRelationshipType;
+
+        require_once "CRM/Core/Component.php";
+        $cSubTypes = CRM_Core_Component::contactSubTypes();
+        $contactSubTypes = array();
+        foreach($cSubTypes as $key => $value ) {
+            $contactSubTypes[$key] = $key;
+        }
+        $sel2['Contact']  =  array("" => "-- Any --") +$contactSubTypes;
+
         $sel =& $this->addElement('hierselect', "extends", ts('Used For'));
         $sel->setOptions(array($sel1,$sel2));
         $js .= "</script>\n";
@@ -229,6 +238,14 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $defaults['is_active'] = 1;
             $defaults['style'] = 'Inline';
         }
+
+        
+        $extends = $defaults['extends'];
+        unset($defaults['extends']);
+        $defaults['extends'][0] = $extends;
+        $defaults['extends'][1] = $defaults['extends_entity_column_value'];
+
+        
         return $defaults;
     }
 
@@ -249,6 +266,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $group->title            = $params['title'];
         $group->name             = CRM_Utils_String::titleToVar($params['title']);
         $group->extends          = $params['extends'][0];
+        $group->extends_entity_column_value = $params['extends'][1];
         $group->style            = $params['style'];
         $group->collapse_display = CRM_Utils_Array::value('collapse_display', $params, false);
 
