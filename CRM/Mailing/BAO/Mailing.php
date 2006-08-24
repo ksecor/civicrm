@@ -423,14 +423,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access private
      */
     private function getHeaderFooter() {
-        if ( ! $this->header ) {
+        if (!$this->header and $this->header_id) {
             $this->header =& new CRM_Mailing_BAO_Component();
             $this->header->id = $this->header_id;
             $this->header->find(true);
             $this->header->free( );
         }
         
-        if ( ! $this->footer ) {
+        if (!$this->footer and $this->footer_id) {
             $this->footer =& new CRM_Mailing_BAO_Component();
             $this->footer->id = $this->footer_id;
             $this->footer->find(true);
@@ -676,8 +676,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailing =& new CRM_Mailing_BAO_Mailing();       
 
         $mailing->domain_id     = $params['domain_id'];
-        $mailing->header_id     = $params['header_id'];
-        $mailing->footer_id     = $params['footer_id'];
+        if ($params['header_id']) $mailing->header_id = $params['header_id'];
+        if ($params['footer_id']) $mailing->footer_id = $params['footer_id'];
         $mailing->reply_id      = $params['reply_id'];
         $mailing->unsubscribe_id= $params['unsubscribe_id'];
         $mailing->optout_id     = $params['optout_id'];

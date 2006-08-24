@@ -77,8 +77,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
         
-        $this->add( 'select', 'header_id', ts( 'Mailing Header' ), CRM_Mailing_PseudoConstant::component( 'Header' ) );
-        $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), CRM_Mailing_PseudoConstant::component( 'Footer' ) );
+        $this->add( 'select', 'header_id', ts( 'Mailing Header' ), array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Header' ) );
+        $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         $this->add( 'select', 'reply_id', ts( 'Auto-responder' ), CRM_Mailing_PseudoConstant::component( 'Reply' ), true );
         $this->add( 'select', 'unsubscribe_id', ts( 'Unsubscribe Message' ), CRM_Mailing_PseudoConstant::component( 'Unsubscribe' ), true );
         $this->add( 'select', 'optout_id', ts( 'Opt-out Message' ), CRM_Mailing_PseudoConstant::component( 'OptOut' ), true );
@@ -148,21 +148,19 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         
         require_once 'CRM/Mailing/BAO/Component.php';
         
-        $header =& new CRM_Mailing_BAO_Component();
-        $header->id = $params['header_id'];
-        $header->find(true);
-        
-        $footer =& new CRM_Mailing_BAO_Component();
-        $footer->id = $params['footer_id'];
-        $footer->find(true);
-        
-        list($headerBody['htmlFile'],
-             $headerBody['textFile']) = 
-                    array($header->body_html, $header->body_text);
-
-        list($footerBody['htmlFile'],
-             $footerBody['textFile']) = 
-                    array($footer->body_html, $footer->body_text);
+        // set $header and $footer
+        foreach (array('header', 'footer') as $part) {
+            if ($params["{$part}_id"]) {
+                $component =& new CRM_Mailing_BAO_Component();
+                $component->id = $params["{$part}_id"];
+                $component->find(true);
+                $$part['textFile'] = $component->body_text;
+                $$part['htmlFile'] = $component->body_html;
+                $component->free();
+            } else {
+                $$part['htmlFile'] = $$part['textFile'] = '';
+            }
+        }
 
         require_once 'CRM/Utils/Token.php';
 
@@ -177,7 +175,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             $name = $files[$file]['name'];
             
             /* append header/footer */
-            $str = $headerBody[$file] . $str . $footerBody[$file];
+            $str = $header[$file] . $str . $footer[$file];
 
             $dataErrors = array();
             
