@@ -208,7 +208,6 @@ class CRM_Utils_System {
      * @access public
      */
     function theme( $type, &$content, $args = null, $print = false, $ret = false ) {
-        
         if ( function_exists( 'theme' ) && ! $print ) {
             $out = theme( $type, $content, $args );
         } else {

@@ -154,7 +154,11 @@ class CRM_Core_Page {
         self::$_template->assign( 'tplFile', $this->getTemplateFileName() );
 
         if ( $this->_print ) {
-            $content = self::$_template->fetch( 'CRM/common/print.tpl' );
+            if ( $_GET['snippet'] ) {
+                $content = self::$_template->fetch( 'CRM/common/snippet.tpl' );
+            } else {
+                $content = self::$_template->fetch( 'CRM/common/print.tpl' );
+            }
         } else {
             $content = self::$_template->fetch( 'CRM/index.tpl' );
         }

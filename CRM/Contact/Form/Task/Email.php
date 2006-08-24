@@ -176,6 +176,8 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
         $this->assign( 'from', $from );
 
+        $this->assign( 'dojoIncludes',
+                       "dojo.require('dojo.widget.ComboBox');dojo.require('dojo.widget.Editor');" );
         $attributes = array( 'dojoType' => 'ComboBox',
                              'style'    => 'width: 600px;' );
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' );

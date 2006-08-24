@@ -225,6 +225,11 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View_Tag( );
                 break;
             
+            case 'tabbed':
+                require_once 'CRM/Contact/Page/View/Tabbed.php';
+                $view =& new CRM_Contact_Page_View_Tabbed( );
+                break;
+            
             case 'log':
                 require_once 'CRM/Contact/Page/View/Log.php';
                 $view =& new CRM_Contact_Page_View_Log( );
@@ -315,6 +320,9 @@ class CRM_Core_Invoke {
                     $view =& new CRM_Contact_Page_View_Basic( );
                 }
                 break;
+            }
+            if ( $_GET['snippet'] ) {
+                $view->setPrint( true );
             }
             return $view->run( );
         }

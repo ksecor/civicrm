@@ -1,4 +1,4 @@
-{include file="CRM/common/dojo.tpl" dojoIncludes="dojo.widget.Select,dojo.widget.ComboBox"}
+{include file="CRM/common/dojo.tpl"}
 <table>
         <tr> 
             <td class="label">{$form.sort_name.label}</td> 
