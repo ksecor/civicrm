@@ -25,7 +25,8 @@
  +--------------------------------------------------------------------+
 */
 
-class CRM_Utils_Type {
+class CRM_Utils_Type 
+{
     const
         T_INT       =     1,
         T_STRING    =     2,
@@ -68,9 +69,8 @@ class CRM_Utils_Type {
      *
      * @access public
      */
-
-
-    function typeToString( $type ) {
+    function typeToString( $type ) 
+    {
         switch ( $type ) {
         case 1   : $string = 'Int'      ; break;
         case 2   : $string = 'String'   ; break;
@@ -103,7 +103,8 @@ class CRM_Utils_Type {
      * @access public
      * @static
      */
-    public static function escape($data, $type, $abort = true) {
+    public static function escape($data, $type, $abort = true) 
+    {
         require_once 'CRM/Utils/Rule.php';
         switch($type) {
         case 'Integer':
@@ -169,10 +170,12 @@ class CRM_Utils_Type {
      * @access public
      * @static
      */
-    public static function validate($data, $type, $abort = true) {
+    public static function validate($data, $type, $abort = true) 
+    {
         require_once 'CRM/Utils/Rule.php';
         switch($type) {
         case 'Integer':
+        case 'Int':
             if (CRM_Utils_Rule::integer($data)) {
                 return $data;
             }
