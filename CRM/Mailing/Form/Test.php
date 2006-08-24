@@ -40,8 +40,11 @@
 class CRM_Mailing_Form_Test extends CRM_Core_Form {
 
     public function buildQuickForm() {
+        $session =& CRM_Core_Session::singleton();
         $this->add('checkbox', 'test', ts('Send a test mailing?'));
         $defaults['test'] = true;
+        $this->add('text', 'test_email', ts('The test mailing will be sent to'));
+        $defaults['test_email'] = $session->get('ufEmail');
         $this->setDefaults($defaults);
 
         $this->addButtons(
@@ -67,9 +70,6 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         );
         
         $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
-        $session    =& CRM_Core_Session::singleton();
-        $email = $session->get('ufEmail');
-        $this->assign('email', $email);
     }
     
     /**
@@ -90,7 +90,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $config =& CRM_Core_Config::singleton();
         $session    =& CRM_Core_Session::singleton();
         $contactId  = $session->get('userID');
-        $email      = $session->get('ufEmail');
+        $email      = $params['test_email'];
         
         /* Create a new mailing object for test purposes only */
         require_once 'CRM/Mailing/BAO/Mailing.php';
