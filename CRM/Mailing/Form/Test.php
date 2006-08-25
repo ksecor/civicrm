@@ -43,8 +43,9 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $session =& CRM_Core_Session::singleton();
         $this->add('checkbox', 'test', ts('Send a Test Mailing?'));
         $defaults['test'] = true;
-        $this->add('text', 'test_email', ts('The Test Mailing Will Be Sent To'));
+        $this->add('text', 'test_email', ts('Send to This Address:'));
         $defaults['test_email'] = $session->get('ufEmail');
+        $this->add('select', 'test_group', ts('Send to This Group:'), array('' => ts('- none -')) + CRM_Core_PseudoConstant::group());
         $this->setDefaults($defaults);
 
         $this->addButtons(
@@ -89,8 +90,6 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         }
         $config =& CRM_Core_Config::singleton();
         $session    =& CRM_Core_Session::singleton();
-        $contactId  = $session->get('userID');
-        $email      = $params['test_email'];
         
         /* Create a new mailing object for test purposes only */
         require_once 'CRM/Mailing/BAO/Mailing.php';
@@ -107,29 +106,41 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
 
         $mailing->body_html = file_get_contents($options['htmlFile']);
         $mailing->body_text = file_get_contents($options['textFile']);
-        
-        $mime =& $mailing->compose(null, null, null, 
-                                    $contactId, $email, $recipient, true);
 
         $mailer =& $config->getMailer();
 
-        $body = $mime->get();
-        $headers = $mime->headers();
-        
-        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
-        $result = $mailer->send($recipient, $headers, $body);
-        CRM_Core_Error::setCallback();
-        
-        if ($result === true) {
-            return true;
+        if ($params['test_email']) {
+            $testers = array($session->get('userID') => $params['test_email']);
+        } else {
+            $testers = array();
+        }
+        if (array_key_exists($params['test_group'], CRM_Core_PseudoConstant::group())) {
+            $group =& new CRM_Contact_DAO_Group();
+            $group->id = $params['test_group'];
+            $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group);
+            foreach ($contacts as $contact) {
+                $testers[$contact->contact_id] = $contact->email;
+            }
         }
         
-        $errors = array( 
-            '_qf_default' => 
-            ts('The test mailing could not be delivered due to the following error:') . '<br /> <tt>' . $result->getMessage() . '</tt>'
-        );
-        return $errors;
+        $errors = array();
+        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
+                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+        foreach ($testers as $testerId => $testerEmail) {
+            $mime =& $mailing->compose(null, null, null,
+                $testerId, $testerEmail, $recipient, true);
+            $body = $mime->get();
+            $headers = $mime->headers();
+            $result = $mailer->send($recipient, $headers, $body);
+            if ($result !== true) {
+                $errors['_qf_default'] =
+                    ts('The test mailing could not be delivered due to the following error:') .
+                    '<br /> <tt>' . $result->getMessage() . '</tt>';
+            }
+        }
+        CRM_Core_Error::setCallback();
+        
+        return (count($errors) ? $errors : true);
     }
 
     /**
