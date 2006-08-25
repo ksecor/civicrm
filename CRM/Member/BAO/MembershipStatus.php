@@ -153,12 +153,30 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
     static function del($membershipStatusId) 
     {
         //check dependencies
-        require_once 'CRM/Member/DAO/Membership.php';
-        $membership =& new CRM_Member_DAO_Membership( );
-        $query = 'DELETE FROM civicrm_membership 
-                  WHERE       status_id=' . $membershipStatusId . ';';
-        $membership->query($query);
+        //checking if any membership status is present in some other table 
+        $check = false;
         
+        $dependancy = array( 'Membership', 'MembershipLog' );
+        foreach ($dependancy as $name) {
+            require_once (str_replace('_', DIRECTORY_SEPARATOR, "CRM_Member_BAO_" . $name) . ".php");
+            eval('$dao = new CRM_Member_BAO_' . $name. '();');
+            $dao->status_id = $membershipStatusId;
+            if ($dao->find(true)) {
+                $check = true;
+            }
+        }
+        if ($check) {
+            $session =& CRM_Core_Session::singleton();
+            CRM_Core_Session::setStatus( ts('This membership status can not be deleted') );
+            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/member/membershipStatus', "reset=1" ));
+        }
+        
+        //require_once 'CRM/Member/DAO/Membership.php';
+        // $query = 'DELETE FROM civicrm_membership 
+        //                       WHERE status_id=' . $membershipStatusId . ';';
+        //         $membership->query($query);
+        
+
         //delete from membership Type table
         require_once 'CRM/Member/DAO/MembershipStatus.php';
         $membershipStatus =& new CRM_Member_DAO_MembershipStatus( );

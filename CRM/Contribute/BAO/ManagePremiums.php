@@ -135,7 +135,15 @@ class CRM_Contribute_BAO_ManagePremiums extends CRM_Contribute_DAO_Product
     static function del($premiumID) 
     {
         //check dependencies
-        
+        require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
+        $premiumsProduct =& new CRM_Contribute_DAO_PremiumsProduct( );
+        $premiumsProduct->premiums_id = $premiumID;
+        if ( $premiumsProduct->find(true) ) {
+            $session =& CRM_Core_Session::singleton();
+            CRM_Core_Session::setStatus( ts('This premium can not be deleted.') );
+            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/contribute/managePremiums', "reset=1&action=browse" ));
+        }
+
         //delete from contribution Type table
         require_once 'CRM/Contribute/DAO/Product.php';
         $premium =& new CRM_Contribute_DAO_Product( );

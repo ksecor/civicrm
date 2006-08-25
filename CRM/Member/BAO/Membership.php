@@ -445,7 +445,6 @@ UPDATE civicrm_membership_type
     }
     
     function getMembershipSummary( $membershipTypeId ,$membershipTypeName = null) {
-        
         $membershipSummary = array();
         $queryString =  "SELECT  count( id ) as total_count
 FROM   civicrm_membership
@@ -486,13 +485,20 @@ civicrm_membership_status.is_current_member =1";
         }
 
         return $membershipSummary;
-        
-        
     }
-
+    
+    function statusAvilability($contactId) 
+    {
+        require_once 'CRM/Member/DAO/MembershipStatus.php';
+        $membership =& new CRM_Member_DAO_MembershipStatus( );
+        $membership->whereAdd('1');
+        $count = $membership->count();
+        
+        if(!$count){
+            $session =& CRM_Core_Session::singleton( );
+            CRM_Core_Session::setStatus(ts('There are no status present, You can not add membership.'));
+            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view/membership', "reset=1&force=1&cid={$contactId}"));
+        }
+    }
 }
-
-
-
-
 ?>
