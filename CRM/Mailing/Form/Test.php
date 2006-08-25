@@ -40,7 +40,7 @@
 class CRM_Mailing_Form_Test extends CRM_Core_Form {
 
     public function buildQuickForm() {
-        $this->add('checkbox', 'test', ts('Send a test mailing?'));
+        $this->add('checkbox', 'test', ts('Send a Test Mailing?'));
         $defaults['test'] = true;
         $this->setDefaults($defaults);
 
