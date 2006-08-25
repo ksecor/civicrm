@@ -41,9 +41,9 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
 
     public function buildQuickForm() {
         $session =& CRM_Core_Session::singleton();
-        $this->add('checkbox', 'test', ts('Send a test mailing?'));
+        $this->add('checkbox', 'test', ts('Send a Test Mailing?'));
         $defaults['test'] = true;
-        $this->add('text', 'test_email', ts('The test mailing will be sent to'));
+        $this->add('text', 'test_email', ts('The Test Mailing Will Be Sent To'));
         $defaults['test_email'] = $session->get('ufEmail');
         $this->setDefaults($defaults);
 

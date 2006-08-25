@@ -48,11 +48,11 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
     public function buildQuickForm( ) {
         $session =& CRM_Core_Session::singleton();
         
-        $this->add('text', 'from_name', ts('From name'));
+        $this->add('text', 'from_name', ts('From Name'));
         $this->add('text', 'from_email', ts('From Email'));
         $defaults['from_email'] = $session->get('ufEmail');
         
-        $this->add('checkbox', 'forward_reply', ts('Forward replies?'));
+        $this->add('checkbox', 'forward_reply', ts('Forward Replies?'));
         $defaults['forward_reply'] = true;
         
         $this->add('checkbox', 'track_urls', ts('Track URLs?'));
@@ -61,10 +61,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->add('checkbox', 'track_opens', ts('Track Opens?'));
         $defaults['track_opens'] = true;
         
-        $this->add('checkbox', 'auto_responder', ts('Auto-respond to replies?'));
+        $this->add('checkbox', 'auto_responder', ts('Auto-respond to Replies?'));
         $defaults['auto_responder'] = false;
         
-        $this->addElement('text', 'subject', ts('Mailing subject'), 'size=30 maxlength=60');
+        $this->addElement('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60');
         $defaults['subject'] = $this->get('mailing_name');
         
         $this->addElement( 'file', 'textFile', ts('Upload Text Message'), 'size=30 maxlength=60' );
