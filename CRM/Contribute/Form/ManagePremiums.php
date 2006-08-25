@@ -108,7 +108,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             
             $this->addButtons(array(
                                     array ('type'      => 'next',
-                                           'name'      => ts('Done With Preview'),
+                                           'name'      => ts('Done with Preview'),
                                            'isDefault' => true),
                                     )
                               );

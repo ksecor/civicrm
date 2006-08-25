@@ -62,7 +62,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
 
-        CRM_Utils_System::setTitle( ts('Add Members To Household') );
+        CRM_Utils_System::setTitle( ts('Add Members to Household') );
         $this->addElement('text', 'name'      , ts('Find Target Household') );
         
         $this->addElement('select',
@@ -98,7 +98,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => ts('Add To Household'),
+                                         'name'      => ts('Add to Household'),
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
                                          'name'      => ts('Cancel') ),
