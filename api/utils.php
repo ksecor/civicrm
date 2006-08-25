@@ -896,6 +896,8 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         /* adjust the value if it's boolean */
         if ($customValue['type'] == 'Boolean') {
             $value = CRM_Utils_String::strtobool($customValue['value']);
+        } if ($customValue['type'] == 'Date') {
+            $value = preg_replace('/[^0-9]/', '', $customValue['value']);
         } else {
             $value = $customValue['value'];
         }
