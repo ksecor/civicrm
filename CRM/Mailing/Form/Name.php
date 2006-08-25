@@ -90,7 +90,7 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
      * @return string
      */
     public function getTitle( ) {
-        return ts( 'Name Mailing' );
+        return ts( 'Name' );
     }
 
 }
