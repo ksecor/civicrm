@@ -426,12 +426,12 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $query = '';
         if ( empty($returnProperties) ) {
-            $query = "SELECT civicrm_contact.id as contact_id,
+            $query = "SELECT contact_a.id as contact_id,
                       civicrm_email.email as email";
             //$query = "SELECT *,civicrm_contact.id as contact_id, (talk to lobo before re-enabling this)
             //civicrm_email.email as email";
         } else {
-            $query  = "SELECT civicrm_contact.id as contact_id ,";
+            $query  = "SELECT contact_a.id as contact_id ,";
             $query .= implode( ',', $returnProperties );
         }
   
