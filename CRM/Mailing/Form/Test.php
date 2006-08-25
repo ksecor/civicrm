@@ -139,7 +139,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
      * @return string
      */
     public function getTitle( ) {
-        return ts( 'Test Mailing' );
+        return ts( 'Test' );
     }
 
 }
