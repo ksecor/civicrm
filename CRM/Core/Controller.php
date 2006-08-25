@@ -469,8 +469,12 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     }
 
     function getTemplateFile( ) {
-        if ( $this->getPrint( ) ) {
-            return 'CRM/common/print.tpl';
+        if ( $this->_print ) {
+            if ( $this->_print == CRM_Core_Smarty::PRINT_SNIPPET ) {
+                return 'CRM/common/snippet.tpl';
+            } else {
+                return 'CRM/common/print.tpl';
+            }
         } else {
             return 'CRM/index.tpl';
         }

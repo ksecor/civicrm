@@ -322,7 +322,7 @@ class CRM_Core_Invoke {
                 break;
             }
             if ( $_GET['snippet'] ) {
-                $view->setPrint( true );
+                $view->setPrint( CRM_Core_Smarty::PRINT_SNIPPET );
             }
             return $view->run( );
         }

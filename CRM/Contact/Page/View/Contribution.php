@@ -67,7 +67,11 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View {
         $controller->setEmbedded( true );  
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );  
-    
+
+        if ( $_GET['snippet'] ) {
+            $controller->setPrint( CRM_Core_Smarty::PRINT_SNIPPET );
+        }
+
         return $controller->run( ); 
     }
 

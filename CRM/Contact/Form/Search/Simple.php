@@ -52,7 +52,7 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
         $domainID =  CRM_Core_Config::domainID( );
         
         $this->assign( 'dojoIncludes',
-                       "dojo.require('dojo.widget.Select');dojo.require('dojo.widget.ComboBox')" );
+                       "dojo.require('dojo.widget.Select');dojo.require('dojo.widget.ComboBox');dojo.require('dojo.widget.Tooltip');" );
         $attributes = array( 'dojoType'     => 'ComboBox',
                              'mode'         => 'remote',
                              'dataUrl'      => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/search&d={$domainID}&s=%{searchString}",

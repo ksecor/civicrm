@@ -1,7 +1,8 @@
 {include file="CRM/common/dojo.tpl"}
 <table>
         <tr> 
-            <td class="label">{$form.sort_name.label}</td> 
+            <td class="label" id="tt1">{$form.sort_name.label}</td>
+<span dojoType="tooltip" connectId="tt1" href="{$config->resourceBase}extern/help.php?q=help" style="width: 300px;"</span>
             <td>{$form.sort_name.html}</td>
         </tr>
         <tr> 

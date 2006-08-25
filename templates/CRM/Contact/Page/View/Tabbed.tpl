@@ -145,7 +145,11 @@
 <legend>{ts}More Information{/ts}</legend>
 <div id="mainTabContainer" dojoType="TabContainer" style="width: 70%; height: 400px" selectedTab="{$firstTab}">
 {foreach from=$allTabs key=tabName item=tabURL}
-  <div id="{$tabName}" dojoType="ContentPane" href="{$tabURL}" label="{$tabName}" refreshOnShow="true"></div>
+{if $tabName == $selectedTab}
+  <div id="{$tabName}" dojoType="ContentPane" href="{$tabURL}" label="{$tabName}" selected="true" adjustPaths="false"></div>
+{else}
+  <div id="{$tabName}" dojoType="ContentPane" href="{$tabURL}" label="{$tabName}" style="display: none" adjustPaths="false"></div>
+{/if}
 {/foreach}
 </div>
 </fieldset>

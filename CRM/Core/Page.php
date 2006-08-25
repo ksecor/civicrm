@@ -49,6 +49,7 @@ require_once 'CRM/Utils/Request.php';
  *
  */
 class CRM_Core_Page {
+    
     /**
      * The name of the page (auto generated from class name)
      *
@@ -154,7 +155,7 @@ class CRM_Core_Page {
         self::$_template->assign( 'tplFile', $this->getTemplateFileName() );
 
         if ( $this->_print ) {
-            if ( $_GET['snippet'] ) {
+            if ( $this->_print == CRM_Core_Smarty::PRINT_SNIPPET ) {
                 $content = self::$_template->fetch( 'CRM/common/snippet.tpl' );
             } else {
                 $content = self::$_template->fetch( 'CRM/common/print.tpl' );
