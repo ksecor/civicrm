@@ -93,7 +93,7 @@ class CRM_Core_Smarty extends Smarty {
             $this->assign( 'metaTpl', 'drupal' );
         }
 
-        $this->register_function ( 'crmURL', array( 'CRM_Utils_System', 'crmURL' ) );
+        $this->register_function ( 'crmURL' , array( 'CRM_Utils_System', 'crmURL' ) );
     }
 
     /**

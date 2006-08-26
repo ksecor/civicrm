@@ -18,13 +18,22 @@ function invoke( ) {
 
     switch ( $args[1] ) {
 
+    case 'help':
+        return help( );
+
     case 'search':
         return search( );
 
     default:
-        exit( );
-
+        return;
     }
+
+}
+
+function help( ) {
+    $id   = urldecode( $_GET['id'] );
+    $file = urldecode( $_GET['file'] );
+    echo "<div class=\"crm-help\">You need help for $id in $file</div>";
 }
 
 function search( ) {
@@ -48,9 +57,9 @@ SELECT sort_name
     }
 
     echo '[' . implode( ',', $elements ) . ']';
-    exit( );
 }
 
 invoke( );
 
+exit( );
 ?>

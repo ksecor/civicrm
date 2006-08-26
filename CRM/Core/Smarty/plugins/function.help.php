@@ -26,39 +26,43 @@
 */
 
 /**
- * CiviCRM's Smarty gettext plugin
  *
  * @package CRM
- * @author Piotr Szotkowski <shot@caltha.pl>
- * @author Michal Mach <mover@artnet.org>
+ * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo (c) 2005
  * $Id$
+ *
  */
 
-/** 
- * Smarty block function to list all the dojo files
+/**
+ * Replace the value of an attribute in the input string. Assume
+ * the the attribute is well formed, of the type name="value". If
+ * no replacement is mentioned the value is inserted at the end of
+ * the form element
  *
- * See CRM_Core_I18n class documentation for details.
+ * @param array  $params the function params
+ * @param object $smarty reference to the smarty object 
  *
- * @param array $params   template call's parameters
- * @param string $text    {ts} block contents from the template
- * @param object $smarty  the Smarty object
- *
- * @return string  the string, needed for dojo
+ * @return string the help html to be inserted
+ * @access public
  */
-function smarty_block_dojo($params, $text, &$smarty)
-{
-    $requires = null;
-    if ( isset( $text ) ) {
-        $files    = explode( ',', $text );
-        foreach ( $files as $file ) {
-            $file = trim($file);
-            if ( ! empty( $file ) ) {
-                $requires .= "dojo.require('$file');";
-            }
-        }
+function smarty_function_help( $params, &$smarty ) {
+    if ( ! isset( $params['p'] ) ) {
+        return;
     }
-    return $requires;
+
+    if ( ! isset( $smarty->_tpl_vars[ 'tplFile' ] ) || ! isset( $smarty->_tpl_vars[ 'config'] ) ) {
+        return;
+    }
+
+    $id   = urlencode( $params[p] );
+    $file = urlencode( $smarty->_tpl_vars[ 'tplFile' ] ); 
+    return "
+&nbsp;<img id=\"{$id}_help\" src=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/i/Inform.gif\">
+<span dojoType=\"tooltip\" connectId=\"{$id}_help\" href=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/extern/ajax.php?q=civicrm/help&id=$id&file=$file\" style=\"width: 300px;\">
+</span>
+";
+
 }
 
 ?>
