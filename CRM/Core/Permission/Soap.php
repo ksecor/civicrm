@@ -35,33 +35,58 @@
  */
 
 /**
- * Replace the value of an attribute in the input string. Assume
- * the the attribute is well formed, of the type name="value". If
- * no replacement is mentioned the value is inserted at the end of
- * the form element
  *
- * @param array  $params the function params
- * @param object $smarty reference to the smarty object 
- *
- * @return string the help html to be inserted
- * @access public
  */
-function smarty_function_help( $params, &$smarty ) {
-    if ( ! isset( $params['p'] ) ) {
-        return;
+class CRM_Core_Permission_Soap {
+    /**
+     * get the current permission of this user
+     *
+     * @return string the permission of the user (edit or view or null)
+     */
+    public static function getPermission( ) {
+        return CRM_Core_Permission::EDIT;
     }
 
-    if ( ! isset( $smarty->_tpl_vars[ 'tplFile' ] ) || ! isset( $smarty->_tpl_vars[ 'config'] ) ) {
-        return;
+    /**
+     * Get the permissioned where clause for the user
+     *
+     * @param int $type the type of permission needed
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
+     * @param  array $whereTables (reference ) add the tables that are needed for the where clause
+     *
+     * @return string the group where clause for this user
+     * @access public
+     */
+    public static function whereClause( $type, &$tables, &$whereTables ) {
+        return '( 1 )';
     }
 
-    $id   = urlencode( $params[p] );
-    $file = urlencode( $smarty->_tpl_vars[ 'tplFile' ] ); 
-    return "
-<img id=\"{$id}_help\" src=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/i/Inform.gif\">
-<span dojoType=\"tooltip\" connectId=\"{$id}_help\" href=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/extern/ajax.php?q=civicrm/help&id=$id&file=$file\" style=\"width: 300px;\">
-</span>
-";
+    /**
+     * Get all groups from database, filtered by permissions
+     * for this user
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all groups.
+     *
+     */
+    public static function &group( ) {
+        return CRM_Core_PseudoConstant::allGroup( );
+    }
+
+    /**
+     * given a permission string, check for access requirements
+     *
+     * @param string $str the permission to check
+     *
+     * @return boolean true if yes, else false
+     * @static
+     * @access public
+     */
+    static function check( $str ) {
+        return true;
+    }
 
 }
 

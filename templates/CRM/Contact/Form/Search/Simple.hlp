@@ -1,0 +1,12 @@
+<div class='crm-help'>
+{if $id eq 'sort_name'}
+<p>
+Here lies the help for sort name. enter any name, dude
+<p>
+what r u waiting for, go ahead and type
+{elseif $id eq 'state_province'}
+state province is basically a list of states and provinces, gotit?
+{elseif $id eq 'country'}
+what part of country, don't u understand?
+{/if}
+</div>

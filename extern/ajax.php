@@ -10,6 +10,11 @@ function invoke( ) {
     // intialize the system
     $config =& CRM_Core_Config::singleton( );
 
+    // also use SOAP as your base class
+    $config->userFramework          = 'Soap';
+    $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
+    $config->userHookClass          = 'CRM_Utils_Hook_Soap';
+    $config->userPermissionClass    = 'CRM_Core_Permission_Soap';
     $q = $_GET['q'];
     $args = explode( '/', $q );
     if ( $args[0] != 'civicrm' ) {
@@ -33,7 +38,14 @@ function invoke( ) {
 function help( ) {
     $id   = urldecode( $_GET['id'] );
     $file = urldecode( $_GET['file'] );
-    echo "<div class=\"crm-help\">You need help for $id in $file</div>";
+
+    $config =& CRM_Core_Config::singleton( );
+
+    $template =& CRM_Core_Smarty::singleton( );
+    $file = str_replace( '.tpl', '.hlp', $file );
+
+    $template->assign( 'id', $id );
+    echo $template->fetch( $file );
 }
 
 function search( ) {
