@@ -528,7 +528,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         foreach ($fields as $name => $field ) {
             $index   = $field['title'];
             $params[$index] = $values[$index] = '';
-            if ( $details->$name || $name == 'group' || $name == 'tag') {//hack for CRM-665
+            if ( isset($details->$name) || $name == 'group' || $name == 'tag') {//hack for CRM-665
                 // to handle gender / suffix / prefix
                 if ( in_array( $name, array( 'gender', 'individual_prefix', 'individual_suffix' ) ) ) {
                     $values[$index] = $details->$name;
@@ -601,7 +601,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                         $params[$index] = $values[$index] = "<a href=$url>" . $details->$name ."</a>";
                                     }                                    
                                 } else {
-                                    
                                     $params[$index] = $details->$name;
                                     $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
                                 }
@@ -651,8 +650,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( CRM_Utils_System::isNull( $params[$index] ) ) {
                     $params[$index] = $values[$index];
                 }
-                if ( empty( $params[$index] ) ) {
-                    continue;
+                if ( !isset( $params[$index] ) ) {
+		    continue;
                 }
                 $fieldName = $field['name'];
                 $url = CRM_Utils_System::url( 'civicrm/profile',
