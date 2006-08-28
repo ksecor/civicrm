@@ -15,7 +15,7 @@
     	<dt>{$form.description.label}</dt><dd class="html-adjust">{$form.description.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Description of this membership type for display on signup forms. May include eligibility, benefits, terms, etc.{/ts}</dd>
         {if !$searchDone or !$searchCount or !$searchRows}
-            <dt>{$form.member_org.label}</dt><dd class="html-adjust"><label>{$form.member_org.html}</label>&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
+            <dt>{$form.member_org.label}<span class="marker">*</span></dt><dd class="html-adjust"><label>{$form.member_org.html}</label>&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
             <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Members assigned this membership type belong to which organization (e.g. this is for membership in "Save the Whales - Northwest Chapter"). NOTE: This organization/group/chapter must exist as a CiviCRM Organization type contact.{/ts}</dd>
         {/if}
        </dl>
