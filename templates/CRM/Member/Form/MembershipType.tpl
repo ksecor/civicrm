@@ -9,17 +9,15 @@
     </div>
     <dl><dt>&nbsp;</dt><dd>{$form.buttons.html}</dd></dl>
     {else}
-       <dl>
- 	<dt>{$form.name.label}</dt><dd class="html-adjust">{$form.name.html}</dd>
+    <dl>
+        <dt>{$form.name.label}</dt><dd class="html-adjust">{$form.name.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}e.g. "Student", "Senior", "Honor Society"...{/ts}</dd>
     	<dt>{$form.description.label}</dt><dd class="html-adjust">{$form.description.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Any descripttion about this membership type. May include cost, terms, etc.{/ts}</dd>
-       	<dt>{$form.contribution_type_id.label}</dt><dd class="html-adjust">{$form.contribution_type_id.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select the contribution type for this membership type.{/ts}</dd>
-	{if !$searchDone or !$searchCount or !$searchRows}
-	        <dt>{$form.member_org.label}</dt><dd class="html-adjust"><label>{$form.member_org.html}</label>&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
-		<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Organization, who is the owner for this membership type.{/ts}</dd>
-	{/if}
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Description of this membership type for display on signup forms. May include eligibility, benefits, terms, etc.{/ts}</dd>
+        {if !$searchDone or !$searchCount or !$searchRows}
+            <dt>{$form.member_org.label}</dt><dd class="html-adjust"><label>{$form.member_org.html}</label>&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
+            <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Members assigned this membership type belong to which organization (e.g. this is for membership in "Save the Whales - Northwest Chapter"). NOTE: This organization/group/chapter must exist as a CiviCRM Organization type contact.{/ts}</dd>
+        {/if}
        </dl>
        <div class="spacer"></div>	
               {if $searchDone} {* Search button clicked *}
@@ -70,17 +68,19 @@
 	
        <dl>
         <dt>{$form.minimum_fee.label}</dt><dd class="html-adjust">{$form.minimum_fee.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Minimum fee required for this membership type. Free/complimentary memberships have minimum fee = 0{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Minimum fee required for this membership type. For free/complimentary memberships - set minimum fee to zero (0).{/ts}</dd>
+       	<dt>{$form.contribution_type_id.label}</dt><dd class="html-adjust">{$form.contribution_type_id.html}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select the contribution type assigned to fees for this membership type (if you are offering online membership signup and renewal, AND there is a minimum fee).{/ts}</dd>
         <dt>{$form.duration_unit.label}</dt><dd class="html-adjust">{$form.duration_interval.html}&nbsp;&nbsp;{$form.duration_unit.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Duration of this membership (e.g. 30 day, 2 month, 5 year, lifetime){/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Duration of this membership (e.g. 30 days, 2 months, 5 years, 1 lifetime){/ts}</dd>
         <dt>{$form.period_type.label}</dt><dd class="html-adjust">{$form.period_type.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}"rolling" (default - means at date of payment), or "fixed" membership period{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select "rolling" if membership periods begin at date of signup. Select "fixed" if membership periods begin on a set calendar date.{/ts}</dd>
        </dl>
 	   <div id="fixed_period_settings"><dl>	
              <dt>{$form.fixed_period_start_day.label}</dt><dd class="html-adjust">{$form.fixed_period_start_day.html}</dd>
-             <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Month and day (MMDD) on which a fixed period subscription or membership will start. e.g: A fixed period membership with Start Day set to 0101 means that the membership period would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dd>
+             <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Month and day on which a <strong>fixed</strong> period membership or subscription begins. Example: A fixed period membership with Start Day set to Jan 01 means that membership periods would be 1/1/06 - 12/31/06 for anyone signing up during 2006.{/ts}</dd>
              <dt>{$form.fixed_period_rollover_day.label}</dt><dd class="html-adjust">{$form.fixed_period_rollover_day.html}</dd>
-             <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Fixed Membership Payments after this date cover following calendar year as well (default to 1231 - December 31- i.e. no extra coverage; Joe's organization uses October 31).{/ts}</dd>
+             <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership signups after this date cover the following calendar year as well. Example: If the rollover day is November 31, membership period for signups during December will cover the following year.{/ts}</dd>
 	   </dl></div>
        <dl>	
         <dt>{$form.relationship_type_id.label}</dt><dd class="html-adjust">{$form.relationship_type_id.html}</dd>

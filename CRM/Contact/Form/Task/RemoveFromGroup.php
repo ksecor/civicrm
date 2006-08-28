@@ -54,7 +54,7 @@ class CRM_Contact_Form_Task_RemoveFromGroup extends CRM_Contact_Form_Task {
         $groupElement = $this->add('select', 'group_id', ts('Select Group'), $group, true);
 
         CRM_Utils_System::setTitle( ts('Remove Members from Group') );
-        $this->addDefaultButtons( ts('Remove From Group') );
+        $this->addDefaultButtons( ts('Remove from Group') );
     }
 
     /**

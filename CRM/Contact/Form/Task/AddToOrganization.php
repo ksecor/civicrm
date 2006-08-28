@@ -62,7 +62,7 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
 
-        CRM_Utils_System::setTitle( ts('Add Members To Organization') );
+        CRM_Utils_System::setTitle( ts('Add Members to Organization') );
         $this->addElement('text', 'name'      , ts('Find Target Organization') );
 
         $this->addElement('select',
@@ -105,7 +105,7 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => ts('Add To Organization'),
+                                         'name'      => ts('Add to Organization'),
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
                                          'name'      => ts('Cancel') ),

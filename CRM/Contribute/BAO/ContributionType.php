@@ -128,15 +128,36 @@ class CRM_Contribute_BAO_ContributionType extends CRM_Contribute_DAO_Contributio
     
     static function del($contributionTypeId) 
     {
+        //checking if contribution type is present  
+        $check = false;
+        
         //check dependencies
+        $dependancy = array( 
+                            array('Contribute', 'Contribution'), 
+                            array('Contribute', 'ContributionPage'), 
+                            array('Member', 'MembershipType')
+                            );
+        foreach ($dependancy as $name) {
+            require_once (str_replace('_', DIRECTORY_SEPARATOR, "CRM_" . $name[0] . "_BAO_" . $name[1]) . ".php");
+            eval('$bao = new CRM_' . $name[0] . '_BAO_' . $name[1] . '();');
+            $bao->contribution_type_id = $contributionTypeId;
+            if ($bao->find(true)) {
+                $check = true;
+            }
+        }
+        
+        if ($check) {
+            $session =& CRM_Core_Session::singleton();
+            CRM_Core_Session::setStatus( ts('This contribution type can not be deleted') );
+            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/contribute/contributionType', "reset=1&action=browse" ));
+        }
         
         //delete from contribution Type table
         require_once 'CRM/Contribute/DAO/Contribution.php';
         $contributionType =& new CRM_Contribute_DAO_ContributionType( );
         $contributionType->id = $contributionTypeId;
         $contributionType->delete();
+        CRM_Core_Session::setStatus( ts('Selected contribution type has been deleted.') );
     }
-
 }
-
 ?>

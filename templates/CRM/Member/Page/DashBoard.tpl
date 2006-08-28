@@ -15,7 +15,7 @@
 </div>
 <table class="report form-layout-compressed">
 <tr class="columnheader-dark">
-    <td>{ts}Members By Type{/ts}</td>
+    <td>{ts}Members by Type{/ts}</td>
     <td>{ts}{$currentMonth}-New/Renew (MTD){/ts}</td>
     <td>{ts}{$currentYear}-New/Renew (YTD){/ts}</td>
     <td>{ts}Current #{/ts}</td>

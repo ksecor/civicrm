@@ -9,11 +9,11 @@
 {ts}Membership Information{/ts}
 
 ===========================================================
-Membershiptype : {$membership_name}
+Membership Type : {$membership_name}
 
-Membership Start Date : {$mem_start_date}
+Membership Start Date : {$mem_start_date|crmDate}
 
-Membership End Date   : {$mem_end_date}
+Membership End Date   : {$mem_end_date|crmDate}
 
 {/if}
 ===========================================================
@@ -22,7 +22,7 @@ Membership End Date   : {$mem_end_date}
 ===========================================================
 {if $membership_amount } 
 {ts}Contribution Amount{/ts}:{$amount|crmMoney}
-{ts}{$membership_name} Membership:{$membership_amount|crmMoney}{/ts}
+{ts 1=$membership_name}%1 Membership{/ts}:{$membership_amount|crmMoney} 
 -------------------------------------------
 {ts}Total:{/ts}{$amount+$membership_amount|crmMoney}
 {else}
@@ -59,16 +59,16 @@ Membership End Date   : {$mem_end_date}
 ===========================================================
 {$product_name}
 {if $option}
-Option        : {$option}
+Option: {$option}
 {/if}
 {if $sku}
-SKU           : {$sku}
+SKU: {$sku}
 {/if}
 {if $start_date}
-Start Date    : {$start_date|crmDate}
+Start Date: {$start_date|crmDate}
 {/if}
-{if $end_date  }
-End Date      : {$end_date|crmDate}
+{if $end_date}
+End Date: {$end_date|crmDate}
 {/if}
 {if $contact_email OR $contact_phone}
 

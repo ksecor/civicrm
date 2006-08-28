@@ -54,6 +54,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                       $this );
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
+       
+        //check whether membership status present or not
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            CRM_Member_BAO_Membership::statusAvilability($this->_contactID);
+        }
         parent::preProcess( );
     }
 
@@ -87,7 +92,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
     public function buildQuickForm( ) 
     {
         parent::buildQuickForm( );
-        
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
@@ -134,6 +138,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if ( $params['is_override'] && !$params['status_id'] ) {
             $errors['status_id'] = "Please enter the status.";
         }
+              
         return empty($errors) ? true : $errors;
     }
        
@@ -153,25 +158,28 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             CRM_Member_BAO_Membership::deleteMembership( $this->_id );
             return;
         }
-
+        
+      
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-
+        
         $params = array( );
         $ids    = array( );
 
         $params['contact_id'] = $this->_contactID;
-
+        
         $fields = array( 'membership_type_id',
                          'status_id',
                          'source',
                          'is_override'
                          );
-
+        
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
+            
         }
        
+        
         $joinDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
         $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['membership_type_id'], $joinDate);
         
@@ -192,9 +200,15 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
             $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
             $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
+            //CRM_Core_Error::debug('calcStatus', $calcStatus);
+            if (empty($calcStatus)){
+                CRM_Core_Session::setStatus( ts('The membership can not be saved.<br/> No valid membership status for given dates.') );
+                return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view/membership', "reset=1&force=1&cid={$this->_contactID}"));
+            }
             $params['status_id'] = $calcStatus['id'];
+            
         }
-
+       
         $ids['membership'] = $params['id'] = $this->_id;
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         CRM_Core_Session::setStatus( ts('The membership information has been saved.') );

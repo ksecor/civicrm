@@ -130,13 +130,25 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
     static function del($membershipTypeId) 
     {
         //check dependencies
-        require_once 'CRM/Member/BAO/Membership.php';
-        $membership =& new CRM_Member_BAO_Membership();
-        $membership->membership_type_id = $membershipTypeId;
-        if ( $membership->find() ) {
-            while ( $membership->fetch() ) {
-                CRM_Member_BAO_Membership::deleteMembership($membership->id);
+        $check = false;
+        $dependancy = array(
+                            'Membership'      => 'membership_type_id', 
+                            'MembershipBlock' => 'membership_type_default'
+                            );
+        
+        foreach ($dependancy as $name => $field) {
+            require_once (str_replace('_', DIRECTORY_SEPARATOR, "CRM_Member_DAO_" . $name) . ".php");
+            eval('$dao = new CRM_Member_DAO_' . $name . '();');
+            $dao->$field = $membershipTypeId;
+            if ($dao->find(true)) {
+                $check = true;
             }
+        }
+        
+        if ($check) {
+            $session =& CRM_Core_Session::singleton();
+            CRM_Core_Session::setStatus( ts('This membership type can not be deleted.') );
+            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/member/membershipType', "reset=1&action=browse" ));
         }
         
         //delete from membership Type table

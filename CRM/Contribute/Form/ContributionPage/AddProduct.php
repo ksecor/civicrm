@@ -153,7 +153,7 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             CRM_Contribute_BAO_Premium::buildPremiumPreviewBlock( $this, null ,$this->_pid );
             $this->addButtons(array(
                                     array ('type'      => 'next',
-                                           'name'      => ts('Done With Preview'),
+                                           'name'      => ts('Done with Preview'),
                                            'isDefault' => true),
                                     )
                               );

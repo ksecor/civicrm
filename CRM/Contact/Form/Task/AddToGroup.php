@@ -107,7 +107,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
             CRM_Utils_System::setTitle( ts('Add Members to A Group') );
         }
 
-        $this->addDefaultButtons( ts('Add To Group') );
+        $this->addDefaultButtons( ts('Add to Group') );
     }
 
     /**
