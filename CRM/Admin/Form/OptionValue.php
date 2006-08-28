@@ -61,6 +61,27 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
         $url = CRM_Utils_System::url('civicrm/admin/optionValue', 'reset=1&action=browse&gid='.$this->_gid); 
         $session->pushUserContext( $url );
     }
+
+    /**
+     * This function sets the default values for the form. 
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $defaults = array( );
+        $defaults = parent::setDefaultValues( );
+        
+        $query = "SELECT max( `weight` ) as weight FROM `civicrm_option_value` where option_group_id=" . $this->_gid;
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $query );
+        $dao->fetch();
+        $defaults['weight'] = ($dao->weight + 1);
+        
+        return $defaults;
+    }
+
     /**
      * Function to build the form
      *
