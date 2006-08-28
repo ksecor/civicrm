@@ -19,9 +19,16 @@ define( 'ENABLE_COMPONENTS', 'CiviContribute,CiviMember' );
 /**
  * Content Management System (CMS) Host:
  *
- * CiviCRM can be hosted in either Drupal or Joomla. Retain the default settings
- * for Drupal.
+ * CiviCRM can be hosted in either Drupal or Joomla.
  * 
+ * Settings for Drupal 4.7.x:
+ *      define( 'CIVICRM_UF'        , 'Drupal' );
+ *      define( 'CIVICRM_UF_VERSION', '4.7' );
+ *      define( 'CIVICRM_UF_URLVAR' , 'q'  );
+ *
+ * For Drupal 4.6.x, same as above except
+ *      define( 'CIVICRM_UF_VERSION', '4.6' );
+ *
  * Settings for Joomla:
  *      define( 'CIVICRM_UF'        , 'Joomla' );
  *      define( 'CIVICRM_UF_VERSION', '1.0.8' );
