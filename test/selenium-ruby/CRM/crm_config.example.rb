@@ -4,17 +4,17 @@ class CRMConfig
     @config = {
         # which browser should Selenium use
         # this is a nice default for Debian/Ubuntu
-        'browser'      => '*firefox /usr/lib/firefox/firefox-bin',
+        'browser'      => '*firefox /opt/firefox-1.5/firefox-bin',
 
         # what's the root of the Drupal's framework
-        'uf_root'      => 'http://drupal/',
+        'uf_root'      => 'http://192.168.2.14/drupal/',
 
         # where's the login URL
         'login_url'    => '/',
 
         # Drupal login details
-        'user'         => 'username',
-        'pass'         => 'password',
+        'user'         => 'abhilasha',
+        'pass'         => 'abhi',
 
         # what should be the domain of login emails
         'email_domain' => 'localhost',

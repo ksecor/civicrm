@@ -51,7 +51,7 @@ instances.times do
 
     # - - with random state out of the first ten (we don't know the length of the list)
     profile.select 'state_province-1', "index=#{rand(10) + 1}"
-    profile.select 'country-1',        "index=#{rand(240) + 1}"
+    profile.select 'country-1',        "index=1"
 
     # - - with random Most Important Issue
     profile.click "document.forms[0].custom_5[#{rand 3}]"
