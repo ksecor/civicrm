@@ -106,10 +106,6 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );  
         
-        if ( $_GET['snippet'] ) {
-            $controller->setPrint( CRM_Core_Smarty::PRINT_SNIPPET );
-        }
-
         return $controller->run( ); 
     }
 

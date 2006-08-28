@@ -1,12 +1,28 @@
+{if $action eq 1 or $action eq 2 or $action eq 8}
+   {include file="CRM/Admin/Form/Gender.tpl"}
+{elseif $rows}
 <div id="help">
     <p>{ts}CiviCRM is pre-configured with standard options for individual gender (e.g. Male, Female, Transgender). You can use this page to customize these options and add new options as needed for your installation.{/ts}</p>
 </div>
 
-{if $action eq 1 or $action eq 2 or $action eq 8}
-   {include file="CRM/Admin/Form/Gender.tpl"}
-{/if}
 
-{if $rows}
+<script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo.js"></script>
+{literal}
+<script type="text/javascript">
+dojo.require('dojo.widget.Dialog');
+var dlg;
+function init(e) {
+	dlg = dojo.widget.byId("DialogContent");
+}
+dojo.addOnLoad(init);
+</script>
+{/literal}
+
+<a href="javascript:dlg.show()">Show</a>
+
+<a dojoType="dialog" id="DialogContent" toggle="wipe" toggleDuration="250" bgColor="black" bgOpacity="0.5"
+   executeScripts="true" href="http://civicrm1.electricembers.net/~lobo/drupal/civicrm/admin/gender?reset=1&action=update&id=1&snippet=1"></a>
+
 <div id="gender">
 <p></p>
     <div class="form-item">

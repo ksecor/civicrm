@@ -1,4 +1,4 @@
-<div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
+<div id="crm-container-snippet" bgColor="white">
 
 {* Check for Status message for the page (stored in session->getStatus). Status is cleared on retrieval. *}
 {if $session->getStatus(false)}
@@ -18,4 +18,4 @@
 {/if}
 
 
-</div> {* end crm-container div *}
+</div> {* end crm-container-snippet div *}

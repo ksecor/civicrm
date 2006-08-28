@@ -1,3 +1,5 @@
+{hlpText id='sort_name'}{ts}XXX{/ts}{/hlpText}
+
 <div class='crm-help'>
 {if $id eq 'sort_name'}
 <p>

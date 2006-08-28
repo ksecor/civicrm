@@ -124,7 +124,11 @@ class CRM_Core_Page {
         $this->_name = CRM_Utils_System::getClassName($this);
         $this->_title = $title;
         $this->_mode  = $mode;
-        
+
+        if ( $_GET['snippet'] ) {
+            $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
+        }
+
         // let the constructor initialize this, should happen only once
         if ( ! isset( self::$_template ) ) {
             self::$_template =& CRM_Core_Smarty::singleton( );
