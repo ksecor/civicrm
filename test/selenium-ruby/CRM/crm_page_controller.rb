@@ -1,4 +1,4 @@
-require 'selenium'
+require '../selenium'
 
 class CRMPageController < Selenium::SeleneseInterpreter
 
