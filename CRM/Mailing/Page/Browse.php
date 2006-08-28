@@ -53,12 +53,65 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      */
     protected $_fields;
 
+    /**
+     * the mailing id of the mailing we're operating on
+     *
+     * @int
+     * @access protected
+     */
+    protected $_mailingId;
+
+    /**
+     * the action that we are performing (in CRM_Core_Action terms)
+     *
+     * @int
+     * @access protected
+     */
+    protected $_action;
+
+    /**
+     * cancel a mailing
+     */
+    function cancel() {
+        if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this)) {
+            require_once 'CRM/Mailing/BAO/Job.php';
+            $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
+            CRM_Mailing_BAO_Job::cancel($this->_mailingId);
+            CRM_Utils_System::redirect($url);
+        } else {
+            require_once 'CRM/Mailing/BAO/Mailing.php';
+            $mailing =& new CRM_Mailing_BAO_Mailing();
+            $mailing->id = $this->_mailingId;
+            if ($mailing->find(true)) {
+                $this->assign('subject', $mailing->subject);
+            }
+        }
+    }
+
+    /**
+     * Heart of the viewing process. The runner gets all the meta data for
+     * the contact and calls the appropriate type of page to view.
+     *
+     * @return void
+     * @access public
+     *
+     */
+    function preProcess() {
+        $this->_mailingId = CRM_Utils_Request::retrieve('mid', 'Positive', $this);
+        $this->_action    = CRM_Utils_Request::retrieve('action', 'String', $this);
+        $this->assign('action', $this->_action);
+    }
+
     /** 
      * run this page (figure out the action needed and perform it). 
      * 
      * @return void 
      */ 
     function run( ) {
+        $this->preProcess();
+        if ($this->_action & CRM_Core_Action::DISABLE) {
+            $this->cancel();
+        }
         CRM_Utils_System::setTitle(ts('Mailings'));
 
         $selector =& new CRM_Mailing_Selector_Browse( );

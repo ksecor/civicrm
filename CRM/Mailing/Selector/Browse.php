@@ -180,16 +180,23 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         static $actionLinks = null;
         
         if (empty($actionLinks)) {
+            $cancelExtra = ts('Are you sure you want to cancel this mailing?');
             $actionLinks = array(
                 CRM_Core_Action::VIEW => array(
                     'name'  => ts('Report'),
                     'url'   => 'civicrm/mailing/report',
                     'qs'    => 'mid=%%mid%%',
                     'title' => ts('View Mailing Report')
+                ),
+                CRM_Core_Action::DISABLE => array(
+                    'name'  => ts('Cancel'),
+                    'url'   => 'civicrm/mailing/browse',
+                    'qs'    => 'action=disable&mid=%%mid%%',
+                    'extra' => "onclick=\"if (confirm('$cancelExtra')) this.href+='&amp;confirmed=1'; else return false;\"",
+                    'title' => ts('Cancel Mailing')
                 )
             );
         }
-        $actionMask = CRM_Core_Action::VIEW;
 
         
         $mailing =& new CRM_Mailing_BAO_Mailing();
@@ -197,6 +204,10 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
 
         if ($output != CRM_Core_Selector_Controller::EXPORT) {
             foreach ($rows as $key => $row) {
+                $actionMask = CRM_Core_Action::VIEW;
+                if (in_array($row['status'], array('Scheduled', 'Running', 'Paused'))) {
+                    $actionMask |= CRM_Core_Action::DISABLE;
+                }
                 $rows[$key]['action'] = 
                     CRM_Core_Action::formLink(  $actionLinks,
                                                 $actionMask,
