@@ -24,7 +24,7 @@
 {/if}
 {if ($action eq 8)}
 <fieldset><legend>{ts}Delete Note{/ts}</legend>
-<div class=status>{ts 1=$notes.$id.note}Are you sure you want to delete the Note "%1"?{/ts}</div>
+<div class=status>{ts 1=$notes.$id.note}Are you sure you want to delete the note "%1"?{/ts}</div>
 <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>
 </fieldset>
 
