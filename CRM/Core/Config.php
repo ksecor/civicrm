@@ -80,14 +80,14 @@ class CRM_Core_Config {
      * the root directory of our template tree
      * @var string
      */
-    public $templateDir		  = './templates';
+    public $templateDir		  = './templates/';
 
     /**
      * The root directory where Smarty should store
      * compiled files
      * @var string
      */
-    public $templateCompileDir  = './templates_c';
+    public $templateCompileDir  = './templates_c/en_US/';
 
     /**
      * The root url of our application. Used when we don't
@@ -488,19 +488,19 @@ class CRM_Core_Config {
         }
 
         if (defined('CIVICRM_SMARTYDIR')) {
-            $this->smartyDir = CIVICRM_SMARTYDIR;
+            $this->smartyDir = self::addTrailingSlash(CIVICRM_SMARTYDIR);
         }
 
         if (defined('CIVICRM_PLUGINSDIR')) {
-            $this->pluginsDir = CIVICRM_PLUGINSDIR;
+            $this->pluginsDir = self::addTrailingSlash(CIVICRM_PLUGINSDIR);
         }
 
         if (defined('CIVICRM_TEMPLATEDIR')) {
-            $this->templateDir = CIVICRM_TEMPLATEDIR;
+            $this->templateDir = self::addTrailingSlash(CIVICRM_TEMPLATEDIR);
         }
 
         if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
-            $this->templateCompileDir = CIVICRM_TEMPLATE_COMPILEDIR;
+            $this->templateCompileDir = self::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
 
             // make sure this directory exists
             CRM_Utils_File::createDir( $this->templateCompileDir );
@@ -570,7 +570,7 @@ class CRM_Core_Config {
             $this->lcMessages = CIVICRM_LC_MESSAGES;
 
             // reset the templateCompileDir to locale-specific and make sure it exists
-            $this->templateCompileDir .= DIRECTORY_SEPARATOR . $this->lcMessages;
+            $this->templateCompileDir .= self::addTrailingSlash($this->lcMessages);
             CRM_Utils_File::createDir( $this->templateCompileDir );
         }
         
