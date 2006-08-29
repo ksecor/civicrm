@@ -193,6 +193,12 @@ class CRM_Quest_Form_MatchApp_WorkExperience extends CRM_Quest_Form_App
                 if (!$params['start_date_' . $i]['M'] || !$params['start_date_' . $i]['Y']) {
                     $errors[$date . $i] = "Please enter a valid Start date.";
                 } elseif ( $params['end_date_' . $i]['M'] && $params['end_date_' . $i]['Y'] ) {
+                    if ( $params['start_date_' . $i]['M'] < 10 ) {
+                        $params['start_date_' . $i]['M'] = '0' . $params['start_date_' . $i]['M'];
+                    }
+                    if ( $params['end_date_' . $i]['M'] < 10 ) {
+                        $params['end_date_' . $i]['M'] = '0' . $params['end_date_' . $i]['M'];
+                    }
                     $sDate = strtotime( $params['start_date_' . $i]['Y'] . $params['start_date_' . $i]['M'] );
                     $eDate = strtotime( $params['end_date_' . $i]['Y'].$params['end_date_' . $i]['M'] );
                     if ( $sDate > $eDate ) {
