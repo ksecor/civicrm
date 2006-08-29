@@ -195,10 +195,10 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      * @static
      */
     public function formRule( &$params ) {
+        require_once 'CRM/Utils/Rule.php';        
         $errors = array( );
         if ( $params['fixed_period_start_day'] && ! empty( $params['fixed_period_start_day']) ) {
             $params['fixed_period_start_day']['Y'] = date('Y');
-            require_once 'CRM/Utils/Rule.php';
             if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_start_day'] ) ){
                 $errors['fixed_period_start_day'] = "Please enter valid 'Fixed Period Start Day' ";
             }
@@ -207,7 +207,6 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
         if ( $params['fixed_period_rollover_day'] && ! empty( $params['fixed_period_rollover_day']) ) {
             $params['fixed_period_rollover_day']['Y'] = date('Y');
-            require_once 'CRM/Utils/Rule.php';
             if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_rollover_day'] ) ){
                 $errors['fixed_period_rollover_day'] = "Please enter valid 'Fixed Period Rollover Day' ";
             }
@@ -219,23 +218,27 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $errors['name'] = "Please enter a membership type name.";
             }
             //if ( !$params['contribution_type_id'] ) {
-            if ( ($params['minimum_fee'] > 0 )&& !$params['contribution_type_id'] ) {
+            if ( ($params['minimum_fee'] > 0 ) && !$params['contribution_type_id'] ) {
                 $errors['contribution_type_id'] = "Please enter the contribution type.";
             }
             if ( !$params['contact_check'] && $params['action']!= CRM_Core_Action::UPDATE ) {
                 $errors['member_org'] = "Please select the membership organization";
             }
+            /*
             if ( $params['period_type'] == 'fixed' ) {
                 if ( !$params['fixed_period_start_day'] ) {
                     $errors['fixed_period_start_day'] = "Please enter the 'Fixed period start day'.";
                 }
             }
+            */
             $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
-            foreach ( $periods as $period ) {
-                $mon = $params[$period]['M'];
-                $dat = $params[$period]['d'];
-                if ( !$mon || !$dat ) {
-                    $errors[$period] = "Please enter a valid 'fixed period day'.";
+            if( $params['period_type'] == 'fixed') {
+                foreach ( $periods as $period ) {
+                    $mon = $params[$period]['M'];
+                    $dat = $params[$period]['d'];
+                    if ( !$mon || !$dat ) {
+                        $errors[$period] = "Please enter a valid 'fixed period day'.";
+                    }
                 }
             }
         }
