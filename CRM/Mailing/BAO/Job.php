@@ -260,13 +260,14 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
     public static function cancel($mailingId) {
         $job =& new CRM_Mailing_BAO_Job();
         $job->mailing_id = $mailingId;
-        if ($job->find(true)) {
+        if ($job->find(true) and in_array($job->status, array('Scheduled', 'Running', 'Paused'))) {
             // fix MySQL dates...
             $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
             $job->start_date     = CRM_Utils_Date::isoToMysql($job->start_date);
             $job->end_date       = CRM_Utils_Date::isoToMysql($job->end_date);
             $job->status         = 'Canceled';
             $job->save();
+            CRM_Core_Session::setStatus(ts('The mailing has been canceled.'));
         }
     }
 
