@@ -21,17 +21,18 @@ Membership End Date   : {$mem_end_date|crmDate}
 
 ===========================================================
 {if $membership_amount } 
-{ts}Contribution Amount{/ts}:{$amount|crmMoney}
-{ts 1=$membership_name}%1 Membership{/ts}:{$membership_amount|crmMoney} 
+{ts}Contribution Amount{/ts}: {$amount|crmMoney}
+{ts 1=$membership_name}%1 Membership{/ts}: {$membership_amount|crmMoney} 
 -------------------------------------------
-{ts}Total:{/ts}{$amount+$membership_amount|crmMoney}
+{ts}Total{/ts}: {$amount+$membership_amount|crmMoney}
 {else}
 {ts}Amount{/ts}: {$amount|crmMoney}
 {/if}
 {ts}Date{/ts}: {$receive_date|crmDate}
 {ts}Transaction #{/ts}: {$trxn_id}
 {if $membership_trx_id}
-{ts}Membership Transaction #{/ts}:{$membership_trx_id}
+{ts}Membership Transaction #{/ts}: {$membership_trx_id}
+
 {/if}
 ===========================================================
 {ts}Billing Name and Address{/ts}

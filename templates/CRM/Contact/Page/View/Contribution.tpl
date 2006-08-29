@@ -15,7 +15,7 @@ Click <a href="%1">New Contribution</a> to record a new offline contribution for
     <p> </p>
     {include file="CRM/Contribute/Form/Selector.tpl"}
     
-    {if $action eq 16}
+    {if $action eq 16 and $permission EQ 'edit'}
     <div class="action-link">
     <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a>
     </div>

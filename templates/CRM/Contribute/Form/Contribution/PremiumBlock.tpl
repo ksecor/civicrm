@@ -21,7 +21,6 @@ function selectPremium(optionField) {
 {/literal}
 
         <fieldset>
-        <div class="form-item">
         {if $premiumBlock.premiums_intro_title}
             <legend>{$premiumBlock.premiums_intro_title}</legend>
         {/if}
@@ -31,6 +30,7 @@ function selectPremium(optionField) {
             </div> 
         {/if}
     {/if}
+
     {if $context EQ "confirmContribution" OR $context EQ "thankContribution"}
         <div class="header-dark">
             {if $premiumBlock.premiums_intro_title}

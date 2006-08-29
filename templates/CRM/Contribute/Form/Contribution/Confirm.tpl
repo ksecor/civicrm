@@ -18,12 +18,12 @@
     <div class="display-block">
         {if $is_separate_payment }
              {if $amount_block_is_active }   
-              {ts}Contribution Amount{/ts}:<strong>{$amount|crmMoney}</strong><br />
-              {ts}{$membership_name} Membership:<strong>{$minimum_fee|crmMoney}</strong>{/ts}<br />
+              {ts}Contribution Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
+              {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong><br />
               <strong> -------------------------------------------</strong><br />
-              {ts}Total:{/ts}<strong>{$amount+$minimum_fee|crmMoney}</strong><br />
+              {ts}Total{/ts}: <strong>{$amount+$minimum_fee|crmMoney}</strong><br />
              {else}
-              {ts}{$membership_name} Membership:<strong>{$minimum_fee|crmMoney}</strong>{/ts}
+              {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong>
              {/if}         
         {else}
            {if $amount }
