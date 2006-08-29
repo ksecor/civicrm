@@ -5,8 +5,8 @@
 {else}
 {capture assign=newURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}
 <div id="help">
-<p>{ts 1=$newURL}Current and inactive memberships for {$display_name} are listed below.
-Click <a href="%1">New Membership</a> to record a new membership.{/ts}</p>
+    {ts 1=$newURL}Current and inactive memberships for {$displayName} are listed below.{/ts}
+    {if $permission EQ 'edit'}{ts 1=$newURL}Click <a href="%1">New Membership</a> to record a new membership.{/ts}{/if}
 </div>
 {/if}
 
@@ -38,7 +38,7 @@ Click <a href="%1">New Membership</a> to record a new membership.{/ts}</p>
         </table>
         {/strip}
 
-        {if $action ne 1 and $action ne 2}
+        {if $action ne 1 and $action ne 2 and $permission EQ 'edit'}
 	    <div class="action-link">
     	<a href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
         </div>

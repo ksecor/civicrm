@@ -518,7 +518,7 @@ class CRM_Core_Menu {
                              'path'    => 'civicrm/import/contact',
                              'query'   => 'reset=1',
                              'title'   => ts( 'Contacts' ), 
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                             'access' => CRM_Core_Permission::check( 'import contacts' ) &&
                                           CRM_Core_Permission::check( 'access CiviCRM' ), 
                              'type'    => CRM_Core_Menu::CALLBACK,  
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
@@ -528,7 +528,7 @@ class CRM_Core_Menu {
                              'path'    => 'civicrm/import/activityHistory', 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Activity History' ), 
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                              'access' => CRM_Core_Permission::check( 'import contacts' ) &&
                                           CRM_Core_Permission::check( 'access CiviCRM' ),
                              'type'    => CRM_Core_Menu::CALLBACK,  
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,  

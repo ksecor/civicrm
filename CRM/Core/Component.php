@@ -59,7 +59,7 @@ class CRM_Core_Component {
                        'path'    => 'CRM_Member_',
                        'url'     => 'member',
                        'perm'    => array( 'access CiviMember',
-                                           'edit members'),
+                                           'edit memberships'),
                        'search'  => 1 );
 
             self::$_info['CiviMail'] = 

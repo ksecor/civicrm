@@ -143,33 +143,36 @@
 {* Show Contributions block if CiviContribute is enabled *}
 {if $accessContribution}
     {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution"}{/capture}
-<div id="contributions_show" class="data-group">
-  {if $contribute_pager->_totalItems}
-    <dl><dt><a href="#" onclick="hide('contributions_show'); show('contributions'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Contributions{/ts}</label></dt>
-    <dd><strong>{ts}Total Contributed{/ts} - {if $summary.total.amount}{$summary.total.amount|crmMoney}{else}n/a{/if}
-        &nbsp; {ts}# Contributions{/ts} - {$contribute_pager->_totalItems}</strong></dd>
-    </dl>
-  {else}
-    <dl><dt>{ts}Contributions{/ts}</dt>
-    {if $permission EQ 'edit'}
-        <dd>{ts 1=$newContribURL}There are no contributions recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}</dd>
-    {else}
-        {ts}There are no contributions recorded for this contact.{/ts}
-    {/if}
-    </dl>
-  {/if}
-</div>
+    <div id="contributions_show" class="data-group">
+      {if $contribute_pager->_totalItems}
+        <dl><dt><a href="#" onclick="hide('contributions_show'); show('contributions'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Contributions{/ts}</label></dt>
+        <dd><strong>{ts}Total Contributed{/ts} - {if $summary.total.amount}{$summary.total.amount|crmMoney}{else}n/a{/if}
+            &nbsp; {ts}# Contributions{/ts} - {$contribute_pager->_totalItems}</strong></dd>
+        </dl>
+      {else}
+        <dl><dt>{ts}Contributions{/ts}</dt>
+        {if $permission EQ 'edit'}
+            <dd>{ts 1=$newContribURL}There are no contributions recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}</dd>
+        {else}
+            <dd>{ts}There are no contributions recorded for this contact.{/ts}</dd>
+        {/if}
+        </dl>
+      {/if}
+    </div>
 
     <div id="contributions">
     {if $contribute_pager->_totalItems}
         <fieldset><legend><a href="#" onclick="hide('contributions'); show('contributions_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $contribute_pager->_totalItems GT 3}{ts 1=$contribute_pager->_totalItems}Contributions (3 of %1){/ts}{else}{ts}Contributions{/ts}{/if}</legend>
         {include file="CRM/Contribute/Page/ContributionTotals.tpl"}
-        <p></p>
         {include file="CRM/Contribute/Form/Selector.tpl" context="Contact Summary"}       
-        
-        
+       
         <div class="action-link">
-            <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a> 
+            {if $contribute_pager->_totalItems gt 3 }
+                <a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&force=1&cid=`$contactId`"}">&raquo; {ts}View all Contributions...{/ts}</a><br />
+            {/if}
+            {if $permission EQ 'edit'}
+                <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a> 
+            {/if}
         </div>
         </fieldset>
     {/if}
@@ -179,21 +182,19 @@
 {* Show Membership block if CiviMember is enabled *}
 {if $accessMembership}
     {capture assign=newMemberURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}
-<div id="memberships_show" class="data-group">
-  {if $member_pager->_totalItems}
-    <dl><dt><a href="#" onclick="hide('memberships_show'); show('memberships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Memberships{/ts}</label></dt>
-    <dd>&nbsp;</dd>
-    </dl>
-  {else}
-    <dl><dt>{ts}Memberships{/ts}</dt>
-    {if $permission EQ 'edit'}
-        <dd>{ts 1=$newMemberURL}There are no memberships recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}</dd>
-    {else}
-        {ts}There are no memberships recorded for this contact.{/ts}
-    {/if}
-    </dl>
-  {/if}
-</div>
+    <div id="memberships_show" class="data-group">
+      {if $member_pager->_totalItems}
+        <a href="#" onclick="hide('memberships_show'); show('memberships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Memberships{/ts}</label> ({$member_pager->_totalItems})<br />
+      {else}
+        <dl><dt>{ts}Memberships{/ts}</dt>
+        {if $permission EQ 'edit'}
+            <dd>{ts 1=$newMemberURL}There are no memberships recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}</dd>
+        {else}
+            <dd>{ts}There are no memberships recorded for this contact.{/ts}</dd>
+        {/if}
+        </dl>
+      {/if}
+    </div>
 
     <div id="memberships">
     {if $member_pager->_totalItems}
@@ -201,9 +202,11 @@
         <p></p>
         {include file="CRM/Member/Form/Selector.tpl" context="Contact Summary"}       
         
+        {if $permission EQ 'edit'}
         <div class="action-link">
             <a href="{$newMemberURL}">&raquo; {ts}New Membership{/ts}</a> 
         </div>
+        {/if}
         </fieldset>
     {/if}
     </div>
@@ -211,22 +214,22 @@
 
 <div id="openActivities_show" class="data-group">
   {if $openActivity.totalCount}
-    <a href="#" onclick="hide('openActivities_show'); show('openActivities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Open Activities{/ts}</label> ({$openActivity.totalCount})<br />
+    <a href="#" onclick="hide('openActivities_show'); show('openActivities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Scheduled Activities{/ts}</label> ({$openActivity.totalCount})<br />
   {else}
-    <dl><dt>{ts}Open Activities{/ts}</dt>
+    <dl><dt>{ts}Scheduled Activities{/ts}</dt>
     {if $permission EQ 'edit'}
         {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
         {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
-        <dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
+        <dd>{ts 1=$mtgURL 2=$callURL}No Scheduled Activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
     {else}
-        {ts}There are no open activities for this contact.{/ts}
+        <dd>{ts}There are no Scheduled Activities for this contact.{/ts}</dd>
     {/if}
     </dl>
   {/if}
 </div>
 
 <div id="openActivities">
- <fieldset><legend><a href="#" onclick="hide('openActivities'); show('openActivities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $openActivity.totalCount GT 3}{ts 1=$openActivity.totalCount}Open Activities (3 of %1){/ts}{else}{ts}Open Activities{/ts}{/if}</legend>
+ <fieldset><legend><a href="#" onclick="hide('openActivities'); show('openActivities_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{if $openActivity.totalCount GT 3}{ts 1=$openActivity.totalCount}Scheduled Activities (3 of %1){/ts}{else}{ts}Open Activities{/ts}{/if}</legend>
 	{strip}
     
 	<table>
@@ -270,7 +273,7 @@
             
     {/foreach}
     {if $openActivity.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&cid=$contactId"}">&raquo; {ts}View All Open Activities...{/ts}</a></td></tr>
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&cid=$contactId"}">&raquo; {ts}View all Scheduled Activities...{/ts}</a></td></tr>
     {/if}
     </table>
 	{/strip}
@@ -308,7 +311,7 @@
         </tr>
     {/foreach}
     {if $activity.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=true&cid=$contactId"}">&raquo; {ts}View All Activity History...{/ts}</a></td></tr>
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q="show=1&action=browse&history=true&cid=$contactId"}">&raquo; {ts}View all Activity History...{/ts}</a></td></tr>
     {/if}
     </table>
 	{/strip}
