@@ -221,7 +221,7 @@ class CRM_Contribute_BAO_Query {
                                 'receipt_date'           => 1,
                                 'thankyou_date'          => 1,
                                 'source'                 => 1,
-                                'name'                   => 1,
+                                'product_name'           => 1,
                                 'sku'                    => 1,
                                 'product_option'         => 1,
                                 'fulfilled_date'         => 1,
