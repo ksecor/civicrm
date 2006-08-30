@@ -3,7 +3,8 @@ class CRMConfig
   def initialize
     @config = {
         # which browser should Selenium use
-        # this is a nice default for Debian/Ubuntu
+        # a nice default for Debian/Ubuntu is
+        # '*firefox /usr/lib/firefox/firefox-bin'
         'browser'      => '*firefox /path/to/firefox-bin',
 
         # what's the root of the Drupal's framework
