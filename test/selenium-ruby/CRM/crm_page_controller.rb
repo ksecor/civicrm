@@ -16,6 +16,9 @@ class CRMPageController
     @selenium.type('edit[name]', @config.user)
     @selenium.type('edit[pass]', @config.pass)
     clickAndWait 'op'
+    
+    # Click link CiviCRM
+    clickAndWait "link=CiviCRM"  
   end
   
   # log out of Drupal
@@ -24,9 +27,9 @@ class CRMPageController
     @selenium.stop
   end
   
+  # Click an element (button, link, image etc.)
   def clickAndWait element
     @selenium.click element
-    @selenium.wait_for_page_to_load 300000
+    @selenium.wait_for_page_to_load 30000
   end
-  
 end
