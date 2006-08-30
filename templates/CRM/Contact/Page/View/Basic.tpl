@@ -146,7 +146,7 @@
     <div id="contributions_show" class="data-group">
       {if $contribute_pager->_totalItems}
         <dl><dt><a href="#" onclick="hide('contributions_show'); show('contributions'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Contributions{/ts}</label></dt>
-        <dd><strong>{ts}Total Contributed{/ts} - {if $summary.total.amount}{$summary.total.amount|crmMoney}{else}n/a{/if}
+        <dd><strong>{ts}Total Contributed{/ts} - {if $contributionSummary.total.amount}{$contributionSummary.total.amount|crmMoney}{else}n/a{/if}
             &nbsp; {ts}# Contributions{/ts} - {$contribute_pager->_totalItems}</strong></dd>
         </dl>
       {else}
@@ -167,9 +167,6 @@
         {include file="CRM/Contribute/Form/Selector.tpl" context="Contact Summary"}       
        
         <div class="action-link">
-            {if $contribute_pager->_totalItems gt 3 }
-                <a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&force=1&cid=`$contactId`"}">&raquo; {ts}View all Contributions...{/ts}</a><br />
-            {/if}
             {if $permission EQ 'edit'}
                 <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a> 
             {/if}

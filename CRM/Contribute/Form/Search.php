@@ -213,7 +213,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $controller->setEmbedded( true ); 
         $controller->moveFromSessionToTemplate(); 
 
-        $this->assign( 'summary', $this->get( 'summary' ) );
+        $this->assign( 'contributionSummary', $this->get( 'summary' ) );
     }
 
     function setDefaultValues( ) 
@@ -359,7 +359,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $query   =& $selector->getQuery( );
         $summary =& $query->summaryContribution( );
         $this->set( 'summary', $summary );
-        $this->assign( 'summary', $summary );
+        $this->assign( 'contributionSummary', $summary );
         $controller->run(); 
     }
 

@@ -67,6 +67,13 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         //$dao->orderBy('name');
         $dao->find();
 
+        // check is the user has view/edit membership permission
+        $permission = CRM_Core_Permission::VIEW;
+        if ( CRM_Core_Permission::check( 'edit memberships' ) ) {
+            $permission = CRM_Core_Permission::EDIT;
+        }
+        $mask = CRM_Core_Action::mask( $permission );
+        
         while ($dao->fetch()) {
             $membership[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $membership[$dao->id]);
@@ -83,7 +90,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                 }
             }
             
-            $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), null, array('id' => $dao->id, 
+            $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $dao->id, 
                                                                                                    'cid'=> $this->_contactId));
         }
 

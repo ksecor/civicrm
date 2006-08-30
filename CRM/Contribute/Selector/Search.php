@@ -81,7 +81,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'receive_date',
                                  'thankyou_date',
                                  'cancel_date',
-                                 'name'
+                                 'product_name'
                                  );
 
     /** 
@@ -372,7 +372,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 ),
                                           array(
                                                 'name'      => ts('Premium'),
-                                                'sort'      => 'name',
+                                                'sort'      => 'product_name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc' => ts('Actions') ),

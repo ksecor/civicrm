@@ -7,7 +7,7 @@
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
-          {ts}WARNING: Deleting this membership will also delete related membership log and payment records. This action can not be undone. Consider modifying membership status instead if you want to maintain a record of this membership.{/ts}
+          {ts}WARNING: Deleting this membership will also delete related membership log and payment records. This action can not be undone. Consider modifying the membership status instead if you want to maintain a record of this membership.{/ts}
           {ts}Do you want to continue?{/ts}
           </dd>
        </dl>
@@ -15,7 +15,7 @@
      {else}
       <dl>
  	<dt>{$form.membership_type_id.label}</dt><dd class="html-adjust">{$form.membership_type_id.html}</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership type for this membership. Membership types are configurable under Administer CiviCRM menu.{/ts}</dd> 	
+	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership type for this membership.{/ts}</dd> 	
 	<dt>{$form.join_date.label}</dt><dd class="html-adjust">{$form.join_date.html}
 		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_1}
 		{include file="CRM/common/calendar/body.tpl" dateVar=join_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_1}
