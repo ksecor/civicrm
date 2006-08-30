@@ -5,8 +5,8 @@
 {else}
 {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution"}{/capture}
 <div id="help">
-<p>{ts 1=$newContribURL}This page lists all contributions received from {$display_name} since inception.
-Click <a href="%1">New Contribution</a> to record a new offline contribution for this contact.{/ts}.
+<p>{ts 1=$displayName}This page lists all contributions received from %1 since inception.{/ts} 
+{ts 1=$newContribURL}Click <a href="%1">New Contribution</a> to record a new offline contribution for this contact.{/ts}
 </p>
 </div>
 

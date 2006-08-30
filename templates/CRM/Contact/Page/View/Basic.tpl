@@ -167,9 +167,6 @@
         {include file="CRM/Contribute/Form/Selector.tpl" context="Contact Summary"}       
        
         <div class="action-link">
-            {if $contribute_pager->_totalItems gt 3 }
-                <a href="{crmURL p='civicrm/contact/view/contribution' q="reset=1&force=1&cid=`$contactId`"}">&raquo; {ts}View all Contributions...{/ts}</a><br />
-            {/if}
             {if $permission EQ 'edit'}
                 <a href="{$newContribURL}">&raquo; {ts}New Contribution{/ts}</a> 
             {/if}
