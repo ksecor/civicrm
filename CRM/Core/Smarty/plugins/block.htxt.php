@@ -26,47 +26,32 @@
 */
 
 /**
+ * CiviCRM's Smarty gettext plugin
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
+ * @author Piotr Szotkowski <shot@caltha.pl>
+ * @author Michal Mach <mover@artnet.org>
  * @copyright Donald A. Lobo (c) 2005
  * $Id$
- *
  */
 
-/**
- * Replace the value of an attribute in the input string. Assume
- * the the attribute is well formed, of the type name="value". If
- * no replacement is mentioned the value is inserted at the end of
- * the form element
+/** 
+ * Smarty block function providing gettext support
  *
- * @param array  $params the function params
- * @param object $smarty reference to the smarty object 
+ * @param array $params   template call's parameters
+ * @param string $text    {ts} block contents from the template
+ * @param object $smarty  the Smarty object
  *
- * @return string the help html to be inserted
- * @access public
+ * @return string  the string, translated by gettext
  */
-function smarty_function_help( $params, &$smarty ) {
-    if ( ! isset( $params['id'] ) || ! isset( $smarty->_tpl_vars[ 'config'] ) ) {
-        return;
-    }
-
-    if ( isset( $params['file'] ) ) {
-        $file = $params['file'];
-    } else if ( isset( $smarty->_tpl_vars[ 'tplFile' ] ) ) {
-        $file = $smarty->_tpl_vars[ 'tplFile' ];
+function smarty_block_htxt($params, $text, &$smarty)
+{
+    $id = $params['id'];
+    if ( $id == $smarty->_tpl_vars['id'] ) {
+        return "<div class='crm-help'>" . ts($text, $params) . "</div>";
     } else {
-        return;
+        return null;
     }
-
-    $id   = urlencode( $params['id'] );
-    $file = urlencode( $file );
-    return "
-<img id=\"{$id}_help\" src=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/i/Inform.gif\">
-<span dojoType=\"tooltip\" connectId=\"{$id}_help\" href=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/extern/ajax.php?q=civicrm/help&id=$id&file=$file\" style=\"width: 300px;\">
-</span>
-";
-
 }
 
 ?>
