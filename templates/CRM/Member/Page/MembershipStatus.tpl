@@ -1,8 +1,13 @@
+{capture assign=crmURL}{crmURL p='civicrm/admin/member/membershipStatus' q="action=add&reset=1"}{/capture}
 {if $action eq 1 or $action eq 2 or $action eq 8}
    {include file="CRM/Member/Form/MembershipStatus.tpl"}
 {else}
     <div id="help">
-        <p>{ts}Membership status are used to store status values in the DB to enable searching / segmenting recordsets by status.You can define an unlimited number of status.{/ts}</p>
+        <p>{ts}CiviMember automatically calculates the current status of each contact's membership based on the status names and rules configured here.
+        The status "rule" tells CiviMember what status to assign based on the start and end dates of a given membership. For example, the default <strong>Grace</strong>
+        status rule says..."assign Grace status if the membership period ended sometime within the past month."{/ts}
+        <p>{ts 1=$crmURL}The status rules provided by default may be sufficient for your organization. However, you can easily change the status names and/or adjust the rules
+        by clicking the Edit links below. Or you can <a href="%1">add a new status and rule</a>.{/ts}
     </div>
 {/if}
 
@@ -49,7 +54,6 @@
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/admin/member/membershipStatus' q="action=add&reset=1"}{/capture}
         <dd>{ts 1=$crmURL}There are no custom membership status entered. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    
