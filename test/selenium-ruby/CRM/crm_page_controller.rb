@@ -15,19 +15,17 @@ class CRMPageController
     @selenium.open(@config.login_url)
     @selenium.type('edit[name]', @config.user)
     @selenium.type('edit[pass]', @config.pass)
-    @selenium.click 'op'
-    @selenium.wait_for_page_to_load "15000"
+    clickAndWait 'op'
   end
   
   # log out of Drupal
   def logout()
-    @selenium.click 'link=log out'
-    @selenium.wait_for_page_to_load "15000"
+    clickAndWait 'link=log out'
     @selenium.stop
   end
   
-  def click_and_wait what_to_click
-    @selenium.click what_to_click
+  def clickAndWait element
+    @selenium.click element
     @selenium.wait_for_page_to_load 300000
   end
   
