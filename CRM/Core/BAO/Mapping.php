@@ -618,6 +618,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         }
                     }
 
+                    if ( $v[0] == 'Contribution' ) {
+                        $fldName = 'contribution_' . $fldName;
+                    }
+
                     if ( $row ) {
                         $fields[] = array( $fldName,
                                            $params['operator'][$key][$k],

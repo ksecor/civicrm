@@ -102,6 +102,12 @@ class CRM_Contribute_BAO_Query {
                                         'civicrm_contribution', 'contribution_amount', 'total_amount', 'Contribution Amount' );
             return;
 
+        case 'contribution_total_amount':
+            $query->_where[$grouping][] = "civicrm_contribution.total_amount $op " . CRM_Utils_Type::escape( $value, "Integer" );
+            $query->_qill[$grouping ][] = ts( 'Contribution Total Amount %1 %2', array( 1 => $op, 2 => $value ) );
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            return;
+            
         case 'contribution_thankyou_date_isnull':
             $query->_where[$grouping][] = "civicrm_contribution.thankyou_date is null";
             $query->_qill[$grouping ][] = ts( 'Contribution Thank-you date is null' );
