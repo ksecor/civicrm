@@ -49,7 +49,14 @@
             <td><br />{$form.privacy.html}</td>
         </tr>
     </table>
-    <fieldset><legend>{ts}Location{/ts}</legend>
+
+
+     <div id="location_show" class="data-group">
+<a href="#" onclick="hide('location_show'); show('location'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+<label>{ts}Location{/ts}</label>
+</div>
+<div id="location">
+  <fieldset><legend><a href="#" onclick="hide('location'); show('location_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Location{/ts}</legend>
     <table class="form-layout">
         <tr>
             <td class="label">{$form.street_address.label}</td>
@@ -83,9 +90,15 @@
         </tr>
     </table>
     </fieldset>
+</div>
 
-    <fieldset><legend>{ts}Activity History{/ts}</legend>
-    <table class="form-layout">
+ <div id="atcivityHistory_show" class="data-group">
+<a href="#" onclick="hide('atcivityHistory_show'); show('atcivityHistory'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+<label>{ts}Activity History{/ts}</label>
+</div>
+<div id="atcivityHistory">
+  <fieldset><legend><a href="#" onclick="hide('atcivityHistory'); show('atcivityHistory_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Activity History{/ts}</legend>
+     <table class="form-layout">
         <tr>
             <td class="label">
                 {$form.activity_type.label}
@@ -104,6 +117,61 @@
         </tr>
     </table>
     </fieldset>
+</div>
+<div id="openAtcivity_show" class="data-group">
+<a href="#" onclick="hide('openAtcivity_show'); show('openAtcivity'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+<label>{ts}Scheduled Activities{/ts}</label>
+</div>
+<div id="openAtcivity">
+  <fieldset><legend><a href="#" onclick="hide('openAtcivity'); show('openAtcivity_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Scheduled Activities{/ts}</legend>
+    <table class="form-layout">
+        <tr>
+            <td class="label">
+                {$form.open_activity_type_id.label}
+            </td>
+            <td>
+                {$form.open_activity_type_id.html}
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                {$form.open_activity_date_low.label}
+            </td>
+            <td>
+                 {$form.open_activity_date_low.html} &nbsp; {$form.open_activity_date_high.label} {$form.open_activity_date_high.html}
+            </td>
+        </tr>
+    </table>
+    </fieldset>
+</div>
+
+<div id="changelog_show" class="data-group">
+<a href="#" onclick="hide('changelog_show'); show('changelog'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+<label>{ts}Change Log{/ts}</label>
+</div>
+<div id="changelog">
+<fieldset><legend><a href="#" onclick="hide('changelog'); show('changelog_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Change Log{/ts}</legend>
+    <table class="form-layout">
+        <tr>
+            <td class="label">
+                {$form.changed_by.label}
+            </td>
+            <td>
+                {$form.changed_by.html}
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                {$form.modified_date_low.label}
+            </td>
+            <td>
+                 {$form.modified_date_low.html} &nbsp; {$form.modified_date_high.label} {$form.modified_date_high.html}
+            </td>
+        </tr>
+    </table>
+ </fieldset>
+ </div>
+
 
     {include file="CRM/Custom/Form/Search.tpl" showHideLinks=true}
 

@@ -138,6 +138,36 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
         $this->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
 
+
+        // textbox for open Activity Type
+
+        $this->_activityType =
+            array( ''   => ' - select activity - ' ) + 
+            CRM_Core_PseudoConstant::ActivityType( false, null );
+
+         $this->add('select', 'open_activity_type_id', ts('Activity Type'),
+                   $this->_activityType,
+                   false);
+        
+        // Date selects for activity date
+        $this->add('date', 'open_activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('open_activity_date_low', ts('Select a valid date.'), 'qfDate');
+
+        $this->add('date', 'open_activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('open_activity_date_high', ts('Select a valid date.'), 'qfDate');
+
+
+        // block for change log
+
+        $this->addElement('text', 'changed_by', ts('Changed By'), null);
+      
+        $this->add('date', 'modified_date_low', ts('Modified - From'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('modified_date_low', ts('Select a valid date.'), 'qfDate');
+
+        $this->add('date', 'modified_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('modified_date_high', ts('Select a valid date.'), 'qfDate');
+
+
         // add task components
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::buildSearchForm( $this );
@@ -187,6 +217,18 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         
         $showHide->addHide( 'relationship' );
         $showHide->addShow( 'relationship_show' );
+
+        $showHide->addHide( 'changelog' );
+        $showHide->addShow( 'changelog_show' );
+
+        $showHide->addHide( 'openAtcivity' );
+        $showHide->addShow( 'openAtcivity_show' );
+
+        $showHide->addHide( 'atcivityHistory' );
+        $showHide->addShow( 'atcivityHistory_show' );
+
+        $showHide->addHide( 'location' );
+        $showHide->addShow( 'location_show' );
         
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $showHide->addHide( 'task' );
