@@ -78,9 +78,9 @@ class CRM_Utils_Token {
     public static function &requiredTokens(&$str) {
         if (self::$_requiredTokens == null) {
             self::$_requiredTokens = array(    
-                'domain.address'    => ts("Your organization's postal address"),
-                'action.optOut'     => ts("Link to allow contacts to opt out of your organization"), 
-                'action.unsubscribe'    => ts("Link to allow contacts to unsubscribe from target groups of this mailing."),
+                'domain.address'    => ts("Displays your organization's postal address."),
+                'action.optOut'     => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
+                'action.unsubscribe'    => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
             );
         }
 
