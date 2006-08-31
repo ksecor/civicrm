@@ -1,7 +1,6 @@
 {* this template is used for adding/editing/deleting memberships for a contact  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Membership{/ts}{elseif $action eq 2}{ts}Edit Membership{/ts}{else}{ts}Delete Membership{/ts}{/if}</legend>
-  
+<fieldset><legend>{if $action eq 1}{ts}New Membership{/ts}{elseif $action eq 2}{ts}Edit Membership{/ts}{else}{ts}Delete Membership{/ts}{/if}</legend> 
    {if $action eq 8}
       <div class="messages status">
         <dl>
@@ -12,8 +11,8 @@
           </dd>
        </dl>
       </div>
-     {else}
-      <dl>
+   {else}
+    <dl>
  	<dt>{$form.membership_type_id.label}</dt><dd class="html-adjust">{$form.membership_type_id.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership type for this membership.{/ts}</dd> 	
 	<dt>{$form.join_date.label}</dt><dd class="html-adjust">{$form.join_date.html}
@@ -36,7 +35,6 @@
     <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership status is set and updated automatically based on your configured membership status rules. Check this box if you want to bypass this process, and manually set a status for this membership. The selected status which will remain in force unless it is again modified on this screen.{/ts}</dd>
     </dl>
-
     {* Show read-only Status block - when action is UPDATE and is_override is FALSE *}
     <div id="memberStatus_show">
         {if $action eq 2}
@@ -57,6 +55,7 @@
   <dl>   
     <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
   </dl>
+  <br clear="all" />
 </fieldset>
 </div>
 

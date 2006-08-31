@@ -38,5 +38,6 @@
   <dl>   
       <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
   </dl>
+  <br clear="all" />
 </fieldset>
 </div>
