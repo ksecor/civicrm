@@ -72,13 +72,13 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
     function setDefaultValues( ) {
         $defaults = array( );
         $defaults = parent::setDefaultValues( );
-        
-        $query = "SELECT max( `weight` ) as weight FROM `civicrm_option_value` where option_group_id=" . $this->_gid;
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $query );
-        $dao->fetch();
-        $defaults['weight'] = ($dao->weight + 1);
-        
+        if (! $defaults['weight']) {
+            $query = "SELECT max( `weight` ) as weight FROM `civicrm_option_value` where option_group_id=" . $this->_gid;
+            $dao =& new CRM_Core_DAO( );
+            $dao->query( $query );
+            $dao->fetch();
+            $defaults['weight'] = ($dao->weight + 1);
+        }
         return $defaults;
     }
 
