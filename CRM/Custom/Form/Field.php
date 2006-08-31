@@ -234,7 +234,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $sel->setOptions(array($dt, $it));
 
         $Options = CRM_Core_BAO_CustomOption::getCustomOption($this->_id);
-        if ($this->_action == CRM_Core_Action::UPDATE && (! empty($Options))) {
+        if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('data_type');
         }
       
