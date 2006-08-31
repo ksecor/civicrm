@@ -11,7 +11,7 @@
     <dl>
 
     <dt>{$form.amount_block_is_active.label}</dt><dd>{$form.amount_block_is_active.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Uncheck this box of you do not want users to select or enter contribution amounts on this page (e.g. for membership signup forms with fixed membership fees).{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Uncheck this box if you are using this contribution page for membership signup and renewal only - and you do NOT want users to select or enter any additional contribution amounts.{/ts}</dd>
     </dl>
     
     <dl>

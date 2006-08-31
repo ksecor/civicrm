@@ -184,8 +184,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             if ($err !== true) {
                 foreach ($err as $token => $desc) {
                     $dataErrors[]   = '<li>' 
-                                    . ts('Missing required token') 
-                                    .' {' . $token . "}: $desc</li>";
+                                    . ts('This message is missing a required token - {%1}: %2',
+                                         array(1 => $token, 2 => $desc))
+                                    . '</li>';
                 }
             }
             
@@ -206,7 +207,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             }
             if (! empty($dataErrors)) {
                 $errors[$file] = 
-                ts('The following errors were detected in %1:', array(1 => $name)) . ': <ul>' . implode('', $dataErrors) . '</ul>';
+                ts('The following errors were detected in %1:', array(1 => $name)) . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank">' . ts('More information on required tokens...') . '</a>';
             }
         }
         return empty($errors) ? true : $errors;

@@ -11,32 +11,33 @@
           </dd>
        </dl>
       </div>
-     {else}
-      <dl>
- 	<dt>{$form.name.label}</dt><dd class="html-adjust">{$form.name.html}</dd>
-    <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Name of the Membership status.For eg.New,Expired, Renewed Grace, Unrenewed...{/ts}</dd>
- 	<dt>{$form.start_event.label}</dt><dd class="html-adjust">{$form.start_event.html}</dd>
-    <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select the event when the status starts.For eg.If the event is new then select the join date.{/ts}</dd>
- 	<dt>{$form.start_event_adjust_unit.label}</dt><dd class="html-adjust">{$form.start_event_adjust_interval.html}&nbsp;&nbsp;{$form.start_event_adjust_unit.html}</dd>
-    <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Event used for adjusting (add or substracting time) from the start event (e.g. 30 day, 2 month, 5 year).{/ts}</dd>
- 	<dt>{$form.end_event.label}</dt><dd class="html-adjust">{$form.end_event.html}</dd>
-    <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Event after which this status ends.{/ts}</dd>
- 	<dt>{$form.end_event_adjust_unit.label}</dt><dd class="html-adjust">{$form.end_event_adjust_interval.html}&nbsp;&nbsp;{$form.end_event_adjust_unit.html}</dd>
-    <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Event used for adjusting (add or substracting time) from the ending event (e.g. 25 day, 3 month, 4 year).{/ts}</dd>
+   {else}
+        <dl>
+        <dt>{$form.name.label}</dt><dd class="html-adjust">{$form.name.html}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Display name for this Membership status (e.g. New, Current, Grace, Expired...).{/ts}</dd>
+        <dt>{$form.start_event.label}</dt><dd class="html-adjust">{$form.start_event.html}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}When does this status begin? EXAMPLE: <strong>New</strong> status begins at the membership "join date".{/ts}</dd>
+        <dt>{$form.start_event_adjust_unit.label}</dt><dd class="html-adjust">{$form.start_event_adjust_interval.html}&nbsp;&nbsp;{$form.start_event_adjust_unit.html}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Optional adjustment period added or substracted from the Start Event. EXAMPLE: <strong>Current</strong> status might begin at "join date" PLUS 3 months (to distinguish Current from New members).{/ts}</dd>
+        <dt>{$form.end_event.label}</dt><dd class="html-adjust">{$form.end_event.html}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}When does this status end? EXAMPLE: <strong>Current</strong> status ends at the membership "end date".{/ts}</dd>
+        <dt>{$form.end_event_adjust_unit.label}</dt><dd class="html-adjust">{$form.end_event_adjust_interval.html}&nbsp;&nbsp;{$form.end_event_adjust_unit.html}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Optional adjustment period added or substracted from the End Event. EXAMPLE: <strong>Grace</strong> status might end at "end date" PLUS 1 month.{/ts}</dd>
         <dt>{$form.is_current_member.label}</dt><dd class="html-adjust">{$form.is_current_member.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Check this, if status is "current members" (e.g. using the sample status optiions below... New, Renewed, Grace - and possibly Pending could be TRUE, while Unrenewed, Lapsed, Inactive would be false).{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Should this status be considered a current membership in good standing. EXAMPLE: New, Current and Grace could all be considered "current".{/ts}</dd>
         <dt>{$form.is_admin.label}</dt><dd class="html-adjust">{$form.is_admin.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this status for admin/manual assignment only.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this status for use by administrative staff only? If checked, this status is never automatically assigned by CiviMember. EXAMPLE: This setting can be useful for special case statuses like "Non-expiring", "Barred" or "Expelled", etc.{/ts}</dd>
         <dt>{$form.weight.label}</dt><dd class="html-adjust">{$form.weight.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Used for status display - and to resolve overlapping status calcs (e.g. could set "New" status with lower weight then "Current" - and memberships that meet both status range criteria are assigned the lower weight status).{/ts}</dd>   
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Weight sets the order of precedence for automatic assignment of status to a membership. It also sets the order for status displays. EXAMPLE: The default "New" and "Current" statuses have overlapping ranges.  Memberships that meet both status range criteria are assigned the status with the lower weight.{/ts}</dd> 
         <dt>{$form.is_default.label}</dt><dd class="html-adjust">{$form.is_default.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this status default.{/ts}</dd>   
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}The default status is assigned when there are no matching status rules for a membership.{/ts}</dd>   
         <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this status enabled.{/ts}</dd>   
-      </dl> 
-     {/if}
-    <dl>   
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this status enabled.{/ts}</dd>
+        </dl> 
+  {/if}
+  <dl>   
       <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
-    </dl>
+  </dl>
+  <br clear="all" />
 </fieldset>
 </div>

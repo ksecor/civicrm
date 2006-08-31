@@ -92,6 +92,7 @@
         <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
        </dl>
     {/if}
+  <br clear="all" />
 </div>
 </fieldset>
 
