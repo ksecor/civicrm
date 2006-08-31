@@ -49,8 +49,7 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Display the minimum membership fee along with the membership name and description for each membership option?{/ts}</dd>
 
     <dt></dt><dd>{$form.is_separate_payment.html}&nbsp;{$form.is_separate_payment.label} </dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Should the membership fee be processed as a separate transaction? If this option is checked AND the contribution page
-    includes a separate contribution amount block - two transactions will be generated: one for the membership fee amount; and one for the selected contribution amount.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Should the membership fee be processed as a separate transaction? If this option is checked AND the contribution page includes a separate contribution amount block - two transactions will be generated: one for the membership fee amount; and one for the selected contribution amount.{/ts}</dd>
 	
     </dl>
    
