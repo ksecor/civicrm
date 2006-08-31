@@ -113,6 +113,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
+
+        $statusID = $this->get( 'statusID' );
+        if ( ! $statusID ) {
+            $statusID = md5(uniqid(rand(), true));
+            $this->set( 'statusID', $statusID );
+        }
+        $this->assign('statusID', $statusID );
     }
 
     /**
@@ -146,18 +153,20 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 $this->addElement('checkbox', "tag[$tagID]", null, $tagName);
             }
         }
+
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
                                          'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Import Now >>'),
                                          'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                         'isDefault' => true,
-                                         'js'        => array( 'onclick' => "return submitOnce(this,'Preview','" . ts('Processing') ."');" ) ),
+                                         'isDefault' => true ),
+                                 // 'js'        => array( 'onclick' => "return submitOnce(this,'Preview','" . ts('Processing') ."');" ) ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )
                            );
+
     }
 
     /**
@@ -287,7 +296,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                       $skipColumnHeader,
                       CRM_Import_Parser::MODE_IMPORT,
                       $this->get('contactType'),
-                      $onDuplicate);
+                      $onDuplicate,
+                      $this->get( 'statusID' ) );
         
         // add the new contacts to selected groups
         $contactIds =& $parser->getImportedContacts();
@@ -414,6 +424,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
             $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4'));
         }
+
+        exit( );
     }
 
 

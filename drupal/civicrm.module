@@ -226,6 +226,8 @@ function civicrm_invoke( )
     // make sure the system is initialized
     civicrm_initialize( );
 
+    require_once 'CRM/Core/Error.php';
+
     // synchronize the drupal uid with the contacts db
     global $user;
     require_once 'CRM/Core/BAO/UFMatch.php';

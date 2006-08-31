@@ -254,7 +254,8 @@ abstract class CRM_Import_Parser {
                   $skipColumnHeader = false,
                   $mode = self::MODE_PREVIEW,
                   $contactType = self::CONTACT_INDIVIDUAL,
-                  $onDuplicate = self::DUPLICATE_SKIP ) {
+                  $onDuplicate = self::DUPLICATE_SKIP,
+                  $statusID = null ) {
         switch ($contactType) {
         case CRM_Import_Parser::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';
@@ -300,7 +301,14 @@ abstract class CRM_Import_Parser {
                 }
             }
         }
-        
+
+        if ( $statusID ) {
+            $skip = 10;
+            $config =& CRM_Core_Config::singleton( );
+            $statusFile = "{$config->uploadDir}status_{$statusID}.txt";
+            file_put_contents( $statusFile, 'No status reported yet' );
+            $currTimeStamp = $prevTimeStamp = time( );
+        }
         while ( ! feof( $fd ) ) {
             $this->_lineCount++;
 
@@ -337,6 +345,14 @@ abstract class CRM_Import_Parser {
                 $returnCode = $this->summary( $values );
             } else if ( $mode == self::MODE_IMPORT ) {
                 $returnCode = $this->import( $onDuplicate, $values );
+                if ( $statusID && $this->_lineCount % $skip ) {
+                    $currTimestamp = time( );
+                    $time = ( $currTimestamp - $prevTimeStamp ) * 1.0 / 1000.0;
+                    $status = "Processed {$this->_lineCount} rows. last $skip records took $time seconds<p>";
+                    file_put_contents( $statusFile,
+                                       $status );
+                    $prevTimeStamp = $currTimestamp;
+                }
             } else {
                 $returnCode = self::ERROR;
             }

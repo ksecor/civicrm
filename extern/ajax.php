@@ -5,6 +5,7 @@ session_start( );
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
+
 // build the query
 function invoke( ) {
     // intialize the system
@@ -24,10 +25,13 @@ function invoke( ) {
     switch ( $args[1] ) {
 
     case 'help':
-        return help( );
+        return help( $config );
 
     case 'search':
-        return search( );
+        return search( $config );
+
+    case 'status':
+        return status( $config );
 
     default:
         return;
@@ -35,11 +39,9 @@ function invoke( ) {
 
 }
 
-function help( ) {
+function help( &$config ) {
     $id   = urldecode( $_GET['id'] );
     $file = urldecode( $_GET['file'] );
-
-    $config =& CRM_Core_Config::singleton( );
 
     $template =& CRM_Core_Smarty::singleton( );
     $file = str_replace( '.tpl', '.hlp', $file );
@@ -48,7 +50,7 @@ function help( ) {
     echo $template->fetch( $file );
 }
 
-function search( ) {
+function search( &$config ) {
     require_once 'CRM/Utils/Type.php';
     $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
     $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
@@ -69,6 +71,22 @@ SELECT sort_name
     }
 
     echo '[' . implode( ',', $elements ) . ']';
+}
+
+function status( &$config ) {
+    // make sure we get an id
+    if ( ! isset( $_GET['id'] ) ) {
+        return;
+    }
+
+    $file = "{$config->uploadDir}status_{$_GET['id']}.txt";
+    if ( file_exists( $file ) ) {
+        $str = file_get_contents( $file );
+        echo $str;
+    } else {
+        echo "No status recorded for $file as yet<p>";
+    }
+    
 }
 
 invoke( );
