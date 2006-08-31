@@ -263,6 +263,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $result =& $payment->doDirectPayment( $membershipParams );
             }
 
+            $errors = array();
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
                 $errors[1] = $result;
             } else {
