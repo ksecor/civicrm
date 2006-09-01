@@ -18,11 +18,11 @@
         <dt>{$form.start_event.label}</dt><dd class="html-adjust">{$form.start_event.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}When does this status begin? EXAMPLE: <strong>New</strong> status begins at the membership "join date".{/ts}</dd>
         <dt>{$form.start_event_adjust_unit.label}</dt><dd class="html-adjust">{$form.start_event_adjust_interval.html}&nbsp;&nbsp;{$form.start_event_adjust_unit.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Optional adjustment period added or substracted from the Start Event. EXAMPLE: <strong>Current</strong> status might begin at "join date" PLUS 3 months (to distinguish Current from New members).{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Optional adjustment period added or subtracted from the Start Event. EXAMPLE: <strong>Current</strong> status might begin at "join date" PLUS 3 months (to distinguish Current from New members).{/ts}</dd>
         <dt>{$form.end_event.label}</dt><dd class="html-adjust">{$form.end_event.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}When does this status end? EXAMPLE: <strong>Current</strong> status ends at the membership "end date".{/ts}</dd>
         <dt>{$form.end_event_adjust_unit.label}</dt><dd class="html-adjust">{$form.end_event_adjust_interval.html}&nbsp;&nbsp;{$form.end_event_adjust_unit.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Optional adjustment period added or substracted from the End Event. EXAMPLE: <strong>Grace</strong> status might end at "end date" PLUS 1 month.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Optional adjustment period added or subtracted from the End Event. EXAMPLE: <strong>Grace</strong> status might end at "end date" PLUS 1 month.{/ts}</dd>
         <dt>{$form.is_current_member.label}</dt><dd class="html-adjust">{$form.is_current_member.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Should this status be considered a current membership in good standing. EXAMPLE: New, Current and Grace could all be considered "current".{/ts}</dd>
         <dt>{$form.is_admin.label}</dt><dd class="html-adjust">{$form.is_admin.html}</dd>
