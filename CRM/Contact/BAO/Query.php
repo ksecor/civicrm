@@ -892,11 +892,13 @@ class CRM_Contact_BAO_Query {
 
         $clauses    = array( );
         $andClauses = array( );
-        
+
+        $validClauses = 0;
         if ( ! empty( $this->_where ) ) {
             foreach ( $this->_where as $grouping => $values ) {
                 if ( $grouping > 0 && ! empty( $values ) ) {
                     $clauses[$grouping] = ' ( ' . implode( ' AND ', $values ) . ' ) ';
+                    $validClauses++;
                 }
             }
 
@@ -905,6 +907,10 @@ class CRM_Contact_BAO_Query {
             }
             if ( ! empty( $clauses ) ) {
                 $andClauses[] = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
+            }
+
+            if ( $validClauses > 1 ) {
+                $this->_useDistinct = true;
             }
         }
         

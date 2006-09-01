@@ -129,6 +129,7 @@ class CRM_Core_BAO_DomainDump
         header("Content-Disposition: attachment; filename=$fileName");
 
         echo $output;
+        exit( );
     }
 }
 

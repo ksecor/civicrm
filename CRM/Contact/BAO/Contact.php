@@ -1006,7 +1006,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 return array( $row[0], $row[1], $row[2], $row[3] );
             }
         }
-        return array( null, null, null );
+        return array( null, null, null, null );
     }
 
 

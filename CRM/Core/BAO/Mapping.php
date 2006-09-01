@@ -402,7 +402,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $locationTypes = array (' ' => ts('Primary')) + $locationTypes;
 
 
-        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType() + $compArray;
+        $sel1 = array('' => '-select record type-') + CRM_Core_SelectValues::contactType() + $compArray;
         
         foreach($sel1 as $key=>$sel ) {
             if($key) {
@@ -533,7 +533,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
                 
                 if ($mappingType == 'Search Builder') {
-                    $operatorArray = array ('=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
+                    $operatorArray = array ('' => '-operator-', '=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
                                             '>=' => '>=', '<=' => '<=', 'IN' => 'IN',
                                             'NOT IN' => 'NOT IN', 'LIKE' => 'LIKE', 'NOT LIKE' => 'NOT LIKE');
                     
@@ -616,6 +616,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         foreach ( $v as $i ) {
                             $value[$i] = 1;
                         }
+                    }
+
+                    if ( $v[0] == 'Contribution' ) {
+                        $fldName = 'contribution_' . $fldName;
                     }
 
                     if ( $row ) {
