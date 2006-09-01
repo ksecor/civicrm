@@ -3,7 +3,7 @@ require 'crm_config'
 
 class CRMPageController
     
-  def startCivicrm
+  def start_civicrm
     @config = CRMConfig.new
     @selenium = Selenium::SeleneseInterpreter.new('localhost', 4444, @config.browser, @config.uf_root)
     @selenium.start
@@ -15,20 +15,20 @@ class CRMPageController
     @selenium.open(@config.login_url)
     @selenium.type('edit[name]', @config.user)
     @selenium.type('edit[pass]', @config.pass)
-    clickAndWait 'op'
+    click_and_wait 'op'
     
     # Click link CiviCRM
-    clickAndWait "link=CiviCRM"  
+    click_and_wait "link=CiviCRM"  
   end
   
   # log out of Drupal
   def logout()
-    clickAndWait 'link=log out'
+    click_and_wait 'link=log out'
     @selenium.stop
   end
   
   # Click an element (button, link, image etc.)
-  def clickAndWait element
+  def click_and_wait element
     @selenium.click element
     @selenium.wait_for_page_to_load 30000
   end
