@@ -214,11 +214,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         $activitySummary = ts(
-            '%1 - %2 (updated on %3)',
+            '%1 - %2 (offline)',
             array(
                 1 => CRM_Utils_Money::format($contribution->total_amount, $contribution->currency),
-                2 => $contributionType,
-                3 => $insertDate
+                2 => $contribution->source,
             )
         );
 

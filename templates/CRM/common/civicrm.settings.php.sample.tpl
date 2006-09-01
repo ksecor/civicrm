@@ -206,6 +206,8 @@ define( 'CIVICRM_CUSTOM_FILE_UPLOADURL','%%customFileUploadURL%%' );
  * $ whereis mysql
  * $ type mysql
  */
+// Enter closest dot release to your installed version. 4.0, 4.1, 5.0 are all valid examples. Do NOT
+// specify minor revision (second dot) - 4.1.2 is NOT a valid value for this setting. 
 define( 'CIVICRM_MYSQL_VERSION', 4.0 );
 define( 'CIVICRM_DSN'          , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
 define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );

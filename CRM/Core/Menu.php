@@ -213,7 +213,7 @@ class CRM_Core_Menu {
                       
                       array(
                             'path'    => 'civicrm/admin/mapping',
-                            'title'   => ts('Import/Export Mapping'),
+                            'title'   => ts('Import/Export Mappings'),
                             'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
