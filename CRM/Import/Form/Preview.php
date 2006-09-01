@@ -297,7 +297,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                       CRM_Import_Parser::MODE_IMPORT,
                       $this->get('contactType'),
                       $onDuplicate,
-                      $this->get( 'statusID' ) );
+                      $this->get( 'statusID' ), $this->get( 'totalRowCount' ) );
         
         // add the new contacts to selected groups
         $contactIds =& $parser->getImportedContacts();

@@ -56,7 +56,7 @@ submitForm = function( e ) {
 pollLoop = function(){
     doProgress();
     if ( ! finished ) {
-        dojo.lang.setTimeout(pollLoop,5*1000); //10 secs
+        dojo.lang.setTimeout(pollLoop,10*1000); //10 secs
     }
 }
 

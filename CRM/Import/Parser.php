@@ -255,7 +255,7 @@ abstract class CRM_Import_Parser {
                   $mode = self::MODE_PREVIEW,
                   $contactType = self::CONTACT_INDIVIDUAL,
                   $onDuplicate = self::DUPLICATE_SKIP,
-                  $statusID = null ) {
+                  $statusID = null, $totalRowCount = null ) {
         switch ($contactType) {
         case CRM_Import_Parser::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';
@@ -303,11 +303,11 @@ abstract class CRM_Import_Parser {
         }
 
         if ( $statusID ) {
-            $skip = 10;
+            $skip = 100;
             $config =& CRM_Core_Config::singleton( );
             $statusFile = "{$config->uploadDir}status_{$statusID}.txt";
             file_put_contents( $statusFile, 'No status reported yet' );
-            $currTimeStamp = $prevTimeStamp = time( );
+            $startTimestamp = $currTimestamp = $prevTimestamp = time( );
         }
         while ( ! feof( $fd ) ) {
             $this->_lineCount++;
@@ -345,13 +345,25 @@ abstract class CRM_Import_Parser {
                 $returnCode = $this->summary( $values );
             } else if ( $mode == self::MODE_IMPORT ) {
                 $returnCode = $this->import( $onDuplicate, $values );
-                if ( $statusID && $this->_lineCount % $skip ) {
+                if ( $statusID && ( ( $this->_lineCount % $skip ) == 0 ) ) {
                     $currTimestamp = time( );
-                    $time = ( $currTimestamp - $prevTimeStamp ) * 1.0 / 1000.0;
-                    $status = "Processed {$this->_lineCount} rows. last $skip records took $time seconds<p>";
+                    $totalTime = ( $currTimestamp - $startTimestamp );
+                    $time = ( $currTimestamp - $prevTimestamp );
+                    $recordsLeft = $totalRowCount - $this->_lineCount;
+                    if ( $recordsLeft < 0 ) {
+                        $recordsLeft = 0;
+                    }
+                    $estimatedTime = ( $recordsLeft / $skip ) * $time;
+                    $status = "<div class='status'>
+Processed Rows: {$this->_lineCount} rows.<p>
+Time since beginning: $totalTime seconds<p>
+Time to process last $skip records: $time seconds<p>
+Approx Records left to process: $recordsLeft<p>
+Estimated time remaining: $estimatedTime seconds<p>
+</div>";
                     file_put_contents( $statusFile,
                                        $status );
-                    $prevTimeStamp = $currTimestamp;
+                    $prevTimestamp = $currTimestamp;
                 }
             } else {
                 $returnCode = self::ERROR;
