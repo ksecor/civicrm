@@ -31,6 +31,6 @@ class CRMPageController
   # Click an element (button, link, image etc.)
   def click_and_wait element
     @selenium.click element
-    @selenium.wait_for_page_to_load 30000
+    @selenium.wait_for_page_to_load 15000
   end
 end
