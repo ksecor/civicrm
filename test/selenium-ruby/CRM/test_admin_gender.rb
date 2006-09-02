@@ -42,7 +42,6 @@ class TC_TestAdminGender < Test::Unit::TestCase
     assert_equal "Edit", @selenium.get_text("link=Edit")
     @page.click_and_wait "link=Edit"
     
-    # @selenium.type('weight',"8")
     @selenium.uncheck "is_active" 
     
     #Submit the form 

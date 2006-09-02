@@ -13,6 +13,9 @@ class TS_CiviCRMTests
     suite << TC_TestAdminSuffix.suite
     suite << TC_TestAdminTag.suite
     suite << TC_TestAdminLocation.suite
+    suite << TC_TestAdminProfile.suite
+    suite << TC_TestAdminMembershipType.suite
+    suite << TC_TestAdminOptionGroup.suite
     return suite
   end
 end
