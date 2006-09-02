@@ -161,10 +161,10 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                         // only reset on a POST submission if we dont see any value
                         $value = null;
                         $this->set( $name, $value );
-                    } else if ( ( $customField['html_type'] == 'Select' || $customField['html_type'] == 'Radio' ) &&
-                                ( 0 == (int ) $value ) ) {
-                        $value = null; 
-                        $this->set( $name, $value ); 
+                    // } else if ( ( $customField['html_type'] == 'Select' || $customField['html_type'] == 'Radio' ) &&
+//                                 ( 0 == (int ) $value ) ) {
+//                         $value = null; 
+//                         $this->set( $name, $value ); 
                     }
                 } else if ( $name == 'group' || $name == 'tag' ) {
                     $value = null;  
