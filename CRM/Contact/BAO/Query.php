@@ -823,8 +823,15 @@ class CRM_Contact_BAO_Query {
         case 'open_activity_date_high':
             $this->openActivityDate( $values );
             return;
-            
 
+        case 'modified_date_low':
+        case 'modified_date_high':
+            $this->modifiedDates( $values );
+            return;
+                        
+        case 'changed_by':
+            $this->changeLog( $values );
+            return;
         case 'do_not_phone':
         case 'do_not_email':
         case 'do_not_mail':
@@ -1407,6 +1414,11 @@ class CRM_Contact_BAO_Query {
                     $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_relationship.contact_id_b = contact_b.id )";
                 }
                 continue;
+
+            case 'civicrm_log':
+                $from .= " $side JOIN civicrm_log ON (civicrm_log.entity_id = contact_a.id )";
+                $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_log.modified_id = contact_b.id )";
+                continue;
                 
             case 'civicrm_activity':
                 $from .= " $side JOIN civicrm_activity ON (civicrm_activity.target_entity_table = 'civicrm_contact' AND contact_a.id = civicrm_activity.target_entity_id )";
@@ -1820,6 +1832,7 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function activityType( &$values ) {
+        $this->_useDistinct = true;
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         $name = trim( $value );
 
@@ -1834,6 +1847,38 @@ class CRM_Contact_BAO_Query {
         $this->_useDistinct = true;
         $this->dateQueryBuilder( $values,
                                  'civicrm_activity_history', 'activity_date', 'activity_date', 'Activity Date' );
+    }
+
+     /**
+     * where / qill clause for change log
+     *
+     * @return void
+     * @access public
+     */
+    function changeLog ( &$values ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        
+        // also get values array for relation_target_name
+        $targetName = $this->getWhereValues( 'changed_by', $grouping );
+        if ( ! $targetName ) {
+            return;
+        }
+
+        $name = trim( $targetName[2] );
+        $name = strtolower( addslashes( $name ) );
+        $name = $targetName[4] ? "%$name%" : $name;
+        $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) LIKE '%$name%'";
+        $this->_tables['civicrm_log'] = $this->_whereTables['civicrm_log'] = 1; 
+        $this->_qill[$grouping][] = ts( "Changed by: %1", 
+                                            array( 1 => $name) );
+    }
+
+
+    function modifiedDates( $values )
+    {
+        $this->_useDistinct = true;
+        $this->dateQueryBuilder( $values,
+                                 'civicrm_log', 'modified_date', 'modified_date', 'Modified Date' );
     }
 
      /**
