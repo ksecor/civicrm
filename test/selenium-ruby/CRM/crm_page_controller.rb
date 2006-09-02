@@ -1,15 +1,16 @@
+require 'test/unit'
 require '../selenium'
 require 'crm_config'
 
 class CRMPageController
-    
+  
   def start_civicrm
     @config = CRMConfig.new
     @selenium = Selenium::SeleneseInterpreter.new('localhost', 4444, @config.browser, @config.uf_root)
     @selenium.start
     return @selenium
   end
-    
+  
   # login to Drupal
   def login()
     @selenium.open(@config.login_url)

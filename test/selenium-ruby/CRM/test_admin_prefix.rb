@@ -2,11 +2,10 @@
 # Information' Prefix definition
 # This test case allows you to add/edit/disable/enable/delete prefix information
 
-require 'test/unit'
 require 'crm_page_controller'
 require '../selenium'
 
-class TestAdminPrefix < Test::Unit::TestCase
+class TC_TestAdminPrefix < Test::Unit::TestCase
   def setup
     @page = CRMPageController.new
     @selenium = @page.start_civicrm

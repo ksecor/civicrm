@@ -6,7 +6,7 @@ require 'test/unit'
 require 'crm_page_controller'
 require '../selenium'
 
-class TestAdminGender < Test::Unit::TestCase
+class TC_TestAdminLocation < Test::Unit::TestCase
   def setup
     @page = CRMPageController.new
     @selenium = @page.start_civicrm

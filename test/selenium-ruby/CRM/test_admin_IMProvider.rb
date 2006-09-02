@@ -2,11 +2,10 @@
 # Information' Gender definition
 # This test case allows you to add/edit/disable/enable/delete gender information
 
-require 'test/unit'
 require 'crm_page_controller'
 require '../selenium'
 
-class TestAdminIMProvider < Test::Unit::TestCase
+class TC_TestAdminIMProvider < Test::Unit::TestCase
   def setup
     @page = CRMPageController.new
     @selenium = @page.start_civicrm
@@ -53,7 +52,7 @@ class TestAdminIMProvider < Test::Unit::TestCase
   end
 
   # Disable IM Service
-  def test_3_disableIMProvider
+  def test_4_disableIMProvider
     # @temp = @selenium.get_html_source()
     assert_equal "Disable", @selenium.get_text("link=Disable")
     @page.click_and_wait "link=Disable"
@@ -61,7 +60,7 @@ class TestAdminIMProvider < Test::Unit::TestCase
   end
   
    # Enable IM Service
-  def test_4_enableIMProvider
+  def test_3_enableIMProvider
     assert_equal "Enable", @selenium.get_text("link=Enable")
     @page.click_and_wait "link=Enable"
   end

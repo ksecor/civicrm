@@ -2,11 +2,10 @@
 # Information' Mobile Phone Provider definition
 # This test case allows you to add/edit/disable/enable/delete Mobile Phone Provider information
 
-require 'test/unit'
 require 'crm_page_controller'
 require '../selenium'
 
-class TestAdminMPProvider < Test::Unit::TestCase
+class TC_TestAdminMPProvider < Test::Unit::TestCase
   def setup
     @page = CRMPageController.new
     @selenium = @page.start_civicrm

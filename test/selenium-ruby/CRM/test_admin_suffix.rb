@@ -2,11 +2,10 @@
 # Information' Suffix definition
 # This test case allows you to add/edit/disable/enable/delete suffix information
 
-require 'test/unit'
 require 'crm_page_controller'
 require '../selenium'
 
-class TestAdminSuffix < Test::Unit::TestCase
+class TC_TestAdminSuffix < Test::Unit::TestCase
   def setup
     @page = CRMPageController.new
     @selenium = @page.start_civicrm
