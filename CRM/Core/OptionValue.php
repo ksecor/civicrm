@@ -51,7 +51,7 @@ class CRM_Core_OptionValue {
      * @static
      */
 
-    static function getRows( $groupParams, $orderBy = 'weight', $links ) {
+    static function getRows( $groupParams, $links, $orderBy = 'weight' ) {
         $optionValue = array();
         
         if (! $groupParams['id'] ) {
