@@ -2,7 +2,7 @@
    {include file="CRM/Member/Form/MembershipType.tpl"}
 {else}
     <div id="help">
-        <p>{ts}Membership types are used to categorize memberships. You can define an unlimited number of types. Each type incorporates a "name" (Gold Member, Honor Society Member...), a description, a minimum fee (can be $0), and a duration (can be "lifetime"). Each member type is specifically linked to the membership entity (organization) - e.g. Bay Area Chapter.{/ts}</p>
+        <p>{ts 1="http://wiki.civicrm.org/confluence//x/ui"}Membership types are used to categorize memberships. You can define an unlimited number of types. Each type incorporates a "name" (Gold Member, Honor Society Member...), a description, a minimum fee (can be $0), and a duration (can be "lifetime"). Each member type is specifically linked to the membership entity (organization) - e.g. Bay Area Chapter. Refer to the <a href="%1" target="_blank">CiviMember Guide</a> for more info.{/ts}</p>
     </div>
 {/if}
 
