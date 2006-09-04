@@ -1032,7 +1032,7 @@ class CRM_Contact_BAO_Query {
         } else if ( $name === 'contact_id' ) {
             if ( is_int( $value ) ) {
                 $this->_where[$grouping][] = $field['where'] . " $op $value";
-                $this->_qill[$grouping][]  = ts( "%1 $op %2", array( 1 => $field['title'], 2 => $value ) );
+                $this->_qill[$grouping][]  = "$field[title] $op $value";
             }
         } else if ( $name === 'name' ) {
             $value = strtolower( addslashes( $value ) );
@@ -1081,14 +1081,9 @@ class CRM_Contact_BAO_Query {
                     }
                     $this->_whereTables[$tName] = $this->_tables[$tName];
                     if ( $locType[2] && ( strtolower( $locType[2] ) != ts( 'phone' ) ) ) {
-                        $this->_qill[$grouping][]  = ts( "%1-%4 (%3) $op '%2'", array( 1 => $field['title'],
-                                                                                       2 => $value,
-                                                                                       3 => $locationType[$locType[1]],
-                                                                                       4 => $locType[2] ) );
+                        $this->_qill[$grouping][]  = "$field[title]-$locType[2] ({$locationType[$locType[1]]}) $op '$value'";
                     } else {
-                        $this->_qill[$grouping][]  = ts( "%1 (%3) $op '%2'", array( 1 => $field['title'],
-                                                                                    2 => $value,
-                                                                                    3 => $locationType[$locType[1]] ) );
+                        $this->_qill[$grouping][]  = "$field[title] ({$locationType[$locType[1]]}) $op '$value'";
                     }
                 } else {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
@@ -1099,7 +1094,7 @@ class CRM_Contact_BAO_Query {
                     } else {
                         $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op $value";
                     }
-                    $this->_qill[$grouping][]  = ts( "%1 $op '%2'", array( 1 => $field['title'], 2 => $value ) );
+                    $this->_qill[$grouping][]  = "$field[title] $op $value";
                 }
                 
             }
@@ -1823,7 +1818,7 @@ class CRM_Contact_BAO_Query {
         $this->_where[$grouping][] = "civicrm_location.name $op $name";
         $this->_tables['civicrm_location'] = 1;
         $this->_whereTables['civicrm_location'] = 1;
-        $this->_qill[$grouping][] = ts( "Location name $op '%1'", array( 1 => $value ) );
+        $this->_qill[$grouping][] = ts("Location name %1 '%2'", array(1 => $op, 2 => $value));
     }
 
     /**
@@ -2031,7 +2026,7 @@ class CRM_Contact_BAO_Query {
         $allRelationshipType =array();
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
-        $this->_qill[$grouping][]  = ts( $allRelationshipType[$value] ." ". $name );
+        $this->_qill[$grouping][]  = "$allRelationshipType[$value]  $name";
     }
 
     /**

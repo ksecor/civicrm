@@ -217,7 +217,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             '%1 - %2 (offline)',
             array(
                 1 => CRM_Utils_Money::format($contribution->total_amount, $contribution->currency),
-                2 => $contribution->source,
+                2 => $contribution->source
             )
         );
 

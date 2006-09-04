@@ -753,12 +753,12 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                             'fed_lunch_id')) ) {
 
             require_once 'CRM/Core/OptionGroup.php';
-            $form->add( 'select', $field['name'], ts( $field['title'] ), 
+            $form->add('select', $field['name'], $field['title'], 
                         array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($names[$field['name']]) );
             return true;
 
         } else if ($field['name'] == 'high_school_grad_year' ) {
-            $form->add('date', 'high_school_grad_year', ts( $field['title'] ),
+            $form->add('date', 'high_school_grad_year', $field['title'],
                        CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
             return true;
 
@@ -767,7 +767,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                                    'college_interest',
                                                    'test_tutoring')) ) {
 
-            $form->addCheckBox( $field['name'], ts( $field['title'] ),
+            $form->addCheckBox($field['name'], $field['title'],
                                 CRM_Core_OptionGroup::values( $names[$field['name']], true ), false, null,false );
             return true;
             
@@ -779,7 +779,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                                    'financial_aid_applicant',
                                                    'register_standarized_tests' )) ) {
             
-            $form->addYesNo( $field['name'], ts( $field['title'] ) );
+            $form->addYesNo($field['name'], $field['title']);
             return true;
 
         } else if ( in_array($field['name'], array('class_rank', 
@@ -795,24 +795,24 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                                    'primary_language',
                                                    'internet_access_other')) ) {
 
-            $form->addElement('text', $field['name'], ts( $field['title'] ), $attributes[$field['name']]  );
+            $form->addElement('text', $field['name'], $field['title'], $attributes[$field['name']]);
             return true;
 
         } else if ($field['name'] == 'gpa_explanation' ) {
 
-            $form->addElement('textarea', 'gpa_explanation', ts( $field['title'] ), $attributes['gpa_explanation'] );
+            $form->addElement('textarea', 'gpa_explanation', $field['title'], $attributes['gpa_explanation']);
             return true;
             
         } else if ( in_array( $field['name'], array('citizenship_country_id', 
                                                     'growup_country_id', 
                                                     'nationality_country_id') ) ) {
 
-            $form->addElement('select', $field['name'], ts( $field['title'] ),
+            $form->addElement('select', $field['name'], $field['title'],
                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::country( ) );
             return true;
 
         } else if ( $field['name'] == 'home_area_id' ) {
-            $form->addRadio( 'home_area_id', ts( $field['title'] ),
+            $form->addRadio('home_area_id', $field['title'],
                              CRM_Core_OptionGroup::values('home_area') );
             return true;
 

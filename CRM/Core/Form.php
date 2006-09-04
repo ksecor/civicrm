@@ -580,7 +580,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
         $this->addGroup($options, $name, $title, $separator);
         if ($required) {
-            $this->addRule($name, ts("$title"), 'required');
+            $this->addRule($name, $title, 'required');
         }           
     }
 
@@ -594,7 +594,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $group =& $this->addGroup( $choice, $id, $title );
 
         if ( $required ) {
-            $this->addRule($id,ts("$title"),'required');
+            $this->addRule($id, $title,'required');
         }
     }
 
@@ -617,7 +617,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             $this->addElement( 'text', $id . '_other', ts( 'Other' ), $attributes[$id . '_other'] );
         }
         if ( $required ) {
-            $this->addRule($id,ts("$title"),'required');
+            $this->addRule($id, $title, 'required');
         }
     }
                           
@@ -655,13 +655,13 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             $this->addElement('select', $name . '_id' . $prefix , $label,
                               array('' => $select ) + CRM_Core_OptionGroup::values($name), $extra );
             if ( $required) {
-                $this->addRule($name . '_id' . $prefix, ts("Please select $label"),'required');
+                $this->addRule($name . '_id' . $prefix, ts('Please select %1', array(1 => $label)), 'required');
             }
         } else {
             $this->addElement('select', $name. '_id' , $label,
                               array('' => $select ) + CRM_Core_OptionGroup::values($name), $extra );
             if ( $required) {
-                $this->addRule($name. '_id' , ts("Please select $label"),'required');
+                $this->addRule($name . '_id', ts('Please select %1', array(1 => $label)), 'required');
             }
 
         }
@@ -672,7 +672,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addElement('select', $id, $title,
                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::country( ) );
         if( $required ) {
-            $this->addRule($id , ts("Please select $title"),'required');
+            $this->addRule($id, ts('Please select %1', array(1 => $title)), 'required');
         }
 
     }
@@ -682,7 +682,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->addElement('select', $name . '_id' , $label, $options, $javascriptMethod);
         
         if( $required ) {
-            $this->addRule($name . '_id' ,ts("Please select $label "),'required');
+            $this->addRule($name . '_id', ts('Please select %1', array(1 => $label)), 'required');
         }
 
         $this->addElement( 'text', $name . '_other', $label, $attributes[$name . '_other'] );
@@ -748,9 +748,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                                                                                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                                                                              'phone'));
              if($phoneRequired) {
-                 $this->addRule("{$locationName}[$locationId][phone][1][phone]",ts("Please enter a value for $phone"),'required');
+                 $this->addRule("{$locationName}[$locationId][phone][1][phone]", ts('Please enter a value for %1', array(1 => $phone)), 'required');
              }
-             $this->addRule("{$locationName}[$locationId][phone][1][phone]",ts("Please enter a valid number for $phone"),'phone');
+             $this->addRule("{$locationName}[$locationId][phone][1][phone]", ts('Please enter a valid number for %1', array(1 => $phone)), 'phone');
          }
 
          if ( $alternatePhone ) {
@@ -761,9 +761,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                                                                                                              
                                                                                                    'phone'));
              if ($alternatePhoneRequired) {
-                 $this->addRule("{$locationName}[$locationId][phone][2][phone]",ts("Please enter a value for $alternatePhone"),'required');
+                 $this->addRule("{$locationName}[$locationId][phone][2][phone]", ts('Please enter a value for %1', array(1 => $alternatePhone)), 'required');
              }
-             $this->addRule("{$locationName}[$locationId][phone][2][phone]",ts("Please enter a valid number for $alternatePhone"),'phone');
+             $this->addRule("{$locationName}[$locationId][phone][2][phone]", ts('Please enter a valid number for %1', array(1 => $alternatePhone)), 'phone');
          }
     }
 

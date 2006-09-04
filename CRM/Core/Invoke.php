@@ -421,9 +421,9 @@ class CRM_Core_Invoke {
 
         $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'Edit' );
         if( $properties ) {
-            $wrapper->run( $properties['class'], ts( 'New '.$contact_sub_type ), $action );
+            $wrapper->run($properties['class'], ts('New %1', array(1 => $contact_sub_type)), $action);
         } elseif ( realpath (dirname( __FILE__ ) . "../Contact/Form/{$contact_type}.php" ) ) {
-            $wrapper->run( "CRM_Contact_Form_{$contact_type}", ts( "New {$contact_type}" ), $action );
+            $wrapper->run("CRM_Contact_Form_{$contact_type}", ts('New %1', array(1 => $contact_type)), $action);
         } else {
             $wrapper->run( 'CRM_Contact_Form_Edit', ts( 'New Contact' ), $action );
         }

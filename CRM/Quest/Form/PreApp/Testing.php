@@ -204,12 +204,12 @@ class CRM_Quest_Form_App_Testing extends CRM_Quest_Form_App
                     $fieldName = ( $name == "CriticalReading" ) ? "Critical Reading" : $name;
                     $this->addElement( 'text',
                                        $testName . '_' . strtolower( $name ),
-                                       ts( $fieldName . ' Score' ),
+                                       ts('%1 Score', array(1 => $fieldName)),
                                        $attributes['score_english'] );
                     if ( $name == 'Composite') {
-                        $this->addRule( $testName . '_' . strtolower( $name ), ts( strtolower( $name ).' score not valid.'),'numeric');
+                        $this->addRule($testName . '_' . strtolower($name), ts('%1 score not valid.', array(1 => strtolower($name))), 'numeric');
                     } else {
-                        $this->addRule( $testName . '_' . strtolower( $name ), ts( strtoupper( $testName ).' '.$name.' score must be a whole number.'),'integer');
+                        $this->addRule($testName . '_' . strtolower($name), ts('%1 %2 score must be a whole number.', array(1 => strtoupper($testName), 2 => $name)), 'integer');
                     }
                 }
             }
