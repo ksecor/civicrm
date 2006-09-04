@@ -16,6 +16,7 @@ class TS_CiviCRMTests
     suite << TC_TestAdminProfile.suite
     suite << TC_TestAdminMembershipType.suite
     suite << TC_TestAdminOptionGroup.suite
+    suite << TC_TestManageGroup.suite
     return suite
   end
 end
