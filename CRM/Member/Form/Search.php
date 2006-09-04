@@ -210,8 +210,8 @@ class CRM_Member_Form_Search extends CRM_Core_Form {
         
         $controller->setEmbedded( true ); 
         $controller->moveFromSessionToTemplate(); 
-
-        $this->assign( 'membershipSummary', $this->get( 'summary' ) );
+        
+        $this->assign( 'summary', $this->get( 'summary' ) );
     }
 
     /**

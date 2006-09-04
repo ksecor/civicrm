@@ -127,7 +127,7 @@ VALUES
 
 -- option group and values for preferred communication methods
 
-INSERT INTO `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (@domain_id, 'preferred_communication_method', 'Option for contact preferred communication method property.', 1, 1);
+INSERT INTO `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (@domain_id, 'preferred_communication_method', 'Contact preferred communication method choices.', 1, 1);
 SELECT @option_group_id := max(id) from civicrm_option_group;
 
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES

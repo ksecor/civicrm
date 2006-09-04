@@ -15,11 +15,13 @@
     <dl>
  	<dt>{$form.membership_type_id.label}</dt><dd class="html-adjust">{$form.membership_type_id.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership type for this membership.{/ts}</dd> 	
+    <dt>{$form.source.label}</dt><dd class="html-adjust">{$form.source.html}</dd>
+	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Source of this membership. This value is searchable.{/ts}</dd>
 	<dt>{$form.join_date.label}</dt><dd class="html-adjust">{$form.join_date.html}
 		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_1}
 		{include file="CRM/common/calendar/body.tpl" dateVar=join_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_1}
 		</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}When did this contact first become a member (defaults to today's date)?{/ts}</dd>
+	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}When did this contact first become a member?{/ts}</dd>
  	<dt>{$form.start_date.label}</dt><dd class="html-adjust">{$form.start_date.html}
 		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_2}
 		{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_2}
@@ -30,8 +32,6 @@
 		{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_3}
 		</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Latest membership period expiration date. End Date will be automatically set based on Membership Type if you don't select a date.{/ts}</dd>
-    <dt>{$form.source.label}</dt><dd class="html-adjust">{$form.source.html}</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Source of this membership sign-up. For self-service sign-ups, source is set to the name of the Online Contribution page.{/ts}</dd>
     <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership status is set and updated automatically based on your configured membership status rules. Check this box if you want to bypass this process, and manually set a status for this membership. The selected status which will remain in force unless it is again modified on this screen.{/ts}</dd>
     </dl>
