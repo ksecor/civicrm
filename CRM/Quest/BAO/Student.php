@@ -112,7 +112,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
     }
 
     static function exportableFields( ) {
-        $fields = CRM_Quest_DAO_Student::export( );
+        require_once "CRM/Quest/DAO/StudentSummary.php";
+        $student = CRM_Quest_DAO_Student::export( );
+        $student_summray = CRM_Quest_DAO_StudentSummary::export( );
+        $fields = array_merge($student,$student_summray);
         return $fields;
     }
 

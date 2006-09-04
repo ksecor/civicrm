@@ -410,6 +410,7 @@ class CRM_Contact_BAO_Query {
                         }
 
                         $this->_tables[$tableName]         = 1;
+                        
 
                         // also get the id of the tableName
                         $tName = substr($tableName, 8 );
@@ -432,6 +433,7 @@ class CRM_Contact_BAO_Query {
                                 $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
                             }
                         } else {
+                            //echo "<br>".$field['where'];
                             $this->_select [$name]              = "{$field['where']} as `$name`";
                         }
                         $this->_element[$name]             = 1;
@@ -494,7 +496,6 @@ class CRM_Contact_BAO_Query {
 
         // add location as hierarchical elements
         $this->addHierarchicalElements( );
-        
         //fix for CRM-951
         CRM_Core_Component::alterQuery( $this, 'select' );
 

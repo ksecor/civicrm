@@ -48,7 +48,6 @@ class CRM_Contact_BAO_Export {
      * @access public
      */
     function exportContacts( $selectAll, $ids, $params, $order = null, $fields = null ) {
-
         $headerRows  = array();
         $returnProperties = array();
         $primary = false;
@@ -88,7 +87,7 @@ class CRM_Contact_BAO_Export {
             $returnProperties['im_provider'  ] = 1;
             $returnProperties['phone_type'   ] = 1;
         }
-
+        
         $session =& new CRM_Core_Session();
         if ( $selectAll ) {
             if ($primary) {

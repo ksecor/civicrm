@@ -72,11 +72,11 @@ class CRM_Quest_BAO_Query
             $query->_select['student_id'] = "quest_student.id as student_id";
             $query->_element['student_id'] = 1;
             $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
+            $query->_tables['quest_student_summary'] = $query->_whereTables['quest_student_summary'] = 1;
         }
 
         self::initialize( );
         $fields =& self::getFields();
-        
         foreach ( $fields as $name => $title ) {
             if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
                 if ( substr( $name, -10 ) == 'country_id' ) {
@@ -88,7 +88,7 @@ class CRM_Quest_BAO_Query
                     $query->_tables['quest_student'] = 1;
                     $query->_tables[$tName] = "LEFT JOIN civicrm_option_value $tName ON {$tName}.value = quest_student.{$name}";
                 }  else {
-                    $query->_select[$name] = "quest_student.$name as $name";
+                    $query->_select[$name] = "{$title['where']} as $name";
                     $query->_tables['quest_student'] = 1;
                 }
             }
@@ -113,40 +113,42 @@ class CRM_Quest_BAO_Query
         case 'quest_score_SAT_low':
         case 'quest_score_SAT_high':
             $query->numberRangeBuilder( $values,
-                                        'quest_student', 'quest_score_SAT',
-                                        'score_SAT', ts( 'SAT Score' ) );
+                                        'quest_student_summary', 'quest_score_SAT',
+                                        'SAT_composite', ts( 'SAT Score' ) );
             return;
 
         case 'quest_score_ACT':
         case 'quest_score_ACT_low':
         case 'quest_score_ACT_high':
             $query->numberRangeBuilder( $values,
-                                        'quest_student', 'quest_score_ACT',
-                                        'score_ACT', ts( 'ACT Score' ) );
+                                        'quest_student_summary', 'quest_score_ACT',
+                                        'ACT_composite', ts( 'ACT Score' ) );
             return;
 
         case 'quest_score_PLAN':
         case 'quest_score_PLAN_low':
         case 'quest_score_PLAN_high':
             $query->numberRangeBuilder( $values,
-                                        'quest_student', 'quest_score_PLAN', 
-                                        'score_PLAN', ts( 'PLAN Score' ) );
+                                        'quest_student_summary', 'quest_score_PLAN', 
+                                        'PLAN_composite', ts( 'PLAN Score' ) );
             return;
 
         case 'quest_household_income_total':
         case 'quest_household_income_total_low':
         case 'quest_household_income_total_high':
             $query->numberRangeBuilder( $values,
-                                        'quest_student', 'quest_household_income_total',
+                                        'quest_student_summary', 'quest_household_income_total',
                                         'household_income_total', ts( 'Total Household Income' ) );
             return;
 
         case 'quest_college_interest':
             require_once "CRM/Core/OptionGroup.php";
             $optionGroups = array( );
-            $optionGroups =  CRM_Core_OptionGroup::values( $name ); 
+            $optionGroups =  CRM_Core_OptionGroup::values( substr( $name, 6) ); 
             $query->_where[$grouping][] = "quest_student.college_interest LIKE '{$value}'";
             $query->_qill[$grouping ][] = ts( 'College interest %1 %2', array( 1 => $op, 2 => $optionGroups[$value] ) );
+            $query->_tables['quest_student'] = 1;
+            $query->_whereTables['quest_student'] = 1;
             return;
         
         }
@@ -157,6 +159,8 @@ class CRM_Quest_BAO_Query
         $from = null;
         if ( $name == 'quest_student' ) {
             $from = " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id ";
+        } else if ($name == 'quest_student_summary') {
+            $from = " INNER JOIN quest_student_summary ON quest_student_summary.contact_id = contact_a.id ";
         }
 
         return $from;
@@ -189,10 +193,10 @@ class CRM_Quest_BAO_Query
             $form->add( 'text', $name . '_low' , ts( "$title - From" ) );
             $form->add( 'text', $name . '_high', ts( "To" ) );
         }
-	
+        
         require_once "CRM/Core/OptionGroup.php";
         foreach ( self::$_ids as $name => $title ) {
-            $form->add('select', $name, $title, CRM_Core_OptionGroup::values( $name ) );
+            $form->add('select', $name, $title, CRM_Core_OptionGroup::values( substr( $name, 6) ) );
         }
     }
 
