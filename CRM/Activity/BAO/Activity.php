@@ -199,7 +199,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $activityType = CRM_Core_PseudoConstant::activityType(true);
             $title        = $activityType[$params['activity_type_id']];
         } else {
-            $title = ts($activityType);
+            $title = $activityType;
         }
 
         if ( $activity->status == 'Completed' ) {
@@ -226,9 +226,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         
         if( $activity->status=='Completed' ) {
-            CRM_Core_Session::setStatus( ts( $title .' "%1" has been logged to Activity History.', array( 1 => $activity->subject)) );
+            CRM_Core_Session::setStatus("$title " . ts('"%1" has been logged to Activity History.', array(1 => $activity->subject)));
         } else {
-            CRM_Core_Session::setStatus( ts( $title . ' "%1" has been saved.', array( 1 => $activity->subject)) );
+            CRM_Core_Session::setStatus("$title " . ts('"%1" has been saved.', array(1 => $activity->subject)));
         }
     }
 

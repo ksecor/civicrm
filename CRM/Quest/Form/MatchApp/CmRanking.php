@@ -106,7 +106,7 @@ class CRM_Quest_Form_MatchApp_CmRanking extends CRM_Quest_Form_App
         
         foreach ( $partners as $k => $v) {
             $this->addElement('select',"college_ranking_{$k}", ts( 'Ranking' ),array('' => ts('- select -')) + $ranking, 'required');
-            $this->addRule( "college_ranking_{$k}", ts("Please select a ranking for \"{$v}\""), 'required' );
+            $this->addRule("college_ranking_{$k}", ts('Please select a ranking for "%1"', array(1 => $v)), 'required');
 
             $collegeLink =& new CRM_Quest_DAO_Partner();
             $collegeLink->name = $v;

@@ -159,7 +159,7 @@ class CRM_Quest_Form_MatchApp_Partner_Rice_RiceApplicant extends CRM_Quest_Form_
                        'faculty_name'=> 'Name:',
                        'other_name'  => ''     );
         foreach ( $texts as $name => $label ) {
-            $this->add('text', $name, ts( $label ), $attributes[$name], false);
+            $this->add('text', $name, $label, $attributes[$name], false);
         }
         $contact_names = array('7' => 'alumni_name', 
                                '8' => 'student_name', 
