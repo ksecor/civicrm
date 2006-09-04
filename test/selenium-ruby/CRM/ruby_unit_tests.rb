@@ -7,7 +7,7 @@ class TS_CiviCRMTests
     suite = Test::Unit::TestSuite.new
     suite << TC_TestAdminGender.suite
     suite << TC_TestAdminIMProvider.suite
-    suite << TC_TestAdminMPProvider.suite
+    suite << TC_TestAdminMobileProvider.suite
     suite << TC_TestAdminActivity.suite
     suite << TC_TestAdminPrefix.suite
     suite << TC_TestAdminSuffix.suite
@@ -17,6 +17,9 @@ class TS_CiviCRMTests
     suite << TC_TestAdminMembershipType.suite
     suite << TC_TestAdminOptionGroup.suite
     suite << TC_TestManageGroup.suite
+    suite << TC_TestAdminContributionTypes.suite
+    suite << TC_TestAdminCreditCard.suite
+    suite << TC_TestAdminPaymentInstrument.suite
     return suite
   end
 end
