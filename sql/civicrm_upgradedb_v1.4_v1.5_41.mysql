@@ -512,8 +512,8 @@ CREATE TABLE civicrm_entity_file (
 -- * Modify the civicrm_contribution  Table Structure
 -- *******************************************************/
         ALTER TABLE `civicrm_contribution` ADD `contribution_page_id` int(10) unsigned DEFAULT NULL  COMMENT 'The Contribution Page which triggered this contribution';
-        ALTER TABLE `civicrm_contribution` ADD FOREIGN KEY (`contribution_page_id`) REFERENCES `civicrm_contribution_page`(`id`);
         ALTER TABLE `civicrm_contribution` ADD INDEX (`contribution_page_id`);
+        ALTER TABLE `civicrm_contribution` ADD FOREIGN KEY (`contribution_page_id`) REFERENCES `civicrm_contribution_page`(`id`);
 
 -- /*******************************************************
 -- *
@@ -540,8 +540,8 @@ CREATE TABLE civicrm_entity_file (
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_custom_value` ADD file_id int(10) unsigned DEFAULT NULL COMMENT 'FK to civicrm_file';
-	ALTER TABLE `civicrm_custom_value` ADD FOREIGN KEY (`file_id`) REFERENCES `civicrm_file`(`id`);
 	ALTER TABLE `civicrm_custom_value` ADD INDEX (`file_id`);
+	ALTER TABLE `civicrm_custom_value` ADD FOREIGN KEY (`file_id`) REFERENCES `civicrm_file`(`id`);
 	
 
 -- /*******************************************************
@@ -581,8 +581,8 @@ CREATE TABLE civicrm_entity_file (
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_uf_group` ADD add_to_group_id int unsigned DEFAULT NULL COMMENT 'foreign key to civicrm_group_id';
-	ALTER TABLE `civicrm_uf_group` ADD FOREIGN KEY (`add_to_group_id`) REFERENCES `civicrm_group` (`id`);	
 	ALTER TABLE `civicrm_uf_group` ADD INDEX (`add_to_group_id`);
+	ALTER TABLE `civicrm_uf_group` ADD FOREIGN KEY (`add_to_group_id`) REFERENCES `civicrm_group` (`id`);	
 	
 	ALTER TABLE `civicrm_uf_group` ADD add_captcha tinyint DEFAULT 0 COMMENT 'Should a CAPTCHA widget be included this Profile form.';
 
@@ -623,7 +623,7 @@ CREATE TABLE civicrm_entity_file (
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_saved_search` ADD `mapping_id` INT UNSIGNED COMMENT 'Foreign key to civicrm_mapping used for saved search-builder searches.';
-
+	ALTER TABLE `civicrm_saved_search` ADD INDEX (`mapping_id`);
 	ALTER TABLE `civicrm_saved_search` ADD FOREIGN KEY (`mapping_id`) REFERENCES `civicrm_mapping` (`id`);
 
 	ALTER TABLE `civicrm_saved_search` DROP FOREIGN KEY `civicrm_saved_search_ibfk_1`;
