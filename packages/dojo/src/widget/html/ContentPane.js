@@ -237,168 +237,150 @@ dojo.lang.extend(dojo.widget.html.ContentPane, {
 
 	
 	splitAndFixPaths: function(/*String*/s, /*dojo.uri.Uri?*/url){
-		// summary:
-		// 	fixes all remote paths in (hopefully) all cases for example images, remote scripts, links etc.
-		// 	splits up content in different pieces, scripts, title, style, link and whats left becomes .xml
+			// summary:
+			// 	fixes all relative paths in (hopefully) all cases for example images, remote scripts, links etc.
+			// 	splits up content in different pieces, scripts, title, style, link and whats left becomes .xml
 
-		if(!url) { url = "./"; } // point to this page if not set
-		if(!s) { return ""; }
+			// init vars
+			var titles = [], scripts = [],tmp = [];
+			var match = [], requires = [], attr = [], styles = [];
+			var str = '', path = '', fix = '', tagFix = '', tag = '', origPath = '';
+	
+			if(!url) { url = "./"; } // point to this page if not set
 
-		// fix up paths in data
-		var titles = []; var scripts = []; var linkStyles = [];
-		var styles = []; var remoteScripts = []; var requires = [];
+			if(s){ // make sure we dont run regexes on empty content
 
-		// khtml is much more picky about dom faults, you can't for example attach a style node under body of document
-		// must go into head, as does a title node, so we need to cut out those tags
-		// cut out title tags
-		var match = [];
-		while(match){
-			match = s.match(/<title[^>]*>([\s\S]*?)<\/title>/i); // can't match with dot as that 
-			if(!match){ break;}					//doesnt match newline in js
-			titles.push(match[1]);
-			s = s.replace(/<title[^>]*>[\s\S]*?<\/title>/i, "");
-		}
-
-		// cut out <style> url(...) </style>, as that bails out in khtml
-		var match = [];
-		while(match){
-			match = s.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
-			if(!match){ break; }
-			styles.push(dojo.style.fixPathsInCssText(match[1], url));
-			s = s.replace(/<style[^>]*?>[\s\S]*?<\/style>/i, "");
-		}
-
-		// attributepaths one tag can have multiple paths example:
-		// <input src="..." style="url(..)"/> or <a style="url(..)" href="..">
-		// strip out the tag and run fix on that.
-		// this guarantees that we won't run replace another tag's attribute + it was easier do
-		var pos = 0; var pos2 = 0; var stop = 0 ;var str = ""; var fixedPath = "";
-		var attr = []; var fix = ""; var tagFix = ""; var tag = ""; var regex = ""; 
-		while(pos>-1){
-			pos = s.search(/<[a-z][a-z0-9]*[^>]*\s(?:(?:src|href|style)=[^>])+[^>]*>/i);
-			if(pos==-1){ break; }
-			str += s.substring(0, pos);
-			s = s.substring(pos, s.length);
-			tag = s.match(/^<[a-z][a-z0-9]*[^>]*>/i)[0];
-			s = s.substring(tag.length, s.length);
-
-			// loop through attributes
-			pos2 = 0; tagFix = ""; fix = ""; regex = ""; var regexlen = 0;
-			while(pos2!=-1){
-				// slices up before next attribute check, values from previous loop
-				tagFix += tag.substring(0, pos2) + fix;
-				tag = tag.substring(pos2+regexlen, tag.length);
-
-				// fix next attribute or bail out when done
-				// hopefully this charclass covers most urls
-				attr = tag.match(/ (src|href|style)=(['"]?)([\w()\[\]\/.,\\'"-:;#=&?\s@]+?)\2/i);
-				if(!attr){ break; }
-
-				switch(attr[1].toLowerCase()){
-					case "src":// falltrough
-					case "href":
-						// this hopefully covers most common protocols
-						if(attr[3].search(/^(?:[#]|(?:(?:https?|ftps?|file|javascript|mailto|news):))/)==-1){
-							fixedPath = (new dojo.uri.Uri(url, attr[3]).toString());
-						} else {
-							pos2 = pos2 + attr[3].length;
-							continue;
+				/************** <title> ***********/
+				// khtml is picky about dom faults, you can't attach a <style> or <title> node as child of body
+				// must go into head, so we need to cut out those tags
+				var regex = /<title[^>]*>([\s\S]*?)<\/title>/i;
+				while(match = regex.exec(s)){
+					titles.push(match[1]);
+					s = s.substring(0, match.index) + s.substr(match.index + match[0].length);
+				};
+		
+				/************** adjust paths *****************/
+				if(this.adjustPaths){
+					// attributepaths one tag can have multiple paths example:
+					// <input src="..." style="url(..)"/> or <a style="url(..)" href="..">
+					// strip out the tag and run fix on that.
+					// this guarantees that we won't run replace on another tag's attribute + it was easier do
+					var regexFindTag = /<[a-z][a-z0-9]*[^>]*\s(?:(?:src|href|style)=[^>])+[^>]*>/i;
+					var regexFindAttr = /\s(src|href|style)=(['"]?)([\w()\[\]\/.,\\'"-:;#=&?\s@]+?)\2/i;
+					// these are the supported protocols, all other is considered relative
+					var regexProtocols = /^(?:[#]|(?:(?:https?|ftps?|file|javascript|mailto|news):))/;
+		
+					while(tag = regexFindTag.exec(s)){
+						str += s.substring(0, tag.index);
+						s = s.substring((tag.index + tag[0].length), s.length);
+						tag = tag[0];
+			
+						// loop through attributes
+						tagFix = '';
+						while(attr = regexFindAttr.exec(tag)){
+							path = ""; origPath = attr[3];
+							switch(attr[1].toLowerCase()){
+								case "src":// falltrough
+								case "href":
+									if(regexProtocols.exec(origPath)){
+										path = origPath;
+									} else {
+										path = (new dojo.uri.Uri(url, origPath).toString());
+									}
+									break;
+								case "style":// style
+									path = dojo.html.fixPathsInCssText(origPath, url);
+									break;
+								default:
+									path = origPath;
+							}
+			
+							fix = " " + attr[1] + "=" + attr[2] + path + attr[2];
+		
+							// slices up tag before next attribute check
+							tagFix += tag.substring(0, attr.index) + fix;
+							tag = tag.substring((attr.index + attr[0].length), tag.length);
 						}
-						break;
-					case "style":// style
-						fixedPath = dojo.style.fixPathsInCssText(attr[3], url);
-						break;
-					default:
-						pos2 = pos2 + attr[3].length;
-						continue;
-				}
-
-				regex = " " + attr[1] + "=" + attr[2] + attr[3] + attr[2];
-				regexlen = regex.length;
-				fix = " " + attr[1] + "=" + attr[2] + fixedPath + attr[2];
-				pos2 = tag.search(new RegExp(dojo.string.escapeRegExp(regex)));
-			}
-			str += tagFix + tag;
-			pos = 0; // reset for next mainloop
-		}
-		s = str+s;
-
-		// cut out all script tags, push them into scripts array
-		match = []; var tmp = [];
-		while(match){
-			match = s.match(/<script([^>]*)>([\s\S]*?)<\/script>/i);
-			if(!match){ break; }
-			if(match[1]){
-				attr = match[1].match(/src=(['"]?)([^"']*)\1/i);
-				if(attr){
-					// remove a dojo.js or dojo.js.uncompressed.js from remoteScripts
-					// we declare all files with dojo.js as bad, regardless of folder
-					var tmp = attr[2].search(/.*(\bdojo\b(?:\.uncompressed)?\.js)$/);
-					if(tmp > -1){
-						dojo.debug("Security note! inhibit:"+attr[2]+" from  beeing loaded again.");
-					}else{
-						remoteScripts.push(attr[2]);
+						str += tagFix + tag; //dojo.debug(tagFix + tag);
 					}
+					s = str+s;
 				}
-			}
-			if(match[2]){
-				// strip out all djConfig variables from script tags nodeValue
-				// this is ABSOLUTLY needed as reinitialize djConfig after dojo is initialised
-				// makes a dissaster greater than Titanic, update remove writeIncludes() to
-				var sc = match[2].replace(/(?:var )?\bdjConfig\b(?:[\s]*=[\s]*\{[^}]+\}|\.[\w]*[\s]*=[\s]*[^;\n]*)?;?|dojo\.hostenv\.writeIncludes\(\s*\);?/g, "");
-				if(!sc){ continue; }
 
-				// cut out all dojo.require (...) calls, if we have execute 
-				// scripts false widgets dont get there require calls
-				// does suck out possible widgetpackage registration as well
-				tmp = [];
-				while(tmp && requires.length<100){
-					tmp = sc.match(/dojo\.(?:(?:require(?:After)?(?:If)?)|(?:widget\.(?:manager\.)?registerWidgetPackage)|(?:(?:hostenv\.)?setModulePrefix))\((['"]).*?\1\)\s*;?/);
-					if(!tmp){ break;}
-					requires.push(tmp[0]);
-					sc = sc.replace(tmp[0], "");
+				/****************  cut out all <style> and <link rel="stylesheet" href=".."> **************/
+				regex = /(?:<(style)[^>]*>([\s\S]*?)<\/style>|<link ([^>]*rel=['"]?stylesheet['"]?[^>]*)>)/i;
+				while(match = regex.exec(s)){
+					if(match[1] && match[1].toLowerCase() == "style"){
+						styles.push(dojo.html.fixPathsInCssText(match[2],url));
+					}else if(attr = match[3].match(/href=(['"]?)([^'">]*)\1/i)){
+						styles.push({path: attr[2]});
+					}
+					s = s.substring(0, match.index) + s.substr(match.index + match[0].length);
+				};
+
+				/***************** cut out all <script> tags, push them into scripts array ***************/
+				var regex = /<script([^>]*)>([\s\S]*?)<\/script>/i;
+				var regexSrc = /src=(['"]?)([^"']*)\1/i;
+				var regexDojoJs = /.*(\bdojo\b\.js(?:\.uncompressed\.js)?)$/;
+				var regexInvalid = /(?:var )?\bdjConfig\b(?:[\s]*=[\s]*\{[^}]+\}|\.[\w]*[\s]*=[\s]*[^;\n]*)?;?|dojo\.hostenv\.writeIncludes\(\s*\);?/g;
+				var regexRequires = /dojo\.(?:(?:require(?:After)?(?:If)?)|(?:widget\.(?:manager\.)?registerWidgetPackage)|(?:(?:hostenv\.)?setModulePrefix|registerModulePath)|defineNamespace)\((['"]).*?\1\)\s*;?/;
+
+				while(match = regex.exec(s)){
+					if(this.executeScripts && match[1]){
+						if(attr = regexSrc.exec(match[1])){
+							// remove a dojo.js or dojo.js.uncompressed.js from remoteScripts
+							// we declare all files named dojo.js as bad, regardless of path
+							if(regexDojoJs.exec(attr[2])){
+								dojo.debug("Security note! inhibit:"+attr[2]+" from  beeing loaded again.");
+							}else{
+								scripts.push({path: attr[2]});
+							}
+						}
+					}
+					if(match[2]){
+						// remove all invalid variables etc like djConfig and dojo.hostenv.writeIncludes()
+						var sc = match[2].replace(regexInvalid, "");
+						if(!sc){ continue; }
+		
+						// cut out all dojo.require (...) calls, if we have execute 
+						// scripts false widgets dont get there require calls
+						// takes out possible widgetpackage registration as well
+						while(tmp = regexRequires.exec(sc)){
+							requires.push(tmp[0]);
+							sc = sc.substring(0, tmp.index) + sc.substr(tmp.index + tmp[0].length);
+						}
+						if(this.executeScripts){
+							scripts.push(sc);
+						}
+					}
+					s = s.substr(0, match.index) + s.substr(match.index + match[0].length);
 				}
-				scripts.push(sc);
-			}
-			s = s.replace(/<script[^>]*>[\s\S]*?<\/script>/i, "");
-		}
 
-		// scan for scriptScope in html eventHandlers and replace with link to this pane
-		if(this.executeScripts){
-			var regex = /(<[a-zA-Z][a-zA-Z0-9]*\s[^>]*\S=(['"])[^>]*[^\.\]])scriptScope([^>]*>)/;
-			var pos = 0;var str = "";match = [];var cit = "";
-			while(pos > -1){
-				pos = s.search(regex);
-				if(pos > -1){
-					cit = ((RegExp.$2=="'") ? '"': "'");
-					str += s.substring(0, pos);
-					s = s.substr(pos).replace(regex, "$1dojo.widget.byId("+ cit + this.widgetId + cit + ").scriptScope$3");
+				/********* extract content *********/
+				if(this.extractContent){
+					match = s.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
+					if(match) { s = match[1]; }
 				}
-			}
-			s = str + s;
-		}
+	
+				/******** scan for scriptScope in html eventHandlers and replace with link to this pane *********/
+				if(this.executeScripts){
+					var regex = /(<[a-zA-Z][a-zA-Z0-9]*\s[^>]*\S=(['"])[^>]*[^\.\]])scriptScope([^>]*>)/;
+					str = "";
+					while(tag = regex.exec(s)){
+						tmp = ((tag[2]=="'") ? '"': "'");
+						str += s.substring(0, tag.index);
+						s = s.substr(tag.index).replace(regex, "$1dojo.widget.byId("+ tmp + this.widgetId + tmp + ").scriptScope$3");
+					}
+					s = str + s;
+				}
+	 		}
 
-		// cut out all <link rel="stylesheet" href="..">
-		match = [];
-		while(match){
-			match = s.match(/<link ([^>]*rel=['"]?stylesheet['"]?[^>]*)>/i);
-			if(!match){ break; }
-			attr = match[1].match(/href=(['"]?)([^'">]*)\1/i);
-			if(attr){
-				linkStyles.push(attr[2]);
-			}
-			s = s.replace(new RegExp(match[0]), "");
-		}
-
-		return {"xml": s, // Object
-			"styles": styles,
-			"linkStyles": linkStyles,
-			"titles": titles,
-			"requires": 	requires,
-			"scripts": scripts,
-			"remoteScripts": remoteScripts,
-			"url": url};
-	},
+			return {"xml": 		s, // Object
+				"styles":		styles,
+				"titles": 		titles,
+				"requires": 	requires,
+				"scripts": 		scripts,
+				"url": 			url};
+		},
 
 	
 	_setContent: function(/*String*/ xml){
@@ -463,11 +445,13 @@ dojo.lang.extend(dojo.widget.html.ContentPane, {
 				this._remoteStyles.push(dojo.style.insertCssText(data.styles[i]));
 			}
 			// insert styleNodes, from <link href="...">
-			for(var i = 0; i < data.linkStyles.length; i++){
+			for(var i = 0; i < data.styles.length; i++){
 				if(i==0){ 
 					this._remoteStyles = []; 
 				}
-				this._remoteStyles.push(dojo.style.insertCssFile(data.linkStyles[i]));
+                                if(data.styles[i].path){ 
+				         this._remoteStyles.push(dojo.style.insertCssFile(data.styles[i].path));
+                                }
 			}
 			this._setContent(data.xml);
 

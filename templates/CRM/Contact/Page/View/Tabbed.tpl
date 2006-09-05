@@ -2,6 +2,10 @@
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
 {include file="CRM/common/dojo.tpl"}
+<div id="mainTabContainer" dojoType="TabContainer" style="width: 100%; height: 600px" selectedTab="summaryTab"">
+
+<div id="summaryTab" dojoType="ContentPane" label="Summary">
+
 {* View Contact Summary *}
 <div id="contact-name" class="data-group">
    <div>
@@ -137,24 +141,27 @@
  </div>
  {/if}
 
-<p>
-<p>
+ {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+</div>
 
-<div id="moreInformation">
-<fieldset>
-<legend>{ts}More Information{/ts}</legend>
-<div id="mainTabContainer" dojoType="TabContainer" style="width: 70%; height: 400px" selectedTab="{$firstTab}">
 {foreach from=$allTabs key=tabName item=tabURL}
-{if $tabName == $selectedTab}
-  <div id="{$tabName}" dojoType="ContentPane" href="{$tabURL}" label="{$tabName}" selected="true" adjustPaths="false"></div>
-{else}
   <div id="{$tabName}" dojoType="ContentPane" href="{$tabURL}" label="{$tabName}" style="display: none" adjustPaths="false"></div>
-{/if}
 {/foreach}
 </div>
-</fieldset>
-</div>
-<p>
-<p>
+
+{literal}
+ <script type="text/javascript">
+
+   init_blocks = function( ) {
+{/literal}
+      var showBlocks = new Array({$showBlocks});
+      var hideBlocks = new Array({$hideBlocks});
+{literal}
+      on_load_init_blocks( showBlocks, hideBlocks );
+  }
+
+  dojo.addOnLoad( init_blocks );
+ </script>
+{/literal}
 
 {/if}

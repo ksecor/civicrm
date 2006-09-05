@@ -199,8 +199,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
     function setShowHide( &$defaults ) {
         require_once 'CRM/Core/ShowHideBlocks.php';
 
-        $showHide =& new CRM_Core_ShowHideBlocks( array( 'commPrefs'           => 1 ),
-                                                  null );
+        $showHide =& new CRM_Core_ShowHideBlocks( array( 'commPrefs'      => 1 ),
+                                                  array( 'commPrefs_show' => 1 ) );
 
         $config =& CRM_Core_Config::singleton( ); 
 
