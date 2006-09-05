@@ -2,7 +2,8 @@
 {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
 {include file="CRM/common/WizardHeader.tpl"}
 <div id="help">
-    {ts}Use this form to configure the Membership section for this Online Contribution Page. You can hide the section completely by un-checking the Enabled field. You can set separate section titles and introductory messages for new memberships and for renewals.{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/ui"}Use this form to enable and configure a Membership Signup and Renewal section for this Online Contribution Page. If you're not using this page for membership signup, leave the <strong>Enabled</strong> box un-checked.
+    Refer to the <a href="%1" target="_blank" title="CiviMember Guide. Opens documentation in a new window.">CiviMember Guide</a> for more information.{/ts}
 </div>
   <div id="form" class="form-item">
     <fieldset><legend>{ts}Configure Membership Section{/ts}</legend>
