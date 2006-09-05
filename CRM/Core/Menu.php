@@ -615,6 +615,10 @@ class CRM_Core_Menu {
      * @access static
      */
     static function createLocalTasks( $path ) {
+        if ( $path == 'civicrm/contact/view/tabbed' ) {
+            return;
+        }
+
         self::items( );
 
         $config =& CRM_Core_Config::singleton( );

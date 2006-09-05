@@ -614,7 +614,16 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function addMenuTabs($entityType, $path, $startWeight)
     {
-        // for Tab's
+        $groups =& self::getActiveGroups( $entityType, $path );
+
+        foreach( $groups as $group ) {
+            $group['weight']  = $startWeight++;
+            CRM_Core_Menu::add( $group );
+        }
+    }
+
+    public static function &getActiveGroups( $entityType, $path, $cidToken = '%%cid%%' ) {
+        // for Group's
         $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
 
         // get only 'Tab' groups
@@ -630,27 +639,21 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $customGroupDAO->orderBy('weight');
         $customGroupDAO->find();
 
+        $groups = array( );
         // process each group with menu tab
-        while($customGroupDAO->fetch()) {
-            $menu = array();
-            $menu['path']    = $path;
-            $menu['title']   = "$customGroupDAO->title";
-            $menu['query']   = 'reset=1&gid=' . $customGroupDAO->id . '&cid=%%cid%%';
-            $menu['type']    = CRM_Core_Menu::CALLBACK;
-            $menu['crmType'] = CRM_Core_Menu::LOCAL_TASK;
-            $menu['weight']  = $startWeight++;
-            $menu['extra' ]  = array( 'gid' => $customGroupDAO->id );
-            $menus[] = $menu;
+        while ($customGroupDAO->fetch( ) ) {
+            $group = array();
+            $group['path']    = $path;
+            $group['title']   = "$customGroupDAO->title";
+            $group['query']   = "reset=1&gid={$customGroupDAO->id}&cid={$cidToken}";
+            $group['type']    = CRM_Core_Menu::CALLBACK;
+            $group['crmType'] = CRM_Core_Menu::LOCAL_TASK;
+            $group['extra' ]  = array( 'gid' => $customGroupDAO->id );
+            $groups[] = $group;
         }
-        
-        if ( is_array($menus) ) {
-            foreach($menus as $menu) {
-                CRM_Core_Menu::add($menu);
-            }
-        }
+     
+        return $groups;
     }
-
-
 
     /**
      * Get the table name for the entity type

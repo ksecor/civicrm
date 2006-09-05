@@ -143,14 +143,12 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $lastModified =& CRM_Core_BAO_Log::lastModified( $this->_contactId, 'civicrm_contact' );
         $this->assign_by_ref( 'lastModified', $lastModified );
         
-        $selectedTab = null;
         $allTabs  = array( );
 
         // get the contributions, new style of doing stuff
         // do the below only if the person has access to contributions
         $config =& CRM_Core_Config::singleton( );
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-            $selectedTab = ts( 'Contributions' );
             $allTabs[ts('Contributions')] = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
                                                                    "reset=1&force=1&snippet=1&cid={$this->_contactId}" );
         }
@@ -158,22 +156,16 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         // get the memberships, new style of doing stuff
         // do the below only if the person has access to memberships
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-            if ( ! $selectedTab ) {
-                $selectedTab = ts( 'Memberships' );
-            }
             $allTabs[ts('Memberships')] = CRM_Utils_System::url( 'civicrm/contact/view/membership',
                                                                  "reset=1&force=1&snippet=1&cid={$this->_contactId}" );
         }
-
+        
         $rest = array( 'activity'      => ts( 'Activities'    ),
                        'rel'           => ts( 'Relationships' ),
                        'group'         => ts( 'Groups'        ),
                        'note'          => ts( 'Notes'         ),
                        'tag'           => ts( 'Tags'          ) );
         foreach ( $rest as $k => $v ) {
-            if ( ! $selectedTab ) {
-                $selectedTab = $v;
-            }
             if ( $k == 'activity' ) {
                 $allTabs[$v] = CRM_Utils_System::url( "civicrm/contact/view/$k",
                                                       "reset=1&show=1&snippet=1&cid={$this->_contactId}" ); 
@@ -183,9 +175,18 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             }
         }
 
+        // now add all the custom tabs
+        $activeGroups =&
+            CRM_Core_BAO_CustomGroup::getActiveGroups( CRM_Contact_BAO_Contact::getContactType($this->_contactId),
+                                                       'civicrm/contact/view/cd',
+                                                       $this->_contactId );
+                                                                    
+        foreach ( $activeGroups as $group ) {
+            $allTabs[$group['title']] = CRM_Utils_System::url( $group['path'], $group['query'] . '&snippet=1' );
+        }
+
         $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.TabContainer');dojo.require('dojo.widget.ContentPane');dojo.require('dojo.widget.LinkPane');" );
         $this->assign( 'allTabs'     , $allTabs     );
-        $this->assign( 'selectedTab' , $selectedTab );
     }
 
 
