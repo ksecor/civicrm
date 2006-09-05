@@ -20,6 +20,9 @@ class TS_CiviCRMTests
     suite << TC_TestAdminContributionTypes.suite
     suite << TC_TestAdminCreditCard.suite
     suite << TC_TestAdminPaymentInstrument.suite
+    suite << TC_TestAdminDuplicateMatching.suite
+    suite << TC_TestAdminImportExportMapping.suite
+    suite << TC_TestAdminCustomData.suite
     return suite
   end
 end
