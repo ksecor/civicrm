@@ -65,12 +65,13 @@ SELECT sort_name
     $count = 0;
     $elements = array( );
     while ( $dao->fetch( ) && $count < 5 ) {
-        $n = '"' . $dao->sort_name . '"';
-        $elements[] = "[ $n, $n ]";
+        $elements[] = array( $dao->sort_name, $dao->sort_name );
         $count++;
     }
 
-    echo '[' . implode( ',', $elements ) . ']';
+    require_once 'Services/JSON.php';
+    $json =& new Services_JSON( );
+    echo $json->encode( $elements );
 }
 
 function status( &$config ) {
