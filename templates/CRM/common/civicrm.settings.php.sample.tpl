@@ -143,9 +143,6 @@ define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
  * CIVICRM_UF_RESOURCEURL - Absolute URL to directory where civicrm.module is located:
  *      define( 'CIVICRM_UF_RESOURCEURL', 'http://www.example.com/civicspace/modules/civicrm/' );
  *
- * CIVICRM_RESOURCEBASE - Relative URL to directory where civicrm.module is located:
- *      define( 'CIVICRM_RESOURCEBASE' , '/civicspace/modules/civicrm/' );
- *
  * CIVICRM_IMAGE_UPLOADURL - Absolute URL to directory where uploaded image files are located:
  *      define( 'CIVICRM_IMAGE_UPLOADURL'    , 'http://www.example.com/civicspace/files/civicrm/persist/' );
  *
@@ -163,19 +160,15 @@ define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
  * Administration and front-end sites:
  *      define( 'CIVICRM_UF_RESOURCEURL', 'http://www.example.com/joomla/administrator/components/com_civicrm/civicrm/' );
  *
- * CIVICRM_RESOURCEBASE - Relative URL to directory where CiviCRM componenet is installed:
- * Administration and front-end sites:
- *      define( 'CIVICRM_RESOURCEBASE' , '/joomla/administrator/components/com_civicrm/civicrm/' );
- *
  * CIVICRM_IMAGE_UPLOADURL - Absolute URL to directory where uploaded image files are located:
  *      define( 'CIVICRM_IMAGE_UPLOADURL'    , 'http://www.example.com/joomla/media/civicrm/persist/' );
  *
  */
 define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 define( 'CIVICRM_UF_RESOURCEURL'  , '%%resourceURL%%' );
-define( 'CIVICRM_RESOURCEBASE'    , '%%resourceBase%%' );
 define( 'CIVICRM_IMAGE_UPLOADURL' , '%%imageUploadURL%%' );
 define( 'CIVICRM_CUSTOM_FILE_UPLOADURL','%%customFileUploadURL%%' );
+
 /**
  * CiviCRM Database Settings:
  *

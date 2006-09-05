@@ -90,18 +90,11 @@ class CRM_Core_Config {
     public $templateCompileDir  = './templates_c/en_US/';
 
     /**
-     * The root url of our application. Used when we don't
-     * know where to redirect the application flow
-     * @var string
-     */
-    public $mainMenu            = 'http://localhost/drupal/';
-
-    /**
      * The resourceBase of our application. Used when we want to compose
      * url's for things like js/images/css
      * @var string
      */
-    public $resourceBase        = "http://localhost/drupal/crm/";
+    public $resourceBase        = '';
 
     /**
      * the factory class used to instantiate our DB objects
@@ -506,10 +499,6 @@ class CRM_Core_Config {
             CRM_Utils_File::createDir( $this->templateCompileDir );
         }
 
-        if ( defined( 'CIVICRM_RESOURCEBASE' ) ) {
-            $this->resourceBase = self::addTrailingSlash( CIVICRM_RESOURCEBASE, '/' );
-        }
-
         if ( defined( 'CIVICRM_UPLOADDIR' ) ) {
             $this->uploadDir = self::addTrailingSlash( CIVICRM_UPLOADDIR );
 
@@ -695,6 +684,7 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
             $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
+            $this->resourceBase = $this->userFrameworkResourceURL;
         }
 
         if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
