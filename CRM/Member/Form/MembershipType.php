@@ -77,10 +77,9 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             if ($defaults[$per]) {
                 $dat = $defaults[$per];
                 $dat = ( $dat < 999) ? '0'.$dat : $dat; 
-                $dM = str_split($dat, 2);
                 $defaults[$per] = array();
-                $defaults[$per]['M'] = $dM[0];
-                $defaults[$per]['d'] = $dM[1];
+                $defaults[$per]['M'] = substr($dat, 0, 2);
+                $defaults[$per]['d'] = substr($dat, 2, 3);
             }
         }
         return $defaults;
