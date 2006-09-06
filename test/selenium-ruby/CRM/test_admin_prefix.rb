@@ -10,7 +10,13 @@ class TC_TestAdminPrefix < Test::Unit::TestCase
     @page = CRMPageController.new
     @selenium = @page.start_civicrm
     @page.login
-    
+  end
+  
+  def teardown
+    @page.logout
+  end
+
+  def test_prefix
     #Click Administer CiviCRM
     assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
     @page.click_and_wait "link=Administer CiviCRM"
@@ -18,19 +24,23 @@ class TC_TestAdminPrefix < Test::Unit::TestCase
     #Clicking Individual prefixes
     assert_equal "Individual\nPrefixes\n(Ms,\nMr...)", @selenium.get_text("//a[@id='id_IndividualPrefixes_Ms_Mr...']")
     @page.click_and_wait "//a[@id='id_IndividualPrefixes_Ms_Mr...']"
-  end
-  
-  def teardown
-    @page.logout
+    
+    assert @selenium.is_text_present('Individual Prefixes (Ms, Mr...)')
+    
+    add_prefix()
+    edit_prefix()
+    enable_prefix()
+    disable_prfix()
+    delete_prefix()
   end
   
   # Add new Prefix
-  def test_1_addPrefix
+  def add_prefix
     @page.click_and_wait "link=» New Individual Prefix Option"
     
     # Read new Prefix information
     @selenium.type "name",       "Lt."
-    @selenium.type "weight",     "0"
+    @selenium.type "weight",     "2"
     @selenium.check "is_active" 
     
     # Submit the form 
@@ -39,9 +49,9 @@ class TC_TestAdminPrefix < Test::Unit::TestCase
   end
   
   # Editing Prefix information
-  def test_2_editPrefix
-    assert_equal "Edit", @selenium.get_text("link=Edit")
-    @page.click_and_wait "link=Edit"
+  def edit_prefix
+    assert_equal "Edit", @selenium.get_text("//div[@id='iprefix']/descendant::tr[td[contains(.,'Lt.')]]/descendant::a[contains(.,'Edit')]")
+    @page.click_and_wait "//div[@id='iprefix']/descendant::tr[td[contains(.,'Lt.')]]/descendant::a[contains(.,'Edit')]"
     @selenium.uncheck "is_active" 
     
     #Submit the form 
@@ -50,22 +60,22 @@ class TC_TestAdminPrefix < Test::Unit::TestCase
   end
 
    # Enable prefix
-  def test_3_enablePrefix
-    assert_equal "Enable", @selenium.get_text("link=Enable")
-    @page.click_and_wait "link=Enable"
+  def enable_prefix
+    assert_equal "Enable", @selenium.get_text("//div[@id='iprefix']/descendant::tr[td[contains(.,'Lt.')]]/descendant::a[contains(.,'Enable')]")
+    @page.click_and_wait "//div[@id='iprefix']/descendant::tr[td[contains(.,'Lt.')]]/descendant::a[contains(.,'Enable')]"
   end
-
+  
   # Disable Prefix
-  def test_4_disablePrfix
-    assert_equal "Disable", @selenium.get_text("link=Disable")
-    @page.click_and_wait "link=Disable"
+  def disable_prfix
+    assert_equal "Disable", @selenium.get_text("//div[@id='iprefix']/descendant::tr[td[contains(.,'Lt.')]]/descendant::a[contains(.,'Disable')]")
+    @page.click_and_wait "//div[@id='iprefix']/descendant::tr[td[contains(.,'Lt.')]]/descendant::a[contains(.,'Disable')]"
    assert_equal "Are you sure you want to disable this Individual Prefix?\n\nUsers will no longer be able to select this value when adding or editing Individual Prefix.", @selenium.get_confirmation()
   end
-    
+  
   # Delete Prefix
-  def test_5_deletePrefix
-    assert_equal "Delete", @selenium.get_text("link=Delete")
-    @page.click_and_wait "link=Delete"
+  def delete_prefix
+    assert_equal "Delete", @selenium.get_text("//div[@id='iprefix']/descendant::tr[td[contains(.,'Lt.')]]/descendant::a[contains(.,'Delete')]")
+    @page.click_and_wait "//div[@id='iprefix']/descendant::tr[td[contains(.,'Lt.')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this option will change all Individual records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
     @page.click_and_wait "_qf_IndividualPrefix_next"
     assert @selenium.is_text_present("Selected Individual Prefix has been deleted.")

@@ -45,7 +45,7 @@
     </div>
 
     {if $rows}
-    <div id="notes">
+    <div id="uf_profile">
     <p></p>
         <div class="form-item">
         {strip}

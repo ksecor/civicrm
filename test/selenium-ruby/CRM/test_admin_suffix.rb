@@ -10,7 +10,13 @@ class TC_TestAdminSuffix < Test::Unit::TestCase
     @page = CRMPageController.new
     @selenium = @page.start_civicrm
     @page.login
-    
+  end
+  
+  def teardown
+    @page.logout
+  end
+  
+  def test_suffix
     #Click Administer CiviCRM
     assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
     @page.click_and_wait "link=Administer CiviCRM"
@@ -18,54 +24,58 @@ class TC_TestAdminSuffix < Test::Unit::TestCase
     # Click Individual Suffix
     assert_equal "Individual\nSuffixes\n(Jr,\nSr...)", @selenium.get_text("//a[@id='id_IndividualSuffixes_Jr_Sr...']")
     @page.click_and_wait "//a[@id='id_IndividualSuffixes_Jr_Sr...']"
+    
+    assert @selenium.is_text_present('Individual Suffixes (Jr, Sr...)')
+    
+    add_suffix()
+    edit_suffix()
+    enable_suffix()
+    disable_suffix()
+    delete_suffix()
   end
   
-  def teardown
-    @page.logout
-  end
-  
-  # Add new Sufefix
-  def test_1_addSuffix
+  # Add new Suffix
+  def add_suffix
     @page.click_and_wait "link=» New Individual Suffix Option"
     
     # Read new Suffix information
-    @selenium.type "name",       "I"
-    @selenium.type "weight",     "0"
+    @selenium.type "name",       "New Suffix"
+    @selenium.type "weight",     "2"
     @selenium.check "is_active" 
     
     # Submit the form 
     @page.click_and_wait "_qf_IndividualSuffix_next"
-    assert @selenium.is_text_present("The Individual Suffix \"I\" has been saved.")
+    assert @selenium.is_text_present("The Individual Suffix \"New Suffix\" has been saved.")
   end
   
   # Editing Suffix information
-  def test_2_editSuffix
-    assert_equal "Edit", @selenium.get_text("link=Edit")
-    @page.click_and_wait "link=Edit"
+  def edit_suffix
+    assert_equal "Edit", @selenium.get_text("//div[@id='isuffix']/descendant::tr[td[contains(.,'New Suffix')]]/descendant::a[contains(.,'Edit')]")
+    @page.click_and_wait "//div[@id='isuffix']/descendant::tr[td[contains(.,'New Suffix')]]/descendant::a[contains(.,'Edit')]"
     @selenium.uncheck "is_active" 
     
     #Submit the form 
     @page.click_and_wait "_qf_IndividualSuffix_next"
-    assert @selenium.is_text_present("The Individual Suffix \"I\" has been saved.")
+    assert @selenium.is_text_present("The Individual Suffix \"New Suffix\" has been saved.")
   end
 
    # Enable Suffix
-  def test_3_enableSuffix
-    assert_equal "Enable", @selenium.get_text("link=Enable")
-    @page.click_and_wait "link=Enable"
+  def enable_suffix
+    assert_equal "Enable", @selenium.get_text("//div[@id='isuffix']/descendant::tr[td[contains(.,'New Suffix')]]/descendant::a[contains(.,'Enable')]")
+    @page.click_and_wait "//div[@id='isuffix']/descendant::tr[td[contains(.,'New Suffix')]]/descendant::a[contains(.,'Enable')]"
   end
 
   # Disable Suffix
-  def test_4_disableSuffix
-    assert_equal "Disable", @selenium.get_text("link=Disable")
-    @page.click_and_wait "link=Disable"
+  def disable_suffix
+    assert_equal "Disable", @selenium.get_text("//div[@id='isuffix']/descendant::tr[td[contains(.,'New Suffix')]]/descendant::a[contains(.,'Disable')]")
+    @page.click_and_wait "//div[@id='isuffix']/descendant::tr[td[contains(.,'New Suffix')]]/descendant::a[contains(.,'Disable')]"
     assert_equal "Are you sure you want to disable this Individual Suffix?\n\nUsers will no longer be able to select this value when adding or editing Individual Suffix.", @selenium.get_confirmation()
   end
     
   # Delete Suffix
-  def test_5_deleteSuffix
-    assert_equal "Delete", @selenium.get_text("link=Delete")
-    @page.click_and_wait "link=Delete"
+  def delete_suffix
+    assert_equal "Delete", @selenium.get_text("//div[@id='isuffix']/descendant::tr[td[contains(.,'New Suffix')]]/descendant::a[contains(.,'Delete')]")
+    @page.click_and_wait "//div[@id='isuffix']/descendant::tr[td[contains(.,'New Suffix')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this option will change all Individual records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
     @page.click_and_wait "_qf_IndividualSuffix_next"
     assert @selenium.is_text_present("Selected Individual Suffix has been deleted.")

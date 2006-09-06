@@ -10,25 +10,34 @@ class TC_TestAdminProfile < Test::Unit::TestCase
     @page = CRMPageController.new
     @selenium = @page.start_civicrm
     @page.login
-    
-    #Click Administer CiviCRM
-    assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
-    @page.click_and_wait "link=Administer CiviCRM"
-    
-    assert_equal "CiviCRM\nProfile", @selenium.get_text("//a[@id='id_CiviCRMProfile']")
-    @page.click_and_wait "//a[@id='id_CiviCRMProfile']"
   end
   
   def teardown
     @page.logout
   end
   
+  def test_profile
+    # Click Administer CiviCRM
+    assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
+    @page.click_and_wait "link=Administer CiviCRM"
+    
+    assert_equal "CiviCRM\nProfile", @selenium.get_text("//a[@id='id_CiviCRMProfile']")
+    @page.click_and_wait "//a[@id='id_CiviCRMProfile']"
+    
+    assert @selenium.is_text_present('CiviCRM Profile')
+    
+    add_profile()
+    enable_profile()
+    disable_profile()
+    delete_profile()
+  end
+  
   # Add new Profile information
-  def test_1_addProfile
+  def add_profile
     @page.click_and_wait "link=» New CiviCRM Profile"
     
     # Read new Profile information
-    @selenium.type "title", "profile1"
+    @selenium.type "title", "New Profile"
     @selenium.click "document.Group.elements['uf_group_type[User Registration]']"
     @selenium.click "document.Group.elements['uf_group_type[User Account]']"
     @selenium.click "uf_group_type[Profile]"
@@ -47,26 +56,27 @@ class TC_TestAdminProfile < Test::Unit::TestCase
    
     # Submit the form 
      @page.click_and_wait "_qf_Group_next"
-    assert @selenium.is_text_present("Your CiviCRM Profile Group \"profile1\" has been added. You can add fields to this group now.")
+    assert @selenium.is_text_present("Your CiviCRM Profile Group \"New Profile\" has been added. You can add fields to this group now.")
   end
 
   # Enable Profile
-  def test_4_enableProfile
-    @page.click_and_wait "link=Enable"
+  def enable_profile
+    assert_equal "Enable", @selenium.get_text("//div[@id='uf_profile']/descendant::tr[td[contains(.,'New Profile')]]/descendant::a[contains(.,'Enable')]")
+    @page.click_and_wait "//div[@id='uf_profile']/descendant::tr[td[contains(.,'New Profile')]]/descendant::a[contains(.,'Enable')]"
   end
   
   # Disable Profile
-  def test_4_disableProfile
-    @page.click_and_wait "link=Disable"
+  def disable_profile
+    @page.click_and_wait "//div[@id='uf_profile']/descendant::tr[td[contains(.,'New Profile')]]/descendant::a[contains(.,'Disable')]"
     assert_equal "Are you sure you want to disable this CiviCRM Profile group?", @selenium.get_confirmation
   end
 
   # Delete Profile
-  def test_5_deleteProfile
-    assert_equal "Delete", @selenium.get_text("link=Delete")
-    @page.click_and_wait "link=Delete"
-    assert @selenium.is_text_present("Delete \"profile1\" profile?")
+  def delete_profile
+    assert_equal "Delete", @selenium.get_text("//div[@id='uf_profile']/descendant::tr[td[contains(.,'New Profile')]]/descendant::a[contains(.,'Delete')]")
+    @page.click_and_wait "//div[@id='uf_profile']/descendant::tr[td[contains(.,'New Profile')]]/descendant::a[contains(.,'Delete')]"
+    assert @selenium.is_text_present("Delete New Profile Profile?")
     @page.click_and_wait "_qf_Group_next"
-    assert @selenium.is_text_present("Your CiviCRM profile group \"profile1\"has been deleted.")
+    assert @selenium.is_text_present("Your CiviCRM Profile Group \"New Profile\" has been deleted.")
   end
 end

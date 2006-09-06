@@ -9,11 +9,11 @@ class TS_CiviCRMTests
     #suite << TC_TestAdminIMProvider.suite
     #suite << TC_TestAdminMobileProvider.suite
     #suite << TC_TestAdminActivity.suite
-    #suite << TC_TestAdminPrefix.suite
-    #suite << TC_TestAdminSuffix.suite
-    #suite << TC_TestAdminTag.suite
+    suite << TC_TestAdminPrefix.suite
+    suite << TC_TestAdminSuffix.suite
+    suite << TC_TestAdminTag.suite
     #suite << TC_TestAdminLocation.suite
-    #suite << TC_TestAdminProfile.suite
+    suite << TC_TestAdminProfile.suite
     #suite << TC_TestAdminMembershipType.suite
     #suite << TC_TestAdminOptionGroup.suite
     suite << TC_TestManageGroup.suite
