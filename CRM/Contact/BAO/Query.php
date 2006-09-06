@@ -1020,14 +1020,14 @@ class CRM_Contact_BAO_Query {
             if ( $date ) {
                 $this->_where[$grouping][] = $field['where'] . " $op $date";
                 $date = CRM_Utils_Date::customFormat( $value );
-                $this->_qill[$grouping][]  = "$field[title] - \"$date\"";
+                $this->_qill[$grouping][]  = "$field[title] $op \"$date\"";
             }
         } else if ( $name === 'deceased_date' ) {
             $date = CRM_Utils_Date::format( $value );
             if ( $date ) {
                 $this->_where[$grouping][] = $field['where'] . " $op $date";
                 $date = CRM_Utils_Date::customFormat( $value );
-                $this->_qill[$grouping][]  = "$field[title] - \"$date\"";
+                $this->_qill[$grouping][]  = "$field[title] $op \"$date\"";
             }
         } else if ( $name === 'contact_id' ) {
             if ( is_int( $value ) ) {
