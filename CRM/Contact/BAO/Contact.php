@@ -1788,7 +1788,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
      * @params  int    $addToGroupID  specifies the default group to which contact is added.
      * $params  int    $ufGroupId     uf group id (profile id)
      *
-     * @return null
+     * @return  int                   contact id created/edited
      * @static
      * @access public
      */
@@ -2122,6 +2122,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             CRM_Utils_Hook::post( 'create', 'Profile', $contact->id, $params ); 
         }
 
+        return $contact->id;
     }
 
     /**
