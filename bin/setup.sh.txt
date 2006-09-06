@@ -102,4 +102,4 @@ echo; echo "DONE!"
 # mysql -uYourDBUser -pYourDBPassword YourDBName < zipcodes.mysql
 # php GenerateData.php
 # echo "drop table zipcodes" | mysql -uYourDBUser -pYourDBPassword YourDBName
-# mysqldump -t -n -uYourDBUser -pYourDBPassword YourDBName  > civicrm_generated.mysql
+# mysqldump -c -e -t -n -uYourDBUser -pYourDBPassword YourDBName  > civicrm_generated.mysql
