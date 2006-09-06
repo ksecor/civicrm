@@ -72,7 +72,9 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
         // we'll need to get fv from either search or adv search in the future 
         if ( $this->_action == CRM_Core_Action::ADVANCED ) { 
             $values = $this->controller->exportValues( 'Advanced' ); 
-        } else { 
+        } else if ( $this->_action == CRM_Core_Action::PROFILE ) { 
+            $values = $this->controller->exportValues( 'Builder' ); 
+        } else {
             $values = $this->controller->exportValues( 'Search' ); 
         } 
          

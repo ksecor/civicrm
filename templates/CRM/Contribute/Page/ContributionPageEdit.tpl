@@ -4,7 +4,7 @@
     {if $is_active}
         <dt><img src="{$config->resourceBase}i/traffic_green.gif" alt="{ts}status{/ts}"/></dt>
         <dd><p>{ts}This page is <strong>active</strong>.{/ts}</p>
-        <p>{ts}Link visitors to this page using the following URL{/ts}:</p><br />
+        <p>{ts}Link visitors to this page using the following URL{/ts}:</p>
         <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</a>
         </dd>
     {else}
@@ -17,7 +17,7 @@
 </div>
 
 <div id="help">
-    {ts}Use the options below to update features and content for this Online Contribution Page, as well as to run through the contribution process in <strong>test mode</strong>.{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/8xk"}Use the links below to update features and content for this Online Contribution Page, as well as to run through the contribution process in <strong>test mode</strong>. Refer to the <a href="%1" target="_blank" title="CiviContribute Guide. Opens documentation in a new window.">CiviContribute Guide</a> for more information.{/ts}
 </div>
 <table class="report"> 
 <tr>
