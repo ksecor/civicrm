@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-04 14:49+0200\n"
+"POT-Creation-Date: 2006-09-06 13:24+0200\n"
 "PO-Revision-Date: 2006-09-05 09:03-0700\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -3612,7 +3612,9 @@ msgstr "Tem certeza de querer desativar Operadora de Celular?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact phone numbers."
-msgstr "Usuários não poderão mais selecionar este valor para adicionar ou editar números de telefones de contatos."
+msgstr ""
+"Usuários não poderão mais selecionar este valor para adicionar ou editar "
+"números de telefones de contatos."
 
 #: CRM/Admin/Page/MobileProvider.php
 #: templates/CRM/Admin/Form/MobileProvider.tpl
@@ -11879,7 +11881,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 #, fuzzy
-msgid "(membership fee is %1)"
+msgid "(membership fee - %1)"
 msgstr "Associados ao Grupo (3 de %1)"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
@@ -13317,10 +13319,13 @@ msgstr ""
 "<strong>Ativar?</strong>."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+#, fuzzy
 msgid ""
-"Use the options below to update features and content for this Online "
+"Use the links below to update features and content for this Online "
 "Contribution Page, as well as to run through the contribution process in "
-"<strong>test mode</strong>."
+"<strong>test mode</strong>. Refer to the <a href=\"%1\" target=\"_blank\" "
+"title=\"CiviContribute Guide. Opens documentation in a new window."
+"\">CiviContribute Guide</a> for more information."
 msgstr ""
 "Use as opções abaixo para atualizar facilidades e conteúdo para esta Página "
 "de Contribuição Online. Também use para rodar o processo de contribuição no "
@@ -14673,19 +14678,14 @@ msgid "HTML Body"
 msgstr "Corpo de HTML"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
-#, fuzzy
 msgid ""
-"Use this form to configure the Membership section for this Online "
-"Contribution Page. You can hide the section completely by un-checking the "
-"Enabled field. You can set separate section titles and introductory messages "
-"for new memberships and for renewals."
+"Use this form to enable and configure a Membership Signup and Renewal "
+"section for this Online Contribution Page. If you're not using this page for "
+"membership signup, leave the <strong>Enabled</strong> box un-checked.\n"
+"    Refer to the <a href=\"%1\" target=\"_blank\" title=\"CiviMember Guide. "
+"Opens documentation in a new window.\">CiviMember Guide</a> for more "
+"information."
 msgstr ""
-"Use este formulário para configurar a seção Premiums desta Página de "
-"Contribuição Online. Você pode ocultar a seção completamente se desmarcar o "
-"campo Ativado. Também pode definir um título para a seção e uma mensagem "
-"sobre os premiums aqui (ex: Em gratidão pelo seu apoio, V. poderá escolher "
-"dentre vários presentes...) E ainda pode fornecer um endereço de email de "
-"contato e/ou um número de telefone para esclarecimentos."
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 #, fuzzy
@@ -15081,12 +15081,31 @@ msgstr "Número de Contato(s) selecionado(s): %1 "
 msgid ""
 "CiviMember allows you to create customized membership types as well as page"
 "(s) for online membership sign-up and renewal. Administrators can create or "
-"modify Membership Typea <a href=\"%2\">here</a>, and configure Online "
+"modify Membership Types <a href=\"%2\">here</a>, and configure Online "
 "Contribution Pages which include membership sign-up <a href=\"%1\">here</a>."
 msgstr ""
 "CiviContribute permite a voce criar pagina(s) customizada(s) para coleta e "
 "contribuicoes online. Admnistradores podem   criar ou modificar suas pagina"
 "(s) de Contribuicoe(s) online <a href=\"%1\">aqui</a>."
+
+#: templates/CRM/Member/Page/DashBoard.tpl
+#, fuzzy
+msgid ""
+"You can also input and track membership sign-ups offline. To record "
+"memberships manually for individual contacts, use <a href=\"%1\">Find "
+"Contacts</a> to locate the contact. Then click <strong>View</strong> to go "
+"to their summary page and click on the <strong>New Membership</strong> "
+"link.\n"
+"     Refer to the <a href=\"%2\" target=\"_blank\" title=\"CiviMember Guide. "
+"Opens documentation in a new window.\">CiviMember Guide</a> for more "
+"information."
+msgstr ""
+"Pode-se também incluir e rastrear contribuições offline. Ao digitar "
+"contribuições para contatos individuais, use <a href=\"%1\">Achar Contatos</"
+"a> para localizá-los. Então clique em <strong>Visualizar</strong> para ir à "
+"página de sumário e clique no link </strong>Nova Contribuição</strong>. Você "
+"também pode <a href=\"%2\">importar batches de contribuições offline </a> de "
+"outras fontes."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 #, fuzzy
@@ -15134,7 +15153,8 @@ msgid ""
 "<strong>Grace</strong>\n"
 "        status rule says...\"assign Grace status if the membership period "
 "ended sometime within the past month.\" Refer to the <a href=\"%1\" target="
-"\"_blank\">CiviMember Guide</a> for more info."
+"\"_blank\" title=\"CiviMember Guide. Opens documentation in a new window."
+"\">CiviMember Guide</a> for more info."
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
@@ -15162,7 +15182,8 @@ msgid ""
 "Honor Society Member...), a description, a minimum fee (can be $0), and a "
 "duration (can be \"lifetime\"). Each member type is specifically linked to "
 "the membership entity (organization) - e.g. Bay Area Chapter. Refer to the "
-"<a href=\"%1\" target=\"_blank\">CiviMember Guide</a> for more info."
+"<a href=\"%1\" target=\"_blank\" title=\"CiviMember Guide. Opens "
+"documentation in a new window.\">CiviMember Guide</a> for more info."
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.tpl
@@ -16831,6 +16852,21 @@ msgstr "Mensagem capturada por filtro ed conteúdo."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Erro na transação do SMTP"
+
+#, fuzzy
+#~ msgid ""
+#~ "Use this form to configure the Membership section for this Online "
+#~ "Contribution Page. You can hide the section completely by un-checking the "
+#~ "Enabled field. You can set separate section titles and introductory "
+#~ "messages for new memberships and for renewals."
+#~ msgstr ""
+#~ "Use este formulário para configurar a seção Premiums desta Página de "
+#~ "Contribuição Online. Você pode ocultar a seção completamente se desmarcar "
+#~ "o campo Ativado. Também pode definir um título para a seção e uma "
+#~ "mensagem sobre os premiums aqui (ex: Em gratidão pelo seu apoio, V. "
+#~ "poderá escolher dentre vários presentes...) E ainda pode fornecer um "
+#~ "endereço de email de contato e/ou um número de telefone para "
+#~ "esclarecimentos."
 
 #~ msgid "Done With Preview"
 #~ msgstr "Pré-Vizualização Concluída\" "

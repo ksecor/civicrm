@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-04 14:49+0200\n"
+"POT-Creation-Date: 2006-09-06 13:24+0200\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "Language-Team: none\n"
@@ -11992,8 +11992,9 @@ msgid "Select a Membership Level"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
-msgid "(membership fee is %1)"
-msgstr ""
+#, fuzzy
+msgid "(membership fee - %1)"
+msgstr "Lisää jäseniä ryhmään %1"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "(contribute at least %1 to be eligible for this membership)"
@@ -13139,9 +13140,11 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
-"Use the options below to update features and content for this Online "
+"Use the links below to update features and content for this Online "
 "Contribution Page, as well as to run through the contribution process in "
-"<strong>test mode</strong>."
+"<strong>test mode</strong>. Refer to the <a href=\"%1\" target=\"_blank\" "
+"title=\"CiviContribute Guide. Opens documentation in a new window."
+"\">CiviContribute Guide</a> for more information."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -14246,10 +14249,12 @@ msgstr "HTML"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
-"Use this form to configure the Membership section for this Online "
-"Contribution Page. You can hide the section completely by un-checking the "
-"Enabled field. You can set separate section titles and introductory messages "
-"for new memberships and for renewals."
+"Use this form to enable and configure a Membership Signup and Renewal "
+"section for this Online Contribution Page. If you're not using this page for "
+"membership signup, leave the <strong>Enabled</strong> box un-checked.\n"
+"    Refer to the <a href=\"%1\" target=\"_blank\" title=\"CiviMember Guide. "
+"Opens documentation in a new window.\">CiviMember Guide</a> for more "
+"information."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
@@ -14621,8 +14626,20 @@ msgstr ""
 msgid ""
 "CiviMember allows you to create customized membership types as well as page"
 "(s) for online membership sign-up and renewal. Administrators can create or "
-"modify Membership Typea <a href=\"%2\">here</a>, and configure Online "
+"modify Membership Types <a href=\"%2\">here</a>, and configure Online "
 "Contribution Pages which include membership sign-up <a href=\"%1\">here</a>."
+msgstr ""
+
+#: templates/CRM/Member/Page/DashBoard.tpl
+msgid ""
+"You can also input and track membership sign-ups offline. To record "
+"memberships manually for individual contacts, use <a href=\"%1\">Find "
+"Contacts</a> to locate the contact. Then click <strong>View</strong> to go "
+"to their summary page and click on the <strong>New Membership</strong> "
+"link.\n"
+"     Refer to the <a href=\"%2\" target=\"_blank\" title=\"CiviMember Guide. "
+"Opens documentation in a new window.\">CiviMember Guide</a> for more "
+"information."
 msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
@@ -14666,7 +14683,8 @@ msgid ""
 "<strong>Grace</strong>\n"
 "        status rule says...\"assign Grace status if the membership period "
 "ended sometime within the past month.\" Refer to the <a href=\"%1\" target="
-"\"_blank\">CiviMember Guide</a> for more info."
+"\"_blank\" title=\"CiviMember Guide. Opens documentation in a new window."
+"\">CiviMember Guide</a> for more info."
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
@@ -14694,7 +14712,8 @@ msgid ""
 "Honor Society Member...), a description, a minimum fee (can be $0), and a "
 "duration (can be \"lifetime\"). Each member type is specifically linked to "
 "the membership entity (organization) - e.g. Bay Area Chapter. Refer to the "
-"<a href=\"%1\" target=\"_blank\">CiviMember Guide</a> for more info."
+"<a href=\"%1\" target=\"_blank\" title=\"CiviMember Guide. Opens "
+"documentation in a new window.\">CiviMember Guide</a> for more info."
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.tpl

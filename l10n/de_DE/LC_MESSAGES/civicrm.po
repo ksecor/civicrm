@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-04 14:49+0200\n"
+"POT-Creation-Date: 2006-09-06 13:24+0200\n"
 "PO-Revision-Date: 2006-09-05 12:12-0700\n"
 "Last-Translator: Pit Gebbers <pit.gebbers@gmail.com>\n"
 "Language-Team: none\n"
@@ -5450,7 +5450,9 @@ msgstr "1%-Datei konnte nicht geöffnet werden."
 msgid ""
 "Your %1 value is: \"%2\". This value must be entered in the Payment "
 "Processor section of the CiviCRM configuration file."
-msgstr "Ihr %1 Wert ist: \"%2\". Dieser Wert muss im Payment Processor Abschnitt der CiviCRM Konfigurationsdatei eingebeben werden."
+msgstr ""
+"Ihr %1 Wert ist: \"%2\". Dieser Wert muss im Payment Processor Abschnitt der "
+"CiviCRM Konfigurationsdatei eingebeben werden."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 #, fuzzy
@@ -5459,7 +5461,9 @@ msgstr "Bitte geben Sie einen gültigen Namen ein."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "A product with this name already exists. Please select another name."
-msgstr "Ein Produkt dieses Namens existiert bereits. Bitte wählen Sie einen anderen Namen."
+msgstr ""
+"Ein Produkt dieses Namens existiert bereits. Bitte wählen Sie einen anderen "
+"Namen."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Upload from my computer"
@@ -5534,7 +5538,12 @@ msgid ""
 "configured to use default thumbnail image. If you have a local thumbnail "
 "image you can upload it separately and input the thumbnail URL by editing "
 "this premium."
-msgstr "MITTEILUNG: Es wurde keine Bildvorschau für Ihr Bild erstellt, da in Ihrer PHP Installation die \"GD image library\" momentan nicht installiert ist. Die momentane Konfiguration zeigt die Standard Bildvorschau an. Wenn Sie über eine lokale Bildvorschaudatei verfügen können Sie diese seperat hochladen und die entsprechende URL in diesem Premium eintragen."
+msgstr ""
+"MITTEILUNG: Es wurde keine Bildvorschau für Ihr Bild erstellt, da in Ihrer "
+"PHP Installation die \"GD image library\" momentan nicht installiert ist. "
+"Die momentane Konfiguration zeigt die Standard Bildvorschau an. Wenn Sie "
+"über eine lokale Bildvorschaudatei verfügen können Sie diese seperat "
+"hochladen und die entsprechende URL in diesem Premium eintragen."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 #, fuzzy
@@ -12035,7 +12044,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 #, fuzzy
-msgid "(membership fee is %1)"
+msgid "(membership fee - %1)"
 msgstr "Gruppenmitgliedschaften (3 von %1)"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
@@ -13282,9 +13291,11 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
-"Use the options below to update features and content for this Online "
+"Use the links below to update features and content for this Online "
 "Contribution Page, as well as to run through the contribution process in "
-"<strong>test mode</strong>."
+"<strong>test mode</strong>. Refer to the <a href=\"%1\" target=\"_blank\" "
+"title=\"CiviContribute Guide. Opens documentation in a new window."
+"\">CiviContribute Guide</a> for more information."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -14568,10 +14579,12 @@ msgstr "HTML"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
-"Use this form to configure the Membership section for this Online "
-"Contribution Page. You can hide the section completely by un-checking the "
-"Enabled field. You can set separate section titles and introductory messages "
-"for new memberships and for renewals."
+"Use this form to enable and configure a Membership Signup and Renewal "
+"section for this Online Contribution Page. If you're not using this page for "
+"membership signup, leave the <strong>Enabled</strong> box un-checked.\n"
+"    Refer to the <a href=\"%1\" target=\"_blank\" title=\"CiviMember Guide. "
+"Opens documentation in a new window.\">CiviMember Guide</a> for more "
+"information."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
@@ -14945,8 +14958,20 @@ msgstr "Zahl der ausgewählten Kontakte: %1"
 msgid ""
 "CiviMember allows you to create customized membership types as well as page"
 "(s) for online membership sign-up and renewal. Administrators can create or "
-"modify Membership Typea <a href=\"%2\">here</a>, and configure Online "
+"modify Membership Types <a href=\"%2\">here</a>, and configure Online "
 "Contribution Pages which include membership sign-up <a href=\"%1\">here</a>."
+msgstr ""
+
+#: templates/CRM/Member/Page/DashBoard.tpl
+msgid ""
+"You can also input and track membership sign-ups offline. To record "
+"memberships manually for individual contacts, use <a href=\"%1\">Find "
+"Contacts</a> to locate the contact. Then click <strong>View</strong> to go "
+"to their summary page and click on the <strong>New Membership</strong> "
+"link.\n"
+"     Refer to the <a href=\"%2\" target=\"_blank\" title=\"CiviMember Guide. "
+"Opens documentation in a new window.\">CiviMember Guide</a> for more "
+"information."
 msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
@@ -14991,7 +15016,8 @@ msgid ""
 "<strong>Grace</strong>\n"
 "        status rule says...\"assign Grace status if the membership period "
 "ended sometime within the past month.\" Refer to the <a href=\"%1\" target="
-"\"_blank\">CiviMember Guide</a> for more info."
+"\"_blank\" title=\"CiviMember Guide. Opens documentation in a new window."
+"\">CiviMember Guide</a> for more info."
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
@@ -15019,7 +15045,8 @@ msgid ""
 "Honor Society Member...), a description, a minimum fee (can be $0), and a "
 "duration (can be \"lifetime\"). Each member type is specifically linked to "
 "the membership entity (organization) - e.g. Bay Area Chapter. Refer to the "
-"<a href=\"%1\" target=\"_blank\">CiviMember Guide</a> for more info."
+"<a href=\"%1\" target=\"_blank\" title=\"CiviMember Guide. Opens "
+"documentation in a new window.\">CiviMember Guide</a> for more info."
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.tpl
