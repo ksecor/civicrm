@@ -56,7 +56,7 @@ msgid "enable CiviCRM blocks at <a href=\"%1\">administer &gt;&gt; blocks</a>."
 msgstr "ativar blocos do CiviCRM em <a href=\"%1\">administrar &gt;&gt; blocos</a>."
 
 msgid "read <a href=\"%1\">CiviCRM access permissions</a> and set access permissions at <a href=\"%2\">administer &gt;&gt; access control</a>."
-msgstr "ler <a href=\"%1\">permissões de acesso ao CiviCRM</a> e definir permissões de acesso em <a href=\"%2\">administrar &gt;&gt; controle de acesso</a>.""
+msgstr "ler <a href=\"%1\">permissões de acesso ao CiviCRM</a> e definir permissões de acesso em <a href=\"%2\">administrar &gt;&gt; controle de acesso</a>."
 
 msgid "find contacts by name, email address, group membership and or tagging at <a href=\"%1\">find contacts</a>."
 msgstr "buscar contatos por nome, endereço de email, participação em grupo ou tagging em <a href=\"%1\">buscar contatos</a>."
@@ -71,25 +71,25 @@ msgid "import contacts from other sources at <a href=\"%1\">import contacts</a>.
 msgstr "importar contatos de outras fontes em <a href=\"%1\">importar contatos</a>."
 
 msgid "create or administer tags (e.g. organizer, foundation, environment...) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
-msgstr "criar ou administrar tags (exs: organizador, fundação, ambiente...) em "<a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
+msgstr "criar ou administrar tags (exs: organizador, fundação, ambiente...) em <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
 
 msgid "create or administer relationship types (e.g. household member, board member, spouse...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; relationship types</a>."
-msgstr "criar ou administrar tipos de relacionamento (exs: membro de domicílio, membro de conselho, cônjuge...) "<a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tipos de relacionamento</a>."
+msgstr "criar ou administrar tipos de relacionamento (exs: membro de domicílio, membro de conselho, cônjuge...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tipos de relacionamento</a>."
 
 msgid "create or administer location types (e.g. home, work, school...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; location types</a>."
-msgstr "criar ou administrar tipos de localidade (exs: residência, trabalho, escola...) "<a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tipos de localidade</a>."
+msgstr "criar ou administrar tipos de localidade (exs: residência, trabalho, escola...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tipos de localidade</a>."
 
 msgid "create or administer activity types (e.g. house meeting, intake interview...) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; activity types</a>."
-msgstr "criar ou administrar tipos de atividade (exs: reunião em casa, intake interview...) em "<a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tipos de atividade</a>."
+msgstr "criar ou administrar tipos de atividade (exs: reunião em casa, intake interview...) em <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tipos de atividade</a>."
 
 msgid "create or administer custom data fields (e.g. volunteer skills, emergency contact info...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; custom data</a>."
-msgstr "criar ou administrar campos de dados customizados (exs: habilidades de voluntário, informação para contato de emergência...) "<a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; dados customizados</a>."
+msgstr "criar ou administrar campos de dados customizados (exs: habilidades de voluntário, informação para contato de emergência...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; dados customizados</a>."
 
 msgid "create or administer civicrm profile (i.e. what contact data is collected during user registration) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; civicrm profile</a>."
-msgstr "criar ou administrar perfil civicrm (ex: quais dados de contato são coletados durante o cadastro do usuário) em <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; perfil civicrm</a>.""
+msgstr "criar ou administrar perfil civicrm (ex: quais dados de contato são coletados durante o cadastro do usuário) em <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; perfil civicrm</a>."
 
 msgid "For more information please read the configuration and customization handbook <a href=\"%1\">CiviCRM page</a>."
-msgstr "Para mais informação, leia o manual de configuração e customização "<a href=\"%1\">página CiviCRM</a>."
+msgstr "Para mais informação, leia o manual de configuração e customização <a href=\"%1\">página CiviCRM</a>."
 
 msgid "Constituent Relationship Management (CRM). Allows sites to manage contacts, relationships and groups, and track contact activities."
 msgstr "Constituent Relationship Management (CRM) Gerenciamento de Relações com Clientela. Possibilita que sites gerenciem contatos, relacionamentos e grupos, além de monitorar atividades de contatos."
