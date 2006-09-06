@@ -1,6 +1,6 @@
 <head>
 <title>Yahoo Map</title>
-{literal}<script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=2.0&appid={$mapKey}"></script>
+{literal}<script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.0&appid={$mapKey}"></script>
          <style type="text/css">
             #mapContainer { 
                            height: 600px; 
@@ -32,6 +32,9 @@
   /* Add a pan control */
    map.addPanControl();
   
+  /* Add map type */
+   map.addTypeControl();
+
   /* Add a slider zoom control */
    map.addZoomLong();
  

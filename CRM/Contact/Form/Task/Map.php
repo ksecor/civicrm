@@ -138,7 +138,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         }
 
         $page->assign_by_ref( 'locations', $locations );
-        
+      
         $sumLat = $sumLng = 0;
         $maxLat = $maxLng = -400;
         $minLat = $minLng = +400;
