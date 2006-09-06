@@ -182,8 +182,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $from = CRM_Contact_BAO_Query::fromClause($tables);
             $mailingGroup->query(
                     "INSERT IGNORE INTO X_$job_id (contact_id)
-                    SELECT              $contact.id
-                                    $from
+                    SELECT              contact_a.id
+                                        $from
                     WHERE               $where");
         }
 
@@ -277,20 +277,24 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                                               $tables,
                                                               $whereTables
                                                               );
+            $where = trim( $where );
+            if ( $where ) {
+                $where = " AND $where ";
+            }
             $from = CRM_Contact_BAO_Query::fromClause($tables);
             $ssq = "INSERT IGNORE INTO  I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
-                                        $contact.id as contact_id 
+                                        contact_a.id as contact_id 
                     $from
                     LEFT JOIN           X_$job_id
-                            ON          $contact.id = X_$job_id.contact_id
+                            ON          contact_a.id = X_$job_id.contact_id
                     WHERE           
-                                        $contact.do_not_email = 0
-                        AND             $contact.is_opt_out = 0
+                                        contact_a.do_not_email = 0
+                        AND             contact_a.is_opt_out = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
-                        AND             $where
+                                        $where
                         AND             X_$job_id.contact_id IS null ";
             $mailingGroup->query($ssq);
         }
