@@ -12,7 +12,6 @@ class TestOfSearch extends UnitTestCase
     {
     }
     
-    /****
     
     function testSearchCountNull( )
     {
@@ -73,15 +72,14 @@ class TestOfSearch extends UnitTestCase
     function testSearchReturnCustomData()
     {
         $params = array( 'first_name' => 'Sam' );
-        $count =& crm_contact_search_count( $params );
-        
+        $count =& crm_contact_search_count( $params );        
         echo "<br/><b><i>No of Individual Contact(s) Found : </i></b>$count\n<br/>";
         
         $returnProperties = array(
                                   'display_name' => 1,
                                   'custom_2'   => 1,
                                   'custom_7'   => 1);
-        $search =& crm_contact_search( $params, $returnProperties, null, 0, 100 );
+        $search =& crm_contact_search( $params, $returnProperties, null, 0, 100 );        
         
         foreach ($search[0] as $key => $contactArray) {
             echo "( <i>Individual ID :</i> ". $contactArray['individual_id'] . " ) " . $contactArray['display_name'] . "\n <br />";
@@ -90,36 +88,32 @@ class TestOfSearch extends UnitTestCase
     
     function testSearchForCustomData()
     {
-        $params = array('custom_2' => 'BJP');
-        //$params = array('custom_7' => 'S');
-        
-        $count =& crm_contact_search_count( $params );
-        
+        $params = array('custom_2' => 'BJP');   
+        $count =& crm_contact_search_count( $params );        
         echo "<br/><b><i>No of Contact(s) Found : </i></b>$count\n<br/>";
         
         $search =& crm_contact_search( $params, null, null, 0, 100 );
         
         foreach ($search[0] as $key => $contactArray) {
-            echo "( <i>Contact ID :</i> ". $contactArray['contact_id'] . " ) " . $contactArray['display_name'] . " [ <i>Contact Type :</i> " . $contactArray['contact_type'] . " ] "  . "\n <br />";
-            //CRM_Core_Error::debug('CA', $contactArray);
+            echo "( <i>Contact ID :</i> ". $contactArray['contact_id'] . " ) " . $contactArray['display_name'] . " [ <i>Contact Type :</i> " . $contactArray['contact_type'] . " ] "  . "\n <br />";            
         }
     }
     
     function testSearchByState()
     {
         // This example searches for all contacts who have a Home (civicrm_location_type.id = 1) address in
-        // California AND whose email address ends in yahoo.com. Contacts will be returned regardless of 
+        // California AND whose email address ends in yahoo.co.in . Contacts will be returned regardless of 
         // whether their Home address is their Primary address using this array format for location_type.
-        $params = array( 'location_type' => array('1' => 1), 'state_province' => 'California', 'email' => '%yahoo.com' );
- 
+        $location_type = array('1' => 1);
+        $params = array( 'location_type' => $location_type, 'state_province' => 'California', 'email' => '%yahoo.co.in' );
+        
         // You can also search only for contacts where Home address is primary and is in California.
         // Note that you can use the civicrm_state_province.id value instead of state name if desired.
-        // $params = array('location_type' => 'Home','state_province' => 1004 );
-        
-        $sort   = array( 'civicrm_contact.sort_name' => 'ASC' );
+        $sort   = array( 'sort_name' => 'ASC' );
         $return_properties = array( "sort_name"=>1, "email"=>1 );
         
-        $searchResultCount = crm_contact_search_count($params);
+        $searchResultCount = crm_contact_search_count($params, $return_properties, $sort );
+        
         echo("<h4>Search by State Test - Total Result Count = " . $searchResultCount . "</h4>");
         $limit = 50;
         
@@ -128,12 +122,13 @@ class TestOfSearch extends UnitTestCase
             $page++;
             echo("<h4>Search by State Results - Page " . $page . "</h4>");
             // Iterate over results in pages of $row_count records.
-            $searchResults =& crm_contact_search($params, $return_properties, $sort, $offset, $limit);
+            $searchResults =& crm_contact_search($params, $return_properties, $sort, $offset, $limit);           
             
             foreach ($searchResults[0] as $id => $values) {
                 print_r( "Contact ID : " . $values['contact_id'] . "<br/>Sort Name : " . $values['sort_name'] . "<br/>Email : " . $values['email'] . "<br/>");
             }
         }
+        
     }
 
     
@@ -141,21 +136,22 @@ class TestOfSearch extends UnitTestCase
     function testSearchByContactID( ) {
         $params = array( 'contact_id' => 11 );
         $result = crm_contact_search( $params );
-        CRM_Core_Error::debug( 'Search by Contact ID', $result );
+        
     }
 
-    function testSearchSmartGroupMembership( ) {
-        $group = array( '4' => 1);
-        $params = array( 'contact_id' => 11, 'group' => $group );
+     function testSearchSmartGroupMembership( ) {
+        $group = array( '1' => 1);
+        $params = array( 'contact_id' => 77, 'group' => $group );
         $returnProperties = array('contact_id' => 1, 'sort_name' => 1, 'email' => 1 );
         $result = crm_contact_search_count( $params, $returnProperties );
-        CRM_Core_Error::debug( 'Search Smart Group', $result );
-    }
-    **/
-    function testSearchGroup( ) {
-        $params = array( 'group' => 1 );
+     }
+    
+     function testSearchGroup( ) {
+        
+        $group = array( '1' => 1);
+        $params = array( 'group' => $group );    
         $result = crm_contact_search( $params );
-        CRM_Core_Error::debug( 'Search by Group', $result );
+        
     }
 }
 
