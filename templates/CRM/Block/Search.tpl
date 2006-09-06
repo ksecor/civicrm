@@ -1,8 +1,11 @@
 <div class="block-crm">
+<script type="text/javascript"> 
+  dojo.require('dojo.widget.ComboBox');
+</script>
     <form action="{$postURL}" method="post">
     <div class="form-item">
         <input type="hidden" name="contact_type" value="" />
-        <input type="text" name="sort_name" class="form-text required" value="" />
+        <input type="text" name="sort_name" class="form-text required" value="" dojoType="ComboBox" mode="remote" dataUrl="{$dataURL}" />
         <br />
         <input type="submit" name="_qf_Search_refresh" value="{ts}Search{/ts}" class="form-submit" />
         <br />

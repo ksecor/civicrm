@@ -82,7 +82,7 @@ class CRM_Utils_System_Joomla {
      * @static
      */
     static function addHTMLHead( $head ) {
-      return;
+        return;
     }
 
     /**

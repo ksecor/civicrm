@@ -209,11 +209,14 @@ class CRM_Core_Block {
                                'templateValues',
                                $values );
         } else if ( $id == self::SEARCH ) {
+            $config =& CRM_Core_Config::singleton( );
+            $domainID = CRM_Core_Config::domainID( );
             $urlArray = array(
                 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic',
                                                               'reset=1' ) ,
                 'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
-                                                              'reset=1' )
+                                                              'reset=1' ),
+                'dataURL'           => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/search&d={$domainID}&s=%{searchString}",
             );
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );
         } else if ( $id == self::MENU ) {

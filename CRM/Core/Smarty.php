@@ -129,6 +129,18 @@ class CRM_Core_Smarty extends Smarty {
 
         return parent::fetch( $resource_name, $cache_id, $compile_id, $display );
     }
+
+    function appendValue( $name, $value ) {
+        $currentValue = $this->get_template_vars( $name );
+        if ( ! $currentValue ) {
+            $this->assign( $name, $value );
+        } else {
+            if ( strpos( $currentValue, $value ) === false ) {
+                $this->assign( $name, $currentValue . $value );
+            }
+        }
+    }
+
 }
 
 ?>
