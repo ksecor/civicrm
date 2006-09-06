@@ -155,7 +155,7 @@ function civicrm_config( $frontend = false ) {
 
     $params = array(
                 'cms' => 'Joomla',
-                'cmsVersion' => '1.0.8',
+                'cmsVersion' => '1.0.11',
                 'cmsURLVar'  => 'task',
                 'usersTable' => 'jos_users',
                 'crmRoot' => $crmPath,
@@ -164,6 +164,7 @@ function civicrm_config( $frontend = false ) {
                 'imageUploadDir' => $imageUploadDir,
                 'imageUploadURL' => $mosConfig_live_site . '/media/civicrm/',
                 'customFileUploadDir' => $imageUploadDir,
+                'customFileUploadURL' => $mosConfig_live_site . '/media/civicrm/',
                 'baseURL' => $mosConfig_live_site . '/administrator/',
                 'resourceURL' => $mosConfig_live_site . '/administrator/components/com_civicrm/civicrm/',
                 'resourceBase' => $resourceBase,
