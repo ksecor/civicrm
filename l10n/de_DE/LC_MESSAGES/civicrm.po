@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-04 14:49+0200\n"
-"PO-Revision-Date: 2006-06-25 13:37+0200\n"
-"Last-Translator: Martin Roell <martin@roell.net>\n"
+"PO-Revision-Date: 2006-09-05 12:12-0700\n"
+"Last-Translator: Pit Gebbers <pit.gebbers@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.6.3.20050808\n"
+"X-Generator: Pootle 0.10\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
 
 #: CRM/Activity/BAO/Activity.php CRM/Contact/Selector/Activity.php
@@ -5415,7 +5415,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Tax-deductible?"
-msgstr ""
+msgstr "Von der Steuer absetzbar?"
 
 #: CRM/Contribute/Form/ContributionType.php
 #, fuzzy
@@ -5424,35 +5424,33 @@ msgstr "Der Standortstyp \"%1\" wurde gespeichert."
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API Username"
-msgstr ""
+msgstr "API Benutzername"
 
 #: CRM/Contribute/Form/CreatePPD.php
-#, fuzzy
 msgid "API Subject"
-msgstr "Betreff"
+msgstr "API Betreff"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API Environment"
-msgstr ""
+msgstr "API Umgebung"
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "API SSL Certificate"
-msgstr ""
+msgstr "API SSL Zertifikat"
 
 #: CRM/Contribute/Form/CreatePPD.php
-#, fuzzy
 msgid "File size should be less than 8192 bytes"
-msgstr "Die Dateigröße muss kleiner als 1 MByte sein."
+msgstr "Die Dateigröße muss kleiner als 8192 bytes sein."
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid "Could not open %1 file for writing"
-msgstr ""
+msgstr "1%-Datei konnte nicht geöffnet werden."
 
 #: CRM/Contribute/Form/CreatePPD.php
 msgid ""
 "Your %1 value is: \"%2\". This value must be entered in the Payment "
 "Processor section of the CiviCRM configuration file."
-msgstr ""
+msgstr "Ihr %1 Wert ist: \"%2\". Dieser Wert muss im Payment Processor Abschnitt der CiviCRM Konfigurationsdatei eingebeben werden."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 #, fuzzy
@@ -5461,78 +5459,69 @@ msgstr "Bitte geben Sie einen gültigen Namen ein."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "A product with this name already exists. Please select another name."
-msgstr ""
+msgstr "Ein Produkt dieses Namens existiert bereits. Bitte wählen Sie einen anderen Namen."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Upload from my computer"
-msgstr ""
+msgstr "Von meinem Computer raufladen"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Display image and thumbnail from these locations on the web:"
-msgstr ""
+msgstr "Zeige Bild und Bildvorschau von diesen Webadressen an:"
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Use default image"
-msgstr "Standardwert"
+msgstr "Standardbild benützen"
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Do not display an image"
-msgstr "Darstellungsart"
+msgstr "Bild nicht anzeigen"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Premium Image"
-msgstr ""
+msgstr "Vorzugsbild"
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Please select an option for the premium image."
-msgstr "Bitte wählen Sie die Gruppe aus."
+msgstr "Bitte wählen Sie eine Option für das  Vorzugsbild."
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Image URL"
-msgstr "Bild (Link)"
+msgstr "Bild URL"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Thumbnail URL"
-msgstr ""
+msgstr "Bildvorschau URL"
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Image File Name"
-msgstr "Variablenname"
+msgstr "Name der Bilddatei"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
-#, fuzzy
 msgid "Market Value"
-msgstr "Standardwert"
+msgstr "Marktwert"
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Please enter the Market Value for this product."
-msgstr "Bitte den Namen der neuen Gruppe eingeben."
+msgstr "Bitte geben Sie den Marktwert für dieses Produkt ein."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Actual Cost of Product"
-msgstr ""
+msgstr "Jährliche Kosten des Produkts"
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Please enter the Actual Cost of Product."
-msgstr "Bitte geben sie einen gültigen Betreff ein."
+msgstr "Bitte geben Sie den tatsächlichen Produktpreis ein."
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Please enter a monetary value for the Minimum Contribution Amount."
-msgstr "Bitte den Namen der neuen Gruppe eingeben."
+msgstr "Bitte geben Sie einen Betrag für die minimale Beitragshöhe ein."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency"
-msgstr ""
+msgstr "Häufigkeit"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Selected Premium Product type has been deleted."
@@ -5545,7 +5534,7 @@ msgid ""
 "configured to use default thumbnail image. If you have a local thumbnail "
 "image you can upload it separately and input the thumbnail URL by editing "
 "this premium."
-msgstr ""
+msgstr "MITTEILUNG: Es wurde keine Bildvorschau für Ihr Bild erstellt, da in Ihrer PHP Installation die \"GD image library\" momentan nicht installiert ist. Die momentane Konfiguration zeigt die Standard Bildvorschau an. Wenn Sie über eine lokale Bildvorschaudatei verfügen können Sie diese seperat hochladen und die entsprechende URL in diesem Premium eintragen."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 #, fuzzy
@@ -5553,28 +5542,24 @@ msgid "The Premium Product  \"%1\" has been saved."
 msgstr "Das Etikett \"%1\" wurde gespeichert."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "Please enter a valid Payment Instrument name."
-msgstr "Bitte geben Sie einen gültigen Namen ein."
+msgstr "Bitte geben Sie eine gültige Zahlungsmöglichkeit ein."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
 msgid "Selected Payment Instrument has been deleted."
 msgstr "Die ausgewählte Zahlungsmöglichkeit wurde gelöscht."
 
 #: CRM/Contribute/Form/PaymentInstrument.php
-#, fuzzy
 msgid "The Payment Instrument \"%1\" has been saved."
-msgstr "Die Gruppe \"%1\" wurde gespeichert."
+msgstr "Die Zahlungsmöglichkeit \"%1\" wurde gespeichert."
 
 #: CRM/Contribute/Form/Search.php
-#, fuzzy
 msgid "Contributor"
-msgstr "Weiter"
+msgstr "Spender"
 
 #: CRM/Contribute/Form/Task/Delete.php
-#, fuzzy
 msgid "Deleted Contribution(s): %1"
-msgstr "Gelöschte Kontakte: %1"
+msgstr "Gelöschte Zuwendung: %1"
 
 #: CRM/Contribute/Form/Task/Delete.php
 msgid "Total Selected Contribution(s): %1"
@@ -5604,12 +5589,11 @@ msgstr "Kontakt-URL ansehen"
 
 #: CRM/Contribute/Invoke.php
 msgid "Accept Credit Cards"
-msgstr ""
+msgstr "Kreditkarten akzeptieren"
 
 #: CRM/Contribute/Invoke.php
-#, fuzzy
 msgid "Create PPD"
-msgstr "Erstellt von"
+msgstr "PPD erstellen"
 
 #: CRM/Contribute/Menu.php
 #, fuzzy

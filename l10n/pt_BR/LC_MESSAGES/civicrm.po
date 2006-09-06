@@ -11,13 +11,13 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-04 14:49+0200\n"
-"PO-Revision-Date: 2006-04-21 22:03+0200\n"
+"PO-Revision-Date: 2006-09-05 09:03-0700\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese/Brazil\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.6.3.20050808\n"
+"X-Generator: Pootle 0.10\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
 
 #: CRM/Activity/BAO/Activity.php CRM/Contact/Selector/Activity.php
@@ -460,9 +460,8 @@ msgid "Mapping Type"
 msgstr "Tipo de Mapeamento"
 
 #: CRM/Admin/Form/OptionGroup.php CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Please enter a valid Option Group name."
-msgstr "Digite um nome de tipo de localização válido."
+msgstr "Por favor entre com uma Opção válida para o nome do Grupo."
 
 #: CRM/Admin/Form/OptionValue.php CRM/Contact/DAO/Group.php
 #: CRM/Contribute/DAO/ContributionPage.php
@@ -478,9 +477,8 @@ msgid "Title"
 msgstr "Título"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/OptionValue.php
-#, fuzzy
 msgid "Option Grouping Name"
-msgstr "Nome do Grupo"
+msgstr "Opção nome do Agrupamento"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -634,7 +632,7 @@ msgstr "Rótulo(s)"
 #: CRM/Contact/BAO/Contact.php CRM/Core/BAO/CustomGroup.php
 #: CRM/Core/BAO/File.php
 msgid "Could not move custom file to custom upload directory"
-msgstr ""
+msgstr "O arquivo customizado não foi movido para o diretório upload."
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
@@ -933,9 +931,8 @@ msgid "Email is not valid."
 msgstr "Email inválido."
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "New %1"
-msgstr "Pré-Visualizar %1"
+msgstr "Novo. %1"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Advanced.php
 msgid "Privacy"
@@ -1040,9 +1037,8 @@ msgstr "Tipo de Relacionamento"
 
 #: CRM/Contact/Form/Relationship.php CRM/Member/Form/MembershipType.php
 #: CRM/Quest/Form/SchoolSearch.php
-#, fuzzy
 msgid "Search Again"
-msgstr "Pesquisar"
+msgstr "Pesquisar novamente"
 
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search.php
 #: CRM/Contact/Form/Search/Simple.php CRM/Contact/Form/Task/AddToHousehold.php
@@ -1202,9 +1198,8 @@ msgid "Continue >>"
 msgstr "Continuar >>"
 
 #: CRM/Contact/Form/Task/Label.php CRM/Core/BAO/Mapping.php
-#, fuzzy
 msgid "Primary"
-msgstr "Privacidade"
+msgstr "Primário"
 
 #: CRM/Contact/Form/Task/Map.php CRM/Core/Invoke.php CRM/Core/SelectValues.php
 msgid "Search Results"
@@ -1242,9 +1237,8 @@ msgstr "Contribuições"
 #: CRM/Contact/Page/View/Basic.php CRM/Member/Menu.php
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
-#, fuzzy
 msgid "Memberships"
-msgstr "Associados antigos"
+msgstr "Associados"
 
 #: CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -1265,21 +1259,18 @@ msgstr "Email Enviado"
 
 #: CRM/Contact/Page/View/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/MembershipView.tpl
-#, fuzzy
 msgid "View Membership"
-msgstr "Novo Grupo de Associados"
+msgstr "Visualizar Associados"
 
 #: CRM/Contact/Page/View/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Membership.tpl
-#, fuzzy
 msgid "Edit Membership"
-msgstr "Associados antigos"
+msgstr "Editar Associados"
 
 #: CRM/Contact/Page/View/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Membership.tpl
-#, fuzzy
 msgid "Delete Membership"
-msgstr "Associados antigos"
+msgstr "Excluir Associados"
 
 #: CRM/Contact/Page/View/Note.php CRM/Profile/Page/Note.php
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -1427,7 +1418,6 @@ msgstr "Cancelado"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
 msgid "Goal Amount"
 msgstr "Quantidade Total"
 
@@ -1443,7 +1433,6 @@ msgstr "Email de Origem"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
 msgid "Thermometer Title"
 msgstr "Título do Perfil"
 
@@ -1953,9 +1942,8 @@ msgstr "Dinheiro"
 #: CRM/Core/SelectValues.php
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
-#, fuzzy
 msgid "File"
-msgstr "Preencher"
+msgstr "Arquivo"
 
 #: CRM/Core/BAO/CustomField.php CRM/Quest/Form/MatchApp/Guardian.php
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php
@@ -2168,9 +2156,8 @@ msgid "Import Activity History"
 msgstr "Importar Histórico de Atividades"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Search Builder"
-msgstr "Pesquisar Perfil"
+msgstr "Construtor de pesquisas"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: templates/CRM/Custom/Page/Option.tpl
@@ -2214,9 +2201,8 @@ msgid "Advanced Search"
 msgstr "Pesquisa Avançada"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "New Contact"
-msgstr "Ver contato"
+msgstr "Novo Contato"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Custom Data Fields"
@@ -2437,80 +2423,68 @@ msgstr "Relatório"
 
 #: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
-#, fuzzy
 msgid "Membership Types"
-msgstr "Associados antigos"
+msgstr "Tipos de Associados"
 
 #: CRM/Member/DAO/MembershipLog.php CRM/Member/DAO/Membership.php
 #: CRM/Member/Invoke.php templates/CRM/Member/Form/Search/Common.tpl
-#, fuzzy
 msgid "Membership Status"
-msgstr "Associados antigos"
+msgstr "Associados Status"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Form/Task/Export.php
 #: CRM/Member/Selector/Search.php templates/CRM/Member/Form/Task/Print.tpl
-#, fuzzy
 msgid "Member Since"
-msgstr "Taxas de Associação"
+msgstr "Associado desde"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "Start Event"
-msgstr "Data Inicial"
+msgstr "Inicio do evento"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjust Interval"
-msgstr ""
+msgstr "Intervalo de ajuste para inicio do Evento"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "End Event"
-msgstr "Evento"
+msgstr "Data final do evento"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjust Interval"
-msgstr ""
+msgstr "Intervalo de ajuste para o Final do Evento"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#, fuzzy
 msgid "Current Membership?"
 msgstr "Grupo atual de associados"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 #: templates/CRM/Member/Page/MembershipType.tpl
-#, fuzzy
 msgid "Minimum Fee"
-msgstr "Valor Mínimo"
+msgstr "Pagamento Mínimo"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "Fixed Period Rollover Day"
 msgstr "Dia Inicial de Período Fixo"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/Task/Export.php
 #: templates/CRM/Member/Form/MembershipView.tpl
-#, fuzzy
 msgid "Membership Type"
-msgstr "Associados antigos"
+msgstr "Tipo de Associados"
 
 #: CRM/Member/Form/Search.php CRM/Member/Page/DashBoard.php
 #: CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "Member"
-msgstr "Membros "
+msgstr "Membro"
 
 #: CRM/Member/Form/Task/Delete.php CRM/Member/Task.php
-#, fuzzy
 msgid "Delete Members"
-msgstr "Excluir uma Reunião"
+msgstr "Excluir Membros"
 
 #: CRM/Member/Form/Task/Export.php CRM/Member/Task.php
-#, fuzzy
 msgid "Export Members"
-msgstr "Membros "
+msgstr "Exportar Membros "
 
 #: CRM/Member/Page/MembershipStatus.php CRM/Member/Page/MembershipType.php
 #, fuzzy
@@ -2523,35 +2497,30 @@ msgid "Owner Entity Table"
 msgstr "Tabela de Entidade"
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
-#, fuzzy
 msgid "You do not have the necessary permission to edit this Application."
-msgstr "Você não tem permissão para editar este contato."
+msgstr "Você não tem permissão para editar esta aplicação."
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
-#, fuzzy
 msgid "You do not have the necessary permission to view this Application."
-msgstr "Você não tem permissão para ver este contato."
+msgstr "Você não tem permissão para ver esta aplicação."
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
 #: CRM/Quest/Controller/Recommender.php
-#, fuzzy
 msgid "Could not find a valid contact id"
-msgstr "Não encontrado ID de usuário."
+msgstr "Não encontrado ID válido para o contato."
 
 #: CRM/Quest/Controller/MatchApp.php CRM/Quest/Controller/PreApp.php
 #: CRM/Quest/Controller/Recommender.php
-#, fuzzy
 msgid "Could not find a valid contact record"
-msgstr "Não encontrado ID de usuário."
+msgstr "Não encontrado um registro válido para o contato."
 
 #: CRM/Quest/Form/App.php CRM/Quest/Form/Recommender.php
-#, fuzzy
 msgid "Save & Continue"
-msgstr "Continuar"
+msgstr "Salvar & Continuar"
 
 #: CRM/Quest/Form/App.php CRM/Quest/Form/MatchApp/Submit.php
 msgid "Submit Application"
-msgstr ""
+msgstr "Submeter aplicação"
 
 #: CRM/Quest/Form/App.php CRM/Quest/Form/MatchApp/Partner/PartnerSubmit.php
 #: templates/CRM/Quest/Form/MatchApp/Partner/PartnerSubmit.tpl
@@ -2561,21 +2530,18 @@ msgstr ""
 #: CRM/Quest/Form/Counselor/Academic.php CRM/Quest/Form/MatchApp/Academic.php
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Academic.php
 #: CRM/Quest/Form/PreApp/Personal.php
-#, fuzzy
 msgid "Number not valid."
-msgstr "Email inválido."
+msgstr "Número não válido."
 
 #: CRM/Quest/Form/Counselor/Evaluation.php
 #: CRM/Quest/Form/Teacher/Evaluation.php
-#, fuzzy
 msgid "Evaluation"
-msgstr "Duração"
+msgstr "Avaliação"
 
 #: CRM/Quest/Form/Counselor/Personal.php
 #: CRM/Quest/Form/MatchApp/Scholarship.php
-#, fuzzy
 msgid "Department"
-msgstr "Data de envio"
+msgstr "Departamento"
 
 #: CRM/Quest/Form/Counselor/Personal.php CRM/Quest/Form/Teacher/Personal.php
 msgid "Which best describes your relationship to the student"
@@ -2583,9 +2549,8 @@ msgstr ""
 
 #: CRM/Quest/Form/Counselor/Personal.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/PreApp/Personal.php CRM/Quest/Form/Teacher/Personal.php
-#, fuzzy
 msgid "Personal Information"
-msgstr "Informação do Contato"
+msgstr "Informação pessoal"
 
 #: CRM/Quest/Form/Counselor/Ranking.php CRM/Quest/Form/Teacher/Ranking.php
 #, fuzzy
@@ -2594,7 +2559,7 @@ msgstr "Selecione um tipo de Relacionamento."
 
 #: CRM/Quest/Form/Counselor/Ranking.php CRM/Quest/Form/Teacher/Ranking.php
 msgid "I recommend this student"
-msgstr ""
+msgstr "Eu recomendo este estudante"
 
 #: CRM/Quest/Form/Counselor/Ranking.php CRM/Quest/Form/Teacher/Ranking.php
 msgid "Student Ranking"
@@ -2620,9 +2585,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
-#, fuzzy
 msgid "Honors"
-msgstr "Hrs"
+msgstr "Honras"
 
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 #, fuzzy
@@ -2637,70 +2601,62 @@ msgstr "ocultar este fone"
 #: CRM/Quest/Form/MatchApp/Academic.php CRM/Quest/Form/PreApp/Academic.php
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
-#, fuzzy
 msgid "Academic Information"
-msgstr "Informação sobre Premium"
+msgstr "Informação acadêmica"
 
 #: CRM/Quest/Form/MatchApp/Educational.php
 #: CRM/Quest/Form/PreApp/Educational.php
-#, fuzzy
 msgid "Other Educational Interest"
-msgstr "Outra localidade"
+msgstr "Outro interesse educacional"
 
 #: CRM/Quest/Form/MatchApp/Educational.php
 #: CRM/Quest/Form/PreApp/Educational.php
-#, fuzzy
 msgid "Educational Interests"
-msgstr "Duração do intervalo"
+msgstr "Interesses educacionais"
 
 #: CRM/Quest/Form/MatchApp/Essay/PersonalStat.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfEssay.php
-#, fuzzy
 msgid "Upload photograph:"
-msgstr "Carregar Dados"
+msgstr "Enviar fotografia"
 
 #: CRM/Quest/Form/MatchApp/Essay/PersonalStat.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfEssay.php
 msgid "Please upload a photo"
-msgstr ""
+msgstr "Por favor envie a foto"
 
 #: CRM/Quest/Form/MatchApp/Essay/Short.php
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrShortAnswer.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfShortEssay.php
 msgid "Short Answers"
-msgstr ""
+msgstr "Respostas curtas"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
-#, fuzzy
 msgid "Marital Status?"
-msgstr "Status?"
+msgstr "Status conjugal?"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Year your parents separated or divorced"
-msgstr ""
+msgstr "Seus pais são separados ou divorciados "
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
-#, fuzzy
 msgid "Deceased?"
-msgstr "É falecido"
+msgstr "É falecido ?"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
-#, fuzzy
 msgid "Year Deceased"
-msgstr "É falecido"
+msgstr "Ano de falecimento"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php
 #: CRM/Quest/Form/PreApp/Personal.php CRM/Quest/Form/PreApp/Sibling.php
 msgid " Birthdate (month/day/year)"
-msgstr ""
+msgstr "Data de Nasc. (mês/dia/ano)"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php
 #: CRM/Quest/Form/PreApp/Personal.php CRM/Quest/Form/PreApp/Sibling.php
-#, fuzzy
 msgid "Select a valid date for Birthdate."
-msgstr "Selecione uma data válida."
+msgstr "Selecione uma data de nascimento válida."
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
@@ -2732,27 +2688,24 @@ msgstr "Entre com um Número Válido"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Industry"
-msgstr ""
+msgstr "Indústria"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
-#, fuzzy
 msgid "Name of business or organization"
-msgstr "Mensagem de Inscrição para organização"
+msgstr "Nome do negócio ou organização"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
-#, fuzzy
 msgid "Occupation/Job Title"
-msgstr "Função"
+msgstr "Ocupação / Cargo"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Number of years in current occupation"
-msgstr ""
+msgstr "Número de anos na ocupação atual"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
-#, fuzzy
 msgid "not a valid number"
-msgstr "Entre com um Número Válido"
+msgstr "Número não válido"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
@@ -2777,7 +2730,7 @@ msgstr ""
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
 msgid "Area of concentration"
-msgstr ""
+msgstr "Área de concentração"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Sibling.php
 #: CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Sibling.php
@@ -2799,18 +2752,16 @@ msgstr ""
 #: templates/CRM/Quest/Form/MatchApp/Guardian.tpl
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
-#, fuzzy
 msgid "Permanent Address"
-msgstr "Endereço"
+msgstr "Endereço permanente"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/PreApp/Personal.php
 #: templates/CRM/Quest/Form/MatchApp/Guardian.tpl
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
-#, fuzzy
 msgid "Permanent Telephone"
-msgstr "Por favor entre com um fone válido."
+msgstr "Telefone permanente"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/PreApp/Guardian.php
 msgid "Parent/Guardian Detail"
@@ -2898,9 +2849,8 @@ msgid "Please select a value for years lived in this household."
 msgstr "Por favor entre com um valor válido para este campo."
 
 #: CRM/Quest/Form/MatchApp/Household.php CRM/Quest/Form/PreApp/Household.php
-#, fuzzy
 msgid "Not a valid number."
-msgstr "Entre com um Número Válido"
+msgstr "Número não válido"
 
 #: CRM/Quest/Form/MatchApp/Household.php CRM/Quest/Form/PreApp/Household.php
 #, fuzzy
@@ -2913,44 +2863,39 @@ msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Type of Income"
-msgstr ""
+msgstr "Tipo de rendimento"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Total 2005 Income from this Source"
 msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
-#, fuzzy
 msgid "Additional Income Type"
-msgstr "Localização adicional"
+msgstr "Tipo de rendimento adicional"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Additional 2005 Income Amount"
 msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
-#, fuzzy
 msgid "Job Description (if applicable)"
-msgstr "Taxa de processamento para esta transação (se aplicável)."
+msgstr "Descrição de seu trabalho (se aplicável)."
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
-#, fuzzy
 msgid "add another type of income"
-msgstr "Fone alternativo"
+msgstr "Adicionar outro tipo de rendimento"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
-#, fuzzy
 msgid "hide this type of income"
-msgstr "ocultar este fone"
+msgstr "ocultar este tipo de rendimento"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
-#, fuzzy
 msgid "Add another income source?"
-msgstr "outra escolha"
+msgstr "Adicionar outra fonte de renda ?"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 msgid "Delete this Income Source"
-msgstr ""
+msgstr "Excluir esta fonte de renda"
 
 #: CRM/Quest/Form/MatchApp/Income.php CRM/Quest/Form/PreApp/Income.php
 #, fuzzy
@@ -3006,20 +2951,19 @@ msgstr ""
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowArts.php
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowAthletics.php
 msgid "Bowdoin College"
-msgstr ""
+msgstr "Bowdoin College"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColInterest.php
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColPersonal.php
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColRecommendation.php
 msgid "Columbia University"
-msgstr ""
+msgstr "Universidade de Columbia"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColRecommendation.php
 #: CRM/Quest/Form/MatchApp/Recommendation.php
-#, fuzzy
 msgid "Recommendations"
-msgstr "Doação"
+msgstr "Recomendações"
 
 #: CRM/Quest/Form/MatchApp/Partner/PartnerSubmit.php
 #: CRM/Quest/Form/MatchApp/Submit.php CRM/Quest/Form/Recommender/Submit.php
@@ -3037,24 +2981,24 @@ msgstr "Fonte"
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrEssay.php
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrShortAnswer.php
 msgid "Princeton University"
-msgstr ""
+msgstr "Universidade de Princeton"
 
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfArts.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfEssay.php
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfShortEssay.php
 msgid "Stanford University"
-msgstr ""
+msgstr "Universidade de Stanford"
 
 #: CRM/Quest/Form/MatchApp/Partner/Wellesley/WellApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Wellesley/WellEssay.php
 msgid "Wellesley College"
-msgstr ""
+msgstr "Wellesley College"
 
 #: CRM/Quest/Form/MatchApp/Partner/Wheaton/WheApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Wheaton/WheRecommendation.php
 msgid "Wheaton College"
-msgstr ""
+msgstr "Wheaton College"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #, fuzzy
@@ -3064,9 +3008,8 @@ msgstr "Selecione o grupo."
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
-#, fuzzy
 msgid "Mailing Address"
-msgstr "Endereco de Email"
+msgstr "Endereco de Mailing"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
@@ -3078,7 +3021,7 @@ msgstr "Mailing Modelo"
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
 msgid "Alternate Telephone"
-msgstr ""
+msgstr "Telefone alternativo"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "U.S. Citizenship Status"
@@ -3090,16 +3033,15 @@ msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Race/Ethnicity"
-msgstr ""
+msgstr "Raça/Etnia"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
-#, fuzzy
 msgid "add another Race/Ethnicity"
-msgstr "outra escolha"
+msgstr "Adicionar outra raça/etnia"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "hide this Race/Ethnicity field"
-msgstr ""
+msgstr "Ocultar campo raça/etnia"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #, fuzzy
@@ -3145,15 +3087,13 @@ msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 #: CRM/Quest/Form/PreApp/Scholarship.php CRM/Quest/Form/Teacher/Additional.php
-#, fuzzy
 msgid "Additional Information"
-msgstr "Localização adicional"
+msgstr "Informação adicional"
 
 #: CRM/Quest/Form/MatchApp/SchoolOther.php
 #: CRM/Quest/Form/PreApp/SchoolOther.php
-#, fuzzy
 msgid "Name of Institution"
-msgstr "Nova Contribuicao"
+msgstr "Nome da instituição"
 
 #: CRM/Quest/Form/MatchApp/SchoolOther.php
 #: CRM/Quest/Form/PreApp/SchoolOther.php
@@ -3174,14 +3114,12 @@ msgid "Other School Information"
 msgstr "Outra localidade"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Sibling.php
-#, fuzzy
 msgid "Please Enter First Name"
-msgstr "Por favor entre com o nome do Produto."
+msgstr "Por favor entre com o Primeiro Nome"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Sibling.php
-#, fuzzy
 msgid "Please Enter Last Name"
-msgstr "Por favor entre com o nome do Produto."
+msgstr "Por favor entre com o Sobre-nome."
 
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Sibling.php
 #, fuzzy
@@ -3259,21 +3197,19 @@ msgstr "Informações do Domínio"
 
 #: CRM/Quest/Form/Recommender.php CRM/Quest/Form/Recommender/Submit.php
 msgid "Submit Recommendation"
-msgstr ""
+msgstr "Submeter recomendações"
 
 #: CRM/Quest/Form/Task/PDF.php CRM/Quest/Form/Task/XML.php
 msgid "Print XML File"
-msgstr ""
+msgstr "Imprimir arquivo XML"
 
 #: CRM/Activity/BAO/Activity.php
-#, fuzzy
 msgid "\"%1\" has been logged to Activity History."
-msgstr "A reunião \"%1\" foi registrada no Histórico de Atividades."
+msgstr "\"%1\" foi registrada no Histórico de Atividades."
 
 #: CRM/Activity/BAO/Activity.php
-#, fuzzy
 msgid "\"%1\" has been saved."
-msgstr "A reunião \"%1\" foi salva."
+msgstr "\"%1\" foi salva."
 
 #: CRM/Activity/Form/Meeting.php
 msgid "Please enter a valid subject."
@@ -3430,9 +3366,8 @@ msgid "The Option Group \"%1\" has been saved."
 msgstr "O Grupo \"%1\" foi salvo."
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Please enter a valid Option Group title."
-msgstr "Entre com um Inteiro válido."
+msgstr "Entre com um título válido para o título do Grupo."
 
 #: CRM/Admin/Form/OptionValue.php
 #, fuzzy
@@ -3662,14 +3597,12 @@ msgstr ""
 "Exclusão não pode ser desfeita."
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
-#, fuzzy
 msgid "Edit Mapping"
-msgstr "Carregar mapeamento"
+msgstr "Editar mapeamento"
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
-#, fuzzy
 msgid "Delete Mapping"
-msgstr "Excluir uma Reunião"
+msgstr "Excluir mapeamento"
 
 #: CRM/Admin/Page/MobileProvider.php
 msgid "Are you sure you want to disable this Mobile Phone Service Provider?"
@@ -3679,9 +3612,7 @@ msgstr "Tem certeza de querer desativar Operadora de Celular?"
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact phone numbers."
-msgstr ""
-"\\Usuários não poderão mais selecionar este valor para adicionar ou editar "
-"números de telefones de contatos."
+msgstr "Usuários não poderão mais selecionar este valor para adicionar ou editar números de telefones de contatos."
 
 #: CRM/Admin/Page/MobileProvider.php
 #: templates/CRM/Admin/Form/MobileProvider.tpl
@@ -15178,18 +15109,16 @@ msgstr ""
 "Contribuinte, Faixa de Quantias e uma variedade de outros critérios."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid "Members by Type"
-msgstr "Membros "
+msgstr "Membros por tipo"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid "Current #"
-msgstr "Moeda"
+msgstr "Atual #"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Totals (all types)"
-msgstr ""
+msgstr "Total (todos os tipos)"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 #, fuzzy
@@ -15289,9 +15218,8 @@ msgstr ""
 "(antes/depois). Um clean widget para fazer isso seria awesome."
 
 #: templates/CRM/Profile/Form/Dynamic.tpl templates/CRM/UF/Form/Preview.tpl
-#, fuzzy
 msgid "Please enter the phrase as displayed in the image"
-msgstr "Entre com um Inteiro válido."
+msgstr "Digite a frase como mostrada na imagem."
 
 #: templates/CRM/Profile/Form/ForwardMailing.tpl
 msgid "Please enter up to 5 email addresses to receive the mailing."
@@ -15299,9 +15227,8 @@ msgstr ""
 "Por gentileza entre com mais de 5 contas de email para receber o mailing."
 
 #: templates/CRM/Profile/Form/Search.tpl
-#, fuzzy
 msgid "New Search"
-msgstr "Salvar nova pesquisa"
+msgstr "Nova pesquisa"
 
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid "Displaying contacts where:"
@@ -15326,9 +15253,8 @@ msgid "Back to Listings"
 msgstr "Voltar à Listagem"
 
 #: templates/CRM/Quest/Error.tpl
-#, fuzzy
 msgid "Home Page"
-msgstr "Home"
+msgstr "Homepage"
 
 #: templates/CRM/Quest/Error.tpl
 msgid "Return to QuestBridge Home Page."
@@ -15349,13 +15275,12 @@ msgstr ""
 #: templates/CRM/Quest/Form/Counselor/Personal.tpl
 #: templates/CRM/Quest/Form/Teacher/Personal.tpl
 msgid "Telephone"
-msgstr ""
+msgstr "telefone"
 
 #: templates/CRM/Quest/Form/Counselor/Personal.tpl
 #: templates/CRM/Quest/Form/Teacher/Personal.tpl
-#, fuzzy
 msgid "Please specify."
-msgstr "Selecione status."
+msgstr "Seja especifico."
 
 #: templates/CRM/Quest/Form/MatchApp/Academic.tpl
 #: templates/CRM/Quest/Form/PreApp/Academic.tpl
@@ -15708,9 +15633,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.tpl
-#, fuzzy
 msgid "Place of birth"
-msgstr "Data de Nascimento"
+msgstr "Local de Nascimento"
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.tpl
 msgid "Who?"
@@ -15896,7 +15820,7 @@ msgstr ""
 
 #: templates/CRM/Quest/Form/MatchApp/Transcript.tpl
 msgid "In Progress"
-msgstr ""
+msgstr "Em Progresso"
 
 #: templates/CRM/Quest/Form/MatchApp/WorkExperience.tpl
 msgid ""
@@ -16047,9 +15971,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Quest/Form/SchoolSearch.tpl
-#, fuzzy
 msgid "Street"
-msgstr "Nome da Rua"
+msgstr "Rua"
 
 #: templates/CRM/Quest/Form/SchoolSearch.tpl
 #, fuzzy
@@ -16134,9 +16057,8 @@ msgstr ""
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
-#, fuzzy
 msgid "Educational Interests:"
-msgstr "Duração do intervalo"
+msgstr "Interesse educacional"
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
@@ -16145,15 +16067,13 @@ msgstr ""
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
-#, fuzzy
 msgid "Supplementary Documents"
-msgstr "Endereço suplementar"
+msgstr "Documento suplementar"
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
-#, fuzzy
 msgid "Documents"
-msgstr "Comentário"
+msgstr "Documentos"
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
@@ -16515,7 +16435,7 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "more info"
-msgstr ""
+msgstr "mais informações"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
