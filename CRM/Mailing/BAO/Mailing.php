@@ -277,6 +277,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                                               $tables,
                                                               $whereTables
                                                               );
+            $where = trim( $where );
+            if ( $where ) {
+                $where = " AND $where ";
+            }
             $from = CRM_Contact_BAO_Query::fromClause($tables);
             $ssq = "INSERT IGNORE INTO  I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
@@ -290,7 +294,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
-                        AND             $where
+                                        $where
                         AND             X_$job_id.contact_id IS null ";
             $mailingGroup->query($ssq);
         }
