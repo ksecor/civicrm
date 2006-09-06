@@ -706,6 +706,19 @@ class CRM_Contact_BAO_Query {
             }
             $from = $this->_simpleFromClause;
         } else {
+            if ( CRM_Utils_Array::value( 'group', $this->_paramLookup ) ) {
+                // make sure there is only one element
+                // this is used when we are running under smog and need to know
+                // how the contact was added (CRM-1203)
+                if ( ( count( $this->_paramLookup['group'] ) == 1 ) &&
+                     ( count( $this->_paramLookup['group'][0][2] ) == 1 ) ) {
+                    $this->_select['group_contact_id']      = 'civicrm_group_contact.id as group_contact_id';
+                    $this->_element['group_contact_id']     = 1;
+                    $this->_select['status']                = 'civicrm_group_contact.status as status';
+                    $this->_element['status']               = 1;
+                }
+                $this->_tables['civicrm_group_contact'] = 1;
+            }
             if ( $this->_useDistinct ) {
                 $this->_select['contact_id'] = 'DISTINCT(contact_a.id) as contact_id';
             }
