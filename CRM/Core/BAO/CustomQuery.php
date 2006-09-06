@@ -263,15 +263,15 @@ class CRM_Core_BAO_CustomQuery {
                         $sqlValue = array( );
                         if ($field['html_type'] == 'CheckBox') {
                             foreach ( $value as $k => $v ) { 
-                                $sqlValue[] = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $k . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                                $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $k . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                             }
-                            $this->_where[$grouping][] = $sql . "like '%" . implode( '%', $sqlValue ) . "%'";
+                            $this->_where[$grouping][] = implode( ' AND ', $sqlValue );
                             $this->_qill[$grouping][]  = ts('%1 %3 %2', array(1 => $field['label'], 2 => $qillValue, 3 => $op));
                         } else { // for multi select
                             foreach ( $value as $k => $v ) { 
-                                $sqlValue[] = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $v . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                                $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $v . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                             }
-                            $this->_where[$grouping][] = $sql . "like '%" . implode( '%',  $sqlValue ) . "%'";
+                            $this->_where[$grouping][] = implode( ' AND ', $sqlValue ); 
                             $this->_qill[$grouping][]  = ts('%1 %3 %2', array(1 => $field['label'], 2 => $qillValue, 3 => $op));
                         }                    
                     } else {
