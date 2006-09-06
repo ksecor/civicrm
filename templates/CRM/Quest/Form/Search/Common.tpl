@@ -50,6 +50,14 @@
                  {$form.quest_college_interest.html} 
             </td>
         </tr> 
+        <tr>
+            <td class="label">
+                 {$form.quest_ethnicity.label} 
+            </td> 
+            <td>
+                 {$form.quest_ethnicity.html} 
+            </td>
+        </tr> 
 
 
 

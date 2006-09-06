@@ -48,7 +48,9 @@ class CRM_Quest_BAO_Query
                                    'quest_score_ACT'  => 'ACT Score',
                                    'quest_score_PLAN' => 'PLAN Score',
                                    'quest_household_income_total' => 'Total Household Income' );
-            self::$_ids   = array( 'quest_college_interest' => 'College Interest' );
+            self::$_ids   = array( 'quest_college_interest' => 'College Interest', 
+                                   'quest_ethnicity' => 'Ethnicity' 
+                                   );
         }
     }
 
@@ -150,7 +152,16 @@ class CRM_Quest_BAO_Query
             $query->_tables['quest_student'] = 1;
             $query->_whereTables['quest_student'] = 1;
             return;
-        
+
+        case 'quest_ethnicity' :
+            require_once "CRM/Core/OptionGroup.php";
+            $optionGroups = array( );
+            $optionGroups =  CRM_Core_OptionGroup::values( substr( $name, 6) ); 
+            $query->_where[$grouping][] = "quest_student. ethnicity_id_1 LIKE '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Ethnicity %1 %2', array( 1 => $op, 2 => $optionGroups[$value] ) );
+            $query->_tables['quest_student'] = 1;
+            $query->_whereTables['quest_student'] = 1;
+            return;
         }
     }
     
@@ -196,7 +207,7 @@ class CRM_Quest_BAO_Query
         
         require_once "CRM/Core/OptionGroup.php";
         foreach ( self::$_ids as $name => $title ) {
-            $form->add('select', $name, $title, CRM_Core_OptionGroup::values( substr( $name, 6) ) );
+            $form->add('select', $name, $title, array("" => "-- Select -- ")+CRM_Core_OptionGroup::values( substr( $name, 6) ) );
         }
     }
 
