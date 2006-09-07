@@ -46,6 +46,7 @@
  *
  */
 
+
 class CRM_Core_PseudoConstant {
     /**
      * location type
@@ -274,6 +275,8 @@ class CRM_Core_PseudoConstant {
      * @return array - array reference of all activty types.
      *
      */
+
+
     public static function &activityType( $all = false, $cond = 'id > 4' )
     {
         if ( ! self::$activityType ) {
@@ -281,6 +284,33 @@ class CRM_Core_PseudoConstant {
         }
         return self::$activityType;
     }
+    
+
+
+
+//     public static function &activityType( $all = false, $cond = 'id > 9')
+//     {
+//         require_once 'CRM/Core/BAO/OptionGroup.php';
+//         $groupParams = array( 'name' => 'activity_type' );
+//         $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
+        
+//         if ( ! self::$activityType ) {
+//             if ($optionGroup->id) {
+//                 if($cond == null) {
+//                     self::populate( self::$activityType, 'CRM_Core_DAO_OptionValue', $all, 'name', 
+//                                     'is_active', "option_group_id = " . $optionGroup->id , 'name' );
+//                 } else {
+//                     self::populate( self::$activityType, 'CRM_Core_DAO_OptionValue', $all, 'name', 
+//                                     'is_active', "option_group_id = " . $optionGroup->id  . ' AND ' . $cond, 'name' );
+//                 }
+//             } else {
+//                 // since there is a break if it doesn't return anything
+//                 return array();
+//             }
+//         }
+          
+//         return self::$activityType;
+//     }
 
     /**
      * Get all Individual Prefix.
@@ -297,9 +327,20 @@ class CRM_Core_PseudoConstant {
      */
     public static function &individualPrefix( $all=false )
     {
+        require_once 'CRM/Core/BAO/OptionGroup.php';
+        $groupParams = array( 'name' => 'individual_prefix' );
+        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
+        
         if ( ! self::$individualPrefix ) {
-            self::populate( self::$individualPrefix, 'CRM_Core_DAO_IndividualPrefix', $all, 'name', 'is_active', null, 'weight ASC' );
+            if ($optionGroup->id) {
+                self::populate( self::$individualPrefix, 'CRM_Core_DAO_OptionValue', $all, 'name', 
+                                'is_active', "option_group_id = " . $optionGroup->id, 'name' );
+            } else {
+                // since there is a break if it doesn't return anything
+                return array();
+            }
         }
+          
         return self::$individualPrefix;
     }
 
@@ -318,9 +359,20 @@ class CRM_Core_PseudoConstant {
      */
     public static function &individualSuffix( $all=false )
     {
+        require_once 'CRM/Core/BAO/OptionGroup.php';
+        $groupParams = array( 'name' => 'individual_suffix' );
+        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
+        
         if ( ! self::$individualSuffix ) {
-            self::populate( self::$individualSuffix, 'CRM_Core_DAO_IndividualSuffix', $all, 'name', 'is_active', null, 'weight ASC' );
+            if ($optionGroup->id) {
+                self::populate( self::$individualSuffix, 'CRM_Core_DAO_OptionValue', $all, 'name', 
+                                'is_active', "option_group_id = " . $optionGroup->id,'name'  );
+            } else {
+                // since there is a break if it doesn't return anything
+                return array();
+            }
         }
+          
         return self::$individualSuffix;
     }
 

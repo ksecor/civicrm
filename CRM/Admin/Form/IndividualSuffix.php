@@ -36,6 +36,8 @@
  */
 
 require_once 'CRM/Admin/Form.php';
+require_once 'CRM/Core/BAO/OptionGroup.php';
+require_once 'CRM/Core/BAO/OptionValue.php';
 
 /**
  * This class generates form components for Individual Suffix
@@ -43,6 +45,46 @@ require_once 'CRM/Admin/Form.php';
  */
 class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
 {
+
+    /**
+     * The id of the object being edited / created
+     *
+     * @var int
+     */
+    protected $_optionGroupID;
+    
+    function preProcess( ) {
+        parent::preProcess( );
+        
+        $groupParams = array( 'name' => 'individual_suffix' );
+        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $defaults);
+        
+        $this->_optionGroupID = $optionGroup->id;
+        
+    }
+
+    /**
+     * This function sets the default values for the form.
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+     
+        $defaults = array( );
+        $defaults =& parent::setDefaultValues( );
+        
+        //finding default weight to be put 
+        if ( ! $defaults['weight'] ) {
+            $query = "SELECT max( `weight` ) as weight FROM `civicrm_option_value` where option_group_id=" . $this->_optionGroupID;
+            $dao =& new CRM_Core_DAO( );
+            $dao->query( $query );
+            $dao->fetch();
+            $defaults['weight'] = ($dao->weight + 1);
+        }
+        return $defaults;  
+    }
+
     /**
      * Function to build the form
      *
@@ -58,11 +100,11 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
             return;
         }
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_IndividualSuffix', 'name' ) );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid individual suffix name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_IndividualSuffix', $this->_id ) );
+        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_OptionValue', $this->_id ) );
         
-        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_IndividualSuffix', 'weight'), true);
+        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
         
         $this->add('checkbox', 'is_active', ts('Enabled?'));
@@ -79,10 +121,8 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/Core/BAO/IndividualSuffix.php';
-
         if($this->_action & CRM_Core_Action::DELETE) {
-            if(CRM_Core_BAO_IndividualSuffix::del($this->_id)) {
+            if(CRM_Core_BAO_OptionValue::del($this->_id)) {
                 CRM_Core_Session::setStatus( ts('Selected Individual Suffix has been deleted.') );
             } else {
                 CRM_Core_Session::setStatus( ts('Selected Individual Suffix has not been deleted.') );
@@ -91,13 +131,11 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
             $params = $ids = array( );
             // store the submitted values in an array
             $params = $this->exportValues();
-            
-            if ($this->_action & CRM_Core_Action::UPDATE ) {
-                $ids['individualSuffix'] = $this->_id;
-            }
-            
-            $individualSuffix = CRM_Core_BAO_IndividualSuffix::add($params, $ids);
-            
+            $groupParams = array( 'name' => 'individual_suffix' );
+                
+            require_once 'CRM/Core/OptionValue.php';
+            $optionValue =  CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
+                        
             CRM_Core_Session::setStatus( ts('The Individual Suffix "%1" has been saved.', array( 1 => $individualSuffix->name )) );
         }
     }

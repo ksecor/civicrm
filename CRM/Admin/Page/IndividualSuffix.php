@@ -35,7 +35,7 @@
  */
 
 require_once 'CRM/Core/Page/Basic.php';
-require_once 'CRM/Core/DAO/IndividualSuffix.php';
+require_once 'CRM/Core/DAO/OptionValue.php';
 /**
  * Page for displaying list of Individual Suffix
  */
@@ -56,7 +56,7 @@ class CRM_Admin_Page_IndividualSuffix extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Core_BAO_IndividualSuffix';
+        return 'CRM_Core_BAO_OptionValue';
     }
 
     /**
@@ -112,27 +112,27 @@ class CRM_Admin_Page_IndividualSuffix extends CRM_Core_Page_Basic
      * @access public
      *
      */
-    function run()
-    {
-        // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', 'String',
-                                              $this, false, 'browse'); // default to 'browse'
+  //   function run()
+//     {
+//         // get the requested action
+//         $action = CRM_Utils_Request::retrieve('action', 'String',
+//                                               $this, false, 'browse'); // default to 'browse'
 
-        // assign vars to templates
-        $this->assign('action', $action);
-        $id = CRM_Utils_Request::retrieve('id', 'Positive',
-                                          $this, false, 0);
+//         // assign vars to templates
+//         $this->assign('action', $action);
+//         $id = CRM_Utils_Request::retrieve('id', 'Positive',
+//                                           $this, false, 0);
         
-        // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $this->edit($action, $id) ;
-        } 
-        // finally browse the custom groups
-        $this->browse();
+//         // what action to take ?
+//         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+//             $this->edit($action, $id) ;
+//         } 
+//         // finally browse the custom groups
+//         $this->browse();
         
-        // parent run 
-        parent::run();
-    }
+//         // parent run 
+//         parent::run();
+//     }
 
     /**
      * Browse all individual suffix
@@ -142,38 +142,17 @@ class CRM_Admin_Page_IndividualSuffix extends CRM_Core_Page_Basic
      * @access public
      * @static
      */
-    function browse()
+    function browse() 
     {
-        // get all individual suffix sorted by weight
-        $individualSuffix = array();
-        $dao =& new CRM_Core_DAO_IndividualSuffix();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
-        $dao->orderBy('weight');
-        $dao->find();
-
-        while ($dao->fetch()) {
-            $individualSuffix[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $individualSuffix[$dao->id]);
-            // form all action links
-            $action = array_sum(array_keys($this->links()));
-
-            // update enable/disable links depending on if it is is_reserved or is_active
-            if ($dao->is_active) {
-                $action -= CRM_Core_Action::ENABLE;
-            } else {
-                $action -= CRM_Core_Action::DISABLE;
-            }
-
-            $individualSuffix[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $dao->id));
-        }
-        $this->assign('rows', $individualSuffix);
+        $groupParams = array( 'name' => 'individual_suffix' );
+        require_once 'CRM/Core/OptionValue.php';
+        $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links());   
+        $this->assign('rows', $optionValue);
     }
+    
+    
 
+    
     /**
      * Get name of edit form
      *
