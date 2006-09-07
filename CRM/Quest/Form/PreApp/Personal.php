@@ -161,7 +161,7 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         CRM_Core_ShowHideBlocks::links( $this,"ethnicity_id_2", ts('add another Race/Ethnicity'), ts('hide this Race/Ethnicity field'));
        
         $this->add('date', 'birth_date',
-                   ts(' Birthdate (month/day/year)'),
+                   ts('Birthdate (month/day/year)'),
                    CRM_Core_SelectValues::date('custom', 20, 0, "M\001d\001Y" ),
                    true);        
         $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');
@@ -180,8 +180,8 @@ class CRM_Quest_Form_App_Personal extends CRM_Quest_Form_App
         $this->addRule('years_in_us', ts("Please enter value for Number of Years in U.S."),'required');
         $this->addRule( "years_in_us", ts('Number not valid.'), 'integer' );
         
-        $this->addElement('text', 'number_siblings', ts( 'Number of siblings ' ), $attributes['number_siblings'] );
-        $this->addRule('number_siblings', ts("Please enter Number of Siblings "),'required');
+        $this->addElement('text', 'number_siblings', ts( 'Number of siblings' ), $attributes['number_siblings'] );
+        $this->addRule('number_siblings', ts("Please enter Number of Siblings"),'required');
         $this->addRule( "number_siblings", ts('Number of Siblings not valid.'), 'positiveInteger' );
 
         //Country of Heritage/Nationality

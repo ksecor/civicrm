@@ -73,7 +73,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                        "8600" => "8600",
                        "L7163" => "L7163");
         
-        $this->add('select', 'label_id', ts('Select Label'), array( '' => ts(' - select label - ')) + $label, true);
+        $this->add('select', 'label_id', ts('Select Label'), array( '' => ts('- select label -')) + $label, true);
 
         // add select for Location Type
         $this->addElement('select', 'location_type_id', ts('Select Location'),

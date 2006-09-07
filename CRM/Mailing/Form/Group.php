@@ -177,7 +177,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
             $checkGroups = array();
             $checkGroups = array_intersect($fields['includeGroups'], $fields['excludeGroups']);
             if (!empty($checkGroups)) {
-                $errors['excludeGroups'] = ts('Cannot have same groups in Include Group(s) and Exclude Group(s). ');
+                $errors['excludeGroups'] = ts('Cannot have same groups in Include Group(s) and Exclude Group(s).');
             }
         }
 

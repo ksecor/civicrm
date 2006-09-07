@@ -375,7 +375,7 @@ UPDATE civicrm_membership_type
                 } else {
                     $form->addGroup($radio,'selectMembership',null);
                 }
-                $form->addRule('selectMembership',ts("Plese select one of the Memebership "),'required');
+                $form->addRule('selectMembership',ts("Please select one of the memeberships"),'required');
             }
             
             $form->assign( 'membershipBlock' , $membershipBlock );
