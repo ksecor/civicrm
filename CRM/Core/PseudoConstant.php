@@ -339,8 +339,17 @@ class CRM_Core_PseudoConstant {
      */
     public static function &gender( $all=false )
     {
+        require_once 'CRM/Core/BAO/OptionGroup.php';
+        $groupParams = array( 'name' => 'gender' );
+        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
+        
         if ( ! self::$gender ) {
-            self::populate( self::$gender, 'CRM_Core_DAO_Gender', $all, 'name', 'is_active', null, 'weight ASC' );
+            if ($optionGroup->id) {
+                self::populate( self::$gender, 'CRM_Core_DAO_OptionValue', $all, 'name', 
+                                'is_active', "option_group_id = " . $optionGroup->id, 'name' );
+            } else {
+                return array();
+            }
         }
         return self::$gender;
     }
@@ -362,8 +371,18 @@ class CRM_Core_PseudoConstant {
      *
      */
     public static function &IMProvider( $all = false ) {
+        require_once 'CRM/Core/BAO/OptionGroup.php';
+        $groupParams = array( 'name' => 'instant_messenger_service' );
+        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
+        
         if (!self::$imProvider) {
-            self::populate( self::$imProvider, 'CRM_Core_DAO_IMProvider', $all );
+            if ($optionGroup->id) {
+                self::populate( self::$imProvider, 'CRM_Core_DAO_OptionValue', $all, 'name', 
+                                'is_active', "option_group_id = " . $optionGroup->id, 'name' );
+            } else {
+                // since there is a break if it doesn't return anything
+                return array();
+            }
         }
         return self::$imProvider;
     }

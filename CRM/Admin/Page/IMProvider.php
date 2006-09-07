@@ -56,7 +56,7 @@ class CRM_Admin_Page_IMProvider extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Core_BAO_IMProvider';
+        return 'CRM_Core_BAO_OptionValue';
     }
 
     /**
@@ -99,6 +99,23 @@ class CRM_Admin_Page_IMProvider extends CRM_Core_Page_Basic
                                  );
         }
         return self::$_links;
+    }
+
+    /**
+     * Browse all options value.
+     *  
+     * @return void
+     * @access public
+     * @static
+     */
+    function browse()
+    {
+        require_once 'CRM/Core/OptionValue.php';
+        
+        $groupParams = array( 'name' => 'instant_messenger_service' );
+        $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links(), 'name');
+        
+        $this->assign('rows', $optionValue);
     }
 
     /**

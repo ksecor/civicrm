@@ -379,7 +379,6 @@ class CRM_Contact_BAO_Query {
 
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
-        
         foreach ($this->_fields as $name => $field) {
             // if this is a hierarchical name, we ignore it
             $names = explode( '-', $name );
@@ -416,8 +415,13 @@ class CRM_Contact_BAO_Query {
                         $tName = substr($tableName, 8 );
 
                         if ( $tName != 'contact' ) {
-                            $this->_select["{$tName}_id"]  = "{$tableName}.id as {$tName}_id";
-                            $this->_element["{$tName}_id"] = 1;
+                            if ($name == 'gender') {
+                                $this->_select["{$name}_id"]  = "{$tableName}.id as {$name}_id";
+                                $this->_element["{$name}_id"] = 1;
+                            } else {
+                                $this->_select["{$tName}_id"]  = "{$tableName}.id as {$tName}_id";
+                                $this->_element["{$tName}_id"] = 1;
+                            }
                         }
                         
                         //special case for phone
@@ -1208,7 +1212,9 @@ class CRM_Contact_BAO_Query {
             return $from;
         }
 
-        if ( ( CRM_Utils_Array::value( 'civicrm_gender', $tables ) ||
+        if ( ( 
+              //CRM_Utils_Array::value( 'civicrm_gender', $tables ) ||
+               CRM_Utils_Array::value( 'civicrm_option_value', $tables ) ||
                CRM_Utils_Array::value( 'civicrm_individual_prefix' , $tables ) ||
                CRM_Utils_Array::value( 'civicrm_individual_suffix' , $tables )) &&
              ! CRM_Utils_Array::value( 'civicrm_individual'       , $tables ) ) {
@@ -1410,8 +1416,12 @@ class CRM_Contact_BAO_Query {
                 $from .= " $side JOIN civicrm_individual_suffix ON civicrm_individual.suffix_id = civicrm_individual_suffix.id ";
                 continue;
 
-            case 'civicrm_gender':
-                $from .= " $side JOIN civicrm_gender ON civicrm_individual.gender_id = civicrm_gender.id ";
+//             case 'civicrm_gender':
+//                 $from .= " $side JOIN civicrm_gender ON civicrm_individual.gender_id = civicrm_gender.id ";
+//                 continue;
+
+            case 'civicrm_option_value':
+                $from .= " $side JOIN civicrm_option_value ON civicrm_individual.gender_id = civicrm_option_value.id ";
                 continue;
 
             case 'civicrm_relationship':

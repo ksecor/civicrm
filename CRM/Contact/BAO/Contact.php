@@ -62,6 +62,7 @@ require_once 'CRM/Activity/DAO/Phonecall.php';
 require_once 'CRM/Core/Permission.php';
 require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
 
+require_once 'CRM/Core/BAO/OptionValue.php';
 
 class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact 
 {
@@ -1314,13 +1315,15 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                 }
             }
 
+            require_once "CRM/Core/OptionValue.php";
             // the fields are only meant for Individual contact type
             if ( ($contactType == 'Individual') || ($contactType == 'All')) {
                 $fields = array_merge( $fields, CRM_Core_DAO_IndividualPrefix::import( true ) ,
                                        CRM_Core_DAO_IndividualSuffix::import( true ) ,
-                                       CRM_Core_DAO_Gender::import( true ) );                
+                                       //CRM_Core_DAO_Gender::import( true ) 
+                                       CRM_Core_OptionValue::importableFields( )
+                                       );                
             }
-
             $locationFields = array_merge( CRM_Core_DAO_Location::import( ),  
                                            CRM_Core_DAO_Address::import( ),
                                            CRM_Core_DAO_Phone::import( ),
@@ -1542,6 +1545,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                 $fields = array( '' => array( 'title' => ts('- Contact Fields -') ) );
             }
 
+            require_once 'CRM/Core/OptionValue.php';
             if ( $contactType != 'All' ) {
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
                 eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$contactType.'::export( ));');
@@ -1553,17 +1557,21 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                         $fields = array_merge( $fields,
                                                CRM_Core_DAO_IndividualPrefix::export( true ) , 
                                                CRM_Core_DAO_IndividualSuffix::export( true ) , 
-                                               CRM_Core_DAO_Gender::export( true ) );
+                                               //CRM_Core_DAO_Gender::export( true ) 
+                                               CRM_Core_OptionValue::exportableFields( )
+                                               );
                     }
                 }
             }
-
+            
             // the fields are only meant for Individual contact type
             if ( $contactType == 'Individual') {
                 $fields = array_merge( $fields,
                                        CRM_Core_DAO_IndividualPrefix::export( true ) ,
                                        CRM_Core_DAO_IndividualSuffix::export( true ) ,
-                                       CRM_Core_DAO_Gender::export( true ) );                
+                                       //CRM_Core_DAO_Gender::export( true ) 
+                                       CRM_Core_OptionValue::exportableFields( )
+                                       );                
             }
             
             $locationType = array( );
@@ -1640,6 +1648,7 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
         $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );
 
         return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
+        
     }
 
     /**

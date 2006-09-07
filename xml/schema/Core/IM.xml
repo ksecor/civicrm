@@ -49,7 +49,7 @@
   </field>
   <foreignKey>
        <name>provider_id</name>
-       <table>civicrm_im_provider</table>
+       <table>civicrm_option_value</table>
        <key>id</key>
        <add>1.1</add>
   </foreignKey>

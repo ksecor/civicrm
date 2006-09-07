@@ -51,6 +51,7 @@
        <title>Option Name</title>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>May be used to store an option string that is different from the display title. One use case is when a non-translated value needs to be set / sent to another application (e.g. for Credit Card type).</comment>
        <add>1.5</add>
   </field>

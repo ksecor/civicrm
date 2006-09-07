@@ -56,7 +56,7 @@ class CRM_Admin_Page_Gender extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Core_BAO_Gender';
+        return 'CRM_Core_BAO_OptionValue';
     }
 
     /**
@@ -102,39 +102,6 @@ class CRM_Admin_Page_Gender extends CRM_Core_Page_Basic
     }
 
     /**
-     * Run the page.
-     *
-     * This method is called after the page is created. It checks for the  
-     * type of action and executes that action.
-     * Finally it calls the parent's run method.
-     *
-     * @return void
-     * @access public
-     *
-     */
-    function run()
-    {
-        // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', 'String',
-                                              $this, false, 'browse'); // default to 'browse'
-
-        // assign vars to templates
-        $this->assign('action', $action);
-        $id = CRM_Utils_Request::retrieve('id', 'Positive',
-                                          $this, false, 0);
-        
-        // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $this->edit($action, $id) ;
-        } 
-        // finally browse the custom groups
-        $this->browse();
-        
-        // parent run 
-        parent::run();
-    }
-
-    /**
      * Browse all genders
      *  
      * 
@@ -144,34 +111,12 @@ class CRM_Admin_Page_Gender extends CRM_Core_Page_Basic
      */
     function browse()
     {
-        // get all genders sorted by weight
-        $gender = array();
-        $dao =& new CRM_Core_DAO_Gender();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
-        $dao->orderBy('weight');
-        $dao->find();
-
-        while ($dao->fetch()) {
-            $gender[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $gender[$dao->id]);
-            // form all action links
-            $action = array_sum(array_keys($this->links()));
-
-            // update enable/disable links depending on if it is is_reserved or is_active
-            if ($dao->is_active) {
-                $action -= CRM_Core_Action::ENABLE;
-            } else {
-                $action -= CRM_Core_Action::DISABLE;
-            }
-
-            $gender[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $dao->id));
-        }
-        $this->assign('rows', $gender);
+        require_once 'CRM/Core/OptionValue.php';
+        
+        $groupParams = array( 'name' => 'gender' );
+        $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links(), 'name');
+        
+        $this->assign('rows', $optionValue);
     }
 
     /**

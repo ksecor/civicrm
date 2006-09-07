@@ -36,6 +36,7 @@
  */
 
 require_once 'CRM/Admin/Form.php';
+require_once 'CRM/Core/BAO/OptionGroup.php';
 
 /**
  * This class generates form components generic to Mobile provider
@@ -43,6 +44,20 @@ require_once 'CRM/Admin/Form.php';
  */
 class CRM_Admin_Form_MobileProvider extends CRM_Admin_Form
 {
+    /**
+     * Function to for pre-processing
+     *
+     * @return None
+     * @access public
+     */
+    public function preProcess( ) 
+    {
+        parent::preProcess( );
+        $groupParams = array( 'name' => 'mobile_provider' );
+        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
+        $this->_gid = $optionGroup->id;
+    }
+
     /**
      * Function to actually build the form
      *
@@ -54,19 +69,16 @@ class CRM_Admin_Form_MobileProvider extends CRM_Admin_Form
         parent::buildQuickForm( );
          
         if ($this->_action & CRM_Core_Action::DELETE ) { 
-            
             return;
         }
         
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'name'       , ts('Name')       ,
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MobileProvider', 'name' ) );
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_MobileProvider', $this->_id ) );
+        $this->addRule( 'name', ts('Name already exists in Database.'), 'optionExists', array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
-
-
     }
 
        
@@ -78,27 +90,18 @@ class CRM_Admin_Form_MobileProvider extends CRM_Admin_Form
     public function postProcess() 
     {
         if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Core_BAO_MobileProvider::del($this->_id);
+            CRM_Core_BAO_OptionValue::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected Mobile Provider has been deleted.') );
         } else {
             // store the submitted values in an array
             $params = $this->exportValues();
-            $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
+            $groupParams = array( 'name' => 'mobile_provider' );
             
-            // action is taken depending upon the mode
-            $mobileProvider               =& new CRM_Core_DAO_MobileProvider( );
-            $mobileProvider->name         = $params['name'];
-            $mobileProvider->is_active    = $params['is_active'];
-            $mobileProvider->domain_id    = CRM_Core_Config::domainID( );
-            
-            if ($this->_action & CRM_Core_Action::UPDATE ) {
-                $mobileProvider->id = $this->_id;
-            }
-            
-            $mobileProvider->save( );
+            require_once 'CRM/Core/OptionValue.php';
+            $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
             
             CRM_Core_Session::setStatus( ts('The Mobile Provider "%1" has been saved.',
-                                            array( 1 => $mobileProvider->name ) ) );
+                                            array( 1 => $optionValue->name ) ) );
         }
     }//end of function
 

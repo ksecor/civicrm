@@ -37,6 +37,22 @@ require_once 'CRM/Core/BAO/OptionValue.php';
 require_once 'CRM/Core/BAO/OptionGroup.php';
 
 class CRM_Core_OptionValue {
+
+    /**
+     * static field for all the option value information that we can potentially export
+     *
+     * @var array
+     * @static
+     */
+    static $_exportableFields = null;
+
+    /**
+     * static field for all the option value information that we can potentially export
+     *
+     * @var array
+     * @static
+     */
+    static $_importableFields = null;
     
     /**
      * Function to return option-values of a particular group
@@ -151,6 +167,88 @@ class CRM_Core_OptionValue {
         }
         $optionValue = CRM_Core_BAO_OptionValue::add($params, $ids);
         return $optionValue;
+    }
+
+    /**
+     * Check if there is a record with the same name in the db
+     *
+     * @param string $value     the value of the field we are checking
+     * @param string $daoName   the dao object name
+     * @param string $daoID     the id of the object being updated. u can change your name
+     *                          as long as there is no conflict
+     * @param string $fieldName the name of the field in the DAO
+     *
+     * @return boolean     true if object exists
+     * @access public
+     * @static
+     */
+    static function optionExists( $value, $daoName, $daoID, $optionGroupID, $fieldName = 'name' ) {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object =& new ' . $daoName . '( );' );
+        $object->$fieldName      = $value;
+        $object->option_group_id = $optionGroupID;
+
+        if ( $object->find( true ) ) {
+            return ( $daoID && $object->id == $daoID ) ? true : false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Check if there is a record with the same name in the db
+     *
+     * @param string $value     the value of the field we are checking
+     * @param string $daoName   the dao object name
+     * @param string $daoID     the id of the object being updated. u can change your name
+     *                          as long as there is no conflict
+     * @param string $fieldName the name of the field in the DAO
+     *
+     * @return boolean     true if object exists
+     * @access public
+     * @static
+     */
+    static function exportableFields( ) {
+        if ( ! self::$_exportableFields ) {
+            self::$_exportableFields = array();
+            
+            require_once "CRM/Core/DAO/OptionValue.php";
+            $option = CRM_Core_DAO_OptionValue::export( );
+            $nameTitle = array('gender' => array('name' => 'gender',
+                                                 'title'=> 'Gender'));
+            
+            foreach ( $nameTitle as $name => $attribs ) {
+                self::$_exportableFields[$name] = $option['name'];
+                if ( is_array($attribs) ) {
+                    foreach ( $attribs as $key => $val ) {
+                        self::$_exportableFields[$name][$key] = $val;
+                    }
+                }
+            }
+        }
+        return self::$_exportableFields;
+    }
+
+    static function importableFields( ) {
+        if ( ! self::$_importableFields ) {
+            self::$_importableFields = array();
+            
+            require_once "CRM/Core/DAO/OptionValue.php";
+            $option = CRM_Core_DAO_OptionValue::import( );
+            $nameTitle = array('gender' => array('name' => 'gender',
+                                                 'title'=> 'Gender'));
+            
+            foreach ( $nameTitle as $name => $attribs ) {
+                self::$_importableFields[$name] = $option['name'];
+                if ( is_array($attribs) ) {
+                    foreach ( $attribs as $key => $val ) {
+                        self::$_importableFields[$name][$key] = $val;
+                    }
+                }
+            }
+        }
+
+        return self::$_importableFields;
     }
 }
 
