@@ -70,10 +70,16 @@
    </div>
 
    <div class="col2">
-
-    {*if $config->mapAPIKey AND $loc.is_primary AND $loc.address.geo_code_1 AND $loc.address.geo_code_2*}
-    {if $config->mapAPIKey AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
-        <a href="{crmURL p='civicrm/contact/search/map' q="reset=1&cid=$contactId&lid=`$loc.address.location_id`"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
+    {if $loc.location_name}
+        <strong>{$loc.location_name}</strong><br />
+    {/if}
+    {if ( $config->mapAPIKey AND $config->mapProvider EQ 'Google' AND $loc.address.city AND $loc.address.state_province )
+        OR
+        ( $config->mapAPIKey AND $config->mapProvider EQ 'Yahoo' AND $loc.address.geo_code_1 ) }
+        <a href="{crmURL p='civicrm/contact/search/map' q="reset=1&cid=$contactId&lid=`$loc.address.location_id`"}" title="{ts}Map this Address{/ts}">{ts}Map this Address{/ts}</a><br />
+    {/if}
+    {if $loc.location_name}
+        <strong>{$loc.location_name}</strong><br />
     {/if}
     {$loc.address.display|nl2br}
   </div>
