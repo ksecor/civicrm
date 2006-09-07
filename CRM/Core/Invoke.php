@@ -492,6 +492,16 @@ class CRM_Core_Invoke {
             $view =& new CRM_Admin_Page_MobileProvider(ts('View Mobile Providers'));
             break;
 
+        case 'individualPrefix':
+            require_once 'CRM/Admin/Page/IndividualPrefix.php';
+            $view =& new CRM_Admin_Page_IndividualPrefix(ts('View Individual Prefix'));
+            break;
+            
+        case 'individualSuffix':
+            require_once 'CRM/Admin/Page/IndividualSuffix.php';
+            $view =& new CRM_Admin_Page_IndividualSuffix(ts('View Individual Suffix'));
+            break;
+
         case 'reltype':
             require_once 'CRM/Admin/Page/RelationshipType.php';
             $view =& new CRM_Admin_Page_RelationshipType(ts('View Relationship Types'));

@@ -47,20 +47,16 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
 {
 
     /**
-     * The id of the object being edited / created
+     * Function to for pre-processing
      *
-     * @var int
+     * @return None
+     * @access public
      */
-    protected $_optionGroupID;
-    
     function preProcess( ) {
         parent::preProcess( );
-        
         $groupParams = array( 'name' => 'individual_suffix' );
         $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $defaults);
-        
-        $this->_optionGroupID = $optionGroup->id;
-        
+        $this->_gid = $optionGroup->id;
     }
 
     /**
@@ -70,17 +66,19 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
      * @return None
      */
     function setDefaultValues( ) {
-     
-        $defaults = array( );
         $defaults =& parent::setDefaultValues( );
         
-        //finding default weight to be put 
-        if ( ! $defaults['weight'] ) {
-            $query = "SELECT max( `weight` ) as weight FROM `civicrm_option_value` where option_group_id=" . $this->_optionGroupID;
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
-            $dao->fetch();
-            $defaults['weight'] = ($dao->weight + 1);
+        if (! $defaults['weight']) {
+            if ($this->_gid) {
+                $query = "SELECT max( `weight` ) as weight FROM `civicrm_option_value` where option_group_id=" . $this->_gid;
+                $dao =& new CRM_Core_DAO( );
+                $dao->query( $query );
+                if ($dao->fetch()) {
+                    $defaults['weight'] = ($dao->weight + 1);
+                }
+            } else {
+                $defaults['weight'] = 1;
+            }
         }
         return $defaults;  
     }
@@ -102,7 +100,7 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid individual suffix name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_OptionValue', $this->_id ) );
+        $this->addRule( 'name', ts('Name already exists in Database.'), 'optionExists', array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid ) );
         
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
@@ -128,9 +126,9 @@ class CRM_Admin_Form_IndividualSuffix extends CRM_Admin_Form
                 CRM_Core_Session::setStatus( ts('Selected Individual Suffix has not been deleted.') );
             }
         } else {
-            $params = $ids = array( );
-            // store the submitted values in an array
+            $params =  array( );
             $params = $this->exportValues();
+
             $groupParams = array( 'name' => 'individual_suffix' );
                 
             require_once 'CRM/Core/OptionValue.php';

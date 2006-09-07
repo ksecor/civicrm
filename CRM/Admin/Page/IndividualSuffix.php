@@ -73,26 +73,26 @@ class CRM_Admin_Page_IndividualSuffix extends CRM_Core_Page_Basic
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/suffix',
+                                                                    'url'   => 'civicrm/admin/individualSuffix',
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                     'title' => ts('Edit Individual Suffix') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/suffix',
+                                                                    'url'   => 'civicrm/admin/individualSuffix',
                                                                     'qs'    => 'action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                     'title' => ts('Disable Individual Suffix') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/suffix',
+                                                                    'url'   => 'civicrm/admin/individualSuffix',
                                                                     'qs'    => 'action=enable&id=%%id%%',
                                                                     'title' => ts('Enable Individual Suffix') 
                                                                     ),
                                    CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/suffix',
+                                                                    'url'   => 'civicrm/admin/individualSuffix',
                                                                     'qs'    => 'action=delete&id=%%id%%',
                                                                     'title' => ts('Delete Individual Suffix') 
                                                                    )
@@ -100,39 +100,6 @@ class CRM_Admin_Page_IndividualSuffix extends CRM_Core_Page_Basic
         }
         return self::$_links;
     }
-
-    /**
-     * Run the page.
-     *
-     * This method is called after the page is created. It checks for the  
-     * type of action and executes that action.
-     * Finally it calls the parent's run method.
-     *
-     * @return void
-     * @access public
-     *
-     */
-  //   function run()
-//     {
-//         // get the requested action
-//         $action = CRM_Utils_Request::retrieve('action', 'String',
-//                                               $this, false, 'browse'); // default to 'browse'
-
-//         // assign vars to templates
-//         $this->assign('action', $action);
-//         $id = CRM_Utils_Request::retrieve('id', 'Positive',
-//                                           $this, false, 0);
-        
-//         // what action to take ?
-//         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-//             $this->edit($action, $id) ;
-//         } 
-//         // finally browse the custom groups
-//         $this->browse();
-        
-//         // parent run 
-//         parent::run();
-//     }
 
     /**
      * Browse all individual suffix
@@ -149,9 +116,6 @@ class CRM_Admin_Page_IndividualSuffix extends CRM_Core_Page_Basic
         $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links());   
         $this->assign('rows', $optionValue);
     }
-    
-    
-
     
     /**
      * Get name of edit form
@@ -180,7 +144,7 @@ class CRM_Admin_Page_IndividualSuffix extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/admin/suffix';
+        return 'civicrm/admin/individualSuffix';
     }
 }
 

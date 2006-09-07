@@ -102,39 +102,6 @@ class CRM_Admin_Page_IndividualPrefix extends CRM_Core_Page_Basic
     }
 
     /**
-     * Run the page.
-     *
-     * This method is called after the page is created. It checks for the  
-     * type of action and executes that action.
-     * Finally it calls the parent's run method.
-     *
-     * @return void
-     * @access public
-     *
-     */
- //    function run()
-//     {
-//         // get the requested action
-//         $action = CRM_Utils_Request::retrieve('action', 'String',
-//                                               $this, false, 'browse'); // default to 'browse'
-
-//         // assign vars to templates
-//         $this->assign('action', $action);
-//         $id = CRM_Utils_Request::retrieve('id', 'Positive',
-//                                           $this, false, 0);
-        
-//         // what action to take ?
-//         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-//             $this->edit($action, $id) ;
-//         } 
-//         // finally browse the custom groups
-//         $this->browse();
-        
-//         // parent run 
-//         parent::run();
-//     }
-
-    /**
      * Browse all individual prefix
      *  
      * 
@@ -147,7 +114,7 @@ class CRM_Admin_Page_IndividualPrefix extends CRM_Core_Page_Basic
         $groupParams = array( 'name' => 'individual_prefix' );
         require_once 'CRM/Core/OptionValue.php';
         $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links());   
-
+        
         $this->assign('rows', $optionValue);
     }
 

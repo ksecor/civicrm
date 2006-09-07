@@ -52,8 +52,7 @@ class CRM_Admin_Form_Gender extends CRM_Admin_Form
      * @return None
      * @access public
      */
-    public function preProcess( ) 
-    {
+    public function preProcess( ) {
         parent::preProcess( );
         $groupParams = array( 'name' => 'gender' );
         $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
