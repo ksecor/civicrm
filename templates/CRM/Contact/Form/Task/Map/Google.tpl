@@ -31,10 +31,8 @@
 	  geocoder.getLatLng(
 	    address,
 	    function(point) {
-	      if (!point) {
-	        alert(address + " not found");
-	      } else {
-	        map.setCenter(point, newZoom);
+	      if ( point ) {
+	        map.setCenter(point, 13);
 	        var marker = createMarker(point, data);
 	        map.addOverlay(marker);
 	      }
@@ -49,9 +47,9 @@
 	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br />From<input type=text id=from size=10>&nbsp;To<input type=text id=to size=10>&nbsp;<a href=\"javascript:popUp();\">Find Direction</a>{literal}";
 	 var address = "{/literal}{$location.address}{literal}";
 {/literal}
-{if $enableGeoCoding}
-         showAddress("{$location.geoCodeAddress}", data);
-{else}
+{if $mapGeoCoding and $location.geoCodeAddress}
+   showAddress("{$location.geoCodeAddress}", data);
+{elseif $location.lat}
        	var point = new GLatLng({$location.lat},{$location.lng});
 	map.setCenter(center, newZoom);
        	var marker = createMarker(point, data);
