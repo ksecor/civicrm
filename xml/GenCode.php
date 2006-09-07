@@ -317,7 +317,7 @@ fclose( $fd );
 
 $params = array(
                 'cms' => 'Drupal',
-                'cmsVersion' => '4.6',
+                'cmsVersion' => '4.7',
                 'cmsURLVar'  => 'q',
                 'usersTable' => 'users',
                 'crmRoot' => '',
@@ -326,6 +326,7 @@ $params = array(
                 'imageUploadDir' => '',
                 'imageUploadURL' => '',
                 'customFileUploadDir' => '',
+                'customFileUploadURL' => '',
                 'baseURL' => '',
                 'resourceURL' => '',
                 'resourceBase' => '',

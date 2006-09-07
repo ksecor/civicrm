@@ -501,7 +501,11 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 if ( is_numeric( CRM_Utils_Array::value( 'geo_code_1', $row ) ) ) {
                     $row['action']   = CRM_Core_Action::formLink( $links, $mask   , array( 'id' => $result->contact_id ) );
                 } else {
-                    $row['action']   = CRM_Core_Action::formLink( $links, $mapMask, array( 'id' => $result->contact_id ) );
+                    if ( $config->mapProvider == 'Google' && $config->mapGeoCoding == 1 ) {
+                        $row['action']   = CRM_Core_Action::formLink( $links, $mask   , array( 'id' => $result->contact_id ) );
+                    } else {
+                        $row['action']   = CRM_Core_Action::formLink( $links, $mapMask, array( 'id' => $result->contact_id ) );
+                    }
                 }
 
                 // allow components to add more actions

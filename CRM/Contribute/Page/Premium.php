@@ -133,8 +133,6 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
     }
 
     /**
-     * Browse all custom data groups.
-     *  
      * 
      * @return void
      * @access public
@@ -152,7 +150,11 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
         $dao->entity_id = $pageID; 
         $dao->find(true);
         $premiumID = $dao->id;
-
+        $this->assign( 'products', false );
+        if (!$premiumID) {
+            return;
+        }
+        
         require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
         $dao =& new CRM_Contribute_DAO_PremiumsProduct();
         $dao->premiums_id = $premiumID;
