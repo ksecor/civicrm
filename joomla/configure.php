@@ -8,9 +8,7 @@ require_once $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'configuration.php
 
 function civicrm_setup( ) {
     global $comPath, $frontPath, $crmPath, $sqlPath, $tplPath, $dsn;
-    global $resourceBase;
     global $compileDir, $uploadDir, $imageUploadDir;
-    global $resourceBaseURL;
     global $imageUploadDir, $imageUploadURL;
 
     global $mosConfig_live_site, $mosConfig_absolute_path;
@@ -38,8 +36,6 @@ function civicrm_setup( ) {
     $tplPath = $crmPath . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR;
 
     $pieces = parse_url( $mosConfig_live_site );
-    $httpBase     = $pieces['path'] . '/administrator/';
-    $resourceBase = $httpBase . 'components/com_civicrm/civicrm/';
 
     $frontPath = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
         'components'             . DIRECTORY_SEPARATOR . 
@@ -146,7 +142,7 @@ function civicrm_source( $fileName ) {
 }
 
 function civicrm_config( $frontend = false ) {
-    global $crmPath, $comPath, $httpBase, $resourceBase;
+    global $crmPath, $comPath;
     global $dsn, $compileDir, $uploadDir, $imageUploadDir;
     global $mysqlPath;
     global $mosConfig_smtphost, $mosConfig_live_site;
@@ -167,7 +163,6 @@ function civicrm_config( $frontend = false ) {
                 'customFileUploadURL' => $mosConfig_live_site . '/media/civicrm/',
                 'baseURL' => $mosConfig_live_site . '/administrator/',
                 'resourceURL' => $mosConfig_live_site . '/administrator/components/com_civicrm/civicrm/',
-                'resourceBase' => $resourceBase,
                 'frontEnd' => 0,
                 'dbUser' => $mosConfig_user,
                 'dbPass' => $mosConfig_password,

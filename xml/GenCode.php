@@ -330,7 +330,6 @@ $params = array(
                 'customFileUploadURL' => '',
                 'baseURL' => '',
                 'resourceURL' => '',
-                'resourceBase' => '',
                 'frontEnd' => 0,
                 'dbUser' => 'DBUSER',
                 'dbPass' => 'PASSWORD',
