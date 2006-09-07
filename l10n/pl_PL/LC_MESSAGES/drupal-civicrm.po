@@ -1,0 +1,246 @@
+# Drupal-CiviCRM Polish file
+# Copyright (C) 2005 Donald A. Lobo
+# This file is distributed under the same license as the CiviCRM package.
+# Piotr Szotkowski <shot@caltha.pl>, 2005.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: CiviCRM 1.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-12-29 13:48+0100\n"
+"PO-Revision-Date: 2005-10-17 18:23+0200\n"
+"Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "add contacts"
+msgstr "dodawanie kontaktów"
+
+msgid "view all contacts"
+msgstr "podgląd wszystkich kontaktów"
+
+msgid "edit all contacts"
+msgstr "edycja wszystkich kontaktów"
+
+msgid "edit groups"
+msgstr "edycja grup"
+
+msgid "administer CiviCRM"
+msgstr "zarządznie CiviCRM-em"
+
+msgid "access CiviCRM"
+msgstr "dostęp do CiviCRM-a"
+
+msgid "edit contacts in %1"
+msgstr "edycja kontaktów w %1"
+
+msgid "view contacts in %1"
+msgstr "podgląd kontaktów w %1"
+
+msgid ""
+"The CiviCRM module stores information on the universe of people associated "
+"with a community and on their interactions such as emails, donations, "
+"petitions, events, etc. It can act as a stand alone contact management "
+"system or it can be integrated with mass mailer, volunteer management, "
+"petition, and event finding. CiviCRM enables organizations to maintain all "
+"these activities in a single database, creating efficiencies and new "
+"opportunities for communities to better communicate and benefit from "
+"relationships with their community members."
+msgstr ""
+"Moduł CiviCRM przechowuje informacje o osobach powiązanych z jakąś "
+"społecznością i o interakcjach między nimi, takich jak emaile, darowizny, "
+"petycje, wydarzenia itp. CiviCRM może działać jako osobny system zarządzania "
+"kontaktami lub być zintegrowany z modułem do masowej wysyłki, zarządzania "
+"wolontariuszami, petycji i wyszukiwania wydarzeń. CiviCRM pozwala "
+"organizacjom przechowywać to wszystko w jednej bazie danych, dając "
+"społecznościom nowe możliwości, usprawniając komunikację w ramach "
+"społeczności oraz pozwalając na większy pożytek z powiązań w jej obrębie."
+
+msgid ""
+"The CiviCRM module allows you to create contacts, or import them from other "
+"sources. You can record relationships between contacts, such as indicating "
+"they live in the same household. There are two types of groups of contacts. "
+"You can create static groups which have a set list of contacts. You can also "
+"create dynamic (smart) groups based on characteristics that contacts have in "
+"common. For example, you could create a group of all contacts who live in "
+"California AND who have volunteered for your organization within the past "
+"year. The CiviCRM module also allows for tagging for less formal "
+"categorization of contacts or groups. You can easily extend CiviCRM to "
+"record community member information which is specific to your community or "
+"organization using custom fields. For example, you can create a set of "
+"fields to track volunteer skills and preferences. CiviCRM profile gives you "
+"a way to allow community members ('users') to update their own information, "
+"as well as share some of that information with others. Finally, you can "
+"configure custom activity types such as volunteering or attending events."
+msgstr ""
+"Moduł CiviCRM pozwala tworzyć kontakty lub importować je z innych źródeł. "
+"Można też tworzyć powiązania między kontaktami, takie jak fakt mieszkania w "
+"jednym mieszkaniu. Istnieją dwa rodzaje grup kontaktów. Można utworzyć "
+"statyczne grupy, które mają ustaloną listę kontaktów. Można też tworzyć "
+"dynamiczne (sprytne) grupy, opierające się na wspólnych cechach kontaktów. "
+"Przykładowo, można stworzyć grupę wszystkich kontaktów mieszkających w "
+"Kalifornii i które brały udział w wolontariacie dla Twojej ogranizacji w "
+"ciągu ostatniego roku. CiviCRM pozwala też na mniej formalną kategoryzację "
+"kontaktów i grup. Można go też prosto rozszerzać, by rejestrował dane "
+"specyficzne dla Twojej społeczności lub organizacji za pomocą pól danych "
+"dodatkowych. Przykładowo, można stworzyć zestaw pól pozwajaących śledzić "
+"umiejętności i preferencje wolontariuszy. Profile CiviCRM pozwalają członkom "
+"społeczności („użytkownikom”) na uaktualnianie własnych informacji oraz "
+"dzielenie się częścią z tych informacji z innymi. Można też skonfigurować "
+"własne rodzaje aktywności, takie jak udział w wolontariacie czy jakichś "
+"konkretnych wydarzeniach."
+
+msgid "You can:"
+msgstr "Możesz:"
+
+msgid "read the <a href=\"%1\">CiviCRM Administrator Guide</a>."
+msgstr "przeczytaj <a href=\"%1\">Przewodnik administratora CiviCRM</a>."
+
+msgid "enable CiviCRM blocks at <a href=\"%1\">administer &gt;&gt; blocks</a>."
+msgstr "włącz blok CiviCRM: <a href=\"%1\">zarządzaj &gt;&gt; bloki</a>."
+
+msgid ""
+"read <a href=\"%1\">CiviCRM access permissions</a> and set access "
+"permissions at <a href=\"%2\">administer &gt;&gt; access control</a>."
+msgstr ""
+"sprawdzać <a href=\"%1\">prawa dostępu do CiviCRM</a> i zmieniać je: <a href=\"%2\">zarządzaj &gt;&gt; kontrola dostępu</a>."
+
+msgid ""
+"find contacts by name, email address, group membership and or tagging at <a "
+"href=\"%1\">find contacts</a>."
+msgstr ""
+"szukać kontaktów według nazwy, emaila, adresu, przynależności do grupy i/lub "
+"kategorii pod <a href=\"%1\">Szukanie kontaktów</a>."
+
+msgid ""
+"do complex searches based on tags, group membership, location, activities "
+"and custom fields at <a href=\"%1\">advanced search</a>."
+msgstr ""
+"robić złożone wyszukiwania oparte o kategorie, przynależność do grup, "
+"lokalizację, zdarzenia i pola danych dodatkowych: <a href=\"%1\">szukanie zaawansowane</a>."
+
+msgid "create or manage groups at <a href=\"%1\">manage groups</a>."
+msgstr "tworzyć i zarządzać grupami: <a href=\"%1\">zarządzanie grupami</a>."
+
+msgid ""
+"import contacts from other sources at <a href=\"%1\">import contacts</a>."
+msgstr "importować kontakty z innych źródeł: <a href=\"%1\">Import kontaktów</a>."
+
+msgid ""
+"create or administer tags (e.g. organizer, foundation, environment...) at <a "
+"href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
+msgstr ""
+"tworzyć i zarządzać kategoriami (np. organizator, fundacja, środowisko…): <a href=\"%1\">CiviCRM &gt;&gt; zarządzanie &gt;&gt; kategorie</a>."
+
+msgid ""
+"create or administer relationship types (e.g. household member, board "
+"member, spouse...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
+"relationship types</a>."
+msgstr ""
+"tworzyć i zarządzać rodzajami powiązań (np. członek mieszkania, członek "
+"zarządu, małżonek…): <a href=\"%1\">CiviCRM &gt;&gt; zarządzanie &gt;&gt; rodzaje powiązań</a>."
+
+msgid ""
+"create or administer location types (e.g. home, work, school...) <a href=\"%1"
+"\">civicrm &gt;&gt; admin &gt;&gt; location types</a>."
+msgstr ""
+"tworzyć i zarządzać rodzajami lokalizacji (np. dom, praca, szkoła…): <a href=\"%1\">CiviCRM &gt;&gt; zarządzanie &gt;&gt; rodzaje lokalizacji</a>."
+
+msgid ""
+"create or administer activity types (e.g. house meeting, intake "
+"interview...) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; activity "
+"types</a>."
+msgstr ""
+"tworzyć i zarządzać rodzajami aktywności (np. spotkanie domowe, spotkanie "
+"rekrutacyjne…): <a href=\"%1\">CiviCRM &gt;&gt; zarządzanie &gt;&gt; rodzaje zdarzeń</a>."
+
+msgid ""
+"create or administer custom data fields (e.g. volunteer skills, emergency "
+"contact info...) <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; custom data</"
+"a>."
+msgstr ""
+"tworzyć i zarządzać polami danych dodatkowych (np. umiejętności "
+"wolontariusza, kontakt w nagłych przypadkach…): <a href=\"%1\">CiviCRM &gt;&gt; zarządzanie &gt;&gt; dane dodatkowe</a>."
+
+msgid ""
+"create or administer civicrm profile (i.e. what contact data is collected "
+"during user registration) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; "
+"civicrm profile</a>."
+msgstr ""
+"tworzyć i zarządzać profilami CiviCRM (danymi zbieranymi podczas "
+"rejestrowania użytkowników): <a href=\"%1\">CiviCRM &gt;&gt; zarządzanie &gt;&gt; profile CiviCRM</a>."
+
+msgid ""
+"For more information please read the configuration and customization "
+"handbook <a href=\"%1\">CiviCRM page</a>."
+msgstr ""
+"Dalsze informacje znajdują się na <a href=\"%1\">stronie o konfiguracji i "
+"konfiguracji CiviCRM</a>."
+
+msgid ""
+"Constituent Relationship Management (CRM). Allows sites to manage contacts, "
+"relationships and groups, and track contact activities."
+msgstr ""
+"System zarządzania kontaktami (CRM). Pozwala na zarządzanie kontaktami, "
+"powiązaniami między nimi i grupami, oraz na śledzenie związanych z "
+"kontaktami zdarzeń."
+
+#~ msgid "enable CiviCRM blocks at %1."
+#~ msgstr "włączyć bloki CiviCRM pod %1."
+
+#~ msgid "set access permissions at %1."
+#~ msgstr "ustawić prawa dostępu pod %1."
+
+#~ msgid "find contacts"
+#~ msgstr "Szukanie kontaktów"
+
+#~ msgid "advanced search"
+#~ msgstr "szukanie zaawansowane"
+
+#~ msgid "reuse a saved search at %1."
+#~ msgstr "wykorzystaj zapisane wyszukiwanie: %1."
+
+#~ msgid "saved searches"
+#~ msgstr "wyszukiwania zapisane"
+
+#~ msgid "manage groups"
+#~ msgstr "zarządzanie grupami"
+
+#~ msgid "import contacts"
+#~ msgstr "Import kontaktów"
+
+#~ msgid "civicrm"
+#~ msgstr "CiviCRM"
+
+#~ msgid "admin"
+#~ msgstr "zarządzanie"
+
+#~ msgid "tags"
+#~ msgstr "kategorie"
+
+#~ msgid "relationship types"
+#~ msgstr "rodzaje powiązań"
+
+#~ msgid "location types"
+#~ msgstr "rodzaje lokalizacji"
+
+#~ msgid "activity types"
+#~ msgstr "rodzaje zdarzeń"
+
+#~ msgid "custom data"
+#~ msgstr "dane dodatkowe"
+
+#~ msgid "civicrm profile"
+#~ msgstr "profile CiviCRM"
+
+#~ msgid "access CiviCRM Profile Listings"
+#~ msgstr "dostęp do spisów profili CiviCRM"
+
+#~ msgid "edit %group"
+#~ msgstr "edytuj grupę %group"
+
+#~ msgid "view %group"
+#~ msgstr "zobacz grupę %group"

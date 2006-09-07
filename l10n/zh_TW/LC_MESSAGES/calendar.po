@@ -1,0 +1,121 @@
+# CiviCRM Traditional Chinese calendar file
+# Copyright (C) 2005 Donald A. Lobo
+# This file is distributed under the same license as the CiviCRM package.
+# Piotr Szotkowski <shot@caltha.pl>, 2005
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: CiviCRM 1.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-10-13 17:52+0200\n"
+"PO-Revision-Date: 2005-10-13 17:52+0200\n"
+"Last-Translator: muziq <muziq@sina.com>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: js/lang/calendar-lang.php
+msgid "About the calendar"
+msgstr "帮助"
+
+#: js/lang/calendar-lang.php
+msgid "For latest version visit: %1"
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Distributed under GNU LGPL. See %1 for details."
+msgstr ""
+
+#: js/lang/calendar-lang.php
+msgid "Date selection:"
+msgstr "选择日期:"
+
+#: js/lang/calendar-lang.php
+msgid "- use the \\xab, \\xbb buttons to select year,"
+msgstr "- 点击 \\xab, \\xbb 按钮选择年份"
+
+#: js/lang/calendar-lang.php
+msgid "- use the \\u2039, \\u203a buttons to select month,"
+msgstr "- 点击 \\u2039, \\u203a  按钮选择月份"
+
+#: js/lang/calendar-lang.php
+msgid "- hold mouse button on any of the above buttons for faster selection."
+msgstr "- 长按以上按钮可从菜单中快速选择年份或月份"
+
+#: js/lang/calendar-lang.php
+msgid "Time selection:"
+msgstr "选择时间:"
+
+#: js/lang/calendar-lang.php
+msgid "- click on any of the time parts to increase it"
+msgstr "- 点击小时或分钟可使改数值加一"
+
+#: js/lang/calendar-lang.php
+msgid "- or Shift-click to decrease it"
+msgstr "- 按住Shift键点击小时或分钟可使改数值减一"
+
+#: js/lang/calendar-lang.php
+msgid "- or click and drag for faster selection."
+msgstr "- 点击拖动鼠标可进行快速选择"
+
+#: js/lang/calendar-lang.php
+msgid "hold for menu"
+msgstr "按住出菜单"
+
+#: js/lang/calendar-lang.php
+msgid "Prev. year"
+msgstr "上一年"
+
+#: js/lang/calendar-lang.php
+msgid "Prev. month"
+msgstr "上一月"
+
+#: js/lang/calendar-lang.php
+msgid "Go Today"
+msgstr "转到今日"
+
+#: js/lang/calendar-lang.php
+msgid "Next month"
+msgstr "下一月"
+
+#: js/lang/calendar-lang.php
+msgid "Next year"
+msgstr "下一年"
+
+#: js/lang/calendar-lang.php
+msgid "Select date"
+msgstr "选择日期"
+
+#: js/lang/calendar-lang.php
+msgid "Drag to move"
+msgstr "拖动"
+
+#: js/lang/calendar-lang.php
+msgid "today"
+msgstr "今日"
+
+#: js/lang/calendar-lang.php
+msgid "Display %s first"
+msgstr "最左边显示%s"
+
+#: js/lang/calendar-lang.php
+msgid "Close"
+msgstr "关闭"
+
+#: js/lang/calendar-lang.php
+msgid "Today"
+msgstr "今日"
+
+#: js/lang/calendar-lang.php
+msgid "(Shift-)Click or drag to change value"
+msgstr "(Shift-)点击鼠标或拖动改变值"
+
+#: js/lang/calendar-lang.php
+msgid "wk"
+msgstr "周"
+
+#: js/lang/calendar-lang.php
+msgid "Time:"
+msgstr "时间:"
