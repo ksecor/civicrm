@@ -36,6 +36,9 @@
  */
 
 require_once 'CRM/Admin/Form.php';
+require_once 'CRM/Core/BAO/OptionGroup.php';
+require_once 'CRM/Core/BAO/OptionValue.php';
+
 
 /**
  * This class generates form components for Activity Type
@@ -43,6 +46,24 @@ require_once 'CRM/Admin/Form.php';
  */
 class CRM_Admin_Form_ActivityType extends CRM_Admin_Form
 {
+
+    /**
+     * The id of the object being edited / created
+     *
+     * @var int
+     */
+    protected $_optionGroupID;
+    
+    function preProcess( ) {
+        parent::preProcess( );
+        
+        $groupParams = array( 'name' => 'activity_type' );
+        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $defaults);
+
+        $this->_optionGroupID = $optionGroup->id;
+        
+     }
+ 
     /**
      * Function to build the form
      *
@@ -58,15 +79,15 @@ class CRM_Admin_Form_ActivityType extends CRM_Admin_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'name' ) );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid activity type name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_ActivityType', $this->_id ) );
+        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_OptionValue', $this->_id ) );
         
-        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ) );
+        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
-        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_ActivityType', $this->_id, 'is_reserved' )) { 
+        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' )) { 
             $this->freeze(array('name', 'description', 'is_active' ));
         }
         
@@ -81,22 +102,19 @@ class CRM_Admin_Form_ActivityType extends CRM_Admin_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/Core/BAO/ActivityType.php';
+      
         if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Core_BAO_ActivityType::del($this->_id);
+            CRM_Core_BAO_OptionValue::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected activity type has been deleted.') );
         } else { 
-
             $params = $ids = array( );
             // store the submitted values in an array
             $params = $this->exportValues();
+            $groupParams = array( 'name' => 'activity_type' );
+            require_once 'CRM/Core/OptionValue.php';
+            $optionValue =  CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
             
-            if ($this->_action & CRM_Core_Action::UPDATE ) {
-                $ids['activityType'] = $this->_id;
-            }
-            
-            $activityType = CRM_Core_BAO_ActivityType::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The activity type "%1" has been saved.', array( 1 => $activityType->name )) );
+            CRM_Core_Session::setStatus( ts('The activity type "%1" has been saved.', array( 1 => $optionValue->name )) );
         }
     }
 }

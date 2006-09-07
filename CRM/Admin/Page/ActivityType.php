@@ -56,7 +56,7 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Core_BAO_ActivityType';
+        return 'CRM_Core_BAO_OptionValue';
     }
 
     /**
@@ -144,39 +144,11 @@ class CRM_Admin_Page_ActivityType extends CRM_Core_Page_Basic
      */
     function browse()
     {
-        // get all custom groups sorted by weight
-        $activityType = array();
-        require_once 'CRM/Core/DAO/ActivityType.php';
-        $dao =& new CRM_Core_DAO_ActivityType();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
-        $dao->orderBy('name');
-        $dao->find();
-
-        while ($dao->fetch()) {
-            $activityType[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $activityType[$dao->id]);
-            // form all action links
-            $action = array_sum(array_keys($this->links()));
-
-            // update enable/disable links depending on if it is is_reserved or is_active
-            if ($dao->is_reserved) {
-                continue;
-            } else {
-                if ($dao->is_active) {
-                    $action -= CRM_Core_Action::ENABLE;
-                } else {
-                    $action -= CRM_Core_Action::DISABLE;
-                }
-            }
-
-            $activityType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $dao->id));
-        }
-        $this->assign('rows', $activityType);
+       
+        $groupParams = array( 'name' => 'activity_type' );
+        require_once 'CRM/Core/OptionValue.php';
+        $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links());   
+        $this->assign('rows', $optionValue);
     }
 
     /**

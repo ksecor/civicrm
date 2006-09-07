@@ -72,7 +72,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $this->addRule('activity_type_id', ts('Select a valid activity.'), 'required');
 
         $this->add('text', 'description', ts('Description'),
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ), false);
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ), false);
 
         $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), true );
 

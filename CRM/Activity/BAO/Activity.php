@@ -69,9 +69,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-        if ( $activityType == 1) {
+        if ( $activityType == 6) {
             $activityType = "Meeting";
-        } else if($activityType == 2) {
+        } else if($activityType == 7) {
             $activityType = "Phonecall";
         } else {
             $activityType = "Activity";
@@ -122,9 +122,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     static function retrieve( &$params, &$defaults, $activityType ) 
     {
 
-        if ( $activityType == 1) {
+        if ( $activityType == 6) {
             $activityType = "Meeting";
-        } else if($activityType == 2) {
+        } else if($activityType == 7) {
             $activityType = "Phonecall";
         } else {
             $activityType = "Activity";
@@ -198,20 +198,20 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @return
      */
     public static function createActivity( &$params, &$ids, $activityType = 'Meeting') 
-    {
+    {//CRM_Core_Error::backTrace();
         $activity = self::add($params, $ids, $activityType);
         
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $ids['id'], 0,$activityType);
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
         
         // do the updates/inserts
-        if ( $activityType == 1) {
+        if ( $activityType == 6) {
             $activityType = "Meeting";
-        } else if($activityType == 2) {
+        } else if($activityType == 7) {
             $activityType = "Phonecall";
         } else {
             $activityType = "Activity";
-        }
+        }//print_r($activityType);
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $activityType, $activity->id); 
         
         if ( $activityType == 'Phonecall' ) {

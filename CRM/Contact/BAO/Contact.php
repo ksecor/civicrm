@@ -45,7 +45,8 @@ require_once 'CRM/Core/DAO/Address.php';
 require_once 'CRM/Core/DAO/Phone.php';
 require_once 'CRM/Core/DAO/Email.php';
 require_once 'CRM/Core/DAO/IM.php';
-require_once 'CRM/Core/DAO/IndividualPrefix.php';
+//require_once 'CRM/Core/DAO/IndividualPrefix.php';
+require_once 'CRM/Core/DAO/OptionValue.php';
 require_once 'CRM/Core/DAO/IndividualSuffix.php';
 require_once 'CRM/Core/DAO/Gender.php';
 
@@ -1318,7 +1319,8 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             require_once "CRM/Core/OptionValue.php";
             // the fields are only meant for Individual contact type
             if ( ($contactType == 'Individual') || ($contactType == 'All')) {
-                $fields = array_merge( $fields, CRM_Core_DAO_IndividualPrefix::import( true ) ,
+                $fields = array_merge( $fields, //CRM_Core_DAO_IndividualPrefix::import( true ) ,
+                                       CRM_Core_DAO_OptionValue::import( true ) ,
                                        CRM_Core_DAO_IndividualSuffix::import( true ) ,
                                        //CRM_Core_DAO_Gender::import( true ) 
                                        CRM_Core_OptionValue::importableFields( )
@@ -1383,11 +1385,11 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                   WHERE ( civicrm_phonecall.target_entity_table = 'civicrm_contact' $clause )
                   AND status != 'Completed'";
         $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query, $params ); 
-        
-        $query = "SELECT count(*) FROM civicrm_activity,civicrm_activity_type 
+
+        $query = "SELECT count(*) FROM civicrm_activity,civicrm_option_value 
                   WHERE ( civicrm_activity.target_entity_table = 'civicrm_contact' $clause )
-                  AND civicrm_activity_type.id = civicrm_activity.activity_type_id 
-                  AND civicrm_activity_type.is_active = 1  AND status != 'Completed'";
+                  AND civicrm_option_value.id = civicrm_activity.activity_type_id 
+                  AND civicrm_option_value.is_active = 1  AND status != 'Completed'";
         $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
 
         return  $rowMeeting + $rowPhonecall + $rowActivity;
@@ -1427,11 +1429,11 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
     civicrm_phonecall.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
-    civicrm_activity_type.id  as activity_type_id,
-    civicrm_activity_type.name  as activity_type
-  FROM civicrm_activity_type, civicrm_phonecall, civicrm_contact source, civicrm_contact target
+    civicrm_option_value.id  as activity_type_id,
+    civicrm_option_value.name  as activity_type
+  FROM civicrm_option_value, civicrm_phonecall, civicrm_contact source, civicrm_contact target
   WHERE
-    civicrm_activity_type.id = 2 AND
+    civicrm_option_value.id = 7 AND
     civicrm_phonecall.source_contact_id = source.id AND
     civicrm_phonecall.target_entity_table = 'civicrm_contact' AND
     civicrm_phonecall.target_entity_id = target.id $clause
@@ -1446,11 +1448,11 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
     civicrm_meeting.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
-    civicrm_activity_type.id  as activity_type_id,
-    civicrm_activity_type.name  as activity_type
-  FROM civicrm_activity_type, civicrm_meeting, civicrm_contact source, civicrm_contact target
+    civicrm_option_value.id  as activity_type_id,
+    civicrm_option_value.name  as activity_type
+  FROM civicrm_option_value, civicrm_meeting, civicrm_contact source, civicrm_contact target
   WHERE
-    civicrm_activity_type.id = 1 AND
+    civicrm_option_value.id = 6 AND
     civicrm_meeting.source_contact_id = source.id AND
     civicrm_meeting.target_entity_table = 'civicrm_contact' AND
     civicrm_meeting.target_entity_id = target.id $clause
@@ -1465,17 +1467,20 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
     civicrm_activity.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
-    civicrm_activity_type.id  as activity_type_id,
-    civicrm_activity_type.name  as activity_type
-  FROM civicrm_activity, civicrm_contact source, civicrm_contact target ,civicrm_activity_type
+    civicrm_option_value.id  as activity_type_id,
+    civicrm_option_value.name  as activity_type
+  FROM civicrm_activity, civicrm_contact source, civicrm_contact target ,civicrm_option_value
   WHERE
     civicrm_activity.source_contact_id = source.id AND
     civicrm_activity.target_entity_table = 'civicrm_contact' AND
     civicrm_activity.target_entity_id = target.id $clause AND
-    civicrm_activity_type.id = civicrm_activity.activity_type_id AND civicrm_activity_type.is_active = 1 AND 
+    civicrm_option_value.id = civicrm_activity.activity_type_id AND civicrm_option_value.is_active = 1 AND 
     civicrm_activity.status != 'Completed'
             )
 ";
+
+
+
 
         $order = '';
         if ($sort) {
@@ -1555,8 +1560,8 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
                     eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$type.'::export( ));');
                     if ( $type == 'Individual') {
                         $fields = array_merge( $fields,
-                                               CRM_Core_DAO_IndividualPrefix::export( true ) , 
-                                               CRM_Core_DAO_IndividualSuffix::export( true ) , 
+                                               //CRM_Core_DAO_IndividualPrefix::export( true ) , 
+                                               //CRM_Core_DAO_IndividualSuffix::export( true ) , 
                                                //CRM_Core_DAO_Gender::export( true ) 
                                                CRM_Core_OptionValue::exportableFields( )
                                                );
@@ -1566,8 +1571,8 @@ WHERE civicrm_contact.id IN $idString AND civicrm_address.geo_code_1 is not null
             
             // the fields are only meant for Individual contact type
             if ( $contactType == 'Individual') {
-                $fields = array_merge( $fields,
-                                       CRM_Core_DAO_IndividualPrefix::export( true ) ,
+                $fields = array_merge( $fields,CRM_Core_DAO_OptionValue::export( true ) ,
+                                      // CRM_Core_DAO_IndividualPrefix::export( true ) ,
                                        CRM_Core_DAO_IndividualSuffix::export( true ) ,
                                        //CRM_Core_DAO_Gender::export( true ) 
                                        CRM_Core_OptionValue::exportableFields( )

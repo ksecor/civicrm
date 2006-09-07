@@ -83,7 +83,7 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
         $this->_activityType =
             array( ''   => ' - select activity - ' ) + 
             CRM_Core_PseudoConstant::ActivityType( false, null );
-        unset( $this->_activityType[3] );
+        unset( $this->_activityType[8] );
         $this->add('select', 'activity_type_id', ts('Activity Type'),
                    $this->_activityType,
                    true);
@@ -141,22 +141,22 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
         foreach ( $this->_contactIds as $contactId ) {
             $params['target_entity_id'] = $contactId; 
             $activity = null;
+            $activityType = $params['activity_type_id'];
+          //   switch ( $params['activity_type_id'] ) {
+//             case 6:
+//                 $activityType = 'Meeting';
+//                 break;
 
-            switch ( $params['activity_type_id'] ) {
-            case 1:
-                $activityType = 'Meeting';
-                break;
+//             case 7:
+//                 $activityType = 'Phonecall';
+//                 break;
 
-            case 2:
-                $activityType = 'Phonecall';
-                break;
-
-            default:
-                //if ( $params['activity_tpe_id'] > 3 ) {
-                $activityType = 'Activity';
-                //}
-                break;
-            }
+//             default:
+//                 //if ( $params['activity_tpe_id'] > 3 ) {
+//                 $activityType = 'Activity';
+//                 //}
+//                 break;
+//            }
 
             $activity = CRM_Activity_BAO_Activity::add( $params, $ids, $activityType );
             

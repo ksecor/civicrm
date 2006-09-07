@@ -213,7 +213,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
 
             //check the if the activity type is meeting or phonecall
             if (is_numeric($row['activity_type'])) {
-                if ($row['activity_type'] == 2) {
+                if ($row['activity_type'] == 7) {
                     $row['activity_type'] = ts('Phone Call');
                 } else {
                     $row['activity_type'] = ts('Meeting');
@@ -252,7 +252,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             }
             unset($row);
         }
-        
+    
         return $rows;
     }
     

@@ -39,9 +39,9 @@
   </field>
   <foreignKey>
        <name>activity_type_id</name>
-       <table>civicrm_activity_type</table>
+       <table>civicrm_option_value</table>
        <key>id</key>
-       <add>1.1</add>
+       <add>1.6</add>
   </foreignKey>
   
   <field>
