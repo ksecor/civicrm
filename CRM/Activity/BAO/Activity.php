@@ -198,7 +198,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @return
      */
     public static function createActivity( &$params, &$ids, $activityType = 'Meeting') 
-    {//CRM_Core_Error::backTrace();
+    {
         $activity = self::add($params, $ids, $activityType);
         
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $ids['id'], 0,$activityType);
@@ -211,7 +211,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $activityType = "Phonecall";
         } else {
             $activityType = "Activity";
-        }//print_r($activityType);
+        }
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $activityType, $activity->id); 
         
         if ( $activityType == 'Phonecall' ) {
@@ -275,11 +275,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $activityId = $history->activity_id;
 
         if ($history->activity_type == 'Meeting') {
-            $activityTypeId = 1;
+            $activityTypeId = 6;
         } else if ($history->activity_type == 'Phone Call') {
-            $activityTypeId = 2;
+            $activityTypeId = 7;
         } else {
-            $activityTypeId = 5;
+            $activityTypeId = 10;
         }
 
         if ( $contactId ) {

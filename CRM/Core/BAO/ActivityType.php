@@ -124,15 +124,14 @@ class CRM_Core_BAO_ActivityType extends CRM_Core_DAO_ActivityType
      */
     static function &getActivityDescription() 
     {
-        $config   =& CRM_Core_Config::singleton( );
-        $domainID =  $config->domainID( );
+        
         $query =
-            "SELECT id ,description FROM civicrm_option_value WHERE is_active = 1 AND id > 9 AND domain_id = $domainID ORDER BY name";
+            "SELECT id ,description FROM civicrm_option_value WHERE is_active = 1 AND id > 9 ORDER BY name";
         $dao   =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $description =array();
         while($dao->fetch()) {
             $description[ $dao->id] = $dao->description;
-
+            
         }
        
        
