@@ -82,11 +82,11 @@ class CRM_Quest_Form_MatchApp_Essay extends CRM_Quest_Form_App
         if ( $this->_name == "Essay-PersonalStat" || $this->_name == "Stanford-StfEssay" ) {
             require_once 'api/File.php'; 
             $fileID = $this->_name == "Essay-PersonalStat" ? 5 : 6; 
-            $attachments =& crm_get_files_by_entity( $this->_contactID, 'civicrm_contact', $fileID );
+            $attachments =& crm_get_files_by_entity( $this->_contactID );
             $attach = array();
             if ( ! is_a( $attachments, CRM_Core_Error ) ) {
                 foreach($attachments as $key=>$value ) {
-                    if ($value['file_type_id'] == $fileId ) {
+                    if ($value['file_type_id'] == $fileID ) {
                         $attach = $value;
                     }
                 }
