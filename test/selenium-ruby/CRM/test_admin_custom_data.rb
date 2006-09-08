@@ -11,6 +11,35 @@ class TC_TestAdminCustomData < Test::Unit::TestCase
     @selenium = @page.start_civicrm
     @page.login
     
+  end
+  
+  def teardown
+    @page.logout
+  end
+  
+  def test_custom_data
+    move_to_custom_group_page()
+    
+    add_custom_group()
+    
+    add_custom_field()
+    edit_custom_field()
+    #preview_custom_field()
+    #disable_custom_field()
+    #enable_custom_field()
+    
+    #check_delete_custom_group()
+    
+    delete_custom_field()
+    
+    #settings_custom_group()
+    #disable_custom_group()
+    #enable_custom_group()
+    delete_custom_group()
+    
+  end
+  
+  def move_to_custom_group_page
     #Click Administer CiviCRM
     assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
     @page.click_and_wait "link=Administer CiviCRM"
@@ -18,163 +47,181 @@ class TC_TestAdminCustomData < Test::Unit::TestCase
     #Clicking Custom data
     assert_equal "Custom\nData", @selenium.get_text("//a[@id='id_CustomData']")
     @page.click_and_wait "//a[@id='id_CustomData']"
-  end
-  
-  def teardown
-    @page.logout
-  end
-  
-  # Add new Custom Data information
-  def test_1_addCustomData
-    @page.click_and_wait "//a[contains(text(),'»  New Custom Data Group')]"
     
-    # Read new Custom Data information
-    @selenium.type "title", "Custom Data1"
+    @selenium.is_text_present("Custom Data")
+  end
+  
+  def move_to_custom_field_page
+    assert @selenium.is_element_present("//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'View and Edit Custom Fields')]")
+    @page.click_and_wait "//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'View and Edit Custom Fields')]"
+  end
+  
+  # Add new Custom Group
+  def add_custom_group
+    @page.click_and_wait "link=» New Custom Data Group"
+    
+    @selenium.type   "title", "New Custom Group"
     @selenium.select "extends[0]", "label=Individuals"
-    @selenium.type "weight", "0"
-    @selenium.select "style", "label=Tab"
-    @selenium.click "collapse_display"
+    @selenium.type   "weight", "3"
+    @selenium.select "style", "label=Inline"
+    
+    @custom_group = ["//input[@type='checkbox' and @name='is_active']","//input[@type='checkbox' and @name='collapse_display']"]
+    
+    @custom_group.each{ | value |
+      if @selenium.is_checked(value)
+        @selenium.uncheck value
+      end
+    }
+    
     @selenium.type "help_pre", "Pre-form Help"
     @selenium.type "help_post", "Post-form Help"
-           
+    
     # Submit the form 
     @page.click_and_wait "_qf_Group_next"
-    assert @selenium.is_text_present("Your Group \"Custom Data1\" has been added. You can add custom fields to this group now.")
+    assert @selenium.is_text_present("Your Group \"New Custom Group\" has been added. You can add custom fields to this group now.")
   end
-
+  
   # Add new Custom Field information
-  def test_2_1_addCustomField
-    assert_equal "View and Edit Custom Fields", @selenium.get_text("link=View and Edit Custom Fields")
-    @page.click_and_wait "link=View and Edit Custom Fields"
+  def add_custom_field
+    
+    move_to_custom_field_page()
     
     # add new custom field in a group
-    
-    assert @selenium.is_text_present("There are no custom fields for custom group \"Custom Data1\", add one.") 
+    assert @selenium.is_text_present("There are no custom fields for custom group \"New Custom Group\", add one.")
     assert_equal "add one", @selenium.get_text("link=add one")
     @page.click_and_wait "link=add one"
          
     # Insert information for new custom field  
-    @selenium.type   "//div[@class='form-item']/descendant::input[@type='text' and @id='label']", "Field1"
+    @selenium.type   "//input[@type='text' and @id='label']", "Integer Text Custom Field"
     @selenium.select "data_type[0]", "label=Integer"
     @selenium.select "data_type[1]", "label=Text"
-    @selenium.type   "weight", "0"
-    @selenium.type   "default_value", "0"
+    @selenium.type   "weight", "3"
     @selenium.type   "help_post", "Field Help"
-    @selenium.click  "is_required"
-    @selenium.click  "is_searchable"
-    @selenium.click  "//input[@type='radio' and @value='1']"
-    @selenium.uncheck  "is_active"
+    
+    if !@selenium.is_checked("is_required")
+      @selenium.check  "is_required"
+    end
+    
+    @custom_field = { 'is_searchable' => "//div[@id='is_searchable']/descendant::input[@type='checkbox']",
+                      'ia_active'     => "//input[@type='checkbox' and @name='is_active']" }
+    
+    @custom_field.each{ | key, value | 
+      if @selenium.is_checked(value)
+        @selenium.uncheck value
+      end
+    }
     
     # Submit the Custom field form
     @page.click_and_wait "_qf_Field_next"
-    assert @selenium.is_text_present("Your custom field \"Field1\" has been saved")
+    assert @selenium.is_text_present("Your custom field \"Integer Text Custom Field\" has been saved")
   end 
-
+  
   # Editing Custom Field information
-  def test_2_2_editCustomField
-    # Click View and edit Custom Field 
-    assert_equal "View and Edit Custom Fields", @selenium.get_text("link=View and Edit Custom Fields")
-    @page.click_and_wait "link=View and Edit Custom Fields"
+  def edit_custom_field
+    assert @selenium.is_element_present("//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Edit Field')]")
+    @page.click_and_wait "//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Edit Field')]"
+       
+    if @selenium.is_checked("is_required")
+      @selenium.uncheck  "is_required"
+    end
+        
+    @custom_field.each{ | key, value | 
+      if !@selenium.is_checked(value)
+        @selenium.check value
+      end
+    }
     
-    # Click Edit Field
-    assert_equal "Edit Field", @selenium.get_text("link=Edit Field")
-    @page.click_and_wait "link=Edit Field"
+    if is_checked(@custom_field['is_searchable'])
+      @selenium.check  "is_search_range"
+    end
     
-    @selenium.type "weight", "0"
-    @selenium.type "default_value", "1"
-    @selenium.check "is_required"
-    @selenium.check "is_active"
-
     # Submit the Custom field form    
     @page.click_and_wait "_qf_Field_next"
-    assert @selenium.is_text_present("Your custom field \"Field1\" has been saved")
+    assert @selenium.is_text_present("Your custom field \"Integer Text Custom Field\" has been saved")
   end
   
   # Preview Custom field 
-  def test_2_3_previewCustomField
-    # Click View and edit Custom Field 
-    assert_equal "View and Edit Custom Fields", @selenium.get_text("link=View and Edit Custom Fields")
-    @page.click_and_wait "link=View and Edit Custom Fields"
+  def preview_custom_field
+    assert @selenium.is_element_present("//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Preview Field Display')]")
+    @page.click_and_wait "//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Preview Field Display')]"
     
-    # Click Preview Field
-    assert_equal "Preview Field Display", @selenium.get_text("link=Preview Field Display")
-    @page.click_and_wait "link=Preview Field Display"
-  
     assert @selenium.is_text_present("Preview of this field as it will be displayed in an edit form.")
     @page.click_and_wait "_qf_Preview_cancel"
   end
   
   # Disable Custom Field 
-  def test_2_4_disableCustomField
-   # Click View and edit Custom Field 
-    assert_equal "View and Edit Custom Fields", @selenium.get_text("link=View and Edit Custom Fields")
-    @page.click_and_wait "link=View and Edit Custom Fields"
-    
+  def disable_custom_field
     # Click Disable Field
-    assert_equal "Disable", @selenium.get_text("link=Disable")
-    @page.click_and_wait "link=Disable"
-    assert_equal "Are you sure you want to disable this custom data field?", @selenium.get_confirmation()
+    assert_equal "Disable", @selenium.get_text("//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Disable')]")
+    @page.click_and_wait "//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Disable')]"
+    assert_equal "Are you sure you want to disable this custom data field?", @selenium.get_confirmation
   end
-
+  
   # Enable Custom Field
-  def test_2_5_enableCustomField
-   # Click View and edit Custom Field 
-    assert_equal "View and Edit Custom Fields", @selenium.get_text("link=View and Edit Custom Fields")
-    @page.click_and_wait "link=View and Edit Custom Fields"
-    
-    # Click Disable Field
-    assert_equal "Enable", @selenium.get_text("link=Enable")
-    @page.click_and_wait "link=Enable"
+  def enable_custom_field
+    assert @selenium.is_element_present("//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Enable')]")
+    @page.click_and_wait "//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Enable')]"
   end
-
+  
   # Delete Custom Field
-  def test_2_6_deleteCustomField
-     # Click View and edit Custom Field 
-    assert_equal "View and Edit Custom Fields", @selenium.get_text("link=View and Edit Custom Fields")
-    @page.click_and_wait "link=View and Edit Custom Fields"
+  def delete_custom_field
     
-    # Click Delete Field
-    @page.click_and_wait "link=Delete"
-    assert_equal "Are you sure you want to delete this custom data field?", @selenium.get_confirmation()
-    assert @selenium.is_text_present("WARNING: Deleting this custom field will result in the loss of all \"Field1\" data. Any Profile form and listings field(s) linked with \"Field1\" will also be deleted. This action cannot be undone. Do you want to continue?")
+    move_to_custom_field_page()
+    
+    assert @selenium.is_element_present("//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Delete')]")
+    @page.click_and_wait "//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Delete')]"
+    assert_equal "Are you sure you want to delete this custom data field?", @selenium.get_confirmation
+    assert @selenium.is_text_present("WARNING: Deleting this custom field will result in the loss of all \"Integer Text Custom Field\" data. Any Profile form and listings field(s) linked with \"Integer Text Custom Field\" will also be deleted. This action cannot be undone. Do you want to continue?")
     @page.click_and_wait "_qf_DeleteField_next"
-    assert @selenium.is_text_present("The custom field \"Field1\" has been deleted.")
+    assert @selenium.is_text_present("The custom field \"Integer Text Custom Field\" has been deleted.")
   end
   
   # Editing Custom Data information
-  def test_3_settingCustomData
-    assert_equal "Settings", @selenium.get_text("link=Settings")
-    @page.click_and_wait "link=Settings"
-    
-    @selenium.select "style", "label=Inline"
+  def settings_custom_group
+    assert @selenium.is_element_present("//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Settings')]")
+    @page.click_and_wait "//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Settings')]"
+    @custom_group.each{ | value |
+      if !@selenium.is_checked(value)
+        @selenium.check value
+      end
+    }
     
     #Edit custom data
     @page.click_and_wait "_qf_Group_next"
   end
-
+  
   # Disable Custom Data 
-  def test_4_disableCustomData
-   # Click View and edit Custom Data 
-    assert_equal "Disable", @selenium.get_text("link=Disable")
-    @page.click_and_wait "link=Disable"
+  def disable_custom_group
+    # Click View and edit Custom Data 
+    assert @selenium.is_element_present("//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Disable')]")
+    @page.click_and_wait "//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Disable')]"
     assert_equal "Are you sure you want to disable this custom data group? Any profile fields that are linked to custom fields of this group will be disabled.", @selenium.get_confirmation()
   end
-
+  
   # Enable Custom Field
-  def test_5_enableCustomField
-    assert_equal "Enable", @selenium.get_text("link=Enable")
-    @page.click_and_wait "link=Enable"
+  def enable_custom_group
+    assert @selenium.is_element_present("//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Enable')]")
+    @page.click_and_wait "//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Enable')]"
   end
-
+  
   # Delete Custom Data
-  def test_6_deleteCustomData
-    @page.click_and_wait "link=Delete"
-    assert @selenium.is_text_present("WARNING: Deleting this custom group will result in the loss of all Custom Data1 data. This action cannot be undone. Do you want to continue?")
+  def delete_custom_group
+    assert @selenium.is_element_present("//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Delete')]")
+    @page.click_and_wait "//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Delete')]"
+    assert @selenium.is_text_present("WARNING: Deleting this custom group will result in the loss of all New Custom Group data. This action cannot be undone. Do you want to continue?")
     @page.click_and_wait "_qf_DeleteGroup_next"
-    if /\w*"Custom Data1"/ 
-      assert @selenium.is_text_present("The Group \"Custom Data1\" has not been deleted! You must Delete all custom fields in this group prior to deleting the group")
-    else
-      assert @selenium.is_text_present("The Group \"Custom Data1\" has been deleted.")
-    end
+    assert @selenium.is_text_present("The Group \"New Custom Group\" has been deleted.")
   end
+  
+  def check_delete_custom_group
+    
+    move_to_custom_group_page()
+    
+    assert @selenium.is_element_present("//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Delete')]")
+    @page.click_and_wait "//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Delete')]"
+    assert @selenium.is_text_present("WARNING: Deleting this custom group will result in the loss of all New Custom Group data. This action cannot be undone. Do you want to continue?")
+    @page.click_and_wait "_qf_DeleteGroup_next"
+    assert @selenium.is_text_present("The Group \"New Custom Group\" has not been deleted! You must Delete all custom fields in this group prior to deleting the group")
+  end  
+  
 end

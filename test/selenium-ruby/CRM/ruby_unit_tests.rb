@@ -12,7 +12,7 @@ class TS_CiviCRMTests
     #suite << TC_TestAdminPrefix.suite
     #suite << TC_TestAdminSuffix.suite
     #suite << TC_TestAdminTag.suite
-    suite << TC_TestAdminLocation.suite
+    #suite << TC_TestAdminLocation.suite
     #suite << TC_TestAdminProfile.suite
     #suite << TC_TestAdminMembershipType.suite
     #suite << TC_TestAdminOptionGroup.suite
@@ -22,7 +22,7 @@ class TS_CiviCRMTests
     #suite << TC_TestAdminPaymentInstrument.suite
     #suite << TC_TestAdminDuplicateMatching.suite
     #suite << TC_TestAdminImportExportMapping.suite
-    #suite << TC_TestAdminCustomData.suite
+    suite << TC_TestAdminCustomData.suite
     return suite
   end
 end
