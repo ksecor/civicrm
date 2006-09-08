@@ -389,6 +389,20 @@ class CRM_Core_Config {
     public $maxLocationBlocks        = 2;
 
     /**
+     * the font path where captcha fonts are stored
+     *
+     * @var string
+     */
+    public $captchaFontPath = null;
+
+    /**
+     * the font to use for captcha
+     *
+     * @var string
+     */
+    public $captchaFont = null;
+    
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -775,6 +789,14 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_MAX_LOCATION_BLOCKS' ) ) {
             $this->maxLocationBlocks = CIVICRM_MAX_LOCATION_BLOCKS;
+        }
+
+        if ( defined( 'CIVICRM_CAPTCHA_FONT_PATH' ) ) {
+            $this->captchaFontPath = self::addTrailingSlash( CIVICRM_CAPTCHA_FONT_PATH );
+        }
+
+        if ( defined( 'CIVICRM_CAPTCHA_FONT' ) ) {
+            $this->captchaFont = CIVICRM_CAPTCHA_FONT;
         }
 
         require_once 'CRM/Core/Component.php';

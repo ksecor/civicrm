@@ -100,10 +100,19 @@ class CRM_Utils_CAPTCHA {
      */
     function add( &$form,
                   $size   = 24,
-                  $path   = '/usr/X11R6/lib/X11/fonts/webfonts/',
-                  $file   = 'cour.ttf',
+                  $path   = '/usr/X11R6/lib/X11/fonts/openoffice/',
+                  $file   = 'HelveticaBold.ttf',
                   $width  = 200,
                   $height = 80 ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        if ( $config->captchaFontPath ) {
+            $path = $config->captchaFontPath;
+        }
+
+        if ( $config->captchaFont ) {
+            $file = $config->captchaFont;
+        }
 
         $phrase = $form->get( 'captcha_phrase' );
         $this->init( $phrase, $size, $path, $file, $width, $height );

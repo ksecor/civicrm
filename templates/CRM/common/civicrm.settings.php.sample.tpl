@@ -528,7 +528,18 @@ define('CIVICRM_DOMAIN_ID' , 1 );
  * CiviCRM by default shows 2 location blocks when editing a contact, change this number if you
  * want to increase the location blocks
  */
-// define( 'CIVICRM_MAX_LOCATION_BLOCKS', 2 );
+define( 'CIVICRM_MAX_LOCATION_BLOCKS', 2 );
+
+/**
+ * CAPTCHA font library path and file
+ *
+ * Captcha requires ttf (truetype fonts) to render an image properly. The font libraries
+ * do not have a consistent location across all machines. Please find out your font library
+ * location and a suitable ttf font and enter them in the below settings
+ *
+ */
+define( 'CIVICRM_CAPTCHA_FONT_PATH', '/usr/X11R6/lib/X11/fonts/' );
+define( 'CIVICRM_CAPTCHA_FONT'     , 'HelveticaBold.ttf'         );
 
 /**
  * Debugging:
