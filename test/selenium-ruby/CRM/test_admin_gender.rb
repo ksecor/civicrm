@@ -10,62 +10,77 @@ class TC_TestAdminGender < Test::Unit::TestCase
     @page = CRMPageController.new
     @selenium = @page.start_civicrm
     @page.login
-    
-    #Click Administer CiviCRM
-    assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
-    @page.click_and_wait "link=Administer CiviCRM"
-    
-    assert_equal "Gender\nOptions\n(Male,\nFemale...)", @selenium.get_text("//a[@id='id_GenderOptions_Male_Female...']")
-    @page.click_and_wait "//a[@id='id_GenderOptions_Male_Female...']"
   end
   
   def teardown
     @page.logout
   end
   
+  def test_gender
+    #Click Administer CiviCRM
+    assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
+    @page.click_and_wait "link=Administer CiviCRM"
+    
+    assert_equal "Gender\nOptions\n(Male,\nFemale...)", @selenium.get_text("//a[@id='id_GenderOptions_Male_Female...']")
+    @page.click_and_wait "//a[@id='id_GenderOptions_Male_Female...']"
+    
+    assert @selenium.is_text_present("Gender Options (Male, Female...)")
+    
+    add_gender()
+    edit_gender()
+    disable_gender()
+    enable_gender()
+    delete_gender()
+  end
+  
   # Add new Gender information
-  def test_1_addGender
+  def add_gender
     @page.click_and_wait "link=» New Gender Option"
     
     # Read new Gender information
-    @selenium.type "name",       "Gender1"
-    @selenium.type "weight",     "0"
-    @selenium.check "is_active" 
+    @selenium.type  "name",       "New Gender"
+    @selenium.type  "weight",     "2"
     
+    if @selenium.get_value("//input[@type='checkbox' and @name='is_active']") == 'on'
+      @selenium.uncheck "//input[@type='checkbox' and @name='is_active']"
+    end
+        
     # Submit the form 
     @page.click_and_wait "_qf_Gender_next"
-    assert @selenium.is_text_present("The Gender \"Gender1\" has been saved.")
+    assert @selenium.is_text_present("The Gender \"New Gender\" has been saved.")
   end
   
   # Editing gender information
-  def test_2_editGender
-    assert_equal "Edit", @selenium.get_text("link=Edit")
-    @page.click_and_wait "link=Edit"
+  def edit_gender
+    assert_equal "Edit", @selenium.get_text("//div[@id='gender']/descendant::tr[td[contains(.,'New Gender')]]/descendant::a[contains(.,'Edit')]")
+    @page.click_and_wait "//div[@id='gender']/descendant::tr[td[contains(.,'New Gender')]]/descendant::a[contains(.,'Edit')]"
     
-    @selenium.uncheck "is_active" 
+    if @selenium.get_value("//input[@type='checkbox' and @name='is_active']") == 'off'
+      @selenium.check "//input[@type='checkbox' and @name='is_active']"
+    end
     
     #Submit the form 
     @page.click_and_wait "_qf_Gender_next"
-    assert @selenium.is_text_present("The Gender \"Gender1\" has been saved.")
+    assert @selenium.is_text_present("The Gender \"New Gender\" has been saved.")
   end
   
   # Disable Gender type
-  def test_4_disableGender
-    assert_equal "Disable", @selenium.get_text("link=Disable")
-    @page.click_and_wait "link=Disable"
+  def disable_gender
+    assert_equal "Disable", @selenium.get_text("//div[@id='gender']/descendant::tr[td[contains(.,'New Gender')]]/descendant::a[contains(.,'Disable')]")
+    @page.click_and_wait "//div[@id='gender']/descendant::tr[td[contains(.,'New Gender')]]/descendant::a[contains(.,'Disable')]"
     assert_equal "Are you sure you want to disable this Gender?\n\nUsers will no longer be able to select this value when adding or editing Gender.", @selenium.get_confirmation()
   end
   
   # Enable Gender type
-  def test_3_enableGender
-    assert_equal "Enable", @selenium.get_text("link=Enable")
-    @page.click_and_wait "link=Enable"
+  def enable_gender
+    assert_equal "Enable", @selenium.get_text("//div[@id='gender']/descendant::tr[td[contains(.,'New Gender')]]/descendant::a[contains(.,'Enable')]")
+    @page.click_and_wait "//div[@id='gender']/descendant::tr[td[contains(.,'New Gender')]]/descendant::a[contains(.,'Enable')]"
   end
   
   # Delete Gender type
-  def test_5_deleteGender
-    assert_equal "Delete", @selenium.get_text("link=Delete")
-    @page.click_and_wait "link=Delete"
+  def delete_gender
+    assert_equal "Delete", @selenium.get_text("//div[@id='gender']/descendant::tr[td[contains(.,'New Gender')]]/descendant::a[contains(.,'Delete')]")
+    @page.click_and_wait "//div[@id='gender']/descendant::tr[td[contains(.,'New Gender')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all Gender related records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
     @page.click_and_wait "_qf_Gender_next"
     assert @selenium.is_text_present("Selected Gender type has been deleted.")

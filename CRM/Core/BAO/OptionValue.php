@@ -136,8 +136,13 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
     {
         $optionValue =& new CRM_Core_DAO_OptionValue( );
         $optionValue->id = $optionValueId;
-        $optionValue->delete();
+        
+        //$optionValue->delete();
+        
+        // Returning the count of deleted otion value
+        // as it is used in if condition in CRM/Admin/Form/Gender
+        
+        return $optionValue->delete();
     }
 }
-
 ?>
