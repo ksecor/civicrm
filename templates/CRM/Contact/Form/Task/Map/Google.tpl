@@ -44,7 +44,7 @@
       {foreach from=$locations item=location}
       {literal} 
 
-	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br />From<input type=text id=from size=10>&nbsp;To<input type=text id=to size=10>&nbsp;<a href=\"javascript:popUp();\">Find Direction</a>{literal}";
+	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions TO:&nbsp;<input type=text id=to size=20>&nbsp;<a href=\"javascript:popUp();\">&raquo; Go</a>{literal}";
 	 var address = "{/literal}{$location.address}{literal}";
 {/literal}
 {if $mapGeoCoding and $location.geoCodeAddress}
@@ -62,7 +62,9 @@
    }
 
     function popUp() {
-       var from = document.getElementById('from').value;
+       {/literal}
+       var from = '{$location.geoCodeAddress}';
+       {literal}
        var to   = document.getElementById('to').value;
        var URL  = "http://maps.google.com/maps?saddr=" + from + "&daddr=" + to;
        day = new Date();
