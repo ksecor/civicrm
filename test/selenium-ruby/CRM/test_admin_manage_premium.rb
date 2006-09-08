@@ -10,21 +10,29 @@ class TC_TestAdminManagePremium < Test::Unit::TestCase
     @page = CRMPageController.new
     @selenium = @page.start_civicrm
     @page.login
-    
-    #Click Administer CiviCRM
-    assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
-    @page.click_and_wait "link=Administer CiviCRM"
- 
-    assert_equal "Manage\nPremiums", @selenium.get_text("//a[@id='id_ManagePremiums']")
-    @page.click_and_wait "//a[@id='id_ManagePremiums']"
   end
   
   def teardown
     @page.logout
   end
   
+  def test_manage_premium
+    #Click Administer CiviCRM
+    assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
+    @page.click_and_wait "link=Administer CiviCRM"
+    
+    assert_equal "Manage\nPremiums", @selenium.get_text("//a[@id='id_ManagePremiums']")
+    @page.click_and_wait "//a[@id='id_ManagePremiums']"
+    
+    add_premium()
+    edit_premium()
+    enable_premium()
+    disable_premium()
+    delete_premium()
+  end
+
   # Add new Manage Premium information
-  def test_1_add_premium
+  def add_premium
     assert_equal "» New Premium", @selenium.get_text("link=» New Premium")
     @page.click_and_wait "link=» New Premium"
     
@@ -52,7 +60,8 @@ class TC_TestAdminManagePremium < Test::Unit::TestCase
   end
   
   # Editing Premium information
-  def test_2_edit_premium
+  def edit_premium
+    assert_equal "Edit", @selenium.get_text("//div[@id='ltype']/descendant::tr[td[contains(.,'premium1')]]/descendant::a[contains(.,'Edit')]")
     @page.click_and_wait "//div[@id='ltype']/descendant::tr[td[contains(.,'premium1')]]/descendant::a[contains(.,'Edit')]"
    
     @selenium.check "//input[@value='noImage']"
@@ -64,20 +73,20 @@ class TC_TestAdminManagePremium < Test::Unit::TestCase
   end
 
   # Enable Premium type
-  def test_3_enable_premium
-    assert_equal "Enable", @selenium.get_text("link=Enable")
-    @page.click_and_wait "link=Enable"
+  def enable_premium
+    assert_equal "Enable", @selenium.get_text("//div[@id='ltype']/descendant::tr[td[contains(.,'premium1')]]/descendant::a[contains(.,'Enable')]")
+    @page.click_and_wait "//div[@id='ltype']/descendant::tr[td[contains(.,'premium1')]]/descendant::a[contains(.,'Enable')]"
   end
-
+  
   # Disable Premium type
-  def test_4_disable_premium
-    assert_equal "Disable", @selenium.get_text("link=Disable")
+  def disable_premium
+    assert_equal "Disable", @selenium.get_text("//div[@id='ltype']/descendant::tr[td[contains(.,'premium1')]]/descendant::a[contains(.,'Disable')]")
     @page.click_and_wait "//div[@id='ltype']/descendant::tr[td[contains(.,'premium1')]]/descendant::a[contains(.,'Disable')]"
     assert_equal "Are you sure you want to disable this premium? This action will remove the premium from any contribution pages that currently offer it. However it will not delete the premium record - so you can re-enable it and add it back to your contribution page(s) at a later time.", @selenium.get_confirmation()
   end
   
   # Delete Premium type
-  def test_5_delete_premium
+  def delete_premium
     @page.click_and_wait "//div[@id='ltype']/descendant::tr[td[contains(.,'premium1')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("Are you sure you want to delete this premium? This action cannot be undone. This will also remove the premium from any contribution pages that currently include it. ")
     @page.click_and_wait"_qf_ManagePremiums_next"
