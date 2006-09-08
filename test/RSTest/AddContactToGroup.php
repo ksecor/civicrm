@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Social Source Foundation                        |
+ | copyright CiviCRM LLC (c) 2004-2006                        |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -30,7 +30,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Social Source Foundation (c) 2005
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
