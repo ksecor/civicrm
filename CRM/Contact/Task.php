@@ -56,7 +56,9 @@ class CRM_Contact_Task {
         SAVE_SEARCH           =    13,
         SAVE_SEARCH_UPDATE    =    14,
         PRINT_CONTACTS        =    15,
-        LABEL_CONTACTS        =    16;
+        LABEL_CONTACTS        =    16,
+        BATCH_UPDATE          =    17; 
+
 
     /**
      * the task array
@@ -125,6 +127,9 @@ class CRM_Contact_Task {
                                                   'result' => false ),
                                   16    => array( 'title'  => ts( 'Mailing Labels'       ),
                                                   'class'  => 'CRM_Contact_Form_Task_Label',
+                                                  'result' => true ),
+                                  17    => array( 'title'  => ts( 'Batch Update via Profile'       ),
+                                                  'class'  => 'CRM_Contact_Form_Task_BatchUpdateProfile',
                                                   'result' => true ),
                                   );
 
