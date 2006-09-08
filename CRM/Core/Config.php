@@ -90,11 +90,18 @@ class CRM_Core_Config {
     public $templateCompileDir  = './templates_c/en_US/';
 
     /**
+     * The root url of our application. Used when we don't
+     * know where to redirect the application flow
+     * @var string
+     */
+    public $mainMenu            = null;
+
+    /**
      * The resourceBase of our application. Used when we want to compose
      * url's for things like js/images/css
      * @var string
      */
-    public $resourceBase        = '';
+    public $resourceBase        = null;
 
     /**
      * the factory class used to instantiate our DB objects
@@ -381,6 +388,20 @@ class CRM_Core_Config {
      */
     public $maxLocationBlocks        = 2;
 
+    /**
+     * the font path where captcha fonts are stored
+     *
+     * @var string
+     */
+    public $captchaFontPath = null;
+
+    /**
+     * the font to use for captcha
+     *
+     * @var string
+     */
+    public $captchaFont = null;
+    
     /**
      * the domainID for this instance. 
      *
@@ -684,7 +705,7 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
             $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
-            $this->resourceBase = $this->userFrameworkResourceURL;
+            $this->resourceBase             = $this->userFrameworkResourceURL;
         }
 
         if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
@@ -768,6 +789,14 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_MAX_LOCATION_BLOCKS' ) ) {
             $this->maxLocationBlocks = CIVICRM_MAX_LOCATION_BLOCKS;
+        }
+
+        if ( defined( 'CIVICRM_CAPTCHA_FONT_PATH' ) ) {
+            $this->captchaFontPath = self::addTrailingSlash( CIVICRM_CAPTCHA_FONT_PATH );
+        }
+
+        if ( defined( 'CIVICRM_CAPTCHA_FONT' ) ) {
+            $this->captchaFont = CIVICRM_CAPTCHA_FONT;
         }
 
         require_once 'CRM/Core/Component.php';

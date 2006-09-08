@@ -266,13 +266,13 @@ class CRM_Core_BAO_CustomQuery {
                                 $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $k . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                             }
                             $this->_where[$grouping][] = implode( ' AND ', $sqlValue );
-                            $this->_qill[$grouping][]  = ts('%1 %3 %2', array(1 => $field['label'], 2 => $qillValue, 3 => $op));
+                            $this->_qill[$grouping][]  = "$field[label] $op $qillValue";
                         } else { // for multi select
                             foreach ( $value as $k => $v ) { 
                                 $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $v . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                             }
                             $this->_where[$grouping][] = implode( ' AND ', $sqlValue ); 
-                            $this->_qill[$grouping][]  = ts('%1 %3 %2', array(1 => $field['label'], 2 => $qillValue, 3 => $op));
+                            $this->_qill[$grouping][]  = "$field[label] $op $qillValue";
                         }                    
                     } else {
                         if ( $field['is_search_range'] ) {
@@ -280,7 +280,7 @@ class CRM_Core_BAO_CustomQuery {
                         } else {
                             $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
                             $this->_where[$grouping][] = "{$sql} {$op} '{$val}'";
-                            $this->_qill[$grouping][]  = ts('%1 %3 %2', array(1 => $field['label'], 2 => $qillValue, 3 => $op));
+                            $this->_qill[$grouping][]  = "$field[label] $op $qillValue";
                         }
                     } 
                     continue;
@@ -323,7 +323,7 @@ class CRM_Core_BAO_CustomQuery {
                 case 'Memo':
                     $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
                     $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".memo_data {$op} '{$val}'";
-                    $this->_qill[$grouping][] = ts('%1 %3 %2', array(1 => $field['label'], 2 => $value, 3 => $op));
+                    $this->_qill[$grouping][] = "$field[label] $op $value";
                     continue;
                 
                 case 'Date':

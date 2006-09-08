@@ -1058,7 +1058,7 @@ class CRM_Contact_BAO_Query {
                 $op    = 'LIKE';
             }
             $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
-            $this->_qill[$grouping][]  = ts( '%1 $op "%2"', array( 1 => $field['title'], 2 => $value ) );
+            $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else {
             // sometime the value is an array, need to investigate and fix
             if ( is_array( $value ) ) {
@@ -1892,7 +1892,6 @@ class CRM_Contact_BAO_Query {
                                             array( 1 => $name) );
     }
 
-
     function modifiedDates( $values )
     {
         $this->_useDistinct = true;
@@ -1970,7 +1969,7 @@ class CRM_Contact_BAO_Query {
         } else {
             $title = $name;
         }
-        $this->_qill[$grouping][]  = ts( "%1 %2 %3", array( 1 => $title, 2 => $op, 3 => $value ) );
+        $this->_qill[$grouping][]  = "$title $op $value";
     }
 
     /**
@@ -2437,7 +2436,7 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
             if ( $date ) {
                 $this->_where[$grouping][] = $tableName . '.' . $dbFieldName . " $op '$date'";
                 $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
-                $this->_qill[$grouping][]  = ts( '%2 - %3 "%1"', array( 1 => $format, 2 => $fieldTitle, 3 => $phrase ) );
+                $this->_qill[$grouping][]  = "$fieldTitle - $phrase \"$format\"";
             }
         }
     }
@@ -2461,7 +2460,7 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
 
         $this->_where[$grouping][] = "{$tableName}.{$dbFieldName} $op {$value}";
         $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
-        $this->_qill[$grouping][]  = ts( '%2 - %3 "%1"', array( 1 => $value, 2 => $fieldTitle, 3 => $phrase ) );
+        $this->_qill[$grouping][]  = "$fieldTitle - $phrase \"$value\"";
     }
 
 }

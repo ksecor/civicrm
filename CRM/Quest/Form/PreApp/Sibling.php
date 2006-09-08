@@ -114,7 +114,7 @@ class CRM_Quest_Form_App_Sibling extends CRM_Quest_Form_App
         $this->addSelect('sibling_relationship', ts( 'Relationship to you' ),null ,true );
        
         $this->addElement('date', 'birth_date',
-                          ts(' Birthdate (month/day/year)'),
+                          ts('Birthdate (month/day/year)'),
                           CRM_Core_SelectValues::date('custom', 60, 0, "M\001d\001Y" ),
                           true);
         $this->addRule('birth_date', ts('Select a valid date for Birthdate.'), 'qfDate');

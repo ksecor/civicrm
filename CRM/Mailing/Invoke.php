@@ -124,6 +124,13 @@ class CRM_Mailing_Invoke {
             CRM_Core_Session::setStatus( ts('The mailing queue has been processed.') );
         }
 
+        if ($args[2] == 'preview') {
+            require_once 'CRM/Mailing/Page/Preview.php';
+            $view =& new CRM_Mailing_Page_Preview();
+            return $view->run();
+            
+        }
+
         require_once 'CRM/Mailing/Page/Browse.php';
         $view =& new CRM_Mailing_Page_Browse( );
         return $view->run( );

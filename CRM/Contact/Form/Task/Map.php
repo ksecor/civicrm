@@ -113,7 +113,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         $page->assign( 'query', 'CiviCRM Search Query' );
         $page->assign( 'mapProvider', $config->mapProvider );
         $page->assign( 'mapKey', $config->mapAPIKey );
-        $page->assign( 'enableGeoCoding', ($config->mapGeoCoding ? 1 : 0) );
+        $page->assign( 'mapGeoCoding', $config->mapGeoCoding );
 
         require_once 'CRM/Contact/BAO/Contact.php';
         $locations =& CRM_Contact_BAO_Contact::getMapInfo( $contactIds , $locationId );

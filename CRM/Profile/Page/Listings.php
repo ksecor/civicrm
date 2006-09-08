@@ -207,6 +207,11 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                 if ( $this->_gid ) {
                     $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map' );
                 }
+                if ( $map ) {
+                    $this->assign( 'mapURL',
+                                   CRM_Utils_System::url( 'civicrm/profile',
+                                                          '_qf_Search_display=true&map=1' ) );
+                }
                 $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid,
                                                                 $map );
                 $controller =& new CRM_Core_Selector_Controller($selector ,

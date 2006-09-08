@@ -373,8 +373,8 @@ define( 'CIVICRM_LC_MONETARY', 'en_US' );
  * and longitude. You can populate these manually, or you must enable one of the
  * automatic Geocode lookup methods described in the next section.
  * Google allows you to send the address rather than lat/long. This feature is enabled
- * by default. If you are using another geocoding service, make sure to disable the
- * CIVICRM_MAP_GEOCODING setting
+ * by default. If you are not using Google, make sure to set
+ * CIVICRM_MAP_GEOCODING to 0.
  *
  */
 define('CIVICRM_MAP_PROVIDER'  , '' );
@@ -526,10 +526,21 @@ define('CIVICRM_DOMAIN_ID' , 1 );
 /**
  * Location Blocks display for Contacts
  *
- * CiviCRM by default shows 2 location blocks when editing a contact, change this number if you
- * want to increase the location blocks
+ * CiviCRM by default shows 2 location (address + email + phone) blocks when editing a contact.
+ * Change this number if you want to increase (or decrease) the number of blocks.
  */
-// define( 'CIVICRM_MAX_LOCATION_BLOCKS', 2 );
+define( 'CIVICRM_MAX_LOCATION_BLOCKS', 2 );
+
+/**
+ * CAPTCHA font library path and file
+ *
+ * Captcha requires ttf (truetype fonts) to render an image properly. The font libraries
+ * do not have a consistent location across all machines. Please find out your font library
+ * location and a suitable ttf font and enter them in the below settings.
+ *
+ */
+define( 'CIVICRM_CAPTCHA_FONT_PATH', '/usr/X11R6/lib/X11/fonts/' );
+define( 'CIVICRM_CAPTCHA_FONT'     , 'HelveticaBold.ttf'         );
 
 /**
  * Debugging:
