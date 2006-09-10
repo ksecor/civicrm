@@ -1,5 +1,5 @@
 # CiviCRM German file
-# Copyright (C) 2005 Donald A. Lobo
+# copyright CiviCRM LLC (c) 2004-2006
 # This file is distributed under the same license as the CiviCRM package.
 # Piotr Szotkowski <shot@caltha.pl>, 2005
 # 
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-07 14:37+0200\n"
+"POT-Creation-Date: 2006-09-10 18:45+0200\n"
 "PO-Revision-Date: 2006-09-05 12:12-0700\n"
 "Last-Translator: Pit Gebbers <pit.gebbers@gmail.com>\n"
 "Language-Team: none\n"
@@ -11378,12 +11378,6 @@ msgstr "Instant Messenger:"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
-msgid "Map Primary Address"
-msgstr "Primäre Adresse auf der Karte anzeigen"
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
-#: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Map this Address"
 msgstr "Diese Adresse auf der Karte anzeigen"
 
@@ -15089,6 +15083,11 @@ msgid "Displaying contacts where:"
 msgstr ""
 
 #: templates/CRM/Profile/Page/Listings.tpl
+#, fuzzy
+msgid "Map these contacts"
+msgstr "Kontakt auf der Karte zeigen"
+
+#: templates/CRM/Profile/Page/Listings.tpl
 msgid ""
 "No fields in this Profile have been configured to display as columns in the "
 "listings (selector) table. Ask the site administrator to check the Profile "
@@ -15873,6 +15872,11 @@ msgstr ""
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Preapplication Status"
 msgstr ""
+
+#: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
+#: templates/CRM/Quest/Page/View/Student.tpl
+msgid "Map Primary Address"
+msgstr "Primäre Adresse auf der Karte anzeigen"
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl

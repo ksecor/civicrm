@@ -1,5 +1,5 @@
 # CiviCRM Khmer file
-# Copyright (C) 2005 Donald A. Lobo
+# copyright CiviCRM LLC (c) 2004-2006
 # This file is distributed under the same license as the CiviCRM package.
 # Piotr Szotkowski <shot@caltha.pl>, 2005
 # 
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-07 14:37+0200\n"
+"POT-Creation-Date: 2006-09-10 18:45+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: none\n"
@@ -11263,12 +11263,6 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
-msgid "Map Primary Address"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
-#: templates/CRM/Quest/Page/View/Student.tpl
 #, fuzzy
 msgid "Map this Address"
 msgstr "អាសយដ្ឋាន​ផ្លូវ"
@@ -14604,6 +14598,11 @@ msgid "Displaying contacts where:"
 msgstr ""
 
 #: templates/CRM/Profile/Page/Listings.tpl
+#, fuzzy
+msgid "Map these contacts"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
+
+#: templates/CRM/Profile/Page/Listings.tpl
 msgid ""
 "No fields in this Profile have been configured to display as columns in the "
 "listings (selector) table. Ask the site administrator to check the Profile "
@@ -15382,6 +15381,11 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Preapplication Status"
+msgstr ""
+
+#: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
+#: templates/CRM/Quest/Page/View/Student.tpl
+msgid "Map Primary Address"
 msgstr ""
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl

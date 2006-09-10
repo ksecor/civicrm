@@ -1,5 +1,5 @@
 # CiviCRM Hungarian file
-# Copyright (C) 2005 Donald A. Lobo
+# copyright CiviCRM LLC (c) 2004-2006
 # This file is distributed under the same license as the CiviCRM package.
 # Piotr Szotkowski <shot@caltha.pl>, 2005
 # 
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-07 14:37+0200\n"
+"POT-Creation-Date: 2006-09-10 18:45+0200\n"
 "PO-Revision-Date: 2006-01-09 09:49+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -10536,12 +10536,6 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
-msgid "Map Primary Address"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
-#: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Map this Address"
 msgstr ""
 
@@ -13786,6 +13780,10 @@ msgid "Displaying contacts where:"
 msgstr ""
 
 #: templates/CRM/Profile/Page/Listings.tpl
+msgid "Map these contacts"
+msgstr ""
+
+#: templates/CRM/Profile/Page/Listings.tpl
 msgid ""
 "No fields in this Profile have been configured to display as columns in the "
 "listings (selector) table. Ask the site administrator to check the Profile "
@@ -14556,6 +14554,11 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Preapplication Status"
+msgstr ""
+
+#: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
+#: templates/CRM/Quest/Page/View/Student.tpl
+msgid "Map Primary Address"
 msgstr ""
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
