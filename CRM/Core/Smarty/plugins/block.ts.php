@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -31,7 +31,7 @@
  * @package CRM
  * @author Piotr Szotkowski <shot@caltha.pl>
  * @author Michal Mach <mover@artnet.org>
- * @copyright Donald A. Lobo (c) 2005
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  */
 

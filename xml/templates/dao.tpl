@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.1                                                |
+ | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Social Source Foundation                        |
+ | Copyright CiviCRM LLC (c) 2004-2006                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,7 +29,7 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
