@@ -1,5 +1,5 @@
 # CiviCRM POT file
-# Copyright (C) 2005 Donald A. Lobo
+# Copyright (C) 2005 CiviCRM LLC (c) 2004-2006
 # This file is distributed under the same license as the CiviCRM package.
 # Piotr Szotkowski <shot@caltha.pl>, 2005
 # 
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-06 13:52+0200\n"
+"POT-Creation-Date: 2006-09-10 18:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -1724,7 +1724,7 @@ msgid "Year Deceased"
 msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Personal.php CRM/Quest/Form/PreApp/Sibling.php
-msgid " Birthdate (month/day/year)"
+msgid "Birthdate (month/day/year)"
 msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php CRM/Quest/Form/PreApp/Personal.php CRM/Quest/Form/PreApp/Sibling.php
@@ -2044,11 +2044,11 @@ msgid "Please enter value for Number of Years in U.S."
 msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
-msgid "Number of siblings "
+msgid "Number of siblings"
 msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
-msgid "Please enter Number of Siblings "
+msgid "Please enter Number of Siblings"
 msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
@@ -2564,7 +2564,7 @@ msgid "Multiple Choice Options"
 msgstr ""
 
 #: CRM/Admin/Page/OptionGroup.php
-msgid "View and Edit Multiple Choice Options "
+msgid "View and Edit Multiple Choice Options"
 msgstr ""
 
 #: CRM/Admin/Page/OptionGroup.php
@@ -2680,10 +2680,6 @@ msgid "Gender %2 \"%1\""
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-msgid "%1 $op \"%2\""
-msgstr ""
-
-#: CRM/Contact/BAO/Query.php
 msgid "This is an unexpected place to be in, contact support"
 msgstr ""
 
@@ -2744,19 +2740,11 @@ msgid "Activity Type %2 '%1'"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-msgid "%1 %2 %3"
-msgstr ""
-
-#: CRM/Contact/BAO/Query.php
 msgid "Task: %1"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Task Status: %1"
-msgstr ""
-
-#: CRM/Contact/BAO/Query.php
-msgid "%2 - %3 \"%1\""
 msgstr ""
 
 #: CRM/Contact/BAO/Relationship.php
@@ -3310,7 +3298,7 @@ msgid "Select Label"
 msgstr ""
 
 #: CRM/Contact/Form/Task/Label.php
-msgid " - select label - "
+msgid "- select label -"
 msgstr ""
 
 #: CRM/Contact/Form/Task/Label.php
@@ -4423,10 +4411,6 @@ msgstr ""
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 must be a number (with or without decimal point)."
-msgstr ""
-
-#: CRM/Core/BAO/CustomQuery.php
-msgid "%1 %3 %2"
 msgstr ""
 
 #: CRM/Core/BAO/CustomQuery.php
@@ -6044,7 +6028,7 @@ msgid "Select Recipients"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-msgid "Cannot have same groups in Include Group(s) and Exclude Group(s). "
+msgid "Cannot have same groups in Include Group(s) and Exclude Group(s)."
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
@@ -6296,7 +6280,7 @@ msgid "Tracked Opens"
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php
-msgid "Plese select one of the Memebership "
+msgid "Please select one of the memeberships"
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php
@@ -8891,11 +8875,7 @@ msgstr ""
 msgid "Instant Messenger:"
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Quest/Page/MatchApp/View/Student.tpl templates/CRM/Quest/Page/View/Student.tpl
-msgid "Map Primary Address"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Quest/Page/MatchApp/View/Student.tpl templates/CRM/Quest/Page/View/Student.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Contact/Page/View/Basic.tpl templates/CRM/Quest/Page/MatchApp/View/Student.tpl templates/CRM/Quest/Page/View/Student.tpl
 msgid "Map this Address"
 msgstr ""
 
@@ -11256,6 +11236,10 @@ msgid "Displaying contacts where:"
 msgstr ""
 
 #: templates/CRM/Profile/Page/Listings.tpl
+msgid "Map these contacts"
+msgstr ""
+
+#: templates/CRM/Profile/Page/Listings.tpl
 msgid "No fields in this Profile have been configured to display as columns in the listings (selector) table. Ask the site administrator to check the Profile setup."
 msgstr ""
 
@@ -11713,6 +11697,10 @@ msgstr ""
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl templates/CRM/Quest/Page/View/Student.tpl
 msgid "Preapplication Status"
+msgstr ""
+
+#: templates/CRM/Quest/Page/MatchApp/View/Student.tpl templates/CRM/Quest/Page/View/Student.tpl
+msgid "Map Primary Address"
 msgstr ""
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl templates/CRM/Quest/Page/MatchApp/View/Student.tpl templates/CRM/Quest/Page/View/Student.tpl templates/CRM/Quest/Page/View/Student.tpl

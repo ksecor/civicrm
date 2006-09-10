@@ -1,5 +1,5 @@
 # CiviCRM Brazilian Portuguese file
-# Copyright (C) 2005 Donald A. Lobo
+# copyright CiviCRM LLC (c) 2004-2006
 # This file is distributed under the same license as the CiviCRM package.
 # Piotr Szotkowski <shot@caltha.pl>, 2005
 # Newton Calvin <calvin@spei.br>, 2005.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-06 13:52+0200\n"
+"POT-Creation-Date: 2006-09-10 18:45+0200\n"
 "PO-Revision-Date: 2006-09-05 09:03-0700\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -2649,7 +2649,8 @@ msgstr "Ano de falecimento"
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php
 #: CRM/Quest/Form/PreApp/Personal.php CRM/Quest/Form/PreApp/Sibling.php
-msgid " Birthdate (month/day/year)"
+#, fuzzy
+msgid "Birthdate (month/day/year)"
 msgstr "Data de Nasc. (mês/dia/ano)"
 
 #: CRM/Quest/Form/MatchApp/Guardian.php CRM/Quest/Form/MatchApp/Personal.php
@@ -3055,12 +3056,12 @@ msgstr "Digite um valor numérico."
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #, fuzzy
-msgid "Number of siblings "
+msgid "Number of siblings"
 msgstr "Número de Opções Por Linha"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #, fuzzy
-msgid "Please enter Number of Siblings "
+msgid "Please enter Number of Siblings"
 msgstr "Digite um %1 válido"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
@@ -3645,7 +3646,7 @@ msgstr "Opções de múltipla escolha"
 
 #: CRM/Admin/Page/OptionGroup.php
 #, fuzzy
-msgid "View and Edit Multiple Choice Options "
+msgid "View and Edit Multiple Choice Options"
 msgstr "Visualizar / Editar opções de múltiplas escolhas."
 
 #: CRM/Admin/Page/OptionGroup.php
@@ -3787,11 +3788,6 @@ msgid "Gender %2 \"%1\""
 msgstr "Gênero - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
-msgid "%1 $op \"%2\""
-msgstr "%1 = \"%2\""
-
-#: CRM/Contact/BAO/Query.php
 msgid "This is an unexpected place to be in, contact support"
 msgstr ""
 
@@ -3859,11 +3855,6 @@ msgid "Activity Type %2 '%1'"
 msgstr "Tipo de atividade"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
-msgid "%1 %2 %3"
-msgstr "%1 - %2 de %3"
-
-#: CRM/Contact/BAO/Query.php
 msgid "Task: %1"
 msgstr ""
 
@@ -3871,11 +3862,6 @@ msgstr ""
 #, fuzzy
 msgid "Task Status: %1"
 msgstr "Status:"
-
-#: CRM/Contact/BAO/Query.php
-#, fuzzy
-msgid "%2 - %3 \"%1\""
-msgstr "Estado/UF (%2) - \"%1\""
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
@@ -4477,7 +4463,7 @@ msgstr "Selecione a Data"
 
 #: CRM/Contact/Form/Task/Label.php
 #, fuzzy
-msgid " - select label - "
+msgid "- select label -"
 msgstr "- selecionar grupo -"
 
 #: CRM/Contact/Form/Task/Label.php
@@ -5698,11 +5684,6 @@ msgstr "%1To deve ser um número (com ou sem ponto decimal)."
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 must be a number (with or without decimal point)."
 msgstr "%1 deve ser um número (com ou sem ponto decimal)."
-
-#: CRM/Core/BAO/CustomQuery.php
-#, fuzzy
-msgid "%1 %3 %2"
-msgstr "%1 = \"%2\""
 
 #: CRM/Core/BAO/CustomQuery.php
 msgid "greater than \"%1\""
@@ -7451,7 +7432,7 @@ msgstr "Selecione os Destinatários do Mailing"
 
 #: CRM/Mailing/Form/Group.php
 #, fuzzy
-msgid "Cannot have same groups in Include Group(s) and Exclude Group(s). "
+msgid "Cannot have same groups in Include Group(s) and Exclude Group(s)."
 msgstr ""
 "Os mesmos grupos não podem estar em Incluir grupo(s) e Excluir grupo(s)."
 
@@ -7716,7 +7697,7 @@ msgstr "Aberturas Rastreadas"
 
 #: CRM/Member/BAO/Membership.php
 #, fuzzy
-msgid "Plese select one of the Memebership "
+msgid "Please select one of the memeberships"
 msgstr "Selecione pelo menos um status de participação."
 
 #: CRM/Member/BAO/Membership.php
@@ -11220,12 +11201,6 @@ msgstr "Fone preferido:"
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Instant Messenger:"
 msgstr "Mensagem Instantânea:"
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
-#: templates/CRM/Quest/Page/View/Student.tpl
-msgid "Map Primary Address"
-msgstr "Mapear endereço primário"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
@@ -15256,6 +15231,11 @@ msgid "Displaying contacts where:"
 msgstr "Mostrando contatos onde:"
 
 #: templates/CRM/Profile/Page/Listings.tpl
+#, fuzzy
+msgid "Map these contacts"
+msgstr "Mapear Contatos"
+
+#: templates/CRM/Profile/Page/Listings.tpl
 msgid ""
 "No fields in this Profile have been configured to display as columns in the "
 "listings (selector) table. Ask the site administrator to check the Profile "
@@ -16042,6 +16022,11 @@ msgstr ""
 #, fuzzy
 msgid "Preapplication Status"
 msgstr "Situação das Contribuições"
+
+#: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
+#: templates/CRM/Quest/Page/View/Student.tpl
+msgid "Map Primary Address"
+msgstr "Mapear endereço primário"
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
@@ -16852,6 +16837,22 @@ msgstr "Mensagem capturada por filtro ed conteúdo."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Erro na transação do SMTP"
+
+#, fuzzy
+#~ msgid "%1 $op \"%2\""
+#~ msgstr "%1 = \"%2\""
+
+#, fuzzy
+#~ msgid "%1 %2 %3"
+#~ msgstr "%1 - %2 de %3"
+
+#, fuzzy
+#~ msgid "%2 - %3 \"%1\""
+#~ msgstr "Estado/UF (%2) - \"%1\""
+
+#, fuzzy
+#~ msgid "%1 %3 %2"
+#~ msgstr "%1 = \"%2\""
 
 #, fuzzy
 #~ msgid ""
