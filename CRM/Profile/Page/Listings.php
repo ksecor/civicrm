@@ -122,7 +122,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                                                     CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
                                                     false, $this->_gid, true );
 
-        $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( 'Individual' );
+        $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( null );
         $this->_params   = array( );
         
         foreach ( $this->_fields as $name => $field ) {
