@@ -44,6 +44,7 @@ require_once 'CRM/Quest/Form/MatchApp/Essay.php';
  */
 class CRM_Quest_Form_MatchApp_Essay_PersonalStat extends CRM_Quest_Form_MatchApp_Essay
 {
+    static $dontCare;
 
     /**
      * Function to set variables up before form is built
@@ -55,6 +56,17 @@ class CRM_Quest_Form_MatchApp_Essay_PersonalStat extends CRM_Quest_Form_MatchApp
     {
         $this->_grouping = 'cm_essay_personal';
         parent::preProcess();
+        self::$dontCare = false;
+        $attachments =& crm_get_files_by_entity( $this->_contactID);
+        $attach = array();
+        if ( ! is_a( $attachments, CRM_Core_Error ) ) {
+            foreach($attachments as $key=>$value ) {
+                if ($value['file_type_id'] == 5 ) {
+                   self::$dontCare = true;
+                }
+            }
+        }
+
     }
 
     /**
@@ -91,8 +103,7 @@ class CRM_Quest_Form_MatchApp_Essay_PersonalStat extends CRM_Quest_Form_MatchApp
      */
     public function formRule(&$params, &$files ) {
         $errors = array( );
-
-        if ( $params['personalStat_quests'] == 0 ) {
+        if ( $params['personalStat_quests'] == 0 && !self::$dontCare) {
             // ensure that there is a file upload
             if ( empty( $files['uploadFile']['tmp_name'] ) )  {
                 $errors['uploadFile'] = ts( 'Please upload a photo' );
