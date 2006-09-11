@@ -54,6 +54,9 @@ class CRM_Utils_Hook_Joomla {
      * @access public 
      */ 
     static function pre( $op, $objectName, $id, &$params ) {
+        if ( function_exists( 'joomla_civicrm_pre' ) ) {
+            joomla_civicrm_pre( $op, $objectName, $id, $params );
+        }
         return;
     }
 
@@ -75,6 +78,9 @@ class CRM_Utils_Hook_Joomla {
      * @access public 
      */ 
     static function post( $op, $objectName, $objectId, &$objectRef ) {
+        if ( function_exists( 'joomla_civicrm_post' ) ) {
+            joomla_civicrm_post( $op, $objectName, $objectId, $objectRef );
+        }
         return;
     }
 
@@ -91,6 +97,9 @@ class CRM_Utils_Hook_Joomla {
      * @access public
      */
     static function links( $op, $objectName, $objectId ) {
+        if ( function_exists( 'joomla_civicrm_links' ) ) {
+            joomla_civicrm_links( $op, $objectName, $objectId );
+        }
         return null;
     }
 
