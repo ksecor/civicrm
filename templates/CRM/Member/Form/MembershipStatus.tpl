@@ -1,5 +1,5 @@
 {* this template is used for adding/editing/deleting membership status  *}
-<div class="form-item">
+<div class="form-item" id=membership_status>
 <fieldset><legend>{if $action eq 1}{ts}New Membership Status{/ts}{elseif $action eq 2}{ts}Edit Membership Status{/ts}{else}{ts}Delete Membership Status{/ts}{/if}</legend>
   
    {if $action eq 8}

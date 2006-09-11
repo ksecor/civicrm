@@ -1,7 +1,7 @@
 {* this template is used for adding/editing/deleting membership type  *}
 <fieldset>
 <legend>{if $action eq 1}{ts}New Membership Type{/ts}{elseif $action eq 2}{ts}Edit Membership Type{/ts}{else}{ts}Delete Membership Type{/ts}{/if}</legend>
-<div class="form-item">
+<div class="form-item" id="membership_type_form">
     {if $action eq 8}
     
     <div class="messages status">
