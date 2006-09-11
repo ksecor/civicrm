@@ -1210,11 +1210,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * Function to build profile form
      *
+     * @params $form       object form object
+     * @params $fieldName  string name of the field
+     * @params $title      string title of the field
+     * @params $required   boolean true if required else false
+     * @params $attributes array field attributes
+     * @params $search      boolean true for search mode else false
+     *
      * @return null
      * @static
      * @access public
      */
-    static function buildProfile( $form, $fieldName, $title, $required, $attributes) 
+    static function buildProfile( &$form, $fieldName, $title, $required, $attributes, $search ) 
     {
         if ( substr($fieldName,0,14) === 'state_province' ) {
             $form->add('select', $name, $title,
