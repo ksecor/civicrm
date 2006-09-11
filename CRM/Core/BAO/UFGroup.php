@@ -1206,7 +1206,93 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         return false;
     }
-
+    
+    /**
+     * Function to build profile form
+     *
+     * @return null
+     * @static
+     * @access public
+     */
+    static function buildProfile( $form, $fieldName, $title, $required, $attributes) 
+    {
+        if ( substr($fieldName,0,14) === 'state_province' ) {
+            $form->add('select', $name, $title,
+                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
+        } else if ( substr($fieldName,0,7) === 'country' ) {
+            $form->add('select', $fieldName, $title, 
+                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
+        } else if ( $fieldName === 'birth_date' ) {  
+            $form->add('date', $fieldName, $title, CRM_Core_SelectValues::date('birth'), $required );  
+        } else if ( $fieldName === 'gender' ) {  
+            $genderOptions = array( );   
+            $gender = CRM_Core_PseudoConstant::gender();   
+            foreach ($gender as $key => $var) {   
+                $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
+            }   
+            $form->addGroup($genderOptions, $fieldName, $title );  
+            if ($required) {
+                $form->addRule($fieldName, ts('%1 is a required field.', array(1 => $title)) , 'required');
+            }
+        } else if ( $fieldName === 'individual_prefix' ){
+            $form->add('select', $fieldName, $title, 
+                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix(), $required);
+        } else if ( $fieldName === 'individual_suffix' ){
+            $form->add('select', $fieldName, $title, 
+                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
+        } else if ($fieldName === 'preferred_communication_method') {
+            $communicationFields = CRM_Core_SelectValues::pcm();
+            foreach ( $communicationFields as $key => $var ) {
+                if ( $key == '' ) {
+                    continue;
+                }
+                $communicationOptions[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+            }
+            $form->addGroup($communicationOptions, $fieldName, $title, '<br/>' );
+        } else if ($fieldName === 'preferred_mail_format') {
+            $form->add('select', $fieldName, $title, CRM_Core_SelectValues::pmf());
+        } else if ( $fieldName === 'group' ) {
+            require_once 'CRM/Contact/Form/GroupTag.php';
+            CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $form->_id,
+                                                          CRM_Contact_Form_GroupTag::GROUP,
+                                                          true, $required,
+                                                          $title, null );
+        } else if ( $fieldName === 'tag' ) {
+            require_once 'CRM/Contact/Form/GroupTag.php';
+            CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $form->_id,
+                                                          CRM_Contact_Form_GroupTag::TAG,
+                                                          false, $required,
+                                                          null, $title );
+        } else if (substr($fieldName, 0, 6) === 'custom') {
+            $customFieldID = CRM_Core_BAO_CustomField::getKeyID($fieldName);
+            CRM_Core_BAO_CustomField::addQuickFormElement($form, $fieldName, $customFieldID, $inactiveNeeded, $required, $search, $title);
+        } else if ( in_array($fieldName, array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
+            $form->add('date', $fieldName, $title, CRM_Core_SelectValues::date('manual', 3, 1), $required );  
+            $form->addRule($fieldName, ts('Select a valid date.'), 'qfDate');
+        } else if ($fieldName == 'payment_instrument' ) {
+            $form->add('select', 'payment_instrument', ts( 'Paid By' ),
+                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
+        } else if ($fieldName == 'contribution_type' ) {
+            $form->add('select', 'contribution_type', ts( 'Contribution Type' ),
+                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+        } else {
+            $processed = false;
+            if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                require_once 'CRM/Quest/BAO/Student.php';
+                $processed = CRM_Quest_BAO_Student::buildStudentForm( $field, $form );
+            }
+            if ( ! $processed ) {
+                if ( substr($fieldName, 0, 3) === 'is_' or substr($fieldName, 0, 7) === 'do_not_' ) {
+                    $form->add('checkbox', $fieldName, $title, $attributes, $required );
+                } else {
+                    $form->add('text', $fieldName, $title, $attributes, $required );
+                }
+            }
+        }
+        
+        
+        
+    }
 }
 
 ?>

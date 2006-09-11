@@ -374,59 +374,14 @@ class CRM_Profile_Form extends CRM_Core_Form
                 unset( $this->_fields[$name] );
                 continue;
             }
+            
             $required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
 
-            //if ( $field['name'] === 'state_province' ) {
-            if ( substr($field['name'],0,14) === 'state_province' ) {
-                $this->add('select', $name, $field['title'],
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
-            } else if ( substr($field['name'],0,7) === 'country' ) {
-                $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
-            } else if ( $field['name'] === 'birth_date' ) {  
-                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth'), $required );  
-            } else if ( $field['name'] === 'gender' ) {  
-                $genderOptions = array( );   
-                $gender = CRM_Core_PseudoConstant::gender();   
-                foreach ($gender as $key => $var) {   
-                    $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
-                }   
-                $this->addGroup($genderOptions, $field['name'], $field['title'] );  
-                if ($required) {
-                    $this->addRule($field['name'], ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
-                }
-            } else if ( $field['name'] === 'individual_prefix' ){
-                $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix(), $required);
-            } else if ( $field['name'] === 'individual_suffix' ){
-                $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
-            } else if ($field['name'] === 'preferred_communication_method') {
-                $communicationFields = CRM_Core_SelectValues::pcm();
-                foreach ( $communicationFields as $key => $var ) {
-                    if ( $key == '' ) {
-                        continue;
-                    }
-                    $communicationOptions[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
-                }
-                $this->addGroup($communicationOptions, $name, $field['title'], '<br/>' );
-            } else if ($field['name'] === 'preferred_mail_format') {
-                $this->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
-            } else if ( $field['name'] === 'group' ) {
-                require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
-                                                              CRM_Contact_Form_GroupTag::GROUP,
-                                                              true, $required,
-                                                              $field['title'], null );
-            } else if ( $field['name'] === 'tag' ) {
-                require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
-                                                              CRM_Contact_Form_GroupTag::TAG,
-                                                              false, $required,
-                                                              null, $field['title'] );
-            } else if (substr($field['name'], 0, 6) === 'custom') {
+            CRM_Core_BAO_UFGroup::buildProfile($this, $field['name'], $field['title'], $required, $field['attributes']  );            
+            //for custom data
+            if (substr($field['name'], 0, 6) === 'custom') {
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
-                CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required, $search, $field['title']);
+                
                 CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id , $this->_mode);
                 $file = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
 
@@ -446,30 +401,8 @@ class CRM_Profile_Form extends CRM_Core_Form
                         }
                     }
                 }
-            } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
-                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
-                $this->addRule($field['name'], ts('Select a valid date.'), 'qfDate');
-            } else if ($field['name'] == 'payment_instrument' ) {
-                $this->add('select', 'payment_instrument', ts( 'Paid By' ),
-                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
-            } else if ($field['name'] == 'contribution_type' ) {
-                $this->add('select', 'contribution_type', ts( 'Contribution Type' ),
-                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
-            } else {
-                $processed = false;
-                if ( CRM_Core_Permission::access( 'Quest' ) ) {
-                    require_once 'CRM/Quest/BAO/Student.php';
-                    $processed = CRM_Quest_BAO_Student::buildStudentForm( $field, $this );
-                }
-                if ( ! $processed ) {
-                    if ( substr($field['name'], 0, 3) === 'is_' or substr($field['name'], 0, 7) === 'do_not_' ) {
-                        $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
-                    } else {
-                        $this->add('text', $name, $field['title'], $field['attributes'], $required );
-                    }
-                }
             }
-            
+
             if ( in_array($field['name'], array('non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' )) ) {
                 $this->addRule($field['name'], ts('Please enter a valid amount.'), 'money');
             }

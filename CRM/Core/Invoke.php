@@ -116,10 +116,6 @@ class CRM_Core_Invoke {
             self::file( $args );
             break;
 
-        case 'server'   : 
-            self::server ( $args );
-            break;
-
         default         :
             require_once 'CRM/Core/Component.php';
             if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
@@ -142,11 +138,6 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function contact( $args ) {
-        //code added for testing ajax
-        if ($args[2] == 'test') {
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Test', ts('Test Ajax Page'), $action );
-        }
 
         $session =& CRM_Core_Session::singleton();
 
@@ -820,52 +811,6 @@ class CRM_Core_Invoke {
         readfile($fileName);
         
         exit();
-    }
-
-
-    /**
-     * This function contains the action for server pages (ajax)
-     *
-     * @params $args array this array contains the arguments of the url 
-     *
-     * @static
-     * @access public
-     */
-    static function server( $args ) {
-        
-        $server = null;
-
-        //this code is for state country widget
-        switch ( $args[2] ) {
-        case 'stateCountry':
-            require_once 'CRM/Contact/Page/StateCountryServer.php';
-            $server =& new CRM_Contact_Page_StateCountryServer( );
-            break;
-
-        case 'search':
-            require_once 'CRM/Contact/Page/SearchServer.php';
-            $server =& new CRM_Contact_Page_SearchServer( );
-            break;
-
-        case 'uf':
-            require_once 'CRM/UF/Page/UFServer.php';
-            $server =& new CRM_UF_Page_UFServer( );
-            break;
-        }
-
-        if ( $server ) {
-            $set = CRM_Utils_Request::retrieve('set', 'Boolean',
-                                               CRM_Core_DAO::$_nullObject );
-            if ( $set ) {
-                $path = CRM_Utils_Request::retrieve('path', 'String',
-                                                    CRM_Core_DAO::$_nullObject );
-                $path= '?q='.$path;
-                $session =& CRM_Core_Session::singleton( );
-                $session->set('path', $path);
-            }
-            return $server->run( $set );
-        }
-
     }
 
     static function onlySSL( $args ) {
