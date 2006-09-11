@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2006                                  |
+ | Copyright (c) 2005 Donald A. Lobo                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -29,12 +29,13 @@
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright CiviCRM LLC (c) 2004-2006
+ * @copyright Donald A. Lobo (c) 2005
  * $Id$
  *
  */
 
-require_once 'CRM/Contact/Form/Task.php';
+
+require_once 'CRM/Profile/Form.php';
 
 /**
  * This class provides the functionality for batch profile update
@@ -46,6 +47,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @var string
      */
     protected $_context;
+    protected $_fields;
 
     /**
      * the groupId retrieved from the GET vars
@@ -86,11 +88,29 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
         // add select for groups
         $ufGroup = array( '' => ts('- select profile -')) + CRM_Core_PseudoConstant::ufgroup( );
         $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $ufGroup, true);
-        $this->_title  = $ufGroup[$this->_id];
-
-        CRM_Utils_System::setTitle( ts('Batch Profile update') );
-
-        $this->addDefaultButtons( ts('Save') );
+        
+        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Go'), array( 'class' => 'form-submit' ) );
+         
+        CRM_Utils_System::setTitle( ts('Batch Profile Update') );
+        
+        $params = $this->exportValues();
+        if ( $params['_qf_BatchUpdateProfile_refresh'] ) {
+            $this->addDefaultButtons( ts('Save') );
+            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $params['uf_group_id']);
+            //CRM_Core_Error::debug('f', $this->_fields);
+            
+            $this->addButtons( array(
+                                     array ( 'type'      => 'save',
+                                             'name'      => ts('Save'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'      => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $params['uf_group_id']);
+            //   CRM_Core_Error::debug('f', $this->_fields);   
+            
+        }
     }
 
     /**
@@ -99,7 +119,11 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @access public
      * @return None
      */
-    public function postProcess() {
+    public function postProcess() 
+    {
+        $params = $this->exportValues( );
+        ///CRM_Core_Error::debug('q', $params);
+ 
         
     }//end of function
 
