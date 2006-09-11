@@ -239,6 +239,15 @@ SELECT cr.id           as contact_id,
 
         // add validation to make sure that this email is not in the db as a student
         // and if present is in as a recommender
+        $session =& CRM_Core_Session::singleton( );
+        $userEmail = $session->get( 'ufEmail' );
+        if ( $params['email_1'] == $userEmail ||
+             $params['email_2'] == $userEmail ||
+             $params['email_3'] == $userEmail ) {
+            $errors = array( );
+            $errors['_qf_default'] = ts( 'You cannot serve as your own recommender' );
+            return $errors;
+        }
 
         return false;
     }
