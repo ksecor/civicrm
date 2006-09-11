@@ -67,8 +67,10 @@ function civicrm_check_permission( $args ) {
         return false;
     }
 
-    // all profile urls are valid
-    if ( CRM_Utils_Array::value( 1, $args ) == 'profile' ) {
+    // all profile and file urls are valid
+    $arg1 = CRM_Utils_Array::value( 1, $args );
+    if ( ( $arg1 == 'profile' ) ||
+         ( $arg1 == 'file'    ) ) {
         return true;
     }
 
