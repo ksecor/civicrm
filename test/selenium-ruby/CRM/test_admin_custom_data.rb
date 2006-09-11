@@ -24,17 +24,16 @@ class TC_TestAdminCustomData < Test::Unit::TestCase
     
     add_custom_field()
     edit_custom_field()
-    #preview_custom_field()
-    #disable_custom_field()
-    #enable_custom_field()
+    preview_custom_field()
+    disable_custom_field()
+    enable_custom_field()
     
-    #check_delete_custom_group()
+    settings_custom_group()
+    disable_custom_group()
+    enable_custom_group()
     
+    check_delete_custom_group()
     delete_custom_field()
-    
-    #settings_custom_group()
-    #disable_custom_group()
-    #enable_custom_group()
     delete_custom_group()
     
   end
@@ -131,7 +130,7 @@ class TC_TestAdminCustomData < Test::Unit::TestCase
       end
     }
     
-    if is_checked(@custom_field['is_searchable'])
+    if @selenium.is_checked(@custom_field['is_searchable'])
       @selenium.check  "is_search_range"
     end
     
@@ -163,21 +162,11 @@ class TC_TestAdminCustomData < Test::Unit::TestCase
     @page.click_and_wait "//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Enable')]"
   end
   
-  # Delete Custom Field
-  def delete_custom_field
-    
-    move_to_custom_field_page()
-    
-    assert @selenium.is_element_present("//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Delete')]")
-    @page.click_and_wait "//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Delete')]"
-    assert_equal "Are you sure you want to delete this custom data field?", @selenium.get_confirmation
-    assert @selenium.is_text_present("WARNING: Deleting this custom field will result in the loss of all \"Integer Text Custom Field\" data. Any Profile form and listings field(s) linked with \"Integer Text Custom Field\" will also be deleted. This action cannot be undone. Do you want to continue?")
-    @page.click_and_wait "_qf_DeleteField_next"
-    assert @selenium.is_text_present("The custom field \"Integer Text Custom Field\" has been deleted.")
-  end
-  
   # Editing Custom Data information
   def settings_custom_group
+    
+    move_to_custom_group_page()
+    
     assert @selenium.is_element_present("//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Settings')]")
     @page.click_and_wait "//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Settings')]"
     @custom_group.each{ | value |
@@ -204,16 +193,29 @@ class TC_TestAdminCustomData < Test::Unit::TestCase
     @page.click_and_wait "//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Enable')]"
   end
   
-  # Delete Custom Data
-  def delete_custom_group
+  def check_delete_custom_group
     assert @selenium.is_element_present("//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Delete')]")
     @page.click_and_wait "//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this custom group will result in the loss of all New Custom Group data. This action cannot be undone. Do you want to continue?")
     @page.click_and_wait "_qf_DeleteGroup_next"
-    assert @selenium.is_text_present("The Group \"New Custom Group\" has been deleted.")
+    assert @selenium.is_text_present("The Group \"New Custom Group\" has not been deleted! You must Delete all custom fields in this group prior to deleting the group")
+  end  
+
+  # Delete Custom Field
+  def delete_custom_field
+    
+    move_to_custom_field_page()
+    
+    assert @selenium.is_element_present("//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Delete')]")
+    @page.click_and_wait "//div[@id='field_page']/descendant::tr[td[contains(.,'Integer Text Custom Field')]]/descendant::a[contains(.,'Delete')]"
+    assert_equal "Are you sure you want to delete this custom data field?", @selenium.get_confirmation
+    assert @selenium.is_text_present("WARNING: Deleting this custom field will result in the loss of all \"Integer Text Custom Field\" data. Any Profile form and listings field(s) linked with \"Integer Text Custom Field\" will also be deleted. This action cannot be undone. Do you want to continue?")
+    @page.click_and_wait "_qf_DeleteField_next"
+    assert @selenium.is_text_present("The custom field \"Integer Text Custom Field\" has been deleted.")
   end
   
-  def check_delete_custom_group
+  # Delete Custom Data
+  def delete_custom_group
     
     move_to_custom_group_page()
     
@@ -221,7 +223,7 @@ class TC_TestAdminCustomData < Test::Unit::TestCase
     @page.click_and_wait "//div[@id='custom_group']/descendant::tr[td[contains(.,'New Custom Group')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this custom group will result in the loss of all New Custom Group data. This action cannot be undone. Do you want to continue?")
     @page.click_and_wait "_qf_DeleteGroup_next"
-    assert @selenium.is_text_present("The Group \"New Custom Group\" has not been deleted! You must Delete all custom fields in this group prior to deleting the group")
-  end  
+    assert @selenium.is_text_present("The Group \"New Custom Group\" has been deleted.")
+  end
   
 end
