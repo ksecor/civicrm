@@ -35,7 +35,16 @@
 	        map.setCenter(point, 13);
 	        var marker = createMarker(point, data);
 	        map.addOverlay(marker);
-	      }
+              }
+      {/literal}
+{if $geoCodeWarn}
+      {literal}
+	      else {
+	        alert( address + ': could not be geocoded, please check and try again' );
+              }
+      {/literal}
+{/if}
+      {literal}
 	    }
 	  );
 	}
