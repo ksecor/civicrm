@@ -220,8 +220,8 @@
   {else}
     <dl><dt>{ts}Scheduled Activities{/ts}</dt>
     {if $permission EQ 'edit'}
-        {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=6&action=add&reset=1&cid=$contactId"}{/capture}
-        {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=7&action=add&reset=1&cid=$contactId"}{/capture}
+        {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
+        {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
         <dd>{ts 1=$mtgURL 2=$callURL}No Scheduled Activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
     {else}
         <dd>{ts}There are no Scheduled Activities for this contact.{/ts}</dd>

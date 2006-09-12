@@ -64,7 +64,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
-        $activityType = CRM_Core_PseudoConstant::activityType(false);
+        $activityType = CRM_Core_PseudoConstant::activityType(false,true);
 
         $this->applyFilter('__ALL__', 'trim');
         $this->add('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType, 

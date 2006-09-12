@@ -207,13 +207,13 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $params['contact_id'] = $this->_contactId;
         $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin);
-
+        //  print_r($rows);
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
 
             //check the if the activity type is meeting or phonecall
             if (is_numeric($row['activity_type'])) {
-                if ($row['activity_type'] == 7) {
+                if ($row['activity_type'] == 2) {
                     $row['activity_type'] = ts('Phone Call');
                 } else {
                     $row['activity_type'] = ts('Meeting');

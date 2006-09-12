@@ -1388,7 +1388,7 @@ WHERE civicrm_contact.id IN $idString ";
 
         $query = "SELECT count(*) FROM civicrm_activity,civicrm_option_value 
                   WHERE ( civicrm_activity.target_entity_table = 'civicrm_contact' $clause )
-                  AND civicrm_option_value.id = civicrm_activity.activity_type_id 
+                  AND civicrm_option_value.value = civicrm_activity.activity_type_id 
                   AND civicrm_option_value.is_active = 1  AND status != 'Completed'";
         $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
 
@@ -1429,15 +1429,16 @@ WHERE civicrm_contact.id IN $idString ";
     civicrm_phonecall.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
-    civicrm_option_value.id  as activity_type_id,
+    civicrm_option_value.value  as activity_type_id,
     civicrm_option_value.name  as activity_type
-  FROM civicrm_option_value, civicrm_phonecall, civicrm_contact source, civicrm_contact target
+  FROM civicrm_phonecall 
+       LEFT JOIN civicrm_option_value ON (civicrm_option_value.value = 2) 
+       LEFT JOIN civicrm_contact source ON (civicrm_phonecall.source_contact_id = source.id) 
+       LEFT JOIN civicrm_contact target ON (civicrm_phonecall.target_entity_id = target.id) 
+       LEFT JOIN civicrm_option_group ON  (civicrm_option_group.id = civicrm_option_value.option_group_id)
+       
   WHERE
-    civicrm_option_value.id = 7 AND
-    civicrm_phonecall.source_contact_id = source.id AND
-    civicrm_phonecall.target_entity_table = 'civicrm_contact' AND
-    civicrm_phonecall.target_entity_id = target.id $clause
-    AND civicrm_phonecall.status != 'Completed'
+     civicrm_phonecall.status != 'Completed' AND civicrm_option_group.name = 'activity_type'
  ) UNION
 ( SELECT   
     civicrm_meeting.id as id,
@@ -1448,15 +1449,16 @@ WHERE civicrm_contact.id IN $idString ";
     civicrm_meeting.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
-    civicrm_option_value.id  as activity_type_id,
+    civicrm_option_value.value  as activity_type_id,
     civicrm_option_value.name  as activity_type
-  FROM civicrm_option_value, civicrm_meeting, civicrm_contact source, civicrm_contact target
+  FROM civicrm_meeting
+       LEFT JOIN civicrm_option_value ON (civicrm_option_value.value = 1) 
+       LEFT JOIN civicrm_contact source ON (civicrm_meeting.source_contact_id = source.id) 
+       LEFT JOIN civicrm_contact target ON (civicrm_meeting.target_entity_id = target.id) 
+       LEFT JOIN  civicrm_option_group ON  (civicrm_option_group.id = civicrm_option_value.option_group_id)
+
   WHERE
-    civicrm_option_value.id = 6 AND
-    civicrm_meeting.source_contact_id = source.id AND
-    civicrm_meeting.target_entity_table = 'civicrm_contact' AND
-    civicrm_meeting.target_entity_id = target.id $clause
-    AND civicrm_meeting.status != 'Completed'
+    civicrm_meeting.status != 'Completed' AND civicrm_option_group.name = 'activity_type'
 ) UNION
 ( SELECT   
     civicrm_activity.id as id,
@@ -1467,15 +1469,16 @@ WHERE civicrm_contact.id IN $idString ";
     civicrm_activity.status as status,
     source.display_name as sourceName,
     target.display_name as targetName,
-    civicrm_option_value.id  as activity_type_id,
+    civicrm_option_value.value  as activity_type_id,
     civicrm_option_value.name  as activity_type
-  FROM civicrm_activity, civicrm_contact source, civicrm_contact target ,civicrm_option_value
-  WHERE
-    civicrm_activity.source_contact_id = source.id AND
-    civicrm_activity.target_entity_table = 'civicrm_contact' AND
-    civicrm_activity.target_entity_id = target.id $clause AND
-    civicrm_option_value.id = civicrm_activity.activity_type_id AND civicrm_option_value.is_active = 1 AND 
-    civicrm_activity.status != 'Completed'
+  FROM civicrm_activity
+       LEFT JOIN civicrm_option_value   ON (civicrm_option_value.value = civicrm_activity.activity_type_id)   
+       LEFT JOIN civicrm_contact source ON (civicrm_activity.source_contact_id = source.id) 
+       LEFT JOIN civicrm_contact target ON (civicrm_activity.target_entity_id = target.id) 
+       LEFT JOIN  civicrm_option_group  ON (civicrm_option_group.id = civicrm_option_value.option_group_id)
+
+  WHERE 
+   civicrm_activity.status != 'Completed' AND civicrm_option_group.name = 'activity_type'
             )
 ";
 

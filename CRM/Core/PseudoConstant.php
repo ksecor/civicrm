@@ -277,28 +277,21 @@ class CRM_Core_PseudoConstant {
      */
 
 
-    public static function &activityType( $all = false, $cond = 'id > 9')
+    public static function &activityType( $all=false,  $cond = 'id > 4')
     {
-        require_once 'CRM/Core/BAO/OptionGroup.php';
-        $groupParams = array( 'name' => 'activity_type' );
-        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
-        
-        if ( ! self::$activityType ) {
-            if ($optionGroup->id) {
-                if($cond == null) {
-                    self::populate( self::$activityType, 'CRM_Core_DAO_OptionValue', $all, 'name', 
-                                    'is_active', "option_group_id = " . $optionGroup->id , 'name' );
-                } else {
-                    self::populate( self::$activityType, 'CRM_Core_DAO_OptionValue', $all, 'name', 
-                                    'is_active', "option_group_id = " . $optionGroup->id  . ' AND ' . $cond, 'name' );
+        require_once 'CRM/Core/OptionGroup.php';
+        $activityType = CRM_Core_OptionGroup::values('activity_type');
+        $otherActivities = array();
+        if ( $cond != null ) {
+            foreach( $activityType as $key => $value ) {
+                if ($key > 4   ) {
+                    $otherActivities [$key] = $value;
                 }
-            } else {
-                // since there is a break if it doesn't return anything
-                return array();
             }
+            return $otherActivities;
+        } else {
+            return $activityType;
         }
-          
-        return self::$activityType;
     }
 
     /**

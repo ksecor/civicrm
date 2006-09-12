@@ -87,9 +87,9 @@
       var desc = new Array();
       desc[0] = "";
       {/literal}
-      var index = 1;
+      var index = 5;
       {foreach from= $ActivityTypeDescription item=description key=id}
-        {literal}desc[index]{/literal} = "{$description}"
+        {literal}desc[5]{/literal} = "{$description}"
         {literal}index = index + 1{/literal}
       {/foreach}
       {literal}

@@ -247,13 +247,13 @@ class CRM_Core_Invoke {
                     }
                 }
 
-                if ($activityId == 6) {
+                if ($activityId == 1) {
                     require_once 'CRM/Contact/Page/View/Meeting.php';
                     $view =& new CRM_Contact_Page_View_Meeting( );
-                } elseif($activityId == 7) {
+                } elseif($activityId == 2) {
                     require_once 'CRM/Contact/Page/View/Phonecall.php';
                     $view =& new CRM_Contact_Page_View_Phonecall( );
-                } elseif($activityId == 8) {
+                } elseif($activityId == 3) {
                     $details = CRM_Utils_Request::retrieve('details', 'String',
                                                            CRM_Core_DAO::$_nullObject );
                     if ($details) {
@@ -264,10 +264,10 @@ class CRM_Core_Invoke {
                         $wrapper =& new CRM_Utils_Wrapper( );
                         return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
                     }
-                } elseif ($activityId == 9 ) {
+                } elseif ($activityId == 4 ) {
                     require_once 'CRM/Contact/Page/View/SMS.php';
                     $view =& new CRM_Contact_Page_View_SMS( );
-                } elseif ($activityId > 9) {
+                } elseif ($activityId > 4) {
                     require_once 'CRM/Contact/Page/View/OtherActivity.php';
                     $view =& new CRM_Contact_Page_View_OtherActivity( );
                 } else {

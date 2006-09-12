@@ -151,9 +151,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $strFrom = " FROM civicrm_custom_group LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicrm_custom_group.id)";
         if ($entityId) {
             if ($entityType == "Activity") {
-                if ( $subType == 6) {
+                if ( $subType == 1) {
                     $activityType = "Meeting";
-                } else if($subType == 7) {
+                } else if($subType == 2) {
                     $activityType = "Phonecall";
                 } else {
                     $activityType = "Activity";

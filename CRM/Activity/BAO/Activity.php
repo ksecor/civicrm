@@ -69,9 +69,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-        if ( $activityType == 6) {
+        if ( $activityType == 1) {
             $activityType = "Meeting";
-        } else if($activityType == 7) {
+        } else if($activityType == 2) {
             $activityType = "Phonecall";
         } else {
             $activityType = "Activity";
@@ -122,9 +122,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     static function retrieve( &$params, &$defaults, $activityType ) 
     {
 
-        if ( $activityType == 6) {
+        if ( $activityType == 1) {
             $activityType = "Meeting";
-        } else if($activityType == 7) {
+        } else if($activityType == 2) {
             $activityType = "Phonecall";
         } else {
             $activityType = "Activity";
@@ -205,9 +205,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
         
         // do the updates/inserts
-        if ( $activityType == 6) {
+        if ( $activityType == 1) {
             $activityType = "Meeting";
-        } else if($activityType == 7) {
+        } else if($activityType == 2) {
             $activityType = "Phonecall";
         } else {
             $activityType = "Activity";
@@ -222,7 +222,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } else {
             $title = $activityType;
         }
-
+        
         if ( $activity->status == 'Completed' ) {
             // we need to insert an activity history record here
             $params = array('entity_table'     => 'civicrm_contact',
@@ -275,11 +275,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $activityId = $history->activity_id;
 
         if ($history->activity_type == 'Meeting') {
-            $activityTypeId = 6;
+            $activityTypeId = 1;
         } else if ($history->activity_type == 'Phone Call') {
-            $activityTypeId = 7;
+            $activityTypeId = 2;
         } else {
-            $activityTypeId = 10;
+            $activityTypeId = 5;
         }
 
         if ( $contactId ) {

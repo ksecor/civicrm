@@ -48,7 +48,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
      * variable to store activity type name
      *
      */
-    public $_activityType = 7;
+    public $_activityType = 2;
 
     /**
      * Function to build the form
