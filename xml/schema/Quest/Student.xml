@@ -34,18 +34,11 @@
       <name>citizenship_status_id</name>
       <title>US Citizenship Status</title>
       <type>int unsigned</type>
-      <comment>FK to civicrm_option_value.</comment>
+      <comment>Implicit FK to civicrm_option_value, option_group=citizenship_status.</comment>
       <export>true</export>
       <import>true</import>
      <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>citizenship_status_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <headerPattern>/citizenship status/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
   <field>
       <name>citizenship_country_id</name>
       <title>Country of Citizenship</title>
@@ -131,33 +124,15 @@
       <type>int unsigned</type>
       <export>true</export>
       <title>Ethnicity 1</title>
-      <comment>FK to civicrm_option_value.</comment>
+      <comment>Implicit FK to civicrm_option_value, option_group=ethnicity.</comment>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>ethnicity_id_1</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <import>true</import>
-       <export>true</export>
-       <headerPattern>/ethnicity/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
   <field>
       <name>ethnicity_id_2</name>
       <type>int unsigned</type>
-      <comment>FK to civicrm_option_value.</comment>
+      <comment>Implicit FK to civicrm_option_value, option_group=ethnicity.</comment>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>ethnicity_id_2</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <export>true</export>
-       <import>true</import>
-       <headerPattern>/ethnicity/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
   <field>
        <name>tribe_affiliation</name>
        <type>varchar</type>
@@ -197,13 +172,6 @@
       <import>true</import>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>home_area_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <headerPattern>/home area/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
   <field>
       <name>years_in_us</name>
       <title>Years in US</title>
@@ -278,20 +246,11 @@
        <name>internet_access_id</name>
        <title>Internet Access</title>
        <type>int unsigned</type>
-       <comment>How do they access the internet. FK to civicrm_option_value.</comment>
+       <comment>How do they access the internet. Implicit FK to civicrm_option_value.</comment>
        <export>true</export>
        <import>true</import>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>internet_access_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <export>true</export>
-       <import>true</import>
-       <headerPattern>/internet access/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
   <field>
        <name>internet_access_other</name>
        <type>varchar</type>
@@ -379,18 +338,11 @@
       <name>study_method_id</name>
       <title>Study Method</title>
       <type>int unsigned</type>
-      <comment>How they plan on studying for SAT or ACT test. FK to civicrm_option_value.</comment>
+      <comment>How they plan on studying for SAT or ACT test. Implicit FK to civicrm_option_value.</comment>
       <export>true</export>
       <import>true</import>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>study_method_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <headerPattern>/study method/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
   <field>
        <name>educational_interest</name>
        <type>varchar</type>
@@ -450,35 +402,21 @@
       <type>int unsigned</type>
       <default>NULL</default>
       <title>GPA (unweighted)</title>
-      <comment>Unweighted Grade Point Average (GPA) range. FK to civicrm_option_value.</comment>
+      <comment>Unweighted Grade Point Average (GPA) range. Implicit FK to civicrm_option_value.</comment>
       <export>true</export>
       <import>true</import>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>gpa_unweighted_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <headerPattern>/gpa/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
   <field>
       <name>gpa_weighted_id</name>
       <type>int unsigned</type>
       <default>NULL</default>
       <title>GPA (weighted)</title>
-      <comment>Weighted Grade Point Average (GPA) range. FK to civicrm_option_value.</comment>
+      <comment>Weighted Grade Point Average (GPA) range. Implicit FK to civicrm_option_value.</comment>
       <export>true</export>
       <import>true</import>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>gpa_weighted_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <headerPattern>/gpa/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
   <field>
        <name>is_class_ranking</name>
        <type>boolean</type>
@@ -503,18 +441,11 @@
       <name>class_rank_percent_id</name>
       <title>Percent class rank</title>
       <type>int unsigned</type>
-      <comment>Class rank percent range. FK to civicrm_option_value.</comment>
+      <comment>Class rank percent range. Implicit FK to civicrm_option_value.</comment>
       <export>true</export>
       <import>true</import>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>class_rank_percent_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <headerPattern>/class rank percent/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
   <field>
       <name>class_num_students</name>
       <type>int unsigned</type>
@@ -671,18 +602,11 @@
       <name>fed_lunch_id</name>
       <title>Federal Lunch Program Eligibility</title>
       <type>int unsigned</type>
-      <comment>Federal lunch program eligibility. FK to civicrm_option_value.</comment>
+      <comment>Federal lunch program eligibility. Implicit FK to civicrm_option_value.</comment>
       <export>true</export>
       <import>true</import>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>fed_lunch_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <headerPattern>/federal lunch/i</headerPattern>
-       <add>1.5</add>
-  </foreignKey>
  <field>
        <name>financial_aid_applicant</name>
        <type>boolean</type>

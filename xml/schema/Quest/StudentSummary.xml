@@ -176,4 +176,101 @@
        <comment>Number of people in the current household. Cloned from quest_household.member_count WHERE household_type is Current.</comment>
       <add>1.5</add>
   </field>
+ <field>
+      <name>financial_need_index</name>
+      <type>int unsigned</type>
+       <export>true</export>
+       <import>true</import>
+      <comment>Calculated financial need score (0 - 50).</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>academic_index</name>
+      <type>int unsigned</type>
+       <export>true</export>
+       <import>true</import>
+      <comment>Calculated academic performance score. (0 - 50)</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_disposition_id</name>
+      <title>College Match Disposition</title>
+      <type>int unsigned</type>
+       <export>true</export>
+       <import>true</import>
+      <comment>Final College Match disposition. Uses option_value records with option_group = cmr_disposition.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_first_generation_id</name>
+      <title></title>
+      <type>int unsigned</type>
+       <export>true</export>
+       <import>true</import>
+      <comment>Reader input - is this first generation student. Uses option_value records with option_group = cmr_first_generation.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_income_increase_id</name>
+      <title></title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader likelihood of parental income increase. Uses option_value records with option_group = cmr_income_increase.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_need_id</name>
+      <title></title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader summary of need. Uses option_value records with option_group = cmr_need.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_grade_id</name>
+      <title></title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader summary of transcript grades. Uses option_value records with option_group = cmr_grade.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_class_id</name>
+      <title></title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader summary of class levels. Uses option_value records with option_group = cmr_class.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_score_id</name>
+      <title></title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader summary of test scores. Uses option_value records with option_group = cmr_score.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_academic_id</name>
+      <title></title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader summary of overall Academics. Uses option_value records with option_group = cmr_academic.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+       <name>cmr_comment</name>
+       <type>text</type>
+       <htmlType>textarea</htmlType>
+       <rows>3</rows>
+       <cols>30</cols>
+       <comment>Reader comments.</comment>
+      <add>1.6</add>
+  </field>
 </table>
