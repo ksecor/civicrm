@@ -130,17 +130,19 @@ VALUES
 INSERT INTO 
    `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
 VALUES 
-   (@domain_id, 'preferred_communication_method', 'Contact preferred communication method choices.', 1, 1),
-   (@domain_id, 'activity_type', 'Activity Type choices.', 0, 1),
-   (@domain_id, 'gender', 'gender options.', 0	, 1),
-   (@domain_id, 'instant_messenger_service', 'Instant Messenger IM screen-names for contacts.', 0, 1),
-   (@domain_id, 'mobile_provider', 'Mobile Phone Service Providers.', 0	, 1);
+   (@domain_id, 'preferred_communication_method', 'Preferred communication method'     , 1, 1),
+   (@domain_id, 'activity_type'                 , 'Activity Type'                      , 0, 1),
+   (@domain_id, 'gender'                        , 'Gender'                             , 0, 1),
+   (@domain_id, 'instant_messenger_service'     , 'Instant Messenger (IM) screen-names', 0, 1),
+   (@domain_id, 'mobile_provider'               , 'Mobile Phone Providers'             , 0, 1),
+   (@domain_id, 'acl_group'                     , 'ACL Group.'                         , 0, 1);
 
-SELECT @option_group_id_pcm    := max(id) from civicrm_option_group where name = 'preferred_communication_method';
-SELECT @option_group_id_act    := max(id) from civicrm_option_group where `name` = 'activity_type';
-SELECT @option_group_id_gender := max(id) from civicrm_option_group where name = 'gender';
-SELECT @option_group_id_IMProvider := max(id) from civicrm_option_group where name = 'instant_messenger_service';
+SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
+SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
+SELECT @option_group_id_gender         := max(id) from civicrm_option_group where name = 'gender';
+SELECT @option_group_id_IMProvider     := max(id) from civicrm_option_group where name = 'instant_messenger_service';
 SELECT @option_group_id_mobileProvider := max(id) from civicrm_option_group where name = 'mobile_provider';
+SELECT @option_group_id_aclGroup       := max(id) from civicrm_option_group where name = 'acl_group';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -168,9 +170,13 @@ VALUES
    (@option_group_id_IMProvider, 'Jabber',5, 'jabber',NULL, 0, NULL, 5, NULL, 0, 0, 1),
    (@option_group_id_IMProvider, 'Skype', 6, 'skype', NULL, 0, NULL, 6, NULL, 0, 0, 1),
 
-   (@option_group_id_mobileProvider, 'Sprint',  1, 'sprint', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_mobileProvider, 'Verizon', 2, 'verizon', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_mobileProvider, 'Cingular',3, 'cingular', NULL, 0, NULL, 3, NULL, 0, 0, 1);
+   (@option_group_id_mobileProvider, 'Sprint'  , 1, 'sprint'  , NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_mobileProvider, 'Verizon' , 2, 'verizon' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_mobileProvider, 'Cingular', 3, 'cingular', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+
+   (@option_group_id_aclGroup, 'Administrator',  1, 'admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_aclGroup, 'Authenticated',  2, 'auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_aclGroup, 'Anonymous'    ,  3, 'anon' , NULL, 0, NULL, 3, NULL, 0, 0, 1);
 
 -- sample membership status entries
 INSERT INTO
