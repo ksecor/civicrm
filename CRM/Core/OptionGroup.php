@@ -97,6 +97,7 @@ WHERE  v.option_group_id = g.id
  */
 
     static function lookupValues( &$params, &$names, $flip = false ) {
+        require_once "CRM/Core/BAO/CustomOption.php";
         $domainID = CRM_Core_Config::domainID( );
         foreach ($names as $postName => $value) {
             // See if $params field is in $names array (i.e. is a value that we need to lookup)
