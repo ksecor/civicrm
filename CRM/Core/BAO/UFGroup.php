@@ -1221,31 +1221,38 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function buildProfile( &$form, $fieldName, $title, $required, $attributes, $search ) 
+    static function buildProfile( &$form, $fieldName, $title, $required = false, $attributes, $search, $contactId = null ) 
     {
+        if ($contactId) {
+            $name = "field[$contactId][$fieldName]";
+        } else {
+            $name = $fieldName;
+        }
+
+        //CRM_Core_Error::debug('d', $name);
         if ( substr($fieldName,0,14) === 'state_province' ) {
             $form->add('select', $name, $title,
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
         } else if ( substr($fieldName,0,7) === 'country' ) {
-            $form->add('select', $fieldName, $title, 
+            $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
         } else if ( $fieldName === 'birth_date' ) {  
-            $form->add('date', $fieldName, $title, CRM_Core_SelectValues::date('birth'), $required );  
+            $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ( $fieldName === 'gender' ) {  
             $genderOptions = array( );   
             $gender = CRM_Core_PseudoConstant::gender();   
             foreach ($gender as $key => $var) {   
                 $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
             }   
-            $form->addGroup($genderOptions, $fieldName, $title );  
+            $form->addGroup($genderOptions, $name, $title );  
             if ($required) {
-                $form->addRule($fieldName, ts('%1 is a required field.', array(1 => $title)) , 'required');
+                $form->addRule($name, ts('%1 is a required field.', array(1 => $title)) , 'required');
             }
         } else if ( $fieldName === 'individual_prefix' ){
-            $form->add('select', $fieldName, $title, 
+            $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix(), $required);
         } else if ( $fieldName === 'individual_suffix' ){
-            $form->add('select', $fieldName, $title, 
+            $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
         } else if ($fieldName === 'preferred_communication_method') {
             $communicationFields = CRM_Core_SelectValues::pcm();
@@ -1255,9 +1262,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
                 $communicationOptions[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
             }
-            $form->addGroup($communicationOptions, $fieldName, $title, '<br/>' );
+            $form->addGroup($communicationOptions, $name, $title, '<br/>' );
         } else if ($fieldName === 'preferred_mail_format') {
-            $form->add('select', $fieldName, $title, CRM_Core_SelectValues::pmf());
+            $form->add('select', $name, $title, CRM_Core_SelectValues::pmf());
+            /* need to fix for groups and tags
         } else if ( $fieldName === 'group' ) {
             require_once 'CRM/Contact/Form/GroupTag.php';
             CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $form->_id,
@@ -1269,18 +1277,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $form->_id,
                                                           CRM_Contact_Form_GroupTag::TAG,
                                                           false, $required,
-                                                          null, $title );
+                                                          null, $title
+        );
+            */
         } else if (substr($fieldName, 0, 6) === 'custom') {
             $customFieldID = CRM_Core_BAO_CustomField::getKeyID($fieldName);
-            CRM_Core_BAO_CustomField::addQuickFormElement($form, $fieldName, $customFieldID, $inactiveNeeded, $required, $search, $title);
+            CRM_Core_BAO_CustomField::addQuickFormElement($form, $name, $customFieldID, $inactiveNeeded, $required, $search, $title);
         } else if ( in_array($fieldName, array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
-            $form->add('date', $fieldName, $title, CRM_Core_SelectValues::date('manual', 3, 1), $required );  
-            $form->addRule($fieldName, ts('Select a valid date.'), 'qfDate');
+            $form->add('date', $name, $title, CRM_Core_SelectValues::date('manual', 3, 1), $required );  
+            $form->addRule($name, ts('Select a valid date.'), 'qfDate');
         } else if ($fieldName == 'payment_instrument' ) {
-            $form->add('select', 'payment_instrument', ts( 'Paid By' ),
+            $form->add('select', $name, ts( 'Paid By' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
         } else if ($fieldName == 'contribution_type' ) {
-            $form->add('select', 'contribution_type', ts( 'Contribution Type' ),
+            $form->add('select', $name, ts( 'Contribution Type' ),
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
         } else {
             $processed = false;
@@ -1290,14 +1300,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
             if ( ! $processed ) {
                 if ( substr($fieldName, 0, 3) === 'is_' or substr($fieldName, 0, 7) === 'do_not_' ) {
-                    $form->add('checkbox', $fieldName, $title, $attributes, $required );
+                    $form->add('checkbox', $name, $title, $attributes, $required );
                 } else {
-                    $form->add('text', $fieldName, $title, $attributes, $required );
+                    $form->add('text', $name, $title, $attributes, $required );
                 }
             }
         }
-        
-        
         
     }
 }

@@ -41,20 +41,6 @@ require_once 'CRM/Profile/Form.php';
  * This class provides the functionality for batch profile update
  */
 class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
-    /**
-     * The context that we are working on
-     *
-     * @var string
-     */
-    protected $_context;
-    protected $_fields;
-
-    /**
-     * the groupId retrieved from the GET vars
-     *
-     * @var int
-     */
-    protected $_id;
 
     /**
      * the title of the group
@@ -74,8 +60,6 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
          * initialize the task and row fields
          */
         parent::preProcess( );
-
-        $this->_context = $this->get( 'context' );
     }
 
     /**
@@ -93,25 +77,66 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
          
         CRM_Utils_System::setTitle( ts('Batch Profile Update') );
         
+        $this->_fields  = array();
         $params = $this->exportValues();
         if ( $params['_qf_BatchUpdateProfile_refresh'] ) {
             $this->addDefaultButtons( ts('Save') );
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $params['uf_group_id']);
-            //CRM_Core_Error::debug('f', $this->_fields);
             
             $this->addButtons( array(
-                                     array ( 'type'      => 'save',
+                                     array ( 'type'      => 'submit',
                                              'name'      => ts('Save'),
                                              'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Cancel') ),
                                      )
                                );
-            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $params['uf_group_id']);
-            //   CRM_Core_Error::debug('f', $this->_fields);   
+
+            $this->assign( 'fields', $this->_fields     );
+            $this->assign( 'contactIds', $this->_contactIds );
             
+            foreach ($this->_contactIds as $contactId) {
+                //$field['is_required'] currently ignoring required condition
+                foreach ($this->_fields as $name => $field ) {
+                    CRM_Core_BAO_UFGroup::buildProfile($this, $field['name'], $field['title'], false, $field['attributes'], $search, $contactId );
+                }
+            }
         }
     }
+
+    /**
+     * This function sets the default values for the form.
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+        foreach ($this->_contactIds as $contactId) {
+            $details[$contactId] = array( );
+            
+            // get the contact details (hier)
+            $params = array('sort_name' => 1) + $this->_fields;
+            list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $params );
+            $details[$contactId] = $contactDetails[$contactId];
+            foreach ($contactDetails as $key => $value) {
+                foreach ($value as $k => $v) { 
+                    if ( array_key_exists($k, $params) ) {
+                        if ($k == 'sort_name') {
+                            $sortName[$contactId] = $v;
+                        } else {
+                            $defaults["field[$contactId][$k]"] = $v; 
+                        }
+                    }
+                }
+            }
+            
+        }
+        
+        $this->assign('sortName', $sortName);
+        return $defaults;
+    }
+
 
     /**
      * process the form after the input has been submitted and validated
@@ -122,8 +147,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
     public function postProcess() 
     {
         $params = $this->exportValues( );
-        ///CRM_Core_Error::debug('q', $params);
- 
+        //CRM_Core_Error::debug('q', $params);
         
     }//end of function
 
