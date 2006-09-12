@@ -141,6 +141,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             return false;
         }
 
+        self::studentSummary( $id, $details );
+
         self::household( $id, $details );
 
         self::guardian( $id, $details, true );
@@ -285,7 +287,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                              'is_home_computer', 'is_home_internet', 'is_take_SAT_ACT',
                              'educational_interest_other', 'college_interest_other',
                              'is_class_ranking', 'class_rank', 'class_num_students',
-                             'gpa_explanation', 'test_tutoring', 'household_income_total',
+                             'gpa_explanation', 'test_tutoring',
                              'high_school_grad_year',
                              'number_siblings', 'financial_aid_applicant',
                              'register_standarized_tests' );
@@ -321,6 +323,27 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
 
         return true;
+    }
+
+    static function studentSummary( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/StudentSummary.php';
+        $dao             = & new CRM_Quest_DAO_StudentSummary();
+        $dao->contact_id = $id;
+        if ( ! $dao->find(true) ) {
+            return false;
+        }
+
+        $studentDetails    = array();
+        CRM_Core_DAO::storeValues( $dao, $studentDetails);
+
+        $properties = array( 'gpa_unweighted_calc', 'gpa_weighted_calc', 'SAT_composite',
+                             'SAT_composite_alt', 'SAT_reading', 'SAT_math', 'SAT_writing',
+                             'ACT_composite', 'ACT_english', 'ACT_reading', 'ACT_math', 'ACT_science',
+                             'PSAT_composite', 'PLAN_composite', 'household_income_total',
+                             'household_member_count' );
+        foreach ( $properties as $key ) {
+            $details['Student'][$key] = $studentDetails[$key];
+        }
     }
 
     static function household( $id, &$details ) {
