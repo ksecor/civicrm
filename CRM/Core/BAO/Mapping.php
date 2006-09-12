@@ -294,7 +294,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * @access public
      * @static
      */
-    static function buildMappingForm($form, $mappingType = 'Export', $mappingId = null, $columnNo, $blockCount = 3 ) 
+    static function buildMappingForm(&$form, $mappingType = 'Export', $mappingId = null, $columnNo, $blockCount = 3 ) 
     {
         if ($mappingType == 'Export') {
             $name = "Map";
