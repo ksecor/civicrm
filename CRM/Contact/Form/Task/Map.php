@@ -138,7 +138,15 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         }
 
         $page->assign_by_ref( 'locations', $locations );
-      
+
+        // only issue a javascript warning if we know we will not
+        // mess the poor user with too many warnings
+        if ( count( $locations ) <= 3 ) {
+            $page->assign( 'geoCodeWarn', true );
+        } else {
+            $page->assign( 'geoCodeWarn', false );
+        }
+
         $sumLat = $sumLng = 0;
         $maxLat = $maxLng = -400;
         $minLat = $minLng = +400;
