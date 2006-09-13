@@ -202,6 +202,9 @@ SELECT cr.id           as contact_id,
             }
         }
 
+        // add form rule
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_Recommendation', 'formRule'));
+
         parent::buildQuickForm( );
                 
     }//end of function
