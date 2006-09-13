@@ -55,6 +55,14 @@ class CRM_Core_OptionValue {
     static $_importableFields = null;
     
     /**
+     * static field for all the option value information that we can potentially export
+     *
+     * @var array
+     * @static
+     */
+    static $_fields = null;
+
+    /**
      * Function to return option-values of a particular group
      *
      * @param  array     $groupParams   Array containing group fields whose option-values is to retrieved.
@@ -208,48 +216,34 @@ class CRM_Core_OptionValue {
      * @access public
      * @static
      */
-    static function exportableFields( ) {
-        if ( ! self::$_exportableFields ) {
-            self::$_exportableFields = array();
-            
-            require_once "CRM/Core/DAO/OptionValue.php";
-            $option = CRM_Core_DAO_OptionValue::export( );
-            $nameTitle = array('gender' => array('name' => 'gender',
-                                                 'title'=> 'Gender'));
-            
-            foreach ( $nameTitle as $name => $attribs ) {
-                self::$_exportableFields[$name] = $option['name'];
-                if ( is_array($attribs) ) {
-                    foreach ( $attribs as $key => $val ) {
-                        self::$_exportableFields[$name][$key] = $val;
-                    }
-                }
-            }
-        }
-        return self::$_exportableFields;
-    }
-
-    static function importableFields( ) {
-        if ( ! self::$_importableFields ) {
-            self::$_importableFields = array();
-            
+    static function getFields( ) {
+        if ( ! self::$_fields ) {
+            self::$_fields = array();
             require_once "CRM/Core/DAO/OptionValue.php";
             $option = CRM_Core_DAO_OptionValue::import( );
-            $nameTitle = array('gender' => array('name' => 'gender',
-                                                 'title'=> 'Gender'));
+            
+            foreach (array_keys( $option ) as $id ) {
+                $optionName = $option[$id];
+            }
+            
+            $nameTitle = array('gender'            => array('name' => 'gender',
+                                                            'title'=> 'Gender'),
+                               'individual_prefix' => array('name' => 'individual_prefix',
+                                                            'title'=> 'Individual Prefix'),
+                               'individual_suffix' => array('name' => 'individual_suffix',
+                                                            'title'=> 'Individual Suffix')
+                               );
             
             foreach ( $nameTitle as $name => $attribs ) {
-                self::$_importableFields[$name] = $option['name'];
-                if ( is_array($attribs) ) {
-                    foreach ( $attribs as $key => $val ) {
-                        self::$_importableFields[$name][$key] = $val;
-                    }
+                self::$_fields[$name] = $optionName;
+                list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
+                self::$_fields[$name]['where'] = $name . '.' . $fieldName;
+                foreach ( $attribs as $key => $val ) {
+                    self::$_fields[$name][$key] = $val;
                 }
             }
         }
-
-        return self::$_importableFields;
+        return self::$_fields;
     }
 }
-
 ?>

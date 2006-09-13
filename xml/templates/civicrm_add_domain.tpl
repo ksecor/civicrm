@@ -84,13 +84,13 @@ VALUES
 {if $locale == 'en_US'}
 INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, 'Mrs', 1, 1);
 {/if}
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Ms{/ts}', 2, 1);
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Mr{/ts}', 3, 1);
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Dr{/ts}', 4, 1);
+-- INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Ms{/ts}', 2, 1);
+-- INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Mr{/ts}', 3, 1);
+-- INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Dr{/ts}', 4, 1);
 
-INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Jr{/ts}', 1, 1);
-INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Sr{/ts}', 2, 1);
-INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}II{/ts}', 3, 1);
+-- INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Jr{/ts}', 1, 1);
+-- INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Sr{/ts}', 2, 1);
+-- INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}II{/ts}', 3, 1);
 
 -- INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Female{/ts}', 1, 1);
 -- INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Male{/ts}', 2, 1);
@@ -135,6 +135,8 @@ VALUES
    (@domain_id, 'gender'                        , 'Gender'                             , 0, 1),
    (@domain_id, 'instant_messenger_service'     , 'Instant Messenger (IM) screen-names', 0, 1),
    (@domain_id, 'mobile_provider'               , 'Mobile Phone Providers'             , 0, 1),
+   (@domain_id, 'individual_prefix'             , 'Individual contact prefixes.'       , 0, 1),
+   (@domain_id, 'individual_suffix'             , 'Individual contact suffixes.'       , 0, 1),
    (@domain_id, 'acl_group'                     , 'ACL Group.'                         , 0, 1);
 
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
@@ -142,6 +144,8 @@ SELECT @option_group_id_act            := max(id) from civicrm_option_group wher
 SELECT @option_group_id_gender         := max(id) from civicrm_option_group where name = 'gender';
 SELECT @option_group_id_IMProvider     := max(id) from civicrm_option_group where name = 'instant_messenger_service';
 SELECT @option_group_id_mobileProvider := max(id) from civicrm_option_group where name = 'mobile_provider';
+SELECT @option_group_id_prefix := max(id) from civicrm_option_group where name = 'individual_prefix';
+SELECT @option_group_id_suffix := max(id) from civicrm_option_group where name = 'individual_suffix';
 SELECT @option_group_id_aclGroup       := max(id) from civicrm_option_group where name = 'acl_group';
 
 INSERT INTO 
@@ -173,6 +177,15 @@ VALUES
    (@option_group_id_mobileProvider, 'Sprint'  , 1, 'sprint'  , NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_mobileProvider, 'Verizon' , 2, 'verizon' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
    (@option_group_id_mobileProvider, 'Cingular', 3, 'cingular', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+
+   (@option_group_id_prefix, 'Mrs', 1, 'mrs', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Ms',  2, 'ms', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Mr',  3, 'mr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Dr',  4, 'dr', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+
+   (@option_group_id_suffix, 'Jr',  2, 'jr', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'Sr',  3, 'sr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'II',  4, 'ii', NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
    (@option_group_id_aclGroup, 'Administrator',  1, 'admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_aclGroup, 'Authenticated',  2, 'auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),

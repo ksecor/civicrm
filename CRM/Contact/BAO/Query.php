@@ -415,9 +415,9 @@ class CRM_Contact_BAO_Query {
                         $tName = substr($tableName, 8 );
 
                         if ( $tName != 'contact' ) {
-                            if ($name == 'gender') {
-                                $this->_select["{$name}_id"]  = "{$tableName}.id as {$name}_id";
-                                $this->_element["{$name}_id"] = 1;
+                            if ($tableName == 'gender' || $tableName == 'individual_prefix' || $tableName == 'individual_suffix') {
+                                $this->_select["{$tableName}_id"]  = "{$tableName}.id as {$tableName}_id";
+                                $this->_element["{$tableName}_id"] = 1;
                             } else {
                                 $this->_select["{$tName}_id"]  = "{$tableName}.id as {$tName}_id";
                                 $this->_element["{$tName}_id"] = 1;
@@ -1213,10 +1213,10 @@ class CRM_Contact_BAO_Query {
         }
 
         if ( ( 
-              //CRM_Utils_Array::value( 'civicrm_gender', $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_option_value', $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_individual_prefix' , $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_individual_suffix' , $tables )) &&
+               CRM_Utils_Array::value( 'gender', $tables ) ||
+               //CRM_Utils_Array::value( 'civicrm_option_value', $tables ) ||
+               CRM_Utils_Array::value( 'individual_prefix' , $tables ) ||
+               CRM_Utils_Array::value( 'individual_suffix' , $tables )) &&
              ! CRM_Utils_Array::value( 'civicrm_individual'       , $tables ) ) {
             $tables = array_merge( array( 'civicrm_individual' => 1 ),
                                    $tables );
@@ -1408,20 +1408,16 @@ class CRM_Contact_BAO_Query {
                                   AND civicrm_group_contact.group_id   =  civicrm_subscription_history.group_id";
                 continue;
 
-            case 'civicrm_individual_prefix':
-                $from .= " $side JOIN civicrm_individual_prefix ON civicrm_individual.prefix_id = civicrm_individual_prefix.id ";
+            case 'individual_prefix':
+                $from .= " $side JOIN civicrm_option_value individual_prefix ON civicrm_individual.prefix_id = individual_prefix.id ";
                 continue;
-            
-            case 'civicrm_individual_suffix':
-                $from .= " $side JOIN civicrm_individual_suffix ON civicrm_individual.suffix_id = civicrm_individual_suffix.id ";
+                
+            case 'individual_suffix':
+                $from .= " $side JOIN civicrm_option_value individual_suffix ON civicrm_individual.suffix_id = individual_suffix.id ";
                 continue;
-
-//             case 'civicrm_gender':
-//                 $from .= " $side JOIN civicrm_gender ON civicrm_individual.gender_id = civicrm_gender.id ";
-//                 continue;
-
-            case 'civicrm_option_value':
-                $from .= " $side JOIN civicrm_option_value ON civicrm_individual.gender_id = civicrm_option_value.id ";
+                
+            case 'gender':
+                $from .= " $side JOIN civicrm_option_value gender ON civicrm_individual.gender_id = gender.id ";
                 continue;
 
             case 'civicrm_relationship':

@@ -1320,10 +1320,10 @@ WHERE civicrm_contact.id IN $idString ";
             // the fields are only meant for Individual contact type
             if ( ($contactType == 'Individual') || ($contactType == 'All')) {
                 $fields = array_merge( $fields, //CRM_Core_DAO_IndividualPrefix::import( true ) ,
-                                       CRM_Core_DAO_OptionValue::import( true ) ,
-                                       CRM_Core_DAO_IndividualSuffix::import( true ) ,
+                                       //CRM_Core_DAO_OptionValue::import( true ) ,
+                                       //CRM_Core_DAO_IndividualSuffix::import( true ) ,
                                        //CRM_Core_DAO_Gender::import( true ) 
-                                       CRM_Core_OptionValue::importableFields( )
+                                       CRM_Core_OptionValue::getFields( )
                                        );                
             }
             $locationFields = array_merge( CRM_Core_DAO_Location::import( ),  
@@ -1566,7 +1566,7 @@ WHERE civicrm_contact.id IN $idString ";
                                                //CRM_Core_DAO_IndividualPrefix::export( true ) , 
                                                //CRM_Core_DAO_IndividualSuffix::export( true ) , 
                                                //CRM_Core_DAO_Gender::export( true ) 
-                                               CRM_Core_OptionValue::exportableFields( )
+                                               CRM_Core_OptionValue::getFields( )
                                                );
                     }
                 }
@@ -1574,11 +1574,12 @@ WHERE civicrm_contact.id IN $idString ";
             
             // the fields are only meant for Individual contact type
             if ( $contactType == 'Individual') {
-                $fields = array_merge( $fields,CRM_Core_DAO_OptionValue::export( true ) ,
+                $fields = array_merge( $fields,
+                                       //CRM_Core_DAO_OptionValue::export( true ) ,
                                       // CRM_Core_DAO_IndividualPrefix::export( true ) ,
-                                       CRM_Core_DAO_IndividualSuffix::export( true ) ,
+                                       //CRM_Core_DAO_IndividualSuffix::export( true ) ,
                                        //CRM_Core_DAO_Gender::export( true ) 
-                                       CRM_Core_OptionValue::exportableFields( )
+                                       CRM_Core_OptionValue::getFields( )
                                        );                
             }
             
