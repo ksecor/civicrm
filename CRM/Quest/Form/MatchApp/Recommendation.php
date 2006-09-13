@@ -252,7 +252,7 @@ SELECT cr.id           as contact_id,
             return $errors;
         }
 
-        return false;
+        return true;
     }
 
     /** 
