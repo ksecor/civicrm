@@ -273,15 +273,17 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     $fileDAO =& new CRM_Core_DAO_File();
                     $fileDAO->id = $crmDAO->civicrm_custom_value_file_id;
                     if ( $fileDAO->find(true) ) {
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data']      = $fileDAO->uri;
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']       = $fileDAO->id;
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL']   = 
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data']       = $fileDAO->uri;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']        = $fileDAO->id;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL']    = 
                             CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid=$entityId" );
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = null;
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']   = basename( $fileDAO->uri );
-                        if ($config->customUploadURL && ( $fileDAO->mime_type =="image/jpeg" || $fileDAO->mime_type =="image/gif" || $fileDAO->mime_type =="image/png")) {
-                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = $config->customUploadURL.basename( $fileDAO->uri );
-                        } else {
-                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = null;
+                        if ( $fileDAO->mime_type =="image/jpeg" ||
+                             $fileDAO->mime_type =="image/gif"  ||
+                             $fileDAO->mime_type =="image/png" ) {
+                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = 
+                                $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL'];
                         }
                     }
                     

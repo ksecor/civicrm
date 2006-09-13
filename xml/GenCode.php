@@ -326,7 +326,6 @@ $params = array(
                 'imageUploadDir' => '',
                 'imageUploadURL' => '',
                 'customFileUploadDir' => '',
-                'customFileUploadURL' => '',
                 'baseURL' => '',
                 'resourceURL' => '',
                 'frontEnd' => 0,
