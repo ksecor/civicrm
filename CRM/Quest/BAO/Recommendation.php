@@ -275,6 +275,110 @@ class CRM_Quest_BAO_Recommendation {
         }
     }
 
+
+
+
+    static function getRecommendationDetails( $cid ,&$details) {
+        require_once 'CRM/Quest/BAO/Student.php';
+        $schoolSelect = CRM_Quest_BAO_Student::getSchoolSelect( $cid );
+        unset( $schoolSelect[''] );
+        $schoolIDs = implode( ',', array_keys( $schoolSelect ) );
+        if ( $schoolIDs ) {
+            $query = "
+SELECT cr.id as contact_id,
+       rs.relationship_type_id as rs_type_id,
+       rc.relationship_type_id as rc_type_id
+       FROM civicrm_contact      cs,
+       civicrm_contact      cr,
+       civicrm_individual   i,
+       civicrm_email        e,
+       civicrm_location     l,
+       civicrm_relationship rs,
+       civicrm_relationship rc,
+       civicrm_task_status  t
+ WHERE rs.relationship_type_id IN ( 9, 10 )
+   AND rc.relationship_type_id IN ( 11, 12 )
+   AND rs.contact_id_a = cs.id
+   AND rs.contact_id_b = cr.id
+   AND rc.contact_id_a = cr.id
+   AND rc.contact_id_b IN ( $schoolIDs )
+   AND rs.is_active    = 1
+   AND rc.is_active    = 1
+   AND rc.contact_id_a = cr.id
+   AND cs.id           = {$cid}
+   AND i.contact_id    = cr.id
+   AND l.entity_table  = 'civicrm_contact'
+   AND l.entity_id     = cr.id
+   AND e.location_id   = l.id
+   AND t.responsible_entity_table = 'civicrm_contact'
+   AND t.responsible_entity_id    = cr.id
+   AND t.target_entity_table      = 'civicrm_contact'
+   AND t.target_entity_id         = cs.id
+ ORDER BY rs.relationship_type_id
+";
+            
+            $recommenders = array();
+            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            while ( $dao->fetch( ) ) {
+                $recommenders[$dao->contact_id] = $dao->rc_type_id;
+            }
+            
+            if (!empty( $recommenders ) ) {
+                foreach ( $recommenders as $key => $value ) {
+                    if ( $value == 11) {
+                        self::getTeachersDetails( $cid, $key , $details );
+                    }else if ( $value == 12 ) {
+                        //self::getCounselorDetails( $cid, $recommenderId, $details);
+                    }
+                }
+            }
+            
+            
+            
+        }
+        
+    }
+
+    static function getTeachersDetails( $cid, $recommenderId, &$details ) {
+        //Persoanal Information
+        $teacherDetails = array();
+        $ids    = array( );
+        $params = array( 'contact_id' => $recommenderId,
+                         'id'         => $recommenderId);
+
+        require_once "CRM/Contact/BAO/Contact.php";
+        CRM_Contact_BAO_Contact::retrieve( $params, $teacherDetails["PersoanalInfo"], $ids );
+
+        require_once 'CRM/Quest/DAO/StudentRanking.php';
+        $dao =&new CRM_Quest_DAO_StudentRanking();
+        $dao->target_contact_id = $cid;
+        $dao->source_contact_id = $recommenderId;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao, $teacherDetails["PersoanalInfo"]);
+        }
+        
+        //student Evaluation
+        require_once "CRM/Quest/DAO/TeacherEvaluation.php";
+        $dao =& new CRM_Quest_DAO_TeacherEvaluation();
+        $dao->target_contact_id = $cid;
+        $dao->source_contact_id = $recommenderId;
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao , $teacherDetails["Evaluation"]  );
+        }
+        $essays = CRM_Quest_BAO_Essay::getFields( 'cm_teacher_eval', $recommenderId, $cid );
+        require_once "CRM/Quest/BAO/Essay.php";
+        CRM_Quest_BAO_Essay::setDefaults( $essays, $teacherDetails["Evaluation"] );
+        
+        //additional Info 
+        $essays = CRM_Quest_BAO_Essay::getFields( "cm_teacher_additional" ,$recommenderId,$cid);
+        CRM_Quest_BAO_Essay::setDefaults( $essays, $teacherDetails["AdditionalInfo"] );
+        $details['teacher_'.$recommenderId] = $teacherDetails;
+       
+
+    }
+    
+
 }
     
 ?>
