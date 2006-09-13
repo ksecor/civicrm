@@ -515,8 +515,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $this->getHeaderFooter();
 
             if ($this->body_html) {
-                $this->html = $this->header->body_html . '<br />'
-                            . $this->body_html . '<br />'
+                $this->html = $this->header->body_html
+                            . $this->body_html
                             . $this->footer->body_html;
                 
                 $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
