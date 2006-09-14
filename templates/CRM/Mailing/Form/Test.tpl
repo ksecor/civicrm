@@ -12,9 +12,9 @@
 </fieldset>
 
 <div class="data-group" id="previewMailing_show">
-  <a href="#" onclick="hide('previewMailing_show'); show('previewMailing'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Preview Mailing{/ts}</label><br />
+  <a href="#" onclick="hide('previewMailing_show'); show('previewMailing'); getElementById('previewMailing').style.visibility = 'visible'; return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Preview Mailing{/ts}</label><br />
 </div>
-<div id="previewMailing">
+<div id="previewMailing" style="visibility: hidden;">
   <fieldset>
     <legend><a href="#" onclick="hide('previewMailing'); show('previewMailing_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Preview Mailing{/ts}</legend>
     <dl>
@@ -25,5 +25,3 @@
 </div>
 
 </div>
-
-{include file="CRM/common/showHide.tpl"}
