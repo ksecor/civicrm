@@ -40,15 +40,18 @@ require_once 'CRM/Core/Page.php';
 /**
  * a page for mailing preview
  */
-class CRM_Mailing_Page_Preview extends CRM_Core_Form {
+class CRM_Mailing_Page_Preview extends CRM_Core_Page
+{
 
     /** 
      * run this page (figure out the action needed and perform it).
      * 
      * @return void
      */ 
-    function run() {
+    function run()
+    {
         require_once 'CRM/Mailing/BAO/Mailing.php';
+
         $session =& CRM_Core_Session::singleton();
 
         $options = array();
@@ -75,13 +78,15 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Form {
         $mime =& $mailing->compose(null, null, null, $session->get('userID'), $options['from_email'], $options['from_email'], true);
 
         // there doesn't seem to be a way to get to Mail_Mime's text and HTML
-        // parts, so we render the message steal a peek at Mail_Mime's private
-        // properties
+        // parts, so we steal a peek at Mail_Mime's private properties, render 
+        // them and exit
         $mime->get();
         if ($type == 'html') {
+            header('Content-Type: text/html; charset=utf-8');
             print $mime->_htmlbody;
         } else {
-            print '<html><head><title>' . ts('CiviMail Preview') . '</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head><body><pre>' . htmlspecialchars($mime->_txtbody) . '</pre></body></html>';
+            header('Content-Type: text/plain; charset=utf-8');
+            print $mime->_txtbody;
         }
         exit;
     }

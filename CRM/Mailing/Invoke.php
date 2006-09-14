@@ -128,7 +128,6 @@ class CRM_Mailing_Invoke {
             require_once 'CRM/Mailing/Page/Preview.php';
             $view =& new CRM_Mailing_Page_Preview();
             return $view->run();
-            
         }
 
         require_once 'CRM/Mailing/Page/Browse.php';

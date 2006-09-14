@@ -39,6 +39,16 @@
  */
 class CRM_Mailing_Form_Test extends CRM_Core_Form {
 
+    function setShowHide()
+    {
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks(
+            array('previewMailing_show' => 1),
+            array('previewMailing'      => 1)
+        );
+        $showHide->addToTemplate();
+    }
+
     public function buildQuickForm() {
         $session =& CRM_Core_Session::singleton();
         $this->add('checkbox', 'test', ts('Send a Test Mailing?'));
@@ -76,6 +86,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
             'html_link' => CRM_Utils_System::url('civicrm/mailing/preview', 'type=html'),
         );
         $this->assign('preview', $preview);
+        $this->setShowHide();
     }
     
     /**
