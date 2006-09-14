@@ -328,7 +328,7 @@ SELECT cr.id as contact_id,
                     if ( $value == 11) {
                         self::getTeachersDetails( $cid, $key , $details );
                     }else if ( $value == 12 ) {
-                        //self::getCounselorDetails( $cid, $recommenderId, $details);
+                        self::getCounselorDetails( $cid, $key, $details);
                     }
                 }
             }
@@ -336,18 +336,33 @@ SELECT cr.id as contact_id,
             
             
         }
-        
+        return true;
     }
 
     static function getTeachersDetails( $cid, $recommenderId, &$details ) {
         //Persoanal Information
         $teacherDetails = array();
-        $ids    = array( );
-        $params = array( 'contact_id' => $recommenderId,
-                         'id'         => $recommenderId);
+        $query = 
+            "SELECT civicrm_contact.id AS contact_id, civicrm_contact.display_name, civicrm_individual.first_name, civicrm_individual.middle_name, civicrm_individual.last_name, civicrm_phone.phone
+FROM `civicrm_contact`
+LEFT JOIN civicrm_individual ON ( civicrm_contact.id = civicrm_individual.contact_id )
+LEFT JOIN civicrm_location ON ( (
+civicrm_contact.id = civicrm_location.entity_id
+)
+AND (
+civicrm_location.entity_table = 'civicrm_contact'
+) )
+LEFT JOIN civicrm_phone ON ( civicrm_location.id = civicrm_phone.location_id )
+WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId;
 
-        require_once "CRM/Contact/BAO/Contact.php";
-        CRM_Contact_BAO_Contact::retrieve( $params, $teacherDetails["PersoanalInfo"], $ids );
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $teacherDetails["PersoanalInfo"]["contact_id"]  = $dao->contact_id;
+                $teacherDetails["PersoanalInfo"]["first_name"]  = $dao->first_name;
+                $teacherDetails["PersoanalInfo"]["middle_name"] = $dao->middle_name;
+                $teacherDetails["PersoanalInfo"]["last_name"]   = $dao->last_name;
+                $teacherDetails["PersoanalInfo"]["phone"]   = $dao->phone;
+        }
 
         require_once 'CRM/Quest/DAO/StudentRanking.php';
         $dao =&new CRM_Quest_DAO_StudentRanking();
@@ -355,9 +370,47 @@ SELECT cr.id as contact_id,
         $dao->source_contact_id = $recommenderId;
         $ids = array();
         if ( $dao->find(true) ) {
-            CRM_Core_DAO::storeValues( $dao, $teacherDetails["PersoanalInfo"]);
+            CRM_Core_DAO::storeValues( $dao, $teacherDetails["StudentRanking"]);
         }
+        $names = array('leadership_id'                  => array( 'newName' => 'leadership_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'intellectual_id'                => array( 'newName' => 'intellectual_display',
+                                                                  'groupName' => 'recommender_ranking' ),               
+                       'challenge_id'                   => array( 'newName' => 'challenge_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'maturity_id'                    => array( 'newName' => 'maturity_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'work_ethic_id'                  => array( 'newName' => 'work_ethic_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'originality_id'                 => array( 'newName'   => 'originality_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'humor_id'                       => array( 'newName'   => 'humor_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'energy_id'                      => array( 'newName'   => 'energy_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_differences_id'         => array( 'newName'   => 'respect_differences_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_faculty_id'             => array( 'newName'   => 'respect_faculty_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_peers_id'               => array( 'newName'   => 'respect_peers_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_academic_id'            => array( 'newName'   => 'compare_academic_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_extracurricular_id'     => array( 'newName'   => 'compare_extracurricular_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_personal_id'            => array( 'newName'   => 'compare_personal_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_overall_id'             => array( 'newName'   => 'compare_overall_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'recommend_student_id'           => array( 'newName'   => 'recommend_student_id',
+                                                                  'groupName' => 'recommender_ranking' ),
+
+                       );
+
         
+        require_once 'CRM/Core/OptionGroup.php';
+        CRM_Core_OptionGroup::lookupValues( $teacherDetails["StudentRanking"], $names, false );
+
         //student Evaluation
         require_once "CRM/Quest/DAO/TeacherEvaluation.php";
         $dao =& new CRM_Quest_DAO_TeacherEvaluation();
@@ -366,6 +419,9 @@ SELECT cr.id as contact_id,
         if ( $dao->find(true) ) {
             CRM_Core_DAO::storeValues( $dao , $teacherDetails["Evaluation"]  );
         }
+
+        $teacherDetails["Evaluation"]["success_factor"] = str_replace( "\001", ",", $teacherDetails["Evaluation"]["success_factor"] );
+        require_once "CRM/Quest/BAO/Essay.php";
         $essays = CRM_Quest_BAO_Essay::getFields( 'cm_teacher_eval', $recommenderId, $cid );
         require_once "CRM/Quest/BAO/Essay.php";
         CRM_Quest_BAO_Essay::setDefaults( $essays, $teacherDetails["Evaluation"] );
@@ -373,11 +429,121 @@ SELECT cr.id as contact_id,
         //additional Info 
         $essays = CRM_Quest_BAO_Essay::getFields( "cm_teacher_additional" ,$recommenderId,$cid);
         CRM_Quest_BAO_Essay::setDefaults( $essays, $teacherDetails["AdditionalInfo"] );
-        $details['teacher_'.$recommenderId] = $teacherDetails;
+        $details["teacher"]['teacher_'.$recommenderId] = $teacherDetails;
        
 
     }
+    static function getCounselorDetails( $cid, $recommenderId, &$details ) {
+        $counselorDetails = array();
+        $query = 
+            "SELECT civicrm_contact.id AS contact_id, civicrm_contact.display_name, civicrm_individual.first_name, civicrm_individual.middle_name, civicrm_individual.last_name, civicrm_phone.phone
+FROM `civicrm_contact`
+LEFT JOIN civicrm_individual ON ( civicrm_contact.id = civicrm_individual.contact_id )
+LEFT JOIN civicrm_location ON ( (
+civicrm_contact.id = civicrm_location.entity_id
+)
+AND (
+civicrm_location.entity_table = 'civicrm_contact'
+) )
+LEFT JOIN civicrm_phone ON ( civicrm_location.id = civicrm_phone.location_id )
+WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId;
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+                $counselorDetails["PersoanalInfo"]["contact_id"]  = $dao->contact_id;
+                $counselorDetails["PersoanalInfo"]["first_name"]  = $dao->first_name;
+                $counselorDetails["PersoanalInfo"]["middle_name"] = $dao->middle_name;
+                $counselorDetails["PersoanalInfo"]["last_name"]   = $dao->last_name;
+                $counselorDetails["PersoanalInfo"]["phone"]   = $dao->phone;
+        }
+
+
+        require_once 'CRM/Quest/DAO/StudentRanking.php';
+        $dao =&new CRM_Quest_DAO_StudentRanking();
+        $dao->target_contact_id = $cid;
+        $dao->source_contact_id = $recommenderId;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao, $counselorDetails["StudentRanking"]);
+        }
+        $names = array('leadership_id'                  => array( 'newName' => 'leadership_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'intellectual_id'                => array( 'newName' => 'intellectual_display',
+                                                                  'groupName' => 'recommender_ranking' ),               
+                       'challenge_id'                   => array( 'newName' => 'challenge_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'maturity_id'                    => array( 'newName' => 'maturity_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'work_ethic_id'                  => array( 'newName' => 'work_ethic_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'originality_id'                 => array( 'newName'   => 'originality_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'humor_id'                       => array( 'newName'   => 'humor_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'energy_id'                      => array( 'newName'   => 'energy_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_differences_id'         => array( 'newName'   => 'respect_differences_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_faculty_id'             => array( 'newName'   => 'respect_faculty_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_peers_id'               => array( 'newName'   => 'respect_peers_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_academic_id'            => array( 'newName'   => 'compare_academic_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_extracurricular_id'     => array( 'newName'   => 'compare_extracurricular_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_personal_id'            => array( 'newName'   => 'compare_personal_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_overall_id'             => array( 'newName'   => 'compare_overall_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'recommend_student_id'           => array( 'newName'   => 'recommend_student_id',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       
+                       );
+
+        require_once 'CRM/Core/OptionGroup.php';
+        CRM_Core_OptionGroup::lookupValues( $counselorDetails["StudentRanking"], $names, false );
+
+        //student academics
+        require_once 'CRM/Quest/DAO/Academic.php';
+        $dao =&new CRM_Quest_DAO_Academic();
+        $dao->target_contact_id = $cid;
+        $dao->source_contact_id = $recommenderId;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao, $counselorDetails["AcademicRecord"]);
+        }
+
+
+        //student Evaluation
+        require_once "CRM/Quest/BAO/Essay.php";
+        $essays = CRM_Quest_BAO_Essay::getFields( 'cm_counselor_eval', $recommenderId, $cid );
+        CRM_Quest_BAO_Essay::setDefaults( $essays, $counselorDetails["Evaluation"] );
+        
+        require_once "CRM/Quest/DAO/CounselorEvaluation.php";
+        $dao = & new CRM_Quest_DAO_CounselorEvaluation();
+        $dao->source_contact_id = $recommenderId;
+        $dao->target_contact_id = $cid;
+        if ($dao->find(true)) {
+            CRM_Core_DAO::storeValues($dao,$counselorDetails["Evaluation"]);
+        }
+        
+        $details["counselor"]['counselor_'.$recommenderId] = $counselorDetails;
+    }
     
+    
+    static function &xml( $id ) {
+        $details = array( );
+        
+        if ( self::getRecommendationDetails( $id, $details ) ) {
+            $xml = "<RecommendationDetails>\n" . CRM_Utils_Array::xml( $details ) . "</RecommendationDetails>\n";
+            return $xml;
+        }
+
+        return null;
+    }
+
+
 
 }
     

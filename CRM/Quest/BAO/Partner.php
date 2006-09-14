@@ -239,6 +239,10 @@ WHERE  r.contact_id  = $cid
         
         require_once "CRM/Core/OptionGroup.php";
         CRM_Core_OptionGroup::lookupValues( $partnerDatails["ApplicantInformation"], $names, false);
+
+        foreach ( $names as $key => $value )  {
+             $partnerDatails["ApplicantInformation"][$key] = str_replace( "\001", ",",$partnerDatails["ApplicantInformation"][$key]  );
+        }
         
         //Interest
 
@@ -320,6 +324,10 @@ WHERE  r.contact_id  = $cid
         require_once "CRM/Core/OptionGroup.php";
         CRM_Core_OptionGroup::lookupValues( $partnerDatails["ApplicantInformation"], $names, false);
        
+        foreach ( $names as $key => $value )  {
+             $partnerDatails["ApplicantInformation"][$key] = str_replace( "\001", ",",$partnerDatails["ApplicantInformation"][$key]  );
+        }
+        
         //Essay
         $partnerDatails["Essay"] = array();
         
@@ -352,20 +360,28 @@ WHERE  r.contact_id  = $cid
         CRM_Quest_BAO_Essay::setDefaults( $essays, $partnerDatails["ApplicantInformation"] );
         
         $names = array('architecture'      => array( 'newName'   => 'architecture_names',
-                                                     'groupName' => 'architecture' ),
+                                                     'groupName' => 'rice_architecture' ),
                        'engineering'       => array( 'newName'   => 'engineering_names',
-                                                     'groupName' => 'engineering' ),
+                                                     'groupName' => 'rice_engineering' ),
                        'humanities'        => array( 'newName'   => 'humanities_names',
-                                                     'groupName' => 'humanities' ),
-                       'music'             => array( 'newName'   => 'music_names',
-                                                     'groupName' => 'music' ),
+                                                     'groupName' => 'rice_humanities' ),
+                       'music'             => array( 'newName'   => 'rice_music_names',
+                                                     'groupName' => 'rice_music' ),
                        'natural_sciences'  => array( 'newName'   => 'natural_sciences_names',
-                                                     'groupName' => 'natural_sciences' ),
+                                                     'groupName' => 'rice_natural_sciences' ),
                        'social_sciences'   => array( 'newName'   => 'social_sciences_names',
-                                                     'groupName' => 'social_sciences' ),
+                                                     'groupName' => 'rice_social_sciences' ),
+                       'other'             => array( 'newName'   => 'other_names',
+                                                     'groupName' => 'rice_other' ),
+                       'contacts'          => array( 'newName'   => 'contacts_names',
+                                                     'groupName' => 'rice_contacts' ),
                        
                        );
          CRM_Core_OptionGroup::lookupValues( $partnerDatails["ApplicantInformation"], $names, false);
+
+         foreach ( $names as $key => $value )  {
+             $partnerDatails["ApplicantInformation"][$key] = str_replace( "\001", ",",$partnerDatails["ApplicantInformation"][$key]  );
+         }
         
          $details["RiceUniversity"] = $partnerDatails;
 
@@ -386,6 +402,9 @@ WHERE  r.contact_id  = $cid
              $locParams = array('entity_id' => $dao->id, 'entity_table' => 'quest_stanford');
              CRM_Core_BAO_Location::getValues( $locParams, $partnerDatails["ApplicantInformation"], $ids, 3);
          }
+         
+         $partnerDatails["ApplicantInformation"]["BirthPlace"] = $partnerDatails["ApplicantInformation"]["location"][1] ;
+         unset($partnerDatails["ApplicantInformation"]["location"]);
          //short Answers 
          $partnerDatails["ShortAnswers"] = array();
          $essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_stanford_short_essay', $cid, $cid );
@@ -396,6 +415,8 @@ WHERE  r.contact_id  = $cid
          $partnerDatails["Essay"] = array();
          $essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_stanford_essay', $cid, $cid );
          CRM_Quest_BAO_Essay::setDefaults( $essays, $partnerDatails["Essay"] );
+
+         
 
          $details["StanfordUniversity"] = $partnerDatails;
          
@@ -423,6 +444,9 @@ WHERE  r.contact_id  = $cid
                         
                         );
          CRM_Core_OptionGroup::lookupValues( $partnerDatails["ApplicantInformation"], $names, false);
+         foreach ( $fields as $value )  {
+             $partnerDatails["ApplicantInformation"][$value] = str_replace( "\001", ",",$partnerDatails["ApplicantInformation"][$value]  );
+         }
          //Essay
          $partnerDatails["Essay"] = array();
          $essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_wellesley_essay', $cid, $cid );
