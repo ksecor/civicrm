@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.5                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2006                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -80,7 +80,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
     }
 
     static function retrieve( &$params, &$defaults, &$ids ) {
-
+       
         $dao = & new CRM_Quest_DAO_Student();
         $dao->contact_id = $params['contact_id'];
         if ( $dao->find( true ) ) {
@@ -142,7 +142,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
 
         self::studentSummary( $id, $details );
-
+        
         self::household( $id, $details );
 
         self::guardian( $id, $details, true );
@@ -158,8 +158,19 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         self::essay( $id, $details );
 
         self::referral( $id, $details );
+        
+        self::partnerRelative( $id, $details );
+        
+        self::extracurricular ( $id, $details );
+        
+        self::workexperience( $id, $details );
+        
+        self::transcript ( $id, $details );
 
         self::honor( $id, $details );
+
+        self::partnerRanking($id, &$details);
+        
 
         /**
         CRM_Core_Error::debug( $id, $details );
@@ -456,6 +467,59 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
+    static function extracurricular ( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/Extracurricular.php';
+
+        $dao =& new CRM_Quest_DAO_Extracurricular( );
+        $dao->contact_id = $contactID;
+        $dao->owner      = "Extracurricular";    
+        $dao->find() ;
+        $count = 0;
+        while ( $dao->fetch( ) ) {
+            $count++;
+            $prefix = "Extracurricular_".$count;
+            $details[$prefix]['activity']      = $dao->description;   
+            $details[$prefix]['grade_level_9'] = $dao->is_grade_9;
+            $details[$prefix]['grade_level_10'] = $dao->is_grade_10;
+            $details[$prefix]['grade_level_11'] = $dao->is_grade_11;
+            $details[$prefix]['grade_level_12'] = $dao->is_grade_12;
+            $details[$prefix]['grade_level_PS'] = $dao->is_post_secondary;
+            $details[$prefix]['positions']     = $dao->position_honor;
+            $details[$prefix]['hours_per_week']  = $dao->weekly_hours;
+            $details[$prefix]['Weeks_per_year']  = $dao->annual_weeks;
+            
+            foreach ( $details[$prefix] as $key => $value ) {
+                if (substr( $key ,0 ,11 ) == "grade_level") {
+                    if ( $details[$prefix][$key] ) {
+                        $details[$prefix][$key] = "x";
+                    }
+                }
+            }
+        
+
+        }
+       
+    }
+    
+    static function workexperience( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/WorkExperience.php';
+        $dao = &new CRM_Quest_DAO_WorkExperience();
+        $dao->contact_id = $id;
+        $dao->find() ;
+        $count = 0;
+        while ( $dao->fetch() ){
+            $count++;
+            $prefix = "WorkExperience_".$count;
+            $details[$prefix]['nature_of_work'] = $dao->description;
+            $details[$prefix]['employer'] = $dao->employer;
+            $details[$prefix]['start_date'] =  $dao->start_date;
+            $details[$prefix]['end_date']   =  $dao->end_date;
+            $details[$prefix]['hrs'] = $dao->weekly_hours;
+        } 
+        
+    }
+    
+
     static function income( $id, &$details ) {
 
         require_once 'CRM/Quest/DAO/Income.php';
@@ -507,9 +571,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Contact/BAO/Relationship.php';
         require_once  'CRM/Core/BAO/CustomGroup.php';
         $relationship  = CRM_Contact_BAO_Relationship::getRelationship( $id );
-
+        
         foreach( $relationship as $key => $value ) {
-            if ($value['relation'] == 'Student of' ) {
+            if ($value['relation'] == 'Attends School' ) {
                 $params = array( 'contact_id' => $value['cid'],
                                  'id'         => $value['cid']);
                 $ids = array();
@@ -615,6 +679,57 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         }
     }
 
+    static function transcript( $id, &$details ) {
+        
+        require_once 'CRM/Quest/DAO/Transcript.php';
+        $daoTrn = &new CRM_Quest_DAO_Transcript();
+        $daoTrn->contact_id  = $id;
+        $daoTrn->find();
+        //$dao->school_year = $this->_grade;
+        while ( $daoTrn->fetch() ) {
+            $prefix = "transcript_".$daoTrn->school_year;
+            $transcriptId = $daoTrn->id;
+            require_once 'CRM/Quest/DAO/TranscriptCourse.php';
+            $dao = &new CRM_Quest_DAO_TranscriptCourse();
+            $dao->transcript_id = $transcriptId;
+            $dao->find();
+            $count = 0;
+            while( $dao->fetch() ) {
+                $count++;
+                $details[$prefix]['academic_subject_id_'.$count] = $dao->academic_subject_id;
+                $details[$prefix]['course_title_'.$count]        = $dao->course_title; 
+                $details[$prefix]['academic_credit_'.$count]     = $dao->academic_credit;
+                $details[$prefix]['academic_honor_status_id_'.$count] = $dao->academic_honor_status_id;
+                $details[$prefix]['summer_year_'.$count] =  $dao->summer_year ;
+                for ($j = 1; $j<=4; $j++ ) {
+                    $details[$prefix]['grade_'.$count."_".$j] = $dao->{"term_".$j};
+                }
+                $names = array('academic_subject_id_'.$count => array( 'newName' => 'academic_subject_'.$count,
+                                                                       'groupName' => 'academic_subject' )
+                               );
+                CRM_Core_OptionGroup::lookupValues( $details[$prefix] , $names, false);
+            }
+        }
+
+
+
+    }
+
+    static function partnerRanking($id, &$details) {
+        require_once "CRM/Quest/BAO/Partner.php";
+        $partners = CRM_Quest_BAO_Partner::getPartners();
+        
+        require_once 'CRM/Quest/DAO/PartnerRanking.php';
+        $dao = & new CRM_Quest_DAO_PartnerRanking();
+        $dao->contact_id = $id;
+        $dao->find();
+        while( $dao->fetch() ){
+            $details["Partner Ranking"][$partners[$dao->partner_id]."_"."Ranking"] = $dao->ranking ;
+            $details["Partner Ranking"][$partners[$dao->partner_id]."_"."Forward"] = $dao->forward ;
+        }
+        
+    }
+
     static function essay( $id, &$details ) {
         require_once 'CRM/Quest/DAO/Essay.php';
         $essay = array();
@@ -656,12 +771,32 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $count = 1;
         while ( $referralDAO->fetch( ) ) {
             $name = "Referral_$count";
-            $details[$name]['name' ] = $referralDAO->name;
+            $details[$name]['first_name' ] = $referralDAO->first_name; 
+            $details[$name]['last_name' ] = $referralDAO->last_name; 
+            $details[$name]['school' ] = $referralDAO->school; 
             $details[$name]['email'] = $referralDAO->email;
             $count++;
         }
     }
         
+    static function partnerRelative( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/PartnerRelative.php';
+        
+        $dao = & new CRM_Quest_DAO_PartnerRelative();
+        $dao->contact_id      = $id;
+        $dao->find();
+        $count = 0;
+        while ( $dao->fetch() ) {
+             $count++;
+             $prefix = $dao->connection_type."_".$count;
+             $details[$prefix]["alumni_last_name"]              = $dao->last_name;
+             $details[$prefix]["alumni_first_name"]             = $dao->first_name;
+             $details[$prefix]["alumni_relationship"]           = $dao->relationship;
+             $details[$prefix]["alumni_class_year"]        = $dao->college_grad_year;  
+        }
+        
+    }
+    
     static function deleteStudent( $id ) {
 
         //delete civicrm_student record
