@@ -17,18 +17,6 @@
 
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
-            {if $addCAPTCHA }
-              <tr>
-               <td></td>
-               <td>{$form.captcha_image.html}</td>
-             </tr>
-             <tr> 
-               <td></td>   
-               <td>{$form.captcha_phrase.html}
-                 <div class="messages help">{$form.captcha_phrase.label}</div>
-                </td>
-             </tr>
-           {/if}   
            </table>
            {if $groupHelpPost}
               <div class="messages help">{$groupHelpPost}</div>
@@ -102,21 +90,6 @@
         {if $addToGroupId}
 	        <tr><td class="label">{$form.group[$addToGroupId].label}</td><td>{$form.group[$addToGroupId].html}</td></tr>
 	    {/if}
-       
-        {if $mode eq 8 || $mode eq 4 || $mode eq 1}
-            {if $addCAPTCHA }
-              <tr>
-               <td></td>
-               <td>{$form.captcha_image.html}</td>
-             </tr>
-             <tr> 
-               <td></td>   
-               <td>{$form.captcha_phrase.html}
-                 <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
-                </td>
-             </tr>
-           {/if}   
-        {/if}
     </table>
 {if $field.groupHelpPost}
     <div class="messages help">{$field.groupHelpPost}</div>
@@ -125,6 +98,23 @@
     </fieldset>
     </div>
     {/if}
+    {if $mode eq 8 || $mode eq 4 || $mode eq 1}
+        {if $isCaptcha }
+         <table class="form-layout-compressed">
+           <tr>
+             <td></td>
+             <td>{$form.captcha_image.html}</td>
+           </tr>
+           <tr>
+             <td></td>
+             <td>{$form.captcha_phrase.html}
+               <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
+             </td>
+           </tr>
+        </table>
+        {/if}
+     {/if}
+
 {if $mode eq 4}
 <div class="crm-submit-buttons"> 
      {$form.buttons.html}
