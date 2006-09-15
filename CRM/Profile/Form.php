@@ -504,15 +504,27 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $addCaptcha[$field['group_id']] = $field['add_captcha'];
             }
         }
-
+        
+        $setCaptcha = false;
         if ( $this->_mode != self::MODE_SEARCH ) {
-            if (!empty($addCaptcha) || $this->_gid) {
+            if (!empty($addCaptcha)) {
+                $setCaptcha = true;
+            } else if ($this->_gid ) {
+                $dao = new CRM_Core_DAO_UFGroup();
+                $dao->id = $this->_gid;
+                $dao->find(true);
+                if ( $dao->add_captcha ) {
+                    $setCaptcha = true;
+                }
+            }
+            
+            if ($setCaptcha) {
                 require_once 'CRM/Utils/CAPTCHA.php';
                 $captcha =& CRM_Utils_CAPTCHA::singleton( );
                 $captcha->add( $this );
                 $this->assign( "isCaptcha" , true );
             }
-            
+
             if ($addToGroupId) {
                 $this->add('hidden', "group[$addToGroupId]", 1 );
                 $this->assign( 'addToGroupId' , $addToGroupId );
