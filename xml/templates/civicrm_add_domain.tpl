@@ -163,33 +163,33 @@ VALUES
    (@option_group_id_act, 'SMS', 4, 'SMS', NULL, 0, NULL, 4, 'SMS', 0, 0, 1),
    (@option_group_id_act, 'Event', 5,'Event', NULL, 0, NULL, 5, 'Event', 0, 0, 1),
 
-   (@option_group_id_gender, 'Female',      1, 'female',      NULL, 0, NULL, 1, NULL, 0, 1, 1),
-   (@option_group_id_gender, 'Male',        2, 'male',        NULL, 0, NULL, 2, NULL, 0, 1, 1),
-   (@option_group_id_gender, 'Transgender', 3, 'transgender', NULL, 0, NULL, 3, NULL, 0, 1, 1),
+   (@option_group_id_gender, 'Female',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 1, 1),
+   (@option_group_id_gender, 'Male',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 1, 1),
+   (@option_group_id_gender, 'Transgender', 3, 'Transgender', NULL, 0, NULL, 3, NULL, 0, 1, 1),
 
-   (@option_group_id_IMProvider, 'Yahoo', 1, 'yahoo', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_IMProvider, 'MSN',   2, 'msn',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_IMProvider, 'AIM',   3, 'aim',   NULL, 0, NULL, 3, NULL, 0, 0, 1),
-   (@option_group_id_IMProvider, 'GTalk', 4, 'gtalk', NULL, 0, NULL, 4, NULL, 0, 0, 1),
-   (@option_group_id_IMProvider, 'Jabber',5, 'jabber',NULL, 0, NULL, 5, NULL, 0, 0, 1),
-   (@option_group_id_IMProvider, 'Skype', 6, 'skype', NULL, 0, NULL, 6, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'Yahoo', 1, 'Yahoo', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'MSN',   2, 'Msn',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'AIM',   3, 'Aim',   NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'GTalk', 4, 'Gtalk', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'Jabber',5, 'Jabber',NULL, 0, NULL, 5, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'Skype', 6, 'Skype', NULL, 0, NULL, 6, NULL, 0, 0, 1),
 
-   (@option_group_id_mobileProvider, 'Sprint'  , 1, 'sprint'  , NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_mobileProvider, 'Verizon' , 2, 'verizon' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_mobileProvider, 'Cingular', 3, 'cingular', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_mobileProvider, 'Sprint'  , 1, 'Sprint'  , NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_mobileProvider, 'Verizon' , 2, 'Verizon' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_mobileProvider, 'Cingular', 3, 'Cingular', NULL, 0, NULL, 3, NULL, 0, 0, 1),
 
-   (@option_group_id_prefix, 'Mrs', 1, 'mrs', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_prefix, 'Ms',  2, 'ms', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_prefix, 'Mr',  3, 'mr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-   (@option_group_id_prefix, 'Dr',  4, 'dr', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Mrs', 1, 'Mrs', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Ms',  2, 'Ms', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Mr',  3, 'Mr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Dr',  4, 'Dr', NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
-   (@option_group_id_suffix, 'Jr',  2, 'jr', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_suffix, 'Sr',  3, 'sr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-   (@option_group_id_suffix, 'II',  4, 'ii', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'Jr',  1, 'Jr', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'Sr',  2, 'Sr', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'II',  3, 'II', NULL, 0, NULL, 3, NULL, 0, 0, 1),
 
-   (@option_group_id_aclGroup, 'Administrator',  1, 'admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_aclGroup, 'Authenticated',  2, 'auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_aclGroup, 'Anonymous'    ,  3, 'anon' , NULL, 0, NULL, 3, NULL, 0, 0, 1);
+   (@option_group_id_aclGroup, 'Administrator',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_aclGroup, 'Authenticated',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_aclGroup, 'Anonymous'    ,  3, 'Anon' , NULL, 0, NULL, 3, NULL, 0, 0, 1);
 
 -- sample membership status entries
 INSERT INTO

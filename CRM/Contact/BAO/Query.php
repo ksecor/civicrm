@@ -407,41 +407,41 @@ class CRM_Contact_BAO_Query {
                             $this->_select['address_id']      = 'civicrm_address.id as address_id';
                             $this->_element['address_id']     = 1;
                         }
-
-                        $this->_tables[$tableName]         = 1;
                         
-
-                        // also get the id of the tableName
-                        $tName = substr($tableName, 8 );
-
-                        if ( $tName != 'contact' ) {
-                            if ($tableName == 'gender' || $tableName == 'individual_prefix' || $tableName == 'individual_suffix') {
-                                $this->_select["{$tableName}_id"]  = "{$tableName}.id as {$tableName}_id";
-                                $this->_element["{$tableName}_id"] = 1;
-                            } else {
+                        if ($tableName == 'gender' || $tableName == 'individual_prefix' || $tableName == 'individual_suffix') {
+                            require_once 'CRM/Core/OptionValue.php';
+                            CRM_Core_OptionValue::select($this);
+                            
+                        } else {
+                            
+                            $this->_tables[$tableName]         = 1;
+                            
+                            // also get the id of the tableName
+                            $tName = substr($tableName, 8 );
+                            
+                            if ( $tName != 'contact' ) {
                                 $this->_select["{$tName}_id"]  = "{$tableName}.id as {$tName}_id";
                                 $this->_element["{$tName}_id"] = 1;
                             }
-                        }
-                        
-                        //special case for phone
-                        if ($name == 'phone') {
-                            $this->_select ['phone_type'] = "civicrm_phone.phone_type as phone_type";
-                            $this->_element['phone_type'] = 1;
-                        }
-
-                        if ( $name == 'state_province' ) {
-                            $this->_select [$name]              = "civicrm_state_province.abbreviation as `$name`";
-                        } else if ( $tName == 'contact' ) {
-                            if ( $fieldName != 'id' ) {
-                                $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
+                            
+                            //special case for phone
+                            if ($name == 'phone') {
+                                $this->_select ['phone_type'] = "civicrm_phone.phone_type as phone_type";
+                                $this->_element['phone_type'] = 1;
                             }
-                        } else {
-                            //echo "<br>".$field['where'];
-                            $this->_select [$name]              = "{$field['where']} as `$name`";
-                        }
-                        $this->_element[$name]             = 1;
-
+                            
+                            if ( $name == 'state_province' ) {
+                                $this->_select [$name]              = "civicrm_state_province.abbreviation as `$name`";
+                            } else if ( $tName == 'contact' ) {
+                                if ( $fieldName != 'id' ) {
+                                    $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
+                                }
+                            } else {
+                                //echo "<br>".$field['where'];
+                                $this->_select [$name]              = "{$field['where']} as `$name`";
+                            }
+                            $this->_element[$name]             = 1;
+                        }   
                     }
                 } elseif ($name === 'tags') {
                     $this->_select[$name               ] = "GROUP_CONCAT(DISTINCT(civicrm_tag.name)) AS tags";
@@ -921,7 +921,7 @@ class CRM_Contact_BAO_Query {
             if ( !empty($this->_customQuery->_where) ) {
                 $this->_where = CRM_Utils_Array::crmArrayMerge( $this->_where, $this->_customQuery->_where );
             }
-
+            
             $this->_qill  = CRM_Utils_Array::crmArrayMerge( $this->_qill , $this->_customQuery->_qill  );
         }
 
@@ -1407,19 +1407,22 @@ class CRM_Contact_BAO_Query {
                                    ON civicrm_group_contact.contact_id = civicrm_subscription_history.contact_id
                                   AND civicrm_group_contact.group_id   =  civicrm_subscription_history.group_id";
                 continue;
-
+                
             case 'individual_prefix':
-                $from .= " $side JOIN civicrm_option_value individual_prefix ON civicrm_individual.prefix_id = individual_prefix.id ";
+                $from .= " $side JOIN civicrm_option_group option_group_prefix ON (option_group_prefix.name = 'individual_prefix')";
+                $from .= " $side JOIN civicrm_option_value individual_prefix ON (civicrm_individual.prefix_id = individual_prefix.value AND option_group_prefix.id = individual_prefix.option_group_id ) ";
                 continue;
                 
             case 'individual_suffix':
-                $from .= " $side JOIN civicrm_option_value individual_suffix ON civicrm_individual.suffix_id = individual_suffix.id ";
+                $from .= " $side JOIN civicrm_option_group option_group_suffix ON (option_group_suffix.name = 'individual_suffix')";
+                $from .= " $side JOIN civicrm_option_value individual_suffix ON (civicrm_individual.suffix_id = individual_suffix.value AND option_group_suffix.id = individual_suffix.option_group_id ) ";
                 continue;
                 
             case 'gender':
-                $from .= " $side JOIN civicrm_option_value gender ON civicrm_individual.gender_id = gender.id ";
+                $from .= " $side JOIN civicrm_option_group option_group_gender ON (option_group_gender.name = 'gender')";
+                $from .= " $side JOIN civicrm_option_value gender ON (civicrm_individual.gender_id = gender.value AND option_group_gender.id = gender.option_group_id) ";
                 continue;
-
+                
             case 'civicrm_relationship':
                 if( self::$_relType == 'a') {
                     $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = contact_a.id )";

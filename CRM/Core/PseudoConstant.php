@@ -309,20 +309,10 @@ class CRM_Core_PseudoConstant {
      */
     public static function &individualPrefix( $all=false )
     {
-        require_once 'CRM/Core/BAO/OptionGroup.php';
-        $groupParams = array( 'name' => 'individual_prefix' );
-        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
-        
+        require_once 'CRM/Core/OptionGroup.php';
         if ( ! self::$individualPrefix ) {
-            if ($optionGroup->id) {
-                self::populate( self::$individualPrefix, 'CRM_Core_DAO_OptionValue', $all, 'name', 
-                                'is_active', "option_group_id = " . $optionGroup->id, 'name' );
-            } else {
-                // since there is a break if it doesn't return anything
-                return array();
-            }
+            self::$individualPrefix = CRM_Core_OptionGroup::values('individual_prefix');
         }
-          
         return self::$individualPrefix;
     }
 
@@ -341,20 +331,10 @@ class CRM_Core_PseudoConstant {
      */
     public static function &individualSuffix( $all=false )
     {
-        require_once 'CRM/Core/BAO/OptionGroup.php';
-        $groupParams = array( 'name' => 'individual_suffix' );
-        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
-        
+        require_once 'CRM/Core/OptionGroup.php';
         if ( ! self::$individualSuffix ) {
-            if ($optionGroup->id) {
-                self::populate( self::$individualSuffix, 'CRM_Core_DAO_OptionValue', $all, 'name', 
-                                'is_active', "option_group_id = " . $optionGroup->id,'name'  );
-            } else {
-                // since there is a break if it doesn't return anything
-                return array();
-            }
+            self::$individualSuffix = CRM_Core_OptionGroup::values('individual_suffix');
         }
-          
         return self::$individualSuffix;
     }
 
@@ -373,17 +353,9 @@ class CRM_Core_PseudoConstant {
      */
     public static function &gender( $all=false )
     {
-        require_once 'CRM/Core/BAO/OptionGroup.php';
-        $groupParams = array( 'name' => 'gender' );
-        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
-        
+        require_once 'CRM/Core/OptionGroup.php';
         if ( ! self::$gender ) {
-            if ($optionGroup->id) {
-                self::populate( self::$gender, 'CRM_Core_DAO_OptionValue', $all, 'name', 
-                                'is_active', "option_group_id = " . $optionGroup->id, 'name' );
-            } else {
-                return array();
-            }
+            self::$gender = CRM_Core_OptionGroup::values('gender');
         }
         return self::$gender;
     }

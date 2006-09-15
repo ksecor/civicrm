@@ -245,5 +245,30 @@ class CRM_Core_OptionValue {
         }
         return self::$_fields;
     }
+    
+    /** 
+     * build select query in case of option-values
+     * 
+     * @return void  
+     * @access public  
+     */
+    static function select( &$query ) {
+        if ( ! empty( $query->_params ) ) {
+            $field =& self::getFields();
+            foreach ( $field as $name => $title ) {
+                list( $tableName, $fieldName ) = explode( '.', $title['where'] ); 
+                if ( CRM_Utils_Array::value( $name, $query->_returnProperties ) ) {
+                    foreach ( array_keys( $query->_params ) as $id ) {
+                        $query->_select["{$name}_id"]  = "{$name}.value as {$name}_id";
+                        $query->_element["{$name}_id"] = 1;
+                        $query->_select[$name] = "{$name}.{$fieldName} as $name";
+                        $query->_tables[$tableName] = 1;
+                        $query->_element[$name] = 1;
+                    }
+                }
+            }
+        }
+    }
+    
 }
 ?>
