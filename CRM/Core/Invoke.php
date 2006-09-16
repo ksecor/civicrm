@@ -473,26 +473,6 @@ class CRM_Core_Invoke {
             $view =& new CRM_Admin_Page_ActivityType(ts('View Activity Types'));
             break;
 
-        case 'IMProvider':
-            require_once 'CRM/Admin/Page/IMProvider.php';
-            $view =& new CRM_Admin_Page_IMProvider(ts('View Instant Messenger Providers'));
-            break;
-
-        case 'mobileProvider':
-            require_once 'CRM/Admin/Page/MobileProvider.php';
-            $view =& new CRM_Admin_Page_MobileProvider(ts('View Mobile Providers'));
-            break;
-
-        case 'individualPrefix':
-            require_once 'CRM/Admin/Page/IndividualPrefix.php';
-            $view =& new CRM_Admin_Page_IndividualPrefix(ts('View Individual Prefix'));
-            break;
-            
-        case 'individualSuffix':
-            require_once 'CRM/Admin/Page/IndividualSuffix.php';
-            $view =& new CRM_Admin_Page_IndividualSuffix(ts('View Individual Suffix'));
-            break;
-
         case 'reltype':
             require_once 'CRM/Admin/Page/RelationshipType.php';
             $view =& new CRM_Admin_Page_RelationshipType(ts('View Relationship Types'));
@@ -540,21 +520,11 @@ class CRM_Core_Invoke {
             $view =& new CRM_Admin_Page_Mapping(ts('View Mapping'));
             break;
             
-        case 'prefix':
-            require_once 'CRM/Admin/Page/IndividualPrefix.php';
-            $view =& new CRM_Admin_Page_IndividualPrefix(ts('View Individual Prefix'));
-            break;
-            
-        case 'suffix':
-            require_once 'CRM/Admin/Page/IndividualSuffix.php';
-            $view =& new CRM_Admin_Page_IndividualSuffix(ts('View Individual Suffix'));
-            break;
-                
-        case 'gender':
-            require_once 'CRM/Admin/Page/Gender.php';
-            $view =& new CRM_Admin_Page_Gender(ts('View Gender'));
+        case 'options':
+            require_once 'CRM/Admin/Page/Options.php';
+            $view =& new CRM_Admin_Page_Options(ts('View Options'));
             break;   
-
+            
         case 'synchUser':
             require_once 'CRM/Admin/Page/DrupalUser.php';
             $view =& new CRM_Admin_Page_DrupalUser(ts('Sync Drupal Users'));

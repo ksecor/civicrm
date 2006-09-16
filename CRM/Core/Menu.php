@@ -265,9 +265,9 @@ class CRM_Core_Menu {
                             ),
 
                       array(
-                            'path'    => 'civicrm/admin/gender',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Gender Options (Male, Female...)'),
-                            'query'  => 'reset=1',
+                            'query'  => 'group=gender&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -276,9 +276,9 @@ class CRM_Core_Menu {
                             ),
                       
                       array(
-                            'path'    => 'civicrm/admin/IMProvider',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Instant Messenger Services'),
-                            'query'  => 'reset=1',
+                            'query'  => 'group=instant_messenger_service&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -287,9 +287,9 @@ class CRM_Core_Menu {
                             ),
 
                       array(
-                            'path'    => 'civicrm/admin/mobileProvider',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Mobile Phone Providers'),
-                            'query'  => 'reset=1',
+                            'query'  => 'group=mobile_provider&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -298,9 +298,9 @@ class CRM_Core_Menu {
                             ),
     
                       array(
-                            'path'    => 'civicrm/admin/prefix',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Individual Prefixes (Ms, Mr...)'),
-                            'query'  => 'reset=1',
+                            'query'  => 'group=individual_prefix&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -309,9 +309,9 @@ class CRM_Core_Menu {
                             ),
                       
                       array(
-                            'path'    => 'civicrm/admin/suffix',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Individual Suffixes (Jr, Sr...)'),
-                            'query'  => 'reset=1',
+                            'query'  => 'group=individual_suffix&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
