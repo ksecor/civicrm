@@ -578,7 +578,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $processed = false;
                     if ( CRM_Core_Permission::access( 'Quest' ) ) {
                         require_once 'CRM/Quest/BAO/Student.php';
-                        $processed = CRM_Quest_BAO_Student::buildStudentForm( $field, $this );
+                        $processed = CRM_Quest_BAO_Student::buildStudentForm( $this, $field );
                     }
                     if ( ! $processed ) {
                         if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
@@ -1210,12 +1210,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * Function to build profile form
      *
-     * @params $form       object form object
-     * @params $fieldName  string name of the field
-     * @params $title      string title of the field
+     * @params $form       object  form object
+     * @params $fieldName  string  name of the field
+     * @params $title      string  title of the field
      * @params $required   boolean true if required else false
-     * @params $attributes array field attributes
-     * @params $search      boolean true for search mode else false
+     * @params $attributes array   field attributes
+     * @params $search     boolean true for search mode else false
+     * @params $contactId  int     contact id
      *
      * @return null
      * @static
@@ -1296,7 +1297,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $processed = false;
             if ( CRM_Core_Permission::access( 'Quest' ) ) {
                 require_once 'CRM/Quest/BAO/Student.php';
-                $processed = CRM_Quest_BAO_Student::buildStudentForm( $field, $form );
+                $processed = CRM_Quest_BAO_Student::buildStudentForm( $form, $fieldName, $title, $contactId );
             }
             if ( ! $processed ) {
                 if ( substr($fieldName, 0, 3) === 'is_' or substr($fieldName, 0, 7) === 'do_not_' ) {
@@ -1307,6 +1308,120 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
         }
         
+    }
+
+
+   /**
+     * Function to set profile defaults
+     *
+     * @params $contactId     int     contact id
+     * @params $fields        array   associative array of fields
+     * @params $defaults      array   defaults array
+     * @params $singleProfile boolean true for single profile else false(batch update)
+     *
+     * @return null
+     * @static
+     * @access public
+     */
+    static function setProfileDefaults( $contactId, &$fields, &$defaults, $singleProfile = true ) 
+    {
+        //get the contact details
+        list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
+        $details = $contactDetails[$contactId];
+        
+        //start of code to set the default values
+        foreach ($fields as $name => $field ) {
+            //set the field name depending upon the profile mode(single/batch)
+            if ( $singleProfile ) {
+                $fldName = $name;
+            } else {
+                $fldName = "field[$contactId][$name]";
+            }
+
+            if (CRM_Utils_Array::value($name, $details )) {
+                //to handle custom data (checkbox) to be written
+                // to handle gender / suffix / prefix
+                if ($name == 'gender') { 
+                    $defaults[$fldName] = $details['gender_id'];
+                } else if ($name == 'individual_prefix') {
+                    $defaults[$fldName] = $details['individual_prefix_id'];
+                } else if ($name == 'individual_suffix') {
+                    $defaults[$fldName] = $details['individual_suffix_id'];
+                } else{
+                    $defaults[$fldName] = $details[$name];
+                }
+                
+            } else {
+                list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $name);
+                if ( is_array($details) ) {   
+                    foreach ($details as $key => $value) {
+                        if ($locTypeId == 'Primary') {
+                            $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId ); 
+                        }
+                        
+                        if (is_numeric($locTypeId)) {//fixed for CRM-665
+                            if ($locTypeId == $value['location_type_id'] ) {
+                                if (CRM_Utils_Array::value($fieldName, $value )) {
+                                    //to handle stateprovince and country
+                                    if ( $fieldName == 'state_province' ) {
+                                        $defaults[$fldName] = $value['state_province_id'];
+                                    } else if ( $fieldName == 'country' ) {
+                                        $defaults[$fldName] = $value['country_id'];
+                                        $this->_countryPresent = 1;
+                                    } else if ( $fieldName == 'phone' ) {
+                                        if ($phoneTypeId) {
+                                            $defaults[$fldName] = $value['phone'][$phoneTypeId];
+                                        } else {
+                                            $defaults[$fldName] = $value['phone'][1];
+                                        }
+                                    } else if ( $fieldName == 'email' ) {
+                                        //adding the first email (currently we don't support multiple emails of same location type)
+                                        $defaults[$fldName] = $value['email'][1];
+                                    } else if ( $fieldName == 'im' ) {
+                                        //adding the first email (currently we don't support multiple ims of same location type)
+                                        $defaults[$fldName] = $value['im'][1];
+                                    } else {
+                                        $defaults[$fldName] = $value[$fieldName];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            require_once 'CRM/Quest/BAO/Student.php';
+            // Checking whether the database contains quest_student table.
+            // Now there are two different schemas for core and quest.
+            // So if only core schema in use then withought following check gets the DB error.
+            $student      = new CRM_Quest_BAO_Student();
+            $tableStudent = $student->geTableName();
+            
+            if ($tableStudent) {
+                //set student defaults
+                CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
+                $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
+                foreach( $fields as $field ) {
+                    if ( $defaults[$field] ) {
+                        $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
+                    }
+                    
+                    $defaults[$field] = array();
+                    if ( is_array( $values ) ) {
+                        foreach( $values as $v ) {
+                            $defaults[$field][$v] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        
+        //CRM_Core_Error::debug('def in uf', $defaults);
     }
 }
 

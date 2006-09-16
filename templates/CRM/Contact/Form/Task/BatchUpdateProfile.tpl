@@ -2,17 +2,17 @@
 <fieldset>
     <legend>{ts}Batch Update via Profile{/ts}</legend>
     <dl>
-        <dt>{$form.uf_group_id.label}</dt><dd>{$form.uf_group_id.html}
-            {$form._qf_BatchUpdateProfile_refresh.html}</dd>
+        <dt>{$form.uf_group_id.label}</dt><dd>{$form.uf_group_id.html}</dd>
         <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
 
-        <table class="form-layout-compressed">
-           <tr>
+        {if $fields}
+         <table class="form-layout-compressed">
+            <tr>
              <td class="label">Name</td>
              {foreach from=$fields item=field key=name}
                 <td class="label">{$field.title}</td>
              {/foreach}
-           </tr>
+            </tr>
             {foreach from=$contactIds item=cid}
              <tr>
               <td>{$sortName.$cid}</td> 
@@ -24,10 +24,13 @@
 	        {/if}
               {/foreach}
              </tr>
-           {/foreach}
-          </tr>
-        </table> 
-        <dt></dt><dd>{$form.buttons.html}</dd>
+            {/foreach}
+           </tr>
+         </table>
+        {else}
+          <dt></dt><dd>{$form._qf_BatchUpdateProfile_refresh.html} &nbsp; {$form._qf_BatchUpdateProfile_cancel.html}</dd>
+        {/if} 
+        <dt></dt><dd>{if $fields}{$form._qf_BatchUpdateProfile_refresh.html}{/if} &nbsp; {$form.buttons.html}</dd>
     </dl>
 </fieldset>
 </div>

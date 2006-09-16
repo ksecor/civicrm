@@ -876,7 +876,26 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         return null;
     }
 
-    static function buildStudentForm( $field, &$form ) {
+    /**
+     * Function to build student form for profile
+     *
+     * @params $form       object form object
+     * @params $fieldName  string name of the field
+     * @params $contactId  int    contact id
+     *
+     * @return null
+     * @static
+     * @access public
+
+     */    
+    static function buildStudentForm( &$form, $fieldName, $title = null, $contactId = null ) {
+        
+        if ($contactId) {
+            $name = "field[$contactId][$fieldName]";
+        } else {
+            $name = $fieldName;
+        }
+
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
 
@@ -900,78 +919,77 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                        'test_tutoring'          =>  'test', 
                        );
 
-        if ( in_array($field['name'], array('gpa_id', 
-                                            'ethnicity_id_1',
-                                            'award_ranking_1_id',
-                                            'award_ranking_2_id',
-                                            'award_ranking_3_id',
-                                            'citizenship_status_id',
-                                            'internet_access_id',
-                                            'study_method_id',
-                                            'fed_lunch_id')) ) {
-
+        if ( in_array($fieldName, array('gpa_id', 
+                                        'ethnicity_id_1',
+                                        'award_ranking_1_id',
+                                        'award_ranking_2_id',
+                                        'award_ranking_3_id',
+                                        'citizenship_status_id',
+                                        'internet_access_id',
+                                        'study_method_id',
+                                        'fed_lunch_id')) ) {
+            
             require_once 'CRM/Core/OptionGroup.php';
-            $form->add('select', $field['name'], $field['title'], 
-                        array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($names[$field['name']]) );
-            return true;
-
-        } else if ($field['name'] == 'high_school_grad_year' ) {
-            $form->add('date', 'high_school_grad_year', $field['title'],
-                       CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
-            return true;
-
-        } else if ( in_array($field['name'], array('educational_interest', 
-                                                   'college_type', 
-                                                   'college_interest',
-                                                   'test_tutoring')) ) {
-
-            $form->addCheckBox($field['name'], $field['title'],
-                                CRM_Core_OptionGroup::values( $names[$field['name']], true ), false, null,false );
+            $form->add('select', $name, $title, 
+                       array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($names[$fieldName]) );
             return true;
             
-        } else if ( in_array($field['name'], array('is_class_ranking', 
-                                                   'is_partner_share', 
-                                                   'is_home_computer', 
-                                                   'is_home_internet', 
-                                                   'is_take_SAT_ACT', 
-                                                   'financial_aid_applicant',
-                                                   'register_standarized_tests' )) ) {
-            
-            $form->addYesNo($field['name'], $field['title']);
-            return true;
-
-        } else if ( in_array($field['name'], array('class_rank', 
-                                                   'class_num_students', 
-                                                   'score_SAT', 
-                                                   'score_PSAT', 
-                                                   'score_ACT',
-                                                   'score_PLAN', 
-                                                   'household_income_total', 
-                                                   'number_siblings', 
-                                                   'years_in_us',
-                                                   'first_language', 
-                                                   'primary_language',
-                                                   'internet_access_other')) ) {
-
-            $form->addElement('text', $field['name'], $field['title'], $attributes[$field['name']]);
-            return true;
-
-        } else if ($field['name'] == 'gpa_explanation' ) {
-
-            $form->addElement('textarea', 'gpa_explanation', $field['title'], $attributes['gpa_explanation']);
+        } else if ($fieldName == 'high_school_grad_year' ) {
+            $form->add('date', 'high_school_grad_year', $title, CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
             return true;
             
-        } else if ( in_array( $field['name'], array('citizenship_country_id', 
-                                                    'growup_country_id', 
-                                                    'nationality_country_id') ) ) {
+        } else if ( in_array($fieldName, array('educational_interest', 
+                                               'college_type', 
+                                               'college_interest',
+                                               'test_tutoring')) ) {
+            
+            $form->addCheckBox($name, $title, 
+                               CRM_Core_OptionGroup::values( $names[$fieldName], true ), false, null,false );
+            return true;
+            
+        } else if ( in_array($name, array('is_class_ranking', 
+                                          'is_partner_share', 
+                                          'is_home_computer', 
+                                          'is_home_internet', 
+                                          'is_take_SAT_ACT', 
+                                          'financial_aid_applicant',
+                                          'register_standarized_tests' )) ) {
+            
+            $form->addYesNo($name, $title);
+            return true;
+            
+        } else if ( in_array($fieldName, array('class_rank', 
+                                               'class_num_students', 
+                                               'score_SAT', 
+                                               'score_PSAT', 
+                                               'score_ACT',
+                                               'score_PLAN', 
+                                               'household_income_total', 
+                                               'number_siblings', 
+                                               'years_in_us',
+                                               'first_language', 
+                                               'primary_language',
+                                               'internet_access_other')) ) {
+            
+            $form->addElement('text', $name, $title, $attributes[$fieldName]);
+            return true;
 
-            $form->addElement('select', $field['name'], $field['title'],
+        } else if ($fieldName == 'gpa_explanation' ) {
+
+            $form->addElement('textarea', $name, $title, $attributes[$fieldName]);
+            return true;
+            
+        } else if ( in_array( $fieldName, array('citizenship_country_id', 
+                                                'growup_country_id', 
+                                                'nationality_country_id') ) ) {
+
+            $form->addElement('select', $name, $title,
                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::country( ) );
             return true;
-
-        } else if ( $field['name'] == 'home_area_id' ) {
-            $form->addRadio('home_area_id', $field['title'],
-                             CRM_Core_OptionGroup::values('home_area') );
+            
+        } else if ( $fieldName == 'home_area_id' ) {
+            $form->addRadio( $name, $title,
+                             CRM_Core_OptionGroup::values($fieldName) );
             return true;
 
         } else {

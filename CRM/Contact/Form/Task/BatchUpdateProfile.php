@@ -69,23 +69,25 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @return void
      */
     function buildQuickForm( ) {
+
+        CRM_Utils_System::setTitle( ts('Batch Profile Update') );
+        
         // add select for groups
         $ufGroup = array( '' => ts('- select profile -')) + CRM_Core_PseudoConstant::ufgroup( );
         $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $ufGroup, true);
         
-        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Go'), array( 'class' => 'form-submit' ) );
-         
-        CRM_Utils_System::setTitle( ts('Batch Profile Update') );
+        $ufGroupId = $this->get('ufGroupId');
+
+        $bName = ts('Continue');
         
-        $this->_fields  = array();
-        $params = $this->exportValues();
-        if ( $params['_qf_BatchUpdateProfile_refresh'] ) {
+        if ( $ufGroupId ) {
             $this->addDefaultButtons( ts('Save') );
-            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $params['uf_group_id']);
+            $this->_fields  = array( );
+            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId );
             
             $this->addButtons( array(
                                      array ( 'type'      => 'submit',
-                                             'name'      => ts('Save'),
+                                             'name'      => ts('Update Contact(s)'),
                                              'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Cancel') ),
@@ -96,12 +98,19 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
             $this->assign( 'contactIds', $this->_contactIds );
             
             foreach ($this->_contactIds as $contactId) {
-                //$field['is_required'] currently ignoring required condition
+                //$field['is_required'], currently ignoring required condition
                 foreach ($this->_fields as $name => $field ) {
                     CRM_Core_BAO_UFGroup::buildProfile($this, $field['name'], $field['title'], false, $field['attributes'], $search, $contactId );
                 }
             }
+            
+            $bName = ts('Select Another Profile');
         }
+
+        $this->addElement( 'submit', $this->getButtonName('refresh'), $bName, array( 'class' => 'form-submit' ) );
+        $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );
+
+
     }
 
     /**
@@ -112,28 +121,22 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      */
     function setDefaultValues( ) 
     {
+        if (empty($this->_fields)) {
+            return;
+        }
+        
         foreach ($this->_contactIds as $contactId) {
             $details[$contactId] = array( );
+
+            //build sortname
+            $sortName[$contactId] = CRM_Contact_BAO_Contact::sortName($contactId);
             
-            // get the contact details (hier)
-            $params = array('sort_name' => 1) + $this->_fields;
-            list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $params );
-            $details[$contactId] = $contactDetails[$contactId];
-            foreach ($contactDetails as $key => $value) {
-                foreach ($value as $k => $v) { 
-                    if ( array_key_exists($k, $params) ) {
-                        if ($k == 'sort_name') {
-                            $sortName[$contactId] = $v;
-                        } else {
-                            $defaults["field[$contactId][$k]"] = $v; 
-                        }
-                    }
-                }
-            }
-            
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $contactId, $this->_fields, $defaults, false );
         }
         
         $this->assign('sortName', $sortName);
+
+        //CRM_Core_Error::debug('def', $defaults);
         return $defaults;
     }
 
@@ -148,6 +151,12 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
     {
         $params = $this->exportValues( );
         //CRM_Core_Error::debug('q', $params);
+
+        if ( CRM_Utils_Array::value( '_qf_BatchUpdateProfile_refresh', $params ) ) {
+            $this->set( 'ufGroupId', $params['uf_group_id'] );
+            return;
+        }
+
         
     }//end of function
 

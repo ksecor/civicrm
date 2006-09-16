@@ -2184,6 +2184,20 @@ WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
        return null;
     }
 
+    /**
+     * function to get the sort name of a contact
+     *
+     * @param  int    $id id of the contact
+     *
+     * @return null|string     sort name of the contact if found
+     * @static
+     * @access public
+     */
+    static function sortName( $id ) {
+        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'sort_name' );
+    }
+
+
 }
 
 ?>
