@@ -203,7 +203,7 @@
  </field>
  <field>
       <name>cmr_first_generation_id</name>
-      <title></title>
+      <title>First Generation</title>
       <type>int unsigned</type>
        <export>true</export>
        <import>true</import>
@@ -212,7 +212,7 @@
  </field>
  <field>
       <name>cmr_income_increase_id</name>
-      <title></title>
+      <title>Income Increase</title>
       <type>int unsigned</type>
       <export>true</export>
       <import>true</import>
@@ -221,7 +221,7 @@
  </field>
  <field>
       <name>cmr_need_id</name>
-      <title></title>
+      <title>Level of need</title>
       <type>int unsigned</type>
       <export>true</export>
       <import>true</import>
@@ -230,7 +230,7 @@
  </field>
  <field>
       <name>cmr_grade_id</name>
-      <title></title>
+      <title>Transcript Grades</title>
       <type>int unsigned</type>
       <export>true</export>
       <import>true</import>
@@ -239,7 +239,7 @@
  </field>
  <field>
       <name>cmr_class_id</name>
-      <title></title>
+      <title>Honors Class Levels</title>
       <type>int unsigned</type>
       <export>true</export>
       <import>true</import>
@@ -248,7 +248,7 @@
  </field>
  <field>
       <name>cmr_score_id</name>
-      <title></title>
+      <title>Score</title>
       <type>int unsigned</type>
       <export>true</export>
       <import>true</import>
@@ -257,7 +257,7 @@
  </field>
  <field>
       <name>cmr_academic_id</name>
-      <title></title>
+      <title>Academic Achievement</title>
       <type>int unsigned</type>
       <export>true</export>
       <import>true</import>
@@ -266,6 +266,7 @@
  </field>
  <field>
        <name>cmr_comment</name>
+       <title>Comments</title>
        <type>text</type>
        <htmlType>textarea</htmlType>
        <rows>3</rows>
