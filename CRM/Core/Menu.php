@@ -140,8 +140,9 @@ class CRM_Core_Menu {
                             ),
                       
                       array(
-                            'path'    => 'civicrm/admin/activityType',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Activity Types'),
+                            'query'   => 'group=activity_type&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),

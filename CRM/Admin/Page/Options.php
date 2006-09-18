@@ -97,6 +97,32 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
     static $_gId = null;
 
     /**
+     * Obtains the group name from url and sets the title.
+     *
+     * @return void
+     * @access public
+     *
+     */
+    function preProcess( )
+    {
+        if ( ! self::$_gName ) {
+            self::$_gName = CRM_Utils_Request::retrieve('group','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
+            self::$_gId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', self::$_gName, 'id', 'name');
+        }
+        if (self::$_gName) {
+            $this->set( 'gName', self::$_gName );
+        } else {
+            self::$_gName = $this->get( 'gName' );
+        }
+        self::$_GName = ucwords(str_replace('_', ' ', self::$_gName));
+
+        $this->assign('gName', self::$_gName);
+        $this->assign('GName', self::$_GName);
+
+        CRM_Utils_System::setTitle(ts(self::$_GName . ' Options'));
+    }
+
+    /**
      * Get BAO Name
      *
      * @return string Classname of BAO.
@@ -155,19 +181,7 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
      */
     function run()
     {
-        if ( ! self::$_gName ) {
-            self::$_gName = CRM_Utils_Request::retrieve('group','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
-            self::$_gId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', self::$_gName, 'id', 'name');
-        }
-        if (self::$_gName) {
-            $this->set( 'gName', self::$_gName );
-        } else {
-            self::$_gName = $this->get( 'gName' );
-        }
-        self::$_GName = ucwords(str_replace('_', ' ', self::$_gName));
-        $this->assign('gName', self::$_gName);
-        $this->assign('GName', self::$_GName);
-        
+        $this->preProcess();
         parent::run();
     }
     

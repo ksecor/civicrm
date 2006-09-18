@@ -69,15 +69,23 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
 {
 
     /**
-     * The action links that we need to display for the browse screen
+     * The option group name
      *
      * @var array
      * @static
      */
-    protected $_gName = null;
+    protected $_gName;
 
     /**
-     * Function to for pre-processing
+     * The option group name in display format (capitalized, without underscores...etc)
+     *
+     * @var array
+     * @static
+     */
+    protected $_GName;
+
+    /**
+     * Function to pre-process
      *
      * @return None
      * @access public
@@ -89,6 +97,12 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $this->_gName = CRM_Utils_Request::retrieve('group','String', $this, false, 0);
             $this->_gid   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $this->_gName, 'id', 'name');
         }
+        if ($this->_gName) {
+            $this->set( 'gName', $this->_gName );
+        } else {
+            $this->_gName = $this->get( 'gName' );
+        }
+        $this->_GName = ucwords(str_replace('_', ' ', $this->_gName));
     }
     
     /**
@@ -151,9 +165,9 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
     {
         if($this->_action & CRM_Core_Action::DELETE) {
             if(CRM_Core_BAO_OptionValue::del($this->_id)) {
-                CRM_Core_Session::setStatus( ts('Selected ' . $this->_gName . ' type has been deleted.') );
+                CRM_Core_Session::setStatus( ts('Selected ' . $this->_GName . ' type has been deleted.') );
             } else {
-                CRM_Core_Session::setStatus( ts('Selected ' . $this->_gName . ' type has not been deleted.') );
+                CRM_Core_Session::setStatus( ts('Selected ' . $this->_GName . ' type has not been deleted.') );
             }
         } else {
             $params = $ids = array( );
@@ -164,7 +178,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             require_once 'CRM/Core/OptionValue.php';
             $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
 
-            CRM_Core_Session::setStatus( ts('The ' . $this->_gName . ' "%1" has been saved.', array( 1 => $optionValue->name )) );
+            CRM_Core_Session::setStatus( ts('The ' . $this->_GName . ' "%1" has been saved.', array( 1 => $optionValue->name )) );
         }
     }
 }
