@@ -23,7 +23,12 @@ class TS_CiviCRMTests
     #suite << TC_TestAdminDuplicateMatching.suite
     #suite << TC_TestAdminImportExportMapping.suite
     #suite << TC_TestAdminCustomData.suite
-    suite << TC_TestNewIndividual.suite
+    #suite << TC_TestNewIndividual.suite
+    #suite << TC_TestContactActivity.suite
+    #suite << TC_TestContactRelationship.suite
+    #suite << TC_TestContactNotes.suite
+    #suite << TC_TestContactTags.suite
+    suite << TC_TestContactContribution.suite
     return suite
   end
 end
