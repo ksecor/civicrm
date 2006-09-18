@@ -36,6 +36,9 @@
  */
 
 require_once 'CRM/Contribute/Form.php';
+require_once 'CRM/Core/BAO/OptionGroup.php';
+require_once 'CRM/Core/BAO/OptionValue.php';
+
 
 /**
  * This class generates form components for Payment Instrument
@@ -43,6 +46,25 @@ require_once 'CRM/Contribute/Form.php';
  */
 class CRM_Contribute_Form_PaymentInstrument extends CRM_Contribute_Form
 {
+
+    /**
+     * The id of the object being edited / created
+     *
+     * @var int
+     */
+    protected $_optionGroupID;
+    
+    function preProcess( ) {
+        parent::preProcess( );
+        
+        $groupParams = array( 'name' => 'payment_instrument' );
+        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $defaults);
+
+        $this->_optionGroupID = $optionGroup->id;
+        
+     }
+
+
     /**
      * Function to build the form
      *
@@ -58,15 +80,15 @@ class CRM_Contribute_Form_PaymentInstrument extends CRM_Contribute_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_PaymentInstrument', 'name' ) );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid Payment Instrument name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contribute_DAO_PaymentInstrument', $this->_id ) );
+        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_OptionValue', $this->_id ) );
         
-        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_PaymentInstrument', 'description' ) );
+        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
-        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PaymentInstrument', $this->_id, 'is_reserved' )) { 
+        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' )) { 
             $this->freeze(array('name', 'description', 'is_active' ));
         }
         
@@ -81,22 +103,19 @@ class CRM_Contribute_Form_PaymentInstrument extends CRM_Contribute_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/Contribute/BAO/PaymentInstrument.php';
+      
         if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Contribute_BAO_PaymentInstrument::del($this->_id);
+            CRM_Core_BAO_OptionValue::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected Payment Instrument has been deleted.') );
         } else { 
 
             $params = $ids = array( );
             // store the submitted values in an array
             $params = $this->exportValues();
-            
-            if ($this->_action & CRM_Core_Action::UPDATE ) {
-                $ids['paymentInstrument'] = $this->_id;
-            }
-            
-            $paymentInstrument = CRM_Contribute_BAO_PaymentInstrument::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The Payment Instrument "%1" has been saved.', array( 1 => $paymentInstrument->name )) );
+            $groupParams = array( 'name' => 'payment_instrument' );
+            require_once 'CRM/Core/OptionValue.php';
+            $optionValue =  CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
+            CRM_Core_Session::setStatus( ts('The Payment Instrument "%1" has been saved.', array( 1 => $optionValue->name )) );
         }
     }
 }

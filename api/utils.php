@@ -1332,9 +1332,9 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
 
     if ($fields == null) {
         $fields = array();
-    }
+    }//CRM_Core_Error::backTrace();
     //print_r($values); 
-    //print_r($params);
+    //  print_r($params);
     
     if (isset($values['contribution_type'])) {
         $params['contribution_type'] = $values['contribution_type'];
@@ -1400,7 +1400,7 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
     /* Finally, check for contribution fields */
     if (!isset($fields['Contribution'])) {
         $fields['Contribution'] =& CRM_Contribute_DAO_Contribution::fields( );
-    }
+    }//print_r($fields['Contribution']);
     _crm_store_values( $fields['Contribution'], $values, $params );
 }
 
@@ -1531,7 +1531,7 @@ function _crm_validate_formatted_contribution(&$params) {
         $config =& CRM_Core_Config::singleton();
         $domainID = $config->domainID();
     }
-    
+    // CRM_Core_Error::debug('params', $params);
     foreach ($params as $key => $value) {
         switch ($key) {
         case 'contact_id':
@@ -1568,13 +1568,25 @@ function _crm_validate_formatted_contribution(&$params) {
         case 'contribution_type':
              require_once 'CRM/Contribute/PseudoConstant.php';
              $contributionType = CRM_Contribute_PseudoConstant::contributionType();
-             
+             //CRM_Core_Error::debug('$contributionType'`, $contributionType);
              foreach ($contributionType as $v) {
                  if (strtolower($v) == strtolower($value)) {
                      $params[$key] = $v;
                  }
              }
             break;
+
+        case 'payment_instrument':
+             require_once 'CRM/Contribute/PseudoConstant.php';
+             $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();
+             //CRM_Core_Error::debug('$paymentInstrument', $paymentInstrument);
+             foreach ($paymentInstrument as $v) {
+                 if (strtolower($v) == strtolower($value)) {
+                     $params[$key] = $v;
+                 }
+             }
+            break;
+
         default:
             break;
         }

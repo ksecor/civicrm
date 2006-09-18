@@ -116,21 +116,34 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @return array - array reference of all payment instruments if any
      * @static
      */
+
     public static function &paymentInstrument($id = null)
     {
-        if ( ! self::$paymentInstrument ) {
-            CRM_Core_PseudoConstant::populate( self::$paymentInstrument,
-                                               'CRM_Contribute_DAO_PaymentInstrument' );
+        require_once 'CRM/Core/OptionGroup.php';
+        $paymentInstrument = CRM_Core_OptionGroup::values('payment_instrument');
+        if ( ! $paymentInstrument ) {
+            $paymentInstrument = array( );
+
         }
-        if ($id) {
-            if (array_key_exists($id, self::$paymentInstrument)) {
-                return self::$paymentInstrument[$id];
-            } else {
-                return null;
-            }
-        }
-        return self::$paymentInstrument;
+        return $paymentInstrument;
     }
+
+
+   //  public static function &paymentInstrument($id = null)
+//     {
+//         if ( ! self::$paymentInstrument ) {
+//             CRM_Core_PseudoConstant::populate( self::$paymentInstrument,
+//                                                'CRM_Contribute_DAO_PaymentInstrument' );
+//         }
+//         if ($id) {
+//             if (array_key_exists($id, self::$paymentInstrument)) {
+//                 return self::$paymentInstrument[$id];
+//             } else {
+//                 return null;
+//             }
+//         }
+//         return self::$paymentInstrument;
+//     }
 
     /**
      * Get all the valid accepted credit cards
@@ -140,21 +153,19 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
      * @static 
      */                  
     public static function &creditCard( ) {
-        if ( ! self::$creditCard ) { 
-            self::$creditCard = array( );
-
-            require_once 'CRM/Contribute/DAO/AcceptCreditCard.php';
-            $dao =& new CRM_Contribute_DAO_AcceptCreditCard( );
-            $dao->is_active = 1;
-            $dao->orderBy( 'id' );
-            $dao->find( );
-            while ( $dao->fetch( ) ) {
-                self::$creditCard[$dao->name] = $dao->title;
-            }
+        
+        require_once 'CRM/Core/OptionGroup.php';
+        $creditCard = CRM_Core_OptionGroup::values('accept_creditcard');
+        
+        if  ( ! $creditCard ) {
+            $creditCard = array( );
+         }
+        foreach($creditCard as $key => $value) {
+            $acceptCreditCard[$value] = $value;
         }
-        return self::$creditCard;
-    }
+        return $acceptCreditCard;
 
+    }
 
     /**
      * Get all premiums 

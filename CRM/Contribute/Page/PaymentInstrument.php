@@ -36,6 +36,7 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
+
 /**
  * Page for displaying list of Payment-Instrument
  */
@@ -56,7 +57,7 @@ class CRM_Contribute_Page_PaymentInstrument extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Contribute_BAO_PaymentInstrument';
+        return 'CRM_Core_BAO_OptionValue';
     }
 
     /**
@@ -112,27 +113,27 @@ class CRM_Contribute_Page_PaymentInstrument extends CRM_Core_Page_Basic
      * @access public
      *
      */
-    function run()
-    {
-        // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', 'String',
-                                              $this, false, 'browse'); // default to 'browse'
+//     function run()
+//     {
+//         // get the requested action
+//         $action = CRM_Utils_Request::retrieve('action', 'String',
+//                                               $this, false, 'browse'); // default to 'browse'
 
-        // assign vars to templates
-        $this->assign('action', $action);
-        $id = CRM_Utils_Request::retrieve('id', 'Positive',
-                                          $this, false, 0);
+//         // assign vars to templates
+//         $this->assign('action', $action);
+//         $id = CRM_Utils_Request::retrieve('id', 'Positive',
+//                                           $this, false, 0);
         
-        // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $this->edit($action, $id) ;
-        } 
-        // finally browse the custom groups
-        $this->browse();
+//         // what action to take ?
+//         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+//             $this->edit($action, $id) ;
+//         } 
+//         // finally browse the custom groups
+//         $this->browse();
         
-        // parent run 
-        parent::run();
-    }
+//         // parent run 
+//         parent::run();
+//     }
 
     /**
      * Browse all custom data groups.
@@ -144,39 +145,11 @@ class CRM_Contribute_Page_PaymentInstrument extends CRM_Core_Page_Basic
      */
     function browse()
     {
-        // get all custom groups sorted by weight
-        $paymentInstrument = array();
-        require_once 'CRM/Contribute/DAO/PaymentInstrument.php';
-        $dao =& new CRM_Contribute_DAO_PaymentInstrument();
+        $groupParams = array( 'name' => 'payment_instrument' );
 
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
-        $dao->orderBy('name');
-        $dao->find();
-
-        while ($dao->fetch()) {
-            $paymentInstrument[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $paymentInstrument[$dao->id]);
-            // form all action links
-            $action = array_sum(array_keys($this->links()));
-
-            // update enable/disable links depending on if it is is_reserved or is_active
-            if ($dao->is_reserved) {
-                continue;
-            } else {
-                if ($dao->is_active) {
-                    $action -= CRM_Core_Action::ENABLE;
-                } else {
-                    $action -= CRM_Core_Action::DISABLE;
-                }
-            }
-
-            $paymentInstrument[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                                    array('id' => $dao->id));
-        }
-        $this->assign('rows', $paymentInstrument);
+        require_once 'CRM/Core/OptionValue.php';
+        $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links());   
+        $this->assign('rows', $optionValue);
     }
 
     /**

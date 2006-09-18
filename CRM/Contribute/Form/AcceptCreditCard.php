@@ -36,6 +36,8 @@
  */
 
 require_once 'CRM/Contribute/Form.php';
+require_once 'CRM/Core/BAO/OptionGroup.php';
+require_once 'CRM/Core/BAO/OptionValue.php';
 
 /**
  * This class generates form components for Credit Card
@@ -43,6 +45,14 @@ require_once 'CRM/Contribute/Form.php';
  */
 class CRM_Contribute_Form_AcceptCreditCard extends CRM_Contribute_Form
 {
+
+    function preProcess( ) {
+        parent::preProcess( );
+        $groupParams = array( 'name' => 'accept_creditcard' );
+        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $defaults);
+        $this->_gid = $optionGroup->id;
+     }
+    
     /**
      * Function to build the form
      *
@@ -58,15 +68,15 @@ class CRM_Contribute_Form_AcceptCreditCard extends CRM_Contribute_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_AcceptCreditCard', 'name' ) );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid Credit Card name.'), 'required' );
-        $this->addRule( 'name', ts('That name already exists in Database.'), 'objectExists', array( 'CRM_Contribute_DAO_AcceptCreditCard', $this->_id ) );
+        $this->addRule( 'name', ts('That name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_OptionValue', $this->_id ) );
         
-        $this->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_AcceptCreditCard', 'title' ) );
+        $this->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'title' ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
-        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_AcceptCreditCard', $this->_id, 'is_reserved' )) { 
+        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' )) { 
             $this->freeze(array('name', 'title', 'is_active' ));
         }
         
@@ -81,9 +91,9 @@ class CRM_Contribute_Form_AcceptCreditCard extends CRM_Contribute_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/Contribute/BAO/AcceptCreditCard.php';
+       
         if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Contribute_BAO_AcceptCreditCard::del($this->_id);
+            CRM_Core_BAO_OptionValue::del($this->_id);
             CRM_Core_Session::setStatus( ts('Selected Credit Card has been deleted.') );
         } else { 
 
@@ -94,9 +104,11 @@ class CRM_Contribute_Form_AcceptCreditCard extends CRM_Contribute_Form
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $ids['acceptCreditCard'] = $this->_id;
             }
-            
-            $acceptCreditCard = CRM_Contribute_BAO_AcceptCreditCard::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The Credit Card "%1" has been saved.', array( 1 => $acceptCreditCard->name )) );
+            $groupParams = array( 'name' => 'accept_creditcard' );
+                
+            require_once 'CRM/Core/OptionValue.php';
+            $optionValue = CRM_Core_OptionValue::addOptionValue($params,$groupParams, $this->_action, $ids);
+            CRM_Core_Session::setStatus( ts('The Credit Card "%1" has been saved.', array( 1 => $optionValue->name )) );
         }
     }
 }

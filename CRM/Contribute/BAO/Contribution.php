@@ -342,6 +342,9 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             }
 
             $tmpFields     = CRM_Contribute_DAO_Contribution::import( );
+            unset($tmpFields['option_value']);
+            require_once 'CRM/Core/OptionValue.php';
+            $optionFields = CRM_Core_OptionValue::getFields($mode ='contribute' );
             $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             require_once 'CRM/Core/DAO/DupeMatch.php';
             $dao = & new CRM_Core_DAO_DupeMatch();;
@@ -356,6 +359,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             }
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
+            $fields = array_merge($fields, $optionFields);
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
             self::$_importableFields = $fields;
         }

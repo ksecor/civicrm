@@ -216,7 +216,7 @@ class CRM_Core_OptionValue {
      * @access public
      * @static
      */
-    static function getFields( ) {
+    static function getFields( $mode = '') {
         if ( ! self::$_fields ) {
             self::$_fields = array();
             require_once "CRM/Core/DAO/OptionValue.php";
@@ -225,15 +225,24 @@ class CRM_Core_OptionValue {
             foreach (array_keys( $option ) as $id ) {
                 $optionName = $option[$id];
             }
-            
-            $nameTitle = array('gender'            => array('name' => 'gender',
-                                                            'title'=> 'Gender'),
-                               'individual_prefix' => array('name' => 'individual_prefix',
+
+
+            if($mode == 'contribute') {
+                $nameTitle = array('payment_instrument' => array('name' =>'payment_instrument',
+                                                                 'title'=> 'Payment Instrument')
+                                   );
+            } else {
+                $nameTitle = array('gender'            => array('name' => 'gender',
+                                                                'title'=> 'Gender'),
+                                   'individual_prefix' => array('name' => 'individual_prefix',
                                                             'title'=> 'Individual Prefix'),
-                               'individual_suffix' => array('name' => 'individual_suffix',
-                                                            'title'=> 'Individual Suffix')
-                               );
-            
+                                   'individual_suffix' => array('name' => 'individual_suffix',
+                                                                'title'=> 'Individual Suffix')
+                                   );
+            }
+
+           
+           
             foreach ( $nameTitle as $name => $attribs ) {
                 self::$_fields[$name] = $optionName;
                 list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  

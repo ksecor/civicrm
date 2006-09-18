@@ -414,9 +414,10 @@ abstract class CRM_Contribute_Import_Parser {
      */
     function setActiveFields( $fieldKeys ) {
         $this->_activeFieldCount = count( $fieldKeys );
+        require_once 'CRM/Contribute/Import/Field.php';
         foreach ( $fieldKeys as $key ) {
             if ( empty( $this->_fields[$key] ) ) {
-                $this->_activeFields[] =& new CRM_Contribution_Import_Field( '', ts( '- do not import -' ) );
+                $this->_activeFields[] =& new CRM_Contribute_Import_Field( '', ts( '- do not import -' ) );
             } else {
                 $this->_activeFields[] = clone( $this->_fields[$key] );
             }
