@@ -44,13 +44,28 @@ class CRM_Quest_BAO_Query
     static function initialize( ) 
     {
         if ( ! self::$_terms ) {
-            self::$_terms = array( 'quest_score_SAT'  => 'SAT Score',
-                                   'quest_score_ACT'  => 'ACT Score',
-                                   'quest_score_PLAN' => 'PLAN Score',
-                                   'quest_household_income_total' => 'Total Household Income' );
-            self::$_ids   = array( 'quest_college_interest' => 'College Interest', 
-                                   'quest_ethnicity' => 'Ethnicity' 
-                                   );
+            
+            self::$_ids = array(
+                                'quest_ethnicity'            => 'Ethnicity',
+                                'quest_highest_school_level' => 'Parent Graduation College',
+                                'quest_class_rank_percent'   => 'Class Rank Percentage',
+                                'quest_fed_lunch'            => 'Federal Lunch', 
+                                'quest_cmr_disposition'      => 'Reader Disposition' 
+                                );
+            self::$_terms = array(
+                                  'quest_gpa_weighted_calculation'   => 'GPA Weighted Calculation',
+                                  'quest_gpa_unweighted_calculation' => 'GPA UnWeighted Calculation',
+                                  'quest_class_rank'                 => 'Class Rank',
+                                  'quest_SAT_Composite'              => 'SAT Composite',
+                                  'quest_SAT_Critical_Reading'       => 'SAT Critical Reading',
+                                  'quest_SAT_Math'                   => 'SAT Math',
+                                  'quest_ACT_Composite'              => 'ACT Composite',
+                                  'quest_Income_Total'               => 'Income Total',
+                                  'quest_financial_need_index'       => 'Financial Need Index',
+                                  'quest_academic_performance_index' => 'Academic Performance Index',
+                                  'quest_household_member_count'     => 'Household Member Count',
+                                  'quest_class_num_of_students'      => 'Class Num Of Students'                                  
+                                  );
         }
     }
 
@@ -105,65 +120,160 @@ class CRM_Quest_BAO_Query
         }
     }
 
-    static function whereClauseSingle( &$values, &$query ) {
-
+    static function whereClauseSingle( &$values, &$query ) {        
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         switch ( $name ) {
 
-        case 'quest_score_SAT':
-        case 'quest_score_SAT_low':
-        case 'quest_score_SAT_high':
+        case 'quest_gpa_weighted_calculation':
+        case 'quest_gpa_weighted_calculation_low':
+        case 'quest_gpa_weighted_calculation_high':
             $query->numberRangeBuilder( $values,
-                                        'quest_student_summary', 'quest_score_SAT',
-                                        'SAT_composite', ts( 'SAT Score' ) );
+                                        'quest_student_summary', 'quest_gpa_weighted_calculation',
+                                        'gpa_weighted_calc', ts( 'GPA Weighted Calculation' ) );
+            return;
+            
+        case 'quest_gpa_unweighted_calculation':
+        case 'quest_gpa_unweighted_calculation_low':
+        case 'quest_gpa_unweighted_calculation_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student_summary', 'quest_gpa_unweighted_calculation',
+                                        'gpa_unweighted_calc', ts( 'GPA Unweighted Calculation' ) );
             return;
 
-        case 'quest_score_ACT':
-        case 'quest_score_ACT_low':
-        case 'quest_score_ACT_high':
+        case 'quest_class_rank':
+        case 'quest_class_rank_low':
+        case 'quest_class_rank_high':
             $query->numberRangeBuilder( $values,
-                                        'quest_student_summary', 'quest_score_ACT',
-                                        'ACT_composite', ts( 'ACT Score' ) );
+                                        'quest_student', 'quest_class_rank',
+                                        'class_rank', ts( 'Class Rank' ) );
+            return;
+            
+        case 'quest_SAT_Composite':
+        case 'quest_SAT_Composite_low':
+        case 'quest_SAT_Composite_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student_summary', 'quest_SAT_Composite',
+                                        'SAT_composite', ts( 'SAT Composite' ) );
+            return;
+            
+        case 'quest_SAT_Critical_Reading':
+        case 'quest_SAT_Critical_Reading_low':
+        case 'quest_SAT_Critical_Reading_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student_summary', 'quest_SAT_Critical_Reading',
+                                        'SAT_reading', ts( 'SAT Critical Reading' ) );
             return;
 
-        case 'quest_score_PLAN':
-        case 'quest_score_PLAN_low':
-        case 'quest_score_PLAN_high':
+        case 'quest_SAT_Math':
+        case 'quest_SAT_Math_low':
+        case 'quest_SAT_Math_high':
             $query->numberRangeBuilder( $values,
-                                        'quest_student_summary', 'quest_score_PLAN', 
-                                        'PLAN_composite', ts( 'PLAN Score' ) );
+                                        'quest_student_summary', 'quest_SAT_Math',
+                                        'SAT_math', ts( 'SAT Math' ) );
             return;
 
-        case 'quest_household_income_total':
-        case 'quest_household_income_total_low':
-        case 'quest_household_income_total_high':
+        case 'quest_ACT_Composite':
+        case 'quest_ACT_Composite_low':
+        case 'quest_ACT_Composite_high':
             $query->numberRangeBuilder( $values,
-                                        'quest_student_summary', 'quest_household_income_total',
-                                        'household_income_total', ts( 'Total Household Income' ) );
+                                        'quest_student_summary', 'quest_ACT_Composite',
+                                        'ACT_composite', ts( 'ACT Composite' ) );
+            return;
+            
+        case 'quest_Income_Total':
+        case 'quest_Income_Total_low':
+        case 'quest_Income_Total_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student_summary', 'quest_Income_Total',
+                                        'household_income_total', ts( 'Income Total' ) );
+            return;
+            
+        case 'quest_financial_need_index':
+        case 'quest_financial_need_index_low':
+        case 'quest_financial_need_index_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student_summary', 'quest_financial_need_index',
+                                        'financial_need_index', ts( 'Financial Need Index' ) );
+           return; 
+            
+        case 'quest_academic_performance_index':
+        case 'quest_academic_performance_index_low':
+        case 'quest_academic_performance_index_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student_summary', 'quest_academic_performance_index',
+                                        'academic_index', ts( 'Academic Performance Index' ) );
             return;
 
-        case 'quest_college_interest':
-            require_once "CRM/Core/OptionGroup.php";
-            $optionGroups = array( );
-            $optionGroups =  CRM_Core_OptionGroup::values( substr( $name, 6) ); 
-            $query->_where[$grouping][] = "quest_student.college_interest LIKE '{$value}'";
-            $query->_qill[$grouping ][] = ts( 'College interest %1 %2', array( 1 => $op, 2 => $optionGroups[$value] ) );
-            $query->_tables['quest_student'] = 1;
-            $query->_whereTables['quest_student'] = 1;
+        case 'quest_household_member_count':
+        case 'quest_household_member_count_low':
+        case 'quest_household_member_count_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student_summary', 'quest_household_member_count',
+                                        'household_member_count', ts( 'Household Member Count' ) );
             return;
+
+        case 'quest_class_num_of_students':
+        case 'quest_class_num_of_students_low':
+        case 'quest_class_num_of_students_high':
+            $query->numberRangeBuilder( $values,
+                                        'quest_student', 'quest_class_num_of_students',
+                                        'class_num_students', ts( 'Class Num Students' ) );
+            return; 
 
         case 'quest_ethnicity' :
             require_once "CRM/Core/OptionGroup.php";
             $optionGroups = array( );
             $optionGroups =  CRM_Core_OptionGroup::values( substr( $name, 6) ); 
-            $query->_where[$grouping][] = "quest_student. ethnicity_id_1 LIKE '{$value}'";
+            $query->_where[$grouping][] = "quest_student.ethnicity_id_1 LIKE '{$value}'";
             $query->_qill[$grouping ][] = ts( 'Ethnicity %1 %2', array( 1 => $op, 2 => $optionGroups[$value] ) );
             $query->_tables['quest_student'] = 1;
             $query->_whereTables['quest_student'] = 1;
             return;
+
+        case 'quest_highest_school_level':
+            require_once "CRM/Core/OptionGroup.php";
+            $optionGroups = array( );
+            $optionGroups =  CRM_Core_OptionGroup::values( substr( $name, 6) ); 
+            $query->_where[$grouping][] = "quest_student.parent_grad_college_id LIKE '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Parent Graduation College %1 %2', array( 1 => $op, 2 => $optionGroups[$value] ) );
+            $query->_tables['quest_student'] = 1;
+            $query->_whereTables['quest_student'] = 1;
+            return;
+           
+        case 'quest_class_rank_percent':
+            require_once "CRM/Core/OptionGroup.php";
+            $optionGroups = array( );
+            $optionGroups =  CRM_Core_OptionGroup::values( substr( $name, 6) ); 
+            $query->_where[$grouping][] = "quest_student.class_rank_percent_id LIKE '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Class Rank Percentage %1 %2', array( 1 => $op, 2 => $optionGroups[$value] ) );
+            $query->_tables['quest_student'] = 1;
+            $query->_whereTables['quest_student'] = 1;
+            return;
+
+        case 'quest_fed_lunch':
+            require_once "CRM/Core/OptionGroup.php";
+            $optionGroups = array( );
+            $optionGroups =  CRM_Core_OptionGroup::values( substr( $name, 6) ); 
+            $query->_where[$grouping][] = "quest_student.fed_lunch_id LIKE '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Federal Lunch %1 %2', array( 1 => $op, 2 => $optionGroups[$value] ) );
+            $query->_tables['quest_student'] = 1;
+            $query->_whereTables['quest_student'] = 1;
+            return;
+        
+
+        case 'quest_cmr_disposition':
+            require_once "CRM/Core/OptionGroup.php";
+            $optionGroups = array( );
+            $optionGroups =  CRM_Core_OptionGroup::values( substr( $name, 6) ); 
+            $query->_where[$grouping][] = "quest_student_summary.cmr_disposition_id LIKE '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Reader Disposition %1 %2', array( 1 => $op, 2 => $optionGroups[$value] ) );
+            $query->_tables['quest_student_summary'] = 1;
+            $query->_whereTables['quest_student_summary'] = 1;
+            return;
         }
     }
+
     
     static function from( $name, $mode, $side ) 
     {
