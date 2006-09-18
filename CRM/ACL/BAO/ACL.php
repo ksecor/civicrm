@@ -34,10 +34,12 @@
  *
  */
 
+require_once 'CRM/ACL/DAO/ACL.php';
+
 /**
  *  Access Control List
  */
-class CRM_Core_BAO_ACL extends CRM_Core_DAO_ACL {
+class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
 
     /**
      * Construct a WHERE clause to handle permissions to $object_*

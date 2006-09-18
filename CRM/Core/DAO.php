@@ -621,6 +621,8 @@ class CRM_Core_DAO extends DB_DataObject {
     }
 
     static function composeQuery( $query, &$params, $abort = true ) {
+        require_once 'CRM/Utils/Type.php';
+
         $tr = array( );
         foreach ( $params as $key => $item ) {
             if ( is_numeric( $key ) ) {

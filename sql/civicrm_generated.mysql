@@ -37,16 +37,6 @@ UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_acl` ENABLE KEYS */;
 
 --
--- Dumping data for table `civicrm_acl_group`
---
-
-
-/*!40000 ALTER TABLE `civicrm_acl_group` DISABLE KEYS */;
-LOCK TABLES `civicrm_acl_group` WRITE;
-UNLOCK TABLES;
-/*!40000 ALTER TABLE `civicrm_acl_group` ENABLE KEYS */;
-
---
 -- Dumping data for table `civicrm_acl_group_join`
 --
 

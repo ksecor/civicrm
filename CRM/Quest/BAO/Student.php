@@ -243,8 +243,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                                            'groupName' => 'college_type' ),
                         'college_interest'       => array( 'newName' => 'college_interest_display', 
                                                            'groupName' => 'college_interest' ),
-                        'gpa_id'                => array( 'newName' => 'gpa', 
-                                                          'groupName' => 'gpa' ),
+                        'gpa_weighted_id'        => array( 'newName' => 'gpa_weighted', 
+                                                           'groupName' => 'gpa_weighted' ),
+                        'gpa_unweighted_id'      => array( 'newName' => 'gpa_unweighted', 
+                                                           'groupName' => 'gpa_unweighted' ),
                         'ethnicity_id_1'        => array( 'newName' => 'ethnicity_1', 
                                                           'groupName' => 'ethnicity' ),
                         'ethnicity_id_2'        => array( 'newName' => 'ethnicity_2', 
@@ -270,6 +272,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         $details['Student']    = array( );
         foreach ( $names as $key => $value ) {
+            $details['Student'][$key]              = $studentDetails[$key];
             $details['Student'][$value['newName']] = $studentDetails[$value['newName']];
         }
 
@@ -381,6 +384,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 $details[$prefix][$prop] = $defaults[$prop];
             }
 
+            foreach ( $names as $name => $dontCare ) {
+                $details["{$prefix}_$count"][$name] = $defaults[$name];
+            }
+
             for ( $j = 1; $j <= 2; $j++ ) {
                 $personDAO = & new CRM_Quest_DAO_Person();
                 $string = "person_{$j}_id";
@@ -441,6 +448,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             foreach ( $properties as $key ) {
                 $details["{$prefix}_$count"][$key] = $personDetails[$key];
             }
+            
+            foreach ( $names as $name => $dontCare ) {
+                $details["{$prefix}_$count"][$name] = $personDetails[$name];
+            }
 
             if ( $details["{$prefix}_$count"]['is_deceased'] ) {
                 $details["{$prefix}_$count"]['deceased_yes'] = 'x';
@@ -470,7 +481,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Quest/DAO/Extracurricular.php';
 
         $dao =& new CRM_Quest_DAO_Extracurricular( );
-        $dao->contact_id = $contactID;
+        $dao->contact_id = $id;
         $dao->owner      = "Extracurricular";    
         $dao->find() ;
         $count = 0;
@@ -550,11 +561,12 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
             for ( $i = 1; $i <= 3; $i++ ) {
                 if ( ! empty( $incomeDetails["amount_$i"] ) ) {
-                    $details["Income_$count"]['first_name'] = $dao->first_name;
-                    $details["Income_$count"]['last_name']  = $dao->last_name;
-                    $details["Income_$count"]['job']        = $incomeDetails["job_$i"];
-                    $details["Income_$count"]['amount']     = $incomeDetails["amount_$i"];
-                    $details["Income_$count"]['source']     = $incomeDetails["source_$i"];
+                    $details["Income_$count"]['first_name']      = $dao->first_name;
+                    $details["Income_$count"]['last_name']       = $dao->last_name;
+                    $details["Income_$count"]['job']             = $incomeDetails["job_$i"];
+                    $details["Income_$count"]['amount']          = $incomeDetails["amount_$i"];
+                    $details["Income_$count"]['source']          = $incomeDetails["source_$i"];
+                    $details["Income_$count"]["source_{$i}_$id"] = $incomeDetails["source_$i"];
                     $count++;
                 }
             }

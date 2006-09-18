@@ -13,7 +13,6 @@
 <xi:include href="CustomOption.xml"     parse="xml" />
 <xi:include href="CustomValue.xml"      parse="xml" />
 <xi:include href="Domain.xml"           parse="xml" />
-<xi:include href="ACLGroup.xml"         parse="xml" />
 <xi:include href="ACLGroupJoin.xml"     parse="xml" />
 <xi:include href="Email.xml"            parse="xml" />
 <xi:include href="EmailHistory.xml"     parse="xml" />
