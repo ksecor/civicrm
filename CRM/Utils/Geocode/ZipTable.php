@@ -71,9 +71,9 @@ class CRM_Utils_Geocode_ZipTable {
             return false;
         }
         
-        $query = 'SELECT latitude, longitude FROM zipcodes WHERE zip = ' .
-            CRM_Utils_Type::escape( $postalCode, 'String' );
-        $dao =& CRM_Core_DAO::executeQuery( $query );
+        $query = 'SELECT latitude, longitude FROM zipcodes WHERE zip = %1';
+        $params = array( 1 => array( $postalCode, 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
         if ( $dao->fetch( ) ) {
             $values['geo_code_1'] = $dao->latitude ;
