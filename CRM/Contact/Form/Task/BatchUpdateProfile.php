@@ -136,7 +136,6 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
         
         $this->assign('sortName', $sortName);
 
-        //CRM_Core_Error::debug('def', $defaults);
         return $defaults;
     }
 
@@ -150,17 +149,18 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
     public function postProcess() 
     {
         $params = $this->exportValues( );
-        //CRM_Core_Error::debug('q', $params);
-
+  
         if ( CRM_Utils_Array::value( '_qf_BatchUpdateProfile_refresh', $params ) ) {
             $this->set( 'ufGroupId', $params['uf_group_id'] );
             return;
         }
+        
+        $ufGroupId = $this->get( 'ufGroupId' );
 
+        foreach($params['field'] as $key => $value) {
+            CRM_Contact_BAO_Contact::createProfileContact($value, $this->_fields, $key, null, $ufGroupId );
+        }
         
     }//end of function
-
-
 }
-
 ?>

@@ -1820,6 +1820,7 @@ WHERE civicrm_contact.id IN $idString ";
 
         $data = array( );
         if ($ufGroupId) {
+            require_once "CRM/Core/BAO/UFField.php";
             $data['contact_type'] = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
         } else {
             $data['contact_type'] = 'Individual';

@@ -96,10 +96,6 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     protected $_addToGroupID;
     
-    protected $_countryPresent;
-
-    protected $_studentFieldPresent;
-
     /** 
      * pre processing work done here. 
      * 
@@ -213,16 +209,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
         
-        if (! $this->_countryPresent) {
-            foreach ($this->_fields as $name => $field ) {
-                $config =& CRM_Core_Config::singleton();
-                if ( $config->defaultContactCountry && (substr($field['name'],0,7) === 'country') ) {
-                    $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                    $defaultID = array_search($config->defaultContactCountry, $countryIsoCodes); 
-                    $defaults[$name] = $defaultID;
-                }
-            }
-        }
         return $defaults;
     }
 
@@ -580,7 +566,8 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
-        
+        CRM_Core_Error::debug('p', $params);
+        exit();
         //for custom data of type file
         if ( !empty($_FILES) ) {
             foreach ( $_FILES as $key => $value) {
