@@ -1,5 +1,12 @@
 {* Quest College Match: Essay section - Short Answers *}
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr>
+  <td>
+    <B>Do you questions about reusing your College Prep Scholarship essay?</B> <A HREF="http://www.questbridge.org/students/essays_faq.html" TARGET="_blank">Read more at our FAQs</A>
+  </td>
+</tr>
+</table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>

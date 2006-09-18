@@ -74,7 +74,8 @@
             <br />
             <div class="help-box">
               <strong>Need Help?</strong><br />
-              <a href="mailto:questions@questbridge.org">Email us</a> with your<br />questions
+              <A HREF="http://www.questbridge.org/students/faqs.html" TARGET="_blank">Read more at our FAQs</A><br /><br />
+              If you don't find an answer in<br />the FAQs, <a href="mailto:techsupport@questbridge.org">email us</a> with your<br />questions
             </div>
 
             <div id="application-status">
