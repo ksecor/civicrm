@@ -1808,6 +1808,7 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function activityType( &$values ) {
+        $this->_useDistinct = true;
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         $name = trim( $value );
