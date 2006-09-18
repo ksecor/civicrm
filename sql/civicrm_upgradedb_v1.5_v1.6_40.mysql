@@ -1,0 +1,8 @@
+-- /*******************************************************
+-- *
+-- * add the Netherlands state of Limburg
+-- *
+-- *******************************************************/
+
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5176, 1152, "LI", "Limburg");
+
