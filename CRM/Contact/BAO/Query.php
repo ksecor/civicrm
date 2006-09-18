@@ -1424,7 +1424,7 @@ class CRM_Contact_BAO_Query {
                 continue;
                 
             case 'civicrm_relationship':
-                if( self::$_relType == 'a') {
+                if( self::$_relType == 'b') {
                     $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = contact_a.id )";
                     $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_relationship.contact_id_a = contact_b.id )";
                 } else {

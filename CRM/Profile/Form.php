@@ -274,6 +274,9 @@ class CRM_Profile_Form extends CRM_Core_Form
         require_once "CRM/Contribute/PseudoConstant.php";
 
         $search = ( $this->_mode == self::MODE_SEARCH ) ? true : false;
+        
+        $addCaptcha = array();
+
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             // make sure that there is enough permission to expose this field
@@ -343,19 +346,33 @@ class CRM_Profile_Form extends CRM_Core_Form
                 $hBlocks[] = "'id_". $field['group_id'] . "_show'" ; 
                 $sBlocks[] = "'id_". $field['group_id'] ."'";   
             }
-        }
 
+            //build array for captcha
+            if ( $field['add_captcha'] ) {
+                $addCaptcha[$field['group_id']] = $field['add_captcha'];
+            }
+        }
+        
+        $setCaptcha = false;
         if ( $this->_mode != self::MODE_SEARCH ) {
-            $dao = new CRM_Core_DAO_UFGroup();
-            $dao->id = $this->_gid;
-            $dao->find(true);
-            if ( $dao->add_captcha ) {
+            if (!empty($addCaptcha)) {
+                $setCaptcha = true;
+            } else if ($this->_gid ) {
+                $dao = new CRM_Core_DAO_UFGroup();
+                $dao->id = $this->_gid;
+                $dao->find(true);
+                if ( $dao->add_captcha ) {
+                    $setCaptcha = true;
+                }
+            }
+            
+            if ($setCaptcha) {
                 require_once 'CRM/Utils/CAPTCHA.php';
                 $captcha =& CRM_Utils_CAPTCHA::singleton( );
                 $captcha->add( $this );
-                $this->assign( 'addCAPTCHA' , true );
+                $this->assign( "isCaptcha" , true );
             }
-            
+
             if ($addToGroupId) {
                 $this->add('hidden', "group[$addToGroupId]", 1 );
                 $this->assign( 'addToGroupId' , $addToGroupId );
