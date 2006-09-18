@@ -80,7 +80,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
     }
 
     static function retrieve( &$params, &$defaults, &$ids ) {
-       
         $dao = & new CRM_Quest_DAO_Student();
         $dao->contact_id = $params['contact_id'];
         if ( $dao->find( true ) ) {
@@ -653,29 +652,31 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $apCount = $satIICount = 0;
         while( $testDAO->fetch() ) {
             //test details
-            $testDetails = array();
-        
-            CRM_Core_DAO::storeValues( $testDAO, $testDetails );
+            if ( $testDAO->test_id != 350) {
+                $testDetails = array();
+                
+                CRM_Core_DAO::storeValues( $testDAO, $testDetails );
+                
+                if ( $testDetails['test_id'] == 291 ) {
+                    $names['subject_id']['groupName'] = 'satII_subject';
+                } else if ( $testDetails['test_id'] == 292 ) {
+                    $names['subject_id']['groupName'] = 'ap_subject';
+                }
+                
+                $testDetails['subject_id'] = $testDetails['subject'];
+                
+                CRM_Core_OptionGroup::lookupValues( $testDetails , $names, false);
 
-            if ( $testDetails['test_id'] == 291 ) {
-                $names['subject_id']['groupName'] = 'satII_subject';
-            } else if ( $testDetails['test_id'] == 292 ) {
-                $names['subject_id']['groupName'] = 'ap_subject';
+                $prefix = 'test_' . $testDetails['test'];
+                if ( $testDetails['test_id'] == 291 ) {
+                    $satIICount++;
+                    $prefix .= "_{$satIICount}";
+                } else if ( $testDetails['test_id'] == 292 ) {
+                    $apCount++;
+                    $prefix .= "_{$apCount}";
+                }
+                $details[$prefix] = $testDetails;
             }
-
-            $testDetails['subject_id'] = $testDetails['subject'];
-
-            CRM_Core_OptionGroup::lookupValues( $testDetails , $names, false);
-
-            $prefix = 'test_' . $testDetails['test'];
-            if ( $testDetails['test_id'] == 291 ) {
-                $satIICount++;
-                $prefix .= "_{$satIICount}";
-            } else if ( $testDetails['test_id'] == 292 ) {
-                $apCount++;
-                $prefix .= "_{$apCount}";
-            }
-            $details[$prefix] = $testDetails;
         }
     }
 
@@ -724,22 +725,25 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $dao->contact_id = $id;
         $dao->find();
         while( $dao->fetch() ){
-            $details["Partner Ranking"][$partners[$dao->partner_id]."_"."Ranking"] = $dao->ranking ;
-            $details["Partner Ranking"][$partners[$dao->partner_id]."_"."Forward"] = $dao->forward ;
+            $details["PartnerRanking"][$partners[$dao->partner_id]."_"."Ranking"] = $dao->ranking ;
+            $details["PartnerRanking"][$partners[$dao->partner_id]."_"."Forward"] = $dao->forward ;
         }
         
     }
 
     static function essay( $id, &$details ) {
         require_once 'CRM/Quest/DAO/Essay.php';
+        require_once 'CRM/Quest/DAO/EssayType.php';
         $essay = array();
         $essayDAO = & new CRM_Quest_DAO_Essay();
-        $essayDAO->contact_id = $id;
-
-        if ( $essayDAO->find(true) ) {
-            $details['Essay'] = $essayDAO->essay;
-        } else {
-            $details['Essay'] = null;
+        $essayDAO->target_contact_id = $id;
+        $essayDAO->source_contact_id = $id;
+        $essayDAO->find();
+        while ( $essayDAO->fetch() ) {
+            $essayType = & new CRM_Quest_DAO_EssayType();
+            $essayType->id = $essayDAO->essay_type_id;
+            $essayType->find(true);
+            $details['Essay'][$essayType->grouping][$essayType->name] = $essayDAO->essay;
         }
     }
 
