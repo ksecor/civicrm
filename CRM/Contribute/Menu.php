@@ -92,9 +92,9 @@ class CRM_Contribute_Menu {
                              ),
                       
                        array(
-                             'path'    => 'civicrm/admin/contribute/paymentInstrument',
+                             'path'    => 'civicrm/admin/options',
                              'title'   => ts('Payment Instruments'),
-                             'query'   => 'reset=1',
+                             'query'   => 'group=payment_instrument&reset=1',
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviContribute' ),
                              'type'    => CRM_Core_Menu::CALLBACK,
@@ -105,9 +105,9 @@ class CRM_Contribute_Menu {
                              ),
 
                        array(
-                             'path'    => 'civicrm/admin/contribute/acceptCreditCard',
+                             'path'    => 'civicrm/admin/options',
                              'title'   => ts('Accepted Credit Cards'),
-                             'query'   => 'reset=1',
+                             'query'   => 'group=accept_creditcard&reset=1',
                              'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviContribute' ),
                              'type'    => CRM_Core_Menu::CALLBACK,

@@ -37,7 +37,16 @@ dojo.addOnLoad(init);
               <p>{ts}Subject, location, date/time and description fields are provided for all activity types. You can add custom fields for tracking additional information about activities <a href="{crmURL p='civicrm/admin/custom/group' q='reset=1'}">here</a>.{/ts}</p>
               <p>{ts}Completed activities are searchable by type and/or activity date using 'Advanced Search'. Other applications may record activities for CiviCRM contacts using our APIs. For more information, refer to our Administrator Documentation.{/ts}</p>
             {else}
-    	      <p>{ts}The existing option choices for {$GName} group are listed below. You can add, edit or delete them from this screen.{/ts}</p>
+              {if $gName eq "payment_instrument"}
+	        <p>{ts}You may choose to record the Payment Instrument used for each Contribution. The common payment methods are installed by default and can not be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here.{/ts}</p>
+	      {else}	
+		{if $gName eq "accept_creditcard"}
+  	          <p>{ts}This page lists the credit card options that will be offered to contributors using your Online Contribution pages. You will need to verify which cards are accepted by your chosen Payment Processor and update these entries accordingly.{/ts}</p>
+                  <p>{ts}IMPORTANT: This page does NOT control credit card/payment method choices for sites and/or contributors using the PayPal Express service (e.g. where billing information is collected on the Payment Processor's website).{/ts}</p>
+		{else}
+	          <p>{ts}The existing option choices for {$GName} group are listed below. You can add, edit or delete them from this screen.{/ts}</p>
+		{/if}
+              {/if}
             {/if}
           {/if}  
         {/if}  
