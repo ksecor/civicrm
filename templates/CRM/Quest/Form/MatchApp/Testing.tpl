@@ -1,6 +1,13 @@
 {* Quest College Match Application: Testing Information section *}
 
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr>
+  <td>
+    <B>Questions about which tests to lists?</B> <A HREF="http://www.questbridge.org/students/schoo_information_faq.html" TARGET="_blank">Read more at our FAQs</A>
+  </td>
+</tr>
+</table>
 
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>

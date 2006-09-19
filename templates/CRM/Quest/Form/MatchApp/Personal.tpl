@@ -2,6 +2,14 @@
 {include file="CRM/Quest/Form/MatchApp/AppContainer.tpl" context="begin"}
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
+  <td>
+    <B>Not sure if you are eligible to apply to the QuestBridge College Match program?</B> <A HREF="http://www.questbridge.org/students/personal_info_faq.html" TARGET="_blank">Read more at our FAQs</A>
+  </td>
+</tr>
+</table>
+
+<table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
+<tr>
     <td colspan=2 id="category">{$wizard.currentStepRootTitle}{$wizard.currentStepTitle}</td>
 </tr>
 <tr>
