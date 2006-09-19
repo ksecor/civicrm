@@ -88,7 +88,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      * @access public
      * @static
      */
-    static function &add( &$params ) 
+    static function &add( &$params , $ids) 
     {
         $dataExists = self::dataExists( $params );
         if ( ! $dataExists ) {
@@ -98,9 +98,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         $note =& new CRM_Core_BAO_Note( );
         
         $params['modified_date']  = date("Ymd");
-        $params['entity_id']      = $params['entity_id'];
-        $params['entity_table']   = $params['entity_table'];
-
+       
         $note->copyValues( $params );
 
         $session =& CRM_Core_Session::singleton( );
@@ -112,6 +110,10 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
                 CRM_Utils_System::statusBounce(ts('We could not find your logged in user ID'));
             }
         }
+        if( $ids ["id"] )  {
+            $note->id = $ids ["id"];
+        }
+        
         $note->save( );
 
         return $note;
@@ -241,7 +243,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         $viewNote = array();
 
         $query = "
-SELECT   id FROM civicrm_note
+SELECT   id, note FROM civicrm_note
 WHERE    entity_table = 'civicrm_relationship' 
   AND    entity_id = %1
 ORDER BY modified_date desc";
@@ -249,13 +251,8 @@ ORDER BY modified_date desc";
 
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
-        $dao->fetch();
-
-        $note =& new CRM_Core_DAO_Note( );
-        $note->id = $dao->id;
-        $note->find(true);
-        foreach($note as $key => $val) {
-            $viewNote[$note->id][$key] = $val;
+        while ( $dao->fetch() ) {
+            $viewNote[$dao->id] = $dao->note;
         }
         return $viewNote;
     }

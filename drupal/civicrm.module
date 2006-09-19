@@ -291,7 +291,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
 {
 	if ( $type == 'load' ) {
         return;
-    }
+    }			
 
     // make sure the system is initialized
     civicrm_initialize( );
@@ -318,13 +318,15 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         return civicrm_view_data($user);
 
     case 'update':
-        return civicrm_form_data($edit, $user, $category, false);
+        return civicrm_form_data($edit, $user, $category, false, false );
 
     case 'form':
         $config =& CRM_Core_Config::singleton( );
         if ( empty( $_POST ) || $config->userFrameworkVersion < 4.7 ) {
-            return civicrm_form_data($edit, $user, $category, true);
-        }	
+            return civicrm_form_data($edit, $user, $category, true, false );
+        } else {
+            return civicrm_form_data($edit, $user, $category, true, true );
+        }
         return;
 
     case 'validate':
@@ -391,7 +393,7 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
     return $output;
 }
 
-function civicrm_form_data($edit, &$user, $category, $reset) 
+function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = false) 
 {
     require_once 'CRM/Core/BAO/UFMatch.php';
     require_once 'CRM/Core/BAO/UFGroup.php';
@@ -410,7 +412,7 @@ function civicrm_form_data($edit, &$user, $category, $reset)
     }
 
     // get all the data for this specific category
-    $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset );
+    $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset, null, $doNotProcess );
     
     if ( $html ) {
         $config =& CRM_Core_Config::singleton( );
