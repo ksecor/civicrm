@@ -28,7 +28,9 @@ class TS_CiviCRMTests
     #suite << TC_TestContactRelationship.suite
     #suite << TC_TestContactNotes.suite
     #suite << TC_TestContactTags.suite
-    suite << TC_TestContactContribution.suite
+    #suite << TC_TestContactContribution.suite
+    #suite << TC_TestContactMembership.suite
+    suite << TC_TestNewGroup.suite
     return suite
   end
 end
