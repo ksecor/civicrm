@@ -164,9 +164,27 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
 
         require_once 'CRM/Utils/Token.php';
 
-        if (!file_exists($files['textFile']['tmp_name'])) {
-            $errors['textFile'] = ts('Please provide at least the text message.');
+        if (!file_exists($files['textFile']['tmp_name']) and !file_exists($files['htmlFile']['tmp_name'])) {
+            $errors['textFile'] = ts('Please provide either the text or HTML message.');
         }
+
+        require_once 'packages/phphtmlparser/src/html2text.inc';
+
+        // if text file is missing, use HTML to Text to get it from the HTML file
+        if (!file_exists($files['textFile']['tmp_name'])) {
+            $htmlTemplate = file_get_contents($files['htmlFile']['tmp_name']);
+            $converter = new Html2Text($htmlTemplate, 72);
+            $textTemplate = $converter->convert();
+            file_put_contents($files['htmlFile']['tmp_name'] . '.txt', $textTemplate);
+            $files['textFile'] = array(
+                'name'     => $files['htmlFile']['name'] . '.txt',
+                'type'     => 'text/plain',
+                'tmp_name' => $files['htmlFile']['tmp_name'] . '.txt',
+                'error'    => 0,
+                'size'     => strlen($textTemplate)
+            );
+        }
+
         foreach (array('textFile', 'htmlFile') as $file) {
             if (!file_exists($files[$file]['tmp_name'])) {
                 continue;
