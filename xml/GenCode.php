@@ -64,6 +64,7 @@ if ( isset( $argv[1] ) && ! empty( $argv[1] ) ) {
 
 $sqlCodePath = '../sql/';
 $phpCodePath = '../';
+$tplCodePath = '../templates/';
 
 echo "Parsing input file $file\n";
 $dbXML =& parseInput( $file );
@@ -374,6 +375,10 @@ foreach ( array_keys( $tables ) as $name ) {
     
     $beautifier->save( );
 }
+
+// add the Subversion revision to templates
+$svnversion = `svnversion .`;
+file_put_contents("$tplCodePath/CRM/common/version.tpl", $svnversion);
 
 function &parseInput( $file ) {
     $dom = DomDocument::load( $file );
