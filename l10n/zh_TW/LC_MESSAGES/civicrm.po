@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-10 18:45+0200\n"
+"POT-Creation-Date: 2006-09-19 10:47+0200\n"
 "PO-Revision-Date: 2005-09-06 12:47+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1232,10 +1232,6 @@ msgstr ""
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Contact/Page/View.php
 msgid "We could not find a contact id."
-msgstr ""
-
-#: CRM/Contact/Page/View/DashBoard.php CRM/Contact/Page/View.php
-msgid "You do not have the necessary permission to view this contact."
 msgstr ""
 
 #: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
@@ -4406,6 +4402,10 @@ msgstr ""
 
 #: CRM/Contact/Page/View/Phonecall.php
 msgid "Contact Calls"
+msgstr ""
+
+#: CRM/Contact/Page/View.php
+msgid "You do not have the necessary permission to view this contact."
 msgstr ""
 
 #: CRM/Contact/Page/View/Relationship.php
@@ -10236,20 +10236,27 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
-"Use the Search Criteria form to find contacts by name, type of contact, "
-"group membership, tags, etc. You can then view or edit contact details, "
-"print a contact list, assign tags, export contact data to a spreadsheet, etc."
+"Use <strong>%</strong> wildcard(s) for partial matches (other than contact "
+"name/email). EXAMPLE: Enter \"Volunteer%\" as your Activity Type to match "
+"any activity whose type is \"Volunteer\" + any other words (e.g. Volunteer "
+"for Open House)."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
-"When multiple boxes are checked for Contact Types, Groups, Tags and Location "
+"If multiple boxes are checked for Contact Types, Groups, Tags and Location "
 "Types, the selections are combined as <strong>OR</strong> criteria (e.g. "
-"checking &quot;Group A&quot; and &quot;Group B&quot; will find contacts who "
-"are either in &quot;Group A&quot; OR &quot;Group B&quot;).\n"
-"               All other search fields are combined as <strong>AND</strong> "
-"criteria (e.g. selecting Tag is &quot;Major Donor&quot; AND Country is &quot;"
-"Mexico&quot; returns only those contacts who meet both criteria)."
+"checking \"Group A\" and \"Group B\" will find contacts who are either in "
+"\"Group A\" OR \"Group B\"). All other search fields are combined as "
+"<strong>AND</strong> criteria (e.g. selecting Tag is \"Major Donor\" AND "
+"Country is \"Mexico\" returns only those contacts who meet both criteria)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Intro.tpl
+msgid ""
+"Use the Search Criteria form to find contacts by name, type of contact, "
+"group membership, tags, etc. You can then view or edit contact details, "
+"print a contact list, assign tags, export contact data to a spreadsheet, etc."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
