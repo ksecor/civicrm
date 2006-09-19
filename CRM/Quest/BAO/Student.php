@@ -129,7 +129,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
      * @static 
      * @return void
      */
-    static function studentDetails( $id ,&$details ) {
+    static function studentDetails( $id ,&$details, $summary ) {
         
         require_once 'CRM/Quest/DAO/Student.php';
 
@@ -142,31 +142,37 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         self::studentSummary( $id, $details );
         
-        self::household( $id, $details );
+        if ( ! $summary ) {
+            self::household( $id, $details );
+        }
 
         self::guardian( $id, $details, true );
-
-        self::guardian( $id, $details, false );
-
-        self::income( $id, $details );
-
-        self::school( $id, $details );
-
+            
+        if ( ! $summary ) {
+            self::guardian( $id, $details, false );
+            
+            self::income( $id, $details );
+            
+            self::school( $id, $details );
+        }
+            
         self::test( $id, $details );
-
-        self::essay( $id, $details );
-
-        self::referral( $id, $details );
-        
-        self::partnerRelative( $id, $details );
-        
-        self::extracurricular ( $id, $details );
-        
-        self::workexperience( $id, $details );
-        
-        self::transcript ( $id, $details );
-
-        self::honor( $id, $details );
+            
+        if ( ! $summary ) {
+            self::essay( $id, $details );
+            
+            self::referral( $id, $details );
+            
+            self::partnerRelative( $id, $details );
+            
+            self::extracurricular ( $id, $details );
+            
+            self::workexperience( $id, $details );
+            
+            self::transcript ( $id, $details );
+            
+            self::honor( $id, $details );
+        }
 
         self::partnerRanking($id, &$details);
         
@@ -737,10 +743,11 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $dao->contact_id = $id;
         $dao->find();
         while( $dao->fetch() ){
-            $details["PartnerRanking"][$partners[$dao->partner_id]."_"."Ranking"] = $dao->ranking ;
-            $details["PartnerRanking"][$partners[$dao->partner_id]."_"."Forward"] = $dao->forward ;
+            if ( array_key_exists( $dao->partner_id, $partners ) ) {
+                $details["PartnerRanking"][$partners[$dao->partner_id]."_"."Ranking"] = $dao->ranking ;
+                $details["PartnerRanking"][$partners[$dao->partner_id]."_"."Forward"] = $dao->forward ;
+            }
         }
-        
     }
 
     static function essay( $id, &$details ) {
@@ -869,10 +876,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $honorDAO->delete();
     }
 
-    static function &xml( $id ) {
+    static function &xml( $id, $summary = false ) {
         $details = array( );
 
-        if ( self::studentDetails( $id, $details ) ) {
+        if ( self::studentDetails( $id, $details, $summary ) ) {
             $xml = "<StudentDetail>\n" . CRM_Utils_Array::xml( $details ) . "</StudentDetail>\n";
             return $xml;
         }

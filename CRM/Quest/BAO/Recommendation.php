@@ -323,10 +323,12 @@ SELECT cr.id as contact_id,
                 $recommenders[$dao->contact_id] = $dao->rc_type_id;
             }
             
+            $count = 1;
             if (!empty( $recommenders ) ) {
                 foreach ( $recommenders as $key => $value ) {
                     if ( $value == 11) {
-                        self::getTeachersDetails( $cid, $key , $details );
+                        self::getTeachersDetails( $cid, $key , $details, $count );
+                        $count++;
                     }else if ( $value == 12 ) {
                         self::getCounselorDetails( $cid, $key, $details);
                     }
@@ -339,7 +341,7 @@ SELECT cr.id as contact_id,
         return true;
     }
 
-    static function getTeachersDetails( $cid, $recommenderId, &$details ) {
+    static function getTeachersDetails( $cid, $recommenderId, &$details, $count ) {
         //Persoanal Information
         $teacherDetails = array();
         $query = 
@@ -357,11 +359,11 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
 
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $teacherDetails["PersoanalInfo"]["contact_id"]  = $dao->contact_id;
-                $teacherDetails["PersoanalInfo"]["first_name"]  = $dao->first_name;
-                $teacherDetails["PersoanalInfo"]["middle_name"] = $dao->middle_name;
-                $teacherDetails["PersoanalInfo"]["last_name"]   = $dao->last_name;
-                $teacherDetails["PersoanalInfo"]["phone"]   = $dao->phone;
+            $teacherDetails["PersonalInfo"]["contact_id"]  = $dao->contact_id;
+                $teacherDetails["PersonalInfo"]["first_name"]  = $dao->first_name;
+                $teacherDetails["PersonalInfo"]["middle_name"] = $dao->middle_name;
+                $teacherDetails["PersonalInfo"]["last_name"]   = $dao->last_name;
+                $teacherDetails["PersonalInfo"]["phone"]   = $dao->phone;
         }
 
         require_once 'CRM/Quest/DAO/StudentRanking.php';
@@ -429,10 +431,11 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
         //additional Info 
         $essays = CRM_Quest_BAO_Essay::getFields( "cm_teacher_additional" ,$recommenderId,$cid);
         CRM_Quest_BAO_Essay::setDefaults( $essays, $teacherDetails["AdditionalInfo"] );
-        $details["teacher"]['teacher_'.$recommenderId] = $teacherDetails;
+        $details["teacher_{$count}"] = $teacherDetails;
        
 
     }
+
     static function getCounselorDetails( $cid, $recommenderId, &$details ) {
         $counselorDetails = array();
         $query = 
@@ -450,11 +453,11 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
 
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-                $counselorDetails["PersoanalInfo"]["contact_id"]  = $dao->contact_id;
-                $counselorDetails["PersoanalInfo"]["first_name"]  = $dao->first_name;
-                $counselorDetails["PersoanalInfo"]["middle_name"] = $dao->middle_name;
-                $counselorDetails["PersoanalInfo"]["last_name"]   = $dao->last_name;
-                $counselorDetails["PersoanalInfo"]["phone"]   = $dao->phone;
+                $counselorDetails["PersonalInfo"]["contact_id"]  = $dao->contact_id;
+                $counselorDetails["PersonalInfo"]["first_name"]  = $dao->first_name;
+                $counselorDetails["PersonalInfo"]["middle_name"] = $dao->middle_name;
+                $counselorDetails["PersonalInfo"]["last_name"]   = $dao->last_name;
+                $counselorDetails["PersonalInfo"]["phone"]   = $dao->phone;
         }
 
 
@@ -528,19 +531,23 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
             CRM_Core_DAO::storeValues($dao,$counselorDetails["Evaluation"]);
         }
         
-        $details["counselor"]['counselor_'.$recommenderId] = $counselorDetails;
+        $details["counselor"] = $counselorDetails;
     }
     
     
     static function &xml( $id ) {
         $details = array( );
-        
+
+        $xml = array( );
         if ( self::getRecommendationDetails( $id, $details ) ) {
-            $xml = "<RecommendationDetails>\n" . CRM_Utils_Array::xml( $details ) . "</RecommendationDetails>\n";
-            return $xml;
+             foreach ( $details as $name => $value ) {
+                 if ( $value ) {
+                     $xml[$name] = "<{$name}>\n" . CRM_Utils_Array::xml( $value ) . "</{$name}>\n";
+                 }
+             }
         }
 
-        return null;
+        return $xml;
     }
 
 
