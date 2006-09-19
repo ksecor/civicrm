@@ -338,13 +338,13 @@ class CRM_Quest_BAO_Query
 
         if ( ! $viewLink ) {
             $viewLink = sprintf('<a href="%s">%s</a>',
-                                CRM_Utils_System::url( 'civicrm/quest/preapp',
+                                CRM_Utils_System::url( 'civicrm/quest/matchapp',
                                                        'reset=1&action=view&id=%%id%%' ),
-                                ts( 'View Preapp' ) );
+                                ts( 'View MatchApp' ) );
             $editLink = sprintf('<a href="%s">%s</a>',
-                                CRM_Utils_System::url( 'civicrm/quest/preapp',
+                                CRM_Utils_System::url( 'civicrm/quest/matchapp',
                                                        'reset=1&action=edit&id=%%id%%' ),
-                                ts( 'Edit Preapp' ) );
+                                ts( 'Edit MatchApp' ) );
         }
 
         if ( CRM_Core_Permission::check( 'view Quest Application' ) ) {
