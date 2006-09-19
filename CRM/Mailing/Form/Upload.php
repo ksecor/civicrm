@@ -168,23 +168,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             $errors['textFile'] = ts('Please provide either the text or HTML message.');
         }
 
-        require_once 'packages/html2text/class.html2text.inc';
-
-        // if text file is missing, use HTML to Text to get it from the HTML file
-        if (!file_exists($files['textFile']['tmp_name'])) {
-            $htmlTemplate = file_get_contents($files['htmlFile']['tmp_name']);
-            $converter = new html2text($htmlTemplate);
-            $textTemplate = $converter->get_text();
-            file_put_contents($files['htmlFile']['tmp_name'] . '.txt', $textTemplate);
-            $files['textFile'] = array(
-                'name'     => $files['htmlFile']['name'] . '.txt',
-                'type'     => 'text/plain',
-                'tmp_name' => $files['htmlFile']['tmp_name'] . '.txt',
-                'error'    => 0,
-                'size'     => strlen($textTemplate)
-            );
-        }
-
         foreach (array('textFile', 'htmlFile') as $file) {
             if (!file_exists($files[$file]['tmp_name'])) {
                 continue;

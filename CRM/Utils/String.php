@@ -36,7 +36,7 @@ require_once 'HTML/QuickForm/Rule/Email.php';
 class CRM_Utils_String {
   
     const
-    COMMA          = ","   ,
+        COMMA          = ","   ,
         SEMICOLON      = ";"   ,
         SPACE          = " "   ,
         TAB            = "\t"  ,
@@ -266,6 +266,20 @@ class CRM_Utils_String {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Convert a HTML string into a text one using html2text
+     *
+     * @param string $html  the tring to be converted
+     * @return string       the converted string
+     * @access public
+     * @static
+     */
+    static function htmlToText($html) {
+        require_once 'packages/html2text/class.html2text.inc';
+        $converter = new html2text($html);
+        return $converter->get_text();
     }
 
 }
