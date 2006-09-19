@@ -856,7 +856,12 @@ class CRM_Contact_BAO_Query {
         case 'do_not_trade':
         case 'is_opt_out':
             $this->privacy( $values );
-
+            return;
+            
+        case 'preferred_communication_method':
+            $this->preferredCommunication( $values );
+            return;
+            
         case 'relation_type_id':
             $this->relationship( $values );
             return;
@@ -1969,6 +1974,34 @@ class CRM_Contact_BAO_Query {
             $title = $name;
         }
         $this->_qill[$grouping][]  = "$title $op $value";
+    }
+
+    function preferredCommunication( &$values ) {
+        require_once 'CRM/Core/BAO/OptionValue.php';
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        
+        foreach ( $value as $method => $val ) {
+            $params['label'] = $method;
+            $optionValue = CRM_Core_BAO_OptionValue::retrieve( $params, $defaults ) ;
+            if ($optionValue->value) {
+                $like = $like ? ($like . '%' . $optionValue->value) : $optionValue->value;
+            }
+            $showValue = $showValue ? ($showValue . ', ' . $method) : ($method);
+        }
+        if ( $wildcard ) {
+            $value = "%$like%"; 
+            $op    = 'LIKE';
+        }
+
+        $field = CRM_Utils_Array::value( $name, $this->_fields );
+        if ( $field ) {
+            $title = $field['title'];
+        } else {
+            $title = $name;
+        }
+
+        $this->_where[$grouping][] = "contact_a.{$name} $op '$value'";
+        $this->_qill[$grouping][]  = ts( "%1 %2 %3", array( 1 => $title, 2 => $op, 3 => $showValue ) );
     }
 
     /**

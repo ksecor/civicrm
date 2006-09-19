@@ -152,7 +152,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                     $value[$item] = 1;
                 }
             }
-            
+
             $customField = CRM_Utils_Array::value( $name, $this->_customFields );
             if ( ! empty( $_POST ) && ! CRM_Utils_Array::value( $name, $_POST ) ) {
                 if ( $customField ) {
@@ -166,11 +166,13 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
 //                         $value = null; 
 //                         $this->set( $name, $value ); 
                     }
-                } else if ( $name == 'group' || $name == 'tag' ) {
+                } else if ( $name == 'group' || $name == 'tag' || $name == 'preferred_communication_method' || 
+                            $name == 'do_not_phone' || $name == 'do_not_email' || $name == 'do_not_mail' || $name == 'do_not_trade' ) {
                     $value = null;  
                     $this->set( $name, $value );  
                 }
             }
+
             if ( isset( $value ) && $value != null ) {
                 $this->_fields[$name]['value'] = $value;
                 $this->_params[$name] = $value;
