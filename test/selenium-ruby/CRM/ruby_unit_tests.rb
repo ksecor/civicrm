@@ -30,7 +30,10 @@ class TS_CiviCRMTests
     #suite << TC_TestContactTags.suite
     #suite << TC_TestContactContribution.suite
     #suite << TC_TestContactMembership.suite
-    suite << TC_TestNewGroup.suite
+    #suite << TC_TestNewGroup.suite
+    #suite << TC_TestNewHousehold.suite
+    suite << TC_TestNewOrganization.suite
+    #suite << TC_TestImportContacts.suite
     return suite
   end
 end
