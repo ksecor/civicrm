@@ -507,7 +507,7 @@ class CRM_GCD {
 
     public function getContactType($id)
     {
-        if(in_array($id, $this->individual))
+        if (in_array($id, $this->individual))
             return 'Individual';
         if(in_array($id, $this->household))
             return 'Household';
@@ -550,9 +550,9 @@ class CRM_GCD {
         // get the domain and contact id arrays
         $this->domain = range(1, self::NUM_DOMAIN);
         shuffle($this->domain);
-        $this->contact = range(2, self::NUM_CONTACT + 1);
+        $this->contact = range(2, (self::NUM_CONTACT + 1) );
         shuffle($this->contact);
-
+                
         // get the individual, household  and organizaton contacts
         $offset = 0;
         $this->individual = array_slice($this->contact, $offset, $this->numIndividual);
@@ -560,7 +560,7 @@ class CRM_GCD {
         $this->household = array_slice($this->contact, $offset, $this->numHousehold);
         $offset += $this->numHousehold;
         $this->organization = array_slice($this->contact, $offset, $this->numOrganization);
-
+        
         // get the strict individual contacts (i.e individual contacts not belonging to any household)
         $this->strictIndividual = array_slice($this->individual, 0, $this->numStrictIndividual);
         
@@ -632,7 +632,7 @@ class CRM_GCD {
 
         for ($id=1; $id<=self::NUM_CONTACT; $id++) {
             $contact->domain_id = 1;
-            $contact->contact_type = $this->getContactType($id);
+            $contact->contact_type = $this->getContactType($id+1);
             $contact->do_not_phone = mt_rand(0, 1);
             $contact->do_not_email = mt_rand(0, 1);
             $contact->do_not_post  = mt_rand(0, 1);
