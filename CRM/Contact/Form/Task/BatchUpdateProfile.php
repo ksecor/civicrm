@@ -50,6 +50,12 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
     protected $_title;
 
     /**
+     * maximum contacts that should be allowed to update
+     *
+     */
+    protected $_maxContacts = 100;
+
+    /**
      * build all the data structures needed to build the form
      *
      * @return void
@@ -60,8 +66,24 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
          * initialize the task and row fields
          */
         parent::preProcess( );
-    }
+        
+        $validate = false;
+        //validations
+        if ( count($this->_contactIds) > $this->_maxContacts) {
+            CRM_Core_Session::setStatus("The maximum number of contacts you can select for Batch Update is {$this->_maxContacts}. You have selected ". count($this->_contactIds). ". Please select fewer contacts from your search results and try again." );
+            $validate = true;
+        }
+        
+        if (CRM_Contact_BAO_Contact::checkContactType($this->_contactIds)) {
+            CRM_Core_Session::setStatus("Batch update requires that all selected contacts be the same type (e.g. all Individuals OR all Organizations...). Please modify your selected contacts and try again.");
+            $validate = true;
+        }
 
+        if ($validate) { // than redirect
+            
+        }
+    }
+    
     /**
      * Build the form
      *

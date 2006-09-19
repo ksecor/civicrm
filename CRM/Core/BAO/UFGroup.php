@@ -1218,13 +1218,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * Function to build profile form
      *
-     * @params $form       object  form object
-     * @params $fieldName  string  name of the field
-     * @params $title      string  title of the field
-     * @params $required   boolean true if required else false
-     * @params $attributes array   field attributes
-     * @params $search     boolean true for search mode else false
-     * @params $contactId  int     contact id
+     * @params object  $form       form object
+     * @params string  $fieldName  name of the field
+     * @params string  $title      title of the field
+     * @params boolean $required   true if required else false
+     * @params array   $attributes field attributes
+     * @params boolean $search     true for search mode else false
+     * @params int     $contactId  contact id
      *
      * @return null
      * @static
@@ -1322,10 +1322,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
    /**
      * Function to set profile defaults
      *
-     * @params $contactId     int     contact id
-     * @params $fields        array   associative array of fields
-     * @params $defaults      array   defaults array
-     * @params $singleProfile boolean true for single profile else false(batch update)
+     * @params int     $contactId     contact id
+     * @params array   $fields        associative array of fields
+     * @params array   $defaults      defaults array
+     * @params boolean $singleProfile true for single profile else false(batch update)
      *
      * @return null
      * @static

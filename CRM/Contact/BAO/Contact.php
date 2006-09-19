@@ -2198,7 +2198,27 @@ WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'sort_name' );
     }
 
-
+    /**
+     * function check for mix contact ids(individual+household etc...)
+     *
+     * @param array $contactIds array of contact ids
+     *
+     * @return boolen true or false true if mix contact array else fale
+     *
+     * @access public
+     * @static
+     */
+    public static function checkContactType(&$contactIds)
+    {
+        foreach ($contactIds as $id) {
+            $contactType = self::getContactType($id);
+            $contacts[$contactType] += 1;
+        }
+        
+        if (count($contacts) > 1) {
+            return true;
+        }
+        return false;
+    }
 }
-
 ?>
