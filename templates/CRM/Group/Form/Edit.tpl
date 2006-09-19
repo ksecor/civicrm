@@ -25,9 +25,11 @@
     </dl>
 </fieldset>
 </div>
+{if $action neq 1}
 <div class="action-link">
     <a href="{$crmURL}">&raquo; {ts}Show Group Members{/ts}</a>
     {if $group.saved_search_id} 
         <br /><a href="{crmURL p="civicrm/contact/search/advanced" q="reset=1&force=1&ssID=`$group.saved_search_id`"}">&raquo; {ts}Edit Smart Group Criteria{/ts}</a>
     {/if}
 </div>
+{/if}
