@@ -259,7 +259,7 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         require_once "CRM/Contribute/PseudoConstant.php";
 
-        $search = ( $this->_mode == self::MODE_SEARCH ) ? true : false;
+        //$search = ( $this->_mode == self::MODE_SEARCH ) ? true : false;
         
         $addCaptcha = array();
 
@@ -279,9 +279,15 @@ class CRM_Profile_Form extends CRM_Core_Form
                 continue;
             }
             
-            $required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
+            //$required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
 
-            CRM_Core_BAO_UFGroup::buildProfile($this, $field['name'], $field['title'], $required, $field['attributes'], $search );
+            //CRM_Core_BAO_UFGroup::buildProfile($this,
+            //$field['name'], $field['title'], $required,
+            //$field['attributes'], $search, $field['rule'],
+            //$field['is_view'] );
+            
+            CRM_Core_BAO_UFGroup::buildProfile($this, $field, $this->_mode );
+            
             //for custom data
             if (substr($field['name'], 0, 6) === 'custom') {
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
@@ -306,22 +312,10 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
 
-            if ( in_array($field['name'], array('non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' )) ) {
-                $this->addRule($field['name'], ts('Please enter a valid amount.'), 'money');
-            }
-            
             if ($field['add_to_group_id']) {
                 $addToGroupId = $field['add_to_group_id'];
             }
             
-            if ( $field['rule'] ) {
-                if ($field['rule'] == 'email'  &&  $this->_mode == self::MODE_SEARCH) {
-                    continue;
-                } else {
-                    $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
-                }
-            }
-
             //build show/hide array for uf groups
             // dont do this if gid is set (i.e. only one group)
 

@@ -517,9 +517,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             return;
         }
 
-        //CRM_Core_Error::debug('s', $details);
-        //CRM_Core_Error::debug('s', $fields);
-        
         $config =& CRM_Core_Config::singleton( );
         
         require_once 'CRM/Core/PseudoConstant.php'; 
@@ -1219,25 +1216,31 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * Function to build profile form
      *
      * @params object  $form       form object
-     * @params string  $fieldName  name of the field
-     * @params string  $title      title of the field
-     * @params boolean $required   true if required else false
-     * @params array   $attributes field attributes
-     * @params boolean $search     true for search mode else false
+     * @params array   $field      array field properties
+     * @params int     $mode       profile mode
      * @params int     $contactId  contact id
      *
      * @return null
      * @static
      * @access public
      */
-    static function buildProfile( &$form, $fieldName, $title, $required = false, $attributes, $search, $contactId = null ) 
+    static function buildProfile( &$form, &$field, $mode, $contactId = null ) 
     {
+        $fieldName  = $field['name'];
+        $title      = $field['title'];
+        $attributes = $field['attributes'];
+        $rule       = $field['rule'];
+        $view       = $field['is_view'];
+
+        $required = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? false : $field['is_required'];
+        $search   = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? true : false;
+        
         if ($contactId) {
             $name = "field[$contactId][$fieldName]";
         } else {
             $name = $fieldName;
         }
-
+        
         //CRM_Core_Error::debug('d', $name);
         if ( substr($fieldName,0,14) === 'state_province' ) {
             $form->add('select', $name, $title,
@@ -1246,6 +1249,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
         } else if ( $fieldName === 'birth_date' ) {  
+            $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
+        } else if ( $fieldName === 'deceased_date' ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ( $fieldName === 'gender' ) {  
             $genderOptions = array( );   
@@ -1315,11 +1320,22 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
             }
         }
-        
+
+        //add the rules
+        if ( in_array($fieldName, array('non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' )) ) {
+            $form->addRule($name, ts('Please enter a valid amount.'), 'money');
+        }
+
+        if ( $rule ) {
+            if ($rule == 'email'  &&  $mode == CRM_Profile_Form::MODE_SEARCH) {
+                continue;
+            } else {
+                $form->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $title ) ), $rule );
+            }
+        }
     }
-
-
-   /**
+    
+    /**
      * Function to set profile defaults
      *
      * @params int     $contactId     contact id

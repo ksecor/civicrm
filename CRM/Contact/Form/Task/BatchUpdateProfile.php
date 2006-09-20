@@ -56,6 +56,12 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
     protected $_maxContacts = 100;
 
     /**
+     * maximum profile fields that will be displayed
+     *
+     */
+    protected $_maxFields = 8;
+
+    /**
      * build all the data structures needed to build the form
      *
      * @return void
@@ -83,7 +89,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
             
         }
     }
-    
+  
     /**
      * Build the form
      *
@@ -120,9 +126,13 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
             $this->assign( 'contactIds', $this->_contactIds );
             
             foreach ($this->_contactIds as $contactId) {
-                //$field['is_required'], currently ignoring required condition
+                $count = 0;
                 foreach ($this->_fields as $name => $field ) {
-                    CRM_Core_BAO_UFGroup::buildProfile($this, $field['name'], $field['title'], false, $field['attributes'], $search, $contactId );
+                    if ($count == $this->_maxFields) {
+                        continue;
+                    }
+                    CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $contactId );
+                    $count++;
                 }
             }
             
@@ -131,8 +141,6 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
 
         $this->addElement( 'submit', $this->getButtonName('refresh'), $bName, array( 'class' => 'form-submit' ) );
         $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );
-
-
     }
 
     /**
