@@ -99,9 +99,9 @@ class CRM_Contribute_Form_CreatePPD extends CRM_Contribute_Form
 
         $cert  = file_get_contents( $certName );
 
-        require_once 'Services/PayPal.php'; 
-        require_once 'Services/PayPal/Profile/Handler/File.php';                      
-        require_once 'Services/PayPal/Profile/API.php'; 
+        require_once 'PayPal.php'; 
+        require_once 'PayPal/Profile/Handler/File.php';                      
+        require_once 'PayPal/Profile/API.php'; 
 
         $handler =& ProfileHandler_File::getInstance( array( 
                                                             'path'    => $savePath,
@@ -132,7 +132,7 @@ class CRM_Contribute_Form_CreatePPD extends CRM_Contribute_Form
 
         $result = $profile->save();                  
  
-        if (Services_PayPal::isError($result)) {
+        if (PayPal::isError($result)) {
             CRM_Core_Error::statusBounce( "Could not create new profile: ".$result->getMessage() );
         } else {
             if ( $params['api_environment'] == 'live' ) {
