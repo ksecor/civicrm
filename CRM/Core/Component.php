@@ -76,7 +76,10 @@ class CRM_Core_Component {
                        'perm'    => array( 'edit Quest Application',
                                            'view Quest Application',
                                            'edit Quest Recommendation',
-                                           'view Quest Recommendation'),
+                                           'view Quest Recommendation',
+                                           'edit Quest Partner Supplement',
+                                           'view Quest Partner Supplement'
+                                           ),
                        'search'  => 1,
                        'metaTpl' => 'quest',
                        'formTpl' => 'quest',
