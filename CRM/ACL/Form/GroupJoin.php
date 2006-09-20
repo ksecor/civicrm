@@ -35,7 +35,7 @@ require_once 'CRM/Admin/Form.php';
  * $Id$
  *
  */
-class CRM_ACL_Form_ACL extends CRM_Admin_Form
+class CRM_ACL_Form_GroupJoin extends CRM_Admin_Form
 {
     /**
      * Function to build the form
@@ -51,19 +51,17 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
             return;
         }
 
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL' );
+        $attributes = CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_GroupJoin' );
+        $this->add('text', 'name', ts('Name'), $attributes['name'], true );
 
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL', 'name' ) );
+        require_once 'CRM/Core/OptionGroup.php';
+        $aclGroups = array( '' => ts( ' -select- ' ) ) + CRM_Core_OptionGroup::values( 'acl_group' );
+        $this->addElement( 'select', 'acl_group_id', ts( 'ACL Group' ),
+                           $aclGroups );
+
         
-        $values = array( 0 => 'Allow', 1 => 'Deny' );
-        $this->addRadio( 'deny', ts( 'Allow' ), $values, null, null, true );
-
-        require_once 'CRM/ACL/BAO/ACL.php';
-        $operations   = array( '' => ts( ' -select- ' ) ) + CRM_ACL_BAO_ACL::operation( );
-        $this->addElement( 'select', 'operation', ts( 'Operation' ),
-                           $operations );
-
-        $tableOptions = array( '' => ts( ' -select- ' ) ) + CRM_ACL_BAO_ACL::entityTable( );
+        require_once 'CRM/ACL/BAO/GroupJoin.php';
+        $tableOptions = array( '' => ts( ' -select- ' ) ) + CRM_ACL_BAO_GroupJoin::entityTable( );
         $label = ts( 'Entity Table' );
         $this->addElement( 'select', 'entity_table', $label,
                            $tableOptions ); 
@@ -72,16 +70,6 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         $label = ts( 'Entity ID' );
         $this->addElement( 'text', 'entity_id', $label, $attributes['entity_id'] );
         $this->addRule( 'entity_id', ts( 'Entity ID not valid' ), 'positiveInteger' );
-
-        $tableOptions = array( '' => ts( ' -select- ' ) ) + CRM_ACL_BAO_ACL::objectTable( );
-        $label = ts( 'Object Table' );
-        $this->addElement( 'select', 'object_table', $label,
-                           $tableOptions ); 
-        $this->addRule( 'object_table', ts('Please select %1', array(1 => $label ) ), 'required');
-
-        $label = ts( 'Object ID' );
-        $this->addElement( 'text', 'object_id', $label, $attributes['object_id'] );
-        $this->addRule( 'object_id', ts( 'Object ID not valid' ), 'positiveInteger' );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
     }
@@ -95,14 +83,14 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/ACL/BAO/ACL.php';        
+        require_once 'CRM/ACL/BAO/GroupJoin.php';        
 
         $params = $this->controller->exportValues( $this->_name );
 
         if ( $this->_id ) {
             $params['id'] = $this->_id;
         }
-        CRM_ACL_BAO_ACL::create( $params );
+        CRM_ACL_BAO_GroupJoin::create( $params );
     }
 
 }

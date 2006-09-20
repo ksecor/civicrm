@@ -40,17 +40,28 @@ require_once 'CRM/ACL/DAO/ACL.php';
  *  Access Control List
  */
 class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
-    static $_tableOption = null;
+    static $_entityTable = null;
+    static $_objectTable = null;
     static $_operation   = null;
 
-    static function tableOption( ) {
-        if ( ! self::$_tableOption ) {
-            self::$_tableOption = array(
+    static function entityTable( ) {
+        if ( ! self::$_entityTable ) {
+            self::$_entityTable = array(
+                                        'civicrm_contact'      => ts( 'Contact'       ),
+                                        'civicrm_acl_group'    => ts( 'ACL Group'     ), );
+        }
+        return self::$_entityTable;
+    }
+
+    static function objectTable( ) {
+        if ( ! self::$_objectTable ) {
+            self::$_objectTable = array(
                                         'civicrm_contact'      => ts( 'Contact'       ),
                                         'civicrm_group'        => ts( 'Group'         ),
-                                        'civicrm_saved_search' => ts( 'Contact Group' ) );
+                                        'civicrm_saved_search' => ts( 'Contact Group' ),
+                                        'civicrm_admin'        => ts( 'Administer' ) );
         }
-        return self::$_tableOption;
+        return self::$_objectTable;
     }
 
     static function operation( ) {
@@ -583,8 +594,6 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
     }
 
     static function create( &$params ) {
-        require_once 'CRM/ACL/DAO/ACL.php';
-
         $dao =& new CRM_ACL_DAO_ACL( );
         $dao->copyValues( $params );
         $dao->domain_id = CRM_Core_Config::domainID( );

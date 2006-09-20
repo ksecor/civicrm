@@ -3,7 +3,7 @@
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}
-   {include file="CRM/ACL/Form/ACL.tpl"}
+   {include file="CRM/ACL/Form/GroupJoin.tpl"}
 {/if}
 
 {if $rows}
@@ -14,24 +14,18 @@
         <table>
         <tr class="columnheader">
             <th>{ts}Name{/ts}</th>
-            <th>{ts}Allow?{/ts}</th>
-            <th>{ts}Operation{/ts}</th>
+            <th>{ts}ACL Group{/ts}</th>
             <th>{ts}Entity Table{/ts}</th>
             <th>{ts}Entity ID{/ts}</th>
-            <th>{ts}Object Table{/ts}</th>
-            <th>{ts}Object ID{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
-	        <td>{if $row.deny eq 1} {ts}Deny{/ts} {else} {ts}Allow{/ts} {/if}</td> 
-	        <td>{$row.operation}</td>	
+	        <td>{$row.acl_group}</td>	
 	        <td>{$row.entity_table}</td>	
 	        <td>{$row.entity_id}</td>	
-	        <td>{$row.object_table}</td>	
-	        <td>{$row.object_id}</td>	
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>
@@ -41,7 +35,7 @@
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}" id="newACL">&raquo; {ts}New ACL{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}" id="newACL">&raquo; {ts}New ACL GroupJoin{/ts}</a>
         </div>
         {/if}
     </div>
@@ -51,7 +45,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no ACL's entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no ACL GroupJoin's entered. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

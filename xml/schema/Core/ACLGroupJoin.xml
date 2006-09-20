@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-    <base>CRM/Core</base>
-    <class>ACLGroupJoin</class>
+    <base>CRM/ACL</base>
+    <class>GroupJoin</class>
     <name>civicrm_acl_group_join</name>
     <comment>Join table for Contacts and Groups to ACL Groups</comment>
     <add>1.6</add>
@@ -17,6 +17,14 @@
         <name>id</name>
         <autoincrement>true</autoincrement>
     </primaryKey>
+    <field>
+       <name>name</name>
+       <title>ACL GroupJoin Name</title>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>ACL GroupJoin Name.</comment>
+       <add>1.6</add>
+    </field>
     <field>
         <name>acl_group_id</name>
         <type>int unsigned</type>
@@ -38,5 +46,11 @@
         <required>true</required>
         <comment>ID of the group/contact object being joined</comment>
         <add>1.6</add>
+    </field>
+    <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+       <add>1.6</add>
     </field>
 </table>
