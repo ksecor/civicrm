@@ -40,6 +40,32 @@ require_once 'CRM/ACL/DAO/ACL.php';
  *  Access Control List
  */
 class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
+    static $_tableOption = null;
+    static $_operation   = null;
+
+    static function tableOption( ) {
+        if ( ! self::$_tableOption ) {
+            self::$_tableOption = array(
+                                        'civicrm_contact'      => ts( 'Contact'       ),
+                                        'civicrm_group'        => ts( 'Group'         ),
+                                        'civicrm_saved_search' => ts( 'Contact Group' ) );
+        }
+        return self::$_tableOption;
+    }
+
+    static function operation( ) {
+        if ( ! self::$_operation ) {
+            self::$_operation = array(
+                                      'View'   => ts( 'View'   ),
+                                      'Edit'   => ts( 'Edit'   ),
+                                      'Create' => ts( 'Create' ),
+                                      'Delete' => ts( 'Delete' ),
+                                      'Grant'  => ts( 'Grant'  ),
+                                      'Revoke' => ts( 'Revoke' ),
+                                      );
+        }
+        return self::$_operation;
+    }
 
     /**
      * Construct a WHERE clause to handle permissions to $object_*
@@ -555,6 +581,20 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
 
         return $result;
     }
+
+    static function create( &$params ) {
+        require_once 'CRM/ACL/DAO/ACL.php';
+
+        $dao =& new CRM_ACL_DAO_ACL( );
+        $dao->copyValues( $params );
+        $dao->domain_id = CRM_Core_Config::domainID( );
+
+        $dao->save( );
+    }
+
+    static function retrieve( &$params, &$defaults ) {
+        CRM_Core_DAO::commonRetrieve( 'CRM_ACL_DAO_ACL', $params, $defaults );
+    }    
 }
 
 ?>

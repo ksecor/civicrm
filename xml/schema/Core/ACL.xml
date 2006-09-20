@@ -18,6 +18,14 @@
         <autoincrement>true</autoincrement>
     </primaryKey>
     <field>
+       <name>name</name>
+       <title>ACL Name</title>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>ACL Name.</comment>
+       <add>1.6</add>
+    </field>
+    <field>
         <name>deny</name>
         <type>boolean</type>
         <default>0</default>
@@ -72,5 +80,11 @@
         <type>int unsigned</type>
         <comment>ID of the ACL or ACL group being granted/revoked</comment>
         <add>1.6</add>
+    </field>
+    <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+       <add>1.6</add>
     </field>
 </table>

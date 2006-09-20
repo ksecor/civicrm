@@ -25,6 +25,8 @@
  +--------------------------------------------------------------------+
 */
 
+require_once 'CRM/Core/Page/Basic.php';
+
 /**
  *
  * @package CRM
@@ -130,6 +132,8 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
      */
     function browse()
     {
+        require_once 'CRM/ACL/DAO/ACL.php';
+
         // get all acl's sorted by weight
         $acl =  array( );
         $dao =& new CRM_ACL_DAO_ACL( );

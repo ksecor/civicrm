@@ -25,6 +25,8 @@
  +--------------------------------------------------------------------+
 */
 
+require_once 'CRM/Admin/Form.php';
+
 /**
  *
  * @package CRM
@@ -51,32 +53,36 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
 
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL' );
 
-        $values = array( 'Allow' => 1, 'Deny' => 0 );
-        $this->addRadio( 'deny', ts( 'Allow' ), $values, null, null, true );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL', 'name' ) );
         
-        $tableOptions = array( 'Contact'   => ts( 'Contact'   ),
-                               'Group'     => ts( 'Group'     ),
-                               'ACL Group' => ts( 'ACL Group' ) );
+        $values = array( 0 => 'Allow', 1 => 'Deny' );
+        $this->addRadio( 'deny', ts( 'Allow' ), $values, null, null, true );
+
+        require_once 'CRM/ACL/BAO/ACL.php';
+        $operations   = array( '' => ts( ' -select- ' ) ) + CRM_ACL_BAO_ACL::operation( );
+        $this->addElement( 'select', 'operation', ts( 'Operation' ),
+                           $operations );
+
+        $tableOptions = array( '' => ts( ' -select- ' ) ) + CRM_ACL_BAO_ACL::tableOption( );
         $label = ts( 'Entity Table' );
         $this->addElement( 'select', 'entity_table', $label,
-                           array('' => $select ) + $tableOptions );
-        $this->addRule( 'object_table', ts('Please select %1', array(1 => $label ) ), 'required');
+                           $tableOptions ); 
+        $this->addRule( 'entity_table', ts('Please select %1', array(1 => $label ) ), 'required');
 
-        $label = ts( 'Entity id' );
+        $label = ts( 'Entity ID' );
         $this->addElement( 'text', 'entity_id', $label, $attributes['entity_id'] );
         $this->addRule( 'entity_id', ts( 'Entity ID not valid' ), 'positiveInteger' );
 
-        $tableOptions = array( 'civicrm_contact'      => ts( 'Contact'       ),
-                               'civicrm_group'        => ts( 'Group'         ),
-                               'civicrm_saved_search' => ts( 'Contact Group' ) );
         $label = ts( 'Object Table' );
         $this->addElement( 'select', 'object_table', $label,
-                           array('' => $select ) + $tableOptions );
+                           $tableOptions ); 
         $this->addRule( 'object_table', ts('Please select %1', array(1 => $label ) ), 'required');
 
-        $label = ts( 'Object id' );
+        $label = ts( 'Object ID' );
         $this->addElement( 'text', 'object_id', $label, $attributes['object_id'] );
         $this->addRule( 'object_id', ts( 'Object ID not valid' ), 'positiveInteger' );
+
+        $this->add('checkbox', 'is_active', ts('Enabled?'));
     }
 
        
@@ -92,6 +98,12 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
 
         $params = $this->controller->exportValues( $this->_name );
 
-        $params['id'] = $this->_id;
+        if ( $this->_id ) {
+            $params['id'] = $this->_id;
+        }
         CRM_ACL_BAO_ACL::create( $params );
     }
+
+}
+
+?>

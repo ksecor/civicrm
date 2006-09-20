@@ -84,6 +84,10 @@ class CRM_Core_Invoke {
             self::admin   ( $args );
             break;
 
+        case 'dashboard':
+            self::dashboard($args);
+            break;
+            
         case 'history'  : 
             self::history ( $args );
             break;
@@ -92,10 +96,6 @@ class CRM_Core_Invoke {
             self::group   ( $args );
             break;
         
-        case 'dashboard':
-            self::dashboard($args);
-            break;
-            
         case 'import'   : 
             self::import  ( $args );
             break;
@@ -114,6 +114,10 @@ class CRM_Core_Invoke {
 
         case 'file':
             self::file( $args );
+            break;
+
+        case 'acl':
+            self::acl( $args );
             break;
 
         default         :
@@ -723,6 +727,30 @@ class CRM_Core_Invoke {
 
         require_once 'CRM/Core/Page/File.php';
         $page =& new CRM_Core_Page_File( );
+        return $page->run( );
+    }
+
+    /** 
+     * This function contains the actions for acl arguments
+     * 
+     * @param $args array this array contains the arguments of the url 
+     * 
+     * @static 
+     * @access public 
+     */ 
+    static function acl( $args ) { 
+        if ( $args[1] !== 'acl' ) { 
+            return; 
+        } 
+
+        $secondArg = CRM_Utils_Array::value( 2, $args );
+        if (  $secondArg == 'groupjoin' ) {
+            require_once 'CRM/ACL/Page/GroupJoin.php';
+            $page =& new CRM_ACL_Page_GroupJoin( );
+        } else {
+            require_once 'CRM/ACL/Page/ACL.php';
+            $page =& new CRM_ACL_Page_ACL( );
+        }
         return $page->run( );
     }
 
