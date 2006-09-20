@@ -4,7 +4,7 @@
 <table cellpadding=0 cellspacing=1 border=1 width="90%" class="app">
 <tr>
   <td>
-    <B>Do you questions about who to register as a recommender or do you want to register more than three recommenders?</B> <A HREF="http://www.questbridge.org/students/schoo_information_faq.html" TARGET="_blank">Read more at our FAQs</A>
+    <B>Do you have questions about who to register as a recommender or do you want to register more than three recommenders?</B> <A HREF="http://www.questbridge.org/students/school_information_faq.html" TARGET="_blank">Read more at our FAQs</A>
   </td>
 </tr>
 </table>
