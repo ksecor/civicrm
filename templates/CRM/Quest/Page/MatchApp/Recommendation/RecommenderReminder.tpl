@@ -5,6 +5,8 @@ You have been requested to complete an online letter of recommendation on behalf
 To access and complete the letter of recommendation, please go to the following site and login with the email address stated below:
 
 <A HREF="{$recommenderURL}">Click here to login</A>
+Code 1: {$hash}
+Code 2: {$md5}
 Email address: {$recommenderEmail}
 
 If your email reader does not display the above link correctly, please copy-and-paste the following URL, characters between the square brackets, into your browser:

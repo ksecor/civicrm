@@ -49,8 +49,22 @@ class CRM_Quest_Form_Verify extends CRM_Core_Form
 
     function preProcess( ) 
     {
-        $this->_hash = CRM_Utils_Request::retrieve( 'h', 'String', $this, true );
-        $this->_md5  = CRM_Utils_Request::retrieve( 'm', 'String', $this, true );
+        $this->_hash = CRM_Utils_Request::retrieve( 'h', 'String', $this );
+        $this->_md5  = CRM_Utils_Request::retrieve( 'm', 'String', $this );
+    }
+
+    function setDefaultValues( ) {
+        $defaults = array( );
+
+        if ( $this->_hash ) {
+            $defaults['hash'] = trim( $this->_hash );
+        }
+
+        if ( $this->_md5 ) {
+            $defaults['md5' ] = trim( $this->_md5  );
+        }
+
+        return $defaults;
     }
 
     /**
@@ -63,9 +77,11 @@ class CRM_Quest_Form_Verify extends CRM_Core_Form
     {
         $this->assign       ( 'displayRecent' , false );
 
-        $this->addElement('text'    , 'email'      , ts('Email Address'     ) );
-        $this->addElement('password', 'password_1'   , ts('Password'          ) );
-        $this->addElement('password', 'password_2'   , ts('Re-enter Password' ) );
+        $this->add('text'    , 'hash'       , ts('Code 1'            ), 'maxlength="128" size="45" class="form-text huge"', true );
+        $this->add('text'    , 'md5'        , ts('Code 2'            ), 'maxlength="128" size="45" class="form-text huge"', true );
+        $this->add('text'    , 'email'      , ts('Email Address'     ), 'maxlength="128" size="45" class="form-text huge"', true );
+        $this->add('password', 'password_1' , ts('Password'          ), null, true );
+        $this->add('password', 'password_2' , ts('Re-enter Password' ), null, true );
         $this->addRule( array( 'password_1', 'password_2' ), ts( 'The passwords do not match' ), 'compare', null );
 
         $verifyBtn = ts('Verify Registration and Sign-in');
@@ -85,7 +101,9 @@ class CRM_Quest_Form_Verify extends CRM_Core_Form
 
         // make sure that the hash, md5 and email match
         require_once 'CRM/Quest/API.php';
-        $drupalID = CRM_Quest_API::getContactByHash( $this->_hash, $this->_md5, $params['email'] );
+        $drupalID = CRM_Quest_API::getContactByHash( trim( $params['hash'] ),
+                                                     trim( $params['md5']  ),
+                                                     $params['email'] );
 
         if ( $drupalID ) {
             $params = array( 'email'    => $params['email'],
