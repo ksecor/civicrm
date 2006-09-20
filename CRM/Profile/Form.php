@@ -566,8 +566,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
-        CRM_Core_Error::debug('p', $params);
-        exit();
+
         //for custom data of type file
         if ( !empty($_FILES) ) {
             foreach ( $_FILES as $key => $value) {
