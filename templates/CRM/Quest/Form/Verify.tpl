@@ -12,10 +12,6 @@
     <td class="fieldlabel">{$form.hash.html}<br />{ts}Please enter the exact Code 1 value as specified in the Recommendation Request.{/ts}</td>
 </tr>
 <tr>
-    <td class="grouplabel">{$form.md5.label}</td>
-    <td class="fieldlabel">{$form.md5.html}<br />{ts}Please enter the exact Code 2 value as specified in the Recommendation Request.{/ts}</td>
-</tr>
-<tr>
     <td class="grouplabel">{$form.email.label}</td>
     <td class="fieldlabel">{$form.email.html}<br />{ts}Please enter the exact email address where you received this Recommendation Request.{/ts}</td>
 </tr>

@@ -112,7 +112,6 @@ class CRM_Quest_BAO_Recommendation {
         $verify = quest_drupal_is_user_verified( $drupalID );
 
         if ( ! $verify ) {
-            $md5Email = md5( $email );
             $url = CRM_Utils_System::url( 'civicrm/quest/verify',
                                           "reset=1",
                                           true, null, false );
@@ -131,7 +130,6 @@ class CRM_Quest_BAO_Recommendation {
                          'recommenderURL'       => $url,
                          'studentName'          => $displayName,
                          'hash'                 => $hash,
-                         'md5'                  => $md5Email,
                          'schoolName'           => CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                                 $schoolID,
                                                                                 'display_name' ) );

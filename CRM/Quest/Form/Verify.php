@@ -45,12 +45,10 @@ require_once 'CRM/Core/Form.php';
 class CRM_Quest_Form_Verify extends CRM_Core_Form
 {
     protected $_hash;
-    protected $_md5;
 
     function preProcess( ) 
     {
         $this->_hash = CRM_Utils_Request::retrieve( 'h', 'String', $this );
-        $this->_md5  = CRM_Utils_Request::retrieve( 'm', 'String', $this );
     }
 
     function setDefaultValues( ) {
@@ -58,10 +56,6 @@ class CRM_Quest_Form_Verify extends CRM_Core_Form
 
         if ( $this->_hash ) {
             $defaults['hash'] = trim( $this->_hash );
-        }
-
-        if ( $this->_md5 ) {
-            $defaults['md5' ] = trim( $this->_md5  );
         }
 
         return $defaults;
@@ -77,8 +71,7 @@ class CRM_Quest_Form_Verify extends CRM_Core_Form
     {
         $this->assign       ( 'displayRecent' , false );
 
-        $this->add('text'    , 'hash'       , ts('Code 1'            ), 'maxlength="128" size="45" class="form-text huge"', true );
-        $this->add('text'    , 'md5'        , ts('Code 2'            ), 'maxlength="128" size="45" class="form-text huge"', true );
+        $this->add('text'    , 'hash'       , ts('Confirmation Code' ), 'maxlength="128" size="45" class="form-text huge"', true );
         $this->add('text'    , 'email'      , ts('Email Address'     ), 'maxlength="128" size="45" class="form-text huge"', true );
         $this->add('password', 'password_1' , ts('Password'          ), null, true );
         $this->add('password', 'password_2' , ts('Re-enter Password' ), null, true );
@@ -102,7 +95,6 @@ class CRM_Quest_Form_Verify extends CRM_Core_Form
         // make sure that the hash, md5 and email match
         require_once 'CRM/Quest/API.php';
         $drupalID = CRM_Quest_API::getContactByHash( trim( $params['hash'] ),
-                                                     trim( $params['md5']  ),
                                                      $params['email'] );
 
         if ( $drupalID ) {
