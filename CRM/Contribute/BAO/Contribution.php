@@ -371,15 +371,18 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             if ( ! self::$_exportableFields ) {
                 self::$_exportableFields = array();
             }
+            require_once 'CRM/Core/OptionValue.php';
             require_once 'CRM/Contribute/DAO/Product.php';
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
             $impFields = CRM_Contribute_DAO_Contribution::import( );
             $expFieldProduct = CRM_Contribute_DAO_Product::export( );
             $expFieldsContrib = CRM_Contribute_DAO_ContributionProduct::export( );
             $typeField = CRM_Contribute_DAO_ContributionType::export( );
+            $optionField = CRM_Core_OptionValue::getFields($mode ='contribute' );
             $fields = array_merge($impFields, $typeField);
             $fields = array_merge($fields, $expFieldProduct );
             $fields = array_merge($fields, $expFieldsContrib );
+            $fields = array_merge($fields, $optionField );
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
             
             self::$_exportableFields = $fields;

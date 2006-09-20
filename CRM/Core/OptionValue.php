@@ -217,7 +217,8 @@ class CRM_Core_OptionValue {
      * @static
      */
     static function getFields( $mode = '') {
-        if ( ! self::$_fields ) {
+
+        if ( !self::$_fields || $mode) {
             self::$_fields = array();
             require_once "CRM/Core/DAO/OptionValue.php";
             $option = CRM_Core_DAO_OptionValue::import( );
