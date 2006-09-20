@@ -45,11 +45,7 @@ require_once 'CRM/Core/DAO/Address.php';
 require_once 'CRM/Core/DAO/Phone.php';
 require_once 'CRM/Core/DAO/Email.php';
 require_once 'CRM/Core/DAO/IM.php';
-//require_once 'CRM/Core/DAO/IndividualPrefix.php';
 require_once 'CRM/Core/DAO/OptionValue.php';
-require_once 'CRM/Core/DAO/IndividualSuffix.php';
-require_once 'CRM/Core/DAO/Gender.php';
-
 require_once 'CRM/Core/BAO/CustomField.php';
 require_once 'CRM/Core/BAO/CustomValue.php';
 require_once 'CRM/Core/BAO/Location.php';

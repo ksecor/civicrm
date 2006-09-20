@@ -144,5 +144,38 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
         
         return $optionValue->delete();
     }
+
+
+
+    /**
+     * retrieve the id and decription
+     *
+     * @param NULL
+     * 
+     * @return Array            id and decription
+     * @static
+     * @access public
+     */
+    static function &getActivityDescription() 
+    {
+        
+        $query =
+            "SELECT civicrm_option_value.value, civicrm_option_value.description
+FROM civicrm_option_value
+LEFT JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
+WHERE civicrm_option_value.is_active =1
+AND civicrm_option_value.value >4
+AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.name";
+        $dao   =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $description =array();
+        while($dao->fetch()) {
+            $description[ $dao->value] = $dao->description;
+            
+        }
+        return $description;
+    }
+    
+
+    
 }
 ?>

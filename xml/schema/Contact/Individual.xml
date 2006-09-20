@@ -73,7 +73,7 @@
   <foreignKey>
        <name>prefix_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.2</add>
   </foreignKey>
   <field>
@@ -85,7 +85,7 @@
   <foreignKey>
        <name>suffix_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.2</add>
   </foreignKey>
   <field>
@@ -144,7 +144,7 @@
   <foreignKey>
        <name>gender_id</name>
        <table>civicrm_option_value</table>
-       <key>id</key>
+       <key>value</key>
        <add>1.2</add>
   </foreignKey>
  

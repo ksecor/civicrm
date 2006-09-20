@@ -64,8 +64,8 @@
   </field>
   <foreignKey>
        <name>mobile_provider_id</name>
-       <table>civicrm_mobile_provider</table>
-       <key>id</key>
+       <table>civicrm_option_value</table>
+       <key>value</key>
        <add>1.1</add>
   </foreignKey>
 </table>

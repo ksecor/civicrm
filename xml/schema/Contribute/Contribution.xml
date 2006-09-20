@@ -92,9 +92,9 @@
   <foreignKey>   
        <name>payment_instrument_id</name>   
        <table>civicrm_option_value</table>   
-       <key>id</key>
+       <key>value</key>
        <import>true</import>
-       <add>1.6</add>   
+       <add>1.3</add>   
   </foreignKey>   
   <field> 
       <name>receive_date</name> 
