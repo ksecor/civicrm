@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
+ * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
@@ -129,7 +129,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
      * @static 
      * @return void
      */
-    static function studentDetails( $id ,&$details, $summary ) {
+    static function studentDetails( $id ,&$details, $summary = false ) {
         
         require_once 'CRM/Quest/DAO/Student.php';
 

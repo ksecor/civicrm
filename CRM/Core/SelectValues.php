@@ -31,7 +31,7 @@
  * smart caching scheme on a per domain basis
  * 
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
+ * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *

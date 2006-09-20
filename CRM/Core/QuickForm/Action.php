@@ -30,7 +30,7 @@
  * integrated with the StateMachine, Controller and State objects
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
+ * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *

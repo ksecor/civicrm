@@ -13,7 +13,7 @@
  * | license@php.net so we can mail you a copy immediately.               |
  * +----------------------------------------------------------------------+
  * | Authors: Jacques Marneweck <jacques@php.net>                         |
- * | Authors: Donald A. Lobo <lobo@yahoo.com>
+ * | Authors: Donald A. Lobo <lobo@civicrm.org>
  * +----------------------------------------------------------------------+
  */
 

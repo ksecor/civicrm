@@ -40,7 +40,7 @@
  * will be reworked to use caching.
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
+ * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *

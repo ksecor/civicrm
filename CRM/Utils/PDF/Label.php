@@ -28,7 +28,7 @@
      *  Class to print labels in Avery or custom formats
      * functionality and smarts to the base PDF_Label.
      *
-     * @author Donald A. Lobo <lobo@yahoo.com>
+     * @author Donald A. Lobo <lobo@civicrm.org>
      * @copyright CiviCRM LLC (c) 2004-2006
      * 
      *

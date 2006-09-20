@@ -29,7 +29,7 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
+ * @author Donald A. Lobo <lobo@civicrm.org>
  * @copyright CiviCRM LLC (c) 2004-2006
  * $Id: Selector.php 2609 2005-08-17 00:16:37Z lobo $
  *

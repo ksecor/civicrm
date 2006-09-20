@@ -4,7 +4,7 @@
   <creationDate>03/01/2006</creationDate>
   <author>Donald A. Lobo.</author>
   <copyright>(C) CiviCRM LLC</copyright>
-  <authorEmail>lobo@yahoo.com</authorEmail>
+  <authorEmail>lobo@civicrm.org</authorEmail>
   <authorUrl>www.openngo.org</authorUrl>
   <version>1.4</version>
   <description>CiviCRM</description>

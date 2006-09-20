@@ -16,7 +16,7 @@ class TestOfCRM619 extends UnitTestCase
     
     function testGetContactIndividualByEmail() 
     {
-        $params = array('email' => 'lobo@yahoo.com' );
+        $params = array('email' => 'lobo@civicrm.org' );
         $contact =& crm_get_contact($params);
         CRM_Core_Error::debug( 'c', $contact );
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');

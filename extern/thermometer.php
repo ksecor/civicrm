@@ -10,7 +10,7 @@
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
+ * @author Donald A. Lobo <lobo@civicrm.org>
  * $Id$
  *
  */
