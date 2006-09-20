@@ -73,7 +73,11 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         $mailing->subject = $options['subject'];
 
         $mailing->body_html = file_get_contents($options['htmlFile']);
-        $mailing->body_text = file_get_contents($options['textFile']);
+        if (file_exists($options['textFile'])) {
+            $mailing->body_text = file_get_contents($options['textFile']);
+        } else {
+            $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
+        }
 
         $mime =& $mailing->compose(null, null, null, $session->get('userID'), $options['from_email'], $options['from_email'], true);
 

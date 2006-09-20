@@ -206,7 +206,11 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
             $message->setHTMLBody($html);
         }
         if (!$html || $eq->format == 'Text' ||  $eq->format == 'Both') {
-            $text = $component->body_text;
+            if ($component->body_text) {
+                $text = $component->body_text;
+            } else {
+                $text = CRM_Utils_String::htmlToText($component->body_html);
+            }
             require_once 'CRM/Utils/Token.php';
             $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
             $message->setTxtBody($text);

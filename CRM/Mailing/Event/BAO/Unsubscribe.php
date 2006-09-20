@@ -246,7 +246,11 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $component->find(true);
         
         $html = $component->body_html;
-        $text = $component->body_text;
+        if ($component->body_text) {
+            $text = $component->body_text;
+        } else {
+            $text = CRM_Utils_String::htmlToText($component->body_html);
+        }
 
         $eq =& new CRM_Core_DAO();
         $eq->query(

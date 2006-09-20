@@ -111,7 +111,11 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
         $html = CRM_Utils_Token::replaceWelcomeTokens($html, $group->name, true);
 
-        $text = $component->body_text;
+        if ($component->body_text) {
+            $text = $component->body_text;
+        } else {
+            $text = CRM_Utils_String::htmlToText($component->body_html);
+        }
         $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
         $text = CRM_Utils_Token::replaceWelcomeTokens($text, $group->name, false);
 

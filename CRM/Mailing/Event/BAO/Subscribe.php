@@ -192,7 +192,11 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
         $html = CRM_Utils_Token::replaceSubscribeTokens($html, 
                                                         $group->name, true);
-        $text = $component->body_text;
+        if ($component->body_text) {
+            $text = $component->body_text;
+        } else {
+            $text = CRM_Utils_String::htmlToText($component->body_html);
+        }
         $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
         $text = CRM_Utils_Token::replaceSubscribeTokens($text, 
                                                         $group->name, false);

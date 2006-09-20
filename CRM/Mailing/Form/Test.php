@@ -110,7 +110,11 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $mailing->subject = ts('Test Mailing:') . ' ' . $options['subject'];
 
         $mailing->body_html = file_get_contents($options['htmlFile']);
-        $mailing->body_text = file_get_contents($options['textFile']);
+        if (file_exists($options['textFile'])) {
+            $mailing->body_text = file_get_contents($options['textFile']);
+        } else {
+            $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
+        }
 
         $mailer =& $config->getMailer();
 

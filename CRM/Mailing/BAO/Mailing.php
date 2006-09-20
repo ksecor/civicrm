@@ -525,16 +525,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                 $this, true);
             }
 
-            if ( $this->body_text ) {
-                $this->text = $this->header->body_text . "\n"
-                    . $this->body_text . "\n"
-                    . $this->footer->body_text;
-                
-                $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
-                                                                   $this->_domain, false);
-                $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
-                                                                    $this, true);
+            if (!$this->body_text) {
+                $this->body_text = CRM_Utils_String::htmlToText($this->body_html);
             }
+            $this->text = $this->header->body_text . "\n"
+                . $this->body_text . "\n"
+                . $this->footer->body_text;
+            
+            $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
+                                                               $this->_domain, false);
+            $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
+                                                                $this, true);
         }
         
         $html = $this->html;
@@ -694,9 +695,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $mailing->replyto_email = $params['replyto_email'];
         }
         $mailing->subject       = $params['subject'];
-        $mailing->body_text     = file_get_contents($params['textFile']);
         if (file_exists($params['htmlFile'])) {
-            $mailing->body_html     = file_get_contents($params['htmlFile']);
+            $mailing->body_html = file_get_contents($params['htmlFile']);
+        }
+        if (file_exists($params['textFile'])) {
+            $mailing->body_text = file_get_contents($params['textFile']);
+        } else {
+            $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
         }
         $mailing->is_template   = $params['template'] ? true : false;
         $mailing->auto_responder= $params['auto_responder'] ? true : false;

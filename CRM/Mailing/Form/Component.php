@@ -139,7 +139,11 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
         $component->name           =  $params['name'];
         $component->component_type =  $params['component_type'];
         $component->subject        =  $params['subject'];
-        $component->body_text      =  $params['body_text'];
+        if ($params['body_text']) {
+            $component->body_text  =  $params['body_text'];
+        } else {
+            $component->body_text  =  CRM_Utils_String::htmlToText($params['body_html']);
+        }
         $component->body_html      =  $params['body_html'];
         $component->is_active      =  CRM_Utils_Array::value( 'is_active' , $params, false );
         $component->is_default     =  CRM_Utils_Array::value( 'is_default', $params, false );
