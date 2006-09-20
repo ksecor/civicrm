@@ -10,10 +10,11 @@
     {if $qill}
      <p>
      <div id="search-status">
-        {ts}Displaying contacts where:{/ts} ( {if $mapURL}<a href="{$mapURL}">{ts}Map these contacts{/ts}</a>{/if} )
+        {ts}Displaying contacts where:{/ts}
         {include file="CRM/common/displaySearchCriteria.tpl"}
-     </div>
-     </p>
+        {if $mapURL}<a href="{$mapURL}">&raquo; {ts}Map these contacts{/ts}</a>{/if}
+    </div>
+    </p>
     {/if}
 
     {strip}

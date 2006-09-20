@@ -250,14 +250,7 @@ class CRM_Core_BAO_CustomQuery {
                     $sql = 'LOWER(' . self::PREFIX . $field['id'] . '.char_data) ';
                     // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
                     if ( is_array( $value ) ) {
-                        // add a CTRL-A seperator before each value
                         require_once 'CRM/Core/BAO/CustomOption.php';
-                        foreach ( $value as $k => $v ) {
-                            $value[$k] =
-                                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-                                $v . 
-                                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-                        }
 
                         //ignoring $op value for checkbox and multi select
                         $sqlValue = array( );
