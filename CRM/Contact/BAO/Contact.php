@@ -1586,7 +1586,7 @@ WHERE civicrm_contact.id IN $idString ";
             
             $IMProvider = array( );
             if ($status) {
-                $IMProvider['im_provider'] = array ('name' => 'im_provider', 'where' => 'civicrm_im_provider.name', 'title' => 'IM Provider');
+                $IMProvider['im_provider'] = array ('name' => 'im_provider', 'where' => 'im_provider.name', 'title' => 'IM Provider');
             }
             
             $locationFields = array_merge(  $locationType,

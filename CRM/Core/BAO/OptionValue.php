@@ -134,8 +134,20 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
      */
     static function del($optionValueId) 
     {
+        //echo $optionValueId;
         $optionValue =& new CRM_Core_DAO_OptionValue( );
         $optionValue->id = $optionValueId;
+        $optionValue->find(true);
+        
+        $optionGroup =& new CRM_Core_DAO_OptionGroup( );
+        $optionGroup->id = $optionValue->option_group_id;
+        $optionGroup->find(true);
+        
+        $ids = array('id'    => $optionValueId,
+                     'gName' => $optionGroup->name,
+                     'value' => $optionValue->value);
+        require_once 'CRM/Contact/BAO/Individual.php';
+        CRM_Contact_BAO_Individual::updateDisplayNames($ids, CRM_Core_Action::DELETE);
         
         //$optionValue->delete();
         

@@ -70,24 +70,12 @@
       <comment>Prefix or Title for name (Ms, Mr...). FK to prefix ID</comment>
       <add>1.2</add>
   </field>
-  <foreignKey>
-       <name>prefix_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.2</add>
-  </foreignKey>
   <field>
       <name>suffix_id</name>
       <type>int unsigned</type>
       <comment>Suffix for name (Jr, Sr...). FK to suffix ID</comment>
       <add>1.2</add>
   </field>
-  <foreignKey>
-       <name>suffix_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.2</add>
-  </foreignKey>
   <field>
        <name>prefix</name>
        <type>varchar</type>
@@ -140,14 +128,6 @@
       <comment>FK to gender ID</comment>
       <add>1.2</add>
   </field>
-
-  <foreignKey>
-       <name>gender_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.2</add>
-  </foreignKey>
- 
   <field>
        <name>gender</name>
        <type>enum</type>

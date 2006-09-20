@@ -376,7 +376,6 @@ class CRM_Contact_BAO_Query {
         $properties = array( );
 
         $this->addSpecialFields( );
-
         //CRM_Core_Error::debug( 'f', $this->_fields );
         //CRM_Core_Error::debug( 'p', $this->_params );
         foreach ($this->_fields as $name => $field) {
@@ -408,7 +407,7 @@ class CRM_Contact_BAO_Query {
                             $this->_element['address_id']     = 1;
                         }
                         
-                        if ($tableName == 'gender' || $tableName == 'individual_prefix' || $tableName == 'individual_suffix') {
+                        if ($tableName == 'gender' || $tableName == 'individual_prefix' || $tableName == 'individual_suffix' || $tableName == 'im_provider' || $tableName == 'payment_instrument') {
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
                             
@@ -1363,10 +1362,17 @@ class CRM_Contact_BAO_Query {
                 $from .= " $side JOIN civicrm_im ON (civicrm_location.id = civicrm_im.location_id AND civicrm_im.is_primary = 1) ";
                 continue;
 
-            case 'civicrm_im_provider':
-                $from .= " $side JOIN civicrm_im_provider ON civicrm_im.provider_id = civicrm_im_provider.id ";
+            case 'im_provider':
+                $from .= " $side JOIN civicrm_option_group option_group_imProvider ON (option_group_imProvider.name = 'instant_messenger_service')";
+                $from .= " $side JOIN civicrm_im_provider im_provider ON (civicrm_im.provider_id = im_provider.id AND option_group_imProvider.id = im_provider.option_group_id)";
                 continue;
 
+            case 'payment_instrument':
+                $from .= " $side JOIN civicrm_contribution payment_contribution ON contact_a.id = payment_contribution.contact_id ";
+                $from .= " $side JOIN civicrm_option_group option_group_paymentInstrument ON (option_group_paymentInstrument.name = 'payment_instrument')";
+                $from .= " $side JOIN civicrm_option_value payment_instrument ON (payment_contribution.payment_instrument_id = payment_instrument.value AND option_group_paymentInstrument.id = payment_instrument.option_group_id)";
+                continue;
+                
             case 'civicrm_state_province':
                 $from .= " $side JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id ";
                 continue;
