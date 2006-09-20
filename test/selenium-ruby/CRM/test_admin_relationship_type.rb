@@ -17,26 +17,31 @@ class TC_TestAdminRelationshipType < Test::Unit::TestCase
     @page.logout
   end
   
- def test_relationship_type
-   #Click Administer CiviCRM
-   assert_equal "CiviCRM", @selenium.get_text("link=CiviCRM")
-   @page.click_and_wait "link=CiviCRM"
-
-   #Click Administer CiviCRM
-   assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
-   @page.click_and_wait "link=Administer CiviCRM"
-
-   #Click Relationship Type
-   assert_equal "Relationship\nTypes", @selenium.get_text("//a[@id='id_RelationshipTypes']")
-   @page.click_and_wait "//a[@id='id_RelationshipTypes']"
-
-   add_relationship_type()
-   view_relationship_type()
-   edit_relationship_type()
-   enable_relationship_type()
-   disable_relationship_type()
-   delete_relationship_type()
- end   
+  def test_relationship_type
+    
+    move_to_admin_relationship_type()
+    
+    add_relationship_type()
+    view_relationship_type()
+    edit_relationship_type()
+    enable_relationship_type()
+    disable_relationship_type()
+    delete_relationship_type()
+  end   
+  
+  def move_to_admin_relationship_type
+    #Click Administer CiviCRM
+    assert_equal "CiviCRM", @selenium.get_text("link=CiviCRM")
+    @page.click_and_wait "link=CiviCRM"
+    
+    #Click Administer CiviCRM
+    assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
+    @page.click_and_wait "link=Administer CiviCRM"
+    
+    #Click Relationship Type
+    assert_equal "Relationship\nTypes", @selenium.get_text("//a[@id='id_RelationshipTypes']")
+    @page.click_and_wait "//a[@id='id_RelationshipTypes']"
+  end
   
   # Add new Relationship type information
   def add_relationship_type
@@ -62,7 +67,7 @@ class TC_TestAdminRelationshipType < Test::Unit::TestCase
     #Click Done after view
     @page.click_and_wait "done"
   end
-
+  
   # Editing relationship type information
   def edit_relationship_type
     

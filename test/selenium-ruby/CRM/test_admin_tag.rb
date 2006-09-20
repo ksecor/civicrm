@@ -17,6 +17,13 @@ class TC_TestAdminTag < Test::Unit::TestCase
   end
   
   def test_tag
+    move_to_admin_tag()
+    add_tag()
+    edit_tag()
+    delete_tag()
+  end
+  
+  def move_to_admin_tag
     #Click Administer CiviCRM
     assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
     @page.click_and_wait "link=Administer CiviCRM"
@@ -26,10 +33,6 @@ class TC_TestAdminTag < Test::Unit::TestCase
     @page.click_and_wait "//a[@id='id_Tags_Categories']"
     
     assert @selenium.is_text_present('Tags (Categories)')
-    
-    add_tag()
-    edit_tag()
-    delete_tag()
   end
   
   # Add new tag information

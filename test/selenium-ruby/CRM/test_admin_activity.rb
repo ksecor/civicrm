@@ -10,7 +10,24 @@ class TC_TestAdminActivity < Test::Unit::TestCase
     @page = CRMPageController.new
     @selenium = @page.start_civicrm
     @page.login
+  end
+  
+  def teardown
+    @page.logout
+  end
+  
+  def test_activity
     
+    move_to_admin_activity()
+    
+    add_activity()
+    edit_activity()
+    enable_activity()
+    disable_activity()
+    delete_activity()
+  end
+  
+  def move_to_admin_activity
     #Click Administer CiviCRM
     assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
     @page.click_and_wait "link=Administer CiviCRM"
@@ -20,52 +37,53 @@ class TC_TestAdminActivity < Test::Unit::TestCase
     @page.click_and_wait "//a[@id='id_ActivityTypes']"
   end
   
-  def teardown
-    @page.logout
-  end
-  
   # Add new Activity information
-  def test_1_addActivity
-    @page.click_and_wait "link=» New Activity Type"
+  def add_activity
+    
+    if @selenium.is_text_present("There are no custom Activity Types entered")
+      @page.click_and_wait "link=add one"
+    else
+      @page.click_and_wait "link=» New Activity Type"
+    end
     
     # Read new activity information
-    @selenium.type "name",        "activity1"
-    @selenium.type "description", "Test activity type"
+    @selenium.type "name",        "New Activity"
+    @selenium.type "description", "This is test activity type"
     @selenium.check "is_active" 
     
     # Submit the form 
     @page.click_and_wait "_qf_ActivityType_next"
-    assert @selenium.is_text_present("The activity type \"activity1\" has been saved.")
+    assert @selenium.is_text_present("The activity type \"New Activity\" has been saved.")
   end
   
   # Editing activity information
-  def test_2_editActivity
-    assert_equal "Edit", @selenium.get_text("link=Edit")
-    @page.click_and_wait "link=Edit"
+  def edit_activity
+    assert_equal "Edit", @selenium.get_text("//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Edit')]")
+    @page.click_and_wait "//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Edit')]"
     
     @selenium.uncheck "is_active" 
     
     #Submit the form 
     @page.click_and_wait "_qf_ActivityType_next"
-    assert @selenium.is_text_present("The activity type \"activity1\" has been saved.")
+    assert @selenium.is_text_present("The activity type \"New Activity\" has been saved.")
   end
-    
+  
   # Enable activity
-  def test_3_enableActivity
-    assert_equal "Enable", @selenium.get_text("link=Enable")
-    @page.click_and_wait "link=Enable"
+  def enable_activity
+    assert_equal "Enable", @selenium.get_text("//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Enable')]")
+    @page.click_and_wait "//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Enable')]"
   end
   # Disable activity
-  def test_4_disableActivity
+  def disable_activity
     assert_equal "Disable", @selenium.get_text("link=Disable")
     @page.click_and_wait "link=Disable"
     assert_equal "Are you sure you want to disable this activity type?\n\nUsers will no longer be able to select this value when adding or editing activities.", @selenium.get_confirmation()
   end
   
   # Delete activity
-  def test_5_deleteActivity
-    assert_equal "Delete", @selenium.get_text("link=Delete")
-    @page.click_and_wait "link=Delete"
+  def delete_activity
+    assert_equal "Delete", @selenium.get_text("//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Delete')]")
+    @page.click_and_wait "//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all activity type records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
     @page.click_and_wait "_qf_ActivityType_next"
     assert @selenium.is_text_present("Selected activity type has been deleted.")
