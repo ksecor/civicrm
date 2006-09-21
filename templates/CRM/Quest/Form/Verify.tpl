@@ -9,7 +9,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.hash.label}</td>
-    <td class="fieldlabel">{$form.hash.html}<br />{ts}Please enter the exact Code 1 value as specified in the Recommendation Request.{/ts}</td>
+    <td class="fieldlabel">{$form.hash.html}<br />{ts}Please enter the exact Confirmation Code value as specified in the Recommendation Request.{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.email.label}</td>
