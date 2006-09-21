@@ -8,6 +8,10 @@
     <td colspan=2 class="grouplabel"><p>{ts}Complete this form to select a password and verify your initial login to the QuestBridge Recommendations site. You will be automatically logged in to your personal <strong>Locker</strong> once you submit this form.{/ts}</p></td>
 </tr>
 <tr>
+    <td class="grouplabel">{$form.hash.label}</td>
+    <td class="fieldlabel">{$form.hash.html}<br />{ts}Please enter the exact Code 1 value as specified in the Recommendation Request.{/ts}</td>
+</tr>
+<tr>
     <td class="grouplabel">{$form.email.label}</td>
     <td class="fieldlabel">{$form.email.html}<br />{ts}Please enter the exact email address where you received this Recommendation Request.{/ts}</td>
 </tr>

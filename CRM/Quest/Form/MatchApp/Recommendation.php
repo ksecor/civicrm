@@ -119,6 +119,7 @@ SELECT cr.id           as contact_id,
    AND t.responsible_entity_id    = cr.id
    AND t.target_entity_table      = 'civicrm_contact'
    AND t.target_entity_id         = cs.id
+   AND t.status_id               IN (326, 327, 328)
  ORDER BY rs.relationship_type_id
 ";
 

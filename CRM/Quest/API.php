@@ -282,15 +282,10 @@ SELECT cs.id                   as contact_id,
         return null;
     }
 
-    static function getContactByHash( $h, $m, $email ) {
+    static function getContactByHash( $h, $email ) {
         require_once 'CRM/Contact/BAO/Contact.php';
 
         $email = trim( $email );
-
-        // make sure email and the md5 are the same
-        if ( $m != md5( $email ) ) {
-            return false;
-        }
 
         $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $email );
         if ( ! $dao ) {
