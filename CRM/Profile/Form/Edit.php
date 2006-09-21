@@ -108,25 +108,27 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         // set the title
         CRM_Utils_System::setTitle( $ufGroup->title );
         $this->assign( 'recentlyViewed', false );
-
+        
         $postURL   = CRM_Utils_Array::value( 'postURL', $_POST );
         $cancelURL = CRM_Utils_Array::value( 'cancelURL', $_POST );
-
+        
         if ( ! $postURL ) {
             $postURL = $ufGroup->post_URL;
-        } 
+        }
+        
         if ( ! $postURL ) {
             $postURL = CRM_Utils_System::url('civicrm/profile/edit', '&amp;gid='.$this->_gid.'&amp;reset=1' );
+            
         }
-
+        
         if ( ! $cancelURL ) {
             $cancelURL = $ufGroup->cancel_URL;
         } 
-       
+        
         // we do this gross hack since qf also does entity replacement
         $postURL = str_replace( '&amp;', '&', $postURL   );
         $cancelURL = str_replace( '&amp;', '&', $cancelURL );
-       
+        
         $this->addElement( 'hidden', 'postURL', $postURL );
         if ( $cancelURL ) {
             $this->addElement( 'hidden', 'cancelURL', $cancelURL );
@@ -138,16 +140,16 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
             $errorURL = str_replace( '&amp;', '&', $errorURL ); 
             $this->addElement( 'hidden', 'errorURL', $errorURL ); 
         }
-
-        // replace the sesssion stack in case user cancels (and we dont go into postProcess)
+        
+        // replace the session stack in case user cancels (and we dont go into postProcess)
         $session =& CRM_Core_Session::singleton(); 
         $session->replaceUserContext( $postURL ); 
-
+        
         parent::buildQuickForm( );
-
+        
         //get the value from session, this is set if there is any file
         //upload field
-
+        
         $session =& CRM_Core_Session::singleton( );
         $uploadNames = $session->get('uploadNames');
         
@@ -156,7 +158,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         } else {
             $buttonName = 'next'; 
         }
-       
+        
         $this->addButtons(array(
                                 array ('type'      => $buttonName,
                                        'name'      => ts('Save'),
@@ -166,11 +168,11 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
                                        'isDefault' => true)
                                 )
                           );
-
-
+        
+        
         $this->addFormRule( array( 'CRM_Profile_Form', 'formRule' ), $this->_id );
     }
-
+    
     /**
      * Process the user submitted custom data values.
      *
@@ -180,14 +182,17 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
     public function postProcess( ) 
     {
         parent::postProcess( );
-
+        
         CRM_Core_Session::setStatus(ts('Thank you. Your information has been saved.'));
-
+                
+        // commented for CRM-1250
+        /*
         $session =& CRM_Core_Session::singleton( );
         $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/profile/view',
                                                              "reset=1&id={$this->_id}&gid={$this->_gid}" ) );
+        */
     }
-
+    
     /**
      * Function to intercept QF validation and do our own redirection
      *
