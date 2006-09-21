@@ -53,13 +53,21 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * maximum contacts that should be allowed to update
      *
      */
-    protected $_maxContacts = 100;
+    protected $_maxContacts = 2;
 
     /**
      * maximum profile fields that will be displayed
      *
      */
     protected $_maxFields = 8;
+
+
+    /**
+     * variable to store redirect path
+     *
+     */
+    protected $_userContext;
+
 
     /**
      * build all the data structures needed to build the form
@@ -72,7 +80,10 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
          * initialize the task and row fields
          */
         parent::preProcess( );
-        
+    
+        $session =& CRM_Core_Session::singleton();
+        $this->_userContext = $session->readUserContext( );
+    
         $validate = false;
         //validations
         if ( count($this->_contactIds) > $this->_maxContacts) {
@@ -86,7 +97,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
         }
 
         if ($validate) { // than redirect
-            
+            CRM_Utils_System::redirect( $this->_userContext );
         }
     }
   
@@ -112,6 +123,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
             $this->addDefaultButtons( ts('Save') );
             $this->_fields  = array( );
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId );
+            $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
             
             $this->addButtons( array(
                                      array ( 'type'      => 'submit',
@@ -126,13 +138,8 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
             $this->assign( 'contactIds', $this->_contactIds );
             
             foreach ($this->_contactIds as $contactId) {
-                $count = 0;
                 foreach ($this->_fields as $name => $field ) {
-                    if ($count == $this->_maxFields) {
-                        continue;
-                    }
                     CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $contactId );
-                    $count++;
                 }
             }
             
@@ -142,6 +149,38 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
         $this->addElement( 'submit', $this->getButtonName('refresh'), $bName, array( 'class' => 'form-submit' ) );
         $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );
     }
+
+    /**
+     * Add local and global form rules
+     *
+     * @access protected
+     * @return void
+     */
+    function addRules( ) {
+        $this->addFormRule( array( 'CRM_Contact_Form_Task_BatchUpdateProfile', 'formRule' ) );
+    }
+    
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields ) {
+        require_once "CRM/Core/BAO/UFField.php";
+        if ( CRM_Core_BAO_UFField::checkProfileType($fields['uf_group_id'], true) ) {
+            $errorMsg['uf_group_id'] = "You cannot select mix profile for batch update.";
+        }
+
+        if ( !empty($errorMsg) ) {
+            return $errorMsg;
+        }
+        
+        return true;
+    }    
 
     /**
      * This function sets the default values for the form.
@@ -170,6 +209,8 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
     }
 
 
+
+
     /**
      * process the form after the input has been submitted and validated
      *
@@ -190,6 +231,9 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
         foreach($params['field'] as $key => $value) {
             CRM_Contact_BAO_Contact::createProfileContact($value, $this->_fields, $key, null, $ufGroupId );
         }
+        
+        CRM_Core_Session::setStatus("Your updates have been saved.");
+        CRM_Utils_System::redirect( $this->_userContext );
         
     }//end of function
 }
