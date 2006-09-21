@@ -2,7 +2,6 @@
 
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<xi:include href="ACL.xml"              parse="xml" />
 <xi:include href="ActivityHistory.xml"  parse="xml" />
 <xi:include href="Address.xml"          parse="xml" />
 <xi:include href="Country.xml"          parse="xml" />
@@ -12,7 +11,6 @@
 <xi:include href="CustomOption.xml"     parse="xml" />
 <xi:include href="CustomValue.xml"      parse="xml" />
 <xi:include href="Domain.xml"           parse="xml" />
-<xi:include href="ACLGroupJoin.xml"     parse="xml" />
 <xi:include href="Email.xml"            parse="xml" />
 <xi:include href="EmailHistory.xml"     parse="xml" />
 <xi:include href="EntityTag.xml"        parse="xml" />
