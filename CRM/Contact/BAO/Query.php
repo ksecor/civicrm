@@ -2058,23 +2058,29 @@ class CRM_Contact_BAO_Query {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         // also get values array for relation_target_name
+        // for relatinship search we always do wildcard
         $targetName = $this->getWhereValues( 'relation_target_name', $grouping );
         if ( ! $targetName ) {
-            return;
+            $name = null;
+        } else {
+            $name = trim( $targetName[2] );
+            $name = strtolower( addslashes( $name ) );
         }
 
-        $name = trim( $targetName[2] );
-        $name = strtolower( addslashes( $name ) );
-        $name = $targetName[4] ? "%$name%" : $name;
 
         $rel = explode( '_' , $value );
 
         self::$_relType = $rel[1];
         if ( $rel[1] == 'a') {
-            $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) {$targetName[1]} '$name'";
+            // for relatinship search we always do wildcard
+            if ( $name ) {
+                $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) LIKE '%{$name}%'";
+            }
             $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
         } else if ( $rel[1] == 'b')  {
-            $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) {$targetName[1]} '$name'";
+            if ( $name ) {
+                $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) LIKE '%{$name}%'";
+            }
             $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
         }
         $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
@@ -2087,6 +2093,7 @@ class CRM_Contact_BAO_Query {
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
         $this->_qill[$grouping][]  = "$allRelationshipType[$value]  $name";
+        $this->_useDistinct = true;
     }
 
     /**

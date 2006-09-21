@@ -241,6 +241,9 @@
             </td>
             <td>
                 {$form.relation_target_name.html|crmReplace:class:large}
+                <div class="description font-italic">
+                    {ts}Complete OR partial contact name.{/ts}
+                </div>
             </td>    
         </tr>
       </table>         

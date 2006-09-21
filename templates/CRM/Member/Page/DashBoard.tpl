@@ -38,10 +38,11 @@
 </tr>
 </table>
 
-
+{if $rows}
 {* if $pager->_totalItems *}
     <h3>{ts}Recent Memberships{/ts}</h3>
     <div class="form-item">
         { include file="CRM/Member/Form/Selector.tpl" context="DashBoard" }
     </div>
 {* /if *}
+{/if}

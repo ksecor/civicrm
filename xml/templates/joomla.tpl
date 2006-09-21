@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
   <name>CiviCRM</name>
-  <creationDate>03/01/2006</creationDate>
+  <creationDate>09/15/2006</creationDate>
   <author>Donald A. Lobo.</author>
   <copyright>(C) CiviCRM LLC</copyright>
   <authorEmail>lobo@civicrm.org</authorEmail>
-  <authorUrl>www.openngo.org</authorUrl>
-  <version>1.4</version>
+  <authorUrl>www.civicrm.org</authorUrl>
+  <version>1.5</version>
   <description>CiviCRM</description>
   <files>
       <filename>civicrm.php</filename>
@@ -16,6 +16,7 @@
     <param name="task" type="list" default="civicrm/profile" label="Choose CiviCRM task">
        <option value="civicrm/profile">Profile Search and Listings</option>
        <option value="civicrm/profile/create">Profile Create</option>
+       <option value="civicrm/profile/edit">Profile Edit</option>
        <option value="civicrm/contribute/transact">Online Contribution</option>
     </param>
     <param name="id"    type="text" size="5" default="1" label="Contribution id" />
