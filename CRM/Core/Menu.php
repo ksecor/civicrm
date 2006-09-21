@@ -222,8 +222,8 @@ class CRM_Core_Menu {
                             'icon'    => 'admin/import_export_map.png',
                             'weight'  => 290
                             ),
-                      
-                      array(
+
+                     array(
                             'path'    => 'civicrm/contact/domain',
                             'title'   => ts('Edit Domain Information'),
                             'query'  => 'reset=1&action=update',
@@ -318,6 +318,18 @@ class CRM_Core_Menu {
                             'adminGroup' => ts('Setup'),
                             'icon'    => 'admin/10.png',
                             'weight'  => 350
+                            ),
+
+
+                      array(
+                            'path'    => 'civicrm/admin/options',
+                            'title'   => ts('Preferred Communication Options'),
+                            'query'  => 'group=preferred_communication_method&reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => ts('Setup'),
+                            'icon'    => 'admin/05.png',
+                            'weight'  => 360
                             ),
 
                       array(

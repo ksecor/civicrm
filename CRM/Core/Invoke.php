@@ -472,11 +472,6 @@ class CRM_Core_Invoke {
             $view =& new CRM_Admin_Page_LocationType(ts('View Location Types'));
             break;
 
-        case 'activityType':
-            require_once 'CRM/Admin/Page/ActivityType.php';
-            $view =& new CRM_Admin_Page_ActivityType(ts('View Activity Types'));
-            break;
-
         case 'reltype':
             require_once 'CRM/Admin/Page/RelationshipType.php';
             $view =& new CRM_Admin_Page_RelationshipType(ts('View Relationship Types'));
