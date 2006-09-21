@@ -35,17 +35,13 @@
       <title>US Citizenship Status</title>
       <type>int unsigned</type>
       <comment>Implicit FK to civicrm_option_value, option_group=citizenship_status.</comment>
-      <export>true</export>
-      <import>true</import>
-     <add>1.5</add>
+      <add>1.5</add>
   </field>
   <field>
       <name>citizenship_country_id</name>
       <title>Country of Citizenship</title>
       <type>int unsigned</type>
       <comment>Country of citizenship.</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
   <foreignKey>
@@ -60,8 +56,6 @@
       <title>Where did you grow up ?</title>
       <type>int unsigned</type>
       <comment>Country where person grew up.</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
   <foreignKey>
@@ -76,8 +70,6 @@
       <title>Country of Heritage/Nationality</title>
       <type>int unsigned</type>
       <comment>Country(ries) of familys origin</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
   <foreignKey>
@@ -92,8 +84,6 @@
       <title>Country(ries) of familys origin</title>
       <type>int unsigned</type>
       <comment>Country of persons nationality.</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
   <foreignKey>
@@ -108,8 +98,6 @@
       <title>Country(ries) of familys origin</title>
       <type>int unsigned</type>
       <comment>Country of persons nationality.</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
   <foreignKey>
@@ -122,7 +110,6 @@
   <field>
       <name>ethnicity_id_1</name>
       <type>int unsigned</type>
-      <export>true</export>
       <title>Ethnicity 1</title>
       <comment>Implicit FK to civicrm_option_value, option_group=ethnicity.</comment>
       <add>1.5</add>
@@ -137,8 +124,6 @@
        <name>tribe_affiliation</name>
        <type>varchar</type>
        <length>255</length>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/tribe/i</headerPattern>
        <comment>Specifies tribe if ethnicity is Native American.</comment>
       <add>1.5</add>
@@ -147,8 +132,6 @@
        <name>tribe_enroll_date</name>
        <type>date</type>
        <default>NULL</default>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/tribe enroll/i</headerPattern>
        <comment>If ethnicity is Native American, date the person enrolled in their tribe (only MMYYYY is significant).</comment>
        <add>1.5</add>
@@ -157,8 +140,6 @@
        <name>ethnicity_other</name>
        <type>varchar</type>
        <length>255</length>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/other ethnicity/i</headerPattern>
        <comment>Specifies ethnicity if ethnicity_id_1 value is Other.</comment>
       <add>1.5</add>
@@ -168,16 +149,12 @@
       <title>Home Area</title>
       <type>int unsigned</type>
       <comment>Type of area primary home is in (e.g. Rural, Suburban). FK to civicrm_option_value.</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
   <field>
       <name>years_in_us</name>
       <title>Years in US</title>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/years us/i</headerPattern>
       <comment>Number of years person has lived in the United States.</comment>
       <add>1.5</add>
@@ -186,9 +163,7 @@
        <name>first_language</name>
        <type>varchar</type>
        <length>128</length>
-       <export>true</export>
-       <import>true</import>
-       <headerPattern>/first language/i</headerPattern>
+        <headerPattern>/first language/i</headerPattern>
        <comment>First language spoken by this person.</comment>
       <add>1.5</add>
   </field>
@@ -196,8 +171,6 @@
        <name>primary_language</name>
        <type>varchar</type>
        <length>128</length>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/primary language/i</headerPattern>
        <comment>Primary language spoken at home.</comment>
       <add>1.5</add>
@@ -206,9 +179,7 @@
        <name>is_partner_share</name>
        <type>boolean</type>
        <default>0</default>
-       <export>true</export>
        <title>Partner Share</title>
-       <import>true</import>
        <comment>OK to share this persons info with partner schools.</comment>
        <add>1.5</add>
   </field>
@@ -216,9 +187,7 @@
        <name>is_recommendation_waived</name>
        <type>boolean</type>
        <default>0</default>
-       <export>true</export>
        <title>Right to Waive Recommendations</title>
-       <import>true</import>
        <comment>waive my right of access to my recommendations</comment>
        <add>1.5</add>
   </field>
@@ -226,9 +195,7 @@
        <name>high_school_grad_year</name>
        <type>date</type>
        <default>NULL</default>
-       <export>true</export>
        <title>High School Grad Year</title>
-       <import>true</import>
        <headerPattern>/graduate/i</headerPattern>
        <comment>Year of high school graduation (only YYYY is significant).</comment>
        <add>1.5</add>
@@ -237,7 +204,6 @@
       <name>parent_grad_college_id</name>
       <type>int unsigned</type>
       <default>NULL</default>
-      <export>false</export>
       <title>Parent Graduation College</title>
       <comment>Has any parent or guardian graduated from a 4-year college?</comment>
       <add>1.5</add>
@@ -247,16 +213,12 @@
        <title>Internet Access</title>
        <type>int unsigned</type>
        <comment>How do they access the internet. Implicit FK to civicrm_option_value.</comment>
-       <export>true</export>
-       <import>true</import>
       <add>1.5</add>
   </field>
   <field>
        <name>internet_access_other</name>
        <type>varchar</type>
        <length>255</length>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/other internet access/i</headerPattern>
        <comment>Alternate response for how they access the internet.</comment>
       <add>1.5</add>
@@ -265,9 +227,7 @@
        <name>is_home_computer</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Home Computer</title>
-       <import>true</import>
        <headerPattern>/home computer/i</headerPattern>
        <comment>Has a computer at home.</comment>
        <add>1.5</add>
@@ -276,9 +236,7 @@
        <name>is_home_internet</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Home Internet</title>
-       <import>true</import>
        <headerPattern>/home internet/i</headerPattern>
        <comment>Has internet access at home.</comment>
        <add>1.5</add>
@@ -287,9 +245,7 @@
        <name>is_take_SAT_ACT</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Taken SAT ACT</title>
-       <import>true</import>
        <headerPattern>/take SAT/i</headerPattern>
        <comment>Plans on taking SAT or ACT test.</comment>
        <add>1.5</add>
@@ -298,9 +254,7 @@
        <name>is_dismissed</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Dismissed</title>
-       <import>true</import>
        <headerPattern>/dismissed/i</headerPattern>
        <comment>Dismissed from school.</comment>
        <add>1.5</add>
@@ -318,9 +272,7 @@
        <name>is_convicted</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Convicted</title>
-       <import>true</import>
        <headerPattern>/convicted/i</headerPattern>
        <comment>Convicted from school.</comment>
        <add>1.5</add>
@@ -339,8 +291,6 @@
       <title>Study Method</title>
       <type>int unsigned</type>
       <comment>How they plan on studying for SAT or ACT test. Implicit FK to civicrm_option_value.</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
   <field>
@@ -348,8 +298,6 @@
        <type>varchar</type>
        <length>255</length>
        <default>NULL</default>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/educational interest/i</headerPattern>
        <comment>Which educational areas are they interested in. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = educational_interest.</comment>
       <add>1.5</add>
@@ -368,8 +316,6 @@
        <type>varchar</type>
        <length>255</length>
        <default>NULL</default>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/college type/i</headerPattern>
        <comment>Types of college they are interested in attending. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = college_type.</comment>
       <add>1.5</add>
@@ -379,8 +325,6 @@
        <type>varchar</type>
        <length>255</length>
        <default>NULL</default>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/college interest/i</headerPattern>
        <comment>Which colleges are they interested in. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = college_interest.</comment>
       <add>1.5</add>
@@ -391,8 +335,6 @@
        <htmlType>textarea</htmlType>
        <rows>4</rows>
        <cols>40</cols>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/other college/i</headerPattern>
        <comment>Which other colleges are they interested in.</comment>
       <add>1.5</add>
@@ -403,8 +345,6 @@
       <default>NULL</default>
       <title>GPA (unweighted)</title>
       <comment>Unweighted Grade Point Average (GPA) range. Implicit FK to civicrm_option_value.</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
   <field>
@@ -413,17 +353,13 @@
       <default>NULL</default>
       <title>GPA (weighted)</title>
       <comment>Weighted Grade Point Average (GPA) range. Implicit FK to civicrm_option_value.</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
   <field>
        <name>is_class_ranking</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Has Class Ranking</title>
-       <import>true</import>
        <headerPattern>/class ranking/i</headerPattern>
        <comment>Does students class have rankings.</comment>
        <add>1.5</add>
@@ -431,8 +367,6 @@
   <field>
       <name>class_rank</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/class rank/i</headerPattern>
       <comment>Class rank (numeric value).</comment>
       <add>1.5</add>
@@ -442,15 +376,11 @@
       <title>Percent class rank</title>
       <type>int unsigned</type>
       <comment>Class rank percent range. Implicit FK to civicrm_option_value.</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
   <field>
       <name>class_num_students</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/number students/i</headerPattern>
       <comment>Total number of students in this persons class.</comment>
       <add>1.5</add>
@@ -461,8 +391,6 @@
        <htmlType>textarea</htmlType>
        <rows>4</rows>
        <cols>60</cols>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/gpa explanation/i</headerPattern>
        <comment>Descriptive comments about students GPA.</comment>
       <add>1.5</add>
@@ -471,9 +399,7 @@
        <name>is_tutoring</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Received Tutoring</title>
-       <import>true</import>
        <headerPattern>/tutoring/i</headerPattern>
        <comment>Has student received tutoring or taken prep classes?</comment>
        <add>1.5</add>
@@ -482,8 +408,6 @@
        <name>test_tutoring</name>
        <type>varchar</type>
        <length>255</length>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/tutoring/i</headerPattern>
        <comment>Which tests have they received tutoring for. Multi-select checkbox array populates a delimited list civicrm_option_value IDs. Available options have civicrm_option_group.name = test.</comment>
       <add>1.5</add>
@@ -492,9 +416,7 @@
        <name>is_SAT_again</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Plans to Take SAT Again</title>
-       <import>true</import>
        <headerPattern>/SAT again/i</headerPattern>
        <comment>Does student plan to take SAT again?</comment>
        <add>1.5</add>
@@ -503,8 +425,6 @@
        <name>SAT_plan_date</name>
        <type>date</type>
        <default>NULL</default>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/SAT again date/i</headerPattern>
        <comment>Date when student plans to take SAT again. (only MMYYYY is significant).</comment>
        <add>1.5</add>
@@ -513,9 +433,7 @@
        <name>is_ACT_again</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Plans to Take ACT Again</title>
-       <import>true</import>
        <headerPattern>/ACT again/i</headerPattern>
        <comment>Does student plan to take ACT again?</comment>
        <add>1.5</add>
@@ -524,8 +442,6 @@
        <name>ACT_plan_date</name>
        <type>date</type>
        <default>NULL</default>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/ACT again date/i</headerPattern>
        <comment>Date when student plans to take ACT again. (only MMYYYY is significant).</comment>
        <add>1.5</add>
@@ -534,9 +450,7 @@
        <name>is_more_SATII</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Take More SATII Tests?</title>
-       <import>true</import>
        <headerPattern>/more SATII/i</headerPattern>
        <add>1.5</add>
   </field>
@@ -544,8 +458,6 @@
        <name>more_SATII_subjects</name>
        <type>varchar</type>
        <length>255</length>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/more SATII/i</headerPattern>
        <comment>Which additional SATII subject tests is student planning to take.</comment>
       <add>1.5</add>
@@ -554,8 +466,6 @@
        <name>SATII_plan_date</name>
        <type>date</type>
        <default>NULL</default>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/SATII more date/i</headerPattern>
        <comment>Date when student plans to take more SATII tests. (only MMYYYY is significant).</comment>
        <add>1.5</add>
@@ -564,9 +474,7 @@
        <name>is_SAT_after_prep</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
-       <title>Took SAT again after Princeton Review prep?</title>
-       <import>true</import>
+        <title>Took SAT again after Princeton Review prep?</title>
        <headerPattern>/took SAT after prep/i</headerPattern>
        <add>1.5</add>
   </field>
@@ -574,17 +482,13 @@
        <name>is_SAT_prep_improve</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Did SAT improve after Princeton Review prep?</title>
-       <import>true</import>
        <headerPattern>/SAT improve after prep/i</headerPattern>
        <add>1.5</add>
   </field>
   <field>
       <name>SAT_prep_improve</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/how much SAT improve/i</headerPattern>
       <comment>How much did SAT score improve after Princeton Review prep?</comment>
       <add>1.5</add>
@@ -592,26 +496,21 @@
   <field>  
        <name>number_siblings</name>  
        <type>int</type>  
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/number siblings/i</headerPattern>
        <comment>Number of siblings this student has.</comment>
-      <add>1.5</add>
+       <add>1.5</add>
   </field>
   <field>
       <name>fed_lunch_id</name>
       <title>Federal Lunch Program Eligibility</title>
       <type>int unsigned</type>
       <comment>Federal lunch program eligibility. Implicit FK to civicrm_option_value.</comment>
-      <export>true</export>
-      <import>true</import>
       <add>1.5</add>
   </field>
  <field>
        <name>financial_aid_applicant</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <comment>Plans to be a financial aid applicant to colleges.</comment>
        <add>1.5</add>
   </field>
@@ -619,14 +518,12 @@
        <name>register_standarized_tests</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <comment>Plans to use, or have fee waivers to register for standarized tests.</comment>
        <add>1.5</add>
   </field>
  <field>
       <name>award_ranking_1_id</name>
       <type>int unsigned</type>
-      <export>true</export>
       <title>Award Ranking 1</title>
       <comment>Rank the scholarship awards .</comment>
       <add>1.5</add>
@@ -634,7 +531,6 @@
  <field>
       <name>award_ranking_2_id</name>
       <type>int unsigned</type>
-      <export>true</export>
       <title>Award Ranking 2</title>
       <comment>Rank the scholarship awards.</comment>
       <add>1.5</add>
@@ -642,7 +538,6 @@
  <field>
       <name>award_ranking_3_id</name>
       <type>int unsigned</type>
-      <export>true</export>
       <title>Award Ranking 3</title>
       <comment>Rank the scholarship awards.</comment>
       <add>1.5</add>
@@ -651,7 +546,6 @@
        <name>is_alternate_grading</name>
        <type>boolean</type>
        <default>NULL</default>
-       <export>true</export>
        <title>Uses Alternate Grading</title>
        <headerPattern>/alternate grading/i</headerPattern>
        <comment>Did this students school use alternate grading for any grade.</comment>
@@ -715,16 +609,12 @@
       <name>match_likely_id</name>
       <title>How likely is student to go through binding College Match?</title>
       <type>int unsigned</type>
-       <export>true</export>
-       <import>true</import>
       <comment>Uses option_value records with option_group = match_likely.</comment>
       <add>1.5</add>
  </field>
  <field>
        <name>is_health_insurance</name>
        <type>boolean</type>
-       <export>true</export>
-       <import>true</import>
        <title>Does student have health insurance?</title>
        <headerPattern>/health insurance/i</headerPattern>
        <comment>Did this student have health insurance.</comment>
@@ -734,9 +624,7 @@
        <name>is_partner_supplement_share</name>
        <type>boolean</type>
        <default>0</default>
-       <export>true</export>
        <title>Partner Supplement Share</title>
-       <import>true</import>
        <comment>OK to share this persons info with partner schools.</comment>
        <add>1.5</add>
   </field>

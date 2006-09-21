@@ -89,8 +89,6 @@
   <field>
       <name>SAT_writing</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/SAT score writing/i</headerPattern>
       <comment>Highest reported writing score.</comment>
       <add>1.5</add>
@@ -107,8 +105,6 @@
   <field>
       <name>ACT_english</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/ACT score english/i</headerPattern>
       <comment>Highest reported ACT english score.</comment>
       <add>1.5</add>
@@ -116,8 +112,6 @@
   <field>
       <name>ACT_reading</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/ACT score reading/i</headerPattern>
       <comment>Highest reported ACT reading score.</comment>
       <add>1.5</add>
@@ -125,8 +119,6 @@
   <field>
       <name>ACT_math</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/ACT score math/i</headerPattern>
       <comment>Highest reported ACT math score.</comment>
       <add>1.5</add>
@@ -134,8 +126,6 @@
   <field>
       <name>ACT_science</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/ACT score science/i</headerPattern>
       <comment>Highest reported ACT science score.</comment>
       <add>1.5</add>
@@ -143,8 +133,6 @@
   <field>
       <name>PSAT_composite</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/PSAT score/i</headerPattern>
       <comment>Combined highest reported scores (PSAT).</comment>
       <add>1.5</add>
@@ -152,8 +140,6 @@
   <field>
       <name>PLAN_composite</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/ACT score/i</headerPattern>
       <comment>Combined highest reported scores (PLAN).</comment>
       <add>1.5</add>
@@ -170,8 +156,6 @@
   <field>     
        <name>household_member_count</name>  
        <type>int</type>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/household count/i</headerPattern>
        <comment>Number of people in the current household. Cloned from quest_household.member_count WHERE household_type is Current.</comment>
       <add>1.5</add>
@@ -268,6 +252,8 @@
        <name>cmr_comment</name>
        <title>Comments</title>
        <type>text</type>
+       <export>true</export>
+       <import>true</import>
        <htmlType>textarea</htmlType>
        <rows>3</rows>
        <cols>30</cols>
