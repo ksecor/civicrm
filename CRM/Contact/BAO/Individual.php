@@ -150,7 +150,10 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
             $fieldName = 'prefix_id';
         } elseif ( strstr($ids['gName'], 'suffix') ) {
             $fieldName = 'suffix_id';
+        } elseif ( strstr($ids['gName'], 'activity_type') ) {
+            $fieldName = 'activity_type_id';
         }
+
         if ($fieldName == '') return;
         // query for the affected individuals
         //$fieldValue = CRM_Utils_Type::escape($fieldValue, 'Integer');
@@ -170,6 +173,25 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
             $contact->display_name = $individual->displayName();
             $contact->save();
         }
+
+        require_once 'CRM/Activity/DAO/Activity.php';
+        //check dependencies
+
+        $activityIds = array( );
+        $activityTypeId = $ids['value'];
+        $activity =& new CRM_Activity_DAO_Activity( );
+        $activity->activity_type_id = $activityTypeId;
+        $activity->find();
+        while ($activity->fetch()) {
+            $activityIds[$activity->id] = $activity->id;
+        }
+        
+        foreach ($activityIds as $key) {
+            //delete from civicrm_activity
+            $activity->id = $key;
+            $activity->delete();
+        }
+        
     }
 
     /**
