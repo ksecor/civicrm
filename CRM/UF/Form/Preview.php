@@ -149,6 +149,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
+        $scoreAttribs = array('SAT_composite', 'SAT_composite_alt', 'SAT_reading', 'SAT_math' ,'SAT_writing', 'ACT_composite', 'ACT_english', 'ACT_reading', 'ACT_math', 'ACT_science', 'PSAT_composite', 'PLAN_composite', 'household_income_total', 'household_member_count');
+        
+        $readers = array('cmr_first_generation_id', 'cmr_income_increase_id', 'cmr_need_id', 'cmr_grade_id', 'cmr_class_id', 'cmr_score_id', 'cmr_academic_id', 'cmr_disposition_id');
+        
         // add the form elements
         require_once "CRM/Contribute/PseudoConstant.php";
         foreach ($this->_fields as $name => $field ) {
@@ -215,7 +219,26 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 require_once 'CRM/Core/OptionGroup.php';
                 $this->add('select', 'ethnicity_id_1', $field['title'],
                            array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('ethnicity'), $required);
+            } else if ($field['name'] == 'cmr_comment' ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                $this->add('textarea', $name, $field['title'], array('cols' => '30', 'rows' => '2'), $required);
+            } else if (in_array($field['name'], $readers) || 
+                       ($field['name'] == 'gpa_unweighted_calc') || ($field['name'] == 'gpa_weighted_calc')) {
+                $readerParts = explode('_', $field['name']);
+                for($i = 0; $i < (count($readerParts)-1); $i++) {
+                    if ($i == 0) {
+                        $readerGroup = $readerParts[$i];
+                    } else {
+                        $readerGroup = $readerGroup . '_' . $readerParts[$i];
+                    }
+                }
+                require_once 'CRM/Core/OptionGroup.php';
+                $this->add('select', $field['name'], $field['title'],
+                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($readerGroup), $required);
             } else {
+                if (in_array($field['name'], $scoreAttribs) && (! $field['attributes'])) {
+                    $field['attributes'] = array('maxlength' => 8, 'size' => 4);
+                }
                 $this->add('text', $name, $field['title'], $field['attributes'], $required);
             }
         }
