@@ -16,7 +16,7 @@ class TS_CiviCRMTests
     #suite << TC_TestAdminTag.suite
     #suite << TC_TestAdminRelationshipType.suite
     #suite << TC_TestAdminOptionGroup.suite
-    suite << TC_TestAdminImportExportMapping.suite
+    #suite << TC_TestAdminImportExportMapping.suite
     
     #suite << TC_TestAdminGender.suite
     #suite << TC_TestAdminIMProvider.suite
@@ -39,7 +39,10 @@ class TS_CiviCRMTests
     #suite << TC_TestNewHousehold.suite
     #suite << TC_TestNewOrganization.suite
     #suite << TC_TestImportContacts.suite
-    
+    #suite << TC_TestCiviContribute.suite
+    #suite << TC_TestCiviMember.suite
+    #suite << TC_TestFindContacts.suite
+    suite << TC_TestAdvancedSearch.suite
     return suite
   end
 end
