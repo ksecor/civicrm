@@ -134,25 +134,10 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
      */
     static function del($optionValueId) 
     {
-        //echo $optionValueId;
         $optionValue =& new CRM_Core_DAO_OptionValue( );
         $optionValue->id = $optionValueId;
-        $optionValue->find(true);
-        
-        $optionGroup =& new CRM_Core_DAO_OptionGroup( );
-        $optionGroup->id = $optionValue->option_group_id;
-        $optionGroup->find(true);
-        
-        $ids = array('id'    => $optionValueId,
-                     'gName' => $optionGroup->name,
-                     'value' => $optionValue->value);
-        require_once 'CRM/Contact/BAO/Individual.php';
-        CRM_Contact_BAO_Individual::updateDisplayNames($ids, CRM_Core_Action::DELETE);
-        
-        //$optionValue->delete();
-        
-        // Returning the count of deleted otion value
-        // as it is used in if condition in CRM/Admin/Form/Gender
+
+        self::updateRecords($optionValueId, CRM_Core_Action::DELETE);
         
         return $optionValue->delete();
     }
@@ -187,7 +172,86 @@ AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.n
         return $description;
     }
     
+    /**
+     * updates contacts affected by the option value passed.
+     *
+     * @param Integer $optionValueId     the option value id.
+     * @param int     $action            the action describing whether prefix/suffix was UPDATED or DELETED
+     *
+     * @return void
+     */
+    static function updateRecords(&$optionValueId, $action) {
+        //finding group name
+        $optionValue =& new CRM_Core_DAO_OptionValue( );
+        $optionValue->id = $optionValueId;
+        $optionValue->find(true);
+        
+        $optionGroup =& new CRM_Core_DAO_OptionGroup( );
+        $optionGroup->id = $optionValue->option_group_id;
+        $optionGroup->find(true);
+        
+        $gName = $optionGroup->name; //group name
+        $value = $optionValue->value; //value
+        
+        // get the proper group name & affected field name
+        $individuals   = array('gender'            => 'gender_id', 
+                               'individual_prefix' => 'prefix_id', 
+                               'individual_suffix' => 'suffix_id');
+        $contributions = array('payment_instrument'=> 'payment_instrument_id');
+        $activities    = array('activity_type'     => 'activity_type_id');
 
-    
+        $all = array_merge($individuals, $contributions, $activities);
+        $fieldName = '';
+        
+        foreach($all as $name => $id) {
+            if ($gName == $name) {
+                $fieldName = $id;
+            }
+        }
+        if ($fieldName == '') return;
+        
+        if (array_key_exists($gName, $individuals)) {
+            // query for the affected individuals
+            require_once 'CRM/Contact/BAO/Individual.php';
+            $individual =& new CRM_Contact_BAO_Individual();
+            $individual->$fieldName = $value;
+            $individual->find();
+            
+            // iterate through the affected individuals and rebuild their display_names
+            require_once 'CRM/Contact/BAO/Contact.php';
+            while ($individual->fetch()) {
+                $contact =& new CRM_Contact_BAO_Contact();
+                $contact->id = $individual->contact_id;
+                if ($action == CRM_Core_Action::DELETE) {
+                    $individual->$fieldName = 'NULL';
+                    $individual->save();
+                }
+                $contact->display_name = $individual->displayName();
+                $contact->save();
+            }
+        }
+        
+        if (array_key_exists($gName, $contributions)) {
+            $contribution =& new CRM_Contribute_DAO_Contribution();
+            $contribution->$fieldName = $value;
+            $contribution->find();
+            while ($contribution->fetch()) {
+                if ($action == CRM_Core_Action::DELETE) {
+                    $contribution->$fieldName = 'NULL';
+                    $contribution->save();
+                }
+            }
+        }
+        
+        if (array_key_exists($gName, $activities)) {
+            require_once 'CRM/Activity/DAO/Activity.php';
+            $activity =& new CRM_Activity_DAO_Activity( );
+            $activity->$fieldName = $value;
+            $activity->find();
+            while ($activity->fetch()) {
+                $activity->delete();
+            }
+        }
+    }
 }
 ?>

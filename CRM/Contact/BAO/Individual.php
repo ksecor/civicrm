@@ -141,26 +141,29 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
      * @return void
      */
     static function updateDisplayNames(&$ids, $action) {
-
+        
         // get the proper field name (prefix_id or suffix_id) and its value
         $fieldName = '';
-        if ( strstr($ids['gName'], 'gender') ) {
-            $fieldName = 'gender_id';
-        } elseif ( strstr($ids['gName'], 'prefix') ) {
-            $fieldName = 'prefix_id';
-        } elseif ( strstr($ids['gName'], 'suffix') ) {
-            $fieldName = 'suffix_id';
-        } elseif ( strstr($ids['gName'], 'activity_type') ) {
-            $fieldName = 'activity_type_id';
+        foreach ($ids as $key => $value) {
+            switch ($key) {
+            case 'individualPrefix':
+                $fieldName = 'prefix_id';
+                $fieldValue = $value;
+                break 2;
+            case 'individualSuffix':
+                $fieldName = 'suffix_id';
+                $fieldValue = $value;
+                break 2;
+            }
         }
-
         if ($fieldName == '') return;
+
         // query for the affected individuals
-        //$fieldValue = CRM_Utils_Type::escape($fieldValue, 'Integer');
+        $fieldValue = CRM_Utils_Type::escape($fieldValue, 'Integer');
         $individual =& new CRM_Contact_BAO_Individual();
-        $individual->$fieldName = $ids['value'];
+        $individual->$fieldName = $fieldValue;
         $individual->find();
-        
+
         // iterate through the affected individuals and rebuild their display_names
         require_once 'CRM/Contact/BAO/Contact.php';
         while ($individual->fetch()) {
@@ -173,25 +176,6 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
             $contact->display_name = $individual->displayName();
             $contact->save();
         }
-
-        require_once 'CRM/Activity/DAO/Activity.php';
-        //check dependencies
-
-        $activityIds = array( );
-        $activityTypeId = $ids['value'];
-        $activity =& new CRM_Activity_DAO_Activity( );
-        $activity->activity_type_id = $activityTypeId;
-        $activity->find();
-        while ($activity->fetch()) {
-            $activityIds[$activity->id] = $activity->id;
-        }
-        
-        foreach ($activityIds as $key) {
-            //delete from civicrm_activity
-            $activity->id = $key;
-            $activity->delete();
-        }
-        
     }
 
     /**

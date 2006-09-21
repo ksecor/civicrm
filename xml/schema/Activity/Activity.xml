@@ -37,12 +37,6 @@
        <comment>Foreign key to the referenced item.</comment>
        <add>1.1</add>
   </field>
-  <foreignKey>
-       <name>activity_type_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.6</add>
-  </foreignKey>
   
   <field>
        <name>target_entity_table</name>
