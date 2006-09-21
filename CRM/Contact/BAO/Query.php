@@ -1943,10 +1943,8 @@ class CRM_Contact_BAO_Query {
             // for relatinship search we always do wildcard
            if ( $rTypeValues['name_a_b'] == $rTypeValues['name_b_a'] ) {
                self::$_relType = 'reciprocal';
-               $this->_where[$grouping][] = "( ( LOWER( contact_b.sort_name ) LIKE '%{$name}%' OR LOWER( contact_a.sort_name ) LIKE '%{$name}%' ) AND contact_b.id != contact_a.id )";
-           } else {
-               $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) LIKE '%{$name}%'";
            }
+           $this->_where[$grouping][] = "(  LOWER( contact_b.sort_name ) LIKE '%{$name}%' AND contact_b.id != contact_a.id )";
         }
         $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
         $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
