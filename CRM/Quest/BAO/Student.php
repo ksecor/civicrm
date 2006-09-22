@@ -997,7 +997,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 }
             }
             require_once 'CRM/Core/OptionGroup.php';
-            $this->add('select', $fieldName, $title,
+            $form->add('select', $fieldName, $title,
                        array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($readerGroup), $required);
         } else if ($fieldName == 'high_school_grad_year' ) {
             $form->add('date', 'high_school_grad_year', $title, CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
