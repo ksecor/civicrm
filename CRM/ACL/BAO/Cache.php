@@ -59,7 +59,7 @@ class CRM_ACL_BAO_Cache extends CRM_ACL_DAO_Cache {
             return self::$_cache[$id];
         }
 
-        self::$_cache[$id] = CRM_ACL_BAO_ACL::build( $id );
+        self::$_cache[$id] = CRM_ACL_BAO_ACL::getAllByContact( $id );
         self::store( $id, self::$_cache[$id] );
         return self::$_cache[$id];
     }

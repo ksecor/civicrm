@@ -92,15 +92,15 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
      * @static
      */
     public static function permissionClause(&$tables, $operation,
-                $object_table = null, $object_id = null, 
-                $acl_id = null, $acl_group = false) 
+                                            $object_table = null, $object_id = null, 
+                                            $acl_id = null, $acl_group = false) 
     {
-        $dao =& new CRM_Core_DAO_ACL;
+        $dao =& new CRM_ACL_DAO_ACL;
         
         $t = array(
             'ACL'           => self::getTableName(),
             'ACLGroup'      => CRM_Core_DAO_ACLGroup::getTableName(),
-            'ACLGroupJoin'  => CRM_Core_DAO_ACLGroupJoin::getTableName(),
+            'ACLGroupJoin'  => CRM_ACL_DAO_GroupJoin::getTableName(),
             'Contact'       => CRM_Contact_DAO_Contact::getTableName(),
             'Domain'        => CRM_Core_DAO_Domain::getTableName(),
             'Group'         => CRM_Contact_DAO_Group::getTableName(),
@@ -330,10 +330,14 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
      */
     public function &toArray() {
         $result = array();
-        
-        foreach (array('id', 'deny', 'entity_table', 'entity_id', 
-            'object_table', 'object_id', 'acl_table', 'acl_id') as $field) 
-        {
+
+        static $fields = null;
+        if ( ! $fields ) {
+            $fields =& $rule->fields( );
+            $fields = array_keys( $fields );
+        }
+
+        foreach ( $fields as $field ) {
             $result[$field] = $this->$field;
         }
 
@@ -400,7 +404,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         
         $results = array();
         while ($rule->fetch()) {
-            $results[] =& $rule->toArray();
+            $results[] = $rule->toArray( );
         }
 
         if ($aclGroups) {

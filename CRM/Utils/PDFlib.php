@@ -37,13 +37,14 @@
 
 class CRM_Utils_PDFlib {
     static function &compose( $fileName,
-                             $searchPath,
-                             &$values,
-                             $echo    = true,
-                             $output  = 'College_Prep_App',
-                             $creator = 'CiviCRM',
-                             $author  = 'http://www.civicrm.org/',
-                             $title   = '2006 College Prep Scholarship Application' ) {
+                              $searchPath,
+                              &$values,
+                              $numPages = 1,
+                              $echo    = true,
+                              $output  = 'College_Prep_App',
+                              $creator = 'CiviCRM',
+                              $author  = 'http://www.civicrm.org/',
+                              $title   = '2006 College Prep Scholarship Application' ) {
         try {
             $pdf = new PDFlib( );
             $pdf->set_parameter( "compatibility", "1.6");
@@ -70,7 +71,7 @@ class CRM_Utils_PDFlib {
                 CRM_Utils_System::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );
             }
 
-            for ( $i = 1; $i  <= 6; $i++ ) {
+            for ( $i = 1; $i  <= $numPages; $i++ ) {
                 $page = $pdf->open_pdi_page( $blockContainer, $i, '' );
                 if ( $page == 0 ) {
                     CRM_Utils_System::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );
