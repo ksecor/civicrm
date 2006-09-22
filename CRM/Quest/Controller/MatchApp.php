@@ -393,40 +393,42 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         if ( ! $this->_categories ) {
             $this->_categories = array( );
             $this->_categories['steps'] = array( );
-            
+
+            $action = ( $this_action == CRM_Core_Action::UPDATE ) ? "action=update" : "action=view";
+
             $this->_categories['steps']['Personal'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/personal',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'Personal Information',
                        'current' => true,
                        'valid'   => false );
             $this->_categories['steps']['Household'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/household',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'Household Information',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['School'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/school',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'School Information',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['Essay'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/essay',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'Essays',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['College'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/college',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'College Match',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['Submit'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/submit',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'Submit Application',
                        'current' => false,
                        'valid'   => false );
