@@ -122,7 +122,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
         if ( $ufGroupId ) {
             $this->addDefaultButtons( ts('Save') );
             $this->_fields  = array( );
-            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId );
+            $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
             $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
             
             $this->addButtons( array(

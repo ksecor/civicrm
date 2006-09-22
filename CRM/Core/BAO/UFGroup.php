@@ -1321,6 +1321,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
         }
 
+        if ($view) {
+            $form->freeze($name);
+        }
+
         //add the rules
         if ( in_array($fieldName, array('non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' )) ) {
             $form->addRule($name, ts('Please enter a valid amount.'), 'money');
