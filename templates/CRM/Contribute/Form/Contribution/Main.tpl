@@ -49,6 +49,18 @@ function clearAmountOther() {
     </table>
 
     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="makeContribution"}
+
+    {if $honor_block_is_active}
+    <fieldset><legend>{ts}{$honor_block_title}{/ts}</legend>
+        {ts}{$honor_block_text}{/ts}
+      <table class="form-layout-compressed">
+      <tr><td>{$form.honor_prefix_id.label}</td><td>{$form.honor_prefix_id.html}</td></tr>
+	  <tr><td>{$form.honor_first_name.label}</td><td>{$form.honor_first_name.html}</td></tr>
+	  <tr><td>{$form.honor_last_name.label}</td><td>{$form.honor_last_name.html}</td></tr>
+      <tr><td>{$form.honor_email.label}</td><td>{$form.honor_email.html}</td></tr>
+      </table>
+    </fieldset>
+    {/if}
     
     {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
 

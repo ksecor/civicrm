@@ -75,6 +75,14 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Online Contribution Page Active?') );
 
+        // should the honor be enabled
+        $this->addElement('checkbox', 'honor_block_is_active', ts( 'Honor Section Enabled ' ),null,array('onclick' =>"showHonor()") );
+        
+        $this->add('text', 'honor_block_title', ts('Honor Block Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'honor_block_title') );
+
+        $this->add('textarea', 'honor_block_text', ts('Honor Block Introductory Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'honor_block_text') );
+
+        
         $this->addFormRule(array('CRM_Contribute_Form_ContributionPage_Settings', 'formRule'));
 
         parent::buildQuickForm( );
@@ -118,6 +126,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
         $params['is_thermometer']        = CRM_Utils_Array::value('is_thermometer'       , $params, false);
         $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
+        $params['honor_block_is_active']   = CRM_Utils_Array::value('honor_block_is_active'  , $params, false);
 
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         $dao =& CRM_Contribute_BAO_ContributionPage::create( $params );

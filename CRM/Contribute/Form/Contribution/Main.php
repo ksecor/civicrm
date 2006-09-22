@@ -133,6 +133,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,true );
         }
 
+        if ( $this->_values['honor_block_is_active'] ) {
+            $this->buildHonorBlock( );
+        }
+
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
@@ -203,6 +207,34 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             require_once 'CRM/Core/BAO/UFGroup.php';
             CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name, $this->_fields );
         }
+    }
+
+    /**  
+     * Function to add the custom fields
+     *  
+     * @return None  
+     * @access public  
+     */ 
+    function buildHonorBlock( $id, $name ) {
+        $this->assign("honor_block_is_active",true);
+        $this->set("honor_block_is_active",true);
+
+        $this->assign("honor_block_title",$this->_values['honor_block_title']);
+        $this->assign("honor_block_text",$this->_values['honor_block_text']);
+
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
+
+        // prefix
+        $this->addElement('select', 'honor_prefix_id', ts('Prefix'), array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
+        // first_name
+        $this->addElement('text', 'honor_first_name', ts('First Name'), $attributes['first_name'] );
+        
+        //last_name
+        $this->addElement('text', 'honor_last_name', ts('Middle Name'), $attributes['middle_name'] );
+        
+        //email
+        $this->addElement('text', 'honor_email', ts('Email Address'));
+        $this->addRule( "honor_email", ts('Email is not valid.'), 'email' );
     }
 
     /** 

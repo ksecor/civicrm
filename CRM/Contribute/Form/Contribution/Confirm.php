@@ -128,7 +128,21 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         require_once 'CRM/Contribute/BAO/Premium.php';
         $amount = $this->get( 'amount' );
         $params = $this->_params;
+     
+        $honor_block_is_active = $this->get( 'honor_block_is_active');
+        if ( $honor_block_is_active )  {
+            $this->assign('honor_block_is_active', $honor_block_is_active );
+            $this->assign("honor_block_title",$this->_values['honor_block_title']);
+          
+            require_once "CRM/Core/PseudoConstant.php";
+            $prefix = CRM_Core_PseudoConstant::individualPrefix();
+            $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
+            $this->assign("honor_first_name",$params["honor_first_name"]);
+            $this->assign("honor_last_name",$params["honor_last_name"]);
+            $this->assign("honor_email",$params["honor_email"]);
         
+        }
+
         $amount_block_is_active = $this->get( 'amount_block_is_active');
         $this->assign('amount_block_is_active', $amount_block_is_active );
         

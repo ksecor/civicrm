@@ -26,6 +26,17 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Display the progress thermometer block when the user is making a contribution.{/ts}</dd>
     <dt>{$form.thermometer_title.label}</dt><dd>{$form.thermometer_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Set a title for the progress thermometer block.{/ts}</dd>
+    
+    <dt>&nbsp;</dt><dd>{$form.honor_block_is_active.html} {$form.honor_block_is_active.label}</dd>
+    
+    <dt>&nbsp;</dt><dd class="description">{ts}Display honor block block on a Contribution Page.{/ts}</dd>
+    <div id="honor">
+    <dt>{$form.honor_block_title.label}</dt><dd>{$form.honor_block_title.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Set a title for the honor block.{/ts}</dd>
+    <dt>{$form.honor_block_text.label}</dt><dd>{$form.honor_block_text.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Set a text for the honor block.{/ts}</dd>
+    </div>
+    
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}When your page is active, you can link people to the page by copying and pasting the following URL:{/ts}<br />
         <strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong></dd>
@@ -42,3 +53,17 @@
         {$form.done.html}
     </div>
 {/if} {* $action ne view *}
+
+<script type="text/javascript">
+ showHonor();
+ {literal}
+     function showHonor() {
+        var checkbox = document.getElementsByName("honor_block_is_active");
+        if (checkbox[0].checked) {
+            document.getElementById("honor").style.display = "block";
+        } else {
+            document.getElementById("honor").style.display = "none";
+        }  
+     } 
+ {/literal} 
+</script>

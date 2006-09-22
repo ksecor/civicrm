@@ -201,5 +201,28 @@
        <length>255</length>
        <comment>Title for thermometer block.</comment>  
        <add>1.5</add>  
-  </field> 
+  </field>
+   <field>  
+       <name>honor_block_is_active</name>  
+       <type>boolean</type>  
+       <comment>Should this contribution have the honor  block enabled?</comment>  
+       <add>1.6</add>  
+  </field>
+   <field>  
+       <name>honor_block_title</name>  
+       <type>varchar</type>  
+       <length>255</length>
+       <comment>Title for honor block.</comment>  
+       <add>1.5</add>  
+  </field>
+   <field>  
+       <name>honor_block_text</name>  
+       <type>text</type> 
+       <htmlType>textarea</htmlType>
+       <rows>2</rows>
+       <cols>50</cols>
+       <comment>text for honor block.</comment>  
+       <add>1.5</add>  
+  </field>
+ 
 </table>
