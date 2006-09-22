@@ -952,7 +952,25 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                        'award_ranking_3_id'     =>  'award_ranking', 
                        'test_tutoring'          =>  'test', 
                        );
-
+        
+        $scoreAttribs = array('SAT_composite', 
+                              'SAT_composite_alt', 
+                              'SAT_reading', 
+                              'SAT_math' ,
+                              'SAT_writing', 
+                              'ACT_composite', 
+                              'ACT_english', 
+                              'ACT_reading', 
+                              'ACT_math', 
+                              'ACT_science', 
+                              'PSAT_composite', 
+                              'PLAN_composite', 
+                              'household_income_total', 
+                              'household_member_count');
+        
+        $readers = array('cmr_first_generation_id', 'cmr_income_increase_id', 'cmr_need_id', 
+                         'cmr_grade_id', 'cmr_class_id', 'cmr_score_id', 'cmr_academic_id', 'cmr_disposition_id');
+        
         if ( in_array($fieldName, array('gpa_id', 
                                         'ethnicity_id_1',
                                         'award_ranking_1_id',
@@ -968,6 +986,19 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                        array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($names[$fieldName]) );
             return true;
             
+        } else if (in_array($fieldName, $readers) || 
+                   ($fieldName == 'gpa_unweighted_calc') || ($fieldName == 'gpa_weighted_calc')) {
+            $readerParts = explode('_', $fieldName);
+            for($i = 0; $i < (count($readerParts)-1); $i++) {
+                if ($i == 0) {
+                    $readerGroup = $readerParts[$i];
+                } else {
+                    $readerGroup = $readerGroup . '_' . $readerParts[$i];
+                }
+            }
+            require_once 'CRM/Core/OptionGroup.php';
+            $this->add('select', $fieldName, $title,
+                       array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($readerGroup), $required);
         } else if ($fieldName == 'high_school_grad_year' ) {
             $form->add('date', 'high_school_grad_year', $title, CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
             return true;
@@ -1003,13 +1034,16 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                                'years_in_us',
                                                'first_language', 
                                                'primary_language',
-                                               'internet_access_other')) ) {
+                                               'internet_access_other')) || in_array($fieldName, $scoreAttribs)) {
             
+            if (in_array($fieldName, $scoreAttribs) && (! $attributes[$fieldName])) {
+                $field['attributes'] = array('maxlength' => 8, 'size' => 4);
+            }
             $form->addElement('text', $name, $title, $attributes[$fieldName]);
             return true;
-
-        } else if ($fieldName == 'gpa_explanation' ) {
-
+            
+        } else if ($fieldName == 'gpa_explanation' || $fieldName == 'cmr_comment') {
+            
             $form->addElement('textarea', $name, $title, $attributes[$fieldName]);
             return true;
             
