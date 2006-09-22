@@ -216,7 +216,7 @@ class CRM_Contact_BAO_Query {
     public $_useDistinct = false;
 
     /**
-     * the default set of return properties
+     * the relationship type direction
      *
      * @var array
      * @static
@@ -1435,7 +1435,11 @@ class CRM_Contact_BAO_Query {
                 continue;
                 
             case 'civicrm_relationship':
-                if( self::$_relType == 'b') {
+                if ( self::$_relType == 'reciprocal' ) {
+                    $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = contact_a.id OR civicrm_relationship.contact_id_a = contact_a.id)";
+                    $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_relationship.contact_id_a = contact_b.id OR civicrm_relationship.contact_id_b = contact_b.id)";
+                    
+                } else if( self::$_relType == 'b') {
                     $from .= " $side JOIN civicrm_relationship ON (civicrm_relationship.contact_id_b = contact_a.id )";
                     $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_relationship.contact_id_a = contact_b.id )";
                 } else {
@@ -2071,18 +2075,20 @@ class CRM_Contact_BAO_Query {
         $rel = explode( '_' , $value );
 
         self::$_relType = $rel[1];
-        if ( $rel[1] == 'a') {
+        if ( $name ) { 
+            $params = array( 'id' => $rel[0] );
+            $rTypeValues = array( );
+            $rType =& CRM_Contact_BAO_RelationshipType::retrieve( $params, $rTypeValues );
+            if ( ! $rType ) {
+                return;
+            }
             // for relatinship search we always do wildcard
-            if ( $name ) {
-                $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) LIKE '%{$name}%'";
-            }
-            $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
-        } else if ( $rel[1] == 'b')  {
-            if ( $name ) {
-                $this->_where[$grouping][] = "LOWER( contact_b.sort_name ) LIKE '%{$name}%'";
-            }
-            $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
+           if ( $rTypeValues['name_a_b'] == $rTypeValues['name_b_a'] ) {
+               self::$_relType = 'reciprocal';
+           }
+           $this->_where[$grouping][] = "(  LOWER( contact_b.sort_name ) LIKE '%{$name}%' AND contact_b.id != contact_a.id )";
         }
+        $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
         $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
 
         require_once 'CRM/Contact/BAO/Relationship.php';

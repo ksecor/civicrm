@@ -18,17 +18,16 @@
     {if $config->userFramework EQ 'Drupal' OR $otherModuleString}
         <dt>{$form.uf_group_type.label}</dt><dd>{if $config->userFramework EQ 'Drupal'}{$form.uf_group_type.html}&nbsp;{/if}{$otherModuleString}</dd>
         <dt>&nbsp;</dt><dd class="description">
-        {capture assign=siteRoot}&lt;{ts}site root{/ts}&gt;{/capture}
         <table class="form-layout-compressed">
-        <tr><td>{ts 1="$siteRoot/civicrm/profile?reset=1&amp;gid=3"}Profiles can be explicitly linked to a module page. Any Profile form/listings page can also be linked directly by adding its ID to the civicrm/profile path. (Example: <em>%1</em>)
+        <tr><td>{ts}Profiles can be explicitly linked to a module page.{/ts}
         {if $config->userFramework EQ 'Drupal'}
         <ul class="left-alignment">
           <li>{ts}Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form.{/ts}</li>
           <li>{ts}Check <strong>View/Edit User Account</strong> to include it in the view and edit screens for existing user accounts.{/ts}</li>
-          <li>{ts}Check <strong>Profile</strong> if you want it included in the default contact listing and view screens for the civicrm/profile path.{/ts}</li>
-          <li>{ts}Check <strong>Search Listings</strong> to use this profile as an alternate set of columns for CiviCRM search results.{/ts}</li>
+          <li>{ts}Check <strong>Profile</strong> if you want it to use it for customized listings and view screens for the civicrm/profile path.{/ts}</li>
+          <li>{ts}Check <strong>Search Listings</strong> to use this profile to display an alternate set of results columns for CiviCRM Basic and Advanced Search.{/ts}</li>
         </ul>
-        {/if}{/ts}
+        {/if}
         </td></tr></table></dd>
     {/if}
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>

@@ -61,7 +61,6 @@
     <tr><td></td><td>{$form.buttons.html}</td></tr>
     </table>
 </div>
-{/if}
 
 {if $groupId}
 <script type="text/javascript">
@@ -75,4 +74,13 @@
     {* hide and display the appropriate blocks as directed by the php code *}
     on_load_init_blocks( showBlocks, hideBlocks );
 </script>
+{/if}
+
+{else}
+    <div class="messages status">
+      <dl>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+        <dd>{ts}No fields in this Profile have been configured as searchable. Ask the site administrator to check the Profile setup.{/ts}</dd>
+      </dl>
+    </div>
 {/if}

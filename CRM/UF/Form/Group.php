@@ -217,7 +217,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             $otherModules = CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id, true, true );
             if (!empty($otherModules)) {
                 foreach($otherModules as $key) {
-                    $otherModuleString .= " [ x ] ".$key;
+                    $otherModuleString .= " [ x ] <label>" . $key . "</label>";
                 }
                 $this-> assign('otherModuleString',$otherModuleString);
             }
