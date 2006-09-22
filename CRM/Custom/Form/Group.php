@@ -92,11 +92,17 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         if(in_array($fields['extends'],$extends) && $fields['style'] == 'Tab' ) {
             $errors['style'] = 'Display Style should be Inline for this Class';
         }
+
+        //checks the given custom group doesnot start with digit
+        $title = $fields['title']; 
+        $asciiValue = ord($title{0});//gives the ascii value
+        if($asciiValue>=48 && $asciiValue<=57) {
+            $errors['title'] = ts("Group's Name should not start with digit");
+        } 
         return empty($errors) ? true : $errors;
     }
     
     
-
 
     /**
      * This function is used to add the rules (mainly global rules) for form.
@@ -129,10 +135,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $this->add('text', 'title', ts('Group Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
         $this->addRule( 'title', ts('Name already exists in Database.'),
                         'objectExists', array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );
-
+       
         require_once "CRM/Contribute/PseudoConstant.php";
         $sel1 = CRM_Core_SelectValues::customGroupExtends();
-        //$sel2['Contact']      = CRM_Core_SelectValues::contactType();
         $sel2= array();
         $sel2['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType(true , null);
         $sel2['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
@@ -186,6 +191,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
 
+
+        // $this->addFormRule(array('CRM_Custom_Form_Group', 'formRule'));
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -249,6 +256,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         return $defaults;
     }
 
+   
+
     /**
      * Process the form
      * 
@@ -261,7 +270,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     {
         // get the submitted form values.
         $params = $this->controller->exportValues('Group');
-        // create custom group dao, populate fields and then save.
+
+        // create custom group dao, populate fields and then save.           
         $group =& new CRM_Core_DAO_CustomGroup();
         $group->title            = $params['title'];
         $group->name             = CRM_Utils_String::titleToVar($params['title']);
