@@ -46,12 +46,11 @@ class TC_TestFindContacts < Test::Unit::TestCase
   end
 
   def print_result
-    if @selenium.get_text("//div[@id='search-status']")
+    if @selenium.is_element_present("//div[@id='search-status']")
       # print the result on command prompt
       print(@selenium.get_text("//div[@id='search-status']"))
     else
       #check if no contact found
-      @selenium.is_element_present("//div[@class='messages status']")
       print(@selenium.get_text("//div[@class='messages status']"))
     end
   end

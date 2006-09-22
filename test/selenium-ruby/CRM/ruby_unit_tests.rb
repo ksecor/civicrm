@@ -41,8 +41,11 @@ class TS_CiviCRMTests
     #suite << TC_TestImportContacts.suite
     #suite << TC_TestCiviContribute.suite
     #suite << TC_TestCiviMember.suite
+    #suite << TC_TestFindMembership.suite
+    #suite << TC_TestFindContribution.suite
     #suite << TC_TestFindContacts.suite
-    suite << TC_TestAdvancedSearch.suite
+    #suite << TC_TestAdvancedSearch.suite
+    suite << TC_TestSearchBuilder.suite
     return suite
   end
 end
