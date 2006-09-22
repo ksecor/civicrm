@@ -9,11 +9,11 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.hash.label}</td>
-    <td class="fieldlabel">{$form.hash.html}<br />{ts}Please enter the exact Code 1 value as specified in the Recommendation Request.{/ts}</td>
+    <td class="fieldlabel">{$form.hash.html}<br />{ts}Please enter the exact Confirmation Code value as specified in the Recommendation Request. If the above field is already filled out, you do not need to enter any additional information to the above field.{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.email.label}</td>
-    <td class="fieldlabel">{$form.email.html}<br />{ts}Please enter the exact email address where you received this Recommendation Request.{/ts}</td>
+    <td class="fieldlabel">{$form.email.html}<br />{ts}Please enter the exact email address as specified in the Recommendation Request.{/ts}</td>
 </tr>
 <tr>
     <td class="grouplabel">{$form.password_1.label}</td>
@@ -21,7 +21,7 @@
 </tr>
 <tr>
     <td class="grouplabel">{$form.password_2.label}</td>
-    <td class="fieldlabel">{$form.password_2.html}</td>
+    <td class="fieldlabel">{$form.password_2.html}<br />{ts}Please re-enter the password you entered above.{/ts}</td>
 </tr>
 <tr><td class="grouplabel" colspan=2>{$form._qf_Verify_refresh.html}</td>
 </table>
