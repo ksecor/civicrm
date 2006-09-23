@@ -15,9 +15,9 @@
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
     {if $lastModified} Last Modified By: &nbsp; &nbsp; <a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$lastModified.id`"}">{$lastModified.name}</a>{/if}
-    &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View Preapp{/ts}</a></span>
+    &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/matchapp/preview' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View CM App{/ts}</a></span>
     {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=update&id=$contactId"}">&raquo; {ts}Edit Preapp{/ts}</a></span>
+        &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/matchapp' q="reset=1&action=update&id=$contactId"}">&raquo; {ts}Edit CM App{/ts}</a></span>
     {/if}
     {if $url } &nbsp; &nbsp; <span class="nowrap"><a href="{$url}">&raquo; {ts}View User Record{/ts}</a></span>{/if}
     
@@ -69,7 +69,7 @@
   <fieldset>
    <legend><a href="#" onclick="hide('academic'); show('academic[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Academic Information{/ts}</legend>
    <div class="col1">
-    <label>{ts}GPA:{/ts}</label> {$gpa}<br />
+    <label>{ts}GPA:{/ts}</label> {$gpa_weighted} (weighted), {$gpa_unweighted} (unweighted)<br />
     <label>{ts}Rank in Class:{/ts}</label> {$class_rank} of {$class_num_students}
    </div>
    <div class="col2">

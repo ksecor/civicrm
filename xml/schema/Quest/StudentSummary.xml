@@ -191,7 +191,7 @@
       <type>int unsigned</type>
        <export>true</export>
        <import>true</import>
-      <comment>Reader input - is this first generation student. Uses option_value records with option_group = cmr_first_generation.</comment>
+      <comment>Reader input - is this student the first generation to attend college. Uses option_value records with option_group = cmr_first_generation.</comment>
       <add>1.6</add>
  </field>
  <field>
