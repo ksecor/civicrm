@@ -34,6 +34,18 @@ Membership End Date   : {$mem_end_date|crmDate}
 {ts}Membership Transaction #{/ts}: {$membership_trx_id}
 
 {/if}
+
+{if $honor_block_is_active}
+===========================================================
+{ts}In Honor Of{/ts}
+
+===========================================================
+Prefix     :{$honor_prefix}
+First Name :{$honor_first_name}
+Last Name  :{$honor_first_name}
+Email      :{$honor_email}
+
+{/if}
 ===========================================================
 {ts}Billing Name and Address{/ts}
 

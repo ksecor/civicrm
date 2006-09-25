@@ -79,6 +79,24 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);
         }
 
+
+        $params = $this->_params;
+     
+        $honor_block_is_active = $this->get( 'honor_block_is_active');
+        if ( $honor_block_is_active )  {
+            $this->assign('honor_block_is_active', $honor_block_is_active );
+            $this->assign("honor_block_title",$this->_values['honor_block_title']);
+          
+            require_once "CRM/Core/PseudoConstant.php";
+            $prefix = CRM_Core_PseudoConstant::individualPrefix();
+            $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
+            $this->assign("honor_first_name",$params["honor_first_name"]);
+            $this->assign("honor_last_name",$params["honor_last_name"]);
+            $this->assign("honor_email",$params["honor_email"]);
+        
+        }
+
+
         if ( $membershipID ) {
             $tansactionID     = $this->get('membership_trx_id');
             $membershipAmount = $this->get('membership_amount');

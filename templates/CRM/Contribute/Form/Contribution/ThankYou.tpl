@@ -34,6 +34,8 @@
         {/if}
     </div>
 
+    {include file="CRM/Contribute/Form/Contribution/Honor.tpl"}
+
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
