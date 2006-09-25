@@ -632,7 +632,7 @@ class CRM_GCD {
 
         for ($id=1; $id<=self::NUM_CONTACT; $id++) {
             $contact->domain_id = 1;
-            $contact->contact_type = $this->getContactType($id);
+            $contact->contact_type = $this->getContactType($id+1);
             $contact->do_not_phone = mt_rand(0, 1);
             $contact->do_not_email = mt_rand(0, 1);
             $contact->do_not_post  = mt_rand(0, 1);
