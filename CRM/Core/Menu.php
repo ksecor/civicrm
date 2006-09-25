@@ -328,7 +328,7 @@ class CRM_Core_Menu {
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
-                            'icon'    => 'admin/05.png',
+                            'icon'    => 'admin/communication.png',
                             'weight'  => 360
                             ),
 
