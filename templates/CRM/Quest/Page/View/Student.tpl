@@ -76,7 +76,7 @@
             {if $Student.class_rank_percent}<label>{ts}Percentile{/ts}:</label> {$Student.class_rank_percent}{/if}<br />
    </div>
    <div class="col2">
-    <label>{ts}First College Generation?:{/ts}</label> {if $Student.parent_grad_college_no}Yes{else}No{/if}
+    <label>{ts}First College Generation?:{/ts}</label> {if $Student.parent_grad_college_no}Yes{else}No{/if}<br />
     <label>{ts}SAT Composite (reading + math):{/ts}</label> {$Student.SAT_composite_alt}<br />
     <label>{ts}Educational Interests:{/ts}</label> {$Student.educational_interest_display}<br />
    </div>
