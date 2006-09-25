@@ -47,14 +47,15 @@
    <table class="form-layout-compressed" border="0" width="90%">
     <tr>
         <td class="label">{ts}Gender:{/ts}</td><td>{$gender_display}</td>
-        <td class="label">{ts}Ethnicity:{/ts}</td><td>{$ethnicity_1}{if $ethnicity_2}<br />{$ethnicity_2}{/if}</td>
+        <td class="label">{ts}Ethnicity:{/ts}</td><td>{$Student.ethnicity_1}{if $Student.ethnicity_2}<br />{$Student.ethnicity_2}{/if}</td>
     </tr>
     <tr>
         <td class="label">{ts}Date of Birth:{/ts}</td><td>{$birth_date|crmDate}</td>
-        <td class="label">{ts}Citizenship Status:{/ts}</td><td>{$citizenship_status}</td>
+        <td class="label">{ts}Citizenship Status:{/ts}</td><td>{$Student.citizenship_status}</td>
     </tr>
     <tr>
-        <td class="label" colspan="2">{ts}Total Household Income:{/ts}</td><td colspan="2">{$household_income_total|crmMoney}</td>
+        <td class="label">{ts}Financial Index:{/ts}</td><td>{$Student.financial_need_index}</td>
+        <td class="label">{ts}Total Income:{/ts}</td><td>{$Student.household_income_total|crmMoney}</td>
     </tr>
    </table>
   </fieldset>
@@ -69,12 +70,15 @@
   <fieldset>
    <legend><a href="#" onclick="hide('academic'); show('academic[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Academic Information{/ts}</legend>
    <div class="col1">
-    <label>{ts}GPA:{/ts}</label> {$gpa_weighted} (weighted), {$gpa_unweighted} (unweighted)<br />
-    <label>{ts}Rank in Class:{/ts}</label> {$class_rank} of {$class_num_students}
+    <label>{ts}Academic Index:{/ts}</label> {$Student.academic_index}<br />
+    <label>{ts}GPA:{/ts}</label> {$Student.gpa_weighted} (weighted) / {$Student.gpa_unweighted} (unweighted)<br />
+    <label>{ts}Class Rank:{/ts}</label> {if $Student.class_rank && $Student.class_num_students}{$Student.class_rank} of {$Student.class_num_students}{/if}
+            {if $Student.class_rank_percent}<label>{ts}Percentile{/ts}:</label> {$Student.class_rank_percent}{/if}<br />
    </div>
    <div class="col2">
-    <label>{ts}Educational Interests:{/ts}</label> {$educational_interest_display}<br />
-    <label>{ts}College Interests:{/ts}</label> {$college_interest_display}<br />
+    <label>{ts}First College Generation?:{/ts}</label> {if $Student.parent_grad_college_no}Yes{else}No{/if}
+    <label>{ts}SAT Composite (reading + math):{/ts}</label> {$Student.SAT_composite_alt}<br />
+    <label>{ts}Educational Interests:{/ts}</label> {$Student.educational_interest_display}<br />
    </div>
    <div class="spacer"></div>
   </fieldset>
