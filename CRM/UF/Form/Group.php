@@ -187,12 +187,6 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
 
         if ($this->_action == CRM_Core_Action::ADD) {
             $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( );
-            
-            $UFGroupType = CRM_Core_SelectValues::ufGroupTypes( );
-            foreach ($UFGroupType as $key => $value ) {
-                $checked[$key] = 1;
-            }
-            $defaults['uf_group_type'] = $checked;
         }
 
         if ( isset($this->_id ) ) {

@@ -69,8 +69,14 @@ function civicrm_check_permission( $args ) {
 
     // all profile and file urls are valid
     $arg1 = CRM_Utils_Array::value( 1, $args );
-    if ( ( $arg1 == 'profile' ) ||
-         ( $arg1 == 'file'    ) ) {
+    if ( $arg1 == 'profile' ) {
+        if ( CRM_Utils_Array::value( 2, $args ) == 'edit' ) {
+            unset( $_GET['id'] );
+        }
+        return true;
+    }
+
+    if ( $arg1 == 'file' ) {
         return true;
     }
 
