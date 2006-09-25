@@ -407,25 +407,25 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             }
         }
 
-        $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
+        $lowDate = CRM_Utils_Request::retrieve( 'start', 'Timestamp',
                                                  CRM_Core_DAO::$_nullObject );
-        if ( $fromDate ) {
-            $fromDate = CRM_Utils_Type::escape( $fromDate, 'Timestamp' );
-            $date = CRM_Utils_Date::unformat( $fromDate, '' );
-            $this->_formValues['contribution_date_from'] = $date;
-            $this->_defaults['contribution_date_from'] = $date;
+        if ( $lowDate ) {
+            $lowDate = CRM_Utils_Type::escape( $lowDate, 'Timestamp' );
+            $date = CRM_Utils_Date::unformat( $lowDate, '' );
+            $this->_formValues['contribution_date_low'] = $date;
+            $this->_defaults['contribution_date_lowy'] = $date;
         }
 
-        $toDate= CRM_Utils_Request::retrieve( 'end', 'Date',
-                                              CRM_Core_DAO::$_nullObject );
-        if ( $toDate ) { 
-            $toDate = CRM_Utils_Type::escape( $toDate, 'Timestamp' ); 
-            $date = CRM_Utils_Date::unformat( $toDate, '' );
-            $this->_formValues['contribution_date_to'] = $date;
-            $this->_defaults['contribution_date_to'] = $date;
-            $this->_formValues['contribution_date_to']['H'] = 23;
-            $this->_formValues['contribution_date_to']['i'] = 59;
-            $this->_formValues['contribution_date_to']['s'] = 59;
+        $highDate= CRM_Utils_Request::retrieve( 'end', 'Timestamp',
+                                                CRM_Core_DAO::$_nullObject );
+        if ( $highDate ) { 
+            $highDate = CRM_Utils_Type::escape( $highDate, 'Timestamp' ); 
+            $date = CRM_Utils_Date::unformat( $highDate, '' );
+            $this->_formValues['contribution_date_high'] = $date;
+            $this->_defaults['contribution_date_high'] = $date;
+            $this->_formValues['contribution_date_high']['H'] = 23;
+            $this->_formValues['contribution_date_high']['i'] = 59;
+            $this->_formValues['contribution_date_high']['s'] = 59;
         }
 
         $this->_limit = CRM_Utils_Request::retrieve( 'limit', 'Positive',
