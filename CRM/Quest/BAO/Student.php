@@ -361,7 +361,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                              'SAT_composite_alt', 'SAT_reading', 'SAT_math', 'SAT_writing',
                              'ACT_composite', 'ACT_english', 'ACT_reading', 'ACT_math', 'ACT_science',
                              'PSAT_composite', 'PLAN_composite', 'household_income_total',
-                             'household_member_count' );
+                             'household_member_count','academic_index','financial_need_index' );
         foreach ( $properties as $key ) {
             $details['Student'][$key] = $studentDetails[$key];
         }
