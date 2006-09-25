@@ -113,7 +113,8 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
         $contact =& CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
 
         require_once 'CRM/Quest/BAO/Student.php';
-        $student =& CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
+        $student =& CRM_Quest_BAO_Student::student( $params, $defaults );
+        $student =& CRM_Quest_BAO_Student::studentSummary( $params, $defaults );
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
 
