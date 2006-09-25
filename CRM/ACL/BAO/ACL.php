@@ -59,7 +59,8 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                                         'civicrm_contact'      => ts( 'Contact'       ),
                                         'civicrm_group'        => ts( 'Group'         ),
                                         'civicrm_saved_search' => ts( 'Contact Group' ),
-                                        'civicrm_admin'        => ts( 'Administer' ) );
+                                        'civicrm_admin'        => ts( 'Administer'    ),
+                                        'civicrm_admin'        => ts( 'Import'        ) );
         }
         return self::$_objectTable;
     }

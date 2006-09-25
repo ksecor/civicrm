@@ -206,9 +206,12 @@ INSERT INTO civicrm_mailing_bounce_pattern
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
         VALUES ('Syntax', '{ts}Error in SMTP transaction{/ts}', 3);
+
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
     (11, 'nonstandard smtp line terminator'),
     (11, 'syntax error in from address'),
     (11, 'unknown smtp code');
+
+  

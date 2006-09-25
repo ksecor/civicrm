@@ -170,3 +170,15 @@ VALUES
     (@domain_id,'Current', 'start_date', null, null,'end_date', null, null, 1, 0, 2, 1, 1),
     (@domain_id,'Grace', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 0, 1),
     (@domain_id,'Expired', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 0, 1);
+
+- sample acl entries
+INSERT INTO civicrm_acl( domain_id, name, deny, entity_table, entity_id, operation, object_table, object_id, is_active )
+VALUES
+  (@domain_id, 'View All Contacts' , 0, 'civicrm_contact', 0, 'View', 'civicrm_acl_group', 1, 1 ),
+  (@domain_id, 'Edit All Contacts' , 0, 'civicrm_contact', 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
+  (@domain_id, 'View All Contacts' , 0, 'civicrm_contact', 0, 'View', 'civicrm_acl_group', 2, 1 ),
+  (@domain_id, 'Edit All Contacts' , 0, 'civicrm_contact', 0, 'Edit', 'civicrm_acl_group', 2, 1 ),
+  (@domain_id, 'Manage Groups'     , 0, 'civicrm_group'  , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
+  (@domain_id, 'Administer CiviCRM', 0, 'civicrm_group'  , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
+  (@domain_id, 'Import'            , 0, 'civicrm_admin'  , 0, 'Edit', 'civicrm_acl_group', 1, 1 );
+   

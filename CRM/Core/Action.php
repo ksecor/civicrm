@@ -171,7 +171,7 @@ class CRM_Core_Action {
      *
      */
     static function description( $mask ) {
-        if ( ! isset( $_description ) ) {
+       if ( ! isset( $_description ) ) {
             self::$_description = array_flip( self::$_names );
         }
         

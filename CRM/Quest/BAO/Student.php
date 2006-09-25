@@ -87,9 +87,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $ids['student_id'] = $dao->id;
             $names = array( 'citizenship_status_id' => array( 'newName' => 'citizenship_status',
                                                               'groupName' => 'citizenship_status' ),
-                            'gpa_weighted_ id'      => array( 'newName' => 'gpa_weighted', 
+                            'gpa_weighted_id'      => array( 'newName' => 'gpa_weighted', 
                                                               'groupName' => 'gpa_weighted' ),
-                            'gpa_unweighted_ id'    => array( 'newName' => 'gpa_unweighted', 
+                            'gpa_unweighted_id'    => array( 'newName' => 'gpa_unweighted', 
                                                               'groupName' => 'gpa_unweighted' ),
                             'ethnicity_id_1'        => array( 'newName' => 'ethnicity_1', 
                                                               'groupName' => 'ethnicity' ),
