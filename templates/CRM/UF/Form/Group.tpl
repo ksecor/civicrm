@@ -25,7 +25,7 @@
           <li>{ts}Check <strong>User Registration</strong> if you want this Profile to be included in the New Account registration form.{/ts}</li>
           <li>{ts}Check <strong>View/Edit User Account</strong> to include it in the view and edit screens for existing user accounts.{/ts}</li>
           <li>{ts}Check <strong>Profile</strong> if you want it to use it for customized listings and view screens for the civicrm/profile path.{/ts}</li>
-          <li>{ts}Check <strong>Search Listings</strong> to use this profile to display an alternate set of results columns for CiviCRM Basic and Advanced Search.{/ts}</li>
+          <li>{ts}Check <strong>Search Results</strong> to use this profile to display an alternate set of results columns for CiviCRM Basic and Advanced Search.{/ts}</li>
         </ul>
         {/if}
         </td></tr></table></dd>
