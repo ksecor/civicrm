@@ -257,7 +257,7 @@ class CRM_Contact_BAO_Query {
         require_once 'CRM/Contact/BAO/Contact.php';
 
         //CRM_Core_Error::backtrace( );
-        // CRM_Core_Error::debug( 'params', $params );
+        //CRM_Core_Error::debug( 'params', $params );
         // CRM_Core_Error::debug( 'f', $fields );
         // exit( );
         //CRM_Core_Error::debug( 'post', $_POST );
@@ -290,7 +290,7 @@ class CRM_Contact_BAO_Query {
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        // CRM_Core_Error::debug( 'q', $this );
+        //CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -397,6 +397,12 @@ class CRM_Contact_BAO_Query {
                 } else if ( isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
                     if ( isset( $tableName ) ) { 
+                     
+                        //skip quest fields
+                        if (substr( $tableName, 0, 6  ) == 'quest_' ) {
+                            continue;
+                        }
+
                         if ( CRM_Utils_Array::value( $tableName, self::$_dependencies ) ) {
                             $this->_tables['civicrm_location'] = 1;
                             $this->_select['location_id']      = 'civicrm_location.id as location_id';
@@ -1268,7 +1274,6 @@ class CRM_Contact_BAO_Query {
             $tables = array_merge( array( 'civicrm_membership' => 1), $tables );
         }
         
-
         //format the table list according to the weight
         require_once 'CRM/Core/TableHierarchy.php';
         $info =& CRM_Core_TableHierarchy::info( );
