@@ -77,11 +77,13 @@ class CRM_Contribute_BAO_Query {
             if ( substr( $query->_params[$id][0], 0, 13 ) == 'contribution_' ) {
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
+            
         }
-    }
+        // Get only live transction records ant aon test mode
+        // $query->_where[0][] = "civicrm_contribution.is_test != 1";
+       }
 
     static function whereClauseSingle( &$values, &$query ) {
-
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         switch ( $name ) {
@@ -233,6 +235,7 @@ class CRM_Contribute_BAO_Query {
                                 'fulfilled_date'         => 1,
                                 'start_date'             => 1,
                                 'end_date'               => 1,
+                                'is_test'                => 1,
                                 );
 
             // also get all the custom contribution properties

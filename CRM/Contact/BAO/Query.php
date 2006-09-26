@@ -959,7 +959,7 @@ class CRM_Contact_BAO_Query {
             }
         }
         
-        // CRM_Core_Error::debug( 'a', $andClauses );
+        //CRM_Core_Error::debug( 'a', $andClauses );
         return implode( ' AND ', $andClauses );
     }
 

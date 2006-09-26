@@ -626,6 +626,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( $honorCId  ) {
             $contribParams["honor_contact_id"] = $honorCId;
         }
+               
+        if( $this->_action & CRM_Core_Action::PREVIEW ) {
+            $contribParams["is_test"] = 1;
+        }
+        
         $ids = array( );
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 
@@ -722,6 +727,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $honorParams["contact_type"] = "Individual";
         
         //assign to template for email reciept
+        $honor_block_is_active = $this->get( 'honor_block_is_active');
+
         $this->assign('honor_block_is_active', $honor_block_is_active );
         $this->assign("honor_block_title",$this->_values['honor_block_title']);
         
