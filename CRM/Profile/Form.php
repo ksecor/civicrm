@@ -96,8 +96,6 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     protected $_addToGroupID;
     
-    protected $_countryPresent;
-
     protected $_studentFieldPresent;
 
     /** 
@@ -189,7 +187,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                                             $defaults[$name] = $value['state_province_id'];
                                         } else if ( $fieldName == 'country' ) {
                                             $defaults[$name] = $value['country_id'];
-                                            $this->_countryPresent = 1;
                                         } else if ( $fieldName == 'phone' ) {
                                             if ($phoneTypeId) {
                                                 $defaults[$name] = $value['phone'][$phoneTypeId];
@@ -297,17 +294,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
             }
         }
-        
-        if (! $this->_countryPresent) {
-            foreach ($this->_fields as $name => $field ) {
-                $config =& CRM_Core_Config::singleton();
-                if ( $config->defaultContactCountry && (substr($field['name'],0,7) === 'country') ) {
-                    $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                    $defaultID = array_search($config->defaultContactCountry, $countryIsoCodes); 
-                    $defaults[$name] = $defaultID;
-                }
-            }
-        }
+
         return $defaults;
     }
 
