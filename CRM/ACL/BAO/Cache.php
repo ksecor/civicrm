@@ -43,11 +43,14 @@ class CRM_ACL_BAO_Cache extends CRM_ACL_DAO_Cache {
 
     static $_cache = null;
 
-    static function build( $id ) {
+    static function &build( $id ) {
+        // in testing phase reset cache every time
+        self::resetCache( );
+
         if ( ! self::$_cache ) {
             self::$_cache = array( );
         }
-
+        
         if ( array_key_exists( $id, self::$_cache ) ) {
             return self::$_cache[$id];
         }
@@ -67,7 +70,7 @@ class CRM_ACL_BAO_Cache extends CRM_ACL_DAO_Cache {
 
     static function retrieve( $id ) {
         $query = "
-SELECT acl_id, data
+SELECT acl_id, whereClause, whereTables, selectTables
   FROM civicrm_acl_cache
  WHERE contact_id = %1
 ";
@@ -76,19 +79,36 @@ SELECT acl_id, data
 
         $cache = array( );
         while ( $dao->fetch( ) ) {
-            $cache[$dao->acl_id] = $dao->data;
+            $cache[$dao->acl_id] = array( $dao->whereClause, $dao->whereTables, $dao->selectTables );
         }
         return $cache;
     }
 
-    static function store( $id, $cache ) {
-        CRM_Core_Error::debug( $id, $cache );
-        return;
+    static function store( $id, &$cache ) {
+        $dynamic = array( 'whereClause', 'selectTables', 'whereTables' );
+        require_once 'CRM/Contact/BAO/SavedSearch.php';
         foreach ( $cache as $aclID => $data ) {
             $dao =& new CRM_ACL_DAO_Cache( );
             $dao->contact_id = $id;
             $dao->acl_id     = $aclID;
-            $dao->data       = $data;
+            $dao->whereClause = $dao->selectTables = $dao->whereTables = null;
+            if ( $data['object_table'] == 'civicrm_saved_search' &&
+                 $data['object_id'] ) {
+                $tables = $whereTables = array( );
+                $dao->whereClause = CRM_Contact_BAO_SavedSearch::whereClause( $data['object_id'],
+                                                                              $tables, $whereTables );
+                if ( $tables ) {
+                    $dao->selectTables = serialize( $tables );
+                }
+                if ( $whereTables ) {
+                    $dao->whereTables  = serialize( $whereTables );
+                }
+            }
+
+            $cache[$aclID] = array( $dao->whereClause,
+                                    $dao->selectTables,
+                                    $dao->whereTables );
+
             $dao->save( );
         }
     }
@@ -118,7 +138,7 @@ WHERE contact_id = %1
 
         $domainID = CRM_Core_Config::domainID( );
         $query = "
-DELETE FROM civicrm_acl_cache
+DELETE FROM civicrm_acl_cache c
 USING civicrm_acl_cache c,
       civicrm_acl       a
 WHERE c.acl_id = a.id

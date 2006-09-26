@@ -49,6 +49,7 @@ class CRM_Core_TableHierarchy {
                          'civicrm_household'            => '03',
                          'civicrm_organization'         => '04',
                          'quest_student'                => '05',
+                         'quest_student_summary'        => '05',
                          'civicrm_individual_prefix'    => '06',
                          'civicrm_individual_suffix'    => '07',
                          'civicrm_gender'               => '08',

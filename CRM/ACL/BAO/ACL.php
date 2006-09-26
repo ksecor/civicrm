@@ -74,6 +74,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                                       'Edit'   => ts( 'Edit'   ),
                                       'Create' => ts( 'Create' ),
                                       'Delete' => ts( 'Delete' ),
+                                      'All'    => ts( 'All'    ),
                                       'Grant'  => ts( 'Grant'  ),
                                       'Revoke' => ts( 'Revoke' ),
                                       );
@@ -105,14 +106,12 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
             'ACLGroup'      => 'civicrm_acl_group',
             'ACLGroupJoin'  => CRM_ACL_DAO_GroupJoin::getTableName(),
             'Contact'       => CRM_Contact_DAO_Contact::getTableName(),
-            'Domain'        => CRM_Core_DAO_Domain::getTableName(),
             'Group'         => CRM_Contact_DAO_Group::getTableName(),
             'GroupContact'  => CRM_Contact_DAO_GroupContact::getTableName()
         );
 
-        $session    =& CRM_Core_Session::singleton();
-        $contact_id  = $session->get('userID');
-        $domainId   = $session->get('domainID');
+        $session     =& CRM_Core_Session::singleton();
+        $contact_id  =  $session->get('userID');
         
         $where = " {$t['ACL']}.operation = '" .
                     CRM_Utils_Type::escape($operation, 'String') ."'";
@@ -242,8 +241,8 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
 
         $dao->query($union);
         
-        $allow = array(0);
-        $deny = array(0);
+        $allow    = array(0);
+        $deny     = array(0);
         $override = array();
 
         while ($dao->fetch()) {
@@ -597,6 +596,51 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
     static function retrieve( &$params, &$defaults ) {
         CRM_Core_DAO::commonRetrieve( 'CRM_ACL_DAO_ACL', $params, $defaults );
     }    
+
+    static function check( $str, $contactID ) {
+        require_once 'CRM/ACL/BAO/Cache.php';
+        
+        $acls =& CRM_ACL_BAO_Cache::build( $contactID );
+
+        $aclKeys = array_keys( $acls );
+        $aclKeys = implode( ',', $aclKeys );
+
+        $params  = array( 1 => array( $str, 'String' ) );
+
+        $query = "
+SELECT count( id )
+  FROM civicrm_acl_cache c, civicrm_acl a
+ WHERE c.acl_id    =  a.id
+   AND a.is_active =  1
+   AND a.name      =  %1
+   AND a.id        IN ( $aclKeys )
+";
+        $count =& CRM_Core_DAO::singleValueQuery( $query, $params );
+        return ( $count ) ? true : false;
+    }
+
+    public static function whereClause( $type, &$tables, &$whereTables, $contactID = null ) {
+        require_once 'CRM/ACL/BAO/Cache.php';
+        
+        $acls =& CRM_ACL_BAO_Cache::build( $contactID );
+
+        $aclKeys = array_keys( $acls );
+        $aclKeys = implode( ',', $aclKeys );
+
+        $params  = array( 1 => array( $str, 'String' ) );
+
+        $query = "
+SELECT count( id )
+  FROM civicrm_acl_cache c, civicrm_acl a
+ WHERE c.acl_id    =  a.id
+   AND a.is_active =  1
+   AND a.name      =  %1
+   AND a.id        IN ( $aclKeys )
+";
+        $count =& CRM_Core_DAO::singleValueQuery( $query, $params );
+
+    }
+
 }
 
 ?>
