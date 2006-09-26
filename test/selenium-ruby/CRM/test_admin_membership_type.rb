@@ -63,8 +63,7 @@ class TC_TestAdminMembershipType < Test::Unit::TestCase
   
   # Edit Membership type
   def edit_membership_type
-    #    assert_equal "Edit", @selenium.get_text("//a[contains(text(),'Edit')]")
-    assert @selenium.is_element_present("//div[@id='membership_type']/descendant::tr[td[contains(.,'New Membership')]]/descendant::a[contains(.,'Edit')]")
+     assert @selenium.is_element_present("//div[@id='membership_type']/descendant::tr[td[contains(.,'New Membership')]]/descendant::a[contains(.,'Edit')]")
     @page.click_and_wait "//div[@id='membership_type']/descendant::tr[td[contains(.,'New Membership')]]/descendant::a[contains(.,'Edit')]"
       
     @selenium.select "period_type", "label=fixed"
@@ -79,8 +78,6 @@ class TC_TestAdminMembershipType < Test::Unit::TestCase
   
   # Disable Membership type
   def disable_membership_type
-    move_to_membership_type_page()
-    
     assert_equal "Disable", @selenium.get_text("//div[@id='membership_type']/descendant::tr[td[contains(.,'New Membership')]]/descendant::a[contains(.,'Disable')]")
     @page.click_and_wait "//div[@id='membership_type']/descendant::tr[td[contains(.,'New Membership')]]/descendant::a[contains(.,'Disable')]"
     assert_equal "Are you sure you want to disable this membership type?", @selenium.get_confirmation()
@@ -88,15 +85,11 @@ class TC_TestAdminMembershipType < Test::Unit::TestCase
   
   # Enable Membership type
   def enable_membership_type
-    move_to_membership_type_page()
-
     assert_equal "Enable", @selenium.get_text("//div[@id='membership_type']/descendant::tr[td[contains(.,'New Membership')]]/descendant::a[contains(.,'Enable')]")
     @page.click_and_wait "//div[@id='membership_type']/descendant::tr[td[contains(.,'New Membership')]]/descendant::a[contains(.,'Enable')]"
   end
 
   def delete_membership_type
-    move_to_membership_type_page()
-
     assert_equal "Delete", @selenium.get_text("//div[@id='membership_type']/descendant::tr[td[contains(.,'New Membership')]]/descendant::a[contains(.,'Delete')]")
     @page.click_and_wait "//div[@id='membership_type']/descendant::tr[td[contains(.,'New Membership')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all membership records of this type. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")

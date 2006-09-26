@@ -17,12 +17,7 @@ class TC_TestAdminContributionTypes < Test::Unit::TestCase
   end
   
   def test_contribution
-     #Click Administer CiviCRM
-    assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
-    @page.click_and_wait "link=Administer CiviCRM"
-    
-    assert_equal "Contribution\nTypes", @selenium.get_text("//a[@id='id_ContributionTypes']")
-    @page.click_and_wait "//a[@id='id_ContributionTypes']"
+    move_to_contribution_types()
 
     add_contribution_types()
     edit_contribution_types()
@@ -31,6 +26,16 @@ class TC_TestAdminContributionTypes < Test::Unit::TestCase
     delete_contribution_types()
   end
   
+  def move_to_contribution_types
+    #Click Administer CiviCRM
+    assert_equal "Administer CiviCRM", @selenium.get_text("link=Administer CiviCRM")
+    @page.click_and_wait "link=Administer CiviCRM"
+    
+    #click Contribution types link
+    assert_equal "Contribution\nTypes", @selenium.get_text("//a[@id='id_ContributionTypes']")
+    @page.click_and_wait "//a[@id='id_ContributionTypes']"
+  end
+
   # Add new Contribution Type information
   def add_contribution_types
     @page.click_and_wait "link=» New Contribution Type"
@@ -42,7 +47,7 @@ class TC_TestAdminContributionTypes < Test::Unit::TestCase
     @selenium.check "is_active"
     
     # Submit the form 
-    @page.click_and_wait "_qf_ContributionType_next"
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_ContributionType_next']"
     assert @selenium.is_text_present("The contribution type \"New Contribution\" has been saved.")
   end
   
@@ -55,7 +60,7 @@ class TC_TestAdminContributionTypes < Test::Unit::TestCase
     @selenium.uncheck "is_active"
     
     #Submit the form 
-    @page.click_and_wait "_qf_ContributionType_next"
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_ContributionType_next']"
     assert @selenium.is_text_present("The contribution type \"New Contribution\" has been saved.")
   end
   
@@ -78,7 +83,7 @@ class TC_TestAdminContributionTypes < Test::Unit::TestCase
     @page.click_and_wait "//div[@id='ltype']/descendant::tr[td[contains(.,'New Contribution')]]/descendant::a[contains(.,'Delete')]"
     
     assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all contribution records of this type. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
-    @page.click_and_wait "_qf_ContributionType_next"
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_ContributionType_next']"
     assert @selenium.is_text_present("Selected contribution type has been deleted.")
   end
 end

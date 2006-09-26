@@ -19,10 +19,11 @@ class TC_TestSearchBuilder < Test::Unit::TestCase
   def test_search_builder
     move_to_search_builder()
     
-    # Find Contacts with Given Search criteria 
+    Find Contacts with Given Search criteria 
     multiple_field_search()
     search_with_field_contribution()
     search_with_field_household()
+    search_with_multiple_field_household()
     search_with_field_organization()
   end
   
@@ -173,6 +174,33 @@ class TC_TestSearchBuilder < Test::Unit::TestCase
     
     #print the result on command prompt
     search_query = "Search Contacts where organization information includes,Preferred communication method=Phone, Preferred Mail Format=Both and Group=Advisory Board"
+    print_result(search_query)
+  end
+
+  def search_with_multiple_field_household
+    @selenium.select "mapper[1][0][0]", "label=Households"
+    @selenium.select "operator[1][0]", "label=="
+    @selenium.type "value[1][0]", "Rebecca Smith's home"
+
+    @selenium.select "mapper[2][0][0]", "label=Households"
+    @selenium.select "mapper[2][0][1]", "label=Preferred Communication Method"
+    @selenium.select "operator[2][0]", "label=="
+    @selenium.type "value[2][0]", "SMS"
+    
+    #click 'Also include contacts where' link
+    assert_equal "Also include contacts where", @selenium.get_value("//input[@id='addBlock']")
+    @page.click_and_wait "//input[@id='addBlock']"
+
+    @selenium.select "mapper[3][0][0]", "label=Households"
+    @selenium.select "operator[3][0]", "label=="
+    @selenium.select "mapper[3][0][1]", "label=City"
+    @selenium.type "value[3][0]", "Arizona"
+
+    #submit form
+    search_click()
+    
+    #print the result on command prompt
+    search_query = "Search Contacts where Household information includes,Name=Rebecca Smith's Home, Preferred communication method=Phone and City= Arizona"
     print_result(search_query)
   end
 end
