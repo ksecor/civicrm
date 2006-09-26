@@ -48,7 +48,11 @@ class CRM_Core_Joomla {
      * @static
      */
     static function sidebarLeft( ) {
-        $blockIds = array( 1, 2, 4, 8 );
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFrameworkFrontend ) {
+            return;
+        }
+         $blockIds = array( 1, 2, 4, 8 );
 
         $blocks = array( );
         foreach ( $blockIds as $id ) {
