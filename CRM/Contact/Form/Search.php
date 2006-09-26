@@ -480,6 +480,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         if ( empty( $this->_formValues ) ) {
+            
+            //check if group is a smart group (fix for CRM-1255)
+            if ($this->_groupID) {
+                if ($ssId = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $this->_groupID, 'saved_search_id' ) ) {
+                    $this->_ssID = $ssId;
+                }
+            }
+
             if ( isset( $this->_ssID ) ) {
                 // we only retrieve the saved search values if out current values are null
                 $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
@@ -660,7 +668,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         
         //get the button name
         $buttonName = $this->controller->getButtonName( );
-        
+
         if ( isset( $this->_ufGroupID ) && ! CRM_Utils_Array::value( 'uf_group_id', $this->_formValues ) ) { 
             $this->_formValues['uf_group_id'] = $this->_ufGroupID;
         }
