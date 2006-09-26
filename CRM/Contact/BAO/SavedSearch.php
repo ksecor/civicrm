@@ -129,7 +129,7 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      *
      * @param int $id saved search id
      * @param  array $tables (reference ) add the tables that are needed for the select clause
-    * @param  array $whereTables (reference ) add the tables that are needed for the where clause
+     * @param  array $whereTables (reference ) add the tables that are needed for the where clause
      *
      * @return string the where clause for this saved search
      * @access public
@@ -141,7 +141,41 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
             return CRM_Contact_BAO_Query::getWhereClause( $params, null, $tables, $whereTables );
         }
         return null;
+    }
 
+    /**
+     * given a saved search compute the clause and the tables
+     * and store it for future use
+     */
+    function buildClause( ) {
+        $fv = unserialize( $this->form_values );
+
+        if ( $this->mapping_id ) {
+            require_once 'CRM/Core/BAO/Mapping.php';
+            $params = CRM_Core_BAO_Mapping::formattedFields( $fv );
+        } else {
+            require_once 'CRM/Contact/Form/Search.php';
+            $params = CRM_Contact_Form_Search::convertFormValues( $fv );
+        }
+
+        if ( ! empty( $params ) ) {
+            $tables = $whereTables = array( );
+            $this->whereClause = CRM_Contact_BAO_Query::getWhereClause( $params, null, $tables, $whereTables );
+            if ( ! empty( $tables ) ) {
+                $this->selectTables = serialize( $tables );
+            }
+            if ( ! empty( $whereTables ) ) {
+                $this->whereTables = serialize( $whereTables );
+            }
+        }
+
+        return;
+    }
+
+    function save( ) {
+        // first build the computed fields
+        $this->buildClause( );
+        parent::save( );
     }
 
     /**

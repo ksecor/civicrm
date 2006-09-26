@@ -48,22 +48,4 @@
        <comment>When was this cache entry last modified</comment>
        <add>1.6</add>
     </field>
-    <field>
-       <name>whereClause</name>
-       <type>text</type>
-       <comment>the sql where clause if a saved search acl</comment>
-       <add>1.6</add>
-    </field>
-    <field>
-       <name>selectTables</name>
-       <type>text</type>
-       <comment>the tables to be included in a select data</comment>
-       <add>1.6</add>
-    </field>
-    <field>
-       <name>whereTables</name>
-       <type>text</type>
-       <comment>the tables to be included in the count statement</comment>
-       <add>1.6</add>
-    </field>
 </table>

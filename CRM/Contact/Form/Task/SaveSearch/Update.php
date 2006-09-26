@@ -51,7 +51,13 @@ class CRM_Contact_Form_Task_SaveSearch_Update extends CRM_Contact_Form_Task_Save
     function preProcess()
     {
         parent::preProcess( );
+        
         $this->_id = $this->get( 'ssID' );
+        if ( ! $this->_id ) {
+            // fetch the value from the group id gid
+            $gid = $this->get( 'gid' );
+            $this->_id = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $gid, 'saved_search_id' );
+        }
     }
 
     /**
