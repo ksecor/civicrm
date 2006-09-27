@@ -57,7 +57,36 @@
 </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</td></tr>
         <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
-      </table>
+        
+    <div id="showHonorOfDetails_show">
+    <tr><td class="label">{$form.contribution_honor.label}</td><td>{$form.contribution_honor.html}</td></tr>
+    </div>
+
+    <div id ="showHonorOfDetails" class="form-item">
+        <span class="label" style="vertical-align: top;">
+        <tr><td class="label">{$form.honor_prefix.label}</td><td>{$form.honor_prefix.html}</td></tr>
+        <tr><td class="label">{$form.honor_firstname.label}</td><td>{$form.honor_firstname.html}</td></tr>
+        <tr><td class="label">{$form.honor_lastname.label}</td><td>{$form.honor_lastname.html}</td></tr>
+        <tr><td class="label">{$form.honor_email.label}</td><td>{$form.honor_email.html}</td></tr>
+        </span>
+    </div>            
+    </table>
+
+    {literal}
+    <script type="text/javascript">
+    showHonorOfDetails();
+    function showHonorOfDetails()
+    {
+        var checkbox = document.getElementsByName("contribution_honor");
+        if (checkbox[0].checked ){
+            document.getElementById("showHonorOfDetails").style.display = "block";              
+        } else {
+            document.getElementById("showHonorOfDetails").style.display = "none"; 
+        }
+    }
+    </script>
+    {/literal}
+
       {if $premiums }
       <fieldset><legend>{ts}Premium Information{/ts}</legend> 
         <table class="form-layout-compressed">
@@ -104,7 +133,6 @@
     </dl> 
 </fieldset> 
 </div> 
-
 
 
 

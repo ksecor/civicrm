@@ -247,8 +247,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->addElement('date', 'cancel_date', ts('Cancelled'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
-
+        
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
+        
+        $this->addElement('checkbox','contribution_honor', ts('Contribution is In Honor Of'),null, array('onclick' =>"showHonorOfDetails()"));
+        $this->add('select','honor_prefix',ts('In Honor Of Prefix') ,array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
+        $this->add('text','honor_firstname',ts('In Honor Of First Name'));
+        $this->add('text','honor_lastname',ts('In Honor Of Last Name'));
+        $this->add('text','honor_email',ts('In Honor Of Email'));
 
         // add various amounts
         $element =& $this->add( 'text', 'non_deductible_amount', ts('Non-deductible Amount'),
