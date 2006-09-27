@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
  | copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -75,7 +75,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @return void
      * @access public
      */
-    function preProcess( ) {
+    function preProcess( ) {//echo "preProcess   ";
         /*
          * initialize the task and row fields
          */
@@ -107,7 +107,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @access public
      * @return void
      */
-    function buildQuickForm( ) {
+    function buildQuickForm( ) {//echo "buildQuickForm   ";
 
         CRM_Utils_System::setTitle( ts('Batch Profile Update') );
         
@@ -115,11 +115,11 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
         $ufGroup = array( '' => ts('- select profile -')) + CRM_Core_PseudoConstant::ufgroup( );
         $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $ufGroup, true);
         
-        $ufGroupId = $this->get('ufGroupId');
+        $ufGroupId = $this->get('ufGroupId');//CRM_Core_Error::debug('buildQuickForm_ufGroupId',$ufGroupId);
 
         $bName = ts('Continue');
         
-        if ( $ufGroupId ) {
+        if ( $ufGroupId ) {//echo "inside if buildquickform  ";
             $this->addDefaultButtons( ts('Save') );
             $this->_fields  = array( );
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
@@ -189,7 +189,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @return None
      */
     function setDefaultValues( ) 
-    {
+    {//echo "setDefaultValues    ";
         if (empty($this->_fields)) {
             return;
         }
@@ -218,20 +218,23 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() 
-    {
+    {  //echo "  postProcess        ";
         $params = $this->exportValues( );
-  
-        if ( CRM_Utils_Array::value( '_qf_BatchUpdateProfile_refresh', $params ) ) {
+        //CRM_Core_Error::debug('params',$params);
+        if ( CRM_Utils_Array::value( '_qf_BatchUpdateProfile_refresh', $params ) ) {//echo "rupam ";
             $this->set( 'ufGroupId', $params['uf_group_id'] );
+            //CRM_Core_Error::debug('ufGroupId',$ufGroupId);CRM_Core_Error::debug('u_id',$params['uf_group_id']);
             return;
         }
-        
+        //echo "jaiswal ";
         $ufGroupId = $this->get( 'ufGroupId' );
-
-        foreach($params['field'] as $key => $value) {
+        // CRM_Core_Error::debug('ufGroupId',$ufGroupId);
+//         CRM_Core_Error::debug('this->_fields',$this->_fields);
+//         CRM_Core_Error::debug('params',$params);
+        foreach($params['field'] as $key => $value) {//echo "jaiswal ";
             CRM_Contact_BAO_Contact::createProfileContact($value, $this->_fields, $key, null, $ufGroupId );
         }
-        
+        //CRM_Core_Error::backtrace();
         CRM_Core_Session::setStatus("Your updates have been saved.");
         CRM_Utils_System::redirect( $this->_userContext );
         

@@ -36,9 +36,9 @@
 
  | License along with this program; if not, contact the Social Source |
 
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
 
- | questions about the Affero General Public License or the licensing |
+ | about the Affero General Public License or the licensing  of       |
 
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
 

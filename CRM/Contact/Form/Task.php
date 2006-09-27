@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -75,8 +75,8 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             $values = $this->controller->exportValues( 'Advanced' );
         } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
             $values = $this->controller->exportValues( 'Builder' );
-        } else {
-            $values = $this->controller->exportValues( 'Search' );
+        } else {//echo "c    ";
+            $values = $this->controller->exportValues( 'Search' );//CRM_Core_Error::debug('values',$values);
         }
         
         $this->_task = $values['task'];

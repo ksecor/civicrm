@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -1363,11 +1363,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      */
     static function setProfileDefaults( $contactId, &$fields, &$defaults, $singleProfile = true ) 
-    {
+    {//CRM_Core_Error::debug('contactId',$contactId);
         //get the contact details
         list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
         $details = $contactDetails[$contactId];
-        
+        //CRM_Core_Error::debug('details',$details);
         //start of code to set the default values
         foreach ($fields as $name => $field ) {
             //set the field name depending upon the profile mode(single/batch)
@@ -1465,9 +1465,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                 }
             }
-        }
-        
-        //CRM_Core_Error::debug('def in uf', $defaults);
+        }    
     }
 }
 

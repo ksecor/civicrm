@@ -1,7 +1,7 @@
 <?php 
 /* 
  +--------------------------------------------------------------------+ 
- | CiviCRM version 1.5                                                | 
+ | CiviCRM version 1.6                                                | 
  +--------------------------------------------------------------------+ 
  | Copyright CiviCRM LLC (c) 2004-2006                                  | 
  +--------------------------------------------------------------------+ 
@@ -18,10 +18,10 @@
  |                                                                    | 
  | You should have received a copy of the Affero General Public       | 
  | License along with this program; if not, contact the Social Source | 
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have | 
- | questions about the Affero General Public License or the licensing | 
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       | 
+ | about the Affero General Public License or the licensing  of       | 
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   | 
- | at http://www.openngo.org/faqs/licensing.html                      | 
+ | http://www.civicrm.org/licensing/                                 | 
  +--------------------------------------------------------------------+ 
 */ 
  
@@ -2203,7 +2203,7 @@ class CRM_Contact_BAO_Query {
      * @access public 
      */
     static function apiQuery( $params = null, $returnProperties = null, $options = null ,$sort = null, $offset = 0, $row_count = 25 ) {
-        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );
+        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );//CRM_Core_Error::debug('query',$query);
         list( $select, $from, $where ) = $query->query( );
         $options = $query->_options;
         $sql = "$select $from $where";
@@ -2213,14 +2213,14 @@ class CRM_Contact_BAO_Query {
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }
-
+        
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
 
         $values = array( );
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );
         }
-        
+        //$query_t = array($values, $options);CRM_Core_Error::debug('query_t',$query_t);
         return array($values, $options);
     }
 

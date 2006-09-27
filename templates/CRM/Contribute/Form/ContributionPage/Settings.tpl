@@ -30,6 +30,7 @@
     <dt>&nbsp;</dt><dd>{$form.honor_block_is_active.html} {$form.honor_block_is_active.label}</dd>
     
     <dt>&nbsp;</dt><dd class="description">{ts}Display honor block block on a Contribution Page.{/ts}</dd>
+
     <div id="honor">
     <dt>{$form.honor_block_title.label}</dt><dd>{$form.honor_block_title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Set a title for the honor block.{/ts}</dd>

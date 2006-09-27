@@ -1,7 +1,7 @@
 <?php
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 1.5                                                |
+   | CiviCRM version 1.6                                                |
    +--------------------------------------------------------------------+
    | Copyright CiviCRM LLC (c) 2004-2006                                  |
    +--------------------------------------------------------------------+
@@ -18,10 +18,10 @@
    |                                                                    |
    | You should have received a copy of the Affero General Public       |
    | License along with this program; if not, contact the Social Source |
-   | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
-   | questions about the Affero General Public License or the licensing |
+   | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+   | about the Affero General Public License or the licensing  of       |
    | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
-   | at http://www.openngo.org/faqs/licensing.html                      |
+   | http://www.civicrm.org/licensing/                                 |
    +--------------------------------------------------------------------+
   */
 
@@ -524,8 +524,8 @@ ORDER BY
         
         $contact = self::add($params, $ids);
 
-        $params['contact_id'] = $contact->id;
-
+        $params['contact_id'] = $contact->id;//CRM_Core_Error::backtrace();
+        CRM_Core_Error::debug('a',$params);
         // invoke the add operator on the contact_type class
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
         eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
@@ -1655,7 +1655,10 @@ WHERE civicrm_contact.id IN $idString ";
         $options = array( );
                 
         $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );
-
+        CRM_Core_Error::debug('returnProperties',$returnProperties);
+        $t = list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
+        CRM_Core_Error::debug('t',$t);
+        //CRM_Core_Error::debug('params',$params);CRM_Core_Error::debug('options',$options);
         return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
         
     }
@@ -1819,10 +1822,10 @@ WHERE civicrm_contact.id IN $idString ";
         }
 
         $data = array( );
-        if ($ufGroupId) {
+        if ($ufGroupId) {//echo "set ";
             require_once "CRM/Core/BAO/UFField.php";
             $data['contact_type'] = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
-        } else {
+        } else {//echo "default indivual ";
             $data['contact_type'] = 'Individual';
         }
 
@@ -2097,7 +2100,7 @@ WHERE civicrm_contact.id IN $idString ";
 //         CRM_Core_Error::debug('s', $data);
 //         exit();
         require_once 'CRM/Contact/BAO/Contact.php';
-
+        
         $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
         
         // Process group and tag  
