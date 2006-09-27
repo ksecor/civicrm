@@ -509,6 +509,10 @@ ORDER BY
      * @static
      */
     static function &create(&$params, &$ids, $maxLocationBlocks) {
+        if (!$params['contact_type']) {
+            return;
+        }
+        
         require_once 'CRM/Utils/Hook.php';
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $ids['contact'], $params );
@@ -2128,6 +2132,8 @@ WHERE civicrm_contact.id IN $idString ";
                     $params[$field] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params[$field]));
                 }
             }
+           // CRM_Core_Error::debug('s', $params);
+           // exit();
             CRM_Quest_BAO_Student::create( $params, $ids);
         }
 
