@@ -990,6 +990,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             
         } else if (in_array($fieldName, $readers) || 
                    ($fieldName == 'gpa_unweighted_calc') || ($fieldName == 'gpa_weighted_calc')) {
+            
             $readerParts = explode('_', $fieldName);
             for($i = 0; $i < (count($readerParts)-1); $i++) {
                 if ($i == 0) {
@@ -999,10 +1000,12 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 }
             }
             require_once 'CRM/Core/OptionGroup.php';
-            $form->add('select', $fieldName, $title,
+            $form->add('select', $name, $title,
                        array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($readerGroup), $required);
+            return true;
+            
         } else if ($fieldName == 'high_school_grad_year' ) {
-            $form->add('date', 'high_school_grad_year', $title, CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
+            $form->add('date', $name, $title, CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
             return true;
             
         } else if ( in_array($fieldName, array('educational_interest', 
@@ -1052,7 +1055,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         } else if ( in_array( $fieldName, array('citizenship_country_id', 
                                                 'growup_country_id', 
                                                 'nationality_country_id') ) ) {
-
+            
             $form->addElement('select', $name, $title,
                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::country( ) );
             return true;
@@ -1061,7 +1064,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $form->addRadio( $name, $title,
                              CRM_Core_OptionGroup::values($fieldName) );
             return true;
-
+            
         } else {
             return false;
         }
