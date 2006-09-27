@@ -43,12 +43,14 @@
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td colspan="3">{$form.home_URL.label}</td>
+        <td colspan="2>{$form.home_URL.label}</td>
+        <td>{$form.current_employer.label}</td>
         <td>&nbsp;</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td colspan="3">{$form.home_URL.html}</td>
+        <td colspan="2">{$form.home_URL.html}</td>
+        <td>{$form.current_employer.html}</td> 
         <td>&nbsp;</td>
     </tr>
     </table>

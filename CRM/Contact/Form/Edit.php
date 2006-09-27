@@ -285,8 +285,17 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $inactiveNeeded = false;
         }
 
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $rel = CRM_Contact_BAO_Relationship::getRelationship($this->_contactId);
+            foreach ($rel as $key => $value) {
+                if ($value['relation'] == 'Employee of') {
+                    $defaults['current_employer'] =  $value['name'];
+                    break;
+                }
+            }
+        }
+       
         CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
-
         return $defaults;
     }
 
@@ -465,7 +474,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         $config  =& CRM_Core_Config::singleton( );
         $contact = CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks );
-        
+     
         //add contact to gruoup
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
@@ -493,6 +502,33 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
 
+        if( $params['current_employer'] ) {
+            $newOrg['contact_type'] = 'Organization';
+            $newOrg['organization_name'] = $params['current_employer'] ;
+            $dupeIDs = array();
+            require_once "CRM/Contact/DAO/Organization.php";
+            $org = & new CRM_Contact_DAO_Organization();
+            $org->organization_name = $params['current_employer'];
+            $org->find();
+            while ($org->fetch(true)) {
+                $dupeIDs[] = $org->contact_id;
+            }
+            $relTypeID = 4;
+            $relationshipParams['relationship_type_id'] = $relTypeID.'_a_b';
+            $cID = array( 'contact' => $contact->id);
+            $id = array();
+            
+            if(empty($dupeIDs)) {
+                $orgName = CRM_Contact_BAO_Contact::create($newOrg, $id, $config->maxLocationBlocks );
+                $relationshipParams['contact_check'][$orgName->id] = 1;
+                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cID );
+            } else {
+                foreach($dupeIDs as $key=>$value) {
+                    $relationshipParams['contact_check'][$value] = 1;
+                    $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cID);
+                }
+            }
+        }
         // do the updates/inserts
         CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, $this->_contactType, $contact->id);
     
