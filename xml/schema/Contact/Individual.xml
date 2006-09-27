@@ -139,7 +139,7 @@
        <name>birth_date</name>
        <type>date</type>
        <import>true</import>
-       <headerPattern>/birth/i</headerPattern>
+       <headerPattern>/^birth|(b(irth\s)?date)$/i</headerPattern>
        <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>
        <comment>Date of birth</comment>
        <add>1.1</add>
@@ -147,7 +147,9 @@
   <field>
        <name>is_deceased</name>
        <title>Is Deceased</title>
+       <import>true</import>
        <export>true</export>
+       <headerPattern>/(is?d(eceased\s))$/i</headerPattern>
        <type>boolean</type>
        <default>0</default>
        <add>1.1</add>
@@ -157,6 +159,7 @@
        <type>date</type>
        <import>true</import>
        <export>true</export>
+       <headerPattern>/^deceased|(d(eceased\s)?date)$/i</headerPattern>
        <comment>Date of deceased</comment>
        <add>1.5</add>
   </field>

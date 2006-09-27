@@ -45,7 +45,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/^(sub-type|subtype)/i</headerPattern>
+       <headerPattern>/C(ontact )?(sub-type|sub type)/i</headerPattern>
        <comment>May be used to over-ride contact view and edit templates.</comment>
       <add>1.5</add>
   </field>
