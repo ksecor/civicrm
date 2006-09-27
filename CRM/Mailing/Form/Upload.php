@@ -141,7 +141,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             $verp[$key]++;
         }
         
-        $urls = array_flip(array( 'forward' ) );
+        $urls = array_flip(array( 'forward', 'optOutUrl', 'unsubscribeUrl') );
         foreach($urls as $key => $value) {
             $urls[$key]++;
         }

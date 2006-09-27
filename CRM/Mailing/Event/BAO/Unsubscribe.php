@@ -427,7 +427,23 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         }
         return $results;
     }
-
+    
+    public static function getContactInfo($queueID) {
+        
+        $query = "SELECT DISTINCT(civicrm_mailing_event_queue.contact_id) as contact_id
+                  FROM civicrm_mailing_event_queue, civicrm_mailing_event_unsubscribe
+                  WHERE civicrm_mailing_event_queue.id=civicrm_mailing_event_unsubscribe.event_queue_id AND civicrm_mailing_event_queue.id=" . CRM_Utils_Type::escape($queueID, 'Integer');
+        
+        $dao =& new CRM_Core_DAO();
+        $dao->query($query);
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        
+        while ($dao->fetch()) {
+            $displayName = CRM_Contact_BAO_Contact::displayName($dao->contact_id);
+        }
+        
+        return $displayName;
+    }
 }
-
 ?>

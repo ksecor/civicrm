@@ -63,6 +63,18 @@ class CRM_Mailing_Invoke {
             return $wrapper->run( 'CRM_Profile_Form_ForwardMailing', ts('Forward Mailing'),  null );
         }
         
+        if ( $args[2] == 'unsubscribe' ) {
+            require_once 'extern/unsubscribe.php';
+            $view =& new extern_unsubscribe( );
+            return $view->run( );
+        }
+        
+        if ( $args[2] == 'optout' ) {
+            require_once 'extern/optout.php';
+            $view =& new extern_optout( );
+            return $view->run( );
+        }
+        
         if ( $args[2] == 'retry' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(

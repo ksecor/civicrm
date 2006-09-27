@@ -43,9 +43,11 @@ class CRM_Utils_Token {
         'action'        => array( 
                             'donate', 
                             'forward', 
-                            'optOut', 
+                            'optOut',
+                            'optOutUrl',
                             'reply', 
-                            'unsubscribe'
+                            'unsubscribe',
+                            'unsubscribeUrl'
                         ),
         'contact'       => null,  // populate this dynamically
         'domain'        => array( 

@@ -482,10 +482,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          *  optOut:         contact unsubscribes from the domain
          */
         $config =& CRM_Core_Config::singleton( );
-
+        
         $verp = array( );
-        foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) 
-        {
+        foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) {
             $verp[$key] = implode($config->verpSeparator,
                                   array(
                                         $key, 
@@ -496,19 +495,25 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         )
                                   ) . '@' . $this->_domain->email_domain;
         }
-
+                
         $urls = array(
-            'forward' => CRM_Utils_System::url('civicrm/mailing/forward', 
-                    "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
-                    true),
-        );
-
+                      'forward'         => CRM_Utils_System::url('civicrm/mailing/forward', 
+                                                         "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
+                                                         true),
+                      'unsubscribeUrl' => CRM_Utils_System::url('civicrm/mailing/unsubscribe', 
+                                                             "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
+                                                             true), 
+                      'optOutUrl'      => CRM_Utils_System::url('civicrm/mailing/optout', 
+                                                        "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
+                                                        true), 
+                      );
+        
         $headers = array(
-            'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
-            'Return-Path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
-            'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
-            'Subject'   => $this->subject,
-        );
+                         'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
+                         'Return-Path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
+                         'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
+                         'Subject'   => $this->subject,
+                         );
 
         require_once 'CRM/Utils/Token.php';
         if ($this->html == null || $this->text == null) {
@@ -571,6 +576,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         {
             $html = CRM_Utils_Token::replaceContactTokens(
                                         $html, $contact, true);
+            
             $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true);
             
             if ($this->open_tracking) {
