@@ -1095,14 +1095,25 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         $ufGroups = array( );
         while ($dao->fetch( )) {
-            if ( $moduleName && $moduleName != 'User Registration' && !self::filterUFGroups($dao->id)) {
-                continue;
+            $process = false;
+            if ( ! $moduleName ) {
+                $process = true;
+            } else {
+                // Don't add ufgroup to array if moduleName is User Account or Profile, UNLESS the ufGroup's fields'
+                // contact type matches the contact type of the logged in user.
+                if ( $moduleName == 'User Account' || $moduleName == 'Profile' ) {
+                    $process = self::filterUFGroups($dao->id);
+                } else {
+                    $process = true;
+                }
             }
             
-            $ufGroups[$dao->id]['name'     ] = $dao->title;
-            $ufGroups[$dao->id]['title'    ] = $dao->title;
-            $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
-            $ufGroups[$dao->id]['is_active'] = $dao->is_active;
+            if ( $process ) {
+                $ufGroups[$dao->id]['name'     ] = $dao->title;
+                $ufGroups[$dao->id]['title'    ] = $dao->title;
+                $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
+                $ufGroups[$dao->id]['is_active'] = $dao->is_active;
+            }
         }
 
         return $ufGroups;
