@@ -65,13 +65,13 @@ class CRM_Utils_Address {
         if ($fields['postal_code_suffix']) $fullPostalCode .= "-$fields[postal_code_suffix]";
 
         $replacements = array(
-            'street_address'         => $fields['street_address'],
-            'supplemental_address_1' => $fields['supplemental_address_1'],
-            'supplemental_address_2' => $fields['supplemental_address_2'],
-            'city'                   => $fields['city'],
-            'state_province'         => $fields['state_province'],
-            'postal_code'            => $fullPostalCode,
-            'country'                => $fields['country']
+            'street_address'         => "<span class=\"street_address\">" .   $fields['street_address'] . "</span>",
+            'supplemental_address_1' => "<span class=\"extended-address\">" . $fields['supplemental_address_1'] . "</span>",
+            'supplemental_address_2' => "<span class=\"extended-address\">" . $fields['supplemental_address_2'] . "</span>",
+            'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
+            'state_province'         => "<span class=\"region\">" .           $fields['state_province'] . "</span>",
+            'postal_code'            => "<span class=\"postal-code\">" .      $fullPostalCode . "</span>",
+            'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>"
         );
 
         // for every token, replace {fooTOKENbar} with fooVALUEbar if
@@ -85,7 +85,7 @@ class CRM_Utils_Address {
         }
 
         // drop any {...} constructs from lines' ends
-        $formatted = "\n$formatted\n";
+        $formatted = "\n<div class=\"vcard\"><div class=\"adr\">$formatted</div></div>\n";
         $formatted = preg_replace('/\n{[^{}]*}/u', "\n", $formatted);
         $formatted = preg_replace('/{[^{}]*}\n/u', "\n", $formatted);
 
