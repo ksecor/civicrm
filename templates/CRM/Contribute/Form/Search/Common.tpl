@@ -40,6 +40,11 @@
             <td colspan="2">{$form.contribution_thankyou_date_isnull.html}&nbsp;<label>{ts}Thank-you not sent?{/ts}</label></td>
         </tr>
         <tr>
+            <td class="label">{ts}In Honor Of{/ts}</td>
+            <td>{$form.honor_first_name.label}&nbsp;&nbsp;{$form.honor_first_name.html}</td> 
+            <td>{$form.honor_email.label}&nbsp;&nbsp;{$form.honor_email.html}</td> 
+        </tr>
+        <tr>
             <td colspan="4">
             {include file="CRM/Custom/Form/Search.tpl" groupTree=$contributeGroupTree showHideLinks=false}
             </td>

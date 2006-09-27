@@ -601,6 +601,41 @@ GROUP BY p.id
         }
     }
 
+    function createHonorContact( $params , $honorId = null ) {
+        $honorParams = array();
+        $honorParams["prefix_id"] = $params["honor_prefix"];
+        $honorParams["first_name"]   = $params["honor_firstname"];
+        $honorParams["last_name"]    = $params["honor_lastname"];
+        $honorParams["email"]        = $params["honor_email"];
+        $honorParams["contact_type"] = "Individual";
+        
+        //update if contact  already exists
+        if ( $honorId ) {
+            $ids = array( );
+            $idParams = array( 'id' => $honorId, 'contact_id' => $honorId );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+            $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
+            return $contact->id;    
+             
+        } else {
+            
+            $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
+            $contactsIDs = explode( ',', $ids );
+            if ( $contactsIDs[0] == "" || count ( $contactsIDs ) > 1) {
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
+                return $contact->id;
+            } else {
+                $contact_id =  $contactsIDs[0];
+                $ids = array( );
+                $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
+                $defaults = array( );
+                CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
+                return $contact->id;    
+            }
+         }
+    }
+
 }
 
 ?>

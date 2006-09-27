@@ -59,6 +59,16 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
                                                     $values, 
                                                     $ids );             
         CRM_Contribute_BAO_Contribution::resolveDefaults( $values ); 
+        
+        if ( $values["honor_contact_id"] ) {
+            $sql = "SELECT display_name FROM civicrm_contact WHERE id = " . $values["honor_contact_id"];
+            $dao = &new CRM_Core_DAO();
+            $dao->query($sql);
+            if ( $dao->fetch() ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view/basic', "reset=1&cid=$values[honor_contact_id]" );
+                $values["honor_display"] = "<A href = $url>". $dao->display_name ."</A>"; 
+            }
+        }
 
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->get( 'id' ) );
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );

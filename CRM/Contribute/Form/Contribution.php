@@ -88,6 +88,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */ 
     protected $_options ;
 
+    
+    /**
+     * stores the honor id
+     *
+     * @var boolean
+     * @protected 
+     */ 
+    protected $_honorID = null ;
+
     /**
      * Store the tree of custom data and fields
      *
@@ -162,7 +171,20 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $now = date("Y-m-d");
             $defaults['receive_date'] = $now;
         }
-        
+        if ($defaults["honor_contact_id"]) {
+            $honorDefault = array();
+            $this->_honorID = $defaults["honor_contact_id"];
+            $idParams = array( 'id' => $defaults["honor_contact_id"], 'contact_id' => $defaults["honor_contact_id"] );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $honorDefault, $ids );
+            
+            $defaults["honor_prefix"]    = $honorDefault["prefix_id"];
+            $defaults["honor_firstname"] = $honorDefault["first_name"];
+            $defaults["honor_lastname"]  = $honorDefault["last_name"];
+            $defaults["honor_email"]     = $honorDefault["location"][1]["email"][1]["email"];
+            $defaults["contribution_honor"]    = 1;
+        }
+       
+
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
@@ -251,10 +273,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
         
         $this->addElement('checkbox','contribution_honor', ts('Contribution is In Honor Of'),null, array('onclick' =>"showHonorOfDetails()"));
-        $this->add('select','honor_prefix',ts('In Honor Of Prefix') ,array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
-        $this->add('text','honor_firstname',ts('In Honor Of First Name'));
-        $this->add('text','honor_lastname',ts('In Honor Of Last Name'));
-        $this->add('text','honor_email',ts('In Honor Of Email'));
+        $this->add('select','honor_prefix',ts('Prefix') ,array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
+        $this->add('text','honor_firstname',ts(' First Name'));
+        $this->add('text','honor_lastname',ts('Last Name'));
+        $this->add('text','honor_email',ts('Email'));
 
         // add various amounts
         $element =& $this->add( 'text', 'non_deductible_amount', ts('Non-deductible Amount'),
@@ -344,6 +366,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */  
     static function formRule( &$fields, &$files, $self ) {  
         $errors = array( ); 
+      
+        if ($fields["contribution_honor"]) {
+            if ( !((  CRM_Utils_Array::value( 'honor_firstname', $fields ) && 
+                      CRM_Utils_Array::value( 'honor_lastname' , $fields )) ||
+                      CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
+                $errors['_qf_default'] = ts('Honor First Name and Last Name OR an email should be set.');
+            }
+            
+        }
         return $errors;
     }
 
@@ -364,8 +395,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-        //print_r($formValues);
-
+      
         $config =& CRM_Core_Config::singleton( );
 
         $params = array( );
@@ -405,7 +435,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         $ids['contribution'] = $params['id'] = $this->_id;
-
+        if ($formValues["contribution_honor"]) {
+            if ( $this->_honorID ) {
+                $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues , $this->_honorID );
+            } else {
+                $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues );
+            }
+            $params["honor_contact_id"] = $honorId;
+        }
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
 
         // do the updates/inserts

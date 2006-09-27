@@ -301,6 +301,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
             }
         }
+
+         if ($self->_values["honor_block_is_active"]) {
+            if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
+                      CRM_Utils_Array::value( 'honor_last_name' , $fields )) ||
+                      CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
+                $errors['_qf_default'] = ts('Honor First Name and Last Name OR an email should be set.');
+            }
+            
+        }
         
         if( $fields['selectMembership'] && $fields['selectMembership'] != 'no_thanks') {
             require_once 'CRM/Member/BAO/Membership.php';

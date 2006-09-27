@@ -300,6 +300,11 @@ class CRM_Contribute_BAO_Query {
         $form->addElement( 'checkbox', 'contribution_thankyou_date_isnull', ts( 'Thank-you date not set?' ) );
         $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt date not set?' ) );
 
+        //add fields for honor search
+        $form->addElement( 'text', 'honor_first_name', ts( "First Name" ) );
+        $form->addElement( 'text', 'honor_email' , ts( "Email" ) );
+
+        
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Contribution' ) );
