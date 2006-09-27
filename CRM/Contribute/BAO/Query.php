@@ -148,7 +148,9 @@ class CRM_Contribute_BAO_Query {
             $query->_qill[$grouping ][] = ts( 'Paid By - %1', array( 1 => $pis[$pi] ) );
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
-
+        case 'in_honor_of':
+            
+            return;
         case 'contribution_status':
             switch( $value ) {
             case 'Valid':
@@ -301,9 +303,8 @@ class CRM_Contribute_BAO_Query {
         $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt date not set?' ) );
 
         //add fields for honor search
-        $form->addElement( 'text', 'honor_first_name', ts( "First Name" ) );
-        $form->addElement( 'text', 'honor_email' , ts( "Email" ) );
-
+        $form->addElement( 'text', 'in_honor_of', ts( "In Honor Of" ) );
+        $form->addElement( 'checkbox', 'is_test' , ts( 'Test Mode Contribution ?' ) );
         
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

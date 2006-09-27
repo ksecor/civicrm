@@ -40,9 +40,12 @@
             <td colspan="2">{$form.contribution_thankyou_date_isnull.html}&nbsp;<label>{ts}Thank-you not sent?{/ts}</label></td>
         </tr>
         <tr>
-            <td class="label">{ts}In Honor Of{/ts}</td>
-            <td>{$form.honor_first_name.label}&nbsp;&nbsp;{$form.honor_first_name.html}</td> 
-            <td>{$form.honor_email.label}&nbsp;&nbsp;{$form.honor_email.html}</td> 
+           
+            <td class="label">{$form.in_honor_of.label}</td> 
+            <td>{$form.in_honor_of.html}</td> 
+            
+            <td>{$form.is_test.html}&nbsp;<label>{ts}Test Mode Contributionas?{/ts}</label></td> 
+            
         </tr>
         <tr>
             <td colspan="4">

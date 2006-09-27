@@ -1373,9 +1373,8 @@ class CRM_Contact_BAO_Query {
                 continue;
 
             case 'payment_instrument':
-                $from .= " $side JOIN civicrm_contribution payment_contribution ON contact_a.id = payment_contribution.contact_id ";
                 $from .= " $side JOIN civicrm_option_group option_group_paymentInstrument ON (option_group_paymentInstrument.name = 'payment_instrument')";
-                $from .= " $side JOIN civicrm_option_value payment_instrument ON (payment_contribution.payment_instrument_id = payment_instrument.value AND option_group_paymentInstrument.id = payment_instrument.option_group_id)";
+                $from .= " $side JOIN civicrm_option_value payment_instrument ON (civicrm_contribution.payment_instrument_id = payment_instrument.value AND option_group_paymentInstrument.id = payment_instrument.option_group_id)";
                 continue;
                 
             case 'civicrm_state_province':
