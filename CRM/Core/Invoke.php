@@ -666,19 +666,21 @@ class CRM_Core_Invoke {
             $session->pushUserContext( CRM_Utils_System::url('civicrm/profile', 'reset=1' ) ); 
 
             $userID = $session->get( 'userID' );
+
+            $buttonType = $_POST['_qf_Edit_cancel'];
+            if ( $buttonType == 'Cancel' ) {
+                $cancelURL = CRM_Utils_Request::retrieve('cancelURL','String', CRM_Core_DAO::$_nullObject,false,null,$_POST );
+                if ( $cancelURL ) {
+                    CRM_Utils_System::redirect( $cancelURL );
+                }
+            }
+
             if ( $secondArg == 'edit' && $userID ) {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Edit', ts('Create Profile'), CRM_Core_Action::UPDATE );
                 $controller->set( 'edit', 1 );
                 $controller->process( );
                 return $controller->run( );
             } else {
-                $buttonType = $_POST['_qf_Edit_cancel'];
-                if ( $buttonType == 'Cancel' ) {
-                    $cancelURL = CRM_Utils_Request::retrieve('cancelURL','String', CRM_Core_DAO::$_nullObject,false,null,$_POST );
-                    if ( $cancelURL ) {
-                        CRM_Utils_System::redirect( $cancelURL );
-                    }
-                }
                 $wrapper =& new CRM_Utils_Wrapper( ); 
                 return $wrapper->run( 'CRM_Profile_Form_Edit', ts( 'Create Profile' ), CRM_Core_Action::ADD );
             } 

@@ -8,7 +8,7 @@
 
 <table border="0" cellpadding="0" cellspacing="0" id="content">
   <tr>
-{if ! $config->userFrameworkFrontend}
+{if $sidebarLeft}
     <td id="sidebar-left" valign="top">
        {$sidebarLeft}
     </td>
