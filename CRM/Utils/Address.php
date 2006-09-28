@@ -65,9 +65,9 @@ class CRM_Utils_Address {
         if ($fields['postal_code_suffix']) $fullPostalCode .= "-$fields[postal_code_suffix]";
 
         $replacements = array(
-            'street_address'         => "<span class=\"street_address\">" .   $fields['street_address'] . "</span>",
+            'street_address'         => "<span class=\"street-address\">" .   $fields['street_address'] . "</span>",
             'supplemental_address_1' => "<span class=\"extended-address\">" . $fields['supplemental_address_1'] . "</span>",
-            'supplemental_address_2' => "<span class=\"extended-address\">" . $fields['supplemental_address_2'] . "</span>",
+            'supplemental_address_2' => $fields['supplemental_address_2'],
             'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
             'state_province'         => "<span class=\"region\">" .           $fields['state_province'] . "</span>",
             'postal_code'            => "<span class=\"postal-code\">" .      $fullPostalCode . "</span>",
@@ -85,7 +85,7 @@ class CRM_Utils_Address {
         }
 
         // drop any {...} constructs from lines' ends
-        $formatted = "\n<div class=\"vcard\"><div class=\"adr\">$formatted</div></div>\n";
+        $formatted = "\n<div class=\"vcard\"><span class=\"adr\">$formatted</span></div>\n";
         $formatted = preg_replace('/\n{[^{}]*}/u', "\n", $formatted);
         $formatted = preg_replace('/{[^{}]*}\n/u', "\n", $formatted);
 
