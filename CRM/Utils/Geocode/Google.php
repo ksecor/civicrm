@@ -103,20 +103,20 @@ class CRM_Utils_Geocode_Google {
          $request =& new HTTP_Request( $query );
          $request->sendRequest( );
          $string = $request->getResponseBody( );
+
          $xml = simplexml_load_string( $string );
-         
+
          $ret = array( );
          $val = array( );
-         
-         $ret = $xml->Response->Placemark->Point->children();
-
-         $val = explode(',', (string)$ret[0]);
-
-         if ( $val[0] && $val[1] ) {
-             $values['geo_code_1'] = $val[0];
-             $values['geo_code_2'] = $val[1];
+         if ( $xml->Response->Placemark->Point ) {
+             $ret = $xml->Response->Placemark->Point->children();             
+             $val = explode(',', (string)$ret[0]);
+             if ( $val[0] && $val[1] ) {
+                 $values['geo_code_1'] = $val[0];
+                 $values['geo_code_2'] = $val[1];
+             }
          }
          return true;
-     }
+    }
 }
 ?>
