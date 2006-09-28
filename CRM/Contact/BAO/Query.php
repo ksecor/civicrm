@@ -256,12 +256,6 @@ class CRM_Contact_BAO_Query {
                           $includeContactIds = false, $strict = false, $mode = 1 ) {
         require_once 'CRM/Contact/BAO/Contact.php';
 
-        //CRM_Core_Error::backtrace( );
-        //CRM_Core_Error::debug( 'params', $params );
-        // CRM_Core_Error::debug( 'f', $fields );
-        // exit( );
-        //CRM_Core_Error::debug( 'post', $_POST );
-        //CRM_Core_Error::debug( 'r', $returnProperties );
         $this->_params =& $params;
 
         if ( empty( $returnProperties ) ) {
@@ -290,7 +284,6 @@ class CRM_Contact_BAO_Query {
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        //CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -376,8 +369,7 @@ class CRM_Contact_BAO_Query {
         $properties = array( );
 
         $this->addSpecialFields( );
-        //CRM_Core_Error::debug( 'f', $this->_fields );
-        //CRM_Core_Error::debug( 'p', $this->_params );
+       
         foreach ($this->_fields as $name => $field) {
             // if this is a hierarchical name, we ignore it
             $names = explode( '-', $name );
@@ -442,7 +434,6 @@ class CRM_Contact_BAO_Query {
                                     $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
                                 }
                             } else {
-                                //echo "<br>".$field['where'];
                                 $this->_select [$name]              = "{$field['where']} as `$name`";
                             }
                             $this->_element[$name]             = 1;
@@ -741,8 +732,6 @@ class CRM_Contact_BAO_Query {
             $where = "WHERE {$this->_whereClause}";
         }
 
-        //CRM_Core_Error::debug( "t", $this );
-        //CRM_Core_Error::debug( "$select, $from $where", $where );
         return array( $select, $from, $where );
     }
 
@@ -909,9 +898,8 @@ class CRM_Contact_BAO_Query {
             $this->_where[0][] = 'contact_a.domain_id = ' . $config->domainID( );
         }
 
-        $this->includeContactIds( );
+        $this->includeContactIds( );        
         
-        // CRM_Core_Error::debug( 'p', $this->_params );
         if ( ! empty( $this->_params ) ) {
             foreach ( array_keys( $this->_params ) as $id ) {
                 // check for both id and contact_id
@@ -959,7 +947,6 @@ class CRM_Contact_BAO_Query {
             }
         }
         
-        //CRM_Core_Error::debug( 'a', $andClauses );
         return implode( ' AND ', $andClauses );
     }
 
@@ -1072,7 +1059,6 @@ class CRM_Contact_BAO_Query {
         } else {
             // sometime the value is an array, need to investigate and fix
             if ( is_array( $value ) ) {
-                CRM_Core_Error::debug( 'v', $values );
                 CRM_Core_Error::fatal( ts( 'This is an unexpected place to be in, contact support' ) );
             }
 
@@ -1281,7 +1267,6 @@ class CRM_Contact_BAO_Query {
         foreach ($tables as $key => $value) {
             $k = 99;
             if ( strpos( $key, '-' ) ) {
-                //echo $key . "<br>";
                 $keyArray = explode('-', $key);
                 $k = CRM_Utils_Array::value( 'civicrm_' . $keyArray[1], $info, 99 );
             } else if ( strpos( $key, '_' ) ) {
@@ -1305,7 +1290,7 @@ class CRM_Contact_BAO_Query {
         }
 
         $tables = $newTables;
-        //CRM_Core_Error::debug("aa", $tables);
+       
         foreach ( $tables as $name => $value ) {
             if ( ! $value ) {
                 continue;
@@ -2203,7 +2188,7 @@ class CRM_Contact_BAO_Query {
      * @access public 
      */
     static function apiQuery( $params = null, $returnProperties = null, $options = null ,$sort = null, $offset = 0, $row_count = 25 ) {
-        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );//CRM_Core_Error::debug('query',$query);
+        $query = new CRM_Contact_BAO_Query( $params, $returnProperties, null );
         list( $select, $from, $where ) = $query->query( );
         $options = $query->_options;
         $sql = "$select $from $where";
@@ -2220,7 +2205,7 @@ class CRM_Contact_BAO_Query {
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );
         }
-        //$query_t = array($values, $options);CRM_Core_Error::debug('query_t',$query_t);
+       
         return array($values, $options);
     }
 
@@ -2257,17 +2242,10 @@ class CRM_Contact_BAO_Query {
         // hack for now, add permission only if we are in search
         $permission = ' ( 1 ) ';
         if ( $this->_search ) {
-            //CRM_Core_Error::debug( 't', $this->_tables );
-            //CRM_Core_Error::debug( 'w', $this->_whereTables );
-
             require_once 'CRM/ACL/API.php';
             //$permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
             $permission = CRM_ACL_API::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
 
-            //CRM_Core_Error::debug( 'p', $permission );
-            //CRM_Core_Error::debug( 't', $this->_tables );
-            //CRM_Core_Error::debug( 'w', $this->_whereTables );
-            
             // regenerate fromClause since permission might have added tables
             if ( $permission ) {
                 $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation, $this->_mode ); 
@@ -2309,8 +2287,7 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = "$select $from $where $order $limit";
-        //CRM_Core_Error::debug( 'q', $query );
-        
+                
         if ( $returnQuery ) {
             return $query;
         }

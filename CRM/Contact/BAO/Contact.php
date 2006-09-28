@@ -524,8 +524,8 @@ ORDER BY
         
         $contact = self::add($params, $ids);
 
-        $params['contact_id'] = $contact->id;//CRM_Core_Error::backtrace();
-        //CRM_Core_Error::debug('a',$params);
+        $params['contact_id'] = $contact->id;
+        
         // invoke the add operator on the contact_type class
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
         eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
@@ -1652,15 +1652,9 @@ WHERE civicrm_contact.id IN $idString ";
      */
     static function getHierContactDetails( $contactId, &$fields ) {
         $params  = array( array( 'contact_id', '=', $contactId, 0, 0 ) ); 
-        $options = array( );
-                
-        $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );
-        // CRM_Core_Error::debug('returnProperties',$returnProperties);
-        $t = list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
-        // CRM_Core_Error::debug('t',$t);
-        // CRM_Core_Error::debug('params',$params);CRM_Core_Error::debug('options',$options);
-        return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
-        
+        $options = array( );                
+        $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );        
+        return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );        
     }
 
     /**
@@ -1822,10 +1816,10 @@ WHERE civicrm_contact.id IN $idString ";
         }
 
         $data = array( );
-        if ($ufGroupId) {//echo "set ";
+        if ($ufGroupId) {
             require_once "CRM/Core/BAO/UFField.php";
             $data['contact_type'] = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
-        } else {//echo "default indivual ";
+        } else {
             $data['contact_type'] = 'Individual';
         }
 
@@ -1996,7 +1990,7 @@ WHERE civicrm_contact.id IN $idString ";
         foreach ($fields as $name => $field ) {
            if ( CRM_Core_Permission::access( 'Quest' ) ) {
               // check if student fields present
-              //print_r($studentFields);
+              
               require_once 'CRM/Quest/BAO/Query.php';
               if ( (!$studentFieldPresent) && array_key_exists($name, CRM_Quest_BAO_Query::getFields()) ) {
                   $studentFieldPresent = 1;
@@ -2097,7 +2091,6 @@ WHERE civicrm_contact.id IN $idString ";
             }
         }
         
-//         CRM_Core_Error::debug('s', $data);
 //         exit();
         require_once 'CRM/Contact/BAO/Contact.php';
         
@@ -2142,7 +2135,7 @@ WHERE civicrm_contact.id IN $idString ";
                     $params[$field] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params[$field]));
                 }
             }
-           // CRM_Core_Error::debug('s', $params);
+          
            // exit();
             CRM_Quest_BAO_Student::create( $params, $ids);
         }

@@ -1252,7 +1252,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $name = $fieldName;
         }
         
-        //CRM_Core_Error::debug('d', $name);
         if ( substr($fieldName,0,14) === 'state_province' ) {
             $form->add('select', $name, $title,
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
@@ -1363,11 +1362,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      */
     static function setProfileDefaults( $contactId, &$fields, &$defaults, $singleProfile = true ) 
-    {//CRM_Core_Error::debug('contactId',$contactId);
+    {
         //get the contact details
         list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
         $details = $contactDetails[$contactId];
-        //CRM_Core_Error::debug('details',$details);
+        
         //start of code to set the default values
         foreach ($fields as $name => $field ) {
             //set the field name depending upon the profile mode(single/batch)
