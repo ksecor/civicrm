@@ -623,7 +623,10 @@ SELECT count( id )
         require_once 'CRM/ACL/BAO/Cache.php';
         
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
-
+        if ( empty( $acls ) ) {
+            return ' ( 0 ) ';
+        }
+        
         $aclKeys = array_keys( $acls );
         $aclKeys = implode( ',', $aclKeys );
 
@@ -662,7 +665,11 @@ SELECT s.where_clause, s.select_tables, s.where_tables
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $clauses = array( );
         while ( $dao->fetch( ) ) {
-            if ( $dao->where_clause ) {
+            // make sure operation matches the type
+            // currently operation is restrcited to VIEW/EDIT
+            if ( $dao->where_clause &&
+                 ( $dao->operation == 'All' || $dao->operation == 'Edit' ||
+                   ( $type == CRM_ACL_API::VIEW && $dao->operation == 'View' ) ) ) {
                 $clauses[] = $dao->where_clause;
                 if ( $dao->select_tables ) {
                     $tables = array_merge( $tables,

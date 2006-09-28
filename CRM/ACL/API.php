@@ -38,6 +38,16 @@
 class CRM_ACL_API {
 
     /**
+     * The various type of permissions
+     * 
+     * @var int
+     */
+    const
+        EDIT = 1,
+        VIEW = 2;
+
+
+    /**
      * given a permission string, check for access requirements
      *
      * @param string $str       the permission to check
