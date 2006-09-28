@@ -910,6 +910,12 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @static
      */
     static function &retrieve( &$params, &$defaults, &$ids ) {
+        if ( array_key_exists( 'contact_id', $params ) ) {
+            $params['id'] = $params['contact_id'];
+        } else if ( array_key_exists( 'id', $params ) ) {
+            $params['contact_id'] = $params['id'];
+        }
+
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
         unset($params['id']);
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
