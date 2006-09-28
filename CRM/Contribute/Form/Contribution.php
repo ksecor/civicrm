@@ -171,6 +171,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $now = date("Y-m-d");
             $defaults['receive_date'] = $now;
         }
+        
+        if ( $defaults['is_test']){
+            $this->assign( "is_test" , true);
+        }
         if ($defaults["honor_contact_id"]) {
             $honorDefault = array();
             $this->_honorID = $defaults["honor_contact_id"];

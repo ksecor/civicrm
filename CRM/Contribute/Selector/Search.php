@@ -81,7 +81,8 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'receive_date',
                                  'thankyou_date',
                                  'cancel_date',
-                                 'product_name'
+                                 'product_name',
+                                 'is_test'
                                  );
 
     /** 
@@ -287,7 +288,10 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             foreach (self::$_properties as $property) {
                 $row[$property] = $result->$property;
             }
-
+            
+            if ( $row["is_test"] ) {
+                $row["contribution_type"] = $row["contribution_type"] . "( test )";
+            }
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
                                                           array( 'id'  => $result->contribution_id,

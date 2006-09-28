@@ -79,9 +79,7 @@ class CRM_Contribute_BAO_Query {
             }
             
         }
-        // Get only live transction records ant aon test mode
-        // $query->_where[0][] = "civicrm_contribution.is_test != 1";
-       }
+    }
 
     static function whereClauseSingle( &$values, &$query ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;

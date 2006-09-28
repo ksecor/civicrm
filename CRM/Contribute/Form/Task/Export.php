@@ -131,7 +131,14 @@ class CRM_Contribute_Form_Task_Export extends CRM_Contribute_Form_Task {
             $valid = false;
 
             foreach ( $properties as $property ) {
-                $row[] = $result->$property;
+                if ($property == "is_test") {
+                    $row[] = $result->$property ? "Yes" : "No";
+                    if ( $result->$property ) {
+                        $row[] = $result->$property;
+                    } 
+                } else {
+                    $row[] = $result->$property;
+                }
                 if ( ! CRM_Utils_System::isNull( $result->$property ) ) {
                     $valid = true;
                 }

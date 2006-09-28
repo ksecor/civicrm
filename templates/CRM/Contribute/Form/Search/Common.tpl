@@ -44,7 +44,7 @@
             <td class="label">{$form.in_honor_of.label}</td> 
             <td>{$form.in_honor_of.html}</td> 
             
-            <td>{$form.is_test.html}&nbsp;<label>{ts}Test Mode Contributionas?{/ts}</label></td> 
+            <td>{$form.is_test.html}&nbsp;<label>{ts}Test Mode Contributions?{/ts}</label></td> 
             
         </tr>
         <tr>

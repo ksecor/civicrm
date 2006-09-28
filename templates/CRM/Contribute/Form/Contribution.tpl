@@ -14,7 +14,11 @@
    {else} 
       <table class="form-layout-compressed">
         <tr><td class="label font-size12pt">{ts}From{/ts}</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
-        <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}</td></tr> 
+        <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}&nbsp;
+        {if $is_test}
+        {ts}(test){/ts}
+        {/if}
+        </td></tr> 
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</td></tr>
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
 {if $hideCalender neq true}

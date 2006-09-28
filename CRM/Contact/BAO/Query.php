@@ -909,7 +909,6 @@ class CRM_Contact_BAO_Query {
                     $this->whereClauseSingle( $this->_params[$id] );
                 }
             }
-
             CRM_Core_Component::alterQuery( $this, 'where' );
         }
         
@@ -2243,8 +2242,8 @@ class CRM_Contact_BAO_Query {
         $permission = ' ( 1 ) ';
         if ( $this->_search ) {
             require_once 'CRM/ACL/API.php';
-            //$permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
-            $permission = CRM_ACL_API::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
+            $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
+            //$permission = CRM_ACL_API::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
 
             // regenerate fromClause since permission might have added tables
             if ( $permission ) {

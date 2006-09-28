@@ -328,13 +328,17 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->controller->resetPage( $formName ); 
             return; 
         }
-
+        
+        
         $sortID = null; 
         if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
-
+        
+        if ( $this->_context != "search" ) { 
+            $this->_formValues["is_test"] = 0;
+        }
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues );
         $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,
                                                          $this->_action,
