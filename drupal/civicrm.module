@@ -49,7 +49,7 @@ function civicrm_html_head()
     $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
     $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
     $head .= "<script type=\"text/javascript\">var djConfig = { isDebug: true };</script>";
-    $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo.js\"></script>";
+	// $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo.js\"></script>";
     $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
     $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php\"></script>";
     $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";

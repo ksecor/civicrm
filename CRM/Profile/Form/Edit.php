@@ -182,15 +182,12 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
     public function postProcess( ) 
     {
         parent::postProcess( );
-        
+
         CRM_Core_Session::setStatus(ts('Thank you. Your information has been saved.'));
                 
-        // commented for CRM-1250
-        /*
         $session =& CRM_Core_Session::singleton( );
         $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/profile/view',
                                                              "reset=1&id={$this->_id}&gid={$this->_gid}" ) );
-        */
     }
     
     /**

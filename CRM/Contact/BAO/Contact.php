@@ -913,8 +913,15 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @static
      */
     static function &retrieve( &$params, &$defaults, &$ids ) {
+        if ( array_key_exists( 'contact_id', $params ) ) {
+            $params['id'] = $params['contact_id'];
+        } else if ( array_key_exists( 'id', $params ) ) {
+            $params['contact_id'] = $params['id'];
+        }
+
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
         unset($params['id']);
+
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
         eval( '$contact->contact_type_object =& CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
         $locParams = $params + array('entity_id' => $params['contact_id'],
@@ -1810,8 +1817,10 @@ WHERE civicrm_contact.id IN $idString ";
     static function createProfileContact( &$params, &$fields, $contactID = null, $addToGroupID = null, $ufGroupId = null ) {
         require_once 'CRM/Utils/Hook.php';
         if ( $contactID ) {
+            $editHook = true;
             CRM_Utils_Hook::pre( 'edit'  , 'Profile', $contactID, $params );
         } else {
+            $editHook = false;
             CRM_Utils_Hook::pre( 'create', 'Profile', null, $params ); 
         }
 
@@ -2091,38 +2100,49 @@ WHERE civicrm_contact.id IN $idString ";
             }
         }
         
-//         exit();
         require_once 'CRM/Contact/BAO/Contact.php';
-        
+
         $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, count($data['location']) );
-        
+
+        // contact is null if the profile does not have any contact fields
+        if ( $contact ) {
+          $contactID = $contact->id;
+        } else if ( array_key_exists( 'contact', $ids ) ) {
+          $contactID = $ids['contact'];
+        } 
+
+        if ( ! $contactID ) {
+          CRM_Core_Error::fatal( 'Cannot proceed without a valid contact id' );
+        }
+
         // Process group and tag  
         if ( CRM_Utils_Array::value('group', $fields )) {
-            CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
+            CRM_Contact_BAO_GroupContact::create( $params['group'], $contactID );
         }
         
         if ( CRM_Utils_Array::value('tag', $fields )) {
             require_once 'CRM/Core/BAO/EntityTag.php';
-            CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
+            CRM_Core_BAO_EntityTag::create( $params['tag'], $contactID );
         } 
         
         //to add profile in default group
         if ($addToGroupID ) {
-            $contactIds = array($contact->id);
+            $contactIds = array($contactID);
             CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $addToGroupID );
         }
-        
+
         //to update student record
         if ( CRM_Core_Permission::access( 'Quest' ) && $studentFieldPresent ) {
             $ids = array();
             $dao = & new CRM_Quest_DAO_Student();
-            $dao->contact_id = $contact->id;
+            $dao->contact_id = $contactID;
             if ($dao->find(true)) {
                 $ids['id'] = $dao->id;
             }
 
+            $ssids = array( );
             $studentSummary = & new CRM_Quest_DAO_StudentSummary();
-            $studentSummary->contact_id = $contact->id;
+            $studentSummary->contact_id = $contactID;
             if ($studentSummary->find(true)) {
                 $ssids['id'] = $studentSummary->id;
             }
@@ -2136,19 +2156,17 @@ WHERE civicrm_contact.id IN $idString ";
                 }
             }
           
-
             CRM_Quest_BAO_Student::create( $params, $ids);
             CRM_Quest_BAO_Student::createStudentSummary($params, $ssids);
-
         }
 
-        if ( $contactID ) {
+        if ( $editHook ) {
             CRM_Utils_Hook::post( 'edit'  , 'Profile', $contactID  , $params );
         } else {
-            CRM_Utils_Hook::post( 'create', 'Profile', $contact->id, $params ); 
+            CRM_Utils_Hook::post( 'create', 'Profile', $contactID, $params ); 
         }
 
-        return $contact->id;
+        return $contactID;
     }
 
     /**
