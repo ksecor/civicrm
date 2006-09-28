@@ -91,10 +91,6 @@ class CRM_Quest_BAO_Query
             $query->_tables['quest_student'] = $query->_whereTables['quest_student'] = 1;
         }
             
-        $query->_select['student_summary_id'] = "quest_student_summary.id as student_summary_id";
-        $query->_element['student_summary_id'] = 1;
-        $query->_tables['quest_student_summary'] = $query->_whereTables['quest_student_summary'] = 1;
-        
         self::initialize( );
         $fields =& self::getFields();
         foreach ( $fields as $name => $title ) {
@@ -103,6 +99,11 @@ class CRM_Quest_BAO_Query
                     $query->_select[$name] = "civicrm_country.name as $name";
                     $query->_tables['civicrm_country'] = 1;
                 }  elseif ( substr($name, 0, 4) == 'cmr_' ) {
+                    //temporary fix
+                    $query->_select['student_summary_id'] = "quest_student_summary.id as student_summary_id";
+                    $query->_element['student_summary_id'] = 1;
+                    $query->_tables['quest_student_summary'] = $query->_whereTables['quest_student_summary'] = 1;
+
                     $query->_select[$name] = "{$title['where']} as $name";
                     $query->_tables['quest_student_summary'] = 1;
                     $query->_element[$name] = 1;
