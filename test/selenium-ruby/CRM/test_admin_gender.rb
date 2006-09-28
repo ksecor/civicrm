@@ -24,8 +24,6 @@ class TC_TestAdminGender < Test::Unit::TestCase
     assert_equal "Gender\nOptions\n(Male,\nFemale...)", @selenium.get_text("//a[@id='id_GenderOptions_Male_Female...']")
     @page.click_and_wait "//a[@id='id_GenderOptions_Male_Female...']"
     
-    assert @selenium.is_text_present("Gender Options (Male, Female...)")
-    
     add_gender()
     edit_gender()
     disable_gender()
@@ -46,7 +44,7 @@ class TC_TestAdminGender < Test::Unit::TestCase
     end
         
     # Submit the form 
-    @page.click_and_wait "_qf_Gender_next"
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_Options_next']"
     assert @selenium.is_text_present("The Gender \"New Gender\" has been saved.")
   end
   
@@ -60,7 +58,7 @@ class TC_TestAdminGender < Test::Unit::TestCase
     end
     
     #Submit the form 
-    @page.click_and_wait "_qf_Gender_next"
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_Options_next']"
     assert @selenium.is_text_present("The Gender \"New Gender\" has been saved.")
   end
   
@@ -82,7 +80,7 @@ class TC_TestAdminGender < Test::Unit::TestCase
     assert_equal "Delete", @selenium.get_text("//div[@id='gender']/descendant::tr[td[contains(.,'New Gender')]]/descendant::a[contains(.,'Delete')]")
     @page.click_and_wait "//div[@id='gender']/descendant::tr[td[contains(.,'New Gender')]]/descendant::a[contains(.,'Delete')]"
     assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all Gender related records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
-    @page.click_and_wait "_qf_Gender_next"
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_Options_next']"
     assert @selenium.is_text_present("Selected Gender type has been deleted.")
   end
 end

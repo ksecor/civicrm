@@ -17,7 +17,6 @@ class TC_TestAdminActivity < Test::Unit::TestCase
   end
   
   def test_activity
-    
     move_to_admin_activity()
     
     add_activity()
@@ -39,53 +38,52 @@ class TC_TestAdminActivity < Test::Unit::TestCase
   
   # Add new Activity information
   def add_activity
-    
     if @selenium.is_text_present("There are no custom Activity Types entered")
       @page.click_and_wait "link=add one"
     else
-      @page.click_and_wait "link=» New Activity Type"
+      @page.click_and_wait "link=» New Activity Type Option"
     end
     
     # Read new activity information
-    @selenium.type "name",        "New Activity"
-    @selenium.type "description", "This is test activity type"
+    @selenium.type "name","New Activity"
     @selenium.check "is_active" 
     
     # Submit the form 
-    @page.click_and_wait "_qf_ActivityType_next"
-    assert @selenium.is_text_present("The activity type \"New Activity\" has been saved.")
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_Options_next']"
+    assert @selenium.is_text_present("The Activity Type \"New Activity\" has been saved.")
   end
   
   # Editing activity information
   def edit_activity
-    assert_equal "Edit", @selenium.get_text("//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Edit')]")
-    @page.click_and_wait "//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Edit')]"
+    assert_equal "Edit", @selenium.get_text("//div[@id='activity_type']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Edit')]")
+    @page.click_and_wait "//div[@id='activity_type']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Edit')]"
     
     @selenium.uncheck "is_active" 
     
     #Submit the form 
-    @page.click_and_wait "_qf_ActivityType_next"
-    assert @selenium.is_text_present("The activity type \"New Activity\" has been saved.")
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_Options_next']"
+    assert @selenium.is_text_present("The Activity Type \"New Activity\" has been saved.")
   end
   
   # Enable activity
   def enable_activity
-    assert_equal "Enable", @selenium.get_text("//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Enable')]")
-    @page.click_and_wait "//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Enable')]"
+    assert_equal "Enable", @selenium.get_text("//div[@id='activity_type']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Enable')]")
+    @page.click_and_wait "//div[@id='activity_type']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Enable')]"
   end
+
   # Disable activity
   def disable_activity
-    assert_equal "Disable", @selenium.get_text("link=Disable")
-    @page.click_and_wait "link=Disable"
-    assert_equal "Are you sure you want to disable this activity type?\n\nUsers will no longer be able to select this value when adding or editing activities.", @selenium.get_confirmation()
+     assert_equal "Disable", @selenium.get_text("//div[@id='activity_type']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Disable')]")
+    @page.click_and_wait "//div[@id='activity_type']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Disable')]"
+    assert_equal "Are you sure you want to disable this Activity Type?\n\nUsers will no longer be able to select this value when adding or editing Activity Type.", @selenium.get_confirmation()
   end
   
   # Delete activity
   def delete_activity
-    assert_equal "Delete", @selenium.get_text("//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Delete')]")
-    @page.click_and_wait "//div[@id='browseValues']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Delete')]"
-    assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all activity type records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
-    @page.click_and_wait "_qf_ActivityType_next"
-    assert @selenium.is_text_present("Selected activity type has been deleted.")
+    assert_equal "Delete", @selenium.get_text("//div[@id='activity_type']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Delete')]")
+    @page.click_and_wait "//div[@id='activity_type']/descendant::tr[td[contains(.,'New Activity')]]/descendant::a[contains(.,'Delete')]"
+    assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all Activity Type related records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_Options_next']"
+    assert @selenium.is_text_present("Selected Activity Type type has been deleted.")
   end
 end
