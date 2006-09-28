@@ -45,14 +45,15 @@ class CRM_Utils_Address {
      * Format an address basing on the address fields provided.
      * Use $config->addressFormat if there's no format specified.
      *
-     * @param array  $fields  the address fields
-     * @param string $format  the desired address format
+     * @param array   $fields       the address fields
+     * @param string  $format       the desired address format
+     * @param boolean $microformat  if true indicates, the address to be built in hcard-microformat standard.
      *
      * @return string  formatted address string
      *
      * @static
      */
-    static function format($fields, $format = null)
+    static function format($fields, $format = null, $microformat = false)
     {
         static $config = null;
         if (!$format) {
@@ -60,19 +61,31 @@ class CRM_Utils_Address {
             $format = $config->addressFormat;
         }
         $formatted = $format;
-
+        
         $fullPostalCode = $fields['postal_code'];
         if ($fields['postal_code_suffix']) $fullPostalCode .= "-$fields[postal_code_suffix]";
-
-        $replacements = array(
-            'street_address'         => "<span class=\"street-address\">" .   $fields['street_address'] . "</span>",
-            'supplemental_address_1' => "<span class=\"extended-address\">" . $fields['supplemental_address_1'] . "</span>",
-            'supplemental_address_2' => $fields['supplemental_address_2'],
-            'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
-            'state_province'         => "<span class=\"region\">" .           $fields['state_province'] . "</span>",
-            'postal_code'            => "<span class=\"postal-code\">" .      $fullPostalCode . "</span>",
-            'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>"
-        );
+        
+        if (! $microformat) {
+            $replacements = array(
+                                  'street_address'         => $fields['street_address'],
+                                  'supplemental_address_1' => $fields['supplemental_address_1'],
+                                  'supplemental_address_2' => $fields['supplemental_address_2'],
+                                  'city'                   => $fields['city'],
+                                  'state_province'         => $fields['state_province'],
+                                  'postal_code'            => $fullPostalCode,
+                                  'country'                => $fields['country']
+                                  );
+        } else {
+            $replacements = array(
+                                  'street_address'         => "<span class=\"street-address\">" .   $fields['street_address'] . "</span>",
+                                  'supplemental_address_1' => "<span class=\"extended-address\">" . $fields['supplemental_address_1'] . "</span>",
+                                  'supplemental_address_2' => $fields['supplemental_address_2'],
+                                  'city'                   => "<span class=\"locality\">" .         $fields['city'] . "</span>",
+                                  'state_province'         => "<span class=\"region\">" .           $fields['state_province'] . "</span>",
+                                  'postal_code'            => "<span class=\"postal-code\">" .      $fullPostalCode . "</span>",
+                                  'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>"
+                                  );
+        }
 
         // for every token, replace {fooTOKENbar} with fooVALUEbar if
         // the value is not empty, otherwise drop the whole {fooTOKENbar}
@@ -85,7 +98,11 @@ class CRM_Utils_Address {
         }
 
         // drop any {...} constructs from lines' ends
-        $formatted = "\n<div class=\"vcard\"><span class=\"adr\">$formatted</span></div>\n";
+        if (! $microformat) {
+            $formatted = "\n$formatted\n";
+        } else {
+            $formatted = "\n<div class=\"vcard\"><span class=\"adr\">$formatted</span></div>\n";
+        }
         $formatted = preg_replace('/\n{[^{}]*}/u', "\n", $formatted);
         $formatted = preg_replace('/{[^{}]*}\n/u', "\n", $formatted);
 

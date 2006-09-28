@@ -241,7 +241,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             'postal_code_suffix'     => $this->postal_code_suffix,
             'country'                => $this->country
         );
-        $this->display = CRM_Utils_Address::format($fields);
+        $this->display = CRM_Utils_Address::format($fields, null, true);
     }
 
     /**
