@@ -2127,6 +2127,13 @@ WHERE civicrm_contact.id IN $idString ";
             if ($dao->find(true)) {
                 $ids['id'] = $dao->id;
             }
+
+            $studentSummary = & new CRM_Quest_DAO_StudentSummary();
+            $studentSummary->contact_id = $contact->id;
+            if ($studentSummary->find(true)) {
+                $ids['student_summary_id'] = $studentSummary->id;
+            }
+
             $params['contact_id'] = $contactID;
             //fixed for check boxes
             $fields = array( 'educational_interest','college_type','college_interest','test_tutoring' );

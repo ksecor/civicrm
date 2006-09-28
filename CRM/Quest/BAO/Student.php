@@ -75,15 +75,17 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         if( $ids['id'] ) {
             $dao->id = $ids['id'];
         }
+        
         $dao->save();
 
         //save student summary details
         require_once "CRM/Quest/DAO/StudentSummary.php";
         $studentSummary = & new CRM_Quest_DAO_StudentSummary();
         $studentSummary->copyValues($params);
-//         if( $ids['id'] ) {
-//             $studentSummary->id = $ids['id'];
-//         }
+        if( $ids['student_summary_id'] ) {
+            $studentSummary->id = $ids['student_summary_id'];
+        }
+        
         $studentSummary->save();
 
         return $dao;
