@@ -59,7 +59,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * maximum profile fields that will be displayed
      *
      */
-    protected $_maxFields = 8;
+    protected $_maxFields = 9;
 
 
     /**
@@ -75,7 +75,8 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @return void
      * @access public
      */
-    function preProcess( ) {//echo "preProcess   ";
+    function preProcess( ) 
+    {
         /*
          * initialize the task and row fields
          */
@@ -107,19 +108,19 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @access public
      * @return void
      */
-    function buildQuickForm( ) {//echo "buildQuickForm   ";
-
+    function buildQuickForm( ) 
+    {
         CRM_Utils_System::setTitle( ts('Batch Profile Update') );
         
         // add select for groups
         $ufGroup = array( '' => ts('- select profile -')) + CRM_Core_PseudoConstant::ufgroup( );
         $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $ufGroup, true);
         
-        $ufGroupId = $this->get('ufGroupId');//CRM_Core_Error::debug('buildQuickForm_ufGroupId',$ufGroupId);
+        $ufGroupId = $this->get('ufGroupId');
 
         $bName = ts('Continue');
         
-        if ( $ufGroupId ) {//echo "inside if buildquickform  ";
+        if ( $ufGroupId ) {
             $this->addDefaultButtons( ts('Save') );
             $this->_fields  = array( );
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
@@ -156,7 +157,8 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @access protected
      * @return void
      */
-    function addRules( ) {
+    function addRules( ) 
+    {
         $this->addFormRule( array( 'CRM_Contact_Form_Task_BatchUpdateProfile', 'formRule' ) );
     }
     
@@ -169,7 +171,8 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields ) 
+    {
         require_once "CRM/Core/BAO/UFField.php";
         if ( CRM_Core_BAO_UFField::checkProfileType($fields['uf_group_id'], true) ) {
             $errorMsg['uf_group_id'] = "You cannot select mix profile for batch update.";
@@ -189,7 +192,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @return None
      */
     function setDefaultValues( ) 
-    {//echo "setDefaultValues    ";
+    {
         if (empty($this->_fields)) {
             return;
         }
@@ -218,23 +221,18 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() 
-    {  //echo "  postProcess        ";
+    {
         $params = $this->exportValues( );
-        //CRM_Core_Error::debug('params',$params);
-        if ( CRM_Utils_Array::value( '_qf_BatchUpdateProfile_refresh', $params ) ) {//echo "rupam ";
+        if ( CRM_Utils_Array::value( '_qf_BatchUpdateProfile_refresh', $params ) ) {
             $this->set( 'ufGroupId', $params['uf_group_id'] );
-            //CRM_Core_Error::debug('ufGroupId',$ufGroupId);CRM_Core_Error::debug('u_id',$params['uf_group_id']);
             return;
         }
-        //echo "jaiswal ";
+
         $ufGroupId = $this->get( 'ufGroupId' );
-        // CRM_Core_Error::debug('ufGroupId',$ufGroupId);
-//         CRM_Core_Error::debug('this->_fields',$this->_fields);
-//         CRM_Core_Error::debug('params',$params);
-        foreach($params['field'] as $key => $value) {//echo "jaiswal ";
+        foreach($params['field'] as $key => $value) {
             CRM_Contact_BAO_Contact::createProfileContact($value, $this->_fields, $key, null, $ufGroupId );
         }
-        //CRM_Core_Error::backtrace();
+
         CRM_Core_Session::setStatus("Your updates have been saved.");
         CRM_Utils_System::redirect( $this->_userContext );
         
