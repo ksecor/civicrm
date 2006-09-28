@@ -75,14 +75,19 @@ class CRM_Quest_Form_MatchApp_SchoolOther extends CRM_Quest_Form_App
             $orgIds[$dao->contact_id_b] = $dao->contact_id_b;
         }
         
-        require_once 'CRM/Core/DAO/CustomValue.php';
-        $customDAO = & new CRM_Core_DAO_CustomValue();
-        $customDAO->char_data    = 'Other School';
-        $customDAO->find();
-        while ( $customDAO->fetch() ) {
-            if(array_key_exists($customDAO->entity_id, $orgIds )) {
+        if ( ! empty( $orgIds ) ) {
+            $orgIdsKey = implode( ',', $orgIds );
+
+            $query = "
+SELECT entity_id
+  FROM civicrm_custom_value
+ WHERE char_data = 'Other School'
+   AND entity_id IN ( $orgIdsKey )
+";
+            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            while ( $dao->fetch( ) ) {
                 $count = count( $this->_orgIDsOther)+1;
-                $this->_orgIDsOther[$count] = $customDAO->entity_id;
+                $this->_orgIDsOther[$count] = $dao->entity_id;
             }
         }
       
