@@ -1,7 +1,7 @@
 #!/bin/sh
-for j in xml; do
+for j in test; do
   cd ../$j;
-  for i in `find . -name \*.php`; do
+  for i in `find . -name \*.js`; do
     echo $i;
     perl -pi -e 's/CiviCRM version 1.5/CiviCRM version 1.6/' $i;
     perl -pi -e 's/Copyright CiviCRM LLC (c) 2004-2006/Copyright CiviCRM LLC (c) 2004-2006                                /' $i;   

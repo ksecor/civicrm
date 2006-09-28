@@ -75,8 +75,8 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             $values = $this->controller->exportValues( 'Advanced' );
         } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
             $values = $this->controller->exportValues( 'Builder' );
-        } else {//echo "c    ";
-            $values = $this->controller->exportValues( 'Search' );//CRM_Core_Error::debug('values',$values);
+        } else {
+            $values = $this->controller->exportValues( 'Search' );
         }
         
         $this->_task = $values['task'];
