@@ -38,6 +38,8 @@ require_once 'CRM/Core/I18n.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Utils/Array.php';
+require_once 'CRM/Core/DAO/OptionGroup.php';
+require_once 'CRM/Core/DAO/OptionValue.php';
 
 function _crm_error( $message, $code = 8000, $level = 'Fatal', $params = null)
 {
@@ -622,8 +624,13 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
         if ( ! $prefix ) {
             if (isset( $contact->contact_type_object->prefix_id )) {
-                $prefix = & new CRM_Core_DAO_IndividualPrefix();
-                $prefix->id = $contact->contact_type_object->prefix_id;
+                $prefixGrp = & new CRM_Core_DAO_OptionGroup();
+                $prefixGrp->name = 'individual_prefix';
+                $prefixGrp->find(true); 
+
+                $prefix = & new CRM_Core_DAO_OptionValue();
+                $prefix->option_group_id = $prefixGrp->id;
+                $prefix->value = $contact->contact_type_object->prefix_id;
                 $prefix->find();
                 $prefix->fetch();
                 $prefix = $prefix->name; 
@@ -638,8 +645,13 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
         if ( ! $suffix ) {
             if (isset( $contact->contact_type_object->suffix_id )) {
-                $suffix = & new CRM_Core_DAO_IndividualSuffix();
-                $suffix->id = $contact->contact_type_object->suffix_id;
+                $suffixGrp = & new CRM_Core_DAO_OptionGroup();
+                $suffixGrp->name = 'individual_suffix';
+                $suffixGrp->find(true); 
+
+                $suffix = & new CRM_Core_DAO_OptionValue();
+                $suffix->option_group_id = $suffixGrp->id;
+                $suffix->value = $contact->contact_type_object->suffix_id;
                 $suffix->find();
                 $suffix->fetch();
                 $suffix = $suffix->name; 
@@ -655,10 +667,15 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
         
         if ( $gender ) {
-            $genderDao = & new CRM_Core_DAO_Gender();
-            $genderDao->name = $gender; 
+            $genderGrp = & new CRM_Core_DAO_OptionGroup();
+            $genderGrp->name = 'gender';
+            $genderGrp->find(true); 
+            
+            $genderDao = & new CRM_Core_DAO_OptionValue();
+            $genderDao->option_group_id = $genderGrp->id;
+            $genderDao->name = $gender;
             $genderDao->find(true);
-            $values['gender_id'] = $genderDao->id;
+            $values['gender_id'] = $genderDao->value;
         } 
 
         if ($lastName != "" && $firstName != "") {
