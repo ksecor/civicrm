@@ -11,6 +11,7 @@
       <name>id</name>
       <type>int unsigned</type>
       <title>Internal Contact ID</title>
+      <headerPattern>/I(nternal )?C(ontact)?|ID(\s)/i</headerPattern>
       <import>true</import>
       <required>true</required>
       <comment>Unique Contact ID</comment>
@@ -119,7 +120,7 @@
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
-       <headerPattern>/^(url|web|site)/i</headerPattern>
+       <headerPattern>/^(home\sURL)/i</headerPattern>
        <dataPattern>/^[\w\/\:\.]+$/</dataPattern>
        <comment>optional "home page" URL for this contact.</comment>
        <add>1.1</add>
@@ -138,6 +139,7 @@
        <type>varchar</type>
        <length>255</length>
        <import>true</import>
+       <headerPattern>/(Source\sof\sContact\sData)|$/i</headerPattern>
        <comment>where domain_id contact come from, e.g. import, donate module insert...</comment>
        <add>1.1</add>
   </field>
@@ -146,7 +148,7 @@
        <type>varchar</type>
        <length>255</length>
        <import>true</import>
-       <headerPattern>/(communication|method)/i</headerPattern>
+       <headerPattern>/(preferred\scommunication\smethod)|$/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
        <comment>What is the preferred mode of communication.</comment>
        <add>1.1</add>
@@ -165,7 +167,7 @@
        <type>boolean</type>
        <default>0</default>
        <import>true</import>
-       <headerPattern>/do not phone$/i</headerPattern>
+       <headerPattern>/(do\snot\sphone)|$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <add>1.1</add>
   </field>
@@ -173,7 +175,7 @@
        <name>do_not_email</name>
        <type>boolean</type>
        <import>true</import>
-       <headerPattern>/do not email$/i</headerPattern>
+       <headerPattern>/(do\snot\semail)|$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
@@ -182,7 +184,7 @@
        <name>do_not_mail</name>
        <type>boolean</type>
        <import>true</import>
-       <headerPattern>/mail$/i</headerPattern>
+       <headerPattern>/(do\snot\smail)|$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
@@ -191,7 +193,7 @@
        <name>do_not_trade</name>
        <type>boolean</type>
        <import>true</import>
-       <headerPattern>/trade$/i</headerPattern>
+       <headerPattern>/(do\snot\strade)|$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>

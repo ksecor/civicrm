@@ -149,7 +149,7 @@
        <title>Is Deceased</title>
        <import>true</import>
        <export>true</export>
-       <headerPattern>/(is?d(eceased\s))$/i</headerPattern>
+       <headerPattern>/i(s\s)?d(eceased)$/i</headerPattern>
        <type>boolean</type>
        <default>0</default>
        <add>1.1</add>
