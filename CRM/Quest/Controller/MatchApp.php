@@ -477,11 +477,21 @@ WHERE  t.responsible_entity_table = 'civicrm_contact'
   AND  t.target_entity_table      = 'civicrm_contact'
   AND  t.target_entity_id         = $cid
   AND  t.task_id IN ( $values )
-ORDER BY t.task_id
+ORDER BY t.task_id, t.status_id desc
 ";
+
+        $processed = array( );
+        foreach ( array_values( $tasks ) as $taskID => $dontCare ) {
+            $processed[$taskID] = 0;
+        }
 
         $result =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $result->fetch( ) ) {
+            if ( $processed[$result->task_id] ) {
+                continue;
+            } else {
+                $processed[$result->task_id] = 1;
+            }
             if ( $result->status_id != 328 ) {
                 // jump to that section
                 $session =& CRM_Core_Session::singleton( );

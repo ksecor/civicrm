@@ -627,20 +627,56 @@ SELECT count( id )
         $aclKeys = array_keys( $acls );
         $aclKeys = implode( ',', $aclKeys );
 
-        $params  = array( 1 => array( $str, 'String' ) );
-
         $query = "
-SELECT count( id )
-  FROM civicrm_acl_cache c, civicrm_acl a
- WHERE c.acl_id    =  a.id
-   AND a.is_active =  1
-   AND a.name      =  %1
-   AND a.id        IN ( $aclKeys )
+SELECT   a.operation, a.object_id
+  FROM   civicrm_acl_cache c, civicrm_acl a
+ WHERE   c.acl_id       =  a.id
+   AND   a.is_active    =  1
+   AND   a.object_table = 'civicrm_saved_search'
+   AND   a.id        IN ( $aclKeys )
+ORDER BY a.object_id
 ";
-        $count =& CRM_Core_DAO::singleValueQuery( $query, $params );
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        // do an or of all the where clauses u see
+        $ids = array( );
+        while ( $dao->fetch( ) ) {
+            if ( ! $dao->object_id ) {
+                return ' ( 1 ) ';
+            }
+            
+            $ids[] = $dao->object_id;
+        }
 
+        if ( empty( $ids ) ) {
+            return ' ( 0 ) ';
+        }
+
+        $ids = implode( ',', $ids );
+        $query = "
+SELECT s.where_clause, s.select_tables, s.where_tables
+  FROM civicrm_saved_search s, civicrm_group g
+ WHERE s.id = g.saved_search_id
+   AND g.id IN ( $ids )
+";
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $clauses = array( );
+        while ( $dao->fetch( ) ) {
+            if ( $dao->where_clause ) {
+                $clauses[] = $dao->where_clause;
+                if ( $dao->select_tables ) {
+                    $tables = array_merge( $tables,
+                                           unserialize( $dao->select_tables ) );
+                }
+                if ( $dao->where_tables ) {
+                    $whereTables = array_merge( $whereTables,
+                                                unserialize( $dao->where_tables ) );
+                }
+            }
+        }
+
+        return ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
     }
-
 }
 
 ?>

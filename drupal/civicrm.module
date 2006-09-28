@@ -49,7 +49,7 @@ function civicrm_html_head()
     $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
     $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
     $head .= "<script type=\"text/javascript\">var djConfig = { isDebug: true };</script>";
-    $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo.js\"></script>";
+    // $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo.js\"></script>";
     $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
     $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php\"></script>";
     $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
@@ -131,18 +131,7 @@ function civicrm_perm()
             $cPerm = array_merge( $cPerm, $perm );
         }
     }
-
-    // dynamic permissions - access by group (title)
-    require_once 'CRM/Core/PseudoConstant.php';
-    require_once 'CRM/Core/Permission.php';
-
-    $groups =& CRM_Core_PseudoConstant::allGroup();
-    foreach ( $groups as $title ) {
-        $cPerm[] = t( CRM_Core_Permission::VIEW_GROUPS . '%1', array('%1' => $title));
-        $cPerm[] = t( CRM_Core_Permission::EDIT_GROUPS . '%1', array('%1' => $title));
-    }
-
-    return $cPerm;
+	return $cPerm;
 }
 
 /**

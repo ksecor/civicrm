@@ -1,3 +1,5 @@
+<?php
+
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 1.6                                                |
@@ -33,7 +35,7 @@
  *
  */
 
-class CRM_ACL_Base {
+class CRM_ACL_API {
 
     /**
      * given a permission string, check for access requirements
@@ -81,7 +83,7 @@ class CRM_ACL_Base {
         }
 
         require_once 'CRM/ACL/BAO/ACL.php';
-        CRM_ACL_BAO_ACL::whereClause( $type, $tables, $whereTables, $contactID );
+        return CRM_ACL_BAO_ACL::whereClause( $type, $tables, $whereTables, $contactID );
     }
 
 }

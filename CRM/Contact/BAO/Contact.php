@@ -525,7 +525,7 @@ ORDER BY
         $contact = self::add($params, $ids);
 
         $params['contact_id'] = $contact->id;//CRM_Core_Error::backtrace();
-        CRM_Core_Error::debug('a',$params);
+        //CRM_Core_Error::debug('a',$params);
         // invoke the add operator on the contact_type class
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
         eval('$contact->contact_type_object =& CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
@@ -1655,10 +1655,10 @@ WHERE civicrm_contact.id IN $idString ";
         $options = array( );
                 
         $returnProperties =& self::makeHierReturnProperties( $fields, $contactId );
-        CRM_Core_Error::debug('returnProperties',$returnProperties);
+        // CRM_Core_Error::debug('returnProperties',$returnProperties);
         $t = list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
-        CRM_Core_Error::debug('t',$t);
-        //CRM_Core_Error::debug('params',$params);CRM_Core_Error::debug('options',$options);
+        // CRM_Core_Error::debug('t',$t);
+        // CRM_Core_Error::debug('params',$params);CRM_Core_Error::debug('options',$options);
         return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );
         
     }

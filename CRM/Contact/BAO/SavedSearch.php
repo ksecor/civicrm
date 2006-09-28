@@ -160,12 +160,12 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
 
         if ( ! empty( $params ) ) {
             $tables = $whereTables = array( );
-            $this->whereClause = CRM_Contact_BAO_Query::getWhereClause( $params, null, $tables, $whereTables );
+            $this->where_clause = CRM_Contact_BAO_Query::getWhereClause( $params, null, $tables, $whereTables );
             if ( ! empty( $tables ) ) {
-                $this->selectTables = serialize( $tables );
+                $this->select_tables = serialize( $tables );
             }
             if ( ! empty( $whereTables ) ) {
-                $this->whereTables = serialize( $whereTables );
+                $this->where_tables = serialize( $whereTables );
             }
         }
 

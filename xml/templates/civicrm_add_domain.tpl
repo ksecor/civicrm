@@ -183,5 +183,5 @@ VALUES
   (@domain_id, 'Manage Groups'     , 0, 'civicrm_group'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
   (@domain_id, 'Administer CiviCRM', 0, 'civicrm_group'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
   (@domain_id, 'Import'            , 0, 'civicrm_admin'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
-  (@domain_id, 'Reader Group 1'    , 0, 'civicrm_saved_search', 1, 'All', 'civicrm_contact'   , 102, 1 ),
-  (@domain_id, 'Reader Group 2'    , 0, 'civicrm_saved_search', 2, 'All', 'civicrm_contact'   , 102, 1 );
+  (@domain_id, 'Reader Group 1'    , 0, 'civicrm_saved_search', 4, 'All', 'civicrm_contact'   , 102, 1 ),
+  (@domain_id, 'Reader Group 2'    , 0, 'civicrm_saved_search', 5, 'All', 'civicrm_contact'   , 102, 1 );
