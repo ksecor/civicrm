@@ -740,7 +740,8 @@ class CRM_Core_Config {
         if ( defined( 'CIVICRM_GEOCODE_METHOD' ) ) {
             if ( CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_ZipTable' ||
                  CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_RPC'      ||
-                 CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_Yahoo' ) {
+                 CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_Yahoo'    ||
+                 CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_Google') {
                 $this->geocodeMethod = CIVICRM_GEOCODE_METHOD;
             }
         }

@@ -52,7 +52,7 @@ class CRM_Utils_Geocode_Google {
      * @var string
      * @static
      */
-    static protected $_uri = '/maps/geo';
+    static protected $_uri = '/maps/geo?q=';
     
     /**
      * function that takes an address object and gets the latitude / longitude for this
@@ -77,43 +77,44 @@ class CRM_Utils_Geocode_Google {
         
         $config =& CRM_Core_Config::singleton( );
         
-        $arg = array( );
-        $arg[] = "appid=" . urlencode( $config->mapAPIKey );
+        $arg = "&output=xml&key=" . urlencode( $config->mapAPIKey );
         
+        $add = '';
+
         if (  CRM_Utils_Array::value( 'street_address', $values ) ) {
-            $arg[] = "street=" . urlencode( $values['street_address'] );
+            $add = urlencode( str_replace('', '+', $values['street_address']) );
         }
         
          if (  CRM_Utils_Array::value( 'city', $values ) ) { 
-             $arg[] = "city=" . urlencode( $values['city'] );
+             $add .= '+' . urlencode( str_replace('', '+', $values['city']) );
          }
          
          if (  CRM_Utils_Array::value( 'state_province', $values ) ) { 
-             $arg[] = "state=" . urlencode( $values['state_province'] );
+             $add .= '+' . urlencode( str_replace('', '+', $values['state_province']) );
          }
          
          if (  CRM_Utils_Array::value( 'postal_code', $values ) ) { 
-             $arg[] = "zip=" . urlencode( $values['postal_code'] );
+             $add .= '+' .urlencode( str_replace('', '+', $values['postal_code']) );
          }
         
-         $args = implode( '&', $arg );
-         $query = 'http://' . self::$_server . self::$_uri . '?' . $args;
-         
+         $query = 'http://' . self::$_server . self::$_uri . '?' . $add . $arg;
 
          require_once 'HTTP/Request.php';
          $request =& new HTTP_Request( $query );
          $request->sendRequest( );
          $string = $request->getResponseBody( );
          $xml = simplexml_load_string( $string );
+         
          $ret = array( );
-         $ret['precision'] = (string)$xml->Result['precision'];
-        
-         if ( $xml->Result ) {
-             foreach($xml->Result->children() as $key=>$val) {
-                 if(strlen($val)) $ret[(string)$key] =  (string)$val;
-             } 
-             $values['geo_code_1'] = $ret['Latitude'];
-             $values['geo_code_2'] = $ret['Longitude'];
+         $val = array( );
+         
+         $ret = $xml->Response->Placemark->Point->children();
+
+         $val = explode(',', (string)$ret[0]);
+
+         if ( $val[0] && $val[1] ) {
+             $values['geo_code_1'] = $val[0];
+             $values['geo_code_2'] = $val[1];
          }
          return true;
      }
