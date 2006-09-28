@@ -182,7 +182,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $this->addSelect( 'task_status', ts( 'Task Status' ) );
         }
 
-        //relationsship fileds
+        //relationship fields
         
         require_once 'CRM/Contact/BAO/Relationship.php';
         require_once 'CRM/Core/PseudoConstant.php';
@@ -231,7 +231,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $showHide->addShow( 'location_show' );
         
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
-            $showHide->addHide( 'task' );
+            $showHide->addHide( 'task_block' );
             $showHide->addShow( 'task_show' );
         }
 
