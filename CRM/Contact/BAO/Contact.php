@@ -2124,7 +2124,7 @@ WHERE civicrm_contact.id IN $idString ";
             $studentSummary = & new CRM_Quest_DAO_StudentSummary();
             $studentSummary->contact_id = $contact->id;
             if ($studentSummary->find(true)) {
-                $ids['student_summary_id'] = $studentSummary->id;
+                $ssids['id'] = $studentSummary->id;
             }
 
             $params['contact_id'] = $contactID;
@@ -2136,8 +2136,10 @@ WHERE civicrm_contact.id IN $idString ";
                 }
             }
           
-           // exit();
+
             CRM_Quest_BAO_Student::create( $params, $ids);
+            CRM_Quest_BAO_Student::createStudentSummary($params, $ssids);
+
         }
 
         if ( $contactID ) {

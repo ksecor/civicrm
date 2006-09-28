@@ -78,11 +78,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         
         $dao->save();
 
-        //save student summary details
-        if ($ids['student_summary_id']) {
-            $ssid = array ('id'=> $ids['student_summary_id']) ; 
-            self::createStudentSummary($params, $ssid);
-        }
         return $dao;
     }
 
