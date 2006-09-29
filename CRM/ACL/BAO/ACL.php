@@ -621,7 +621,7 @@ SELECT count( id )
 
     public static function whereClause( $type, &$tables, &$whereTables, $contactID = null ) {
         require_once 'CRM/ACL/BAO/Cache.php';
-        
+
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
         if ( empty( $acls ) ) {
             return ' ( 0 ) ';
@@ -665,11 +665,9 @@ SELECT s.where_clause, s.select_tables, s.where_tables
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $clauses = array( );
         while ( $dao->fetch( ) ) {
-            // make sure operation matches the type
+            // make sure operation matches the type TODO
             // currently operation is restrcited to VIEW/EDIT
-            if ( $dao->where_clause &&
-                 ( $dao->operation == 'All' || $dao->operation == 'Edit' ||
-                   ( $type == CRM_ACL_API::VIEW && $dao->operation == 'View' ) ) ) {
+            if ( $dao->where_clause ) {
                 $clauses[] = $dao->where_clause;
                 if ( $dao->select_tables ) {
                     $tables = array_merge( $tables,
@@ -682,7 +680,11 @@ SELECT s.where_clause, s.select_tables, s.where_tables
             }
         }
 
-        return ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
+        if ( ! empty( $clauses ) ) {
+            return ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
+        } else {
+            return ' ( 0 ) ';
+        }
     }
 }
 

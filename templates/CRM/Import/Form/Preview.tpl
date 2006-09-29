@@ -1,19 +1,5 @@
 {literal}
 <script type="text/javascript">
-	var djConfig = {isDebug: true};
-    var finished = 0;
-	// djConfig.debugAtAllCosts = true;
-</script>
-{/literal}
-<script language="JavaScript" type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo.js"></script>
-{literal}
-<script language="JavaScript" type="text/javascript">
-	dojo.require("dojo.io.*");
-	dojo.require("dojo.event.*");
-	dojo.require("dojo.lang.*");
-</script>
-
-<script type="text/javascript">
 setProgress = function(type,data,evt){
   finished = 1;
 {/literal}
