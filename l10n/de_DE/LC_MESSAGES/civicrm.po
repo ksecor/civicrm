@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-19 10:47+0200\n"
+"POT-Creation-Date: 2006-09-29 13:33+0200\n"
 "PO-Revision-Date: 2006-09-05 12:12-0700\n"
 "Last-Translator: Pit Gebbers <pit.gebbers@gmail.com>\n"
 "Language-Team: none\n"
@@ -10031,6 +10031,7 @@ msgstr ""
 #: templates/CRM/Member/Form/Task/Print.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 #: templates/CRM/Member/Page/MembershipType.tpl
+#: templates/CRM/Profile/Form/Search.tpl
 #: templates/CRM/Profile/Page/Listings.tpl templates/CRM/Profile/Page/Note.tpl
 #: templates/CRM/UF/Form/Field.tpl templates/CRM/UF/Form/Group.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
@@ -10894,6 +10895,11 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Quest Student"
 msgstr ""
+
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+#, fuzzy
+msgid "Complete OR partial contact name."
+msgstr "Kompletter ODER Teil des Namens ODER Email"
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 #, fuzzy
@@ -15085,6 +15091,12 @@ msgstr ""
 msgid "New Search"
 msgstr "Neue Suche speichern"
 
+#: templates/CRM/Profile/Form/Search.tpl
+msgid ""
+"No fields in this Profile have been configured as searchable. Ask the site "
+"administrator to check the Profile setup."
+msgstr ""
+
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid "Displaying contacts where:"
 msgstr ""
@@ -16095,8 +16107,8 @@ msgstr "Neues CiviCRM-Profil"
 msgid "Delete %1 Profile?"
 msgstr "CiviCRM Profil"
 
-#: templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Group.tpl
-msgid "site root"
+#: templates/CRM/UF/Form/Group.tpl
+msgid "Profiles can be explicitly linked to a module page."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -16117,16 +16129,16 @@ msgstr ""
 #: templates/CRM/UF/Form/Group.tpl
 #, fuzzy
 msgid ""
-"Check <strong>Profile</strong> if you want it included in the default "
-"contact listing and view screens for the civicrm/profile path."
+"Check <strong>Profile</strong> if you want it to use it for customized "
+"listings and view screens for the civicrm/profile path."
 msgstr ""
 "Möchten Sie dieses Feld in die Registrierungsmaske für neue Benutzer mit "
 "aufnehmen."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
-"Check <strong>Search Listings</strong> to use this profile as an alternate "
-"set of columns for CiviCRM search results."
+"Check <strong>Search Results</strong> to use this profile to display an "
+"alternate set of results columns for CiviCRM Basic and Advanced Search."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -16327,6 +16339,10 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
+msgid "site root"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "<strong>Contact Search and Listings</strong> - A default profile search form "
 "and search result listings is displayed when you link users to the <em>%1/%"
@@ -16338,9 +16354,16 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
-"<strong>Contact Signup Forms (built-in pages)</strong> - Create link(s) to "
-"\"new contact\" input form(s) for your Profiles using the following path: "
-"<em>%1/%2</em>. (This example links to an input form for Profile ID 3.)"
+"<strong>Contact Signup Forms</strong> - Create link(s) to \"new contact\" "
+"input form(s) for your Profiles using the following path: <em>%1/%2</em>. "
+"(This example links to an input form for Profile ID 3.)"
+msgstr ""
+
+#: templates/CRM/UF/Page/Group.tpl
+msgid ""
+"<strong>Contact Edit Forms</strong> - Allow <strong>authenticated users</"
+"strong> to edit their own contact info with a Profile using the following "
+"path: <em>%1/%2</em>. (This example links to an edit form for Profile ID 3.)"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
