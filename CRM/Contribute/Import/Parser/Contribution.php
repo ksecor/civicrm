@@ -76,7 +76,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
      */
     function init( ) {
         require_once 'CRM/Contribute/BAO/Contribution.php';
-        $fields =& CRM_Contribute_BAO_Contribution::importableFields( );
+        $fields =& CRM_Contribute_BAO_Contribution::importableFields( $this->_contactType );
 
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern']);
@@ -286,10 +286,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             static $cIndieFields = null;
             if ($cIndieFields == null) {
                 require_once 'CRM/Contact/BAO/Contact.php';
-                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+                //$cTempIndieFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType, null );
                 $cIndieFields = $cTempIndieFields;
             }
-
 
             foreach ($params as $key => $field) {
                 if ($field == null || $field === '') {
@@ -319,11 +319,13 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 
                 $value = array($key => $field);
                 if (array_key_exists($key, $cIndieFields)) {
-                    $value['contact_type'] = 'Individual';
+                    //$value['contact_type'] = 'Individual';
+                    $value['contact_type'] = $this->_contactType;
                 }
                 _crm_add_formatted_param($value, $contactFormatted);
             }
-            $contactFormatted['contact_type'] = 'Individual';
+            //$contactFormatted['contact_type'] = 'Individual';
+            $contactFormatted['contact_type'] = $this->_contactType;
             $error = _crm_duplicate_formatted_contact($contactFormatted);
             $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
             if ( self::isDuplicate($error) ) {
@@ -334,7 +336,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     $cid = $matchedIDs[0];
                     $formatted['contact_id'] = $cid;
                     $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
-           
                     if ( is_a( $newContribution, CRM_Core_Error ) ) {
                         array_unshift($values, $newContribution->_errors[0]['message']);
                         return CRM_Contribute_Import_Parser::ERROR;
@@ -345,10 +346,16 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 }
                 
             } else {
-                require_once 'CRM/Core/DAO/DupeMatch.php';
-                $dao = & new CRM_Core_DAO_DupeMatch();;
-                $dao->find(true);
-                $fieldsArray = explode('AND',$dao->rule);
+                if ($this->_contactType == 'Individual') {
+                    require_once 'CRM/Core/DAO/DupeMatch.php';
+                    $dao = & new CRM_Core_DAO_DupeMatch();;
+                    $dao->find(true);
+                    $fieldsArray = explode('AND',$dao->rule);
+                } elseif ($this->_contactType == 'Household') {
+                    $fieldsArray = array('household_name', 'email');
+                } elseif ($this->_contactType == 'Organization') {
+                    $fieldsArray = array('organization_name', 'email');
+                }
                 foreach ( $fieldsArray as $value) {
                     if(array_key_exists(trim($value),$params)) {
                         $paramValue = $params[trim($value)];
@@ -359,6 +366,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                         }
                     }
                 } 
+
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Contribute_Import_Parser::ERROR;
             }

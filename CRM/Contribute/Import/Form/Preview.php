@@ -188,11 +188,11 @@ class CRM_Contribute_Import_Form_Preview extends CRM_Core_Form {
             }
             $mapperFields[] = implode(' - ', $header);
         }
-
         $parser->run( $fileName, $seperator, 
                       $mapperFields,
                       $skipColumnHeader,
                       CRM_Contribute_Import_Parser::MODE_IMPORT,
+                      $this->get('contactType'),
                       $onDuplicate);
         
         // add all the necessary variables to the form

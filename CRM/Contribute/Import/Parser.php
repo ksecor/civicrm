@@ -63,6 +63,14 @@ abstract class CRM_Contribute_Import_Parser {
         DUPLICATE_FILL = 8,
         DUPLICATE_NOCHECK = 16;
 
+    /**
+     * various Contact types
+     */
+    const
+        CONTACT_INDIVIDUAL     = 1,
+        CONTACT_HOUSEHOLD      = 2,
+        CONTACT_ORGANIZATION   = 4;
+
     protected $_fileName;
 
     /**#@+
@@ -212,7 +220,14 @@ abstract class CRM_Contribute_Import_Parser {
      */
     protected $_haveColumnHeader;
 
- 
+     /**
+     * contact type
+     *
+     * @var int
+     */
+
+    public $_contactType;
+
 
     function __construct() {
         $this->_maxLinesToProcess = 0;
@@ -226,7 +241,19 @@ abstract class CRM_Contribute_Import_Parser {
                   &$mapper,
                   $skipColumnHeader = false,
                   $mode = self::MODE_PREVIEW,
+                  $contactType = self::CONTACT_INDIVIDUAL,
                   $onDuplicate = self::DUPLICATE_SKIP ) {
+
+        switch ($contactType) {
+        case self::CONTACT_INDIVIDUAL :
+            $this->_contactType = 'Individual';
+            break;
+        case self::CONTACT_HOUSEHOLD :
+            $this->_contactType = 'Household';
+            break;
+        case self::CONTACT_ORGANIZATION :
+            $this->_contactType = 'Organization';
+        }
 
         $this->init();
 
@@ -537,7 +564,8 @@ abstract class CRM_Contribute_Import_Parser {
             $this->_fields['doNotImport'] =& new CRM_Contribute_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
         } else {
             
-            $tempField = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            //$tempField = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            $tempField = CRM_Contact_BAO_Contact::importableFields('All', null );
             if (! array_key_exists ($name,$tempField) ) {
                 $this->_fields[$name] =& new CRM_Contribute_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
             } else {
@@ -584,6 +612,17 @@ abstract class CRM_Contribute_Import_Parser {
         $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
         $store->set( 'conflictRowCount', $this->_conflictCount );
         
+        switch ($this->_contactType) {
+        case 'Individual':
+            $store->set( 'contactType', CRM_Contribute_Import_Parser::CONTACT_INDIVIDUAL );    
+            break;
+        case 'Household' :
+            $store->set( 'contactType', CRM_Contribute_Import_Parser::CONTACT_HOUSEHOLD );    
+            break;
+        case 'Organization':
+            $store->set( 'contactType', CRM_Contribute_Import_Parser::CONTACT_ORGANIZATION );    
+        }
+
         if ($this->_invalidRowCount) {
             $store->set( 'errorsFileName', $this->_errorFileName );
         }

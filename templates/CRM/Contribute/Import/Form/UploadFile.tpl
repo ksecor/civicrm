@@ -26,6 +26,14 @@
         <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Amount").{/ts}
         </dd>
+        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">
+            {ts}Select 'Individual' if each record in your file represents and individual person.{/ts}
+        </dd>
+        <dt>&nbsp;</dt>
+        <dd class="description">{ts}Select 'Organization' or 'Household' if each record in your file represents a contact of that type.{/ts}
+        </dd> 
         {include file="CRM/Core/Date.tpl"}  
     </dl>
     <div class="spacer"></div>

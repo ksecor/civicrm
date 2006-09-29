@@ -172,7 +172,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
     public function preProcess()
     {
         $this->_mapperFields = $this->get( 'fields' );
-        
         $this->_columnCount = $this->get( 'columnCount' );
         $this->assign( 'columnCount' , $this->_columnCount );
         $this->_dataValues = $this->get( 'dataValues' );
@@ -425,7 +424,10 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
                     if( $field == 'contact_id' &&  $defaultFlag ) {
-                        if ( in_array('email', $importKeys) || ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys))) {
+                        if ( in_array('email', $importKeys) || 
+                             ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
+                             in_array('household_name', $importKeys) ||
+                             in_array('organization_name', $importKeys)) {
                             continue;    
                         } else {
                             $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)') . '<br />';
@@ -438,6 +440,9 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                                 $flag = false;
                                 //$errors['_qf_default'] .= ts('Missing required contact matching field: '.$contactFields[trim($v)]['title'].' <br />');
                             }
+                        }
+                        if (in_array('household_name', $importKeys) || in_array('organization_name', $importKeys)) {
+                            $flag = false;
                         }
                         if ( $flag ) {
                             $errors['_qf_default'] .= ts('Missing required contact matching field: Contact ID.') . '<br />';
@@ -577,7 +582,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
 
         $parser =& new CRM_Contribute_Import_Parser_Contribution( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
-                      CRM_Contribute_Import_Parser::MODE_PREVIEW );
+                      CRM_Contribute_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
         
         // add all the necessary variables to the form
         $parser->set( $this );        

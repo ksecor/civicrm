@@ -330,7 +330,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( ) {
+    function &importableFields( $contacType = 'Individual' ) {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
                 self::$_importableFields = array();
@@ -345,11 +345,18 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             unset($tmpFields['option_value']);
             require_once 'CRM/Core/OptionValue.php';
             $optionFields = CRM_Core_OptionValue::getFields($mode ='contribute' );
-            $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
-            require_once 'CRM/Core/DAO/DupeMatch.php';
-            $dao = & new CRM_Core_DAO_DupeMatch();;
-            $dao->find(true);
-            $fieldsArray = explode('AND',$dao->rule);
+            //$contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
+            if ($contacType == 'Individual') {
+                require_once 'CRM/Core/DAO/DupeMatch.php';
+                $dao = & new CRM_Core_DAO_DupeMatch();;
+                $dao->find(true);
+                $fieldsArray = explode('AND',$dao->rule);
+            } elseif ($contacType == 'Household') {
+                $fieldsArray = array('household_name', 'email');
+            } elseif ($contacType == 'Organization') {
+                $fieldsArray = array('organization_name', 'email');
+            }
             $tmpConatctField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {

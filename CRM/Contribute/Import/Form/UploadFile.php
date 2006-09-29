@@ -86,6 +86,21 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
         $this->setDefaults(array('onDuplicate' =>
                                     CRM_Contribute_Import_Parser::DUPLICATE_SKIP));
 
+        //contact types option
+        $contactOptions = array();        
+        $contactOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Individual'), CRM_Contribute_Import_Parser::CONTACT_INDIVIDUAL);
+        $contactOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Household'), CRM_Contribute_Import_Parser::CONTACT_HOUSEHOLD);
+        $contactOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Organization'), CRM_Contribute_Import_Parser::CONTACT_ORGANIZATION);
+
+        $this->addGroup($contactOptions, 'contactType', 
+                        ts('Contact Type'));
+
+        $this->setDefaults(array('contactType' =>
+                                 CRM_Contribute_Import_Parser::CONTACT_INDIVIDUAL));
+
         //build date formats
         require_once 'CRM/Core/Form/Date.php';
         CRM_Core_Form_Date::buildAllowedDateFormats( $this );
@@ -112,9 +127,11 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
         $skipColumnHeader = $this->controller->exportValue( $this->_name, 'skipColumnHeader' );
         $onDuplicate      = $this->controller->exportValue( $this->_name,
                             'onDuplicate' );
+        $contactType      = $this->controller->exportValue( $this->_name, 'contactType' ); 
         $dateFormats      = $this->controller->exportValue( $this->_name, 'dateFormats' ); 
 
         $this->set('onDuplicate', $onDuplicate);
+        $this->set('contactType', $contactType);
         $this->set('dateFormats', $dateFormats);
 
         $session =& CRM_Core_Session::singleton();
@@ -128,7 +145,7 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
         $parser->run( $fileName, $seperator,
                       $mapper,
                       $skipColumnHeader,
-                      CRM_Contribute_Import_Parser::MODE_MAPFIELD);
+                      CRM_Contribute_Import_Parser::MODE_MAPFIELD, $contactType);
 
         // add all the necessary variables to the form
         $parser->set( $this );
