@@ -501,12 +501,20 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
                                                                   'groupName' => 'recommender_ranking' ),
                        'recommend_student_id'           => array( 'newName'   => 'recommend_student_id',
                                                                   'groupName' => 'recommender_ranking' ),
+                       'counselor_basis'                => array( 'newName'   => 'counselor_basis_display',
+                                                                  'groupName' => 'counselor_basis' ),                  
                        
                        );
+
+
 
         require_once 'CRM/Core/OptionGroup.php';
         CRM_Core_OptionGroup::lookupValues( $counselorDetails["StudentRanking"], $names, false );
 
+        foreach ($names as $key => $value) {
+             $counselorDetails["StudentRanking"]["{$key}"] = str_replace( "\001", ",", $counselorDetails["StudentRanking"]["{$key}"] );
+        }
+        
         //student academics
         require_once 'CRM/Quest/DAO/Academic.php';
         $dao =&new CRM_Quest_DAO_Academic();

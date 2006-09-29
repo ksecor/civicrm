@@ -332,7 +332,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $multiSelectElements = array( 'educational_interest', 'college_type', 'college_interest' );
         foreach ( $multiSelectElements as $key ) {
             $details['Student']["{$key}_ids"] = str_replace( "\001", ",", $studentDetails[$key] );
-
+            unset($details['Student']["{$key}"]);
             $elements = explode( ',', $details['Student']["{$key}_display"] );
             foreach ( $elements as $el ) {
                 $el = trim( $el );
@@ -341,6 +341,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 }
                 $el = strtolower( $el );
                 $el = str_replace( ' ', '_', $el );
+                $el = str_replace( '/', '_OR_', $el );
+                $el = str_replace( '(', '', $el );
+                $el = str_replace( ')', '', $el );
                 $details['Student']["{$key}_{$el}"] = "x";
             }
         }
@@ -689,7 +692,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 
                 CRM_Core_OptionGroup::lookupValues( $testDetails , $names, false);
 
-                $prefix = 'test_' . $testDetails['test'];
+                $prefix = 'test_' . str_replace(" " , "_" , $testDetails['test']);
                 if ( $testDetails['test_id'] == 291 ) {
                     $satIICount++;
                     $prefix .= "_{$satIICount}";
@@ -748,8 +751,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $dao->find();
         while( $dao->fetch() ){
             if ( array_key_exists( $dao->partner_id, $partners ) ) {
-                $details["PartnerRanking"][$partners[$dao->partner_id]."_"."Ranking"] = $dao->ranking ;
-                $details["PartnerRanking"][$partners[$dao->partner_id]."_"."Forward"] = $dao->forward ;
+                $details["PartnerRanking"][str_replace(" " , "_" ,$partners[$dao->partner_id])."_"."Ranking"] = $dao->ranking ;
+                $details["PartnerRanking"][str_replace(" " , "_" ,$partners[$dao->partner_id])."_"."Forward"] = $dao->forward ;
             }
         }
     }
