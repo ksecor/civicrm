@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-10 18:45+0200\n"
+"POT-Creation-Date: 2006-09-29 13:33+0200\n"
 "PO-Revision-Date: 2006-04-18 08:35+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -1250,10 +1250,6 @@ msgstr "Dane dodatkowe"
 #: CRM/Contact/Page/View/DashBoard.php CRM/Contact/Page/View.php
 msgid "We could not find a contact id."
 msgstr "Nie udało się znaleźć id kontaktu."
-
-#: CRM/Contact/Page/View/DashBoard.php CRM/Contact/Page/View.php
-msgid "You do not have the necessary permission to view this contact."
-msgstr "Nie masz wystarczających uprawnień, by obejrzeć ten kontakt."
 
 #: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -4624,6 +4620,10 @@ msgstr "Inne zdarzenia kontaktu"
 #: CRM/Contact/Page/View/Phonecall.php
 msgid "Contact Calls"
 msgstr "Rozmowy kontaktu"
+
+#: CRM/Contact/Page/View.php
+msgid "You do not have the necessary permission to view this contact."
+msgstr "Nie masz wystarczających uprawnień, by obejrzeć ten kontakt."
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Contact Relationships"
@@ -9846,6 +9846,7 @@ msgstr ""
 #: templates/CRM/Member/Form/Task/Print.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 #: templates/CRM/Member/Page/MembershipType.tpl
+#: templates/CRM/Profile/Form/Search.tpl
 #: templates/CRM/Profile/Page/Listings.tpl templates/CRM/Profile/Page/Note.tpl
 #: templates/CRM/UF/Form/Field.tpl templates/CRM/UF/Form/Group.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
@@ -10732,6 +10733,11 @@ msgstr ""
 msgid "Quest Student"
 msgstr ""
 
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+#, fuzzy
+msgid "Complete OR partial contact name."
+msgstr "Pełna lub częściowa nazwa kontaktu lub email."
+
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 msgid "Edit %1 Smart Group Criteria"
 msgstr "Edytuj kryteria sprytnej grupy %1"
@@ -10871,6 +10877,24 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
+"Use <strong>%</strong> wildcard(s) for partial matches (other than contact "
+"name/email). EXAMPLE: Enter \"Volunteer%\" as your Activity Type to match "
+"any activity whose type is \"Volunteer\" + any other words (e.g. Volunteer "
+"for Open House)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Intro.tpl
+msgid ""
+"If multiple boxes are checked for Contact Types, Groups, Tags and Location "
+"Types, the selections are combined as <strong>OR</strong> criteria (e.g. "
+"checking \"Group A\" and \"Group B\" will find contacts who are either in "
+"\"Group A\" OR \"Group B\"). All other search fields are combined as "
+"<strong>AND</strong> criteria (e.g. selecting Tag is \"Major Donor\" AND "
+"Country is \"Mexico\" returns only those contacts who meet both criteria)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Intro.tpl
+msgid ""
 "Use the Search Criteria form to find contacts by name, type of contact, "
 "group membership, tags, etc. You can then view or edit contact details, "
 "print a contact list, assign tags, export contact data to a spreadsheet, etc."
@@ -10879,17 +10903,6 @@ msgstr ""
 "nazwy, typu, przynależności do grupy, znaczników itp. Można następnie "
 "zobaczyć lub edytować szczegóły kontaktów, wydrukować ich listę, przypisać "
 "im znaczniki, wyeksportować dane kontaktów do arkusza kalkulacyjnego itp."
-
-#: templates/CRM/Contact/Form/Search/Intro.tpl
-msgid ""
-"When multiple boxes are checked for Contact Types, Groups, Tags and Location "
-"Types, the selections are combined as <strong>OR</strong> criteria (e.g. "
-"checking &quot;Group A&quot; and &quot;Group B&quot; will find contacts who "
-"are either in &quot;Group A&quot; OR &quot;Group B&quot;).\n"
-"               All other search fields are combined as <strong>AND</strong> "
-"criteria (e.g. selecting Tag is &quot;Major Donor&quot; AND Country is &quot;"
-"Mexico&quot; returns only those contacts who meet both criteria)."
-msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -15199,6 +15212,15 @@ msgstr "Wprowadź do 5 adresów email, które mają otrzymać tę wysyłkę."
 msgid "New Search"
 msgstr "Nowe zapisane wyszukiwanie"
 
+#: templates/CRM/Profile/Form/Search.tpl
+#, fuzzy
+msgid ""
+"No fields in this Profile have been configured as searchable. Ask the site "
+"administrator to check the Profile setup."
+msgstr ""
+"Żadne z pól tego profilu nie zostało skonfigurowane jako kolumna w tabeli "
+"spisów. Poproś administratora, by sprawdzić ustawienia profilu."
+
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid "Displaying contacts where:"
 msgstr "Wyświetlono kontakty, które:"
@@ -16212,9 +16234,9 @@ msgstr "Usuń profil CiviCRM"
 msgid "Delete %1 Profile?"
 msgstr "Usunąć profil %1?"
 
-#: templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Group.tpl
-msgid "site root"
-msgstr "adres strony"
+#: templates/CRM/UF/Form/Group.tpl
+msgid "Profiles can be explicitly linked to a module page."
+msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -16233,17 +16255,18 @@ msgstr ""
 "zaznacz <strong>Zobacz/edytuj konto użytkownika</strong>."
 
 #: templates/CRM/UF/Form/Group.tpl
+#, fuzzy
 msgid ""
-"Check <strong>Profile</strong> if you want it included in the default "
-"contact listing and view screens for the civicrm/profile path."
+"Check <strong>Profile</strong> if you want it to use it for customized "
+"listings and view screens for the civicrm/profile path."
 msgstr ""
 "Jeśli chesz dołączyć profil do domyślnego spisu kontaktów i ekranów podglądu "
 "na civicrm/profile, zaznacz <strong>Profil</strong>."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
-"Check <strong>Search Listings</strong> to use this profile as an alternate "
-"set of columns for CiviCRM search results."
+"Check <strong>Search Results</strong> to use this profile to display an "
+"alternate set of results columns for CiviCRM Basic and Advanced Search."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -16477,6 +16500,10 @@ msgstr ""
 "\">Konfiguracja stron dotacji on-line</a>)."
 
 #: templates/CRM/UF/Page/Group.tpl
+msgid "site root"
+msgstr "adres strony"
+
+#: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "<strong>Contact Search and Listings</strong> - A default profile search form "
 "and search result listings is displayed when you link users to the <em>%1/%"
@@ -16494,10 +16521,23 @@ msgstr ""
 "wyglądałby tak:"
 
 #: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid ""
-"<strong>Contact Signup Forms (built-in pages)</strong> - Create link(s) to "
-"\"new contact\" input form(s) for your Profiles using the following path: "
-"<em>%1/%2</em>. (This example links to an input form for Profile ID 3.)"
+"<strong>Contact Signup Forms</strong> - Create link(s) to \"new contact\" "
+"input form(s) for your Profiles using the following path: <em>%1/%2</em>. "
+"(This example links to an input form for Profile ID 3.)"
+msgstr ""
+"<strong>Formularze zapisywania się (strony wbudowane)</strong> – Możliwość "
+"tworzenia odnośników do formularzy typu „nowy kontakt” dla profili za pomocą "
+"następującej śćieżki: <em>%1/%2</em>. (Ten przykład prowadzi do formularza "
+"dla profilu o identyfikatorze 3)."
+
+#: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
+msgid ""
+"<strong>Contact Edit Forms</strong> - Allow <strong>authenticated users</"
+"strong> to edit their own contact info with a Profile using the following "
+"path: <em>%1/%2</em>. (This example links to an edit form for Profile ID 3.)"
 msgstr ""
 "<strong>Formularze zapisywania się (strony wbudowane)</strong> – Możliwość "
 "tworzenia odnośników do formularzy typu „nowy kontakt” dla profili za pomocą "
