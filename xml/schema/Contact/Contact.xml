@@ -148,7 +148,6 @@
        <type>varchar</type>
        <length>255</length>
        <import>true</import>
-       <headerPattern>/(preferred\scommunication\smethod)|$/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
        <comment>What is the preferred mode of communication.</comment>
        <add>1.1</add>
@@ -167,7 +166,6 @@
        <type>boolean</type>
        <default>0</default>
        <import>true</import>
-       <headerPattern>/(do\snot\sphone)|$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <add>1.1</add>
   </field>
@@ -175,7 +173,6 @@
        <name>do_not_email</name>
        <type>boolean</type>
        <import>true</import>
-       <headerPattern>/(do\snot\semail)|$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
@@ -184,7 +181,6 @@
        <name>do_not_mail</name>
        <type>boolean</type>
        <import>true</import>
-       <headerPattern>/(do\snot\smail)|$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
@@ -193,7 +189,6 @@
        <name>do_not_trade</name>
        <type>boolean</type>
        <import>true</import>
-       <headerPattern>/(do\snot\strade)|$/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
