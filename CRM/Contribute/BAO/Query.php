@@ -83,9 +83,9 @@ class CRM_Contribute_BAO_Query {
 
     static function whereClauseSingle( &$values, &$query ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
+        
         switch ( $name ) {
-
+       
         case 'contribution_date':
         case 'contribution_date_low':
         case 'contribution_date_high':
@@ -146,7 +146,22 @@ class CRM_Contribute_BAO_Query {
             $query->_qill[$grouping ][] = ts( 'Paid By - %1', array( 1 => $pis[$pi] ) );
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
-        case 'in_honor_of':
+        case 'contribution_in_honor_of':
+            list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        
+            $name = trim( $value ); 
+            $newName = str_replace(',' , " " ,$name );
+            $pieces =  explode( ' ', $newName ); 
+            foreach ( $pieces as $piece ) { 
+                $value = strtolower(addslashes(trim($piece)));
+                $value = "'%$value%'";
+                $sub[] = " ( LOWER(contact_b.sort_name) LIKE $value )";
+            }
+            
+            $query->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
+            $query->_qill[$grouping][]  = ts( 'Honor name like - "%1"', array( 1 => $name ) );
+            $query->_tables['civicrm_contact_b'] = $query->_whereTables['civicrm_contact_b'] = 1;
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
             return;
         case 'contribution_status':
@@ -198,7 +213,10 @@ class CRM_Contribute_BAO_Query {
         case 'civicrm_payment_instrument':
             $from = " $side  JOIN civicrm_payment_instrument ON civicrm_contribution.payment_instrument_id =civicrm_payment_instrument.id ";
             break;
+        case 'civicrm_contact_b':
+            $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_contribution.honor_contact_id = contact_b.id )";
             
+            break;
         }
         return $from;
     }
@@ -301,7 +319,7 @@ class CRM_Contribute_BAO_Query {
         $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt date not set?' ) );
 
         //add fields for honor search
-        $form->addElement( 'text', 'in_honor_of', ts( "In Honor Of" ) );
+        $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
         $form->addElement( 'checkbox', 'is_test' , ts( 'Test Mode Contribution ?' ) );
         
         // add all the custom  searchable fields
