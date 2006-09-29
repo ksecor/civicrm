@@ -298,7 +298,7 @@ UPDATE civicrm_membership_type
      * @param int $pageId 
      * @static
      */
-    function buildMembershipBlock( $form , $pageID , $formItems = false, $selectedMembershipID = null ,$thankPage = false ) {
+    function buildMembershipBlock( &$form , $pageID , $formItems = false, $selectedMembershipID = null ,$thankPage = false ) {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
         require_once 'CRM/Member/DAO/MembershipType.php';
         require_once 'CRM/Member/DAO/Membership.php';
