@@ -356,11 +356,11 @@ class CRM_Quest_BAO_Query
         }
 
         if ( CRM_Core_Permission::check( 'view Quest Application' ) ) {
-            $row['action'] .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$viewLink}" );
+            $row['action'] .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$viewLink}&nbsp;" );
         }
 
         if ( CRM_Core_Permission::check( 'edit Quest Application' ) ) {
-            $row['action'] .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$editLink}" );
+            $row['action'] .= str_replace( '%%id%%', $id, "|&nbsp;&nbsp;{$editLink}&nbsp;|&nbsp;&nbsp;{$readerLink}&nbsp;" );
         }
 
     }
