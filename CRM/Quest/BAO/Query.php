@@ -333,6 +333,7 @@ class CRM_Quest_BAO_Query
     static function searchAction( &$row, $id ) {
         static $viewLink = null;
         static $editLink = null;
+        static $readerLink = null;
 
         // add links only if student
         if ( $row['contact_sub_type'] != 'Student' ) {
@@ -348,6 +349,10 @@ class CRM_Quest_BAO_Query
                                 CRM_Utils_System::url( 'civicrm/quest/matchapp',
                                                        'reset=1&action=update&id=%%id%%' ),
                                 ts( 'Edit CM App' ) );
+            $readerLink = sprintf('<a href="%s">%s</a>',
+                                CRM_Utils_System::url( 'civicrm/profile/edit',
+                                                       'reset=1&gid=3&id=%%id%%' ),
+                                ts( 'Reader Feedback' ) );
         }
 
         if ( CRM_Core_Permission::check( 'view Quest Application' ) ) {
