@@ -129,7 +129,8 @@ class CRM_Contact_Task {
                                                   'class'  => 'CRM_Contact_Form_Task_Label',
                                                   'result' => true ),
                                   17    => array( 'title'  => ts( 'Batch Update via Profile'       ),
-                                                  'class'  => 'CRM_Contact_Form_Task_BatchUpdateProfile',
+                                                  'class'  => array( 'CRM_Contact_Form_Task_PickProfile',
+                                                                     'CRM_Contact_Form_Task_BatchUpdateProfile' ),
                                                   'result' => true ),
                                   );
 

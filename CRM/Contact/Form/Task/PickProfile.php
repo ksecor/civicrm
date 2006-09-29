@@ -40,7 +40,7 @@ require_once 'CRM/Profile/Form.php';
 /**
  * This class provides the functionality for batch profile update
  */
-class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
+class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
 
     /**
      * the title of the group
@@ -81,6 +81,25 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
          * initialize the task and row fields
          */
         parent::preProcess( );
+    
+        $session =& CRM_Core_Session::singleton();
+        $this->_userContext = $session->readUserContext( );
+    
+        $validate = false;
+        //validations
+        if ( count($this->_contactIds) > $this->_maxContacts) {
+            CRM_Core_Session::setStatus("The maximum number of contacts you can select for Batch Update is {$this->_maxContacts}. You have selected ". count($this->_contactIds). ". Please select fewer contacts from your search results and try again." );
+            $validate = true;
+        }
+        
+        if (CRM_Contact_BAO_Contact::checkContactType($this->_contactIds)) {
+            CRM_Core_Session::setStatus("Batch update requires that all selected contacts be the same type (e.g. all Individuals OR all Organizations...). Please modify your selected contacts and try again.");
+            $validate = true;
+        }
+
+        if ($validate) { // than redirect
+            CRM_Utils_System::redirect( $this->_userContext );
+        }
     }
   
     /**
@@ -93,66 +112,46 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
     {
         CRM_Utils_System::setTitle( ts('Batch Profile Update') );
         
-        $ufGroupId = $this->get('ufGroupId');
+        // add select for groups
+        $ufGroup = array( '' => ts('- select profile -')) + CRM_Core_PseudoConstant::ufgroup( );
+        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $ufGroup, true);
 
-        if ( ! $ufGroupId ) {
-            CRM_Core_Error::fatal( 'ufGroupId is missing' );
-        }
-
-        $this->addDefaultButtons( ts('Save') );
-        $this->_fields  = array( );
-        $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
-        $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
-        
-        $this->addButtons( array(
-                                 array ( 'type'      => 'submit',
-                                         'name'      => ts('Update Contact(s)'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
-        
-        $this->assign( 'fields', $this->_fields     );
-        $this->assign( 'contactIds', $this->_contactIds );
-        
-        foreach ($this->_contactIds as $contactId) {
-            foreach ($this->_fields as $name => $field ) {
-                CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $contactId );
-            }
-        }
-        
-        $this->addDefaultButtons( ts( 'Update Contacts' ) );
+        $this->addDefaultButtons( ts( 'Pick profile' ) );
     }
 
     /**
-     * This function sets the default values for the form.
-     * 
-     * @access public
-     * @return None
+     * Add local and global form rules
+     *
+     * @access protected
+     * @return void
      */
-    function setDefaultValues( ) 
+    function addRules( ) 
     {
-        if (empty($this->_fields)) {
-            return;
-        }
-        
-        foreach ($this->_contactIds as $contactId) {
-            $details[$contactId] = array( );
-
-            //build sortname
-            $sortName[$contactId] = CRM_Contact_BAO_Contact::sortName($contactId);
-            
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $contactId, $this->_fields, $defaults, false );
-        }
-        
-        $this->assign('sortName', $sortName);
-
-        return $defaults;
+        $this->addFormRule( array( 'CRM_Contact_Form_Task_PickProfile', 'formRule' ) );
     }
+    
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields ) 
+    {
+        require_once "CRM/Core/BAO/UFField.php";
+        if ( CRM_Core_BAO_UFField::checkProfileType($fields['uf_group_id'], true) ) {
+            $errorMsg['uf_group_id'] = "You cannot select mix profile for batch update.";
+        }
 
-
-
+        if ( !empty($errorMsg) ) {
+            return $errorMsg;
+        }
+        
+        return true;
+    }    
 
     /**
      * process the form after the input has been submitted and validated
@@ -164,12 +163,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
     {
         $params = $this->exportValues( );
 
-        $ufGroupId = $this->get( 'ufGroupId' );
-        foreach($params['field'] as $key => $value) {
-            CRM_Contact_BAO_Contact::createProfileContact($value, $this->_fields, $key, null, $ufGroupId );
-        }
-
-        CRM_Core_Session::setStatus("Your updates have been saved.");
+        $this->set( 'ufGroupId', $params['uf_group_id'] );
     }//end of function
 }
 ?>
