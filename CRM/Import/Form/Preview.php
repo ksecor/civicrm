@@ -129,10 +129,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        //$this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
         $this->addElement( 'text', 'newGroupName', ts('Name for new group'));
         $this->addElement( 'text', 'newGroupDesc', ts('Description of new group'));
-        //$this->addFormRule(array('CRM_Import_Form_Preview', 'newGroupRule'));
         $this->addRule( 'newGroupName', ts('Name already exists in Database.'),'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
 
         $groups =& $this->get('groups');
@@ -142,7 +140,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         }
 
         //display new tag
-        //$this->addElement( 'checkbox', 'newTag', ts('Create a new tag and assign it to imported records'));
         $this->addElement( 'text', 'newTagName', ts('Tag'));
         $this->addElement( 'text', 'newTagDesc', ts('Description'));
         $this->addFormRule(array('CRM_Import_Form_Preview','newTagRule'));    
@@ -160,8 +157,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Import Now >>'),
                                          'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                         'isDefault' => true ),
-                                 // 'js'        => array( 'onclick' => "return submitOnce(this,'Preview','" . ts('Processing') ."');" ) ),
+                                         'isDefault' => true,
+                                         'js'        => array( 'onclick' => "return submitOnce(this,'Preview','" . ts('Processing') ."');" ) ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )
