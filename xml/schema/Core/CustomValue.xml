@@ -56,42 +56,78 @@
      <comment>stores data for ext property data_type = integer. This col supports signed integers.</comment>
      <add>1.1</add>
   </field>
+  <index>
+       <name>index_int_field</name>
+       <fieldName>int_data</fieldName>
+       <fieldName>custom_field_id</fieldName>
+       <add>1.6</add>
+  </index>
   <field>
      <name>float_data</name>
      <type>float</type>
      <comment>stores data for ext property data_type = float.</comment>
      <add>1.1</add>
   </field>
+  <index>
+       <name>index_float_field</name>
+       <fieldName>float_data</fieldName>
+       <fieldName>custom_field_id</fieldName>
+       <add>1.6</add>
+  </index>
   <field>
      <name>decimal_data</name>
      <type>decimal</type>
      <comment>stores data for ext property data_type = money.</comment>
        <add>1.1</add>
   </field>
+  <index>
+       <name>index_decimal_field</name>
+       <fieldName>decimal_data</fieldName>
+       <fieldName>custom_field_id</fieldName>
+       <add>1.6</add>
+  </index>
   <field>
      <name>char_data</name>
      <type>varchar</type>
      <length>255</length>
      <comment>data for ext property data_type = text.</comment>
-       <add>1.1</add>
+     <add>1.1</add>
   </field>
+  <index>
+       <name>index_char_field</name>
+       <fieldName>char_data</fieldName>
+       <fieldName>custom_field_id</fieldName>
+       <add>1.6</add>
+  </index>
   <field>
      <name>date_data</name>
      <type>date</type>
      <comment>data for ext property data_type = date.</comment>
        <add>1.1</add>
   </field>
+  <index>
+       <name>index_date_field</name>
+       <fieldName>date_data</fieldName>
+       <fieldName>custom_field_id</fieldName>
+       <add>1.6</add>
+  </index>
   <field>
      <name>memo_data</name>
      <type>text</type>
      <comment>data for ext property data_type = memo.</comment>
        <add>1.1</add>
   </field>
+  <index>
+       <name>index_memo_field</name>
+       <fieldName>memo_data</fieldName>
+       <fieldName>custom_field_id</fieldName>
+       <add>1.6</add>
+  </index>
   <field>
       <name>file_id</name>
       <type>int unsigned</type>
-          <comment>FK to civicrm_file</comment>
-       <add>1.5</add>
+      <comment>FK to civicrm_file</comment>
+      <add>1.5</add>
   </field>
   <foreignKey>
        <name>file_id</name>

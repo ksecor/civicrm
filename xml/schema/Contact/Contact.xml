@@ -84,6 +84,18 @@
        <add>1.5</add>
   </index>
   <index>
+       <name>index_contact_type_domain</name>
+       <fieldName>contact_type</fieldName>
+       <fieldName>domain_id</fieldName>
+       <add>1.6</add>
+  </index>
+  <index>
+       <name>index_contact_sub_type_domain</name>
+       <fieldName>contact_sub_type</fieldName>
+       <fieldName>domain_id</fieldName>
+       <add>1.6</add>
+  </index>
+  <index>
        <name>index_hash_domain</name>
        <fieldName>hash</fieldName>
        <fieldName>domain_id</fieldName>

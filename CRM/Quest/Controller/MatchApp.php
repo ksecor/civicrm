@@ -394,8 +394,7 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
             $this->_categories = array( );
             $this->_categories['steps'] = array( );
 
-            $action = ( $this_action == CRM_Core_Action::UPDATE ) ? "action=update" : "action=view";
-
+            $action = ( $this->_action == (int ) CRM_Core_Action::UPDATE ) ? "action=update" : "action=view";
             $this->_categories['steps']['Personal'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/personal',
                                                            "reset=1&$action&id={$this->_contactID}" ),
