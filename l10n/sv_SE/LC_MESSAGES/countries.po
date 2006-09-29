@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: iso_3166 0.42pre1\n"
-"Report-Msgid-Bugs-To: Debian iso-codes team <pkg-isocodes-devel@lists.alioth.debian.org>\n"
-"POT-Creation-Date: 2006-08-27 12:19+0200\n"
+"Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
+"POT-Creation-Date: 2005-03-07 08:29-0500\n"
 "PO-Revision-Date: 2004-12-12 23:32+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -511,6 +511,16 @@ msgstr "Samväldet Dominica"
 msgid "Dominican Republic"
 msgstr "Dominikanska republiken"
 
+# TL
+#. name for TLS
+msgid "Timor-Leste"
+msgstr "Östtimor"
+
+# CD
+#. official_name for TLS
+msgid "Democratic Republic of Timor-Leste"
+msgstr "Demokratiska republiken Östtimor"
+
 # EC
 #. name for ECU
 msgid "Ecuador"
@@ -716,12 +726,6 @@ msgstr "Guatemala"
 msgid "Republic of Guatemala"
 msgstr "Republiken Guatemala"
 
-# DE
-#. name for GGY
-#, fuzzy
-msgid "Guernsey"
-msgstr "Tyskland"
-
 # GN
 #. name for GIN
 msgid "Guinea"
@@ -851,10 +855,6 @@ msgstr "Republiken Irak"
 msgid "Ireland"
 msgstr "Irland"
 
-#. name for IMN
-msgid "Isle of Man"
-msgstr ""
-
 # IL
 #. name for ISR
 msgid "Israel"
@@ -884,10 +884,6 @@ msgstr "Jamaica"
 #. name for JPN
 msgid "Japan"
 msgstr "Japan"
-
-#. name for JEY
-msgid "Jersey"
-msgstr ""
 
 # JO
 #. name for JOR
@@ -1571,11 +1567,6 @@ msgstr "Senegal"
 msgid "Republic of Senegal"
 msgstr "Republiken Senegal"
 
-# name for SCG
-#. name for SCG
-msgid "Serbia and Montenegro"
-msgstr "Serbien och Montenegro"
-
 # SC
 #. name for SYC
 msgid "Seychelles"
@@ -1772,16 +1763,6 @@ msgstr "Thailand"
 #. official_name for THA
 msgid "Kingdom of Thailand"
 msgstr "Konungariket Thailand"
-
-# TL
-#. name for TLS
-msgid "Timor-Leste"
-msgstr "Östtimor"
-
-# CD
-#. official_name for TLS
-msgid "Democratic Republic of Timor-Leste"
-msgstr "Demokratiska republiken Östtimor"
 
 # TG
 #. name for TGO
@@ -2000,6 +1981,16 @@ msgstr "Zimbabwe"
 msgid "Republic of Zimbabwe"
 msgstr "Republiken Zimbabwe"
 
+# name for SCG
+#. name for SCG
+msgid "Serbia and Montenegro"
+msgstr "Serbien och Montenegro"
+
+# DE
+#, fuzzy
+#~ msgid "Guernsey"
+#~ msgstr "Tyskland"
+
 # name for MKD
 #~ msgid "Macedonia, the Former Yugoslav Republic of"
 #~ msgstr "Makedonien, före detta jugoslaviska republiken"
@@ -2020,8 +2011,10 @@ msgstr "Republiken Zimbabwe"
 #~ msgstr "Vatikanstaten"
 
 # Nähe, detta verkar vara det officiella namnet.
-#~ msgid "Hong Kong Special Administrative Region of the People's Republic of China"
-#~ msgstr "Särskilda administrativa regionen Hong Kong inom folkrepubliken Kina"
+#~ msgid ""
+#~ "Hong Kong Special Administrative Region of the People's Republic of China"
+#~ msgstr ""
+#~ "Särskilda administrativa regionen Hong Kong inom folkrepubliken Kina"
 
 #~ msgid "Palestinian Territory"
 #~ msgstr "Palestinska territoriet"
