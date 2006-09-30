@@ -53,6 +53,7 @@
   <field>
       <name>SAT_composite</name>
       <type>int unsigned</type>
+      <title>SAT Composite (all)</title>
       <export>true</export>
       <import>true</import>
       <headerPattern>/SAT score/i</headerPattern>
@@ -62,6 +63,7 @@
   <field>
       <name>SAT_composite_alt</name>
       <type>int unsigned</type>
+      <title>SAT Composite (Math and Reading)</title>
       <export>true</export>
       <import>true</import>
       <headerPattern>/SAT score/i</headerPattern>
@@ -187,7 +189,7 @@
  </field>
  <field>
       <name>cmr_first_generation_id</name>
-      <title>First Generation</title>
+      <title>First Generation College</title>
       <type>int unsigned</type>
        <export>true</export>
        <import>true</import>
@@ -205,7 +207,7 @@
  </field>
  <field>
       <name>cmr_need_id</name>
-      <title>Level of need</title>
+      <title>Level of Need</title>
       <type>int unsigned</type>
       <export>true</export>
       <import>true</import>
