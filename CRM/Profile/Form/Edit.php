@@ -65,7 +65,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
             $session =& CRM_Core_Session::singleton();
             $userID = $session->get( 'userID' );
             $id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false, $userID );
-
+            
             require_once 'CRM/Contact/BAO/Contact.php';
             if ( $id != $userID &&
                  ! CRM_Contact_BAO_Contact::permissionedContact( $id, CRM_Core_Permission::EDIT ) ) {
@@ -117,10 +117,8 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         }
         
         if ( ! $postURL ) {
-            //$postURL = CRM_Utils_System::url('civicrm/profile/edit',
-            //'&amp;gid='.$this->_gid.'&amp;reset=1' );
-            $postURL = CRM_Utils_System::url('civicrm/profile/view', '&gid='.$this->_gid.'&id='.$this->_id.'&reset=1' );
-            
+            //$postURL = CRM_Utils_System::url('civicrm/profile/edit','&amp;gid='.$this->_gid.'&amp;reset=1' );
+            //$postURL = CRM_Utils_System::url('civicrm/profile/view', 'gid='.$this->_gid.'&id='.$this->_id.'&reset=1' );
         }
         
         if ( ! $cancelURL ) {
