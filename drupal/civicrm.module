@@ -30,12 +30,6 @@
  *
  */
 
-if ( function_exists( 'conf_path' ) ) {
-    include_once conf_path( ) . '/civicrm.settings.php';
-} else {
-    include_once conf_init( ) . '/civicrm.settings.php';
-}
-
 /**
  * Provides a link to the CSS stylesheet associated with this module.
  * and the javascript files needed by this module
@@ -44,8 +38,11 @@ if ( function_exists( 'conf_path' ) ) {
  */
 function civicrm_html_head()
 {
+	civicrm_initialize( );
+
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
+
     $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
     $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
     $head .= "<script type=\"text/javascript\">var djConfig = { isDebug: true };</script>";
@@ -148,6 +145,8 @@ function civicrm_block($op='list', $delta='0')
         return;
     }
 
+    civicrm_initialize( );
+
     // The $op parameter determines what piece of information is being requested.
     require_once 'CRM/Core/Block.php';
 
@@ -178,6 +177,8 @@ function civicrm_block($op='list', $delta='0')
  */
 function civicrm_menu($may_cache)
 {
+	civicrm_initialize( );
+
     if ( $may_cache ) {
         require_once 'CRM/Core/Menu.php';
         $items = CRM_Core_Menu::items( );
@@ -203,6 +204,12 @@ function civicrm_initialize( $requireAPI = false )
     }
 
     $initialized = true;
+
+    if ( function_exists( 'conf_path' ) ) {
+        include_once conf_path( ) . '/civicrm.settings.php';
+    } else {
+        include_once conf_init( ) . '/civicrm.settings.php';
+    }
 
     // this does pretty much all of the civicrm initialization
     require_once 'CRM/Core/Config.php';
@@ -242,6 +249,8 @@ function civicrm_invoke( )
 
 function civicrm_quickreg( ) 
 {
+	civicrm_initialize( );
+
     $names  = array( 'first_name', 'last_name', 'email', 'postal_code' ); 
     $params = array( ); 
     foreach ( $names as $name ) { 
@@ -329,6 +338,8 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
 
 function civicrm_categories( ) 
 {
+	civicrm_initialize( );
+
     require_once 'CRM/Core/BAO/UFGroup.php';
     $allUFGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account', 1);
     
