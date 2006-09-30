@@ -186,7 +186,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids, $locationCount = 0 ) {
+    static function &getValues( &$params, &$values, &$ids, $locationCount = 0, $microformat = false ) {
         $location =& new CRM_Core_BAO_Location( );
         $location->copyValues( $params );
         if ( $params['contact_id'] ) {
@@ -216,14 +216,14 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
                 if ($flatten) {
                     $ids['location'] = $location->id;
                     CRM_Core_DAO::storeValues( $location, $values );
-                    self::getBlocks( $params, $values, $ids, 0, $location );
+                    self::getBlocks( $params, $values, $ids, 0, $location, $microformat );
                 } else {
                     $values['location'][$i+1] = array();
                     $ids['location'][$i+1]    = array();
                     $ids['location'][$i+1]['id'] = $location->id;
                     CRM_Core_DAO::storeValues( $location, $values['location'][$i+1] );
                     self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1],
-                                     CRM_Contact_Form_Location::BLOCKS, $location );
+                                     CRM_Contact_Form_Location::BLOCKS, $location, $microformat );
                 }
                 $locations[$i + 1] = clone($location);
             }
@@ -239,8 +239,8 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
     /**
      * simple helper function to dispatch getCall to lower comm blocks
      */
-    static function getBlocks( &$params, &$values, &$ids, $blockCount = 0, &$parent ) {
-        $parent->address =& CRM_Core_BAO_Address::getValues( $params, $values, $ids, $blockCount );
+    static function getBlocks( &$params, &$values, &$ids, $blockCount = 0, &$parent, $microformat = false ) {
+        $parent->address =& CRM_Core_BAO_Address::getValues( $params, $values, $ids, $blockCount, $microformat );
 
         $parent->phone   =& CRM_Core_BAO_Phone::getValues( $params, $values, $ids, $blockCount );
         $parent->email   =& CRM_Core_BAO_Email::getValues( $params, $values, $ids, $blockCount );

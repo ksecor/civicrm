@@ -110,7 +110,7 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
         $ids      = array( );
 
         $params['id'] = $params['contact_id'] = $this->_contactId;
-        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids, true );
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
 

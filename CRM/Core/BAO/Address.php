@@ -176,7 +176,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      * @access public
      * @static
      */
-    static function &getValues(&$params, &$values, &$ids, $blockCount=0)
+    static function &getValues(&$params, &$values, &$ids, $blockCount=0, $microformat = false)
     {
         $address =& new CRM_Core_BAO_Address();
         $address->copyValues($params);
@@ -203,7 +203,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
                 $address->country = CRM_Core_PseudoConstant::country( $address->country_id );
             }
 
-            $address->addDisplay();
+            $address->addDisplay( $microformat );
 
             // FIXME: not sure whether non-DB values are safe to store here
             // if so, we should store state_province and country as well and
@@ -228,7 +228,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      * @access public
      *
      */
-    function addDisplay()
+    function addDisplay( $microformat = false )
     {
         require_once 'CRM/Utils/Address.php';
         $fields = array(
@@ -241,7 +241,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             'postal_code_suffix'     => $this->postal_code_suffix,
             'country'                => $this->country
         );
-        $this->display = CRM_Utils_Address::format($fields, null, true);
+        $this->display = CRM_Utils_Address::format($fields, null, $microformat);
     }
 
     /**

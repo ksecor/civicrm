@@ -912,7 +912,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @access public
      * @static
      */
-    static function &retrieve( &$params, &$defaults, &$ids ) {
+    static function &retrieve( &$params, &$defaults, &$ids, $microformat = false) {
         if ( array_key_exists( 'contact_id', $params ) ) {
             $params['id'] = $params['contact_id'];
         } else if ( array_key_exists( 'id', $params ) ) {
@@ -926,7 +926,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         eval( '$contact->contact_type_object =& CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
         $locParams = $params + array('entity_id' => $params['contact_id'],
                                      'entity_table' => self::getTableName());
-        $contact->location     =& CRM_Core_BAO_Location::getValues( $locParams, $defaults, $ids, 3 );
+        $contact->location     =& CRM_Core_BAO_Location::getValues( $locParams, $defaults, $ids, 3, $microformat );
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
