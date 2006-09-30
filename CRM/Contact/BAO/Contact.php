@@ -1993,19 +1993,18 @@ WHERE civicrm_contact.id IN $idString ";
                 }
             }
         }
-        
+
         $studentFieldPresent = 0;
         // fix all the custom field checkboxes which are empty
         foreach ($fields as $name => $field ) {
-           if ( CRM_Core_Permission::access( 'Quest' ) ) {
-              // check if student fields present
-              
-              require_once 'CRM/Quest/BAO/Query.php';
-              if ( (!$studentFieldPresent) && array_key_exists($name, CRM_Quest_BAO_Query::getFields()) ) {
-                  $studentFieldPresent = 1;
-              }
+            if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                // check if student fields present
+                require_once 'CRM/Quest/BAO/Student.php';
+                if ( (!$studentFieldPresent) && array_key_exists($name, CRM_Quest_BAO_Student::exportableFields()) ) {
+                   $studentFieldPresent = 1;
+                }
             }
-
+            
             $cfID = CRM_Core_BAO_CustomField::getKeyID($name);
             // if there is a custom field of type checkbox,multi-select and it has not been set
             // then set it to null, thanx to html protocol
@@ -2149,23 +2148,24 @@ WHERE civicrm_contact.id IN $idString ";
 
             $params['contact_id'] = $contactID;
             //fixed for check boxes
-            $fields = array( 'educational_interest','college_type','college_interest','test_tutoring' );
-            foreach( $fields as $field ) {
+            
+            $specialFields = array( 'educational_interest','college_type','college_interest','test_tutoring' );
+            foreach( $specialFields as $field ) {
                 if ( $params[$field] ) {
                     $params[$field] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params[$field]));
                 }
             }
-          
+            
             CRM_Quest_BAO_Student::create( $params, $ids);
             CRM_Quest_BAO_Student::createStudentSummary($params, $ssids);
         }
-
+        
         if ( $editHook ) {
             CRM_Utils_Hook::post( 'edit'  , 'Profile', $contactID  , $params );
         } else {
             CRM_Utils_Hook::post( 'create', 'Profile', $contactID, $params ); 
         }
-
+        
         return $contactID;
     }
 
