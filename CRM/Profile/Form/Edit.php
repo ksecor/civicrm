@@ -117,7 +117,9 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         }
         
         if ( ! $postURL ) {
-            $postURL = CRM_Utils_System::url('civicrm/profile/edit', '&amp;gid='.$this->_gid.'&amp;reset=1' );
+            //$postURL = CRM_Utils_System::url('civicrm/profile/edit',
+            //'&amp;gid='.$this->_gid.'&amp;reset=1' );
+            $postURL = CRM_Utils_System::url('civicrm/profile/view', '&gid='.$this->_gid.'&id='.$this->_id.'&reset=1' );
             
         }
         
@@ -182,12 +184,12 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
     public function postProcess( ) 
     {
         parent::postProcess( );
-
+        
         CRM_Core_Session::setStatus(ts('Thank you. Your information has been saved.'));
                 
-        $session =& CRM_Core_Session::singleton( );
-        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/profile/view',
-                                                             "reset=1&id={$this->_id}&gid={$this->_gid}" ) );
+        //$session =& CRM_Core_Session::singleton( );
+        /*$session->replaceUserContext( CRM_Utils_System::url( 'civicrm/profile/view',
+                                                             "reset=1&id={$this->_id}&gid={$this->_gid}" ) );*/
     }
     
     /**
@@ -229,10 +231,8 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
             $errorURL .= "&msg=$message";
             CRM_Utils_System::redirect( $errorURL );
         }
-
+        
         return $errors;
     }
-
 }
-
 ?>

@@ -1341,9 +1341,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
 
         if ( $rule ) {
-            if ($rule == 'email'  &&  $mode == CRM_Profile_Form::MODE_SEARCH) {
-                continue;
-            } else {
+            if (!($rule == 'email'  &&  $mode == CRM_Profile_Form::MODE_SEARCH)) {
                 $form->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $title ) ), $rule );
             }
         }
