@@ -47,9 +47,20 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
      * array that contains student fields that takes multiple options.
      *
      */
-    static $multipleSelectFields = array ('educational_interest' => 1,  'college_type' => 1,'college_interest' => 1, 'test_tutoring' => 1);
-    
-    
+    static $multipleSelectFields = array ('educational_interest' => 1,  
+                                          'college_type'         => 1,
+                                          'college_interest'     => 1, 
+                                          'test_tutoring'        => 1,
+                                          
+                                          'cmr_first_generation_id' => 1, // readers fields
+                                          'cmr_income_increase_id'  => 1,
+                                          'cmr_need_id'             => 1, 
+                                          'cmr_grade_id'            => 1, 
+                                          'cmr_class_id'            => 1, 
+                                          'cmr_score_id'            => 1, 
+                                          'cmr_academic_id'         => 1, 
+                                          'cmr_disposition_id'      => 1
+                                          );
     
     /**
      * class constructor

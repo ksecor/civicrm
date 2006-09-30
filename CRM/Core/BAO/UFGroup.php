@@ -521,7 +521,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         
         require_once 'CRM/Core/PseudoConstant.php'; 
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
-
         //start of code to set the default values
         foreach ($fields as $name => $field ) {
             $index   = $field['title'];
@@ -564,14 +563,27 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 } else if (array_key_exists( $name ,$studentFields ) ) {
                     require_once 'CRM/Core/OptionGroup.php';
                     $paramsNew = array($name => $details->$name );
+                    $readers = array('cmr_first_generation_id', 'cmr_income_increase_id', 'cmr_need_id', 
+                                     'cmr_grade_id', 'cmr_class_id', 'cmr_score_id', 'cmr_academic_id', 'cmr_disposition_id');
                     
                     if ( $name == 'test_tutoring') {
-                        $names = array( $name => array('newName' => $name ,'groupName' => 'test' ));
+                        $names = array( $name => array('newName' => $index ,'groupName' => 'test' ));
+                    } else if (in_array($name, $readers)) {
+                        $readerParts = explode('_', $name);
+                        for($i = 0; $i < (count($readerParts)-1); $i++) {
+                            if ($i == 0) {
+                                $readerGroup = $readerParts[$i];
+                            } else {
+                                $readerGroup = $readerGroup . '_' . $readerParts[$i];
+                            }
+                        }
+                        $names = array( $name => array('newName' => $index, 'groupName' => $readerGroup ));
                     } else {
-                        $names = array( $name => array('newName' => $name ,'groupName' => $name ));
+                        $names = array( $name => array('newName' => $index, 'groupName' => $name ));
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $names, false );
-                    $values[$index] = $paramsNew[$name];
+                    $values[$index] = $paramsNew[$index];
+                    $params[$index] = $paramsNew[$name];
                 } else {
                     $processed = false;
                     if ( CRM_Core_Permission::access( 'Quest' ) ) {
