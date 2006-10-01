@@ -1,9 +1,6 @@
 <div class="form-item">
 <fieldset>
     <legend>{ts}Batch Update via Profile{/ts}</legend>
-    <dl>
-        <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
-
         {if $fields}
          <table>
             <tr class="columnheader">
@@ -24,10 +21,13 @@
            </tr>
          </table>
         {else}
+        <dl>
           <dt></dt><dd>{$form._qf_BatchUpdateProfile_refresh.html} &nbsp; {$form._qf_BatchUpdateProfile_cancel.html}</dd>
-        {/if} 
-        <dt></dt><dd>{if $fields}{$form._qf_BatchUpdateProfile_refresh.html}{/if} &nbsp; {$form.buttons.html}</dd>
-    </dl>
+        </dl>
+        {/if}
+        <dl>
+            <dt></dt><dd>{if $fields}{$form._qf_BatchUpdateProfile_refresh.html}{/if} &nbsp; {$form.buttons.html}</dd>
+        </dl>
 </fieldset>
 </div>
 
