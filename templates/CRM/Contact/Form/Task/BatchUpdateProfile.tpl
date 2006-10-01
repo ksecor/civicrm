@@ -1,6 +1,6 @@
 <div class="form-item">
 <fieldset>
-    <legend>{ts}Batch Update via Profile{/ts}</legend>
+    <legend>{$profileTitle}</legend>
         {if $fields}
          <table>
             <tr class="columnheader">

@@ -91,14 +91,15 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) 
     {
-        CRM_Utils_System::setTitle( ts('Batch Profile Update') );
-        
         $ufGroupId = $this->get('ufGroupId');
-
+        
         if ( ! $ufGroupId ) {
             CRM_Core_Error::fatal( 'ufGroupId is missing' );
         }
 
+        $this->_title = ts('Batch Update') . ' - ' . CRM_Core_BAO_UFGroup::getTitle ( $ufGroupId );
+        CRM_Utils_System::setTitle( $this->_title );
+        
         $this->addDefaultButtons( ts('Save') );
         $this->_fields  = array( );
         $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
@@ -114,6 +115,7 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
                            );
         
         $this->assign( 'fields', $this->_fields     );
+        $this->assign( 'profileTitle', $this->_title );
         $this->assign( 'contactIds', $this->_contactIds );
         
         foreach ($this->_contactIds as $contactId) {
