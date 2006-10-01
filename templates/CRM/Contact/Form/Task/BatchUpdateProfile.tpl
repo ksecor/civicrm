@@ -5,22 +5,19 @@
         <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
 
         {if $fields}
-         <table class="form-layout-compressed">
-            <tr>
-             <td class="label">Name</td>
+         <table>
+            <tr class="columnheader">
+             <th>Name</th>
              {foreach from=$fields item=field key=name}
-                <td class="label">{$field.title}</td>
+                <th>{$field.title}</th>
              {/foreach}
             </tr>
             {foreach from=$contactIds item=cid}
-             <tr>
+             <tr class="{cycle values="odd-row,even-row"} {$row.class}">
               <td>{$sortName.$cid}</td> 
               {foreach from=$fields item=field key=name}
                 {assign var=n value=$field.name}
-                <td>{$form.field.$cid.$n.html}</td> 
-	        {if $form.$n.type eq 'file'}
-	        {* <tr><td class="label"></td><td>{$customFiles.$n}</td></tr>*}
-	        {/if}
+                <td class="compressed">{$form.field.$cid.$n.html}</td> 
               {/foreach}
              </tr>
             {/foreach}
