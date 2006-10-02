@@ -131,6 +131,7 @@ class CRM_Utils_Mail {
         $headers['Content-Transfer-Encoding'] = '8bit';  
         $headers['Return-Path']               = $returnPath;
         $headers['Reply-To']                  = $from;
+        $headers['Date']                      = date('r');
 
         $to = array( $toEmail );
         if ( $cc ) {

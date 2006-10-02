@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-28 18:24+0200\n"
-"PO-Revision-Date: 2006-09-29 05:05-0700\n"
+"PO-Revision-Date: 2006-09-29 16:32-0700\n"
 "Last-Translator: Jerker Lundin <jerker@lundinonline.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -1836,12 +1836,12 @@ msgstr ""
 #: CRM/Contribute/Import/Form/UploadFile.php
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
-msgstr ""
+msgstr "Ladda upp data"
 
 #: CRM/Contribute/Import/Parser/Contribution.php
 #: CRM/History/Import/Parser/ActivityHistory.php CRM/Import/Parser/Contact.php
 msgid "Missing required fields"
-msgstr ""
+msgstr "Obligatoriska fält saknas"
 
 #: CRM/Contribute/Import/Parser.php CRM/History/Import/Parser.php
 #: CRM/Import/Parser.php
@@ -1851,15 +1851,15 @@ msgstr ""
 #: CRM/Contribute/Import/Parser.php CRM/History/Import/Parser.php
 #: CRM/Import/Parser.php
 msgid "Reason"
-msgstr ""
+msgstr "Skäl"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
-msgstr ""
+msgstr "Typ av medverkande"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Payment Instruments"
-msgstr ""
+msgstr "Betalningsinstrument"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Manage Premiums"
@@ -1867,7 +1867,7 @@ msgstr ""
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php CRM/Core/DAO/Mapping.php
 msgid "Import Contributions"
-msgstr ""
+msgstr "Importera medverkande"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
@@ -1875,12 +1875,12 @@ msgstr ""
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
 msgid "Configure Online Contribution Pages"
-msgstr ""
+msgstr "Konfigurera Onlinesidor för medverkande"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Custom/Form/DeleteField.php
 #: CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
-msgstr ""
+msgstr "Radera eget fält"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
@@ -1897,7 +1897,7 @@ msgstr ""
 
 #: CRM/Contribute/Payment/Moneris.php CRM/Contribute/Payment/PayPalImpl.php
 msgid "%1 is not set in the config file."
-msgstr ""
+msgstr "%1 är inte inställt i konfigurationsfilen."
 
 #: CRM/Contribute/Selector/Search.php CRM/Core/DAO/Validation.php
 #: CRM/Member/Selector/Search.php templates/CRM/Contribute/Form/Task/Print.tpl
@@ -1906,23 +1906,23 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
-msgstr ""
+msgstr "Siffra"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php
 msgid "Money"
-msgstr ""
+msgstr "Pengar"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #: CRM/Core/BAO/CustomField.php CRM/Quest/Form/MatchApp/Guardian.php
 #: CRM/Quest/Form/MatchApp/Sibling.php CRM/Quest/Form/PreApp/Guardian.php
@@ -1935,7 +1935,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipView.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "From"
-msgstr ""
+msgstr "Från"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php CRM/Core/Form.php
 #: CRM/Custom/Form/Field.php CRM/Mailing/Event/BAO/Unsubscribe.php
@@ -1957,7 +1957,7 @@ msgstr ""
 #: templates/CRM/Member/Page/MembershipType.tpl
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomQuery.php CRM/Core/Form.php
 #: CRM/Custom/Form/Field.php CRM/Mailing/Event/BAO/Unsubscribe.php
@@ -1979,43 +1979,43 @@ msgstr ""
 #: templates/CRM/Member/Page/MembershipType.tpl
 #: templates/CRM/UF/Page/Field.tpl
 msgid "No"
-msgstr ""
+msgstr "Nej"
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
-msgstr ""
+msgstr "Det gick inte att hitta användar ID som loggas in"
 
 #: CRM/Core/BAO/UFGroup.php CRM/Profile/Form.php
 msgid "Please enter a valid %1"
-msgstr ""
+msgstr "Ange en/ett giltig(t) %1"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
 msgid "Send Mailing"
-msgstr ""
+msgstr "Skicka mejl"
 
 #: CRM/Core/Block.php CRM/Mailing/Menu.php
 msgid "Browse Sent Mailings"
-msgstr ""
+msgstr "Bläddra i skickade mejl"
 
 #: CRM/Core/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
-msgstr ""
+msgstr "Skapa"
 
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/UFJoin.php
 msgid "Module"
-msgstr ""
+msgstr "Modul"
 
 #: CRM/Core/DAO/Address.php CRM/Member/Form/Task/Export.php
 msgid "Supplemental Address 1"
-msgstr ""
+msgstr "Extra adress 1"
 
 #: CRM/Core/DAO/Address.php CRM/Member/Form/Task/Export.php
 msgid "Supplemental Address 2"
-msgstr ""
+msgstr "Extra adress 2"
 
 #: CRM/Core/DAO/Address.php CRM/Member/Form/Task/Export.php
 msgid "Postal Code Suffix"
@@ -2053,39 +2053,39 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Memo"
-msgstr ""
+msgstr "Memo"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "TextArea"
-msgstr ""
+msgstr "Textarea"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select"
-msgstr ""
+msgstr "Välj"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Multi-Select"
-msgstr ""
+msgstr "Flerval"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Radio"
-msgstr ""
+msgstr "Radio"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "CheckBox"
-msgstr ""
+msgstr "Kryssruta"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Date"
-msgstr ""
+msgstr "Välj datum"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select State/Province"
-msgstr ""
+msgstr "Välj Län/Landskap"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Country"
-msgstr ""
+msgstr "Välj Land"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
 msgid "Collapse Display"
@@ -2093,7 +2093,7 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Mailing/Selector/Event.php
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Quest/Form/MatchApp/Household.php
 #: CRM/Quest/Form/MatchApp/Scholarship.php CRM/Quest/Form/PreApp/Household.php
@@ -2103,11 +2103,11 @@ msgstr ""
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Relationship"
-msgstr ""
+msgstr "Förhållande"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
-msgstr ""
+msgstr "Flik"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Inline"
@@ -2115,20 +2115,20 @@ msgstr ""
 
 #: CRM/Core/DAO/EmailHistory.php CRM/SMS/DAO/History.php
 msgid "Sent Date"
-msgstr ""
+msgstr "Skickat den"
 
 #: CRM/Core/DAO/IM.php CRM/Member/Form/Task/Export.php
 msgid "IM Screen Name"
-msgstr ""
+msgstr "IM skärmnamn"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
 msgid "Phone Type"
-msgstr ""
+msgstr "Typ av telefon"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Menu.php
 msgid "Import"
-msgstr ""
+msgstr "Importera"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
 msgid "Import Activity History"
@@ -2150,42 +2150,42 @@ msgstr ""
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
-msgstr ""
+msgstr "Mobil"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Pager"
-msgstr ""
+msgstr "Sökare"
 
 #: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
 msgid "Field Name"
-msgstr ""
+msgstr "Fältnamn"
 
 #: CRM/Core/DAO/UFGroup.php CRM/Core/Menu.php templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "CiviCRM Profil"
 
 #: CRM/Core/DAO/Validation.php CRM/Mailing/Selector/Event.php
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Advanced Search"
-msgstr ""
+msgstr "Avancerad sökning"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "New Contact"
-msgstr ""
+msgstr "Ny kontakt"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Egna datafält"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group"
@@ -2197,45 +2197,45 @@ msgstr ""
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Duplicate Matching"
-msgstr ""
+msgstr "Kontrollera dubletter"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Administrera CiviCRM"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php CRM/Core/SelectValues.php
 #: CRM/Profile/Form/Dojo.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Groups"
-msgstr ""
+msgstr "Grupper"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Activities"
-msgstr ""
+msgstr "Aktiviteter"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "Relationships"
-msgstr ""
+msgstr "Förhållanden"
 
 #: CRM/Core/Menu.php CRM/Group/Page/Group.php
 msgid "Group Members"
-msgstr ""
+msgstr "Gruppmedlemmar"
 
 #: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
 #: CRM/Mailing/DAO/Component.php
 msgid "Header"
-msgstr ""
+msgstr "Huvud"
 
 #: CRM/Core/SelectValues.php CRM/Mailing/BAO/Mailing.php
 #: CRM/Mailing/DAO/Component.php
 msgid "Footer"
-msgstr ""
+msgstr "Fot"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
-msgstr ""
+msgstr "Gruppen \"%1\" har raderats"
 
 #: CRM/Custom/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl
@@ -2247,15 +2247,15 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Active?"
-msgstr ""
+msgstr "Aktiv?"
 
 #: CRM/Custom/Form/Field.php CRM/UF/Form/Field.php
 msgid "Required?"
-msgstr ""
+msgstr "Obligatorisk?"
 
 #: CRM/Custom/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
-msgstr ""
+msgstr "Hjälp för fält"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Invalid default value for country."
