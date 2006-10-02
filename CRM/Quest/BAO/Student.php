@@ -377,9 +377,36 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                              'SAT_composite_alt', 'SAT_reading', 'SAT_math', 'SAT_writing',
                              'ACT_composite', 'ACT_english', 'ACT_reading', 'ACT_math', 'ACT_science',
                              'PSAT_composite', 'PLAN_composite', 'household_income_total',
-                             'household_member_count','academic_index','financial_need_index' );
+                             'household_member_count','academic_index','financial_need_index','cmr_comment' );
         foreach ( $properties as $key ) {
             $details['Student'][$key] = $studentDetails[$key];
+        }
+        
+        $names = array( 'cmr_disposition_id'        => array( 'newName'     => 'cmr_disposition',
+                                                              'groupName'   => 'cmr_disposition' ),
+                        'cmr_first_generation_id'   => array( 'newName'     => 'cmr_first_generation',
+                                                              'groupName'   => 'cmr_first_generation' ),
+                        'cmr_income_increase_id'    => array( 'newName'     => 'cmr_income_increase', 
+                                                              'groupName'   => 'cmr_income_increase' ),
+                        'cmr_need_id'               => array( 'newName'     => 'cmr_need', 
+                                                              'groupName'   => 'cmr_need' ),
+                        'cmr_grade_id'              => array( 'newName'     => 'cmr_grade', 
+                                                              'groupName'   => 'cmr_grade' ),
+                        'cmr_class_id'              => array( 'newName'     => 'cmr_class', 
+                                                              'groupName'   => 'cmr_class' ),
+                        'cmr_score_id'              => array( 'newName'     => 'cmr_score', 
+                                                              'groupName'   => 'cmr_score' ),
+                        'cmr_academic_id'           => array( 'newName'     => 'cmr_academic', 
+                                                              'groupName'   => 'cmr_academic' ),
+                        );
+
+        require_once 'CRM/Core/OptionGroup.php';
+        CRM_Core_OptionGroup::lookupValues( $studentDetails, $names, false);
+        
+        $details['Student']    = array( );
+        foreach ( $names as $key => $value ) {
+            $details['Student'][$key]              = $studentDetails[$key];
+            $details['Student'][$value['newName']] = $studentDetails[$value['newName']];
         }
     }
 
