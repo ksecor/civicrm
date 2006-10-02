@@ -125,8 +125,8 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
 
         // get status for main CM app, partner supplement and CM package (can add more if needed)
         require_once 'CRM/Quest/API.php';
-        $tasks = array( '7'  => 'cmApp',
-                        '8'  => 'cmPackage',
+        $tasks = array( '8'  => 'cmApp',
+                        '7'  => 'cmPackage',
                         '19' => 'cmPartnerSupplement',
                         );
         $taskStatus = array( );
