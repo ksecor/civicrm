@@ -128,7 +128,7 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
         $tasks = array( '7'  => 'cmAppStatus',
                         '8'  => 'cmPackageStatus',
                         '19' => 'cmPartnerSupplementStatus',
-                        )
+                        );
         $taskStatus = array( );
         foreach ( $names as $key => $value ) {
             $taskStatus[$value] = CRM_Quest_API::getApplicationStatus( $this->_contactId, $this->_contactId, $key );
