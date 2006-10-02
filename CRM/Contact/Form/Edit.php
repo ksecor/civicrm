@@ -251,7 +251,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $ids = array();
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
-
             $this->set( 'ids', $ids );
 
             $this->assign( 'contactId' , $this->_contactId );

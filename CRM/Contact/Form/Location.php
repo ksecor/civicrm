@@ -68,9 +68,9 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
         $location = array();
         
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
-            $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_Core_PseudoConstant::locationType());
-            $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", ts('Primary location for this contact'),  ts('Primary location for this contact'), array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks);" ) );
-            $location[$locationId]['name']                       =  $form->addElement('text', "location[$locationId][name]",ts('Location Name'),CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name'));
+            $location[$locationId]['location_type_id'] =& $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_Core_PseudoConstant::locationType());
+            $location[$locationId]['is_primary']       =& $form->addElement('checkbox', "location[$locationId][is_primary]", ts('Primary location for this contact'),  ts('Primary location for this contact'), array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks);" ) );
+            $location[$locationId]['location_name']    =& $form->addElement('text', "location[$locationId][location_name]",ts('Location Name'),CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name'));
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
 
             CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, self::BLOCKS); 
