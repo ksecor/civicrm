@@ -144,32 +144,38 @@ function crm_update_location(&$contact, $location_id, $params) {
         return _crm_error('missing or invalid $location_id');
     }
     
-    // $locationNumber is the contact-level number of the location (1, 2, 3, etc.)
-    $locationNumber = null;
+    // $locationObj is the original location object that we are updating
+    $locationObj = null;
+
     $locations =& crm_get_locations($contact);
     foreach ($locations as $locNumber => $locValue) {
         if ($locValue->id == $locationId) {
-            $locationNumber = $locNumber;
+            $locationObj = $locValue;
             break;
         }
     }
-    if (!$locationNumber) {
+    if ( ! $locationObj ) {
         return _crm_error('invalid $location_id');
     }
     
     $values = array(
                     'contact_id'    => $contact->id,
-                    'location'      => array($locationNumber => array()),
+                    'location'      => array($locationObj->id => array()),
                     );
 
-    $loc =& $values['location'][$locationNumber];
+    $loc =& $values['location'][$locationObj->id];
     
-    $loc['address'] = array( );
+    // setup required location values using the current ones. they may or may not be overridden by $params later.
+    $loc['address']          = get_object_vars($locationObj->address);
+    $loc['is_primary']       = $locationObj->is_primary;
+    $loc['location_type_id'] = $locationObj->location_type_id;
+    $loc['location_type']    = $locationObj->location_type;
+    $loc['name']             = $locationObj->name;
     
     require_once 'CRM/Core/DAO/Address.php';
     $fields =& CRM_Core_DAO_Address::fields( );
     _crm_store_values($fields, $params, $loc['address']);
-    //$ids = array( 'county', 'country_id', 'state_province_id', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
+
     $ids = array( 'county', 'country_id', 'country', 'state_province_id', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name', 'street_address' );
     
     foreach ( $ids as $id ) {
@@ -203,8 +209,6 @@ function crm_update_location(&$contact, $location_id, $params) {
         $loc['is_primary'] = (int) $params['is_primary'];
     }
 
-    $loc['id'] = $locationId;
-    
     $blocks = array( 'Email', 'Phone', 'IM' );
     foreach ( $blocks as $block ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $block) . ".php");
@@ -216,26 +220,20 @@ function crm_update_location(&$contact, $location_id, $params) {
             foreach ( $params[$name] as $val) {
                 _crm_store_values($fields, $val, $loc[$name][$count++]);
             }
-        }
-    }
-    /*
-    foreach ( $blocks as $block ) {
-        $name = strtolower($block);
-        $loc[$name]    = array( );
-        if ( $params[$name] ){
-            $count = 1;
-            foreach ( $params[$name] as $val) {
-                CRM_Core_DAO::storeValues($val,$loc[$name][$count++]);
+        } else {
+            // setup current values so we dont lose them
+            foreach($locationObj->$name as $key => $obj) {
+                $loc[$name][$key] = get_object_vars($obj);
             }
         }
     }
-    */
+
     $par = array('id' => $contact->id,'contact_id' => $contact->id);
     $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
     
     CRM_Contact_BAO_Contact::resolveDefaults($values, true);
     
-    $location = CRM_Core_BAO_Location::add($values, $ids, $locationNumber);
+    $location = CRM_Core_BAO_Location::add($values, $ids, $locationObj->id);
     return $location;
 }
 
