@@ -128,8 +128,8 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
     static function exportableFields( ) {
         require_once "CRM/Quest/DAO/StudentSummary.php";
         $student = CRM_Quest_DAO_Student::export( );
-        $student_summray = CRM_Quest_DAO_StudentSummary::export( );
-        $fields = array_merge($student,$student_summray);
+        $studentSummary = CRM_Quest_DAO_StudentSummary::export( );
+        $fields = array_merge($student, $studentSummary);
         return $fields;
     }
 
@@ -793,8 +793,12 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $dao->find();
         while( $dao->fetch() ){
             if ( array_key_exists( $dao->partner_id, $partners ) ) {
-                $details["PartnerRanking"][str_replace(" " , "_" ,$partners[$dao->partner_id])."_"."Ranking"] = $dao->ranking ;
-                $details["PartnerRanking"][str_replace(" " , "_" ,$partners[$dao->partner_id])."_"."Forward"] = $dao->forward ;
+                if ( $dao->ranking ) {
+                    $details["PartnerRanking"][str_replace(" " , "_" ,$partners[$dao->partner_id])."_"."Ranking"] = $dao->ranking;
+                }
+                if ( $dao->is_forward ) {
+                    $details["PartnerRanking"][str_replace(" " , "_" ,$partners[$dao->partner_id])."_"."Forward"] = 1;
+                }
             }
         }
     }

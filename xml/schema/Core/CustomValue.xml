@@ -117,12 +117,6 @@
      <comment>data for ext property data_type = memo.</comment>
        <add>1.1</add>
   </field>
-  <index>
-       <name>index_memo_field</name>
-       <fieldName>memo_data</fieldName>
-       <fieldName>custom_field_id</fieldName>
-       <add>1.6</add>
-  </index>
   <field>
       <name>file_id</name>
       <type>int unsigned</type>
