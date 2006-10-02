@@ -102,8 +102,8 @@ class CRM_Utils_Array {
         static $dst = null;
 
         if ( ! $src ) {
-            $src = array( '&'    , '<'   , '>'    );
-            $dst = array( '&amp;', '&lt;', '&gt;' );
+            $src = array( '&'    , '<'   , '>'   , '' );
+            $dst = array( '&amp;', '&lt;', '&gt;', ','  );
         }
 
         return str_replace( $src, $dst, $value );
