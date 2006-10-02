@@ -123,11 +123,17 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
             $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
         }
 
-        // get the Student application status (pre-application for now)
-        /* Commented out until we implement getTaskStatus for the tasks we care about. dgg
+        // get status for main CM app, partner supplement and CM package (can add more if needed)
         require_once 'CRM/Quest/API.php';
-        $this->assign( 'preapplicationStatus', CRM_Quest_API::getApplicationStatus( $this->_contactId ));
-        */
+        $tasks = array( '7'  => 'cmAppStatus',
+                        '8'  => 'cmPackageStatus',
+                        '19' => 'cmPartnerSupplementStatus',
+                        )
+        $taskStatus = array( );
+        foreach ( $names as $key => $value ) {
+            $taskStatus[$value] = CRM_Quest_API::getApplicationStatus( $this->_contactId, $this->_contactId, $key );
+        }
+        $this->assign('taskStatus', $taskStatus);
         
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();

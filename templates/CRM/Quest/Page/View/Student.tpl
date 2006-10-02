@@ -20,10 +20,20 @@
         &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/matchapp' q="reset=1&action=update&id=$contactId"}">&raquo; {ts}Edit CM App{/ts}</a></span>
     {/if}
     {if $url } &nbsp; &nbsp; <span class="nowrap"><a href="{$url}">&raquo; {ts}View User Record{/ts}</a></span>{/if}
+    {if $contactTag}<br /><label>{ts}Tags{/ts}:</label>&nbsp;{$contactTag}{/if}
     
-    {if $preapplicationStatus}<div class="status"><label>{ts}Preapplication Status{/ts}:</label>&nbsp;<strong>{$preapplicationStatus}</strong></div>{/if}
-    {if $contactTag}<label>{ts}Tags{/ts}:</label>&nbsp;{$contactTag}{/if}
-   </div>
+    {* Show app task statuses if the taskStatus var is populated *}
+    {if $taskStatus || $cmr_disposition}
+        <div class="status">
+            <strong>College Match Status Summary</strong><br />
+            <dl>
+            <dt><label>{ts}CM Disposition{/ts}:</label></dt><dd><strong>{$cmr_disposition}</strong></dd>
+            <dt><label>{ts}CM Application{/ts}:</label></dt><dd><strong>{$taskStatus.cmApp}</strong></dd>
+            <dt><label>{ts}Partner Supplement{/ts}:</label></dt><dd><strong>{$taskStatus.cmPartnerSupplement}</strong></dd>
+            <dt><label>{ts}CM Total Package{/ts}:</label></dt><dd><strong>{$taskStatus.cmPackage}</strong></dd>
+            </dl>
+        </div>
+    {/if}
 </div>
 
 {* Include links to enter Activities if session has 'edit' permission *}
