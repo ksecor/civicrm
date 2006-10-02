@@ -291,7 +291,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Core/OptionGroup.php';
         CRM_Core_OptionGroup::lookupValues( $studentDetails, $names, false);
 
-        $details['Student']    = array( );
+        if ( ! array_key_exists( 'Student', $details ) ) {
+            $details['Student']    = array( );
+        }
         foreach ( $names as $key => $value ) {
             $details['Student'][$key]              = $studentDetails[$key];
             $details['Student'][$value['newName']] = $studentDetails[$value['newName']];
@@ -373,6 +375,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $studentDetails    = array();
         CRM_Core_DAO::storeValues( $dao, $studentDetails);
 
+        if ( ! array_key_exists( 'Student', $details ) ) {
+            $details['Student'] = array( );
+        }
         $properties = array( 'gpa_unweighted_calc', 'gpa_weighted_calc', 'SAT_composite',
                              'SAT_composite_alt', 'SAT_reading', 'SAT_math', 'SAT_writing',
                              'ACT_composite', 'ACT_english', 'ACT_reading', 'ACT_math', 'ACT_science',
@@ -403,7 +408,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Core/OptionGroup.php';
         CRM_Core_OptionGroup::lookupValues( $studentDetails, $names, false);
         
-        $details['Student']    = array( );
         foreach ( $names as $key => $value ) {
             $details['Student'][$key]              = $studentDetails[$key];
             $details['Student'][$value['newName']] = $studentDetails[$value['newName']];
