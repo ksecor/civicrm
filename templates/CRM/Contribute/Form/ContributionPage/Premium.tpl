@@ -13,7 +13,7 @@
     <fieldset><legend><a href="#" onclick="hide('id_form'); show('id_form_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Configure Premiums Section{/ts}</legend>
     <dl>
      <dt> {$form.premiums_active.label}</dt><dd>{$form.premiums_active.html}</dd>
-     <dt>&nbsp;</dt><dd class="description">{ts 1=$title}Is the Premiums section enabled for this Online Contributions page? (%1){/ts}</dd>	
+     <dt>&nbsp;</dt><dd class="description">{ts}Is the Premiums section enabled for this Online Contributions page?{/ts}</dd>	
   
 
     <dt>{$form.premiums_intro_title.label}</dt><dd>{$form.premiums_intro_title.html}</dd>
