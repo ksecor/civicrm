@@ -23,16 +23,14 @@
     {if $contactTag}<br /><label>{ts}Tags{/ts}:</label>&nbsp;{$contactTag}{/if}
     
     {* Show app task statuses if the taskStatus var is populated *}
-    {if $taskStatus || $cmr_disposition}
-        <div class="status">
-            <strong>College Match Status Summary</strong><br />
-            <dl>
-            <dt><label>{ts}CM Disposition{/ts}:</label></dt><dd><strong>{$cmr_disposition}</strong></dd>
-            <dt><label>{ts}CM Application{/ts}:</label></dt><dd><strong>{$taskStatus.cmApp}</strong></dd>
-            <dt><label>{ts}Partner Supplement{/ts}:</label></dt><dd><strong>{$taskStatus.cmPartnerSupplement}</strong></dd>
-            <dt><label>{ts}CM Total Package{/ts}:</label></dt><dd><strong>{$taskStatus.cmPackage}</strong></dd>
-            </dl>
-        </div>
+    {if $taskStatus || $Student.cmr_disposition}
+        <table>
+            <tr><th colspan="2">College Match Status Summary</th></tr>
+            <tr class="odd-row"><td><strong>{ts}CM Disposition{/ts}:</strong></td><td><strong>{$Student.cmr_disposition}</strong></td></tr>
+            <tr class="even-row"><td><strong>{ts}CM Application{/ts}:</strong></td><td><strong>{$taskStatus.cmApp}</strong></td></tr>
+            <tr class="odd-row"><td><strong>{ts}Partner Supplement{/ts}:</strong></td><td><strong>{$taskStatus.cmPartnerSupplement}</strong></td></tr>
+            <tr class="even-row"><td><strong>{ts}CM Total Package{/ts}:</strong></td><td><strong>{$taskStatus.cmPackage}</strong></td></tr>
+        </table>
     {/if}
 </div>
 
