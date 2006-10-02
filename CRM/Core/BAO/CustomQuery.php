@@ -269,7 +269,7 @@ class CRM_Core_BAO_CustomQuery {
                         }                    
                     } else {
                         if ( $field['is_search_range'] ) {
-                            $this->searchRange( $field['id'], $field['label'], 'char_data', $value );
+                            $this->searchRange( $field['id'], $field['label'], 'char_data', $value, $grouping );
                         } else {
                             $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
                             $this->_where[$grouping][] = "{$sql} {$op} '{$val}'";
@@ -280,7 +280,7 @@ class CRM_Core_BAO_CustomQuery {
                 
                 case 'Int':
                     if ( $field['is_search_range'] ) {
-                        $this->searchRange( $field['id'], $field['label'], 'int_data', $value );
+                        $this->searchRange( $field['id'], $field['label'], 'int_data', $value, $grouping );
                     } else {
                         $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".int_data {$op} " . CRM_Utils_Type::escape( $value, 'Integer' );
                         $this->_qill[$grouping][]  = $field['label'] . " $op $value";
@@ -297,7 +297,7 @@ class CRM_Core_BAO_CustomQuery {
 
                 case 'Float':
                     if ( $field['is_search_range'] ) {
-                        $this->searchRange( $field['id'], $field['label'], 'float_data', $value );
+                        $this->searchRange( $field['id'], $field['label'], 'float_data', $value, $grouping );
                     } else {                
                         $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".float_data {$op} " . CRM_Utils_Type::escape( $value, 'Float' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
@@ -306,7 +306,7 @@ class CRM_Core_BAO_CustomQuery {
                 
                 case 'Money':
                     if ( $field['is_search_range'] ) {
-                        $this->searchRange( $field['id'], $field['label'], 'decimal_data', $value );
+                        $this->searchRange( $field['id'], $field['label'], 'decimal_data', $value, $grouping );
                     } else {                
                         $this->_where[$grouping][] = self::PREFIX . $field['id'] . '.decimal_data = ' . CRM_Utils_Type::escape( $value, 'Float' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
@@ -400,7 +400,7 @@ class CRM_Core_BAO_CustomQuery {
                       implode( ' AND ', $this->_where  ) );
     }
 
-    function searchRange( &$id, &$label, $type, &$value ) {
+    function searchRange( &$id, &$label, $type, &$value, &$grouping ) {
         $qill = array( );
         $crmType = CRM_Core_BAO_CustomValue::fieldToType( $type );
 
@@ -408,25 +408,25 @@ class CRM_Core_BAO_CustomQuery {
             $val = CRM_Utils_Type::escape( $value['from'], $crmType );
 
             if ( $type == 'char_data' ) {
-                $this->_where[] = self::PREFIX . "$id.$type >= '$val'";
+                $this->_where[$grouping][] = self::PREFIX . "$id.$type >= '$val'";
             } else {
-                $this->_where[] = self::PREFIX . "$id.$type >= $val";
+                $this->_where[$grouping][] = self::PREFIX . "$id.$type >= $val";
             }
-            $qill[] = ts( 'greater than "%1"', array( 1 => $value['from'] ) );
+            $qill[] = ts( 'greater than or equal to "%1"', array( 1 => $value['from'] ) );
         }
 
         if ( isset( $value['to'] ) ) {
             $val = CRM_Utils_Type::escape( $value['to'], $crmType );
             if ( $type == 'char_data' ) {
-                $this->_where[] = self::PREFIX . "$id.$type <= '$val'";
+                $this->_where[$grouping][] = self::PREFIX . "$id.$type <= '$val'";
             } else {
-                $this->_where[] = self::PREFIX . "$id.$type <= $val";
+                $this->_where[$grouping][] = self::PREFIX . "$id.$type <= $val";
             }
-            $qill[] = ts( 'less than "%1"', array( 1 => $value['to'] ) );
+            $qill[] = ts( 'less than or equal to "%1"', array( 1 => $value['to'] ) );
         }
 
         if ( ! empty( $qill ) ) { 
-            $this->_qill[] = $label . ' - ' . implode( ' ' . ts('and') . ' ', $qill );
+            $this->_qill[$grouping][] = $label . ' - ' . implode( ' ' . ts('and') . ' ', $qill );
         }
         
     }
