@@ -35,6 +35,7 @@
     <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership status is set and updated automatically based on your configured membership status rules. Check this box if you want to bypass this process, and manually set a status for this membership. The selected status which will remain in force unless it is again modified on this screen.{/ts}</dd>
     </dl>
+     
     {* Show read-only Status block - when action is UPDATE and is_override is FALSE *}
     <div id="memberStatus_show">
         {if $action eq 2}
@@ -43,7 +44,8 @@
         </dl>
         {/if}
     </div>
-    
+      
+
     {* Show editable status field when is_override is TRUE *}
     <div id="memberStatus">
         <dl>
@@ -51,14 +53,17 @@
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}If <strong>Status Hold?</strong> is checked, the selected status will be in in force (it will NOT be modified by the automated status update script).{/ts}</dd>
         </dl>
     </div>
+     
   {/if}
-  <dl>   
-    <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
-  </dl>
-  <br clear="all" />
-</fieldset>
-</div>
 
+ <br clear="all" />
+{include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1} 
+<dl> 
+   <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
+</dl>
+
+</fieldset>
+ </div>
 {literal}
 <script type="text/javascript">
 showHideMemberStatus();

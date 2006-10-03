@@ -262,8 +262,10 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         
         $subTypes= array();
         require_once "CRM/Contribute/PseudoConstant.php";
+        require_once "CRM/Member/BAO/MembershipType.php";
         $subTypes['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType(true , null);
         $subTypes['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
+        $subTypes['Membership']   = array("" => "-- Any --") + CRM_Member_BAO_MembershipType::getMembershipTypes( false );
 
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
         $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');

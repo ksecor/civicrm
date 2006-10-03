@@ -137,10 +137,13 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                         'objectExists', array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );
        
         require_once "CRM/Contribute/PseudoConstant.php";
+        require_once "CRM/Member/BAO/MembershipType.php";
         $sel1 = CRM_Core_SelectValues::customGroupExtends();
         $sel2= array();
         $sel2['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType(true , null);
         $sel2['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
+        $sel2['Membership']   = array("" => "-- Any --") + CRM_Member_BAO_MembershipType::getMembershipTypes( false );
+        
 
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
         $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');

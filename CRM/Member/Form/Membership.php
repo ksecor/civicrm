@@ -59,6 +59,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if ( $this->_action & CRM_Core_Action::ADD ) {
             CRM_Member_BAO_Membership::statusAvilability($this->_contactID);
         }
+
+        //get the group Tree
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $this->_id, false,false );
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+
         parent::preProcess( );
     }
 
@@ -80,6 +85,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $defaults['join_date']['d'] = $joinDate['mday'];
             $defaults['join_date']['Y'] = $joinDate['year'];
         }
+        if( isset($this->_groupTree) ) {
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
+        }
+        
         return $defaults;
     }
 
@@ -211,6 +220,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
        
         $ids['membership'] = $params['id'] = $this->_id;
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+        // do the updates/inserts
+        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Membership', $membership->id);
+
         CRM_Core_Session::setStatus( ts('The membership information has been saved.') );
 
     }
