@@ -365,6 +365,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         
         require_once "CRM/Core/OptionGroup.php";
 
+        $multipleSelectFields = null;
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            require_once 'CRM/Quest/BAO/Student.php';
+            $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+        }
+
+
         while ($result->fetch()) {
             if (isset($result->country)) {
                 // the query returns the untranslated country name
@@ -385,13 +392,19 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                             ! empty( $result->$name ) ) {
                     $url = CRM_Utils_System::fixURL( $result->$name );
                     $row[] = "<a href=\"$url\">{$result->$name}</a>";
-                } else if (substr( $name, 0, 4) == 'cmr_') { //for  readers group
-                    $paramsNew = array($name => $result->$name );
-                    $optNames = array( $name => array('newName' => $key, 'groupName' => substr($name, 0, -3) ));
-                    
-                    CRM_Core_OptionGroup::lookupValues( $paramsNew, $optNames, false );
-                    $row[] = $paramsNew[$name];
-
+                }  else if ( $multipleSelectFields &&
+                             array_key_exists($name, $multipleSelectFields ) ) { //fix to display student checkboxes
+                    $key = $name;
+                    $paramsNew = array($key => $result->$name );
+                    if ( $key == 'test_tutoring') {
+                        $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
+                    }  else if (substr( $key, 0, 4) == 'cmr_') { //for  readers group
+                        $name = array( $key => array('newName' => $key, 'groupName' => substr($key, 0, -3) ));
+                    } else {
+                        $name = array( $key => array('newName' => $key ,'groupName' => $key ));
+                    }
+                    CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
+                    $row[] = $paramsNew[$key]; 
                 } else {
                     $row[] = $result->$name;
                 }
