@@ -563,21 +563,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 } else if (array_key_exists( $name ,$studentFields ) ) {
                     require_once 'CRM/Core/OptionGroup.php';
                     $paramsNew = array($name => $details->$name );
-                    $readers = array('cmr_first_generation_id', 'cmr_income_increase_id', 'cmr_need_id', 
-                                     'cmr_grade_id', 'cmr_class_id', 'cmr_score_id', 'cmr_academic_id', 'cmr_disposition_id');
-                    
                     if ( $name == 'test_tutoring') {
                         $names = array( $name => array('newName' => $index ,'groupName' => 'test' ));
-                    } else if (in_array($name, $readers)) {
-                        $readerParts = explode('_', $name);
-                        for($i = 0; $i < (count($readerParts)-1); $i++) {
-                            if ($i == 0) {
-                                $readerGroup = $readerParts[$i];
-                            } else {
-                                $readerGroup = $readerGroup . '_' . $readerParts[$i];
-                            }
-                        }
-                        $names = array( $name => array('newName' => $index, 'groupName' => $readerGroup ));
+                    } else if (substr($name, 0, 4) == 'cmr_') { //for  readers group
+                        $names = array( $name => array('newName' => $index, 'groupName' => substr($name, 0, -3) ));
                     } else {
                         $names = array( $name => array('newName' => $index, 'groupName' => $name ));
                     }

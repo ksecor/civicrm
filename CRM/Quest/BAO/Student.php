@@ -1036,20 +1036,17 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             
             require_once 'CRM/Core/OptionGroup.php';
             $form->add('select', $name, $title, 
-                       array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($names[$fieldName]) );
+                       array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($names[$fieldName]), $required );
             return true;
             
-        } else if (in_array($fieldName, $readers) || 
-                   ($fieldName == 'gpa_unweighted_calc') || ($fieldName == 'gpa_weighted_calc')) {
+        } else if ( ($fieldName == 'gpa_unweighted_calc') || ($fieldName == 'gpa_weighted_calc')) {
             
-            $readerParts = explode('_', $fieldName);
-            for($i = 0; $i < (count($readerParts)-1); $i++) {
-                if ($i == 0) {
-                    $readerGroup = $readerParts[$i];
-                } else {
-                    $readerGroup = $readerGroup . '_' . $readerParts[$i];
-                }
-            }
+            require_once 'CRM/Core/OptionGroup.php';
+            $form->add('select', $name, $title,
+                       array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($fieldName), $required);
+            return true;
+        } else if (substr( $fieldName, 0, 4) == 'cmr_' && $fieldName != 'cmr_comment') { //for  readers group
+            $readerGroup = substr($fieldName, 0, -3);
             require_once 'CRM/Core/OptionGroup.php';
             $form->add('select', $name, $title,
                        array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($readerGroup), $required);

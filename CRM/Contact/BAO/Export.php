@@ -129,8 +129,9 @@ class CRM_Contact_BAO_Export {
 
         if ( CRM_Core_Permission::access( 'Quest' ) ) { 
             require_once 'CRM/Quest/BAO/Student.php';
-            $multipleSelectFields = array_merge( $multipleSelectFields,
-                                                 CRM_Quest_BAO_Student::$multipleSelectFields );
+            $studentFields = array();
+            $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+            $multipleSelectFields = array_merge( $multipleSelectFields, $studentFields );
         }
       
         $temp = array( );
@@ -143,7 +144,7 @@ class CRM_Contact_BAO_Export {
             $validRow = false;
             foreach ($dao as $key => $varValue) {
                 $flag = false;
-                foreach($returnProperties as $propKey=>$props) {
+                foreach ($returnProperties as $propKey => $props) {
                     if (is_array($props)) {
                         foreach($props as $propKey1=>$prop) {
                             foreach($prop as $propkey2=>$prop1) {
@@ -161,7 +162,6 @@ class CRM_Contact_BAO_Export {
                 if ($key == 'contact_id' && array_key_exists( 'id' , $returnProperties)) {
                     $flag = true;
                 }
-                
 
                 if ($flag) {
                     if ( isset( $varValue ) && $varValue != '' ) {
@@ -171,6 +171,8 @@ class CRM_Contact_BAO_Export {
                             $paramsNew = array($key => $varValue );
                             if ( $key == 'test_tutoring') {
                                 $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
+                            } else if (substr( $key, 0, 4) == 'cmr_') { //for  readers group
+                                $name = array( $key => array('newName' => $key, 'groupName' => substr($key, 0, -3) ));
                             } else {
                                 $name = array( $key => array('newName' => $key ,'groupName' => $key ));
                             }
