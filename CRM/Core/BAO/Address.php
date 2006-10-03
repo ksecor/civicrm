@@ -114,7 +114,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
 
         // add state and country names from the ids
         if ( is_numeric( $params['state_province_id'] ) ) {
-             $params['state_province'] = CRM_Core_PseudoConstant::stateProvince( $params['state_province_id'] );
+             $params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $params['state_province_id'] );
         }
 
         if ( is_numeric( $params['country_id'] ) ) {

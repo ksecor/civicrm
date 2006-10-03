@@ -46,6 +46,9 @@ require_once 'CRM/Profile/Form.php';
   */
 class CRM_Profile_Form_Edit extends CRM_Profile_Form
 {
+    protected $_postURL   = null;
+    protected $_cancelURL = null;
+    protected $_errorURL  = null;
 
     /**
      * pre processing work done here.
@@ -109,41 +112,41 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         CRM_Utils_System::setTitle( $ufGroup->title );
         $this->assign( 'recentlyViewed', false );
         
-        $postURL   = CRM_Utils_Array::value( 'postURL', $_POST );
-        $cancelURL = CRM_Utils_Array::value( 'cancelURL', $_POST );
+        $this->_postURL   = CRM_Utils_Array::value( 'postURL', $_POST );
+        $this->_cancelURL = CRM_Utils_Array::value( 'cancelURL', $_POST );
         
-        if ( ! $postURL ) {
-            $postURL = $ufGroup->post_URL;
+        if ( ! $this->_postURL ) {
+            $this->_postURL = $ufGroup->post_URL;
         }
         
-        if ( ! $postURL ) {
-            //$postURL = CRM_Utils_System::url('civicrm/profile/edit','&amp;gid='.$this->_gid.'&amp;reset=1' );
-            //$postURL = CRM_Utils_System::url('civicrm/profile/view', 'gid='.$this->_gid.'&id='.$this->_id.'&reset=1' );
+        if ( ! $this->_postURL ) {
+            $this->_postURL = CRM_Utils_System::url('civicrm/profile/edit', "gid={$this->_gid}&reset=1" );
         }
         
-        if ( ! $cancelURL ) {
-            $cancelURL = $ufGroup->cancel_URL;
+        if ( ! $this->_cancelURL ) {
+            $this->_cancelURL = $ufGroup->cancel_URL;
         } 
-        
+
         // we do this gross hack since qf also does entity replacement
-        $postURL = str_replace( '&amp;', '&', $postURL   );
-        $cancelURL = str_replace( '&amp;', '&', $cancelURL );
+        $this->_postURL   = str_replace( '&amp;', '&', $this->_postURL   );
+        $this->_cancelURL = str_replace( '&amp;', '&', $this->_cancelURL );
         
-        $this->addElement( 'hidden', 'postURL', $postURL );
-        if ( $cancelURL ) {
-            $this->addElement( 'hidden', 'cancelURL', $cancelURL );
+        $this->addElement( 'hidden', 'postURL', $this->_postURL );
+        if ( $this->_cancelURL ) {
+            $this->addElement( 'hidden', 'cancelURL', $this->_cancelURL );
         }
+
         // also retain error URL if set
-        $errorURL = CRM_Utils_Array::value( 'errorURL', $_POST );
-        if ( $errorURL ) {
+        $this->_errorURL = CRM_Utils_Array::value( 'errorURL', $_POST );
+        if ( $this->_errorURL ) {
             // we do this gross hack since qf also does entity replacement 
-            $errorURL = str_replace( '&amp;', '&', $errorURL ); 
-            $this->addElement( 'hidden', 'errorURL', $errorURL ); 
+            $this->_errorURL = str_replace( '&amp;', '&', $this->_errorURL ); 
+            $this->addElement( 'hidden', 'errorURL', $this->_errorURL ); 
         }
         
         // replace the session stack in case user cancels (and we dont go into postProcess)
         $session =& CRM_Core_Session::singleton(); 
-        $session->replaceUserContext( $postURL ); 
+        $session->replaceUserContext( $this->_postURL ); 
         
         parent::buildQuickForm( );
         
@@ -184,10 +187,14 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         parent::postProcess( );
         
         CRM_Core_Session::setStatus(ts('Thank you. Your information has been saved.'));
-                
-        //$session =& CRM_Core_Session::singleton( );
-        /*$session->replaceUserContext( CRM_Utils_System::url( 'civicrm/profile/view',
-                                                             "reset=1&id={$this->_id}&gid={$this->_gid}" ) );*/
+
+        // only replace user context if we do not have a postURL
+        if ( ! $this->_postURL ) {
+            $session =& CRM_Core_Session::singleton( );
+            $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/profile/view',
+                                                                 "reset=1&id={$this->_id}&gid={$this->_gid}" ) );
+        }
+
     }
     
     /**
@@ -225,8 +232,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
             } else {
                 $errorURL .= '?';
             }
-            $errorURL .= "gid=" . $this->_gid;
-            $errorURL .= "&msg=$message";
+            $errorURL .= "gid={$this->_gid}&msg=$message";
             CRM_Utils_System::redirect( $errorURL );
         }
         

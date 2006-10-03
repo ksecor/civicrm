@@ -80,7 +80,11 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             $location->entity_id    = $params['contact_id'];
         }
         $location->location_type_id = CRM_Utils_Array::value( 'location_type_id', $params['location'][$locationId] );
-        $location->name             = CRM_Utils_Array::value( 'name', $params['location'][$locationId] );
+        // For backward compatibility, checking for name AND location_name. At some point, migrate to only using location_name.
+        $location->name             = CRM_Utils_Array::value( 'location_name', $params['location'][$locationId] );
+        if ( ! $location->name ) {
+            $location->name             = CRM_Utils_Array::value( 'name', $params['location'][$locationId] );
+        }
         $location->is_primary       = CRM_Utils_Array::value( 'is_primary', $params['location'][$locationId], false );
 
         // check if there exists another location has is_primary set, and if so reset that
@@ -153,8 +157,10 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             return false;
         }
         
-        //if location name exits return true
-        if ( CRM_Utils_Array::value( 'name', $params['location'][$locationId] ) ) {
+        //if location name exists return true
+        // For backward compatibility, checking for name AND location_name. At some point, migrate to only using location_name.
+        if ( CRM_Utils_Array::value( 'location_name', $params['location'][$locationId] ) ||
+             CRM_Utils_Array::value( 'name', $params['location'][$locationId] )) {
             return  true;
         }
         

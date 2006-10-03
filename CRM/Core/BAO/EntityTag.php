@@ -90,7 +90,12 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
       
         $entityTag =& new CRM_Core_BAO_EntityTag( );
         $entityTag->copyValues( $params );
-        $entityTag->save( );
+
+        // dont save the object if it already exists, CRM-1276
+        if ( ! $entityTag->find( true ) ) {
+            $entityTag->save( );
+        }
+
         return $entityTag;
     }
 

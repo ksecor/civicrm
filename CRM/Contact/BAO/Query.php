@@ -1655,9 +1655,12 @@ class CRM_Contact_BAO_Query {
         foreach ( $value as $id => $dontCare ) {
             $names[] = $tagNames[$id];
         }
-        $this->_qill[$grouping][]  = ts('Tagged as -') . ' ' . implode( ' ' . ts('or') . ' ', $names ); 
 
-        $this->_where[$grouping][] = 'tag_id IN (' . implode( ',', array_keys( $value ) ) . ')';
+        if ( $op != 'NOT IN' ) {
+            $op = 'IN';
+        }
+        $this->_where[$grouping][] = "tag_id $op (". implode( ',', array_keys( $value ) ) . ')';
+        $this->_qill[$grouping][]  = ts('Tagged %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names ); 
         $this->_tables['civicrm_entity_tag'] = $this->_whereTables['civicrm_entity_tag'] = 1;
     } 
 
