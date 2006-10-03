@@ -197,7 +197,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             }
             // add state and country information: CRM-369
             if ( ! empty( $address->state_province_id ) ) {
-                $address->state = CRM_Core_PseudoConstant::stateProvince( $address->state_province_id );
+                $address->state = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $address->state_province_id );
             }
             if ( ! empty( $address->country_id ) ) {
                 $address->country = CRM_Core_PseudoConstant::country( $address->country_id );

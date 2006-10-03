@@ -785,7 +785,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
     static function partnerRanking($id, &$details) {
         require_once "CRM/Quest/BAO/Partner.php";
-        $partners = CRM_Quest_BAO_Partner::getPartners();
+        $partners = CRM_Quest_BAO_Partner::getPartners( 'All' );
         
         require_once 'CRM/Quest/DAO/PartnerRanking.php';
         $dao = & new CRM_Quest_DAO_PartnerRanking();
