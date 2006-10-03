@@ -717,7 +717,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                                    'groupName' => 'ap_subject' ),
                        );
 
-        $apCount = $satIICount = 0;
+        $satCount = $apCount = $satIICount = 0;
         while( $testDAO->fetch() ) {
             //test details
             if ( $testDAO->test_id != 350) {
@@ -736,13 +736,26 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 CRM_Core_OptionGroup::lookupValues( $testDetails , $names, false);
 
                 $prefix = 'test_' . str_replace(" " , "_" , $testDetails['test']);
-                if ( $testDetails['test_id'] == 291 ) {
+                switch ( $testDetails['test_id'] ) {
+                case 290:
+                    $satCount++;
+                    $prefix .= "_{$satCount}";
+                    break;
+
+                case 291:
                     $satIICount++;
                     $prefix .= "_{$satIICount}";
-                } else if ( $testDetails['test_id'] == 292 ) {
+                    break;
+                    
+                case 292:
                     $apCount++;
                     $prefix .= "_{$apCount}";
+                    break;
+
+                default:
+                    break;
                 }
+
                 $details[$prefix] = $testDetails;
             }
         }
