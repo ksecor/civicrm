@@ -469,6 +469,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         $properties = array( 'id', 'first_name', 'last_name', 'is_deceased',
                              'job_organization', 'job_occupation', 'job_current_years',
+                             'is_contact_with_student',
                              'college_name', 'college_grad_year', 'college_major',
                              'prof_school_name', 'lived_with_from_age', 'lived_with_to_age',
                              'description' );
