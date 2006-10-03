@@ -1,8 +1,43 @@
 -- /*******************************************************
 -- *
--- * add the Netherlands state of Limburg
+-- * add the Netherlands state of Limburg (CRM-1228)
 -- *
 -- *******************************************************/
 
    INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5176, 1152, "LI", "Limburg");
 
+-- /*******************************************************
+-- *
+-- * update the province list (CRM-1271)
+-- *
+-- *******************************************************/
+
+   UPDATE civicrm_state_province SET name="Co Antrim"          WHERE id=2595;
+   UPDATE civicrm_state_province SET name="Co Armagh"          WHERE id=2598;
+   UPDATE civicrm_state_province SET name="Bristol"            WHERE id=2620;
+   UPDATE civicrm_state_province SET name="Co Down"            WHERE id=2652;
+   UPDATE civicrm_state_province SET name="Co Durham"          WHERE id=2657;
+   UPDATE civicrm_state_province SET name="Co Fermanagh"       WHERE id=2670;
+   UPDATE civicrm_state_province SET name="Glasgow"            WHERE id=2674;
+   UPDATE civicrm_state_province SET name="Herefordshire"      WHERE id=2687;
+   UPDATE civicrm_state_province SET name="Kingston upon Hull" WHERE id=2700;
+   UPDATE civicrm_state_province SET name="North Ayrshire"     WHERE id=2735;
+   UPDATE civicrm_state_province SET name="Cleveland"          WHERE id=2760;
+   UPDATE civicrm_state_province SET name="Rhondda Cynon Taff" WHERE id=2762;
+   UPDATE civicrm_state_province SET name="Scottish Borders"   WHERE id=2770;
+   UPDATE civicrm_state_province SET name="Vale of Glamorgan"  WHERE id=2804;
+
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9986, 1226, "xTYW", "Tyne and Wear");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9987, 1226, "xIOM", "Isle of Man");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9988, 1226, "xGMA", "Greater Manchester");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9989, 1226, "xTYR", "Co Tyrone");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9990, 1226, "xWYO", "West Yorkshire");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9991, 1226, "xSYO", "South Yorkshire");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9992, 1226, "xMSD", "Merseyside");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9993, 1226, "xBRK", "Berkshire");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9994, 1226, "xWMD", "West Midlands");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9995, 1226, "xIVN", "Inverness");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9996, 1226, "xAVN", "Avon");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9997, 1226, "xMDX", "Middlesex");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9998, 1226, "xWGM", "West Glamorgan");
+   INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (9999, 1226, "xLON", "London");
