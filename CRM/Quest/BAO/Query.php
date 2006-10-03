@@ -280,13 +280,13 @@ class CRM_Quest_BAO_Query
     
     static function from( $name, $mode, $side ) 
     {
+        static $processed = 0;
         $from = null;
-        if ( $name == 'quest_student' ) {
+        if ( ! $processed &&
+             substr( $name, 0, 6 ) == 'quest_' ) {
+            $processed = 1;
             $from = " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id  INNER JOIN quest_student_summary ON quest_student_summary.contact_id = contact_a.id ";
-        } else if ($name == 'quest_student_summary') {
-            $from = " INNER JOIN quest_student_summary ON quest_student_summary.contact_id = contact_a.id ";
         }
-
         return $from;
     }
 
