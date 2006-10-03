@@ -362,6 +362,8 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                 }
             }
         }
+        
+        require_once "CRM/Core/OptionGroup.php";
 
         while ($result->fetch()) {
             if (isset($result->country)) {
@@ -383,6 +385,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                             ! empty( $result->$name ) ) {
                     $url = CRM_Utils_System::fixURL( $result->$name );
                     $row[] = "<a href=\"$url\">{$result->$name}</a>";
+                } else if (substr( $name, 0, 4) == 'cmr_') { //for  readers group
+                    $paramsNew = array($name => $result->$name );
+                    $optNames = array( $name => array('newName' => $key, 'groupName' => substr($name, 0, -3) ));
+                    
+                    CRM_Core_OptionGroup::lookupValues( $paramsNew, $optNames, false );
+                    $row[] = $paramsNew[$name];
+
                 } else {
                     $row[] = $result->$name;
                 }

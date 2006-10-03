@@ -467,6 +467,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     $paramsNew = array($key => $result->$property );
                     if ( $key == 'test_tutoring') {
                         $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
+                    }  else if (substr( $key, 0, 4) == 'cmr_') { //for  readers group
+                        $name = array( $key => array('newName' => $key, 'groupName' => substr($key, 0, -3) ));
                     } else {
                         $name = array( $key => array('newName' => $key ,'groupName' => $key ));
                     }
