@@ -282,7 +282,7 @@ class CRM_Quest_BAO_Query
     {
         $from = null;
         if ( $name == 'quest_student' ) {
-            $from = " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id ";
+            $from = " INNER JOIN quest_student  ON quest_student.contact_id = contact_a.id  INNER JOIN quest_student_summary ON quest_student_summary.contact_id = contact_a.id ";
         } else if ($name == 'quest_student_summary') {
             $from = " INNER JOIN quest_student_summary ON quest_student_summary.contact_id = contact_a.id ";
         }
