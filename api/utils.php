@@ -1640,10 +1640,8 @@ function &_crm_duplicate_formatted_contact(&$params) {
         }
         return true;
     } else {
-
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $params['contact_type']) . ".php");
         eval('$contact =& new CRM_Contact_DAO_'.$params['contact_type'].'();');
-
         if ( $params['contact_type'] == 'Household' ) {
             $contact->household_name = $params['household_name'];
         } else {

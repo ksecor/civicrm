@@ -879,13 +879,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                        );
             }
         }
-        require_once 'CRM/Contact/BAO/Query.php';
-        if ( $params["contact_type"] ) {
-            $fields["contact_type"] = array("name"  => "contact_type" ,
-                                            "title" => "Contact Type",
-                                            "where" => "civicrm_contact.contact_type"
-                                            );
-        }
+
         //this is the fix to ignore the groups/ tags for dupe checking CRM-664, since we never use them for dupe checking
         unset( $params['group'] );
         unset( $params['tag']   );
@@ -897,7 +891,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
         }
         
-        
+	if ( empty( $params ) ) {
+	  return null;
+	}
+
+        require_once 'CRM/Contact/BAO/Query.php';
+        if ( $params["contact_type"] ) {
+            $fields["contact_type"] = array("name"  => "contact_type" ,
+                                            "title" => "Contact Type",
+                                            "where" => "civicrm_contact.contact_type"
+                                            );
+        }
+
         $params =& CRM_Contact_Form_Search::convertFormValues( $params );
         $whereTables = array( );
 
