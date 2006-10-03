@@ -767,7 +767,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $daoTrn = &new CRM_Quest_DAO_Transcript();
         $daoTrn->contact_id  = $id;
         $daoTrn->find();
-        //$dao->school_year = $this->_grade;
+        $honors = CRM_Core_OptionGroup::values( 'academic_honor_status' );
         while ( $daoTrn->fetch() ) {
             $prefix = "transcript_".$daoTrn->school_year;
             $transcriptId = $daoTrn->id;
@@ -781,7 +781,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 $details[$prefix]['academic_subject_id_'.$count] = $dao->academic_subject_id;
                 $details[$prefix]['course_title_'.$count]        = $dao->course_title; 
                 $details[$prefix]['academic_credit_'.$count]     = $dao->academic_credit;
-                $details[$prefix]['academic_honor_status_id_'.$count] = $dao->academic_honor_status_id;
+                if ( $dao->academic_honor_status_id ) {
+                    $details[$prefix]['academic_honor_status_id_'.$count] = $dao->academic_honor_status_id;
+                    $details[$prefix]['academic_honor_status_'.$count] = $honors[$dao->academic_honor_status_id];
+                }
                 $details[$prefix]['summer_year_'.$count] =  $dao->summer_year ;
                 for ($j = 1; $j<=4; $j++ ) {
                     $details[$prefix]['grade_'.$count."_".$j] = $dao->{"term_".$j};
