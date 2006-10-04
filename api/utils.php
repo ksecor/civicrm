@@ -75,13 +75,14 @@ function _crm_update_object(&$object, &$values)
     $valueFound = false;
 
     foreach ($fields as $name => $field) {
+        $key = $field['name'];
         // ignore all ids for now
-        if ($name === 'id') {
+        if ($key === 'id') {
             continue;
         }
 
         if (array_key_exists( $name, $values)) {
-            $object->$name = $values[$name];
+            $object->$key = $values[$name];
             //if ( substr( $name, -1, 3 ) !== '_id' ) {
             /* only say we've found a value if at least one is not null */
             // why do we check for non-id-ness and not null-ness?
@@ -104,13 +105,13 @@ function _crm_update_from_object(&$object, &$values, $empty = false, $zeroMoney 
 
     require_once 'CRM/Utils/Type.php';
     foreach ($fields as $name => $field) {
-
-        if (($name == 'id') or ($empty and empty($object->$name)) or
-            ($zeroMoney and $field['type'] == CRM_Utils_Type::T_MONEY and $object->$name == '0.00')) {
+        $key = $field['name'];
+        if (($key == 'id') or ($empty and empty($object->$key)) or
+            ($zeroMoney and $field['type'] == CRM_Utils_Type::T_MONEY and $object->$key == '0.00')) {
             continue;
         }
 
-        $values[$name] = $object->$name;
+        $values[$name] = $object->$key;
 
         // FIXME? change the dates from YYYY-MM-DD hh:mm:ss format back to YYYYMMDDhhmmss
         // so the $values array is actually importable
@@ -1156,9 +1157,13 @@ function _crm_add_formatted_param(&$values, &$params) {
                 $params['location'][$locBlock] = array('location_type_id' => $values['location_type_id']);
             }
         }
-        //add location name
+        //add location name (keep backward compatibility)
         if (isset($values['name'])) { 
             $params['location'][$locBlock]['name'] = $values['name'];
+        }
+
+        if ( isset($values['location_name']) ) { 
+            $params['location'][$locBlock]['location_name'] = $values['location_name'];
         }
 
         /* if this is a phone value, find or create the correct block */
