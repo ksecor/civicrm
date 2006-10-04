@@ -66,12 +66,27 @@ class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
         // add select for tag
-        $this->_tags = array( '' => ' - select tag - ') + CRM_Core_PseudoConstant::tag( );
-        $this->add('select', 'tag_id', ts('Select Tag'), $this->_tags, true);
-
+        $this->_tags =  CRM_Core_PseudoConstant::tag( );
+        
+        foreach ($this->_tags as $tagID => $tagName) {
+            $this->_tagElement =& $this->addElement('checkbox', "tag[$tagID]", null, $tagName);
+        }
+     
         $this->addDefaultButtons( ts('Tag Contacts') );
     }
 
+    function addRules( )
+    {
+        $this->addFormRule( array( 'CRM_Contact_Form_Task_AddToTag', 'formRule' ) );
+    }
+    
+    static function formRule(&$form,&$rule) {
+        $errors =array();
+        if(empty($form['tag'])) {
+            $errors['_qf_default'] = "Please Check atleast one checkbox";
+        }
+        return $errors;
+    }
     /**
      * process the form after the input has been submitted and validated
      *
@@ -79,20 +94,26 @@ class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
-        $tagId    = $this->controller->exportValue( 'AddToTag', 'tag_id'  );
-        $this->_name   = $this->_tags[$tagId];
-
-        list( $total, $added, $notAdded ) = CRM_Core_BAO_EntityTag::addContactsToTag( $this->_contactIds, $tagId );
+    
+        $tagId    = $this->controller->exportValue('AddToTag','tag' );
+        $this->_name = array();
+        foreach($tagId as $key=>$dnc) {
+        $this->_name[]   = $this->_tags[$key];
+        
+        list( $total, $added, $notAdded ) = CRM_Core_BAO_EntityTag::addContactsToTag( $this->_contactIds, $key );
+        
         $status = array(
                         'Contact(s) tagged as: '       . $this->_name,
                         'Total Selected Contact(s): '  . $total
                         );
+        }
         if ( $added ) {
             $status[] = 'Total Contact(s) tagged: ' . $added;
         }
         if ( $notAdded ) {
             $status[] = 'Total Contact(s) already tagged: ' . $notAdded;
         }
+        
         CRM_Core_Session::setStatus( $status );
     }//end of function
 
