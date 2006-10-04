@@ -41,10 +41,10 @@ class CRM_Utils_PDFlib {
                               &$values,
                               $numPages = 1,
                               $echo    = true,
-                              $output  = 'College_Prep_App',
+                              $output  = 'College_Match_App',
                               $creator = 'CiviCRM',
                               $author  = 'http://www.civicrm.org/',
-                              $title   = '2006 College Prep Scholarship Application' ) {
+                              $title   = '2006 College Match Scholarship Application' ) {
         try {
             $pdf = new PDFlib( );
             $pdf->set_parameter( "compatibility", "1.6");

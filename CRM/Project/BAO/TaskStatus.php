@@ -96,7 +96,7 @@ class CRM_Project_BAO_TaskStatus {
         require_once 'CRM/Project/DAO/TaskStatus.php';
         $dao =& new CRM_Project_DAO_TaskStatus( );
         $dao->id = $form->get( "{$prefix}ID" );
-        if ( ! $dao->find( true ) ) {
+        if ( ! $dao->id || ! $dao->find( true ) ) {
             CRM_Core_Error::fatal( "The task status table is inconsistent" );
         }
         
@@ -129,7 +129,7 @@ class CRM_Project_BAO_TaskStatus {
         require_once 'CRM/Project/DAO/TaskStatus.php';
         $dao =& new CRM_Project_DAO_TaskStatus( );
         $dao->id = $form->get( "{$prefix}ID" );
-        if ( ! $dao->find( true ) ) {
+        if ( ! $dao->id || ! $dao->find( true ) ) {
             CRM_Core_Error::fatal( "The task status table is inconsistent" );
         }
         
