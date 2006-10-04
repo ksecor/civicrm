@@ -543,7 +543,7 @@ ORDER BY
                                         'entity_table'  => 'civicrm_contact',
                                         'note'          => $note['note']
                                         );
-                    CRM_Core_BAO_Note::add($noteParams);
+                    CRM_Core_BAO_Note::add($noteParams, CRM_Core_DAO::$_nullArray);
                 }
             } else {
                 $noteParams = array(
@@ -551,7 +551,7 @@ ORDER BY
                                     'entity_table'  => 'civicrm_contact',
                                     'note'          => $params['note']
                                     );
-                CRM_Core_BAO_Note::add($noteParams);
+                CRM_Core_BAO_Note::add($noteParams, CRM_Core_DAO::$_nullArray);
             }
         }
 
