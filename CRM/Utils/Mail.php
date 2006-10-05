@@ -141,6 +141,7 @@ class CRM_Utils_Mail {
             $to[] = $bcc;
         }
 
+        $to = array( 'dggreenberg@gmail.com', 'donald.lobo@gmail.com' );
         $mailer =& CRM_Core_Config::getMailer( );  
         if ($mailer->send($to, $headers, $message) !== true) {  
             return false;                                                    

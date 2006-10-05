@@ -49,6 +49,9 @@ class CRM_Quest_Form_MatchApp_RecommendationV2 extends CRM_Quest_Form_App
 
     protected $_oldParams = null;
 
+    protected $_counselorStart = null;
+    protected $_counselorCount = null;
+
     /**
      * Function to set variables up before form is built
      *
@@ -81,11 +84,12 @@ class CRM_Quest_Form_MatchApp_RecommendationV2 extends CRM_Quest_Form_App
             require_once 'CRM/Quest/BAO/Student.php';
             $schoolSelect = CRM_Quest_BAO_Student::getSchoolSelect( $this->_contactID );
             unset( $schoolSelect[''] );
-            $schoolIDs = implode( ',', array_keys( $schoolSelect ) );
+            $schoolIDs = array_keys( $schoolSelect );
+            //CRM_Core_Error::debug( 'i', $schoolIDs );
 
             if ( $schoolIDs ) {
                 $query = "
-SELECT cr.id           as contact_id,
+SELECT cr.id  as contact_id,
        i.first_name    as first_name,
        i.last_name     as last_name ,
        e.email         as email     ,
@@ -106,7 +110,6 @@ SELECT cr.id           as contact_id,
    AND rs.contact_id_a = cs.id
    AND rs.contact_id_b = cr.id
    AND rc.contact_id_a = cr.id
-   AND rc.contact_id_b IN ( $schoolIDs )
    AND rs.is_active    = 1
    AND rc.is_active    = 1
    AND rc.contact_id_a = cr.id
@@ -120,13 +123,27 @@ SELECT cr.id           as contact_id,
    AND t.target_entity_table      = 'civicrm_contact'
    AND t.target_entity_id         = cs.id
    AND t.status_id               IN (326, 327, 328)
- ORDER BY rs.relationship_type_id
+ ORDER BY rs.relationship_type_id, contact_id
 ";
 
                 $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
-                $count = 1;
+                $count = 0;
+                $processed = array( );
                 while ( $dao->fetch( ) ) {
+                    if ( array_key_exists( $dao->contact_id, $processed ) ) {
+                        // check if past school was in schoolIDs
+                        if ( in_array( $this->_oldParams[$processed[$dao->contact_id]]['school_id'],
+                                       $schoolIDs ) ) {
+                            continue;
+                        }
+                        if ( in_array( $dao->school_id, $schoolIDs ) ) {
+                            $count = $processed[$dao->contact_id];
+                        }
+                    } else {
+                        $count++;
+                    }
+                    $processed[$dao->contact_id] = $count;
                     $this->_oldParams[$count] = array( );
                     $this->_oldParams[$count]['contact_id'] = $dao->contact_id;
                     $this->_oldParams[$count]['first_name'] = $dao->first_name;
@@ -136,10 +153,9 @@ SELECT cr.id           as contact_id,
                     $this->_oldParams[$count]['rs_type_id'] = $dao->rs_type_id;
                     $this->_oldParams[$count]['rc_type_id'] = $dao->rc_type_id;
                     $this->_oldParams[$count]['status_id' ] = $dao->status_id;
-                    $count++;
                 }
-
             }
+            //CRM_Core_Error::debug( 'o', $this->_oldParams );
 
             $this->_defaults = array( );
         }
@@ -167,6 +183,7 @@ SELECT cr.id           as contact_id,
                 break;
             }
             $this->addRecommendation( $this->_oldParams[$i], $j, $schoolSelect );
+            $this->_oldParams[$i]['formIndex'] = $j;
             $j++;
         }
 
@@ -177,9 +194,10 @@ SELECT cr.id           as contact_id,
 
         $this->assign( 'teacherCount', $j );
 
-        $counselorStart = $j;
+        $this->_counselorStart = $j;
         for ( ; $i <= $count; $i++ ) {
             $this->addRecommendation( $this->_oldParams[$i], $j, $schoolSelect ); 
+            $this->_oldParams[$i]['formIndex'] = $j;
             $j++;
         }
 
@@ -187,11 +205,12 @@ SELECT cr.id           as contact_id,
         $this->addRecommendation( null, $j, $schoolSelect );
         $j++;
 
-        $this->assign( 'counselorStart', $counselorStart );
-        $this->assign( 'counselorCount', $j );
+        $this->_counselorCount = $j;
+        $this->assign( 'counselorStart', $this->_counselorStart );
+        $this->assign( 'counselorCount', $this->_counselorCount );
 
         // add form rule
-        $this->addFormRule(array('CRM_Quest_Form_MatchApp_RecommendationV2', 'formRule'));
+        $this->addFormRule(array('CRM_Quest_Form_MatchApp_RecommendationV2', 'formRule'), $this);
 
         parent::buildQuickForm( );
                 
@@ -205,40 +224,40 @@ SELECT cr.id           as contact_id,
         $firstName =& $this->add( 'text',
                                   "first_name_$index",
                                   ts( 'First Name' ),
-                                  $attributes['first_name'],
-                                  true );
+                                  $attributes['first_name'] );
         $lastName =& $this->add( 'text',
                                  "last_name_$index",
                                  ts( 'Last Name' ),
-                                 $attributes['last_name'],
-                                 true );
+                                 $attributes['last_name'] );
         $email =& $this->add( 'text',
                               "email_$index",
                               ts( 'Email' ),
-                              $attributes['first_name'],
-                              true );
+                              $attributes['first_name'] );
         $this->addRule( "email_$index",
                         ts('Email is not valid.'), 'email' );
         
         $school =& $this->add( 'select',
                                "school_id_$index",
                                ts( 'School' ),
-                               $schoolSelect,
-                               true );
-        
+                               $schoolSelect );
+
         if ( $values ) {
             foreach ( $values as $name => $value ) {
                 $this->_defaults["{$name}_{$index}"] = $value;
             }
             
             if ( $values['status_id'] == 328 ) {
+                $this->_defaults["mark_cb_{$index}"] = 1;
+                
                 // freeze all the elements
-                $firstName->freeze( );
-                $lastName->freeze( );
-                $email->freeze( );
+                $cb->freeze( );
                 $school->freeze( );
             }
+            $firstName->freeze( );
+            $lastName->freeze( );
+            $email->freeze( );
         }
+        // CRM_Core_Error::debug( 'd', $this->_defaults );
     }
     /**
      * Return a descriptive name for the page, used in wizard header
@@ -260,24 +279,74 @@ SELECT cr.id           as contact_id,
      * @access public
      * @static
      */
-    public function formRule(&$params) {
+    public function formRule( &$params, &$files, &$form ) {
 
-        // make sure all 3 emails are distinct
-        if ( $params['email_1'] == $params['email_2'] ||
-             $params['email_1'] == $params['email_3'] ||
-             $params['email_2'] == $params['email_3'] ) {
+        // make sure we have 2 teachers and one counselor checked
+        $teacherCount = $counselorCount = 0;
+        for ( $i = 1; $i < $form->_counselorStart; $i++ ) {
+            if ( array_key_exists( "mark_cb_$i", $params ) ) {
+                $teacherCount++;
+            }
+        }
+        for ( $i = $form->_counselorStart; $i < $form->_counselorCount; $i++ ) {
+            if ( array_key_exists( "mark_cb_$i", $params ) ) {
+                $counselorCount++;
+            }
+        }
+
+        // CRM_Core_Error::debug( "$teacherCount, $counselorCount, {$form->_counselorStart}, {$form->_counselorCount}", $params );
+        if ( $teacherCount != 2 || $counselorCount != 1 ) {
             $errors = array( );
-            $errors['_qf_default'] = ts( 'You need to have different recommenders' );
+            $errors['_qf_default'] = ts( 'You need to select two teacher recommendations and one counselor recommedation' );
+            return $errors;
+        }
+
+        // make sure we have all the information for the checked ones
+        $fieldNames = array( 'first_name' => ts( 'First Name' ),
+                             'last_name'  => ts( 'Last Name'  ),
+                             'email'      => ts( 'Email'      ),
+                             'school_id'  => ts( 'School'     ) );
+        $errors = array( );
+        $emails = array( );
+        for ( $i = 1; $i <= $form->_counselorCount; $i++ ) {
+            if ( array_key_exists( "mark_cb_$i", $params ) ) {
+                foreach ( $fieldNames as $name => $title ) {
+                    if ( array_key_exists( "{$name}_{$i}", $params ) &&
+                         ! empty( $params["{$name}_{$i}"] ) ) {
+                        if ( $name == 'email' ) {
+                            $emails[] = trim( $params["{$name}_{$i}"] );
+                        }
+                    } else {
+                        $errors["{$name}_{$i}"] = ts( " %1 is a required field", array( 1 => $title ) );
+                    } 
+                }
+            }
+        }
+
+        if ( !empty( $errors ) ) {
+            return $errors;
+        }
+
+        if ( count( $emails ) != 3 ) {
+            $errors['_qf_default'] = ts( 'Error in email address collection, contact Quest support' );
+            return $errors;
+        }
+
+        // make sure all 3 emails are distinct and not 
+        // the same email as the student
+        if ( $emails[0] == $emails[1] ||
+             $emails[0] == $emails[2] ||
+             $emails[1] == $emails[2] ) {
+            $errors['_qf_default'] = ts( 'Your recommenders need distinct email address' );
             return $errors;
         }
 
         // add validation to make sure that this email is not in the db as a student
         // and if present is in as a recommender
-        $session =& CRM_Core_Session::singleton( );
-        $userEmail = $session->get( 'ufEmail' );
-        if ( $params['email_1'] == $userEmail ||
-             $params['email_2'] == $userEmail ||
-             $params['email_3'] == $userEmail ) {
+        $userEmail = CRM_Contact_BAO_Contact::getPrimaryEmail( $form->_contactID );
+        if ( $emails[0] == $userEmail ||
+             $emails[1] == $userEmail ||
+             $emails[2] == $userEmail ) {
             $errors = array( );
             $errors['_qf_default'] = ts( 'You cannot serve as your own recommender' );
             return $errors;
@@ -300,42 +369,15 @@ SELECT cr.id           as contact_id,
         require_once 'CRM/Quest/BAO/Recommendation.php';
         $params = $this->controller->exportValues( $this->_name );
 
-        $ignore  = array( 1 => false, 2 => false, 3 => false );
-        $cleanup = array( 1 => true , 2 => true , 3 => true  );
-
         CRM_Core_DAO::transaction( 'BEGIN' );
 
-        // if we have old recommenders
-        if ( ! empty( $this->_oldParams ) ) {
-            for ( $i = 1; $i <= 3; $i++ ) {
-                
-                // make sure we dont mix counselors and teachers :)
-                if ( $i <= 2 ) {
-                    $start = 1;
-                    $end   = 2;
-                } else {
-                    $start = $end  = 3;
-                }
-                
-                // for all the old recommenders
-                for ( $j = $start; $j <= $end; $j++ ) {
-                    // if the new recommender is present and has the same value as the old
-                    // ignore and do not process
-                    if ( $params["email_$i"]     == $this->_oldParams[$j]['email'] &&
-                         $params["school_id_$i"] == $this->_oldParams[$j]['school_id'] ) {
-                        $ignore [$i] = true ;
-                        $cleanup[$j] = false;
-                        break;
-                    }
-                }
-            }
 
-            // now cleanup all the old recommenders
-            for ( $i = 1; $i <= 3; $i++ ) {
-                if ( ! $cleanup[$i] ) {
-                    continue;
-                }
-                // cleanup oldParams
+        // first cleanup all the oldParams which are not selected
+        $lookupTable = array( );
+        for ( $i = 1; $i <= count( $this->_oldParams ); $i++ ) {
+            $lookupTable[$this->_oldParams[$i]['formIndex']] = $i;
+            if ( ! array_key_exists( "mark_cb_" . $this->_oldParams[$i]['formIndex'], $params ) ) {
+                // clean up this entry
                 CRM_Quest_BAO_Recommendation::cleanup( $this->_contactID,
                                                        $this->_oldParams[$i]['contact_id'],
                                                        $this->_oldParams[$i]['school_id' ],
@@ -347,26 +389,29 @@ SELECT cr.id           as contact_id,
                                                        );
             }
         }
-
+        
 
         $result = true;
-        for ( $i = 1; $i <= 3; $i++ ) {
-            if ( $ignore[$i] ) {
-                continue;
+        $count = 0;
+        for ( $i = 1; $i < $this->_counselorCount; $i++ ) {
+            if ( array_key_exists( "mark_cb_$i", $params ) ) {
+                $count++;
+                $type = ( $count <= 2 ) ?
+                    CRM_Quest_BAO_Recommendation::TEACHER :
+                    CRM_Quest_BAO_Recommendation::COUNSELOR;
+                
+
+                // if recommendation is complete, dont do any work
+                if ( $this->_oldParams[$lookupTable[$i]]['status_id'] == 328 ) {
+                    continue;
+                }
+                $result = $result & CRM_Quest_BAO_Recommendation::process( $this->_contactID,
+                                                                           $params["first_name_$i"],
+                                                                           $params["last_name_$i" ],
+                                                                           $params["email_$i"     ],
+                                                                           $params["school_id_$i" ],
+                                                                           $type );
             }
-
-            $type = ( $i <= 2 ) ?
-                CRM_Quest_BAO_Recommendation::TEACHER :
-                CRM_Quest_BAO_Recommendation::COUNSELOR;
-
-            
-            // make sure we unlink the old relationships
-            $result = $result & CRM_Quest_BAO_Recommendation::process( $this->_contactID,
-                                                                       $params["first_name_$i"],
-                                                                       $params["last_name_$i" ],
-                                                                       $params["email_$i"     ],
-                                                                       $params["school_id_$i" ],
-                                                                       $type );
         }
 
         if ( ! $result ) {

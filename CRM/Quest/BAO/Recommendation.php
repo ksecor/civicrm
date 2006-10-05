@@ -55,6 +55,10 @@ class CRM_Quest_BAO_Recommendation {
 
     static function cleanup( $contactID, $recommenderID, $schoolID, $rsTypeID, $rcTypeID,
                              $firstName, $lastName, $email ) {
+
+        // echo "Cleaning up: $contactID, $recommenderID, $schoolID, $rsTypeID, $rcTypeID, $firstName, $lastName, $email<p>";
+        // return;
+
         // remove the relationships 
         self::deactivateRelationship( $rsTypeID, $contactID, $recommenderID ); 
 
@@ -89,6 +93,9 @@ class CRM_Quest_BAO_Recommendation {
     }
 
     static function process( $contactID, $firstName, $lastName, $email, $schoolID, $type ) {
+        // echo "processing: $contactID, $firstName, $lastName, $email, $schoolID, $type<p>";
+        // return true;
+
         list( $recommenderID, $hash, $drupalID, $alreadyExists ) = self::createContact( $firstName, $lastName, $email );
 
         $ids = array( $recommenderID );
@@ -248,12 +255,17 @@ class CRM_Quest_BAO_Recommendation {
         $dao->responsible_entity_id    = $responsible;
         $dao->target_entity_table      = 'civicrm_contact';
         $dao->target_entity_id         = $target;
-        $dao->status_id                = $statusID;
         $now                           = date( 'YmdHis' );
         if ( ! $dao->find( true ) ) {
             $dao->create_date   = $now;
+        } else {
+            $dao->create_date = CRM_Utils_Date::isoToMysql( $dao->create_date );
         }
         $dao->modified_date     = $now;
+        if ( ! $dao->status_id ||
+             $dao->status_id == 330 ) {
+            $dao->status_id         = $statusID;
+        }
         $dao->save( );
     }
 
@@ -269,6 +281,8 @@ class CRM_Quest_BAO_Recommendation {
         $dao->target_entity_id         = $target;
         if ( $dao->find( true ) ) {
             $dao->status_id = 330;
+            $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
+            $dao->modified_date = date( 'YmdHis' );
             $dao->save( );
         } else {
             CRM_Core_Error::fatal( "Could not find task status for: $taskID, $responsible, $target" );
