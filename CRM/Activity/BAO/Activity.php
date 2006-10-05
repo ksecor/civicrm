@@ -202,8 +202,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $activity = self::add($params, $ids, $activityType);
         
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $ids['id'], 0,$activityType);
+       
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
-        
+     
         // do the updates/inserts
         if ( $activityType == 1) {
             $activityType = "Meeting";

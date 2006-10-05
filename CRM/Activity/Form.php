@@ -126,7 +126,6 @@ class CRM_Activity_Form extends CRM_Core_Form
 
             require_once "CRM/Activity/BAO/Activity.php";
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityType );
-            
             if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
                 $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
             }
@@ -174,7 +173,12 @@ class CRM_Activity_Form extends CRM_Core_Form
             $viewMode = false;
             $inactiveNeeded = false;
         }
-
+        
+        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        if ( $subType ) {
+            $defaults["activity_type_id"] = $subType;
+        }
+       
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }

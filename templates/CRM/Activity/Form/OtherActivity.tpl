@@ -80,8 +80,10 @@
     var activityDesc = document.getElementById("description");
     activityDesc.readOnly = 1;
     {literal}
+   
     function activity_get_description( )
     {
+      //reload( );
       var activityType = document.getElementById("activity_type_id");
       var activityDesc = document.getElementById("description");
       var desc = new Array();
@@ -95,6 +97,17 @@
       {literal}
       activityDesc.value = desc[activityType.selectedIndex];
     }
+                    
+    function reload(refresh) {
+        var activityType = document.getElementById("activity_type_id");
+        var url = {/literal}"{$refreshURL}"{literal}
+        var post = url + "&subType=" + activityType.value;
+        if( refresh ) {
+            window.location= post; 
+        }
+    }
+
+    
     {/literal}
     </script>
 {/if}
@@ -102,5 +115,5 @@
 {if $action eq 2 }
     <script type="text/javascript" >
        activity_get_description( );
-    </script>
+     </script>
 {/if}

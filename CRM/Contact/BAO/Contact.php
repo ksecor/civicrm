@@ -1445,7 +1445,10 @@ WHERE civicrm_contact.id IN $idString ";
        LEFT JOIN civicrm_option_group ON  (civicrm_option_group.id = civicrm_option_value.option_group_id)
        
   WHERE
-     civicrm_phonecall.status != 'Completed' AND civicrm_option_group.name = 'activity_type'
+     civicrm_phonecall.status != 'Completed' AND 
+     civicrm_phonecall.target_entity_table = 'civicrm_contact' AND
+     civicrm_phonecall.target_entity_id = target.id $clause AND
+     civicrm_option_group.name = 'activity_type'
  ) UNION
 ( SELECT   
     civicrm_meeting.id as id,
@@ -1465,7 +1468,10 @@ WHERE civicrm_contact.id IN $idString ";
        LEFT JOIN  civicrm_option_group ON  (civicrm_option_group.id = civicrm_option_value.option_group_id)
 
   WHERE
-    civicrm_meeting.status != 'Completed' AND civicrm_option_group.name = 'activity_type'
+    civicrm_meeting.status != 'Completed' AND 
+    civicrm_meeting.target_entity_table = 'civicrm_contact' AND
+    civicrm_meeting.target_entity_id = target.id $clause AND
+    civicrm_option_group.name = 'activity_type'
 ) UNION
 ( SELECT   
     civicrm_activity.id as id,
@@ -1485,7 +1491,11 @@ WHERE civicrm_contact.id IN $idString ";
        LEFT JOIN  civicrm_option_group  ON (civicrm_option_group.id = civicrm_option_value.option_group_id)
 
   WHERE 
-   civicrm_activity.status != 'Completed' AND civicrm_option_group.name = 'activity_type'
+   civicrm_activity.status != 'Completed' AND 
+   civicrm_activity.source_contact_id = source.id AND
+   civicrm_activity.target_entity_table = 'civicrm_contact' AND
+   civicrm_activity.target_entity_id = target.id $clause AND  
+   civicrm_option_group.name = 'activity_type'
             )
 ";
 

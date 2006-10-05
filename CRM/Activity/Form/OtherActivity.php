@@ -49,7 +49,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
      * variable to store activity type name
      *
      */
-    public $_activityType = 'Activity';
+    protected $_activityType = 'Activity';
 
     /**
      * Function to build the form
@@ -57,6 +57,16 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
      * @return None
      * @access public
      */
+
+    function preProcess( ) 
+    {
+        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        if ( $subType ) {
+            $this->_activityType = $subType;
+        } 
+        parent::preProcess();
+
+    }
     public function buildQuickForm( ) 
     {
         parent::buildQuickForm( );
@@ -64,11 +74,20 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
+
+        if ( $this->_id ) {
+            $url = "civicrm/contact/view/activity&activity_id=$this->_activityType&action=update&reset=1&id=$this->_id&cid=$this->_contactId&context=activity";
+        } else {
+            $url = "civicrm/contact/view/activity&activity_id=$this->_activityType&action=add&reset=1&cid=$this->_contactId";
+        }
+      
+        $url = CRM_Utils_System::url($url); 
+        $this->assign("refreshURL",$url);
         $activityType = CRM_Core_PseudoConstant::activityType(false,true);
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType, 
-                   array('onChange' => 'activity_get_description( )'), true );
+        $this->addElement('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType, 
+                   array('onChange' => "reload(true)"), true );
         $this->addRule('activity_type_id', ts('Select a valid activity.'), 'required');
 
         $this->add('text', 'description', ts('Description'),
@@ -109,7 +128,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
 
         // store the submitted values in an array
-        $params = $this->controller->exportValues( $this->_name );
+        //$params = $this->controller->exportValues( $this->_name );
+        $params = $_POST;
         $ids = array();
         
         // store the date with proper format
@@ -130,7 +150,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
 
         require_once "CRM/Activity/BAO/Activity.php";
-        CRM_Activity_BAO_Activity::createActivity($params, $ids, $this->_activityType);
+        CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
     }
 }
 
