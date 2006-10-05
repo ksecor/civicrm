@@ -45,31 +45,33 @@
                     <strong>{$student_welcome_name}</strong>
                 </div>
             {/if}
-            {if $appName EQ 'MatchApp' && ( $sectionName NEQ 'Partner' && $sectionName NEQ 'Recommendation' )}
-                {include file="CRM/common/SectionNav.tpl"}
-            {/if}
-            {edit}
-                <br /><br />
-                <ul class="section-list">
-                  <li class="current-section">
-                    <div align="center"><a href="#" onclick="saveDraft(); return false;">Save Draft</a></div>
-                  </li>
-                  
+            {if $sectionName NEQ 'Recommendation'} {* Recommendation is the standalone fix-recommender form. *}
                 {if $appName EQ 'MatchApp' && $sectionName NEQ 'Partner'}
-                  {* Submit is a category step for MatchApp and a wizard step for Recommendations and Partner Supplement apps *} 
-                  <li class="current-section">
-                    <div align="center"><strong>{if $category.steps.Submit.link}<a href="{$category.steps.Submit.link}">{/if}Submit Application{if $category.steps.Submit.link}</a>{/if}</strong></div>
-                  </li>
-                {else}
-                    {assign var="submitStep" value=$wizard.count}
-                  <li class="current-section">
-                    <div align="center"><strong>{if $wizard.steps.$submitStep.link}<a href="{$wizard.steps.$submitStep.link}">{/if}{$wizard.steps.$submitStep.title}{if $wizard.steps.$submitStep.link}</a>{/if}</strong></div>
-                  </li>
+                    {include file="CRM/common/SectionNav.tpl"}
                 {/if}
-                </ul>
-                <br />
-                </div>
-            {/edit}
+                {edit}
+                    <br /><br />
+                    <ul class="section-list">
+                      <li class="current-section">
+                        <div align="center"><a href="#" onclick="saveDraft(); return false;">Save Draft</a></div>
+                      </li>
+                      
+                    {if $appName EQ 'MatchApp' && $sectionName NEQ 'Partner'}
+                      {* Submit is a category step for MatchApp and a wizard step for Recommendations and Partner Supplement apps *} 
+                      <li class="current-section">
+                        <div align="center"><strong>{if $category.steps.Submit.link}<a href="{$category.steps.Submit.link}">{/if}Submit Application{if $category.steps.Submit.link}</a>{/if}</strong></div>
+                      </li>
+                    {else}
+                        {assign var="submitStep" value=$wizard.count}
+                      <li class="current-section">
+                        <div align="center"><strong>{if $wizard.steps.$submitStep.link}<a href="{$wizard.steps.$submitStep.link}">{/if}{$wizard.steps.$submitStep.title}{if $wizard.steps.$submitStep.link}</a>{/if}</strong></div>
+                      </li>
+                    {/if}
+                    </ul>
+                    <br />
+                    </div>
+                {/edit}
+            {/if}
             
             <br />
             <div class="help-box">
