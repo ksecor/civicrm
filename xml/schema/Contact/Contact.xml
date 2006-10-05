@@ -7,15 +7,16 @@
   <comment>Three types of contacts are defined: Individual, Organization and Household. Contact objects are defined by a civicrm_contact record plus a related civicrm_contact_type record.</comment>
   <add>1.1</add>
   <log>true</log>
-  <field>
-      <name>id</name>
-      <type>int unsigned</type>
-      <title>Internal Contact ID</title>
-      <headerPattern>/I(nternal )?C(ontact)?|ID(\s)/i</headerPattern>
-      <import>true</import>
-      <required>true</required>
-      <comment>Unique Contact ID</comment>
-      <add>1.1</add>
+<field>
+       <name>nick_name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <import>true</import>
+       <headerPattern>/n(ick\s)name|nick$/i</headerPattern>
+       <dataPattern>/^\w+$/</dataPattern>
+       <comment>Nick Name.</comment>
+       <fulltext/>
+       <add>1.1</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -41,6 +42,33 @@
        <comment>Type of Contact.</comment>
       <add>1.1</add>
   </field>
+<field>
+       <name>do_not_email</name>
+       <type>boolean</type>
+       <import>true</import>
+       <headerPattern>/d(o )?(not )?(email)/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
+       <default>0</default>
+       <add>1.1</add>
+</field>
+<field>
+       <name>do_not_phone</name>
+       <type>boolean</type>
+       <default>0</default>
+       <import>true</import>
+       <headerPattern>/d(o )?(not )?(call|phone)/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
+       <add>1.1</add>
+ </field>
+ <field>
+       <name>do_not_mail</name>
+       <type>boolean</type>
+       <import>true</import>
+       <headerPattern>/^(d(o\s)?n(ot\s)?mail)|(\w*)?bulk\s?(\w*)$/i</headerPattern>
+       <dataPattern>/^\d{1,}$/</dataPattern>
+       <default>0</default>
+       <add>1.1</add>
+  </field> 
   <field>
        <name>contact_sub_type</name>
        <type>varchar</type>
@@ -77,7 +105,7 @@
        <comment>Name used for sorting different contact types</comment>
       <add>1.1</add>
   </field>
-  <index>
+ <index>
        <name>index_sort_name_domain</name>
        <fieldName>sort_name</fieldName>
        <fieldName>domain_id</fieldName>
@@ -115,24 +143,13 @@
        <add>1.1</add>
   </field>
   <field>
-       <name>nick_name</name>
-       <type>varchar</type>
-       <length>128</length>
-       <import>true</import>
-       <headerPattern>/^nick|(n(ick\s)?name)$/i</headerPattern>
-       <dataPattern>/^\w+$/</dataPattern>
-       <comment>Nick Name.</comment>
-       <fulltext/>
-       <add>1.1</add>
-  </field>
-  <field>
        <name>home_URL</name>
        <rule>url</rule>
        <title>Home URL</title>
        <type>varchar</type>
        <length>128</length>
        <import>true</import>
-       <headerPattern>/^(home\sURL)/i</headerPattern>
+       <headerPattern>/^(home\sURL)|URL|web|site/i</headerPattern>
        <dataPattern>/^[\w\/\:\.]+$/</dataPattern>
        <comment>optional "home page" URL for this contact.</comment>
        <add>1.1</add>
@@ -145,21 +162,11 @@
        <add>1.1</add>
   </field>
   <field>
-       <name>source</name>
-       <title>Source of Contact Data</title>
-       <uniqueName>contact_source</uniqueName>
-       <type>varchar</type>
-       <length>255</length>
-       <import>true</import>
-       <headerPattern>/(Source\sof\sContact\sData)|$/i</headerPattern>
-       <comment>where domain_id contact come from, e.g. import, donate module insert...</comment>
-       <add>1.1</add>
-  </field>
-  <field>
        <name>preferred_communication_method</name>
        <type>varchar</type>
        <length>255</length>
        <import>true</import>
+       <headerPattern>/^p(ref\w*\s)?c(omm\w*)|( meth\w*)$/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
        <comment>What is the preferred mode of communication.</comment>
        <add>1.1</add>
@@ -170,37 +177,15 @@
        <values>Text, HTML, Both</values>
        <default>"Both"</default>
        <import>true</import>
+       <headerPattern>/^p(ref\w*\s)?m(ail\s)?f(orm\w*)$/i</headerPattern>
        <comment>What is the preferred mode of sending an email.</comment>
-       <add>1.1</add>
-  </field>
-  <field>
-       <name>do_not_phone</name>
-       <type>boolean</type>
-       <default>0</default>
-       <import>true</import>
-       <dataPattern>/^\d{1,}$/</dataPattern>
-       <add>1.1</add>
-  </field>
-  <field>
-       <name>do_not_email</name>
-       <type>boolean</type>
-       <import>true</import>
-       <dataPattern>/^\d{1,}$/</dataPattern>
-       <default>0</default>
-       <add>1.1</add>
-  </field>
-  <field>
-       <name>do_not_mail</name>
-       <type>boolean</type>
-       <import>true</import>
-       <dataPattern>/^\d{1,}$/</dataPattern>
-       <default>0</default>
        <add>1.1</add>
   </field>
   <field>
        <name>do_not_trade</name>
        <type>boolean</type>
        <import>true</import>
+       <headerPattern>/d(o )?(not )?(trade)/i</headerPattern>
        <dataPattern>/^\d{1,}$/</dataPattern>
        <default>0</default>
        <add>1.1</add>
@@ -222,5 +207,26 @@
     <required>true</required>
     <comment>Has the contact opted out from receiving all bulk email from the organization or site domain?</comment>
     <add>1.1</add>
+  </field>
+ <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <title>Internal Contact ID</title>
+      <import>true</import>
+      <headerPattern>/I(nternal )?C(ontact)?|ID(\s)/i</headerPattern>
+      <required>true</required>
+      <comment>Unique Contact ID</comment>
+      <add>1.1</add>
+  </field>
+  <field>
+       <name>source</name>
+       <title>Source of Contact Data</title>
+       <uniqueName>contact_source</uniqueName>
+       <type>varchar</type>
+       <length>255</length>
+       <import>true</import>
+       <headerPattern>/(S(ource\s)?o(f\s)?C(ontact\s)?Data)$/i</headerPattern>
+       <comment>where domain_id contact come from, e.g. import, donate module insert...</comment>
+       <add>1.1</add>
   </field>
 </table>

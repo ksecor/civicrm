@@ -31,25 +31,6 @@
        <add>1.1</add>
   </foreignKey>
   <field>
-       <name>phone</name>
-       <type>varchar</type>
-       <length>32</length>
-       <import>true</import>
-       <headerPattern>/phone/i</headerPattern>
-       <dataPattern>/^[\d\(\)\-\.\s]+$/</dataPattern>
-       <comment>Complete phone number.</comment>
-       <add>1.1</add>
-  </field>
-  <field>
-       <name>phone_type</name>
-       <type>enum</type>
-       <values>Phone, Mobile, Fax, Pager</values>
-       <headerPattern>/phone\s+type/i</headerPattern>
-       <dataPattern>/phone|mobile|fax|pager/i</dataPattern>
-       <comment>What type of telecom device is this.</comment>
-       <add>1.1</add>
-  </field>
-  <field>
        <name>is_primary</name>
        <type>boolean</type>
        <default>0</default>
@@ -68,4 +49,23 @@
        <key>value</key>
        <add>1.1</add>
   </foreignKey>
+  <field>
+       <name>phone</name>
+       <type>varchar</type>
+       <length>32</length>
+       <import>true</import>
+       <headerPattern>/phone/i</headerPattern>
+       <dataPattern>/^[\d\(\)\-\.\s]+$/</dataPattern>
+       <comment>Complete phone number.</comment>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>phone_type</name>
+       <type>enum</type>
+       <values>Phone, Mobile, Fax, Pager</values>
+       <headerPattern>/phone\s+type/i</headerPattern>
+       <dataPattern>/phone|mobile|fax|pager/i</dataPattern>
+       <comment>What type of telecom device is this.</comment>
+       <add>1.1</add>
+  </field>
 </table>
