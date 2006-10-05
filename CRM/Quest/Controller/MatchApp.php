@@ -57,13 +57,14 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true, $subType = null ) {
         parent::__construct( $title, $modal );
         
-        $this->_subTypeTasks = array( 'Personal'  => 14,
-                                      'Household' => 15,
-                                      'School'    => 16,
-                                      'Essay'     => 17,
-                                      'College'   => 18,
-                                      'Partner'   => 19,
-                                      'Submit'    =>  8 );
+        $this->_subTypeTasks = array( 'Personal'       => 14,
+                                      'Household'      => 15,
+                                      'School'         => 16,
+                                      'Essay'          => 17,
+                                      'College'        => 18,
+                                      'Partner'        => 19,
+                                      'Recommendation' => 20,
+                                      'Submit'         =>  8 );
         
         $this->_contactID = $this->get( 'contactID' );
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
@@ -466,6 +467,7 @@ SELECT t.task_id as task_id
         // partner and submit are not really part of the application
         unset( $tasks['Submit' ] );
         unset( $tasks['Partner'] );
+        unset( $tasks['Recommendation'] );
 
         $values = implode( ',', array_values( $tasks ) );
         $query = "

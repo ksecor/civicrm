@@ -97,9 +97,9 @@ class CRM_Quest_Invoke {
                 $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
                 break;
 
-            case 'recommender':
-                require_once 'CRM/Quest/Controller/MatchApp/Recommender.php';
-                $controller =& new CRM_Quest_Controller_MatchApp_Recommender( null, null, false );
+            case 'recommendation':
+                require_once 'CRM/Quest/Controller/MatchApp/Recommendation.php';
+                $controller =& new CRM_Quest_Controller_MatchApp_Recommendation( null, null, false );
                 $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
                 break;
 
