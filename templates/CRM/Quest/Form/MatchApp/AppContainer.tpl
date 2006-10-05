@@ -45,7 +45,7 @@
                     <strong>{$student_welcome_name}</strong>
                 </div>
             {/if}
-            {if $appName EQ 'MatchApp' && ( $sectionName NEQ 'Partner' || $sectionName NEQ 'Recommendation' )}
+            {if $appName EQ 'MatchApp' && ( $sectionName NEQ 'Partner' && $sectionName NEQ 'Recommendation' )}
                 {include file="CRM/common/SectionNav.tpl"}
             {/if}
             {edit}
