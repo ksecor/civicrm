@@ -33,7 +33,7 @@
           {if ! ( $action & 1024 )}
             <td valign="top" nowrap id="app-left-nav">
 
-            {if $appName EQ 'Teacher' || $appName EQ 'Counselor' || $sectionName EQ 'Partner'}
+            {if $appName EQ 'Teacher' || $appName EQ 'Counselor' || $sectionName EQ 'Partner' || $sectionName EQ 'Recommendation'}
                 {* Counselor, Teacher and Partner Supplement apps don't have sections. *}
                 {include file="CRM/common/WizardHeader.tpl}
                 <br />
@@ -45,7 +45,7 @@
                     <strong>{$student_welcome_name}</strong>
                 </div>
             {/if}
-            {if $appName EQ 'MatchApp' && $sectionName NEQ 'Partner'}
+            {if $appName EQ 'MatchApp' && ( $sectionName NEQ 'Partner' || $sectionName NEQ 'Recommendation' )}
                 {include file="CRM/common/SectionNav.tpl"}
             {/if}
             {edit}

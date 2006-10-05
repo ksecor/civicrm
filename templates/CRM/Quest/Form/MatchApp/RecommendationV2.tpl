@@ -15,7 +15,7 @@
 </tr>
 <tr>
   <td colspan="5" class="grouplabel">
-    <p class="preapp-instruction">{ts}List two teachers and a guidance counselor that you would like to use as recommenders. We will send an email to your recommenders with instructions on how to complete their recommendations. Please verify all the contact information you enter for your recommenders.{/ts}</p>
+    <p class="preapp-instruction">{ts}Use this form to confirm your Recommender selections. You may select an existing entry below by checking the box to the left of their name. OR you can enter information for a new recommender. You must select exactly two teachers and one guidance counselor. We will send an email to your recommenders with instructions on how to complete their recommendations. Please verify all the contact information you enter for your recommenders.{/ts}</p>
   </td>
 </tr>
 <tr>
@@ -23,7 +23,7 @@
     <strong>{ts}Teachers&nbsp;{/ts}<span class="marker">*</span></strong></td>
 </tr>
 <tr>
-    <td class="grouplabel"><label>&nbsp;</label></td>
+    <td class="grouplabel"><label>{ts}Selected{/ts}</label></td>
     <td class="grouplabel"><label>{ts}First Name{/ts}</label></td>
     <td class="grouplabel"><label>{ts}Last Name{/ts}</label></td>
     <td class="grouplabel"><label>{ts}Email address{/ts}</label></td>

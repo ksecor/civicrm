@@ -297,7 +297,7 @@ SELECT cr.id  as contact_id,
         // CRM_Core_Error::debug( "$teacherCount, $counselorCount, {$form->_counselorStart}, {$form->_counselorCount}", $params );
         if ( $teacherCount != 2 || $counselorCount != 1 ) {
             $errors = array( );
-            $errors['_qf_default'] = ts( 'You need to select two teacher recommendations and one counselor recommedation' );
+            $errors['_qf_default'] = ts( 'Please select exactly two teachers and one counselor to use as recommenders by checking the box to the left of their names.' );
             return $errors;
         }
 
