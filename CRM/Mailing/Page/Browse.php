@@ -38,6 +38,7 @@
 require_once 'CRM/Mailing/Selector/Browse.php';
 require_once 'CRM/Core/Selector/Controller.php';
 require_once 'CRM/Core/Page.php';
+
 /**
  * This implements the profile page for all contacts. It uses a selector
  * object to do the actual dispay. The fields displayd are controlled by
@@ -69,24 +70,6 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      */
     protected $_action;
 
-    /**
-     * cancel a mailing
-     */
-    function cancel() {
-        if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this)) {
-            require_once 'CRM/Mailing/BAO/Job.php';
-            $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
-            CRM_Mailing_BAO_Job::cancel($this->_mailingId);
-            CRM_Utils_System::redirect($url);
-        } else {
-            require_once 'CRM/Mailing/BAO/Mailing.php';
-            $mailing =& new CRM_Mailing_BAO_Mailing();
-            $mailing->id = $this->_mailingId;
-            if ($mailing->find(true)) {
-                $this->assign('subject', $mailing->subject);
-            }
-        }
-    }
 
     /**
      * Heart of the viewing process. The runner gets all the meta data for
@@ -96,7 +79,8 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      * @access public
      *
      */
-    function preProcess() {
+    function preProcess() 
+    {
         $this->_mailingId = CRM_Utils_Request::retrieve('mid', 'Positive', $this);
         $this->_action    = CRM_Utils_Request::retrieve('action', 'String', $this);
         $this->assign('action', $this->_action);
@@ -110,23 +94,34 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
     function run( ) {
         $this->preProcess();
         if ($this->_action & CRM_Core_Action::DISABLE) {
-            $this->cancel();
-        }
-        CRM_Utils_System::setTitle(ts('Mailings'));
-
-        $selector =& new CRM_Mailing_Selector_Browse( );
+            $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
+            if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
+                require_once 'CRM/Mailing/BAO/Job.php';
+                CRM_Mailing_BAO_Job::cancel($this->_mailingId);
+                CRM_Utils_System::redirect($url);
+            } else {
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse', ts('Cancel Mailing'), $this->_action );
+                $controller->setEmbedded( true );
+                
+                // set the userContext stack
+                $session =& CRM_Core_Session::singleton();
+                $session->pushUserContext( $url );
+                $controller->run( );
+            }
+        } 
         
+        $selector =& new CRM_Mailing_Selector_Browse( );
         $controller =& new CRM_Core_Selector_Controller(
-                        $selector ,
-                        $this->get( CRM_Utils_Pager::PAGE_ID ),
-                        $this->get( CRM_Utils_Sort::SORT_ID  ),
-                        CRM_Core_Action::VIEW, 
-                        $this, 
-                        CRM_Core_Selector_Controller::TEMPLATE );
-
+                                                        $selector ,
+                                                        $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                        $this->get( CRM_Utils_Sort::SORT_ID ),
+                                                        CRM_Core_Action::VIEW, 
+                                                        $this, 
+                                                        CRM_Core_Selector_Controller::TEMPLATE );
         $controller->setEmbedded( true );
-        $controller->run( );
 
+        CRM_Utils_System::setTitle(ts('Mailings'));
+        $controller->run( );
         return parent::run( );
     }
 

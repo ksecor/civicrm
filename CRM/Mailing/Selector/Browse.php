@@ -192,7 +192,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                     'name'  => ts('Cancel'),
                     'url'   => 'civicrm/mailing/browse',
                     'qs'    => 'action=disable&mid=%%mid%%',
-                    'extra' => "onclick=\"if (confirm('$cancelExtra')) this.href+='&amp;confirmed=1'; else return false;\"",
+                    'extra' => 'onclick="if (confirm(\''. $cancelExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                     'title' => ts('Cancel Mailing')
                 )
             );
