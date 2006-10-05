@@ -607,14 +607,15 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
         $value = array();
         if (is_array($this->_values)) {
             foreach ($this->_values as $key => $val) {
-                for ($i = 0, $optCount = count($this->_options); $i < $optCount; $i++) {
-                    if ((string)$val == (string)$this->_options[$i]['attr']['value']) {
-                        $value[$key] = $this->_options[$i]['text'];
+                foreach ($this->_options as $oKey => $oVal ) {
+                    if ((string)$val == (string)$this->_options[$oKey]['attr']['value']) {
+                        $value[$key] = $oKey;
                         break;
                     }
                 }
             }
         }
+
         $html = empty($value)? '&nbsp;': join('<br />', $value);
         if ($this->_persistantFreeze) {
             $name = $this->getPrivateName();
@@ -633,6 +634,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
                          ) + $idAttr) . ' />';
             }
         }
+
         return $html;
     } //end func getFrozenHtml
 
