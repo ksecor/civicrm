@@ -48,6 +48,7 @@ class CRM_Utils_PDFlib {
         try {
             $pdf = new PDFlib( );
             $pdf->set_parameter( "compatibility", "1.6");
+            $pdf->set_parameter( "licensefile", "/home/paras/bin/license/pdflib.txt");
 
             if ( $pdf->begin_document( '', '' ) == 0 ) {
                 CRM_Utils_Error::statusBounce( "PDFlib Error: " . $pdf->get_errmsg( ) );

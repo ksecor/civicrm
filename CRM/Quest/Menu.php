@@ -125,6 +125,15 @@ class CRM_Quest_Menu {
                               'weight'  => 0, 
                               ),
                        array( 
+                              'path'    => 'civicrm/quest/matchapp/recommendation', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Partners Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Fix Recommendation' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
                               'path'    => 'civicrm/quest/matchapp/partner', 
                               'query'   => 'reset=1',
                               'title'   => ts( '2006 College Match Partners Application' ), 

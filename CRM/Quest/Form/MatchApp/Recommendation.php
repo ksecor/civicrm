@@ -194,8 +194,10 @@ SELECT cr.id           as contact_id,
                                    array('' => ts('- select -')) + CRM_Quest_BAO_Student::getSchoolSelect( $this->_contactID ),
                                    true );
 
+
             if ( array_key_exists( $i, $this->_oldParams ) &&
-                 ( $this->_oldParams[$i]['status_id'] == 328 ) ) {
+                 ( $this->_oldParams[$i]['status_id'] == 328 ) && 0 ) {
+	      
                 // freeze all the elements
                 $firstName->freeze( );
                 $lastName->freeze( );

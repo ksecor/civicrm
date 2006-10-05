@@ -96,7 +96,8 @@ SELECT cr.id  as contact_id,
        rc.contact_id_b as school_id ,
        rs.relationship_type_id as rs_type_id,
        rc.relationship_type_id as rc_type_id,
-       t.status_id             as status_id
+       t.status_id             as status_id,
+       t.id                    as task_id
   FROM civicrm_contact      cs,
        civicrm_contact      cr,
        civicrm_individual   i,
@@ -118,6 +119,7 @@ SELECT cr.id  as contact_id,
    AND l.entity_table  = 'civicrm_contact'
    AND l.entity_id     = cr.id
    AND e.location_id   = l.id
+   AND t.task_id       = 10
    AND t.responsible_entity_table = 'civicrm_contact'
    AND t.responsible_entity_id    = cr.id
    AND t.target_entity_table      = 'civicrm_contact'
@@ -145,6 +147,7 @@ SELECT cr.id  as contact_id,
                     }
                     $processed[$dao->contact_id] = $count;
                     $this->_oldParams[$count] = array( );
+		    $this->_oldParams[$count]['task_id'   ] = $dao->task_id;
                     $this->_oldParams[$count]['contact_id'] = $dao->contact_id;
                     $this->_oldParams[$count]['first_name'] = $dao->first_name;
                     $this->_oldParams[$count]['last_name' ] = $dao->last_name ;
@@ -156,7 +159,7 @@ SELECT cr.id  as contact_id,
                 }
             }
             //CRM_Core_Error::debug( 'o', $this->_oldParams );
-
+	    
             $this->_defaults = array( );
         }
         return $this->_defaults;
@@ -229,10 +232,14 @@ SELECT cr.id  as contact_id,
                                  "last_name_$index",
                                  ts( 'Last Name' ),
                                  $attributes['last_name'] );
-        $email =& $this->add( 'text',
-                              "email_$index",
-                              ts( 'Email' ),
-                              $attributes['first_name'] );
+	$status   =& $this->add( 'text',
+                                 "status_$index",
+                                 ts( 'Status' ),
+                                 $attributes['last_name'] );
+        $email    =& $this->add( 'text',
+				 "email_$index",
+				 ts( 'Email' ),
+				 $attributes['first_name'] );
         $this->addRule( "email_$index",
                         ts('Email is not valid.'), 'email' );
         
@@ -241,10 +248,25 @@ SELECT cr.id  as contact_id,
                                ts( 'School' ),
                                $schoolSelect );
 
+	$status->freeze( );
         if ( $values ) {
             foreach ( $values as $name => $value ) {
                 $this->_defaults["{$name}_{$index}"] = $value;
             }
+	    
+	    if ( $values['status_id'] ) {
+	      switch( $values['status_id'] ) {
+	      case 326:
+		$this->_defaults["status_{$index}"] = ts('Not Started');
+		break;
+	      case 327:
+		$this->_defaults["status_{$index}"] = ts('In Progress');
+		break;
+	      case 328:
+		$this->_defaults["status_{$index}"] = ts('Completed');
+		break;
+	      }
+	    }
             
             if ( $values['status_id'] == 328 ) {
                 $this->_defaults["mark_cb_{$index}"] = 1;
