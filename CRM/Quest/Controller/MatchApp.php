@@ -522,6 +522,7 @@ ORDER BY t.task_id, t.status_id desc
         // partner and submit are not really part of the application
         unset( $tasks['Submit' ] );
         unset( $tasks['Partner'] );
+        unset( $tasks['Recommendation'] );
 
         $values = implode( ',', array_values( $tasks ) );
         $query = "

@@ -70,8 +70,8 @@ class CRM_Quest_StateMachine_MatchApp_School extends CRM_Quest_StateMachine_Matc
                                                    'options'   => array( ) );
         }
         
-        $pages['CRM_Quest_Form_MatchApp_Testing'       ] = null;
-        $pages['CRM_Quest_Form_MatchApp_Recommendation'] = null;
+        $pages['CRM_Quest_Form_MatchApp_Testing'         ] = null;
+        $pages['CRM_Quest_Form_MatchApp_RecommendationV2'] = null;
     }
 
     public function &getDependency( ) {
@@ -80,7 +80,7 @@ class CRM_Quest_StateMachine_MatchApp_School extends CRM_Quest_StateMachine_Matc
                                         'SchoolOther'          => array( ),
                                         'ExtracurricularInfo'  => array( ),
                                         'WorkExperience'       => array( ),
-                                        'Recommendation'       => array( 'HighSchool' => 1 ) );
+                                        'RecommendationV2'     => array( 'HighSchool' => 1 ) );
         }
 
         return self::$_dependency;
