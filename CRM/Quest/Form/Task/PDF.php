@@ -62,9 +62,9 @@ class CRM_Quest_Form_Task_PDF extends CRM_Contact_Form_Task {
         $values = CRM_Quest_BAO_Student::xmlFlatValues( $this->_contactIds[0] );
 
         require_once 'CRM/Utils/PDFlib.php';
-        CRM_Utils_PDFlib::compose( 'qbSupplement.pdf',        
+        CRM_Utils_PDFlib::compose( 'readerPDF.pdf',        
                                    $config->templateDir . '/Quest/pdf/', 
-                                   $values, 7, true ); 
+                                   $values, 6, true ); 
     }
 
 

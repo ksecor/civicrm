@@ -139,11 +139,12 @@ SELECT cr.id           as contact_id,
                     $count++;
                 }
 
+                // CRM_Core_Error::debug( 'i', $this->_oldParams );
 
                 // make sure we have all 3 recommenders
                 if ( $count != 1 && $count != 4 ) {
-                    // CRM_Core_Error::debug( 'p', $this->_oldParams );
-                    // CRM_Core_Error::fatal( "We could not retrieve your old recommenders" );
+                    CRM_Core_Error::debug( 'p', $this->_oldParams );
+                    CRM_Core_Error::fatal( "We could not retrieve your old recommenders" );
                 }
             }
 
