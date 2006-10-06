@@ -304,16 +304,15 @@ SELECT cs.id                   as contact_id,
      * Function to set the task status of various tasks
      *
      * @param array  $params        associated array
-     * @param int    $taskStatusId  task status id
      *
      * @static
      * @return returns task status object
      */
-    static function createTaskStatus(&$params, $taskStatusId) 
+    static function createTaskStatus( &$params )
     {
         if (!$params['target_entity_id'] || !$params['responsible_entity_id'] 
-            || !$params['task_id'] || !$taskStatusId ) {
-            return;
+            || !$params['task_id'] || ! $params['status_id'] ) {
+            return null;
         }
         
         self::initialize( );
@@ -328,16 +327,19 @@ SELECT cs.id                   as contact_id,
         
         require_once 'CRM/Project/DAO/TaskStatus.php';
         $dao =& new CRM_Project_DAO_TaskStatus( );
-        $dao->copyValues($params);
+        $dao->target_entity_id         = $params['target_entity_id'];
+        $dao->responsible_entity_id    = $params['responsible_entity_id'];
+        $dao->target_entity_table      = $params['target_entity_table'];
+        $dao->responsible_entity_table = $params['responsible_entity_table'];
+        $dao->task_id                  = $params['task_id'];
 
         if ( $dao->find( true ) ) {
             $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
-            $dao->modified_date = date( 'YmdHis' );
         } else {
             $dao->create_date   = date( 'YmdHis' );
         }
-
-        $dao->status_id = $taskStatusId;
+        $dao->modified_date = date( 'YmdHis' );
+        $dao->status_id     = $params['status_id'];
 
         return $dao->save();
     }
