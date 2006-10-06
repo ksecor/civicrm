@@ -565,8 +565,8 @@ WHERE  domain_id = $domainID AND $whereCond
             $fields[$key] = $var;
         }
 
-        // $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
-        $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Contribution');
+	$fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
+        // $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Contribution');
         return $fields;
     }
 
