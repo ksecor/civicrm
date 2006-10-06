@@ -257,7 +257,7 @@ SELECT cs.id                   as contact_id,
 
     static function getContactInfo( $id ) {
         self::initialize( );
-
+        
         $params = array( 'contact_id' => $id );
         $returnProperties = array( 'first_name' => 1,
                                    'last_name'  => 1,
@@ -300,6 +300,47 @@ SELECT cs.id                   as contact_id,
         return CRM_Core_BAO_UFMatch::getUFId( $dao->contact_id );
     }
 
+    /**
+     * Function to set the task status of various tasks
+     *
+     * @param array  $params        associated array
+     * @param int    $taskStatusId  task status id
+     *
+     * @static
+     * @return returns task status object
+     */
+    static function createTaskStatus(&$params, $taskStatusId) 
+    {
+        if (!$params['target_entity_id'] || !$params['responsible_entity_id'] 
+            || !$params['task_id'] || !$taskStatusId ) {
+            return;
+        }
+        
+        self::initialize( );
+
+        if (!$params['target_entity_table'] ) {
+            $params['target_entity_table'] = 'civicrm_contact';
+        }
+
+        if (!$params['responsible_entity_table']) {
+            $params['responsible_entity_table'] = 'civicrm_contact';
+        }
+        
+        require_once 'CRM/Project/DAO/TaskStatus.php';
+        $dao =& new CRM_Project_DAO_TaskStatus( );
+        $dao->copyValues($params);
+
+        if ( $dao->find( true ) ) {
+            $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
+            $dao->modified_date = date( 'YmdHis' );
+        } else {
+            $dao->create_date   = date( 'YmdHis' );
+        }
+
+        $dao->status_id = $taskStatusId;
+
+        return $dao->save();
+    }
 }
 
 ?>
