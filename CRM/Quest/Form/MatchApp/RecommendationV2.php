@@ -273,7 +273,6 @@ SELECT cr.id  as contact_id,
                 
                 // freeze all the elements
                 $cb->freeze( );
-                $school->freeze( );
             }
             $firstName->freeze( );
             $lastName->freeze( );
