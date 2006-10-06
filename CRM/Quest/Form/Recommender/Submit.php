@@ -106,6 +106,7 @@ class CRM_Quest_Form_Recommender_Submit extends CRM_Quest_Form_Recommender
             CRM_Core_Error::fatal( "The database table seems inconsistent" );
         }
 
+        $params = $this->controller->exportValues( $this->_name );
         $dao->is_partner_share = $params['is_partner_share'];
         $dao->save( );
 

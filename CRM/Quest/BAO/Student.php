@@ -189,7 +189,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             self::honor( $id, $details );
         }
 
-        self::partnerRanking($id, &$details);
+        self::partnerRanking($id, $details);
         
 
         /**
