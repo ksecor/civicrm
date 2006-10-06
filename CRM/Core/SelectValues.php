@@ -547,6 +547,7 @@ class CRM_Core_SelectValues {
             $components = array( 'Header'      => ts('Header'),
                                  'Footer'      => ts('Footer'),
                                  'Reply'       => ts('Reply Auto-responder'),
+                                 'OptOut'      => ts('Opt-out Message'),
                                  'Subscribe'   => ts('Subscription Message to organization'),
                                  'Welcome'     => ts('Welcome Message'),
                                  'Unsubscribe' => ts('Farewell Message'),

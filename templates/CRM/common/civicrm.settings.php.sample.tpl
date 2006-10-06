@@ -357,11 +357,11 @@ define( 'CIVICRM_LC_MONETARY', 'en_US' );
  * For GOOGLE mapping - request an API key for your site here:
  * http://www.google.com/apis/maps/signup.html
  *
- * When prompted for 'My Web Site URL' - enter the url for your CiviCRM menu followed by
- * the path '/contact/search'. Your API Key will be generated and displayed on the next page.
+ * When prompted for 'My Web Site URL' - enter the base url for your CMS site followed by
+ * the path '/civicrm'. Your API Key will be generated and displayed on the next page.
  *
- * EXAMPLE: if your Drupal site url is http://www.example.com/civicspace/ you would enter
- * 'http://www.example.com/civicspace/civicrm/contact/search'
+ * EXAMPLE: if your Drupal site url is http://www.example.com/drupal/ you would enter
+ * 'http://www.example.com/drupal/civicrm'
  *
  * For YAHOO mapping - request an Application ID for your site here:
  * http://api.search.yahoo.com/webservices/register_application

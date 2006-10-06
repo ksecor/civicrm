@@ -160,11 +160,12 @@ function crm_update_location(&$contact, $location_id, $params) {
     
     $values = array(
                     'contact_id'    => $contact->id,
-                    'location'      => array($locationObj->id => array()),
+                    'location'      => array(1 => array()),
                     );
-
-    $loc =& $values['location'][$locationObj->id];
     
+    
+    $loc =& $values['location'][1];
+
     // setup required location values using the current ones. they may or may not be overridden by $params later.
     $loc['address']          = get_object_vars($locationObj->address);
     $loc['is_primary']       = $locationObj->is_primary;
@@ -232,8 +233,8 @@ function crm_update_location(&$contact, $location_id, $params) {
     $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
     
     CRM_Contact_BAO_Contact::resolveDefaults($values, true);
-    
-    $location = CRM_Core_BAO_Location::add($values, $ids, $locationObj->id);
+   
+    $location = CRM_Core_BAO_Location::add($values, $ids, 1);
     return $location;
 }
 

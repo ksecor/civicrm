@@ -890,10 +890,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 unset( $params[$name] );
             }
         }
-        
-	if ( empty( $params ) ) {
-	  return null;
-	}
+
+        if ( empty( $params ) ) {
+            return null;
+        }
 
         require_once 'CRM/Contact/BAO/Query.php';
         if ( $params["contact_type"] ) {
@@ -902,7 +902,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                             "where" => "civicrm_contact.contact_type"
                                             );
         }
-
+        
         $params =& CRM_Contact_Form_Search::convertFormValues( $params );
         $whereTables = array( );
 
