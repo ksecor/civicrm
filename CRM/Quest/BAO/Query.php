@@ -333,9 +333,9 @@ class CRM_Quest_BAO_Query
         static $viewLink = null;
         static $editLink = null;
         static $readerLink = null;
-
+        
         // add links only if student
-        if ( $row['contact_sub_type'] != 'Student' ) {
+        if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' ) != 'Student' ) {
             return;
         }
 
