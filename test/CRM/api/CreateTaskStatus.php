@@ -17,7 +17,7 @@ function testCreateFull()
                     'task_id' => 11,
                     'status_id' => 328,
                     );
-    $taskStatus =& createTaskStatus($params);
+    $taskStatus =& CRM_Quest_API::createTaskStatus($params);
     $this->assertIsA($taskStatus, 'CRM_Project_DAO_TaskStatus');
 }
 }
