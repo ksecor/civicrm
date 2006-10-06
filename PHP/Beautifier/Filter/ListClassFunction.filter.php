@@ -13,10 +13,10 @@
 * @category   PHP
 * @package PHP_Beautifier
 * @subpackage Filter
-* @author Claudio Bustos <clbustos@dotgeek.org>
-* @copyright  2004-2005 Claudio Bustos
+* @author Claudio Bustos <cdx@users.sourceforge.com>
+* @copyright  2004-2006 Claudio Bustos
 * @link     http://pear.php.net/package/PHP_Beautifier
-* @link     http://clbustos.dotgeek.org
+* @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
 * @version    CVS: $Id:$
 */
@@ -35,12 +35,12 @@
 * @category   PHP
 * @package PHP_Beautifier
 * @subpackage Filter
-* @author Claudio Bustos <clbustos@dotgeek.org>
-* @copyright  2004-2005 Claudio Bustos
+* @author Claudio Bustos <cdx@users.sourceforge.com>
+* @copyright  2004-2006 Claudio Bustos
 * @link     http://pear.php.net/package/PHP_Beautifier
-* @link     http://clbustos.dotgeek.org
+* @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version    Release: 0.1.7
+* @version    Release: 0.1.11
 */
 class PHP_Beautifier_Filter_ListClassFunction extends PHP_Beautifier_Filter {
     protected $aFilterTokenFunctions = array(
@@ -139,7 +139,7 @@ class PHP_Beautifier_Filter_ListClassFunction extends PHP_Beautifier_Filter {
             $sText = implode($sPrevio, $aOut) .$sNL;
             $this->oBeaut->replaceTokenAssoc($this->iComment, $sText);
         } else {
-            $sPrevio = $sNL.str_repeat($this->oBeaut->sIndentChar, $this->oBeaut->iIndentNumber);
+            $sPrevio = $sNL/*.str_repeat($this->oBeaut->sIndentChar, $this->oBeaut->iIndentNumber)*/;
             $sTag = trim($this->oBeaut->getTokenAssocText($this->iOpenTag)) ."\n";
             $sText = $sPrevio.implode($sPrevio, $aOut);
             $this->oBeaut->replaceTokenAssoc($this->iOpenTag, rtrim($sTag) .$sText.$sPrevio);

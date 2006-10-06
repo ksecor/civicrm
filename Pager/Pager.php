@@ -33,7 +33,7 @@
  * @author     Richard Heyes <richard@phpguru.org>
  * @copyright  2003-2006 Lorenzo Alberton, Richard Heyes
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id: Pager.php,v 1.18 2006/01/20 13:43:00 quipo Exp $
+ * @version    CVS: $Id: Pager.php,v 1.21 2006/05/22 10:29:26 quipo Exp $
  * @link       http://pear.php.net/package/Pager
  */
 
@@ -170,9 +170,22 @@ class Pager
         $mode = (isset($options['mode']) ? ucfirst($options['mode']) : 'Jumping');
         $classname = 'Pager_' . $mode;
         $classfile = 'Pager' . DIRECTORY_SEPARATOR . $mode . '.php';
-        require_once $classfile;
-        $pager =& new $classname($options);
-        return $pager;
+
+        // Attempt to include a custom version of the named class, but don't treat
+        // a failure as fatal.  The caller may have already included their own
+        // version of the named class.
+        if (!class_exists($classname)) {
+            include_once $classfile;
+        }
+
+        // If the class exists, return a new instance of it.
+        if (class_exists($classname)) {
+            $pager =& new $classname($options);
+            return $pager;
+        }
+
+        $null = null;
+        return $null;
     }
 
     // }}}

@@ -1,0 +1,4 @@
+- Fix the getHtmlSource when using PHP native functions.
+ Before fixing this bug, please use curl or PEAR HTTP_Request when using getHtmlSource.
+
+

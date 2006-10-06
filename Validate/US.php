@@ -1,30 +1,50 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
+// | Copyright (c) 1997-2005 Brent Cook                                   |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
+// | This source file is subject to the New BSD license, That is bundled  |
+// | with this package in the file LICENSE, and is available through      |
+// | the world-wide-web at                                                |
+// | http://www.opensource.org/licenses/bsd-license.php                   |
+// | If you did not receive a copy of the new BSDlicense and are unable   |
+// | to obtain it through the world-wide-web, please send a note to       |
+// | pajoye@php.net so we can mail you a copy immediately.                |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at the following url:           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Brent Cook <busterb@mail.utexas.edu>                        |
-// |          Tim Gallagher <timg@sunflowerroad.com>                      |
+// | Author:  Brent Cook <busterbcook@yahoo.com>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: US.php,v 1.11 2004/03/16 22:42:58 pajoye Exp $
-//
-// Specific validation methods for data used in the United States
-//
+/**
+ * Specific validation methods for data used in the United States
+ *
+ * @category   Validate
+ * @package    Validate_US
+ * @author     Brent Cook <busterbcook@yahoo.com>
+ * @author     Tim Gallagher <timg@sunflowerroad.com>
+ * @copyright  1997-2005 Brent Cook
+ * @license    http://www.opensource.org/licenses/bsd-license.php  new BSD
+ * @version    CVS: $Id: US.php,v 1.32 2005/11/01 13:12:30 pajoye Exp $
+ * @link       http://pear.php.net/package/Validate_US
+ */
 
-require_once 'PEAR.php';
-require_once 'File.php';
-
+/**
+ * Data validation class for the United States
+ *
+ * This class provides methods to validate:
+ *  - Social insurance number (aka SSN)
+ *  - Region (state code)
+ *  - Postal code
+ *  - Telephone number
+ *
+ * @category   Validate
+ * @package    Validate_US
+ * @author     Brent Cook <busterbcook@yahoo.com>
+ * @author     Tim Gallagher <timg@sunflowerroad.com>
+ * @copyright  1997-2005 Brent Cook
+ * @license    http://www.opensource.org/licenses/bsd-license.php  new BSD
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Validate_US
+ */
 class Validate_US
 {
     /**
@@ -39,14 +59,14 @@ class Validate_US
         $ssn = str_replace(array('-','/',' ',"\t","\n"), '', $ssn);
 
         // check if this is a 9-digit number
-        if (!is_numeric($ssn) || !(strlen($ssn) == 9)) {
+        if (!is_numeric($ssn) || strlen($ssn) != 9) {
             return false;
         }
-        $area   = intval(substr($ssn, 0, 3));
+        $area   = substr($ssn, 0, 3);
         $group  = intval(substr($ssn, 3, 2));
         $serial = intval(substr($ssn, 5, 4));
 
-        if (is_null($high_groups)) {
+        if (!$high_groups) {
             $high_groups = Validate_US::ssnGetHighGroups();
         }
         return Validate_US::ssnCheck($area, $group, $serial, $high_groups);
@@ -65,7 +85,7 @@ class Validate_US
     */
     function ssnGroupRange($groupNumber)
     {
-        if(is_array($groupNumber)){
+        if (is_array($groupNumber)) {
             extract($groupNumber);
         }
         if ($groupNumber < 10) {
@@ -95,10 +115,10 @@ class Validate_US
      * @param array $high_groups array of highest issued group numbers
      *                           area number=>group number
      */
-    function ssnCheck($ssnCheck, $group, $serial, $high_groups)
+    function ssnCheck($area, $group, $serial, $high_groups)
     {
-        if(is_array($ssnCheck)){
-            extract($ssnCheck);
+        if (is_array($area)) {
+            extract($area);
         }
         // perform trivial checks
         // no field should contain all zeros
@@ -107,9 +127,11 @@ class Validate_US
         }
 
         // check if this area has been assigned yet
-        if (!($high_group = $high_groups[$area])) {
+        if (!isset($high_groups[$area])) {
             return false;
         }
+
+        $high_group = $high_groups[$area];
 
         $high_group_range = Validate_US::ssnGroupRange($high_group);
         $group_range = Validate_US::ssnGroupRange($group);
@@ -117,19 +139,15 @@ class Validate_US
         // if the assigned range is higher than this group number, we're OK
         if ($high_group_range > $group_range) {
             return true;
-        } else {
+        } elseif ($high_group_range < $group_range) {
             // if the assigned range is lower than the group number, that's bad
-            if ($high_group_range < $group_range) {
-                return false;
-            } else {
-                // we must be in the same range, check the actual numbers
-                if ($high_group >= $group) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+            return false;
+        } elseif ($high_group >= $group) {
+            // we must be in the same range, check the actual numbers
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -138,15 +156,30 @@ class Validate_US
      * cached for performance (and to lessen the load on the SSA website)
      *
      * @param string $uri Path to the SSA highgroup.htm file
-     * @param bool   $is_text Take the $highgroup_htm param as directly the contents
+     * @param bool   $is_text Take the $uri param as directly the contents
      * @returns array
      */
-    function ssnGetHighGroups($uri = 'http://www.ssa.gov/foia/highgroup.htm',
+    function ssnGetHighGroups($uri = 'http://www.ssa.gov/employer/highgroup.txt',
                               $is_text = false)
     {
-        if (!$is_text) {
+        /**
+         * Stores high groups that have been fetched from any given web page to
+         * keep the load down if having to validate more then one ssn in a row
+         */
+        static $high_groups = array();
+        static $lastUri = '';
+
+        if ($lastUri == $uri && !empty($high_groups)) {
+            return $high_groups;
+        }
+        $lastUri = $uri;
+
+        if ($is_text) {
+            $source = $uri;
+        } else {
             if (!$fd = @fopen($uri, 'r')) {
-                trigger_error("Could not access the SSA High Groups file", E_USER_WARNING);
+                $lastUri = '';
+                trigger_error('Could not access the SSA High Groups file', E_USER_WARNING);
                 return array();
             }
             $source = '';
@@ -156,24 +189,136 @@ class Validate_US
             fclose($fd);
         }
 
-        $search = array ("'<script[^>]*?>.*?</script>'si",  // Strip javascript
-                         "'<[\/\!]*?[^<>]*?>'si",           // Strip html tags
-                         "'([\r\n])[\s]+'",                 // Strip white space
-                         "'\*'si");
-
-        $replace = array ('','','\\1','');
-
-        $lines = explode("\n", preg_replace($search, $replace, $source));
+        $lines =  explode("\n", ereg_replace("[^\n0-9]*", '', $source));
         $high_groups = array();
         foreach ($lines as $line) {
-            $line = trim($line);
-            if ((strlen($line) == 3) && is_numeric($line)) {
-                $current_group = $line;
-            } elseif ((strlen($line) == 2) && is_numeric($line)) {
-                $high_groups[$current_group] = $line;
+            if (ereg('^([0-9]{3})([0-9]{2})([0-9]{3})([0-9]{2})([0-9]{3})([0-9]{2})([0-9]{3})([0-9]{2})([0-9]{3})([0-9]{2})([0-9]{3})([0-9]{2})$', $line, $grouping)) {
+                $high_groups[$grouping[1]] =  $grouping[2];
+                $high_groups[$grouping[3]] =  $grouping[4];
+                $high_groups[$grouping[5]] =  $grouping[6];
+                $high_groups[$grouping[7]] =  $grouping[8];
+                $high_groups[$grouping[9]] =  $grouping[10];
+                $high_groups[$grouping[11]] =  $grouping[12];
             }
         }
         return $high_groups;
     }
+
+    /**
+     * Validates a US Postal Code format (ZIP code)
+     *
+     * @param string $postalCode the ZIP code to validate
+     * @param   bool    optional; strong checks (e.g. against a list of postcodes) (not implanted)
+     * @return boolean TRUE if code is valid, FALSE otherwise
+     * @access public
+     * @static
+     * @todo Integrate with USPS web API
+     */
+    function postalCode($postalCode, $strong = false)
+    {
+        return (bool)preg_match('/^[0-9]{5}((-| )[0-9]{4})?$/', $postalCode);
+    }
+
+    /**
+     * Validates a "region" (i.e. state) code
+     *
+     * @param string $region 2-letter state code
+     * @return bool Whether the code is a valid state
+     * @static
+     */
+    function region($region)
+    {
+        switch (strtoupper($region)) {
+            case 'AL':
+            case 'AK':
+            case 'AZ':
+            case 'AR':
+            case 'CA':
+            case 'CO':
+            case 'CT':
+            case 'DE':
+            case 'DC':
+            case 'FL':
+            case 'GA':
+            case 'HI':
+            case 'ID':
+            case 'IL':
+            case 'IN':
+            case 'IA':
+            case 'KS':
+            case 'KY':
+            case 'LA':
+            case 'ME':
+            case 'MD':
+            case 'MA':
+            case 'MI':
+            case 'MN':
+            case 'MS':
+            case 'MO':
+            case 'MT':
+            case 'NE':
+            case 'NV':
+            case 'NH':
+            case 'NJ':
+            case 'NM':
+            case 'NY':
+            case 'NC':
+            case 'ND':
+            case 'OH':
+            case 'OK':
+            case 'OR':
+            case 'PA':
+            case 'RI':
+            case 'SC':
+            case 'SD':
+            case 'TN':
+            case 'TX':
+            case 'UT':
+            case 'VT':
+            case 'VA':
+            case 'WA':
+            case 'WV':
+            case 'WI':
+            case 'WY':
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Validate a US phone number.
+     *
+     * Can allow only seven digit numbers.
+     * Also allows the formats, (xxx) xxx-xxxx, xxx xxx-xxxx and now 0-1 x xxx xxx-xxxx.,
+     * or various combination without spaces or dashes.
+     * THIS SHOULD EVENTUALLY take a FORMAT in the options, instead
+     *
+     * @param  string    $number             phone to validate
+     * @param  bool      $requireAreaCode    require the area code? (default: true)
+     * @return bool                          The valid or invalid phone number
+     */
+    function phoneNumber($number, $requireAreaCode = true)
+    {
+        if ($number == '') {
+            return true;
+        }
+
+        if (!$requireAreaCode) {
+            // just seven digits, maybe a space or dash
+            if (preg_match('/^[2-9]\d{2}[- ]?\d{4}$/', $number)) {
+                return  true;
+            }
+        } else {
+            // ten digits, maybe  spaces and/or dashes and/or parentheses maybe a 1 or a 0..
+            if (preg_match('/^[0-1]?[- ]?(\()?[2-9]\d{2}(?(1)\))[- ]?[2-9]\d{2}[- ]?\d{4}$/',
+                           $number)) {
+            	return true;
+            }
+        }
+        return false;
+    }
+
+
+
 }
 ?>

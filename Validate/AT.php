@@ -1,38 +1,51 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
+// | Copyright (c) 1997-2005 Michael Wallner                              |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
+// | This source file is subject to the New BSD license, That is bundled  |
+// | with this package in the file LICENSE, and is available through      |
+// | the world-wide-web at                                                |
+// | http://www.opensource.org/licenses/bsd-license.php                   |
+// | If you did not receive a copy of the new BSDlicense and are unable   |
+// | to obtain it through the world-wide-web, please send a note to       |
+// | pajoye@php.net so we can mail you a copy immediately.                |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at the following url:           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 Michael Wallner <mike@iworks.at>                  |
+// | Author: Michael Wallner <mike@iworks.at>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id: AT.php,v 1.6 2004/02/03 23:34:53 neufeind Exp $
+/**
+ * Specific validation methods for data used in Austria
+ *
+ * @category   Validate
+ * @package    Validate_AT
+ * @author     Michael Wallner <mike@iworks.at>
+ * @copyright  1997-2005 Michael Wallner
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    CVS: $Id: AT.php,v 1.13 2005/11/01 13:12:30 pajoye Exp $
+ * @link       http://pear.php.net/package/Validate_AT
+ */
 
 /**
 * Requires Validate
 */
-require_once('Validate.php');
+require_once 'Validate.php';
 
 /**
-* Validate_AT
-*
-* @author       Michael Wallner <mike@php.net>
-* @package      Validate
-* @category     PHP
-*
-* @version      $Revision: 1.6 $
-* @access       public
-*/
+ * Data validation class for Austria
+ *
+ * This class provides methods to validate:
+ *  - Social insurance number (aka SSN)
+ *  - Postal code
+ *
+ * @category   Validate
+ * @package    Validate_AT
+ * @author     Michael Wallner <mike@php.net>
+ * @copyright  1997-2005 Michael Wallner
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Validate_AT
+ */
 class Validate_AT
 {
     /**
@@ -44,20 +57,19 @@ class Validate_AT
     * @param    bool    optional; strong checks (e.g. against a list of postcodes)
     * @return   bool    true if postcode is ok, false otherwise
     */
-    function postcode($postcode, $strong=false)
+    function postalCode($postcode, $strong = false)
     {
         if ($strong) {
             static $postcodes;
-    
+
             if (!isset($postcodes)) {
-                $file = '/opt/local/lib/php/data/Validate/AT_postcodes.txt';
+                $file = './data/Validate_AT/AT_postcodes.txt';
                 $postcodes = array_map('trim', file($file));
             }
-    
-            return in_array((int) $postcode, $postcodes);
-        } else {
-            return (ereg('^[0-9]{4}$', $postcode));
+
+            return in_array((int)$postcode, $postcodes);
         }
+        return (bool)ereg('^[0-9]{4}$', $postcode);
     }
 
     /**

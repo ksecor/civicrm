@@ -1,0 +1,29 @@
+$Id: ChangeLog,v 1.1.1.1 2006/09/06 16:07:50 shin Exp $
+see package.xml for newer changlogs
+
+2006-09-06  Shin Ohno<ganchiku@gmail.com>
+  * VERSINO: version 0.1.4 (alpha) released.
+
+  - Removed Testing prefix from the class name. Not Testing_Selenium, but Selenium.
+  - Removed unnecessary docblock.
+  - Fixed fixed comment documents.
+
+2006-08-12  Shin Ohno<ganchiku@gmail.com>
+  * VERSION: version 0.1.3 (alpha) released.
+
+  - Fixed Bug Thanks to Asad, changed method name getAllSource to getHtmlSource.
+  - Add selenium-server.jar (To run it, read README).
+
+2006-08-08  Shin Ohno<ganchiku@gmail.com>
+  * VERSION: version 0.1.2 (alpha) released.
+
+  - Add ChangeLog
+  - Fixed package.xml and package2.xml
+
+2006-07-13  Shin Ohno<ganchiku@gmail.com>
+  * VERSION: version 0.1.1 (alpha) released.
+
+  - Fixed Bug Thanks to Bjoen Shotte, HTTP connection bug fixed.
+
+2006-06-20  Shin Ohno<ganchiku@gmail.com>
+  * VERSION: version 0.1.0 (alpha) released.

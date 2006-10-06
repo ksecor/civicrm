@@ -1,47 +1,68 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
+// | Copyright (c) 1997-2005 Dave Mertens                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
+// | This source file is subject to the New BSD license, That is bundled  |
+// | with this package in the file LICENSE, and is available through      |
+// | the world-wide-web at                                                |
+// | http://www.opensource.org/licenses/bsd-license.php                   |
+// | If you did not receive a copy of the new BSDlicense and are unable   |
+// | to obtain it through the world-wide-web, please send a note to       |
+// | pajoye@php.net so we can mail you a copy immediately.                |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at the following url:           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Dave Mertens <zyprexia@php.net>                             |
+// | Author: Dave Mertens <zyprexia@php.net>                              |
+// |         Pierre-Alain Joye <pajoye@php.net>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: NL.php,v 1.7 2004/02/03 23:34:53 neufeind Exp $
-//
-// Specific validation methods for data used in NL
-//
+/**
+ * Specific validation methods for data used in the Netherlands
+ *
+ * @category   Validate
+ * @package    Validate_NL
+ * @author     Dave Mertens <zyprexia@php.net>
+ * @copyright  1997-2005 Dave Mertens
+ * @license    http://www.opensource.org/licenses/bsd-license.php  new BSD
+ * @version    CVS: $Id: NL.php,v 1.16 2005/11/01 13:12:30 pajoye Exp $
+ * @link       http://pear.php.net/package/Validate_NL
+ */
 
-require_once('Validate.php');
+define('VALIDATE_NL_PHONENUMBER_TYPE_ANY',     0);     //Any dutch phonenumber
+define('VALIDATE_NL_PHONENUMBER_TYPE_NORMAL',  1);     //only normal phonenumber (mobile numers are not allowed)
+define('VALIDATE_NL_PHONENUMBER_TYPE_MOBILE',  2);     //only mobile numbers are allowed
 
-define( "VALIDATE_NL_PHONENUMBER_TYPE_ANY",     0);     //Any dutch phonenumber
-define( "VALIDATE_NL_PHONENUMBER_TYPE_NORMAL",  1);     //only normal phonenumber (mobile numers are not allowed)
-define( "VALIDATE_NL_PHONENUMBER_TYPE_MOBILE",  2);     //only mobile numbers are allowed
-
+/**
+ * Data validation class for the Netherlands
+ *
+ * This class provides methods to validate:
+ *  - Social insurance number (aka SIN)
+ *  - Bank account number
+ *  - Telephone number
+ *  - Postal code
+ *
+ * @category   Validate
+ * @package    Validate_NL
+ * @author     Dave Mertens <zyprexia@php.net>
+ * @copyright  1997-2005 Dave Mertens
+ * @license    http://www.opensource.org/licenses/bsd-license.php  new BSD
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Validate_NL
+ */
 class Validate_NL
 {
     /**
      * Validate a NL postcode
      *
      * @param   string  $postcode       NL postcode to validate
-     * @param   bool    optional; strong checks (e.g. against a list of postcodes)
+     * @param   bool    optional; strong checks (e.g. against a list of postcodes) (not implanted)
      * @return  bool    true if postcode is ok, false otherwise
      */
-    function postcode($postcode, $strong=false)
+    function postalCode($postcode, $strong = false)
     {
         // $strong is not used here at the moment; added for API compatibility
         // checks might be added at a later stage
 
-        return (ereg('^[0-9]{4}\ {0,1}[A-Za-z]{2}$', $postcode)); // '1234 AB', '1234AB', '1234 ab'
+        return (bool)ereg('^[0-9]{4}\ {0,1}[A-Za-z]{2}$', $postcode); // '1234 AB', '1234AB', '1234 ab'
     }
 
     /**
@@ -51,13 +72,13 @@ class Validate_NL
      * @param   int     $type           Type of phonenumber to check
      * @return  bool    true if (phone) number is correct
      */
-    function phonenumber($number, $type = PHONENUMBER_TYPE_ANY)
+    function phoneNumber($number, $type = PHONENUMBER_TYPE_ANY)
     {
         $result = false;
 
         //we need at least 9 digits
         if (ereg("^[+0-9]{9,}$", $number)) {
-            $number = substr($number, strlen($number)-9);
+            $number = substr($number, strlen($number) - 9);
 
             //we only use the last 9 digits (so no troubles with international numbers)
             if (strlen($number) >= 9) {
@@ -91,7 +112,7 @@ class Validate_NL
      */
     function ssn($ssn)
     {
-        return (ereg("^[0-9]{9}$", $ssn));
+        return (bool)ereg("^[0-9]{9}$", $ssn);
     }
 
     /**
@@ -109,8 +130,8 @@ class Validate_NL
             $number = str_pad($number, 10, '0', STR_PAD_LEFT);  //make sure we have a 10 digit number
 
             //create checksum
-            for ($i=0; $i < 10; $i++) {
-                $checksum += ( (int)$number[$i] * (10 - $i) );
+            for ($i = 0; $i < 10; $i++) {
+                $checksum += ((int)$number[$i] * (10 - $i));
             }
 
             //Banknumber is 'correct' if we can divide checksum by 11

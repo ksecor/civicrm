@@ -1,26 +1,54 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
+// | Copyright (c) 1997-2005 Piotr Klaban                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
+// | This source file is subject to the New BSD license, That is bundled  |
+// | with this package in the file LICENSE, and is available through      |
+// | the world-wide-web at                                                |
+// | http://www.opensource.org/licenses/bsd-license.php                   |
+// | If you did not receive a copy of the new BSDlicense and are unable   |
+// | to obtain it through the world-wide-web, please send a note to       |
+// | pajoye@php.net so we can mail you a copy immediately.                |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at the following url:           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Piotr Klaban <makler@man.torun.pl>                          |
+// | Author: Tomas V.V.Cox  <cox@idecnet.com>                             |
+// |         Pierre-Alain Joye <pajoye@php.net>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: PL.php,v 1.2 2003/12/10 15:07:34 pajoye Exp $
-//
-// Specific validation methods for data used in Poland
-//
+/**
+ * Specific validation methods for data used in Poland
+ *
+ * @category   Validate
+ * @package    Validate_PL
+ * @author     Piotr Klaban <makler@man.torun.pl>
+ * @copyright  1997-2005 Piotr Klaban
+ * @license    http://www.opensource.org/licenses/bsd-license.php  new BSD
+ * @version    CVS: $Id: PL.php,v 1.10 2005/11/01 13:12:30 pajoye Exp $
+ * @link       http://pear.php.net/package/Validate_PL
+ */
 
+/**
+* Requires base class Validate
+*/
+require_once 'Validate.php';
+
+/**
+ * Data validation class for Poland
+ *
+ * This class provides methods to validate:
+ *  - NIP (Polish tax identification number)
+ *  - Bank account number
+ *  - PESEL (Polish human identification number)
+ *  - REGON (Polish statistical national economy register)
+ *
+ * @category   Validate
+ * @package    Validate_PL
+ * @author     Piotr Klaban <makler@man.torun.pl>
+ * @copyright  1997-2005 Piotr Klaban
+ * @license    http://www.opensource.org/licenses/bsd-license.php  new BSD
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Validate_PL
+ */
 class Validate_PL
 {
     /**
@@ -47,7 +75,7 @@ class Validate_PL
         }
 
         // check control sum
-        return Validate::_check_control_number($nip, $weights_nip, 11);
+        return Validate::_checkControlNumber($nip, $weights_nip, 11);
     }
 
     /**
@@ -57,7 +85,7 @@ class Validate_PL
      * @returns bool
      * @author Piotr Klaban <makler@man.torun.pl>
      */
-    function bank_branch($number)
+    function bankBranch($number)
     {
         static $weights_bank_branch = array(7,1,3,9,7,11,3);
 
@@ -70,7 +98,7 @@ class Validate_PL
         }
 
         // check control sum
-        return Validate::_check_control_number($number, $weights_bank_branch, 10);
+        return Validate::_checkControlNumber($number, $weights_bank_branch, 10);
     }
 
     /**
@@ -101,25 +129,27 @@ class Validate_PL
             return false;
         }
 
-        if (Validate::_check_control_number($pesel, $weights_pesel, 10, 10) === false)
+        if (Validate::_checkControlNumber($pesel, $weights_pesel, 10, 10) === false) {
             return false;
+        }
 
         // now extract birth date from PESEL number
-        $vy = substr($pesel,0,2);
-        $vm = substr($pesel,2,2);
-        $vd = substr($pesel,4,2);
+        $vy = substr($pesel, 0, 2);
+        $vm = substr($pesel, 2, 2);
+        $vd = substr($pesel, 4, 2);
 
         // decode century
-        if ($vm < 20)
+        if ($vm < 20) {
             $vy += 1900;
-        elseif ($vm < 40)
+        } elseif ($vm < 40) {
             $vy += 2000;
-        elseif ($vm < 60)
+        } elseif ($vm < 60) {
             $vy += 2100;
-        elseif ($vm < 80)
+        } elseif ($vm < 80) {
             $vy += 2200;
-        else
+        } else {
             $vy += 1800;
+        }
         $vm %= 20;
         $birth[0] = "$vy-$vm-$vd";
 
@@ -154,14 +184,14 @@ class Validate_PL
         }
 
         // first check first 9 digits
-        if (Validate::_check_control_number($regon, $weights_regon, 11) === false)
+        if (Validate::_checkControlNumber($regon, $weights_regon, 11) === false) {
           return false;
+       }
 
         // check wide number if there are 14 digits
-        if (strlen($regon) == 14)
-        {
+        if (strlen($regon) == 14) {
             // check 14 digits
-            return Validate::_check_control_number($regon, $weights_regon_local, 11);
+            return Validate::_checkControlNumber($regon, $weights_regon_local, 11);
         }
 
         return true;

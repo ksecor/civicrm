@@ -31,8 +31,8 @@
  * @author     Stig Bakken <stig@php.net>
  * @author     Martin Jansen <mj@php.net>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1999-2001 Edd Dumbill, 2001-2005 The PHP Group
- * @version    CVS: $Id: Server.php,v 1.33 2006/01/14 22:30:31 danielc Exp $
+ * @copyright  1999-2001 Edd Dumbill, 2001-2006 The PHP Group
+ * @version    CVS: $Id: Server.php,v 1.36 2006/06/21 12:17:27 danielc Exp $
  * @link       http://pear.php.net/package/XML_RPC
  */
 
@@ -269,8 +269,8 @@ function XML_RPC_Server_debugmsg($m)
  * @author     Stig Bakken <stig@php.net>
  * @author     Martin Jansen <mj@php.net>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1999-2001 Edd Dumbill, 2001-2005 The PHP Group
- * @version    Release: 1.4.8
+ * @copyright  1999-2001 Edd Dumbill, 2001-2006 The PHP Group
+ * @version    Release: 1.5.0
  * @link       http://pear.php.net/package/XML_RPC
  */
 class XML_RPC_Server
@@ -365,7 +365,7 @@ class XML_RPC_Server
 
         if ($XML_RPC_Server_debuginfo != '') {
             return "<!-- PEAR XML_RPC SERVER DEBUG INFO:\n\n"
-                   . preg_replace('/-(?=-)/', '- ', $XML_RPC_Server_debuginfo)
+                   . $GLOBALS['XML_RPC_func_ereg_replace']('--', '- - ', $XML_RPC_Server_debuginfo)
                    . "-->\n";
         } else {
             return '';
@@ -400,9 +400,9 @@ class XML_RPC_Server
          * that someone composed a single header with multiple lines, which
          * the RFCs allow.
          */
-        $this->server_headers = preg_replace("/[\r\n]+[ \t]+/", ' ',
-                                             trim($this->server_headers));
-        $headers = preg_split("/[\r\n]+/", $this->server_headers);
+        $this->server_headers = $GLOBALS['XML_RPC_func_ereg_replace']("[\r\n]+[ \t]+",
+                                ' ', trim($this->server_headers));
+        $headers = $GLOBALS['XML_RPC_func_split']("[\r\n]+", $this->server_headers);
         foreach ($headers as $header)
         {
             header($header);
@@ -426,6 +426,10 @@ class XML_RPC_Server
                               . $this->encoding . '"?>' . "\n"
                               . $this->serializeDebug()
                               . $r->serialize();
+        if (function_exists('mb_convert_encoding')) {
+            $this->server_payload = mb_convert_encoding($this->server_payload,
+                                                        $this->encoding);
+        }
     }
 
     /**

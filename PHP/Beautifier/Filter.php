@@ -12,10 +12,10 @@
 * @category   PHP
 * @package PHP_Beautifier
 * @subpackage Filter
-* @author Claudio Bustos <clbustos@dotgeek.org>
-* @copyright  2004-2005 Claudio Bustos
+* @author Claudio Bustos <cdx@users.sourceforge.com>
+* @copyright  2004-2006 Claudio Bustos
 * @link     http://pear.php.net/package/PHP_Beautifier
-* @link     http://clbustos.dotgeek.org
+* @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
 * @version    CVS: $Id:$
 */
@@ -24,16 +24,16 @@
 *
 * Definition for creation of Filters
 * For concrete details, please see {@link PHP_Beautifier_Filter_Default}
-*
 * @category     PHP
 * @package      PHP_Beautifier
 * @subpackage   Filter
-* @author       Claudio Bustos <clbustos@dotgeek.org>
-* @copyright    2004-2005 Claudio Bustos
+* @tutorial     PHP_Beautifier/Filter/Filter.create.pkg
+* @author       Claudio Bustos <cdx@users.sourceforge.com>
+* @copyright    2004-2006 Claudio Bustos
 * @link         http://pear.php.net/package/PHP_Beautifier
-* @link         http://clbustos.dotgeek.org
+* @link         http://beautifyphp.sourceforge.net
 * @license      http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version      Release: 0.1.7
+* @version      Release: 0.1.11
 */
 abstract class PHP_Beautifier_Filter {
     /**
@@ -195,9 +195,7 @@ abstract class PHP_Beautifier_Filter {
             return ($this->$sMethod($sValue) !== PHP_Beautifier_Filter::BYPASS);
         } else { // WEIRD!!! -> Add the same received
             $this->oBeaut->add($token[1]);
-            if ($this->oBeaut->iVerbose>5) {
-                echo trim($token) ."\n";
-            }
+            PHP_Beautifier_Common::getLog()->log("Add same received:".trim($token[1]),  PEAR_LOG_DEBUG);
             return true;
         }
         // never go here
