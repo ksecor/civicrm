@@ -103,6 +103,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @var array
      */
     protected $_groupTree;
+    /**
+     * Store the tree of custom data and fields
+     *
+     * @var array
+     */
+    protected $_contributionType;
 
     /** 
      * Function to set variables up before form is built 
@@ -115,6 +121,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                       $this, false, 'add' );
+        $contributionType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        $this->_contributionType = ( $contributionType != null) ? $contributionType : "Contribution";
+        
         $this->assign( 'action'  , $this->_action   ); 
 
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive',
@@ -148,8 +157,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
-
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0 );
+        
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $this->_contributionType);
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
     }
@@ -170,6 +179,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         } else {
             $now = date("Y-m-d");
             $defaults['receive_date'] = $now;
+        }
+        
+        if ($this->_contributionType) {
+            $defaults['contribution_type_id'] = $this->_contributionType;
         }
         
         if ( $defaults['is_test']){
@@ -238,13 +251,22 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                               );
             return;
         }
+
+        if ( $this->_id ) {
+            $url = "civicrm/contact/view/contribution&reset=1&action=update&id=$this->_id&cid=$this->_contactID&context=contribution";
+        } else {
+            $url = "civicrm/contact/view/contribution&reset=1&action=add&cid=$this->_contactID&context=contribution";
+        }
+        $url = CRM_Utils_System::url($url); 
+        $this->assign("refreshURL",$url);
+
         $this->buldPremiumForm($this);
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
                
-        $element =& $this->add('select', 'contribution_type_id', 
+        $element =& $this->addElement('select', 'contribution_type_id', 
                                ts( 'Contribution Type' ), 
                                array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ),
-                               true );
+                               array('onChange' => "reload(true)"),true );
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -398,8 +420,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         // get the submitted form values.  
-        $formValues = $this->controller->exportValues( $this->_name );
-      
+        //$formValues = $this->controller->exportValues( $this->_name );
+        $formValues = $_POST;
+ 
         $config =& CRM_Core_Config::singleton( );
 
         $params = array( );
@@ -450,7 +473,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
 
         // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
+        
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $params['contribution_type_id']);
+        
+        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $formValues );
+       
         
         //process premium
         if( $formValues['product_name'][0] ) {
@@ -475,7 +502,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $premium = $dao->save();
             }
         }
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Contribution', $contribution->id);
+        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
     }
 
     /** 

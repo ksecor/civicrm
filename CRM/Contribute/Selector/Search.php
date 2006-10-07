@@ -202,7 +202,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%&subType=%%contributionType%%',
                                                                    'title'    => ts('Edit Contribution'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
@@ -294,9 +294,11 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             }
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                          array( 'id'  => $result->contribution_id,
-                                                                 'cid' => $result->contact_id,
-                                                                 'cxt' => $this->_context ) );
+                                                          array( 'id'               => $result->contribution_id,
+                                                                 'cid'              => $result->contact_id,
+                                                                 'cxt'              => $this->_context,
+                                                                 'contributionType' => $result->contribution_type_id 
+                                                                 ) );
             $config =& CRM_Core_Config::singleton( );
             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($result->contact_type) {
