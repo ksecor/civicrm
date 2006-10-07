@@ -20,7 +20,7 @@ $DM_PHP5PATH/php $P/converter.php
 [ ! -d $DM_GENFILESDIR/drupal ] && mkdir $DM_GENFILESDIR/drupal
 $DM_PHP5PATH/php $P/converter.php $DM_SOURCEDIR/drupal/civicrm.module > $DM_GENFILESDIR/drupal/civicrm.module
 
-rsyncOptions="-avC --exclude=svn"
+rsyncOptions="-avC --exclude=svn --ignore-existing"
 rsync="rsync $rsyncOptions"
 for code in css i js l10n packages PEAR templates bin sql joomla; do
   echo $code
