@@ -15,7 +15,7 @@
 </tr>
 <tr>
   <td colspan="6" class="grouplabel">
-    <p class="preapp-instruction">{ts}Use this form to confirm your Recommender selections. You may select an existing entry below by checking the box to the left of their name. OR you can enter information for a new recommender. You must select exactly two teachers and one guidance counselor. We will send an email to your recommenders with instructions on how to complete their recommendations. Please verify all the contact information you enter for your recommenders.{/ts}</p>
+    <p class="preapp-instruction">{ts}Use this form to verify or update your recommenders. You must select exactly two teachers and one guidance counselor.<br /><br />To select a recommender, you need to check the 'Selected' check-box next to the recommender's name. If a recommender has already completed the recommendation, that recommender will be pre-selected.<br /><br />If you want to select a recommender that isn't listed, please enter the recommender's first name, last name, email address, and school. Also, check the 'Selected' box next to the recommender's name.<br /><br />If you see multiple entries for the same recommender, please select the recommender with the 'In Progress' status. If all entries for the recommender are 'Not Started', then it doesn't matter which entry to select.<br /><br />Please verify the email address you have entered for the recommender. If you have entered an incorrect email address, please re-enter the recommender's information.{/ts}</p>
   </td>
 </tr>
 <tr>
