@@ -105,7 +105,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         // make sure we have a valid payment class, else abort
         if ( ! $config->paymentClass ) {
-            CRM_Utils_System::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file.' ) );
+            CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file.' ) );
             // CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
         }
 
@@ -150,7 +150,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             // check if form is active
             if ( ! $this->_values['is_active'] ) {
                 // form is inactive, bounce user back to front page of CMS
-                CRM_Utils_System::fatal( ts( 'The page you requested is currently unavailable.' ) );
+                CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
                 // CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
             }
 
@@ -181,7 +181,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         require_once 'CRM/Member/BAO/Membership.php';
         $membership = CRM_Member_BAO_Membership::getMemershipBlock( $this->_id );
         if ( ! $this->_values['amount_block_is_active'] && ! $membership['is_active'] ) {
-            CRM_Utils_System::fatal( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
+            CRM_Core_Error::fatal( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
             CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
         }
         if ( $this->_values['amount_block_is_active'] ) {
