@@ -157,6 +157,10 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // is this group collapsed or expanded ?
         $this->addElement('checkbox', 'collapse_display', ts('Collapse profile fieldset on initial display?'));
 
+        // is this group collapsed or expanded ?
+        $this->addElement('checkbox', 'is_edit_link', ts('Include Edit Link in Search Results?'));
+
+
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),

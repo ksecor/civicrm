@@ -63,6 +63,12 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             $profileGroup['title'] = $title;
             $profileGroup['content'] = $page->run();
             $profileGroups[] = $profileGroup;
+            $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_map' );
+            if ( $map ) {
+                $this->assign( 'mapURL',
+                               CRM_Utils_System::url( "civicrm/profile/map",
+                                                      "&reset=1&cid=$id&gid=$gid" ) );
+            }
             
         } else {
             $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile'); 

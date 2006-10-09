@@ -3,5 +3,9 @@
     {$group.content}
 {/foreach}
 <div class="action-link">
-    <a href="{crmURL p='civicrm/profile'}">&raquo; {ts}Back to Listings{/ts}</a>
+    <a href="{crmURL p='civicrm/profile'}">&raquo; {ts}Back to Listings{/ts}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    {if $mapURL}
+    <a href="{$mapURL}">&raquo; {ts}Map Primary Address{/ts}</a>
+    {/if}
+
 </div>

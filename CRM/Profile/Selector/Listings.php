@@ -123,6 +123,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */
     protected $_map;
     
+     /**
+     * Do we enable edit link
+     *
+     * @var boolean
+     */
+    protected $_editLink;
+    
     /**
      * Class constructor
      *
@@ -131,13 +138,15 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Profile
      * @access public
      */
-    function __construct( &$params, &$customFields, $ufGroupId = null, $map = false )
+    function __construct( &$params, &$customFields, $ufGroupId = null, $map = false , $editLink = false )
     {
         $this->_params = $params;
         
         $this->_gid = $ufGroupId;
 
         $this->_map = $map;
+        
+        $this->_editLink = $editLink;
 
         //get the details of the uf group 
         $ufGroupParam   = array('id' => $ufGroupId);
@@ -181,17 +190,25 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @access public
      *
      */
-    static function &links( $map = false )
+    static function &links( $map = false  , $editLink =false)
     {
         if ( ! self::$_links ) {
             self::$_links = array( 
                                   CRM_Core_Action::VIEW   => array(
-                                                                   'name'  => ts('Details'),
+                                                                   'name'  => ts('View'),
                                                                    'url'   => 'civicrm/profile/view',
                                                                    'qs'    => 'reset=1&id=%%id%%&gid=%%gid%%',
                                                                    'title' => ts('View Profile Details'),
                                                                    ),
                                   ); 
+            if ( $editLink ) {
+                self::$_links[CRM_Core_Action::UPDATE] = array(
+                                                               'name'  => ts('Edit'),
+                                                               'url'   => 'civicrm/profile/edit',
+                                                               'qs'    => 'reset=1&id=%%id%%&gid=%%gid%%',
+                                                               'title' => ts('Edit'),
+                                                               );
+            }
             if ( $map ) {
                 self::$_links[CRM_Core_Action::MAP] = array(
                                                             'name'  => ts('Map'),
@@ -334,7 +351,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         require_once 'CRM/Core/PseudoConstant.php';
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
-        $links =& self::links( $this->_map );
+        $links =& self::links( $this->_map, $this->_editLink);
         
         $names = array( );
         static $skipFields = array( 'group', 'tag' ); 
