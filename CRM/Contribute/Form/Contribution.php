@@ -451,11 +451,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                         'receipt_date',
                         'thankyou_date',
                         'cancel_date' );
-        $currentTime = getDate();        
+
         foreach ( $dates as $d ) {
             if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
-                $formValues[$d]['H'] = $currentTime['hours'];
-                $formValues[$d]['i'] = $currentTime['minutes'];
+                $formValues[$d]['H'] = '00';
+                $formValues[$d]['i'] = '00';
                 $formValues[$d]['s'] = '00';
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
             }
