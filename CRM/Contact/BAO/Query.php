@@ -444,9 +444,16 @@ class CRM_Contact_BAO_Query {
                     $this->_tables['civicrm_tag'       ] = 1;
                     $this->_tables['civicrm_entity_tag'] = 1;
                 } elseif ($name === 'groups') {
-                    $this->_select[$name                  ] = "GROUP_CONCAT(DISTINCT(civicrm_group.name)) AS groups";
-                    $this->_tables['civicrm_group'        ] = 1;
-                    $this->_tables['civicrm_group_contact'] = 1;
+                    $groups = array_keys($this->_paramLookup['group'][0][2]);
+                    $groupId = $groups[0];
+                    $gctbName = "`civicrm_group_contact-{$groupId}`";
+                    $gtbName = "`civicrm_group-{$groupId}`";
+                    
+                    $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT({$gtbName}.name)) AS groups";
+                    $this->_tables[$gtbName] = 1;
+
+                    // $this->_tables['civicrm_group'        ] = 1;
+                    // $this->_tables['civicrm_group_contact'] = 1;
                 }
             } else if ( CRM_Utils_Array::value( 'is_search_range', $field ) ) {
                 // this is a custom field with range search enabled, so we better check for two/from values
@@ -493,7 +500,7 @@ class CRM_Contact_BAO_Query {
                 }
             }
         }
-
+        
         // add location as hierarchical elements
         $this->addHierarchicalElements( );
         //fix for CRM-951
@@ -713,12 +720,16 @@ class CRM_Contact_BAO_Query {
                 // how the contact was added (CRM-1203)
                 if ( ( count( $this->_paramLookup['group'] ) == 1 ) &&
                      ( count( $this->_paramLookup['group'][0][2] ) == 1 ) ) {
-                    $this->_select['group_contact_id']      = 'civicrm_group_contact.id as group_contact_id';
+                    $groups = array_keys($this->_paramLookup['group'][0][2]);
+                    $groupId = $groups[0];
+                    $tbName = "`civicrm_group_contact-{$groupId}`";
+                    $this->_select['group_contact_id']      = "$tbName.id as group_contact_id";
                     $this->_element['group_contact_id']     = 1;
-                    $this->_select['status']                = 'civicrm_group_contact.status as status';
+                    $this->_select['status']                = "$tbName.status as status";
                     $this->_element['status']               = 1;
+                    $this->_tables[$tbName]                 = 1;
                 }
-                $this->_tables['civicrm_group_contact'] = 1;
+                //$this->_tables[$tbName] = 1;
             }
             if ( $this->_useDistinct ) {
                 $this->_select['contact_id'] = 'DISTINCT(contact_a.id) as contact_id';
@@ -1465,14 +1476,6 @@ class CRM_Contact_BAO_Query {
             case 'civicrm_tag':
                 $from .= " $side  JOIN civicrm_tag ON civicrm_entity_tag.tag_id = civicrm_tag.id ";
                 continue; 
-                
-            case 'civicrm_group_contact':
-                $from .= " $side  JOIN  civicrm_group_contact ON contact_a.id = civicrm_group_contact.contact_id ";
-                continue; 
-                
-            case 'civicrm_group':
-                $from .= " $side  JOIN civicrm_group ON civicrm_group_contact.group_id = civicrm_group.id ";
-                continue; 
 
             case 'civicrm_task_status':
                 $from .= " $side JOIN civicrm_task_status ON ( civicrm_task_status.responsible_entity_table = 'civicrm_contact'
@@ -1520,15 +1523,22 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function group( &$values ) {
+
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         if ( count( $value ) > 1 ) {
             $this->_useDistinct = true;
         }
+        
+        $gcTable = "`civicrm_group_contact-" .implode( ',', array_keys($value) ) ."`";
+        $this->_tables[$gcTable] = $this->_whereTables[$gcTable] = " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
+       
+//         $groupClause =
+//             "civicrm_group_contact.group_id $op (" . 
+//             implode( ',', array_keys($value) ) . ')'; 
 
-        $groupClause =
-            "civicrm_group_contact.group_id $op (" . 
-            implode( ',', array_keys($value) ) . ')'; 
+        $groupClause = "{$gcTable}.group_id $op (" . implode( ',', array_keys($value) ) . ')'; 
+
 
         $names = array( );
         $groupNames =& CRM_Core_PseudoConstant::group();
@@ -1558,11 +1568,11 @@ class CRM_Contact_BAO_Query {
                 // }
         }
 
-        $this->_tables['civicrm_group_contact'] = 1;
-        $this->_whereTables['civicrm_group_contact'] = 1;
+//         $this->_tables['civicrm_group_contact'] = 1;
+//         $this->_whereTables['civicrm_group_contact'] = 1;
 
         if ( ! empty( $statii ) ) {
-            $groupClause .= ' AND civicrm_group_contact.status IN (' . implode(', ', $statii) . ')';
+            $groupClause .= " AND {$gcTable}.status IN (" . implode(', ', $statii) . ")";
             $this->_qill[$grouping][] = ts('Group Status -') . ' ' . implode( ' ' . ts('or') . ' ', $statii );
         }
 
@@ -2294,7 +2304,7 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = "$select $from $where $order $limit";
-                
+
         if ( $returnQuery ) {
             return $query;
         }

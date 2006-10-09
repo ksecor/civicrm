@@ -12,7 +12,6 @@ class TestOfSearch extends UnitTestCase
     {
     }
     
-    
     function testSearchCountNull( )
     {
         $params = array( );
@@ -153,6 +152,33 @@ class TestOfSearch extends UnitTestCase
         $result = crm_contact_search( $params );
         
     }
+
+    /**
+     * test case for CRM-1233
+     */
+    function testGroupContact()
+    {
+        $params = array ( array( 'group', '=', array('7' => 1), 1, 0 ),
+                          array( 'contact_type', '=', 'Organization', 1, 0 ),
+                          array( 'group', '=', array('8' => 1), 1, 0 ),
+                          array( 'contact_type', '=', 'Organization', 1, 0 ),
+                         );
+
+//         $params = array ( array( 'group', 'IN', array('7' => 1, '8' => 1), 1, 0 ),
+//                           array( 'contact_type', '=', 'Organization', 1, 0 ),
+//                          );
+
+//         $params = array ( array( 'group', 'IN', array('7' => 1), 1, 0 ),
+//                           array( 'contact_type', '=', 'Organization', 1, 0 ),
+//                           );
+
+        
+        $contact =& civicrm_search($params, $return_properties);
+        CRM_Core_Error::debug('contact', $contact);
+        
+    }
+
+
 }
 
 ?>
