@@ -57,9 +57,12 @@ class CRM_Utils_String {
      * @static
      */
     static function titleToVar( $title ) {
+        //below code is commented for CRM-1305
+        /*
         if ( ! CRM_Utils_Rule::title( $title ) ) {
             return null;
         }
+        */
 
         $variable = self::munge( $title );
 
