@@ -528,6 +528,9 @@ class CRM_Contact_BAO_Query {
         $processed     = array( );
         $index = 0;
 
+        // CRM_Core_Error::debug( 'd', $this->_fields );
+        // CRM_Core_Error::debug( 'r', $this->_returnProperties );
+
         foreach ( $this->_returnProperties['location'] as $name => $elements ) {
             $index++;
             $lName = "`$name-location`";
@@ -589,7 +592,8 @@ class CRM_Contact_BAO_Query {
 
                 // hack for profile, add location id
                 if ( ! $field ) {
-                    if ( ! is_numeric($elementType) ) { //fix for CRM-882( to handle phone types )
+                    if ( $elementType &&
+                         ! is_numeric($elementType) ) { //fix for CRM-882( to handle phone types )
                         $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
                     } else if ( is_numeric( $name ) ) {
                         $field =& CRM_Utils_Array::value( $elementName . "-Primary", $this->_fields ); 

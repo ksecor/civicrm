@@ -372,6 +372,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             }
         }
 
+        // CRM_Core_Error::debug( 'n', $names );
         while ($result->fetch()) {
             // CRM_Core_Error::debug( 'r', $result );
 
