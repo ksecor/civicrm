@@ -93,7 +93,6 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
             $value = $this->_controller->get( 'task' );
         }
         $this->_controller->set( 'task', $value );
-
         $result = false;
         switch ( $value ) {
         case CRM_Contribute_Task::DELETE_CONTRIBUTIONS:
@@ -103,6 +102,13 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
         case CRM_Contribute_Task::EXPORT_CONTRIBUTIONS:
             $task   = 'CRM_Contribute_Form_Task_Export';
             break;
+
+        case CRM_Contribute_Task::BATCH_CONTRIBUTIONS:
+            $task   = array( 'CRM_Contribute_Form_Task_PickProfile',
+                             'CRM_Contribute_Form_Task_Batch' );
+
+            break;
+
 
         default: // the print task is the default and catch=all task
             $task = 'CRM_Contribute_Form_Task_Print';

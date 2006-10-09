@@ -644,6 +644,24 @@ GROUP BY p.id
          }
     }
 
+ /**
+     * function to get the sort name of a contact for a particular contribution
+     *
+     * @param  int    $id      id of the contribution
+     *
+     * @return null|string     sort name of the contact if found
+     * @static
+     * @access public
+     */
+    static function sortName( $id ) {
+        $query = "
+SELECT civicrm_contact.sort_name
+FROM   civicrm_contribution, civicrm_contact
+WHERE  civicrm_contribution.contact_id = civicrm_contact.id
+  AND  civicrm_contribution.id = {$id}
+";
+        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
 }
 
 ?>
