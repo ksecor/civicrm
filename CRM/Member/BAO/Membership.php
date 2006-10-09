@@ -36,6 +36,7 @@
    */
 
 require_once 'CRM/Member/DAO/Membership.php';
+require_once 'CRM/Member/DAO/MembershipType.php';
 
 require_once 'CRM/Core/BAO/CustomField.php';
 require_once 'CRM/Core/BAO/CustomValue.php';
@@ -78,7 +79,11 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         } else {
             CRM_Utils_Hook::pre( 'create', 'Membership', null, $params ); 
         }
-        
+        // converting dates to mysql format
+        $params['join_date']  = CRM_Utils_Date::isoToMysql($params['join_date']);
+        $params['start_date'] = CRM_Utils_Date::isoToMysql($params['start_date']);
+        $params['end_date']   = CRM_Utils_Date::isoToMysql($params['end_date']);
+
         $membership =& new CRM_Member_BAO_Membership();
         $membership->copyValues($params);
         $membership->id = CRM_Utils_Array::value( 'membership', $ids );
@@ -433,9 +438,60 @@ UPDATE civicrm_membership_type
         return false;
     }
 
+    /**
+     * combine all the importable fields from the lower levels object
+     *
+     * @return array array of importable Fields
+     * @access public
+     */
+    function &importableFields( $contacType = 'Individual' ) {
+        if ( ! self::$_importableFields ) {
+            if ( ! self::$_importableFields ) {
+                self::$_importableFields = array();
+            }
+            if (!$status) {
+                $fields = array( '' => array( 'title' => ts('- do not import -') ) );
+            } else {
+                $fields = array( '' => array( 'title' => ts('- Membership Fields -') ) );
+            }
+            
+            $tmpFields     = CRM_Member_DAO_Membership::import( );
+            //$tmpFields     = array_merge($tmpFields, CRM_Member_DAO_MembershipType::import( ));
+            //print_r($tmpFields);
+            //unset($tmpFields['option_value']);
+            //require_once 'CRM/Core/OptionValue.php';
+            //$optionFields = CRM_Core_OptionValue::getFields($mode ='member' );
+            //$contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
+            if ($contacType == 'Individual') {
+                require_once 'CRM/Core/DAO/DupeMatch.php';
+                $dao = & new CRM_Core_DAO_DupeMatch();
+                $dao->find(true);
+                $fieldsArray = explode('AND',$dao->rule);
+            } elseif ($contacType == 'Household') {
+                $fieldsArray = array('household_name', 'email');
+            } elseif ($contacType == 'Organization') {
+                $fieldsArray = array('organization_name', 'email');
+            }
+            $tmpConatctField = array();
+            if( is_array($fieldsArray) ) {
+                foreach ( $fieldsArray as $value) {
+                    $tmpConatctField[trim($value)] = $contactFields[trim($value)];
+                    $tmpConatctField[trim($value)]['title'] = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                }
+            }
+            $fields = array_merge($fields, $tmpConatctField);
+            $fields = array_merge($fields, $tmpFields);
+            //$fields = array_merge($fields, $optionFields);
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));
+            self::$_importableFields = $fields;
+        }
+        return self::$_importableFields;
+    }
+
     function &exportableFields( ) { 
-        require_once 'CRM/Member/DAO/Membership.php';
-        require_once 'CRM/Member/DAO/MembershipType.php';
+//         require_once 'CRM/Member/DAO/Membership.php';
+//         require_once 'CRM/Member/DAO/MembershipType.php';
         //$impFields = self::importableFields( );
         $expFieldMembership = CRM_Member_DAO_Membership::export( );
         $expFieldsMemType   = CRM_Member_DAO_MembershipType::export( );

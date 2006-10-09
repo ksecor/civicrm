@@ -95,7 +95,9 @@ class CRM_Member_Invoke {
             
             
         } elseif ($args[2] == 'import') {
-            
+            require_once 'CRM/Member/Import/Controller.php';
+            $controller =& new CRM_Member_Import_Controller(ts('Import Members'));
+            return $controller->run();
         } else {
             require_once 'CRM/Member/Page/DashBoard.php';
             $view =& new CRM_Member_Page_DashBoard( ts('DashBoard') );

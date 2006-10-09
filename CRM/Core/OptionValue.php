@@ -217,7 +217,6 @@ class CRM_Core_OptionValue {
      * @static
      */
     static function getFields( $mode = '') {
-
         if ( !self::$_fields || $mode) {
             self::$_fields = array();
             require_once "CRM/Core/DAO/OptionValue.php";
@@ -226,30 +225,28 @@ class CRM_Core_OptionValue {
             foreach (array_keys( $option ) as $id ) {
                 $optionName = $option[$id];
             }
-
-
-            if($mode == 'contribute') {
+            
+            if( $mode == 'contribute' ) {
                 $nameTitle = array('payment_instrument' => array('name' =>'payment_instrument',
                                                                  'title'=> 'Payment Instrument')
                                    );
-            } else {
+            } else if ( $mode == '' ) {
                 $nameTitle = array('gender'            => array('name' => 'gender',
                                                                 'title'=> 'Gender'),
                                    'individual_prefix' => array('name' => 'individual_prefix',
-                                                            'title'=> 'Individual Prefix'),
+                                                                'title'=> 'Individual Prefix'),
                                    'individual_suffix' => array('name' => 'individual_suffix',
                                                                 'title'=> 'Individual Suffix')
                                    );
             }
-
-           
-           
-            foreach ( $nameTitle as $name => $attribs ) {
-                self::$_fields[$name] = $optionName;
-                list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
-                self::$_fields[$name]['where'] = $name . '.' . $fieldName;
-                foreach ( $attribs as $key => $val ) {
-                    self::$_fields[$name][$key] = $val;
+            if ( is_array( $nameTitle ) ) {
+                foreach ( $nameTitle as $name => $attribs ) {
+                    self::$_fields[$name] = $optionName;
+                    list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
+                    self::$_fields[$name]['where'] = $name . '.' . $fieldName;
+                    foreach ( $attribs as $key => $val ) {
+                        self::$_fields[$name][$key] = $val;
+                    }
                 }
             }
         }
