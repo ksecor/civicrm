@@ -79,15 +79,15 @@ class CRM_Member_Import_Form_Preview extends CRM_Core_Form {
         }
         
         if ($invalidRowCount) {
-            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=contribution'));
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=membership'));
         }
 
         if ($conflictRowCount) {
-            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=contribution'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=membership'));
         }
         
         if ($mismatchCount) {
-            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=contribution'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=membership'));
         }
 
         
@@ -157,9 +157,9 @@ class CRM_Member_Import_Form_Preview extends CRM_Core_Form {
         $mapperLocType      = array();
         $mapperPhoneType    = array();
         // Note: we keep the multi-dimension array (even thought it's not
-        // needed in the case of contributions import) so that we can merge
+        // needed in the case of memberships import) so that we can merge
         // the common code with contacts import later and subclass contact
-        // and contribution imports from there
+        // and membership imports from there
         foreach ($mapper as $key => $value) {
             $mapperKeys[$key] = $mapper[$key][0];
 
@@ -219,9 +219,9 @@ class CRM_Member_Import_Form_Preview extends CRM_Core_Form {
             fclose($fd);
             
             $this->set('errorFile', $errorFile);
-            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=contribution'));
-            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=contribution'));
-            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=contribution'));
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=membership'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=membership'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=membership'));
         }
     }
 

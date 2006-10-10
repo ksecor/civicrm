@@ -77,7 +77,7 @@ class CRM_Member_Import_Form_UploadFile extends CRM_Core_Form {
             null, null, ts('Update'), CRM_Member_Import_Parser::DUPLICATE_UPDATE);
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
             null, null, ts('Fill'), CRM_Member_Import_Parser::DUPLICATE_FILL);
-// for contributions NOCHECK == SKIP
+// for memberships NOCHECK == SKIP
 //      $duplicateOptions[] = HTML_QuickForm::createElement('radio',
 //          null, null, ts('No Duplicate Checking'), CRM_Member_Import_Parser::DUPLICATE_NOCHECK);
         

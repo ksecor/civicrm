@@ -785,9 +785,12 @@ class CRM_Core_Invoke {
         
         // FIXME: a hack until we have common import
         // mechanisms for contacts and contributions
+
         $realm = $_GET['realm'];
         if ($realm == 'contribution') {
             $importController = 'CRM_Contribute_Import_Controller';
+        } else if ( $realm == 'membership' ) {
+            $importController = 'CRM_Member_Import_Controller';
         } else if ( $realm == 'history' ) {
             $importController = 'CRM_History_Import_Controller';
         } else {
