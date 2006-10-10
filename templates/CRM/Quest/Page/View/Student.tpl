@@ -30,7 +30,7 @@
                 <td class="nowrap">
                     <a href="{crmURL p='civicrm/quest/matchapp/preview' q="reset=1&action=view&id=$contactId"}">{ts}View{/ts}</a>
                     {if $permission EQ 'edit'}
-                        <br /><a href="{crmURL p='civicrm/quest/matchapp' q="reset=1&action=update&id=$contactId"}">{ts}Edit{/ts}</a>
+                        &nbsp; | &nbsp;<a href="{crmURL p='civicrm/quest/matchapp' q="reset=1&action=update&id=$contactId"}">{ts}Edit{/ts}</a>
                     {/if}
                 </td
             </tr>
@@ -45,10 +45,10 @@
     {/if}
     {if $recStatus}
         <table>
-            <tr class="columnheader"><th>{ts}Recommendations{/ts}</th><th>{ts}Status{/ts}</th></tr>
+            <tr class="columnheader"><th colspan="3">{ts}Recommendations{/ts}</th></tr>
                 {foreach from=$recStatus item=rec}
                     <tr class="{cycle values="odd-row,even-row"}">
-                        <td><strong><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=$rec.contact_id"}">{$rec.display_name} ({$rec.type})</a></strong></td>
+                        <td><strong><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rec.contact_id`"}">{$rec.display_name} ({$rec.type})</a></strong></td>
                         <td><strong>{$rec.status}</strong></td>
                         <td><strong><a href="{$rec.preview}">{ts}View{/ts}</a></strong></td>
                     </tr>
