@@ -558,7 +558,7 @@ class Net_Curl
         if (is_array($this->cookies) && count($this->cookies)) {
             $cookieData = '';
             foreach ($this->cookies as $name => $value) {
-                $cookieData = $name . '=' . $value . ';';
+                $cookieData .= $name . '=' . $value . ';';
             }
       
             $ret = curl_setopt($this->_ch, CURLOPT_COOKIE, $cookieData);

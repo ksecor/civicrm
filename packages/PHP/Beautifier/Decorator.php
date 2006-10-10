@@ -11,10 +11,10 @@
 * send a note to license@php.net so we can mail you a copy immediately.
 * @category   PHP
 * @package PHP_Beautifier
-* @author Claudio Bustos <clbustos@dotgeek.org>
-* @copyright  2004-2005 Claudio Bustos
+* @author Claudio Bustos <cdx@users.sourceforge.com>
+* @copyright  2004-2006 Claudio Bustos
 * @link     http://pear.php.net/package/PHP_Beautifier
-* @link     http://clbustos.dotgeek.org
+* @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
 * @version    CVS: $Id:$
 */
@@ -23,12 +23,12 @@
 *
 * @category     PHP
 * @package      PHP_Beautifier
-* @author       Claudio Bustos <clbustos@dotgeek.org>
-* @copyright    2004-2005 Claudio Bustos
+* @author       Claudio Bustos <cdx@users.sourceforge.com>
+* @copyright    2004-2006 Claudio Bustos
 * @link         http://pear.php.net/package/PHP_Beautifier
-* @link         http://clbustos.dotgeek.org
+* @link         http://beautifyphp.sourceforge.net
 * @license      http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version      Release: 0.1.7
+* @version      Release: 0.1.11
 */
 abstract class PHP_Beautifier_Decorator implements PHP_Beautifier_Interface {
     protected $oBeaut;

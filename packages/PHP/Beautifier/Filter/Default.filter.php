@@ -13,10 +13,10 @@
 * @category   PHP
 * @package PHP_Beautifier
 * @subpackage Filter
-* @author Claudio Bustos <clbustos@dotgeek.org>
-* @copyright  2004-2005 Claudio Bustos
+* @author Claudio Bustos <cdx@users.sourceforge.com>
+* @copyright  2004-2006 Claudio Bustos
 * @link     http://pear.php.net/package/PHP_Beautifier
-* @link     http://clbustos.dotgeek.org
+* @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
 * @version    CVS: $Id:$
 */
@@ -37,12 +37,12 @@
 * @category   PHP
 * @package PHP_Beautifier
 * @subpackage Filter
-* @author Claudio Bustos <clbustos@dotgeek.org>
-* @copyright  2004-2005 Claudio Bustos
+* @author Claudio Bustos <cdx@users.sourceforge.com>
+* @copyright  2004-2006 Claudio Bustos
 * @link     http://pear.php.net/package/PHP_Beautifier
-* @link     http://clbustos.dotgeek.org
+* @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version    Release: 0.1.7
+* @version    Release: 0.1.11
 */
 final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter {
     protected $sDescription = 'Default Filter for PHP_Beautifier';
@@ -98,6 +98,13 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter {
     {
         $this->oBeaut->add($sTag.' ');
     }
+    function t_case($sTag) {
+        $this->oBeaut->removeWhitespace();
+        $this->oBeaut->decIndent();
+        $this->oBeaut->addNewLineIndent();
+        $this->oBeaut->add($sTag.' ');
+        //$this->oBeaut->incIndent();
+    }
     function t_parenthesis_open($sTag) 
     {
         $this->oBeaut->add($sTag);
@@ -111,7 +118,9 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter {
     }
     function t_open_brace($sTag) 
     {
-        if ($this->oBeaut->isPreviousTokenConstant(T_VARIABLE) or ($this->oBeaut->isPreviousTokenConstant(T_STRING) and $this->oBeaut->getPreviousTokenConstant(2) == T_OBJECT_OPERATOR) or $this->oBeaut->getMode('double_quote')) {
+        if ($this->oBeaut->isPreviousTokenConstant(T_VARIABLE) or
+        $this->oBeaut->isPreviousTokenConstant(T_OBJECT_OPERATOR) or
+        ($this->oBeaut->isPreviousTokenConstant(T_STRING) and $this->oBeaut->getPreviousTokenConstant(2) == T_OBJECT_OPERATOR) or $this->oBeaut->getMode('double_quote')) {
             $this->add($sTag);
         } else {
             if ($this->oBeaut->removeWhiteSpace()) {
@@ -120,6 +129,9 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter {
                 $this->oBeaut->add($sTag);
             }
             $this->oBeaut->incIndent();
+            if($this->oBeaut->getControlSeq()==T_SWITCH) {
+                $this->oBeaut->incIndent();
+            }
             $this->oBeaut->addNewLineIndent();
         }
     }
@@ -130,6 +142,9 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter {
         } else {
             $this->oBeaut->removeWhitespace();
             $this->oBeaut->decIndent();
+            if($this->oBeaut->getControlSeq()==T_SWITCH) {
+                $this->oBeaut->decIndent();
+            }
             $this->oBeaut->addNewLineIndent();
             $this->oBeaut->add($sTag);
             $this->oBeaut->addNewLineIndent();
@@ -172,11 +187,11 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter {
             foreach($aLines as $sLine) {
                 if ($sLine = trim($sLine)) {
                     $this->oBeaut->addNewLineIndent();
-                    $this->oBeaut->add($sLine);
+                    $this->oBeaut->add(" ".$sLine);
                 }
             }
             $this->oBeaut->addNewLineIndent();
-            $this->oBeaut->add($aMatch[3]);
+            $this->oBeaut->add(" ".$aMatch[3]);
             $this->oBeaut->addNewLineIndent();
         }
     }
@@ -286,7 +301,7 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter {
     }
     function t_variable($sTag) 
     {
-        if ($this->oBeaut->isPreviousTokenConstant(T_STRING)) {
+        if ($this->oBeaut->isPreviousTokenConstant(T_STRING) and !$this->oBeaut->getMode("double_quote")) {
             $this->oBeaut->add(' ');
         }
         $this->oBeaut->add($sTag);
@@ -303,9 +318,7 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter {
             $this->oBeaut->add(' '.$sTag.' ');
         } else {
             $this->oBeaut->add($sTag);
-            if (!$this->oBeaut->isNextTokenConstant(T_CASE) and !$this->oBeaut->isNextTokenConstant(T_DEFAULT)) {
-                $this->oBeaut->incIndent();
-            }
+            $this->oBeaut->incIndent();
             $this->oBeaut->addNewLineIndent();
         }
     }
@@ -315,18 +328,19 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter {
     }
     function t_break($sTag) 
     {
-        if ($this->oBeaut->getControlSeq() == T_CASE or $this->oBeaut->getControlSeq() == T_DEFAULT) {
+        if ($this->oBeaut->getControlSeq() == T_SWITCH) {
             $this->oBeaut->removeWhitespace();
             $this->oBeaut->decIndent();
             $this->oBeaut->addNewLineIndent();
             $this->oBeaut->add($sTag);
+            $this->oBeaut->incIndent();
         } else {
             $this->oBeaut->add($sTag);
         }
     }
     function t_default($sTag) 
     {
-        $this->oBeaut->add($sTag);
+        $this->t_case($sTag);
     }
     function t_end_suffix($sTag) 
     {
@@ -356,6 +370,11 @@ final class PHP_Beautifier_Filter_Default extends PHP_Beautifier_Filter {
         $this->oBeaut->add(' '.$sTag.' ');
     }
     function t_assigment($sTag) 
+    {
+        $this->oBeaut->removeWhitespace();
+        $this->oBeaut->add(' '.$sTag.' ');
+    }
+    function t_assigment_pre($sTag) 
     {
         $this->oBeaut->removeWhitespace();
         $this->oBeaut->add($sTag.' ');

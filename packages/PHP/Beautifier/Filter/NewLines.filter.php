@@ -13,10 +13,10 @@
 * @category   PHP
 * @package PHP_Beautifier
 * @subpackage Filter
-* @author Claudio Bustos <clbustos@dotgeek.org>
-* @copyright  2004-2005 Claudio Bustos
+* @author Claudio Bustos <cdx@users.sourceforge.com>
+* @copyright  2004-2006 Claudio Bustos
 * @link     http://pear.php.net/package/PHP_Beautifier
-* @link     http://clbustos.dotgeek.org
+* @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
 * @since      File available since Release 0.1.2
 * @version    CVS: $Id:$
@@ -32,12 +32,12 @@
 * @category   PHP
 * @package PHP_Beautifier
 * @subpackage Filter
-* @author Claudio Bustos <clbustos@dotgeek.org>
-* @copyright  2004-2005 Claudio Bustos
+* @author Claudio Bustos <cdx@users.sourceforge.com>
+* @copyright  2004-2006 Claudio Bustos
 * @link     http://pear.php.net/package/PHP_Beautifier
-* @link     http://clbustos.dotgeek.org
+* @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version    Release: 0.1.7
+* @version    Release: 0.1.11
 * @since      Class available since Release 0.1.2
 */
 class PHP_Beautifier_Filter_NewLines extends PHP_Beautifier_Filter {

@@ -1,43 +1,52 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
+// | Copyright (c) 1997-2005 Hans-Peter Oeri                              |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
+// | This source file is subject to the New BSD license, That is bundled  |
+// | with this package in the file LICENSE, and is available through      |
+// | the world-wide-web at                                                |
+// | http://www.opensource.org/licenses/bsd-license.php                   |
+// | If you did not receive a copy of the new BSDlicense and are unable   |
+// | to obtain it through the world-wide-web, please send a note to       |
+// | pajoye@php.net so we can mail you a copy immediately.                |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at the following url:           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2004 Hans-Peter Oeri <hp@oeri.ch>                      |
+// | Author: Hans-Peter Oeri <hp@oeri.ch>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: CH.php,v 1.2 2004/02/03 23:34:53 neufeind Exp $
-
 /**
-* Validation functions for Swiss IDs 
-*
-* @version   $Id: CH.php,v 1.2 2004/02/03 23:34:53 neufeind Exp $
-* @author    Hans-Peter Oeri <hp@oeri.ch>
-* @copyright Copyright (c) 2004, Hans-Peter Oeri <hp@oeri.ch>
-* @license   PHP
-*/
+ * Methods for common data validations
+ *
+ * @category   Validate
+ * @package    Validate_CH
+ * @author     Hans-Peter Oeri <hp@oeri.ch>
+ * @copyright  1997-2005 Hans-Peter Oeri
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    CVS: $Id: CH.php,v 1.9 2005/11/01 13:12:30 pajoye Exp $
+ * @link       http://pear.php.net/package/Validate_CH
+ */
 
 /**
 * Requires base class Validate
 */
-require_once('Validate.php');
+require_once 'Validate.php';
 
 /**
-* Validate_CH 
-*
-* @access    public
-* @version   $Id: CH.php,v 1.2 2004/02/03 23:34:53 neufeind Exp $
-*/
+ * Data validation class for Switzerland
+ *
+ * This class provides methods to validate:
+ *  - Social insurance number (aka SSN)
+ *  - Swiss university's immatriculation number
+ *  - Postal code
+ *
+ * @category   Validate
+ * @package    Validate_CH
+ * @author     Hans-Peter Oeri <hp@oeri.ch>
+ * @copyright  1997-2005 Hans-Peter Oeri
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Validate_CH
+ */
 class Validate_CH
 {
     /**
@@ -55,22 +64,23 @@ class Validate_CH
     function ssn($ssn)
     {
         $t_regex = preg_match('/\d{3}\.\d{2}\.\d{3}\.\d{3}/', $ssn, $matches );
-        
-        if (!$t_regex)
+
+        if (!$t_regex) {
             return false;
+        }
 
         // weight 0 to non digits -> ignored
         $weights = array(5, 4, 3, 0, 2, 7, 0, 6, 5, 4, 0, 3, 2);
 
-        // although theoretically, a check "digit" of 10 could result, 
+        // although theoretically, a check "digit" of 10 could result,
         // no such ssn is issued! allow_high is therefore meaningless...
-        $t_check = Validate::_check_control_number($ssn, $weights, 11, 11);
+        $t_check = Validate::_checkControlNumber($ssn, $weights, 11, 11);
 
-        return $t_check; 
-    } 
-    
+        return $t_check;
+    }
+
     /**
-    * Validate a Swiss university's immatriculation number 
+    * Validate a Swiss university's immatriculation number
     *
     * Swiss immatriculation numbers are used by all universities
     * in Switzerland. They are used in two primary formats: Official
@@ -83,37 +93,38 @@ class Validate_CH
     *
     * @static
     * @access   public
-    * @param    string  immatriculation number 
+    * @param    string  immatriculation number
     * @return   bool    true on success
     */
     function studentid($umn)
     {
         // we accept both formats
-        $umn = preg_replace('/(\d{2})-(\d{3})-(\d{3})/', '$1$2$3', $umn); 
+        $umn = preg_replace('/(\d{2})-(\d{3})-(\d{3})/', '$1$2$3', $umn);
         $t_regex = preg_match('/\d{8}/', $umn);
 
-        if (!$t_regex)
+        if (!$t_regex) {
             return false;
+        }
 
         // NOW, we have to go on ourselves, as not the products
         // but the digits of the products are to be added!
 
         $weights = array(2, 1, 2, 1, 2, 1, 2);
-    
-        $sum = 0; 
+
+        $sum = 0;
 
         for ($i = 0; $i <= 6; ++$i) {
-            $tsum =  $umn{$i} * $weights[$i]; 
+            $tsum =  $umn{$i} * $weights[$i];
             $sum += ($tsum > 9 ? $tsum - 9 : $tsum);
         }
 
         $sum = 10 - $sum%10;
 
-        return ($sum == $umn[7]); 
+        return ($sum == $umn[7]);
     }
 
     /**
-    * Validate a Swiss ZIP 
+    * Validate a Swiss ZIP
     *
     * @static
     * @access   public
@@ -121,20 +132,19 @@ class Validate_CH
     * @param    bool    optional; strong checks (e.g. against a list of postcodes)
     * @return   bool    true if postcode is ok, false otherwise
     */
-    function postcode($postcode, $strong=false)
+    function postalCode($postcode, $strong = false)
     {
         if ($strong) {
             static $postcodes;
-    
+
             if (!isset($postcodes)) {
-                $file = '/opt/local/lib/php/data/Validate/CH_postcodes.txt';
+                $file = './data/Validate_CH/CH_postcodes.txt';
                 $postcodes = array_map('trim', file($file));
             }
-    
+
             return in_array($postcode, $postcodes);
-        } else {
-            return (ereg('^[0-9]{4}$', $postcode));
         }
-    } 
+        return (bool)ereg('^[0-9]{4}$', $postcode);
+    }
 }
 ?>

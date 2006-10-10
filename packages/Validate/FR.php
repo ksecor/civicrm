@@ -1,29 +1,61 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
+// | Copyright (c) 1997-2005 Pierre-Alain Joye, Bertrand Gugger           |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
+// | This source file is subject to the New BSD license, That is bundled  |
+// | with this package in the file LICENSE, and is available through      |
+// | the world-wide-web at                                                |
+// | http://www.opensource.org/licenses/bsd-license.php                   |
+// | If you did not receive a copy of the new BSDlicense and are unable   |
+// | to obtain it through the world-wide-web, please send a note to       |
+// | pajoye@php.net so we can mail you a copy immediately.                |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at the following url:           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Pierre-Alain Joye <paj@pearfr.org>                          |
+// | Author: Tomas V.V.Cox  <cox@idecnet.com>                             |
+// |         Pierre-Alain Joye <pajoye@php.net>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: FR.php,v 1.10 2004/03/16 22:42:58 pajoye Exp $
-//
-// Specific validation methods for data used in France
+/**
+ * Specific validation methods for data used in France
+ *
+ * @category   Validate
+ * @package    Validate_FR
+ * @author     Pierre-Alain Joye <pajoye@php.net>
+ * @author     Bertrand Gugger <bertrand@toggg.com>
+ * @copyright  1997-2005 Pierre-Alain Joye, Bertrand Gugger
+ * @license    http://www.opensource.org/licenses/bsd-license.php  new BSD
+ * @version    CVS: $Id: FR.php,v 1.22 2006/04/18 17:00:25 pajoye Exp $
+ * @link       http://pear.php.net/package/Validate_FR
+ */
 
-require_once("Validate.php");
+/**
+* Requires base class Validate
+*/
+require_once 'Validate.php';
 
 define('VALIDATE_FR_SSN_MODULUS', 97);
 
+/**
+ * Data validation class for France
+ *
+ * This class provides methods to validate:
+ *  - Social insurance number (aka SSN)
+ *  - French RIB
+ *  - French SIREN number
+ *  - French SIRET number
+ *  - Postal code
+ *  - French "departement"
+ *
+ * @category   PHP
+ * @package    Validate
+ * @subpackage Validate_FR
+ * @author     Pierre-Alain Joye <pajoye@php.net>
+ * @author     Bertrand Gugger <bertrand@toggg.com>
+ * @copyright  1997-2005 Pierre-Alain Joye, Bertrand Gugger
+ * @license    http://www.opensource.org/licenses/bsd-license.php  new BSD
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Validate_FR
+ */
 class Validate_FR
 {
     /**
@@ -35,18 +67,18 @@ class Validate_FR
      * This function checks given number according the specs
      * available here:
      *      http://www.dads.cnav.fr/tds/Stru0103.htm
-     *
+     *      http://xml.insee.fr/schema/nir.html
      * @param  string $number number or an array containaing the 'number'=>1234
      * @return bool           true if number is valid, otherwise false
-     * @author Pierre-Alain Joye <paj@pearfr.org>
+     * @author Pierre-Alain Joye <pajoye@php.net>
      */
     function ssn($ssn)
     {
-        $str    = strtolower(preg_replace('/[^0-9a-zA-Z]/','',$ssn));
+        $str    = strtolower(preg_replace('/[^0-9a-zA-Z]/', '', $ssn));
 
         $regexp = "/^([12])(\d\d)(\d\d)(\d\d|2a|2b)(\d\d\d)(\d\d\d)(\d\d)$/";
 
-        if (!preg_match($regexp,$str,$parts)) {
+        if (!preg_match($regexp, $str, $parts)) {
             return false;
         }
 
@@ -81,66 +113,66 @@ class Validate_FR
         }
         */
         $num = $parts[1].$parts[2].$parts[3].$parts[4].$parts[5].$parts[6];
-        $key = VALIDATE_FR_SSN_MODULUS - Validate::_modf($num,VALIDATE_FR_SSN_MODULUS);
+        $key = VALIDATE_FR_SSN_MODULUS - Validate::_modf($num, VALIDATE_FR_SSN_MODULUS);
 
         return ($key == $parts[7]) ? true : false;
     }
 
     /**
      * Validate a french RIB
+     * see http://www.ecbs.org/Download/Tr201v3.9.pdf
      *
      * @param  string $aCodeBanque number or an array containaing the 'number'=>1234
      * @param  string $aCodeGuichet number or an array containaing the 'number'=>1234
      * @param  string $aNoCompte number or an array containaing the 'number'=>1234
      * @param  string $number number or an array containaing the 'number'=>1234
      * @return bool   true if number is valid, otherwise false
-     * @author Pierre-Alain Joye <paj@pearfr.org>
+     * @author Pierre-Alain Joye <pajoye@php.net>
+     * @author bertrand Gugger <bertrand@toggg.com>
      */
     function rib($rib)
     {
         if (is_array($rib)) {
-            $codebanque=$codeguichet=$nocompte=$key='';
+            $codebanque = $codeguichet = $nocompte = $key = '';
             extract($rib);
         } else {
             return false;
         }
-        $chars       = array('/[AJ]/','/[BKZ]/','/[CLT]/','/[DMU]/','/[ENV]/','/[FOW]/','/[GPX]/','/[HQY]/','/[IRZ]/');
+        $chars       = array('/[AJ]/','/[BKS]/','/[CLT]/','/[DMU]/','/[ENV]/','/[FOW]/','/[GPX]/','/[HQY]/','/[IRZ]/');
         $values      = array('1','2','3','4','5','6','7','8','9');
 
         $codebank    = preg_replace('/[^0-9]/', '', $codebanque);
         $officecode  = preg_replace('/[^0-9]/', '', $codeguichet);
         $account     = preg_replace($chars, $values, $nocompte);
 
-        if (strlen($codebank) != 5){
+        if (strlen($codebank) != 5) {
             return false;
         }
 
-        if (strlen($officecode) != 5){
+        if (strlen($officecode) != 5) {
             return false;
         }
 
-        if (strlen($account) > 11){
+        if (strlen($account) > 11) {
             return false;
         }
 
-        $l     = $codebank.$officecode.$account;
-        $a1    = substr($l, 0, 7);
-        $b1    = substr($l, 7, 7);
-        $c1    = substr($l, 14, 7);
-
-        $key   = 97 - Validate::_modf((62*$a1+34*$b1+3*$c1), 97);
-
-        if ($key == 0){
-            $key = 97;
+        if (strlen($key) != 2) {
+            return false;
         }
 
-        return $key == intval($key);
+        $l     = $codebank.$officecode.str_pad($account, 11, '0', STR_PAD_LEFT).$key.'0';
+        $keyChk = 0;
+        for ($i = 0; $i < 24; $i += 4) {
+            $keyChk = ($keyChk*9 + substr($l, $i, 4)) % 97;
+        }
+        return !$keyChk;
     }
 
 
     /**
      * Validate a french SIREN number
-     *
+     * see http://xml.insee.fr/schema/siret.html
      *
      * @param  string $siren  number or an array containaing the 'number'=>1234
      * @return bool           true if number is valid, otherwise false
@@ -171,7 +203,7 @@ class Validate_FR
 
     /**
      * Validate a french SIRET number
-     *
+     * see http://xml.insee.fr/schema/siret.html
      *
      * @param  string $siret  number or an array containaing the 'number'=>1234
      * @return bool           true if number is valid, otherwise false
@@ -180,10 +212,10 @@ class Validate_FR
     function siret($siret)
     {
         $siret = str_replace(' ', '', $siret);
-        if (!preg_match("/^(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)$/", $siret,	$match)) {
+        if (!preg_match("/^(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)(\d)$/", $siret, $match)) {
             return false;
         } else {
-            if (!Validate_FR::siren(implode('', array_slice($match, 1,9)))) {
+            if (!Validate_FR::siren(implode('', array_slice($match, 1, 9)))) {
                 return false;
             }
         }
@@ -206,5 +238,53 @@ class Validate_FR
         }
         return (($sum % 10) == 0);
     }
+
+    /**
+     * Validates a French Postal Code format
+     *
+     * @param string $postalCode the code to validate
+     * @param   bool    optional; strong checks (e.g. against a list of postcodes) (not implanted)
+     * @return boolean TRUE if code is valid, FALSE otherwise
+     * @access public
+     * @static
+     * @todo Validate against department
+     */
+    function postalCode($postalCode, $strong = false)
+    {
+          return (bool)preg_match('/^(0[1-9]|[1-9][0-9])[0-9][0-9][0-9]$/', $postalCode);
+    }
+
+    /**
+     * Validates a French "departement"
+     *
+     * @param string $region 2-digit department number
+     * @return bool Whether the department is valid
+     * @static
+     */
+    function region($region)
+    {
+        if (is_numeric($region)
+            && floor($region) == ceil($region)) {
+            switch (strlen($region)) {
+                case 2:
+                    if ($region >= 1 && $region <= 95
+                        && $region != 20) {
+                        return true;
+                    }
+                    break;
+                case 3:
+                    /* DOM/TOM et collectivitees OM  */
+                    if (($region >= 971 && $region <= 975) || ($region >= 984 && $region <= 988)) {
+                        return true;
+                    }
+                    break;
+            }
+        }
+        switch (strtoupper($region)) {
+            case '2A':
+            case '2B':
+                return true;
+        }
+        return false;
+    }
 }
-?>
