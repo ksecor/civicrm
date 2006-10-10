@@ -6269,7 +6269,7 @@ The format of a billing agreement identification number is the single-character 
 			</element>
 			<element name="PaymentSourceID" type="xs:string" minOccurs="0">
 				<annotation>
-					<documentation>Encrypted value of the funding source for payment. The unencrypted number has a prefix of C for credit cards and B for bank accounts. </documentation>
+					<documentation>Note: This field is no longer used and is always empty.</documentation>
 				</annotation>
 			</element>
 		</sequence>
