@@ -15,7 +15,7 @@
 // |         Pierre-Alain Joye <pajoye@php.net>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: IT.php,v 1.14 2005/11/01 10:14:19 pajoye Exp $
+// $Id: IT.php,v 1.20 2006/08/17 15:47:22 dsp Exp $
 //
 
 require_once 'PEAR.php';
@@ -117,7 +117,7 @@ define('IT_UNKNOWN_OPTION',            -6);
  * </code>
  *
  * @author   Ulf Wendel <uw@netuse.de>
- * @version  $Id: IT.php,v 1.14 2005/11/01 10:14:19 pajoye Exp $
+ * @version  $Id: IT.php,v 1.20 2006/08/17 15:47:22 dsp Exp $
  * @access   public
  * @package  HTML_Template_IT
  */
@@ -161,7 +161,7 @@ class HTML_Template_IT
      * @access   public
      * @see      $variablenameRegExp, $openingDelimiter, $closingDelimiter
      */
-    var $blocknameRegExp    = '[0-9A-Za-z_-]+';
+    var $blocknameRegExp    = '[\.0-9A-Za-z_-]+';
 
     /**
      * RegExp matching a variable placeholder in the template.
@@ -171,7 +171,7 @@ class HTML_Template_IT
      * @access   public
      * @see      $blocknameRegExp, $openingDelimiter, $closingDelimiter
      */
-    var $variablenameRegExp    = '[0-9A-Za-z_-]+';
+    var $variablenameRegExp    = '[\.0-9A-Za-z_-]+';
 
     /**
      * RegExp used to find variable placeholder, filled by the constructor.
@@ -589,7 +589,11 @@ class HTML_Template_IT
                 }
             }
         } else {
-            $this->blockdata[$block] .= $outer;
+            if (empty($this->blockdata[$block])) {
+                $this->blockdata[$block] = $outer;
+            } else {
+                $this->blockdata[$block] .= $outer;
+            }
         }
 
         return $empty;
@@ -710,7 +714,7 @@ class HTML_Template_IT
         $this->currentBlock = '__global__';
 
         $this->variableCache    = array();
-        $this->blocklookup      = array();
+        $this->blocklist        = array();
         $this->touchedBlocks    = array();
 
         $this->flagBlocktrouble = false;
@@ -728,6 +732,7 @@ class HTML_Template_IT
      * @param        boolean     remove empty blocks?
      * @see          LoadTemplatefile(), $template
      * @access       public
+     * @return       boolean
      */
     function setTemplate( $template, $removeUnknownVariables = true,
                           $removeEmptyBlocks = true)
@@ -790,7 +795,7 @@ class HTML_Template_IT
      * on windows.
      *
      * @param    string
-     * @see      IntegratedTemplate()
+     * @see      HTML_Template_IT()
      * @access   public
      */
     function setRoot($root)
@@ -915,7 +920,13 @@ class HTML_Template_IT
             return "";
         }
 
-        $content = fread($fh, filesize($filename));
+		$fsize = filesize($filename);
+        if ($fsize < 1) {
+			fclose($fh);
+            return '';
+        }
+
+        $content = fread($fh, $fsize);
         fclose($fh);
 
         return preg_replace(
@@ -938,7 +949,7 @@ class HTML_Template_IT
    /**
     * Replaces an opening delimiter by a special string
     *
-    * @param string
+    * @param  string
     * @return string
     */
     function _preserveOpeningDelimiter($str)

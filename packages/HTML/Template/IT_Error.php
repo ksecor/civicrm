@@ -15,14 +15,14 @@
 // |         Pierre-Alain Joye <pajoye@php.net>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: IT_Error.php,v 1.2 2005/11/01 10:14:19 pajoye Exp $
+// $Id: IT_Error.php,v 1.3 2006/08/17 15:44:31 dsp Exp $
 
 require_once "PEAR.php";
 
 /**
 * IT[X] Error class
 * 
-* @package IT[X]
+* @package HTML_Template_IT
 */
 class IT_Error extends PEAR_Error {
 
