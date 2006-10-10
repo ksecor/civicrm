@@ -17,7 +17,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Remote.php,v 1.90.2.2 2006/03/23 05:45:17 cellog Exp $
+ * @version    CVS: $Id: Remote.php,v 1.90.2.3 2006/06/04 12:27:55 pajoye Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -37,7 +37,7 @@ require_once 'PEAR/REST.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.9
+ * @version    Release: 1.4.11
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -532,7 +532,7 @@ parameter.
     function doListUpgrades($command, $options, $params)
     {
         require_once 'PEAR/Common.php';
-        if (isset($params[0]) && !PEAR_Common::betterStates($params[0])) {
+        if (isset($params[0]) && !is_array(PEAR_Common::betterStates($params[0]))) {
             return $this->raiseError($params[0] . ' is not a valid state (stable/beta/alpha/devel/etc.) try "pear help list-upgrades"');
         }
         $savechannel = $channel = $this->config->get('default_channel');
