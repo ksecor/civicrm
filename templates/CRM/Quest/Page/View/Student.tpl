@@ -23,21 +23,25 @@
     {if $contactTag}<br /><label>{ts}Tags{/ts}:</label>&nbsp;{$contactTag}{/if}
     
     {* Show app task statuses if the taskStatus var is populated *}
-    {if $taskStatus || $Student.cmr_disposition || $recStatus}
+    {if $taskStatus || $Student.cmr_disposition}
         <table>
             <tr class="columnheader"><th colspan="2">College Match Summary</th></tr>
             <tr class="odd-row"><td><strong>{ts}CM Disposition{/ts}:</strong></td><td><strong>{$Student.cmr_disposition}</strong></td></tr>
             <tr class="even-row"><td><strong>{ts}CM Application{/ts}:</strong></td><td><strong>{$taskStatus.cmApp}</strong></td></tr>
             <tr class="odd-row"><td><strong>{ts}Partner Supplement{/ts}:</strong></td><td><strong>{$taskStatus.cmPartnerSupplement}</strong></td></tr>
-            {if $recStatus}
+            <tr class="even-row"><td><strong>{ts}All Recommendations{/ts}:</strong></td><td><strong>{$taskStatus.allRecs}</strong></td></tr>
+            <tr class="even-row"><td><strong>{ts}CM Total Package{/ts}:</strong></td><td><strong>{$taskStatus.cmPackage}</strong></td></tr>
+        </table>
+    {/if}
+    {if $recStatus}
+        <table>
+            <tr class="columnheader"><th>{ts}Recommender{/ts}</th><th>{ts}Status{/ts}</th></tr>
                 {foreach from=$recStatus item=rec}
                     <tr class="{cycle values="odd-row,even-row"}">
-                        <td><strong>{ts}Recommendation from{/ts} {$rec.display_name}</strong></td>
+                        <td><strong><a href="{$rec.preview}">{$rec.display_name}</a></strong></td>
                         <td><strong>{$rec.status}</strong></td>
                     </tr>
                 {/foreach}
-            {/if}
-            <tr class="even-row"><td><strong>{ts}CM Total Package{/ts}:</strong></td><td><strong>{$taskStatus.cmPackage}</strong></td></tr>
         </table>
     {/if}
 </div>
