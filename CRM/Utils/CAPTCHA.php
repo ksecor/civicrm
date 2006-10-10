@@ -85,7 +85,7 @@ class CRM_Utils_CAPTCHA {
         $this->_captcha =& Text_CAPTCHA::factory( 'Image' );
         $retval = $this->_captcha->init( $width, $height, $phrase, $options );
         if ( PEAR::isError( $retval ) ) {
-            CRM_Core_Error::statusBounce( ts( 'Error initializing CAPTCHA library' ) );
+            CRM_Utils_System::statusBounce( ts( 'Error initializing CAPTCHA library' ) );
         }
 
         $config =& CRM_Core_Config::singleton( );
@@ -120,7 +120,7 @@ class CRM_Utils_CAPTCHA {
         // get CAPTCHA image
         $png = $this->_captcha->getCAPTCHAAsPNG( );
         if ( PEAR::isError( $png ) ) {
-            CRM_Core_Error::statusBounce( ts( 'Error generating CAPTCHA image' ) );
+            CRM_Utils_System::statusBounce( ts( 'Error generating CAPTCHA image' ) );
         }
         
         // store the file keyed to the session for now
