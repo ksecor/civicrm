@@ -18,7 +18,7 @@
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: date.php,v 1.55 2005/08/04 20:39:05 avb Exp $
+// $Id: date.php,v 1.57 2006/06/03 12:33:44 avb Exp $
 
 require_once 'HTML/QuickForm/group.php';
 require_once 'HTML/QuickForm/select.php';
@@ -120,7 +120,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
         if (is_array($options)) {
             foreach ($options as $name => $value) {
                 if (isset($this->_options[$name])) {
-                    if (is_array($value)) {
+                    if (is_array($value) && is_array($this->_options[$name])) {
                         $this->_options[$name] = @array_merge($this->_options[$name], $value);
                     } else {
                         $this->_options[$name] = $value;

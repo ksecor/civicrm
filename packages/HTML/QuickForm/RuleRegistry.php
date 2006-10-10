@@ -18,7 +18,7 @@
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: RuleRegistry.php,v 1.14 2005/07/22 15:06:25 avb Exp $
+// $Id: RuleRegistry.php,v 1.17 2006/06/20 22:09:15 avb Exp $
 
 /**
 * Registers rule objects and uses them for validation
@@ -269,7 +269,7 @@ class HTML_QuickForm_RuleRegistry
                     "            _element.checked = _element.defaultChecked;\n" .
                     "            break;\n" .
                     "          case 'select-one':\n" .
-                    "          case 'select-multiple:\n" .
+                    "          case 'select-multiple':\n" .
                     "            for (var j = 0; j < _element.options.length; j++) {\n" .
                     "              _element.options[j].selected = _element.options[j].defaultSelected;\n" .
                     "            }\n" .
@@ -302,19 +302,22 @@ class HTML_QuickForm_RuleRegistry
                     "    }\n";
             }
 
-        } elseif ($element->getType() == 'checkbox' && !is_a($element, 'html_quickform_advcheckbox')) {
-            $value = "  if (frm.elements['$elementName'].checked) {\n" .
-                     "    value{$jsIndex} = '1';\n" .
-                     "  } else {\n" .
-                     "    value{$jsIndex} = '';\n" .
-                     "  }";
-            $tmp_reset .= ($reset) ? "    field.checked = field.defaultChecked;\n" : '';
+        } elseif ($element->getType() == 'checkbox') {
+            if (is_a($element, 'html_quickform_advcheckbox')) {
+                $value = "  value{$jsIndex} = frm.elements['$elementName'][1].checked? frm.elements['$elementName'][1].value: frm.elements['$elementName'][0].value;\n";
+                $tmp_reset .= $reset ? "    field[1].checked = field[1].defaultChecked;\n" : '';
+            } else {
+                $value = "  value{$jsIndex} = frm.elements['$elementName'].checked? '1': '';\n";
+                $tmp_reset .= $reset ? "    field.checked = field.defaultChecked;\n" : '';
+            }
 
         } elseif ($element->getType() == 'radio') {
             $value = "  value{$jsIndex} = '';\n" .
-                     "  for (var i = 0; i < frm.elements['$elementName'].length; i++) {\n" .
-                     "    if (frm.elements['$elementName'][i].checked) {\n" .
-                     "      value{$jsIndex} = frm.elements['$elementName'][i].value;\n" .
+                     // Fix for bug #5644
+                     "  var els = 'length' in frm.elements['$elementName']? frm.elements['$elementName']: [ frm.elements['$elementName'] ];\n" .
+                     "  for (var i = 0; i < els.length; i++) {\n" .
+                     "    if (els[i].checked) {\n" .
+                     "      value{$jsIndex} = els[i].value;\n" .
                      "    }\n" .
                      "  }";
             if ($reset) {

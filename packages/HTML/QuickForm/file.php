@@ -17,7 +17,7 @@
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: file.php,v 1.19 2004/10/09 19:26:00 avb Exp $
+// $Id: file.php,v 1.20 2006/06/08 13:42:05 avb Exp $
 
 require_once("HTML/QuickForm/input.php");
 
@@ -192,6 +192,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
      * @param    string  Destination directory path
      * @param    string  New file name
      * @access   public
+     * @return   bool    Whether the file was moved successfully
      */
     function moveUploadedFile($dest, $fileName = '')
     {
