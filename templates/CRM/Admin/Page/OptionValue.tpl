@@ -14,7 +14,7 @@
         <table>
         <tr class="columnheader">
             <th>{ts}Title{/ts}</th>
-            <th>{ts}Name{/ts}</th>
+            <th>{ts}Value{/ts}</th>
             <th>{ts}Description{/ts}</th>
             <th>{ts}Weight{/ts}</th>
             <th>{ts}Default{/ts}</th>
@@ -25,7 +25,7 @@
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
-	        <td>{$row.name}</td>	
+	        <td>{$row.value}</td>	
 	        <td>{$row.description}</td>
             <td>{$row.weight}</td>
             <td>{$row.default_value}</td>
