@@ -39,7 +39,7 @@
             <tr class="odd-row">
                 <td><strong>{ts}Partner Supplement{/ts}:</strong></td>
                 <td><strong>{$taskStatus.cmPartnerSupplement}</strong></td>
-                <td><a href="{crmURL p='civicrm/quest/matchapp/partner' q="reset=1&action=view&id=$contactId"}">{ts}View{/ts}</a></td>
+                <td><strong><a href="{crmURL p='civicrm/quest/matchapp/partner' q="reset=1&action=view&id=$contactId"}">{ts}View{/ts}</a></strong></td>
             </tr>
             <tr class="even-row"><td><strong>{ts}All Recommendations{/ts}:</strong></td><td><strong>{$taskStatus.cmAllRecs}</strong></td><td></td></tr>
             <tr class="odd-row"><td><strong>{ts}CM Total Package{/ts}:</strong></td><td><strong>{$taskStatus.cmPackage}</strong></td><td></td></tr>
