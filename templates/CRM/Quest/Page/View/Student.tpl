@@ -35,7 +35,7 @@
     {/if}
     {if $recStatus}
         <table>
-            <tr class="columnheader"><th>{ts}Recommender{/ts}</th><th>{ts}Status{/ts}</th></tr>
+            <tr class="columnheader"><th>{ts}Recommenders{/ts}</th><th>{ts}Status{/ts}</th></tr>
                 {foreach from=$recStatus item=rec}
                     <tr class="{cycle values="odd-row,even-row"}">
                         <td><strong><a href="{$rec.preview}">{$rec.display_name}</a></strong></td>
