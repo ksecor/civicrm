@@ -100,7 +100,7 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
         $this->addRule( 'label', ts('Please enter a valid option title.'), 'required' );
 
         $this->add('text', 'value', ts('Value'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'value' ) );
-        $this->addRule( 'name', ts('Please enter a valid option value.'), 'required' );
+        $this->addRule( 'value', ts('Please enter a valid option value.'), 'required' );
         
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ) );
         
