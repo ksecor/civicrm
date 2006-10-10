@@ -9,10 +9,11 @@
 * @package DB_Table
 *
 * @author Paul M. Jones <pmjones@php.net>
+* @author Mark Wiesemann <wiesemann@php.net>
 * 
 * @license http://www.gnu.org/copyleft/lesser.html LGPL
 * 
-* @version $Id: Valid.php,v 1.6 2005/03/07 23:20:10 pmjones Exp $
+* @version $Id: Valid.php,v 1.7 2005/08/18 08:09:43 wiesemann Exp $
 *
 */
 
@@ -43,6 +44,7 @@ if (! isset($GLOBALS['_DB_TABLE']['valid'])) {
 * @package DB_Table
 * 
 * @author Paul M. Jones <pmjones@php.net>
+* @author Mark Wiesemann <wiesemann@php.net>
 *
 */
 

@@ -7,7 +7,7 @@
 * DB_Table provides database API abstraction, data type abstraction,
 * automated SELECT, INSERT, and UPDATE queries, automated table
 * creation, automated validation of inserted/updated column values,
-* and automated creation of QuickForm elemnts based on the column
+* and automated creation of QuickForm elements based on the column
 * definitions.
 * 
 * @category DB
@@ -15,10 +15,11 @@
 * @package DB_Table
 *
 * @author Paul M. Jones <pmjones@php.net>
+* @author Mark Wiesemann <wiesemann@php.net>
 * 
 * @license http://www.gnu.org/copyleft/lesser.html LGPL
 * 
-* @version $Id: Table.php,v 1.27 2005/03/07 23:20:09 pmjones Exp $
+* @version $Id: Table.php,v 1.66 2006/04/18 16:50:07 wiesemann Exp $
 *
 */
 
@@ -29,7 +30,7 @@
 define('DB_TABLE_ERR_NOT_DB_OBJECT',    -1);
 
 /**
-* Error code at instantiation time when the PEAR DB $phptype is not
+* Error code at instantiation time when the PEAR DB/MDB2 $phptype is not
 * supported by DB_Table.
 */
 define('DB_TABLE_ERR_PHPTYPE',          -2);
@@ -76,7 +77,7 @@ define('DB_TABLE_ERR_UPD_DATA_INVALID', -9);
 
 /**
 * Error code when you use a create() flag that is not recognized (must
-* be 'safe', 'drop', or boolean false.
+* be 'safe', 'drop', 'verify' or boolean false.
 */
 define('DB_TABLE_ERR_CREATE_FLAG',      -10);
 
@@ -164,6 +165,73 @@ define('DB_TABLE_ERR_TABLE_STRLEN',     -23);
 */
 define('DB_TABLE_ERR_SEQ_STRLEN',       -24);
 
+/**
+* Error code at verify() time when the table does not exist in the
+* database.
+*/
+define('DB_TABLE_ERR_VER_TABLE_MISSING', -25);
+
+/**
+* Error code at verify() time when the column does not exist in the
+* database table.
+*/
+define('DB_TABLE_ERR_VER_COLUMN_MISSING', -26);
+
+/**
+* Error code at verify() time when the column type does not match the
+* type specified in the column declaration.
+*/
+define('DB_TABLE_ERR_VER_COLUMN_TYPE',  -27);
+
+/**
+* Error code at instantiation time when the column definition array
+* does not contain at least one column.
+*/
+define('DB_TABLE_ERR_NO_COLS',          -28);
+
+/**
+* Error code at verify() time when an index cannot be found in the
+* database table.
+*/
+define('DB_TABLE_ERR_VER_IDX_MISSING',   -29);
+
+/**
+* Error code at verify() time when an index does not contain all
+* columns that it should contain.
+*/
+define('DB_TABLE_ERR_VER_IDX_COL_MISSING', -30);
+
+/**
+* Error code at instantiation time when a creation mode
+* is not available for a phptype.
+*/
+define('DB_TABLE_ERR_CREATE_PHPTYPE', -31);
+
+/**
+* Error code at create() time when you define more than one primary key
+* in $this->idx.
+*/
+define('DB_TABLE_ERR_DECLARE_PRIMARY', -32);
+
+/**
+* Error code at create() time when a primary key is defined in $this->idx
+* and SQLite is used (SQLite does not support primary keys).
+*/
+define('DB_TABLE_ERR_DECLARE_PRIM_SQLITE', -33);
+
+/**
+* Error code at alter() time when altering a table field is not possible
+* (e.g. because MDB2 has no support for the change or because the DBMS
+* does not support the change).
+*/
+define('DB_TABLE_ERR_ALTER_TABLE_IMPOS', -34);
+
+/**
+* Error code at alter() time when altering a(n) index/constraint is not possible
+* (e.g. because MDB2 has no support for the change or because the DBMS
+* does not support the change).
+*/
+define('DB_TABLE_ERR_ALTER_INDEX_IMPOS', -35);
 
 /**
 * The PEAR class for errors
@@ -173,12 +241,12 @@ require_once 'PEAR.php';
 /**
 * The Date class for recasting date and time values
 */
-require_once 'Date.php';
+require_once 'DB/Table/Date.php';
 
 
 /**
 * DB_Table supports these RDBMS engines and their various native data
-* types; we need these here instead of in Manager.php becuase the
+* types; we need these here instead of in Manager.php because the
 * initial array key tells us what databases are supported.
 */
 $GLOBALS['_DB_TABLE']['type'] = array(
@@ -197,6 +265,21 @@ $GLOBALS['_DB_TABLE']['type'] = array(
         'time'      => 'CHAR(8)',
         'timestamp' => 'CHAR(19)'
     ),
+    'ibase' => array(
+        'boolean'   => 'DECIMAL(1,0)',
+        'char'      => 'CHAR',
+        'varchar'   => 'VARCHAR',
+        'smallint'  => 'SMALLINT',
+        'integer'   => 'INTEGER',
+        'bigint'    => 'BIGINT',
+        'decimal'   => 'DECIMAL',
+        'single'    => 'FLOAT',
+        'double'    => 'DOUBLE PRECISION',
+        'clob'      => 'BLOB SUB_TYPE 1',
+        'date'      => 'DATE',
+        'time'      => 'TIME',
+        'timestamp' => 'TIMESTAMP'
+    ),
     'mssql' => array(
         'boolean'   => 'DECIMAL(1,0)',
         'char'      => 'CHAR',
@@ -213,6 +296,21 @@ $GLOBALS['_DB_TABLE']['type'] = array(
         'timestamp' => 'CHAR(19)'
     ),
     'mysql' => array(
+        'boolean'   => 'DECIMAL(1,0)',
+        'char'      => 'CHAR',
+        'varchar'   => 'VARCHAR',
+        'smallint'  => 'SMALLINT',
+        'integer'   => 'INTEGER',
+        'bigint'    => 'BIGINT',
+        'decimal'   => 'DECIMAL',
+        'single'    => 'FLOAT',
+        'double'    => 'DOUBLE',
+        'clob'      => 'LONGTEXT',
+        'date'      => 'CHAR(10)',
+        'time'      => 'CHAR(8)',
+        'timestamp' => 'CHAR(19)'
+    ),
+    'mysqli' => array(
         'boolean'   => 'DECIMAL(1,0)',
         'char'      => 'CHAR',
         'varchar'   => 'VARCHAR',
@@ -275,41 +373,79 @@ $GLOBALS['_DB_TABLE']['type'] = array(
 );
 
 
-/**
-* US-English error messages.  DB_Table has no other embedded strings, so
-* if you want to internationalize, you can modify these for your
-* language; just set them before or after including DB_Table.
-*/
-if (! isset($GLOBALS['_DB_TABLE']['error'])) {
-    $GLOBALS['_DB_TABLE']['error'] = array(
-        DB_TABLE_ERR_NOT_DB_OBJECT       => 'First parameter must be a DB object',
-        DB_TABLE_ERR_PHPTYPE             => 'DB phptype not supported',
-        DB_TABLE_ERR_SQL_UNDEF           => 'Select key not in map',
-        DB_TABLE_ERR_INS_COL_NOMAP       => 'Insert column not in map',
-        DB_TABLE_ERR_INS_COL_REQUIRED    => 'Insert data must be set and non-null for column',
-        DB_TABLE_ERR_INS_DATA_INVALID    => 'Insert data not valid for column',
-        DB_TABLE_ERR_UPD_COL_NOMAP       => 'Update column not in map',
-        DB_TABLE_ERR_UPD_COL_REQUIRED    => 'Update column must be set and non-null',
-        DB_TABLE_ERR_UPD_DATA_INVALID    => 'Update data not valid for column',
-        DB_TABLE_ERR_CREATE_FLAG         => 'Create flag not valid',
-        DB_TABLE_ERR_IDX_NO_COLS         => 'No columns for index',
-        DB_TABLE_ERR_IDX_COL_UNDEF       => 'Column not in map for index',
-        DB_TABLE_ERR_IDX_TYPE            => 'Type not valid for index',
-        DB_TABLE_ERR_DECLARE_STRING      => 'String column declaration not valid',
-        DB_TABLE_ERR_DECLARE_DECIMAL     => 'Decimal column declaration not valid',
-        DB_TABLE_ERR_DECLARE_TYPE        => 'Column type not valid',
-        DB_TABLE_ERR_VALIDATE_TYPE       => 'Cannot validate for unknown type on column',
-        DB_TABLE_ERR_DECLARE_COLNAME     => 'Column name not valid',
-        DB_TABLE_ERR_DECLARE_IDXNAME     => 'Index name not valid',
-        DB_TABLE_ERR_DECLARE_TYPE        => 'Column type not valid',
-        DB_TABLE_ERR_IDX_COL_CLOB        => 'CLOB column not allowed for index',
-        DB_TABLE_ERR_DECLARE_STRLEN      => 'Column name too long, 30 char max',
-        DB_TABLE_ERR_IDX_STRLEN          => 'Index name too long, 30 char max',
-        DB_TABLE_ERR_TABLE_STRLEN        => 'Table name too long, 30 char max',
-        DB_TABLE_ERR_SEQ_STRLEN          => 'Sequence name too long, 30 char max'
-    );
-}
+/** 
+  * US-English default error messages. If you want to internationalize, you can
+  * set the translated messages via $GLOBALS['_DB_TABLE']['error']. You can also
+  * use DB_Table::setErrorMessage(). Examples:
+  * 
+  * <code>
+  * (1) $GLOBALS['_DB_TABLE]['error'] = array(DB_TABLE_ERR_PHPTYPE   => '...',
+  *                                           DB_TABLE_ERR_SQL_UNDEF => '...');
+  * (2) DB_Table::setErrorMessage(DB_TABLE_ERR_PHPTYPE,   '...');
+  *     DB_Table::setErrorMessage(DB_TABLE_ERR_SQL_UNDEF, '...');
+  * (3) DB_Table::setErrorMessage(array(DB_TABLE_ERR_PHPTYPE   => '...');
+  *                                     DB_TABLE_ERR_SQL_UNDEF => '...');
+  * (4) $obj =& new DB_Table();
+  *     $obj->setErrorMessage(DB_TABLE_ERR_PHPTYPE,   '...');
+  *     $obj->setErrorMessage(DB_TABLE_ERR_SQL_UNDEF, '...');
+  * (5) $obj =& new DB_Table();
+  *     $obj->setErrorMessage(array(DB_TABLE_ERR_PHPTYPE   => '...');
+  *                                 DB_TABLE_ERR_SQL_UNDEF => '...');
+  * </code>
+  * 
+  * For errors that can occur with-in the constructor call (i.e. e.g. creating
+  * or altering the database table), only the code from examples (1) to (3)
+  * will alter the default error messages early enough. For errors that can
+  * occur later, examples (4) and (5) are also valid.
+  */
+$GLOBALS['_DB_TABLE']['default_error'] = array(
+    DB_TABLE_ERR_NOT_DB_OBJECT       => 'First parameter must be a DB/MDB2 object',
+    DB_TABLE_ERR_PHPTYPE             => 'DB/MDB2 phptype (or dbsyntax) not supported',
+    DB_TABLE_ERR_SQL_UNDEF           => 'Select key not in map',
+    DB_TABLE_ERR_INS_COL_NOMAP       => 'Insert column not in map',
+    DB_TABLE_ERR_INS_COL_REQUIRED    => 'Insert data must be set and non-null for column',
+    DB_TABLE_ERR_INS_DATA_INVALID    => 'Insert data not valid for column',
+    DB_TABLE_ERR_UPD_COL_NOMAP       => 'Update column not in map',
+    DB_TABLE_ERR_UPD_COL_REQUIRED    => 'Update column must be set and non-null',
+    DB_TABLE_ERR_UPD_DATA_INVALID    => 'Update data not valid for column',
+    DB_TABLE_ERR_CREATE_FLAG         => 'Create flag not valid',
+    DB_TABLE_ERR_IDX_NO_COLS         => 'No columns for index',
+    DB_TABLE_ERR_IDX_COL_UNDEF       => 'Column not in map for index',
+    DB_TABLE_ERR_IDX_TYPE            => 'Type not valid for index',
+    DB_TABLE_ERR_DECLARE_STRING      => 'String column declaration not valid',
+    DB_TABLE_ERR_DECLARE_DECIMAL     => 'Decimal column declaration not valid',
+    DB_TABLE_ERR_DECLARE_TYPE        => 'Column type not valid',
+    DB_TABLE_ERR_VALIDATE_TYPE       => 'Cannot validate for unknown type on column',
+    DB_TABLE_ERR_DECLARE_COLNAME     => 'Column name not valid',
+    DB_TABLE_ERR_DECLARE_IDXNAME     => 'Index name not valid',
+    DB_TABLE_ERR_DECLARE_TYPE        => 'Column type not valid',
+    DB_TABLE_ERR_IDX_COL_CLOB        => 'CLOB column not allowed for index',
+    DB_TABLE_ERR_DECLARE_STRLEN      => 'Column name too long, 30 char max',
+    DB_TABLE_ERR_IDX_STRLEN          => 'Index name too long, 30 char max',
+    DB_TABLE_ERR_TABLE_STRLEN        => 'Table name too long, 30 char max',
+    DB_TABLE_ERR_SEQ_STRLEN          => 'Sequence name too long, 30 char max',
+    DB_TABLE_ERR_VER_TABLE_MISSING   => 'Verification failed: table does not exist',
+    DB_TABLE_ERR_VER_COLUMN_MISSING  => 'Verification failed: column does not exist',
+    DB_TABLE_ERR_VER_COLUMN_TYPE     => 'Verification failed: wrong column type',
+    DB_TABLE_ERR_NO_COLS             => 'Column definition array may not be empty',
+    DB_TABLE_ERR_VER_IDX_MISSING     => 'Verification failed: index does not exist',
+    DB_TABLE_ERR_VER_IDX_COL_MISSING => 'Verification failed: index does not contain all specified cols',
+    DB_TABLE_ERR_CREATE_PHPTYPE      => 'Creation mode is not supported for this phptype',
+    DB_TABLE_ERR_DECLARE_PRIMARY     => 'Only one primary key is allowed',
+    DB_TABLE_ERR_DECLARE_PRIM_SQLITE => 'SQLite does not support primary keys',
+    DB_TABLE_ERR_ALTER_TABLE_IMPOS   => 'Alter table failed: changing the field type not possible',
+    DB_TABLE_ERR_ALTER_INDEX_IMPOS   => 'Alter table failed: changing the index/constraint not possible'
+);
 
+// merge default and user-defined error messages
+if (!isset($GLOBALS['_DB_TABLE']['error'])) {
+    $GLOBALS['_DB_TABLE']['error'] = array();
+}
+foreach ($GLOBALS['_DB_TABLE']['default_error'] as $code => $message) {
+    if (!array_key_exists($code, $GLOBALS['_DB_TABLE']['error'])) {
+        $GLOBALS['_DB_TABLE']['error'][$code] = $message;
+    }
+}
 
 /**
 * 
@@ -326,8 +462,9 @@ if (! isset($GLOBALS['_DB_TABLE']['error'])) {
 * @package DB_Table
 * 
 * @author Paul M. Jones <pmjones@php.net>
+* @author Mark Wiesemann <wiesemann@php.net>
 * 
-* @version 1.0.0
+* @version 1.3.2
 *
 */
 
@@ -336,7 +473,7 @@ class DB_Table {
     
     /**
     * 
-    * The PEAR DB object that connects to the database.
+    * The PEAR DB/MDB2 object that connects to the database.
     * 
     * @access public
     * 
@@ -345,6 +482,19 @@ class DB_Table {
     */
     
     var $db = null;
+    
+    
+    /**
+    * 
+    * The backend type
+    * 
+    * @access public
+    * 
+    * @var string
+    * 
+    */
+    
+    var $backend = null;
     
     
     /**
@@ -429,7 +579,7 @@ class DB_Table {
     * 
     * When calling select() and selectResult(), use this fetch mode (usually
     * a DB_FETCHMODE_* constant).  If null, uses whatever is set in the $db
-    * PEAR DB object.
+    * PEAR DB/MDB2 object.
     * 
     * @access public
     * 
@@ -444,7 +594,7 @@ class DB_Table {
     * 
     * When fetchmode is DB_FETCHMODE_OBJECT, use this class for each
     * returned row.  If null, uses whatever is set in the $db
-    * PEAR DB object.
+    * PEAR DB/MDB2 object.
     * 
     * @access public
     * 
@@ -474,8 +624,8 @@ class DB_Table {
     */
     
     var $error = null;
-    
-    
+
+
     /**
     * 
     * Whether or not to automatically recast data at insert- and update-time.
@@ -520,7 +670,8 @@ class DB_Table {
         }
         
         // done!
-        return PEAR::throwError($text, $code);
+        $error = PEAR::throwError($text, $code);
+        return $error;
     }
     
     
@@ -533,15 +684,21 @@ class DB_Table {
     * 
     * @access public
     * 
-    * @param object &$db A PEAR DB object.
+    * @param object &$db A PEAR DB/MDB2 object.
     * 
     * @param string $table The table name to connect to in the database.
     * 
     * @param mixed $create The automatic table creation mode to pursue:
-    * boolean false to not attempt creation, 'safe' to
-    * create the table only if it does not exist, or
-    * 'drop' to drop any existing table with the same name
-    * and re-create it.
+    * - boolean false to not attempt creation
+    * - 'safe' to create the table only if it does not exist
+    * - 'drop' to drop any existing table with the same name and re-create it
+    * - 'verify' to check whether the table exists, whether all the columns
+    *   exist, whether the columns have the right type, and whether the indexes
+    *   exist and have the right type
+    * - 'alter' does the same as 'safe' if the table does not exist; if it
+    *   exists, a verification for columns existence, the column types, the
+    *   indexes existence, and the indexes types will be performed and the
+    *   table schema will be modified if needed
     * 
     * @return object DB_Table
     * 
@@ -549,32 +706,85 @@ class DB_Table {
     
     function DB_Table(&$db, $table, $create = false)
     {
-        // is the first argument a DB object?
-        if (! is_subclass_of($db, 'db_common')) {
+        // is the first argument a DB/MDB2 object?
+        $this->backend = null;
+        if (is_subclass_of($db, 'db_common')) {
+            $this->backend = 'db';
+        } elseif (is_subclass_of($db, 'mdb2_driver_common')) {
+            $this->backend = 'mdb2';
+        }
+
+        if (is_null($this->backend)) {
             $this->error =& DB_Table::throwError(DB_TABLE_ERR_NOT_DB_OBJECT);
             return;
         }
         
+        // array with column definition may not be empty        
+        if (! isset($this->col) || is_null($this->col) ||
+                (is_array($this->col) && count($this->col) === 0)) {
+            $this->error =& DB_Table::throwError(DB_TABLE_ERR_NO_COLS);
+            return;
+        }
+
+        // set the class properties
+        $this->db =& $db;
+        $this->table = $table;
+        
         // is the RDBMS supported?
-        if (! DB_Table::supported($db->phptype)) {
+        list($phptype, $dbsyntax) = DB_Table::getPHPTypeAndDBSyntax($db);
+        if (! DB_Table::supported($phptype, $dbsyntax)) {
             $this->error =& DB_Table::throwError(
                 DB_TABLE_ERR_PHPTYPE,
                 "({$db->phptype})"
             );
             return;
         }
-        
-        // set the class properties
-        $this->db =& $db;
-        $this->table = $table;
-        
+
+        // load MDB2_Extended module
+        if ($this->backend == 'mdb2') {
+            $this->db->loadModule('Extended', null, false);
+        }
+
         // should we attempt table creation?
         if ($create) {
-            // yes, attempt to create the table with the appropriate
-            // flag.
-            $result = $this->create($create);
+
+            if ($this->backend == 'mdb2') {
+                $this->db->loadModule('Manager');
+            }
+
+            // check whether the chosen mode is supported
+            list($phptype,) = DB_Table::getPHPTypeAndDBSyntax($this->db);
+            $mode_supported = DB_Table::modeSupported($create, $phptype);
+            if (PEAR::isError($mode_supported)) {
+                return $mode_supported;
+            }
+            if (!$mode_supported) {
+                return $this->throwError(
+                    DB_TABLE_ERR_CREATE_PHPTYPE,
+                    "('$create', '$phptype')"
+                );
+            }
+
+            include_once 'DB/Table/Manager.php';
+
+            switch ($create) {
+
+                case 'alter':
+                    $result = $this->alter();
+                    break;
+
+                case 'drop':
+                case 'safe':
+                    $result = $this->create($create);
+                    break;
+
+                case 'verify':
+                    $result = $this->verify();
+                    break;
+            }
+            
             if (PEAR::isError($result)) {
-                // problem creating the table
+                // problem creating/altering/verifing the table
                 $this->error =& $result;
                 return;
             }
@@ -592,18 +802,129 @@ class DB_Table {
     * 
     * @param string $phptype The RDBMS type for PHP.
     * 
+    * @param string $dbsyntax The chosen database syntax.
+    * 
     * @return bool True if supported, false if not.
     * 
     */
     
-    function supported($phptype)
+    function supported($phptype, $dbsyntax = '')
     {
+        // only Firebird is supported, not its ancestor Interbase
+        if ($phptype == 'ibase' && $dbsyntax != 'firebird') {
+            return false;
+        }
         $supported = array_keys($GLOBALS['_DB_TABLE']['type']);
         return in_array(strtolower($phptype), $supported);
     }
+
+
+    /**
+    * 
+    * Is a creation mode supported for a RDBMS by DB_Table?
+    * 
+    * @access public
+    * 
+    * @param string $mode The chosen creation mode.
+    * 
+    * @param string $phptype The RDBMS type for PHP.
+    * 
+    * @return bool|object True if supported, false if not, or a PEAR_Error
+    * if an unknown mode is specified.
+    * 
+    */
     
-    
-    
+    function modeSupported($mode, $phptype)
+    {
+        // check phptype for validity
+        $supported = array_keys($GLOBALS['_DB_TABLE']['type']);
+        if (!in_array(strtolower($phptype), $supported)) {
+            return false;
+        }
+
+        switch ($mode) {
+            case 'drop':
+            case 'safe':
+                // supported for all RDBMS
+                return true;
+
+            case 'alter':
+            case 'verify':
+                // not supported for fbsql and mssql (yet)
+                switch ($phptype) {
+                    case 'fbsql':
+                    case 'mssql':
+                        return false;
+                    default:
+                        return true;
+                }
+
+            default:
+                // unknown creation mode
+                return $this->throwError(
+                    DB_TABLE_ERR_CREATE_FLAG,
+                    "('$mode')"
+                );
+        }
+    }
+
+
+    /**
+    * 
+    * Detect values of 'phptype' and 'dbsyntax' keys of DSN.
+    * 
+    * @static
+    * 
+    * @access public
+    * 
+    * @param object &$db A PEAR DB/MDB2 object.
+    * 
+    * @return array Values of 'phptype' and 'dbsyntax' keys of DSN.
+    * 
+    */
+
+    function getPHPTypeAndDBSyntax(&$db) {
+        $phptype = '';
+        $dbsyntax = '';
+        if (is_subclass_of($db, 'db_common')) {
+            $phptype = $db->phptype;
+            $dbsyntax = $db->dbsyntax;
+        } elseif (is_subclass_of($db, 'mdb2_driver_common')) {
+            $dsn = MDB2::parseDSN($db->getDSN());
+            $phptype = $dsn['phptype'];
+            $dbsyntax = $dsn['dbsyntax'];
+        }
+        return array($phptype, $dbsyntax);
+    }
+
+
+    /**
+    * 
+    * Overwrite one or more error messages, e.g. to internationalize them.
+    * 
+    * @access public
+    * 
+    * @param mixed $code If string, the error message with code $code will
+    * be overwritten by $message. If array, the error messages with code
+    * of each array key will be overwritten by the key's value.
+    * 
+    * @param string $message Only used if $key is not an array.
+    *
+    * @return void
+    * 
+    */
+
+    function setErrorMessage($code, $message = null) {
+        if (is_array($code)) {
+            foreach ($code as $single_code => $single_message) {
+                $GLOBALS['_DB_TABLE']['error'][$single_code] = $single_message;
+            }
+        } else {
+            $GLOBALS['_DB_TABLE']['error'][$code] = $message;
+        }
+    }
+
+
     /**
     * 
     * Returns all or part of the $this->col property array.
@@ -709,7 +1030,7 @@ class DB_Table {
     
     /**
     *
-    * Selects rows from the table using one of the 'DB::get*()' methods.
+    * Selects rows from the table using one of the DB/MDB2 get*() methods.
     * 
     * @access public
     * 
@@ -726,29 +1047,45 @@ class DB_Table {
     * result set.
     * 
     * @param int $count The number of rows to list in the result set.
+    *
+    * @param array $params Parameters to use in placeholder substitutions (if
+    * any).
     * 
     * @return mixed An array of records from the table (if anything but
     * 'getOne'), a single value (if 'getOne'), or a PEAR_Error object.
     *
     * @see DB::getAll()
+    * 
+    * @see MDB2::getAll()
     *
     * @see DB::getAssoc()
+    * 
+    * @see MDB2::getAssoc()
     *
     * @see DB::getCol()
+    * 
+    * @see MDB2::getCol()
     *
     * @see DB::getOne()
     *
+    * @see MDB2::getOne()
+    * 
     * @see DB::getRow()
+    * 
+    * @see MDB2::getRow()
     *
     * @see DB_Table::_swapModes()
     *
     */
     
     function select($sqlkey, $filter = null, $order = null,
-        $start = null, $count = null)
+        $start = null, $count = null, $params = array())
     {
         // build the base command
         $sql = $this->buildSQL($sqlkey, $filter, $order, $start, $count);
+        if (PEAR::isError($sql)) {
+            return $sql;
+        }
         
         // set the get*() method name
         if (isset($this->sql[$sqlkey]['get'])) {
@@ -758,14 +1095,17 @@ class DB_Table {
             $method = 'getAll';
         }
         
-        // DB_Table assumes you are using a shared PEAR DB object.  Other
+        // DB_Table assumes you are using a shared PEAR DB/MDB2 object. Other
         // scripts using the same object probably expect its fetchmode
         // not to change, unless they change it themselves.  Thus, to
         // provide friendly mode-swapping, we will restore these modes
         // afterwards.
         $restore_mode = $this->db->fetchmode;
-        $restore_class = $this->db->fetchmode_object_class;
-        
+        if ($this->backend == 'mdb2') {
+            $restore_class = $this->db->getOption('fetch_class');
+        } else {
+            $restore_class = $this->db->fetchmode_object_class;
+        }
         // swap modes
         $fetchmode = $this->fetchmode;
         $fetchmode_object_class = $this->fetchmode_object_class;
@@ -776,9 +1116,32 @@ class DB_Table {
             $fetchmode_object_class = $this->sql[$sqlkey]['fetchmode_object_class'];
         }
         $this->_swapModes($fetchmode, $fetchmode_object_class);
+
+        // make sure params is an array
+        if (! is_null($params)) {
+            $params = (array) $params;
+        }
         
         // get the result
-        $result = $this->db->$method($sql);
+        if ($this->backend == 'mdb2') {
+            $result = $this->db->extended->$method($sql, null, $params);
+        } else {
+            switch ($method) {
+
+                case 'getCol':
+                    $result = $this->db->$method($sql, 0, $params);
+                    break;
+
+                case 'getAssoc':
+                    $result = $this->db->$method($sql, false, $params);
+                    break;
+
+                default:
+                    $result = $this->db->$method($sql, $params);
+                    break;
+
+            }
+        }
             
         // swap modes back
         $this->_swapModes($restore_mode, $restore_class);
@@ -790,7 +1153,7 @@ class DB_Table {
     
     /**
     *
-    * Selects rows from the table as a DB_Result object.
+    * Selects rows from the table as a DB_Result/MDB2_Result_* object.
     * 
     * @access public
     * 
@@ -808,26 +1171,36 @@ class DB_Table {
     * 
     * @param int $count The number of records to list in the result set.
     * 
-    * @return mixed A PEAR_Error on failure, or a DB_Result object on
-    * success.
+    * @param array $params Parameters to use in placeholder substitutions (if
+    * any).
+    * 
+    * @return mixed A PEAR_Error on failure, or a DB_Result/MDB2_Result_*
+    * object on success.
     *
     * @see DB_Table::_swapModes()
     *
     */
     
     function selectResult($sqlkey, $filter = null, $order = null, 
-        $start = null, $count = null)
+        $start = null, $count = null, $params = array())
     {
         // build the base command
         $sql = $this->buildSQL($sqlkey, $filter, $order, $start, $count);
+        if (PEAR::isError($sql)) {
+            return $sql;
+        }
         
-        // DB_Table assumes you are using a shared PEAR DB object.  Other
+        // DB_Table assumes you are using a shared PEAR DB/MDB2 object.  Other
         // scripts using the same object probably expect its fetchmode
         // not to change, unless they change it themselves.  Thus, to
         // provide friendly mode-swapping, we will restore these modes
         // afterwards.
         $restore_mode = $this->db->fetchmode;
-        $restore_class = $this->db->fetchmode_object_class;
+        if ($this->backend == 'mdb2') {
+            $restore_class = $this->db->getOption('fetch_class');
+        } else {
+            $restore_class = $this->db->fetchmode_object_class;
+        }
         
         // swap modes
         $fetchmode = $this->fetchmode;
@@ -840,8 +1213,18 @@ class DB_Table {
         }
         $this->_swapModes($fetchmode, $fetchmode_object_class);
         
+        // make sure params is an array
+        if (! is_null($params)) {
+            $params = (array) $params;
+        }
+     
         // get the result
-        $result =& $this->db->query($sql);
+        if ($this->backend == 'mdb2') {
+            $stmt =& $this->db->prepare($sql);
+            $result =& $stmt->execute($params);
+        } else {
+            $result =& $this->db->query($sql, $params);
+        }
         
         // swap modes back
         $this->_swapModes($restore_mode, $restore_class);
@@ -881,6 +1264,9 @@ class DB_Table {
     * 
     * @param int $count The number of rows to list in the result set.
     * 
+    * @param array $params Parameters to use in placeholder substitutions (if
+    * any).
+    * 
     * @return mixed An integer number of records from the table, or a
     * PEAR_Error object.
     *
@@ -889,7 +1275,7 @@ class DB_Table {
     */
     
     function selectCount($sqlkey, $filter = null, $order = null,
-        $start = null, $count = null)
+        $start = null, $count = null, $params = array())
     {
         // does the SQL SELECT key exist?
         $tmp = array_keys($this->sql);
@@ -912,7 +1298,7 @@ class DB_Table {
             
             // is a count-field set for the query?
             if (! isset($count_sql['count']) ||
-            	trim($count_sql['count']) == '') {
+                trim($count_sql['count']) == '') {
                 $count_sql['count'] = '*';
             }
             
@@ -927,28 +1313,29 @@ class DB_Table {
         }
         
         // retrieve the count results
-        return $this->select($count_key, $filter, $order, $start, $count);
+        return $this->select($count_key, $filter, $order, $start, $count,
+            $params);
     }
     
     
     /**
     * 
-    * Changes the $this->db PEAR DB object fetchmode and
+    * Changes the $this->db PEAR DB/MDB2 object fetchmode and
     * fetchmode_object_class.
     * 
-    * Becase DB_Table objects tend to use the same PEAR DB object, it
+    * Because DB_Table objects tend to use the same PEAR DB/MDB2 object, it
     * may sometimes be useful to have one object return results in one
     * mode, and have another object return results in a different mode. 
-    * This method allows us to switch DB fetch modes on the fly.
+    * This method allows us to switch DB/MDB2 fetch modes on the fly.
     * 
     * @access private
     * 
     * @param string $new_mode A DB_FETCHMODE_* constant.  If null,
-    * defaults to whatever the DB object is currently using.
+    * defaults to whatever the DB/MDB2 object is currently using.
     * 
     * @param string $new_class The object class to use for results when
     * the $db object is in DB_FETCHMODE_OBJECT fetch mode.  If null,
-    * defaults to whatever the the DB object is currently using.
+    * defaults to whatever the the DB/MDB2 object is currently using.
     * 
     * @return void
     * 
@@ -958,7 +1345,11 @@ class DB_Table {
     {
         // get the old (current) mode and class
         $old_mode = $this->db->fetchmode;
-        $old_class = $this->db->fetchmode_object_class;
+        if ($this->backend == 'mdb2') {
+            $old_class = $this->db->getOption('fetch_class');
+        } else {
+            $old_class = $this->db->fetchmode_object_class;
+        }
         
         // don't need to swap anything if the new modes are both
         // null or if the old and new modes already match.
@@ -1011,6 +1402,9 @@ class DB_Table {
         $start = null, $count = null)
     {
         // does the SQL SELECT key exist?
+        if (is_null($this->sql)) {
+            $this->sql = array();
+        }
         $tmp = array_keys($this->sql);
         if (! in_array($sqlkey, $tmp)) {
             return $this->throwError(
@@ -1082,8 +1476,12 @@ class DB_Table {
         
         // add LIMIT if requested
         if (! is_null($start) && ! is_null($count)) {
-            $cmd = $this->db->modifyLimitQuery(
-                $cmd, $start, $count);
+            if ($this->backend == 'mdb2') {
+                $this->db->setLimit($count, $start);
+            } else {
+                $cmd = $this->db->modifyLimitQuery(
+                    $cmd, $start, $count);
+            }
         }
         
         return $cmd;
@@ -1107,6 +1505,8 @@ class DB_Table {
     * 
     * @see DB::autoExecute()
     * 
+    * @see MDB2::autoExecute()
+    * 
     */
         
     function insert($data)
@@ -1123,9 +1523,14 @@ class DB_Table {
                 return $result;
             }
         }
-        
-        return $this->db->autoExecute($this->table, $data,
-            DB_AUTOQUERY_INSERT);
+        if ($this->backend == 'mdb2') {
+            $result = $this->db->extended->autoExecute($this->table, $data,
+                MDB2_AUTOQUERY_INSERT);
+        } else {
+            $result = $this->db->autoExecute($this->table, $data,
+                DB_AUTOQUERY_INSERT);
+        }
+        return $result;
     }
     
     
@@ -1232,6 +1637,8 @@ class DB_Table {
     *
     * @see DB::autoExecute()
     * 
+    * @see MDB2::autoExecute()
+    * 
     */
     
     function update($data, $where)
@@ -1249,8 +1656,15 @@ class DB_Table {
             }
         }
         
-        return $this->db->autoExecute($this->table, $data,
-            DB_AUTOQUERY_UPDATE, $where);
+        if ($this->backend == 'mdb2') {
+            $result = $this->db->extended->autoExecute($this->table, $data,
+                MDB2_AUTOQUERY_UPDATE, $where);
+        } else {
+            $result = $this->db->autoExecute($this->table, $data,
+                DB_AUTOQUERY_UPDATE, $where);
+        }
+        return $result;
+
     }
     
     
@@ -1347,11 +1761,18 @@ class DB_Table {
     *
     * @see DB::query()
     * 
+    * @see MDB2::exec()
+    * 
     */
     
     function delete($where)
     {
-        return $this->db->query("DELETE FROM $this->table WHERE $where");
+        if ($this->backend == 'mdb2') {
+            $result = $this->db->exec("DELETE FROM $this->table WHERE $where");
+        } else {
+            $result = $this->db->query("DELETE FROM $this->table WHERE $where");
+        }
+        return $result;
     }
     
     
@@ -1366,6 +1787,8 @@ class DB_Table {
     * @return integer The next value in the sequence.
     *
     * @see DB::nextID()
+    * 
+    * @see MDB2::nextID()
     *
     */
     
@@ -1377,10 +1800,10 @@ class DB_Table {
             $seq_name = "{$this->table}_{$seq_name}";
         }
         
-        // the maximum length is 30, but PEAR DB will add "_seq" to the
+        // the maximum length is 30, but PEAR DB/MDB2 will add "_seq" to the
         // name, so the max length here is less 4 chars. we have to
         // check here because the sequence will be created automatically
-        // by PEAR DB, which will not check for length on its own.
+        // by PEAR DB/MDB2, which will not check for length on its own.
         if (strlen($seq_name) > 26) {
             return DB_Table::throwError(
                 DB_TABLE_ERR_SEQ_STRLEN,
@@ -1404,11 +1827,18 @@ class DB_Table {
     * 
     * @see DB_Common::quoteSmart()
     * 
+    * @see MDB2::quote()
+    * 
     */
     
     function quote($val)
     {
-        return $this->db->quoteSmart($val);
+        if ($this->backend == 'mdb2') {
+            $val = $this->db->quote($val);
+        } else {
+            $val = $this->db->quoteSmart($val);
+        }
+        return $val;
     }
     
     
@@ -1489,6 +1919,9 @@ class DB_Table {
     {
         $keys = array_keys($data);
         
+        $null_if_blank = array('date', 'time', 'timestamp', 'smallint',
+            'integer', 'bigint', 'decimal', 'single', 'double');
+        
         foreach ($keys as $key) {
         
             if (! isset($this->col[$key])) {
@@ -1497,6 +1930,29 @@ class DB_Table {
             
             unset($val);
             $val =& $data[$key];
+            
+            // convert blanks to null for non-character field types
+            $convert = in_array($this->col[$key]['type'], $null_if_blank);
+            if (is_array($val)) {  // if one of the given array values is
+                                   // empty, null will be the new value if
+                                   // the field is not required
+                $tmp_val = implode('', $val);
+                foreach ($val as $array_val) {
+                    if (trim((string) $array_val) == '') {
+                        $tmp_val = '';
+                        break;
+                    }
+                }
+            } else {
+                $tmp_val = $val;
+            }
+            if ($convert && trim((string) $tmp_val) == '' && (
+                !isset($this->col[$key]['require']) ||
+                $this->col[$key]['require'] === false
+              )
+            ) {
+                $val = null;
+            }
             
             // skip explicit NULL values
             if (is_null($val)) {
@@ -1517,7 +1973,23 @@ class DB_Table {
                 break;
                 
             case 'date':
-            
+
+                // smart handling of non-standard (i.e. Y-m-d) date formats,
+                // this allows to use two-digit years (y) and short (M) or
+                // long (F) names of months without having to recast the
+                // date value yourself
+                if (is_array($val)) {
+                    if (isset($val['y'])) {
+                        $val['Y'] = $val['y'];
+                    }
+                    if (isset($val['F'])) {
+                        $val['m'] = $val['F'];
+                    }
+                    if (isset($val['M'])) {
+                        $val['m'] = $val['M'];
+                    }
+                }
+
                 if (is_array($val) &&
                     isset($val['Y']) &&
                     isset($val['m']) &&
@@ -1540,7 +2012,7 @@ class DB_Table {
                 } else {
                 
                     // convert using the Date class
-                    $tmp =& new Date($val);
+                    $tmp =& new DB_Table_Date($val);
                     $val = $tmp->format('%Y-%m-%d');
                     
                 }
@@ -1578,6 +2050,23 @@ class DB_Table {
                 break;
                 
             case 'timestamp':
+
+                // smart handling of non-standard (i.e. Y-m-d) date formats,
+                // this allows to use two-digit years (y) and short (M) or
+                // long (F) names of months without having to recast the
+                // date value yourself
+                if (is_array($val)) {
+                    if (isset($val['y'])) {
+                        $val['Y'] = $val['y'];
+                    }
+                    if (isset($val['F'])) {
+                        $val['m'] = $val['F'];
+                    }
+                    if (isset($val['M'])) {
+                        $val['m'] = $val['M'];
+                    }
+                }
+
                 if (is_array($val) &&
                     isset($val['Y']) &&
                     isset($val['m']) &&
@@ -1613,7 +2102,7 @@ class DB_Table {
                     
                 } else {
                     // convert using the Date class
-                    $tmp =& new Date($val);
+                    $tmp =& new DB_Table_Date($val);
                     $val = $tmp->format('%Y-%m-%d %H:%M:%S');
                 }
                 
@@ -1630,6 +2119,7 @@ class DB_Table {
             case 'double':
                 settype($val, 'float');
                 break;
+
             }
         }
     }
@@ -1641,57 +2131,128 @@ class DB_Table {
     * 
     * @access public
     * 
-    * @param mixed $flag Boolean false to abort the create attempt from
-    * the start, 'drop' to drop the existing table and
-    * re-create it, or 'safe' to only create the table if it
-    * does not exist in the database.
+    * @param mixed $flag The automatic table creation mode to pursue:
+    * - 'safe' to create the table only if it does not exist
+    * - 'drop' to drop any existing table with the same name and re-create it
     * 
-    * @return mixed Boolean false if there was no attempt to create the
+    * @return mixed Boolean false if there was no need to create the
     * table, boolean true if the attempt succeeded, or a PEAR_Error if
     * the attempt failed.
-    *
+    * 
     * @see DB_Table_Manager::create()
     * 
     */
     
     function create($flag)
     {
+
         // are we OK to create the table?
         $ok = false;
         
         // check the create-flag
         switch ($flag) {
-        
-        case 'drop':
-            // forcibly drop an existing table
-            $this->db->query("DROP TABLE {$this->table}");
-            $ok = true;
-            break;
-        
-        case 'safe':
-            // create only if table does not exist
-            $list = $this->db->getListOf('tables');
-            // ok to create only if table does not exist
-            $ok = (! in_array($this->table, $list));
-            break;
-            
-        default:
-            // unknown flag
-            return $this->throwError(
-                DB_TABLE_ERR_CREATE_FLAG,
-                "('$flag')"
-            );
+
+            case 'drop':
+                // drop only if table exists
+                $table_exists = DB_Table_Manager::tableExists($this->db,
+                                                              $this->table);
+                if (PEAR::isError($table_exists)) {
+                    return $table_exists;
+                }
+                if ($table_exists) {
+                    // forcibly drop an existing table
+                    if ($this->backend == 'mdb2') {
+                        $this->db->manager->dropTable($this->table);
+                    } else {
+                        $this->db->query("DROP TABLE {$this->table}");
+                    }
+                }
+                $ok = true;
+                break;
+
+            case 'safe':
+                // create only if table does not exist
+                $table_exists = DB_Table_Manager::tableExists($this->db,
+                                                              $this->table);
+                if (PEAR::isError($table_exists)) {
+                    return $table_exists;
+                }
+                // ok to create only if table does not exist
+                $ok = !$table_exists;
+                break;
+
         }
-        
+
         // are we going to create the table?
         if (! $ok) {
             return false;
-        } else {
-            include_once 'DB/Table/Manager.php';
+        }
+
+        return DB_Table_Manager::create(
+            $this->db, $this->table, $this->col, $this->idx
+        );
+    }
+    
+    
+    /**
+    * 
+    * Alters the table based on $this->col and $this->idx.
+    * 
+    * @access public
+    * 
+    * @return mixed Boolean true if altering was successful or a PEAR_Error on
+    * failure.
+    *
+    * @see DB_Table_Manager::alter()
+    * 
+    */
+    
+    function alter()
+    {
+        $create = false;
+        
+        // alter the table columns and indexes if the table exists
+        $table_exists = DB_Table_Manager::tableExists($this->db,
+                                                      $this->table);
+        if (PEAR::isError($table_exists)) {
+            return $table_exists;
+        }
+        if (!$table_exists) {
+            // table does not exist => just create the table, there is
+            // nothing that could be altered
+            $create = true;
+        }
+
+        if ($create) {
             return DB_Table_Manager::create(
-                $this->db, $this->table, $this->col, $this->idx, $flag
+                $this->db, $this->table, $this->col, $this->idx
             );
         }
+
+        return DB_Table_Manager::alter(
+            $this->db, $this->table, $this->col, $this->idx
+        );
+    }
+    
+    
+    /**
+    * 
+    * Verifies the table based on $this->col and $this->idx.
+    * 
+    * @access public
+    * 
+    * @return mixed Boolean true if the verification was successful, and a
+    * PEAR_Error if verification failed.
+    *
+    * @see DB_Table_Manager::verify()
+    * 
+    */
+    
+    function verify()
+    {
+        return DB_Table_Manager::verify(
+            $this->db, $this->table, $this->col, $this->idx
+        );
     }
     
     
@@ -1732,7 +2293,9 @@ class DB_Table {
         // make sure we have the validation class
         include_once 'DB/Table/Valid.php';
         
-        // validate values per the column type
+        // validate values per the column type.  we use sqlite
+        // as the single authentic list of allowed column types,
+        // regardless of the actual rdbms being used.
         $map = array_keys($GLOBALS['_DB_TABLE']['type']['sqlite']);
         
         // is the column type on the map?
@@ -1771,6 +2334,7 @@ class DB_Table {
                 $val
             );
             break;
+
         }
         
         // have we passed the check so far, and should we
@@ -1845,6 +2409,14 @@ class DB_Table {
     * 'trackSubmit' : Boolean, whether to track if the form was
     * submitted by adding a special hidden field
     * 
+    * @param string $clientValidate By default, validation will match
+    * the 'qf_client' value from the column definition.  However,
+    * if you set $clientValidate to true or false, this will
+    * override the value from the column definition.
+    *
+    * @param array $formFilters An array with filter function names or
+    * callbacks that will be applied to all form elements.
+    *
     * @return object HTML_QuickForm
     * 
     * @see HTML_QuickForm
@@ -1854,12 +2426,13 @@ class DB_Table {
     */
     
     function &getForm($columns = null, $array_name = null, $args = array(),
-        $clientValidate = null)
+        $clientValidate = null, $formFilters = null)
     {
         include_once 'DB/Table/QuickForm.php';
         $coldefs = $this->_getFormColDefs($columns);
-        return DB_Table_QuickForm::getForm($coldefs, $array_name, $args,
-            $clientValidate);
+        $form =& DB_Table_QuickForm::getForm($coldefs, $array_name, $args,
+            $clientValidate, $formFilters);
+        return $form;
     }
     
     
@@ -1925,7 +2498,8 @@ class DB_Table {
     {
         include_once 'DB/Table/QuickForm.php';
         $coldefs = $this->_getFormColDefs($columns);
-        return DB_Table_QuickForm::getGroup($coldefs, $array_name);
+        $group =& DB_Table_QuickForm::getGroup($coldefs, $array_name);
+        return $group;
     }
     
     
@@ -1953,7 +2527,10 @@ class DB_Table {
     {
         include_once 'DB/Table/QuickForm.php';
         $coldef = $this->_getFormColDefs($column);
-        return DB_Table_QuickForm::getElement($coldef[$column], $elemname);
+        DB_Table_QuickForm::fixColDef($coldef[$column], $elemname);
+        $element =& DB_Table_QuickForm::getElement($coldef[$column],
+            $elemname);
+        return $element;
     }
 
     /**
@@ -1980,7 +2557,9 @@ class DB_Table {
     function &getFormElements($cols, $array_name = null)
     {
         include_once 'DB/Table/QuickForm.php';
-        return DB_Table_QuickForm::getElements($cols, $array_name);
+        $elements =& DB_Table_QuickForm::getElements($cols,
+            $array_name);
+        return $elements;
     }
     
     
