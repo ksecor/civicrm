@@ -20,7 +20,7 @@
     {if $contactTag}<br /><label>{ts}Tags{/ts}:</label>&nbsp;{$contactTag}{/if}
     
     {* Show app task statuses if the taskStatus var is populated *}
-    {if $taskStatus || $Student.cmr_disposition}
+    {if $taskStatus || $Student.cmr_disposition || $recStatus}
         <table>
             <tr class="columnheader"><th colspan="3">College Match Summary</th></tr>
             <tr class="odd-row"><td><strong>{ts}CM Disposition{/ts}:</strong></td><td><strong>{$Student.cmr_disposition}</strong></td><td></td></tr>
@@ -28,10 +28,12 @@
                 <td><strong>{ts}CM Application{/ts}:</strong></td>
                 <td><strong>{$taskStatus.cmApp}</strong></td>
                 <td class="nowrap">
+                    <strong>
                     <a href="{crmURL p='civicrm/quest/matchapp/preview' q="reset=1&action=view&id=$contactId"}">{ts}View{/ts}</a>
                     {if $permission EQ 'edit'}
                         &nbsp; | &nbsp;<a href="{crmURL p='civicrm/quest/matchapp' q="reset=1&action=update&id=$contactId"}">{ts}Edit{/ts}</a>
                     {/if}
+                    </strong>
                 </td
             </tr>
             <tr class="odd-row">
@@ -41,18 +43,16 @@
             </tr>
             <tr class="even-row"><td><strong>{ts}All Recommendations{/ts}:</strong></td><td><strong>{$taskStatus.cmAllRecs}</strong></td><td></td></tr>
             <tr class="odd-row"><td><strong>{ts}CM Total Package{/ts}:</strong></td><td><strong>{$taskStatus.cmPackage}</strong></td><td></td></tr>
-        </table>
-    {/if}
-    {if $recStatus}
-        <table>
+        {if $recStatus}
             <tr class="columnheader"><th colspan="3">{ts}Recommendations{/ts}</th></tr>
-                {foreach from=$recStatus item=rec}
-                    <tr class="{cycle values="odd-row,even-row"}">
-                        <td><strong><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rec.contact_id`"}">{$rec.display_name} ({$rec.type})</a></strong></td>
-                        <td><strong>{$rec.status}</strong></td>
-                        <td><strong><a href="{$rec.preview}">{ts}View{/ts}</a></strong></td>
-                    </tr>
-                {/foreach}
+            {foreach from=$recStatus item=rec}
+                <tr class="{cycle values="odd-row,even-row"}">
+                    <td><strong><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rec.contact_id`"}">{$rec.display_name} ({$rec.type})</a></strong></td>
+                    <td><strong>{$rec.status}</strong></td>
+                    <td><strong><a href="{$rec.preview}">{ts}View{/ts}</a></strong></td>
+                </tr>
+            {/foreach}
+        {/if}
         </table>
     {/if}
 </div>
