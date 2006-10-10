@@ -14,6 +14,7 @@
      {else}
       <dl>
  	    <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
+        <dt>{$form.value.label}</dt><dd>{$form.value.html}</dd>
         <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
         <dt>{$form.grouping.label}</dt><dd>{$form.grouping.html}</dd>
     	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
