@@ -1,6 +1,6 @@
 <?php
 /**
- * smarty-gettext.php - Gettext support for smarty
+ * block.t.php - Smarty gettext block plugin
  *
  * ------------------------------------------------------------------------- *
  * This library is free software; you can redistribute it and/or             *
@@ -18,24 +18,24 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  * ------------------------------------------------------------------------- *
  *
- * To register as a smarty block function named 't', use:
- *   $smarty->register_block('t', 'smarty_translate');
+ * Installation: simply copy this file to the smarty plugins directory.
  *
  * @package	smarty-gettext
- * @version	$Id: smarty-gettext.php,v 1.1 2004/04/30 11:39:32 sagi Exp $
- * @link	http://smarty-gettext.sf.net/
+ * @version	$Id: block.t.php,v 1.1 2005/07/27 17:58:56 sagi Exp $
+ * @link	http://smarty-gettext.sourceforge.net/
  * @author	Sagi Bashari <sagi@boom.org.il>
- * @copyright 2004 Sagi Bashari
+ * @copyright 2004-2005 Sagi Bashari
  */
  
 /**
- * Replace arguments in a string with their values. Arguments are represented by % followed by their number.
+ * Replaces arguments in a string with their values.
+ * Arguments are represented by % followed by their number.
  *
  * @param	string	Source string
  * @param	mixed	Arguments, can be passed in an array or through single variables.
  * @returns	string	Modified string
  */
-function strarg($str)
+function smarty_gettext_strarg($str)
 {
 	$tr = array();
 	$p = 0;
@@ -65,11 +65,12 @@ function strarg($str)
  *   - escape - sets escape mode:
  *       - 'html' for HTML escaping, this is the default.
  *       - 'js' for javascript escaping.
+ *       - 'url' for url escaping.
  *       - 'no'/'off'/0 - turns off escaping
  *   - plural - The plural version of the text (2nd parameter of ngettext())
  *   - count - The item count for plural mode (3rd parameter of ngettext())
  */
-function smarty_translate($params, $text, &$smarty)
+function smarty_block_t($params, $text, &$smarty)
 {
 	$text = stripslashes($text);
 	
@@ -100,15 +101,25 @@ function smarty_translate($params, $text, &$smarty)
 
 	// run strarg if there are parameters
 	if (count($params)) {
-		$text = strarg($text, $params);
+		$text = smarty_gettext_strarg($text, $params);
 	}
 
 	if (!isset($escape) || $escape == 'html') { // html escape, default
 	   $text = nl2br(htmlspecialchars($text));
-   } elseif (isset($escape) && ($escape == 'javascript' || $escape == 'js')) { // javascript escape
-	   $text = str_replace('\'','\\\'',stripslashes($text));
-   }
-
+   } elseif (isset($escape)) {
+		switch ($escape) {
+			case 'javascript':
+			case 'js':
+				// javascript escape
+				$text = str_replace('\'', '\\\'', stripslashes($text));
+				break;
+			case 'url':
+				// url escape
+				$text = urlencode($text);
+				break;
+		}
+	}
+	
 	return $text;
 }
 
