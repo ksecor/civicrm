@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -195,25 +195,10 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
      * @static
      */
     static function updateUFEmail( $contactId ) {
-        // fetch the primary email
-        $query = "
-SELECT    civicrm_email.email as email
-FROM      civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                civicrm_contact.id  = civicrm_location.entity_id  AND
-                                civicrm_location.is_primary = 1 )
-LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
-                                civicrm_email.is_primary = 1    )
-WHERE     civicrm_contact.id = %1";
-        $p = array( 1 => array( $contactId, 'Integer' ) );
-
-        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
-        
-        if ( ! $dao->fetch( ) || ! $dao->email ) {
-            // if we can't find a primary email, return
+        $email = CRM_Contact_BAO_Contact::getPrimaryEmail( $contactId );
+        if ( ! $email ) {
             return;
         }
-        $email = $dao->email;
 
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->contact_id = $contactId;

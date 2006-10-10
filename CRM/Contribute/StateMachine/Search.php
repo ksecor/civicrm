@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -93,7 +93,6 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
             $value = $this->_controller->get( 'task' );
         }
         $this->_controller->set( 'task', $value );
-
         $result = false;
         switch ( $value ) {
         case CRM_Contribute_Task::DELETE_CONTRIBUTIONS:
@@ -103,6 +102,13 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine {
         case CRM_Contribute_Task::EXPORT_CONTRIBUTIONS:
             $task   = 'CRM_Contribute_Form_Task_Export';
             break;
+
+        case CRM_Contribute_Task::BATCH_CONTRIBUTIONS:
+            $task   = array( 'CRM_Contribute_Form_Task_PickProfile',
+                             'CRM_Contribute_Form_Task_Batch' );
+
+            break;
+
 
         default: // the print task is the default and catch=all task
             $task = 'CRM_Contribute_Form_Task_Print';

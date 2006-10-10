@@ -16,7 +16,7 @@ class UnitTests extends GroupTest {
         // contact api
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContact.php'    );
-        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/FetchContact.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/FetchContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateContactWithCustomValues.php' );
@@ -24,7 +24,7 @@ class UnitTests extends GroupTest {
         
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactFlat.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactCustom.php'    );
-        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
+        $this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/Search.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactHierarchical.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetContactGroups.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM619.php' );
@@ -61,6 +61,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM983.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1011.php' );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1012.php' );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1184.php' );
         
         //api for ActivityType
         
@@ -81,6 +82,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/GetLocation.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/UpdateLocation.php'    );
+        //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/CRM1282UpdateLocation.php'    );
         //$this->addTestFile( CIVICRM_TEST_DIR . 'CRM/api/DeleteLocation.php'    );
         
         // history api

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -47,6 +47,10 @@ if ( ! class_exists( 'Smarty' ) ) {
  *
  */
 class CRM_Core_Smarty extends Smarty {
+
+    const
+        PRINT_PAGE    = 1,
+        PRINT_SNIPPET = 2;
 
     /**
      * We only need one instance of this object. So we use the singleton
@@ -89,7 +93,7 @@ class CRM_Core_Smarty extends Smarty {
             $this->assign( 'metaTpl', 'drupal' );
         }
 
-        $this->register_function ( 'crmURL', array( 'CRM_Utils_System', 'crmURL' ) );
+        $this->register_function ( 'crmURL' , array( 'CRM_Utils_System', 'crmURL' ) );
     }
 
     /**
@@ -125,6 +129,18 @@ class CRM_Core_Smarty extends Smarty {
 
         return parent::fetch( $resource_name, $cache_id, $compile_id, $display );
     }
+
+    function appendValue( $name, $value ) {
+        $currentValue = $this->get_template_vars( $name );
+        if ( ! $currentValue ) {
+            $this->assign( $name, $value );
+        } else {
+            if ( strpos( $currentValue, $value ) === false ) {
+                $this->assign( $name, $currentValue . $value );
+            }
+        }
+    }
+
 }
 
 ?>

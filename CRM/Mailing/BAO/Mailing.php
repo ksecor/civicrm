@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -182,8 +182,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $from = CRM_Contact_BAO_Query::fromClause($tables);
             $mailingGroup->query(
                     "INSERT IGNORE INTO X_$job_id (contact_id)
-                    SELECT              $contact.id
-                                    $from
+                    SELECT              contact_a.id
+                                        $from
                     WHERE               $where");
         }
 
@@ -277,20 +277,24 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                                               $tables,
                                                               $whereTables
                                                               );
+            $where = trim( $where );
+            if ( $where ) {
+                $where = " AND $where ";
+            }
             $from = CRM_Contact_BAO_Query::fromClause($tables);
             $ssq = "INSERT IGNORE INTO  I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
-                                        $contact.id as contact_id 
+                                        contact_a.id as contact_id 
                     $from
                     LEFT JOIN           X_$job_id
-                            ON          $contact.id = X_$job_id.contact_id
+                            ON          contact_a.id = X_$job_id.contact_id
                     WHERE           
-                                        $contact.do_not_email = 0
-                        AND             $contact.is_opt_out = 0
+                                        contact_a.do_not_email = 0
+                        AND             contact_a.is_opt_out = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
-                        AND             $where
+                                        $where
                         AND             X_$job_id.contact_id IS null ";
             $mailingGroup->query($ssq);
         }
@@ -423,14 +427,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access private
      */
     private function getHeaderFooter() {
-        if ( ! $this->header ) {
+        if (!$this->header and $this->header_id) {
             $this->header =& new CRM_Mailing_BAO_Component();
             $this->header->id = $this->header_id;
             $this->header->find(true);
             $this->header->free( );
         }
         
-        if ( ! $this->footer ) {
+        if (!$this->footer and $this->footer_id) {
             $this->footer =& new CRM_Mailing_BAO_Component();
             $this->footer->id = $this->footer_id;
             $this->footer->find(true);
@@ -478,10 +482,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          *  optOut:         contact unsubscribes from the domain
          */
         $config =& CRM_Core_Config::singleton( );
-
+        
         $verp = array( );
-        foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) 
-        {
+        foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) {
             $verp[$key] = implode($config->verpSeparator,
                                   array(
                                         $key, 
@@ -492,27 +495,33 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         )
                                   ) . '@' . $this->_domain->email_domain;
         }
-
+                
         $urls = array(
-            'forward' => CRM_Utils_System::url('civicrm/mailing/forward', 
-                    "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
-                    true),
-        );
-
+                      'forward'         => CRM_Utils_System::url('civicrm/mailing/forward', 
+                                                         "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
+                                                         true),
+                      'unsubscribeUrl' => CRM_Utils_System::url('civicrm/mailing/unsubscribe', 
+                                                             "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
+                                                             true), 
+                      'optOutUrl'      => CRM_Utils_System::url('civicrm/mailing/optout', 
+                                                        "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
+                                                        true), 
+                      );
+        
         $headers = array(
-            'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
-            'Return-Path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
-            'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
-            'Subject'   => $this->subject,
-        );
+                         'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
+                         'Return-Path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
+                         'From'      => "\"{$this->from_name}\" <{$this->from_email}>",
+                         'Subject'   => $this->subject,
+                         );
 
         require_once 'CRM/Utils/Token.php';
         if ($this->html == null || $this->text == null) {
             $this->getHeaderFooter();
 
             if ($this->body_html) {
-                $this->html = $this->header->body_html . '<br />'
-                            . $this->body_html . '<br />'
+                $this->html = $this->header->body_html
+                            . $this->body_html
                             . $this->footer->body_html;
                 
                 $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
@@ -521,16 +530,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                 $this, true);
             }
 
-            if ( $this->body_text ) {
-                $this->text = $this->header->body_text . "\n"
-                    . $this->body_text . "\n"
-                    . $this->footer->body_text;
-                
-                $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
-                                                                   $this->_domain, false);
-                $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
-                                                                    $this, true);
+            if (!$this->body_text) {
+                $this->body_text = CRM_Utils_String::htmlToText($this->body_html);
             }
+            $this->text = $this->header->body_text . "\n"
+                . $this->body_text . "\n"
+                . $this->footer->body_text;
+            
+            $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
+                                                               $this->_domain, false);
+            $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
+                                                                $this, true);
         }
         
         $html = $this->html;
@@ -566,6 +576,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         {
             $html = CRM_Utils_Token::replaceContactTokens(
                                         $html, $contact, true);
+            
             $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true);
             
             if ($this->open_tracking) {
@@ -676,8 +687,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailing =& new CRM_Mailing_BAO_Mailing();       
 
         $mailing->domain_id     = $params['domain_id'];
-        $mailing->header_id     = $params['header_id'];
-        $mailing->footer_id     = $params['footer_id'];
+        if ($params['header_id']) $mailing->header_id = $params['header_id'];
+        if ($params['footer_id']) $mailing->footer_id = $params['footer_id'];
         $mailing->reply_id      = $params['reply_id'];
         $mailing->unsubscribe_id= $params['unsubscribe_id'];
         $mailing->optout_id     = $params['optout_id'];
@@ -690,9 +701,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $mailing->replyto_email = $params['replyto_email'];
         }
         $mailing->subject       = $params['subject'];
-        $mailing->body_text     = file_get_contents($params['textFile']);
         if (file_exists($params['htmlFile'])) {
-            $mailing->body_html     = file_get_contents($params['htmlFile']);
+            $mailing->body_html = file_get_contents($params['htmlFile']);
+        }
+        if (file_exists($params['textFile'])) {
+            $mailing->body_text = file_get_contents($params['textFile']);
+        } else {
+            $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
         }
         $mailing->is_template   = $params['template'] ? true : false;
         $mailing->auto_responder= $params['auto_responder'] ? true : false;
@@ -1117,7 +1132,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ON  $job.mailing_id = $mailing.id
             WHERE       $mailing.domain_id = $domain_id
             GROUP BY    $mailing.id
-            ORDER BY    $mailing.id, $job.end_date";
+            ORDER BY    $mailing.id DESC, $job.end_date DESC";
 
         if ($rowCount) {
             $query .= " LIMIT $offset, $rowCount ";

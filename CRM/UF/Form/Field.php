@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id: Field.php 1419 2005-06-10 12:18:04Z shot $
  *
  */
@@ -212,17 +212,26 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             }
         }
 
+        $noSearchable = array();
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 $this->_mapperFields[$key][$key1] = $value1['title'];
                 $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
+
+                //for hiding the 'is searchable' field for 'File' custom data
+                if ( ($value1['data_type'] == 'File') && ($value1['html_type'] == 'File') ) {
+                    if (!in_array($value1['title'], $noSearchable)) {
+                        $noSearchable[] = $value1['title'];
+                    }
+                }
             }
         }
+        $this->assign('noSearchable', $noSearchable);
 
         require_once 'CRM/Core/BAO/LocationType.php';
         $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-
+        
        /* FIXME: dirty hack to make the default option show up first.  This
         * avoids a mozilla browser bug with defaults on dynamically constructed
         * selector widgets. */
@@ -236,8 +245,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $this->_location_types = array ('Primary') + $this->_location_types;
 
         $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
-
-        $sel1['Student'] = 'Students';
+        
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            $sel1['Student'] = 'Students';
+        }
+        
         if ( ! empty( $contribFields ) ) {
             $sel1['Contribution'] = 'Contributions';
         }

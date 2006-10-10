@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -51,7 +51,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
      */
     function preProcess( )
     {
-        $id = CRM_Utils_Request::retrieve('cid', 'Positive',
+        $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                           $this, true);
         $gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this);
@@ -63,6 +63,12 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             $profileGroup['title'] = $title;
             $profileGroup['content'] = $page->run();
             $profileGroups[] = $profileGroup;
+            $map = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_map' );
+            if ( $map ) {
+                $this->assign( 'mapURL',
+                               CRM_Utils_System::url( "civicrm/profile/map",
+                                                      "&reset=1&cid=$id&gid=$gid" ) );
+            }
             
         } else {
             $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile'); 

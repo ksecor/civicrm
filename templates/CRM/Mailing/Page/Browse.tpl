@@ -1,3 +1,10 @@
+{if ($action eq 64)}
+<fieldset><legend>{ts}Cancel Mailing{/ts}</legend>
+<div class=status>{ts 1=$subject}Are you sure you want to cancel the mailing "%1"?{/ts}</div>
+<dl><dt></dt><dd>{$form.buttons.html}</dd></dl>
+</fieldset>
+{/if}
+
 {if $rows}
 {include file="CRM/common/pager.tpl" location="top"}
 

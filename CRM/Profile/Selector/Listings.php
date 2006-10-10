@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id: Selector.php 2609 2005-08-17 00:16:37Z lobo $
  *
  */
@@ -123,6 +123,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      */
     protected $_map;
     
+     /**
+     * Do we enable edit link
+     *
+     * @var boolean
+     */
+    protected $_editLink;
+    
     /**
      * Class constructor
      *
@@ -131,13 +138,15 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @return CRM_Contact_Selector_Profile
      * @access public
      */
-    function __construct( &$params, &$customFields, $ufGroupId = null, $map = false )
+    function __construct( &$params, &$customFields, $ufGroupId = null, $map = false , $editLink = false )
     {
         $this->_params = $params;
         
         $this->_gid = $ufGroupId;
 
         $this->_map = $map;
+        
+        $this->_editLink = $editLink;
 
         //get the details of the uf group 
         $ufGroupParam   = array('id' => $ufGroupId);
@@ -181,17 +190,25 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
      * @access public
      *
      */
-    static function &links( $map = false )
+    static function &links( $map = false  , $editLink =false)
     {
         if ( ! self::$_links ) {
             self::$_links = array( 
                                   CRM_Core_Action::VIEW   => array(
-                                                                   'name'  => ts('Details'),
+                                                                   'name'  => ts('View'),
                                                                    'url'   => 'civicrm/profile/view',
-                                                                   'qs'    => 'reset=1&cid=%%id%%&gid=%%gid%%',
+                                                                   'qs'    => 'reset=1&id=%%id%%&gid=%%gid%%',
                                                                    'title' => ts('View Profile Details'),
                                                                    ),
                                   ); 
+            if ( $editLink ) {
+                self::$_links[CRM_Core_Action::UPDATE] = array(
+                                                               'name'  => ts('Edit'),
+                                                               'url'   => 'civicrm/profile/edit',
+                                                               'qs'    => 'reset=1&id=%%id%%&gid=%%gid%%',
+                                                               'title' => ts('Edit'),
+                                                               );
+            }
             if ( $map ) {
                 self::$_links[CRM_Core_Action::MAP] = array(
                                                             'name'  => ts('Map'),
@@ -334,7 +351,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         require_once 'CRM/Core/PseudoConstant.php';
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
-        $links =& self::links( $this->_map );
+        $links =& self::links( $this->_map, $this->_editLink);
         
         $names = array( );
         static $skipFields = array( 'group', 'tag' ); 
@@ -362,6 +379,15 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                 }
             }
         }
+        
+        require_once "CRM/Core/OptionGroup.php";
+
+        $multipleSelectFields = null;
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            require_once 'CRM/Quest/BAO/Student.php';
+            $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+        }
+
 
         while ($result->fetch()) {
             if (isset($result->country)) {
@@ -383,6 +409,19 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                             ! empty( $result->$name ) ) {
                     $url = CRM_Utils_System::fixURL( $result->$name );
                     $row[] = "<a href=\"$url\">{$result->$name}</a>";
+                }  else if ( $multipleSelectFields &&
+                             array_key_exists($name, $multipleSelectFields ) ) { //fix to display student checkboxes
+                    $key = $name;
+                    $paramsNew = array($key => $result->$name );
+                    if ( $key == 'test_tutoring') {
+                        $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
+                    }  else if (substr( $key, 0, 4) == 'cmr_') { //for  readers group
+                        $name = array( $key => array('newName' => $key, 'groupName' => substr($key, 0, -3) ));
+                    } else {
+                        $name = array( $key => array('newName' => $key ,'groupName' => $key ));
+                    }
+                    CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
+                    $row[] = $paramsNew[$key]; 
                 } else {
                     $row[] = $result->$name;
                 }

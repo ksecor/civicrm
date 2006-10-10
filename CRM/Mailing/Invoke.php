@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -31,8 +31,8 @@
  * Serves as a wrapper between the UserFrameWork and Core CRM
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -61,6 +61,18 @@ class CRM_Mailing_Invoke {
             $session->pushUserContext(CRM_Utils_System::baseURL());
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Profile_Form_ForwardMailing', ts('Forward Mailing'),  null );
+        }
+        
+        if ( $args[2] == 'unsubscribe' ) {
+            require_once 'extern/unsubscribe.php';
+            $view =& new extern_unsubscribe( );
+            return $view->run( );
+        }
+        
+        if ( $args[2] == 'optout' ) {
+            require_once 'extern/optout.php';
+            $view =& new extern_optout( );
+            return $view->run( );
         }
         
         if ( $args[2] == 'retry' ) {
@@ -122,6 +134,12 @@ class CRM_Mailing_Invoke {
             require_once 'CRM/Mailing/BAO/Job.php';
             CRM_Mailing_BAO_Job::runJobs();
             CRM_Core_Session::setStatus( ts('The mailing queue has been processed.') );
+        }
+
+        if ($args[2] == 'preview') {
+            require_once 'CRM/Mailing/Page/Preview.php';
+            $view =& new CRM_Mailing_Page_Preview();
+            return $view->run();
         }
 
         require_once 'CRM/Mailing/Page/Browse.php';

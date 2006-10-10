@@ -4297,29 +4297,96 @@ msgstr ""
 msgid "Tigrai"
 msgstr "台灣"
 
-#. name for FI-AL
-msgid "Ahvenanmasn laani"
-msgstr ""
+#. name for FI-SK
+#, fuzzy
+msgid "South Karelia"
+msgstr "南非"
+
+#. name for FI-SO
+#, fuzzy
+msgid "South Ostrobothnia"
+msgstr "澳大利亞"
 
 #. name for FI-ES
-msgid "Etela-Suomen laani"
+msgid "Etelä-Savo"
 msgstr ""
 
-#. name for FI-IS
-msgid "Ita-Suomen lasni"
+#. name for FI-HH
+msgid "Häme"
 msgstr ""
 
-#. name for FI-LL
-msgid "Lapin Laani"
+#. name for FI-IU
+msgid "Itä-Uusimaa"
 msgstr ""
 
-#. name for FI-LS
-msgid "Lansi-Suomen Laani"
+#. name for FI-KA
+#, fuzzy
+msgid "Kainuu"
+msgstr "西班牙"
+
+#. name for FI-CO
+msgid "Central Ostrobothnia"
 msgstr ""
 
-#. name for FI-OL
-msgid "Oulun Lasni"
+#. name for FI-CF
+#, fuzzy
+msgid "Central Finland"
+msgstr "歐洲，中部"
+
+#. name for FI-KY
+msgid "Kymenlaakso"
 msgstr ""
+
+#. name for FI-LA
+#, fuzzy
+msgid "Lapland "
+msgstr "日本"
+
+#. name for FI-TR
+msgid "Tampere Region"
+msgstr ""
+
+#. name for FI-OB
+msgid "Ostrobothnia"
+msgstr ""
+
+#. name for FI-NK
+#, fuzzy
+msgid "North Karelia"
+msgstr "北朝鮮"
+
+#. name for FI-NO
+msgid "Nothern Ostrobothnia"
+msgstr ""
+
+#. name for FI-NS
+#, fuzzy
+msgid "Northern Savo"
+msgstr "歐洲，北部"
+
+#. name for FI-PH
+msgid "Päijät-Häme"
+msgstr ""
+
+#. name for FI-SK
+#, fuzzy
+msgid "Satakunta"
+msgstr "音效"
+
+#. name for FI-UM
+#, fuzzy
+msgid "Uusimaa "
+msgstr "格林納達"
+
+#. name for FI-SW
+#, fuzzy
+msgid "South-West Finland"
+msgstr "南朝鮮"
+
+#. name for FI-AL
+#, fuzzy
+msgid "Åland"
+msgstr "愛爾蘭"
 
 #. name for FJ-E
 #, fuzzy
@@ -5342,7 +5409,7 @@ msgstr ""
 
 #. name for GB-NAY
 #, fuzzy
-msgid "North Ayrahire"
+msgid "North Ayrshire"
 msgstr "北朝鮮"
 
 #. name for GB-NDN
@@ -5383,7 +5450,7 @@ msgstr ""
 
 #. name for GB-NBL
 #, fuzzy
-msgid "Northumbarland"
+msgid "Northumberland"
 msgstr "荷蘭"
 
 #. name for GB-NGM
@@ -5453,8 +5520,9 @@ msgid "Redcar and Cleveland"
 msgstr ""
 
 #. name for GB-RFW
-msgid "Renfrewshlre"
-msgstr ""
+#, fuzzy
+msgid "Renfrewshire"
+msgstr "智利"
 
 #. name for GB-RCT
 msgid "Rhondda, Cynon, Taff"
@@ -5519,8 +5587,9 @@ msgid "Solihull"
 msgstr ""
 
 #. name for GB-SOM
-msgid "merset"
-msgstr ""
+#, fuzzy
+msgid "Somerset"
+msgstr "塞爾維亞"
 
 #. name for GB-SAY
 #, fuzzy
@@ -5803,11 +5872,6 @@ msgstr "愛沙尼亞"
 #. name for MIDDX
 msgid "Middlesex"
 msgstr ""
-
-#. name for NTHUMB
-#, fuzzy
-msgid "Northumberland"
-msgstr "荷蘭"
 
 #. name for RUTLAND
 #, fuzzy
@@ -10327,8 +10391,9 @@ msgid "Michoacin"
 msgstr ""
 
 #. name for MX-MOR
-msgid "Moreloa"
-msgstr ""
+#, fuzzy
+msgid "Morelos"
+msgstr "馬耳他"
 
 #. name for MX-NAY
 msgid "Nayarit"
@@ -10959,7 +11024,7 @@ msgid "Gisborne"
 msgstr ""
 
 #. name for NZ-HKB
-msgid "Hawkes's Bay"
+msgid "Hawkes Bay"
 msgstr ""
 
 #. name for NZ-MWT
@@ -16284,12 +16349,12 @@ msgid "Midlands"
 msgstr "芬蘭"
 
 #, fuzzy
-#~ msgid "Susa "
-#~ msgstr "音效"
+#~ msgid "Northumbarland"
+#~ msgstr "荷蘭"
 
 #, fuzzy
-#~ msgid "Central "
-#~ msgstr "歐洲，中部"
+#~ msgid "Susa "
+#~ msgstr "音效"
 
 #, fuzzy
 #~ msgid "Chobe"

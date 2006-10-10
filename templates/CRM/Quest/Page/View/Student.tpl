@@ -15,15 +15,23 @@
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
     {if $lastModified} Last Modified By: &nbsp; &nbsp; <a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$lastModified.id`"}">{$lastModified.name}</a>{/if}
-    &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View Preapp{/ts}</a></span>
+    &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/matchapp/preview' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View CM App{/ts}</a></span>
     {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/preapp' q="reset=1&action=update&id=$contactId"}">&raquo; {ts}Edit Preapp{/ts}</a></span>
+        &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/matchapp' q="reset=1&action=update&id=$contactId"}">&raquo; {ts}Edit CM App{/ts}</a></span>
     {/if}
     {if $url } &nbsp; &nbsp; <span class="nowrap"><a href="{$url}">&raquo; {ts}View User Record{/ts}</a></span>{/if}
+    {if $contactTag}<br /><label>{ts}Tags{/ts}:</label>&nbsp;{$contactTag}{/if}
     
-    {if $preapplicationStatus}<div class="status"><label>{ts}Preapplication Status{/ts}:</label>&nbsp;<strong>{$preapplicationStatus}</strong></div>{/if}
-    {if $contactTag}<label>{ts}Tags{/ts}:</label>&nbsp;{$contactTag}{/if}
-   </div>
+    {* Show app task statuses if the taskStatus var is populated *}
+    {if $taskStatus || $Student.cmr_disposition}
+        <table>
+            <tr class="columnheader"><th colspan="2">College Match Summary</th></tr>
+            <tr class="odd-row"><td><strong>{ts}CM Disposition{/ts}:</strong></td><td><strong>{$Student.cmr_disposition}</strong></td></tr>
+            <tr class="even-row"><td><strong>{ts}CM Application{/ts}:</strong></td><td><strong>{$taskStatus.cmApp}</strong></td></tr>
+            <tr class="odd-row"><td><strong>{ts}Partner Supplement{/ts}:</strong></td><td><strong>{$taskStatus.cmPartnerSupplement}</strong></td></tr>
+            <tr class="even-row"><td><strong>{ts}CM Total Package{/ts}:</strong></td><td><strong>{$taskStatus.cmPackage}</strong></td></tr>
+        </table>
+    {/if}
 </div>
 
 {* Include links to enter Activities if session has 'edit' permission *}
@@ -47,14 +55,15 @@
    <table class="form-layout-compressed" border="0" width="90%">
     <tr>
         <td class="label">{ts}Gender:{/ts}</td><td>{$gender_display}</td>
-        <td class="label">{ts}Ethnicity:{/ts}</td><td>{$ethnicity_1}{if $ethnicity_2}<br />{$ethnicity_2}{/if}</td>
+        <td class="label">{ts}Ethnicity:{/ts}</td><td>{$Student.ethnicity_1}{if $Student.ethnicity_2}<br />{$Student.ethnicity_2}{/if}</td>
     </tr>
     <tr>
         <td class="label">{ts}Date of Birth:{/ts}</td><td>{$birth_date|crmDate}</td>
-        <td class="label">{ts}Citizenship Status:{/ts}</td><td>{$citizenship_status}</td>
+        <td class="label">{ts}Citizenship Status:{/ts}</td><td>{$Student.citizenship_status}</td>
     </tr>
     <tr>
-        <td class="label" colspan="2">{ts}Total Household Income:{/ts}</td><td colspan="2">{$household_income_total|crmMoney}</td>
+        <td class="label">{ts}Financial Index:{/ts}</td><td>{$Student.financial_need_index}</td>
+        <td class="label">{ts}Total Income:{/ts}</td><td>{$Student.household_income_total|crmMoney}</td>
     </tr>
    </table>
   </fieldset>
@@ -69,12 +78,15 @@
   <fieldset>
    <legend><a href="#" onclick="hide('academic'); show('academic[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Academic Information{/ts}</legend>
    <div class="col1">
-    <label>{ts}GPA:{/ts}</label> {$gpa}<br />
-    <label>{ts}Rank in Class:{/ts}</label> {$class_rank} of {$class_num_students}
+    <label>{ts}Academic Index:{/ts}</label> {$Student.academic_index}<br />
+    <label>{ts}GPA:{/ts}</label> {$Student.gpa_weighted} (weighted) / {$Student.gpa_unweighted} (unweighted)<br />
+    <label>{ts}Class Rank:{/ts}</label> {if $Student.class_rank && $Student.class_num_students}{$Student.class_rank} of {$Student.class_num_students}{/if}
+            {if $Student.class_rank_percent}<label>{ts}Percentile{/ts}:</label> {$Student.class_rank_percent}{/if}<br />
    </div>
    <div class="col2">
-    <label>{ts}Educational Interests:{/ts}</label> {$educational_interest_display}<br />
-    <label>{ts}College Interests:{/ts}</label> {$college_interest_display}<br />
+    <label>{ts}First College Generation?:{/ts}</label> {if $Student.parent_grad_college_no}Yes{else}No{/if}<br />
+    <label>{ts}SAT Composite (reading + math):{/ts}</label> {$Student.SAT_composite_alt}<br />
+    <label>{ts}Educational Interests:{/ts}</label> {$Student.educational_interest_display}<br />
    </div>
    <div class="spacer"></div>
   </fieldset>

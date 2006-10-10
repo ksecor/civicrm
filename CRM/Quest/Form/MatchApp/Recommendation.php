@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
@@ -30,8 +30,8 @@
  * Personal Information Form Page
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -139,6 +139,7 @@ SELECT cr.id           as contact_id,
                     $count++;
                 }
 
+                // CRM_Core_Error::debug( 'i', $this->_oldParams );
 
                 // make sure we have all 3 recommenders
                 if ( $count != 1 && $count != 4 ) {
@@ -193,8 +194,10 @@ SELECT cr.id           as contact_id,
                                    array('' => ts('- select -')) + CRM_Quest_BAO_Student::getSchoolSelect( $this->_contactID ),
                                    true );
 
+
             if ( array_key_exists( $i, $this->_oldParams ) &&
-                 ( $this->_oldParams[$i]['status_id'] == 328 ) ) {
+                 ( $this->_oldParams[$i]['status_id'] == 328 ) && 0 ) {
+	      
                 // freeze all the elements
                 $firstName->freeze( );
                 $lastName->freeze( );

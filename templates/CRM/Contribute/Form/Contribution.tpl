@@ -14,7 +14,11 @@
    {else} 
       <table class="form-layout-compressed">
         <tr><td class="label font-size12pt">{ts}From{/ts}</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
-        <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}</td></tr> 
+        <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}&nbsp;
+        {if $is_test}
+        {ts}(test){/ts}
+        {/if}
+        </td></tr> 
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</td></tr>
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
 {if $hideCalender neq true}
@@ -57,7 +61,45 @@
 </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}To mark a contribution as cancelled, enter the cancellation date here.{/ts}</td></tr>
         <tr><td class="label" style="vertical-align: top;">{$form.cancel_reason.label}</td><td>{$form.cancel_reason.html|crmReplace:class:huge}</td></tr>
-      </table>
+        
+    <div id="showHonorOfDetails_show">
+    <tr><td class="label">{$form.contribution_honor.label}</td><td>{$form.contribution_honor.html}</td></tr>
+    </div>
+    </table>
+     <div id ="showHonorOfDetails" class="form-item">
+         <dt>{$form.honor_prefix.label}</dt><dd>{$form.honor_prefix.html}</dd>
+         <dt>{$form.honor_firstname.label}</dt><dd>{$form.honor_firstname.html}</dd>
+         <dt>{$form.honor_lastname.label}</dt><dd>{$form.honor_lastname.html}</dd>
+         <dt>{$form.honor_email.label}</dt><dd>{$form.honor_email.html}</dd>
+     </div>          
+    
+
+    {literal}
+    <script type="text/javascript">
+    showHonorOfDetails();
+    function showHonorOfDetails()
+    {
+        var checkbox = document.getElementsByName("contribution_honor");
+        if (checkbox[0].checked ){
+            document.getElementById("showHonorOfDetails").style.display = "block";              
+        } else {
+            document.getElementById("showHonorOfDetails").style.display = "none"; 
+        }
+    }
+    
+    function reload(refresh) {
+        var contributionType = document.getElementById("contribution_type_id");
+        var url = {/literal}"{$refreshURL}"{literal}
+        var post = url + "&subType=" + contributionType.value;
+        if ( refresh ) {
+            window.location= post; 
+        }
+     }
+  
+
+    </script>
+    {/literal}
+
       {if $premiums }
       <fieldset><legend>{ts}Premium Information{/ts}</legend> 
         <table class="form-layout-compressed">
@@ -104,7 +146,6 @@
     </dl> 
 </fieldset> 
 </div> 
-
 
 
 

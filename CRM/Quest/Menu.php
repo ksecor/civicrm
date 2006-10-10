@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -30,8 +30,8 @@
  * Menu for the contribute module
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -65,6 +65,88 @@ class CRM_Quest_Menu {
                               'query'   => 'reset=1',
                               'title'   => ts( '2006 College Match Application' ), 
                               'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/matchapp/personal', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+
+                       array( 
+                              'path'    => 'civicrm/quest/matchapp/household', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/matchapp/school', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/matchapp/essay', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/matchapp/college', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/matchapp/submit', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Application' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/matchapp/recommendation', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Partners Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Fix Recommendation' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/matchapp/partner', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Partners Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'edit Quest Partner Supplement' ),
+                              'type'    => CRM_Core_Menu::CALLBACK,  
+                              'crmType' => CRM_Core_Menu::CALLBACK,
+                              'weight'  => 0, 
+                              ),
+                       array( 
+                              'path'    => 'civicrm/quest/partner/view', 
+                              'query'   => 'reset=1',
+                              'title'   => ts( '2006 College Match Partners Application' ), 
+                              'access'  => CRM_Core_Permission::check( 'view Quest Partner Supplement' ),
                               'type'    => CRM_Core_Menu::CALLBACK,  
                               'crmType' => CRM_Core_Menu::CALLBACK,
                               'weight'  => 0, 

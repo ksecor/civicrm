@@ -33,6 +33,9 @@ they are currently causing sporadic failures in insert and delete - so commentin
             <dt> </dt><dd class="description">&nbsp;{ts}Select the type of CiviCRM record and the field you want to include in this Profile.{/ts}</dd>
         {/edit}  
         <dt>{$form.label.label}</dt><dd>&nbsp;{$form.label.html}</dd>       
+        {edit}
+            <dt> </dt><dd class="description">&nbsp;{ts}The field label displayed on the form (over-ride the default field label here, if desired).{/ts}</dd>
+        {/edit}  
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
         {edit}
             <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Are users required to complete this field?{/ts}</dd>
@@ -45,13 +48,13 @@ they are currently causing sporadic failures in insert and delete - so commentin
         {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field hidden from other users ('User and User Admin Only'), or is it visible to others ('Public User Pages')? Select 'Public User Pages and Listings' to make the field searchable (in the Profile Search form). When visibility is 'Public User Pages and Listings', users can also click the field value when viewing a contact in order to locate other contacts with the same value(s) (i.e. other contacts who live in Poland).{/ts}</dd>
         {/edit}
-        <dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
+        <dt id="is_search_label">{$form.is_searchable.label}</dt><dd id="is_search_html">&nbsp;{$form.is_searchable.html}</dd>
         {edit}
-        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Do you want to include this field in the profile's search form?{/ts}</dd>
+        <dt id="is_search_desDt">&nbsp;</dt><dd class="description" id="is_search_desDd">&nbsp;{ts}Do you want to include this field in the Profile's Search form?{/ts}</dd>
         {/edit}
         <dt>{$form.in_selector.label}</dt><dd>&nbsp;{$form.in_selector.html}</dd>        
         {edit}
-        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field visible in the selector table displayed in profile searches? This setting applies only to fields with 'Public User Pages and Listings' visibility.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field included as a column in the search results table? This setting applies only to fields with 'Public User Pages and Listings' visibility.{/ts}</dd>
         {/edit}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}</dd>
         {edit}
@@ -79,15 +82,14 @@ they are currently causing sporadic failures in insert and delete - so commentin
     {/if} {* $action ne view *}
     </dl>
     </div>
-
 </fieldset>
 
  {$initHideBoxes}
 
 {literal}
 <script type="text/javascript">
-	function showLabel( ) {
-
+    function showLabel( ) {
+	
        if (document.forms.Field['field_name[0]'].options[document.forms.Field['field_name[0]'].selectedIndex].value) { 
           var labelValue = document.forms.Field['field_name[1]'].options[document.forms.Field['field_name[1]'].selectedIndex].text; 
 
@@ -103,6 +105,29 @@ they are currently causing sporadic failures in insert and delete - so commentin
 
        var input = document.getElementById('label');
        input.value = labelValue;
+       //alert(document.getElementsByName("field_name[1]")[0].selectedIndex);
+       show("is_search_label");
+       show("is_search_html");
+       show("is_search_desDt");
+       show("is_search_desDd");
+       
+       if (document.getElementsByName("field_name[1]")[0].selectedIndex == -1) {
+        return;
+       }
+       var field2 = document.getElementsByName("field_name[1]")[0][document.getElementsByName("field_name[1]")[0].selectedIndex].text;
+       var noSearch;
+       {/literal}
+         {foreach from=$noSearchable key=dnc item=val}
+	   {literal}noSearch = "{/literal}{$val}{literal}";
+		if (field2 == noSearch) {
+		     hide("is_search_label");
+		     hide("is_search_html");
+		     hide("is_search_desDt");
+		     hide("is_search_desDd");
+		}
+  	   {/literal}
+	 {/foreach}
+       {literal}
     } 
 </script> 
 {/literal}

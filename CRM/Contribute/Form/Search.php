@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -166,8 +166,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                                        $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this );
-
-        $this->assign( "{$this->_prefix}limit", $this->_limit );
+        
+        $this->assign( "{$this->_prefix}limit"  , $this->_limit );
+        $this->assign( "{$this->_prefix}context", $this->_context );
 
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
@@ -212,7 +213,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $controller->setEmbedded( true ); 
         $controller->moveFromSessionToTemplate(); 
 
-        $this->assign( 'summary', $this->get( 'summary' ) );
+        $this->assign( 'contributionSummary', $this->get( 'summary' ) );
     }
 
     function setDefaultValues( ) 
@@ -230,17 +231,19 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
     {
         // text for sort_name 
         $this->addElement('text', 'sort_name', ts('Contributor'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-
+        
         require_once 'CRM/Contribute/BAO/Query.php';
         CRM_Contribute_BAO_Query::buildSearchForm( $this );
-
+        
         /* 
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 
          * of all elements being declared in builQuickForm 
          */ 
         $rows = $this->get( 'rows' ); 
         if ( is_array( $rows ) ) {
-            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onChange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            if (!$this->_single) {
+                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+            }
             
             $total = $cancel = 0;
             foreach ($rows as $row) { 
@@ -249,9 +252,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
                                    array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                    ); 
             }
-
+            
             $this->assign( "{$this->_prefix}single", $this->_single );
-
+            
             // also add the action and radio boxes
             require_once 'CRM/Contribute/Task.php';
             $tasks = array( '' => ts('- more actions -') ) + CRM_Contribute_Task::tasks( );
@@ -259,25 +262,25 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) ); 
-
+            
             $this->add('submit', $this->_printButtonName, ts('Print'), 
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
-
+            
             
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => null) ); 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
         }
-
-         // add buttons 
-        $this->addButtons( array( 
-                                 array ( 'type'      => 'refresh', 
-                                         'name'      => ts('Search') , 
-                                         'isDefault' => true     ) 
-                                 )         
+        
+        // add buttons 
+        $this->addButtons( array ( 
+                                  array ( 'type'      => 'refresh', 
+                                          'name'      => ts('Search') , 
+                                          'isDefault' => true     ) 
+                                  )
                            ); 
-
+        
     }
 
     /**
@@ -325,13 +328,17 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $this->controller->resetPage( $formName ); 
             return; 
         }
-
+        
+        
         $sortID = null; 
         if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) { 
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
-
+        
+        if ( $this->_context != "search" ) { 
+            $this->_formValues["is_test"] = 0;
+        }
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues );
         $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,
                                                          $this->_action,
@@ -356,6 +363,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $query   =& $selector->getQuery( );
         $summary =& $query->summaryContribution( );
         $this->set( 'summary', $summary );
+        $this->assign( 'contributionSummary', $summary );
         $controller->run(); 
     }
 
@@ -403,25 +411,25 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             }
         }
 
-        $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
+        $lowDate = CRM_Utils_Request::retrieve( 'start', 'Timestamp',
                                                  CRM_Core_DAO::$_nullObject );
-        if ( $fromDate ) {
-            $fromDate = CRM_Utils_Type::escape( $fromDate, 'Timestamp' );
-            $date = CRM_Utils_Date::unformat( $fromDate, '' );
-            $this->_formValues['contribution_date_from'] = $date;
-            $this->_defaults['contribution_date_from'] = $date;
+        if ( $lowDate ) {
+            $lowDate = CRM_Utils_Type::escape( $lowDate, 'Timestamp' );
+            $date = CRM_Utils_Date::unformat( $lowDate, '' );
+            $this->_formValues['contribution_date_low'] = $date;
+            $this->_defaults['contribution_date_lowy'] = $date;
         }
 
-        $toDate= CRM_Utils_Request::retrieve( 'end', 'Date',
-                                              CRM_Core_DAO::$_nullObject );
-        if ( $toDate ) { 
-            $toDate = CRM_Utils_Type::escape( $toDate, 'Timestamp' ); 
-            $date = CRM_Utils_Date::unformat( $toDate, '' );
-            $this->_formValues['contribution_date_to'] = $date;
-            $this->_defaults['contribution_date_to'] = $date;
-            $this->_formValues['contribution_date_to']['H'] = 23;
-            $this->_formValues['contribution_date_to']['i'] = 59;
-            $this->_formValues['contribution_date_to']['s'] = 59;
+        $highDate= CRM_Utils_Request::retrieve( 'end', 'Timestamp',
+                                                CRM_Core_DAO::$_nullObject );
+        if ( $highDate ) { 
+            $highDate = CRM_Utils_Type::escape( $highDate, 'Timestamp' ); 
+            $date = CRM_Utils_Date::unformat( $highDate, '' );
+            $this->_formValues['contribution_date_high'] = $date;
+            $this->_defaults['contribution_date_high'] = $date;
+            $this->_formValues['contribution_date_high']['H'] = 23;
+            $this->_formValues['contribution_date_high']['i'] = 59;
+            $this->_formValues['contribution_date_high']['s'] = 59;
         }
 
         $this->_limit = CRM_Utils_Request::retrieve( 'limit', 'Positive',

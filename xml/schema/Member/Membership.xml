@@ -22,6 +22,8 @@
       <name>contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
+      <title>Contact ID (match to contact)</title>
+      <import>true</import>
       <comment>FK to Contact ID</comment>
       <add>1.5</add>
   </field>
@@ -34,6 +36,8 @@
   <field>
       <name>membership_type_id</name>
       <type>int unsigned</type>
+      <title>Membership Type</title>
+      <import>true</import>
       <required>true</required>
       <comment>FK to Membership Type</comment>
       <add>1.5</add>
@@ -48,6 +52,7 @@
       <name>join_date</name>  
       <title>Member Since</title>
       <type>date</type>
+      <import>true</import>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
       <comment>Beginning of initial membership period (member since...).</comment>  
       <add>1.5</add>  
@@ -56,6 +61,7 @@
       <name>start_date</name>  
       <title>Membership Start Date</title>
       <type>date</type>
+      <import>true</import>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
       <comment>Beginning of current uninterrupted membership period.</comment>
       <add>1.5</add>  
@@ -64,6 +70,7 @@
       <name>end_date</name>  
       <title>Membership Expiration Date</title>
       <type>date</type>
+      <import>true</import>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>
       <comment>Current membership period expire date.</comment>  
       <add>1.5</add>  
@@ -71,6 +78,7 @@
   <field>  
       <name>source</name>     
       <title>Source</title>
+      <import>true</import>
       <type>varchar</type>
       <length>128</length>
       <add>1.5</add>  
@@ -78,6 +86,7 @@
   <field>
       <name>status_id</name>
       <title>Membership Status</title>
+      <import>true</import>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to Membership Status</comment>

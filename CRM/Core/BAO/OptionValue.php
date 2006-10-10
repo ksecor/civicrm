@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -136,8 +136,122 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
     {
         $optionValue =& new CRM_Core_DAO_OptionValue( );
         $optionValue->id = $optionValueId;
-        $optionValue->delete();
+
+        self::updateRecords($optionValueId, CRM_Core_Action::DELETE);
+        
+        return $optionValue->delete();
+    }
+
+
+
+    /**
+     * retrieve the id and decription
+     *
+     * @param NULL
+     * 
+     * @return Array            id and decription
+     * @static
+     * @access public
+     */
+    static function &getActivityDescription() 
+    {
+        
+        $query =
+            "SELECT civicrm_option_value.value, civicrm_option_value.description
+FROM civicrm_option_value
+LEFT JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
+WHERE civicrm_option_value.is_active =1
+AND civicrm_option_value.value >4
+AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.name";
+        $dao   =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $description =array();
+        while($dao->fetch()) {
+            $description[ $dao->value] = $dao->description;
+            
+        }
+        return $description;
+    }
+    
+    /**
+     * updates contacts affected by the option value passed.
+     *
+     * @param Integer $optionValueId     the option value id.
+     * @param int     $action            the action describing whether prefix/suffix was UPDATED or DELETED
+     *
+     * @return void
+     */
+    static function updateRecords(&$optionValueId, $action) {
+        //finding group name
+        $optionValue =& new CRM_Core_DAO_OptionValue( );
+        $optionValue->id = $optionValueId;
+        $optionValue->find(true);
+        
+        $optionGroup =& new CRM_Core_DAO_OptionGroup( );
+        $optionGroup->id = $optionValue->option_group_id;
+        $optionGroup->find(true);
+        
+        $gName = $optionGroup->name; //group name
+        $value = $optionValue->value; //value
+        
+        // get the proper group name & affected field name
+        $individuals   = array('gender'            => 'gender_id', 
+                               'individual_prefix' => 'prefix_id', 
+                               'individual_suffix' => 'suffix_id');
+        $contributions = array('payment_instrument'=> 'payment_instrument_id');
+        $activities    = array('activity_type'     => 'activity_type_id');
+
+        $all = array_merge($individuals, $contributions, $activities);
+        $fieldName = '';
+        
+        foreach($all as $name => $id) {
+            if ($gName == $name) {
+                $fieldName = $id;
+            }
+        }
+        if ($fieldName == '') return;
+        
+        if (array_key_exists($gName, $individuals)) {
+            // query for the affected individuals
+            require_once 'CRM/Contact/BAO/Individual.php';
+            $individual =& new CRM_Contact_BAO_Individual();
+            $individual->$fieldName = $value;
+            $individual->find();
+            
+            // iterate through the affected individuals and rebuild their display_names
+            require_once 'CRM/Contact/BAO/Contact.php';
+            while ($individual->fetch()) {
+                $contact =& new CRM_Contact_BAO_Contact();
+                $contact->id = $individual->contact_id;
+                if ($action == CRM_Core_Action::DELETE) {
+                    $individual->$fieldName = 'NULL';
+                    $individual->save();
+                }
+                $contact->display_name = $individual->displayName();
+                $contact->save();
+            }
+        }
+        
+        if (array_key_exists($gName, $contributions)) {
+            $contribution =& new CRM_Contribute_DAO_Contribution();
+            $contribution->$fieldName = $value;
+            $contribution->find();
+            while ($contribution->fetch()) {
+                if ($action == CRM_Core_Action::DELETE) {
+                    $contribution->$fieldName = 'NULL';
+                    $contribution->save();
+                }
+            }
+        }
+        
+        if (array_key_exists($gName, $activities)) {
+            require_once 'CRM/Activity/DAO/Activity.php';
+            $activity =& new CRM_Activity_DAO_Activity( );
+            $activity->$fieldName = $value;
+            $activity->find();
+            while ($activity->fetch()) {
+                $activity->delete();
+            }
+        }
     }
 }
-
 ?>

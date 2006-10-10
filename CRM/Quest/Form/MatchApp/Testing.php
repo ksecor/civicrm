@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
@@ -30,8 +30,8 @@
  * Personal Information Form Page
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -243,12 +243,12 @@ class CRM_Quest_Form_MatchApp_Testing extends CRM_Quest_Form_App
                         $qName = $testName . '_' . strtolower( $name ) . "_$i";
                         $this->addElement( 'text',
                                            $qName,
-                                           ts( $fieldName . ' Score' ),
+                                           ts('%1 Score', array(1 => $fieldName)),
                                            $attributes['score_english'] );
                         if ( $name == 'Composite') {
-                            $this->addRule( $qName, ts( strtolower( $name ).' score not valid.'),'numeric');
+                            $this->addRule($qName, ts('%1 score not valid.', array(1 => strtolower($name))), 'numeric');
                         } else {
-                            $this->addRule( $qName, ts( strtoupper( $testName ).' '.$name.' score must be a whole number.'),'integer');
+                            $this->addRule($qName, ts('%1 %2 score must be a whole number.', array(1 => strtoupper($testName), 2 => $name)), 'integer');
                         }
                     }
                 }

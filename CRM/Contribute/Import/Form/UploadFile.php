@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -86,6 +86,21 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
         $this->setDefaults(array('onDuplicate' =>
                                     CRM_Contribute_Import_Parser::DUPLICATE_SKIP));
 
+        //contact types option
+        $contactOptions = array();        
+        $contactOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Individual'), CRM_Contribute_Import_Parser::CONTACT_INDIVIDUAL);
+        $contactOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Household'), CRM_Contribute_Import_Parser::CONTACT_HOUSEHOLD);
+        $contactOptions[] = HTML_QuickForm::createElement('radio',
+            null, null, ts('Organization'), CRM_Contribute_Import_Parser::CONTACT_ORGANIZATION);
+
+        $this->addGroup($contactOptions, 'contactType', 
+                        ts('Contact Type'));
+
+        $this->setDefaults(array('contactType' =>
+                                 CRM_Contribute_Import_Parser::CONTACT_INDIVIDUAL));
+
         //build date formats
         require_once 'CRM/Core/Form/Date.php';
         CRM_Core_Form_Date::buildAllowedDateFormats( $this );
@@ -112,9 +127,11 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
         $skipColumnHeader = $this->controller->exportValue( $this->_name, 'skipColumnHeader' );
         $onDuplicate      = $this->controller->exportValue( $this->_name,
                             'onDuplicate' );
+        $contactType      = $this->controller->exportValue( $this->_name, 'contactType' ); 
         $dateFormats      = $this->controller->exportValue( $this->_name, 'dateFormats' ); 
 
         $this->set('onDuplicate', $onDuplicate);
+        $this->set('contactType', $contactType);
         $this->set('dateFormats', $dateFormats);
 
         $session =& CRM_Core_Session::singleton();
@@ -128,7 +145,7 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
         $parser->run( $fileName, $seperator,
                       $mapper,
                       $skipColumnHeader,
-                      CRM_Contribute_Import_Parser::MODE_MAPFIELD);
+                      CRM_Contribute_Import_Parser::MODE_MAPFIELD, $contactType);
 
         // add all the necessary variables to the form
         $parser->set( $this );

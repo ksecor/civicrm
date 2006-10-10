@@ -328,7 +328,7 @@ function writeHeader($file)
 {
     $output = array();
     $output[] = '# CiviCRM POT file';
-    $output[] = '# Copyright (C) 2005 Donald A. Lobo';
+    $output[] = '# Copyright (C) 2005 CiviCRM LLC (c) 2004-2006';
     $output[] = '# This file is distributed under the same license as the CiviCRM package.';
     $output[] = '# Piotr Szotkowski <shot@caltha.pl>, 2005';
     //$output[] = '# --VERSIONS--';

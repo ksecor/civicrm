@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id: Selector.php 3854 2005-11-23 13:28:15Z kurund $
  *
  */
@@ -81,7 +81,8 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'receive_date',
                                  'thankyou_date',
                                  'cancel_date',
-                                 'name'
+                                 'product_name',
+                                 'is_test'
                                  );
 
     /** 
@@ -201,7 +202,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%&subType=%%contributionType%%',
                                                                    'title'    => ts('Edit Contribution'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
@@ -287,12 +288,17 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             foreach (self::$_properties as $property) {
                 $row[$property] = $result->$property;
             }
-
+            
+            if ( $row["is_test"] ) {
+                $row["contribution_type"] = $row["contribution_type"] . "( test )";
+            }
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                          array( 'id'  => $result->contribution_id,
-                                                                 'cid' => $result->contact_id,
-                                                                 'cxt' => $this->_context ) );
+                                                          array( 'id'               => $result->contribution_id,
+                                                                 'cid'              => $result->contact_id,
+                                                                 'cxt'              => $this->_context,
+                                                                 'contributionType' => $result->contribution_type_id 
+                                                                 ) );
             $config =& CRM_Core_Config::singleton( );
             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($result->contact_type) {
@@ -372,13 +378,16 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 ),
                                           array(
                                                 'name'      => ts('Premium'),
-                                                'sort'      => 'name',
+                                                'sort'      => 'product_name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc' => ts('Actions') ),
                                           );
 
-            if ( ! $this->_single ) {
+            //if ( ! $this->_single && ! $this->_limit ) {
+            
+            if ( ( $this->_context == 'dashboard') || 
+                 ( $this->_context == 'search' ) ) {
                 $pre = array( 
                              array('desc' => ts('Contact Type') ), 
                              array( 

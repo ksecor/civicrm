@@ -152,13 +152,13 @@
 	<div id ="is_searchable">
 	  <dl>
 	    <dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
-      </dl>
+          </dl>
+          {if $action neq 4}
+          <dl>
+          <dt>&nbsp;</dt><dd class="description">{ts}Is this field included in the Advanced Search form? NOTE: This feature is only available to custom fields used for <strong>Contacts</strong> at this time.{/ts}</dd>
+          </dl>
+          {/if}        
 	</div>        
-        {if $action neq 4}
-        <dl>
-        <dt>&nbsp;</dt><dd class="description">{ts}Is this field included in the Advanced Search form? NOTE: This feature is only available to custom fields used for <strong>Contacts</strong> at this time.{/ts}</dd>
-        </dl>
-        {/if}        
     	<div id="searchByRange" {if $action eq 2 && $form.is_searchable.value && ($form.data_type.value.0.0 eq 1 OR $form.data_type.value.0.0 eq 2 OR $form.data_type.value.0.0 eq 3 OR $form.data_type.value.0.0 eq 5) && ($form.data_type.value.1.0 eq 'Text' OR $form.data_type.value.1.0 eq 'Select Date')} class="show-block"{else} class="hide-block"{/if} >
     	    <dl>
 	        <dt>{$form.is_search_range.label}</dt><dd>&nbsp;{$form.is_search_range.html}</dd>
@@ -180,11 +180,11 @@
     </div> 
 </fieldset>
 
-<script type="text/javascript">
+     <script type="text/javascript">
 	
    	var action = {$action};
 	{if $action eq 2} 
-       var editIndex    = {$form.data_type.value.0.0}; 
+           var editIndex    = {$form.data_type.value.0.0}; 
 	   var editHtmlType = "{$form.data_type.value.1.0}";
 	{/if}
 		
@@ -212,8 +212,10 @@
 			
           }
 	  {/literal}
+
+	custom_option_html_type(this.form);
    
-	</script>
+      </script>
 
 {* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}
 {if $action eq 2 AND ($form.data_type.value.1.0 eq 'CheckBox' OR $form.data_type.value.1.0 eq 'Radio' OR $form.data_type.value.1.0 eq 'Select' OR $form.data_type.value.1.0 eq 'Multi-Select') }

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -110,17 +110,15 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }
 
                 $relationshipID = $relationship->id;
-                $query = "SELECT id FROM civicrm_note where entity_table = 'civicrm_relationship' and entity_id = $relationshipID  order by modified_date desc";
+                $query = "SELECT id, note FROM civicrm_note where entity_table = 'civicrm_relationship' and entity_id = $relationshipID  order by modified_date desc";
                 $dao = new CRM_Core_DAO();
                 $dao->query($query);
-                $dao->fetch();
-                $note =& new CRM_Core_DAO_Note( );
-                $note->id = $dao->id;
-                if ($note->find(true)) {
-                    $defaults['note'] = $note->note;
+                if ( $dao->fetch($query) ) {
+                    $defaults['note'] = $dao->note;
                 }
             }
         }
+        
 
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
@@ -298,33 +296,23 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         foreach($relationshipIds as $index => $id) {
             CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree,'Relationship',$id); 
         }
-
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $note =& new CRM_Core_DAO_Note( );
-            $note->entity_id = $relationshipIds[0];
-            $note->entity_table = 'civicrm_relationship';
-            if ($note->find(true)) {
-                $id = $note->id;
-                $noteParams = array(
-                                    'entity_id'     => $relationshipIds[0],
-                                    'entity_table'  => 'civicrm_relationship',
-                                    'note'          => $params['note'],
-                                    'id'            => $id
-                                    );
-                CRM_Core_BAO_Note::add($noteParams);
-            }
-        } else {
-            if ( CRM_Utils_Array::value( 'note', $params ) ) {
-                foreach($relationshipIds as $index => $id) {
-                    $noteParams = array(
-                                        'entity_id'     => $id,
-                                        'entity_table'  => 'civicrm_relationship',
-                                        'note'          => $params['note']
-                                        );
-                    CRM_Core_BAO_Note::add($noteParams);
-                }
-            }
+        
+        $note =& new CRM_Core_DAO_Note( );
+        $note->entity_id = $relationshipIds[0];
+        $note->entity_table = 'civicrm_relationship';
+        $ids = array();
+        if ( $note->find(true) ) {
+            $id = $note->id;    
+            $ids["id"] = $id;
         }
+        
+        $noteParams = array(
+                                'entity_id'     => $relationshipIds[0],
+                                'entity_table'  => 'civicrm_relationship',
+                                'note'          => $params['note'],
+                                );
+        CRM_Core_BAO_Note::add( $noteParams , $ids);
+        
         
         CRM_Core_Session::setStatus( $status );
     }//end of function

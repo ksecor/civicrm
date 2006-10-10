@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,14 +29,14 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
 
 require_once 'CRM/Activity/Form.php';
-require_once 'CRM/Core/BAO/ActivityType.php';
+
 
 /**
  * This class generates form components for OtherActivity
@@ -49,7 +49,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
      * variable to store activity type name
      *
      */
-    public $_activityType = 'Activity';
+    protected $_activityType = 'Activity';
 
     /**
      * Function to build the form
@@ -57,6 +57,16 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
      * @return None
      * @access public
      */
+
+    function preProcess( ) 
+    {
+        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        if ( $subType ) {
+            $this->_activityType = $subType;
+        } 
+        parent::preProcess();
+
+    }
     public function buildQuickForm( ) 
     {
         parent::buildQuickForm( );
@@ -64,15 +74,24 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
-        $activityType = CRM_Core_PseudoConstant::activityType(false);
+
+        if ( $this->_id ) {
+            $url = "civicrm/contact/view/activity&activity_id=$this->_activityType&action=update&reset=1&id=$this->_id&cid=$this->_contactId&context=activity";
+        } else {
+            $url = "civicrm/contact/view/activity&activity_id=$this->_activityType&action=add&reset=1&cid=$this->_contactId";
+        }
+      
+        $url = CRM_Utils_System::url($url); 
+        $this->assign("refreshURL",$url);
+        $activityType = CRM_Core_PseudoConstant::activityType(false,true);
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType, 
-                   array('onChange' => 'activity_get_description( )'), true );
+        $this->addElement('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType, 
+                   array('onChange' => "reload(true)"), true );
         $this->addRule('activity_type_id', ts('Select a valid activity.'), 'required');
 
         $this->add('text', 'description', ts('Description'),
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ActivityType', 'description' ), false);
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ), false);
 
         $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), true );
 
@@ -109,7 +128,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
 
         // store the submitted values in an array
-        $params = $this->controller->exportValues( $this->_name );
+        //$params = $this->controller->exportValues( $this->_name );
+        $params = $_POST;
         $ids = array();
         
         // store the date with proper format
@@ -130,7 +150,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         }
 
         require_once "CRM/Activity/BAO/Activity.php";
-        CRM_Activity_BAO_Activity::createActivity($params, $ids, $this->_activityType);
+        CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
     }
 }
 

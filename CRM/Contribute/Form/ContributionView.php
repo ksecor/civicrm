@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -59,6 +59,16 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
                                                     $values, 
                                                     $ids );             
         CRM_Contribute_BAO_Contribution::resolveDefaults( $values ); 
+        
+        if ( $values["honor_contact_id"] ) {
+            $sql = "SELECT display_name FROM civicrm_contact WHERE id = " . $values["honor_contact_id"];
+            $dao = &new CRM_Core_DAO();
+            $dao->query($sql);
+            if ( $dao->fetch() ) {
+                $url = CRM_Utils_System::url( 'civicrm/contact/view/basic', "reset=1&cid=$values[honor_contact_id]" );
+                $values["honor_display"] = "<A href = $url>". $dao->display_name ."</A>"; 
+            }
+        }
 
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->get( 'id' ) );
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );

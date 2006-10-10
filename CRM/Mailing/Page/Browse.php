@@ -2,9 +2,9 @@
 
 /* 
  +--------------------------------------------------------------------+ 
- | CiviCRM version 1.5                                                | 
+ | CiviCRM version 1.6                                                | 
  +--------------------------------------------------------------------+ 
- | Copyright (c) 2005 Donald A. Lobo                                  | 
+ | Copyright CiviCRM LLC (c) 2004-2006                                  | 
  +--------------------------------------------------------------------+ 
  | This file is a part of CiviCRM.                                    | 
  |                                                                    | 
@@ -19,18 +19,18 @@
  |                                                                    | 
  | You should have received a copy of the Affero General Public       | 
  | License along with this program; if not, contact the Social Source | 
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have | 
- | questions about the Affero General Public License or the licensing | 
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       | 
+ | about the Affero General Public License or the licensing  of       | 
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   | 
- | at http://www.openngo.org/faqs/licensing.html                      | 
+ | http://www.civicrm.org/licensing/                                 | 
  +--------------------------------------------------------------------+ 
 */ 
  
 /** 
  * 
  * @package CRM 
- * @author Donald A. Lobo <lobo@yahoo.com> 
- * @copyright Donald A. Lobo 01/15/2005 
+ * @author Donald A. Lobo <lobo@civicrm.org> 
+ * @copyright CiviCRM LLC (c) 2004-2006 
  * $Id$ 
  * 
  */ 
@@ -38,6 +38,7 @@
 require_once 'CRM/Mailing/Selector/Browse.php';
 require_once 'CRM/Core/Selector/Controller.php';
 require_once 'CRM/Core/Page.php';
+
 /**
  * This implements the profile page for all contacts. It uses a selector
  * object to do the actual dispay. The fields displayd are controlled by
@@ -53,27 +54,74 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      */
     protected $_fields;
 
+    /**
+     * the mailing id of the mailing we're operating on
+     *
+     * @int
+     * @access protected
+     */
+    protected $_mailingId;
+
+    /**
+     * the action that we are performing (in CRM_Core_Action terms)
+     *
+     * @int
+     * @access protected
+     */
+    protected $_action;
+
+
+    /**
+     * Heart of the viewing process. The runner gets all the meta data for
+     * the contact and calls the appropriate type of page to view.
+     *
+     * @return void
+     * @access public
+     *
+     */
+    function preProcess() 
+    {
+        $this->_mailingId = CRM_Utils_Request::retrieve('mid', 'Positive', $this);
+        $this->_action    = CRM_Utils_Request::retrieve('action', 'String', $this);
+        $this->assign('action', $this->_action);
+    }
+
     /** 
      * run this page (figure out the action needed and perform it). 
      * 
      * @return void 
      */ 
     function run( ) {
-        CRM_Utils_System::setTitle(ts('Mailings'));
-
-        $selector =& new CRM_Mailing_Selector_Browse( );
+        $this->preProcess();
+        if ($this->_action & CRM_Core_Action::DISABLE) {
+            $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
+            if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
+                require_once 'CRM/Mailing/BAO/Job.php';
+                CRM_Mailing_BAO_Job::cancel($this->_mailingId);
+                CRM_Utils_System::redirect($url);
+            } else {
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse', ts('Cancel Mailing'), $this->_action );
+                $controller->setEmbedded( true );
+                
+                // set the userContext stack
+                $session =& CRM_Core_Session::singleton();
+                $session->pushUserContext( $url );
+                $controller->run( );
+            }
+        } 
         
+        $selector =& new CRM_Mailing_Selector_Browse( );
         $controller =& new CRM_Core_Selector_Controller(
-                        $selector ,
-                        $this->get( CRM_Utils_Pager::PAGE_ID ),
-                        $this->get( CRM_Utils_Sort::SORT_ID  ),
-                        CRM_Core_Action::VIEW, 
-                        $this, 
-                        CRM_Core_Selector_Controller::TEMPLATE );
-
+                                                        $selector ,
+                                                        $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                        $this->get( CRM_Utils_Sort::SORT_ID ),
+                                                        CRM_Core_Action::VIEW, 
+                                                        $this, 
+                                                        CRM_Core_Selector_Controller::TEMPLATE );
         $controller->setEmbedded( true );
-        $controller->run( );
 
+        CRM_Utils_System::setTitle(ts('Mailings'));
+        $controller->run( );
         return parent::run( );
     }
 

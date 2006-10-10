@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -90,8 +90,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
      */
     function preProcess( )
     {
-        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive',
-                                                  $this );
+        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         $this->assign( 'id', $this->_id );
         
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive',
@@ -100,6 +99,10 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             CRM_Utils_System::statusBounce( ts( 'We could not find a contact id.' ) );
         }
         $this->assign( 'contactId', $this->_contactId );
+        
+        // also store in session for future use
+        $session =& CRM_Core_Session::singleton( );
+        $session->set( 'view.id', $this->_contactId );
 
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
                                                      $this, false, 'browse');
@@ -147,9 +150,12 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         //------------
         // create menus ..
+        // hack for now, disable if we are in tabbed mode
         $startWeight = CRM_Core_Menu::getMaxWeight('civicrm/contact/view');
         $startWeight++;
-        CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($this->_contactId), 'civicrm/contact/view/cd', $startWeight);
+        CRM_Core_BAO_CustomGroup::addMenuTabs( CRM_Contact_BAO_Contact::getContactType($this->_contactId), 
+                                               'civicrm/contact/view/cd',
+                                               $startWeight );
 
         //display OtherActivity link 
         $otherAct = CRM_Core_PseudoConstant::activityType(false);

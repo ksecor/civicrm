@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -67,6 +67,13 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         //$dao->orderBy('name');
         $dao->find();
 
+        // check is the user has view/edit membership permission
+        $permission = CRM_Core_Permission::VIEW;
+        if ( CRM_Core_Permission::check( 'edit memberships' ) ) {
+            $permission = CRM_Core_Permission::EDIT;
+        }
+        $mask = CRM_Core_Action::mask( $permission );
+        
         while ($dao->fetch()) {
             $membership[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $membership[$dao->id]);
@@ -83,7 +90,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                 }
             }
             
-            $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), null, array('id' => $dao->id, 
+            $membership[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $mask, array('id' => $dao->id, 
                                                                                                    'cid'=> $this->_contactId));
         }
 

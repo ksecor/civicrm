@@ -48,26 +48,6 @@ INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
     VALUES( @domain_id, '{ts}Volunteer{/ts}', '{ts}Active volunteers.{/ts}', NULL );
 
--- Sample Instant Msg service providers
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Yahoo', @domain_id, 0, 1);
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('MSN', @domain_id, 0, 1);
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('AIM', @domain_id, 0, 1);
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('GTalk', @domain_id, 0, 1);
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Jabber', @domain_id, 0, 1);
-INSERT INTO civicrm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Skype', @domain_id, 0, 1);
-
--- Sample mobile phone service providers
-INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Sprint', @domain_id, 0, 1);
-INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Verizon', @domain_id, 0, 1);
-INSERT INTO civicrm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Cingular', @domain_id, 0, 1);
-
--- Activity types
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( @domain_id, '{ts}Meeting{/ts}', '{ts}Schedule a Meeting{/ts}', 1, 1);
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( @domain_id, '{ts}Phone Call{/ts}', '{ts}Schedule a Phone Call{/ts}', 1, 1);
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( @domain_id, '{ts}Email{/ts}', '{ts}Email Sent{/ts}', 1, 1);
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( @domain_id, '{ts}SMS{/ts}', '{ts}SMS{/ts}', 1, 0);
-INSERT INTO civicrm_activity_type (domain_id, name, description, is_active, is_reserved) VALUES ( @domain_id, '{ts}Event{/ts}', '{ts}Event{/ts}', 1, 0);
-
 -- sample CiviCRM mailing components
 INSERT INTO civicrm_mailing_component
     (domain_id,name,component_type,subject,body_html,body_text,is_default,is_active)
@@ -80,21 +60,7 @@ VALUES
     (@domain_id,'Opt-out Message','OptOut','Goodbye','You have been removed from {ldelim}domain.name{rdelim}.  Goodbye.','You have been removed from {ldelim}domain.name{rdelim}.  Goodbye.',1,1),
     (@domain_id,'Auto-responder','Reply','Automated response','Thank you for your reply.','Thank you for your reply.',1,1);
 
--- individual prefix and suffix enums 
-{if $locale == 'en_US'}
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, 'Mrs', 1, 1);
-{/if}
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Ms{/ts}', 2, 1);
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Mr{/ts}', 3, 1);
-INSERT INTO civicrm_individual_prefix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Dr{/ts}', 4, 1);
 
-INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Jr{/ts}', 1, 1);
-INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Sr{/ts}', 2, 1);
-INSERT INTO civicrm_individual_suffix (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}II{/ts}', 3, 1);
-
-INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Female{/ts}', 1, 1);
-INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Male{/ts}', 2, 1);
-INSERT INTO civicrm_gender (domain_id, name, weight, is_active) VALUES ( @domain_id, '{ts}Transgender{/ts}', 3, 1);
 
 INSERT INTO civicrm_dupe_match (domain_id, entity_table , rule) VALUES ( @domain_id,'contact_individual','first_name AND last_name AND email');
 
@@ -107,35 +73,95 @@ VALUES
   ( '{ts}Campaign Contribution{/ts}', @domain_id, 0, 1, 0 );
 
 -- payment instrument
-INSERT INTO  
-   civicrm_payment_instrument(name, domain_id, is_reserved, is_active)  
-VALUES  
-  ( '{ts}Credit Card{/ts}', @domain_id, 1, 1 ),   
-  ( '{ts}Debit Card{/ts}' , @domain_id, 1, 1 ),    
-  ( '{ts}Cash{/ts}'       , @domain_id, 1, 1 ),     
-  ( '{ts}Check{/ts}'      , @domain_id, 1, 1 ),      
-  ( '{ts}EFT{/ts}'        , @domain_id, 1, 1 );
-  
--- accepted credit cards
-INSERT INTO
-    civicrm_accept_credit_card(name, title, domain_id, is_reserved, is_active)
+
+
+-- option group and values for 'preferred communication methods' , 'activity types' and 'gender'
+
+INSERT INTO 
+   `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+   (@domain_id, 'preferred_communication_method', 'Preferred communication method'     , 1, 1),
+   (@domain_id, 'activity_type'                 , 'Activity Type'                      , 0, 1),
+   (@domain_id, 'gender'                        , 'Gender'                             , 0, 1),
+   (@domain_id, 'instant_messenger_service'     , 'Instant Messenger (IM) screen-names', 0, 1),
+   (@domain_id, 'mobile_provider'               , 'Mobile Phone Providers'             , 0, 1),
+   (@domain_id, 'individual_prefix'             , 'Individual contact prefixes.'       , 0, 1),
+   (@domain_id, 'individual_suffix'             , 'Individual contact suffixes.'       , 0, 1),
+   (@domain_id, 'acl_group'                     , 'ACL Group.'                         , 0, 1),
+   (@domain_id, 'accept_creditcard'             , 'Accept Credit Card'                  , 0, 1),
+   (@domain_id, 'payment_instrument'             ,'Payment Instrument'                  , 0, 1);
+
+SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
+SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
+SELECT @option_group_id_gender         := max(id) from civicrm_option_group where name = 'gender';
+SELECT @option_group_id_IMProvider     := max(id) from civicrm_option_group where name = 'instant_messenger_service';
+SELECT @option_group_id_mobileProvider := max(id) from civicrm_option_group where name = 'mobile_provider';
+SELECT @option_group_id_prefix := max(id) from civicrm_option_group where name = 'individual_prefix';
+SELECT @option_group_id_suffix := max(id) from civicrm_option_group where name = 'individual_suffix';
+SELECT @option_group_id_aclGroup       := max(id) from civicrm_option_group where name = 'acl_group';
+SELECT @option_group_id_acc            := max(id) from civicrm_option_group where name = 'accept_creditcard';
+SELECT @option_group_id_pi            := max(id) from civicrm_option_group where name =  'payment_instrument';
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
 VALUES
-  ( 'Visa', '{ts}Visa{/ts}', @domain_id, 0, 1 ),
-  ( 'MasterCard', '{ts}MasterCard{/ts}', @domain_id, 0, 1 ),
-  ( 'Amex', '{ts}American Express{/ts}', @domain_id, 0, 1 ),   
-  ( 'Discover', '{ts}Discover{/ts}', @domain_id, 0, 1 );
+   (@option_group_id_pcm, 'Phone', 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1),
+   (@option_group_id_pcm, 'Email', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1),
+   (@option_group_id_pcm, 'Postal Mail', 3, NULL, NULL, 0, NULL, 3, NULL, 0, 1, 1),
+   (@option_group_id_pcm, 'SMS', 4, NULL, NULL, 0, NULL, 4, NULL, 0, 1, 1),
+   (@option_group_id_pcm, 'Fax', 5, NULL, NULL, 0, NULL, 5, NULL, 0, 1, 1),
+ 
+   (@option_group_id_act, 'Meeting', 1, 'Meeting',NULL, 0, NULL, 1, 'Schedule a meeting', 0, 1, 1),
+   (@option_group_id_act, 'Phone Call', 2, 'Phone Call', NULL,  0, NULL, 2, 'Schedule a Phone Call', 0, 1, 1),
+   (@option_group_id_act, 'Email', 3, 'Email', NULL, 0, NULL, 3, 'Email Sent', 0, 1, 1),
+   (@option_group_id_act, 'SMS', 4, 'SMS', NULL, 0, NULL, 4, 'SMS', 0, 0, 1),
+   (@option_group_id_act, 'Event', 5,'Event', NULL, 0, NULL, 5, 'Event', 0, 0, 1),
 
--- option group and values for preferred communication methods
+   (@option_group_id_gender, 'Female',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 1, 1),
+   (@option_group_id_gender, 'Male',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 1, 1),
+   (@option_group_id_gender, 'Transgender', 3, 'Transgender', NULL, 0, NULL, 3, NULL, 0, 1, 1),
 
-INSERT INTO `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) VALUES (@domain_id, 'preferred_communication_method', 'Option for contact preferred communication method property.', 1, 1);
-SELECT @option_group_id := max(id) from civicrm_option_group;
+   (@option_group_id_IMProvider, 'Yahoo', 1, 'Yahoo', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'MSN',   2, 'Msn',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'AIM',   3, 'Aim',   NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'GTalk', 4, 'Gtalk', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'Jabber',5, 'Jabber',NULL, 0, NULL, 5, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'Skype', 6, 'Skype', NULL, 0, NULL, 6, NULL, 0, 0, 1),
 
-INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES
- (@option_group_id, 'Phone', 1, NULL, 0, NULL, 1, NULL, 0, 0, 1),
- (@option_group_id, 'Email', 2, NULL, 0, NULL, 2, NULL, 0, 0, 1),
- (@option_group_id, 'Postal Mail', 3, NULL, 0, NULL, 3, NULL, 0, 0, 1),
- (@option_group_id, 'SMS', 4, NULL, 0, NULL, 4, NULL, 0, 0, 1),
- (@option_group_id, 'Fax', 5, NULL, 0, NULL, 5, NULL, 0, 0, 1);
+   (@option_group_id_mobileProvider, 'Sprint'  , 1, 'Sprint'  , NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_mobileProvider, 'Verizon' , 2, 'Verizon' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_mobileProvider, 'Cingular', 3, 'Cingular', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+
+   (@option_group_id_prefix, 'Mrs', 1, 'Mrs', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Ms',  2, 'Ms', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Mr',  3, 'Mr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Dr',  4, 'Dr', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+
+   (@option_group_id_suffix, 'Jr',  1, 'Jr', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'Sr',  2, 'Sr', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'II',  3, 'II', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'III', 4, 'III', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'IV',  5, 'IV',  NULL, 0, NULL, 5, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'V',   6, 'V',   NULL, 0, NULL, 6, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'VI',  7, 'VI',  NULL, 0, NULL, 7, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'VII', 8, 'VII', NULL, 0, NULL, 8, NULL, 0, 0, 1),
+
+   (@option_group_id_aclGroup, 'Super User'   ,  1, 'Super', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_aclGroup, 'Administrator',  2, 'Admin', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_aclGroup, 'Authenticated',  3, 'Auth' , NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_aclGroup, 'Anonymous'    ,  4, 'Anon' , NULL, 0, NULL, 4, NULL, 0, 0, 1),
+
+   (@option_group_id_acc, 'Visa',  1, 'Visa', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_acc, 'MasterCard',  2, 'MasterCard', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_acc, 'American Express',  3, 'American Express', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_acc, 'Discover',  4, 'Discover', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+
+  (@option_group_id_pi, 'CreditCard',  1, 'CreditCard', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_pi, 'DebitCard',  2, 'DebitCard', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_pi, 'Cash',  3, 'Cash', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_pi, 'Check',  4, 'Check', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+  (@option_group_id_pi, 'EFT',  5, 'EFT', NULL, 0, NULL, 5, NULL, 0, 0, 1);
+
 
 -- sample membership status entries
 INSERT INTO
@@ -145,3 +171,17 @@ VALUES
     (@domain_id,'Current', 'start_date', null, null,'end_date', null, null, 1, 0, 2, 1, 1),
     (@domain_id,'Grace', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 0, 1),
     (@domain_id,'Expired', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 0, 1);
+
+-- sample acl entries
+INSERT INTO civicrm_acl( domain_id, name, deny, object_table, object_id, operation, entity_table, entity_id, is_active )
+VALUES
+  (@domain_id, 'All Permissions'   , 0, null                  , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
+  (@domain_id, 'View All Contacts' , 0, 'civicrm_contact'     , 0, 'View', 'civicrm_acl_group', 1, 1 ),
+  (@domain_id, 'Edit All Contacts' , 0, 'civicrm_contact'     , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
+  (@domain_id, 'View All Contacts' , 0, 'civicrm_contact'     , 0, 'View', 'civicrm_acl_group', 2, 1 ),
+  (@domain_id, 'Edit All Contacts' , 0, 'civicrm_contact'     , 0, 'Edit', 'civicrm_acl_group', 2, 1 ),
+  (@domain_id, 'Manage Groups'     , 0, 'civicrm_group'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
+  (@domain_id, 'Administer CiviCRM', 0, 'civicrm_group'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
+  (@domain_id, 'Import'            , 0, 'civicrm_admin'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
+  (@domain_id, 'Reader Group 1'    , 0, 'civicrm_saved_search', 4, 'All', 'civicrm_contact'   , 102, 1 ),
+  (@domain_id, 'Reader Group 2'    , 0, 'civicrm_saved_search', 5, 'All', 'civicrm_contact'   , 102, 1 );

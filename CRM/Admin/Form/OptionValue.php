@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -58,9 +58,30 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this, false, 0);
         $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('/civicrm/admin/optionValue', 'reset=1&action=browse&gid='.$this->_gid); 
+        $url = CRM_Utils_System::url('civicrm/admin/optionValue', 'reset=1&action=browse&gid='.$this->_gid); 
         $session->pushUserContext( $url );
     }
+
+    /**
+     * This function sets the default values for the form. 
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $defaults = array( );
+        $defaults = parent::setDefaultValues( );
+        if (! $defaults['weight']) {
+            $query = "SELECT max( `weight` ) as weight FROM `civicrm_option_value` where option_group_id=" . $this->_gid;
+            $dao =& new CRM_Core_DAO( );
+            $dao->query( $query );
+            $dao->fetch();
+            $defaults['weight'] = ($dao->weight + 1);
+        }
+        return $defaults;
+    }
+
     /**
      * Function to build the form
      *
@@ -76,24 +97,25 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
 
         $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'label', ts('Title'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'label' ) );
-        $this->addRule( 'label', ts('Please enter a valid Option Group title.'), 'required' );
-        
+        $this->addRule( 'label', ts('Please enter a valid option title.'), 'required' );
 
+        $this->add('text', 'value', ts('Value'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'value' ) );
+        $this->addRule( 'value', ts('Please enter a valid option value.'), 'required' );
+        
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a valid Option Group name.'), 'required' );
         
         
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );
 
         $this->add('text', 'grouping' ,  ts('Option Grouping Name'),CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'grouping' ) );
-        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'wieght' ) );
+        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'weight' ) );
         $this->addRule( 'weight', ts('Please enter a value for weight'), 'required' );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
         
-        $this->add('checkbox', 'is_default', ts('Default?'));
+        $this->add('checkbox', 'is_default', ts('Default Option?'));
         
-        $this->add('checkbox', 'is_optgroup',ts('Opt Group?'));
+        $this->add('checkbox', 'is_optgroup',ts('Option Group?'));
         
         if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' )) { 
             $this->freeze(array('name', 'description', 'is_active' ));

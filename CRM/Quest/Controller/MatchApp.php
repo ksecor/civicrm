@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -57,13 +57,14 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true, $subType = null ) {
         parent::__construct( $title, $modal );
         
-        $this->_subTypeTasks = array( 'Personal'  => 14,
-                                      'Household' => 15,
-                                      'School'    => 16,
-                                      'Essay'     => 17,
-                                      'College'   => 18,
-                                      'Partner'   => 19,
-                                      'Submit'    =>  8 );
+        $this->_subTypeTasks = array( 'Personal'       => 14,
+                                      'Household'      => 15,
+                                      'School'         => 16,
+                                      'Essay'          => 17,
+                                      'College'        => 18,
+                                      'Partner'        => 19,
+                                      'Recommendation' => 20,
+                                      'Submit'         =>  8 );
         
         $this->_contactID = $this->get( 'contactID' );
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
@@ -393,40 +394,41 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
         if ( ! $this->_categories ) {
             $this->_categories = array( );
             $this->_categories['steps'] = array( );
-            
+
+            $action = ( $this->_action == (int ) CRM_Core_Action::UPDATE ) ? "action=update" : "action=view";
             $this->_categories['steps']['Personal'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/personal',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'Personal Information',
                        'current' => true,
                        'valid'   => false );
             $this->_categories['steps']['Household'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/household',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'Household Information',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['School'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/school',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'School Information',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['Essay'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/essay',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'Essays',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['College'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/college',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'College Match',
                        'current' => false,
                        'valid'   => false );
             $this->_categories['steps']['Submit'] = 
                 array( 'link'    => CRM_Utils_System::url( 'civicrm/quest/matchapp/submit',
-                                                           "reset=1&id={$this->_contactID}" ),
+                                                           "reset=1&$action&id={$this->_contactID}" ),
                        'title'   => 'Submit Application',
                        'current' => false,
                        'valid'   => false );
@@ -465,6 +467,7 @@ SELECT t.task_id as task_id
         // partner and submit are not really part of the application
         unset( $tasks['Submit' ] );
         unset( $tasks['Partner'] );
+        unset( $tasks['Recommendation'] );
 
         $values = implode( ',', array_values( $tasks ) );
         $query = "
@@ -475,7 +478,7 @@ WHERE  t.responsible_entity_table = 'civicrm_contact'
   AND  t.target_entity_table      = 'civicrm_contact'
   AND  t.target_entity_id         = $cid
   AND  t.task_id IN ( $values )
-ORDER BY t.task_id, t.status_id desc 
+ORDER BY t.task_id, t.status_id desc
 ";
 
         $processed = array( );
@@ -519,6 +522,7 @@ ORDER BY t.task_id, t.status_id desc
         // partner and submit are not really part of the application
         unset( $tasks['Submit' ] );
         unset( $tasks['Partner'] );
+        unset( $tasks['Recommendation'] );
 
         $values = implode( ',', array_values( $tasks ) );
         $query = "

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -80,7 +80,11 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             $location->entity_id    = $params['contact_id'];
         }
         $location->location_type_id = CRM_Utils_Array::value( 'location_type_id', $params['location'][$locationId] );
-        $location->name             = CRM_Utils_Array::value( 'name', $params['location'][$locationId] );
+        // For backward compatibility, checking for name AND location_name. At some point, migrate to only using location_name.
+        $location->name             = CRM_Utils_Array::value( 'location_name', $params['location'][$locationId] );
+        if ( ! $location->name ) {
+            $location->name             = CRM_Utils_Array::value( 'name', $params['location'][$locationId] );
+        }
         $location->is_primary       = CRM_Utils_Array::value( 'is_primary', $params['location'][$locationId], false );
 
         // check if there exists another location has is_primary set, and if so reset that
@@ -153,8 +157,10 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
             return false;
         }
         
-        //if location name exits return true
-        if ( CRM_Utils_Array::value( 'name', $params['location'][$locationId] ) ) {
+        //if location name exists return true
+        // For backward compatibility, checking for name AND location_name. At some point, migrate to only using location_name.
+        if ( CRM_Utils_Array::value( 'location_name', $params['location'][$locationId] ) ||
+             CRM_Utils_Array::value( 'name', $params['location'][$locationId] )) {
             return  true;
         }
         
@@ -186,7 +192,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids, $locationCount = 0 ) {
+    static function &getValues( &$params, &$values, &$ids, $locationCount = 0, $microformat = false ) {
         $location =& new CRM_Core_BAO_Location( );
         $location->copyValues( $params );
         if ( $params['contact_id'] ) {
@@ -216,14 +222,14 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
                 if ($flatten) {
                     $ids['location'] = $location->id;
                     CRM_Core_DAO::storeValues( $location, $values );
-                    self::getBlocks( $params, $values, $ids, 0, $location );
+                    self::getBlocks( $params, $values, $ids, 0, $location, $microformat );
                 } else {
                     $values['location'][$i+1] = array();
                     $ids['location'][$i+1]    = array();
                     $ids['location'][$i+1]['id'] = $location->id;
                     CRM_Core_DAO::storeValues( $location, $values['location'][$i+1] );
                     self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1],
-                                     CRM_Contact_Form_Location::BLOCKS, $location );
+                                     CRM_Contact_Form_Location::BLOCKS, $location, $microformat );
                 }
                 $locations[$i + 1] = clone($location);
             }
@@ -239,8 +245,8 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
     /**
      * simple helper function to dispatch getCall to lower comm blocks
      */
-    static function getBlocks( &$params, &$values, &$ids, $blockCount = 0, &$parent ) {
-        $parent->address =& CRM_Core_BAO_Address::getValues( $params, $values, $ids, $blockCount );
+    static function getBlocks( &$params, &$values, &$ids, $blockCount = 0, &$parent, $microformat = false ) {
+        $parent->address =& CRM_Core_BAO_Address::getValues( $params, $values, $ids, $blockCount, $microformat );
 
         $parent->phone   =& CRM_Core_BAO_Phone::getValues( $params, $values, $ids, $blockCount );
         $parent->email   =& CRM_Core_BAO_Email::getValues( $params, $values, $ids, $blockCount );

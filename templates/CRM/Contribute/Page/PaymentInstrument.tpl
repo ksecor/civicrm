@@ -7,7 +7,7 @@
 {/if}
 
 {if $rows}
-<div id="ltype">
+<div id="payment_instrument_type">
 <p></p>
     <div class="form-item">
         {strip}

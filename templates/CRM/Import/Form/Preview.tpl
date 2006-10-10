@@ -1,3 +1,60 @@
+{literal}
+<script type="text/javascript">
+setProgress = function(type,data,evt){
+  finished = 1;
+{/literal}
+  location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true'}";
+{literal}
+}
+setError = function(type,data,evt){
+  var prog = dojo.byId('progress_status');
+  prog.innerHTML = "<p>We encountered an unknown error: $data</p>";
+  finished = 1;
+}
+setIntermediate = function(type,data,evt){
+  var inter = dojo.byId('intermediate');
+  inter.innerHTML = data;
+}
+doProgress = function(){
+    dojo.io.bind({
+{/literal}
+        url: "{$config->resourceBase}extern/ajax.php?q=civicrm/status&id={$statusID}",
+{literal}
+        load: setIntermediate
+    });
+}
+submitForm = function( e ) {
+    e.preventDefault( );
+    dojo.debug( "in submit form" );
+    var kw = {
+{/literal}
+	url: "{crmURL p='civicrm/import/contact'}",
+{literal}
+	formNode: dojo.byId("Preview"),
+	load: setProgress,
+	error: setError,
+	method: "POST",
+	multipart: false
+    };
+    dojo.io.bind( kw );
+    pollLoop( );
+}
+pollLoop = function(){
+    doProgress();
+    if ( ! finished ) {
+        dojo.lang.setTimeout(pollLoop,10*1000); //10 secs
+    }
+}
+
+dojo.addOnLoad( function( ) {
+   dojo.event.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );
+} );
+</script>
+{/literal}
+
+<div id="intermediate"></div>
+<div id="progress_status"></div>
+
 {* Import Wizard - Step 3 (preview import results prior to actual data loading) *}
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -99,9 +99,9 @@ class CRM_Contribute_Form_CreatePPD extends CRM_Contribute_Form
 
         $cert  = file_get_contents( $certName );
 
-        require_once 'Services/PayPal.php'; 
-        require_once 'Services/PayPal/Profile/Handler/File.php';                      
-        require_once 'Services/PayPal/Profile/API.php'; 
+        require_once 'PayPal.php'; 
+        require_once 'PayPal/Profile/Handler/File.php';                      
+        require_once 'PayPal/Profile/API.php'; 
 
         $handler =& ProfileHandler_File::getInstance( array( 
                                                             'path'    => $savePath,
@@ -132,7 +132,7 @@ class CRM_Contribute_Form_CreatePPD extends CRM_Contribute_Form
 
         $result = $profile->save();                  
  
-        if (Services_PayPal::isError($result)) {
+        if (PayPal::isError($result)) {
             CRM_Core_Error::statusBounce( "Could not create new profile: ".$result->getMessage() );
         } else {
             if ( $params['api_environment'] == 'live' ) {

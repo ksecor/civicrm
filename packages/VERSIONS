@@ -1,4 +1,4 @@
-iINSTALLED PACKAGES:
+INSTALLED PACKAGES:
 ===================
 PACKAGE                   VERSION    STATE
 Archive_Tar               1.3.1      stable
@@ -19,3 +19,6 @@ PHP_Beautifier            0.1.3      beta
 Pager                     2.3.0      stable
 Pager_Sliding             1.6        stable
 Validate                  0.4.1      alpha
+Dojo			  0.3.1      (with some hacks to make ContentPane work)
+Services_JSON		  1.31
+Paypal			  sdk v 4.2.0

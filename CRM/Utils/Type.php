@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,14 +18,15 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
-class CRM_Utils_Type {
+class CRM_Utils_Type 
+{
     const
         T_INT       =     1,
         T_STRING    =     2,
@@ -68,9 +69,8 @@ class CRM_Utils_Type {
      *
      * @access public
      */
-
-
-    function typeToString( $type ) {
+    function typeToString( $type ) 
+    {
         switch ( $type ) {
         case 1   : $string = 'Int'      ; break;
         case 2   : $string = 'String'   ; break;
@@ -103,7 +103,8 @@ class CRM_Utils_Type {
      * @access public
      * @static
      */
-    public static function escape($data, $type, $abort = true) {
+    public static function escape($data, $type, $abort = true) 
+    {
         require_once 'CRM/Utils/Rule.php';
         switch($type) {
         case 'Integer':
@@ -169,10 +170,12 @@ class CRM_Utils_Type {
      * @access public
      * @static
      */
-    public static function validate($data, $type, $abort = true) {
+    public static function validate($data, $type, $abort = true) 
+    {
         require_once 'CRM/Utils/Rule.php';
         switch($type) {
         case 'Integer':
+        case 'Int':
             if (CRM_Utils_Rule::integer($data)) {
                 return $data;
             }

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id: Selector.php 2609 2005-08-17 00:16:37Z lobo $
  *
  */
@@ -180,16 +180,23 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         static $actionLinks = null;
         
         if (empty($actionLinks)) {
+            $cancelExtra = ts('Are you sure you want to cancel this mailing?');
             $actionLinks = array(
                 CRM_Core_Action::VIEW => array(
                     'name'  => ts('Report'),
                     'url'   => 'civicrm/mailing/report',
                     'qs'    => 'mid=%%mid%%',
                     'title' => ts('View Mailing Report')
+                ),
+                CRM_Core_Action::DISABLE => array(
+                    'name'  => ts('Cancel'),
+                    'url'   => 'civicrm/mailing/browse',
+                    'qs'    => 'action=disable&mid=%%mid%%',
+                    'extra' => 'onclick="if (confirm(\''. $cancelExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
+                    'title' => ts('Cancel Mailing')
                 )
             );
         }
-        $actionMask = CRM_Core_Action::VIEW;
 
         
         $mailing =& new CRM_Mailing_BAO_Mailing();
@@ -197,6 +204,10 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
 
         if ($output != CRM_Core_Selector_Controller::EXPORT) {
             foreach ($rows as $key => $row) {
+                $actionMask = CRM_Core_Action::VIEW;
+                if (in_array($row['status'], array('Scheduled', 'Running', 'Paused'))) {
+                    $actionMask |= CRM_Core_Action::DISABLE;
+                }
                 $rows[$key]['action'] = 
                     CRM_Core_Action::formLink(  $actionLinks,
                                                 $actionMask,

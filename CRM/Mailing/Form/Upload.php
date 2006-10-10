@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -48,11 +48,11 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
     public function buildQuickForm( ) {
         $session =& CRM_Core_Session::singleton();
         
-        $this->add('text', 'from_name', ts('From name'));
+        $this->add('text', 'from_name', ts('From Name'));
         $this->add('text', 'from_email', ts('From Email'));
         $defaults['from_email'] = $session->get('ufEmail');
         
-        $this->add('checkbox', 'forward_reply', ts('Forward replies?'));
+        $this->add('checkbox', 'forward_reply', ts('Forward Replies?'));
         $defaults['forward_reply'] = true;
         
         $this->add('checkbox', 'track_urls', ts('Track URLs?'));
@@ -61,10 +61,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->add('checkbox', 'track_opens', ts('Track Opens?'));
         $defaults['track_opens'] = true;
         
-        $this->add('checkbox', 'auto_responder', ts('Auto-respond to replies?'));
+        $this->add('checkbox', 'auto_responder', ts('Auto-respond to Replies?'));
         $defaults['auto_responder'] = false;
         
-        $this->addElement('text', 'subject', ts('Mailing subject'), 'size=30 maxlength=60');
+        $this->addElement('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60');
         $defaults['subject'] = $this->get('mailing_name');
         
         $this->addElement( 'file', 'textFile', ts('Upload Text Message'), 'size=30 maxlength=60' );
@@ -77,8 +77,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
         
-        $this->add( 'select', 'header_id', ts( 'Mailing Header' ), CRM_Mailing_PseudoConstant::component( 'Header' ) );
-        $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), CRM_Mailing_PseudoConstant::component( 'Footer' ) );
+        $this->add( 'select', 'header_id', ts( 'Mailing Header' ), array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Header' ) );
+        $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         $this->add( 'select', 'reply_id', ts( 'Auto-responder' ), CRM_Mailing_PseudoConstant::component( 'Reply' ), true );
         $this->add( 'select', 'unsubscribe_id', ts( 'Unsubscribe Message' ), CRM_Mailing_PseudoConstant::component( 'Unsubscribe' ), true );
         $this->add( 'select', 'optout_id', ts( 'Opt-out Message' ), CRM_Mailing_PseudoConstant::component( 'OptOut' ), true );
@@ -141,34 +141,33 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             $verp[$key]++;
         }
         
-        $urls = array_flip(array( 'forward' ) );
+        $urls = array_flip(array( 'forward', 'optOutUrl', 'unsubscribeUrl') );
         foreach($urls as $key => $value) {
             $urls[$key]++;
         }
         
         require_once 'CRM/Mailing/BAO/Component.php';
         
-        $header =& new CRM_Mailing_BAO_Component();
-        $header->id = $params['header_id'];
-        $header->find(true);
-        
-        $footer =& new CRM_Mailing_BAO_Component();
-        $footer->id = $params['footer_id'];
-        $footer->find(true);
-        
-        list($headerBody['htmlFile'],
-             $headerBody['textFile']) = 
-                    array($header->body_html, $header->body_text);
-
-        list($footerBody['htmlFile'],
-             $footerBody['textFile']) = 
-                    array($footer->body_html, $footer->body_text);
+        // set $header and $footer
+        foreach (array('header', 'footer') as $part) {
+            if ($params["{$part}_id"]) {
+                $component =& new CRM_Mailing_BAO_Component();
+                $component->id = $params["{$part}_id"];
+                $component->find(true);
+                $$part['textFile'] = $component->body_text;
+                $$part['htmlFile'] = $component->body_html;
+                $component->free();
+            } else {
+                $$part['htmlFile'] = $$part['textFile'] = '';
+            }
+        }
 
         require_once 'CRM/Utils/Token.php';
 
-        if (!file_exists($files['textFile']['tmp_name'])) {
-            $errors['textFile'] = ts('Please provide at least the text message.');
+        if (!file_exists($files['textFile']['tmp_name']) and !file_exists($files['htmlFile']['tmp_name'])) {
+            $errors['textFile'] = ts('Please provide either the text or HTML message.');
         }
+
         foreach (array('textFile', 'htmlFile') as $file) {
             if (!file_exists($files[$file]['tmp_name'])) {
                 continue;
@@ -177,7 +176,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             $name = $files[$file]['name'];
             
             /* append header/footer */
-            $str = $headerBody[$file] . $str . $footerBody[$file];
+            $str = $header[$file] . $str . $footer[$file];
 
             $dataErrors = array();
             
@@ -186,8 +185,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             if ($err !== true) {
                 foreach ($err as $token => $desc) {
                     $dataErrors[]   = '<li>' 
-                                    . ts('Missing required token') 
-                                    .' {' . $token . "}: $desc</li>";
+                                    . ts('This message is missing a required token - {%1}: %2',
+                                         array(1 => $token, 2 => $desc))
+                                    . '</li>';
                 }
             }
             
@@ -208,7 +208,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
             }
             if (! empty($dataErrors)) {
                 $errors[$file] = 
-                ts('The following errors were detected in %1:', array(1 => $name)) . ': <ul>' . implode('', $dataErrors) . '</ul>';
+                ts('The following errors were detected in %1:', array(1 => $name)) . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank">' . ts('More information on required tokens...') . '</a>';
             }
         }
         return empty($errors) ? true : $errors;

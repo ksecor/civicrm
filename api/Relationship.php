@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -32,8 +32,8 @@
  * here}
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -117,7 +117,7 @@ function crm_create_relationship($contact =null, $target_contact= null, $relatio
  *
  * @param object  $contact_a                  A valid Contact object 
  * @param object  $contact_b                  A valid Contact object 
- * @param array   $relationship_type_name     An array of Relationship_type object(s).
+ * @param array   $relationship_type_name     An array of Relationship Type Name.
  * @param array   $returnProperties           Which properties should be included in the related Contact object(s). If NULL, the default                                                set of contact properties will be included.
  * @param array   $sort                       Associative array of one or more "property_name"=>"sort direction" pairs which will control                                               order of Contact objects returned
  * @param int     $offset                     Starting row index.
@@ -128,28 +128,42 @@ function crm_create_relationship($contact =null, $target_contact= null, $relatio
  *
  */
 function crm_get_relationships($contact_a, $contact_b=null, $relationship_type_name = null, $returnProperties = null, $sort = null, $offset = 0, $row_count = 25 ) {
-   
+    
     if( ! isset( $contact_a->id ) ) {
         return _crm_error('$contact_a is not valid contact datatype');
     }
-   
+    
     require_once 'CRM/Contact/BAO/Relationship.php';
     $contactID = $contact_a->id;
     $relationships = CRM_Contact_BAO_Relationship::getRelationship($contactID);
-    $relationships_b =array();
+    $result =array();
     
-    $cid = $contact_b->id;
-    if(isset( $contact_b->id )) {
-        foreach($relationships as $key => $relationship) {
-            if ($relationship['cid'] == $cid ) {
-                $relationships_b[$key] = $relationship;
+    if ( isset( $relationship_type_name ) && is_array( $relationship_type_name )  ){
+        foreach ( $relationship_type_name as $relationshipType ) {
+            foreach( $relationships as $key => $relationship ) {
+                if ( $relationship['relation'] ==  $relationshipType ) {
+                    $result[$key] = $relationship;
+                }
             }
         }
-         return $relationships_b;
     }
     
-    return $relationships;
+    if( isset( $contact_b->id ) && isset( $relationship_type_name ) ) {
+        unset($relationships);
+        $relationships = $result;
+        unset($result);
+    }
     
+    if( isset( $contact_b->id ) ) {
+        $cid = $contact_b->id;
+        foreach($relationships as $key => $relationship) {
+            if ($relationship['cid'] == $cid ) {
+                $result[$key] = $relationship;
+            }
+        }
+    }
+    
+    return empty($result) ? $relationships : $result;
 }
 
 /**

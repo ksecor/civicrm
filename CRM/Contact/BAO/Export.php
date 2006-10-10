@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -48,7 +48,6 @@ class CRM_Contact_BAO_Export {
      * @access public
      */
     function exportContacts( $selectAll, $ids, $params, $order = null, $fields = null ) {
-
         $headerRows  = array();
         $returnProperties = array();
         $primary = false;
@@ -88,7 +87,7 @@ class CRM_Contact_BAO_Export {
             $returnProperties['im_provider'  ] = 1;
             $returnProperties['phone_type'   ] = 1;
         }
-
+        
         $session =& new CRM_Core_Session();
         if ( $selectAll ) {
             if ($primary) {
@@ -110,6 +109,11 @@ class CRM_Contact_BAO_Export {
 
         list( $select, $from, $where ) = $query->query( );
         $queryString = "$select $from $where";
+        
+        if ( CRM_Utils_Array::value( 'tags', $returnProperties ) || CRM_Utils_Array::value( 'groups', $returnProperties ) ) { 
+            $queryString .= " GROUP BY contact_a.id";
+        }
+        
         if ( $order ) {
             list( $field, $dir ) = explode( ' ', $order, 2 );
             $field = trim( $field );
@@ -118,19 +122,18 @@ class CRM_Contact_BAO_Export {
             }
         }
         
-        if ( CRM_Utils_Array::value( 'tags', $returnProperties ) || CRM_Utils_Array::value( 'groups', $returnProperties ) ) { 
-            $queryString .= " GROUP BY contact_a.id";
-        }
+
         //hack for student data
         require_once 'CRM/Core/OptionGroup.php';
         $multipleSelectFields = array( 'preferred_communication_method' => 1 );
 
         if ( CRM_Core_Permission::access( 'Quest' ) ) { 
             require_once 'CRM/Quest/BAO/Student.php';
-            $multipleSelectFields = array_merge( $multipleSelectFields,
-                                                 CRM_Quest_BAO_Student::$multipleSelectFields );
+            $studentFields = array();
+            $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+            $multipleSelectFields = array_merge( $multipleSelectFields, $studentFields );
         }
-        
+      
         $temp = array( );
         $dao =& CRM_Core_DAO::executeQuery($queryString, $temp);
         $header = false;
@@ -141,7 +144,7 @@ class CRM_Contact_BAO_Export {
             $validRow = false;
             foreach ($dao as $key => $varValue) {
                 $flag = false;
-                foreach($returnProperties as $propKey=>$props) {
+                foreach ($returnProperties as $propKey => $props) {
                     if (is_array($props)) {
                         foreach($props as $propKey1=>$prop) {
                             foreach($prop as $propkey2=>$prop1) {
@@ -159,7 +162,6 @@ class CRM_Contact_BAO_Export {
                 if ($key == 'contact_id' && array_key_exists( 'id' , $returnProperties)) {
                     $flag = true;
                 }
-                
 
                 if ($flag) {
                     if ( isset( $varValue ) && $varValue != '' ) {
@@ -169,6 +171,8 @@ class CRM_Contact_BAO_Export {
                             $paramsNew = array($key => $varValue );
                             if ( $key == 'test_tutoring') {
                                 $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
+                            } else if (substr( $key, 0, 4) == 'cmr_') { //for  readers group
+                                $name = array( $key => array('newName' => $key, 'groupName' => substr($key, 0, -3) ));
                             } else {
                                 $name = array( $key => array('newName' => $key ,'groupName' => $key ));
                             }

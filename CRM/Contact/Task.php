@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -56,7 +56,9 @@ class CRM_Contact_Task {
         SAVE_SEARCH           =    13,
         SAVE_SEARCH_UPDATE    =    14,
         PRINT_CONTACTS        =    15,
-        LABEL_CONTACTS        =    16;
+        LABEL_CONTACTS        =    16,
+        BATCH_UPDATE          =    17; 
+
 
     /**
      * the task array
@@ -123,8 +125,12 @@ class CRM_Contact_Task {
                                   15    => array( 'title'  => ts( 'Print Contacts'                ),
                                                   'class'  => 'CRM_Contact_Form_Task_Print',
                                                   'result' => false ),
-                                  16    => array( 'title'  => ts( 'Make Mailing Lables'       ),
+                                  16    => array( 'title'  => ts( 'Mailing Labels'       ),
                                                   'class'  => 'CRM_Contact_Form_Task_Label',
+                                                  'result' => true ),
+                                  17    => array( 'title'  => ts( 'Batch Update via Profile'       ),
+                                                  'class'  => array( 'CRM_Contact_Form_Task_PickProfile',
+                                                                     'CRM_Contact_Form_Task_BatchUpdateProfile' ),
                                                   'result' => true ),
                                   );
 

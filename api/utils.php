@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
 */
@@ -38,6 +38,8 @@ require_once 'CRM/Core/I18n.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Utils/Array.php';
+require_once 'CRM/Core/DAO/OptionGroup.php';
+require_once 'CRM/Core/DAO/OptionValue.php';
 
 function _crm_error( $message, $code = 8000, $level = 'Fatal', $params = null)
 {
@@ -73,13 +75,14 @@ function _crm_update_object(&$object, &$values)
     $valueFound = false;
 
     foreach ($fields as $name => $field) {
+        $key = $field['name'];
         // ignore all ids for now
-        if ($name === 'id') {
+        if ($key === 'id') {
             continue;
         }
 
         if (array_key_exists( $name, $values)) {
-            $object->$name = $values[$name];
+            $object->$key = $values[$name];
             //if ( substr( $name, -1, 3 ) !== '_id' ) {
             /* only say we've found a value if at least one is not null */
             // why do we check for non-id-ness and not null-ness?
@@ -102,13 +105,13 @@ function _crm_update_from_object(&$object, &$values, $empty = false, $zeroMoney 
 
     require_once 'CRM/Utils/Type.php';
     foreach ($fields as $name => $field) {
-
-        if (($name == 'id') or ($empty and empty($object->$name)) or
-            ($zeroMoney and $field['type'] == CRM_Utils_Type::T_MONEY and $object->$name == '0.00')) {
+        $key = $field['name'];
+        if (($key == 'id') or ($empty and empty($object->$key)) or
+            ($zeroMoney and $field['type'] == CRM_Utils_Type::T_MONEY and $object->$key == '0.00')) {
             continue;
         }
 
-        $values[$name] = $object->$name;
+        $values[$name] = $object->$key;
 
         // FIXME? change the dates from YYYY-MM-DD hh:mm:ss format back to YYYYMMDDhhmmss
         // so the $values array is actually importable
@@ -622,8 +625,13 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
         if ( ! $prefix ) {
             if (isset( $contact->contact_type_object->prefix_id )) {
-                $prefix = & new CRM_Core_DAO_IndividualPrefix();
-                $prefix->id = $contact->contact_type_object->prefix_id;
+                $prefixGrp = & new CRM_Core_DAO_OptionGroup();
+                $prefixGrp->name = 'individual_prefix';
+                $prefixGrp->find(true); 
+
+                $prefix = & new CRM_Core_DAO_OptionValue();
+                $prefix->option_group_id = $prefixGrp->id;
+                $prefix->value = $contact->contact_type_object->prefix_id;
                 $prefix->find();
                 $prefix->fetch();
                 $prefix = $prefix->name; 
@@ -638,8 +646,13 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
         if ( ! $suffix ) {
             if (isset( $contact->contact_type_object->suffix_id )) {
-                $suffix = & new CRM_Core_DAO_IndividualSuffix();
-                $suffix->id = $contact->contact_type_object->suffix_id;
+                $suffixGrp = & new CRM_Core_DAO_OptionGroup();
+                $suffixGrp->name = 'individual_suffix';
+                $suffixGrp->find(true); 
+
+                $suffix = & new CRM_Core_DAO_OptionValue();
+                $suffix->option_group_id = $suffixGrp->id;
+                $suffix->value = $contact->contact_type_object->suffix_id;
                 $suffix->find();
                 $suffix->fetch();
                 $suffix = $suffix->name; 
@@ -655,10 +668,15 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
         
         if ( $gender ) {
-            $genderDao = & new CRM_Core_DAO_Gender();
-            $genderDao->name = $gender; 
+            $genderGrp = & new CRM_Core_DAO_OptionGroup();
+            $genderGrp->name = 'gender';
+            $genderGrp->find(true); 
+            
+            $genderDao = & new CRM_Core_DAO_OptionValue();
+            $genderDao->option_group_id = $genderGrp->id;
+            $genderDao->name = $gender;
             $genderDao->find(true);
-            $values['gender_id'] = $genderDao->id;
+            $values['gender_id'] = $genderDao->value;
         } 
 
         if ($lastName != "" && $firstName != "") {
@@ -896,6 +914,8 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         /* adjust the value if it's boolean */
         if ($customValue['type'] == 'Boolean') {
             $value = CRM_Utils_String::strtobool($customValue['value']);
+        } if ($customValue['type'] == 'Date') {
+            $value = preg_replace('/[^0-9]/', '', $customValue['value']);
         } else {
             $value = $customValue['value'];
         }
@@ -1137,9 +1157,13 @@ function _crm_add_formatted_param(&$values, &$params) {
                 $params['location'][$locBlock] = array('location_type_id' => $values['location_type_id']);
             }
         }
-        //add location name
+        //add location name (keep backward compatibility)
         if (isset($values['name'])) { 
             $params['location'][$locBlock]['name'] = $values['name'];
+        }
+
+        if ( isset($values['location_name']) ) { 
+            $params['location'][$locBlock]['location_name'] = $values['location_name'];
         }
 
         /* if this is a phone value, find or create the correct block */
@@ -1330,9 +1354,9 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
 
     if ($fields == null) {
         $fields = array();
-    }
+    }//CRM_Core_Error::backTrace();
     //print_r($values); 
-    //print_r($params);
+    //  print_r($params);
     
     if (isset($values['contribution_type'])) {
         $params['contribution_type'] = $values['contribution_type'];
@@ -1398,7 +1422,7 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
     /* Finally, check for contribution fields */
     if (!isset($fields['Contribution'])) {
         $fields['Contribution'] =& CRM_Contribute_DAO_Contribution::fields( );
-    }
+    }//print_r($fields['Contribution']);
     _crm_store_values( $fields['Contribution'], $values, $params );
 }
 
@@ -1529,7 +1553,7 @@ function _crm_validate_formatted_contribution(&$params) {
         $config =& CRM_Core_Config::singleton();
         $domainID = $config->domainID();
     }
-    
+    // CRM_Core_Error::debug('params', $params);
     foreach ($params as $key => $value) {
         switch ($key) {
         case 'contact_id':
@@ -1566,13 +1590,25 @@ function _crm_validate_formatted_contribution(&$params) {
         case 'contribution_type':
              require_once 'CRM/Contribute/PseudoConstant.php';
              $contributionType = CRM_Contribute_PseudoConstant::contributionType();
-             
+             //CRM_Core_Error::debug('$contributionType'`, $contributionType);
              foreach ($contributionType as $v) {
                  if (strtolower($v) == strtolower($value)) {
                      $params[$key] = $v;
                  }
              }
             break;
+
+        case 'payment_instrument':
+             require_once 'CRM/Contribute/PseudoConstant.php';
+             $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();
+             //CRM_Core_Error::debug('$paymentInstrument', $paymentInstrument);
+             foreach ($paymentInstrument as $v) {
+                 if (strtolower($v) == strtolower($value)) {
+                     $params[$key] = $v;
+                 }
+             }
+            break;
+
         default:
             break;
         }
@@ -1609,10 +1645,8 @@ function &_crm_duplicate_formatted_contact(&$params) {
         }
         return true;
     } else {
-
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $params['contact_type']) . ".php");
         eval('$contact =& new CRM_Contact_DAO_'.$params['contact_type'].'();');
-
         if ( $params['contact_type'] == 'Household' ) {
             $contact->household_name = $params['household_name'];
         } else {

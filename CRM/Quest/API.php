@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -30,8 +30,8 @@
  * The API that exposes quest data to other modules
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -257,7 +257,7 @@ SELECT cs.id                   as contact_id,
 
     static function getContactInfo( $id ) {
         self::initialize( );
-
+        
         $params = array( 'contact_id' => $id );
         $returnProperties = array( 'first_name' => 1,
                                    'last_name'  => 1,
@@ -300,6 +300,49 @@ SELECT cs.id                   as contact_id,
         return CRM_Core_BAO_UFMatch::getUFId( $dao->contact_id );
     }
 
+    /**
+     * Function to set the task status of various tasks
+     *
+     * @param array  $params        associated array
+     *
+     * @static
+     * @return returns task status object
+     */
+    static function createTaskStatus( &$params )
+    {
+        if (!$params['target_entity_id'] || !$params['responsible_entity_id'] 
+            || !$params['task_id'] || ! $params['status_id'] ) {
+            return null;
+        }
+        
+        self::initialize( );
+
+        if (!$params['target_entity_table'] ) {
+            $params['target_entity_table'] = 'civicrm_contact';
+        }
+
+        if (!$params['responsible_entity_table']) {
+            $params['responsible_entity_table'] = 'civicrm_contact';
+        }
+        
+        require_once 'CRM/Project/DAO/TaskStatus.php';
+        $dao =& new CRM_Project_DAO_TaskStatus( );
+        $dao->target_entity_id         = $params['target_entity_id'];
+        $dao->responsible_entity_id    = $params['responsible_entity_id'];
+        $dao->target_entity_table      = $params['target_entity_table'];
+        $dao->responsible_entity_table = $params['responsible_entity_table'];
+        $dao->task_id                  = $params['task_id'];
+
+        if ( $dao->find( true ) ) {
+            $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
+        } else {
+            $dao->create_date   = date( 'YmdHis' );
+        }
+        $dao->modified_date = date( 'YmdHis' );
+        $dao->status_id     = $params['status_id'];
+
+        return $dao->save();
+    }
 }
 
 ?>

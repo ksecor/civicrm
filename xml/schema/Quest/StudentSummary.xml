@@ -53,6 +53,7 @@
   <field>
       <name>SAT_composite</name>
       <type>int unsigned</type>
+      <title>SAT Composite (all)</title>
       <export>true</export>
       <import>true</import>
       <headerPattern>/SAT score/i</headerPattern>
@@ -62,6 +63,7 @@
   <field>
       <name>SAT_composite_alt</name>
       <type>int unsigned</type>
+      <title>SAT Composite (Math and Reading)</title>
       <export>true</export>
       <import>true</import>
       <headerPattern>/SAT score/i</headerPattern>
@@ -89,8 +91,6 @@
   <field>
       <name>SAT_writing</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/SAT score writing/i</headerPattern>
       <comment>Highest reported writing score.</comment>
       <add>1.5</add>
@@ -107,8 +107,6 @@
   <field>
       <name>ACT_english</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/ACT score english/i</headerPattern>
       <comment>Highest reported ACT english score.</comment>
       <add>1.5</add>
@@ -116,8 +114,6 @@
   <field>
       <name>ACT_reading</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/ACT score reading/i</headerPattern>
       <comment>Highest reported ACT reading score.</comment>
       <add>1.5</add>
@@ -125,8 +121,6 @@
   <field>
       <name>ACT_math</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/ACT score math/i</headerPattern>
       <comment>Highest reported ACT math score.</comment>
       <add>1.5</add>
@@ -134,8 +128,6 @@
   <field>
       <name>ACT_science</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/ACT score science/i</headerPattern>
       <comment>Highest reported ACT science score.</comment>
       <add>1.5</add>
@@ -143,8 +135,6 @@
   <field>
       <name>PSAT_composite</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/PSAT score/i</headerPattern>
       <comment>Combined highest reported scores (PSAT).</comment>
       <add>1.5</add>
@@ -152,8 +142,6 @@
   <field>
       <name>PLAN_composite</name>
       <type>int unsigned</type>
-      <export>true</export>
-      <import>true</import>
       <headerPattern>/ACT score/i</headerPattern>
       <comment>Combined highest reported scores (PLAN).</comment>
       <add>1.5</add>
@@ -170,10 +158,108 @@
   <field>     
        <name>household_member_count</name>  
        <type>int</type>
-       <export>true</export>
-       <import>true</import>
        <headerPattern>/household count/i</headerPattern>
        <comment>Number of people in the current household. Cloned from quest_household.member_count WHERE household_type is Current.</comment>
       <add>1.5</add>
+  </field>
+ <field>
+      <name>financial_need_index</name>
+      <type>int unsigned</type>
+       <export>true</export>
+       <import>true</import>
+      <comment>Calculated financial need score (0 - 50).</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>academic_index</name>
+      <type>int unsigned</type>
+       <export>true</export>
+       <import>true</import>
+      <comment>Calculated academic performance score. (0 - 50)</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_disposition_id</name>
+      <title>College Match Disposition</title>
+      <type>int unsigned</type>
+       <export>true</export>
+       <import>true</import>
+      <comment>Final College Match disposition. Uses option_value records with option_group = cmr_disposition.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_first_generation_id</name>
+      <title>First Generation College</title>
+      <type>int unsigned</type>
+       <export>true</export>
+       <import>true</import>
+      <comment>Reader input - is this student the first generation to attend college. Uses option_value records with option_group = cmr_first_generation.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_income_increase_id</name>
+      <title>Income Increase</title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader likelihood of parental income increase. Uses option_value records with option_group = cmr_income_increase.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_need_id</name>
+      <title>Level of Need</title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader summary of need. Uses option_value records with option_group = cmr_need.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_grade_id</name>
+      <title>Transcript Grades</title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader summary of transcript grades. Uses option_value records with option_group = cmr_grade.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_class_id</name>
+      <title>Honors Class Levels</title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader summary of class levels. Uses option_value records with option_group = cmr_class.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_score_id</name>
+      <title>Score</title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader summary of test scores. Uses option_value records with option_group = cmr_score.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+      <name>cmr_academic_id</name>
+      <title>Academic Achievement</title>
+      <type>int unsigned</type>
+      <export>true</export>
+      <import>true</import>
+      <comment>Reader summary of overall Academics. Uses option_value records with option_group = cmr_academic.</comment>
+      <add>1.6</add>
+ </field>
+ <field>
+       <name>cmr_comment</name>
+       <title>Comments</title>
+       <type>text</type>
+       <export>true</export>
+       <import>true</import>
+       <htmlType>textarea</htmlType>
+       <rows>3</rows>
+       <cols>30</cols>
+       <comment>Reader comments.</comment>
+      <add>1.6</add>
   </field>
 </table>

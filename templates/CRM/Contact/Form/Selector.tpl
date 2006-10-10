@@ -4,7 +4,6 @@
 
 {strip}
 <table summary="{ts}Search results listings.{/ts}">
-  <caption>{ts}Search results listings.{/ts}</caption>
   <tr class="columnheader">
   {assign var="hdrId" value="1"}
   <th id="selHeader{$hdrId}">{$form.toggleSelect.html}</th>

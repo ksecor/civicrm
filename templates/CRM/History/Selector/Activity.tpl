@@ -75,7 +75,7 @@
            <tr class="{cycle values="odd-row,even-row"}">
              <td>{$row.activity_type}</td>
              <td>
-               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&id=`$row.id`&cid=$contactId&history=0"}">{$row.subject|mb_truncate:33:"...":true}</a>
+               <a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`"}">{$row.subject|mb_truncate:33:"...":true}</a>
              </td>
              <td>
              {if $contactId  NEQ $row.sourceID} 

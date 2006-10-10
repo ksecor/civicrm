@@ -1,0 +1,123 @@
+# CiviCRM Swedish calendar file
+# copyright CiviCRM LLC (c) 2004-2006
+# This file is distributed under the same license as the CiviCRM package.
+# Piotr Szotkowski <shot@caltha.pl>, 2005
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: CiviCRM 1.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-10-13 17:52+0200\n"
+"PO-Revision-Date: 2006-09-28 14:32-0700\n"
+"Last-Translator: Jerker Lundin <jerker@lundinonline.com>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"X-Generator: Pootle 0.10\n"
+
+#: js/lang/calendar-lang.php
+msgid "About the calendar"
+msgstr "Om Kalendern"
+
+#: js/lang/calendar-lang.php
+msgid "For latest version visit: %1"
+msgstr "För den senaste versionen besök: %1"
+
+#: js/lang/calendar-lang.php
+msgid "Distributed under GNU LGPL. See %1 for details."
+msgstr "Distribuerad under GNU LGPL. Se %1 för detaljer."
+
+#: js/lang/calendar-lang.php
+msgid "Date selection:"
+msgstr "Välj datum:"
+
+#: js/lang/calendar-lang.php
+msgid "- use the \\xab, \\xbb buttons to select year,"
+msgstr "- använd \\xab, \\xbb knapparna för att välja år,"
+
+#: js/lang/calendar-lang.php
+msgid "- use the \\u2039, \\u203a buttons to select month,"
+msgstr "- använd \\u2039, \\u203a knapparna för att välja månad,"
+
+#: js/lang/calendar-lang.php
+msgid "- hold mouse button on any of the above buttons for faster selection."
+msgstr "- håll ned musknappen på någon av knapparna ovan för snabbare val."
+
+#: js/lang/calendar-lang.php
+msgid "Time selection:"
+msgstr "Välj tid:"
+
+#: js/lang/calendar-lang.php
+msgid "- click on any of the time parts to increase it"
+msgstr "- klicka på en tidsfunktion för att öka den"
+
+#: js/lang/calendar-lang.php
+msgid "- or Shift-click to decrease it"
+msgstr "- eller håll ned shift-klicka för att öka den"
+
+#: js/lang/calendar-lang.php
+msgid "- or click and drag for faster selection."
+msgstr "- eller klicka och dra för ett snabbare val."
+
+#: js/lang/calendar-lang.php
+msgid "hold for menu"
+msgstr "håll ned för meny"
+
+#: js/lang/calendar-lang.php
+msgid "Prev. year"
+msgstr "Föreg. år"
+
+#: js/lang/calendar-lang.php
+msgid "Prev. month"
+msgstr "Föreg. månad"
+
+#: js/lang/calendar-lang.php
+msgid "Go Today"
+msgstr "Dagens datum"
+
+#: js/lang/calendar-lang.php
+msgid "Next month"
+msgstr "Nästa månad"
+
+#: js/lang/calendar-lang.php
+msgid "Next year"
+msgstr "Nästa år"
+
+#: js/lang/calendar-lang.php
+msgid "Select date"
+msgstr "Välj datum"
+
+#: js/lang/calendar-lang.php
+msgid "Drag to move"
+msgstr "Dra och flytta"
+
+#: js/lang/calendar-lang.php
+msgid "today"
+msgstr "idag"
+
+#: js/lang/calendar-lang.php
+msgid "Display %s first"
+msgstr "Visa %s först"
+
+#: js/lang/calendar-lang.php
+msgid "Close"
+msgstr "Stäng"
+
+#: js/lang/calendar-lang.php
+msgid "Today"
+msgstr "Idag"
+
+#: js/lang/calendar-lang.php
+msgid "(Shift-)Click or drag to change value"
+msgstr "(Shift-) Klicka eller dra för att ändra värde"
+
+#: js/lang/calendar-lang.php
+msgid "wk"
+msgstr "Vecka"
+
+#: js/lang/calendar-lang.php
+msgid "Time:"
+msgstr "Tid:"

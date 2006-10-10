@@ -3,7 +3,11 @@
       <legend>{ts}View Contribution{/ts}</legend>
       <dl>  
         <dt class="font-size12pt">{ts}From{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
-        <dt>{ts}Contribution Type{/ts}</dt><dd>{$contribution_type}&nbsp;</dd>
+        <dt>{ts}Contribution Type{/ts}</dt><dd>{$contribution_type}&nbsp;
+        {if $is_test}
+          {ts} (test) {/ts}
+        {/if}
+        </dd>
         <dt>{ts}Received{/ts}</dt><dd>{if $receive_date}{$receive_date|truncate:10:''|crmDate}{else}({ts}pending{/ts}){/if}&nbsp;</dd>
         <dt>{ts}Paid By{/ts}</dt><dd>{$payment_instrument}&nbsp;</dd>
         <dt>{ts}Source{/ts}</dt><dd>{$source}&nbsp;</dd>
@@ -14,6 +18,10 @@
         <dt>{ts}Net Amount{/ts}</dt><dd>{$net_amount|crmMoney}&nbsp;</dd>
         <dt>{ts}Transaction ID{/ts}</dt><dd>{$trxn_id}&nbsp;</dd>
         <dt>{ts}Invoice ID{/ts}</dt><dd>{$invoice_id}&nbsp;</dd>
+        {if $honor_display}
+        <dt>{ts}In Honor Of{/ts}</dt><dd>{$honor_display}&nbsp;</dd>
+        {/if}
+            
 {if $receipt_date}
         <dt>{ts}Receipt Sent{/ts}</dt><dd>{$receipt_date|truncate:10:''|crmDate}</dd>
 {/if}

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -92,11 +92,17 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         if(in_array($fields['extends'],$extends) && $fields['style'] == 'Tab' ) {
             $errors['style'] = 'Display Style should be Inline for this Class';
         }
+
+        //checks the given custom group doesnot start with digit
+        $title = $fields['title']; 
+        $asciiValue = ord($title{0});//gives the ascii value
+        if($asciiValue>=48 && $asciiValue<=57) {
+            $errors['title'] = ts("Group's Name should not start with digit");
+        } 
         return empty($errors) ? true : $errors;
     }
     
     
-
 
     /**
      * This function is used to add the rules (mainly global rules) for form.
@@ -129,14 +135,45 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $this->add('text', 'title', ts('Group Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
         $this->addRule( 'title', ts('Name already exists in Database.'),
                         'objectExists', array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );
+       
+        require_once "CRM/Contribute/PseudoConstant.php";
+        require_once "CRM/Member/BAO/MembershipType.php";
+        $sel1 = CRM_Core_SelectValues::customGroupExtends();
+        $sel2= array();
+        $sel2['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType(true , null);
+        $sel2['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
+        $sel2['Membership']   = array("" => "-- Any --") + CRM_Member_BAO_MembershipType::getMembershipTypes( false );
+        
 
+        $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
+        $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
+        $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
+        $allRelationshipType =array();
+        $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
+        $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
+        
+        
+        $sel2['Relationship'] = array("" => "-- Any --") + $allRelationshipType;
+
+        require_once "CRM/Core/Component.php";
+        $cSubTypes = CRM_Core_Component::contactSubTypes();
+        $contactSubTypes = array();
+        foreach($cSubTypes as $key => $value ) {
+            $contactSubTypes[$key] = $key;
+        }
+        $sel2['Contact']  =  array("" => "-- Any --") +$contactSubTypes;
+
+        $sel =& $this->addElement('hierselect', "extends", ts('Used For'));
+        $sel->setOptions(array($sel1,$sel2));
+        $js .= "</script>\n";
+        $this->assign('initHideBoxes', $js);
 
         // which entity is this custom data group for ?
         // for update action only allowed if there are no custom values present for this group.
-        $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::customGroupExtends());
+        // $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::customGroupExtends());
 
         if ($this->_action == CRM_Core_Action::UPDATE) { 
-            $extendsElement->freeze();
+            $sel->freeze();
             $this->assign('gid', $this->_id);
         }
 
@@ -157,6 +194,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
 
+
+        // $this->addFormRule(array('CRM_Custom_Form_Group', 'formRule'));
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -209,8 +248,18 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $defaults['is_active'] = 1;
             $defaults['style'] = 'Inline';
         }
+
+        
+        $extends = $defaults['extends'];
+        unset($defaults['extends']);
+        $defaults['extends'][0] = $extends;
+        $defaults['extends'][1] = $defaults['extends_entity_column_value'];
+
+        
         return $defaults;
     }
+
+   
 
     /**
      * Process the form
@@ -225,11 +274,12 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         // get the submitted form values.
         $params = $this->controller->exportValues('Group');
 
-        // create custom group dao, populate fields and then save.
+        // create custom group dao, populate fields and then save.           
         $group =& new CRM_Core_DAO_CustomGroup();
         $group->title            = $params['title'];
         $group->name             = CRM_Utils_String::titleToVar($params['title']);
-        $group->extends          = $params['extends'];
+        $group->extends          = $params['extends'][0];
+        $group->extends_entity_column_value = $params['extends'][1];
         $group->style            = $params['style'];
         $group->collapse_display = CRM_Utils_Array::value('collapse_display', $params, false);
 

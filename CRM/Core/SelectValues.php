@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -31,8 +31,8 @@
  * smart caching scheme on a per domain basis
  * 
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -288,6 +288,31 @@ class CRM_Core_SelectValues {
         return $customHtmlType;
     }
     
+    // /**
+//      * various pre defined extensions for dynamic properties and groups
+//      *
+//      * @static
+//      */
+//     static function &customGroupExtends()
+//     {
+//         static $customGroupExtends = null;
+//         if (!$customGroupExtends) {
+//             $customGroupExtends = array(
+//                 'Contact'      => ts('- All Contacts -'),
+//                 'Individual'   => ts('Individuals'),
+//                 'Household'    => ts('Households'),
+//                 'Organization' => ts('Organizations'),
+//                 'Activity'     => ts('Activities'),
+//                 'Relationship' => ts('Relationships'),
+//                 'Phonecall'    => ts('Phonecalls'),
+//                 'Meeting'      => ts('Meetings'),
+//                 'Group'        => ts('Groups'),
+//                 'Contribution' => ts('Contributions'),
+//             );
+//         }
+//         return $customGroupExtends;
+//     }
+
     /**
      * various pre defined extensions for dynamic properties and groups
      *
@@ -298,16 +323,15 @@ class CRM_Core_SelectValues {
         static $customGroupExtends = null;
         if (!$customGroupExtends) {
             $customGroupExtends = array(
-                'Contact'      => ts('- All Contacts -'),
+                'Contact'      => ts('Contacts'),
                 'Individual'   => ts('Individuals'),
                 'Household'    => ts('Households'),
                 'Organization' => ts('Organizations'),
                 'Activity'     => ts('Activities'),
                 'Relationship' => ts('Relationships'),
-                'Phonecall'    => ts('Phonecalls'),
-                'Meeting'      => ts('Meetings'),
-                'Group'        => ts('Groups'),
                 'Contribution' => ts('Contributions'),
+                'Group'        => ts('Groups'),
+                'Membership'   => ts('Memberships'),
             );
         }
         return $customGroupExtends;
@@ -523,6 +547,7 @@ class CRM_Core_SelectValues {
             $components = array( 'Header'      => ts('Header'),
                                  'Footer'      => ts('Footer'),
                                  'Reply'       => ts('Reply Auto-responder'),
+                                 'OptOut'      => ts('Opt-out Message'),
                                  'Subscribe'   => ts('Subscription Message to organization'),
                                  'Welcome'     => ts('Welcome Message'),
                                  'Unsubscribe' => ts('Farewell Message'),

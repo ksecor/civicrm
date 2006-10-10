@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -118,7 +118,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function &getTree($entityType, $entityId=null, $groupId=0)
+    public static function &getTree($entityType, $entityId=null, $groupId=0, $subType = null)
     {
         // create a new tree
         $groupTree = array();
@@ -150,7 +150,18 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // from, where, order by
         $strFrom = " FROM civicrm_custom_group LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicrm_custom_group.id)";
         if ($entityId) {
-            $tableName = self::_getTableName($entityType);
+            if ($entityType == "Activity") {
+                if ( $subType == 1) {
+                    $activityType = "Meeting";
+                } else if($subType == 2) {
+                    $activityType = "Phonecall";
+                } else {
+                    $activityType = "Activity";
+                }
+                $tableName = self::_getTableName($activityType);
+            } else {
+                $tableName = self::_getTableName($entityType);
+            }
             $strFrom .= " LEFT JOIN civicrm_custom_value
                                  ON ( civicrm_custom_value.custom_field_id = civicrm_custom_field.id 
                                 AND   civicrm_custom_value.entity_table = '$tableName' 
@@ -163,9 +174,14 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         } else {
             $in = "'$entityType'";
         }
-
-        $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
-            " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)";
+        if ( $subType ) {
+            $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
+                " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)
+                  AND (civicrm_custom_group.extends_entity_column_value = '$subType' || civicrm_custom_group.extends_entity_column_value = '')";
+        } else {
+            $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
+                " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)";
+        }
 
         $params = array( );
         if ($groupId > 0) {
@@ -257,15 +273,17 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     $fileDAO =& new CRM_Core_DAO_File();
                     $fileDAO->id = $crmDAO->civicrm_custom_value_file_id;
                     if ( $fileDAO->find(true) ) {
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data']      = $fileDAO->uri;
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']       = $fileDAO->id;
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL']   = 
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data']       = $fileDAO->uri;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid']        = $fileDAO->id;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL']    = 
                             CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid=$entityId" );
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = null;
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']   = basename( $fileDAO->uri );
-                        if ($config->customUploadURL && ( $fileDAO->mime_type =="image/jpeg" || $fileDAO->mime_type =="image/gif" || $fileDAO->mime_type =="image/png")) {
-                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = $config->customUploadURL.basename( $fileDAO->uri );
-                        } else {
-                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = null;
+                        if ( $fileDAO->mime_type =="image/jpeg" ||
+                             $fileDAO->mime_type =="image/gif"  ||
+                             $fileDAO->mime_type =="image/png" ) {
+                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = 
+                                $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL'];
                         }
                     }
                     
@@ -392,7 +410,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                             break;
                         }
                         
-                        $customValueDAO->char_data = $config->customFileUploadDir . $filename;
+                        //$customValueDAO->char_data = $config->customFileUploadDir . $filename;
+                        $customValueDAO->char_data =  $filename;
                         $mimeType = $_FILES['custom_'.$field['id']]['type'];
                         
                         $fileDAO =& new CRM_Core_DAO_File();
@@ -499,7 +518,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                            'is_required', 'help_post','options_per_line', 'is_searchable','start_date_years','end_date_years', 'is_search_range','date_parts','note_columns','note_rows'),
-                           'civicrm_custom_group' => array('id', 'name', 'title', 'help_pre', 'help_post' ),
+                           'civicrm_custom_group' => array('id', 'name', 'title', 'help_pre', 'help_post','collapse_display' ),
                            );
 
         // create select
@@ -544,7 +563,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // process records
         while($crmDAO->fetch()) {
-
             $groupId = $crmDAO->civicrm_custom_group_id;
             $fieldId = $crmDAO->civicrm_custom_field_id;
 
@@ -556,7 +574,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 $groupTree[$groupId]['title'] = $crmDAO->civicrm_custom_group_title;
                 $groupTree[$groupId]['help_pre'] = $crmDAO->civicrm_custom_group_help_pre;
                 $groupTree[$groupId]['help_post'] = $crmDAO->civicrm_custom_group_help_post;
+                $groupTree[$groupId]['collapse_display'] = $crmDAO->civicrm_custom_group_collapse_display;       
                 $groupTree[$groupId]['fields'] = array();
+                
             }
             
             // add the fields now (note - the query row will always contain a field)
@@ -596,7 +616,16 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function addMenuTabs($entityType, $path, $startWeight)
     {
-        // for Tab's
+        $groups =& self::getActiveGroups( $entityType, $path );
+
+        foreach( $groups as $group ) {
+            $group['weight']  = $startWeight++;
+            CRM_Core_Menu::add( $group );
+        }
+    }
+
+    public static function &getActiveGroups( $entityType, $path, $cidToken = '%%cid%%' ) {
+        // for Group's
         $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
 
         // get only 'Tab' groups
@@ -612,27 +641,21 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $customGroupDAO->orderBy('weight');
         $customGroupDAO->find();
 
+        $groups = array( );
         // process each group with menu tab
-        while($customGroupDAO->fetch()) {
-            $menu = array();
-            $menu['path']    = $path;
-            $menu['title']   = "$customGroupDAO->title";
-            $menu['query']   = 'reset=1&gid=' . $customGroupDAO->id . '&cid=%%cid%%';
-            $menu['type']    = CRM_Core_Menu::CALLBACK;
-            $menu['crmType'] = CRM_Core_Menu::LOCAL_TASK;
-            $menu['weight']  = $startWeight++;
-            $menu['extra' ]  = array( 'gid' => $customGroupDAO->id );
-            $menus[] = $menu;
+        while ($customGroupDAO->fetch( ) ) {
+            $group = array();
+            $group['path']    = $path;
+            $group['title']   = "$customGroupDAO->title";
+            $group['query']   = "reset=1&gid={$customGroupDAO->id}&cid={$cidToken}";
+            $group['type']    = CRM_Core_Menu::CALLBACK;
+            $group['crmType'] = CRM_Core_Menu::LOCAL_TASK;
+            $group['extra' ]  = array( 'gid' => $customGroupDAO->id );
+            $groups[] = $group;
         }
-        
-        if ( is_array($menus) ) {
-            foreach($menus as $menu) {
-                CRM_Core_Menu::add($menu);
-            }
-        }
+     
+        return $groups;
     }
-
-
 
     /**
      * Get the table name for the entity type
@@ -675,6 +698,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         case 'Meeting':
             $tableName = 'civicrm_meeting';
             break;
+        case 'Membership':
+            $tableName = 'civicrm_membership';
+            break;
+            
             // need to add cases for Location, Address
         }
         
@@ -986,7 +1013,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             foreach ($group['fields'] as $field) { 
                 $fieldId = $field['id'];                 
                 $elementName = 'custom_' . $fieldId;
-                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $group['is_required']); 
+                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $field['is_required']); 
             } 
  
             if ( $group['collapse_display'] ) { 

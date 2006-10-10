@@ -43,12 +43,14 @@
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td colspan="3">{$form.home_URL.label}</td>
+        <td colspan="2>{$form.home_URL.label}</td>
+        <td>{$form.current_employer.label}</td>
         <td>&nbsp;</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td colspan="3">{$form.home_URL.html}</td>
+        <td colspan="2">{$form.home_URL.html}</td>
+        <td>{$form.current_employer.html}</td> 
         <td>&nbsp;</td>
     </tr>
     </table>
@@ -77,8 +79,15 @@
 
     <!-- Spacer div forces fieldset to contain floated elements -->
     <div class="spacer"></div>
+
+    {$form._qf_Edit_refresh_dedupe.html}    
+    {if $isDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_duplicate.html}{/if}
+    <div class="spacer"></div>
+
  </fieldset>
  </div>
+
+
 {elseif $contact_type eq 'Organization'}
 <div id="name">
  <fieldset><legend>{ts}Organization{/ts}</legend>
@@ -102,6 +111,10 @@
         <td colspan="2">{$form.nick_name.html|crmReplace:class:big}</td>
     </tr>
     </table>
+    {$form._qf_Edit_refresh_dedupe.html}    
+    {if $isDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_duplicate.html}{/if}
+    <div class="spacer"></div>
+
 </fieldset>
 </div>
 {/if}

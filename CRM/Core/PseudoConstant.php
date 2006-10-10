@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -40,11 +40,12 @@
  * will be reworked to use caching.
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
+
 
 class CRM_Core_PseudoConstant {
     /**
@@ -161,6 +162,13 @@ class CRM_Core_PseudoConstant {
     private static $currencyCode;
 
     /**
+     * project tasks
+     * @var array
+     * @static
+     */
+    private static $tasks;
+
+    /**
      * populate the object from the database. generic populate
      * method
      *
@@ -267,12 +275,23 @@ class CRM_Core_PseudoConstant {
      * @return array - array reference of all activty types.
      *
      */
-    public static function &activityType( $all = false, $cond = 'id > 4' )
+
+
+    public static function &activityType( $all=false,  $cond = 'id > 4')
     {
-        if ( ! self::$activityType ) {
-            self::populate( self::$activityType, 'CRM_Core_DAO_ActivityType', $all, 'name', 'is_active', $cond );
+        require_once 'CRM/Core/OptionGroup.php';
+        $activityType = CRM_Core_OptionGroup::values('activity_type');
+        $otherActivities = array();
+        if ( $cond != null ) {
+            foreach( $activityType as $key => $value ) {
+                if ($key > 4   ) {
+                    $otherActivities [$key] = $value;
+                }
+            }
+            return $otherActivities;
+        } else {
+            return $activityType;
         }
-        return self::$activityType;
     }
 
     /**
@@ -290,8 +309,9 @@ class CRM_Core_PseudoConstant {
      */
     public static function &individualPrefix( $all=false )
     {
+        require_once 'CRM/Core/OptionGroup.php';
         if ( ! self::$individualPrefix ) {
-            self::populate( self::$individualPrefix, 'CRM_Core_DAO_IndividualPrefix', $all, 'name', 'is_active', null, 'weight ASC' );
+            self::$individualPrefix = CRM_Core_OptionGroup::values('individual_prefix');
         }
         return self::$individualPrefix;
     }
@@ -311,8 +331,9 @@ class CRM_Core_PseudoConstant {
      */
     public static function &individualSuffix( $all=false )
     {
+        require_once 'CRM/Core/OptionGroup.php';
         if ( ! self::$individualSuffix ) {
-            self::populate( self::$individualSuffix, 'CRM_Core_DAO_IndividualSuffix', $all, 'name', 'is_active', null, 'weight ASC' );
+            self::$individualSuffix = CRM_Core_OptionGroup::values('individual_suffix');
         }
         return self::$individualSuffix;
     }
@@ -332,8 +353,9 @@ class CRM_Core_PseudoConstant {
      */
     public static function &gender( $all=false )
     {
+        require_once 'CRM/Core/OptionGroup.php';
         if ( ! self::$gender ) {
-            self::populate( self::$gender, 'CRM_Core_DAO_Gender', $all, 'name', 'is_active', null, 'weight ASC' );
+            self::$gender = CRM_Core_OptionGroup::values('gender');
         }
         return self::$gender;
     }
@@ -355,8 +377,18 @@ class CRM_Core_PseudoConstant {
      *
      */
     public static function &IMProvider( $all = false ) {
+        require_once 'CRM/Core/BAO/OptionGroup.php';
+        $groupParams = array( 'name' => 'instant_messenger_service' );
+        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
+        
         if (!self::$imProvider) {
-            self::populate( self::$imProvider, 'CRM_Core_DAO_IMProvider', $all );
+            if ($optionGroup->id) {
+                self::populate( self::$imProvider, 'CRM_Core_DAO_OptionValue', $all, 'name', 
+                                'is_active', "option_group_id = " . $optionGroup->id, 'name' );
+            } else {
+                // since there is a break if it doesn't return anything
+                return array();
+            }
         }
         return self::$imProvider;
     }
@@ -625,6 +657,21 @@ class CRM_Core_PseudoConstant {
             self::populate( self::$ufGroup, 'CRM_Core_DAO_UFGroup', false, 'title', 'is_active', null, 'title' );
         }
         return self::$ufGroup;
+    }
+
+    /**
+     * Get all the project tasks
+     *
+     * @access public
+     * @return array - array reference of all tasks
+     * @static
+     */
+    public static function &tasks( )
+    {
+        if ( ! self::$tasks ) {
+            self::populate( self::$tasks, 'CRM_Project_DAO_Task', false, 'title', 'is_active', null, 'title' );
+        }
+        return self::$tasks;
     }
 
     /**

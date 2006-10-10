@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -87,15 +87,17 @@ class CRM_Member_Form_MembershipStatus extends CRM_Member_Form
                         'objectExists', array( 'CRM_Member_DAO_MembershipStatus', $this->_id ) );
 
         $this->add('select', 'start_event', ts('Start Event'), CRM_Core_SelectValues::eventDate( ) );
-        $this->add('select', 'start_event_adjust_unit', ts('Start Event Adjust'), CRM_Core_SelectValues::unitList( ) );
+        $this->addRule('start_event',ts('Please select a valid start event'), 'required');
+        $this->add('select', 'start_event_adjust_unit', ts('Start Event Adjustment'), CRM_Core_SelectValues::unitList( ) );
         $this->add('text', 'start_event_adjust_interval', ts('Start Event Adjust Interval'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipStatus', 'start_event_adjust_interval' ) );
         $this->add('select', 'end_event', ts('End Event'), CRM_Core_SelectValues::eventDate( ) );
-        $this->add('select', 'end_event_adjust_unit', ts('End Event Adjust'), CRM_Core_SelectValues::unitList( ) );
+        $this->addRule('start_event',ts('Please select a valid end event'), 'required');
+        $this->add('select', 'end_event_adjust_unit', ts('End Event Adjustment'), CRM_Core_SelectValues::unitList( ) );
         $this->add('text', 'end_event_adjust_interval', ts('End Event Adjust Interval'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipStatus', 'end_event_adjust_interval' ) );
-        $this->add('checkbox', 'is_current_member', ts('Is Current Member?'));
-        $this->add('checkbox', 'is_admin', ts('Is Admin?'));
+        $this->add('checkbox', 'is_current_member', ts('Current Membership?'));
+        $this->add('checkbox', 'is_admin', ts('Administrator Only?'));
 
         $this->add('text', 'weight', ts('Weight'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipStatus', 'weight' ) );

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -96,10 +96,6 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     protected $_addToGroupID;
     
-    protected $_countryPresent;
-
-    protected $_studentFieldPresent;
-
     /** 
      * pre processing work done here. 
      * 
@@ -111,7 +107,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @access public 
      */ 
     function preProcess() 
-    { 
+    {
         require_once 'CRM/Core/BAO/UFGroup.php';
         require_once "CRM/Core/BAO/UFField.php";
 
@@ -152,98 +148,13 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         if ( $this->_id ) {
             $defaults = array( );
-
-            // get the contact details (hier)
-            list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $this->_id, $this->_fields );
-            $this->_contact = $details = $contactDetails[$this->_id];
-
-            //start of code to set the default values
-            foreach ($this->_fields as $name => $field ) {
-                if (CRM_Utils_Array::value($name, $details )) {
-                    //to handle custom data (checkbox) to be written
-                    // to handle gender / suffix / prefix
-                    if ($name == 'gender') { 
-                        $defaults[$name] = $details['gender_id'];
-                    } else if ($name == 'individual_prefix') {
-                        $defaults[$name] = $details['individual_prefix_id'];
-                    } else if ($name == 'individual_suffix') {
-                        $defaults[$name] = $details['individual_suffix_id'];
-                    } else{
-                        $defaults[$name] = $details[$name];
-                    }
-                   
-                } else {
-                    //$nameValue = explode( '-' , $name );
-                    list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $name);
-                    if ( is_array($details) ) {   
-                        foreach ($details as $key => $value) {
-                            if ($locTypeId == 'Primary') {
-                                $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $this->_id ); 
-                            }
-                            
-                            if (is_numeric($locTypeId)) {//fixed for CRM-665
-                                if ($locTypeId == $value['location_type_id'] ) {
-                                    if (CRM_Utils_Array::value($fieldName, $value )) {
-                                        //to handle stateprovince and country
-                                        if ( $fieldName == 'state_province' ) {
-                                            $defaults[$name] = $value['state_province_id'];
-                                        } else if ( $fieldName == 'country' ) {
-                                            $defaults[$name] = $value['country_id'];
-                                            $this->_countryPresent = 1;
-                                        } else if ( $fieldName == 'phone' ) {
-                                            if ($phoneTypeId) {
-                                                $defaults[$name] = $value['phone'][$phoneTypeId];
-                                            } else {
-                                                $defaults[$name] = $value['phone'][1];
-                                            }
-                                        } else if ( $fieldName == 'email' ) {
-                                            //adding the first email (currently we don't support multiple emails of same location type)
-                                            $defaults[$name] = $value['email'][1];
-                                        } else if ( $fieldName == 'im' ) {
-                                            //adding the first email (currently we don't support multiple ims of same location type)
-                                            $defaults[$name] = $value['im'][1];
-                                        } else {
-                                            $defaults[$name] = $value[$fieldName];
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
             
-            if ( CRM_Core_Permission::access( 'Quest' ) ) {
-                require_once 'CRM/Quest/BAO/Student.php';
-                // Checking whether the database contains quest_student table.
-                // Now there are two different schemas for core and quest.
-                // So if only core schema in use then withought following check gets the DB error.
-                $student      = new CRM_Quest_BAO_Student();
-                $tableStudent = $student->geTableName();
-                
-                if ($tableStudent) {
-                    //set student defaults
-                    CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
-                    $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
-                    foreach( $fields as $field ) {
-                        if ( $defaults[$field] ) {
-                            $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
-                    }
-                        
-                        $defaults[$field] = array();
-                        if ( is_array( $values ) ) {
-                            foreach( $values as $v ) {
-                                $defaults[$field][$v] = 1;
-                            }
-                        }
-                    }
-                }
-            }
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $defaults, true );
             
             $this->setDefaults( $defaults );       
             //end of code to set the default values
         }
-    } 
+    }
     
     /** 
      * This function sets the default values for the form. Note that in edit/view mode 
@@ -298,17 +209,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
         
-        if (! $this->_countryPresent) {
-            foreach ($this->_fields as $name => $field ) {
-                $config =& CRM_Core_Config::singleton();
-                if ( $config->defaultContactCountry && (substr($field['name'],0,7) === 'country') ) {
-                    $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                    $defaultID = array_search($config->defaultContactCountry, $countryIsoCodes); 
-                    $defaults[$name] = $defaultID;
-                }
-            }
-        }
-        
         return $defaults;
     }
 
@@ -322,15 +222,17 @@ class CRM_Profile_Form extends CRM_Core_Form
     {   
         $sBlocks = array( );
         $hBlocks = array( );
-        if ( $this->_mode != self::MODE_REGISTER ) {
+        
+        $config  =& CRM_Core_Config::singleton( );
+        
+        if ( $this->_mode != self::MODE_REGISTER && $this->_mode != self::MODE_SEARCH) {
             //check for mix profile fields (eg:  individual + other contact type)
             if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
                 CRM_Utils_System::setUFMessage( ts( "This Profile includes fields for contact types other than 'Individuals' and can not be used to create/update contacts.") );
-                $config  =& CRM_Core_Config::singleton( );
                 CRM_Utils_System::redirect( $config->userFrameworkBaseURL );            
             }
         }
-
+        
         $this->assign( 'mode'        , $this->_mode     );
         $this->assign( 'action'      , $this->_action   );
         $this->assign( 'fields'      , $this->_fields   );
@@ -357,7 +259,9 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         require_once "CRM/Contribute/PseudoConstant.php";
 
-        $search = ( $this->_mode == self::MODE_SEARCH ) ? true : false;
+        //$search = ( $this->_mode == self::MODE_SEARCH ) ? true : false;
+        
+        $addCaptcha = array();
 
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
@@ -374,137 +278,99 @@ class CRM_Profile_Form extends CRM_Core_Form
                 unset( $this->_fields[$name] );
                 continue;
             }
-            $required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
+            
+            //$required = ( $this->_mode == self::MODE_SEARCH ) ? false : $field['is_required'];
 
-            //if ( $field['name'] === 'state_province' ) {
-            if ( substr($field['name'],0,14) === 'state_province' ) {
-                $this->add('select', $name, $field['title'],
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
-            } else if ( substr($field['name'],0,7) === 'country' ) {
-                $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
-            } else if ( $field['name'] === 'birth_date' ) {  
-                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth'), $required );  
-            } else if ( $field['name'] === 'gender' ) {  
-                $genderOptions = array( );   
-                $gender = CRM_Core_PseudoConstant::gender();   
-                foreach ($gender as $key => $var) {   
-                    $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
-                }   
-                $this->addGroup($genderOptions, $field['name'], $field['title'] );  
-                if ($required) {
-                    $this->addRule($field['name'], ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
-                }
-            } else if ( $field['name'] === 'individual_prefix' ){
-                $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix(), $required);
-            } else if ( $field['name'] === 'individual_suffix' ){
-                $this->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
-            } else if ($field['name'] === 'preferred_communication_method') {
-                $communicationFields = CRM_Core_SelectValues::pcm();
-                foreach ( $communicationFields as $key => $var ) {
-                    if ( $key == '' ) {
-                        continue;
-                    }
-                    $communicationOptions[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
-                }
-                $this->addGroup($communicationOptions, $name, $field['title'], '<br/>' );
-            } else if ($field['name'] === 'preferred_mail_format') {
-                $this->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
-            } else if ( $field['name'] === 'group' ) {
-                require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
-                                                              CRM_Contact_Form_GroupTag::GROUP,
-                                                              true, $required,
-                                                              $field['title'], null );
-            } else if ( $field['name'] === 'tag' ) {
-                require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_id,
-                                                              CRM_Contact_Form_GroupTag::TAG,
-                                                              false, $required,
-                                                              null, $field['title'] );
-            } else if (substr($field['name'], 0, 6) === 'custom') {
+            //CRM_Core_BAO_UFGroup::buildProfile($this,
+            //$field['name'], $field['title'], $required,
+            //$field['attributes'], $search, $field['rule'],
+            //$field['is_view'] );
+            
+            CRM_Core_BAO_UFGroup::buildProfile($this, $field, $this->_mode );
+            
+            //for custom data
+            if (substr($field['name'], 0, 6) === 'custom') {
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
-                CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, $required, $search, $field['title']);
-                CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id , $this->_mode);
                 
-            } else if ( in_array($field['name'], array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
-                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
-                $this->addRule($field['name'], ts('Select a valid date.'), 'qfDate');
-            } else if ($field['name'] == 'payment_instrument' ) {
-                $this->add('select', 'payment_instrument', ts( 'Paid By' ),
-                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
-            } else if ($field['name'] == 'contribution_type' ) {
-                $this->add('select', 'contribution_type', ts( 'Contribution Type' ),
-                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
-            } else {
-                $processed = false;
-                if ( CRM_Core_Permission::access( 'Quest' ) ) {
-                    require_once 'CRM/Quest/BAO/Student.php';
-                    $processed = CRM_Quest_BAO_Student::buildStudentForm( $field, $this );
-                }
-                if ( ! $processed ) {
-                    if ( substr($field['name'], 0, 3) === 'is_' or substr($field['name'], 0, 7) === 'do_not_' ) {
-                        $this->add('checkbox', $name, $field['title'], $field['attributes'], $required );
-                    } else {
-                        $this->add('text', $name, $field['title'], $field['attributes'], $required );
+                CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id , $this->_mode);
+                $file = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
+
+                if ( $file == 'File') {
+                
+                    $customOptionValueId = "custom_value_{$customFieldID}_id";
+                    
+                    $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $defaults[$customOptionValueId], 'file_id', 'id' );
+                    if ($fileId) {
+                        $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File', $fileId, 'mime_type', 'id' );
+                        $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileId}&eid=$this->_id" );
+                        if ( $fileType =="image/jpeg" || $fileType =="image/gif" || $fileType =="image/png" ) { 
+                            $customFiles[$field['name']] = "Attached File : <a href='javascript:popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
+                        } else { //for files other than images
+                            $customFiles[$field['name']] = "Attached File : <a href=$url>" . $defaults[$field['name']] . "</a>";
+                        }
                     }
                 }
             }
-            
-            if ( in_array($field['name'], array('non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' )) ) {
-                $this->addRule($field['name'], ts('Please enter a valid amount.'), 'money');
-            }
-            
+
             if ($field['add_to_group_id']) {
                 $addToGroupId = $field['add_to_group_id'];
             }
             
-            if ( $field['rule'] ) {
-                if ($field['rule'] == 'email'  &&  $this->_mode == self::MODE_SEARCH) {
-                    continue;
-                } else {
-                    $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
-                }
-            }
-            
             //build show/hide array for uf groups
             // dont do this if gid is set (i.e. only one group)
-            if ( $field['collapse_display'] ) {
+
+            if ( $field['collapse_display'] && !in_array("'id_". $field['group_id']  . "_show'" , $sBlocks )) {
                 $sBlocks[] = "'id_". $field['group_id']  . "_show'" ; 
                 $hBlocks[] = "'id_". $field['group_id'] ."'"; 
-            }
-            else {
+            } else if ( !$field['collapse_display'] && !in_array("'id_". $field['group_id']  . "_show'" , $hBlocks )) {
                 $hBlocks[] = "'id_". $field['group_id'] . "_show'" ; 
                 $sBlocks[] = "'id_". $field['group_id'] ."'";   
             }
-        }
 
+            //build array for captcha
+            if ( $field['add_captcha'] ) {
+                $addCaptcha[$field['group_id']] = $field['add_captcha'];
+            }
+        }
+        
+        $setCaptcha = false;
         if ( $this->_mode != self::MODE_SEARCH ) {
-            $dao = new CRM_Core_DAO_UFGroup();
-            $dao->id = $this->_gid;
-            $dao->find(true);
-            if ( $dao->add_captcha ) {
+            if (!empty($addCaptcha)) {
+                $setCaptcha = true;
+            } else if ($this->_gid ) {
+                $dao = new CRM_Core_DAO_UFGroup();
+                $dao->id = $this->_gid;
+                $dao->find(true);
+                if ( $dao->add_captcha ) {
+                    $setCaptcha = true;
+                }
+            }
+            
+            if ($setCaptcha) {
                 require_once 'CRM/Utils/CAPTCHA.php';
                 $captcha =& CRM_Utils_CAPTCHA::singleton( );
                 $captcha->add( $this );
-                $this->assign( 'addCAPTCHA' , true );
+                $this->assign( "isCaptcha" , true );
             }
-            
+
             if ($addToGroupId) {
                 $this->add('hidden', "group[$addToGroupId]", 1 );
                 $this->assign( 'addToGroupId' , $addToGroupId );
                 $this->_addToGroupID = $addToGroupId;
             }
+        
+        
+            $showBlocks = implode(",",$sBlocks); 
+            $hideBlocks = implode(",",$hBlocks); 
+            
+            $this->assign( 'showBlocks', $showBlocks ); 
+            $this->assign( 'hideBlocks', $hideBlocks ); 
         }
         
-        $showBlocks = implode(",",$sBlocks); 
-        $hideBlocks = implode(",",$hBlocks); 
-        
-        $this->assign( 'showBlocks', $showBlocks ); 
-        $this->assign( 'hideBlocks', $hideBlocks ); 
-        
+        $this->assign( 'customFiles', $customFiles ); 
+
+        $this->assign( 'groupId', $this->_gid ); 
+
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
@@ -695,13 +561,21 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
 
+        //for custom data of type file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                if ($value['type']) {
+                    $params["{$key}_type"] = $value['type']; 
+                }
+            }
+        }
 
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );
         }
         
-        CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields, $this->_id, $this->_addToGroupID, $this->_gid );
+        $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields, $this->_id, $this->_addToGroupID, $this->_gid );
     }
 }
 

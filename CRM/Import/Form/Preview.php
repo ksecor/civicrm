@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -113,6 +113,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
+
+        $statusID = $this->get( 'statusID' );
+        if ( ! $statusID ) {
+            $statusID = md5(uniqid(rand(), true));
+            $this->set( 'statusID', $statusID );
+        }
+        $this->assign('statusID', $statusID );
     }
 
     /**
@@ -122,10 +129,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        //$this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
         $this->addElement( 'text', 'newGroupName', ts('Name for new group'));
         $this->addElement( 'text', 'newGroupDesc', ts('Description of new group'));
-        //$this->addFormRule(array('CRM_Import_Form_Preview', 'newGroupRule'));
         $this->addRule( 'newGroupName', ts('Name already exists in Database.'),'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
 
         $groups =& $this->get('groups');
@@ -135,7 +140,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         }
 
         //display new tag
-        //$this->addElement( 'checkbox', 'newTag', ts('Create a new tag and assign it to imported records'));
         $this->addElement( 'text', 'newTagName', ts('Tag'));
         $this->addElement( 'text', 'newTagDesc', ts('Description'));
         $this->addFormRule(array('CRM_Import_Form_Preview','newTagRule'));    
@@ -146,6 +150,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 $this->addElement('checkbox', "tag[$tagID]", null, $tagName);
             }
         }
+
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
                                          'name'      => ts('<< Previous') ),
@@ -158,6 +163,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                          'name'      => ts('Cancel') ),
                                  )
                            );
+
     }
 
     /**
@@ -287,7 +293,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                       $skipColumnHeader,
                       CRM_Import_Parser::MODE_IMPORT,
                       $this->get('contactType'),
-                      $onDuplicate);
+                      $onDuplicate,
+                      $this->get( 'statusID' ), $this->get( 'totalRowCount' ) );
         
         // add the new contacts to selected groups
         $contactIds =& $parser->getImportedContacts();

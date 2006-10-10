@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -88,6 +88,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         require_once 'CRM/Contact/DAO/SubscriptionHistory.php';
         CRM_Utils_Hook::pre( 'delete', 'Group', $id );
 
+        CRM_Core_DAO::transaction('BEGIN');
+
         // delete all Subscription  records with the selected group id
         $subHistory = & new CRM_Contact_DAO_SubscriptionHistory( );
         $subHistory ->group_id = $id;
@@ -99,14 +101,19 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $groupContact->delete();
 
         // make all the 'add_to_group_id' field of 'civicrm_uf_group table', pointing to this group, as null
-        $query = "update civicrm_uf_group SET `add_to_group_id`= NULL where `add_to_group_id`= ".$id;
-        $dao =new CRM_Core_DAO();
-        $dao->query($query);
+        $params = array( 1 => array( $id, 'Integer' ) );
+        $query = "update civicrm_uf_group SET `add_to_group_id`= NULL where `add_to_group_id` = %1";
+        CRM_Core_DAO::executeQuery( $query, $params );
+
+        $query = "update civicrm_uf_group SET `limit_listings_group_id`= NULL where `limit_listings_group_id` = %1";
+        CRM_Core_DAO::executeQuery( $query, $params );
 
         // delete from group table
         $group =& new CRM_Contact_DAO_Group( );
         $group->id = $id;
-        $group->delete();
+        $group->delete( );
+
+        CRM_Core_DAO::transaction('COMMIT');
 
         CRM_Utils_Hook::post( 'delete', 'Group', $id, $group );
     }

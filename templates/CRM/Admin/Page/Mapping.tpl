@@ -1,5 +1,6 @@
 <div id="help">
-    {ts}Import / Export Mappings.{/ts}
+    {ts}Saved mappings allow you to easily run the same import or export job multiple times. Mappings are created and updated as part of an Import or Export task.
+    This screen allows you to rename or delete existing mappings.{/ts}
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}
@@ -34,7 +35,7 @@
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        <dd>{ts}There are no Saved Mappings.{/ts}</dd>
+        <dd>{ts}There are currently no saved import or export mappings. You create saved mappings as part of an Import or Export task.{/ts}</dd>
         </dl>
     </div>    
 {/if}

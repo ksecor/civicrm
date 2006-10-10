@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -155,7 +155,11 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->addElement('checkbox', 'add_captcha', ts('Include CAPTCHA?') );
 
         // is this group collapsed or expanded ?
-        $this->addElement('checkbox', 'collapse_display', ts('Collapse this group on initial display?'));
+        $this->addElement('checkbox', 'collapse_display', ts('Collapse profile fieldset on initial display?'));
+
+        // is this group collapsed or expanded ?
+        $this->addElement('checkbox', 'is_edit_link', ts('Include Edit Link in Search Results?'));
+
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
@@ -187,12 +191,6 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
 
         if ($this->_action == CRM_Core_Action::ADD) {
             $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( );
-            
-            $UFGroupType = CRM_Core_SelectValues::ufGroupTypes( );
-            foreach ($UFGroupType as $key => $value ) {
-                $checked[$key] = 1;
-            }
-            $defaults['uf_group_type'] = $checked;
         }
 
         if ( isset($this->_id ) ) {
@@ -217,7 +215,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             $otherModules = CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id, true, true );
             if (!empty($otherModules)) {
                 foreach($otherModules as $key) {
-                    $otherModuleString .= " [ x ] ".$key;
+                    $otherModuleString .= " [ x ] <label>" . $key . "</label>";
                 }
                 $this-> assign('otherModuleString',$otherModuleString);
             }

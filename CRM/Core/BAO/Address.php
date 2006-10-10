@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -114,7 +114,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
 
         // add state and country names from the ids
         if ( is_numeric( $params['state_province_id'] ) ) {
-             $params['state_province'] = CRM_Core_PseudoConstant::stateProvince( $params['state_province_id'] );
+             $params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $params['state_province_id'] );
         }
 
         if ( is_numeric( $params['country_id'] ) ) {
@@ -154,12 +154,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         }
 
         foreach ($params['location'][$locationId]['address'] as $name => $value) {
-            // ignore only country id for now
-            // since we set a default
-            if ( $name == 'country_id' ) {
-                continue;
-            }
-
             if (!empty($value)) {
                 return true;
             }
@@ -182,7 +176,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      * @access public
      * @static
      */
-    static function &getValues(&$params, &$values, &$ids, $blockCount=0)
+    static function &getValues(&$params, &$values, &$ids, $blockCount=0, $microformat = false)
     {
         $address =& new CRM_Core_BAO_Address();
         $address->copyValues($params);
@@ -203,13 +197,13 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             }
             // add state and country information: CRM-369
             if ( ! empty( $address->state_province_id ) ) {
-                $address->state = CRM_Core_PseudoConstant::stateProvince( $address->state_province_id );
+                $address->state = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $address->state_province_id );
             }
             if ( ! empty( $address->country_id ) ) {
                 $address->country = CRM_Core_PseudoConstant::country( $address->country_id );
             }
 
-            $address->addDisplay();
+            $address->addDisplay( $microformat );
 
             // FIXME: not sure whether non-DB values are safe to store here
             // if so, we should store state_province and country as well and
@@ -234,7 +228,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      * @access public
      *
      */
-    function addDisplay()
+    function addDisplay( $microformat = false )
     {
         require_once 'CRM/Utils/Address.php';
         $fields = array(
@@ -247,7 +241,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             'postal_code_suffix'     => $this->postal_code_suffix,
             'country'                => $this->country
         );
-        $this->display = CRM_Utils_Address::format($fields);
+        $this->display = CRM_Utils_Address::format($fields, null, $microformat);
     }
 
     /**

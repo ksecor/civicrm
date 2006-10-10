@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -55,6 +55,10 @@ class CRM_Quest_BAO_Recommendation {
 
     static function cleanup( $contactID, $recommenderID, $schoolID, $rsTypeID, $rcTypeID,
                              $firstName, $lastName, $email ) {
+
+        // echo "Cleaning up: $contactID, $recommenderID, $schoolID, $rsTypeID, $rcTypeID, $firstName, $lastName, $email<p>";
+        // return;
+
         // remove the relationships 
         self::deactivateRelationship( $rsTypeID, $contactID, $recommenderID ); 
 
@@ -89,6 +93,9 @@ class CRM_Quest_BAO_Recommendation {
     }
 
     static function process( $contactID, $firstName, $lastName, $email, $schoolID, $type ) {
+        // echo "processing: $contactID, $firstName, $lastName, $email, $schoolID, $type<p>";
+        // return true;
+
         list( $recommenderID, $hash, $drupalID, $alreadyExists ) = self::createContact( $firstName, $lastName, $email );
 
         $ids = array( $recommenderID );
@@ -248,12 +255,17 @@ class CRM_Quest_BAO_Recommendation {
         $dao->responsible_entity_id    = $responsible;
         $dao->target_entity_table      = 'civicrm_contact';
         $dao->target_entity_id         = $target;
-        $dao->status_id                = $statusID;
         $now                           = date( 'YmdHis' );
         if ( ! $dao->find( true ) ) {
             $dao->create_date   = $now;
+        } else {
+            $dao->create_date = CRM_Utils_Date::isoToMysql( $dao->create_date );
         }
         $dao->modified_date     = $now;
+        if ( ! $dao->status_id ||
+             $dao->status_id == 330 ) {
+            $dao->status_id         = $statusID;
+        }
         $dao->save( );
     }
 
@@ -269,11 +281,298 @@ class CRM_Quest_BAO_Recommendation {
         $dao->target_entity_id         = $target;
         if ( $dao->find( true ) ) {
             $dao->status_id = 330;
+            $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
+            $dao->modified_date = date( 'YmdHis' );
             $dao->save( );
         } else {
             CRM_Core_Error::fatal( "Could not find task status for: $taskID, $responsible, $target" );
         }
     }
+
+
+
+
+    static function getRecommendationDetails( $cid ,&$details) {
+        require_once 'CRM/Quest/BAO/Student.php';
+        $schoolSelect = CRM_Quest_BAO_Student::getSchoolSelect( $cid );
+        unset( $schoolSelect[''] );
+        $schoolIDs = implode( ',', array_keys( $schoolSelect ) );
+        if ( $schoolIDs ) {
+            $query = "
+SELECT cr.id as contact_id,
+       rs.relationship_type_id as rs_type_id,
+       rc.relationship_type_id as rc_type_id
+       FROM civicrm_contact      cs,
+       civicrm_contact      cr,
+       civicrm_individual   i,
+       civicrm_email        e,
+       civicrm_location     l,
+       civicrm_relationship rs,
+       civicrm_relationship rc,
+       civicrm_task_status  t
+ WHERE rs.relationship_type_id IN ( 9, 10 )
+   AND rc.relationship_type_id IN ( 11, 12 )
+   AND rs.contact_id_a = cs.id
+   AND rs.contact_id_b = cr.id
+   AND rc.contact_id_a = cr.id
+   AND rc.contact_id_b IN ( $schoolIDs )
+   AND rs.is_active    = 1
+   AND rc.is_active    = 1
+   AND rc.contact_id_a = cr.id
+   AND cs.id           = {$cid}
+   AND i.contact_id    = cr.id
+   AND l.entity_table  = 'civicrm_contact'
+   AND l.entity_id     = cr.id
+   AND e.location_id   = l.id
+   AND t.responsible_entity_table = 'civicrm_contact'
+   AND t.responsible_entity_id    = cr.id
+   AND t.target_entity_table      = 'civicrm_contact'
+   AND t.target_entity_id         = cs.id
+ ORDER BY rs.relationship_type_id
+";
+            
+            $recommenders = array();
+            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            while ( $dao->fetch( ) ) {
+                $recommenders[$dao->contact_id] = $dao->rc_type_id;
+            }
+            
+            $count = 1;
+            if (!empty( $recommenders ) ) {
+                foreach ( $recommenders as $key => $value ) {
+                    if ( $value == 11) {
+                        self::getTeachersDetails( $cid, $key , $details, $count );
+                        $count++;
+                    }else if ( $value == 12 ) {
+                        self::getCounselorDetails( $cid, $key, $details);
+                    }
+                }
+            }
+            
+            
+            
+        }
+        return true;
+    }
+
+    static function getTeachersDetails( $cid, $recommenderId, &$details, $count ) {
+        //Persoanal Information
+        $teacherDetails = array();
+        $query = 
+            "SELECT civicrm_contact.id AS contact_id, civicrm_contact.display_name, civicrm_individual.first_name, civicrm_individual.middle_name, civicrm_individual.last_name, civicrm_phone.phone
+FROM `civicrm_contact`
+LEFT JOIN civicrm_individual ON ( civicrm_contact.id = civicrm_individual.contact_id )
+LEFT JOIN civicrm_location ON ( (
+civicrm_contact.id = civicrm_location.entity_id
+)
+AND (
+civicrm_location.entity_table = 'civicrm_contact'
+) )
+LEFT JOIN civicrm_phone ON ( civicrm_location.id = civicrm_phone.location_id )
+WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId;
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $teacherDetails["PersonalInfo"]["contact_id"]  = $dao->contact_id;
+                $teacherDetails["PersonalInfo"]["first_name"]  = $dao->first_name;
+                $teacherDetails["PersonalInfo"]["middle_name"] = $dao->middle_name;
+                $teacherDetails["PersonalInfo"]["last_name"]   = $dao->last_name;
+                $teacherDetails["PersonalInfo"]["phone"]   = $dao->phone;
+        }
+
+        require_once 'CRM/Quest/DAO/StudentRanking.php';
+        $dao =&new CRM_Quest_DAO_StudentRanking();
+        $dao->target_contact_id = $cid;
+        $dao->source_contact_id = $recommenderId;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao, $teacherDetails["StudentRanking"]);
+        }
+        $names = array('leadership_id'                  => array( 'newName' => 'leadership_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'intellectual_id'                => array( 'newName' => 'intellectual_display',
+                                                                  'groupName' => 'recommender_ranking' ),               
+                       'challenge_id'                   => array( 'newName' => 'challenge_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'maturity_id'                    => array( 'newName' => 'maturity_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'work_ethic_id'                  => array( 'newName' => 'work_ethic_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'originality_id'                 => array( 'newName'   => 'originality_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'humor_id'                       => array( 'newName'   => 'humor_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'energy_id'                      => array( 'newName'   => 'energy_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_differences_id'         => array( 'newName'   => 'respect_differences_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_faculty_id'             => array( 'newName'   => 'respect_faculty_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_peers_id'               => array( 'newName'   => 'respect_peers_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_academic_id'            => array( 'newName'   => 'compare_academic_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_extracurricular_id'     => array( 'newName'   => 'compare_extracurricular_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_personal_id'            => array( 'newName'   => 'compare_personal_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_overall_id'             => array( 'newName'   => 'compare_overall_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'recommend_student_id'           => array( 'newName'   => 'recommend_student_id',
+                                                                  'groupName' => 'recommender_ranking' ),
+
+                       );
+
+        
+        require_once 'CRM/Core/OptionGroup.php';
+        CRM_Core_OptionGroup::lookupValues( $teacherDetails["StudentRanking"], $names, false );
+
+        //student Evaluation
+        require_once "CRM/Quest/DAO/TeacherEvaluation.php";
+        $dao =& new CRM_Quest_DAO_TeacherEvaluation();
+        $dao->target_contact_id = $cid;
+        $dao->source_contact_id = $recommenderId;
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao , $teacherDetails["Evaluation"]  );
+        }
+
+        $teacherDetails["Evaluation"]["success_factor"] = str_replace( "\001", ",", $teacherDetails["Evaluation"]["success_factor"] );
+        require_once "CRM/Quest/BAO/Essay.php";
+        $essays = CRM_Quest_BAO_Essay::getFields( 'cm_teacher_eval', $recommenderId, $cid );
+        require_once "CRM/Quest/BAO/Essay.php";
+        CRM_Quest_BAO_Essay::setDefaults( $essays, $teacherDetails["Evaluation"] );
+        
+        //additional Info 
+        $essays = CRM_Quest_BAO_Essay::getFields( "cm_teacher_additional" ,$recommenderId,$cid);
+        CRM_Quest_BAO_Essay::setDefaults( $essays, $teacherDetails["AdditionalInfo"] );
+        $details["teacher_{$count}"] = $teacherDetails;
+       
+
+    }
+
+    static function getCounselorDetails( $cid, $recommenderId, &$details ) {
+        $counselorDetails = array();
+        $query = 
+            "SELECT civicrm_contact.id AS contact_id, civicrm_contact.display_name, civicrm_individual.first_name, civicrm_individual.middle_name, civicrm_individual.last_name, civicrm_phone.phone
+FROM `civicrm_contact`
+LEFT JOIN civicrm_individual ON ( civicrm_contact.id = civicrm_individual.contact_id )
+LEFT JOIN civicrm_location ON ( (
+civicrm_contact.id = civicrm_location.entity_id
+)
+AND (
+civicrm_location.entity_table = 'civicrm_contact'
+) )
+LEFT JOIN civicrm_phone ON ( civicrm_location.id = civicrm_phone.location_id )
+WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId;
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+                $counselorDetails["PersonalInfo"]["contact_id"]  = $dao->contact_id;
+                $counselorDetails["PersonalInfo"]["first_name"]  = $dao->first_name;
+                $counselorDetails["PersonalInfo"]["middle_name"] = $dao->middle_name;
+                $counselorDetails["PersonalInfo"]["last_name"]   = $dao->last_name;
+                $counselorDetails["PersonalInfo"]["phone"]   = $dao->phone;
+        }
+
+
+        require_once 'CRM/Quest/DAO/StudentRanking.php';
+        $dao =&new CRM_Quest_DAO_StudentRanking();
+        $dao->target_contact_id = $cid;
+        $dao->source_contact_id = $recommenderId;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao, $counselorDetails["StudentRanking"]);
+        }
+        $names = array('leadership_id'                  => array( 'newName' => 'leadership_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'intellectual_id'                => array( 'newName' => 'intellectual_display',
+                                                                  'groupName' => 'recommender_ranking' ),               
+                       'challenge_id'                   => array( 'newName' => 'challenge_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'maturity_id'                    => array( 'newName' => 'maturity_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'work_ethic_id'                  => array( 'newName' => 'work_ethic_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'originality_id'                 => array( 'newName'   => 'originality_dispaly',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'humor_id'                       => array( 'newName'   => 'humor_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'energy_id'                      => array( 'newName'   => 'energy_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_differences_id'         => array( 'newName'   => 'respect_differences_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_faculty_id'             => array( 'newName'   => 'respect_faculty_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'respect_peers_id'               => array( 'newName'   => 'respect_peers_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_academic_id'            => array( 'newName'   => 'compare_academic_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_extracurricular_id'     => array( 'newName'   => 'compare_extracurricular_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_personal_id'            => array( 'newName'   => 'compare_personal_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'compare_overall_id'             => array( 'newName'   => 'compare_overall_display',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'recommend_student_id'           => array( 'newName'   => 'recommend_student_id',
+                                                                  'groupName' => 'recommender_ranking' ),
+                       'counselor_basis'                => array( 'newName'   => 'counselor_basis_display',
+                                                                  'groupName' => 'counselor_basis' ),                  
+                       
+                       );
+
+
+
+        require_once 'CRM/Core/OptionGroup.php';
+        CRM_Core_OptionGroup::lookupValues( $counselorDetails["StudentRanking"], $names, false );
+
+        foreach ($names as $key => $value) {
+             $counselorDetails["StudentRanking"]["{$key}"] = str_replace( "\001", ",", $counselorDetails["StudentRanking"]["{$key}"] );
+        }
+        
+        //student academics
+        require_once 'CRM/Quest/DAO/Academic.php';
+        $dao =&new CRM_Quest_DAO_Academic();
+        $dao->target_contact_id = $cid;
+        $dao->source_contact_id = $recommenderId;
+        $ids = array();
+        if ( $dao->find(true) ) {
+            CRM_Core_DAO::storeValues( $dao, $counselorDetails["AcademicRecord"]);
+        }
+
+
+        //student Evaluation
+        require_once "CRM/Quest/BAO/Essay.php";
+        $essays = CRM_Quest_BAO_Essay::getFields( 'cm_counselor_eval', $recommenderId, $cid );
+        CRM_Quest_BAO_Essay::setDefaults( $essays, $counselorDetails["Evaluation"] );
+        
+        require_once "CRM/Quest/DAO/CounselorEvaluation.php";
+        $dao = & new CRM_Quest_DAO_CounselorEvaluation();
+        $dao->source_contact_id = $recommenderId;
+        $dao->target_contact_id = $cid;
+        if ($dao->find(true)) {
+            CRM_Core_DAO::storeValues($dao,$counselorDetails["Evaluation"]);
+        }
+        
+        $details["counselor"] = $counselorDetails;
+    }
+    
+    
+    static function &xml( $id ) {
+        $details = array( );
+
+        $xml = array( );
+        if ( self::getRecommendationDetails( $id, $details ) ) {
+             foreach ( $details as $name => $value ) {
+                 if ( $value ) {
+                     $xml[$name] = "<{$name}>\n" . CRM_Utils_Array::xml( $value ) . "</{$name}>\n";
+                 }
+             }
+        }
+
+        return $xml;
+    }
+
+
 
 }
     

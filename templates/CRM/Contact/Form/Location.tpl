@@ -23,8 +23,8 @@
         {* Checkbox for "make this the primary location" *}
         {$form.location.$index.is_primary.html}
 
-        &nbsp; &nbsp; {$form.location.$index.name.label}
-        {$form.location.$index.name.html|crmReplace:class:big}
+        &nbsp; &nbsp; {$form.location.$index.location_name.label}
+        {$form.location.$index.location_name.html|crmReplace:class:big}
     </div>
 
     {* Display the phone block(s) *}

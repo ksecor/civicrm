@@ -3,7 +3,7 @@
    {include file="CRM/Admin/Form/OptionValue.tpl"}
 {else}
 <div id="help">
-    need to add description
+    {ts}The existing option choices for this option group are listed below. You can add, edit or delete them from this screen.{/ts}
 </div>
 {/if}
 
@@ -14,7 +14,7 @@
         <table>
         <tr class="columnheader">
             <th>{ts}Title{/ts}</th>
-            <th>{ts}Name{/ts}</th>
+            <th>{ts}Value{/ts}</th>
             <th>{ts}Description{/ts}</th>
             <th>{ts}Weight{/ts}</th>
             <th>{ts}Default{/ts}</th>
@@ -25,7 +25,7 @@
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
-	        <td>{$row.name}</td>	
+	        <td>{$row.value}</td>	
 	        <td>{$row.description}</td>
             <td>{$row.weight}</td>
             <td>{$row.default_value}</td>
@@ -49,7 +49,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/optionValue' q="action=add&reset=1&gid=$gid"}{/capture}
-        <dd>{ts 1=$crmURL}There are no Option Value entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no option choices entered for this option group. You can <a href="%1">add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

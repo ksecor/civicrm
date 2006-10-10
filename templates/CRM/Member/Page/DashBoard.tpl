@@ -1,11 +1,11 @@
 {* CiviMember DashBoard (launch page) *}
 <div id="help" class="solid-border-bottom">
     {capture assign=findContactURL}{crmURL p="civicrm/contact/search/basic" q="reset=1"}{/capture}
-    {capture assign=importURL}{crmURL p="civicrm/member/import" q="reset=1"}{/capture}
     {capture assign=contribPagesURL}{crmURL p="civicrm/admin/contribute" q="reset=1"}{/capture}
     {capture assign=memberTypesURL}{crmURL p="civicrm/admin/member/membershipType" q="reset=1"}{/capture}
-    <p>{ts 1=$contribPagesURL 2=$memberTypesURL}CiviMember allows you to create customized membership types as well as page(s) for online membership sign-up and renewal. Administrators can create or modify Membership Typea <a href="%2">here</a>, and configure Online Contribution Pages which include membership sign-up <a href="%1">here</a>.{/ts}</p>
-    <p>{ts 1=$findContactURL 2=$importURL}You can also input and track membership sign-ups offline. To record memberships manually for individual contacts, use <a href="%1">Find Contacts</a> to locate the contact. Then click <strong>View</strong> to go to their summary page and click on the <strong>New Membership</strong> link.{* You can also <a href="%2">import batches of membership data</a> from other sources.*}{/ts}</p>
+    <p>{ts 1=$contribPagesURL 2=$memberTypesURL}CiviMember allows you to create customized membership types as well as page(s) for online membership sign-up and renewal. Administrators can create or modify Membership Types <a href="%2">here</a>, and configure Online Contribution Pages which include membership sign-up <a href="%1">here</a>.{/ts}</p>
+    <p>{ts 1=$findContactURL 2="http://wiki.civicrm.org/confluence//x/ui"}You can also input and track membership sign-ups offline. To record memberships manually for individual contacts, use <a href="%1">Find Contacts</a> to locate the contact. Then click <strong>View</strong> to go to their summary page and click on the <strong>New Membership</strong> link.
+     Refer to the <a href="%2" target="_blank" title="CiviMember Guide. Opens documentation in a new window.">CiviMember Guide</a> for more information.{/ts}</p>
 </div>
 
 <h3>{ts}Membership Summary{/ts}</h3>
@@ -15,7 +15,7 @@
 </div>
 <table class="report form-layout-compressed">
 <tr class="columnheader-dark">
-    <td>{ts}Members By Type{/ts}</td>
+    <td>{ts}Members by Type{/ts}</td>
     <td>{ts}{$currentMonth}-New/Renew (MTD){/ts}</td>
     <td>{ts}{$currentYear}-New/Renew (YTD){/ts}</td>
     <td>{ts}Current #{/ts}</td>
@@ -38,10 +38,11 @@
 </tr>
 </table>
 
-
+{if $rows}
 {* if $pager->_totalItems *}
     <h3>{ts}Recent Memberships{/ts}</h3>
     <div class="form-item">
         { include file="CRM/Member/Form/Selector.tpl" context="DashBoard" }
     </div>
 {* /if *}
+{/if}

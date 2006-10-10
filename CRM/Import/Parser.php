@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -254,7 +254,8 @@ abstract class CRM_Import_Parser {
                   $skipColumnHeader = false,
                   $mode = self::MODE_PREVIEW,
                   $contactType = self::CONTACT_INDIVIDUAL,
-                  $onDuplicate = self::DUPLICATE_SKIP ) {
+                  $onDuplicate = self::DUPLICATE_SKIP,
+                  $statusID = null, $totalRowCount = null ) {
         switch ($contactType) {
         case CRM_Import_Parser::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';
@@ -300,7 +301,14 @@ abstract class CRM_Import_Parser {
                 }
             }
         }
-        
+
+        if ( $statusID ) {
+            $skip = 100;
+            $config =& CRM_Core_Config::singleton( );
+            $statusFile = "{$config->uploadDir}status_{$statusID}.txt";
+            file_put_contents( $statusFile, 'No status reported yet' );
+            $startTimestamp = $currTimestamp = $prevTimestamp = time( );
+        }
         while ( ! feof( $fd ) ) {
             $this->_lineCount++;
 
@@ -337,6 +345,26 @@ abstract class CRM_Import_Parser {
                 $returnCode = $this->summary( $values );
             } else if ( $mode == self::MODE_IMPORT ) {
                 $returnCode = $this->import( $onDuplicate, $values );
+                if ( $statusID && ( ( $this->_lineCount % $skip ) == 0 ) ) {
+                    $currTimestamp = time( );
+                    $totalTime = ( $currTimestamp - $startTimestamp );
+                    $time = ( $currTimestamp - $prevTimestamp );
+                    $recordsLeft = $totalRowCount - $this->_lineCount;
+                    if ( $recordsLeft < 0 ) {
+                        $recordsLeft = 0;
+                    }
+                    $estimatedTime = ( $recordsLeft / $skip ) * $time;
+                    $status = "<div class='status'>
+Processed Rows: {$this->_lineCount} rows.<p>
+Time since beginning: $totalTime seconds<p>
+Time to process last $skip records: $time seconds<p>
+Approx Records left to process: $recordsLeft<p>
+Estimated time remaining: $estimatedTime seconds<p>
+</div>";
+                    file_put_contents( $statusFile,
+                                       $status );
+                    $prevTimestamp = $currTimestamp;
+                }
             } else {
                 $returnCode = self::ERROR;
             }

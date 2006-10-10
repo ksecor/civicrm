@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -92,8 +92,8 @@ class CRM_Core_Block {
                                                                    'subject'  => ts('CiviCRM'),
                                                                    'active'   => true ),
                                        self::CONTRIBUTE  => array( 'template' => 'Contribute.tpl',
-                                                                   'info'     => ts( 'CiviContribute Thermometer' ),
-                                                                   'subject'  => ts( 'CiviContribute Thermometer' ),
+                                                                   'info'     => ts( 'CiviContribute Progress Meter' ),
+                                                                   'subject'  => ts( 'CiviContribute Progress Meter' ),
                                                                    'active'   => true ),
                                        );
         }
@@ -176,15 +176,14 @@ class CRM_Core_Block {
 
         // also make sure that there is a pageID and that page has thermometer enabled
         $session =& CRM_Core_Session::singleton( );
-        if ( ! $session->get( 'pastContributionID' ) ||
+        $id = $session->get( 'pastContributionID' );
+        if ( ! $id ||  
              ! $session->get( 'pastContributionThermometer' ) ) {
             return true;
         }
-
-        // hey we can show it, so might as well fix the block subject
-        if ( $config->contributeThermometerTitle ) {
-            self::$_properties[self::CONTRIBUTE]['subject'] = $config->contributeThermometerTitle;
-        }
+        
+        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $id, 'thermometer_title');
+        self::$_properties[self::CONTRIBUTE]['subject'] = $title;
 
         return false;
     }
@@ -210,11 +209,14 @@ class CRM_Core_Block {
                                'templateValues',
                                $values );
         } else if ( $id == self::SEARCH ) {
+            $config =& CRM_Core_Config::singleton( );
+            $domainID = CRM_Core_Config::domainID( );
             $urlArray = array(
                 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic',
                                                               'reset=1' ) ,
                 'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
-                                                              'reset=1' )
+                                                              'reset=1' ),
+                'dataURL'           => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/search&d={$domainID}&s=%{searchString}",
             );
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );
         } else if ( $id == self::MENU ) {

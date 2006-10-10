@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -40,8 +40,12 @@
 class CRM_Mailing_Form_Test extends CRM_Core_Form {
 
     public function buildQuickForm() {
-        $this->add('checkbox', 'test', ts('Send a test mailing?'));
+        $session =& CRM_Core_Session::singleton();
+        $this->add('checkbox', 'test', ts('Send a Test Mailing?'));
         $defaults['test'] = true;
+        $this->add('text', 'test_email', ts('Send to This Address:'));
+        $defaults['test_email'] = $session->get('ufEmail');
+        $this->add('select', 'test_group', ts('Send to This Group:'), array('' => ts('- none -')) + CRM_Core_PseudoConstant::group());
         $this->setDefaults($defaults);
 
         $this->addButtons(
@@ -67,9 +71,11 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         );
         
         $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
-        $session    =& CRM_Core_Session::singleton();
-        $email = $session->get('ufEmail');
-        $this->assign('email', $email);
+        $preview = array(
+            'text_link' => CRM_Utils_System::url('civicrm/mailing/preview', 'type=text'),
+            'html_link' => CRM_Utils_System::url('civicrm/mailing/preview', 'type=html'),
+        );
+        $this->assign('preview', $preview);
     }
     
     /**
@@ -89,8 +95,6 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         }
         $config =& CRM_Core_Config::singleton();
         $session    =& CRM_Core_Session::singleton();
-        $contactId  = $session->get('userID');
-        $email      = $session->get('ufEmail');
         
         /* Create a new mailing object for test purposes only */
         require_once 'CRM/Mailing/BAO/Mailing.php';
@@ -106,30 +110,46 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $mailing->subject = ts('Test Mailing:') . ' ' . $options['subject'];
 
         $mailing->body_html = file_get_contents($options['htmlFile']);
-        $mailing->body_text = file_get_contents($options['textFile']);
-        
-        $mime =& $mailing->compose(null, null, null, 
-                                    $contactId, $email, $recipient, true);
+        if (file_exists($options['textFile'])) {
+            $mailing->body_text = file_get_contents($options['textFile']);
+        } else {
+            $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
+        }
 
         $mailer =& $config->getMailer();
 
-        $body = $mime->get();
-        $headers = $mime->headers();
-        
-        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
-        $result = $mailer->send($recipient, $headers, $body);
-        CRM_Core_Error::setCallback();
-        
-        if ($result === true) {
-            return true;
+        if ($params['test_email']) {
+            $testers = array($session->get('userID') => $params['test_email']);
+        } else {
+            $testers = array();
+        }
+        if (array_key_exists($params['test_group'], CRM_Core_PseudoConstant::group())) {
+            $group =& new CRM_Contact_DAO_Group();
+            $group->id = $params['test_group'];
+            $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group);
+            foreach ($contacts as $contact) {
+                $testers[$contact->contact_id] = $contact->email;
+            }
         }
         
-        $errors = array( 
-            '_qf_default' => 
-            ts('The test mailing could not be delivered due to the following error:') . '<br /> <tt>' . $result->getMessage() . '</tt>'
-        );
-        return $errors;
+        $errors = array();
+        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
+                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+        foreach ($testers as $testerId => $testerEmail) {
+            $mime =& $mailing->compose(null, null, null,
+                $testerId, $testerEmail, $recipient, true);
+            $body = $mime->get();
+            $headers = $mime->headers();
+            $result = $mailer->send($recipient, $headers, $body);
+            if ($result !== true) {
+                $errors['_qf_default'] =
+                    ts('The test mailing could not be delivered due to the following error:') .
+                    '<br /> <tt>' . $result->getMessage() . '</tt>';
+            }
+        }
+        CRM_Core_Error::setCallback();
+        
+        return (count($errors) ? $errors : true);
     }
 
     /**
@@ -139,7 +159,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
      * @return string
      */
     public function getTitle( ) {
-        return ts( 'Test Mailing' );
+        return ts( 'Test' );
     }
 
 }

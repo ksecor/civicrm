@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -128,7 +128,21 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         require_once 'CRM/Contribute/BAO/Premium.php';
         $amount = $this->get( 'amount' );
         $params = $this->_params;
+     
+        $honor_block_is_active = $this->get( 'honor_block_is_active');
+        if ( $honor_block_is_active )  {
+            $this->assign('honor_block_is_active', $honor_block_is_active );
+            $this->assign("honor_block_title",$this->_values['honor_block_title']);
+          
+            require_once "CRM/Core/PseudoConstant.php";
+            $prefix = CRM_Core_PseudoConstant::individualPrefix();
+            $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
+            $this->assign("honor_first_name",$params["honor_first_name"]);
+            $this->assign("honor_last_name",$params["honor_last_name"]);
+            $this->assign("honor_email",$params["honor_email"]);
         
+        }
+
         $amount_block_is_active = $this->get( 'amount_block_is_active');
         $this->assign('amount_block_is_active', $amount_block_is_active );
         
@@ -263,6 +277,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $result =& $payment->doDirectPayment( $membershipParams );
             }
 
+            $errors = array();
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
                 $errors[1] = $result;
             } else {
@@ -420,9 +435,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
             
             if ( $this->_contributeMode == 'express' ) {
-                       $result =& $payment->doExpressCheckout( $this->_params );
+                $result =& $payment->doExpressCheckout( $this->_params );
                      } else {
-                         $result =& $payment->doDirectPayment( $this->_params );
+                $result =& $payment->doDirectPayment( $this->_params );
                }
             
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
@@ -561,7 +576,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      */
     public function processContribution( $params ,$result ,$contactID ,$contributionType ,$deductableMode = true ) {
         CRM_Core_DAO::transaction( 'BEGIN' );
-
+        $honor_block_is_active = $this->get( 'honor_block_is_active');
+        if ( $honor_block_is_active ) {
+           $honorCId = self::createHonorContact( );
+        }
         $config =& CRM_Core_Config::singleton( );
         $nonDeductibleAmount = $result['gross_amount'];
         if ( $contributionType->is_deductible && $deductableMode ) {
@@ -605,6 +623,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title'],
                         );
             
+        if ( $honorCId  ) {
+            $contribParams["honor_contact_id"] = $honorCId;
+        }
+               
+        if( $this->_action & CRM_Core_Action::PREVIEW ) {
+            $contribParams["is_test"] = 1;
+        }
+        
         $ids = array( );
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 
@@ -643,7 +669,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         'module'           => 'CiviContribute', 
                         'callback'         => 'CRM_Contribute_Page_Contribution::details',
                         'activity_id'      => $contribution->id, 
-                        'activity_summary' => 'Online - ' . CRM_Utils_Money::format($this->_params['amount']),
+                        'activity_summary' => CRM_Utils_Money::format($result['gross_amount']). ' - ' . $this->_values['title'] . ' (online)',
                         'activity_date'    => $now,
                         );
         if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
@@ -684,6 +710,52 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         
 
     }
+    
+    /**
+     * Create the Honor contact
+     *
+     * @return void
+     * @access public
+     */
+    function createHonorContact(  ) {
+        $params = $this->controller->exportValues( 'Main' );
+        $honorParams = array();
+        $honorParams["prefix_id"] = $params["honor_prefix_id"];
+        $honorParams["first_name"]   = $params["honor_first_name"];
+        $honorParams["last_name"]    = $params["honor_last_name"];
+        $honorParams["email"]        = $params["honor_email"];
+        $honorParams["contact_type"] = "Individual";
+        
+        //assign to template for email reciept
+        $honor_block_is_active = $this->get( 'honor_block_is_active');
+
+        $this->assign('honor_block_is_active', $honor_block_is_active );
+        $this->assign("honor_block_title",$this->_values['honor_block_title']);
+        
+        require_once "CRM/Core/PseudoConstant.php";
+        $prefix = CRM_Core_PseudoConstant::individualPrefix();
+        $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
+        $this->assign("honor_first_name",$params["honor_first_name"]);
+        $this->assign("honor_last_name",$params["honor_last_name"]);
+        $this->assign("honor_email",$params["honor_email"]);
+        
+        require_once 'api/crm.php';
+        $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
+        $contactsIDs = explode( ',', $ids );
+        if ( $contactsIDs[0] == "" || count ( $contactsIDs ) > 1) {
+            $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
+            return $contact->id;
+        } else {
+            $contact_id =  $contactsIDs[0];
+            $ids = array( );
+            $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
+            $defaults = array( );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+            $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
+            return $contact->id;    
+        }
+    }
+
 }
 
 ?>

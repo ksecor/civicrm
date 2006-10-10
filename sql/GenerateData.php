@@ -550,7 +550,7 @@ class CRM_GCD {
         // get the domain and contact id arrays
         $this->domain = range(1, self::NUM_DOMAIN);
         shuffle($this->domain);
-        $this->contact = range(1, self::NUM_CONTACT);
+        $this->contact = range(2, self::NUM_CONTACT + 1);
         shuffle($this->contact);
 
         // get the individual, household  and organizaton contacts
@@ -632,7 +632,7 @@ class CRM_GCD {
 
         for ($id=1; $id<=self::NUM_CONTACT; $id++) {
             $contact->domain_id = 1;
-            $contact->contact_type = $this->getContactType($id);
+            $contact->contact_type = $this->getContactType($id+1);
             $contact->do_not_phone = mt_rand(0, 1);
             $contact->do_not_email = mt_rand(0, 1);
             $contact->do_not_post  = mt_rand(0, 1);
@@ -1515,7 +1515,7 @@ $obj1->addGroup();
 $obj1->addNote();
 $obj1->addActivityHistory();
 add_contributions( );
-$obj1->addMembershipType();
+// $obj1->addMembershipType();
 $obj1->addMembership();
 $obj1->addMembershipLog();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");

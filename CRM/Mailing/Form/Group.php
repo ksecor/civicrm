@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -62,12 +62,12 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
         
         $groups =& CRM_Core_PseudoConstant::group();
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
-                                  ts('Include group(s)') . ' ', $groups,
+                                  ts('Include Group(s)') . ' ', $groups,
                                   array('size' => 5, 'style' => 'width:240px'));
 
         $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
         $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
-                                   ts('Exclude group(s)') . ' ', $groups,
+                                   ts('Exclude Group(s)') . ' ', $groups,
                                    array('size' => 5, 'style' => 'width:240px'));
         $inG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
@@ -159,7 +159,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
      * @return string
      */
     public function getTitle( ) {
-        return ts( 'Select Mailing Recipients' );
+        return ts( 'Select Recipients' );
     }
 
     /**
@@ -177,7 +177,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
             $checkGroups = array();
             $checkGroups = array_intersect($fields['includeGroups'], $fields['excludeGroups']);
             if (!empty($checkGroups)) {
-                $errors['excludeGroups'] = ts('Cannot have same groups in Include group(s) and Exclude group(s). ');
+                $errors['excludeGroups'] = ts('Cannot have same groups in Include Group(s) and Exclude Group(s).');
             }
         }
 

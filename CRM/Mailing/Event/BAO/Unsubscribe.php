@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -246,7 +246,11 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $component->find(true);
         
         $html = $component->body_html;
-        $text = $component->body_text;
+        if ($component->body_text) {
+            $text = $component->body_text;
+        } else {
+            $text = CRM_Utils_String::htmlToText($component->body_html);
+        }
 
         $eq =& new CRM_Core_DAO();
         $eq->query(
@@ -399,7 +403,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $query .= " GROUP BY $queue.id ";
         }
 
-        $query .= " ORDER BY $contact.sort_name, $unsub.time_stamp ";
+        $query .= " ORDER BY $contact.sort_name, $unsub.time_stamp DESC ";
 
         if ($offset) {
             $query .= ' LIMIT ' 
@@ -423,7 +427,23 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         }
         return $results;
     }
-
+    
+    public static function getContactInfo($queueID) {
+        
+        $query = "SELECT DISTINCT(civicrm_mailing_event_queue.contact_id) as contact_id
+                  FROM civicrm_mailing_event_queue, civicrm_mailing_event_unsubscribe
+                  WHERE civicrm_mailing_event_queue.id=civicrm_mailing_event_unsubscribe.event_queue_id AND civicrm_mailing_event_queue.id=" . CRM_Utils_Type::escape($queueID, 'Integer');
+        
+        $dao =& new CRM_Core_DAO();
+        $dao->query($query);
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        
+        while ($dao->fetch()) {
+            $displayName = CRM_Contact_BAO_Contact::displayName($dao->contact_id);
+        }
+        
+        return $displayName;
+    }
 }
-
 ?>

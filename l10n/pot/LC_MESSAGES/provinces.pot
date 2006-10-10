@@ -5120,7 +5120,7 @@ msgid "Norfolk"
 msgstr ""
 
 #. name for GB-NAY
-msgid "North Ayrahire"
+msgid "North Ayrshire"
 msgstr ""
 
 #. name for GB-NDN
@@ -5156,7 +5156,7 @@ msgid "Northamptonshire"
 msgstr ""
 
 #. name for GB-NBL
-msgid "Northumbarland"
+msgid "Northumberland"
 msgstr ""
 
 #. name for GB-NGM
@@ -5224,7 +5224,7 @@ msgid "Redcar and Cleveland"
 msgstr ""
 
 #. name for GB-RFW
-msgid "Renfrewshlre"
+msgid "Renfrewshire"
 msgstr ""
 
 #. name for GB-RCT
@@ -5288,7 +5288,7 @@ msgid "Solihull"
 msgstr ""
 
 #. name for GB-SOM
-msgid "merset"
+msgid "Somerset"
 msgstr ""
 
 #. name for GB-SAY
@@ -5549,10 +5549,6 @@ msgstr ""
 
 #. name for MIDDX
 msgid "Middlesex"
-msgstr ""
-
-#. name for NTHUMB
-msgid "Northumberland"
 msgstr ""
 
 #. name for RUTLAND
@@ -9839,7 +9835,7 @@ msgid "Michoacin"
 msgstr ""
 
 #. name for MX-MOR
-msgid "Moreloa"
+msgid "Morelos"
 msgstr ""
 
 #. name for MX-NAY
@@ -10443,7 +10439,7 @@ msgid "Gisborne"
 msgstr ""
 
 #. name for NZ-HKB
-msgid "Hawkes's Bay"
+msgid "Hawkes Bay"
 msgstr ""
 
 #. name for NZ-MWT

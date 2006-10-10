@@ -1,9 +1,9 @@
 <?php 
 /* 
  +--------------------------------------------------------------------+ 
- | CiviCRM version 1.5                                                | 
+ | CiviCRM version 1.6                                                | 
  +--------------------------------------------------------------------+ 
- | Copyright (c) 2005 Donald A. Lobo                                  | 
+ | Copyright CiviCRM LLC (c) 2004-2006                                  | 
  +--------------------------------------------------------------------+ 
  | This file is a part of CiviCRM.                                    | 
  |                                                                    | 
@@ -18,18 +18,18 @@
  |                                                                    | 
  | You should have received a copy of the Affero General Public       | 
  | License along with this program; if not, contact the Social Source | 
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have | 
- | questions about the Affero General Public License or the licensing | 
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       | 
+ | about the Affero General Public License or the licensing  of       | 
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   | 
- | at http://www.openngo.org/faqs/licensing.html                      | 
+ | http://www.civicrm.org/licensing/                                 | 
  +--------------------------------------------------------------------+ 
 */ 
  
 /** 
  * 
  * @package CRM 
- * @author Donald A. Lobo <lobo@yahoo.com> 
- * @copyright Donald A. Lobo (c) 2005 
+ * @author Donald A. Lobo <lobo@civicrm.org> 
+ * @copyright CiviCRM LLC (c) 2004-2006 
  * $Id$ 
  * 
  */ 
@@ -54,6 +54,9 @@ class CRM_Utils_Hook_Joomla {
      * @access public 
      */ 
     static function pre( $op, $objectName, $id, &$params ) {
+        if ( function_exists( 'joomla_civicrm_pre' ) ) {
+            joomla_civicrm_pre( $op, $objectName, $id, $params );
+        }
         return;
     }
 
@@ -75,6 +78,9 @@ class CRM_Utils_Hook_Joomla {
      * @access public 
      */ 
     static function post( $op, $objectName, $objectId, &$objectRef ) {
+        if ( function_exists( 'joomla_civicrm_post' ) ) {
+            joomla_civicrm_post( $op, $objectName, $objectId, $objectRef );
+        }
         return;
     }
 
@@ -91,6 +97,9 @@ class CRM_Utils_Hook_Joomla {
      * @access public
      */
     static function links( $op, $objectName, $objectId ) {
+        if ( function_exists( 'joomla_civicrm_links' ) ) {
+            joomla_civicrm_links( $op, $objectName, $objectId );
+        }
         return null;
     }
 

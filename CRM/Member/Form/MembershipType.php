@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -77,10 +77,9 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             if ($defaults[$per]) {
                 $dat = $defaults[$per];
                 $dat = ( $dat < 999) ? '0'.$dat : $dat; 
-                $dM = str_split($dat, 2);
                 $defaults[$per] = array();
-                $defaults[$per]['M'] = $dM[0];
-                $defaults[$per]['d'] = $dM[1];
+                $defaults[$per]['M'] = substr($dat, 0, 2);
+                $defaults[$per]['d'] = substr($dat, 2, 3);
             }
         }
         return $defaults;
@@ -101,7 +100,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'name' ) );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'name' ), true );
 
         $this->addRule( 'name', ts('A membership type with this name already exists. Please select another name.'), 
                         'objectExists', array( 'CRM_Member_DAO_MembershipType', $this->_id ) );
@@ -109,13 +108,14 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'description' ) );
         $this->add('text', 'minimum_fee', ts('Minimum Fee'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'minimum_fee' ) );
-        $this->add('select', 'duration_unit', ts('Duration') . ' ', CRM_Core_SelectValues::unitList('duration'));
+        $this->add('select', 'duration_unit', ts('Duration') . ' ', CRM_Core_SelectValues::unitList('duration'), true);
         //period type
         $this->addElement('select', 'period_type', ts('Period Type'), 
-                          CRM_Core_SelectValues::periodType( ), array( 'onChange' => 'showHidePeriodSettings()'));
+                          CRM_Core_SelectValues::periodType( ), array( 'onchange' => 'showHidePeriodSettings()'));
+        $this->addRule( 'period_type', ts('Select the Period Type'),'required' );
 
         $this->add('text', 'duration_interval', ts('Duration Interval'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'duration_interval' ) );
+                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'duration_interval' ), true );
 
         $memberOrg =& $this->add('text', 'member_org', ts('Membership Organization'), 'size=30 maxlength=120' );
         //start day
@@ -194,10 +194,10 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      * @static
      */
     public function formRule( &$params ) {
+        require_once 'CRM/Utils/Rule.php';        
         $errors = array( );
         if ( $params['fixed_period_start_day'] && ! empty( $params['fixed_period_start_day']) ) {
             $params['fixed_period_start_day']['Y'] = date('Y');
-            require_once 'CRM/Utils/Rule.php';
             if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_start_day'] ) ){
                 $errors['fixed_period_start_day'] = "Please enter valid 'Fixed Period Start Day' ";
             }
@@ -206,7 +206,6 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
         if ( $params['fixed_period_rollover_day'] && ! empty( $params['fixed_period_rollover_day']) ) {
             $params['fixed_period_rollover_day']['Y'] = date('Y');
-            require_once 'CRM/Utils/Rule.php';
             if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_rollover_day'] ) ){
                 $errors['fixed_period_rollover_day'] = "Please enter valid 'Fixed Period Rollover Day' ";
             }
@@ -217,28 +216,32 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             if ( !$params['name'] ) {
                 $errors['name'] = "Please enter a membership type name.";
             }
-            if ( !$params['contribution_type_id'] ) {
+            //if ( !$params['contribution_type_id'] ) {
+            if ( ($params['minimum_fee'] > 0 ) && !$params['contribution_type_id'] ) {
                 $errors['contribution_type_id'] = "Please enter the contribution type.";
             }
             if ( !$params['contact_check'] && $params['action']!= CRM_Core_Action::UPDATE ) {
                 $errors['member_org'] = "Please select the membership organization";
             }
+            /*
             if ( $params['period_type'] == 'fixed' ) {
                 if ( !$params['fixed_period_start_day'] ) {
                     $errors['fixed_period_start_day'] = "Please enter the 'Fixed period start day'.";
                 }
             }
+            */
             $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
-            foreach ( $periods as $per ) {
-                if ($params[$per]['M'] || $params[$per]['d']) {
-                    $mon = $params[$per]['M'];
-                    $dat = $params[$per]['d'];
-                    if (!($mon && $dat)) {
-                        $errors[$per] = "Please enter a valid 'Fixed period start day'.";
+            if( $params['period_type'] == 'fixed') {
+                foreach ( $periods as $period ) {
+                    $mon = $params[$period]['M'];
+                    $dat = $params[$period]['d'];
+                    if ( !$mon || !$dat ) {
+                        $errors[$period] = "Please enter a valid 'fixed period day'.";
                     }
                 }
             }
         }
+        
         return empty($errors) ? true : $errors;
     }
        

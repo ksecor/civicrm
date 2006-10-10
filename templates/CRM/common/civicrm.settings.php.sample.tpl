@@ -1,6 +1,6 @@
 <?php
 /**
- * CiviCRM Configuration File - v1.4
+ * CiviCRM Configuration File - v1.5
  */
 
 /**
@@ -19,9 +19,16 @@ define( 'ENABLE_COMPONENTS', 'CiviContribute,CiviMember' );
 /**
  * Content Management System (CMS) Host:
  *
- * CiviCRM can be hosted in either Drupal or Joomla. Retain the default settings
- * for Drupal.
+ * CiviCRM can be hosted in either Drupal or Joomla.
  * 
+ * Settings for Drupal 4.7.x:
+ *      define( 'CIVICRM_UF'        , 'Drupal' );
+ *      define( 'CIVICRM_UF_VERSION', '4.7' );
+ *      define( 'CIVICRM_UF_URLVAR' , 'q'  );
+ *
+ * For Drupal 4.6.x, same as above except
+ *      define( 'CIVICRM_UF_VERSION', '4.6' );
+ *
  * Settings for Joomla:
  *      define( 'CIVICRM_UF'        , 'Joomla' );
  *      define( 'CIVICRM_UF_VERSION', '1.0.8' );
@@ -66,11 +73,15 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * CIVICRM_IMAGE_UPLOADDIR is the file system path where image files are uploaded
  * (e.g. premium product images).
  *
- * CIVICRM_CUSTOM_FILE_UPLOADDIR is the file system path where files are uploaded which need to be
- * secure/privacy-protected. This directory SHOULD NOT BE LOCATED UNDER YOUR WEBROOT.
+ * CIVICRM_CUSTOM_FILE_UPLOADDIR is the file system path where documents and images which
+ * are attachments to contacts records are stored (e.g. contact photos, resumes, contracts, etc.)
+ * You define these types of files as "custom fields" with field-type = FILE. Generally these
+ * files need to be secure/privacy-protected (CiviCRM provides authenticated users with
+ * appropriate permissions to access to these files through indirect URLs). Therefore,
+ * this directory SHOULD NOT BE LOCATED UNDER YOUR WEBROOT.
  *
  * IMPORTANT: The COMPILEDIR, UPLOADDIR, IMAGE_UPLOADDIR, and CUSTOM_FILE_UPLOADDIR directories must exist,
- * and your web server must have write access to these directories.
+ * and your web server must have read/write access to these directories.
  *
  *
  * EXAMPLE - CivicSpace / Drupal:
@@ -112,7 +123,6 @@ $civicrm_root = '%%crmRoot%%';
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
 define( 'CIVICRM_UPLOADDIR'          , '%%uploadDir%%'  );
 define( 'CIVICRM_IMAGE_UPLOADDIR'    , '%%imageUploadDir%%');
-
 define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
 
 /**
@@ -133,9 +143,6 @@ define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
  * CIVICRM_UF_RESOURCEURL - Absolute URL to directory where civicrm.module is located:
  *      define( 'CIVICRM_UF_RESOURCEURL', 'http://www.example.com/civicspace/modules/civicrm/' );
  *
- * CIVICRM_RESOURCEBASE - Relative URL to directory where civicrm.module is located:
- *      define( 'CIVICRM_RESOURCEBASE' , '/civicspace/modules/civicrm/' );
- *
  * CIVICRM_IMAGE_UPLOADURL - Absolute URL to directory where uploaded image files are located:
  *      define( 'CIVICRM_IMAGE_UPLOADURL'    , 'http://www.example.com/civicspace/files/civicrm/persist/' );
  *
@@ -153,19 +160,15 @@ define( 'CIVICRM_CUSTOM_FILE_UPLOADDIR'    , '%%customFileUploadDir%%' );
  * Administration and front-end sites:
  *      define( 'CIVICRM_UF_RESOURCEURL', 'http://www.example.com/joomla/administrator/components/com_civicrm/civicrm/' );
  *
- * CIVICRM_RESOURCEBASE - Relative URL to directory where CiviCRM componenet is installed:
- * Administration and front-end sites:
- *      define( 'CIVICRM_RESOURCEBASE' , '/joomla/administrator/components/com_civicrm/civicrm/' );
- *
  * CIVICRM_IMAGE_UPLOADURL - Absolute URL to directory where uploaded image files are located:
  *      define( 'CIVICRM_IMAGE_UPLOADURL'    , 'http://www.example.com/joomla/media/civicrm/persist/' );
  *
  */
 define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 define( 'CIVICRM_UF_RESOURCEURL'  , '%%resourceURL%%' );
-define( 'CIVICRM_RESOURCEBASE'    , '%%resourceBase%%' );
 define( 'CIVICRM_IMAGE_UPLOADURL' , '%%imageUploadURL%%' );
-define( 'CIVICRM_CUSTOM_FILE_UPLOADURL','%%customFileUploadURL%%' );
+
+
 /**
  * CiviCRM Database Settings:
  *
@@ -196,6 +199,8 @@ define( 'CIVICRM_CUSTOM_FILE_UPLOADURL','%%customFileUploadURL%%' );
  * $ whereis mysql
  * $ type mysql
  */
+// Enter closest dot release to your installed version. 4.0, 4.1, 5.0 are all valid examples. Do NOT
+// specify minor revision (second dot) - 4.1.2 is NOT a valid value for this setting. 
 define( 'CIVICRM_MYSQL_VERSION', 4.0 );
 define( 'CIVICRM_DSN'          , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
 define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
@@ -235,7 +240,7 @@ define( 'CIVICRM_SMTP_PASSWORD', ''    );
  * is a comma-separated list of country ISO codes (US for United States, PL for
  * Poland, etc.). If you're not sure what is the code for a given country, you
  * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
- * file. The empty default does not limit the country list.
+ * file. ALL countries are included in country drop-down fields if this setting is empty.
  */
 define( 'CIVICRM_COUNTRY_LIMIT' , 'US' );
 
@@ -248,8 +253,8 @@ define( 'CIVICRM_COUNTRY_LIMIT' , 'US' );
  * available to the users of this CiviCRM install. The format of this option
  * is a comma-separated list of country ISO codes (US for United States, PL for
  * Poland, etc.). If you're not sure what is the code for a given country, you
- * can check it in the civicrm_country table and/or the xml/templates/civicrm_country.tpl
- * file. The default limits the province list to United States.
+ * can check it in the civicrm_country table or the file xml/templates/civicrm_country.tpl
+ * file. The default limits the state/province list to the United States.
  */
 define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
 
@@ -352,11 +357,11 @@ define( 'CIVICRM_LC_MONETARY', 'en_US' );
  * For GOOGLE mapping - request an API key for your site here:
  * http://www.google.com/apis/maps/signup.html
  *
- * When prompted for 'My Web Site URL' - enter the url for your CiviCRM menu followed by
- * the path '/contact/search'. Your API Key will be generated and displayed on the next page.
+ * When prompted for 'My Web Site URL' - enter the base url for your CMS site followed by
+ * the path '/civicrm'. Your API Key will be generated and displayed on the next page.
  *
- * EXAMPLE: if your Drupal site url is http://www.example.com/civicspace/ you would enter
- * 'http://www.example.com/civicspace/civicrm/contact/search'
+ * EXAMPLE: if your Drupal site url is http://www.example.com/drupal/ you would enter
+ * 'http://www.example.com/drupal/civicrm'
  *
  * For YAHOO mapping - request an Application ID for your site here:
  * http://api.search.yahoo.com/webservices/register_application
@@ -364,14 +369,17 @@ define( 'CIVICRM_LC_MONETARY', 'en_US' );
  * Enter either your Google API key OR Yahoo Application ID in the CIVICRM_MAP_API_KEY
  * setting below.
  * 
- * IMPORTANT: Both mapping providers require that Contact addresses include latitude
+ * IMPORTANT: Yahoo! requires that Contact addresses include latitude
  * and longitude. You can populate these manually, or you must enable one of the
  * automatic Geocode lookup methods described in the next section.
+ * Google allows you to send the address rather than lat/long. This feature is enabled
+ * by default. If you are not using Google, make sure to set
+ * CIVICRM_MAP_GEOCODING to 0.
  *
  */
 define('CIVICRM_MAP_PROVIDER'  , '' );
 define('CIVICRM_MAP_API_KEY'   , '' );
-define('CIVICRM_MAP_GEOCODING' , '' );
+define('CIVICRM_MAP_GEOCODING' , 1  );
 
 /**
  * Geocode (latitude and longitude) Lookup:
@@ -434,41 +442,63 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_
 
 /*
  * TEST Payment Server (Sandbox) Settings:
+ * NOTE: Not all settings are used by all payment processors and authentication credential methods.
+ * 
  */
-// PayPal ONLY - File system path where API Profile files should be created and stored.
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
 
-// API Password (PayPal) or API Token (Moneris)
+// API Username
+// PayPal API Signature credential only: API Username value (from your PayPal account - View API Signature screen).
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME'      , '' );
+
+// API Password
+// PayPal API Signature credential: API Password value (from your PayPal account - View API Signature screen).
+// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+// Moneris: API Token value.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , '' ); 
 
-// Authentication key. For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value.
-// For Moneris - storeid.
+// API Signature or Key 
+// PayPal API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
+// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+// Moneris: Use the storeid value.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , '' ); 
 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypal.com');
+// API Certificate Path
+// PayPal API Certificate credential only: File system path where API Profile files should be created and stored.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
+
 // Hostname for "PayPal Express" button submit in test-drive mode. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypal.com');
 
 /*
  * LIVE Payment Server Settings:
+ * NOTE: Not all settings are used by all payment processors and authentication credential methods.
+ * 
  */
-// PayPal ONLY - File system path where API Profile files should be created and stored.
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
 
-// API Password (PayPal) or API Token (Moneris)
+// API Username
+// PayPal API Signature credential only: API Username value (from your PayPal account - View API Signature screen).
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME'      , '' );
+
+// API Password
+// PayPal API Signature credential: API Password value (from your PayPal account - View API Signature screen)
+// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+// Moneris: API Token value.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , '' );
 
-// Authentication key. For PayPal - use Administer CiviCRM >> Create PayPal API Profile to get this value.
-// For Moneris - storeid.
+// API Signature or Key 
+// PayPal API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
+// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+// Moneris: Use the storeid value.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
 
-define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL', 'www.paypal.com');
+// API Certificate Path
+// PayPal API Certificate credential only: File system path where API Profile files should be created and stored.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
+
 // Hostname for "PayPal Express" button submit in live mode. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.
-
-
-// if u r using a thermometer and want a different title set this value
-define( 'CIVICRM_CONTRIBUTE_THERMOMETER_TITLE', '' );
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL', 'www.paypal.com');
 
 /**
  * Force SSL Redirect for Online Contribution Pages:
@@ -496,10 +526,21 @@ define('CIVICRM_DOMAIN_ID' , 1 );
 /**
  * Location Blocks display for Contacts
  *
- * CiviCRM by default shows 2 location blocks when editing a contact, change this number if you
- * want to increase the location blocks
+ * CiviCRM by default shows 2 location (address + email + phone) blocks when editing a contact.
+ * Change this number if you want to increase (or decrease) the number of blocks.
  */
-// define( 'CIVICRM_MAX_LOCATION_BLOCKS', 2 );
+define( 'CIVICRM_MAX_LOCATION_BLOCKS', 2 );
+
+/**
+ * CAPTCHA font library path and file
+ *
+ * Captcha requires ttf (truetype fonts) to render an image properly. The font libraries
+ * do not have a consistent location across all machines. Please find out your font library
+ * location and a suitable ttf font and enter them in the below settings.
+ *
+ */
+define( 'CIVICRM_CAPTCHA_FONT_PATH', '/usr/X11R6/lib/X11/fonts/' );
+define( 'CIVICRM_CAPTCHA_FONT'     , 'HelveticaBold.ttf'         );
 
 /**
  * Debugging:

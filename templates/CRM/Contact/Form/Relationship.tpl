@@ -19,8 +19,8 @@
                 <dt>{ts}Description:{/ts}</dt><dd>{$row.description}</dd>
             {/if}
 	    {foreach from=$viewNote item="rec"}
-		    {if $rec.note}
-			<dt>{ts}Note:{/ts}</dt><dd>{$rec.note}</dd>	
+		    {if $rec }
+			<dt>{ts}Note:{/ts}</dt><dd>{$rec}</dd>	
 	   	    {/if}
             {/foreach}
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  * this BAO handles all activities(Meetings/PhoneCall/OtherActivities)
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -69,7 +69,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-        
+        if ( $activityType == 1) {
+            $activityType = "Meeting";
+        } else if($activityType == 2) {
+            $activityType = "Phonecall";
+        } else {
+            $activityType = "Activity";
+        }
         eval ('$activity =& new CRM_Activity_DAO_' . $activityType .'( );');
         
         $activity->copyValues($params);
@@ -115,6 +121,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     static function retrieve( &$params, &$defaults, $activityType ) 
     {
+
+        if ( $activityType == 1) {
+            $activityType = "Meeting";
+        } else if($activityType == 2) {
+            $activityType = "Phonecall";
+        } else {
+            $activityType = "Activity";
+        }
         eval ( '$activity =& new CRM_Activity_DAO_' . $activityType . '( );' );
         $activity->copyValues( $params );
         if ( $activity->find( true ) ) {
@@ -186,11 +200,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     public static function createActivity( &$params, &$ids, $activityType = 'Meeting') 
     {
         $activity = self::add($params, $ids, $activityType);
-
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($activityType, $ids['id'], 0);
-        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
         
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $ids['id'], 0,$activityType);
+       
+        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $params );
+     
         // do the updates/inserts
+        if ( $activityType == 1) {
+            $activityType = "Meeting";
+        } else if($activityType == 2) {
+            $activityType = "Phonecall";
+        } else {
+            $activityType = "Activity";
+        }
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $activityType, $activity->id); 
         
         if ( $activityType == 'Phonecall' ) {
@@ -199,9 +221,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $activityType = CRM_Core_PseudoConstant::activityType(true);
             $title        = $activityType[$params['activity_type_id']];
         } else {
-            $title = ts($activityType);
+            $title = $activityType;
         }
-
+        
         if ( $activity->status == 'Completed' ) {
             // we need to insert an activity history record here
             $params = array('entity_table'     => 'civicrm_contact',
@@ -226,9 +248,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         
         if( $activity->status=='Completed' ) {
-            CRM_Core_Session::setStatus( ts( $title .' "%1" has been logged to Activity History.', array( 1 => $activity->subject)) );
+            CRM_Core_Session::setStatus("$title " . ts('"%1" has been logged to Activity History.', array(1 => $activity->subject)));
         } else {
-            CRM_Core_Session::setStatus( ts( $title . ' "%1" has been saved.', array( 1 => $activity->subject)) );
+            CRM_Core_Session::setStatus("$title " . ts('"%1" has been saved.', array(1 => $activity->subject)));
         }
     }
 

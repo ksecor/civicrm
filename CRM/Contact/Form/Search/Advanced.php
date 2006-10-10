@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -138,10 +138,51 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
         $this->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
 
+
+        // textbox for open Activity Type
+
+        $this->_activityType =
+            array( ''   => ' - select activity - ' ) + 
+            CRM_Core_PseudoConstant::ActivityType( false, null );
+
+         $this->add('select', 'open_activity_type_id', ts('Activity Type'),
+                   $this->_activityType,
+                   false);
+        
+        // Date selects for activity date
+        $this->add('date', 'open_activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('open_activity_date_low', ts('Select a valid date.'), 'qfDate');
+
+        $this->add('date', 'open_activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('open_activity_date_high', ts('Select a valid date.'), 'qfDate');
+
+
+        // block for change log
+
+        $this->addElement('text', 'changed_by', ts('Changed By'), null);
+      
+        $this->add('date', 'modified_date_low', ts('Modified - From'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('modified_date_low', ts('Select a valid date.'), 'qfDate');
+
+        $this->add('date', 'modified_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
+        $this->addRule('modified_date_high', ts('Select a valid date.'), 'qfDate');
+
+
+        // add task components
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::buildSearchForm( $this );
 
-        //relationsship fileds
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            $this->assign( 'showTask', 1 );
+
+            // add the task search stuff
+            // we add 2 select boxes, one for the task from the task table
+            $taskSelect       = array( '' => '- select -' ) + CRM_Core_PseudoConstant::tasks( );
+            $this->addElement( 'select', 'task_id', ts( 'Task' ), $taskSelect );
+            $this->addSelect( 'task_status', ts( 'Task Status' ) );
+        }
+
+        //relationship fields
         
         require_once 'CRM/Contact/BAO/Relationship.php';
         require_once 'CRM/Core/PseudoConstant.php';
@@ -170,25 +211,52 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * @access   protected
      */
     
-    protected function setShowHide(&$groupTitle)
+    protected function setShowHide(&$groupTitle , $groupDetails = null)
     {
         $showHide =& new CRM_Core_ShowHideBlocks('','');
         
         $showHide->addHide( 'relationship' );
         $showHide->addShow( 'relationship_show' );
+
+        $showHide->addHide( 'changelog' );
+        $showHide->addShow( 'changelog_show' );
+
+        $showHide->addHide( 'openAtcivity' );
+        $showHide->addShow( 'openAtcivity_show' );
+
+        $showHide->addHide( 'atcivityHistory' );
+        $showHide->addShow( 'atcivityHistory_show' );
+
+        $showHide->addHide( 'location' );
+        $showHide->addShow( 'location_show' );
         
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            $showHide->addHide( 'task_block' );
+            $showHide->addShow( 'task_show' );
+        }
+
         CRM_Core_Component::addShowHide( $showHide );
 
         if ( ! empty( $groupTitle ) ) {
             foreach ($groupTitle as $key => $title) {
-                $showBlocks = $title . '_show' ;
-                $hideBlocks = $title;
-                
+                if( !empty($groupDetails) ) {
+                    if( $groupDetails[$key]['collapse_display'] ) {
+                        $hideBlocks = $title . '_show' ;
+                        $showBlocks = $title;
+                    } else {
+                        $showBlocks = $title . '_show' ;
+                        $hideBlocks = $title;
+                    }
+                    
+                } else {
+                    $showBlocks = $title . '_show' ;
+                    $hideBlocks = $title;
+                }
+                                
                 $showHide->addShow($hideBlocks);
                 $showHide->addHide($showBlocks);
             }
         }
-
         $showHide->addToTemplate();
     }
 
@@ -203,7 +271,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         
         // expand on search result if criteria entered
         $customDataSearch = $this->get('customDataSearch');
-        
         if ( !empty($customDataSearch)) {
             $customAssignHide = array();
             $customAssignShow = array();
@@ -222,8 +289,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Contact', 'Individual', 'Household', 'Organization' ) );
         $this->assign('groupTree', $groupDetails);
 
-        foreach ($groupDetails as $group) {
-            $_groupTitle[]           = $group['name'];
+        foreach ($groupDetails as $key => $group) {
+            $_groupTitle[$key] = $group['name'];
             CRM_Core_ShowHideBlocks::links( $this, $group['name'], '', '');
             
             $groupId = $group['id'];
@@ -237,8 +304,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                                                                false, false, true );
             }
         }
-
-        $this->setShowHide($_groupTitle);
+        $this->setShowHide($_groupTitle , $groupDetails );
     }
     
     /**

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -353,17 +353,19 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     /**
      * function to check for mix profile fields (eg: individual + other contact types)
      *
-     * @params int $ufGroupId  uf group id 
+     * @params int     $ufGroupId  uf group id 
+     * @params boolean $check      this is to check mix profile (if true it will check if profile is
+     *                             pure ie. it contains only one contact type)
      *
      * @return  true for mix profile else false
      * @acess public
      * @static
      */
-    static function checkProfileType($ufGroupId) 
+    static function checkProfileType($ufGroupId, $check = false) 
     {
         $ufField =& new CRM_Core_DAO_UFField();
         $ufField->uf_group_id = $ufGroupId;
-        
+        $ufField->is_active = 1;
         $ufField->find();
         $fields = array( );
         
@@ -374,6 +376,12 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
                 $fields['Contribution'] += 1;
             } else {
                 $fields['Other'] +=1;
+            }
+        }
+        
+        if ($check) {
+            if (count($fields) > 1) {
+                return true;
             }
         }
         

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -88,12 +88,27 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */ 
     protected $_options ;
 
+    
+    /**
+     * stores the honor id
+     *
+     * @var boolean
+     * @protected 
+     */ 
+    protected $_honorID = null ;
+
     /**
      * Store the tree of custom data and fields
      *
      * @var array
      */
     protected $_groupTree;
+    /**
+     * Store the tree of custom data and fields
+     *
+     * @var array
+     */
+    protected $_contributionType;
 
     /** 
      * Function to set variables up before form is built 
@@ -106,6 +121,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                       $this, false, 'add' );
+        $contributionType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        $this->_contributionType = ( $contributionType != null) ? $contributionType : "Contribution";
+        
         $this->assign( 'action'  , $this->_action   ); 
 
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive',
@@ -139,8 +157,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
-
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0 );
+        
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $this->_contributionType);
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
     }
@@ -163,6 +181,27 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $defaults['receive_date'] = $now;
         }
         
+        if ($this->_contributionType) {
+            $defaults['contribution_type_id'] = $this->_contributionType;
+        }
+        
+        if ( $defaults['is_test']){
+            $this->assign( "is_test" , true);
+        }
+        if ($defaults["honor_contact_id"]) {
+            $honorDefault = array();
+            $this->_honorID = $defaults["honor_contact_id"];
+            $idParams = array( 'id' => $defaults["honor_contact_id"], 'contact_id' => $defaults["honor_contact_id"] );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $honorDefault, $ids );
+            
+            $defaults["honor_prefix"]    = $honorDefault["prefix_id"];
+            $defaults["honor_firstname"] = $honorDefault["first_name"];
+            $defaults["honor_lastname"]  = $honorDefault["last_name"];
+            $defaults["honor_email"]     = $honorDefault["location"][1]["email"][1]["email"];
+            $defaults["contribution_honor"]    = 1;
+        }
+       
+
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
@@ -212,13 +251,22 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                               );
             return;
         }
+
+        if ( $this->_id ) {
+            $url = "civicrm/contact/view/contribution&reset=1&action=update&id=$this->_id&cid=$this->_contactID&context=contribution";
+        } else {
+            $url = "civicrm/contact/view/contribution&reset=1&action=add&cid=$this->_contactID&context=contribution";
+        }
+        $url = CRM_Utils_System::url($url); 
+        $this->assign("refreshURL",$url);
+
         $this->buldPremiumForm($this);
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
                
-        $element =& $this->add('select', 'contribution_type_id', 
+        $element =& $this->addElement('select', 'contribution_type_id', 
                                ts( 'Contribution Type' ), 
                                array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ),
-                               true );
+                               array('onChange' => "reload(true)"),true );
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -247,8 +295,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->addElement('date', 'cancel_date', ts('Cancelled'), CRM_Core_SelectValues::date('manual', 3, 1)); 
         $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
-
+        
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
+        
+        $this->addElement('checkbox','contribution_honor', ts('Contribution is In Honor Of'),null, array('onclick' =>"showHonorOfDetails()"));
+        $this->add('select','honor_prefix',ts('Prefix') ,array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
+        $this->add('text','honor_firstname',ts(' First Name'));
+        $this->add('text','honor_lastname',ts('Last Name'));
+        $this->add('text','honor_email',ts('Email'));
 
         // add various amounts
         $element =& $this->add( 'text', 'non_deductible_amount', ts('Non-deductible Amount'),
@@ -338,6 +392,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */  
     static function formRule( &$fields, &$files, $self ) {  
         $errors = array( ); 
+      
+        if ($fields["contribution_honor"]) {
+            if ( !((  CRM_Utils_Array::value( 'honor_firstname', $fields ) && 
+                      CRM_Utils_Array::value( 'honor_lastname' , $fields )) ||
+                      CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
+                $errors['_qf_default'] = ts('Honor First Name and Last Name OR an email should be set.');
+            }
+            
+        }
         return $errors;
     }
 
@@ -357,9 +420,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         // get the submitted form values.  
-        $formValues = $this->controller->exportValues( $this->_name );
-        //print_r($formValues);
-
+        //$formValues = $this->controller->exportValues( $this->_name );
+        $formValues = $_POST;
+ 
         $config =& CRM_Core_Config::singleton( );
 
         $params = array( );
@@ -388,22 +451,33 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                         'receipt_date',
                         'thankyou_date',
                         'cancel_date' );
-        $currentTime = getDate();        
+
         foreach ( $dates as $d ) {
             if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
-                $formValues[$d]['H'] = $currentTime['hours'];
-                $formValues[$d]['i'] = $currentTime['minutes'];
+                $formValues[$d]['H'] = '00';
+                $formValues[$d]['i'] = '00';
                 $formValues[$d]['s'] = '00';
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
             }
         }
 
         $ids['contribution'] = $params['id'] = $this->_id;
-
+        if ($formValues["contribution_honor"]) {
+            if ( $this->_honorID ) {
+                $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues , $this->_honorID );
+            } else {
+                $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues );
+            }
+            $params["honor_contact_id"] = $honorId;
+        }
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
 
         // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $formValues );
+        
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $params['contribution_type_id']);
+        
+        CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $formValues );
+       
         
         //process premium
         if( $formValues['product_name'][0] ) {
@@ -428,7 +502,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $premium = $dao->save();
             }
         }
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, 'Contribution', $contribution->id);
+        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
     }
 
     /** 

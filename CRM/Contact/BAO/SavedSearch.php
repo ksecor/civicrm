@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -129,7 +129,7 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      *
      * @param int $id saved search id
      * @param  array $tables (reference ) add the tables that are needed for the select clause
-    * @param  array $whereTables (reference ) add the tables that are needed for the where clause
+     * @param  array $whereTables (reference ) add the tables that are needed for the where clause
      *
      * @return string the where clause for this saved search
      * @access public
@@ -141,7 +141,41 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
             return CRM_Contact_BAO_Query::getWhereClause( $params, null, $tables, $whereTables );
         }
         return null;
+    }
 
+    /**
+     * given a saved search compute the clause and the tables
+     * and store it for future use
+     */
+    function buildClause( ) {
+        $fv = unserialize( $this->form_values );
+
+        if ( $this->mapping_id ) {
+            require_once 'CRM/Core/BAO/Mapping.php';
+            $params = CRM_Core_BAO_Mapping::formattedFields( $fv );
+        } else {
+            require_once 'CRM/Contact/Form/Search.php';
+            $params = CRM_Contact_Form_Search::convertFormValues( $fv );
+        }
+
+        if ( ! empty( $params ) ) {
+            $tables = $whereTables = array( );
+            $this->where_clause = CRM_Contact_BAO_Query::getWhereClause( $params, null, $tables, $whereTables );
+            if ( ! empty( $tables ) ) {
+                $this->select_tables = serialize( $tables );
+            }
+            if ( ! empty( $whereTables ) ) {
+                $this->where_tables = serialize( $whereTables );
+            }
+        }
+
+        return;
+    }
+
+    function save( ) {
+        // first build the computed fields
+        $this->buildClause( );
+        parent::save( );
     }
 
     /**

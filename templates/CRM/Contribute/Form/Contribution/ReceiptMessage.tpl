@@ -9,11 +9,11 @@
 {ts}Membership Information{/ts}
 
 ===========================================================
-Membershiptype : {$membership_name}
+Membership Type : {$membership_name}
 
-Membership Start Date : {$mem_start_date}
+Membership Start Date : {$mem_start_date|crmDate}
 
-Membership End Date   : {$mem_end_date}
+Membership End Date   : {$mem_end_date|crmDate}
 
 {/if}
 ===========================================================
@@ -21,17 +21,30 @@ Membership End Date   : {$mem_end_date}
 
 ===========================================================
 {if $membership_amount } 
-{ts}Contribution Amount{/ts}:{$amount|crmMoney}
-{ts}{$membership_name} Membership:{$membership_amount|crmMoney}{/ts}
+{ts}Contribution Amount{/ts}: {$amount|crmMoney}
+{ts 1=$membership_name}%1 Membership{/ts}: {$membership_amount|crmMoney} 
 -------------------------------------------
-{ts}Total:{/ts}{$amount+$membership_amount|crmMoney}
+{ts}Total{/ts}: {$amount+$membership_amount|crmMoney}
 {else}
 {ts}Amount{/ts}: {$amount|crmMoney}
 {/if}
 {ts}Date{/ts}: {$receive_date|crmDate}
 {ts}Transaction #{/ts}: {$trxn_id}
 {if $membership_trx_id}
-{ts}Membership Transaction #{/ts}:{$membership_trx_id}
+{ts}Membership Transaction #{/ts}: {$membership_trx_id}
+
+{/if}
+
+{if $honor_block_is_active }
+===========================================================
+{ts}In Honor Of{/ts}
+
+===========================================================
+Prefix     :{$honor_prefix}
+First Name :{$honor_first_name}
+Last Name  :{$honor_last_name}
+Email      :{$honor_email}
+
 {/if}
 ===========================================================
 {ts}Billing Name and Address{/ts}
@@ -59,16 +72,16 @@ Membership End Date   : {$mem_end_date}
 ===========================================================
 {$product_name}
 {if $option}
-Option        : {$option}
+Option: {$option}
 {/if}
 {if $sku}
-SKU           : {$sku}
+SKU: {$sku}
 {/if}
 {if $start_date}
-Start Date    : {$start_date|crmDate}
+Start Date: {$start_date|crmDate}
 {/if}
-{if $end_date  }
-End Date      : {$end_date|crmDate}
+{if $end_date}
+End Date: {$end_date|crmDate}
 {/if}
 {if $contact_email OR $contact_phone}
 

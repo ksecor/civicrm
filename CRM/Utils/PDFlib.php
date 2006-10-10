@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
@@ -29,24 +29,26 @@
  * Class to handle capthca related image and verification
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
 
 class CRM_Utils_PDFlib {
     static function &compose( $fileName,
-                             $searchPath,
-                             &$values,
-                             $echo    = true,
-                             $output  = 'College_Prep_App',
-                             $creator = 'CiviCRM',
-                             $author  = 'http://www.civicrm.org/',
-                             $title   = '2006 College Prep Scholarship Application' ) {
+                              $searchPath,
+                              &$values,
+                              $numPages = 1,
+                              $echo    = true,
+                              $output  = 'College_Match_App',
+                              $creator = 'CiviCRM',
+                              $author  = 'http://www.civicrm.org/',
+                              $title   = '2006 College Match Scholarship Application' ) {
         try {
             $pdf = new PDFlib( );
             $pdf->set_parameter( "compatibility", "1.6");
+            $pdf->set_parameter( "licensefile", "/home/paras/bin/license/pdflib.txt");
 
             if ( $pdf->begin_document( '', '' ) == 0 ) {
                 CRM_Utils_Error::statusBounce( "PDFlib Error: " . $pdf->get_errmsg( ) );
@@ -70,7 +72,7 @@ class CRM_Utils_PDFlib {
                 CRM_Utils_System::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );
             }
 
-            for ( $i = 1; $i  <= 6; $i++ ) {
+            for ( $i = 1; $i  <= $numPages; $i++ ) {
                 $page = $pdf->open_pdi_page( $blockContainer, $i, '' );
                 if ( $page == 0 ) {
                     CRM_Utils_System::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );

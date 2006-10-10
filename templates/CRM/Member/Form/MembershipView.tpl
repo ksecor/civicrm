@@ -9,8 +9,10 @@
         <dt>{ts}Join date{/ts}</dt><dd>{$join_date}&nbsp;</dd>
         <dt>{ts}Start date{/ts}</dt><dd>{$start_date}&nbsp;</dd>
         <dt>{ts}End date{/ts}</dt><dd>{$end_date}&nbsp;</dd>
+        {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
+
 </fieldset>  
 </div>  
  

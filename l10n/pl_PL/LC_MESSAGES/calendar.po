@@ -1,12 +1,12 @@
 # CiviCRM Polish calendar file
-# Copyright (C) 2005 Donald A. Lobo
+# copyright CiviCRM LLC (c) 2004-2006
 # This file is distributed under the same license as the CiviCRM package.
 # Piotr Szotkowski <shot@caltha.pl>, 2005
 # 
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM trunk\n"
+"Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-13 17:52+0200\n"
 "PO-Revision-Date: 2005-10-13 17:52+0200\n"

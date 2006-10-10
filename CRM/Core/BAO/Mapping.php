@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -294,7 +294,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * @access public
      * @static
      */
-    static function buildMappingForm($form, $mappingType = 'Export', $mappingId = null, $columnNo, $blockCount = 3 ) 
+    static function buildMappingForm(&$form, $mappingType = 'Export', $mappingId = null, $columnNo, $blockCount = 3 ) 
     {
         if ($mappingType == 'Export') {
             $name = "Map";
@@ -346,7 +346,9 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $form->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
             $form->addFormRule( array( 'CRM_Contact_Form_Task_Export_Map', 'formRule' ) );
         } else  if ($mappingType == 'Search Builder') { 
-            $form->addElement('submit', "addBlock", 'Also include contacts where', array( 'class' => 'form-submit submit-link' ) );
+            $form->addElement('submit', "addBlock", "Also include contacts where", 
+                              array( 'class' => 'submit-link')
+                              );
         }
         
         $defaults        = array( );
@@ -400,7 +402,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $locationTypes = array (' ' => ts('Primary')) + $locationTypes;
 
 
-        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType() + $compArray;
+        $sel1 = array('' => '-select record type-') + CRM_Core_SelectValues::contactType() + $compArray;
         
         foreach($sel1 as $key=>$sel ) {
             if($key) {
@@ -531,7 +533,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
                 
                 if ($mappingType == 'Search Builder') {
-                    $operatorArray = array ('=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
+                    $operatorArray = array ('' => '-operator-', '=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
                                             '>=' => '>=', '<=' => '<=', 'IN' => 'IN',
                                             'NOT IN' => 'NOT IN', 'LIKE' => 'LIKE', 'NOT LIKE' => 'NOT LIKE');
                     
@@ -614,6 +616,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         foreach ( $v as $i ) {
                             $value[$i] = 1;
                         }
+                    }
+
+                    if ( $v[0] == 'Contribution' ) {
+                        $fldName = 'contribution_' . $fldName;
                     }
 
                     if ( $row ) {

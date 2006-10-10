@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -101,12 +101,12 @@ class CRM_Activity_Form extends CRM_Core_Form
         }
         $this->_status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                       $this, false );
-        
+        require_once 'CRM/Core/BAO/OptionValue.php';
         if ($this->_activityType == 'Activity') {
-            $this->assign('ActivityTypeDescription', CRM_Core_BAO_ActivityType::getActivityDescription());
+            $this->assign('ActivityTypeDescription', CRM_Core_BAO_OptionValue::getActivityDescription());
         }
         
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_activityType, $this->_id, 0);
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_id, 0,$this->_activityType);
     }
 
     /**
@@ -126,7 +126,6 @@ class CRM_Activity_Form extends CRM_Core_Form
 
             require_once "CRM/Activity/BAO/Activity.php";
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityType );
-            
             if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
                 $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
             }
@@ -174,7 +173,12 @@ class CRM_Activity_Form extends CRM_Core_Form
             $viewMode = false;
             $inactiveNeeded = false;
         }
-
+        
+        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        if ( $subType ) {
+            $defaults["activity_type_id"] = $subType;
+        }
+       
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }

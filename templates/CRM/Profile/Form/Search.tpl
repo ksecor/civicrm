@@ -1,5 +1,15 @@
 {if ! empty( $fields )}
-<p>
+ {if $groupId }
+    <div id="id_{$groupId}_show" class="data-group">
+       <a href="#" onclick="hide('id_{$groupId}_show'); show('id_{$groupId}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}New Search{/ts}</label><br />
+    </div>
+
+    <div id="id_{$groupId}">
+      <fieldset><legend><a href="#" onclick="hide('id_{$groupId}'); show('id_{$groupId}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Search Criteria{/ts}</legend>
+{else}
+    <div>
+{/if}
+
     <table class="form-layout-compressed">
     {foreach from=$fields item=field key=name}
         {assign var=n value=$field.name}
@@ -50,5 +60,27 @@
     {/foreach}
     <tr><td></td><td>{$form.buttons.html}</td></tr>
     </table>
-</p>
+</div>
+
+{if $groupId}
+<script type="text/javascript">
+    {if empty($rows) }
+	var showBlocks = new Array("id_{$groupId}");
+        var hideBlocks = new Array("id_{$groupId}_show");
+    {else}
+	var showBlocks = new Array("id_{$groupId}_show");
+        var hideBlocks = new Array("id_{$groupId}");
+    {/if}
+    {* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showBlocks, hideBlocks );
+</script>
+{/if}
+
+{else}
+    <div class="messages status">
+      <dl>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+        <dd>{ts}No fields in this Profile have been configured as searchable. Ask the site administrator to check the Profile setup.{/ts}</dd>
+      </dl>
+    </div>
 {/if}

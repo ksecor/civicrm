@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -76,23 +76,17 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View {
                                                      $this, false, 'view');
         $this->assign( 'action', $this->_action);
 
-        // check for permissions
-        $this->_permission = null;
-        if( CRM_Contact_BAO_Contact::permissionedContact( $uid, CRM_Core_Permission::VIEW ) ) {
-            $this->assign( 'permission', 'view' );
-            $this->_permission = CRM_Core_Permission::VIEW;
-        } else {
-            CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this contact.') );
-        }
-        
+        // a user can always view their own activity history
+        // if they have access CiviCRM permission
+        $this->_permission = CRM_Core_Permission::VIEW;
         
         // also add the cid params to the Menu array
         CRM_Core_Menu::addParam( 'cid', $uid );
         
-        $this->assign('viewForm',$form);
-        $this->assign('showBlocks1',$showBlocks);
-        $this->assign('hideBlocks1',$hideBlocks);
-        $this->assign('groupTree', $_groupTree);
+        $this->assign( 'viewForm'   , $form       );
+        $this->assign( 'showBlocks1', $showBlocks );
+        $this->assign( 'hideBlocks1', $hideBlocks );
+        $this->assign( 'groupTree'  , $_groupTree );
         
         $displayName = $this->get( 'displayName' );
         

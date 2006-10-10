@@ -1,9 +1,9 @@
 <?php
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 1.5                                                |
+   | CiviCRM version 1.6                                                |
    +--------------------------------------------------------------------+
-   | Copyright (c) 2005 Donald A. Lobo                                  |
+   | Copyright CiviCRM LLC (c) 2004-2006                                  |
    +--------------------------------------------------------------------+
    | This file is a part of CiviCRM.                                    |
    |                                                                    |
@@ -18,10 +18,10 @@
    |                                                                    |
    | You should have received a copy of the Affero General Public       |
    | License along with this program; if not, contact the Social Source |
-   | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
-   | questions about the Affero General Public License or the licensing |
+   | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+   | about the Affero General Public License or the licensing  of       |
    | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
-   | at http://www.openngo.org/faqs/licensing.html                      |
+   | http://www.civicrm.org/licensing/                                 |
    +--------------------------------------------------------------------+
   */
 
@@ -29,13 +29,14 @@
    *
    *
    * @package CRM
-   * @author Donald A. Lobo <lobo@yahoo.com>
-   * @copyright Donald A. Lobo (c) 2005
+   * @author Donald A. Lobo <lobo@civicrm.org>
+   * @copyright CiviCRM LLC (c) 2004-2006
    * $Id$
    *
    */
 
 require_once 'CRM/Member/DAO/Membership.php';
+require_once 'CRM/Member/DAO/MembershipType.php';
 
 require_once 'CRM/Core/BAO/CustomField.php';
 require_once 'CRM/Core/BAO/CustomValue.php';
@@ -78,7 +79,11 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         } else {
             CRM_Utils_Hook::pre( 'create', 'Membership', null, $params ); 
         }
-        
+        // converting dates to mysql format
+        $params['join_date']  = CRM_Utils_Date::isoToMysql($params['join_date']);
+        $params['start_date'] = CRM_Utils_Date::isoToMysql($params['start_date']);
+        $params['end_date']   = CRM_Utils_Date::isoToMysql($params['end_date']);
+
         $membership =& new CRM_Member_BAO_Membership();
         $membership->copyValues($params);
         $membership->id = CRM_Utils_Array::value( 'membership', $ids );
@@ -298,7 +303,7 @@ UPDATE civicrm_membership_type
      * @param int $pageId 
      * @static
      */
-    function buildMembershipBlock( $form , $pageID , $formItems = false, $selectedMembershipID = null ,$thankPage = false ) {
+    function buildMembershipBlock( &$form , $pageID , $formItems = false, $selectedMembershipID = null ,$thankPage = false ) {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
         require_once 'CRM/Member/DAO/MembershipType.php';
         require_once 'CRM/Member/DAO/Membership.php';
@@ -375,7 +380,7 @@ UPDATE civicrm_membership_type
                 } else {
                     $form->addGroup($radio,'selectMembership',null);
                 }
-                $form->addRule('selectMembership',ts("Plese select one of the Memebership "),'required');
+                $form->addRule('selectMembership',ts("Please select one of the memeberships"),'required');
             }
             
             $form->assign( 'membershipBlock' , $membershipBlock );
@@ -433,9 +438,60 @@ UPDATE civicrm_membership_type
         return false;
     }
 
+    /**
+     * combine all the importable fields from the lower levels object
+     *
+     * @return array array of importable Fields
+     * @access public
+     */
+    function &importableFields( $contacType = 'Individual' ) {
+        if ( ! self::$_importableFields ) {
+            if ( ! self::$_importableFields ) {
+                self::$_importableFields = array();
+            }
+            if (!$status) {
+                $fields = array( '' => array( 'title' => ts('- do not import -') ) );
+            } else {
+                $fields = array( '' => array( 'title' => ts('- Membership Fields -') ) );
+            }
+            
+            $tmpFields     = CRM_Member_DAO_Membership::import( );
+            //$tmpFields     = array_merge($tmpFields, CRM_Member_DAO_MembershipType::import( ));
+            //print_r($tmpFields);
+            //unset($tmpFields['option_value']);
+            //require_once 'CRM/Core/OptionValue.php';
+            //$optionFields = CRM_Core_OptionValue::getFields($mode ='member' );
+            //$contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
+            if ($contacType == 'Individual') {
+                require_once 'CRM/Core/DAO/DupeMatch.php';
+                $dao = & new CRM_Core_DAO_DupeMatch();
+                $dao->find(true);
+                $fieldsArray = explode('AND',$dao->rule);
+            } elseif ($contacType == 'Household') {
+                $fieldsArray = array('household_name', 'email');
+            } elseif ($contacType == 'Organization') {
+                $fieldsArray = array('organization_name', 'email');
+            }
+            $tmpConatctField = array();
+            if( is_array($fieldsArray) ) {
+                foreach ( $fieldsArray as $value) {
+                    $tmpConatctField[trim($value)] = $contactFields[trim($value)];
+                    $tmpConatctField[trim($value)]['title'] = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                }
+            }
+            $fields = array_merge($fields, $tmpConatctField);
+            $fields = array_merge($fields, $tmpFields);
+            //$fields = array_merge($fields, $optionFields);
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));
+            self::$_importableFields = $fields;
+        }
+        return self::$_importableFields;
+    }
+
     function &exportableFields( ) { 
-        require_once 'CRM/Member/DAO/Membership.php';
-        require_once 'CRM/Member/DAO/MembershipType.php';
+//         require_once 'CRM/Member/DAO/Membership.php';
+//         require_once 'CRM/Member/DAO/MembershipType.php';
         //$impFields = self::importableFields( );
         $expFieldMembership = CRM_Member_DAO_Membership::export( );
         $expFieldsMemType   = CRM_Member_DAO_MembershipType::export( );
@@ -445,7 +501,6 @@ UPDATE civicrm_membership_type
     }
     
     function getMembershipSummary( $membershipTypeId ,$membershipTypeName = null) {
-        
         $membershipSummary = array();
         $queryString =  "SELECT  count( id ) as total_count
 FROM   civicrm_membership
@@ -486,13 +541,20 @@ civicrm_membership_status.is_current_member =1";
         }
 
         return $membershipSummary;
-        
-        
     }
-
+    
+    function statusAvilability($contactId) 
+    {
+        require_once 'CRM/Member/DAO/MembershipStatus.php';
+        $membership =& new CRM_Member_DAO_MembershipStatus( );
+        $membership->whereAdd('1');
+        $count = $membership->count();
+        
+        if(!$count){
+            $session =& CRM_Core_Session::singleton( );
+            CRM_Core_Session::setStatus(ts('There are no status present, You can not add membership.'));
+            return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view/membership', "reset=1&force=1&cid={$contactId}"));
+        }
+    }
 }
-
-
-
-
 ?>

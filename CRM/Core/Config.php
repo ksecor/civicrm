@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -31,8 +31,8 @@
  * The default values in general, should reflect production values (minimizes chances of screwing up)
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -80,28 +80,28 @@ class CRM_Core_Config {
      * the root directory of our template tree
      * @var string
      */
-    public $templateDir		  = './templates';
+    public $templateDir		  = './templates/';
 
     /**
      * The root directory where Smarty should store
      * compiled files
      * @var string
      */
-    public $templateCompileDir  = './templates_c';
+    public $templateCompileDir  = './templates_c/en_US/';
 
     /**
      * The root url of our application. Used when we don't
      * know where to redirect the application flow
      * @var string
      */
-    public $mainMenu            = 'http://localhost/drupal/';
+    public $mainMenu            = null;
 
     /**
      * The resourceBase of our application. Used when we want to compose
      * url's for things like js/images/css
      * @var string
      */
-    public $resourceBase        = "http://localhost/drupal/crm/";
+    public $resourceBase        = null;
 
     /**
      * the factory class used to instantiate our DB objects
@@ -128,12 +128,6 @@ class CRM_Core_Config {
      * The url that we can use to display the uploaded images
      */
     public $imageUploadURL   = null;
-
-     /**
-     * The url that we can use to display the uploaded images
-     */
-    public $customUploadURL   = null;
-    
 
     /**
      * Are we generating clean url's and using mod_rewrite
@@ -389,6 +383,20 @@ class CRM_Core_Config {
     public $maxLocationBlocks        = 2;
 
     /**
+     * the font path where captcha fonts are stored
+     *
+     * @var string
+     */
+    public $captchaFontPath = null;
+
+    /**
+     * the font to use for captcha
+     *
+     * @var string
+     */
+    public $captchaFont = null;
+    
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -488,26 +496,22 @@ class CRM_Core_Config {
         }
 
         if (defined('CIVICRM_SMARTYDIR')) {
-            $this->smartyDir = CIVICRM_SMARTYDIR;
+            $this->smartyDir = self::addTrailingSlash(CIVICRM_SMARTYDIR);
         }
 
         if (defined('CIVICRM_PLUGINSDIR')) {
-            $this->pluginsDir = CIVICRM_PLUGINSDIR;
+            $this->pluginsDir = self::addTrailingSlash(CIVICRM_PLUGINSDIR);
         }
 
         if (defined('CIVICRM_TEMPLATEDIR')) {
-            $this->templateDir = CIVICRM_TEMPLATEDIR;
+            $this->templateDir = self::addTrailingSlash(CIVICRM_TEMPLATEDIR);
         }
 
         if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
-            $this->templateCompileDir = CIVICRM_TEMPLATE_COMPILEDIR;
+            $this->templateCompileDir = self::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
 
             // make sure this directory exists
             CRM_Utils_File::createDir( $this->templateCompileDir );
-        }
-
-        if ( defined( 'CIVICRM_RESOURCEBASE' ) ) {
-            $this->resourceBase = self::addTrailingSlash( CIVICRM_RESOURCEBASE, '/' );
         }
 
         if ( defined( 'CIVICRM_UPLOADDIR' ) ) {
@@ -520,10 +524,6 @@ class CRM_Core_Config {
             $this->imageUploadDir = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADDIR );
 
             CRM_Utils_File::createDir( $this->imageUploadDir );
-        }
-
-        if ( defined( 'CIVICRM_CUSTOM_FILE_UPLOADURL' ) ) {
-            $this->customUploadURL = self::addTrailingSlash( CIVICRM_CUSTOM_FILE_UPLOADURL, '/' );
         }
 
         if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
@@ -570,7 +570,7 @@ class CRM_Core_Config {
             $this->lcMessages = CIVICRM_LC_MESSAGES;
 
             // reset the templateCompileDir to locale-specific and make sure it exists
-            $this->templateCompileDir .= DIRECTORY_SEPARATOR . $this->lcMessages;
+            $this->templateCompileDir .= self::addTrailingSlash($this->lcMessages);
             CRM_Utils_File::createDir( $this->templateCompileDir );
         }
         
@@ -695,6 +695,7 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
             $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
+            $this->resourceBase             = $this->userFrameworkResourceURL;
         }
 
         if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
@@ -739,7 +740,8 @@ class CRM_Core_Config {
         if ( defined( 'CIVICRM_GEOCODE_METHOD' ) ) {
             if ( CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_ZipTable' ||
                  CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_RPC'      ||
-                 CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_Yahoo' ) {
+                 CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_Yahoo'    ||
+                 CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_Google') {
                 $this->geocodeMethod = CIVICRM_GEOCODE_METHOD;
             }
         }
@@ -778,6 +780,14 @@ class CRM_Core_Config {
 
         if ( defined( 'CIVICRM_MAX_LOCATION_BLOCKS' ) ) {
             $this->maxLocationBlocks = CIVICRM_MAX_LOCATION_BLOCKS;
+        }
+
+        if ( defined( 'CIVICRM_CAPTCHA_FONT_PATH' ) ) {
+            $this->captchaFontPath = self::addTrailingSlash( CIVICRM_CAPTCHA_FONT_PATH );
+        }
+
+        if ( defined( 'CIVICRM_CAPTCHA_FONT' ) ) {
+            $this->captchaFont = CIVICRM_CAPTCHA_FONT;
         }
 
         require_once 'CRM/Core/Component.php';

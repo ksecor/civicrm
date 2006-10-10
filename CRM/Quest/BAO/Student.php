@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -47,9 +47,20 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
      * array that contains student fields that takes multiple options.
      *
      */
-    static $multipleSelectFields = array ('educational_interest' => 1,  'college_type' => 1,'college_interest' => 1, 'test_tutoring' => 1);
-    
-    
+    static $multipleSelectFields = array ('educational_interest' => 1,  
+                                          'college_type'         => 1,
+                                          'college_interest'     => 1, 
+                                          'test_tutoring'        => 1,
+                                          
+                                          'cmr_first_generation_id' => 1, // readers fields
+                                          'cmr_income_increase_id'  => 1,
+                                          'cmr_need_id'             => 1, 
+                                          'cmr_grade_id'            => 1, 
+                                          'cmr_class_id'            => 1, 
+                                          'cmr_score_id'            => 1, 
+                                          'cmr_academic_id'         => 1, 
+                                          'cmr_disposition_id'      => 1
+                                          );
     
     /**
      * class constructor
@@ -75,12 +86,13 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         if( $ids['id'] ) {
             $dao->id = $ids['id'];
         }
+        
         $dao->save();
+
         return $dao;
     }
 
     static function retrieve( &$params, &$defaults, &$ids ) {
-
         $dao = & new CRM_Quest_DAO_Student();
         $dao->contact_id = $params['contact_id'];
         if ( $dao->find( true ) ) {
@@ -88,8 +100,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $ids['student_id'] = $dao->id;
             $names = array( 'citizenship_status_id' => array( 'newName' => 'citizenship_status',
                                                               'groupName' => 'citizenship_status' ),
-                            'gpa_id'                => array( 'newName' => 'gpa', 
-                                                              'groupName' => 'gpa' ),
+                            'gpa_weighted_id'      => array( 'newName' => 'gpa_weighted', 
+                                                              'groupName' => 'gpa_weighted' ),
+                            'gpa_unweighted_id'    => array( 'newName' => 'gpa_unweighted', 
+                                                              'groupName' => 'gpa_unweighted' ),
                             'ethnicity_id_1'        => array( 'newName' => 'ethnicity_1', 
                                                               'groupName' => 'ethnicity' ),
                             'ethnicity_id_2'        => array( 'newName' => 'ethnicity_2', 
@@ -112,7 +126,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
     }
 
     static function exportableFields( ) {
-        $fields = CRM_Quest_DAO_Student::export( );
+        require_once "CRM/Quest/DAO/StudentSummary.php";
+        $student = CRM_Quest_DAO_Student::export( );
+        $studentSummary = CRM_Quest_DAO_StudentSummary::export( );
+        $fields = array_merge($student, $studentSummary);
         return $fields;
     }
 
@@ -127,7 +144,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
      * @static 
      * @return void
      */
-    static function studentDetails( $id ,&$details ) {
+    static function studentDetails( $id ,&$details, $summary = false ) {
         
         require_once 'CRM/Quest/DAO/Student.php';
 
@@ -138,23 +155,42 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             return false;
         }
 
-        self::household( $id, $details );
+        self::studentSummary( $id, $details );
+        
+        if ( ! $summary ) {
+            self::household( $id, $details );
+        }
 
         self::guardian( $id, $details, true );
-
-        self::guardian( $id, $details, false );
-
-        self::income( $id, $details );
-
-        self::school( $id, $details );
-
+            
+        if ( ! $summary ) {
+            self::guardian( $id, $details, false );
+            
+            self::income( $id, $details );
+            
+            self::school( $id, $details );
+        }
+            
         self::test( $id, $details );
+            
+        if ( ! $summary ) {
+            self::essay( $id, $details );
+            
+            self::referral( $id, $details );
+            
+            self::partnerRelative( $id, $details );
+            
+            self::extracurricular ( $id, $details );
+            
+            self::workexperience( $id, $details );
+            
+            self::transcript ( $id, $details );
+            
+            self::honor( $id, $details );
+        }
 
-        self::essay( $id, $details );
-
-        self::referral( $id, $details );
-
-        self::honor( $id, $details );
+        self::partnerRanking($id, $details);
+        
 
         /**
         CRM_Core_Error::debug( $id, $details );
@@ -228,8 +264,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                                            'groupName' => 'college_type' ),
                         'college_interest'       => array( 'newName' => 'college_interest_display', 
                                                            'groupName' => 'college_interest' ),
-                        'gpa_id'                => array( 'newName' => 'gpa', 
-                                                          'groupName' => 'gpa' ),
+                        'gpa_weighted_id'        => array( 'newName' => 'gpa_weighted', 
+                                                           'groupName' => 'gpa_weighted' ),
+                        'gpa_unweighted_id'      => array( 'newName' => 'gpa_unweighted', 
+                                                           'groupName' => 'gpa_unweighted' ),
                         'ethnicity_id_1'        => array( 'newName' => 'ethnicity_1', 
                                                           'groupName' => 'ethnicity' ),
                         'ethnicity_id_2'        => array( 'newName' => 'ethnicity_2', 
@@ -253,8 +291,11 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Core/OptionGroup.php';
         CRM_Core_OptionGroup::lookupValues( $studentDetails, $names, false);
 
-        $details['Student']    = array( );
+        if ( ! array_key_exists( 'Student', $details ) ) {
+            $details['Student']    = array( );
+        }
         foreach ( $names as $key => $value ) {
+            $details['Student'][$key]              = $studentDetails[$key];
             $details['Student'][$value['newName']] = $studentDetails[$value['newName']];
         }
 
@@ -282,7 +323,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                              'is_home_computer', 'is_home_internet', 'is_take_SAT_ACT',
                              'educational_interest_other', 'college_interest_other',
                              'is_class_ranking', 'class_rank', 'class_num_students',
-                             'gpa_explanation', 'test_tutoring', 'household_income_total',
+                             'gpa_explanation', 'test_tutoring',
                              'high_school_grad_year',
                              'number_siblings', 'financial_aid_applicant',
                              'register_standarized_tests' );
@@ -304,7 +345,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $multiSelectElements = array( 'educational_interest', 'college_type', 'college_interest' );
         foreach ( $multiSelectElements as $key ) {
             $details['Student']["{$key}_ids"] = str_replace( "\001", ",", $studentDetails[$key] );
-
+            unset($details['Student']["{$key}"]);
             $elements = explode( ',', $details['Student']["{$key}_display"] );
             foreach ( $elements as $el ) {
                 $el = trim( $el );
@@ -313,11 +354,64 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 }
                 $el = strtolower( $el );
                 $el = str_replace( ' ', '_', $el );
+                $el = str_replace( '/', '_OR_', $el );
+                $el = str_replace( '(', '', $el );
+                $el = str_replace( ')', '', $el );
                 $details['Student']["{$key}_{$el}"] = "x";
             }
         }
 
         return true;
+    }
+
+    static function studentSummary( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/StudentSummary.php';
+        $dao             = & new CRM_Quest_DAO_StudentSummary();
+        $dao->contact_id = $id;
+        if ( ! $dao->find(true) ) {
+            return false;
+        }
+
+        $studentDetails    = array();
+        CRM_Core_DAO::storeValues( $dao, $studentDetails);
+
+        if ( ! array_key_exists( 'Student', $details ) ) {
+            $details['Student'] = array( );
+        }
+        $properties = array( 'gpa_unweighted_calc', 'gpa_weighted_calc', 'SAT_composite',
+                             'SAT_composite_alt', 'SAT_reading', 'SAT_math', 'SAT_writing',
+                             'ACT_composite', 'ACT_english', 'ACT_reading', 'ACT_math', 'ACT_science',
+                             'PSAT_composite', 'PLAN_composite', 'household_income_total',
+                             'household_member_count','academic_index','financial_need_index','cmr_comment' );
+        foreach ( $properties as $key ) {
+            $details['Student'][$key] = $studentDetails[$key];
+        }
+        
+        $names = array( 'cmr_disposition_id'        => array( 'newName'     => 'cmr_disposition',
+                                                              'groupName'   => 'cmr_disposition' ),
+                        'cmr_first_generation_id'   => array( 'newName'     => 'cmr_first_generation',
+                                                              'groupName'   => 'cmr_first_generation' ),
+                        'cmr_income_increase_id'    => array( 'newName'     => 'cmr_income_increase', 
+                                                              'groupName'   => 'cmr_income_increase' ),
+                        'cmr_need_id'               => array( 'newName'     => 'cmr_need', 
+                                                              'groupName'   => 'cmr_need' ),
+                        'cmr_grade_id'              => array( 'newName'     => 'cmr_grade', 
+                                                              'groupName'   => 'cmr_grade' ),
+                        'cmr_class_id'              => array( 'newName'     => 'cmr_class', 
+                                                              'groupName'   => 'cmr_class' ),
+                        'cmr_score_id'              => array( 'newName'     => 'cmr_score', 
+                                                              'groupName'   => 'cmr_score' ),
+                        'cmr_academic_id'           => array( 'newName'     => 'cmr_academic', 
+                                                              'groupName'   => 'cmr_academic' ),
+                        );
+
+        require_once 'CRM/Core/OptionGroup.php';
+        CRM_Core_OptionGroup::lookupValues( $studentDetails, $names, false);
+        
+        foreach ( $names as $key => $value ) {
+            $details['Student'][$key]              = $studentDetails[$key];
+            $details['Student'][$value['newName']] = $studentDetails[$value['newName']];
+        }
     }
 
     static function household( $id, &$details ) {
@@ -343,6 +437,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
             foreach ( $properties as $prop ) {
                 $details[$prefix][$prop] = $defaults[$prop];
+            }
+
+            foreach ( $names as $name => $dontCare ) {
+                $details["{$prefix}_$count"][$name] = $defaults[$name];
             }
 
             for ( $j = 1; $j <= 2; $j++ ) {
@@ -371,6 +469,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         $properties = array( 'id', 'first_name', 'last_name', 'is_deceased',
                              'job_organization', 'job_occupation', 'job_current_years',
+                             'is_contact_with_student',
                              'college_name', 'college_grad_year', 'college_major',
                              'prof_school_name', 'lived_with_from_age', 'lived_with_to_age',
                              'description' );
@@ -405,6 +504,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             foreach ( $properties as $key ) {
                 $details["{$prefix}_$count"][$key] = $personDetails[$key];
             }
+            
+            foreach ( $names as $name => $dontCare ) {
+                $details["{$prefix}_$count"][$name] = $personDetails[$name];
+            }
 
             if ( $details["{$prefix}_$count"]['is_deceased'] ) {
                 $details["{$prefix}_$count"]['deceased_yes'] = 'x';
@@ -429,6 +532,59 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $count++;
         }
     }
+
+    static function extracurricular ( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/Extracurricular.php';
+
+        $dao =& new CRM_Quest_DAO_Extracurricular( );
+        $dao->contact_id = $id;
+        $dao->owner      = "Extracurricular";    
+        $dao->find() ;
+        $count = 0;
+        while ( $dao->fetch( ) ) {
+            $count++;
+            $prefix = "Extracurricular_".$count;
+            $details[$prefix]['activity']      = $dao->description;   
+            $details[$prefix]['grade_level_9'] = $dao->is_grade_9;
+            $details[$prefix]['grade_level_10'] = $dao->is_grade_10;
+            $details[$prefix]['grade_level_11'] = $dao->is_grade_11;
+            $details[$prefix]['grade_level_12'] = $dao->is_grade_12;
+            $details[$prefix]['grade_level_PS'] = $dao->is_post_secondary;
+            $details[$prefix]['positions']     = $dao->position_honor;
+            $details[$prefix]['hours_per_week']  = $dao->weekly_hours;
+            $details[$prefix]['Weeks_per_year']  = $dao->annual_weeks;
+            
+            foreach ( $details[$prefix] as $key => $value ) {
+                if (substr( $key ,0 ,11 ) == "grade_level") {
+                    if ( $details[$prefix][$key] ) {
+                        $details[$prefix][$key] = "x";
+                    }
+                }
+            }
+        
+
+        }
+       
+    }
+    
+    static function workexperience( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/WorkExperience.php';
+        $dao = &new CRM_Quest_DAO_WorkExperience();
+        $dao->contact_id = $id;
+        $dao->find() ;
+        $count = 0;
+        while ( $dao->fetch() ){
+            $count++;
+            $prefix = "WorkExperience_".$count;
+            $details[$prefix]['nature_of_work'] = $dao->description;
+            $details[$prefix]['employer'] = $dao->employer;
+            $details[$prefix]['start_date'] =  $dao->start_date;
+            $details[$prefix]['end_date']   =  $dao->end_date;
+            $details[$prefix]['hrs'] = $dao->weekly_hours;
+        } 
+        
+    }
+    
 
     static function income( $id, &$details ) {
 
@@ -461,11 +617,12 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
             for ( $i = 1; $i <= 3; $i++ ) {
                 if ( ! empty( $incomeDetails["amount_$i"] ) ) {
-                    $details["Income_$count"]['first_name'] = $dao->first_name;
-                    $details["Income_$count"]['last_name']  = $dao->last_name;
-                    $details["Income_$count"]['job']        = $incomeDetails["job_$i"];
-                    $details["Income_$count"]['amount']     = $incomeDetails["amount_$i"];
-                    $details["Income_$count"]['source']     = $incomeDetails["source_$i"];
+                    $details["Income_$count"]['first_name']      = $dao->first_name;
+                    $details["Income_$count"]['last_name']       = $dao->last_name;
+                    $details["Income_$count"]['job']             = $incomeDetails["job_$i"];
+                    $details["Income_$count"]['amount']          = $incomeDetails["amount_$i"];
+                    $details["Income_$count"]['source']          = $incomeDetails["source_$i"];
+                    $details["Income_$count"]["source_{$i}_$id"] = $incomeDetails["source_$i"];
                     $count++;
                 }
             }
@@ -481,9 +638,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Contact/BAO/Relationship.php';
         require_once  'CRM/Core/BAO/CustomGroup.php';
         $relationship  = CRM_Contact_BAO_Relationship::getRelationship( $id );
-
+        
         foreach( $relationship as $key => $value ) {
-            if ($value['relation'] == 'Student of' ) {
+            if ($value['relation'] == 'Attends School' ) {
                 $params = array( 'contact_id' => $value['cid'],
                                  'id'         => $value['cid']);
                 $ids = array();
@@ -560,45 +717,122 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                                    'groupName' => 'ap_subject' ),
                        );
 
-        $apCount = $satIICount = 0;
+        $satCount = $apCount = $satIICount = 0;
         while( $testDAO->fetch() ) {
             //test details
-            $testDetails = array();
+            if ( $testDAO->test_id != 350) {
+                $testDetails = array();
+                
+                CRM_Core_DAO::storeValues( $testDAO, $testDetails );
+                
+                if ( $testDetails['test_id'] == 291 ) {
+                    $names['subject_id']['groupName'] = 'satII_subject';
+                } else if ( $testDetails['test_id'] == 292 ) {
+                    $names['subject_id']['groupName'] = 'ap_subject';
+                }
+                
+                $testDetails['subject_id'] = $testDetails['subject'];
+                
+                CRM_Core_OptionGroup::lookupValues( $testDetails , $names, false);
+
+                $prefix = 'test_' . str_replace(" " , "_" , $testDetails['test']);
+                switch ( $testDetails['test_id'] ) {
+                case 290:
+                    $satCount++;
+                    $prefix .= "_{$satCount}";
+                    break;
+
+                case 291:
+                    $satIICount++;
+                    $prefix .= "_{$satIICount}";
+                    break;
+                    
+                case 292:
+                    $apCount++;
+                    $prefix .= "_{$apCount}";
+                    break;
+
+                default:
+                    break;
+                }
+
+                $details[$prefix] = $testDetails;
+            }
+        }
+    }
+
+    static function transcript( $id, &$details ) {
         
-            CRM_Core_DAO::storeValues( $testDAO, $testDetails );
-
-            if ( $testDetails['test_id'] == 291 ) {
-                $names['subject_id']['groupName'] = 'satII_subject';
-            } else if ( $testDetails['test_id'] == 292 ) {
-                $names['subject_id']['groupName'] = 'ap_subject';
+        require_once 'CRM/Quest/DAO/Transcript.php';
+        $daoTrn = &new CRM_Quest_DAO_Transcript();
+        $daoTrn->contact_id  = $id;
+        $daoTrn->find();
+        $honors = CRM_Core_OptionGroup::values( 'academic_honor_status' );
+        while ( $daoTrn->fetch() ) {
+            $prefix = "transcript_".$daoTrn->school_year;
+            $transcriptId = $daoTrn->id;
+            require_once 'CRM/Quest/DAO/TranscriptCourse.php';
+            $dao = &new CRM_Quest_DAO_TranscriptCourse();
+            $dao->transcript_id = $transcriptId;
+            $dao->find();
+            $count = 0;
+            while( $dao->fetch() ) {
+                $count++;
+                $details[$prefix]['academic_subject_id_'.$count] = $dao->academic_subject_id;
+                $details[$prefix]['course_title_'.$count]        = $dao->course_title; 
+                $details[$prefix]['academic_credit_'.$count]     = $dao->academic_credit;
+                if ( $dao->academic_honor_status_id ) {
+                    $details[$prefix]['academic_honor_status_id_'.$count] = $dao->academic_honor_status_id;
+                    $details[$prefix]['academic_honor_status_'.$count] = $honors[$dao->academic_honor_status_id];
+                }
+                $details[$prefix]['summer_year_'.$count] =  $dao->summer_year ;
+                for ($j = 1; $j<=4; $j++ ) {
+                    $details[$prefix]['grade_'.$count."_".$j] = $dao->{"term_".$j};
+                }
+                $names = array('academic_subject_id_'.$count => array( 'newName' => 'academic_subject_'.$count,
+                                                                       'groupName' => 'academic_subject' )
+                               );
+                CRM_Core_OptionGroup::lookupValues( $details[$prefix] , $names, false);
             }
+        }
 
-            $testDetails['subject_id'] = $testDetails['subject'];
 
-            CRM_Core_OptionGroup::lookupValues( $testDetails , $names, false);
 
-            $prefix = 'test_' . $testDetails['test'];
-            if ( $testDetails['test_id'] == 291 ) {
-                $satIICount++;
-                $prefix .= "_{$satIICount}";
-            } else if ( $testDetails['test_id'] == 292 ) {
-                $apCount++;
-                $prefix .= "_{$apCount}";
+    }
+
+    static function partnerRanking($id, &$details) {
+        require_once "CRM/Quest/BAO/Partner.php";
+        $partners = CRM_Quest_BAO_Partner::getPartners( 'All' );
+        
+        require_once 'CRM/Quest/DAO/PartnerRanking.php';
+        $dao = & new CRM_Quest_DAO_PartnerRanking();
+        $dao->contact_id = $id;
+        $dao->find();
+        while( $dao->fetch() ){
+            if ( array_key_exists( $dao->partner_id, $partners ) ) {
+                if ( $dao->ranking ) {
+                    $details["PartnerRanking"][str_replace(" " , "_" ,$partners[$dao->partner_id])."_"."Ranking"] = $dao->ranking;
+                }
+                if ( $dao->is_forward ) {
+                    $details["PartnerRanking"][str_replace(" " , "_" ,$partners[$dao->partner_id])."_"."Forward"] = 1;
+                }
             }
-            $details[$prefix] = $testDetails;
         }
     }
 
     static function essay( $id, &$details ) {
         require_once 'CRM/Quest/DAO/Essay.php';
+        require_once 'CRM/Quest/DAO/EssayType.php';
         $essay = array();
         $essayDAO = & new CRM_Quest_DAO_Essay();
-        $essayDAO->contact_id = $id;
-
-        if ( $essayDAO->find(true) ) {
-            $details['Essay'] = $essayDAO->essay;
-        } else {
-            $details['Essay'] = null;
+        $essayDAO->target_contact_id = $id;
+        $essayDAO->source_contact_id = $id;
+        $essayDAO->find();
+        while ( $essayDAO->fetch() ) {
+            $essayType = & new CRM_Quest_DAO_EssayType();
+            $essayType->id = $essayDAO->essay_type_id;
+            $essayType->find(true);
+            $details['Essay'][$essayType->grouping][$essayType->name] = $essayDAO->essay;
         }
     }
 
@@ -630,12 +864,32 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $count = 1;
         while ( $referralDAO->fetch( ) ) {
             $name = "Referral_$count";
-            $details[$name]['name' ] = $referralDAO->name;
+            $details[$name]['first_name' ] = $referralDAO->first_name; 
+            $details[$name]['last_name' ] = $referralDAO->last_name; 
+            $details[$name]['school' ] = $referralDAO->school; 
             $details[$name]['email'] = $referralDAO->email;
             $count++;
         }
     }
         
+    static function partnerRelative( $id, &$details ) {
+        require_once 'CRM/Quest/DAO/PartnerRelative.php';
+        
+        $dao = & new CRM_Quest_DAO_PartnerRelative();
+        $dao->contact_id      = $id;
+        $dao->find();
+        $count = 0;
+        while ( $dao->fetch() ) {
+             $count++;
+             $prefix = $dao->connection_type."_".$count;
+             $details[$prefix]["alumni_last_name"]              = $dao->last_name;
+             $details[$prefix]["alumni_first_name"]             = $dao->first_name;
+             $details[$prefix]["alumni_relationship"]           = $dao->relationship;
+             $details[$prefix]["alumni_class_year"]        = $dao->college_grad_year;  
+        }
+        
+    }
+    
     static function deleteStudent( $id ) {
 
         //delete civicrm_student record
@@ -692,10 +946,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $honorDAO->delete();
     }
 
-    static function &xml( $id ) {
+    static function &xml( $id, $summary = false ) {
         $details = array( );
 
-        if ( self::studentDetails( $id, $details ) ) {
+        if ( self::studentDetails( $id, $details, $summary ) ) {
             $xml = "<StudentDetail>\n" . CRM_Utils_Array::xml( $details ) . "</StudentDetail>\n";
             return $xml;
         }
@@ -715,7 +969,37 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         return null;
     }
 
-    static function buildStudentForm( $field, &$form ) {
+    static function pdf( $id ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        require_once 'CRM/Utils/PDFlib.php';
+        $values = CRM_Quest_BAO_Student::xmlFlatValues( $id );
+
+        return CRM_Utils_PDFlib::compose( 'readerPDF.pdf',
+                                          $config->templateDir . '/Quest/pdf/',
+                                          $values, 6, false );
+    }
+
+    /**
+     * Function to build student form for profile
+     *
+     * @params $form       object form object
+     * @params $fieldName  string name of the field
+     * @params $contactId  int    contact id
+     *
+     * @return null
+     * @static
+     * @access public
+
+     */    
+    static function buildStudentForm( &$form, $fieldName, $title = null, $contactId = null ) {
+        
+        if ($contactId) {
+            $name = "field[$contactId][$fieldName]";
+        } else {
+            $name = $fieldName;
+        }
+
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Quest_DAO_Student' );
 
@@ -738,81 +1022,114 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                        'award_ranking_3_id'     =>  'award_ranking', 
                        'test_tutoring'          =>  'test', 
                        );
-
-        if ( in_array($field['name'], array('gpa_id', 
-                                            'ethnicity_id_1',
-                                            'award_ranking_1_id',
-                                            'award_ranking_2_id',
-                                            'award_ranking_3_id',
-                                            'citizenship_status_id',
-                                            'internet_access_id',
-                                            'study_method_id',
-                                            'fed_lunch_id')) ) {
-
+        
+        $scoreAttribs = array('SAT_composite', 
+                              'SAT_composite_alt', 
+                              'SAT_reading', 
+                              'SAT_math' ,
+                              'SAT_writing', 
+                              'ACT_composite', 
+                              'ACT_english', 
+                              'ACT_reading', 
+                              'ACT_math', 
+                              'ACT_science', 
+                              'PSAT_composite', 
+                              'PLAN_composite', 
+                              'household_income_total', 
+                              'household_member_count');
+        
+        $readers = array('cmr_first_generation_id', 'cmr_income_increase_id', 'cmr_need_id', 
+                         'cmr_grade_id', 'cmr_class_id', 'cmr_score_id', 'cmr_academic_id', 'cmr_disposition_id');
+        
+        if ( in_array($fieldName, array('gpa_id', 
+                                        'ethnicity_id_1',
+                                        'award_ranking_1_id',
+                                        'award_ranking_2_id',
+                                        'award_ranking_3_id',
+                                        'citizenship_status_id',
+                                        'internet_access_id',
+                                        'study_method_id',
+                                        'fed_lunch_id')) ) {
+            
             require_once 'CRM/Core/OptionGroup.php';
-            $form->add( 'select', $field['name'], ts( $field['title'] ), 
-                        array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($names[$field['name']]) );
-            return true;
-
-        } else if ($field['name'] == 'high_school_grad_year' ) {
-            $form->add('date', 'high_school_grad_year', ts( $field['title'] ),
-                       CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
-            return true;
-
-        } else if ( in_array($field['name'], array('educational_interest', 
-                                                   'college_type', 
-                                                   'college_interest',
-                                                   'test_tutoring')) ) {
-
-            $form->addCheckBox( $field['name'], ts( $field['title'] ),
-                                CRM_Core_OptionGroup::values( $names[$field['name']], true ), false, null,false );
+            $form->add('select', $name, $title, 
+                       array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($names[$fieldName]), $required );
             return true;
             
-        } else if ( in_array($field['name'], array('is_class_ranking', 
-                                                   'is_partner_share', 
-                                                   'is_home_computer', 
-                                                   'is_home_internet', 
-                                                   'is_take_SAT_ACT', 
-                                                   'financial_aid_applicant',
-                                                   'register_standarized_tests' )) ) {
+        } else if ( ($fieldName == 'gpa_unweighted_calc') || ($fieldName == 'gpa_weighted_calc')) {
             
-            $form->addYesNo( $field['name'], ts( $field['title'] ) );
+            require_once 'CRM/Core/OptionGroup.php';
+            $form->add('select', $name, $title,
+                       array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($fieldName), $required);
             return true;
-
-        } else if ( in_array($field['name'], array('class_rank', 
-                                                   'class_num_students', 
-                                                   'score_SAT', 
-                                                   'score_PSAT', 
-                                                   'score_ACT',
-                                                   'score_PLAN', 
-                                                   'household_income_total', 
-                                                   'number_siblings', 
-                                                   'years_in_us',
-                                                   'first_language', 
-                                                   'primary_language',
-                                                   'internet_access_other')) ) {
-
-            $form->addElement('text', $field['name'], ts( $field['title'] ), $attributes[$field['name']]  );
-            return true;
-
-        } else if ($field['name'] == 'gpa_explanation' ) {
-
-            $form->addElement('textarea', 'gpa_explanation', ts( $field['title'] ), $attributes['gpa_explanation'] );
+        } else if (substr( $fieldName, 0, 4) == 'cmr_' && $fieldName != 'cmr_comment') { //for  readers group
+            $readerGroup = substr($fieldName, 0, -3);
+            require_once 'CRM/Core/OptionGroup.php';
+            $form->add('select', $name, $title,
+                       array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($readerGroup), $required);
             return true;
             
-        } else if ( in_array( $field['name'], array('citizenship_country_id', 
-                                                    'growup_country_id', 
-                                                    'nationality_country_id') ) ) {
-
-            $form->addElement('select', $field['name'], ts( $field['title'] ),
+        } else if ($fieldName == 'high_school_grad_year' ) {
+            $form->add('date', $name, $title, CRM_Core_SelectValues::date( 'custom', 0, 2, "Y" ) );
+            return true;
+            
+        } else if ( in_array($fieldName, array('educational_interest', 
+                                               'college_type', 
+                                               'college_interest',
+                                               'test_tutoring')) ) {
+            
+            $form->addCheckBox($name, $title, 
+                               CRM_Core_OptionGroup::values( $names[$fieldName], true ), false, null,false );
+            return true;
+            
+        } else if ( in_array($name, array('is_class_ranking', 
+                                          'is_partner_share', 
+                                          'is_home_computer', 
+                                          'is_home_internet', 
+                                          'is_take_SAT_ACT', 
+                                          'financial_aid_applicant',
+                                          'register_standarized_tests' )) ) {
+            
+            $form->addYesNo($name, $title);
+            return true;
+            
+        } else if ( in_array($fieldName, array('class_rank', 
+                                               'class_num_students', 
+                                               'score_SAT', 
+                                               'score_PSAT', 
+                                               'score_ACT',
+                                               'score_PLAN', 
+                                               'household_income_total', 
+                                               'number_siblings', 
+                                               'years_in_us',
+                                               'first_language', 
+                                               'primary_language',
+                                               'internet_access_other')) || in_array($fieldName, $scoreAttribs)) {
+            
+            if (in_array($fieldName, $scoreAttribs) && (! $attributes[$fieldName])) {
+                $field['attributes'] = array('maxlength' => 8, 'size' => 4);
+            }
+            $form->addElement('text', $name, $title, $attributes[$fieldName]);
+            return true;
+            
+        } else if ($fieldName == 'gpa_explanation' || $fieldName == 'cmr_comment') {
+            
+            $form->addElement('textarea', $name, $title, $attributes[$fieldName]);
+            return true;
+            
+        } else if ( in_array( $fieldName, array('citizenship_country_id', 
+                                                'growup_country_id', 
+                                                'nationality_country_id') ) ) {
+            
+            $form->addElement('select', $name, $title,
                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::country( ) );
             return true;
-
-        } else if ( $field['name'] == 'home_area_id' ) {
-            $form->addRadio( 'home_area_id', ts( $field['title'] ),
-                             CRM_Core_OptionGroup::values('home_area') );
+            
+        } else if ( $fieldName == 'home_area_id' ) {
+            $form->addRadio( $name, $title,
+                             CRM_Core_OptionGroup::values($fieldName) );
             return true;
-
+            
         } else {
             return false;
         }

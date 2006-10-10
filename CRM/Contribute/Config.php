@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
@@ -31,8 +31,8 @@
  * The default values in general, should reflect production values (minimizes chances of screwing up)
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -74,7 +74,14 @@ class CRM_Contribute_Config {
     public $paymentCertPath = array( );
 
     /** 
-     * What is the payment file key
+     * What is the payment User name
+     * 
+     * @var string                
+     */ 
+    public $paymentUsername = array( );
+
+    /** 
+     * What is the payment file key or api signature
      * 
      * @var string                
      */ 
@@ -102,13 +109,6 @@ class CRM_Contribute_Config {
     public $paymentProcessorButton = null;
 
     /**
-     * Title of the thermometer block
-     *
-     * @var string
-     */
-    public $contributeThermometerTitle = null;
-
-    /**
      * Function to add additional config paramters to the core Config class
      * if CiviContribute is enabled
      *
@@ -129,8 +129,9 @@ class CRM_Contribute_Config {
         $config->paymentClass           = null;
         $config->paymentBillingMode     = null;
         $config->paymentCertPath        = null;
-        $config->paymentKey             = null;
+        $config->paymentUsername        = null;
         $config->paymentPassword        = null;
+        $config->paymentKey             = null;
         $config->paymentProcessorButton = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif";
         $config->paymentPayPalExpressUrl = "www.paypal.com";
         $config->paymentPayPalExpressTestUrl = "www.sandbox.paypal.com";
@@ -140,7 +141,7 @@ class CRM_Contribute_Config {
             $config->paymentProcessor = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
             switch ( $config->paymentProcessor ) {
             case 'PayPal':
-                $config->paymentClass = 'CRM_Contribute_Payment_PayPal';
+                $config->paymentClass = 'CRM_Contribute_Payment_PayPalImpl';
                 $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
                 $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
                 $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
@@ -150,7 +151,7 @@ class CRM_Contribute_Config {
                 break;
 
             case 'PayPal_Express':
-                $config->paymentClass = 'CRM_Contribute_Payment_PayPal';
+                $config->paymentClass = 'CRM_Contribute_Payment_PayPalImpl';
                 $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_BUTTON;
                 $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
                 $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
@@ -172,6 +173,14 @@ class CRM_Contribute_Config {
             $config->paymentCertPath['test'] = CRM_Core_Config::addTrailingSlash( CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH );
         }
 
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME' ) ) {
+            $config->paymentUsername['live'] = CIVICRM_CONTRIBUTE_PAYMENT_USERNAME;
+        }
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME' ) ) {
+            $config->paymentUsername['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME;
+        }
+
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY' ) ) {
             $config->paymentKey['live'] = CIVICRM_CONTRIBUTE_PAYMENT_KEY;
         }
@@ -186,10 +195,6 @@ class CRM_Contribute_Config {
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD' ) ) {
             $config->paymentPassword['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD;
-        }
-        
-        if ( defined( 'CIVICRM_CONTRIBUTE_THERMOMETER_TITLE' ) ) {
-            $config->contributeThermometerTitle = CIVICRM_CONTRIBUTE_THERMOMETER_TITLE;
         }
         
     }

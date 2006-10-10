@@ -1,9 +1,9 @@
 <?php
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 1.5                                                |
+   | CiviCRM version 1.6                                                |
    +--------------------------------------------------------------------+
-   | Copyright (c) 2005 Donald A. Lobo                                  |
+   | Copyright CiviCRM LLC (c) 2004-2006                                  |
    +--------------------------------------------------------------------+
    | This file is a part of CiviCRM.                                    |
    |                                                                    |
@@ -18,10 +18,10 @@
    |                                                                    |
    | You should have received a copy of the Affero General Public       |
    | License along with this program; if not, contact the Social Source |
-   | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
-   | questions about the Affero General Public License or the licensing |
+   | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+   | about the Affero General Public License or the licensing  of       |
    | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
-   | at http://www.openngo.org/faqs/licensing.html                      |
+   | http://www.civicrm.org/licensing/                                 |
    +--------------------------------------------------------------------+
   */
 
@@ -29,8 +29,8 @@
    *
    *
    * @package CRM
-   * @author Donald A. Lobo <lobo@yahoo.com>
-   * @copyright Donald A. Lobo (c) 2005
+   * @author Donald A. Lobo <lobo@civicrm.org>
+   * @copyright CiviCRM LLC (c) 2004-2006
    * $Id$
    *
    */
@@ -49,6 +49,15 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @static
      */
     static $_importableFields = null;
+
+    /**
+     * static field for all the contribution information that we can potentially export
+     *
+     * @var array
+     * @static
+     */
+    static $_exportableFields = null;
+
 
     function __construct()
     {
@@ -205,11 +214,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         $activitySummary = ts(
-            '%1 - %2 (updated on %3)',
+            '%1 - %2 (offline)',
             array(
                 1 => CRM_Utils_Money::format($contribution->total_amount, $contribution->currency),
-                2 => $contributionType,
-                3 => $insertDate
+                2 => $contribution->source
             )
         );
 
@@ -322,7 +330,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
      * @return array array of importable Fields
      * @access public
      */
-    function &importableFields( ) {
+    function &importableFields( $contacType = 'Individual' ) {
         if ( ! self::$_importableFields ) {
             if ( ! self::$_importableFields ) {
                 self::$_importableFields = array();
@@ -334,11 +342,21 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             }
 
             $tmpFields     = CRM_Contribute_DAO_Contribution::import( );
-            $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
-            require_once 'CRM/Core/DAO/DupeMatch.php';
-            $dao = & new CRM_Core_DAO_DupeMatch();;
-            $dao->find(true);
-            $fieldsArray = explode('AND',$dao->rule);
+            unset($tmpFields['option_value']);
+            require_once 'CRM/Core/OptionValue.php';
+            $optionFields = CRM_Core_OptionValue::getFields($mode ='contribute' );
+            //$contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
+            if ($contacType == 'Individual') {
+                require_once 'CRM/Core/DAO/DupeMatch.php';
+                $dao = & new CRM_Core_DAO_DupeMatch();;
+                $dao->find(true);
+                $fieldsArray = explode('AND',$dao->rule);
+            } elseif ($contacType == 'Household') {
+                $fieldsArray = array('household_name', 'email');
+            } elseif ($contacType == 'Organization') {
+                $fieldsArray = array('organization_name', 'email');
+            }
             $tmpConatctField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
@@ -348,6 +366,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             }
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
+            $fields = array_merge($fields, $optionFields);
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
             self::$_importableFields = $fields;
         }
@@ -355,17 +374,27 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
     }
 
     function &exportableFields( ) {
-        require_once 'CRM/Contribute/DAO/Product.php';
-        require_once 'CRM/Contribute/DAO/ContributionProduct.php';
-        //$impFields = self::importableFields( );
-        $impFields = CRM_Contribute_DAO_Contribution::import( );
-        $expFieldProduct = CRM_Contribute_DAO_Product::export( );
-        $expFieldsContrib = CRM_Contribute_DAO_ContributionProduct::export( );
-        $typeField = CRM_Contribute_DAO_ContributionType::export( );
-        $fields = array_merge($impFields, $typeField);
-        $fields = array_merge($fields, $expFieldProduct );
-        $fields = array_merge($fields, $expFieldsContrib );
-        return $fields;
+        if ( ! self::$_exportableFields ) {
+            if ( ! self::$_exportableFields ) {
+                self::$_exportableFields = array();
+            }
+            require_once 'CRM/Core/OptionValue.php';
+            require_once 'CRM/Contribute/DAO/Product.php';
+            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            $impFields = CRM_Contribute_DAO_Contribution::import( );
+            $expFieldProduct = CRM_Contribute_DAO_Product::export( );
+            $expFieldsContrib = CRM_Contribute_DAO_ContributionProduct::export( );
+            $typeField = CRM_Contribute_DAO_ContributionType::export( );
+            $optionField = CRM_Core_OptionValue::getFields($mode ='contribute' );
+            $fields = array_merge($impFields, $typeField);
+            $fields = array_merge($fields, $expFieldProduct );
+            $fields = array_merge($fields, $expFieldsContrib );
+            $fields = array_merge($fields, $optionField );
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
+            
+            self::$_exportableFields = $fields;
+        }
+        return self::$_exportableFields;
     }
 
     function getTotalAmountAndCount( $status = null, $startDate = null, $endDate = null ) {
@@ -543,6 +572,7 @@ WHERE  domain_id = $domainID AND $whereCond
     static function getContributionFields( ) 
     {
         $contributionFields =& CRM_Contribute_DAO_Contribution::export( );
+
         foreach ($contributionFields as $key => $var) {
             if ($key == 'contact_id') {
                 continue;
@@ -550,8 +580,8 @@ WHERE  domain_id = $domainID AND $whereCond
             $fields[$key] = $var;
         }
 
-        // $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
-        $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Contribution');
+        $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Contribution'));
+        // $fields = CRM_Core_BAO_CustomField::getFieldsForImport('Contribution');
         return $fields;
     }
 
@@ -579,6 +609,59 @@ GROUP BY p.id
         }
     }
 
+    function createHonorContact( $params , $honorId = null ) {
+        $honorParams = array();
+        $honorParams["prefix_id"] = $params["honor_prefix"];
+        $honorParams["first_name"]   = $params["honor_firstname"];
+        $honorParams["last_name"]    = $params["honor_lastname"];
+        $honorParams["email"]        = $params["honor_email"];
+        $honorParams["contact_type"] = "Individual";
+        
+        //update if contact  already exists
+        if ( $honorId ) {
+            $ids = array( );
+            $idParams = array( 'id' => $honorId, 'contact_id' => $honorId );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+            $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
+            return $contact->id;    
+             
+        } else {
+            
+            $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
+            $contactsIDs = explode( ',', $ids );
+            if ( $contactsIDs[0] == "" || count ( $contactsIDs ) > 1) {
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
+                return $contact->id;
+            } else {
+                $contact_id =  $contactsIDs[0];
+                $ids = array( );
+                $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
+                $defaults = array( );
+                CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+                $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
+                return $contact->id;    
+            }
+         }
+    }
+
+ /**
+     * function to get the sort name of a contact for a particular contribution
+     *
+     * @param  int    $id      id of the contribution
+     *
+     * @return null|string     sort name of the contact if found
+     * @static
+     * @access public
+     */
+    static function sortName( $id ) {
+        $query = "
+SELECT civicrm_contact.sort_name
+FROM   civicrm_contribution, civicrm_contact
+WHERE  civicrm_contribution.contact_id = civicrm_contact.id
+  AND  civicrm_contribution.id = {$id}
+";
+        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
 }
 
 ?>

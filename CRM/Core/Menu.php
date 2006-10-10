@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  * This file contains the various menus of the CiviCRM module
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -140,8 +140,9 @@ class CRM_Core_Menu {
                             ),
                       
                       array(
-                            'path'    => 'civicrm/admin/activityType',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Activity Types'),
+                            'query'   => 'group=activity_type&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Configure'),
@@ -213,7 +214,7 @@ class CRM_Core_Menu {
                       
                       array(
                             'path'    => 'civicrm/admin/mapping',
-                            'title'   => ts('Import/Export Mapping'),
+                            'title'   => ts('Import/Export Mappings'),
                             'query'  => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -221,8 +222,8 @@ class CRM_Core_Menu {
                             'icon'    => 'admin/import_export_map.png',
                             'weight'  => 290
                             ),
-                      
-                      array(
+
+                     array(
                             'path'    => 'civicrm/contact/domain',
                             'title'   => ts('Edit Domain Information'),
                             'query'  => 'reset=1&action=update',
@@ -265,9 +266,9 @@ class CRM_Core_Menu {
                             ),
 
                       array(
-                            'path'    => 'civicrm/admin/gender',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Gender Options (Male, Female...)'),
-                            'query'  => 'reset=1',
+                            'query'  => 'group=gender&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -276,9 +277,9 @@ class CRM_Core_Menu {
                             ),
                       
                       array(
-                            'path'    => 'civicrm/admin/IMProvider',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Instant Messenger Services'),
-                            'query'  => 'reset=1',
+                            'query'  => 'group=instant_messenger_service&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -287,9 +288,9 @@ class CRM_Core_Menu {
                             ),
 
                       array(
-                            'path'    => 'civicrm/admin/mobileProvider',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Mobile Phone Providers'),
-                            'query'  => 'reset=1',
+                            'query'  => 'group=mobile_provider&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -298,9 +299,9 @@ class CRM_Core_Menu {
                             ),
     
                       array(
-                            'path'    => 'civicrm/admin/prefix',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Individual Prefixes (Ms, Mr...)'),
-                            'query'  => 'reset=1',
+                            'query'  => 'group=individual_prefix&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
@@ -309,14 +310,26 @@ class CRM_Core_Menu {
                             ),
                       
                       array(
-                            'path'    => 'civicrm/admin/suffix',
+                            'path'    => 'civicrm/admin/options',
                             'title'   => ts('Individual Suffixes (Jr, Sr...)'),
-                            'query'  => 'reset=1',
+                            'query'  => 'group=individual_suffix&reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Setup'),
                             'icon'    => 'admin/10.png',
                             'weight'  => 350
+                            ),
+
+
+                      array(
+                            'path'    => 'civicrm/admin/options',
+                            'title'   => ts('Preferred Communication Options'),
+                            'query'  => 'group=preferred_communication_method&reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => ts('Setup'),
+                            'icon'    => 'admin/communication.png',
+                            'weight'  => 360
                             ),
 
                       array(
@@ -518,7 +531,7 @@ class CRM_Core_Menu {
                              'path'    => 'civicrm/import/contact',
                              'query'   => 'reset=1',
                              'title'   => ts( 'Contacts' ), 
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                             'access' => CRM_Core_Permission::check( 'import contacts' ) &&
                                           CRM_Core_Permission::check( 'access CiviCRM' ), 
                              'type'    => CRM_Core_Menu::CALLBACK,  
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
@@ -528,7 +541,7 @@ class CRM_Core_Menu {
                              'path'    => 'civicrm/import/activityHistory', 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Activity History' ), 
-                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                              'access' => CRM_Core_Permission::check( 'import contacts' ) &&
                                           CRM_Core_Permission::check( 'access CiviCRM' ),
                              'type'    => CRM_Core_Menu::CALLBACK,  
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
@@ -615,6 +628,10 @@ class CRM_Core_Menu {
      * @access static
      */
     static function createLocalTasks( $path ) {
+        if ( $path == 'civicrm/contact/view/tabbed' ) {
+            return;
+        }
+
         self::items( );
 
         $config =& CRM_Core_Config::singleton( );

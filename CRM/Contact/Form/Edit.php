@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,10 +18,10 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                      |
+ | http://www.civicrm.org/licensing/                                 |
  +--------------------------------------------------------------------+
 */
 
@@ -29,8 +29,8 @@
  *
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -242,11 +242,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
                     }
                     $defaults['location'][$i+1]['address'] = array( );
-                    
-                    $config          =& CRM_Core_Config::singleton( );
-                    $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                    $defaultCountryId = array_search($config->defaultContactCountry, $countryIsoCodes);
-                    $defaults['location'][$i+1]['address']['country_id'] = $defaultCountryId;
                 }
                 $defaults['location'][1]['is_primary'] = true;
             }
@@ -256,7 +251,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $ids = array();
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
-
             $this->set( 'ids', $ids );
 
             $this->assign( 'contactId' , $this->_contactId );
@@ -290,8 +284,18 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $inactiveNeeded = false;
         }
 
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $rel = CRM_Contact_BAO_Relationship::getRelationship($this->_contactId);
+            krsort($rel);
+            foreach ($rel as $key => $value) {
+                if ($value['relation'] == 'Employee of') {
+                    $defaults['current_employer'] =  $value['name'];
+                    break;
+                }
+            }
+        }
+       
         CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
-
         return $defaults;
     }
 
@@ -470,7 +474,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         $config  =& CRM_Core_Config::singleton( );
         $contact = CRM_Contact_BAO_Contact::create($params, $ids, $config->maxLocationBlocks );
-        
+     
         //add contact to gruoup
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
@@ -497,7 +501,50 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $params );
+        
+        //add relationship for the contact
+        if ( $params['current_employer'] ) {
+            
+            //check if organization exits
+            $dupeIds = array();
+            require_once "CRM/Contact/DAO/Organization.php";
+            $org =& new CRM_Contact_DAO_Organization();
+            $org->organization_name = $params['current_employer'];
+            $org->find();
+            while ($org->fetch()) {
+                $dupeIds[] = $org->contact_id;
+            }
+            
+            //get the relationship id
+            require_once "CRM/Contact/DAO/RelationshipType.php";
+            $relType =& new CRM_Contact_DAO_RelationshipType();
+            $relType->name_a_b = "Employee of";
+            $relType->find(true);
+            $relTypeId = $relType->id;
+            
+            $relationshipParams['relationship_type_id'] = $relTypeId.'_a_b';
+            $cid = array( 'contact' => $contact->id);
+            
+            if (empty($dupeIds)) {
+                //create new organization
+                $ids = array();                            
+                $newOrg['contact_type'     ] = 'Organization';
+                $newOrg['organization_name'] = $params['current_employer'] ;
+            
+                $orgName = CRM_Contact_BAO_Contact::create($newOrg, $ids, $config->maxLocationBlocks );
 
+                //create relationship
+                $relationshipParams['contact_check'][$orgName->id] = 1;
+                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cid );
+            } else {
+                //if more than one matching organizations found, we
+                //add relationships to all those organizations
+                foreach($dupeIds as $key => $value) {
+                    $relationshipParams['contact_check'][$value] = 1;
+                    $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cid );
+                }
+            }
+        }
         // do the updates/inserts
         CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, $this->_contactType, $contact->id);
     

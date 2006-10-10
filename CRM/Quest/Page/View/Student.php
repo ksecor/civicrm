@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.5                                                |
+ | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright (c) 2005 Donald A. Lobo                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                  |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,18 +18,18 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]socialsourcefoundation[DOT]org.  If you have |
- | questions about the Affero General Public License or the licensing |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | about the Affero General Public License or the licensing  of       |
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
- | at http://www.openngo.org/faqs/licensing.html                       |
+ | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
 
 /**
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo (c) 2005
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
  * $Id$
  *
  */
@@ -113,7 +113,8 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
         $contact =& CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
 
         require_once 'CRM/Quest/BAO/Student.php';
-        $student =& CRM_Quest_BAO_Student::retrieve( $params, $defaults, $ids );
+        $student =& CRM_Quest_BAO_Student::student( $this->_contactId, $defaults );
+        $student =& CRM_Quest_BAO_Student::studentSummary( $this->_contactId, $defaults ); 
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
 
@@ -122,11 +123,17 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
             $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
         }
 
-        // get the Student application status (pre-application for now)
-        /* Commented out until we implement getTaskStatus for the tasks we care about. dgg
+        // get status for main CM app, partner supplement and CM package (can add more if needed)
         require_once 'CRM/Quest/API.php';
-        $this->assign( 'preapplicationStatus', CRM_Quest_API::getApplicationStatus( $this->_contactId ));
-        */
+        $tasks = array( '8'  => 'cmApp',
+                        '7'  => 'cmPackage',
+                        '19' => 'cmPartnerSupplement',
+                        );
+        $taskStatus = array( );
+        foreach ( $tasks as $key => $value ) {
+            $taskStatus[$value] = CRM_Quest_API::getTaskStatus( $this->_contactId, $this->_contactId, $key );
+        }
+        $this->assign('taskStatus', $taskStatus);
         
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();
