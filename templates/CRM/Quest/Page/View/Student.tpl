@@ -29,7 +29,7 @@
             <tr class="odd-row"><td><strong>{ts}CM Disposition{/ts}:</strong></td><td><strong>{$Student.cmr_disposition}</strong></td></tr>
             <tr class="even-row"><td><strong>{ts}CM Application{/ts}:</strong></td><td><strong>{$taskStatus.cmApp}</strong></td></tr>
             <tr class="odd-row"><td><strong>{ts}Partner Supplement{/ts}:</strong></td><td><strong>{$taskStatus.cmPartnerSupplement}</strong></td></tr>
-            <tr class="even-row"><td><strong>{ts}All Recommendations{/ts}:</strong></td><td><strong>{$taskStatus.allRecs}</strong></td></tr>
+            <tr class="even-row"><td><strong>{ts}All Recommendations{/ts}:</strong></td><td><strong>{$taskStatus.cmAllRecs}</strong></td></tr>
             <tr class="even-row"><td><strong>{ts}CM Total Package{/ts}:</strong></td><td><strong>{$taskStatus.cmPackage}</strong></td></tr>
         </table>
     {/if}
