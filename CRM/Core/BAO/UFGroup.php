@@ -1354,83 +1354,86 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     /**
      * Function to set profile defaults
      *
-     * @params int     $contactId     contact id
-     * @params array   $fields        associative array of fields
-     * @params array   $defaults      defaults array
-     * @params boolean $singleProfile true for single profile else false(batch update)
+     * @params int     $contactId      contact id
+     * @params array   $fields         associative array of fields
+     * @params array   $defaults       defaults array
+     * @params boolean $singleProfile  true for single profile else false(batch update)
+     * @params int     $contributionId contribution id
      *
      * @return null
      * @static
      * @access public
      */
-    static function setProfileDefaults( $contactId, &$fields, &$defaults, $singleProfile = true ) 
+    static function setProfileDefaults( $contactId, &$fields, &$defaults, $singleProfile = true, $contributionId = null ) 
     {
-        //get the contact details
-        list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
-        $details = $contactDetails[$contactId];
-        
-        //start of code to set the default values
-        foreach ($fields as $name => $field ) {
-            //set the field name depending upon the profile mode(single/batch)
-            if ( $singleProfile ) {
-                $fldName = $name;
-            } else {
-                $fldName = "field[$contactId][$name]";
-            }
-
-            if (CRM_Utils_Array::value($name, $details )) {
-                //to handle custom data (checkbox) to be written
-                // to handle gender / suffix / prefix
-                if ($name == 'gender') { 
-                    $defaults[$fldName] = $details['gender_id'];
-                } else if ($name == 'individual_prefix') {
-                    $defaults[$fldName] = $details['individual_prefix_id'];
-                } else if ($name == 'individual_suffix') {
-                    $defaults[$fldName] = $details['individual_suffix_id'];
-                } else{
-                    $defaults[$fldName] = $details[$name];
+        if (!$contributionId) {
+            //get the contact details
+            list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
+            $details = $contactDetails[$contactId];
+            
+            //start of code to set the default values
+            foreach ($fields as $name => $field ) {
+                //set the field name depending upon the profile mode(single/batch)
+                if ( $singleProfile ) {
+                    $fldName = $name;
+                } else {
+                    $fldName = "field[$contactId][$name]";
                 }
                 
-            } else {
-                list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $name);
-                if ( is_array($details) ) {   
-                    foreach ($details as $key => $value) {
-                        if ($locTypeId == 'Primary') {
-                            $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId ); 
-                        }
-                        
-                        if (is_numeric($locTypeId)) {//fixed for CRM-665
-                            if ($locTypeId == $value['location_type_id'] ) {
-                                if (CRM_Utils_Array::value($fieldName, $value )) {
-                                    //to handle stateprovince and country
-                                    if ( $fieldName == 'state_province' ) {
-                                        $defaults[$fldName] = $value['state_province_id'];
-                                    } else if ( $fieldName == 'country' ) {
-                                        if (!$value['country_id']) {
-                                            $config =& CRM_Core_Config::singleton();
-                                            if ( $config->defaultContactCountry ) {
-                                                $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
-                                                $defaultID = array_search($config->defaultContactCountry,
-                                                                          $countryIsoCodes);
-                                                $defaults[$fldName] = $defaultID;
+                if (CRM_Utils_Array::value($name, $details )) {
+                    //to handle custom data (checkbox) to be written
+                    // to handle gender / suffix / prefix
+                    if ($name == 'gender') { 
+                        $defaults[$fldName] = $details['gender_id'];
+                    } else if ($name == 'individual_prefix') {
+                        $defaults[$fldName] = $details['individual_prefix_id'];
+                    } else if ($name == 'individual_suffix') {
+                        $defaults[$fldName] = $details['individual_suffix_id'];
+                    } else{
+                        $defaults[$fldName] = $details[$name];
+                    }
+                    
+                } else {
+                    list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $name);
+                    if ( is_array($details) ) {   
+                        foreach ($details as $key => $value) {
+                            if ($locTypeId == 'Primary') {
+                                $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId ); 
+                            }
+                            
+                            if (is_numeric($locTypeId)) {//fixed for CRM-665
+                                if ($locTypeId == $value['location_type_id'] ) {
+                                    if (CRM_Utils_Array::value($fieldName, $value )) {
+                                        //to handle stateprovince and country
+                                        if ( $fieldName == 'state_province' ) {
+                                            $defaults[$fldName] = $value['state_province_id'];
+                                        } else if ( $fieldName == 'country' ) {
+                                            if (!$value['country_id']) {
+                                                $config =& CRM_Core_Config::singleton();
+                                                if ( $config->defaultContactCountry ) {
+                                                    $countryIsoCodes =& CRM_Core_PseudoConstant::countryIsoCode();
+                                                    $defaultID = array_search($config->defaultContactCountry,
+                                                                              $countryIsoCodes);
+                                                    $defaults[$fldName] = $defaultID;
+                                                }
+                                            } else {
+                                                $defaults[$fldName] = $value['country_id'];
                                             }
+                                        } else if ( $fieldName == 'phone' ) {
+                                            if ($phoneTypeId) {
+                                                $defaults[$fldName] = $value['phone'][$phoneTypeId];
+                                            } else {
+                                                $defaults[$fldName] = $value['phone'][1];
+                                            }
+                                        } else if ( $fieldName == 'email' ) {
+                                            //adding the first email (currently we don't support multiple emails of same location type)
+                                            $defaults[$fldName] = $value['email'][1];
+                                        } else if ( $fieldName == 'im' ) {
+                                            //adding the first email (currently we don't support multiple ims of same location type)
+                                            $defaults[$fldName] = $value['im'][1];
                                         } else {
-                                            $defaults[$fldName] = $value['country_id'];
+                                            $defaults[$fldName] = $value[$fieldName];
                                         }
-                                    } else if ( $fieldName == 'phone' ) {
-                                        if ($phoneTypeId) {
-                                            $defaults[$fldName] = $value['phone'][$phoneTypeId];
-                                        } else {
-                                            $defaults[$fldName] = $value['phone'][1];
-                                        }
-                                    } else if ( $fieldName == 'email' ) {
-                                        //adding the first email (currently we don't support multiple emails of same location type)
-                                        $defaults[$fldName] = $value['email'][1];
-                                    } else if ( $fieldName == 'im' ) {
-                                        //adding the first email (currently we don't support multiple ims of same location type)
-                                        $defaults[$fldName] = $value['im'][1];
-                                    } else {
-                                        $defaults[$fldName] = $value[$fieldName];
                                     }
                                 }
                             }
@@ -1438,35 +1441,51 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                 }
             }
-        }
-
-
-        if ( CRM_Core_Permission::access( 'Quest' ) ) {
-            require_once 'CRM/Quest/BAO/Student.php';
-            // Checking whether the database contains quest_student table.
-            // Now there are two different schemas for core and quest.
-            // So if only core schema in use then withought following check gets the DB error.
-            $student      = new CRM_Quest_BAO_Student();
-            $tableStudent = $student->geTableName();
             
-            if ($tableStudent) {
-                //set student defaults
-                CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
-                $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
-                foreach( $fields as $field ) {
-                    if ( $defaults[$field] ) {
-                        $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
-                    }
-                    
-                    $defaults[$field] = array();
-                    if ( is_array( $values ) ) {
-                        foreach( $values as $v ) {
-                            $defaults[$field][$v] = 1;
+            
+            if ( CRM_Core_Permission::access( 'Quest' ) ) {
+                require_once 'CRM/Quest/BAO/Student.php';
+                // Checking whether the database contains quest_student table.
+                // Now there are two different schemas for core and quest.
+                // So if only core schema in use then withought following check gets the DB error.
+                $student      = new CRM_Quest_BAO_Student();
+                $tableStudent = $student->geTableName();
+                // CRM_Core_Error::debug('table', $tableStudent);
+                if ($tableStudent) {
+                    //set student defaults
+                    CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
+                    $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
+                    foreach( $fields as $field ) {
+                        if ( $defaults[$field] ) {
+                            $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
+                        }
+                        
+                        $defaults[$field] = array();
+                        if ( is_array( $values ) ) {
+                            foreach( $values as $v ) {
+                                $defaults[$field][$v] = 1;
+                            }
                         }
                     }
                 }
             }
-        }    
+        }  
+
+        //Handling Contribution Part of the batch profile 
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            $params = $ids = $values = array();
+            $params = array( 'id' => $contributionId );
+
+            require_once "CRM/Contribute/BAO/Contribution.php";
+            CRM_Contribute_BAO_Contribution::getValues( $params, $values,  $ids );
+            
+             foreach ($fields as $name => $field ) {
+                 $fldName = "field[$contributionId][$name]";
+                 if ( array_key_exists($name,$values) ) {
+                     $defaults[$fldName] = $values[$name];
+                 }
+             }
+        }
     }
 }
 

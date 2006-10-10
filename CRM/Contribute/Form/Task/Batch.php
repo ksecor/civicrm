@@ -143,7 +143,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             $details[$contributionId] = array( );
             //build sortname
             $sortName[$contributionId] = CRM_Contribute_BAO_Contribution::sortName($contributionId);
-            CRM_Core_BAO_UFGroup::setProfileDefaults( $contributionId, $this->_fields, $defaults, false );
+            CRM_Core_BAO_UFGroup::setProfileDefaults( null, $this->_fields, $defaults, false, $contributionId );
         }
         
         $this->assign('sortName', $sortName);
@@ -165,7 +165,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
 
         $ufGroupId = $this->get( 'ufGroupId' );
         foreach($params['field'] as $key => $value) {
-            CRM_Contact_BAO_Contact::createProfileContact($value, $this->_fields, $key, null, $ufGroupId );
+            //CRM_Contact_BAO_Contact::createProfileContact($value, $this->_fields, $key, null, $ufGroupId );
         }
 
         CRM_Core_Session::setStatus("Your updates have been saved.");
