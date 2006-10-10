@@ -105,7 +105,7 @@ function crm_contact_search( &$params, $return_properties = null, $sort = null, 
  * @return int
  * @access public
  */
-function civicrm_search_count( &$params ) {
+function crm_search_count( &$params ) {
     require_once 'CRM/Contact/Form/Search.php';
     $query =& new CRM_Contact_BAO_Query( $params );
     return $query->searchQuery( 0, 0, null, true );
@@ -125,7 +125,7 @@ function civicrm_search_count( &$params ) {
  * @return int 
  * @access public 
  */ 
-function civicrm_search( &$params, $return_properties = null, $sort = null, $offset = 0, $row_count = 25) {
+function crm_search( &$params, $return_properties = null, $sort = null, $offset = 0, $row_count = 25) {
     $sortString = CRM_Core_DAO::getSortString( $sort );
     require_once 'CRM/Contact/Form/Search.php';
     return CRM_Contact_BAO_Query::apiQuery( $params, $return_properties, null, $sortString, $offset, $row_count );
