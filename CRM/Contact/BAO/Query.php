@@ -256,6 +256,11 @@ class CRM_Contact_BAO_Query {
                           $includeContactIds = false, $strict = false, $mode = 1 ) {
         require_once 'CRM/Contact/BAO/Contact.php';
 
+        // CRM_Core_Error::backtrace( );
+        //CRM_Core_Error::debug( 'params', $params );
+        // CRM_Core_Error::debug( 'f', $fields );
+        //CRM_Core_Error::debug( 'post', $_POST );
+        //CRM_Core_Error::debug( 'r', $returnProperties );
         $this->_params =& $params;
 
         if ( empty( $returnProperties ) ) {
@@ -284,6 +289,7 @@ class CRM_Contact_BAO_Query {
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
+        //CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -369,7 +375,10 @@ class CRM_Contact_BAO_Query {
         $properties = array( );
 
         $this->addSpecialFields( );
-       
+
+        // CRM_Core_Error::debug( 'f', $this->_fields );
+        // CRM_Core_Error::debug( 'p', $this->_params );
+        
         foreach ($this->_fields as $name => $field) {
             // if this is a hierarchical name, we ignore it
             $names = explode( '-', $name );
@@ -537,6 +546,9 @@ class CRM_Contact_BAO_Query {
         $processed     = array( );
         $index = 0;
 
+        // CRM_Core_Error::debug( 'd', $this->_fields );
+        // CRM_Core_Error::debug( 'r', $this->_returnProperties );
+
         foreach ( $this->_returnProperties['location'] as $name => $elements ) {
             $index++;
             $lName = "`$name-location`";
@@ -598,8 +610,11 @@ class CRM_Contact_BAO_Query {
 
                 // hack for profile, add location id
                 if ( ! $field ) {
-                    if ( ! is_numeric($elementType) ) { //fix for CRM-882( to handle phone types )
+                    if ( $elementType &&
+                         ! is_numeric($elementType) ) { //fix for CRM-882( to handle phone types )
                         $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId$elementType", $this->_fields );
+                    } else if ( is_numeric( $name ) ) {
+                        $field =& CRM_Utils_Array::value( $elementName . "-Primary", $this->_fields ); 
                     } else {
                         $field =& CRM_Utils_Array::value( $elementName . "-$locationTypeId", $this->_fields );
                     }

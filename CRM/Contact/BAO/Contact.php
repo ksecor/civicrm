@@ -1686,7 +1686,6 @@ WHERE civicrm_contact.id IN $idString ";
      * @static
      */
     static function &makeHierReturnProperties( $fields, $contactId = null ) {
-
         require_once 'CRM/Core/PseudoConstant.php';
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
 
@@ -1697,18 +1696,12 @@ WHERE civicrm_contact.id IN $idString ";
                 list( $fieldName, $id, $type ) = explode( '-', $name );
 
                 if ($id == 'Primary') {
-                    if ( $contactId ) {
-                        $id = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId ); 
-                    } else { //fix to display default primary location
-                        require_once "CRM/Core/BAO/LocationType.php";
-                        $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
-                        $id = $defaultLocation->id;
+                    $locationTypeName = 1;
+                } else {
+                    $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+                    if ( ! $locationTypeName ) {
+                       continue;
                     }
-                }
-
-                $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
-                if ( ! $locationTypeName ) {
-                  continue;
                 }
 
                 if ( ! CRM_Utils_Array::value( 'location', $returnProperties ) ) {

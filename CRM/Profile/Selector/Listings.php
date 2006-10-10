@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2006                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -354,13 +354,22 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         $links =& self::links( $this->_map, $this->_editLink);
         
         $names = array( );
-        static $skipFields = array( 'group', 'tag' ); 
+        static $skipFields = array( 'group', 'tag' );
+        // CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ( $this->_fields as $key => $field ) {
             if ( $field['in_selector'] && 
                  ! in_array( $key, $skipFields ) ) { 
                 if ( strpos( $key, '-' ) !== false ) {
                     list( $fieldName, $id, $type ) = explode( '-', $key );
-                    $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+                    $locationTypeName = null;
+                    if ( is_numeric( $id ) ) {
+                        $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+                    } else {
+                        if ( $id == 'Primary' ) {
+                            $locationTypeName = 1;
+                        }
+                    }
+
                     if ( ! $locationTypeName ) {
                         continue;
                     }
@@ -389,7 +398,10 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         }
 
 
+        // CRM_Core_Error::debug( 'n', $names );
         while ($result->fetch()) {
+            // CRM_Core_Error::debug( 'r', $result );
+
             if (isset($result->country)) {
                 // the query returns the untranslated country name
                 $i18n =& CRM_Core_I18n::singleton();
