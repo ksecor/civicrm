@@ -102,16 +102,11 @@ class HTML_QuickForm_Page extends HTML_QuickForm
     *
     * @access public
     * @param  string  Name of the action
-    * @param  string  Name of the subaction if any
     * @return string  "name" attribute for a submit button
     */
-    function getButtonName($actionName, $subActionName = null)
+    function getButtonName($actionName)
     {
-        if ( $subActionName != null ) {
-            return '_qf_' . $this->getAttribute('id') . '_' . $actionName . '_' . $subActionName;
-        } else {
-            return '_qf_' . $this->getAttribute('id') . '_' . $actionName;
-        }
+        return '_qf_' . $this->getAttribute('id') . '_' . $actionName;
     }
 
 

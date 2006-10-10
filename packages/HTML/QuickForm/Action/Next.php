@@ -16,16 +16,16 @@
 // | Author: Alexey Borzov <avb@php.net>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Next.php,v 1.4 2004/11/26 10:49:48 avb Exp $
+// $Id: Next.php,v 1.5 2006/05/31 08:58:45 avb Exp $
 
 require_once 'HTML/QuickForm/Action.php';
 
 /**
- * The action for a 'next' button of wizard-type multipage form. 
- * 
+ * The action for a 'next' button of wizard-type multipage form.
+ *
  * @author  Alexey Borzov <avb@php.net>
  * @package HTML_QuickForm_Controller
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 class HTML_QuickForm_Action_Next extends HTML_QuickForm_Action
 {
@@ -36,7 +36,10 @@ class HTML_QuickForm_Action_Next extends HTML_QuickForm_Action
         $pageName =  $page->getAttribute('id');
         $data     =& $page->controller->container();
         $data['values'][$pageName] = $page->exportValues();
-        $data['valid'][$pageName]  = $page->validate();
+        if (PEAR::isError($valid = $page->validate())) {
+            return $valid;
+        }
+        $data['valid'][$pageName] = $valid;
 
         // Modal form and page is invalid: don't go further
         if ($page->controller->isModal() && !$data['valid'][$pageName]) {

@@ -16,16 +16,16 @@
 // | Author: Alexey Borzov <avb@php.net>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Back.php,v 1.4 2004/11/26 10:49:48 avb Exp $
+// $Id: Back.php,v 1.5 2006/05/31 08:58:44 avb Exp $
 
 require_once 'HTML/QuickForm/Action.php';
 
 /**
- * The action for a 'back' button of wizard-type multipage form. 
- * 
+ * The action for a 'back' button of wizard-type multipage form.
+ *
  * @author  Alexey Borzov <avb@php.net>
  * @package HTML_QuickForm_Controller
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 class HTML_QuickForm_Action_Back extends HTML_QuickForm_Action
 {
@@ -37,7 +37,10 @@ class HTML_QuickForm_Action_Back extends HTML_QuickForm_Action
         $data     =& $page->controller->container();
         $data['values'][$pageName] = $page->exportValues();
         if (!$page->controller->isModal()) {
-            $data['valid'][$pageName]  = $page->validate();
+            if (PEAR::isError($valid = $page->validate())) {
+                return $valid;
+            }
+            $data['valid'][$pageName] = $valid;
         }
 
         // get the previous page and go to it

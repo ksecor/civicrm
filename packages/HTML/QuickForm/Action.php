@@ -17,27 +17,28 @@
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: Action.php,v 1.1 2003/08/29 12:19:41 avb Exp $
+// $Id: Action.php,v 1.2 2006/05/31 08:58:44 avb Exp $
 
 /**
  * Class representing an action to perform on HTTP request. The Controller
- * will select the appropriate Action to call on the request and call its 
+ * will select the appropriate Action to call on the request and call its
  * perform() method. The subclasses of this class should implement all the
  * necessary business logic.
- * 
+ *
  * @author  Alexey Borzov <avb@php.net>
  * @package HTML_QuickForm_Controller
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 class HTML_QuickForm_Action
 {
    /**
-    * Processes the request. This method should be overriden by child classes to 
+    * Processes the request. This method should be overriden by child classes to
     * provide the necessary logic.
-    * 
+    *
     * @access public
-    * @param  object HTML_QuickForm_Page    the current form-page 
+    * @param  object HTML_QuickForm_Page    the current form-page
     * @param  string    Current action name, as one Action object can serve multiple actions
+    * @throws PEAR_Error
     */
     function perform(&$page, $actionName)
     {

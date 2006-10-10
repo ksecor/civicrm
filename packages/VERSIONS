@@ -1,58 +1,60 @@
 PEAR
 ====
-Archive_Tar                 1.3.1
-Auth_SASL                   1.0.2
-Console_Getopt              1.2        local changes
-Console_Table               1.0.5
-Contact_Vcard_Build         1.1.1      local changes + moved to Contact/Vcard/Build.php
-Contact_Vcard_Parse         1.31.0     moved to Contact/Vcard/Parse.php
-Date                        1.4.6
-DB                          1.7.6
-DB_DataObject               1.8.4      local changes
-DB_Table                    1.3.2
-HTML_Common                 1.2.3
-HTML_QuickForm              3.2.6      local changes
-HTML_Template_IT            1.2.1
-HTTP_Request                1.3.0
-Image_Text                  0.5.2beta2 [beta]
-Log                         1.9.8
-Mail                        1.1.13
-Mail_Mime                   1.3.1
-Net_Curl                    1.2.3
-Net_DIME                    0.3        [beta]
-Net_SMTP                    1.2.8
-Net_Socket                  1.0.6
-Net_URL                     1.0.14
-Net_UserAgent_Detect        2.2.0
-Pager                       2.4.2
-PEAR                        1.4.11
-PHP_Beautifier              0.1.11     [beta]
-Selenium                    0.1.4      [alpha]
-Text_Password               1.1.0
-Text_CAPTCHA                0.1.6      [alpha]
-Validate                    0.6.5      [beta]
-Validate_AR                 0.0.1      [alpha]
-Validate_AT                 0.5.1      [alpha]
-Validate_BE                 0.1.3      [beta]
-Validate_CA                 0.1.2      [alpha]
-Validate_CH                 0.5.1      [alpha]
-Validate_DE                 0.5.1      [alpha]
-Validate_DK                 0.1.1      [alpha]
-Validate_ES                 0.5.1      [alpha]
-Validate_Finance            0.5.3      [alpha]
-Validate_Finance_CreditCard 0.5.2      [alpha]
-Validate_FR                 0.5.2      [alpha]
-Validate_IN                 0.1.0      [alpha]
-Validate_IS                 0.2.0      [alpha]
-Validate_ISPN               0.6.0      [alpha]
-Validate_NL                 0.5.1      [alpha]
-Validate_NZ                 0.1.2      [alpha]
-Validate_PL                 0.5.1      [alpha]
-Validate_ptBR               0.5.4      [alpha]
-Validate_UK                 0.5.2      [alpha]
-Validate_US                 0.5.2      [beta]
-Validate_ZA                 0.2.1      [alpha]
-XML_RPC                     1.5.0
+Archive_Tar                   1.3.1
+Auth_SASL                     1.0.2
+Console_Getopt                1.2        local changes
+Console_Table                 1.0.5
+Contact_Vcard_Build           1.1.1      local changes + moved to Contact/Vcard/Build.php
+Contact_Vcard_Parse           1.31.0     moved to Contact/Vcard/Parse.php
+Date                          1.4.6
+DB                            1.7.6
+DB_DataObject                 1.8.4      local changes
+DB_Table                      1.3.2
+HTML_Common                   1.2.3
+HTML_QuickForm                3.2.6      local changes
+HTML_QuickForm_advmultiselect 1.2.0
+HTML_QuickForm_Controller     1.0.7
+HTML_Template_IT              1.2.1
+HTTP_Request                  1.3.0
+Image_Text                    0.5.2beta2 [beta]
+Log                           1.9.8
+Mail                          1.1.13
+Mail_Mime                     1.3.1
+Net_Curl                      1.2.3
+Net_DIME                      0.3        [beta]
+Net_SMTP                      1.2.8
+Net_Socket                    1.0.6
+Net_URL                       1.0.14
+Net_UserAgent_Detect          2.2.0
+Pager                         2.4.2
+PEAR                          1.4.11
+PHP_Beautifier                0.1.11     [beta]
+Selenium                      0.1.4      [alpha]
+Text_Password                 1.1.0
+Text_CAPTCHA                  0.1.6      [alpha]
+Validate                      0.6.5      [beta]
+Validate_AR                   0.0.1      [alpha]
+Validate_AT                   0.5.1      [alpha]
+Validate_BE                   0.1.3      [beta]
+Validate_CA                   0.1.2      [alpha]
+Validate_CH                   0.5.1      [alpha]
+Validate_DE                   0.5.1      [alpha]
+Validate_DK                   0.1.1      [alpha]
+Validate_ES                   0.5.1      [alpha]
+Validate_Finance              0.5.3      [alpha]
+Validate_Finance_CreditCard   0.5.2      [alpha]
+Validate_FR                   0.5.2      [alpha]
+Validate_IN                   0.1.0      [alpha]
+Validate_IS                   0.2.0      [alpha]
+Validate_ISPN                 0.6.0      [alpha]
+Validate_NL                   0.5.1      [alpha]
+Validate_NZ                   0.1.2      [alpha]
+Validate_PL                   0.5.1      [alpha]
+Validate_ptBR                 0.5.4      [alpha]
+Validate_UK                   0.5.2      [alpha]
+Validate_US                   0.5.2      [beta]
+Validate_ZA                   0.2.1      [alpha]
+XML_RPC                       1.5.0
 
 NON-PEAR
 ========
@@ -71,10 +73,8 @@ UFPDF          0.1      http://acko.net/blog/ufpdf
 OLD INFO
 ========
 Dojo                      0.3.1       some hacks to make ContentPane work
-HTML_QuickForm_Controller 1.0.4       
 
 
 TODO
 ====
-HTML
 dojo

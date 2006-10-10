@@ -16,19 +16,19 @@
 // | Author: Alexey Borzov <avb@php.net>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Direct.php,v 1.2 2004/03/02 21:15:45 avb Exp $
+// $Id: Direct.php,v 1.3 2006/05/31 08:58:45 avb Exp $
 
 require_once 'HTML/QuickForm/Action.php';
 
 /**
  * This action allows to go to a specific page of a multipage form.
- * 
- * Please note that the name for this action in addAction() should NOT be  
+ *
+ * Please note that the name for this action in addAction() should NOT be
  * 'direct', but the name of the page you wish to go to.
- * 
+ *
  * @author  Alexey Borzov <avb@php.net>
  * @package HTML_QuickForm_Controller
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 class HTML_QuickForm_Action_Direct extends HTML_QuickForm_Action
 {
@@ -39,7 +39,10 @@ class HTML_QuickForm_Action_Direct extends HTML_QuickForm_Action
         $pageName =  $page->getAttribute('id');
         $data     =& $page->controller->container();
         $data['values'][$pageName] = $page->exportValues();
-        $data['valid'][$pageName]  = $page->validate();
+        if (PEAR::isError($valid = $page->validate())) {
+            return $valid;
+        }
+        $data['valid'][$pageName] = $valid;
 
         $target =& $page->controller->getPage($actionName);
         if (PEAR::isError($target)) {

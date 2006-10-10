@@ -16,20 +16,20 @@
 // | Author: Alexey Borzov <avb@php.net>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Display.php,v 1.5 2004/11/26 10:49:48 avb Exp $
+// $Id: Display.php,v 1.6 2006/05/31 08:58:45 avb Exp $
 
 require_once 'HTML/QuickForm/Action.php';
 
 /**
  * This action handles the output of the form.
- * 
+ *
  * If you want to customize the form display, subclass this class and
  * override the _renderForm() method, you don't need to change the perform()
  * method itself.
- * 
+ *
  * @author  Alexey Borzov <avb@php.net>
  * @package HTML_QuickForm_Controller
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 class HTML_QuickForm_Action_Display extends HTML_QuickForm_Action
 {
@@ -57,7 +57,9 @@ class HTML_QuickForm_Action_Display extends HTML_QuickForm_Action
         $page->isFormBuilt() or $page->buildForm();
         // if we had errors we should show them again
         if (isset($validate) && $validate) {
-            $page->validate();
+            if (PEAR::isError($err = $page->validate())) {
+                return $err;
+            }
         }
         return $this->_renderForm($page);
     }
@@ -65,10 +67,10 @@ class HTML_QuickForm_Action_Display extends HTML_QuickForm_Action
 
    /**
     * Actually outputs the form.
-    * 
+    *
     * If you want to customize the form's appearance (you most certainly will),
     * then you should override this method. There is no need to override perform()
-    * 
+    *
     * @access public
     * @param  object HTML_QuickForm_Page  the page being processed
     */
