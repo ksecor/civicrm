@@ -146,6 +146,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm', 'reset=1' ) );
         }
 
+	// CRM_Core_Error::debug( 'f', $this->_fields );
+
         if ( $this->_id ) {
             $defaults = array( );
             

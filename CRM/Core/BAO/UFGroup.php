@@ -499,7 +499,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $options = array( );
 
         $studentFields = array( );
-        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+        if ( CRM_Core_Permission::access( 'Quest', false ) ) {
             //student fields ( check box ) 
             require_once 'CRM/Quest/BAO/Student.php';
             $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
@@ -575,7 +575,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $params[$index] = $paramsNew[$name];
                 } else {
                     $processed = false;
-                    if ( CRM_Core_Permission::access( 'Quest' ) ) {
+		    CRM_Core_Error::debug( 'c', $config->enableComponents ) ;
+		    exit( );
+		    if ( CRM_Core_Permission::access( 'Quest', false ) ) {
                         require_once 'CRM/Quest/BAO/Student.php';
                         $processed = CRM_Quest_BAO_Student::buildStudentForm( $this, $field );
                     }
@@ -1325,7 +1327,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
         } else {
             $processed = false;
-            if ( CRM_Core_Permission::access( 'Quest' ) ) {
+            if ( CRM_Core_Permission::access( 'Quest', false ) ) {
                 require_once 'CRM/Quest/BAO/Student.php';
                 $processed = CRM_Quest_BAO_Student::buildStudentForm( $form, $fieldName, $title, $contactId );
             }
@@ -1444,7 +1446,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
 
 
-        if ( CRM_Core_Permission::access( 'Quest' ) ) {
+        if ( CRM_Core_Permission::access( 'Quest', false ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             // Checking whether the database contains quest_student table.
             // Now there are two different schemas for core and quest.

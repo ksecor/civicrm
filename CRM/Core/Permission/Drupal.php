@@ -91,6 +91,16 @@ class CRM_Core_Permission_Drupal {
                 self::$_viewPermissionedGroups = $groups;
             }
 
+	    require_once 'CRM/ACL/API.php';
+	    $ids = CRM_ACL_API::group( CRM_Core_Permission::VIEW );
+	    foreach ( $ids as $id ) {
+	      $title = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $id, 'title' );
+	      self::$_editPermissionedGroups[$id] = $title;
+	      self::$_viewPermissionedGroups[$id] = $title;
+	      self::$_editPermission              = true; 
+	    }
+
+	    /**
             foreach ( $groups as $id => $title ) {
                 if ( self::check( CRM_Core_Permission::EDIT_GROUPS . $title ) ) {
                     self::$_editPermissionedGroups[$id] = $title;
@@ -101,6 +111,7 @@ class CRM_Core_Permission_Drupal {
                     self::$_viewPermission      = true;
                 } 
             }
+	    **/
         }
 
         return self::$_viewPermissionedGroups;

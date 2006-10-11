@@ -115,10 +115,19 @@ class CRM_Core_Permission {
         return eval( 'return ' . $config->userPermissionClass . '::group( );' );
     }
 
-    static function access( $module ) {
+    static function access( $module, $checkPermission = true ) {
         $config =& CRM_Core_Config::singleton( );
-        return ( CRM_Core_Permission::check( "access $module" ) &&
-                 in_array( $module, $config->enableComponents ) ) ? true : false;
+
+	if ( ! in_array( $module, $config->enableComponents ) ) {
+	  return false;
+	}
+
+	if ( $checkPermssion &&
+	     ! CRM_Core_Permission::check( "access $module" ) ) {
+	  return false;
+	}
+
+	return true;
     }
 
 }

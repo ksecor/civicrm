@@ -96,6 +96,29 @@ class CRM_ACL_API {
         return CRM_ACL_BAO_ACL::whereClause( $type, $tables, $whereTables, $contactID );
     }
 
+    /**
+     * get all the groups the user has access to for the given operation
+     *
+     * @param int $type the type of permission needed
+     * @param int    $contactID the contactID for whom the check is made
+     *
+     * @return array the ids of the groups for which the user has permissions
+     * @access public
+     */
+    public static function group( $type, $contactID = null ) {
+        if ( $contactID == null ) {
+            $session   =& CRM_Core_Session::singleton( );
+            $contactID =  $session->get( 'userID' );
+        }
+
+        if ( ! $contactID ) {
+            $contactID = 0; // anonymous user
+        }
+
+        require_once 'CRM/ACL/BAO/ACL.php';
+        return CRM_ACL_BAO_ACL::group( $type, $contactID );
+    }
+
 }
 
 ?>
