@@ -127,21 +127,31 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         $job = CRM_Mailing_BAO_Job::getTableName();
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( 
-                array(
-                    'name'  => ts('Mailing Name'),
-                ), 
-                array(
-                    'name' => ts('Status'),
-                ), 
-                array(
-                    'name' => ts('Scheduled Date'),
-                ), 
-                array(
-                    'name' => ts('Start Date'),
-                ), 
-                array(
-                    'name' => ts('Completed Date'),
-                ), 
+                                          array(
+                                                'name'  => ts('Mailing Name'),
+                                                'sort'      => 'name',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ), 
+                                          array(
+                                                'name' => ts('Status'),
+                                                'sort'      => 'status',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ), 
+                                          array(
+                                                'name' => ts('Scheduled Date'),
+                                                'sort'      => 'scheduled',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ), 
+                                          array(
+                                                'name' => ts('Start Date'),
+                                                'sort'      => 'start',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ), 
+                                          array(
+                                                'name' => ts('Completed Date'),
+                                                'sort'      => 'end',
+                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                ), 
             );
             if ($output != CRM_Core_Selector_Controller::EXPORT) {
                 self::$_columnHeaders[] = array('name' => ts('Action'));
