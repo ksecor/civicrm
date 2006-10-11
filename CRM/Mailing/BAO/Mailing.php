@@ -1131,8 +1131,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             INNER JOIN  $job
                     ON  $job.mailing_id = $mailing.id
             WHERE       $mailing.domain_id = $domain_id
-            GROUP BY    $mailing.id
-            ORDER BY    $mailing.id DESC, $job.end_date DESC";
+            GROUP BY    $mailing.id ";
+        //ORDER BY    $mailing.id DESC, $job.end_date DESC";
+        
+        if ($sort) {
+            $orderBy = trim( $sort->orderBy() );
+            if ( ! empty( $orderBy ) ) {
+                $query .= " ORDER BY $orderBy";
+            }
+        }
 
         if ($rowCount) {
             $query .= " LIMIT $offset, $rowCount ";
