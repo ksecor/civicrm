@@ -147,7 +147,15 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
                     $errors['membership_type'] = 'Please select at least one Membership Type to include in the Membership section of this page.';
                 }
             }
-        }     
+            //for CRM-1302
+            //if Membership status is not present, then display an error message
+            require_once 'CRM/Member/BAO/MembershipStatus.php';
+            $dao =& new CRM_Member_BAO_MembershipStatus();
+            $id  = $dao->id;
+            if ( !$dao->find()){
+                $errors['_qf_default'] = 'Add status rules, before configuring membership';               
+            }    
+        }
         return empty($errors) ? true : $errors;
     }
 
@@ -162,7 +170,6 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
         // we do this in case the user has hit the forward/back button
-
         require_once 'CRM/Member/DAO/MembershipBlock.php';
         $dao =& new CRM_Member_DAO_MembershipBlock();
         $dao->entity_table = 'civicrm_contribution_page';
@@ -180,7 +187,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
                     $membershipTypes[] = $k;
                 }
             }
-        }
+                }
         $params['membership_types']              =  implode(',', $membershipTypes);
         $params['is_required']                   =  CRM_Utils_Array::value( 'is_required', $params, false );
         $params['is_active']                     =  CRM_Utils_Array::value( 'is_active', $params, false );
@@ -188,13 +195,12 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
         $params['is_separate_payment']              =  CRM_Utils_Array::value( 'is_separate_payment', $params, false );
         $params['entity_table']                  = 'civicrm_contribution_page';
         $params['entity_id']                     =  $this->_id;
-       
+        
         $dao =& new CRM_Member_DAO_MembershipBlock();
         $dao->copyValues($params);
         $dao->save();
-
     }
-
+    
     /** 
      * Return a descriptive name for the page, used in wizard header 
      * 
