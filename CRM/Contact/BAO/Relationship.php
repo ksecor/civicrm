@@ -662,6 +662,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 $values[$rid]['end_date']   = $relationship->end_date;
                 $values[$rid]['description']= $relationship->description;
                 $values[$rid]['is_active']  = $relationship->is_active;
+                $values[$rid]['civicrm_relationship_type_id'] = $relationship->civicrm_relationship_type_id;
 
                 if ($relationship->name_a_b == $relationship->relation) {
                     $values[$rid]['rtype'] = 'a_b';

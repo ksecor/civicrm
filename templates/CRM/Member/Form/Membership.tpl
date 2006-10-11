@@ -77,5 +77,16 @@ function showHideMemberStatus() {
        show('memberStatus_show');
 	}
 }
+
+    
+   function reload(refresh) {
+        var membershipType = document.getElementById("membership_type_id");
+        var url = {/literal}"{$refreshURL}"{literal}
+        var post = url + "&subType=" + membershipType.value;
+        if ( refresh ) {
+            window.location= post; 
+        }
+     }
+
 </script>
 {/literal}

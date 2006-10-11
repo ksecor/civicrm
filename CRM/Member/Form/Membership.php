@@ -55,13 +55,24 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
        
+        $this->_memType = CRM_Utils_Request::retrieve( 'subType', 'Positive',
+                                                       $this );
+
+        if ( ! $this->_memType ) {
+            if ( $this->_id ) {
+                $this->_memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$this->_id,"membership_type_id");
+            } else {
+                $this->_memType = "Membership";
+            }
+        }     
+    
         //check whether membership status present or not
         if ( $this->_action & CRM_Core_Action::ADD ) {
             CRM_Member_BAO_Membership::statusAvilability($this->_contactID);
         }
 
         //get the group Tree
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $this->_id, false,false );
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $this->_id, false,$this->_memType);
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
 
         parent::preProcess( );
@@ -88,7 +99,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
-        
+        $defaults["membership_type_id"] =  $this->_memType;
         return $defaults;
     }
 
@@ -105,11 +116,20 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             return;
         }
 
+        if ( $this->_id ) {
+            $url = "civicrm/contact/view/membership&action=update&reset=1&cid=$this->_contactID&id=$this->_id&context=membership";
+        } else {
+            $url = "civicrm/contact/view/membership&reset=1&action=add&cid=$this->_contactID&context=membership";
+        }
+
+        $url = CRM_Utils_System::url($url); 
+        $this->assign("refreshURL",$url);
+
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->add('select', 'membership_type_id', 
+        $this->addElement('select', 'membership_type_id', 
                    ts( 'Membership Type' ), 
-                   array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ),
+                   array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ),array('onChange' => "reload(true)"),
                    true );
 
         $this->add('date', 'join_date', ts('Join Date'), CRM_Core_SelectValues::date('manual', 3, 1), false );         

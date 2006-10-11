@@ -138,6 +138,20 @@
   
 	
 {/if}
+ 
+<script type="text/javascript" >
+{literal}
+function reload(refresh) {
+        var relType = document.getElementById("relationship_type_id");
+        var url = {/literal}"{$refreshURL}"{literal}
+        var post = url + "&relTypeId=" + relType.value;
+        if( refresh ) {
+            window.location= post; 
+        }
+    }
+{/literal}       
+</script>
+
 {if $action eq 8}
      <fieldset><legend>{ts}Delete Relationship{/ts}</legend>
 	<dl>
