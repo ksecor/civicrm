@@ -128,12 +128,17 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
         $tasks = array( '8'  => 'cmApp',
                         '7'  => 'cmPackage',
                         '19' => 'cmPartnerSupplement',
+                        '9'  => 'cmAllRecs',
                         );
         $taskStatus = array( );
         foreach ( $tasks as $key => $value ) {
             $taskStatus[$value] = CRM_Quest_API::getTaskStatus( $this->_contactId, $this->_contactId, $key );
         }
-        $this->assign('taskStatus', $taskStatus);
+        $this->assign( 'taskStatus', $taskStatus );
+        
+        // get status for all recommendations for this student
+        $recStatus = CRM_Quest_API::getRecommendationStatus( $this->_contactId );
+        $this->assign( 'recStatus', $recStatus );
         
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();

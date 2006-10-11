@@ -15,21 +15,44 @@
         &nbsp; &nbsp; <input type="button" value="{ts}Delete{/ts}" name="contact_delete" onclick="window.location='{crmURL p='civicrm/contact/view/delete' q="reset=1&delete=1&cid=$contactId"}';"/>
     {/if}
     {if $lastModified} Last Modified By: &nbsp; &nbsp; <a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$lastModified.id`"}">{$lastModified.name}</a>{/if}
-    &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/matchapp/preview' q="reset=1&action=view&id=$contactId"}">&raquo; {ts}View CM App{/ts}</a></span>
-    {if $permission EQ 'edit'}
-        &nbsp; &nbsp; <span class="nowrap"><a href="{crmURL p='civicrm/quest/matchapp' q="reset=1&action=update&id=$contactId"}">&raquo; {ts}Edit CM App{/ts}</a></span>
-    {/if}
+    
     {if $url } &nbsp; &nbsp; <span class="nowrap"><a href="{$url}">&raquo; {ts}View User Record{/ts}</a></span>{/if}
     {if $contactTag}<br /><label>{ts}Tags{/ts}:</label>&nbsp;{$contactTag}{/if}
     
     {* Show app task statuses if the taskStatus var is populated *}
-    {if $taskStatus || $Student.cmr_disposition}
+    {if $taskStatus || $Student.cmr_disposition || $recStatus}
         <table>
-            <tr class="columnheader"><th colspan="2">College Match Summary</th></tr>
-            <tr class="odd-row"><td><strong>{ts}CM Disposition{/ts}:</strong></td><td><strong>{$Student.cmr_disposition}</strong></td></tr>
-            <tr class="even-row"><td><strong>{ts}CM Application{/ts}:</strong></td><td><strong>{$taskStatus.cmApp}</strong></td></tr>
-            <tr class="odd-row"><td><strong>{ts}Partner Supplement{/ts}:</strong></td><td><strong>{$taskStatus.cmPartnerSupplement}</strong></td></tr>
-            <tr class="even-row"><td><strong>{ts}CM Total Package{/ts}:</strong></td><td><strong>{$taskStatus.cmPackage}</strong></td></tr>
+            <tr class="columnheader"><th colspan="3">College Match Summary</th></tr>
+            <tr class="odd-row"><td><strong>{ts}CM Disposition{/ts}:</strong></td><td><strong>{$Student.cmr_disposition}</strong></td><td></td></tr>
+            <tr class="even-row">
+                <td><strong>{ts}CM Application{/ts}:</strong></td>
+                <td><strong>{$taskStatus.cmApp}</strong></td>
+                <td class="nowrap">
+                    <strong>
+                    <a href="{crmURL p='civicrm/quest/matchapp/preview' q="reset=1&action=view&id=$contactId"}">{ts}View{/ts}</a>
+                    {if $permission EQ 'edit'}
+                        &nbsp; | &nbsp;<a href="{crmURL p='civicrm/quest/matchapp' q="reset=1&action=update&id=$contactId"}">{ts}Edit{/ts}</a>
+                    {/if}
+                    </strong>
+                </td
+            </tr>
+            <tr class="odd-row">
+                <td><strong>{ts}Partner Supplement{/ts}:</strong></td>
+                <td><strong>{$taskStatus.cmPartnerSupplement}</strong></td>
+                <td><strong><a href="{crmURL p='civicrm/quest/matchapp/partner' q="reset=1&action=view&id=$contactId"}">{ts}View{/ts}</a></strong></td>
+            </tr>
+            <tr class="even-row"><td><strong>{ts}All Recommendations{/ts}:</strong></td><td><strong>{$taskStatus.cmAllRecs}</strong></td><td></td></tr>
+            <tr class="odd-row"><td><strong>{ts}CM Total Package{/ts}:</strong></td><td><strong>{$taskStatus.cmPackage}</strong></td><td></td></tr>
+        {if $recStatus}
+            <tr class="columnheader"><th colspan="3">{ts}Recommendations{/ts}</th></tr>
+            {foreach from=$recStatus item=rec}
+                <tr class="{cycle values="odd-row,even-row"}">
+                    <td><strong><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rec.contact_id`"}">{$rec.display_name} ({$rec.type})</a></strong></td>
+                    <td><strong>{$rec.status}</strong></td>
+                    <td><strong><a href="{$rec.preview}">{ts}View{/ts}</a></strong></td>
+                </tr>
+            {/foreach}
+        {/if}
         </table>
     {/if}
 </div>

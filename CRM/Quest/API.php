@@ -100,6 +100,7 @@ SELECT cr.id                   as contact_id,
    AND ts.responsible_entity_id    = cr.id
    AND ts.target_entity_table      = 'civicrm_contact'
    AND ts.target_entity_id         = $sourceID
+ ORDER BY ts.status_id DESC
 ";
 
         require_once 'CRM/Core/OptionGroup.php';
