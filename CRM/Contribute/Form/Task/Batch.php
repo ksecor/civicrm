@@ -147,8 +147,6 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
         }
         
         $this->assign('sortName', $sortName);
-        
-
         return $defaults;
     }
 
@@ -161,13 +159,28 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
      */
     public function postProcess() 
     {
-        $params = $this->exportValues( );
-
-        $ufGroupId = $this->get( 'ufGroupId' );
-        foreach($params['field'] as $key => $value) {
-            //CRM_Contact_BAO_Contact::createProfileContact($value, $this->_fields, $key, null, $ufGroupId );
+        $params     = $this->exportValues( );
+        $dates = array( 'receive_date',
+                        'receipt_date',
+                        'thankyou_date',
+                        'cancel_date'
+                        );
+        
+        foreach ( $params['field'] as $key => $value ) {
+            foreach ( $dates as $d ) {
+                if ( ! CRM_Utils_System::isNull( $value[$d] ) ) {
+                    $value[$d]['H'] = '00';
+                    $value[$d]['i'] = '00';
+                    $value[$d]['s'] = '00';
+                    $value[$d]      =  CRM_Utils_Date::format( $value[$d] );
+                }   
+            }
+            
+            $ids['contribution'] = $key;
+            $value['contribution_type_id'] = $value['contribution_type'];
+            unset($value['contribution_type']);
+            CRM_Contribute_BAO_Contribution::add( $value ,$ids );   
         }
-
         CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function
 }

@@ -1484,16 +1484,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $params = $ids = $values = array();
             $params = array( 'id' => $contributionId );
-
+            
             require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Contribute_BAO_Contribution::getValues( $params, $values,  $ids );
             
-             foreach ($fields as $name => $field ) {
-                 $fldName = "field[$contributionId][$name]";
-                 if ( array_key_exists($name,$values) ) {
-                     $defaults[$fldName] = $values[$name];
-                 }
-             }
+            foreach ($fields as $name => $field ) {
+                $fldName = "field[$contributionId][$name]";
+                if ( $name == 'contribution_type' ) {
+                    $defaults[$fldName] = $values['contribution_type_id'];
+                } else if ( array_key_exists($name,$values) ) {
+                    $defaults[$fldName] = $values[$name];
+                }
+            }
         }
     }
 }
