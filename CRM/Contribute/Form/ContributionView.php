@@ -70,7 +70,7 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
             }
         }
 
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->get( 'id' ) );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->get( 'id' ),0,$values['contribution_type_id'] );
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
         $id = $this->get( 'id' );
         if( $id ) {
