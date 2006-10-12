@@ -257,7 +257,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                                          'entity_id'        => $eq->contact_id,
                                          'activity_type'    => 'Send Email',
                                          'module'           => 'CiviMail',
-                                         'callback'         => 'CRM_Mailing_BAO_Mailing::showActivityDetails',
+                                         'callback'         => 'CRM_Mailing_BAO_Mailing::showEmailDetails',
                                          'activity_id'      => $this->mailing_id,
                                          'activity_summary' => $mailing->subject,
                                          'activity_date'    => $job_date
