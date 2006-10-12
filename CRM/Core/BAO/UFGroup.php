@@ -1498,6 +1498,31 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
         }
     }
+
+    /**
+     * Function to get profiles by type  eg: pure Individual etc
+     *
+     * @params array  $types      associative array of types eg: types('Individual')
+     *
+     * @return array  $profiles  associative array of profiles  
+     * @static
+     * @access public
+     */
+    static function getProfiles( $types ) 
+    {
+        require_once "CRM/Core/BAO/UFField.php";
+        $profiles = array();
+        $ufGroups = CRM_Core_PseudoConstant::ufgroup( );
+        foreach ($ufGroups as $id => $title) {
+            $ptype = CRM_Core_BAO_UFField::getProfileType($id);
+            if ( in_array ($ptype, $types) ) {
+                $profiles[$id] = $title;
+            }
+        }
+        
+        return $profiles;
+    }
+
 }
 
 ?>

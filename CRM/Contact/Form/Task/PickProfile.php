@@ -113,8 +113,9 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
         CRM_Utils_System::setTitle( ts('Batch Profile Update') );
         
         // add select for groups
-        $ufGroup = array( '' => ts('- select profile -')) + CRM_Core_PseudoConstant::ufgroup( );
-        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $ufGroup, true);
+        $types = array('Student', 'Individual', 'Organization', 'Household');
+        $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles($types);
+        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $profiles, true);
 
         $this->addDefaultButtons( ts( 'Pick profile' ) );
     }
