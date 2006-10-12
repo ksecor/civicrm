@@ -92,7 +92,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         } else {
             switch ( $this->_name ) {
             case 'Personal':
-                $this->addDefaultButtons(ts('Save & Continue'), 'upload', null);
+                $this->addDefaultButtons(ts('Save & Continue'), 'upload', null, true);
                 break;
 
             case 'Household':
