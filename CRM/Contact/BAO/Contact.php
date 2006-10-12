@@ -712,11 +712,11 @@ ORDER BY
                         $customValue = $date;
                         break;
                     case 'CheckBox':
-                        $customValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
+                        $customValue = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                         break;
                     //added a case for Multi-Select
                     case 'Multi-Select':
-                        $customValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
+                        $customValue = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                         break;
                     default:
                         $customValue = $value;
