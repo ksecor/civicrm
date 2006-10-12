@@ -98,7 +98,7 @@ class CRM_Quest_BAO_Query
                 if ( substr( $name, -10 ) == 'country_id' ) {
                     $query->_select[$name] = "civicrm_country.name as $name";
                     $query->_tables['civicrm_country'] = 1;
-                }  elseif ( substr($name, 0, 4) == 'cmr_' ) {
+                }  elseif ( substr($name, 0, 4) == 'cmr_' || $name == 'household_income_total' ) {
                     $query->_select[$name] = "{$title['where']} as $name";
                     $query->_tables['quest_student_summary'] = 1;
                     $query->_element[$name] = 1;

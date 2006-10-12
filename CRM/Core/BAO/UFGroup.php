@@ -1440,6 +1440,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         }
                     }
                 }
+            
+
             }
             
             
@@ -1449,22 +1451,29 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 // Now there are two different schemas for core and quest.
                 // So if only core schema in use then withought following check gets the DB error.
                 $student      = new CRM_Quest_BAO_Student();
-                $tableStudent = $student->geTableName();
-                // CRM_Core_Error::debug('table', $tableStudent);
+                $tableStudent = $student->getTableName();
+                //CRM_Core_Error::debug('table', $tableStudent);
                 if ($tableStudent) {
                     //set student defaults
-                    CRM_Quest_BAO_Student::retrieve( $details, $defaults, $ids);
-                    $fields = array( 'educational_interest','college_type','college_interest','test_tutoring');
-                    foreach( $fields as $field ) {
-                        if ( $defaults[$field] ) {
-                            $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $defaults[$field] );
+                    CRM_Quest_BAO_Student::retrieve( $details, $studentDefaults, $ids);
+                    $studentFields = array( 'educational_interest','college_type','college_interest','test_tutoring');
+                    foreach( $studentFields as $fld ) {
+                        if ( $studentDefaults[$fld] ) {
+                            $values = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $studentDefaults[$fld] );
                         }
                         
-                        $defaults[$field] = array();
+                        $studentDefaults[$fld] = array();
                         if ( is_array( $values ) ) {
                             foreach( $values as $v ) {
-                                $defaults[$field][$v] = 1;
+                                $studentDefaults[$fld][$v] = 1;
                             }
+                        }
+                    }
+
+                    foreach ($fields as $name => $field ) {
+                        $fldName = "field[$contactId][$name]";
+                        if ( array_key_exists($name,$studentDefaults) ) {
+                            $defaults[$fldName] = $studentDefaults[$name];
                         }
                     }
                 }
