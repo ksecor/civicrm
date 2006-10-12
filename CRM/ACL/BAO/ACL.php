@@ -691,8 +691,9 @@ SELECT s.where_clause, s.select_tables, s.where_tables
         require_once 'CRM/ACL/BAO/Cache.php';
 
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
+        $ids  = array( );
         if ( empty( $acls ) ) {
-            return ' ( 0 ) ';
+	  return $ids;
         }
         
         $aclKeys = array_keys( $acls );
@@ -711,7 +712,6 @@ ORDER BY a.object_id
 
 
         // do an or of all the where clauses u see
-        $ids = array( );
         while ( $dao->fetch( ) ) {
 	  if ( $dao->object_id ) {
             $ids[] = $dao->object_id;

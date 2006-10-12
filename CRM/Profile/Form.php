@@ -95,7 +95,14 @@ class CRM_Profile_Form extends CRM_Core_Form
      * @var int
      */ 
     protected $_addToGroupID;
-    
+
+    /**
+     * THe context from which we came from, allows us to go there if redirect not set
+     *
+     * @var string
+     */
+    protected $_context;
+
     /** 
      * pre processing work done here. 
      * 
@@ -114,6 +121,9 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
 
+	$this->_context  = CRM_Utils_Request::retrieve( 'context', 'String',
+							$this );
+	
         if ( ! $this->_gid ) {
             $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                       $this, false, 0, 'GET');
