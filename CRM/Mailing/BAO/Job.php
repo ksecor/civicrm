@@ -246,7 +246,28 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                 /* Register the delivery event */
                 CRM_Mailing_Event_BAO_Delivered::create($params);
             }
-
+            
+            // add activity histroy record for every mail that is send
+            $jobDate = new CRM_Mailing_BAO_Job();
+            $jobDate->mailing_id = $this->mailing_id;
+            $jobDate->find();
+            while( $jobDate->fetch() ) {
+                $job_date =  CRM_Utils_Date::isoToMysql($jobDate->scheduled_date);
+                $activityHistory = array('entity_table'     => 'civicrm_contact',
+                                         'entity_id'        => $eq->contact_id,
+                                         'activity_type'    => 'Send Email',
+                                         'module'           => 'CiviMail',
+                                         'callback'         => 'CRM_Mailing_BAO_Mailing::showActivityDetails',
+                                         'activity_id'      => $this->mailing_id,
+                                         'activity_summary' => $mailing->subject,
+                                         'activity_date'    => $job_date
+                                         );
+            }
+            
+            if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
+                return false;
+            }
+           
             unset( $result );
         }
     }

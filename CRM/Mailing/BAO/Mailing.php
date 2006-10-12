@@ -1162,6 +1162,23 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         return $rows;
     }
+
+
+    /**
+     * compose the url to show details of activityHistory for CiviMail
+     *
+     * @param int $id
+     *
+     * @static
+     * @access public
+     */
+
+    static function showEmailDetails( $id )
+    {
+        return CRM_Utils_System::url('civicrm/mailing/report', "mid=$id");
+        
+    }
+
 }
 
 ?>
