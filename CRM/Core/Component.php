@@ -78,7 +78,7 @@ class CRM_Core_Component {
                                            'edit Quest Recommendation',
                                            'view Quest Recommendation',
                                            'edit Quest Partner Supplement',
-					   'edit Quest Fix Recommendation',
+                                           'edit Quest Fix Recommendation',
                                            'view Quest Partner Supplement'
                                            ),
                        'search'  => 1,
@@ -90,6 +90,19 @@ class CRM_Core_Component {
                                            '33' => array( 'title'  => 'Export PDF',
                                                           'class'  => 'CRM_Quest_Form_Task_PDF',
                                                           'result' => false ) ) );
+
+            self::$_info['TMF'] =
+                array( 'title'   => 'TMF Application Process',
+                       'path'    => 'CRM_TMF_',
+                       'url'     => 'tmf',
+                       'perm'    => array( 'edit TMF Application',
+                                           'view TMF Application',
+                                           'edit TMF Nomination',
+                                           'view TMF Nomination',
+                                           ),
+                       'search'  => 1,
+                       'metaTpl' => 'tmf',
+                       'formTpl' => 'tmf' );
         }
         return self::$_info;
     }

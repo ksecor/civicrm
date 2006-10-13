@@ -142,6 +142,51 @@ class CRM_Project_BAO_TaskStatus {
         
         $dao->save( );
     }
+
+    /**
+     * Function to set the task status of various tasks
+     *
+     * @param array  $params        associated array
+     *
+     * @static
+     * @return returns task status object
+     */
+    static function createTaskStatus( &$params )
+    {
+        if (!$params['target_entity_id'] || !$params['responsible_entity_id'] 
+            || !$params['task_id'] || ! $params['status_id'] ) {
+            return null;
+        }
+        
+        self::initialize( );
+
+        if (!$params['target_entity_table'] ) {
+            $params['target_entity_table'] = 'civicrm_contact';
+        }
+
+        if (!$params['responsible_entity_table']) {
+            $params['responsible_entity_table'] = 'civicrm_contact';
+        }
+        
+        require_once 'CRM/Project/DAO/TaskStatus.php';
+        $dao =& new CRM_Project_DAO_TaskStatus( );
+        $dao->target_entity_id         = $params['target_entity_id'];
+        $dao->responsible_entity_id    = $params['responsible_entity_id'];
+        $dao->target_entity_table      = $params['target_entity_table'];
+        $dao->responsible_entity_table = $params['responsible_entity_table'];
+        $dao->task_id                  = $params['task_id'];
+
+        if ( $dao->find( true ) ) {
+            $dao->create_date   = CRM_Utils_Date::isoToMysql( $dao->create_date );
+        } else {
+            $dao->create_date   = date( 'YmdHis' );
+        }
+        $dao->modified_date = date( 'YmdHis' );
+        $dao->status_id     = $params['status_id'];
+
+        return $dao->save();
+    }
+    
 }
 
 ?>
