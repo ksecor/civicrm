@@ -158,8 +158,6 @@ class CRM_Project_BAO_TaskStatus {
             return null;
         }
         
-        self::initialize( );
-
         if (!$params['target_entity_table'] ) {
             $params['target_entity_table'] = 'civicrm_contact';
         }
