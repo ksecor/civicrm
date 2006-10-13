@@ -100,9 +100,10 @@ class CRM_Core_Component {
                                            'edit TMF Nomination',
                                            'view TMF Nomination',
                                            ),
-                       'search'  => 1,
-                       'metaTpl' => 'tmf',
-                       'formTpl' => 'tmf' );
+                       'search'  => 0,
+                       //'metaTpl' => 'tmf',
+                       //'formTpl' => 'tmf' 
+                       );
         }
         return self::$_info;
     }
