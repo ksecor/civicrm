@@ -1,6 +1,6 @@
-{if ($action eq 64)}
-<fieldset><legend>{ts}Cancel Mailing{/ts}</legend>
-<div class=status>{ts 1=$subject}Are you sure you want to cancel the mailing "%1"?{/ts}</div>
+{if $action eq 8 or $action eq 64} 
+<fieldset><legend>{if $action eq 8}{ts}Delete{/ts}{else}{ts}Cancel{/ts}{/if} {ts} Mailing{/ts}</legend>
+<div class=status>{ts 1=$subject}Are you sure you want to {if $action eq 8}{ts}delete{/ts}{else}{ts}cancel{/ts}{/if} the mailing "%1"?{/ts}</div>
 <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>
 </fieldset>
 {/if}

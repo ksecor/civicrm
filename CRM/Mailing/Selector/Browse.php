@@ -126,6 +126,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         $mailing = CRM_Mailing_BAO_Mailing::getTableName();
         $job = CRM_Mailing_BAO_Job::getTableName();
         if ( ! isset( self::$_columnHeaders ) ) {
+            
             self::$_columnHeaders = array( 
                                           array(
                                                 'name'  => ts('Mailing Name'),
@@ -188,23 +189,30 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         static $actionLinks = null;
-        
         if (empty($actionLinks)) {
             $cancelExtra = ts('Are you sure you want to cancel this mailing?');
+            $deleteExtra = ts('Are you sure you want to delete this mailing?');
             $actionLinks = array(
                 CRM_Core_Action::VIEW => array(
                     'name'  => ts('Report'),
                     'url'   => 'civicrm/mailing/report',
                     'qs'    => 'mid=%%mid%%',
                     'title' => ts('View Mailing Report')
-                ),
+                    ),
                 CRM_Core_Action::DISABLE => array(
                     'name'  => ts('Cancel'),
                     'url'   => 'civicrm/mailing/browse',
                     'qs'    => 'action=disable&mid=%%mid%%',
                     'extra' => 'onclick="if (confirm(\''. $cancelExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                     'title' => ts('Cancel Mailing')
-                )
+                    ),
+                CRM_Core_Action::DELETE => array(
+                    'name'  => ts('Delete'),
+                    'url'   => 'civicrm/mailing/browse',
+                    'qs'    => 'action=delete&mid=%%mid%%',
+                    'extra' => 'onclick="if (confirm(\''. $deleteExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
+                    'title' => ts('Delete Mailing')                    
+                    )
             );
         }
 
@@ -218,6 +226,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                 if (in_array($row['status'], array('Scheduled', 'Running', 'Paused'))) {
                     $actionMask |= CRM_Core_Action::DISABLE;
                 }
+                $actionMask |= CRM_Core_Action::DELETE;
                 $rows[$key]['action'] = 
                     CRM_Core_Action::formLink(  $actionLinks,
                                                 $actionMask,

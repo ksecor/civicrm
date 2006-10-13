@@ -1179,6 +1179,35 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
     }
 
+     /**
+     * Delete Mails and all its associated records
+     * 
+     * @param  int  $id id of the mail to delete
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    public static function del($id) {
+        $dao = & new CRM_Mailing_DAO_Group();
+        $dao->mailing_id = $id;
+        $dao->delete();
+
+        $dao = & new CRM_Mailing_DAO_Job();
+        $dao->mailing_id = $id;
+        $dao->delete();
+
+        $dao = & new CRM_Mailing_DAO_TrackableURL();
+        $dao->mailing_id = $id;
+        $dao->delete();
+
+        $dao = & new CRM_Mailing_DAO_Mailing();
+        $dao->id = $id;
+        $dao->delete();
+
+        CRM_Core_Session::setStatus(ts('Selected mailing has been deleted.'));
+   }
+
 }
 
 ?>

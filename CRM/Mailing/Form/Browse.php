@@ -35,7 +35,7 @@
  * 
  */ 
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/Form.php';require_once 'CRM/Mailing/BAO/Mailing.php';
     /**
      * Build the form for disable mail feature 
      *
@@ -55,8 +55,10 @@ class CRM_Mailing_Form_Browse extends CRM_Core_Form
      *
      */
     function preProcess( ) 
-    {
+    { 
         $this->_mailingId = CRM_Utils_Request::retrieve('mid', 'Positive', $this);
+        $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this);
+        
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->_mailingId;
@@ -81,6 +83,7 @@ class CRM_Mailing_Form_Browse extends CRM_Core_Form
                                  array ( 'type'       => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )
+                                 
                            );
     }
     
@@ -90,8 +93,12 @@ class CRM_Mailing_Form_Browse extends CRM_Core_Form
      * @return None
      */
     public function postProcess() 
-    {       
-        CRM_Mailing_BAO_Job::cancel($this->_mailingId);
+    {    
+        if ( $this->_action & CRM_Core_Action::DELETE ) {        
+            CRM_Mailing_BAO_Mailing::del($this->_mailingId);
+        } elseif ( $this->_action & CRM_Core_Action::DISABLE ) {
+            CRM_Mailing_BAO_Job::cancel($this->_mailingId);
+        }
     }//end of function
 
 }

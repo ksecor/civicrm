@@ -4,7 +4,7 @@
  +--------------------------------------------------------------------+ 
  | CiviCRM version 1.6                                                | 
  +--------------------------------------------------------------------+ 
- | Copyright CiviCRM LLC (c) 2004-2006                                  | 
+ | Copyright CiviCRM LLC (c) 2004-2006                                | 
  +--------------------------------------------------------------------+ 
  | This file is a part of CiviCRM.                                    | 
  |                                                                    | 
@@ -19,10 +19,10 @@
  |                                                                    | 
  | You should have received a copy of the Affero General Public       | 
  | License along with this program; if not, contact the Social Source | 
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       | 
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      | 
  | about the Affero General Public License or the licensing  of       | 
  | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   | 
- | http://www.civicrm.org/licensing/                                 | 
+ | http://www.civicrm.org/licensing/                                  | 
  +--------------------------------------------------------------------+ 
 */ 
  
@@ -70,7 +70,6 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      */
     protected $_action;
 
-
     /**
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
@@ -92,9 +91,10 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      * @return void 
      */ 
     function run( ) {
-        $this->preProcess();
-        if ($this->_action & CRM_Core_Action::DISABLE) {
-            $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
+        $this->preProcess(); 
+        $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
+        //$retrieve = CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this );
+        if ($this->_action & CRM_Core_Action::DISABLE) {                 
             if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
                 require_once 'CRM/Mailing/BAO/Job.php';
                 CRM_Mailing_BAO_Job::cancel($this->_mailingId);
@@ -108,8 +108,23 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                 $session->pushUserContext( $url );
                 $controller->run( );
             }
-        } 
-        
+        } else if ($this->_action & CRM_Core_Action::DELETE) {
+            if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
+                require_once 'CRM/Mailing/BAO/Mailing.php';
+                CRM_Mailing_BAO_Mailing::del($this->_mailingId);
+                CRM_Utils_System::redirect($url);
+            } else {
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse', ts('Delete Mailing'), $this->_action );
+                $controller->setEmbedded( true );
+                
+                // set the userContext stack
+                $session =& CRM_Core_Session::singleton();
+                $session->pushUserContext( $url );
+                $controller->run( );
+            }
+        }
+            
+
         $selector =& new CRM_Mailing_Selector_Browse( );
         $controller =& new CRM_Core_Selector_Controller(
                                                         $selector ,
@@ -124,7 +139,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         $controller->run( );
         return parent::run( );
     }
-
+  
 }
 
 ?>
