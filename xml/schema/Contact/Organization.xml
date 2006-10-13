@@ -73,4 +73,10 @@
        <key>id</key>
        <add>1.1</add>
   </foreignKey>
+  <index>
+    <name>UI_contact</name>
+    <fieldName>contact_id</fieldName>
+    <unique>true</unique>
+    <add>1.6</add>
+  </index>
 </table>

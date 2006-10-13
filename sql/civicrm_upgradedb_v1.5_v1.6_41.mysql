@@ -765,3 +765,17 @@ CREATE TABLE civicrm_acl_cache (
 
 	ALTER TABLE `civicrm_validation` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this contact';
 
+-- /*******************************************************
+-- *
+-- * Add UNIQUE indexes to maintain data integrity
+-- *
+-- *******************************************************/
+
+    CREATE UNIQUE INDEX UI_contact_group ON civicrm_group_contact(contact_id,group_id);
+    CREATE UNIQUE INDEX UI_contact ON civicrm_individual(contact_id);
+    CREATE UNIQUE INDEX UI_contact ON civicrm_household(contact_id);
+    CREATE UNIQUE INDEX UI_contact ON civicrm_organization(contact_id);
+    CREATE UNIQUE INDEX UI_location ON civicrm_address(location_id);
+    CREATE UNIQUE INDEX UI_contact ON civicrm_uf_match(contact_id);
+    DROP INDEX UI_uf_id ON civicrm_uf_match;
+    CREATE UNIQUE INDEX UI_uf_id ON civicrm_uf_match(uf_id);

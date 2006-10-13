@@ -182,4 +182,10 @@
       <comment>OPTIONAL FK to civicrm_contact_household record. If NOT NULL, direct mail communications to household rather than individual location.</comment>
       <add>1.1</add>
   </field>
+  <index>
+    <name>UI_contact</name>
+    <fieldName>contact_id</fieldName>
+    <unique>true</unique>
+    <add>1.6</add>
+  </index>
 </table>

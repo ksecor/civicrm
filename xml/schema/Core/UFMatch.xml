@@ -24,11 +24,6 @@
        <comment>UF ID</comment>
       <add>1.1</add>
   </field>
-  <index>
-     <name>UI_uf_id</name>
-     <fieldName>uf_id</fieldName>
-     <add>1.5</add>
-  </index>
   <field>
        <name>contact_id</name>
       <type>int unsigned</type>
@@ -63,4 +58,16 @@
        <comment>Email address</comment>
       <add>1.1</add>
   </field>
+  <index>
+     <name>UI_uf_id</name>
+     <fieldName>uf_id</fieldName>
+     <unique>true</unique>
+     <add>1.5</add>
+  </index>
+  <index>
+    <name>UI_contact</name>
+    <fieldName>contact_id</fieldName>
+    <unique>true</unique>
+    <add>1.6</add>
+  </index>
 </table>
