@@ -170,8 +170,19 @@ class CRM_Core_Config {
      * @var string
      */
     public $addressFormat = "{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}";
-
-
+        
+    /**
+     * Address Check (USPS).
+     * @var boolean
+     */
+    public $USPSAddressCheck = null;
+    
+    /**
+     * USPS USer ID.
+     * @var string
+     */
+    public $USPSUserID = null;
+    
     /**
      * The sequence of the address fields.
      * @var string
@@ -572,6 +583,14 @@ class CRM_Core_Config {
             // reset the templateCompileDir to locale-specific and make sure it exists
             $this->templateCompileDir .= self::addTrailingSlash($this->lcMessages);
             CRM_Utils_File::createDir( $this->templateCompileDir );
+        }
+        
+        if ( defined( 'CIVICRM_USPS_ADDRESS_CHECK' ) ) {
+            $this->USPSAddressCheck = CIVICRM_USPS_ADDRESS_CHECK;
+        }
+        
+        if ( defined( 'CIVICRM_USPS_USERID' ) ) {
+            $this->USPSUserID = CIVICRM_USPS_USERID;
         }
         
         if ( defined( 'CIVICRM_ADDRESS_FORMAT' ) ) {

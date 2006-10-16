@@ -293,6 +293,15 @@ define( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' , 'USD' );
 define( 'CIVICRM_LC_MESSAGES' , 'en_US' );
 
 /**
+ * USPS specific settings.
+ *
+ */
+
+define( 'CIVICRM_USPS_ADDRESS_CHECK', 1);
+define( 'CIVICRM_USPS_USERID', '');
+
+
+/**
  * Address Format:
  *
  * The format of address display and the source for address fields sequence in the edit forms.

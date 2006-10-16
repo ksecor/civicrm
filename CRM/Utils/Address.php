@@ -56,10 +56,22 @@ class CRM_Utils_Address {
     static function format($fields, $format = null, $microformat = false)
     {
         static $config = null;
+        
+        if (!$config) { 
+            $config =& CRM_Core_Config::singleton();
+            $check = $config->USPSAddressCheck;
+        }
+        
+        if ( $check ) {
+            require_once 'CRM/Utils/Address/USPS.php';
+            CRM_Utils_Address_USPS::checkAddress($fields);
+        }
+        
         if (!$format) {
             if (!$config) $config =& CRM_Core_Config::singleton();
             $format = $config->addressFormat;
         }
+                
         $formatted = $format;
         
         $fullPostalCode = $fields['postal_code'];
