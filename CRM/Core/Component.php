@@ -292,6 +292,9 @@ class CRM_Core_Component {
 
     static function &contactSubTypes( ) {
         if ( self::$_contactSubTypes == null ) {
+            self::$_contactSubTypes = array( );
+            /**
+             * Generalize this at some point
             self::$_contactSubTypes =
                 array(
                       'Student' =>
@@ -300,6 +303,7 @@ class CRM_Core_Component {
                                     'class' => 'CRM_Quest_Page_View_Student' ),
                              )
                       );
+            **/
         }
         return self::$_contactSubTypes;
     }
