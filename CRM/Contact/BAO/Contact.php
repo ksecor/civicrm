@@ -922,6 +922,10 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
         unset($params['id']);
 
+        // CRM_Core_Error::backtrace( );
+        // CRM_Core_Error::debug( 'p', $params );
+        // CRM_Core_Error::debug( 'c', $contact );
+        
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
         eval( '$contact->contact_type_object =& CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
         $locParams = $params + array('entity_id' => $params['contact_id'],
@@ -2194,7 +2198,9 @@ WHERE civicrm_contact.id IN $idString ";
        $query = "
 SELECT    civicrm_contact.id as contact_id,
           civicrm_contact.domain_id as domain_id,
-          civicrm_contact.hash as hash
+          civicrm_contact.hash as hash,
+          civicrm_contact.contact_type as contact_type,
+          civicrm_contact.contact_sub_type as contact_sub_type
 FROM      civicrm_contact
 LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
                                 civicrm_contact.id  = civicrm_location.entity_id AND 
