@@ -55,7 +55,7 @@ class CRM_Quest_Form_Task_PDF extends CRM_Contact_Form_Task {
         $config =& CRM_Core_Config::singleton( );
 
         if ( count( $this->_contactIds ) > 1 ) {
-            CRM_Utils_System::statusBounce( ts( 'You can export a PDF copy of the application for only one student' ) );
+            CRM_Core_Error::statusBounce( ts( 'You can export a PDF copy of the application for only one student' ) );
         }
 
         require_once 'CRM/Quest/BAO/Student.php';

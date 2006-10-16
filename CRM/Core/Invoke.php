@@ -295,7 +295,7 @@ class CRM_Core_Invoke {
                 if ( ! $id ) {
                     $id = $session->get( 'view.id' );
                     if ( ! $id ) {
-                        CRM_Utils_System::statusBounce( ts( 'Could not retrieve a valid contact' ) );
+                        CRM_Core_Error::statusBounce( ts( 'Could not retrieve a valid contact' ) );
                     }
                 }
                 $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/basic', "reset=1&cid=$id" ) );

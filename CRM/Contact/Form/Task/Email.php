@@ -137,7 +137,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                 }
             }
             if ( empty( $validMails ) ) {
-                CRM_Utils_System::statusBounce( ts('Selected contact(s) does not have a valid email address' ));
+                CRM_Core_Error::statusBounce( ts('Selected contact(s) does not have a valid email address' ));
             }
             $this->assign('to', implode(', ', $toArray));
             $this->assign('suppressedEmails', $suppressedEmails);
@@ -166,7 +166,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         list( $fromDisplayName, $fromEmail, $fromDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
         
         if ( ! $fromEmail ) {
-            CRM_Utils_System::statusBounce( ts('Your user record does not have a valid email address' ));
+            CRM_Core_Error::statusBounce( ts('Your user record does not have a valid email address' ));
         }
 
         if ( ! trim($fromDisplayName) ) {

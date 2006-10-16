@@ -119,7 +119,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         $locations =& CRM_Contact_BAO_Contact::getMapInfo( $contactIds , $locationId );
 
         if ( empty( $locations ) ) {
-            CRM_Utils_System::statusBounce(ts('This contact\'s primary address does not contain latitude/longitude information and can not be mapped.'));
+            CRM_Core_Error::statusBounce(ts('This contact\'s primary address does not contain latitude/longitude information and can not be mapped.'));
         }
 
         if ( $addBreadCrumb ) {

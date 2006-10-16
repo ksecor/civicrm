@@ -60,7 +60,7 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
         if ( $dao->find( true ) ) {
             // get the callback and activity id
             if ( ! CRM_Utils_System::validCallback( $dao->callback ) ) {
-                CRM_Utils_System::statusBounce( ts( "Could not find callback %1", array( 1 => $dao->callback ) ) );
+                CRM_Core_Error::statusBounce( ts( "Could not find callback %1", array( 1 => $dao->callback ) ) );
             }
             $callback = $dao->callback;
             $activityId = $dao->activity_id;

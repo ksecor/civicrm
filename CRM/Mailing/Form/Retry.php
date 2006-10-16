@@ -54,7 +54,7 @@ class CRM_Mailing_Form_Retry extends CRM_Core_Form
         $mailing->domain_id = $session->get('domainID');
 
         if (! $mailing->find(true)) {
-            CRM_Utils_System::statusBounce(ts('Invalid Mailing ID'));
+            CRM_Core_Error::statusBounce(ts('Invalid Mailing ID'));
         }
 
         $this->assign('mailing_name', $mailing->name);

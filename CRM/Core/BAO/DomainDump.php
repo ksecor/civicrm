@@ -77,13 +77,13 @@ class CRM_Core_BAO_DomainDump
         $sql = file($file);
 
         if ( empty( $sql ) ) {
-            CRM_Utils_System::statusBounce( ts( 'We could not find the backup sql script. Check %1 exists and is readable by the webserver.', array(1 => $file ) ) );
+            CRM_Core_Error::statusBounce( ts( 'We could not find the backup sql script. Check %1 exists and is readable by the webserver.', array(1 => $file ) ) );
         }
         
         // make sure mysqldump exists
         if ( ! file_exists( $config->mysqlPath . 'mysqldump' ) ) {
             if ( ! file_exists( $config->mysqlPath . 'mysqldump.exe' ) ) {
-                CRM_Utils_System::statusBounce( ts( 'We could not find the mysqldump program. Check the configuration variable CIVICRM_MYSQL_PATH in your CiviCRM config file.' ) );
+                CRM_Core_Error::statusBounce( ts( 'We could not find the mysqldump program. Check the configuration variable CIVICRM_MYSQL_PATH in your CiviCRM config file.' ) );
             } else {
                 $mysqlExe = $config->mysqlPath . 'mysqldump.exe';
             }

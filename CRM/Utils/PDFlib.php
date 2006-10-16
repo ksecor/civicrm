@@ -69,13 +69,13 @@ class CRM_Utils_PDFlib {
 
             $blockContainer = $pdf->open_pdi( $fileName, '', 0 );
             if ( $blockContainer == 0 ) {
-                CRM_Utils_System::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );
+                CRM_Core_Error::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );
             }
 
             for ( $i = 1; $i  <= $numPages; $i++ ) {
                 $page = $pdf->open_pdi_page( $blockContainer, $i, '' );
                 if ( $page == 0 ) {
-                    CRM_Utils_System::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );
+                    CRM_Core_Error::statusBounce( 'PDFlib Error: ' . $pdf->get_errmsg( ) );
                 }
                 
                 $pdf->begin_page_ext( 20, 20, '' ); /* dummy page size */
@@ -120,12 +120,12 @@ class CRM_Utils_PDFlib {
             }
         }
         catch ( PDFlibException $excp ) {
-            CRM_Utils_System::statusBounce( 'PDFlib Error: Exception' .
+            CRM_Core_Error::statusBounce( 'PDFlib Error: Exception' .
                                           "[" . $excp->get_errnum( ) . "] " . $excp->get_apiname( ) . ": " .
                                           $excp->get_errmsg( ) );
         }
         catch (Exception $excp) {
-            CRM_Utils_System::statusBounce( "PDFlib Error: " . $excp->get_errmsg( ) );
+            CRM_Core_Error::statusBounce( "PDFlib Error: " . $excp->get_errmsg( ) );
         }
     }
 }

@@ -96,7 +96,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this, true );
         if ( ! $this->_contactId ) {
-            CRM_Utils_System::statusBounce( ts( 'We could not find a contact id.' ) );
+            CRM_Core_Error::statusBounce( ts( 'We could not find a contact id.' ) );
         }
         $this->assign( 'contactId', $this->_contactId );
         
@@ -117,7 +117,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             $this->assign( 'permission', 'view' );
             $this->_permission = CRM_Core_Permission::VIEW;
         } else {
-            CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this contact.') );
+            CRM_Core_Error::statusBounce( ts('You do not have the necessary permission to view this contact.') );
         }
 
         $this->getContactDetails();
