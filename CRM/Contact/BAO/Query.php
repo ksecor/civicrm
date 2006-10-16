@@ -737,12 +737,20 @@ class CRM_Contact_BAO_Query {
                      ( count( $this->_paramLookup['group'][0][2] ) == 1 ) ) {
                     $groups = array_keys($this->_paramLookup['group'][0][2]);
                     $groupId = $groups[0];
-                    $tbName = "`civicrm_group_contact-{$groupId}`";
-                    $this->_select['group_contact_id']      = "$tbName.id as group_contact_id";
-                    $this->_element['group_contact_id']     = 1;
-                    $this->_select['status']                = "$tbName.status as status";
-                    $this->_element['status']               = 1;
-                    $this->_tables[$tbName]                 = 1;
+
+                    //check if group is saved search
+                    $group =& new CRM_Contact_BAO_Group(); 
+                    $group->id = $groupId;
+                    $group->find(true); 
+                    
+                    if (!isset($group->saved_search_id)) {
+                        $tbName = "`civicrm_group_contact-{$groupId}`";
+                        $this->_select['group_contact_id']      = "$tbName.id as group_contact_id";
+                        $this->_element['group_contact_id']     = 1;
+                        $this->_select['status']                = "$tbName.status as status";
+                        $this->_element['status']               = 1;
+                        $this->_tables[$tbName]                 = 1;
+                    }
                 }
                 //$this->_tables[$tbName] = 1;
             }
@@ -1538,13 +1546,25 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function group( &$values ) {
-
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         if ( count( $value ) > 1 ) {
             $this->_useDistinct = true;
         }
-        
+
+        //check if group is saved search
+        $group =& new CRM_Contact_BAO_Group(); 
+        $group->id = implode( ',', array_keys($value) ); 
+        $group->find(true); 
+
+        // hack to check for search mode 
+        $session =& CRM_Core_Session::singleton();
+        $context = $session->get('context', 'CRM_Contact_Controller_Search');
+
+        if ( isset($group->saved_search_id) && $context == "smog" ) {
+            return;
+        }
+
         $gcTable = "`civicrm_group_contact-" .implode( ',', array_keys($value) ) ."`";
         $this->_tables[$gcTable] = $this->_whereTables[$gcTable] = " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
        
@@ -1611,6 +1631,11 @@ class CRM_Contact_BAO_Query {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         
         $config =& CRM_Core_Config::singleton( );
+
+        // hack to check for search mode 
+        $session =& CRM_Core_Session::singleton();
+        $context = $session->get('context', 'CRM_Contact_Controller_Search');
+
         $ssWhere = array(); 
         $group =& new CRM_Contact_BAO_Group(); 
         foreach ( array_keys( $value ) as $group_id ) { 
@@ -1630,15 +1655,19 @@ class CRM_Contact_BAO_Query {
                     }        
 
                     $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties);
-                    $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
-  
-                    $ssWhere[] = " 
+
+                    if ( !empty($ssParams) && $context != "smog" ) {
+                        
+                        $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
+                        
+                        $ssWhere[] = " 
                             (contact_a.id IN ( $smarts )  
                             AND contact_a.id NOT IN ( 
                             SELECT contact_id FROM civicrm_group_contact 
                             WHERE civicrm_group_contact.group_id = "  
-                        . CRM_Utils_Type::escape($group_id, 'Integer')
-                        . " AND civicrm_group_contact.status = 'Removed'))";
+                            . CRM_Utils_Type::escape($group_id, 'Integer')
+                            . " AND civicrm_group_contact.status = 'Removed'))";
+                    }
                 } else { 
                     $ssw = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $this->_tables, $this->_whereTables);
                     /* FIXME: bug with multiple group searches */ 
@@ -1653,10 +1682,10 @@ class CRM_Contact_BAO_Query {
         }
 
         if ( ! empty( $ssWhere ) ) {
-            $this->_tables['civicrm_group_contact'] =  
-                "contact_a.id = civicrm_group_contact.contact_id AND civicrm_group_contact.group_id IN (" .
-                implode(',', array_keys($value)) . ')'; 
-            $this->_whereTables['civicrm_group_contact'] = $this->_tables['civicrm_group_contact'];
+//             $this->_tables['civicrm_group_contact'] =  
+//                 "contact_a.id = civicrm_group_contact.contact_id AND civicrm_group_contact.group_id IN (" .
+//                 implode(',', array_keys($value)) . ')'; 
+//             $this->_whereTables['civicrm_group_contact'] = $this->_tables['civicrm_group_contact'];
             return implode(' OR ', $ssWhere);
         }
         return null;
@@ -2319,7 +2348,7 @@ class CRM_Contact_BAO_Query {
 
         // building the query string
         $query = "$select $from $where $order $limit";
-
+        //CRM_Core_Error::debug('$query', $query);
         if ( $returnQuery ) {
             return $query;
         }
