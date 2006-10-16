@@ -98,6 +98,10 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         $this->assign('GName', self::$_GName);
 
         CRM_Utils_System::setTitle(ts(self::$_GName . ' Options'));
+        $url  = CRM_Utils_System::url( 'civicrm/admin' );
+        $additionalBreadCrumb = '<a href="' . $url . '">' . ts('Administer CiviCRM') . '</a>';
+        CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+
     }
 
     /**
