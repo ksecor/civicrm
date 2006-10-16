@@ -37,7 +37,7 @@
      </div>    
 {/if}
  {if $action eq 2 | $action eq 1} {* add and update actions *}
-    <fieldset><legend>{if $action eq 1}{ts}New Relationship{/ts}{else}{ts}Edit Relationship(s){/ts}{/if}</legend>
+    <fieldset><legend>{if $action eq 1}{ts}New Relationship{/ts}{else}{ts}Edit Relationship{/ts}{/if}</legend>
         <div class="form-item">
             {if $action eq 1}
                 <div class="description">
@@ -120,13 +120,13 @@
                 <dd>{$form.end_date.html}{include file="CRM/common/calendar/desc.tpl" trigger=trigger_relationship_2} 
 {include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=1985 endDate=2025 trigger=trigger_relationship_2}
                 </dd>
-                <dt>{$form.description.label}</dt>
-                <dd>{$form.description.html}</dd>
-                <dt> </dt>
+                <dt>&nbsp;</dt>
                     <dd class="description">
                         {ts}If this relationship has start and/or end dates, specify them here.{/ts}
                     </dd>
-		<dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
+                <dt>{$form.description.label}</dt>
+                <dd>{$form.description.html}</dd>
+                <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
         </dl>
 	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
         <dl>
