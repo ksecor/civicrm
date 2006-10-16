@@ -422,11 +422,11 @@ ORDER BY
                 $contact->$name = CRM_Utils_Array::value($name, $privacy, false);
             }
         }
-	 
+
         // since hash was required, make sure we have a 0 value for it, CRM-1063
         // fixed in 1.5 by making hash optional
-        if ( ! array_key_exists( 'hash', $contact ) ) {
-            $contact->hash = 0;
+        if ( ! array_key_exists( 'hash', $contact ) || ! $contact->hash ) {
+            $contact->hash = md5( uniqid( rand( ), true ) );
         }
 
         return $contact->save();
