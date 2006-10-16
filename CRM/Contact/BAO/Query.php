@@ -1656,8 +1656,7 @@ class CRM_Contact_BAO_Query {
 
                     $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties);
 
-                    if ( !empty($ssParams) && $context != "smog" ) {
-                        
+                    if ( $context != "smog" ) {
                         $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
                         
                         $ssWhere[] = " 
