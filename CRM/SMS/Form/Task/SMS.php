@@ -124,7 +124,7 @@ class CRM_SMS_Form_Task_SMS extends CRM_Contact_Form_Task {
         $userID  =  $session->get( 'userID' );
         list( $fromDisplayName, $fromSMS ) = CRM_Contact_BAO_Contact::getPhoneDetails( $userID, 'Mobile' );
         if ( ! $fromSMS ) {
-            CRM_Utils_System::statusBounce( ts('Your user record does not have a valid SMS number' ));
+            CRM_Core_Error::statusBounce( ts('Your user record does not have a valid SMS number' ));
         }
         $from = '"' . $fromDisplayName . '"' . "<$fromSMS>";
         $this->assign( 'from', $from );

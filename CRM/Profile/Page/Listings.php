@@ -251,7 +251,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
 
         // make sure this group can be mapped
         if ( ! $details['is_map'] ) {
-            CRM_Utils_System::statusBounce( 'This profile does not have the map feature turned on' );
+            CRM_Core_Error::statusBounce( 'This profile does not have the map feature turned on' );
         }
 
         $groupId = CRM_Utils_Array::value('limit_listings_group_id', $details);

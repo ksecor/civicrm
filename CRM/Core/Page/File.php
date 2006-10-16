@@ -50,12 +50,12 @@ class CRM_Core_Page_File extends CRM_Core_Page {
         require_once 'CRM/Core/BAO/File.php';
         list( $path, $mimeType ) = CRM_Core_BAO_File::path( $id, $eid, 'civicrm_contact' ,$quest);
         if ( ! $path ) {
-            CRM_Utils_System::statusBounce( 'Could not retrieve the file' );
+            CRM_Core_Error::statusBounce( 'Could not retrieve the file' );
         }
 
         $buffer = file_get_contents( $path );
         if ( ! $buffer ) {
-            CRM_Utils_System::statusBounce( 'The file is either empty or you do not have permission to retrieve the file' );
+            CRM_Core_Error::statusBounce( 'The file is either empty or you do not have permission to retrieve the file' );
         }
         CRM_Utils_System::download( basename( $path ), $mimeType, $buffer );
     }

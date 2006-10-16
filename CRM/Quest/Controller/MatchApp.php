@@ -86,12 +86,12 @@ class CRM_Quest_Controller_MatchApp extends CRM_Core_Controller {
                 if ( $this->_contactID != $uid ) {
                     if ($this->_action & CRM_Core_Action::UPDATE) {
                         if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) {
-                            CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Application.') );
+                            CRM_Core_Error::statusBounce( ts('You do not have the necessary permission to edit this Application.') );
                         } 
                     }
                     if ($this->_action & CRM_Core_Action::VIEW) {
                         if ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) {
-                            CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Application.') );
+                            CRM_Core_Error::statusBounce( ts('You do not have the necessary permission to view this Application.') );
                         }
                     }
                     $this->assign('questURL', CRM_Utils_System::url( 'civicrm/contact/search' ) );

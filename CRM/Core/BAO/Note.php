@@ -107,7 +107,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
             if ( $params['entity_table'] == 'civicrm_contact' ) {
                 $note->contact_id = $params['entity_id'];
             } else {
-                CRM_Utils_System::statusBounce(ts('We could not find your logged in user ID'));
+                CRM_Core_Error::statusBounce(ts('We could not find your logged in user ID'));
             }
         }
         if( $ids ["id"] )  {

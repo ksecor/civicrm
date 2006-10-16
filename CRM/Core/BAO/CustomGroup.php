@@ -407,7 +407,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
 
                         // rename this file to go into the secure directory
                         if ( ! rename( $data, $config->customFileUploadDir . $filename ) ) {
-                            CRM_Utils_System::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
+                            CRM_Core_Error::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
                             break;
                         }
                         

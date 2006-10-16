@@ -69,7 +69,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View {
         
         $this->assign( 'contactId', $uid);
         if ( ! $uid) {
-            CRM_Utils_System::statusBounce( ts( 'We could not find a contact id.' ) );
+            CRM_Core_Error::statusBounce( ts( 'We could not find a contact id.' ) );
         }
 
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',

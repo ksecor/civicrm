@@ -133,7 +133,7 @@ class CRM_Contribute_Form_CreatePPD extends CRM_Contribute_Form
         $result = $profile->save();                  
  
         if (PayPal::isError($result)) {
-            CRM_Utils_System::statusBounce( "Could not create new profile: ".$result->getMessage() );
+            CRM_Core_Error::statusBounce( "Could not create new profile: ".$result->getMessage() );
         } else {
             if ( $params['api_environment'] == 'live' ) {
                 $name = 'CIVICRM_CONTRIBUTE_PAYMENT_KEY';

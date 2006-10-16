@@ -85,7 +85,7 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         require_once "CRM/Utils/File.php";
         CRM_Utils_File::createDir($directoryName);
         if ( ! rename( $data, $directoryName .DIRECTORY_SEPARATOR. $filename ) ) {
-            CRM_Utils_System::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
+            CRM_Core_Error::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
             break;
         }
         // to get id's 

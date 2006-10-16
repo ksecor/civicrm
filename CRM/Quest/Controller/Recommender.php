@@ -74,10 +74,10 @@ class CRM_Quest_Controller_Recommender extends CRM_Core_Controller {
                 if ( $cid != $uid ) {
                     if ( ( $this->_action & CRM_Core_Action::UPDATE ) &&
                          ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::EDIT ) ) ) {
-                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this Recommendation.') );
+                        CRM_Core_Error::statusBounce( ts('You do not have the necessary permission to edit this Recommendation.') );
                     } else if ( ( $this->_action & CRM_Core_Action::VIEW ) &&
                                 ( ! CRM_Contact_BAO_Contact::permissionedContact( $uid , CRM_Core_Permission::VIEW ) ) ) {
-                        CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to view this Recommendation.') );
+                        CRM_Core_Error::statusBounce( ts('You do not have the necessary permission to view this Recommendation.') );
                     }
                     $this->assign('questURL', CRM_Utils_System::url( 'civicrm/contact/search' ) );
                 }

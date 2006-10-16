@@ -186,20 +186,20 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $contact =& new CRM_Contact_DAO_Contact( );
                 $contact->id = $this->_contactId;
                 if ( ! $contact->find( true ) ) {
-                    CRM_Utils_System::statusBounce( ts('contact does not exist: %1', array(1 => $this->_contactId)) );
+                    CRM_Core_Error::statusBounce( ts('contact does not exist: %1', array(1 => $this->_contactId)) );
                 }
                 $this->_contactType = $contact->contact_type;
 
                 // check for permissions
                 if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
-                    CRM_Utils_System::statusBounce( ts('You do not have the necessary permission to edit this contact.') );
+                    CRM_Core_Error::statusBounce( ts('You do not have the necessary permission to edit this contact.') );
                 }
 
                 list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
                 CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
                 return;
             }
-            CRM_Utils_System::statusBounce( ts('Could not get a contact_id and/or contact_type') );
+            CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
         }            
     }
 

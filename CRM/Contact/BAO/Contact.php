@@ -1957,7 +1957,7 @@ WHERE civicrm_contact.id IN $idString ";
 
                             // rename this file to go into the secure directory
                             if ( ! rename( $value, $config->customFileUploadDir . $filename ) ) {
-                                CRM_Utils_System::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
+                                CRM_Core_Error::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
                                 break;
                             }
 
