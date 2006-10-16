@@ -479,11 +479,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         return $error;
     }
 
-}
-
-PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');
-
-     /**
+    /**
      * Set a status message in the session, then bounce back to the referrer.
      *
      * @param string $status        The status message to set
@@ -497,5 +493,11 @@ PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');
         $session->setStatus($status);
         self::redirect($redirect);
     }
+
+}
+
+PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');
+
+     
 
 ?>
