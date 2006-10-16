@@ -18,8 +18,7 @@ require_once "$sourceCheckoutDir/civicrm.config.php";
 require_once 'Smarty/Smarty.class.php';
 
 $path = array( 'CRM', 'api', 'bin', 'css', 'i', 'js', 'l10n', 'sql', 'templates', 'joomla', 'packages' );
-$files = array( 'license.txt' => 1,
-                'affero_gpl.txt' => 1,
+$files = array( 'affero_gpl.txt' => 1,
                 'civicrm-version.txt' => 1, 
                 'gpl.txt' => 1, 
                 'README.txt' => 1 );

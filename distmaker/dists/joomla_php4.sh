@@ -61,7 +61,6 @@ fi
 find $TRG -name 'Quest' -exec rm -r {} \;
 
 # copy docs
-cp $SRC/license.txt $TRG
 cp $SRC/affero_gpl.txt $TRG
 cp $SRC/gpl.txt $TRG
 cp $SRC/README.txt $TRG
