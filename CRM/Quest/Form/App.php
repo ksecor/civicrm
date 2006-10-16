@@ -92,7 +92,7 @@ class CRM_Quest_Form_App extends CRM_Core_Form
         } else {
             switch ( $this->_name ) {
             case 'Personal':
-                $this->addDefaultButtons(ts('Save & Continue'), 'upload', null);
+                $this->addDefaultButtons(ts('Save & Continue'), 'upload', null, true);
                 break;
 
             case 'Household':
@@ -100,27 +100,27 @@ class CRM_Quest_Form_App extends CRM_Core_Form
             case 'Essay-Short':
             case 'CmRanking':
             case 'PartnerIntro':
-                $this->addDefaultButtons(ts('Save & Continue'), 'next', null);
+                $this->addDefaultButtons(ts('Save & Continue'), 'next', null, true);
                 break;
                 
             case 'Submit':
-                $this->addDefaultButtons( ts('Submit Application') );
+                $this->addDefaultButtons( ts('Submit Application'), 'next', 'back', true );
                 break;
         
             case 'PartnerSubmit':
-                $this->addDefaultButtons( ts('Submit Partner Supplement') );
+                $this->addDefaultButtons( ts('Submit Partner Supplement'), 'next', 'back', true );
                 break;
 
             case 'Essay-PersonalStat':
-                $this->addDefaultButtons(ts('Save & Continue'), 'upload');
+                $this->addDefaultButtons(ts('Save & Continue'), 'upload', 'back', true);
                 break;
 
             case 'Stanford-StfEssay':
-                $this->addDefaultButtons(ts('Save & Continue'), 'upload');
+                $this->addDefaultButtons(ts('Save & Continue'), 'upload', 'back', true);
                 break;
 
             default:
-                $this->addDefaultButtons( ts('Save & Continue') );
+                $this->addDefaultButtons( ts('Save & Continue'), 'next', 'back', true );
             }
             $this->add('hidden','is_save_draft', '0');
 

@@ -686,6 +686,41 @@ SELECT s.where_clause, s.select_tables, s.where_tables
             return ' ( 0 ) ';
         }
     }
+
+    public static function group( $type, $contactID = null ) {
+        require_once 'CRM/ACL/BAO/Cache.php';
+
+        $acls =& CRM_ACL_BAO_Cache::build( $contactID );
+        $ids  = array( );
+        if ( empty( $acls ) ) {
+	  return $ids;
+        }
+        
+        $aclKeys = array_keys( $acls );
+        $aclKeys = implode( ',', $aclKeys );
+
+        $query = "
+SELECT   a.operation, a.object_id
+  FROM   civicrm_acl_cache c, civicrm_acl a
+ WHERE   c.acl_id       =  a.id
+   AND   a.is_active    =  1
+   AND   a.object_table = 'civicrm_saved_search'
+   AND   a.id        IN ( $aclKeys )
+ORDER BY a.object_id
+";
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
+
+        // do an or of all the where clauses u see
+        while ( $dao->fetch( ) ) {
+	  if ( $dao->object_id ) {
+            $ids[] = $dao->object_id;
+	  }
+        }
+
+	return $ids;
+    }
+
 }
 
 ?>

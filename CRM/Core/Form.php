@@ -633,19 +633,24 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *
      * @param string $title title of the main button
      * @param string $type  button type for the form after processing
+     * @param string $submitOnce If true, add javascript to next button submit which prevents it from being clicked more than once
      * @return void
      * @access public
      */
-    function addDefaultButtons( $title, $nextType = 'next', $backType = 'back' ) {
+    function addDefaultButtons( $title, $nextType = 'next', $backType = 'back', $submitOnce = false ) {
         $buttons = array();
         if ( $backType != null ) {
             $buttons[] = array ( 'type'      => $backType,
                                  'name'      => ts('Previous'));
         }
         if ( $nextType != null ) {
-            $buttons[] = array ( 'type'      => $nextType,
+            $nextButton = array ( 'type'      => $nextType,
                                  'name'      => $title,
                                  'isDefault' => true   );
+            if ( $submitOnce ) {
+	      $nextButton['js'] = array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" );
+            }
+            $buttons[] = $nextButton;
         }
         $this->addButtons( $buttons );
     }

@@ -350,7 +350,7 @@ class CRM_Quest_BAO_Query
                                 ts( 'Edit CM App' ) );
             $readerLink = sprintf('<a href="%s">%s</a>',
                                 CRM_Utils_System::url( 'civicrm/profile/edit',
-                                                       'reset=1&gid=3&id=%%id%%' ),
+                                                       'reset=1&gid=3&context=Search&id=%%id%%' ),
                                 ts( 'Reader Feedback' ) );
         }
 

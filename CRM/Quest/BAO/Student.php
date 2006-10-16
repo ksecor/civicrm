@@ -993,7 +993,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
      */    
     static function buildStudentForm( &$form, $fieldName, $title = null, $contactId = null ) {
-        
         if ($contactId) {
             $name = "field[$contactId][$fieldName]";
         } else {

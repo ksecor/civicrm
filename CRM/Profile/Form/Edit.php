@@ -120,7 +120,12 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
         }
         
         if ( ! $this->_postURL ) {
-            $this->_postURL = CRM_Utils_System::url('civicrm/profile/edit', "gid={$this->_gid}&reset=1" );
+	  if ( $this->_context == 'Search' ) {
+	    $this->_postURL = CRM_Utils_System::url( 'civicrm/contact/search' );
+	  } else {
+            $this->_postURL = CRM_Utils_System::url('civicrm/profile/edit',
+						    "reset=1&id={$this->_id}&gid={$this->_gid}" );
+	  }
         }
         
         if ( ! $this->_cancelURL ) {

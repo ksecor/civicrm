@@ -383,7 +383,9 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     } else {
                         $names[] = "{$locationTypeName}-{$fieldName}";
                     }
-                } else {
+                } else if ( $field['name'] == 'id' ) {
+   		    $names[] = 'contact_id';
+		} else {
                     $names[] = $field['name'];
                 }
             }
@@ -413,7 +415,9 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             if ( $result->sort_name ) {
                 $row['sort_name'] = $result->sort_name;
                 $empty            = false;
-            }
+            } else {
+	      continue;
+	    }
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                     $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name, $cfID, $this->_options );
