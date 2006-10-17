@@ -215,7 +215,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      * @return None  
      * @access public  
      */ 
-    function buildHonorBlock( $id, $name ) {
+    function buildHonorBlock(  ) {
         $this->assign("honor_block_is_active",true);
         $this->set("honor_block_is_active",true);
 
@@ -230,7 +230,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->addElement('text', 'honor_first_name', ts('First Name'), $attributes['first_name'] );
         
         //last_name
-        $this->addElement('text', 'honor_last_name', ts('Middle Name'), $attributes['middle_name'] );
+        $this->addElement('text', 'honor_last_name', ts('Last Name'), $attributes['last_name'] );
         
         //email
         $this->addElement('text', 'honor_email', ts('Email Address'));

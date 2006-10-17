@@ -40,10 +40,8 @@ Membership End Date   : {$mem_end_date|crmDate}
 {ts}In Honor Of{/ts}
 
 ===========================================================
-Prefix     :{$honor_prefix}
-First Name :{$honor_first_name}
-Last Name  :{$honor_last_name}
-Email      :{$honor_email}
+{$honor_prefix} {$honor_first_name} {$honor_last_name}
+Email : {$honor_email}
 
 {/if}
 ===========================================================

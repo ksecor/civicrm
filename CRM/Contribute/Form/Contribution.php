@@ -462,13 +462,17 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         $ids['contribution'] = $params['id'] = $this->_id;
-        if ($formValues["contribution_honor"]) {
-            if ( $this->_honorID ) {
-                $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues , $this->_honorID );
-            } else {
-                $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues );
+        if ( CRM_Utils_Array::value( 'contribution_honor', $formValues) ) {
+            if ($formValues["contribution_honor"]) {
+                if ( $this->_honorID ) {
+                    $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues , $this->_honorID );
+                } else {
+                    $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues );
+                }
+                $params["honor_contact_id"] = $honorId;
             }
-            $params["honor_contact_id"] = $honorId;
+        } else {
+            $params["honor_contact_id"] = null;
         }
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
 
