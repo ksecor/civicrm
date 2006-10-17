@@ -491,7 +491,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $session =& CRM_Core_Session::singleton();
         $redirect = $session->readUserContext();
         $session->setStatus($status);
-        self::redirect($redirect);
+        CRM_Utils_System::redirect($redirect);
     }
 
 }
