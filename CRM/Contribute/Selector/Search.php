@@ -72,12 +72,13 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      * @var array
      * @static
      */
-    static $_properties = array( 'contact_id', 'contribution_id',
+    static $_properties = array( 'contact_id', 
+                                 'contribution_id',
                                  'contact_type',
                                  'sort_name',
                                  'total_amount',
                                  'contribution_type',
-                                 'source',
+                                 'contribution_source',
                                  'receive_date',
                                  'thankyou_date',
                                  'cancel_date',
@@ -358,7 +359,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 ),
                                           array(
                                                 'name'      => ts('Source'),
-                                                'sort'      => 'source',
+                                                'sort'      => 'contribution_source',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(

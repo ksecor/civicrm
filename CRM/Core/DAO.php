@@ -329,7 +329,7 @@ class CRM_Core_DAO extends DB_DataObject {
         foreach ( $fields as $name => $value ) {
             $dbName = $value['name'];
             if ( isset( $object->$dbName ) ) {
-                $values[$name] = $object->$dbName;
+                $values[$dbName] = $object->$dbName;
             }
         }
     }

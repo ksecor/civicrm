@@ -44,7 +44,7 @@
 {/if}
     <td class="right bold nowrap">{$row.total_amount|crmMoney}</td>
     <td>{$row.contribution_type}</td>
-    <td>{$row.source}</td>
+    <td>{$row.contribution_source}</td>
     <td>{$row.receive_date|truncate:10:''|crmDate}</td>
     <td>{$row.thankyou_date|truncate:10:''|crmDate}</td>
     <td>{$row.cancel_date|truncate:10:''|crmDate}</td>
