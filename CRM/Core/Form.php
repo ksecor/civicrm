@@ -648,7 +648,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                                  'name'      => $title,
                                  'isDefault' => true   );
             if ( $submitOnce ) {
-	      $nextButton['js'] = array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" );
+	      $nextButton['js'] = array( 'onclick' => "return submitOnce(this,'{$this->_name}','" . ts('Processing') ."');" );
             }
             $buttons[] = $nextButton;
         }
