@@ -156,8 +156,8 @@ VALUES
    (@option_group_id_acc, 'American Express',  3, 'American Express', NULL, 0, NULL, 3, NULL, 0, 0, 1),
    (@option_group_id_acc, 'Discover',  4, 'Discover', NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
-  (@option_group_id_pi, 'CreditCard',  1, 'CreditCard', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-  (@option_group_id_pi, 'DebitCard',  2, 'DebitCard', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_pi, 'Credit Card',  1, 'Credit Card', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_pi, 'Debit Card',  2, 'Debit Card', NULL, 0, NULL, 2, NULL, 0, 0, 1),
   (@option_group_id_pi, 'Cash',  3, 'Cash', NULL, 0, NULL, 3, NULL, 0, 0, 1),
   (@option_group_id_pi, 'Check',  4, 'Check', NULL, 0, NULL, 4, NULL, 0, 0, 1),
   (@option_group_id_pi, 'EFT',  5, 'EFT', NULL, 0, NULL, 5, NULL, 0, 0, 1);
