@@ -2275,5 +2275,26 @@ WHERE     civicrm_contact.id = %1";
         }
         return $dao->email;
     }
+
+    static function getUFIdByHash( $hash, $email ) {
+        require_once 'CRM/Contact/BAO/Contact.php';
+
+        $email = trim( $email );
+
+        $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $email );
+        if ( ! $dao ) {
+            return false;
+        }
+
+        if ( $dao->hash != $hash ) {
+            return false;
+        }
+
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        return CRM_Core_BAO_UFMatch::getUFId( $dao->contact_id );
+    }
+
+
 }
+
 ?>
