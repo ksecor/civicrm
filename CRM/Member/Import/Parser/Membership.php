@@ -147,10 +147,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
     function summary( &$values ) {
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
-        /*if ($response != CRM_Member_Import_Parser::VALID) {
-            array_unshift($values, ts('Invalid field value: %1', array(1 => $this->_activeFields[$erroneousField]->_title)));
-            return CRM_Member_Import_Parser::ERROR;
-        }*/
+
         $errorRequired = false;
 
         if (($this->_membershipTypeIndex < 0) || ($this->_membershipStatusIndex < 0)) {
@@ -182,13 +179,13 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                         CRM_Import_Parser_Contact::addToErrorMsg('Join Date', $errorMessage);
                     }
                     break;
-                case  'start_date': 
+                case  'membership_start_date': 
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     if (! CRM_Utils_Rule::date($params[$key])) {
                         CRM_Import_Parser_Contact::addToErrorMsg('Start Date', $errorMessage);
                     }
                     break;
-                case  'end_date': 
+                case  'membership_end_date': 
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     if (! CRM_Utils_Rule::date($params[$key])) {
                         CRM_Import_Parser_Contact::addToErrorMsg('End date', $errorMessage);
@@ -241,10 +238,10 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                 case  'join_date': 
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     break;
-                case  'start_date': 
+                case  'membership_start_date': 
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     break;
-                case  'end_date': 
+                case  'membership_end_date': 
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     break;
                 }
@@ -264,8 +261,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             if ($field == null || $field === '') {
                 continue;
             }
-            //$value = array($key => $field);
-            //_crm_add_formatted_member_param($value, $formatted);
+
             if ($key == 'membership_type_id') {
                 $id = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_MembershipType", $field, 'id', 'name' );
                 $formatted[$key] = $id;
@@ -281,7 +277,6 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
                 require_once 'CRM/Contact/BAO/Contact.php';
-                //$cTempIndieFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
                 $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType, null );
                 $cIndieFields = $cTempIndieFields;
             }
@@ -306,7 +301,6 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                         }
                         if (! $break) {    
                             _crm_add_formatted_param($value, $contactFormatted);
-                            
                         }
                     }
                     continue;
@@ -314,12 +308,11 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                 
                 $value = array($key => $field);
                 if (array_key_exists($key, $cIndieFields)) {
-                    //$value['contact_type'] = 'Individual';
                     $value['contact_type'] = $this->_contactType;
                 }
                 _crm_add_formatted_param($value, $contactFormatted);
             }
-            //$contactFormatted['contact_type'] = 'Individual';
+
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _crm_duplicate_formatted_contact($contactFormatted);
             $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
@@ -330,7 +323,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                 } else {
                     $cid = $matchedIDs[0];
                     $formatted['contact_id'] = $cid;
-                    //$newMembership = crm_create_membership_formatted( $formatted, $onDuplicate );
+
                     $newMembership = crm_create_contact_membership($formatted, $cid);
                     if ( is_a( $newMembership, CRM_Core_Error ) ) {
                         array_unshift($values, $newMembership->_errors[0]['message']);
@@ -368,7 +361,6 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             }
           
         } else {
-            //$newMembership = crm_create_membership_formatted( $formatted, $onDuplicate );
             $newMembership = crm_create_contact_membership($formatted, $formatted['contact_id']);
             if ( is_a( $newMembership, CRM_Core_Error ) ) {
                 array_unshift($values, $newMembership->_errors[0]['message']);
