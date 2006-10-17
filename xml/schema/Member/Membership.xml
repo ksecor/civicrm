@@ -20,9 +20,12 @@
 
   <field>
       <name>contact_id</name>
+      <uniqueName>membership_contact_id</uniqueName>
       <type>int unsigned</type>
       <required>true</required>
       <title>Contact ID (match to contact)</title>
+      <headerPattern>/contact(.?id)?/i</headerPattern>
+      <dataPattern>/^\d+$/</dataPattern>
       <import>true</import>
       <comment>FK to Contact ID</comment>
       <add>1.5</add>
@@ -59,6 +62,7 @@
   </field> 
   <field>  
       <name>start_date</name>  
+      <uniqueName>membership_start_date</uniqueName>
       <title>Membership Start Date</title>
       <type>date</type>
       <import>true</import>
@@ -68,6 +72,7 @@
   </field>
   <field> 
       <name>end_date</name>  
+      <uniqueName>membership_end_date</uniqueName>
       <title>Membership Expiration Date</title>
       <type>date</type>
       <import>true</import>
@@ -77,6 +82,7 @@
   </field> 
   <field>  
       <name>source</name>     
+      <uniqueName>membership_source</uniqueName>
       <title>Source</title>
       <import>true</import>
       <type>varchar</type>

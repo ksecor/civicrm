@@ -61,6 +61,7 @@
   </field>    
   <field>  
       <name>start_date</name>  
+      <uniqueName>contribution_start_date</uniqueName>
       <type>date</type>  
       <export>true</export>
       <comment>Actual start date for a time-delimited premium (subscription, service or membership)</comment>  
@@ -68,6 +69,7 @@
   </field>
   <field>  
       <name>end_date</name>  
+      <uniqueName>contribution_end_date</uniqueName>
       <type>date</type>
       <export>true</export>
       <comment>Actual end date for a time-delimited premium (subscription, service or membership)</comment>  

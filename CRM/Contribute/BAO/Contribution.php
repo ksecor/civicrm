@@ -99,6 +99,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         $contribution =& new CRM_Contribute_BAO_Contribution();
         
         $contribution->copyValues($params);
+
         $contribution->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         
         $contribution->id        = CRM_Utils_Array::value( 'contribution', $ids );
@@ -381,6 +382,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             require_once 'CRM/Core/OptionValue.php';
             require_once 'CRM/Contribute/DAO/Product.php';
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            require_once 'CRM/Contribute/DAO/ContributionType.php';
             $impFields = CRM_Contribute_DAO_Contribution::import( );
             $expFieldProduct = CRM_Contribute_DAO_Product::export( );
             $expFieldsContrib = CRM_Contribute_DAO_ContributionProduct::export( );

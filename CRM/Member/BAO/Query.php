@@ -35,9 +35,11 @@
  * 
  */ 
 
-class CRM_Member_BAO_Query {
+class CRM_Member_BAO_Query 
+{
     
-    static function &getFields( ) {
+    static function &getFields( ) 
+    {
         require_once 'CRM/Member/BAO/Membership.php';
         $fields =& CRM_Member_BAO_Membership::exportableFields( );
         //unset( $fields['contact_id']);
@@ -52,7 +54,8 @@ class CRM_Member_BAO_Query {
      * @return void  
      * @access public  
      */
-    static function select( &$query ) {
+    static function select( &$query ) 
+    {
         // if membership mode add membership id
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
 
@@ -87,7 +90,8 @@ class CRM_Member_BAO_Query {
         }
     }
 
-    static function where( &$query ) {
+    static function where( &$query ) 
+    {
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0,7 ) == 'member_' ) {
                 self::whereClauseSingle( $query->_params[$id], $query );
@@ -96,7 +100,8 @@ class CRM_Member_BAO_Query {
     }
     
   
-    static function whereClauseSingle( &$values, &$query ) {
+    static function whereClauseSingle( &$values, &$query ) 
+    {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         switch( $name ) {
 
@@ -174,7 +179,8 @@ class CRM_Member_BAO_Query {
         }
     }
 
-    static function from( $name, $mode, $side ) {
+    static function from( $name, $mode, $side ) 
+    {
         $from = null;
         switch ( $name ) {
         
@@ -197,7 +203,8 @@ class CRM_Member_BAO_Query {
         return $from;
     }
     
-    static function defaultReturnProperties( $mode ) {
+    static function defaultReturnProperties( $mode ) 
+    {
         $properties = null;
         if ( $mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
             $properties = array(  
@@ -225,7 +232,8 @@ class CRM_Member_BAO_Query {
         return $properties;
     }
 
-    static function buildSearchForm( &$form ) {
+    static function buildSearchForm( &$form ) 
+    {
         
         require_once 'CRM/Member/PseudoConstant.php';
         
@@ -256,10 +264,12 @@ class CRM_Member_BAO_Query {
         $form->assign( 'validCiviMember', true );
     }
 
-    static function searchAction( &$row, $id ) {
+    static function searchAction( &$row, $id ) 
+    {
     }
 
-    static function addShowHide( &$showHide ) {
+    static function addShowHide( &$showHide ) 
+    {
         $showHide->addHide( 'memberForm' );
         $showHide->addShow( 'memberForm_show' );
     }

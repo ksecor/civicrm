@@ -31,6 +31,7 @@
   </foreignKey>
   <field>
        <name>name</name>
+       <uniqueName>contribution_type</uniqueName> 
        <title>Contribution Type</title>
        <type>varchar</type>
        <length>64</length>
