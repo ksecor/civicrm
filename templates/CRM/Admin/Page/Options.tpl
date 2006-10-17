@@ -49,7 +49,7 @@
         {strip}
         <table>
         <tr class="columnheader">
-            <th>{ts}Name{/ts}</th>
+            <th>{ts}Label{/ts}</th>
             <th>{ts}Description{/ts}</th>
             <th>{ts}Weight{/ts}</th>
             <th>{ts}Reserved{/ts}</th>

@@ -123,9 +123,12 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         }
         
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a valid ' . $this->_gName . ' name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'optionExists', array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid ) );
+        $this->add('text', 'label', ts('Label'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'label' ) );
+        $this->addRule( 'label', ts('Please enter a valid ' . $this->_gName . ' name.'), 'required' );
+        $this->addRule( 'label', ts('Name already exists in Database.'), 'optionExists', array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid ) );
+        
+        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );
+        
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
         
@@ -156,7 +159,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             require_once 'CRM/Core/OptionValue.php';
             $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
 
-            CRM_Core_Session::setStatus( ts('The ' . $this->_GName . ' "%1" has been saved.', array( 1 => $optionValue->name )) );
+            CRM_Core_Session::setStatus( ts('The ' . $this->_GName . ' "%1" has been saved.', array( 1 => $optionValue->label )) );
         }
     }
 }
