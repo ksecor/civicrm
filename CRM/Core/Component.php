@@ -101,8 +101,8 @@ class CRM_Core_Component {
                                            'view TMF Nomination',
                                            ),
                        'search'  => 0,
-                       //'metaTpl' => 'tmf',
-                       //'formTpl' => 'tmf' 
+                       'metaTpl' => 'quest',
+                       'formTpl' => 'quest' 
                        );
         }
         return self::$_info;
