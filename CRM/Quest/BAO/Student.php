@@ -61,7 +61,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                           'cmr_academic_id'         => 1, 
                                           'cmr_disposition_id'      => 1
                                           );
-    
+
     /**
      * class constructor
      */
@@ -199,6 +199,41 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         return true;
     }
+    
+    static function addX( &$details, &$values, $names ) {
+      foreach ( $names as $name => $new ) {
+	if ( ! $new ) {
+	  $new = $name;
+	}
+
+	if ( $values[$name] ) {
+	  $newName = "{$new}_" . strtolower( $values[$name] );
+	 
+	  $newName = str_replace( array( ' ', ',', '/', '.', '(', ')' ), '_', $newName );
+	  $details[$newName] = 'x';
+	}
+      }
+    }
+
+    static function addYesNo( &$details, &$values, $names ) {
+      foreach ( $names as $name => $new ) {
+	if ( ! $new ) {
+	  $new = $name;
+	}
+
+	if ( $values[$name] == '1' ) {
+	  $suffix = 'yes';
+	} else if ( $values[$name] == '0' ) {
+	  $suffix = 'no';
+	} else {
+	  $suffix = 'dont_know';
+	}
+
+	$newName = "{$new}_{$suffix}";
+	$details[$newName] = 'x';
+      }
+    }
+
 
     static function individual( $id, &$details ) {
         $params = array( 'contact_id' => $id,
@@ -221,9 +256,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $details['Individual'][$key] = $individual[$key];
         }
 
-        if ( $individual['gender'] ) {
-            $details['Individual']['gender_' . strtolower( $individual['gender'] )] = 'x';
-        }
+	self::addX( $details['Individual'], $individual, array( 'gender' ) );
 
         // get address information
         $properties = array( 'street_address', 'city', 'state_province', 'postal_code', 'postal_code_suffix', 'country' );
@@ -299,10 +332,6 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $details['Student'][$value['newName']] = $studentDetails[$value['newName']];
         }
 
-        if ( $studentDetails['home_area'] ) {
-            $details['Student']['home_area_' . strtolower( $studentDetails['home_area'] )] = 'x';
-        }
-
         //fix for country
         $countryIds = array( 'citizenship_country' => 'citizenship_country_id',
                              'growup_country'      => 'growup_country_id',
@@ -321,26 +350,31 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $properties = array( 'years_in_us', 'first_language', 'primary_language', 
                              'internet_access_other',
                              'is_home_computer', 'is_home_internet', 'is_take_SAT_ACT',
+			     'is_health_insurance',
                              'educational_interest_other', 'college_interest_other',
                              'is_class_ranking', 'class_rank', 'class_num_students',
                              'gpa_explanation', 'test_tutoring',
                              'high_school_grad_year',
                              'number_siblings', 'financial_aid_applicant',
-                             'register_standarized_tests' );
+                             'register_standarized_tests',
+			     'varsity_sports_list', 'arts_list', 'school_work' );
+
         foreach ( $properties as $key ) {
             $details['Student'][$key] = $studentDetails[$key];
         }
 
-        // fix parent_grad_college which is a boolean
-        $details['Student']['parent_grad_college'] = $studentDetails['parent_grad_college_id'];
-        if ( $studentDetails['parent_grad_college_id'] == '1' ) {
-            $details['Student']['parent_grad_college_yes'] = 'x';
-        } else if ( $studentDetails['parent_grad_college_id'] == '0' ) {
-            $details['Student']['parent_grad_college_no'] = 'x'; 
-        } else {
-            $details['Student']['parent_grad_college_dont_know'] = 'x';
-        }
-
+	self::addX( $details['Student'],  $studentDetails,
+		    array( 'home_area' => null,
+			   'citizenship_status' => null,
+			   'school_work'        => null,
+			   'ethnicity_1' => 'ethnicity' ) );
+	self::addYesNo( $details['Student'], $studentDetails,
+			array( 'parent_grad_college_id'   => 'parent_grad_college',
+			       'financial_aid_applicant'  => null,
+			       'is_health_insurance'      => null,
+			       'is_dismissed'             => null,
+			       'is_convicted'             => null,
+			       'is_recommendation_waived' => null ) );
 
         $multiSelectElements = array( 'educational_interest', 'college_type', 'college_interest' );
         foreach ( $multiSelectElements as $key ) {
@@ -423,7 +457,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $names = array( 'years_lived_id' => array( 'newName'   => 'years_lived',
                                                    'groupName' => 'years_lived' ) );
 
-        $properties = array( 'member_count', 'description', 'years_lived' );
+        $properties = array( 'member_count', 'description', 'years_lived', 'foster_child' );
         $people     = array( 'id', 'first_name', 'last_name' );
 
         require_once 'CRM/Quest/DAO/Person.php';
@@ -439,9 +473,13 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 $details[$prefix][$prop] = $defaults[$prop];
             }
 
+	    self::addYesNo( $details[$prefix], $details[$prefix],
+			    array( 'foster_child' => null ) );
+
             foreach ( $names as $name => $dontCare ) {
                 $details["{$prefix}_$count"][$name] = $defaults[$name];
             }
+
 
             for ( $j = 1; $j <= 2; $j++ ) {
                 $personDAO = & new CRM_Quest_DAO_Person();
@@ -453,6 +491,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                     }
                 }
             }
+
         }
     }
 
@@ -660,7 +699,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         $address = array( 'street_address', 'city', 'state_province', 'postal_code', 'postal_code_suffix', 'country' );
         $highCount = $otherCount = 1;
 
-        $map = array( 310 => 'Public', 311 => 'Private', 312 => 'Parochial' );
+	$map = array( '' => 'Unknown', 'A' => 'Public', 'B' => 'Independent, Not Religious', 'C' => 'Independent, Catholic', 'D' => 'Other Independent, Religious', 'E' => 'Home School Association', 'F' => 'Charter', 'G' => 'Correspondence', 'H' => 'Other', 'I' => 'Education Provider' );
 
         foreach( $organization as $key => $value ) {
             if ( $value['custom_4'] == 'Highschool' ) {
@@ -698,6 +737,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 $details[$prefix][$key] = $value['location'][1]['address'][$key];
             }
             $details[$prefix]['phone'] = $value['location'][1]['phone'][1]['phone']; 
+
+	    self::addX(  $details[$prefix], $details[$prefix],
+			 array( 'custom_2' => 'school_type' ) );
         }
     }
 
@@ -975,9 +1017,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Utils/PDFlib.php';
         $values = CRM_Quest_BAO_Student::xmlFlatValues( $id );
 
-        return CRM_Utils_PDFlib::compose( 'readerPDF.pdf',
+        return CRM_Utils_PDFlib::compose( 'cmQBSupplement.pdf',
                                           $config->templateDir . '/Quest/pdf/',
-                                          $values, 6, false );
+                                          $values, 7, false );
     }
 
     /**
