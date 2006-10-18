@@ -256,7 +256,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $details['Individual'][$key] = $individual[$key];
         }
 
-	self::addX( $details['Individual'], $individual, array( 'gender' ) );
+	self::addX( $details['Individual'], $individual, array( 'gender' => null ) );
 
         // get address information
         $properties = array( 'street_address', 'city', 'state_province', 'postal_code', 'postal_code_suffix', 'country' );
@@ -1050,9 +1050,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Utils/PDFlib.php';
         $values = CRM_Quest_BAO_Student::xmlFlatValues( $id );
 
-        return CRM_Utils_PDFlib::compose( 'cmQBSupplement.pdf',
+        return CRM_Utils_PDFlib::compose( 'cmTeacherRec.pdf',
                                           $config->templateDir . '/Quest/pdf/',
-                                          $values, 8, false );
+                                          $values, 3, false );
     }
 
     /**
