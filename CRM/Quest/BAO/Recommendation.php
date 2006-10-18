@@ -343,7 +343,7 @@ SELECT cr.id as contact_id,
                     if ( $value == 11) {
                         self::getTeachersDetails( $cid, $key , $details, $count );
                         $count++;
-                    }else if ( $value == 12 ) {
+                    } else if ( $value == 12 ) {
                         self::getCounselorDetails( $cid, $key, $details);
                     }
                 }
@@ -355,33 +355,58 @@ SELECT cr.id as contact_id,
         return true;
     }
 
-    static function getTeachersDetails( $cid, $recommenderId, &$details, $count ) {
-        //Persoanal Information
-        $teacherDetails = array();
-        $query = 
-            "SELECT civicrm_contact.id AS contact_id, civicrm_contact.display_name, civicrm_individual.first_name, civicrm_individual.middle_name, civicrm_individual.last_name, civicrm_phone.phone
-FROM `civicrm_contact`
+    static function &fillContactDetails( $id, &$details, $isStudent ) {
+        $query = "
+SELECT civicrm_contact.id AS contact_id, civicrm_contact.display_name,
+       civicrm_individual.first_name, civicrm_individual.middle_name,
+       civicrm_individual.last_name, civicrm_phone.phone as phone,
+       civicrm_email.email as email
+FROM civicrm_contact
 LEFT JOIN civicrm_individual ON ( civicrm_contact.id = civicrm_individual.contact_id )
-LEFT JOIN civicrm_location ON ( (
-civicrm_contact.id = civicrm_location.entity_id
-)
-AND (
-civicrm_location.entity_table = 'civicrm_contact'
-) )
+LEFT JOIN civicrm_location ON ( civicrm_contact.id = civicrm_location.entity_id AND civicrm_location.entity_table = 'civicrm_contact' )
 LEFT JOIN civicrm_phone ON ( civicrm_location.id = civicrm_phone.location_id )
-WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId;
+LEFT JOIN civicrm_email ON ( civicrm_location.id = civicrm_email.location_id )
+WHERE civicrm_location.is_primary = 1
+  AND civicrm_contact.id = $id
+";
 
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        while ( $dao->fetch( ) ) {
-            $teacherDetails["PersonalInfo"]["contact_id"]  = $dao->contact_id;
-                $teacherDetails["PersonalInfo"]["first_name"]  = $dao->first_name;
-                $teacherDetails["PersonalInfo"]["middle_name"] = $dao->middle_name;
-                $teacherDetails["PersonalInfo"]["last_name"]   = $dao->last_name;
-                $teacherDetails["PersonalInfo"]["phone"]   = $dao->phone;
-        }
+	$dao->fetch( );
+	if ( ! $dao ) {
+	  CRM_Core_Error::fatal( ts( 'Could not get contact details' ) );
+	}
+
+	$details["contact_id"]  = $dao->contact_id;
+	$details["first_name"]  = $dao->first_name;
+	$details["middle_name"] = $dao->middle_name;
+	$details["last_name"]   = $dao->last_name;
+	$details["phone"]       = $dao->phone;
+	$details["email"]       = $dao->email;
+
+	if ( $isStudent ) {
+	  $waive = CRM_Core_DAO::getFieldValue( 'CRM_Quest_DAO_Student', $id, 'is_recommendation_waived' );
+	  if ( $waive ) {
+	    $details['is_recommendation_waived_yes'] = 'x';
+	  } else {
+	    $details['is_recommendation_waived_no'] = 'x';
+	  }
+	}
+
+    }
+
+    static function getTeachersDetails( $cid, $recommenderId, &$details, $count ) {
+
+        $teacherDetails = array();
+
+        //Personal Information
+	$teacherDetails['PersonalInfo'] = array( );
+	self::fillContactDetails( $recommenderId, $teacherDetails["PersonalInfo"], false );
+
+	$teacherDetails['StudentInfo'] = array( );
+	self::fillContactDetails( $cid, $teacherDetails['StudentInfo'], true );
 
         require_once 'CRM/Quest/DAO/StudentRanking.php';
-        $dao =&new CRM_Quest_DAO_StudentRanking();
+        $dao =& new CRM_Quest_DAO_StudentRanking();
         $dao->target_contact_id = $cid;
         $dao->source_contact_id = $recommenderId;
         $ids = array();
@@ -394,11 +419,11 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
                                                                   'groupName' => 'recommender_ranking' ),               
                        'challenge_id'                   => array( 'newName' => 'challenge_dispaly',
                                                                   'groupName' => 'recommender_ranking' ),
-                       'maturity_id'                    => array( 'newName' => 'maturity_dispaly',
+                       'maturity_id'                    => array( 'newName' => 'maturity_display',
                                                                   'groupName' => 'recommender_ranking' ),
-                       'work_ethic_id'                  => array( 'newName' => 'work_ethic_dispaly',
+                       'work_ethic_id'                  => array( 'newName' => 'work_ethic_display',
                                                                   'groupName' => 'recommender_ranking' ),
-                       'originality_id'                 => array( 'newName'   => 'originality_dispaly',
+                       'originality_id'                 => array( 'newName'   => 'originality_display',
                                                                   'groupName' => 'recommender_ranking' ),
                        'humor_id'                       => array( 'newName'   => 'humor_display',
                                                                   'groupName' => 'recommender_ranking' ),
@@ -427,6 +452,13 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
         require_once 'CRM/Core/OptionGroup.php';
         CRM_Core_OptionGroup::lookupValues( $teacherDetails["StudentRanking"], $names, false );
 
+	// also create flat values
+	$map = array( );
+	foreach ( $names as $name => $value ) {
+	  $map[$value['newName']] = $value['newName'];
+	}
+	CRM_Quest_BAO_Student::addX( $teacherDetails["StudentRanking"], $teacherDetails["StudentRanking"], $map );
+
         //student Evaluation
         require_once "CRM/Quest/DAO/TeacherEvaluation.php";
         $dao =& new CRM_Quest_DAO_TeacherEvaluation();
@@ -435,6 +467,9 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
         if ( $dao->find(true) ) {
             CRM_Core_DAO::storeValues( $dao , $teacherDetails["Evaluation"]  );
         }
+	CRM_Quest_BAO_Student::addYesNo( $teacherDetails["Evaluation"], $teacherDetails["Evaluation"],
+					 array( 'is_obstacles' => null,
+						'is_interfere' => null ) );
 
         $teacherDetails["Evaluation"]["success_factor"] = str_replace( "\001", ",", $teacherDetails["Evaluation"]["success_factor"] );
         require_once "CRM/Quest/BAO/Essay.php";
@@ -452,28 +487,12 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
 
     static function getCounselorDetails( $cid, $recommenderId, &$details ) {
         $counselorDetails = array();
-        $query = 
-            "SELECT civicrm_contact.id AS contact_id, civicrm_contact.display_name, civicrm_individual.first_name, civicrm_individual.middle_name, civicrm_individual.last_name, civicrm_phone.phone
-FROM `civicrm_contact`
-LEFT JOIN civicrm_individual ON ( civicrm_contact.id = civicrm_individual.contact_id )
-LEFT JOIN civicrm_location ON ( (
-civicrm_contact.id = civicrm_location.entity_id
-)
-AND (
-civicrm_location.entity_table = 'civicrm_contact'
-) )
-LEFT JOIN civicrm_phone ON ( civicrm_location.id = civicrm_phone.location_id )
-WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId;
 
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        while ( $dao->fetch( ) ) {
-                $counselorDetails["PersonalInfo"]["contact_id"]  = $dao->contact_id;
-                $counselorDetails["PersonalInfo"]["first_name"]  = $dao->first_name;
-                $counselorDetails["PersonalInfo"]["middle_name"] = $dao->middle_name;
-                $counselorDetails["PersonalInfo"]["last_name"]   = $dao->last_name;
-                $counselorDetails["PersonalInfo"]["phone"]   = $dao->phone;
-        }
+	$counselorDetails['PersonalInfo'] = array( );
+	self::fillContactDetails( $recommenderId, $counselorDetails["PersonalInfo"], false );
 
+	$counselorDetails['StudentInfo'] = array( );
+	self::fillContactDetails( $cid, $counselorDetails['StudentInfo'], true );
 
         require_once 'CRM/Quest/DAO/StudentRanking.php';
         $dao =&new CRM_Quest_DAO_StudentRanking();
@@ -487,13 +506,13 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
                                                                   'groupName' => 'recommender_ranking' ),
                        'intellectual_id'                => array( 'newName' => 'intellectual_display',
                                                                   'groupName' => 'recommender_ranking' ),               
-                       'challenge_id'                   => array( 'newName' => 'challenge_dispaly',
+                       'challenge_id'                   => array( 'newName' => 'challenge_display',
                                                                   'groupName' => 'recommender_ranking' ),
-                       'maturity_id'                    => array( 'newName' => 'maturity_dispaly',
+                       'maturity_id'                    => array( 'newName' => 'maturity_display',
                                                                   'groupName' => 'recommender_ranking' ),
-                       'work_ethic_id'                  => array( 'newName' => 'work_ethic_dispaly',
+                       'work_ethic_id'                  => array( 'newName' => 'work_ethic_display',
                                                                   'groupName' => 'recommender_ranking' ),
-                       'originality_id'                 => array( 'newName'   => 'originality_dispaly',
+                       'originality_id'                 => array( 'newName'   => 'originality_display',
                                                                   'groupName' => 'recommender_ranking' ),
                        'humor_id'                       => array( 'newName'   => 'humor_display',
                                                                   'groupName' => 'recommender_ranking' ),
@@ -521,10 +540,17 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
                        );
 
 
-
         require_once 'CRM/Core/OptionGroup.php';
         CRM_Core_OptionGroup::lookupValues( $counselorDetails["StudentRanking"], $names, false );
 
+	// also create flat values
+	$map = array( );
+	foreach ( $names as $name => $value ) {
+	  $map[$value['newName']] = $value['newName'];
+	}
+	CRM_Quest_BAO_Student::addX( $counselorDetails["StudentRanking"], $counselorDetails["StudentRanking"], $map );
+
+        //student Evaluation
         foreach ($names as $key => $value) {
              $counselorDetails["StudentRanking"]["{$key}"] = str_replace( "\001", ",", $counselorDetails["StudentRanking"]["{$key}"] );
         }
@@ -553,6 +579,11 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
             CRM_Core_DAO::storeValues($dao,$counselorDetails["Evaluation"]);
         }
         
+	CRM_Quest_BAO_Student::addYesNo( $counselorDetails["Evaluation"], $counselorDetails["Evaluation"],
+					 array( 'is_context' => null,
+						'is_problem_behavior' => null,
+						'is_disciplinary_action' => null ) );
+	
         $details["counselor"] = $counselorDetails;
     }
     
@@ -575,9 +606,15 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
     static function &xmlFlatValues( $id ) { 
       $details = array( ); 
  
-      if ( self::getPartnersDetails( $id, $details ) ) { 
+      if ( self::getRecommendationDetails( $id, $details ) ) {
 	$flat = array( ); 
-	CRM_Utils_Array::flatten( $details, $flat ); 
+	foreach ( $details as $name => $value ) { 
+	  if ( $value ) {
+	    $f = array( );
+	    CRM_Utils_Array::flatten( $value, $f ); 
+	    $flat[$name] = $f;
+	  }
+	}
 	return $flat; 
       } 
  
@@ -590,10 +627,14 @@ WHERE civicrm_location.is_primary =1 AND civicrm_contact.id = " . $recommenderId
       require_once 'CRM/Utils/PDFlib.php'; 
       $values =& self::xmlFlatValues( $id ); 
  
-      return CRM_Utils_PDFlib::compose( 'readerPDF.pdf', 
-					$config->templateDir . '/Quest/pdf/', 
-					$values, 6, false ); 
-    } 
+      $pdfs = array( );
+      foreach ( $values as $name => $value ) {
+	$pds[$name] = CRM_Utils_PDFlib::compose( "{$name}.pdf",
+						 $config->templateDir . '/Quest/pdf/', 
+						 $values, 6, false ); 
+      }
+      return $pdfs;
+    }
  
 }
     

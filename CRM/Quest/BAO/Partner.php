@@ -497,7 +497,13 @@ WHERE  r.contact_id  = $cid
  
        if ( self::getPartnersDetails( $id, $details ) ) { 
 	 $flat = array( ); 
-	 CRM_Utils_Array::flatten( $details, $flat ); 
+	foreach ( $details as $name => $value ) { 
+	  if ( $value ) {
+	    $f = array( );
+	    CRM_Utils_Array::flatten( $value, $f ); 
+	    $flat[$name] = $f;
+	  }
+	}
 	 return $flat; 
        } 
  
@@ -510,11 +516,14 @@ WHERE  r.contact_id  = $cid
        require_once 'CRM/Utils/PDFlib.php'; 
        $values =& self::xmlFlatValues( $id ); 
  
-       return CRM_Utils_PDFlib::compose( 'readerPDF.pdf', 
-					 $config->templateDir . '/Quest/pdf/', 
-					 $values, 6, false ); 
+      $pdfs = array( );
+      foreach ( $values as $name => $value ) {
+	$pds[$name] = CRM_Utils_PDFlib::compose( "{$name}.pdf",
+						 $config->templateDir . '/Quest/pdf/', 
+						 $values, 6, false ); 
+      }
+      return $pdfs;
      } 
- 
 }
     
 ?>
