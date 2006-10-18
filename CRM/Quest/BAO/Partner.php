@@ -491,6 +491,30 @@ WHERE  r.contact_id  = $cid
 
          return $xml;
      }
+   
+     static function &xmlFlatValues( $id ) { 
+       $details = array( ); 
+ 
+       if ( self::getPartnersDetails( $id, $details ) ) { 
+	 $flat = array( ); 
+	 CRM_Utils_Array::flatten( $details, $flat ); 
+	 return $flat; 
+       } 
+ 
+       return null; 
+     } 
+ 
+     static function pdf( $id ) { 
+       $config =& CRM_Core_Config::singleton( ); 
+ 
+       require_once 'CRM/Utils/PDFlib.php'; 
+       $values =& self::xmlFlatValues( $id ); 
+ 
+       return CRM_Utils_PDFlib::compose( 'readerPDF.pdf', 
+					 $config->templateDir . '/Quest/pdf/', 
+					 $values, 6, false ); 
+     } 
+ 
 }
     
 ?>
