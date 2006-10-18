@@ -445,7 +445,6 @@ WHERE civicrm_location.is_primary = 1
                                                                   'groupName' => 'recommender_ranking' ),
                        'recommend_student_id'           => array( 'newName'   => 'recommend_student_id',
                                                                   'groupName' => 'recommender_ranking' ),
-
                        );
 
         
@@ -471,7 +470,13 @@ WHERE civicrm_location.is_primary = 1
 					 array( 'is_obstacles' => null,
 						'is_interfere' => null ) );
 
-        $teacherDetails["Evaluation"]["success_factor"] = str_replace( "\001", ",", $teacherDetails["Evaluation"]["success_factor"] );
+	$names = array('success_factor'                 => array( 'newName'   => 'success_factor_display',
+								  'groupName' => 'success_factor' ) );
+	CRM_Core_OptionGroup::lookupValues( $teacherDetails["Evaluation"], $names, false );
+
+	CRM_Quest_BAO_Student::addMultiSelect( $teacherDetails["Evaluation"],
+					       array( 'success_factor' => null ) );
+
         require_once "CRM/Quest/BAO/Essay.php";
         $essays = CRM_Quest_BAO_Essay::getFields( 'cm_teacher_eval', $recommenderId, $cid );
         require_once "CRM/Quest/BAO/Essay.php";
@@ -550,11 +555,9 @@ WHERE civicrm_location.is_primary = 1
 	}
 	CRM_Quest_BAO_Student::addX( $counselorDetails["StudentRanking"], $counselorDetails["StudentRanking"], $map );
 
-        //student Evaluation
-        foreach ($names as $key => $value) {
-             $counselorDetails["StudentRanking"]["{$key}"] = str_replace( "\001", ",", $counselorDetails["StudentRanking"]["{$key}"] );
-        }
-        
+	CRM_Quest_BAO_Student::addMultiSelect( $counselorDetails["StudentRanking"],
+					       array( 'counselor_basis' => null ) );
+
         //student academics
         require_once 'CRM/Quest/DAO/Academic.php';
         $dao =&new CRM_Quest_DAO_Academic();

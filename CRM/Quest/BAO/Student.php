@@ -234,6 +234,26 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
       }
     }
 
+    static function addMultiSelect( &$details, $names ) {
+      foreach ( $names as $name => $new ) {
+	if ( ! $new ) {
+	  $new = $name;
+	}
+
+	$details["{$name}_ids"] = str_replace( "\001", ",", $details[$name] );
+	unset( $details[$name] );
+	$elements = explode( ',', $details["{$name}_display"] );
+	foreach ( $elements as $el ) {
+	  $el = trim( $el );
+	  if ( empty( $el ) ) {
+	    continue;
+	  }
+	  $el = strtolower( $el );
+	  $el = str_replace( array( ' ', ',', '/', '.', '(', ')' ), '_', $el );
+	  $details["{$name}_{$el}"] = "x";
+	}
+      }
+    }
 
     static function individual( $id, &$details ) {
         $params = array( 'contact_id' => $id,
@@ -384,24 +404,10 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 			       'is_recommendation_waived' => null ) );
 
         $multiSelectElements = array( 'educational_interest', 'college_type', 'college_interest' );
-        foreach ( $multiSelectElements as $key ) {
-            $details['Student']["{$key}_ids"] = str_replace( "\001", ",", $studentDetails[$key] );
-            unset($details['Student']["{$key}"]);
-            $elements = explode( ',', $details['Student']["{$key}_display"] );
-            foreach ( $elements as $el ) {
-                $el = trim( $el );
-                if ( empty( $el ) ) {
-                    continue;
-                }
-                $el = strtolower( $el );
-                $el = str_replace( ' ', '_', $el );
-                $el = str_replace( '/', '_OR_', $el );
-                $el = str_replace( '(', '', $el );
-                $el = str_replace( ')', '', $el );
-                $details['Student']["{$key}_{$el}"] = "x";
-            }
-        }
-
+	self::addMultiSelect( $details['Student'], $details['Student'],
+			      array( 'educational_interest' => null,
+				     'college_type'         => null,
+				     'college_interest'     => null ) );
         return true;
     }
 
