@@ -54,6 +54,7 @@ class CRM_Contact_Form_Address
      */
     static function buildAddressBlock(&$form, &$location, $locationId)
     {
+        $config =& CRM_Core_Config::singleton( );
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
         $location[$locationId]['address']['street_address']         =
             $form->addElement('text', "location[$locationId][address][street_address]", ts('Street Address'),
@@ -64,7 +65,6 @@ class CRM_Contact_Form_Address
         $location[$locationId]['address']['supplemental_address_2'] =
             $form->addElement('text', "location[$locationId][address][supplemental_address_2]", ts('Addt\'l Address 2'),
                               $attributes['supplemental_address_2']);
-
         $location[$locationId]['address']['city']                   =
             $form->addElement('text', "location[$locationId][address][city]", ts('City'),
                               $attributes['city']);
@@ -74,6 +74,11 @@ class CRM_Contact_Form_Address
         $location[$locationId]['address']['postal_code_suffix']            =
             $form->addElement('text', "location[$locationId][address][postal_code_suffix]", ts('Add-on Code'),
                               array( 'size' => 4, 'maxlength' => 12 ));
+        if ( $config->includeCounty ) {
+            $location[$locationId]['address']['county_id']             =
+                $form->addElement('select', "location[$locationId][address][county_id]", ts('County'),
+                                  array('' => ts('- select -')) + CRM_Core_PseudoConstant::county());
+        }        
         $location[$locationId]['address']['state_province_id']      =
             $form->addElement('select', "location[$locationId][address][state_province_id]", ts('State / Province'),
                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());
@@ -109,7 +114,8 @@ class CRM_Contact_Form_Address
             }
 
             $stateProvinceId = $fields['location'][$i]['address']['state_province_id'];
-            $countryId = $fields['location'][$i]['address']['country_id'];
+            $countryId       = $fields['location'][$i]['address']['country_id'];
+            $countyId        = $fields['location'][$i]['address']['county_id'];
 
             if ($stateProvinceId && $countryId) {
                 $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
@@ -121,6 +127,18 @@ class CRM_Contact_Form_Address
                     $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
                     $countries =& CRM_Core_PseudoConstant::country();
                     $errors["location[$i][address][state_province_id]"] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+                }
+            }
+            
+            if ($stateProvinceId && $countyId) {
+                $countyDAO =& new CRM_Core_DAO_County();
+                $countyDAO->id = $countyId;
+                $countyDAO->find(true);
+
+                if ($countyDAO->state_province_id != $stateProvinceId) {
+                    $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
+                    $counties =& CRM_Core_PseudoConstant::county();
+                    $errors["location[$i][address][county_id]"] = "County " . $counties[$countyId] . " is not part of ". $stateProvinces[$stateProvinceId] . ". It belongs to " . $stateProvinces[$countyDAO->state_province_id] . "." ;
                 }
             }
         }

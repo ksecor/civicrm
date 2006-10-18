@@ -104,6 +104,13 @@ class CRM_Core_PseudoConstant {
      */
     private static $stateProvince;
 
+    /**
+     * counties
+     * @var array
+     * @static
+     */
+    private static $county;
+
     /** 
      * states/provinces abbreviations
      * @var array
@@ -745,6 +752,40 @@ class CRM_Core_PseudoConstant {
         }
         return self::$currencyCode;
     }
+
+    /**
+     * Get all the Country from database.
+     *
+     * The static array county is returned, and if it's
+     * called the first time, the <b>County DAO</b> is used 
+     * to get all the Counties.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @param int $id -  Optional id to return
+     * @return array - array reference of all Counties
+     *
+     */
+    public static function &county($id = false)
+    {
+        if (!self::$county) {
+
+            $config =& CRM_Core_Config::singleton();
+            self::populate( self::$county, 'CRM_Core_DAO_County', true, 'name');
+        }
+        if ($id) {
+            if (array_key_exists($id, self::$county)) {
+                return self::$county[$id];
+            } else {
+                return null;
+            }
+        }
+        return self::$county;
+    }
+
 
 }
 

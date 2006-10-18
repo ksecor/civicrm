@@ -187,7 +187,7 @@ class CRM_Core_Config {
      * The sequence of the address fields.
      * @var string
      */
-    public $addressSequence = array('street_address', 'supplemental_address_1', 'supplemental_address_2', 'city', 'state_province', 'postal_code', 'country');
+    public $addressSequence = array('street_address', 'supplemental_address_1', 'supplemental_address_2', 'city', 'county', 'state_province', 'postal_code', 'country');
 
     /**
      * String format for date+time
@@ -425,6 +425,12 @@ class CRM_Core_Config {
      * @var object
      */
     private static $_mail = null;
+    
+    /**
+     * include county in address block
+     * @var object
+     */
+    private static $_includeCounty = null;
 
     /**
      * We only need one instance of this object. So we use the singleton
@@ -566,6 +572,10 @@ class CRM_Core_Config {
                 $this->provinceLimit = array_filter($isoCodes);
             }
         } 
+
+        if ( defined( 'CIVICRM_INCLUDE_COUNTY' ) ) {
+            $this->includeCounty = CIVICRM_INCLUDE_COUNTY;
+        }
         
         // Note: we can't change the ISO code to country_id
         // here, as we can't access the database yet...

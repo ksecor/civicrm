@@ -258,6 +258,12 @@ define( 'CIVICRM_COUNTRY_LIMIT' , 'US' );
  */
 define( 'CIVICRM_PROVINCE_LIMIT' , 'US' );
 
+/**
+ * Include county in address block
+ * CIVICRM_INCLUDE_COUNTY is set true if you want to include county
+ * select box in address block for contact and also in profile
+ */
+define( 'CIVICRM_INCLUDE_COUNTY' , true );
 
 /**
  * Default Contact Country
@@ -322,7 +328,7 @@ define( 'CIVICRM_ADDRESS_FORMAT' , '
 {street_address}
 {supplemental_address_1}
 {supplemental_address_2}
-{city}{, }{state_province}{ }{postal_code}
+{city}{, }{county}{ }{state_province}{ }{postal_code}
 {country}
 ' );
 
