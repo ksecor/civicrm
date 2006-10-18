@@ -363,6 +363,13 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $details['Student'][$key] = $studentDetails[$key];
         }
 
+	if ( ! empty( $details['Student']['varsity_sports_list'] ) ) {
+	  $details['Student']['participate_interest_varsity_sports'] = 'x';
+	}
+	if ( ! empty( $details['Student']['arts_list'] ) ) {
+	  $details['Student']['participate_interest_arts'] = 'x';
+	}
+	
 	self::addX( $details['Student'],  $studentDetails,
 		    array( 'home_area' => null,
 			   'citizenship_status' => null,
@@ -473,11 +480,11 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 $details[$prefix][$prop] = $defaults[$prop];
             }
 
-	    self::addYesNo( $details[$prefix], $details[$prefix],
+	    self::addYesNo( $details[$prefix], $defaults,
 			    array( 'foster_child' => null ) );
 
             foreach ( $names as $name => $dontCare ) {
-                $details["{$prefix}_$count"][$name] = $defaults[$name];
+                $details[$prefix][$name] = $defaults[$name];
             }
 
 
@@ -493,6 +500,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             }
 
         }
+
     }
 
     static function guardian( $id, &$details, $isGuardian ) {
@@ -543,7 +551,16 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             foreach ( $properties as $key ) {
                 $details["{$prefix}_$count"][$key] = $personDetails[$key];
             }
-            
+
+	    if ( ! $isGuardian ) {
+	      if ( ! $personDetails['lived_with_from_age'] &&
+		   ! $personDetails['lived_with_to_age'] ) {
+		$details["{$prefix}_$count"]['sibling_all_my_life'] = 'x';
+	      } else {
+		$details["{$prefix}_$count"]['sibling_not_all_my_life'] = 'x';
+	      }
+	    }
+
             foreach ( $names as $name => $dontCare ) {
                 $details["{$prefix}_$count"][$name] = $personDetails[$name];
             }
@@ -1019,7 +1036,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
         return CRM_Utils_PDFlib::compose( 'cmQBSupplement.pdf',
                                           $config->templateDir . '/Quest/pdf/',
-                                          $values, 7, false );
+                                          $values, 8, false );
     }
 
     /**
