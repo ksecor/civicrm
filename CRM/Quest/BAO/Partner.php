@@ -518,9 +518,9 @@ WHERE  r.contact_id  = $cid
  
       $pdfs = array( );
       foreach ( $values as $name => $value ) {
-	$pds[$name] = CRM_Utils_PDFlib::compose( "{$name}.pdf",
+	$pdfs[$name] = CRM_Utils_PDFlib::compose( "{$name}.pdf",
 						 $config->templateDir . '/Quest/pdf/', 
-						 $values, 6, false ); 
+						 $value, 6, false ); 
       }
       return $pdfs;
      } 

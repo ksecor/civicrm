@@ -1056,9 +1056,9 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
         require_once 'CRM/Utils/PDFlib.php';
         $values = CRM_Quest_BAO_Student::xmlFlatValues( $id );
 
-        return CRM_Utils_PDFlib::compose( 'cmTeacherRec.pdf',
+        return CRM_Utils_PDFlib::compose( 'cmCMApp.pdf',
                                           $config->templateDir . '/Quest/pdf/',
-                                          $values, 3, false );
+                                          $values, 6, false );
     }
 
     /**
