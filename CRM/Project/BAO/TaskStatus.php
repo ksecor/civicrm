@@ -151,7 +151,7 @@ class CRM_Project_BAO_TaskStatus {
      * @static
      * @return returns task status object
      */
-    static function createTaskStatus( &$params )
+    static function create( &$params )
     {
         if (!$params['target_entity_id'] || !$params['responsible_entity_id'] 
             || !$params['task_id'] || ! $params['status_id'] ) {
