@@ -228,7 +228,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
         }
         
         $params =& $this->getActiveFieldParams( );
-
+        
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
         
@@ -248,7 +248,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             }
         }
         //date-Format part ends
-
+        
         $formatted = array();
         static $indieFields = null;
         if ($indieFields == null) {
@@ -272,7 +272,20 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                 $formatted[$key] = $field;
             }
         }
-
+        
+        // BAO_Membership::add() handles only start_date and end_date.
+        // So if $formatted contains membership_start_date or
+        // membership_end_date convert it to start_date or end_date respectively.
+        foreach ( $formatted as $key => $value ) {
+            if ($key == 'membership_start_date') {
+                $formatted['start_date'] = $value;
+                unset($formatted[$key]);
+            }else if ($key == 'membership_end_date') {
+                $formatted['end_date'] = $value;
+                unset($formatted[$key]);
+            }
+        }
+        
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
@@ -312,7 +325,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                 }
                 _crm_add_formatted_param($value, $contactFormatted);
             }
-
+            
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _crm_duplicate_formatted_contact($contactFormatted);
             $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
@@ -323,7 +336,6 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                 } else {
                     $cid = $matchedIDs[0];
                     $formatted['contact_id'] = $cid;
-
                     $newMembership = crm_create_contact_membership($formatted, $cid);
                     if ( is_a( $newMembership, CRM_Core_Error ) ) {
                         array_unshift($values, $newMembership->_errors[0]['message']);

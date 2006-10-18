@@ -63,13 +63,14 @@
   <field>  
       <name>contribution_type_id</name>  
       <type>int unsigned</type>  
-      <comment>FK to Contribution Type</comment>  
+      <comment>FK to Contribution Type</comment>
       <add>1.3</add>  
   </field>    
   <foreignKey>  
        <name>contribution_type_id</name>  
        <table>civicrm_contribution_type</table>  
        <key>id</key>  
+       <import>true</import>
        <add>1.3</add>  
   </foreignKey>  
   <field> 
