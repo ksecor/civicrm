@@ -561,6 +561,26 @@ class CRM_Profile_Form extends CRM_Core_Form
                     }
                 }
             }
+
+            if ($fieldName == 'county' && $fields["state_province-{$locTypeId}"]) {
+                // Validate County - State list            
+                $stateProvinceId = $fields["state_province-{$locTypeId}"];
+                $countyId = $value;
+                
+                if ($countyId && $stateProvinceId) {
+                    $countyDAO =& new CRM_Core_DAO_County();
+                    $countyDAO->id = $countyId;
+                    $countyDAO->find(true);
+                    
+                    if ($countyDAO->state_province_id != $stateProvinceId) {
+                        // state province mismatch hence display error
+                        $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
+                        $counties =& CRM_Core_PseudoConstant::county();
+                        $errors[$key] = "County " . $counties[$countyId] . " is not part of ". $stateProvinces[$stateProvinceId] . ". It belongs to " . $stateProvinces[$countyDAO->state_province_id] . "." ;
+                    }
+                }
+            }
+            
         }
 
         return empty($errors) ? true : $errors;

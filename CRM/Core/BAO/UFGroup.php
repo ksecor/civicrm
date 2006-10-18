@@ -1410,6 +1410,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                         //to handle stateprovince and country
                                         if ( $fieldName == 'state_province' ) {
                                             $defaults[$fldName] = $value['state_province_id'];
+                                        } else if ( $fieldName == 'county' ) {
+                                            $defaults[$fldName] = $value['county_id'];
                                         } else if ( $fieldName == 'country' ) {
                                             if (!$value['country_id']) {
                                                 $config =& CRM_Core_Config::singleton();

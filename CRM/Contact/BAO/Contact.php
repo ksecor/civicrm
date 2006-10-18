@@ -1914,6 +1914,8 @@ WHERE civicrm_contact.id IN $idString ";
                         $data['location'][$loc]['address']['state_province_id'] = $value;
                     } else if ($fieldName === 'country') {
                         $data['location'][$loc]['address']['country_id'] = $value;
+                    } else if ($fieldName === 'county') {
+                        $data['location'][$loc]['address']['county_id'] = $value;
                     } else {
                         $data['location'][$loc]['address'][$fieldName] = $value;
                     }

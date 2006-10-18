@@ -232,6 +232,7 @@ class CRM_Contact_BAO_Query {
      */
     static $_dependencies = array( 'civicrm_state_province' => 1,
                                    'civicrm_country'        => 1,
+                                   'civicrm_county'         => 1,
                                    'civicrm_address'        => 1,
                                    'civicrm_phone'          => 1,
                                    'civicrm_email'          => 1,
@@ -683,6 +684,14 @@ class CRM_Contact_BAO_Query {
                                 }
                                 break;
 
+                            case 'civicrm_county':
+                                $this->_tables[$newName] = "\nLEFT JOIN $tableName `$tName` ON `$tName`.id = $aName.county_id";
+                                if ( $addWhere ) {
+                                    $this->_whereTables[ "{$name}-address" ] = $addressJoin;
+                                    $this->_whereTables[$newName] = $this->_tables[$newName];
+                                }
+                                break;
+                                
                             default:
                                 if ( $addWhere ) {
                                     $this->_whereTables[ "{$name}-address" ] = $addressJoin;
@@ -1041,6 +1050,17 @@ class CRM_Contact_BAO_Query {
             } else {
                 $this->_qill[$grouping][] = ts('Country (%2) %3 "%1"', array( 1 => $value, 2 => $lType, 3 => $op ) );         
             }
+        } else if ( substr($name,0,6) === 'county' ) {
+            $counties =& CRM_Core_PseudoConstant::county( ); 
+            if ( is_numeric( $value ) ) { 
+                $value     =  $counties[(int ) $value]; 
+            }
+            $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ") $op '" . strtolower( addslashes( $value ) ) . "'"; 
+            if (!$lType) {
+                $this->_qill[$grouping][] = ts('County %2 "%1"', array( 1 => $value, 2 => $op ) );
+            } else {
+                $this->_qill[$grouping][] = ts('County (%2) %3 "%1"', array( 1 => $value, 2 => $lType, 3 => $op ) );         
+            }
         } else if ( $name === 'individual_prefix' ) {
             $individualPrefixs =& CRM_Core_PseudoConstant::individualPrefix( ); 
             if ( is_numeric( $value ) ) { 
@@ -1252,7 +1272,8 @@ class CRM_Contact_BAO_Query {
         }        
 
         if ( ( CRM_Utils_Array::value( 'civicrm_state_province', $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_country'       , $tables ) ) &&
+               CRM_Utils_Array::value( 'civicrm_country'       , $tables ) ||
+               CRM_Utils_Array::value( 'civicrm_county'       , $tables )) &&
              ! CRM_Utils_Array::value( 'civicrm_address'       , $tables ) ) {
             $tables = array_merge( array( 'civicrm_location' => 1,
                                           'civicrm_address'  => 1 ),
@@ -1402,7 +1423,11 @@ class CRM_Contact_BAO_Query {
             case 'civicrm_country':
                 $from .= " $side JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id ";
                 continue;
-            
+
+            case 'civicrm_county':
+                $from .= " $side JOIN civicrm_county ON civicrm_address.county_id = civicrm_county.id ";
+                continue;
+
             case 'civicrm_location_type':
                 $from .= " $side JOIN civicrm_location_type ON civicrm_location.location_type_id = civicrm_location_type.id ";
                 continue;
