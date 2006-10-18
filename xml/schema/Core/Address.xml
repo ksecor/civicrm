@@ -145,13 +145,16 @@
        <name>county_id</name>
        <table>civicrm_county</table>
        <key>id</key>
+       <import>true</import>
+       <headerPattern>/county/i</headerPattern>
+       <dataPattern>/[A-Z]{2}/</dataPattern>
        <add>1.1</add>
   </foreignKey>
   <field>
       <name>state_province_id</name>
       <type>int unsigned</type>
       <comment>Which State_Province does this address belong to.</comment>
-       <add>1.1</add>
+      <add>1.1</add>
   </field>
   <foreignKey>
        <name>state_province_id</name>

@@ -6,9 +6,9 @@
   <name>civicrm_county</name>
   <add>1.1</add>
   <field>
-      <name>id</name>
-      <type>int unsigned</type>
-      <required>true</required>
+       <name>id</name>
+       <type>int unsigned</type>
+       <required>true</required>
        <comment>County ID</comment>
        <add>1.1</add>
   </field>
@@ -18,15 +18,18 @@
   </primaryKey>
   <field>
        <name>name</name>
-       <title>Country</title>
+       <title>County</title>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
+       <headerPattern>/county/i</headerPattern>
+       <dataPattern>/[A-Z]{2}/</dataPattern>
        <comment>Name of County</comment>
        <add>1.1</add>
   </field>
   <field>
        <name>abbreviation</name>
-       <title>Country Abbreviation</title>
+       <title>County Abbreviation</title>
        <type>varchar</type>
        <length>4</length>
        <comment>2-4 Character Abbreviation of County</comment>

@@ -698,6 +698,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             $locationName = "location";
         }
         
+        $config =& CRM_Core_Config::singleton( );
         $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
 
         $location[$locationId]['address']['street_address']         =
@@ -734,6 +735,12 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                               array( 'size' => 4, 'maxlength' => 12 ));
         $this->addRule( "{$locationName}[$locationId][address][postal_code_suffix]", ts('Zip-Plus not valid.'), 'positiveInteger' );
 
+        if ( $config->includeCounty ) {
+            $location[$locationId]['address']['county_id']             =
+                $this->addElement('select', "{$locationName}[$locationId][address][county_id]", ts('County'),
+                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::county());                    
+        }        
+        
         $location[$locationId]['address']['state_province_id']      =
              $this->addElement('select', "{$locationName}[$locationId][address][state_province_id]", ts('State / Province'),
                                array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince());

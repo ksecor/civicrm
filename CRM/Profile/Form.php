@@ -156,8 +156,6 @@ class CRM_Profile_Form extends CRM_Core_Form
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm', 'reset=1' ) );
         }
 
-	// CRM_Core_Error::debug( 'f', $this->_fields );
-
         if ( $this->_id ) {
             $defaults = array( );
             
@@ -543,20 +541,25 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
         }
 
-        // Validate Country - State list
-        $countryId = $fields['country'];
-        $stateProvinceId = $fields['state_province'];
-
-        if ($stateProvinceId && $countryId) {
-            $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
-            $stateProvinceDAO->id = $stateProvinceId;
-            $stateProvinceDAO->find(true);
-
-            if ($stateProvinceDAO->country_id != $countryId) {
-                // country mismatch hence display error
-                $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-                $countries =& CRM_Core_PseudoConstant::country();
-                $errors['state_province'] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+        foreach ($fields as $key => $value) {
+            list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $key);
+            if ($fieldName == 'state_province' && $fields["country-{$locTypeId}"]) {
+                // Validate Country - State list            
+                $countryId = $fields["country-{$locTypeId}"];
+                $stateProvinceId = $value;
+                
+                if ($stateProvinceId && $countryId) {
+                    $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
+                    $stateProvinceDAO->id = $stateProvinceId;
+                    $stateProvinceDAO->find(true);
+                    
+                    if ($stateProvinceDAO->country_id != $countryId) {
+                        // country mismatch hence display error
+                        $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
+                        $countries =& CRM_Core_PseudoConstant::country();
+                        $errors[$key] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+                    }
+                }
             }
         }
 

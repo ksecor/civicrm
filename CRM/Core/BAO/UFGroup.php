@@ -529,7 +529,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $values[$index] = $details->$name;
                     $name = $name . '_id';
                     $params[$index] = $details->$name ;
-                } else if ( in_array( $name, array( 'state_province', 'country' ) ) ) {
+                } else if ( in_array( $name, array( 'state_province', 'country', 'county' ) ) ) {
                     $values[$index] = $details->$name;
                     $idx = $name . '_id';
                     $params[$index] = $details->$idx;
@@ -1262,6 +1262,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         } else if ( substr($fieldName,0,7) === 'country' ) {
             $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
+        } else if ( substr($fieldName,0,6) === 'county' ) {
+            $form->add('select', $name, $title, 
+                       array('' => ts('- select -')) + CRM_Core_PseudoConstant::county(), $required);
         } else if ( $fieldName === 'birth_date' ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ( $fieldName === 'deceased_date' ) {  

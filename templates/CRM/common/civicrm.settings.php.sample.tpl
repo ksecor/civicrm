@@ -408,6 +408,10 @@ define('CIVICRM_MAP_GEOCODING' , 1  );
  * - remote geocode lookup using Yahoo
  *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_Yahoo' );
  *
+ * - remote geocode lookup using Google
+ *      define('CIVICRM_GEOCODE_METHOD', 'CRM_Utils_Geocode_Google' );
+ *
+ *
  * NOTE: Yahoo geocoding service currently requires PHP5+ with SimpleXML enabled.
  * You must request and enter a Yahoo Application ID to use Yahoo's geocode lookup service.
  * Enter this value in the CIVICRM_MAP_API_KEY above if you haven't already done so (the same ID
