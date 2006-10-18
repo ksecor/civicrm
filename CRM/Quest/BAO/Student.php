@@ -892,6 +892,22 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
             $essayType->id = $essayDAO->essay_type_id;
             $essayType->find(true);
             $details['Essay'][$essayType->grouping][$essayType->name] = $essayDAO->essay;
+	    if ( $essayType->grouping == 'cm_essay_personal' ) {
+	      // check if there is a photo assigned
+	      $photoAttached = false;
+	      $attachments =& crm_get_files_by_entity( $id );
+	      foreach ( $attachments as $key => $value ) {
+		if ( $value['file_type_id'] == 5 ) {
+		  $photoAttached = true;
+		}
+		break;
+	      }
+	      if ( $photoAttached ) {
+		$details['Essay'][$essayType->grouping]['personal_statement_essay_photograph'] = 'x';
+	      } else {
+		$details['Essay'][$essayType->grouping]['personal_statement_essay_experience'] = 'x';
+	      }
+	    }
         }
     }
 
