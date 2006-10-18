@@ -754,7 +754,7 @@ class CRM_Core_PseudoConstant {
     }
 
     /**
-     * Get all the Country from database.
+     * Get all the County from database.
      *
      * The static array county is returned, and if it's
      * called the first time, the <b>County DAO</b> is used 
@@ -774,7 +774,8 @@ class CRM_Core_PseudoConstant {
         if (!self::$county) {
 
             $config =& CRM_Core_Config::singleton();
-            self::populate( self::$county, 'CRM_Core_DAO_County', true, 'name');
+            // order by id so users who populate civicrm_county can have more control over sort by the order they load the counties
+            self::populate( self::$county, 'CRM_Core_DAO_County', true, 'name', null, null, 'id');
         }
         if ($id) {
             if (array_key_exists($id, self::$county)) {
