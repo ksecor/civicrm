@@ -768,7 +768,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
          if ( $alternatePhone ) {
              $location[$locationId]['phone'][2]['phone']      = $this->addElement('text',
                                                                                   "{$locationName}[$locationId][phone][2][phone]", 
-                                                                                  $phoneTitle,
+                                                                                  $alternatePhone,
                                                                                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
                                                                                                              
                                                                                                    'phone'));
