@@ -200,6 +200,13 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household');
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization');
 
+        $config =& CRM_Core_Config::singleton( );
+        if ( !$config->includeCounty ) {
+            unset( $fields['Individual'  ]['county']);
+            unset( $fields['Household'   ]['county']);
+            unset( $fields['Organization']['county']);
+        }
+
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
