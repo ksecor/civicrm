@@ -526,9 +526,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                         _crm_add_formatted_param($value, $formatting);
                     }
                     
-                    $relatedNewContact = crm_create_contact_formatted( $formatting, $onDuplicate );
-                    
-                    
+                    //fix for CRM-1315
+                    if ( $params[$key]['id']) {
+                        $contactId = array('contact_id' => $params[$key]['id']);
+                        $relatedNewContact = crm_get_contact($contactId);
+                    } else {
+                        $relatedNewContact = crm_create_contact_formatted( $formatting, $onDuplicate );
+                    }
+                       
                     if ( self::isDuplicate($relatedNewContact) ) {
                         foreach ($relatedNewContact->_errors[0]['params'] as $cid) {
                             $relContactId = $cid;
