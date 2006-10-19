@@ -57,7 +57,7 @@ class CRM_Utils_Hook {
      *                           an error message which aborts the operation
      * @access public 
      */ 
-    static function pre( $op, $objectName, $id, $params = null ) {
+    static function pre( $op, $objectName, $id, &$params ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
