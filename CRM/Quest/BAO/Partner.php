@@ -94,7 +94,7 @@ class CRM_Quest_BAO_Partner extends CRM_Quest_DAO_Partner {
 
     static function &getPartnersForContact( $cid, $is_supplement = null ) {
         $query = "
-SELECT p.name as name
+SELECT p.name as name, p.id as id
 FROM   quest_partner p,
        quest_partner_ranking r
 WHERE  r.contact_id  = $cid
@@ -110,7 +110,7 @@ WHERE  r.contact_id  = $cid
         $partners = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $partners[$dao->name] = 1;
+            $partners[$dao->name] = $dao->id;
         }
         return $partners;
     }
@@ -160,7 +160,62 @@ WHERE  r.contact_id  = $cid
 	  $details[$name]['PersonalInfo'] = $personalInfo;
 	}
 
+	self::fillPartnerRelativeInfo( $cid, $details );
         return true;
+    }
+
+    static function fillPartnerRelativeInfo( $cid, &$details ) {
+      $ids = array( 1 => 'AmherstCollege',
+		    2 => 'BowdoinCollege',
+		    4 => 'ColumbiaUniversity',
+		    6 => 'PomonaCollege',
+		    7 => 'PrincetonUniversity',
+		    8 => 'RiceUniversity',
+		    10 => 'StanfordUniversity',
+		    13 => 'WellesleyCollege',
+		    14 => 'WheatonCollege',
+		    15 => 'WilliamsCollege' );
+
+      $query = "
+SELECT *
+  FROM quest_partner_relative
+ WHERE contact_id = $cid
+ORDER BY partner_id
+";
+      $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+      $partnerInfo = array( );
+      while ( $dao->fetch( ) ) {
+	$name = $ids[$dao->partner_id];
+	if ( ! array_key_exists( $name, $partnerInfo ) ) {
+	  $partnerInfo[$name] = array( );
+	}
+	if ( ! array_key_exists( $dao->connection_type, $partnerInfo[$name] ) ) {
+	  $partnerInfo[$name][$dao->connection_type] = array( );
+	}
+
+	switch( $dao->connection_type ) {
+	case 'Alumnus':
+	  $values = array( 'first_name' => $dao->first_name,
+			   'last_name'  => $dao->last_name,
+			   'college_grad_year' => $dao->college_grad_year,
+			   'relationship'      => $dao->relationship );
+	  break;
+
+	case 'Employee':
+	  $values = array( 'first_name' => $dao->first_name,
+			   'last_name'  => $dao->last_name,
+			   'college_grad_deppartment' => $dao->department,
+			   'relationship'      => $dao->relationship );
+	  break;
+	}
+	$partnerInfo[$name][$dao->connection_type][] = $values;
+      }
+
+      foreach ( $details as $name => $dontCare ) {
+	if ( array_key_exists( $name, $partnerInfo ) ) {
+	  $details[$name]['PartnerInfo'] = $partnerInfo[$name];
+	}
+      }
     }
 
     static function partner_amherst($cid ,&$details ) {
@@ -186,7 +241,8 @@ WHERE  r.contact_id  = $cid
             foreach ( $fields as $name => $titles ) {
                 $cond = "is_{$name}";
                 if ( $dao->$cond ) {
-                    $partnerDetails["ApplicantInformation"][$cond] = 1;
+		    $partnerDetails["ApplicantInformation"][$cond] = 1;
+		    $partnerDetails["ApplicantInformation"]["heard_{$name}"] = 'x';
                 }
                 $partnerDetails["ApplicantInformation"][$name] = $dao->$name;
             }
@@ -517,13 +573,16 @@ WHERE  r.contact_id  = $cid
          $partnerDetails["ApplicantInformation"] = array();
          require_once 'CRM/Quest/Partner/DAO/Wheaton.php';
          require_once "CRM/Quest/BAO/Essay.php";
-
+	 
          $dao =& new CRM_Quest_Partner_DAO_Wheaton( );
          $dao->contact_id = $cid;
          if ( $dao->find( true ) ) {
 	   CRM_Core_DAO::storeValues( $dao, $partnerDetails["ApplicantInformation"]); 
 	 }
 
+	 CRM_Quest_BAO_Student::addX( $partnerDetails["ApplicantInformation"],
+				      $partnerDetails["ApplicantInformation"],
+				      array( 'is_personal_savior' => null ) );
          //Essay
          $partnerDetails["Essay"] = array();
          $essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_wheaton_essay', $cid, $cid );
@@ -557,12 +616,25 @@ WHERE  r.contact_id  = $cid
  
        require_once 'CRM/Utils/PDFlib.php'; 
        $values =& self::xmlFlatValues( $id ); 
- 
+
       $pdfs = array( );
+      $pages = array( 'AmherstCollege' => 3,
+                      'BowdoinCollege' => 2,
+                      'ColumbiaUniversity' => 2,
+                      'PomonaCollege' => 3,
+                      'PrincetonUniversity' => 2,
+                      'RiceUniversity' => 5,
+                      'StanfordUniversity' => 2,
+                      'WellesleyCollege' => 3,
+                      'WheatonCollege' => 2,
+                      'WilliamsCollege' => 2 );   
+
+
       foreach ( $values as $name => $value ) {
 	$pdfs[$name] = CRM_Utils_PDFlib::compose( "{$name}.pdf",
 						 $config->templateDir . '/Quest/pdf/', 
-						 $value, 6, false ); 
+						 $value, 
+						 $pages[$name], false ); 
       }
       return $pdfs;
      } 

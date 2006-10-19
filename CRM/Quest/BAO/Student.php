@@ -558,13 +558,11 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                 $details["{$prefix}_$count"][$key] = $personDetails[$key];
             }
 
-	    if ( ! $isGuardian ) {
-	      if ( ! $personDetails['lived_with_from_age'] &&
-		   ! $personDetails['lived_with_to_age'] ) {
-		$details["{$prefix}_$count"]['sibling_all_my_life'] = 'x';
-	      } else {
-		$details["{$prefix}_$count"]['sibling_not_all_my_life'] = 'x';
-	      }
+	    if ( ! $personDetails['lived_with_from_age'] &&
+		 ! $personDetails['lived_with_to_age'] ) {
+	      $details["{$prefix}_$count"][strtolower( $prefix ) . '_all_my_life'] = 'x';
+	    } else {
+	      $details["{$prefix}_$count"][strtolower( $prefix ) . '_not_all_my_life'] = 'x';
 	    }
 
             foreach ( $names as $name => $dontCare ) {
@@ -782,7 +780,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
                                                    'groupName' => 'ap_subject' ),
                        );
 
-        $satCount = $apCount = $satIICount = 0;
+        $satCount = $apCount = $satIICount = $actCount = 0;
         while( $testDAO->fetch() ) {
             //test details
             if ( $testDAO->test_id != 350) {
@@ -802,6 +800,11 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 
                 $prefix = 'test_' . str_replace(" " , "_" , $testDetails['test']);
                 switch ( $testDetails['test_id'] ) {
+ 		case 288:
+		    $actCount++;
+		    $prefix .= "_{$actCount}";
+		    break;
+
                 case 290:
                     $satCount++;
                     $prefix .= "_{$satCount}";

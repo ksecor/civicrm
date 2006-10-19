@@ -325,10 +325,12 @@ SELECT cr.id as contact_id,
    AND l.entity_table  = 'civicrm_contact'
    AND l.entity_id     = cr.id
    AND e.location_id   = l.id
+   AND t.task_id       = 10
    AND t.responsible_entity_table = 'civicrm_contact'
    AND t.responsible_entity_id    = cr.id
    AND t.target_entity_table      = 'civicrm_contact'
    AND t.target_entity_id         = cs.id
+   AND t.status_id                = 328
  ORDER BY rs.relationship_type_id
 ";
             
