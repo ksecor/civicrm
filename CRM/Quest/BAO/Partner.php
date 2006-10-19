@@ -116,7 +116,7 @@ WHERE  r.contact_id  = $cid
     }
 
     static function &getPartnersDetails ($cid , &$details) {
-        $partnersList  = self::getPartnersForContact( $cid , true);
+        $partnersList  = self::getPartnersForContact( $cid );
 
         if ( $partnersList['Amherst College'] ) {
             self::partner_amherst($cid ,$details );
@@ -148,6 +148,10 @@ WHERE  r.contact_id  = $cid
 
         if ( $partnersList['Wellesley College'] ) {
             self::partner_wellesley($cid ,$details);
+        }
+        
+        if ( $partnersList['Wheaton College'] ) {
+            self::partner_wheaton($cid ,$details);
         }
         
         return true;
@@ -294,9 +298,9 @@ WHERE  r.contact_id  = $cid
         
         if ( $dao->find( true ) ) {
             foreach ($fields as $name ) {
-                if ($dao->$name) {
-                    $partnerDetails["ApplicantInformation"][$name] = $dao->$name;
-                }
+	      if ( $dao->$name != '' ) {
+		$partnerDetails["ApplicantInformation"][$name] = $dao->$name;
+	      }
             }
         }
         
@@ -466,6 +470,7 @@ WHERE  r.contact_id  = $cid
          foreach ( $fields as $value )  {
              $partnerDetails["ApplicantInformation"][$value] = str_replace( "\001", ",",$partnerDetails["ApplicantInformation"][$value]  );
          }
+
          //Essay
          $partnerDetails["Essay"] = array();
          $essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_wellesley_essay', $cid, $cid );
@@ -492,6 +497,28 @@ WHERE  r.contact_id  = $cid
          return $xml;
      }
    
+     static function partner_wheaton($cid ,&$details) {
+         //Applicant Information
+         $partnerDetails["ApplicantInformation"] = array();
+         require_once 'CRM/Quest/Partner/DAO/Wheaton.php';
+         require_once "CRM/Quest/BAO/Essay.php";
+
+         $dao =& new CRM_Quest_Partner_DAO_Wheaton( );
+         $dao->contact_id = $cid;
+         if ( $dao->find( true ) ) {
+	   CRM_Core_DAO::storeValues( $dao, $partnerDetails["ApplicantInformation"]); 
+	 }
+
+         //Essay
+         $partnerDetails["Essay"] = array();
+         $essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_wheaton_essay', $cid, $cid );
+         CRM_Quest_BAO_Essay::setDefaults( $essays, $partnerDetails["Essay"] );
+         
+        
+        $details["WheatonCollege"] = $partnerDetails;
+     }
+
+
      static function &xmlFlatValues( $id ) { 
        $details = array( ); 
  
