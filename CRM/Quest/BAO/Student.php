@@ -404,7 +404,7 @@ class CRM_Quest_BAO_Student extends CRM_Quest_DAO_Student {
 			       'is_recommendation_waived' => null ) );
 
         $multiSelectElements = array( 'educational_interest', 'college_type', 'college_interest' );
-	self::addMultiSelect( $details['Student'], $details['Student'],
+	self::addMultiSelect( $details['Student'],
 			      array( 'educational_interest' => null,
 				     'college_type'         => null,
 				     'college_interest'     => null ) );
