@@ -88,8 +88,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      */
     static function formRule(&$fields, &$files, $options) {
         $errors = array();
-        $extends = array('Activity','Phonecall','Meeting','Group','Contribution');
-        if(in_array($fields['extends'],$extends) && $fields['style'] == 'Tab' ) {
+        //$extends = array('Activity','Phonecall','Meeting','Group','Contribution');
+        $extends = array('Activity','Relationship','Group','Contribution','Membership');
+        if(in_array($fields['extends'][0],$extends) && $fields['style'] == 'Tab' ) {
             $errors['style'] = 'Display Style should be Inline for this Class';
         }
 
@@ -152,9 +153,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
         
-        
         $sel2['Relationship'] = array("" => "-- Any --") + $allRelationshipType;
-
+        
         require_once "CRM/Core/Component.php";
         $cSubTypes = CRM_Core_Component::contactSubTypes();
         $contactSubTypes = array();
@@ -162,21 +162,21 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $contactSubTypes[$key] = $key;
         }
         $sel2['Contact']  =  array("" => "-- Any --") +$contactSubTypes;
-
+        
         $sel =& $this->addElement('hierselect', "extends", ts('Used For'));
         $sel->setOptions(array($sel1,$sel2));
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
-
+        
         // which entity is this custom data group for ?
         // for update action only allowed if there are no custom values present for this group.
         // $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::customGroupExtends());
-
+        
         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $sel->freeze();
             $this->assign('gid', $this->_id);
         }
-
+        
         // help text
         $this->add('textarea', 'help_pre',  ts('Pre-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
         $this->add('textarea', 'help_post',  ts('Post-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post'));
@@ -258,9 +258,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         
         return $defaults;
     }
-
-   
-
+    
     /**
      * Process the form
      * 
@@ -273,13 +271,21 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     {
         // get the submitted form values.
         $params = $this->controller->exportValues('Group');
-
+        
         // create custom group dao, populate fields and then save.           
         $group =& new CRM_Core_DAO_CustomGroup();
         $group->title            = $params['title'];
         $group->name             = CRM_Utils_String::titleToVar($params['title']);
         $group->extends          = $params['extends'][0];
-        $group->extends_entity_column_value = $params['extends'][1];
+        
+        if ( ($params['extends'][0] == 'Relationship') && !empty($params['extends'][1])) {
+            $group->extends_entity_column_value = str_replace( array('_a_b', '_b_a'), array('', ''), $params['extends'][1]);
+        } elseif ( empty($params['extends'][1]) ) {
+            $group->extends_entity_column_value = null;
+        } else {
+            $group->extends_entity_column_value = $params['extends'][1];
+        }
+        
         $group->style            = $params['style'];
         $group->collapse_display = CRM_Utils_Array::value('collapse_display', $params, false);
 

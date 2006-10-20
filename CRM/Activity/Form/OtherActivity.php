@@ -60,12 +60,17 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
 
     function preProcess( ) 
     {
-        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        if ( ! isset($_POST['activity_type_id']) ) {
+            $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
+        } else {
+            $this->_activityType = $_POST['activity_type_id'];
+        }
+        
         if ( $subType ) {
             $this->_activityType = $subType;
         } 
         parent::preProcess();
-
+        
     }
     public function buildQuickForm( ) 
     {
@@ -74,20 +79,19 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
-
+        
         if ( $this->_id ) {
             $url = "civicrm/contact/view/activity&activity_id=$this->_activityType&action=update&reset=1&id=$this->_id&cid=$this->_contactId&context=activity";
         } else {
             $url = "civicrm/contact/view/activity&activity_id=$this->_activityType&action=add&reset=1&cid=$this->_contactId";
         }
-      
+        
         $url = CRM_Utils_System::url($url); 
         $this->assign("refreshURL",$url);
         $activityType = CRM_Core_PseudoConstant::activityType(false,true);
-
+        
         $this->applyFilter('__ALL__', 'trim');
-        $this->addElement('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType, 
-                   array('onChange' => "reload(true)"), true );
+        $this->addElement('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType, array('onchange' => "reload(true)"), true );
         $this->addRule('activity_type_id', ts('Select a valid activity.'), 'required');
 
         $this->add('text', 'description', ts('Description'),
@@ -106,9 +110,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
         
         $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus(), true );
-        
     }
-
+    
     /**
      * Function to process the form
      *
@@ -120,13 +123,13 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         if ($this->_action & CRM_Core_Action::VIEW ) { 
             return;
         }
-
+        
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             CRM_Activity_BAO_Activity::del( $this->_id, $this->_activityType);
             CRM_Core_Session::setStatus( ts("Selected Meeting is deleted sucessfully."));
             return;
         }
-
+        
         // store the submitted values in an array
         //$params = $this->controller->exportValues( $this->_name );
         $params = $_POST;
@@ -148,7 +151,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['id'] = $this->_id;
         }
-
+        
         require_once "CRM/Activity/BAO/Activity.php";
         CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
     }

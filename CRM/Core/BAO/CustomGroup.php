@@ -174,6 +174,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         } else {
             $in = "'$entityType'";
         }
+        CRM_Core_Error::backtrace();
         if ( $subType ) {
             $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
                 " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)
@@ -197,7 +198,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
 
         // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-
+        
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
@@ -519,7 +520,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
         $tableData = array(
                            'civicrm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                            'is_required', 'help_post','options_per_line', 'is_searchable','start_date_years','end_date_years', 'is_search_range','date_parts','note_columns','note_rows'),
-                           'civicrm_custom_group' => array('id', 'name', 'title', 'help_pre', 'help_post','collapse_display' ),
+                           'civicrm_custom_group' => array('id', 'name', 'title', 'help_pre', 'help_post','collapse_display', 'extends', 'extends_entity_column_value' ),
                            );
 
         // create select
@@ -561,7 +562,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
 
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
-
+        
         // process records
         while($crmDAO->fetch()) {
             $groupId = $crmDAO->civicrm_custom_group_id;
@@ -576,6 +577,8 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
                 $groupTree[$groupId]['help_pre'] = $crmDAO->civicrm_custom_group_help_pre;
                 $groupTree[$groupId]['help_post'] = $crmDAO->civicrm_custom_group_help_post;
                 $groupTree[$groupId]['collapse_display'] = $crmDAO->civicrm_custom_group_collapse_display;       
+                $groupTree[$groupId]['extends'] = $crmDAO->civicrm_custom_group_extends;
+                $groupTree[$groupId]['extends_entity_column_value'] = $crmDAO->civicrm_custom_group_extends_entity_column_value;
                 $groupTree[$groupId]['fields'] = array();
                 
             }
@@ -1028,7 +1031,6 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
              
         $showBlocks = implode(",",$sBlocks); 
         $hideBlocks = implode(",",$hBlocks); 
-             
         $form->assign( $showName, $showBlocks ); 
         $form->assign( $hideName, $hideBlocks ); 
     }

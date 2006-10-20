@@ -81,9 +81,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->_relationshipId = $this->get('id');
         $this->_rtype          = CRM_Utils_Request::retrieve( 'rtype', 'String',
                                                               $this );
-
+        
         $this->_rtypeId        = CRM_Utils_Request::retrieve( 'relTypeId', 'String',
-                                                               $this );
+                                                              $this );
+        
         if ( ! $this->_rtypeId ) {
             $params = $this->controller->exportValues( $this->_name );
             if ( $params['relationship_type_id']) {
@@ -96,10 +97,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }
             }
         }
-
-        
     }
-
+    
     /**
      * This function sets the default values for the form. Relationship that in edit/view mode
      * the default values are retrieved from the database
@@ -203,7 +202,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         } else {
             $url = "civicrm/contact/view/rel&cid=$this->_contactId&action=add&reset=1";
         }
-
+        
         $url = CRM_Utils_System::url($url); 
         $this->assign("refreshURL",$url);
         
@@ -213,18 +212,22 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                           array('' => ts('- select -')) +
                           CRM_Contact_BAO_Relationship::getContactRelationshipType( $this->_contactId,
                                                                                     $this->_rtype,
-                                                                                    $this->_relationshipId ),array('onChange' => "reload(true)"));
+                                                                                    $this->_relationshipId ),array('onchange' => "reload(true)"));
         
         $this->addElement('text', 'name'      , ts('Find Target Contact') );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
-
+        
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Relationship', 'description' ) );
-
+        
         CRM_Contact_Form_Note::buildNoteBlock($this);
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Relationship',$this->_relationshipId,0,$this->_rtypeId);
+        
+        $relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''), $this->_rtypeId);
+        
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Relationship',$this->_relationshipId,0,$relationshipTypeId);
+        
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-
+        
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
         $duplicateRelationship = $this->get( 'duplicateRelationship' );
@@ -468,7 +471,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
             return true;
         }
-
+        
         $ids = array( );
         $session =& CRM_Core_Session::singleton( );
         $ids['contact'     ] = $session->get( 'contactId'     , 'CRM_Contact_Form_Relationship' );

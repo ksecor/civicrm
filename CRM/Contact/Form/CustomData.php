@@ -67,7 +67,16 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @var string
      */
     protected $_entityType;
-
+    
+    /**
+     * entity sub type of the table id
+     *
+     * @var string
+     * @access protected
+     */
+    protected $_entitySubType;
+    
+    
     /**
      * the group tree data
      *
@@ -103,7 +112,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @access protected
      */
     protected $_groupId;
-
+    
     /**
      * pre processing work done here.
      *
@@ -121,11 +130,21 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->_tableId    = $this->get('tableId');
         $this->_entityType = $this->get('entityType');
         $this->_groupId    = $this->get('groupId');
-
-        // gets all details of group tree for entity
-        $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId, $this->_groupId);
+        $this->_entitySubType = null;
+        
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail($this->_groupId);
+        
+        if ( $groupDetails[$this->_groupId]['extends'] == 'Contact') {
+            $this->_entitySubType = $this->get('entitySubType');
+        }
+        
+        if ( is_null($this->_entitySubType) ) {
+            $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId, $this->_groupId);
+        } else {
+            $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId, $this->_groupId, $groupDetails[$this->_groupId]['extends_entity_column_value']);
+        }
     }
-
+    
     /**
      * Fix what blocks to show/hide based on the default values set
      *
