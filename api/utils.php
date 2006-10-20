@@ -865,8 +865,8 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
             foreach ($updateLocation['phone'] as $phone) {
                 /* scan through the contact record for matching phone type at this location */
                 $contactPhoneBlock = null;
-                foreach ($contact->location[$contactLocationBlock]->phone as $key => $contactPhoneBlock) {
-                    if ($contactPhoneBlock->phone_type_id == $phone['phone_type_id']) {
+                foreach ($contact->location[$contactLocationBlock]->phone as $key => $value) {
+                    if ($value->phone_type == $phone['phone_type']) {
                         $contactPhoneBlock = $key;
                         break;
                     }
