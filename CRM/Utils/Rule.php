@@ -67,7 +67,8 @@ class CRM_Utils_Rule {
         } 
         
         // make sure it include valid characters, alpha numeric and underscores 
-        if ( ! preg_match('/^[\w\s]+$/i', $str ) ) { 
+        // added . option (CRM-1336)
+        if ( ! preg_match('/^[\w\s\.]+$/i', $str ) ) { 
             return false; 
         } 
  
