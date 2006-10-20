@@ -513,7 +513,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
             foreach ($this->_values as $key => $val) {
                 foreach ($this->_options as $oKey => $oVal ) {
                     if ((string)$val == (string)$this->_options[$oKey]['attr']['value']) {
-                        $value[$key] = $oKey;
+                        $value[$key] = $oVal['text'];
                         break;
                     }
                 }

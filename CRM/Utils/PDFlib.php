@@ -56,6 +56,7 @@ class CRM_Utils_PDFlib {
 
             $config =& CRM_Core_Config::singleton( );
             $pdf->set_parameter( 'resourcefile', $config->templateDir . '/Quest/pdf/pdflib.upr' );
+            $pdf->set_parameter( 'textformat', 'utf8' );
 
             /* Set the search path for fonts and PDF files */
             $pdf->set_parameter( 'SearchPath', $searchPath );
@@ -82,7 +83,8 @@ class CRM_Utils_PDFlib {
                 
                 /* This will adjust the page size to the block container's size. */
                 $pdf->fit_pdi_page( $page, 0, 0, 'adjustpage' );
-                
+
+             
                 $status = array( );
                 /* Fill all text blocks with dynamic data */
                 foreach ( $values as $key => $value ) {

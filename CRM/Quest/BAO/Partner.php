@@ -94,7 +94,7 @@ class CRM_Quest_BAO_Partner extends CRM_Quest_DAO_Partner {
 
     static function &getPartnersForContact( $cid, $is_supplement = null ) {
         $query = "
-SELECT p.name as name
+SELECT p.name as name, p.id as id
 FROM   quest_partner p,
        quest_partner_ranking r
 WHERE  r.contact_id  = $cid
@@ -110,13 +110,13 @@ WHERE  r.contact_id  = $cid
         $partners = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $partners[$dao->name] = 1;
+            $partners[$dao->name] = $dao->id;
         }
         return $partners;
     }
 
     static function &getPartnersDetails ($cid , &$details) {
-        $partnersList  = self::getPartnersForContact( $cid , true);
+        $partnersList  = self::getPartnersForContact( $cid );
 
         if ( $partnersList['Amherst College'] ) {
             self::partner_amherst($cid ,$details );
@@ -150,7 +150,72 @@ WHERE  r.contact_id  = $cid
             self::partner_wellesley($cid ,$details);
         }
         
+        if ( $partnersList['Wheaton College'] ) {
+            self::partner_wheaton($cid ,$details);
+        }
+
+	$personalInfo = array( );
+	CRM_Quest_BAO_Recommendation::fillContactDetails( $cid, $personalInfo, false );
+	foreach ( $details as $name => $dontCare ) {
+	  $details[$name]['PersonalInfo'] = $personalInfo;
+	}
+
+	self::fillPartnerRelativeInfo( $cid, $details );
         return true;
+    }
+
+    static function fillPartnerRelativeInfo( $cid, &$details ) {
+      $ids = array( 1 => 'AmherstCollege',
+		    2 => 'BowdoinCollege',
+		    4 => 'ColumbiaUniversity',
+		    6 => 'PomonaCollege',
+		    7 => 'PrincetonUniversity',
+		    8 => 'RiceUniversity',
+		    10 => 'StanfordUniversity',
+		    13 => 'WellesleyCollege',
+		    14 => 'WheatonCollege',
+		    15 => 'WilliamsCollege' );
+
+      $query = "
+SELECT *
+  FROM quest_partner_relative
+ WHERE contact_id = $cid
+ORDER BY partner_id
+";
+      $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+      $partnerInfo = array( );
+      while ( $dao->fetch( ) ) {
+	$name = $ids[$dao->partner_id];
+	if ( ! array_key_exists( $name, $partnerInfo ) ) {
+	  $partnerInfo[$name] = array( );
+	}
+	if ( ! array_key_exists( $dao->connection_type, $partnerInfo[$name] ) ) {
+	  $partnerInfo[$name][$dao->connection_type] = array( );
+	}
+
+	switch( $dao->connection_type ) {
+	case 'Alumnus':
+	  $values = array( 'first_name' => $dao->first_name,
+			   'last_name'  => $dao->last_name,
+			   'college_grad_year' => $dao->college_grad_year,
+			   'relationship'      => $dao->relationship );
+	  break;
+
+	case 'Employee':
+	  $values = array( 'first_name' => $dao->first_name,
+			   'last_name'  => $dao->last_name,
+			   'college_grad_deppartment' => $dao->department,
+			   'relationship'      => $dao->relationship );
+	  break;
+	}
+	$partnerInfo[$name][$dao->connection_type][] = $values;
+      }
+
+      foreach ( $details as $name => $dontCare ) {
+	if ( array_key_exists( $name, $partnerInfo ) ) {
+	  $details[$name]['PartnerInfo'] = $partnerInfo[$name];
+	}
+      }
     }
 
     static function partner_amherst($cid ,&$details ) {
@@ -176,7 +241,8 @@ WHERE  r.contact_id  = $cid
             foreach ( $fields as $name => $titles ) {
                 $cond = "is_{$name}";
                 if ( $dao->$cond ) {
-                    $partnerDetails["ApplicantInformation"][$cond] = 1;
+		    $partnerDetails["ApplicantInformation"][$cond] = 1;
+		    $partnerDetails["ApplicantInformation"]["heard_{$name}"] = 'x';
                 }
                 $partnerDetails["ApplicantInformation"][$name] = $dao->$name;
             }
@@ -200,7 +266,6 @@ WHERE  r.contact_id  = $cid
         CRM_Quest_BAO_Extracurricular::setDefaults( $cid, 'Amherst', $partnerDetails["AthleticsSupplement"] );
         
         $details["AmherstCollege"] = $partnerDetails;
-
     }
     
     static function partner_bowdoin($cid ,&$details ) {
@@ -294,9 +359,9 @@ WHERE  r.contact_id  = $cid
         
         if ( $dao->find( true ) ) {
             foreach ($fields as $name ) {
-                if ($dao->$name) {
-                    $partnerDetails["ApplicantInformation"][$name] = $dao->$name;
-                }
+	      if ( $dao->$name != '' ) {
+		$partnerDetails["ApplicantInformation"][$name] = $dao->$name;
+	      }
             }
         }
         
@@ -380,30 +445,38 @@ WHERE  r.contact_id  = $cid
         $essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_rice_applicant', $cid, $cid );
         CRM_Quest_BAO_Essay::setDefaults( $essays, $partnerDetails["ApplicantInformation"] );
         
-        $names = array('architecture'      => array( 'newName'   => 'architecture_names',
+        $names = array('rice_academic_id'  => array( 'newName'   => 'rice_academic',
+						     'groupName' => 'rice_academic' ),
+		       'architecture'      => array( 'newName'   => 'architecture_display',
                                                      'groupName' => 'rice_architecture' ),
-                       'engineering'       => array( 'newName'   => 'engineering_names',
+                       'engineering'       => array( 'newName'   => 'engineering_display',
                                                      'groupName' => 'rice_engineering' ),
-                       'humanities'        => array( 'newName'   => 'humanities_names',
+                       'humanities'        => array( 'newName'   => 'humanities_display',
                                                      'groupName' => 'rice_humanities' ),
-                       'music'             => array( 'newName'   => 'rice_music_names',
+                       'music'             => array( 'newName'   => 'rice_music_display',
                                                      'groupName' => 'rice_music' ),
-                       'natural_sciences'  => array( 'newName'   => 'natural_sciences_names',
+                       'natural_sciences'  => array( 'newName'   => 'natural_sciences_display',
                                                      'groupName' => 'rice_natural_sciences' ),
-                       'social_sciences'   => array( 'newName'   => 'social_sciences_names',
+                       'social_sciences'   => array( 'newName'   => 'social_sciences_display',
                                                      'groupName' => 'rice_social_sciences' ),
-                       'other'             => array( 'newName'   => 'other_names',
+                       'other'             => array( 'newName'   => 'other_display',
                                                      'groupName' => 'rice_other' ),
-                       'contacts'          => array( 'newName'   => 'contacts_names',
+                       'contacts'          => array( 'newName'   => 'contacts_display',
                                                      'groupName' => 'rice_contacts' ),
                        
                        );
          CRM_Core_OptionGroup::lookupValues( $partnerDetails["ApplicantInformation"], $names, false);
 
+	 $map = array( );
          foreach ( $names as $key => $value )  {
-             $partnerDetails["ApplicantInformation"][$key] = str_replace( "\001", ",",$partnerDetails["ApplicantInformation"][$key]  );
+	   $map[$key] = null;
          }
-        
+	 unset( $map['rice_academic_id'] );
+	 CRM_Quest_BAO_Student::addX( $partnerDetails["ApplicantInformation"],
+				      $partnerDetails["ApplicantInformation"],
+				      array( 'rice_academic' => null ) );
+	 CRM_Quest_BAO_Student::addMultiSelect( $partnerDetails["ApplicantInformation"],
+						$map );
          $details["RiceUniversity"] = $partnerDetails;
 
 
@@ -452,20 +525,23 @@ WHERE  r.contact_id  = $cid
              CRM_Core_DAO::storeValues( $dao, $partnerDetails["ApplicantInformation"]);
              
          }
-         $fields = array ("departmental_majors" ,"interdepartmental_major","preprofessional_interest" ) ;
+         $fields = array ("departmental_majors"      => null,
+			  "interdepartmental_major"  => null,
+			  "preprofessional_interest" => null  ) ;
          
-         $names = array('departmental_majors'     => array( 'newName' => 'departmental_majors_names',
+         $names = array('departmental_majors'     => array( 'newName' => 'departmental_majors_display',
                                                             'groupName'=> 'departmental_majors' ),
-                        'interdepartmental_major' => array( 'newName' => 'interdepartmental_major_names',
+                        'interdepartmental_major' => array( 'newName' => 'interdepartmental_major_display',
                                                             'groupName' => 'interdepartmental_major' ),
-                        'preprofessional_interest'=> array( 'newName' => 'preprofessional_interest_names',
+                        'preprofessional_interest'=> array( 'newName' => 'preprofessional_interest_display',
                                                             'groupName' => 'preprofessional_interest' ),
                         
                         );
          CRM_Core_OptionGroup::lookupValues( $partnerDetails["ApplicantInformation"], $names, false);
-         foreach ( $fields as $value )  {
-             $partnerDetails["ApplicantInformation"][$value] = str_replace( "\001", ",",$partnerDetails["ApplicantInformation"][$value]  );
-         }
+
+	 CRM_Quest_BAO_Student::addMultiSelect( $partnerDetails["ApplicantInformation"],
+						$fields );
+
          //Essay
          $partnerDetails["Essay"] = array();
          $essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_wellesley_essay', $cid, $cid );
@@ -491,6 +567,77 @@ WHERE  r.contact_id  = $cid
 
          return $xml;
      }
+   
+     static function partner_wheaton($cid ,&$details) {
+         //Applicant Information
+         $partnerDetails["ApplicantInformation"] = array();
+         require_once 'CRM/Quest/Partner/DAO/Wheaton.php';
+         require_once "CRM/Quest/BAO/Essay.php";
+	 
+         $dao =& new CRM_Quest_Partner_DAO_Wheaton( );
+         $dao->contact_id = $cid;
+         if ( $dao->find( true ) ) {
+	   CRM_Core_DAO::storeValues( $dao, $partnerDetails["ApplicantInformation"]); 
+	 }
+
+	 CRM_Quest_BAO_Student::addX( $partnerDetails["ApplicantInformation"],
+				      $partnerDetails["ApplicantInformation"],
+				      array( 'is_personal_savior' => null ) );
+         //Essay
+         $partnerDetails["Essay"] = array();
+         $essays = CRM_Quest_BAO_Essay::getFields( 'cm_partner_wheaton_essay', $cid, $cid );
+         CRM_Quest_BAO_Essay::setDefaults( $essays, $partnerDetails["Essay"] );
+         
+        
+        $details["WheatonCollege"] = $partnerDetails;
+     }
+
+
+     static function &xmlFlatValues( $id ) { 
+       $details = array( ); 
+ 
+       if ( self::getPartnersDetails( $id, $details ) ) { 
+	 $flat = array( ); 
+	foreach ( $details as $name => $value ) { 
+	  if ( $value ) {
+	    $f = array( );
+	    CRM_Utils_Array::flatten( $value, $f ); 
+	    $flat[$name] = $f;
+	  }
+	}
+	 return $flat; 
+       } 
+ 
+       return null; 
+     } 
+ 
+     static function pdf( $id ) { 
+       $config =& CRM_Core_Config::singleton( ); 
+ 
+       require_once 'CRM/Utils/PDFlib.php'; 
+       $values =& self::xmlFlatValues( $id ); 
+
+      $pdfs = array( );
+      $pages = array( 'AmherstCollege' => 3,
+                      'BowdoinCollege' => 2,
+                      'ColumbiaUniversity' => 2,
+                      'PomonaCollege' => 3,
+                      'PrincetonUniversity' => 2,
+                      'RiceUniversity' => 5,
+                      'StanfordUniversity' => 2,
+                      'WellesleyCollege' => 3,
+                      'WheatonCollege' => 2,
+                      'WilliamsCollege' => 2 );   
+
+
+      foreach ( $values as $name => $value ) {
+	$pdfs[$name] = CRM_Utils_PDFlib::compose( "{$name}.pdf",
+						 $config->templateDir . '/Quest/pdf/', 
+						 $value, 
+						 $pages[$name], false ); 
+      }
+      return $pdfs;
+     } 
 }
     
 ?>
