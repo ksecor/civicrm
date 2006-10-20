@@ -357,8 +357,10 @@ function crm_confirm_group_contacts(&$group, $contacts)
         if ( ! isset( $contact->id )) {
             return _crm_error( 'Invalid contact object passed in' );
         }
-        $member = CRM_Contact_BAO_GroupContact::getMembershipDetail($contact->id,$group->id);
- 
+        $member =& CRM_Contact_BAO_GroupContact::getMembershipDetail($contact->id,$group->id);
+        if ( ! $member ) {
+            continue;
+        }
         
         if($member->status != 'Pending') {
             return _crm_error( 'Can not confirm subscription. Current group status is NOT Pending.' );

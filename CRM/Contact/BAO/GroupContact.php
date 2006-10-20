@@ -498,7 +498,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @static
      */
 
-    function getMembershipDetail($contactId,$groupID)
+    function &getMembershipDetail($contactId,$groupID)
     {
         $query = "SELECT * 
 FROM civicrm_group_contact 
@@ -510,8 +510,8 @@ AND civicrm_subscription_history.method ='Email' "  ;
         $params = array( 1 => array( $contactId, 'Integer' ),
                          2 => array( $groupID  , 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        $dao->fetch( );
         return $dao;
-
     }
 
 
