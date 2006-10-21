@@ -52,14 +52,16 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
      * @param string $subject      the subject of the message
      * @param string $message      the message contents
      * @param string $emailAddress use this 'to' email address instead of the default Primary address
-     *
+     * @param int    userID        use this userID if set
      * @return array             (total, added, notAdded) count of emails sent
      * @access public
      * @static
      */
-    static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress ) {
-        $session =& CRM_Core_Session::singleton( );
-        $userID  =  $session->get( 'userID' );
+    static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress, $userID = null ) {
+        if ( ! $userID ) {
+            $session =& CRM_Core_Session::singleton( );
+            $userID  =  $session->get( 'userID' );
+        }
         list( $fromDisplayName, $fromEmail, $fromDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
         if ( ! $fromEmail ) {
             return array( count($contactIds), 0, count($contactIds) );
