@@ -58,7 +58,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
      * @static
      */
     static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress, $userID = null ) {
-        if ( ! $userID ) {
+        if ( $userID == null ) {
             $session =& CRM_Core_Session::singleton( );
             $userID  =  $session->get( 'userID' );
         }
