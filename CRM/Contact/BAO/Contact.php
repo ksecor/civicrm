@@ -1285,6 +1285,22 @@ WHERE civicrm_contact.id IN $idString ";
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type' );
     }
 
+    /**
+     * Get contact sub type for a contact.
+     *
+     * @param int $id - id of the contact whose contact sub type is needed
+     *
+     * @return string contact_type if $id found else null ""
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+    public static function getContactSubType($id)
+    {
+        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
+    }
 
     /**
      * combine all the importable fields from the lower levels object

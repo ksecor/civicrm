@@ -174,7 +174,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         } else {
             $in = "'$entityType'";
         }
-        CRM_Core_Error::backtrace();
+
         if ( $subType ) {
             $strWhere = " WHERE civicrm_custom_group.domain_id = " . CRM_Core_Config::domainID( ) .
                 " AND civicrm_custom_group.is_active = 1 AND civicrm_custom_field.is_active = 1 AND civicrm_custom_group.extends IN ($in)

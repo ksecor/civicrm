@@ -189,6 +189,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     CRM_Core_Error::statusBounce( ts('contact does not exist: %1', array(1 => $this->_contactId)) );
                 }
                 $this->_contactType = $contact->contact_type;
+                $this->_contactSubType = $contact->contact_sub_type;
 
                 // check for permissions
                 if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
@@ -408,7 +409,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         //Custom Group Inline Edit form
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId,0,$this->_contactSubType);
-       
         
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
           

@@ -55,7 +55,9 @@ class CRM_Quest_Page_View_Student extends CRM_Contact_Page_View {
 
         //Custom Groups Inline
         $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId);
+        $entitySubType = CRM_Contact_BAO_Contact::getContactSubType( $this->_contactId );
+        
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId, null, $entitySubType);
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
     }
 
