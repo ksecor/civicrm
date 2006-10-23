@@ -105,6 +105,8 @@ class CRM_Contact_Form_Individual {
  
         $form->addElement('text', 'current_employer', ts('Current Employer'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'current_employer') );
         
+        $form->addElement('text', 'source', ts('Source'));
+        $form->addElement('text', 'external_identifier', ts('External Id'));
         $config =& CRM_Core_Config::singleton();
         CRM_Core_ShowHideBlocks::links($this, 'demographics', '' , '');
     }

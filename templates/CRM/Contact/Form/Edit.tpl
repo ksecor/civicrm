@@ -29,29 +29,31 @@
 		<td>{$form.last_name.html}</td>
 		<td>{$form.suffix_id.html}</td>
 	</tr>
+   	 <tr>
+        <td>&nbsp;</td>
+        <td>{$form.source.label}</td>
+        <td>{$form.nick_name.label}</td>
+        <td>{$form.greeting_type.label} &nbsp; </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>{$form.source.html|crmReplace:class:big}</td>
+        <td>{$form.nick_name.html|crmReplace:class:big}</td>
+        <td>{$form.greeting_type.html}</td>
+    </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.job_title.label}</td>
-        <td>{$form.greeting_type.label}</td>
-        <td colspan="2">{$form.nick_name.label} &nbsp; </td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td>{$form.job_title.html}</td>
-        <td>{$form.greeting_type.html}</td>
-        <td colspan="2">{$form.nick_name.html|crmReplace:class:big}</td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td colspan="2>{$form.home_URL.label}</td>
         <td>{$form.current_employer.label}</td>
-        <td>&nbsp;</td>
+        <td>{$form.home_URL.label}</td>
+        <td>{$form.external_identifier.label}</td>        
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td colspan="2">{$form.home_URL.html}</td>
-        <td>{$form.current_employer.html}</td> 
-        <td>&nbsp;</td>
+        <td> {$form.job_title.html}</td>
+        <td>{$form.current_employer.html}</td>
+        <td>{$form.home_URL.html|crmReplace:class:big}</td>
+        <td>{$form.external_identifier.html}</td>        
     </tr>
     </table>
 
