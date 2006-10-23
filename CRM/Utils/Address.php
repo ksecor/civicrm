@@ -57,18 +57,10 @@ class CRM_Utils_Address {
     {
         static $config = null;
         
-        if (!$config) { 
-            $config =& CRM_Core_Config::singleton();
-            $check = $config->USPSAddressCheck;
-        }
-        
-        if ( $check ) {
-            require_once 'CRM/Utils/Address/USPS.php';
-            CRM_Utils_Address_USPS::checkAddress($fields);
-        }
-        
-        if (!$format) {
-            if (!$config) $config =& CRM_Core_Config::singleton();
+        if ( ! $format ) {
+            if ( ! $config ) {
+                $config =& CRM_Core_Config::singleton();
+            }
             $format = $config->addressFormat;
         }
                 
@@ -97,6 +89,16 @@ class CRM_Utils_Address {
                                   'postal_code'            => "<span class=\"postal-code\">" .      $fullPostalCode . "</span>",
                                   'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>"
                                   );
+            // erase all empty ones, so we dont get blank lines
+            foreach ( array_keys( $replacements ) as $key ) {
+                if ( $key != 'postal_code' &&
+                     CRM_Utils_Array::value( $key, $fields ) == null ) {
+                    $replacements[$key] = '';
+                }
+            }
+            if ( empty( $fullPostalCode ) ) {
+                $replacements['postal_code'] = '';
+            }
         }
 
         // for every token, replace {fooTOKENbar} with fooVALUEbar if
@@ -132,7 +134,9 @@ class CRM_Utils_Address {
         $lines = array();
         foreach (explode("\n", $formatted) as $line) {
             $line = trim($line);
-            if ($line) $lines[] = $line;
+            if ( $line ) {
+                $lines[] = $line;
+            }
         }
         $formatted = implode("\n", $lines);
 

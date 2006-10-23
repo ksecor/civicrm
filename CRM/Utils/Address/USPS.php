@@ -74,7 +74,8 @@ class CRM_Utils_Address_USPS {
         $xml = simplexml_load_string( $responseBody );
         
         if (array_key_exists('Error', $xml->Address)) {
-            CRM_Core_Error::debug('retXML', $xml->Address);
+            $session =& CRM_Core_Session::singleton( );
+            $session->setStatus( ts( 'Address not found in USPS database.' ) );
             return false;
         }
         

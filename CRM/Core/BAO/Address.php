@@ -120,9 +120,16 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         if ( is_numeric( $params['country_id'] ) ) {
              $params['country'] = CRM_Core_PseudoConstant::country($params['country_id']);
         }
-        
-        // add latitude and longitude and format address if needed
+    
         $config =& CRM_Core_Config::singleton( );
+
+        // clean up the address via USPS web services if enabled
+        if ( $config->USPSUserID && $config->USPSURL ) {
+            require_once 'CRM/Utils/Address/USPS.php';
+            CRM_Utils_Address_USPS::checkAddress($params);
+        }
+
+        // add latitude and longitude and format address if needed
         if ( ! empty( $config->geocodeMethod ) ) {
             require_once( str_replace('_', DIRECTORY_SEPARATOR, $config->geocodeMethod ) . '.php' );
             eval( $config->geocodeMethod . '::format( $params );' );

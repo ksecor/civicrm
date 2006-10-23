@@ -389,7 +389,11 @@ class CRM_Core_Session {
      * @return void
      */
     static function setStatus( $status ) {
-        self::$_singleton->_session[self::$_singleton->_key]['status'] = $status;
+        if ( self::$_singleton->_session[self::$_singleton->_key]['status'] ) {
+            self::$_singleton->_session[self::$_singleton->_key]['status'] .= " $status";
+        } else {
+            self::$_singleton->_session[self::$_singleton->_key]['status'] = $status;
+        }
     }
 
 }
