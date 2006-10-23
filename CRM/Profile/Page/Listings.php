@@ -215,7 +215,11 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                                                           '_qf_Search_display=true&map=1' ) );
                 }
                 
-		$editLink = false;
+                $editLink = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_edit_link' );
+                if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
+                    $editLink = false;
+                }
+
                 $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid,
                                                                 $map, $editLink );
 
