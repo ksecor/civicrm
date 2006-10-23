@@ -61,7 +61,7 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  * File System Paths:
  *
  * $civicrm_root is the file system path on your server where the civicrm
- * code is installed.
+ * code is installed. Use an ABSOLUTE path (not a RELATIVE path) for this setting.
  *
  * CIVICRM_TEMPLATE_COMPILEDIR is the file system path where compiled templates are stored.
  * These sub-directories and files are temporary caches and will be recreated automatically

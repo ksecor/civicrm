@@ -132,11 +132,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ),array('onChange' => "reload(true)"),
                    true );
 
-        $this->add('date', 'join_date', ts('Join Date'), CRM_Core_SelectValues::date('manual', 3, 1), false );         
+        $this->add('date', 'join_date', ts('Join Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );         
         $this->addRule('join_date', ts('Select a valid date.'), 'qfDate');
-        $this->add('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date('manual', 3, 1), false );         
+        $this->add('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );         
         $this->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-        $this->add('date', 'end_date', ts('End Date'), CRM_Core_SelectValues::date('manual', 3, 1), false );         
+        $this->add('date', 'end_date', ts('End Date'), CRM_Core_SelectValues::date('manual', 20, 5), false );         
         $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
         
         $this->add('text', 'source', ts('Source'), 
