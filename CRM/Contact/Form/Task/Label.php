@@ -92,7 +92,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
     {
         $fv = $this->controller->exportValues($this->_name); 
         
-        $config =& new CRM_Core_Config;
+        $config =& CRM_Core_Config::singleton();
 
         //get the address format sequence from the config file
         foreach ($config->addressSequence as $v) {
@@ -136,6 +136,13 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                     $rows[$k][$k1] = $v1;
                 }
             }
+        }
+
+        // format the addresses according to CIVICRM_ADDRESS_FORMAT (CRM-1327)
+        require_once 'CRM/Utils/Address.php';
+        foreach ($rows as $id => $row) {
+            $formatted = CRM_Utils_Address::format($row);
+            $rows[$id] = array($row['display_name'], $formatted);
         }
 
         //call function to create labels
