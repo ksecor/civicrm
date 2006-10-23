@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
   <name>CiviCRM</name>
-  <creationDate>09/15/2006</creationDate>
+  <creationDate>11/01/2006</creationDate>
   <author>Donald A. Lobo.</author>
   <copyright>(C) CiviCRM LLC</copyright>
   <authorEmail>lobo@civicrm.org</authorEmail>
   <authorUrl>www.civicrm.org</authorUrl>
-  <version>1.5</version>
+  <version>1.6</version>
   <description>CiviCRM</description>
   <files>
       <filename>civicrm.php</filename>
