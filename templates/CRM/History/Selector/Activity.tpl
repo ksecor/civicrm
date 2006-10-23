@@ -51,7 +51,7 @@
     <table>
       <tr class="columnheader">
       {foreach from=$columnHeaders item=header}
-        <th>
+        <th scope="col">
         {if $header.sort}
           {assign var='key' value=$header.sort}
           {$sort->_response.$key.link}

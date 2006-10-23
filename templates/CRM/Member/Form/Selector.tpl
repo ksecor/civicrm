@@ -12,10 +12,10 @@
 <table class="selector">
   <tr class="columnheader">
 {if ! $single and ! $limit}
-  <th>{$form.toggleSelect.html}</th> 
+  <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th> 
 {/if}
   {foreach from=$columnHeaders item=header}
-    <th>
+    <th scope="col">
     {if $header.sort}
       {assign var='key' value=$header.sort}
       {if $context EQ 'Contact Summary'}	

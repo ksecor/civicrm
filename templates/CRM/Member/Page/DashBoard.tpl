@@ -15,10 +15,10 @@
 </div>
 <table class="report form-layout-compressed">
 <tr class="columnheader-dark">
-    <td>{ts}Members by Type{/ts}</td>
-    <td>{ts}{$currentMonth}-New/Renew (MTD){/ts}</td>
-    <td>{ts}{$currentYear}-New/Renew (YTD){/ts}</td>
-    <td>{ts}Current #{/ts}</td>
+    <th scope="col">{ts}Members by Type{/ts}</th>
+    <th scope="col">{ts}{$currentMonth}-New/Renew (MTD){/ts}</th>
+    <th scope="col">{ts}{$currentYear}-New/Renew (YTD){/ts}</th>
+    <th scope="col">{ts}Current #{/ts}</th>
 </tr>
 
 {foreach from=$membershipSummary item=row}

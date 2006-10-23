@@ -13,10 +13,10 @@
    {strip}
    <table>
    <tr class="columnheader">
-    <th>{ts}Name{/ts}</th>
-    <th>{ts}Description{/ts}</th>
-    <th>{ts}Visibility{/ts}</th>
-    <th></th>
+    <th scope="col">{ts}Name{/ts}</th>
+    <th scope="col">{ts}Description{/ts}</th>
+    <th scope="col">{ts}Visibility{/ts}</th>
+    <th scope="col" title="Action Links"></th>
    </tr>
    {foreach from=$rows item=row}
      <tr class="{cycle values="odd-row,even-row"}{if NOT $row.is_active} disabled{/if}">

@@ -17,7 +17,7 @@
     <div class="form-item">
         {$form.subject.label} {$form.subject.html} 
         <br/><br/>
-        {$form.note.html}
+        <label for="note">{$form.note.html}</label>
         <br/>
         {$form.buttons.html}
     </div>
@@ -40,11 +40,11 @@
     {strip}
         <table>
         <tr class="columnheader">
-	        <th>{ts}Note{/ts}</th>
-	        <th>{ts}Subject{/ts}</th>
-	        <th>{ts}Date{/ts}</th>
-	        <th>{ts}Created By{/ts}</th>
-	        <th></th>
+	        <th scope="col">{ts}Note{/ts}</th>
+	        <th scope="col">{ts}Subject{/ts}</th>
+	        <th scope="col">{ts}Date{/ts}</th>
+	        <th scope="col">{ts}Created By{/ts}</th>
+	        <th scope="col" title="Action Links"></th>
         </tr>
         {foreach from=$notes item=note}
         <tr class="{cycle values="odd-row,even-row"}">

@@ -14,9 +14,9 @@
 </div>
 <table class="report form-layout-compressed">
 <tr class="columnheader-dark">
-    <th>{ts}Period{/ts}</th>
-    <th>{ts}Total Amount{/ts}</th>
-    <th><strong>#</strong></th><th></th></tr>
+    <th scope="col">{ts}Period{/ts}</th>
+    <th scope="col">{ts}Total Amount{/ts}</th>
+    <th scope="col" title="Contribution Count"><strong>#</strong></th><th></th></tr>
 <tr>
     <td><strong>{ts}Current Month-To-Date{/ts}</strong></td>
     <td class="label">{if NOT $monthToDate.Valid.amount}{ts}(n/a){/ts}{else}{$monthToDate.Valid.amount|crmMoney}{/if}</td>
