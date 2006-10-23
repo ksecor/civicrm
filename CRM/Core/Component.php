@@ -297,11 +297,12 @@ class CRM_Core_Component {
             //Generalize this at some point
             self::$_contactSubTypes =
                 array(
-                      'Student' =>
+ /*                     'Student' =>
                       array( 'View' => 
                              array( 'file'  => 'CRM/Quest/Page/View/Student.php',
                                     'class' => 'CRM_Quest_Page_View_Student' ),
                              )
+*/
                       );
         }
         return self::$_contactSubTypes;
