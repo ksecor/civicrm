@@ -14,6 +14,7 @@ function civicrm_setup( ) {
     global $mosConfig_live_site, $mosConfig_absolute_path;
     global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db;
 
+
     /**
      $mosConfig_live_site = "MOS_LIVE_SITE";
      $mosConfig_host = "HOST";
@@ -146,14 +147,14 @@ function civicrm_config( $frontend = false ) {
     global $dsn, $compileDir, $uploadDir, $imageUploadDir;
     global $mysqlPath;
     global $mosConfig_smtphost, $mosConfig_live_site;
-    global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db;
+    global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix;
     global $tplPath;
 
     $params = array(
                 'cms' => 'Joomla',
                 'cmsVersion' => '1.0.11',
                 'cmsURLVar'  => 'task',
-                'usersTable' => 'jos_users',
+                'usersTable' => $mosConfig_dbprefix . 'users',
                 'crmRoot' => $crmPath,
                 'templateCompileDir' => $compileDir,
                 'uploadDir' => $uploadDir,
