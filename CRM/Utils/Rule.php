@@ -28,9 +28,11 @@
 
 require_once 'HTML/QuickForm/Rule/Email.php';
 
-class CRM_Utils_Rule {
+class CRM_Utils_Rule 
+{
 
-    static function title( $str ) {
+    static function title( $str ) 
+    {
     
         // check length etc
         if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > 127 ) {
@@ -45,7 +47,8 @@ class CRM_Utils_Rule {
         return true;
     }
 
-    static function variable( $str ) {
+    static function variable( $str ) 
+    {
         // check length etc
         if ( empty( $str ) || strlen( $str ) > 31 ) {
             return false;
@@ -59,7 +62,8 @@ class CRM_Utils_Rule {
         return true;
     }
 
-    static function qfVariable( $str ) {
+    static function qfVariable( $str ) 
+    {
         // check length etc 
         //if ( empty( $str ) || strlen( $str ) > 31 ) {  
         if (  strlen(trim($str)) == 0 || strlen( $str ) > 31 ) {  
@@ -67,15 +71,16 @@ class CRM_Utils_Rule {
         } 
         
         // make sure it include valid characters, alpha numeric and underscores 
-        // added . option (CRM-1336)
-        if ( ! preg_match('/^[\w\s\.]+$/i', $str ) ) { 
+        // added (. and ,) option (CRM-1336)
+        if ( ! preg_match('/^[\w\s\.\,]+$/i', $str ) ) { 
             return false; 
         } 
  
         return true; 
     } 
 
-    static function phone( $phone ) {
+    static function phone( $phone ) 
+    {
         // check length etc
         if ( empty( $phone ) || strlen( $phone ) > 16 ) {
             return false;
@@ -89,7 +94,8 @@ class CRM_Utils_Rule {
     }
 
 
-    static function query( $query ) {
+    static function query( $query ) 
+    {
 
         // check length etc
         if ( empty( $query ) || strlen( $query ) < 3 || strlen( $query ) > 127 ) {
@@ -104,7 +110,8 @@ class CRM_Utils_Rule {
         return true;
     }
 
-    static function url( $url, $checkDomain = false) {
+    static function url( $url, $checkDomain = false) 
+    {
         $options = array( 'domain_check'    => $checkDomain,
                           'allowed_schemes' => array( 'http', 'https', 'mailto', 'ftp' ) );
 
@@ -112,14 +119,16 @@ class CRM_Utils_Rule {
         return Validate::uri( $url, $options );
     }
 
-    static function domain( $domain ) {
+    static function domain( $domain ) 
+    {
         if ( ! preg_match('/^(([A-Za-z0-9\-])+\.)+[A-Za-z\-]+$/', $domain ) ) {
             return false;
         }
         return true;
     }
 
-    static function date($value, $default = null) {
+    static function date($value, $default = null) 
+    {
         if (is_string($value) &&
             preg_match('/^\d\d\d\d-?\d\d-?\d\d$/', $value)) {
             return $value;
@@ -138,7 +147,8 @@ class CRM_Utils_Rule {
      * @static
      * @access public
      */
-    static function qfDate($date) {
+    static function qfDate($date) 
+    {
         if ( ! $date['d'] && ! $date['M'] && ! $date['Y'] ) {
             return true;
         }
@@ -174,7 +184,8 @@ class CRM_Utils_Rule {
      * @static 
      * @access public 
      */
-    static function currentDate( $date ) {
+    static function currentDate( $date ) 
+    {
         if ( ! $date['d'] && ! $date['M'] && ! $date['Y'] ) { 
             return true; 
         } 
@@ -228,7 +239,8 @@ class CRM_Utils_Rule {
         return true;
     }
 
-    static function integer($value) {
+    static function integer($value) 
+    {
         if ( is_int($value)) {
             return true;
         }
@@ -247,7 +259,8 @@ class CRM_Utils_Rule {
         return false;
     }
 
-    static function positiveInteger($value) {
+    static function positiveInteger($value) 
+    {
         if ( is_int($value) ) {
             return ( $value < 0 ) ? false : true;
         }
@@ -259,22 +272,26 @@ class CRM_Utils_Rule {
         return false;
     }
     
-    static function numeric($value) {
+    static function numeric($value) 
+    {
         return preg_match( '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/', $value ) ? true : false;
     }
 
-    static function numberOfDigit($value, $noOfDigit) {
+    static function numberOfDigit($value, $noOfDigit) 
+    {
         return preg_match( '/^\d{'.$noOfDigit.'}$/', $value ) ? true : false;
     }
 
-    static function money($value) {
+    static function money($value) 
+    {
         if ( self::integer( $value ) ) {
             return true;
         }
         return preg_match( '/(^\d+\.\d?\d?$)|(^\.\d\d?$)/', $value ) ? true : false;
     }
 
-    static function string($value, $maxLength = 0) {
+    static function string($value, $maxLength = 0) 
+    {
         if (is_string($value) &&
             ($maxLength === 0 || strlen($value) <= $maxLength)) {
             return true;
@@ -282,13 +299,15 @@ class CRM_Utils_Rule {
         return false;
     }
 
-    static function boolean($value) {
+    static function boolean($value) 
+    {
         return preg_match( 
             '/(^(1|0)$)|(^(Y(es)?|N(o)?)$)|(^(T(rue)?|F(alse)?)$)/i', $value) ?
             true : false;
     }
 
-    static function email($value, $checkDomain = false) {
+    static function email($value, $checkDomain = false) 
+    {
         static $qfRule = null;
         if ( ! isset( $qfRule ) ) {
             $qfRule =& new HTML_QuickForm_Rule_Email();
@@ -296,7 +315,8 @@ class CRM_Utils_Rule {
         return $qfRule->validate( $value, $checkDomain );
     }
 
-    static function emailList( $list, $checkDomain = false ) {
+    static function emailList( $list, $checkDomain = false ) 
+    {
         $emails = explode( ',', $list );
         foreach ( $emails as $email ) {
             $email = trim( $email );
@@ -310,7 +330,8 @@ class CRM_Utils_Rule {
     // allow between 4-6 digits as postal code since india needs 6 and US needs 5 (or 
     // if u disregard the first 0, 4 (thanx excel!)
     // piotr: we need to figure out how to localize such rules
-    static function postalCode($value) {
+    static function postalCode($value) 
+    {
         if ( preg_match('/^\d{4,6}(-\d{4})?$/', $value) ) {
             return true;
         }
@@ -325,7 +346,8 @@ class CRM_Utils_Rule {
      * @access    private
      * @return    bool      true if file has been uploaded, false otherwise
      */
-    static function asciiFile( $elementValue ) {
+    static function asciiFile( $elementValue ) 
+    {
         if ((isset($elementValue['error']) && $elementValue['error'] == 0) ||
             (!empty($elementValue['tmp_name']) && $elementValue['tmp_name'] != 'none')) {
             return CRM_Utils_File::isAscii($elementValue['tmp_name']);
@@ -340,7 +362,8 @@ class CRM_Utils_Rule {
      * @access    private
      * @return    bool      whether file has been uploaded properly and is now in UTF-8
      */
-    static function utf8File( $elementValue ) {
+    static function utf8File( $elementValue ) 
+    {
         $success = false;
 
         if ((isset($elementValue['error']) && $elementValue['error'] == 0) ||
@@ -368,7 +391,8 @@ class CRM_Utils_Rule {
      * @access    private
      * @return    bool      true if file has been uploaded, false otherwise
      */
-    static function htmlFile( $elementValue ) {
+    static function htmlFile( $elementValue ) 
+    {
         if ((isset($elementValue['error']) && $elementValue['error'] == 0) ||
             (!empty($elementValue['tmp_name']) && $elementValue['tmp_name'] != 'none')) {
             return CRM_Utils_File::isHtmlFile($elementValue['tmp_name']);
@@ -386,28 +410,33 @@ class CRM_Utils_Rule {
      * @access public
      * @static
      */
-    static function objectExists( $value, $options ) {
+    static function objectExists( $value, $options ) 
+    {
         return CRM_Core_DAO::objectExists( $value, $options[0], $options[1], CRM_Utils_Array::value( 2, $options, 'name' ) );
     }
 
-    static function optionExists( $value, $options ) {
+    static function optionExists( $value, $options ) 
+    {
         require_once 'CRM/Core/OptionValue.php';
         return CRM_Core_OptionValue::optionExists( $value, $options[0], $options[1], $options[2], CRM_Utils_Array::value( 3, $options, 'name' ) );
     }
 
-    static function creditCardNumber( $value, $type ) {
+    static function creditCardNumber( $value, $type ) 
+    {
         require_once 'Validate/Finance/CreditCard.php';
 
         return Validate_Finance_CreditCard::number( $value, $type );
     }
 
-    static function cvv( $value, $type ) {
+    static function cvv( $value, $type ) 
+    {
         require_once 'Validate/Finance/CreditCard.php';
 
         return Validate_Finance_CreditCard::cvv( $value, $type );
     }
 
-    static function currencyCode($value) {
+    static function currencyCode($value) 
+    {
         static $currencyCodes = null;
         if (!$currencyCodes) {
             $currencyCodes =& CRM_Core_PseudoConstant::currencyCode();
