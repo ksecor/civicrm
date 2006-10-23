@@ -184,6 +184,12 @@ class CRM_Core_Config {
     public $USPSUserID = null;
     
     /**
+     * USPS URL.
+     * @var string
+     */
+    public $USPSURL = null;
+    
+    /**
      * The sequence of the address fields.
      * @var string
      */
@@ -601,6 +607,10 @@ class CRM_Core_Config {
         
         if ( defined( 'CIVICRM_USPS_USERID' ) ) {
             $this->USPSUserID = CIVICRM_USPS_USERID;
+        }
+
+        if ( defined( 'CIVICRM_USPS_URL' ) ) {
+            $this->USPSURL = CIVICRM_USPS_URL;
         }
         
         if ( defined( 'CIVICRM_ADDRESS_FORMAT' ) ) {
