@@ -92,10 +92,17 @@ class CRM_Quest_Invoke {
                 break;
 
             case 'partner':
-                require_once 'CRM/Quest/Controller/MatchApp/Partner.php';
+	      require_once 'CRM/Quest/Controller/MatchApp/Partner.php';
+	      if ( isset( $args[4] ) &&
+		   $args[4] == 'view' ) {
+		$_GET['action'] = 'preview';
+                $controller =& new CRM_Quest_Controller_MatchApp_Partner( null, CRM_Core_Action::PREVIEW, false );
+                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
+	      } else {
                 $controller =& new CRM_Quest_Controller_MatchApp_Partner( null, null, false );
                 $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
-                break;
+	      }
+	      break;
 
             case 'recommendation':
                 require_once 'CRM/Quest/Controller/MatchApp/Recommendation.php';

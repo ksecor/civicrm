@@ -183,7 +183,11 @@ SELECT cr.id                   as contact_id,
         }
 
         $result['link'   ] = CRM_Utils_System::url( "civicrm/quest/matchapp/$section", "reset=1&id=$sourceID" );
-        $result['preview'] = CRM_Utils_System::url( "civicrm/quest/matchapp/$section", "reset=1&id=$sourceID&action=preview" );
+	if ( $section == 'partner' ) {
+	  $result['preview'] = CRM_Utils_System::url( "civicrm/quest/matchapp/partner/view", "reset=1&id=$sourceID&action=preview" );
+	} else {
+	  $result['preview'] = CRM_Utils_System::url( "civicrm/quest/matchapp/$section", "reset=1&id=$sourceID&action=preview" );
+	}
 
         if ( ! $dao->find( true ) ) {
             $result['status'] = ts( 'Not Started' );

@@ -143,7 +143,7 @@ class CRM_Quest_Menu {
                               'weight'  => 0, 
                               ),
                        array( 
-                              'path'    => 'civicrm/quest/partner/view', 
+                              'path'    => 'civicrm/quest/matchapp/partner/view', 
                               'query'   => 'reset=1',
                               'title'   => ts( '2006 College Match Partners Application' ), 
                               'access'  => CRM_Core_Permission::check( 'view Quest Partner Supplement' ),
@@ -152,7 +152,7 @@ class CRM_Quest_Menu {
                               'weight'  => 0, 
                               ),
                        array( 
-                              'path'    => 'civicrm/quest/matchapp/view', 
+                              'path'    => 'civicrm/quest/matchapp/preview', 
                               'query'   => 'reset=1',
                               'title'   => ts( '2006 College Match Application' ), 
                               'access'  => CRM_Core_Permission::check( 'view Quest Application' ),
