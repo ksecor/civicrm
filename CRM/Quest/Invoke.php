@@ -93,15 +93,11 @@ class CRM_Quest_Invoke {
 
             case 'partner':
 	      require_once 'CRM/Quest/Controller/MatchApp/Partner.php';
-	      if ( isset( $args[4] ) &&
-		   $args[4] == 'view' ) {
+	      if ( isset( $args[4] ) && $args[4] == 'view' ) {
 		$_GET['action'] = 'preview';
-                $controller =& new CRM_Quest_Controller_MatchApp_Partner( null, CRM_Core_Action::PREVIEW, false );
-                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
-	      } else {
-                $controller =& new CRM_Quest_Controller_MatchApp_Partner( null, null, false );
-                $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
 	      }
+	      $controller =& new CRM_Quest_Controller_MatchApp_Partner( null, null, false );
+	      $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
 	      break;
 
             case 'recommendation':
@@ -132,12 +128,18 @@ class CRM_Quest_Invoke {
 
         case 'teacher':
             require_once 'CRM/Quest/Controller/Recommender/Teacher.php';
+	    if ( isset( $args[3] ) && $args[3] == 'view' ) {
+	        $_GET['action'] = 'preview';
+	    }
             $controller =& new CRM_Quest_Controller_Recommender_Teacher( null, null, false );
             $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
             break;
 
         case 'counselor':
             require_once 'CRM/Quest/Controller/Recommender/Counselor.php';
+	    if ( isset( $args[3] ) && $args[3] == 'view' ) {
+	        $_GET['action'] = 'preview';
+	    }
             $controller =& new CRM_Quest_Controller_Recommender_Counselor( null, null, false );
             $session->pushUserContext( CRM_Utils_System::url( 'locker', 'reset=1&status=1' ) );
             break;

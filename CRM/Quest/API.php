@@ -113,14 +113,14 @@ SELECT cr.id                   as contact_id,
                 $type    = 'Teacher';
                 $link    = CRM_Utils_System::url( 'civicrm/quest/teacher',
                                                   "reset=1&id={$dao->contact_id}&scid={$sourceID}" ); 
-                $preview = CRM_Utils_System::url( 'civicrm/quest/teacher',
-                                                  "reset=1&id={$dao->contact_id}&scid={$sourceID}&action=preview" ); 
+                $preview = CRM_Utils_System::url( 'civicrm/quest/teacher/view',
+                                                  "reset=1&id={$dao->contact_id}&scid={$sourceID}" ); 
             } else {
                 $type    = 'Counselor';
                 $link    = CRM_Utils_System::url( 'civicrm/quest/counselor',
                                                   "reset=1&id={$dao->contact_id}&scid={$sourceID}" );
-                $preview = CRM_Utils_System::url( 'civicrm/quest/teacher',
-                                               "reset=1&id={$dao->contact_id}&scid={$sourceID}&action=preview" ); 
+                $preview = CRM_Utils_System::url( 'civicrm/quest/counselor/view',
+                                               "reset=1&id={$dao->contact_id}&scid={$sourceID}" ); 
             }
             $params[$count] = array();
             $params[$count]['contact_id'     ] = $dao->contact_id;
@@ -238,14 +238,14 @@ SELECT cs.id                   as contact_id,
                 $type    = 'Teacher';
                 $link    = CRM_Utils_System::url( 'civicrm/quest/teacher',
                                                   "reset=1&id={$sourceID}&scid={$dao->contact_id}" );
-                $preview = CRM_Utils_System::url( 'civicrm/quest/teacher',
-                                                  "reset=1&id={$sourceID}&scid={$dao->contact_id}&action=preview" );
+                $preview = CRM_Utils_System::url( 'civicrm/quest/teacher/view',
+                                                  "reset=1&id={$sourceID}&scid={$dao->contact_id}" );
             } else {
                 $type    = 'Counselor';
                 $link    = CRM_Utils_System::url( 'civicrm/quest/counselor',
                                                   "reset=1&id={$sourceID}&scid={$dao->contact_id}" );
-                $preview = CRM_Utils_System::url( 'civicrm/quest/counselor',
-                                                  "reset=1&id={$sourceID}&scid={$dao->contact_id}&action=preview" );
+                $preview = CRM_Utils_System::url( 'civicrm/quest/counselor/view',
+                                                  "reset=1&id={$sourceID}&scid={$dao->contact_id}" );
             }
             $params[$count] = array( );
             $params[$count]['contact_id'     ] = $dao->contact_id;
