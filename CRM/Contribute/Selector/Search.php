@@ -291,7 +291,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             }
             
             if ( $row["is_test"] ) {
-                $row["contribution_type"] = $row["contribution_type"] . "( test )";
+                $row["contribution_type"] = $row["contribution_type"] . " (test)";
             }
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
