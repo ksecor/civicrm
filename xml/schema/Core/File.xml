@@ -23,12 +23,6 @@
       <comment>Type of file (e.g. Transcript, Income Tax Return, etc). FK to civicrm_option_value.</comment>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>file_type_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.5</add>
-  </foreignKey>
   <field>
      <name>mime_type</name>
      <type>varchar</type>

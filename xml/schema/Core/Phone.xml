@@ -43,12 +43,6 @@
       <comment>Which Mobile Provider does this phone belong to.</comment>
        <add>1.1</add>
   </field>
-  <foreignKey>
-       <name>mobile_provider_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.1</add>
-  </foreignKey>
   <field>
        <name>phone</name>
        <type>varchar</type>

@@ -53,12 +53,6 @@
        <comment>Configurable task type values (e.g. App Submit, App Review...). FK to civicrm_option_value.</comment>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>task_type_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.5</add>
-  </foreignKey>
   <field>
        <name>owner_entity_table</name>
        <type>varchar</type>
@@ -103,12 +97,6 @@
        <comment>Configurable priority value (e.g. Critical, High, Medium...). FK to civicrm_option_value.</comment>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>priority_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <add>1.5</add>
-  </foreignKey>
   <field>   
       <name>task_class</name>
       <title>Task Class</title>

@@ -76,12 +76,6 @@
        <comment>Configurable status value (e.g. Not Started, In Progress, Completed, Deferred...). FK to civicrm_option_value.</comment>
       <add>1.5</add>
   </field>
-  <foreignKey>
-       <name>status_id</name>
-       <table>civicrm_option_value</table>
-       <key>value</key>
-       <add>1.5</add>
-  </foreignKey>
   <field> 
       <name>create_date</name> 
       <title>Created</title>
