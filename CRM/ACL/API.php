@@ -83,6 +83,13 @@ class CRM_ACL_API {
      * @access public
      */
     public static function whereClause( $type, &$tables, &$whereTables, $contactID = null ) {
+        // first see if the contact has edit / view all contacts
+        if ( CRM_Core_Permission::check( 'edit all contacts' ) ||
+             ( $type == self::VIEW &&
+               CRM_Core_Permission::check( 'view all contacts' ) ) ) {
+            return ' ( 1 ) ';
+        }
+
         if ( $contactID == null ) {
             $session   =& CRM_Core_Session::singleton( );
             $contactID =  $session->get( 'userID' );

@@ -268,7 +268,7 @@ class CRM_Core_BAO_CustomQuery {
                             $this->_qill[$grouping][]  = "$field[label] $op $qillValue";
                         }                    
                     } else {
-                        if ( $field['is_search_range'] ) {
+                        if ( $field['is_search_range'] && is_array( $value ) ) {
                             $this->searchRange( $field['id'], $field['label'], 'char_data', $value, $grouping );
                         } else {
                             $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
@@ -279,7 +279,7 @@ class CRM_Core_BAO_CustomQuery {
                     continue;
                 
                 case 'Int':
-                    if ( $field['is_search_range'] ) {
+                    if ( $field['is_search_range'] && is_array( $value ) ) {
                         $this->searchRange( $field['id'], $field['label'], 'int_data', $value, $grouping );
                     } else {
                         $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".int_data {$op} " . CRM_Utils_Type::escape( $value, 'Integer' );
@@ -296,7 +296,7 @@ class CRM_Core_BAO_CustomQuery {
                     continue;
 
                 case 'Float':
-                    if ( $field['is_search_range'] ) {
+                    if ( $field['is_search_range'] && is_array( $value ) ) {
                         $this->searchRange( $field['id'], $field['label'], 'float_data', $value, $grouping );
                     } else {                
                         $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".float_data {$op} " . CRM_Utils_Type::escape( $value, 'Float' );
@@ -305,10 +305,10 @@ class CRM_Core_BAO_CustomQuery {
                     continue;                    
                 
                 case 'Money':
-                    if ( $field['is_search_range'] ) {
+                    if ( $field['is_search_range'] && is_array( $value ) ) {
                         $this->searchRange( $field['id'], $field['label'], 'decimal_data', $value, $grouping );
                     } else {                
-                        $this->_where[$grouping][] = self::PREFIX . $field['id'] . '.decimal_data = ' . CRM_Utils_Type::escape( $value, 'Float' );
+                        $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".decimal_data {$op} " . CRM_Utils_Type::escape( $value, 'Float' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
                     }
                     continue;

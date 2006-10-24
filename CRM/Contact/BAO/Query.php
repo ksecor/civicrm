@@ -258,7 +258,7 @@ class CRM_Contact_BAO_Query {
         require_once 'CRM/Contact/BAO/Contact.php';
 
         // CRM_Core_Error::backtrace( );
-        //CRM_Core_Error::debug( 'params', $params );
+        // CRM_Core_Error::debug( 'params', $params );
         // CRM_Core_Error::debug( 'f', $fields );
         //CRM_Core_Error::debug( 'post', $_POST );
         //CRM_Core_Error::debug( 'r', $returnProperties );
@@ -290,7 +290,7 @@ class CRM_Contact_BAO_Query {
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        //CRM_Core_Error::debug( 'q', $this );
+        // CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -2323,10 +2323,10 @@ class CRM_Contact_BAO_Query {
         $permission = ' ( 1 ) ';
         if ( $this->_search ) {
             require_once 'CRM/ACL/API.php';
-            $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
+            // $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
             // CRM_Core_Error::debug( 't', $this->_tables );
             // CRM_Core_Error::debug( 'w', $this->_whereTables );
-            //$permission = CRM_ACL_API::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
+            $permission = CRM_ACL_API::whereClause( CRM_Core_Permission::VIEW, $this->_tables, $this->_whereTables );
             // CRM_Core_Error::debug( 'p', $permission );
             // CRM_Core_Error::debug( 't', $this->_tables );
             // CRM_Core_Error::debug( 'w', $this->_whereTables );

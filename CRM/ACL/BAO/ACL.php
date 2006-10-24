@@ -532,6 +532,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                                                                                 
         $acl        = self::getTableName();
         $aclGroup   = 'civicrm_acl_group';
+        $aclGJ      = CRM_ACL_DAO_GroupJoin::getTableName( );
         $c2g        = CRM_Contact_BAO_GroupContact::getTableName();
         $group      = CRM_Contact_BAO_Group::getTableName();
      
@@ -543,15 +544,21 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                                 ON      $acl.entity_table   = '$aclGroup'
                                 AND     ov.option_group_id  = og.id
                                 AND     $acl.entity_id      = ov.value
+                                AND     ov.is_active        = 1
+                        INNER JOIN      $aclGJ
+                                ON      $aclGJ.acl_group_id = $acl.entity_id
+                                AND     $aclGJ.is_active    = 1
                         INNER JOIN  $c2g
-                                ON      $acl.entity_id      = $c2g.group_id
+                                ON      $aclGJ.entity_id      = $c2g.group_id
+                                AND     $aclGJ.entity_table   = 'civicrm_group'
                         WHERE       $acl.entity_table       = '$group'
                             AND     $acl.is_active          = 1
                             AND     $c2g.contact_id         = $contact_id
                             AND     $c2g.status             = 'Added'";
             
         $results = array();
-        
+
+        // CRM_Core_Error::debug( 'q', $query );
         $rule->query($query);
         
         while ($rule->fetch()) {
