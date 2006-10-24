@@ -99,7 +99,7 @@ function civicrm_drupal_create_user ( $email, $rid = null ) {
  * @return int the role id
  * @static
  */
-static function civicrm_drupal_role_id( $name ) {
+function civicrm_drupal_role_id( $name ) {
     $roleIDs = user_roles( );
     $roleNames = array_flip( $roleIDs );
     return array_key_exists( $name, $roleNames ) ? $roleNames[$name] : null;
