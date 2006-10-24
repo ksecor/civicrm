@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-29 13:33+0200\n"
+"POT-Creation-Date: 2006-10-24 12:52+0200\n"
 "PO-Revision-Date: 2006-09-05 12:12-0700\n"
 "Last-Translator: Pit Gebbers <pit.gebbers@gmail.com>\n"
 "Language-Team: none\n"
@@ -2264,6 +2264,10 @@ msgstr "Kopfzeile"
 msgid "Footer"
 msgstr "Fußzeile"
 
+#: CRM/Core/SelectValues.php CRM/Mailing/Form/Upload.php
+msgid "Opt-out Message"
+msgstr "Opt-Out Nachricht"
+
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr "Die Gruppe \"%1\" wurde gelöscht."
@@ -3873,8 +3877,9 @@ msgid "Group Status -"
 msgstr "Gruppenstatus -"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Tagged as -"
-msgstr "Etikettiert als -"
+#, fuzzy
+msgid "Tagged %1"
+msgstr "Ettiketiert"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name or Email like - \"%1\""
@@ -5815,11 +5820,13 @@ msgid "%1 must be a number (with or without decimal point)."
 msgstr "%1 muss eine Zahl sein (mit oder ohne Dezimalstellen)."
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "greater than \"%1\""
+#, fuzzy
+msgid "greater than or equal to \"%1\""
 msgstr "größer als \"%1\""
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "less than \"%1\""
+#, fuzzy
+msgid "less than or equal to \"%1\""
 msgstr "weniger als \"%1\""
 
 #: CRM/Core/BAO/CustomQuery.php
@@ -7751,10 +7758,6 @@ msgstr "Auto-responder"
 #: CRM/Mailing/Form/Upload.php
 msgid "Unsubscribe Message"
 msgstr "Nachricht bei Abbestellung"
-
-#: CRM/Mailing/Form/Upload.php
-msgid "Opt-out Message"
-msgstr "Opt-Out Nachricht"
 
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
@@ -12182,9 +12185,11 @@ msgid "Configure Premiums Section"
 msgstr "Aktion bestätigen"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-msgid ""
-"Is the Premiums section enabled for this Online Contributions page? (%1)"
+#, fuzzy
+msgid "Is the Premiums section enabled for this Online Contributions page?"
 msgstr ""
+"Benutzen Sie dieses Formular um den Namen, die Beschreibung und mehr für "
+"eine eigene Spendenseite einzugeben."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Title to appear at the top of the Premiums section."
@@ -14791,7 +14796,8 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Minimum fee required for this membership type. For free/complimentary "
-"memberships - set minimum fee to zero (0)."
+"memberships - set minimum fee to zero (0). NOTE: Online (self-service) "
+"signup is not supported for free memberships in this release."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -16701,6 +16707,9 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Tagged as -"
+#~ msgstr "Etikettiert als -"
 
 #, fuzzy
 #~ msgid "%1 $op \"%2\""

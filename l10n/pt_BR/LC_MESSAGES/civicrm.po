@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-29 13:33+0200\n"
+"POT-Creation-Date: 2006-10-24 12:52+0200\n"
 "PO-Revision-Date: 2006-10-14 13:44-0700\n"
 "Last-Translator: Newton Calvin <calvin@spei.br>\n"
 "Language-Team: Portuguese/Brazil\n"
@@ -2250,6 +2250,10 @@ msgstr "Cabeçalho"
 msgid "Footer"
 msgstr "Rodapé"
 
+#: CRM/Core/SelectValues.php CRM/Mailing/Form/Upload.php
+msgid "Opt-out Message"
+msgstr "Mensagem de Opção de Sair"
+
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr "O Grupo \"%1\" foi excluído."
@@ -3794,8 +3798,9 @@ msgid "Group Status -"
 msgstr "Status do Grupo"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Tagged as -"
-msgstr "Rotulado como -"
+#, fuzzy
+msgid "Tagged %1"
+msgstr "Rotulado"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name or Email like - \"%1\""
@@ -5674,11 +5679,13 @@ msgid "%1 must be a number (with or without decimal point)."
 msgstr "%1 deve ser um número (com ou sem ponto decimal)."
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "greater than \"%1\""
+#, fuzzy
+msgid "greater than or equal to \"%1\""
 msgstr "maior que \"%1\""
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "less than \"%1\""
+#, fuzzy
+msgid "less than or equal to \"%1\""
 msgstr "menor que \"%1\""
 
 #: CRM/Core/BAO/CustomQuery.php
@@ -7537,10 +7544,6 @@ msgstr "Auto-resposta"
 #: CRM/Mailing/Form/Upload.php
 msgid "Unsubscribe Message"
 msgstr "Cancelar assinatura de Mensagem"
-
-#: CRM/Mailing/Form/Upload.php
-msgid "Opt-out Message"
-msgstr "Mensagem de Opção de Sair"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Please provide at least the text message."
@@ -12045,8 +12048,8 @@ msgid "Configure Premiums Section"
 msgstr "Seção de configuração de Prêmios"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-msgid ""
-"Is the Premiums section enabled for this Online Contributions page? (%1)"
+#, fuzzy
+msgid "Is the Premiums section enabled for this Online Contributions page?"
 msgstr ""
 "A seção Premiums está ativada para esta página de Contribuições Online? (%1)"
 
@@ -14893,7 +14896,8 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Minimum fee required for this membership type. For free/complimentary "
-"memberships - set minimum fee to zero (0)."
+"memberships - set minimum fee to zero (0). NOTE: Online (self-service) "
+"signup is not supported for free memberships in this release."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -16866,6 +16870,9 @@ msgstr "Mensagem capturada por filtro ed conteúdo."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Erro na transação do SMTP"
+
+#~ msgid "Tagged as -"
+#~ msgstr "Rotulado como -"
 
 #, fuzzy
 #~ msgid "%1 $op \"%2\""

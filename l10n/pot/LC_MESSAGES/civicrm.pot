@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-29 13:33+0200\n"
+"POT-Creation-Date: 2006-10-24 12:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -1379,6 +1379,10 @@ msgstr ""
 msgid "Footer"
 msgstr ""
 
+#: CRM/Core/SelectValues.php CRM/Mailing/Form/Upload.php
+msgid "Opt-out Message"
+msgstr ""
+
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr ""
@@ -2696,7 +2700,7 @@ msgid "Group Status -"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Tagged as -"
+msgid "Tagged %1"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -4414,11 +4418,11 @@ msgid "%1 must be a number (with or without decimal point)."
 msgstr ""
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "greater than \"%1\""
+msgid "greater than or equal to \"%1\""
 msgstr ""
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "less than \"%1\""
+msgid "less than or equal to \"%1\""
 msgstr ""
 
 #: CRM/Core/BAO/CustomQuery.php
@@ -6133,10 +6137,6 @@ msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Unsubscribe Message"
-msgstr ""
-
-#: CRM/Mailing/Form/Upload.php
-msgid "Opt-out Message"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
@@ -9440,7 +9440,7 @@ msgid "Configure Premiums Section"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-msgid "Is the Premiums section enabled for this Online Contributions page? (%1)"
+msgid "Is the Premiums section enabled for this Online Contributions page?"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
@@ -11048,7 +11048,7 @@ msgid "Select the target contact for this membership-organization if it appears 
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
-msgid "Minimum fee required for this membership type. For free/complimentary memberships - set minimum fee to zero (0)."
+msgid "Minimum fee required for this membership type. For free/complimentary memberships - set minimum fee to zero (0). NOTE: Online (self-service) signup is not supported for free memberships in this release."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl

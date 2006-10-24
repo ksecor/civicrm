@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-29 13:33+0200\n"
+"POT-Creation-Date: 2006-10-24 12:52+0200\n"
 "PO-Revision-Date: 2005-08-18 13:39+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -2333,6 +2333,11 @@ msgstr "เพศ"
 msgid "Footer"
 msgstr "บันทึก"
 
+#: CRM/Core/SelectValues.php CRM/Mailing/Form/Upload.php
+#, fuzzy
+msgid "Opt-out Message"
+msgstr "ข้อความ"
+
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr ""
@@ -3972,7 +3977,7 @@ msgid "Group Status -"
 msgstr "กลุ่ม"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Tagged as -"
+msgid "Tagged %1"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -5977,11 +5982,11 @@ msgid "%1 must be a number (with or without decimal point)."
 msgstr "%1 ต้องเป็นตัวเลข (ไม่มีเครื่องหมายอื่นๆ)."
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "greater than \"%1\""
+msgid "greater than or equal to \"%1\""
 msgstr ""
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "less than \"%1\""
+msgid "less than or equal to \"%1\""
 msgstr ""
 
 #: CRM/Core/BAO/CustomQuery.php
@@ -7918,11 +7923,6 @@ msgstr ""
 #: CRM/Mailing/Form/Upload.php
 msgid "Unsubscribe Message"
 msgstr ""
-
-#: CRM/Mailing/Form/Upload.php
-#, fuzzy
-msgid "Opt-out Message"
-msgstr "ข้อความ"
 
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
@@ -12121,9 +12121,9 @@ msgid "Configure Premiums Section"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-msgid ""
-"Is the Premiums section enabled for this Online Contributions page? (%1)"
-msgstr ""
+#, fuzzy
+msgid "Is the Premiums section enabled for this Online Contributions page?"
+msgstr "หน่วยงานใหม่"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Title to appear at the top of the Premiums section."
@@ -14427,7 +14427,8 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Minimum fee required for this membership type. For free/complimentary "
-"memberships - set minimum fee to zero (0)."
+"memberships - set minimum fee to zero (0). NOTE: Online (self-service) "
+"signup is not supported for free memberships in this release."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
