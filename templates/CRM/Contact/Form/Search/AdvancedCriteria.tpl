@@ -43,10 +43,14 @@
                     {/foreach}
                 </div>
             </td>
-		</tr>
+	</tr>
         <tr>
             <td><br />{$form.privacy.label}</td>
             <td><br />{$form.privacy.html}</td>
+        </tr>
+        <tr>
+            <td><br />{$form.contact_source.label}</td>
+            <td><br />{$form.contact_source.html}</td>
         </tr>
     </table>
 

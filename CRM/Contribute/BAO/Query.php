@@ -147,8 +147,6 @@ class CRM_Contribute_BAO_Query {
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
         case 'contribution_in_honor_of':
-            list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        
             $name = trim( $value ); 
             $newName = str_replace(',' , " " ,$name );
             $pieces =  explode( ' ', $newName ); 
@@ -178,6 +176,18 @@ class CRM_Contribute_BAO_Query {
                 $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
                 return;
             }
+            return;
+            
+        case 'contribution_source':
+            $value = strtolower( addslashes( $value ) );
+            if ( $wildcard ) {
+                $value = "%$value%"; 
+                $op    = 'LIKE';
+            }
+            $query->_where[$grouping][] = "LOWER( civicrm_contribution.source ) $op '$value'";
+            $query->_qill[$grouping][]  = "Contribution Source $op \"$value\"";
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            
             return;
 
         }
@@ -275,6 +285,10 @@ class CRM_Contribute_BAO_Query {
      * @static
      */ 
     static function buildSearchForm( &$form ) {
+        
+        //added contribution source
+        $form->addElement('text', 'contribution_source', ts('Contribution Source'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Contribution', 'source') );
+        
         // Date selects for date 
         $form->add('date', 'contribution_date_low', ts('Contribution Dates - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('contribution_date_low', ts('Select a valid date.'), 'qfDate'); 
