@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-28 18:24+0200\n"
-"PO-Revision-Date: 2006-09-29 16:32-0700\n"
-"Last-Translator: Jerker Lundin <jerker@lundinonline.com>\n"
+"POT-Creation-Date: 2006-10-24 12:52+0200\n"
+"PO-Revision-Date: 2006-10-23 10:58-0700\n"
+"Last-Translator: Per Jonsson <per@ankarlift.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -956,8 +956,12 @@ msgid ""
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Duplicate Contact button below."
-msgstr[0] "En matchande kontakt hittades. Du kan ändra den här: %1, eller klicka på spara kontaktdublett nedan"
-msgstr[1] "%count matchande kontakter hittades. Du kan ändra dem här: %1, eller klicka på spara kontaktdublett nedan"
+msgstr[0] ""
+"En matchande kontakt hittades. Du kan ändra den här: %1, eller klicka på "
+"spara kontaktdublett nedan"
+msgstr[1] ""
+"%count matchande kontakter hittades. Du kan ändra dem här: %1, eller klicka "
+"på spara kontaktdublett nedan"
 
 #: CRM/Contact/Form/Individual.php CRM/Quest/Form/Counselor/Personal.php
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
@@ -1134,13 +1138,16 @@ msgstr "Ny(a) relationsregistrering(ar) skapades: %1"
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created due to invalid target contact type: %1."
-msgstr "Relationsregistrering(ar) skapades inte pga felaktig typ av kontakt: %1"
+msgstr ""
+"Relationsregistrering(ar) skapades inte pga felaktig typ av kontakt: %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created - duplicate of existing relationship: %1."
-msgstr "Relationsregistrering(ar) skapades inte - dublett av befintlig registrering hittades: %1"
+msgstr ""
+"Relationsregistrering(ar) skapades inte - dublett av befintlig registrering "
+"hittades: %1"
 
 #: CRM/Contact/Form/Task/AddToTag.php CRM/Contact/Form/Task/RemoveFromTag.php
 msgid "Select Tag"
@@ -2232,6 +2239,10 @@ msgstr "Huvud"
 #: CRM/Mailing/DAO/Component.php
 msgid "Footer"
 msgstr "Fot"
+
+#: CRM/Core/SelectValues.php CRM/Mailing/Form/Upload.php
+msgid "Opt-out Message"
+msgstr ""
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
@@ -3697,7 +3708,7 @@ msgid "Group Status -"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Tagged as -"
+msgid "Tagged %1"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
@@ -3932,7 +3943,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save and New"
-msgstr ""
+msgstr "Spara och Ny"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
@@ -5500,11 +5511,11 @@ msgid "%1 must be a number (with or without decimal point)."
 msgstr ""
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "greater than \"%1\""
+msgid "greater than or equal to \"%1\""
 msgstr ""
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "less than \"%1\""
+msgid "less than or equal to \"%1\""
 msgstr ""
 
 #: CRM/Core/BAO/CustomQuery.php
@@ -7281,10 +7292,6 @@ msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Unsubscribe Message"
-msgstr ""
-
-#: CRM/Mailing/Form/Upload.php
-msgid "Opt-out Message"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
@@ -10661,7 +10668,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Scheduled Activities"
-msgstr ""
+msgstr "Schemalagda Aktiviteter"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid ""
@@ -11278,8 +11285,7 @@ msgid "Configure Premiums Section"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-msgid ""
-"Is the Premiums section enabled for this Online Contributions page? (%1)"
+msgid "Is the Premiums section enabled for this Online Contributions page?"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
@@ -13551,7 +13557,8 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Minimum fee required for this membership type. For free/complimentary "
-"memberships - set minimum fee to zero (0)."
+"memberships - set minimum fee to zero (0). NOTE: Online (self-service) "
+"signup is not supported for free memberships in this release."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl

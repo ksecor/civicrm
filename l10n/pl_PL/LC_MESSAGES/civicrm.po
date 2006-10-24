@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-29 13:33+0200\n"
+"POT-Creation-Date: 2006-10-24 12:52+0200\n"
 "PO-Revision-Date: 2006-04-18 08:35+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -2260,6 +2260,10 @@ msgstr "Nagłówek"
 msgid "Footer"
 msgstr "Stopka"
 
+#: CRM/Core/SelectValues.php CRM/Mailing/Form/Upload.php
+msgid "Opt-out Message"
+msgstr "Wiadomość o rezygnacji"
+
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
 msgstr "Grupa „%1” została utworzona."
@@ -3867,8 +3871,9 @@ msgid "Group Status -"
 msgstr "Stan grupy -"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Tagged as -"
-msgstr "W kategorii –"
+#, fuzzy
+msgid "Tagged %1"
+msgstr "kat."
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name or Email like - \"%1\""
@@ -5746,11 +5751,13 @@ msgid "%1 must be a number (with or without decimal point)."
 msgstr "%1 musi być liczbą (całkowitą lub nie)."
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "greater than \"%1\""
+#, fuzzy
+msgid "greater than or equal to \"%1\""
 msgstr "większy niż „%1”"
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "less than \"%1\""
+#, fuzzy
+msgid "less than or equal to \"%1\""
 msgstr "mniejszy niż „%1”"
 
 #: CRM/Core/BAO/CustomQuery.php
@@ -7606,10 +7613,6 @@ msgstr "Odpowiedź automatyczna"
 #: CRM/Mailing/Form/Upload.php
 msgid "Unsubscribe Message"
 msgstr "Wiadomość wypisująca"
-
-#: CRM/Mailing/Form/Upload.php
-msgid "Opt-out Message"
-msgstr "Wiadomość o rezygnacji"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Please provide at least the text message."
@@ -12064,8 +12067,8 @@ msgid "Configure Premiums Section"
 msgstr "Konfiguracja działu z dodatkami"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-msgid ""
-"Is the Premiums section enabled for this Online Contributions page? (%1)"
+#, fuzzy
+msgid "Is the Premiums section enabled for this Online Contributions page?"
 msgstr ""
 "Czy dział z dodatkami powinien być włączony na tej stronie dotacji on-line? "
 "(%1)"
@@ -14878,7 +14881,8 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Minimum fee required for this membership type. For free/complimentary "
-"memberships - set minimum fee to zero (0)."
+"memberships - set minimum fee to zero (0). NOTE: Online (self-service) "
+"signup is not supported for free memberships in this release."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -16854,6 +16858,9 @@ msgstr "Wiadomość złapana w filtr treści"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Błąd w transakcji SMTP"
+
+#~ msgid "Tagged as -"
+#~ msgstr "W kategorii –"
 
 #, fuzzy
 #~ msgid "%1 $op \"%2\""
