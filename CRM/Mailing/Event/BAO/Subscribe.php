@@ -150,6 +150,8 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
      */
     public function send_confirm_request($email) {
         $config =& CRM_Core_Config::singleton();
+        $this->domain_id = CRM_Core_Config::domainID();
+
         require_once 'CRM/Core/BAO/Domain.php';
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
         
