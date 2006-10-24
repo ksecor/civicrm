@@ -91,6 +91,12 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
             if ( empty( $message ) ) {
                 $errors['receipt_text'] = ts( 'A Receipt message must be specified if Email Receipt to Contributor is enabled' );
             }
+            //added for CRM-1348
+            $email = trim( CRM_Utils_Array::value( 'receipt_from_email', $fields ) );
+            if ( empty( $email ) ) {
+                $errors['receipt_from_email'] = ts( 'A Receipt From Email address must be specified if Email Receipt to Contributor is enabled' );
+            }
+
         }
         return $errors;
     }
