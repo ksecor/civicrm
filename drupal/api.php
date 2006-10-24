@@ -91,6 +91,19 @@ function civicrm_drupal_create_user ( $email, $rid = null ) {
     return $params['uid'];
 }
 
+/**
+ * Get the role id for a given name
+ *
+ * @param string $name name of the role
+ * 
+ * @return int the role id
+ * @static
+ */
+static function civicrm_drupal_role_id( $name ) {
+    $roleIDs = user_roles( );
+    $roleNames = array_flip( $roleIDs );
+    return array_key_exists( $name, $roleNames ) ? $roleNames[$name] : null;
+}
 
 /**
  * Check status of Drupal user
