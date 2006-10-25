@@ -1272,6 +1272,34 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
         $form->set( 'groupTree', $groupTree );
     }
 
+    /**
+     * Function to check the type of custom field type (eg: Used for Individual, Contribution, etc) 
+     * this function is used to get the custom fields of a type (eg: Used for Individual, Contribution, etc )
+     *
+     * @param  int     $customFieldId          custom field id
+     * @param  array   $removeCustomFieldTypes remove custom fields of a type eg: array("Individual") ;
+     *
+     *
+     * @return boolean false if it matches else true      
+     * @static
+     * @access public
+     */
+    static function checkCustomField($customFieldId, &$removeCustomFieldTypes ) 
+    {
+        $query = "SELECT cg.extends as extends
+                  FROM civicrm_custom_group as cg, civicrm_custom_field as cf
+                  WHERE cg.id = cf.custom_group_id
+                    AND cf.id =" . CRM_Utils_Type::escape($customFieldId, 'Integer');
+
+        $extends = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        if ( in_array( $extends, $removeCustomFieldTypes ) ) {
+            return false;
+        }
+        return true;
+    }
+    
+
 }
 
 ?>

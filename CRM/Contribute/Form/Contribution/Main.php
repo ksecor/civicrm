@@ -69,7 +69,19 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $contactID ) {
             $options = array( );
             $fields = array( );
+            require_once "CRM/Core/BAO/CustomGroup.php";
+            $removeCustomFieldTypes = array ('Contribution');
             foreach ( $this->_fields as $name => $dontCare ) {
+                //don't set custom data Used for Contribution (CRM-1344)
+                if ( substr( $name, 0, 7 ) == 'custom_' ) {  
+                    $id = substr( $name, 7 );
+                    if ( CRM_Core_BAO_CustomGroup::checkCustomField( $id, $removeCustomFieldTypes )) {
+                        $fields[$name] = 1;
+                    } else {
+                        continue;
+                    }
+                }
+                
                 $fields[$name] = 1;
             }
             $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
@@ -85,12 +97,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                                                                                              $options );
                     } else {
                         $this->_defaults[$name] = $contact->$name;
-                    }
+                    } 
                 }
             }
         }
 
-        //set default membership for mership block
+        //set default membership for membershipship block
         require_once 'CRM/Member/BAO/Membership.php';
         if ( $membershipBlock = CRM_Member_BAO_Membership::getMemershipBlock($this->id) ) {
             $this->_defaults['selectMembership'] = $membershipBlock['membership_type_default'];
@@ -103,7 +115,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->_defaults['cvv2']                 = '000';
         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
         **/
-        
+
         return $this->_defaults;
     }
 
