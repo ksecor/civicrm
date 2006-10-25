@@ -108,14 +108,13 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'description' ) );
         $this->add('text', 'minimum_fee', ts('Minimum Fee'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'minimum_fee' ) );
-        $this->add('select', 'duration_unit', ts('Duration') . ' ', CRM_Core_SelectValues::unitList('duration'), true);
+        $this->add('select', 'duration_unit', ts('Duration') . ' ', CRM_Core_SelectValues::unitList('duration'));
         //period type
         $this->addElement('select', 'period_type', ts('Period Type'), 
                           CRM_Core_SelectValues::periodType( ), array( 'onchange' => 'showHidePeriodSettings()'));
-        $this->addRule( 'period_type', ts('Select the Period Type'),'required' );
-
+        
         $this->add('text', 'duration_interval', ts('Duration Interval'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'duration_interval' ), true );
+                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'duration_interval' ) );
 
         $memberOrg =& $this->add('text', 'member_org', ts('Membership Organization'), 'size=30 maxlength=120' );
         //start day
@@ -130,7 +129,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', ts( 'Contribution Type' ), 
-                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), true );
+                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
 
         require_once 'CRM/Contact/BAO/Relationship.php';
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
@@ -240,8 +239,25 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                     }
                 }
             }
-        }
         
+            if ( empty( $params['contribution_type_id'] ) ) {
+                $errors['contribution_type_id'] = "Please enter a contribution type.";
+            }
+
+            if ( empty( $params['duration_unit'] ) ) {
+                $errors['duration_unit'] = "Please enter a duration unit.";
+            }            
+            
+            if ( empty( $params['duration_interval'] ) ) {
+                $errors['duration_interval'] = "Please enter a duration interval.";
+            }
+
+            if ( empty( $params['period_type'] ) ) {
+                $errors['period_type'] = "Please select a period type.";
+            }
+            
+        }
+
         return empty($errors) ? true : $errors;
     }
        

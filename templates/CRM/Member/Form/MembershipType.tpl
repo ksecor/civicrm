@@ -15,7 +15,7 @@
     	<dt>{$form.description.label}</dt><dd class="html-adjust">{$form.description.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Description of this membership type for display on signup forms. May include eligibility, benefits, terms, etc.{/ts}</dd>
         {if !$searchDone or !$searchCount or !$searchRows}
-            <dt>{$form.member_org.label}<span class="marker">*</span></dt><dd class="html-adjust"><label>{$form.member_org.html}</label>&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
+            <dt>{$form.member_org.label}<span class="marker"> *</span></dt><dd class="html-adjust"><label>{$form.member_org.html}</label>&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
             <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Members assigned this membership type belong to which organization (e.g. this is for membership in "Save the Whales - Northwest Chapter"). NOTE: This organization/group/chapter must exist as a CiviCRM Organization type contact.{/ts}</dd>
         {/if}
        </dl>
@@ -69,11 +69,11 @@
        <dl>
         <dt>{$form.minimum_fee.label}</dt><dd class="html-adjust">{$form.minimum_fee.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Minimum fee required for this membership type. For free/complimentary memberships - set minimum fee to zero (0). NOTE: Online (self-service) signup is not supported for free memberships in this release.{/ts}</dd>
-       	<dt>{$form.contribution_type_id.label}</dt><dd class="html-adjust">{$form.contribution_type_id.html}</dd>
+       	<dt>{$form.contribution_type_id.label}<span class="marker"> *</span></dt><dd class="html-adjust">{$form.contribution_type_id.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select the contribution type assigned to fees for this membership type (for example "Membership Fees"). This is required for all membership types - including free or complimentary memberships.{/ts}</dd>
-        <dt>{$form.duration_unit.label}</dt><dd class="html-adjust">{$form.duration_interval.html}&nbsp;&nbsp;{$form.duration_unit.html}</dd>
+        <dt>{$form.duration_unit.label}<span class="marker">*</span></dt><dd class="html-adjust">{$form.duration_interval.html}&nbsp;&nbsp;{$form.duration_unit.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Duration of this membership (e.g. 30 days, 2 months, 5 years, 1 lifetime){/ts}</dd>
-        <dt>{$form.period_type.label}</dt><dd class="html-adjust">{$form.period_type.html}</dd>
+        <dt>{$form.period_type.label}<span class="marker"> *</span></dt><dd class="html-adjust">{$form.period_type.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select "rolling" if membership periods begin at date of signup. Select "fixed" if membership periods begin on a set calendar date.{/ts}</dd>
        </dl>
 	   <div id="fixed_period_settings"><dl>	
