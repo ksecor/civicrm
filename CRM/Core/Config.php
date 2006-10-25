@@ -238,6 +238,18 @@ class CRM_Core_Config {
     public $lcMonetary = 'en_US';
 
     /**
+        * Format for monetary amounts
+     * @var string
+     */
+    public $currencySymbols = '';
+    
+    /**
+        * Format for monetary amounts
+     * @var string
+     */
+    public $defaultCurrencySymbol = '$';
+    
+    /**
      * Default encoding of strings returned by gettext
      * @var string
      */
@@ -583,10 +595,6 @@ class CRM_Core_Config {
             $this->defaultContactCountry = CIVICRM_DEFAULT_CONTACT_COUNTRY;
         }
         
-        if ( defined( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' ) and CRM_Utils_Rule::currencyCode( CIVICONTRIBUTE_DEFAULT_CURRENCY ) ) {
-            $this->defaultCurrency = CIVICONTRIBUTE_DEFAULT_CURRENCY;
-        }        
-        
         if ( defined( 'CIVICRM_LC_MESSAGES' ) ) {
             $this->lcMessages = CIVICRM_LC_MESSAGES;
 
@@ -660,6 +668,14 @@ class CRM_Core_Config {
             $this->lcMonetary = CIVICRM_LC_MONETARY;
             setlocale(LC_MONETARY, $this->lcMonetary . '.UTF-8', $this->lcMonetary, 'C');
         }
+        
+        $this->currencySymbols = array('EUR' => '€', 'GBP' => '£', 'ILS' => '₪', 'JPY' => '¥', 'KRW' => '₩', 'LAK' => '₭',
+                                       'MNT' => '₮', 'NGN' => '₦', 'PLN' => 'zł', 'THB' => '฿', 'USD' => '$', 'VND' => '₫');
+        
+        if ( defined( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' ) and CRM_Utils_Rule::currencyCode( CIVICONTRIBUTE_DEFAULT_CURRENCY ) ) {
+            $this->defaultCurrency       = CIVICONTRIBUTE_DEFAULT_CURRENCY;
+            $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
+        }        
         
         if ( defined( 'CIVICRM_GETTEXT_CODESET' ) ) {
             $this->gettextCodeset = CIVICRM_GETTEXT_CODESET;
