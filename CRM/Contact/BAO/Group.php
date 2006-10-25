@@ -250,21 +250,40 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             $params['name'] = CRM_Utils_String::titleToVar( $params['title'] );
         }
 
-        $group =& new CRM_Contact_DAO_Group();
+        $group =& new CRM_Contact_BAO_Group();
         $group->copyValues($params);
         $group->domain_id = CRM_Core_Config::domainID( ); 
-        $group->save();
+        $group->save( );
+
         if ( ! $group->id ) {
             return null;
         }
 
-        if ( CRM_Utils_Array::value( 'id', $params ) ) { 
-            CRM_Utils_Hook::post( 'edit', 'Group', $group->id, $group );
-        } else { 
-            CRM_Utils_Hook::post( 'create', 'Group', $group->id, $group );
-        }
+        $group->buildClause( );
+        $group->save( );
 
         return $group;
+    }
+
+    /**
+     * given a saved search compute the clause and the tables
+     * and store it for future use
+     */
+    function buildClause( ) {
+        $params = array( array( 'group', '=', array( $this->id => 1 ), 0, 0 ) );
+    
+        if ( ! empty( $params ) ) {
+            $tables = $whereTables = array( );
+            $this->where_clause = CRM_Contact_BAO_Query::getWhereClause( $params, null, $tables, $whereTables );
+            if ( ! empty( $tables ) ) {
+                $this->select_tables = serialize( $tables );
+            }
+            if ( ! empty( $whereTables ) ) {
+                $this->where_tables = serialize( $whereTables );
+            }
+        }
+
+        return;
     }
 
     /**

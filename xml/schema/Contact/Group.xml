@@ -84,6 +84,24 @@
        <comment>In what context(s) is this field visible.</comment> 
        <add>1.2</add> 
   </field> 
+  <field>
+       <name>where_clause</name>
+       <type>text</type>
+       <comment>the sql where clause if a saved search acl</comment>
+       <add>1.6</add>
+  </field>
+  <field>
+       <name>select_tables</name>
+       <type>text</type>
+       <comment>the tables to be included in a select data</comment>
+       <add>1.6</add>
+  </field>
+  <field>
+       <name>where_tables</name>
+       <type>text</type>
+       <comment>the tables to be included in the count statement</comment>
+       <add>1.6</add>
+  </field>
   <index>
     <name>UI_title_domain_id</name>
     <fieldName>title</fieldName>

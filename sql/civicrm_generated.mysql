@@ -310,7 +310,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_group` DISABLE KEYS */;
 LOCK TABLES `civicrm_group` WRITE;
-INSERT INTO `civicrm_group` VALUES (1,1,'Newsletter Subscribers','Newsletter Subscribers',NULL,NULL,NULL,1,'Public User Pages and Listings'),(2,1,'Summer Program Volunteers','Summer Program Volunteers',NULL,NULL,NULL,1,'Public User Pages and Listings'),(3,1,'Advisory Board','Advisory Board',NULL,NULL,NULL,1,'Public User Pages and Listings');
+INSERT INTO `civicrm_group` VALUES (1,1,'Newsletter Subscribers','Newsletter Subscribers',NULL,NULL,NULL,1,'Public User Pages and Listings',null,null,null),(2,1,'Summer Program Volunteers','Summer Program Volunteers',NULL,NULL,NULL,1,'Public User Pages and Listings',null,null,null),(3,1,'Advisory Board','Advisory Board',NULL,NULL,NULL,1,'Public User Pages and Listings',null,null,null);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_group` ENABLE KEYS */;
 

@@ -506,7 +506,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         
         $results = array();
         while ($rule->fetch()) {
-            $results[$acl->id] =& $rule->toArray();
+            $results[$rule->id] =& $rule->toArray();
         }
 
         if ($aclGroups) {
@@ -551,18 +551,17 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                         INNER JOIN  $c2g
                                 ON      $aclGJ.entity_id      = $c2g.group_id
                                 AND     $aclGJ.entity_table   = 'civicrm_group'
-                        WHERE       $acl.entity_table       = '$group'
+                        WHERE       $acl.entity_table       = '$aclGroup'
                             AND     $acl.is_active          = 1
                             AND     $c2g.contact_id         = $contact_id
                             AND     $c2g.status             = 'Added'";
             
         $results = array();
 
-        // CRM_Core_Error::debug( 'q', $query );
         $rule->query($query);
         
         while ($rule->fetch()) {
-            $results[$acl->id] =& $rule->toArray();
+            $results[$rule->id] =& $rule->toArray();
         }
         
         return $results;
@@ -664,10 +663,9 @@ ORDER BY a.object_id
 
         $ids = implode( ',', $ids );
         $query = "
-SELECT s.where_clause, s.select_tables, s.where_tables
-  FROM civicrm_saved_search s, civicrm_group g
- WHERE s.id = g.saved_search_id
-   AND g.id IN ( $ids )
+SELECT g.where_clause, g.select_tables, g.where_tables
+  FROM civicrm_group g
+ WHERE g.id IN ( $ids )
 ";
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $clauses = array( );
@@ -698,9 +696,10 @@ SELECT s.where_clause, s.select_tables, s.where_tables
         require_once 'CRM/ACL/BAO/Cache.php';
 
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
+
         $ids  = array( );
         if ( empty( $acls ) ) {
-	  return $ids;
+            return $ids;
         }
         
         $aclKeys = array_keys( $acls );
