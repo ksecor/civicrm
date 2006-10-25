@@ -86,7 +86,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
     static function discard ( $id ) {
         require_once 'CRM/Utils/Hook.php';
         require_once 'CRM/Contact/DAO/SubscriptionHistory.php';
-        CRM_Utils_Hook::pre( 'delete', 'Group', $id );
+        CRM_Utils_Hook::pre( 'delete', 'Group', $id, CRM_Core_DAO::$_nullArray );
 
         CRM_Core_DAO::transaction('BEGIN');
 

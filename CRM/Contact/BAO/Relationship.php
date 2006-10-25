@@ -281,7 +281,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         // delete from relationship table
         
         require_once 'CRM/Utils/Hook.php';
-        CRM_Utils_Hook::pre( 'delete', 'Relationship', $id );
+        CRM_Utils_Hook::pre( 'delete', 'Relationship', $id, CRM_Core_DAO::$_nullArray );
         
         $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->id = $id;

@@ -1164,7 +1164,7 @@ WHERE civicrm_contact.id IN $idString ";
         }
         $contactType = $contact->contact_type;
 
-        CRM_Utils_Hook::pre( 'delete', $contactType, $id );
+        CRM_Utils_Hook::pre( 'delete', $contactType, $id, CRM_Core_DAO::$_nullArray );
 
         CRM_Core_DAO::transaction( 'BEGIN' );
 
