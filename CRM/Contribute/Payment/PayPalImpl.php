@@ -64,13 +64,14 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         if ( $config->paymentUsername[$mode] ) {
             require_once 'PayPal/Profile/Handler/Array.php';
             $environment = ( $mode == 'test' ) ? 'sandbox' : 'live';
-            $this->_handler =& ProfileHandler_Array::getInstance( array(
-                                                                        'username'        => $config->paymentUsername[$mode],
-                                                                        'certificateFile' => null,
-                                                                        'subject'         => null,
-                                                                        'environment'     => $environment,
-                                                                        )
-                                                                  );
+            $this->_handler =& ProfileHandler_Array::getInstance( 
+                                                                 array(
+                                                                       'username'        => $config->paymentUsername[$mode],
+                                                                       'certificateFile' => null,
+                                                                       'subject'         => $config->paymentSubject[$mode],
+                                                                       'environment'     => $environment,
+                                                                       )
+                                                                 );
             if ( PayPal::isError( $handler ) ) {
                 return self::error( $handler );
             }

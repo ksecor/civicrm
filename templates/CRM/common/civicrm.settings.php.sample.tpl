@@ -1,6 +1,6 @@
 <?php
 /**
- * CiviCRM Configuration File - v1.5
+ * CiviCRM Configuration File - v1.6
  */
 
 /**
@@ -485,6 +485,10 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , '' );
 // PayPal API Certificate credential only: File system path where API Profile files should be created and stored.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
 
+// API Subject
+// PayPal API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_SUBJECT'       , '' );
+
 // Hostname for "PayPal Express" button submit in test-drive mode. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypal.com');
@@ -514,6 +518,10 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
 // API Certificate Path
 // PayPal API Certificate credential only: File system path where API Profile files should be created and stored.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
+
+// API Subject
+// PayPal API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
+define( 'CIVICRM_CONTRIBUTE_PAYMENT_SUBJECT'       , '' );
 
 // Hostname for "PayPal Express" button submit in live mode. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.

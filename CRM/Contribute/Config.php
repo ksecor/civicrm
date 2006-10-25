@@ -95,6 +95,13 @@ class CRM_Contribute_Config {
     public $paymentPassword = array( );
 
     /** 
+     * What is the payment subject
+     * 
+     * @var string                
+     */ 
+    public $paymentSubject = null;
+
+    /** 
      * What is the payment response email address
      * 
      * @var string                
@@ -131,6 +138,7 @@ class CRM_Contribute_Config {
         $config->paymentCertPath        = null;
         $config->paymentUsername        = null;
         $config->paymentPassword        = null;
+        $config->paymentSubject         = null;
         $config->paymentKey             = null;
         $config->paymentProcessorButton = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif";
         $config->paymentPayPalExpressUrl = "www.paypal.com";
@@ -196,7 +204,14 @@ class CRM_Contribute_Config {
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD' ) ) {
             $config->paymentPassword['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD;
         }
-        
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_SUBJECT' ) ) {
+            $config->paymentSubject['live'] = CIVICRM_CONTRIBUTE_PAYMENT_SUBJECT;
+        }
+
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_SUBJECT' ) ) {
+            $config->paymentSubject['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_SUBJECT;
+        }
     }
 
     /**
