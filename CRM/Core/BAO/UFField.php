@@ -431,10 +431,14 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     {
         $ufGroup =& new CRM_Core_DAO_UFGroup();
 
-        $query = "SELECT ufg.id as id
-                  FROM civicrm_uf_group as ufg, civicrm_uf_join as ufj
-                  WHERE ufg.id = ufj.uf_group_id AND ufj.module='User Registration' AND ufg.is_active=1";
-        
+        $query = "
+SELECT ufg.id as id
+  FROM civicrm_uf_group as ufg, civicrm_uf_join as ufj
+ WHERE ufg.id = ufj.uf_group_id
+   AND ufj.module = 'User Registration'
+   AND ufg.is_active = 1 
+   AND ufg.domain_id = " . CRM_Core_Config::domainID( );
+
         $ufGroup =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         $fields = array( );
