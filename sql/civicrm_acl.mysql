@@ -18,4 +18,4 @@ VALUES
   (1, 'Administer CiviCRM'       , 0, 'civicrm_group'       ,  0, 'Edit', 'civicrm_acl_group',      1, 1 ),
   (1, 'Import'                   , 0, 'civicrm_admin'       ,  0, 'Edit', 'civicrm_acl_group',      1, 1 ),
   (1, 'Admin'                    , 0, 'civicrm_saved_search',  0, 'All' , 'civicrm_acl_group',      1, 1 ),
-  (1, 'Admin'                    , 0, 'civicrm_saved_search',  1, 'All' , 'civicrm_acl_group',      2, 1 );
+  (1, 'Admin'                    , 0, 'civicrm_saved_search',  1, 'View', 'civicrm_acl_group',      2, 1 );

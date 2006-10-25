@@ -146,10 +146,8 @@ VALUES
    (@option_group_id_suffix, 'VI',  7, 'VI',  NULL, 0, NULL, 7, NULL, 0, 0, 1),
    (@option_group_id_suffix, 'VII', 8, 'VII', NULL, 0, NULL, 8, NULL, 0, 0, 1),
 
-   (@option_group_id_aclGroup, 'Super User'   ,  1, 'Super', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_aclGroup, 'Administrator',  2, 'Admin', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_aclGroup, 'Authenticated',  3, 'Auth' , NULL, 0, NULL, 3, NULL, 0, 0, 1),
-   (@option_group_id_aclGroup, 'Anonymous'    ,  4, 'Anon' , NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_aclGroup, 'Administrator',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_aclGroup, 'Authenticated',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
 
    (@option_group_id_acc, 'Visa',  1, 'Visa', NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_acc, 'MasterCard',  2, 'MasterCard', NULL, 0, NULL, 2, NULL, 0, 0, 1),
@@ -183,5 +181,4 @@ VALUES
   (@domain_id, 'Manage Groups'     , 0, 'civicrm_group'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
   (@domain_id, 'Administer CiviCRM', 0, 'civicrm_group'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
   (@domain_id, 'Import'            , 0, 'civicrm_admin'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
-  (@domain_id, 'Reader Group 1'    , 0, 'civicrm_saved_search', 4, 'All', 'civicrm_contact'   , 102, 1 ),
-  (@domain_id, 'Reader Group 2'    , 0, 'civicrm_saved_search', 5, 'All', 'civicrm_contact'   , 102, 1 );
+  (@domain_id, 'Edit All Contacts' , 0, 'civicrm_saved_search', 0, 'All' , 'civicrm_acl_group', 1, 1 );

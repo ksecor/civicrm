@@ -653,10 +653,15 @@ ORDER BY a.object_id
             if ( ! $dao->object_id ) {
                 return ' ( 1 ) ';
             }
-            
-            $ids[] = $dao->object_id;
-        }
 
+            // make sure operation matches the type TODO
+            if ( $type == CRM_ACL_API::VIEW ||
+                 ( $type == CRM_ACL_API::EDIT &&
+                   $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                $ids[] = $dao->object_id;
+            }
+        }
+        
         if ( empty( $ids ) ) {
             return ' ( 0 ) ';
         }
@@ -670,7 +675,6 @@ SELECT g.where_clause, g.select_tables, g.where_tables
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $clauses = array( );
         while ( $dao->fetch( ) ) {
-            // make sure operation matches the type TODO
             // currently operation is restrcited to VIEW/EDIT
             if ( $dao->where_clause ) {
                 $clauses[] = $dao->where_clause;
