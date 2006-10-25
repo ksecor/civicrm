@@ -16,10 +16,10 @@ function tearDown()
 
 function testCRMQuest( )
     {
-        $studentId = 2;
+        $studentId = 1;
         $studentTasks = CRM_TMF_API::getStudentTasks( $studentId );
         CRM_Core_Error::debug( 'studentTasks'   , $studentTasks );
-        $nomId = 1;
+        $nomId = 4;
         $nominations = CRM_TMF_API::getNominations( $nomId );
         CRM_Core_Error::debug( 'nominations'   , $nominations );
     }

@@ -20,9 +20,9 @@
     </dl>
     <div id="minMaxFields">
     <dl>
-    <dt>{$form.min_amount.label}</dt><dd>{$form.min_amount.html}</dd> 
-    <dt>{$form.max_amount.label}</dt><dd>{$form.max_amount.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}If you have chosen to <strong>Allow Other Amounts</strong>, you can use the fields above to control minimum and/or maximum acceptable values (e.g. don't allow contribution amounts less than $5.00).{/ts}</dd>
+    <dt>{$form.min_amount.label}</dt><dd>{$config->defaultCurrencySymbol}&nbsp;{$form.min_amount.html}</dd> 
+    <dt>{$form.max_amount.label}</dt><dd>{$config->defaultCurrencySymbol}&nbsp;{$form.max_amount.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts 1=$config->defaultCurrencySymbol}If you have chosen to <strong>Allow Other Amounts</strong>, you can use the fields above to control minimum and/or maximum acceptable values (e.g. don't allow contribution amounts less than %15.00).{/ts}</dd>
     </dl>
     </div>
     <p>{ts}Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}</p>
@@ -30,7 +30,7 @@
     <tr class="columnheader"><th>{ts}Contribution Label{/ts}</th><th>{ts}Amount{/ts}</th><th>{ts}Default?{/ts}</th></tr>
     {section name=loop start=1 loop=11}
        {assign var=idx value=$smarty.section.loop.index}
-       <tr><td class="even-row">{$form.label.$idx.html}</td><td>{$form.value.$idx.html}</td><td class="even-row">{$form.default.$idx.html}</td></tr>
+       <tr><td class="even-row">{$form.label.$idx.html}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.value.$idx.html}</td><td class="even-row">{$form.default.$idx.html}</td></tr>
     {/section}
     </table>
     </fieldset>

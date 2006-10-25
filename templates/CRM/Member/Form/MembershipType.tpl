@@ -67,8 +67,8 @@
               {/if} {* end if searchDone *}
 	
        <dl>
-        <dt>{$form.minimum_fee.label}</dt><dd class="html-adjust">{$form.minimum_fee.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Minimum fee required for this membership type. For free/complimentary memberships - set minimum fee to zero (0). NOTE: Online (self-service) signup is not supported for free memberships in this release.{/ts}</dd>
+        <dt>{$form.minimum_fee.label}</dt><dd class="html-adjust">{$config->defaultCurrencySymbol}&nbsp;{$form.minimum_fee.html}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Minimum fee required for this membership type. For free/complimentary memberships - set minimum fee to zero (0).{/ts}</dd>
        	<dt>{$form.contribution_type_id.label}<span class="marker"> *</span></dt><dd class="html-adjust">{$form.contribution_type_id.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select the contribution type assigned to fees for this membership type (for example "Membership Fees"). This is required for all membership types - including free or complimentary memberships.{/ts}</dd>
         <dt>{$form.duration_unit.label}<span class="marker">*</span></dt><dd class="html-adjust">{$form.duration_interval.html}&nbsp;&nbsp;{$form.duration_unit.html}</dd>
