@@ -719,12 +719,16 @@ ORDER BY a.object_id
 
         // do an or of all the where clauses u see
         while ( $dao->fetch( ) ) {
-	  if ( $dao->object_id ) {
-            $ids[] = $dao->object_id;
-	  }
+            if ( $dao->object_id ) {
+                if ( $type == CRM_ACL_API::VIEW ||
+                     ( $type == CRM_ACL_API::EDIT &&
+                       $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                    $ids[] = $dao->object_id;
+                }
+            }
         }
-
-	return $ids;
+        
+        return $ids;
     }
 
 }
