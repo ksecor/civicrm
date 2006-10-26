@@ -99,7 +99,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
         } else {
             $this->_params = $this->controller->exportValues( 'Main' );
-
+          
             $this->_params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['state_province_id'] ); 
             $this->_params['country']        = CRM_Core_PseudoConstant::countryIsoCode( $this->_params['country_id'] ); 
             $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
@@ -112,8 +112,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         $this->_params['invoiceID'] = $this->get( 'invoiceID' );
-
+        
         $this->set( 'params', $this->_params );
+;       
     }
 
     /**
@@ -159,6 +160,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,false , $params['selectMembership'] );
             }
         }
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+        
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Make Contribution'),
@@ -169,6 +173,35 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                         'name'      => ts('<< Go Back')),
                                 )
                           );
+        
+
+        
+
+        $defaults = array();
+        $options = array( );
+        $fields = array( );
+        require_once "CRM/Core/BAO/CustomGroup.php";
+        $removeCustomFieldTypes = array ('Contribution');
+        foreach ( $this->_fields as $name => $dontCare ) {
+            $fields[$name] = 1;
+        }
+        $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+        //$contact =& CRM_Contact_BAO_Contact::contactDetails( $contactID, $options, $fields );
+        $contact =  $this->_params;
+        foreach ($fields as $name => $dontCare ) {
+            if ( $contact[$name] ) {
+                if ( substr( $name, 0, 7 ) == 'custom_' ) {
+                    $id = substr( $name, 7 );
+                    $defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact[$name],
+                                                                                         $id,
+                                                                                         $options );
+                } else {
+                    $defaults[$name] = $contact[$name];
+                } 
+            }
+        }
+        $this->setDefaults( $defaults );
+        $this->freeze();
 
     }
 
@@ -181,9 +214,23 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      */
     function setDefaultValues()
     {
-        $defaults = array();
-        return $defaults;
+        
     }
+
+    /**  
+     * Function to add the custom fields
+     *  
+     * @return None  
+     * @access public  
+     */ 
+    function buildCustom( $id, $name ) {
+        if ( $id ) {
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name, $this->_fields );
+        }
+    }
+
+    
 
     /**
      * Process the form
@@ -694,6 +741,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $template =& CRM_Core_Smarty::singleton( );
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
+
+            $this->buildCustomDisplay( $this->_values['custom_pre_id'] , 'customPre' ,$contactID);
+            $this->buildCustomDisplay( $this->_values['custom_post_id'], 'customPost' ,$contactID);
            
             $receiptFrom = '"' . $this->_values['receipt_from_name'] . '" <' . $this->_values['receipt_from_email'] . '>';
             require_once 'CRM/Utils/Mail.php';
@@ -755,6 +805,24 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             return $contact->id;    
         }
     }
+
+    /**  
+     * Function to add the custom fields
+     *  
+     * @return None  
+     * @access public  
+     */ 
+    function buildCustomDisplay( $gid, $name, $cid ) {
+        if ( $gid ) {
+           $values = array( );
+           $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
+           CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values );
+           if ( count( $values ) ) {
+               $this->assign( $name, $values );
+           }
+        }
+    }
+
 
 }
 

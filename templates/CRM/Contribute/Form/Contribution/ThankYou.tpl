@@ -35,7 +35,17 @@
     </div>
 
     {include file="CRM/Contribute/Form/Contribution/Honor.tpl"}
-
+    {if $customPre}
+         {foreach from=$customPre item=field key=cname}
+              {if $field.groupTitle}
+                {assign var=groupTitlePre  value=$field.groupTitle} 
+              {/if}
+         {/foreach}
+        <div class="header-dark">
+          {ts}{$groupTitlePre}{/ts}
+         </div>  
+         {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
+    {/if}
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -59,6 +69,18 @@
     {/if}
 
     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="thankContribution"}
+
+    {if $customPost}
+         {foreach from=$customPost item=field key=cname}
+              {if $field.groupTitle}
+                {assign var=groupTitlePost  value=$field.groupTitle} 
+              {/if}
+         {/foreach}
+        <div class="header-dark">
+          {ts}{$groupTitlePost}{/ts}
+         </div>  
+         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
+    {/if}
 
     <div id="thankyou_footer">
         <p>

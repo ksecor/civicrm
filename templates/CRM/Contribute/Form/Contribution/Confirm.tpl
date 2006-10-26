@@ -35,6 +35,18 @@
     </div>
         
     {include file="CRM/Contribute/Form/Contribution/Honor.tpl"}
+    {if $customPre}
+         {foreach from=$customPre item=field key=cname}
+              {if $field.groupTitle}
+                {assign var=groupTitlePre  value=$field.groupTitle} 
+              {/if}
+         {/foreach}
+        <div class="header-dark">
+          {ts}{$groupTitlePre}{/ts}
+         </div>  
+         {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
+    {/if}
+    
     
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
@@ -60,6 +72,21 @@
     
     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="confirmContribution"}
     
+    {if $customPost}
+         {foreach from=$customPost item=field key=cname}
+              {if $field.groupTitle}
+                {assign var=groupTitlePost  value=$field.groupTitle} 
+              {/if}
+         {/foreach}
+        <div class="header-dark">
+          {ts}{$groupTitlePost}{/ts}
+         </div>  
+         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
+    {/if}
+
+
+    
+
     <div class="messages status">
         <p>
         {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}

@@ -107,15 +107,57 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
             
             CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,false ,$membershipID ,true );
         }
-
+        
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
         $this->assign( 'trxn_id', $this->_params['trxn_id'] );       
         $this->assign( 'receive_date', 
                        CRM_Utils_Date::mysqlToIso( $this->_params['receive_date'] ) );
 
+        $defaults = array();
+        $options = array( );
+        $fields = array( );
+        require_once "CRM/Core/BAO/CustomGroup.php";
+        $removeCustomFieldTypes = array ('Contribution');
+        foreach ( $this->_fields as $name => $dontCare ) {
+            $fields[$name] = 1;
+        }
+        $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
+        //$contact =& CRM_Contact_BAO_Contact::contactDetails( $contactID, $options, $fields );
+        $contact = $this->_params = $this->controller->exportValues( 'Main' );
+        foreach ($fields as $name => $dontCare ) {
+            if ( $contact[$name] ) {
+                if ( substr( $name, 0, 7 ) == 'custom_' ) {
+                    $id = substr( $name, 7 );
+                    $defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact[$name],
+                                                                                         $id,
+                                                                                         $options );
+                } else {
+                    $defaults[$name] = $contact[$name];
+                } 
+            }
+        }
+        $this->setDefaults( $defaults );
+        $this->freeze();
         // can we blow away the session now to prevent hackery
         $this->controller->reset( );
     }
+
+
+    /**  
+     * Function to add the custom fields
+     *  
+     * @return None  
+     * @access public  
+     */ 
+    function buildCustom( $id, $name ) {
+        if ( $id ) {
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name, $this->_fields );
+        }
+    }
+
 
 }
 
