@@ -334,6 +334,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                          $errors['selectMembership'] = ts(' The Membership you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'])));
                     }
                 } else if ( $fields['amount'] <  $memTypeDetails['minimum_fee'] ) {
+                    require_once 'CRM/Utils/Money.php';
                     $errors['selectMembership'] = ts(' The Membership you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'])));
                 }
             }
@@ -411,13 +412,20 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
+
         $params['currencyID']     = $config->defaultCurrency;
 
         $params['payment_action'] = 'Sale'; 
         $params['amount'] = ( $params['amount'] == 'amount_other_radio' ) ? $params['amount_other'] : $params['amount'];
-
+        
+        if ( !$params['amount'] && $params['selectMembership'] ) {
+            $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
+            if ( $memFee ) {
+                $params['amount'] = $memFee;
+            }
+        }
         $this->set( 'amount', $params['amount'] ); 
-
+        
         // generate and set an invoiceID for this transaction
         $invoiceID = $this->get( 'invoiceID' );
         if ( ! $invoiceID ) {

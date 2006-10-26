@@ -155,6 +155,11 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
             if ( !$dao->find()){
                 $errors['_qf_default'] = 'Add status rules, before configuring membership';               
             }    
+            
+            //give error if default is selected for an unchecked membership type
+            if ( $params['membership_type_default'] && !$params['membership_type'][$params['membership_type_default']] ) {
+                $errors['membership_type_default'] = 'Can\'t set default option for an unchecked membership type.';
+            }
         }
         return empty($errors) ? true : $errors;
     }

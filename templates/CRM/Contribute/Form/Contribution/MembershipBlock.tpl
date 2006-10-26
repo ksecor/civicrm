@@ -1,7 +1,4 @@
 {if $membershipBlock}
-{if $singleMembership && $context EQ "makeContribution"}
-     {$singleMembership.html}                          
-{else}
 <div id="membership">
  {if $context EQ "makeContribution"}
   <fieldset>    
@@ -88,5 +85,4 @@
         </fieldset>
     {/if}
 </div>
-{/if}
 {/if}

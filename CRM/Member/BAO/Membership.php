@@ -377,6 +377,7 @@ UPDATE civicrm_membership_type
                     $temp = array_keys( $radio ) ;
                     $form->addElement('hidden', "selectMembership", $temp[0]  );
                     $form->assign('singleMembership' , true );
+                    $form->assign( 'showRadio', false );
                 } else {
                     $form->addGroup($radio,'selectMembership',null);
                 }
