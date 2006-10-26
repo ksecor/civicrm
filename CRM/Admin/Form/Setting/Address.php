@@ -51,8 +51,8 @@ class CRM_Admin_Form_Setting_Address extends CRM_Admin_Form_Setting
     public function buildQuickForm( ) 
     {
           
-        $this->addElement('textarea','address', ts('Address Formatting'));  
-        $this->addElement('text','block', ts('Maximum Location Blocks'));  
+        $this->addElement('textarea','addressFormat', ts('Address Formatting'));  
+        $this->addElement('text','maxLocationBlocks', ts('Maximum Location Blocks'));  
         parent::buildQuickForm();
     }
 }

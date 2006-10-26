@@ -1,9 +1,9 @@
 <div class="form-item">
 <fieldset><legend>{ts}File System Paths{/ts}</legend>
         <dl>
-          <dt>{$form.uploadurl.label}</dt><dd>{$form.uploadurl.html}</dd>
-          <dt>{$form.image_uploaddir.label}</dt><dd>{$form.image_uploaddir.html}</dd>
-          <dt>{$form.custom_file_uploaddir.label}</dt><dd>{$form.custom_file_uploaddir.html}</dd>
+          <dt>{$form.uploadDir.label}</dt><dd>{$form.uploadDir.html}</dd>
+          <dt>{$form.imageUploadDir.label}</dt><dd>{$form.imageUploadDir.html}</dd>
+          <dt>{$form.customFileUploadDir.label}</dt><dd>{$form.customFileUploadDir.html}</dd>
         </dl>
         <dl>
           <dt></dt><dd>{$form.buttons.html}</dd>

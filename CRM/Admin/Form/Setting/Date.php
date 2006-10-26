@@ -51,12 +51,12 @@ class CRM_Admin_Form_Setting_Date extends CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) {
 
-        $this->addElement('text', 'datetime', ts('Date Format Date Time'));
-        $this->addElement('text', 'full', ts('Date Format Full'));
-        $this->addElement('text', 'partial', ts('Date Format partial'));
-        $this->addElement('text', 'year', ts('Date Format Year'));
-        $this->addElement('text', 'date', ts('Date Format Of Date'));
-        $this->addElement('text', 'date_time', ts('Date Format Of Date Time'));
+        $this->addElement('text', 'dateformatDatetime', ts('Date Format Date Time'));
+        $this->addElement('text', 'dateformatFull', ts('Date Format Full'));
+        $this->addElement('text', 'dateformatPartial', ts('Date Format partial'));
+        $this->addElement('text', 'dateformatYear', ts('Date Format Year'));
+        $this->addElement('text', 'dateformatQfDate', ts('Date Format Of Date'));
+        $this->addElement('text', 'dateformatQfDatetime', ts('Date Format Of Date Time'));
         
         parent::buildQuickForm();
     }

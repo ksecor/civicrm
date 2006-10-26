@@ -1,7 +1,7 @@
 <div class="form-item">
 <fieldset><legend>{ts}Components{/ts}</legend>
     <dl>
-        <dt>{$form.includeComponents.label}</dt><dd>{$form.includeComponents.html}</dd>
+        <dt>{$form.enableComponents.label}</dt><dd>{$form.enableComponents.html}</dd>
      </dl>
      <dl>   
        <dt></dt><dd>{$form.buttons.html}</dd>

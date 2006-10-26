@@ -51,22 +51,22 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) {
 
-        $this->addElement('text','message', ts('LC Message')); 
-        $this->addElement('text','money', ts('Money Format')); 
-        $this->addElement('text','monetory', ts('Monetory')); 
+        $this->addElement('text','lcMessages', ts('LC Message')); 
+        $this->addElement('text','moneyformat', ts('Money Format')); 
+        $this->addElement('text','lcMonetary', ts('Monetory')); 
 
         $country = CRM_Core_PseudoConstant::country();
-        $include =& $this->addElement('advmultiselect', 'country_limit', 
+        $include =& $this->addElement('advmultiselect', 'countryLimit', 
                                       ts('Country Limit') . ' ', $country,
                                       array('size' => 5, 'style' => 'width:150px'));
 
         $include->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $include->setButtonAttributes('remove', array('value' => ts('<< Remove')));
 
-        $this->addElement('text','province_limit', ts('Province Limit'));
-        $this->addElement('select','contact_country', ts('Default Contact Country'), $country);
-        $this->addElement('text','currency', ts('CiviContribute Default Currency')); 
-        $this->addElement('text','legacy_encoding', ts('Legacy Encoding'));  
+        $this->addElement('text','provinceLimit', ts('Province Limit'));
+        $this->addElement('select','defaultContactCountry', ts('Default Contact Country'), $country);
+        $this->addElement('text','defaultCurrency', ts('CiviContribute Default Currency')); 
+        $this->addElement('text','legacyEncoding', ts('Legacy Encoding'));  
        
         parent::buildQuickForm();
     }

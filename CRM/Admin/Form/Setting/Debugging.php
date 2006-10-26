@@ -53,8 +53,8 @@ class CRM_Admin_Form_Setting_Debugging extends CRM_Admin_Form_Setting
 
         $this->addYesNo( 'debug', ts( 'CiviCRM Debug' ));
         $this->addYesNo( 'backtrace', ts( 'CiviCRM Backtrace' ));
-        $this->addElement('text','error_template', ts('Fatal Error Template'));  
-        $this->addElement('text','error_handler', ts('Fatal Error Handler'));  
+        $this->addElement('text','fatalErrorTemplate', ts('Fatal Error Template'));  
+        $this->addElement('text','fatalErrorHandler', ts('Fatal Error Handler'));  
 
         parent::buildQuickForm();     
     }

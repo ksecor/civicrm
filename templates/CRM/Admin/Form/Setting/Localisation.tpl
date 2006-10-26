@@ -2,14 +2,14 @@
 <fieldset><legend>{ts}Localisation{/ts}</legend>
     
         <dl>
-            <dt>{$form.message.label}</dt><dd>{$form.message.html}</dd>
-            <dt>{$form.money.label}</dt><dd>{$form.money.html}</dd>
-            <dt>{$form.monetory.label}</dt><dd>{$form.monetory.html}</dd>
-            <dt>{$form.country_limit.label}</dt><dd>{$form.country_limit.html}</dd>
-            <dt>{$form.province_limit.label}</dt><dd>{$form.province_limit.html}</dd>
-            <dt>{$form.contact_country.label}</dt><dd>{$form.contact_country.html}</dd>
-            <dt>{$form.currency.label}</dt><dd>{$form.currency.html}</dd>
-            <dt>{$form.legacy_encoding.label}</dt><dd>{$form.legacy_encoding.html}</dd>
+            <dt>{$form.lcMessages.label}</dt><dd>{$form.lcMessages.html}</dd>
+            <dt>{$form.moneyformat.label}</dt><dd>{$form.moneyformat.html}</dd>
+            <dt>{$form.lcMonetary.label}</dt><dd>{$form.lcMonetary.html}</dd>
+            <dt>{$form.countryLimit.label}</dt><dd>{$form.countryLimit.html}</dd>
+            <dt>{$form.provinceLimit.label}</dt><dd>{$form.provinceLimit.html}</dd>
+            <dt>{$form.defaultContactCountry.label}</dt><dd>{$form.defaultContactCountry.html}</dd>
+            <dt>{$form.defaultCurrency.label}</dt><dd>{$form.defaultCurrency.html}</dd>
+            <dt>{$form.legacyEncoding.label}</dt><dd>{$form.legacyEncoding.html}</dd>
         </dl>
         <dl>
             <dt></dt><dd>{$form.buttons.html}</dd>

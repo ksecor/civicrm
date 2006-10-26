@@ -2,9 +2,9 @@
 <fieldset><legend>{ts}Miscellaneous{/ts}</legend>
     
         <dl>
-          <dt>{$form.version_check.label}</dt><dd>{$form.version_check.html}</dd>
-          <dt>{$form.captcha_font_path.label}</dt><dd>{$form.captcha_font_path.html}</dd>
-          <dt>{$form.captcha_font.label}</dt><dd>{$form.captcha_font.html}</dd>
+          <dt>{$form.versionCheck.label}</dt><dd>{$form.versionCheck.html}</dd>
+          <dt>{$form.captchaFontPath.label}</dt><dd>{$form.captchaFontPath.html}</dd>
+          <dt>{$form.captchaFont.label}</dt><dd>{$form.captchaFont.html}</dd>
         </dl>
         <dl>
           <dt></dt><dd>{$form.buttons.html}</dd>

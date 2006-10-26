@@ -2,12 +2,12 @@
 <fieldset><legend>{ts}Date Formatting{/ts}</legend>
     
     <dl>
-      <dt>{$form.datetime.label}</dt><dd>{$form.datetime.html}</dd>
-      <dt>{$form.full.label}</dt><dd>{$form.full.html}</dd>
-      <dt>{$form.partial.label}</dt><dd>{$form.partial.html}</dd>
-      <dt>{$form.year.label}</dt><dd>{$form.year.html}</dd>
-      <dt>{$form.date.label}</dt><dd>{$form.date.html}</dd>
-      <dt>{$form.date_time.label}</dt><dd>{$form.date_time.html}</dd>
+      <dt>{$form.dateformatDatetime.label}</dt><dd>{$form.dateformatDatetime.html}</dd>
+      <dt>{$form.dateformatFull.label}</dt><dd>{$form.dateformatFull.html}</dd>
+      <dt>{$form.dateformatPartial.label}</dt><dd>{$form.dateformatPartial.html}</dd>
+      <dt>{$form.dateformatYear.label}</dt><dd>{$form.dateformatYear.html}</dd>
+      <dt>{$form.dateformatQfDate.label}</dt><dd>{$form.dateformatQfDate.html}</dd>
+      <dt>{$form.dateformatQfDatetime.label}</dt><dd>{$form.dateformatQfDatetime.html}</dd>
     </dl>
     <dl>
       <dt></dt><dd>{$form.buttons.html}</dd>

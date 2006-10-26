@@ -51,7 +51,7 @@ class CRM_Admin_Form_Setting_Component extends  CRM_Admin_Form_Setting
     public function buildQuickForm( ) 
     {
         $components = CRM_Core_SelectValues::component();
-        $include =& $this->addElement('advmultiselect', 'includeComponents', 
+        $include =& $this->addElement('advmultiselect', 'enableComponents', 
                                       ts('Enable Component(s)') . ' ', $components,
                                       array('size' => 5, 'style' => 'width:150px'));
         

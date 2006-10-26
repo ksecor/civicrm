@@ -4,8 +4,8 @@
         <dl>
             <dt>{$form.debug.label}</dt><dd>{$form.debug.html}</dd>
             <dt>{$form.backtrace.label}</dt><dd>{$form.backtrace.html}</dd>
-            <dt>{$form.error_template.label}</dt><dd>{$form.error_template.html}</dd>
-            <dt>{$form.error_handler.label}</dt><dd>{$form.error_handler.html}</dd>
+            <dt>{$form.fatalErrorTemplate.label}</dt><dd>{$form.fatalErrorTemplate.html}</dd>
+            <dt>{$form.fatalErrorHandler.label}</dt><dd>{$form.fatalErrorHandler.html}</dd>
         </dl>
          <dl>
             <dt></dt><dd>{$form.buttons.html}</dd>
