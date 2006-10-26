@@ -425,7 +425,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         $query = "
 SELECT sum( total_amount ) as total_amount, count( id ) as total_count
 FROM   civicrm_contribution
-WHERE  domain_id = $domainID AND $whereCond
+WHERE  domain_id = $domainID AND $whereCond AND is_test=0
 ";
 
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );

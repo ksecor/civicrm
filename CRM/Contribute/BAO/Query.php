@@ -83,7 +83,7 @@ class CRM_Contribute_BAO_Query {
 
     static function whereClauseSingle( &$values, &$query ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        
+
         switch ( $name ) {
        
         case 'contribution_date':
@@ -190,8 +190,13 @@ class CRM_Contribute_BAO_Query {
             
             return;
 
+        case 'contribution_test':
+            $query->_where[$grouping][] = " civicrm_contribution.is_test $op '$value'";
+            $query->_qill[$grouping][]  = "Contribution Test Mode $op \"$value\"";
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            
+            return;
         }
-
     }
 
     static function from( $name, $mode, $side ) {
@@ -333,7 +338,7 @@ class CRM_Contribute_BAO_Query {
 
         //add fields for honor search
         $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
-        $form->addElement( 'checkbox', 'is_test' , ts( 'Test Mode Contribution ?' ) );
+        $form->addElement( 'checkbox', 'contribution_test' , ts( 'Test Mode Contribution ?' ) );
         
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

@@ -434,6 +434,14 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
         $this->_limit = CRM_Utils_Request::retrieve( 'limit', 'Positive',
                                                      $this );
+
+        $test = CRM_Utils_Request::retrieve( 'test', 'Boolean',
+                                                 CRM_Core_DAO::$_nullObject );
+        if ( isset($test) ) {
+            $test = CRM_Utils_Type::escape( $test, 'Boolean' );
+            $this->_formValues['contribution_test'] = $test;
+        }
+
     }
 
 }
