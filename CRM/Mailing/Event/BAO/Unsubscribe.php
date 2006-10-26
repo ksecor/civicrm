@@ -184,7 +184,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $groups = array();
         
         while ($do->fetch()) {
-            $groups[$do->group_id] = $do->name;
+            $groups[$do->group_id] = $do->title;
         }
 
         $contacts = array($contact_id);
