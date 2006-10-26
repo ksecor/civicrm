@@ -35,7 +35,7 @@ require_once 'CRM/Admin/Form.php';
  * $Id$
  *
  */
-class CRM_ACL_Form_GroupJoin extends CRM_Admin_Form
+class CRM_ACL_Form_EntityRole extends CRM_Admin_Form
 {
     /**
      * Function to build the form
@@ -51,25 +51,19 @@ class CRM_ACL_Form_GroupJoin extends CRM_Admin_Form
             return;
         }
 
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_GroupJoin' );
-        $this->add('text', 'name', ts('Name'), $attributes['name'], true );
+        $attributes = CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_EntityRole' );
 
         require_once 'CRM/Core/OptionGroup.php';
-        $aclGroups = array( '' => ts( ' -select- ' ) ) + CRM_Core_OptionGroup::values( 'acl_group' );
-        $this->addElement( 'select', 'acl_group_id', ts( 'ACL Group' ),
-                           $aclGroups );
+        $aclRoles = array( '' => ts( ' -select- ' ) ) + CRM_Core_OptionGroup::values( 'acl_role' );
+        $this->addElement( 'select', 'acl_role_id', ts( 'ACL Role' ),
+                           $aclRoles );
 
         
-        require_once 'CRM/ACL/BAO/GroupJoin.php';
-        $tableOptions = array( '' => ts( ' -select- ' ) ) + CRM_ACL_BAO_GroupJoin::entityTable( );
-        $label = ts( 'Entity Table' );
-        $this->addElement( 'select', 'entity_table', $label,
-                           $tableOptions ); 
-        $this->addRule( 'entity_table', ts('Please select %1', array(1 => $label ) ), 'required');
+        require_once 'CRM/ACL/BAO/EntityRole.php';
 
-        $label = ts( 'Entity ID' );
-        $this->addElement( 'text', 'entity_id', $label, $attributes['entity_id'] );
-        $this->addRule( 'entity_id', ts( 'Entity ID not valid' ), 'positiveInteger' );
+        $label = ts( 'Permission assigned to' );
+        $group = array( '' => ts('- select group -')) + CRM_Core_PseudoConstant::group( );
+        $this->add( 'select', 'object_id', $label, $group );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
     }
@@ -83,14 +77,16 @@ class CRM_ACL_Form_GroupJoin extends CRM_Admin_Form
      */
     public function postProcess() 
     {
-        require_once 'CRM/ACL/BAO/GroupJoin.php';        
+        require_once 'CRM/ACL/BAO/EntityRole.php';        
 
         $params = $this->controller->exportValues( $this->_name );
 
         if ( $this->_id ) {
             $params['id'] = $this->_id;
         }
-        CRM_ACL_BAO_GroupJoin::create( $params );
+
+        $params['entity_table'] = 'civicrm_acl_role';
+        CRM_ACL_BAO_EntityRole::create( $params );
     }
 
 }

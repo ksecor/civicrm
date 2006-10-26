@@ -741,9 +741,9 @@ class CRM_Core_Invoke {
         } 
 
         $secondArg = CRM_Utils_Array::value( 2, $args );
-        if (  $secondArg == 'groupjoin' ) {
-            require_once 'CRM/ACL/Page/GroupJoin.php';
-            $page =& new CRM_ACL_Page_GroupJoin( );
+        if (  $secondArg == 'entityrole' ) {
+            require_once 'CRM/ACL/Page/EntityRole.php';
+            $page =& new CRM_ACL_Page_EntityRole( );
         } else {
             require_once 'CRM/ACL/Page/ACL.php';
             $page =& new CRM_ACL_Page_ACL( );

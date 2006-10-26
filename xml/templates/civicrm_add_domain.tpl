@@ -87,7 +87,7 @@ VALUES
    (@domain_id, 'mobile_provider'               , 'Mobile Phone Providers'             , 0, 1),
    (@domain_id, 'individual_prefix'             , 'Individual contact prefixes.'       , 0, 1),
    (@domain_id, 'individual_suffix'             , 'Individual contact suffixes.'       , 0, 1),
-   (@domain_id, 'acl_group'                     , 'ACL Group.'                         , 0, 1),
+   (@domain_id, 'acl_role'                      , 'ACL Role.'                          , 0, 1),
    (@domain_id, 'accept_creditcard'             , 'Accept Credit Card'                  , 0, 1),
    (@domain_id, 'payment_instrument'             ,'Payment Instrument'                  , 0, 1);
 
@@ -96,9 +96,9 @@ SELECT @option_group_id_act            := max(id) from civicrm_option_group wher
 SELECT @option_group_id_gender         := max(id) from civicrm_option_group where name = 'gender';
 SELECT @option_group_id_IMProvider     := max(id) from civicrm_option_group where name = 'instant_messenger_service';
 SELECT @option_group_id_mobileProvider := max(id) from civicrm_option_group where name = 'mobile_provider';
-SELECT @option_group_id_prefix := max(id) from civicrm_option_group where name = 'individual_prefix';
-SELECT @option_group_id_suffix := max(id) from civicrm_option_group where name = 'individual_suffix';
-SELECT @option_group_id_aclGroup       := max(id) from civicrm_option_group where name = 'acl_group';
+SELECT @option_group_id_prefix  := max(id) from civicrm_option_group where name = 'individual_prefix';
+SELECT @option_group_id_suffix  := max(id) from civicrm_option_group where name = 'individual_suffix';
+SELECT @option_group_id_aclRole := max(id) from civicrm_option_group where name = 'acl_role';
 SELECT @option_group_id_acc            := max(id) from civicrm_option_group where name = 'accept_creditcard';
 SELECT @option_group_id_pi            := max(id) from civicrm_option_group where name =  'payment_instrument';
 
@@ -146,8 +146,8 @@ VALUES
    (@option_group_id_suffix, 'VI',  7, 'VI',  NULL, 0, NULL, 7, NULL, 0, 0, 1),
    (@option_group_id_suffix, 'VII', 8, 'VII', NULL, 0, NULL, 8, NULL, 0, 0, 1),
 
-   (@option_group_id_aclGroup, 'Administrator',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_aclGroup, 'Authenticated',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_aclRole, 'Administrator',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_aclRole, 'Authenticated',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
 
    (@option_group_id_acc, 'Visa',  1, 'Visa', NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_acc, 'MasterCard',  2, 'MasterCard', NULL, 0, NULL, 2, NULL, 0, 0, 1),

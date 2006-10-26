@@ -644,7 +644,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_option_group` DISABLE KEYS */;
 LOCK TABLES `civicrm_option_group` WRITE;
-INSERT INTO `civicrm_option_group` VALUES (1,1,'preferred_communication_method','Preferred communication method',0,1),(2,1,'activity_type','Activity Type',0,1),(3,1,'gender','Gender',0,1),(4,1,'instant_messenger_service','Instant Messenger (IM) screen-names',0,1),(5,1,'mobile_provider','Mobile Phone Providers',0,1),(6,1,'individual_prefix','Individual contact prefixes.',0,1),(7,1,'individual_suffix','Individual contact suffixes.',0,1),(8,1,'acl_group','ACL Group.',0,1),(9,1,'accept_creditcard','Accept Credit Card',0,1),(10,1,'payment_instrument','Payment Instrument',0,1);
+INSERT INTO `civicrm_option_group` VALUES (1,1,'preferred_communication_method','Preferred communication method',0,1),(2,1,'activity_type','Activity Type',0,1),(3,1,'gender','Gender',0,1),(4,1,'instant_messenger_service','Instant Messenger (IM) screen-names',0,1),(5,1,'mobile_provider','Mobile Phone Providers',0,1),(6,1,'individual_prefix','Individual contact prefixes.',0,1),(7,1,'individual_suffix','Individual contact suffixes.',0,1),(8,1,'acl_role','ACL Role.',0,1),(9,1,'accept_creditcard','Accept Credit Card',0,1),(10,1,'payment_instrument','Payment Instrument',0,1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_option_group` ENABLE KEYS */;
 

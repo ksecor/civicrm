@@ -3,7 +3,7 @@
 <table>
     <base>CRM/ACL</base>
     <class>GroupJoin</class>
-    <name>civicrm_acl_group_join</name>
+    <name>civicrm_acl_entity_role</name>
     <comment>Join table for Contacts and Groups to ACL Groups</comment>
     <add>1.6</add>
     <field>
@@ -31,15 +31,7 @@
        <add>1.1</add>
     </foreignKey>
     <field>
-       <name>name</name>
-       <title>ACL GroupJoin Name</title>
-       <type>varchar</type>
-       <length>64</length>
-       <comment>ACL GroupJoin Name.</comment>
-       <add>1.6</add>
-    </field>
-    <field>
-        <name>acl_group_id</name>
+        <name>acl_role_id</name>
         <type>int unsigned</type>
         <required>true</required>
         <comment>Foreign Key to ACL Group (which is an option value pair and hence an implicit FK)</comment>
@@ -66,4 +58,15 @@
        <comment>Is this property active?</comment>
        <add>1.6</add>
     </field>
+    <index>
+       <name>index_role</name>
+       <fieldName>acl_role_id</fieldName>
+       <add>1.6</add>
+    </index>
+    <index>
+       <name>index_entity</name>
+       <fieldName>entity_table</fieldName>
+       <fieldName>entity_id</fieldName>
+       <add>1.6</add>
+    </index>
 </table>

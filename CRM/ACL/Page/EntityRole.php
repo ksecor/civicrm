@@ -35,7 +35,7 @@ require_once 'CRM/Core/Page/Basic.php';
  * $Id$
  *
  */
-class CRM_ACL_Page_GroupJoin extends CRM_Core_Page_Basic 
+class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic 
 {
     /**
      * The action links that we need to display for the browse screen
@@ -52,7 +52,7 @@ class CRM_ACL_Page_GroupJoin extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_ACL_BAO_GroupJoin';
+        return 'CRM_ACL_BAO_EntityRole';
     }
 
     /**
@@ -67,21 +67,21 @@ class CRM_ACL_Page_GroupJoin extends CRM_Core_Page_Basic
               self::$_links = array(
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/acl/groupjoin',
+                                                                    'url'   => 'civicrm/acl/entityrole',
                                                                     'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete ACL GroupJoin') 
+                                                                    'title' => ts('Delete ACL EntityRole') 
                                                                    ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/acl/groupjoin',
+                                                                    'url'   => 'civicrm/acl/entityrole',
                                                                     'qs'    => 'action=update&id=%%id%%',
-                                                                    'title' => ts('Edit ACL GroupJoin') 
+                                                                    'title' => ts('Edit ACL EntityRole') 
                                                                    ),
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
-                                                                    'url'   => 'civicrm/acl/groupjoin',
+                                                                    'url'   => 'civicrm/acl/entityrole',
                                                                     'qs'    => 'action=view&id=%%id%%',
-                                                                    'title' => ts('View ACL GroupJoin') 
+                                                                    'title' => ts('View ACL EntityRole') 
                                                                    ),
                                 
                                   
@@ -132,11 +132,11 @@ class CRM_ACL_Page_GroupJoin extends CRM_Core_Page_Basic
      */
     function browse()
     {
-        require_once 'CRM/ACL/DAO/GroupJoin.php';
+        require_once 'CRM/ACL/DAO/EntityRole.php';
 
         // get all acl's sorted by weight
-        $groupJoin =  array( );
-        $dao =& new CRM_ACL_DAO_GroupJoin( );
+        $entityRoles =  array( );
+        $dao =& new CRM_ACL_DAO_EntityRole( );
 
         // set the domain_id parameter
         $config =& CRM_Core_Config::singleton( );
@@ -144,19 +144,19 @@ class CRM_ACL_Page_GroupJoin extends CRM_Core_Page_Basic
         $dao->find( );
 
         require_once 'CRM/Core/OptionGroup.php';
-        $aclGroups = CRM_Core_OptionGroup::values( 'acl_group' );
+        $aclRoles = CRM_Core_OptionGroup::values( 'acl_role' );
         while ( $dao->fetch( ) ) {
-            $groupJoin[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $groupJoin[$dao->id]);
+            $entityRoles[$dao->id] = array();
+            CRM_Core_DAO::storeValues( $dao, $entityRoles[$dao->id]);
 
-            $groupJoin[$dao->id]['acl_group'] = $aclGroups[$dao->acl_group_id];
+            $entityRoles[$dao->id]['acl_role'] = $aclRoles[$dao->acl_role_id];
             // form all action links
             $action = array_sum(array_keys($this->links()));
 
-            $groupJoin[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                 array('id' => $dao->id));
+            $entityRoles[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
+                                                                         array('id' => $dao->id));
         }
-        $this->assign('rows', $groupJoin);
+        $this->assign('rows', $entityRoles);
     }
 
     /**
@@ -166,7 +166,7 @@ class CRM_ACL_Page_GroupJoin extends CRM_Core_Page_Basic
      */
     function editForm() 
     {
-        return 'CRM_ACL_Form_GroupJoin';
+        return 'CRM_ACL_Form_EntityRole';
     }
     
     /**
@@ -176,7 +176,7 @@ class CRM_ACL_Page_GroupJoin extends CRM_Core_Page_Basic
      */
     function editName() 
     {
-        return 'ACL GroupJoin';
+        return 'ACL EntityRole';
     }
     
     /**
@@ -186,7 +186,7 @@ class CRM_ACL_Page_GroupJoin extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/acl/groupjoin';
+        return 'civicrm/acl/entityrole';
     }
 }
 

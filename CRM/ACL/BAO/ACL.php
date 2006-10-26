@@ -50,7 +50,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         if ( ! self::$_entityTable ) {
             self::$_entityTable = array(
                                         'civicrm_contact'      => ts( 'Contact'       ),
-                                        'civicrm_acl_group'    => ts( 'ACL Group'     ), );
+                                        'civicrm_acl_role'    => ts( 'ACL Role'     ), );
         }
         return self::$_entityTable;
     }
@@ -72,11 +72,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
             self::$_operation = array(
                                       'View'   => ts( 'View'   ),
                                       'Edit'   => ts( 'Edit'   ),
-                                      'Create' => ts( 'Create' ),
-                                      'Delete' => ts( 'Delete' ),
-                                      'All'    => ts( 'All'    ),
-                                      'Grant'  => ts( 'Grant'  ),
-                                      'Revoke' => ts( 'Revoke' ),
+                                      'All'    => ts( 'Both'   ),
                                       );
         }
         return self::$_operation;
@@ -90,21 +86,21 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
      * @param string $object_table -    The table of the object in question
      * @param int $object_id    -   The ID of the object in question
      * @param int $acl_id   -       If it's a grant/revoke operation, the ACL ID
-     * @param boolean $acl_group -  For grant operations, this flag determines if we're granting a single acl (false) or an entire group.
+     * @param boolean $acl_role -  For grant operations, this flag determines if we're granting a single acl (false) or an entire group.
      * @return string           -   The WHERE clause, or 0 on failure
      * @access public
      * @static
      */
     public static function permissionClause(&$tables, $operation,
                                             $object_table = null, $object_id = null, 
-                                            $acl_id = null, $acl_group = false) 
+                                            $acl_id = null, $acl_role = false) 
     {
         $dao =& new CRM_ACL_DAO_ACL;
         
         $t = array(
             'ACL'           => self::getTableName(),
-            'ACLGroup'      => 'civicrm_acl_group',
-            'ACLGroupJoin'  => CRM_ACL_DAO_GroupJoin::getTableName(),
+            'ACLRole'      => 'civicrm_acl_role',
+            'ACLEntityRole' => CRM_ACL_DAO_EntityRole::getTableName(),
             'Contact'       => CRM_Contact_DAO_Contact::getTableName(),
             'Group'         => CRM_Contact_DAO_Group::getTableName(),
             'GroupContact'  => CRM_Contact_DAO_GroupContact::getTableName()
@@ -129,13 +125,13 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
             $where .= '))';
         }
             
-        /* Include clause if we're granting an ACL or ACL Group */
+        /* Include clause if we're granting an ACL or ACL Role */
         if (!empty($acl_id)) {
             $where .= " AND ({$t['ACL']}.acl_id IS null 
                         OR {$t['ACL']}.acl_id   = "
                     . CRM_Utils_Type::escape($acl_id, 'Integer') . ')';
-            if ($acl_group) {
-                $where .= " AND {$t['ACL']}.acl_table = '{$t['ACLGroup']}'";
+            if ($acl_role) {
+                $where .= " AND {$t['ACL']}.acl_table = '{$t['ACLRole']}'";
             } else {
                 $where .= " AND {$t['ACL']}.acl_table = '{$t['ACL']}'";
             }
@@ -155,19 +151,19 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         $query[] = "SELECT      {$t['ACL']}.*, 0 as override
                     FROM        {$t['ACL']}
                     
-                    INNER JOIN  {$t['ACLGroupJoin']}
-                            ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
+                    INNER JOIN  {$t['ACLEntityRole']}
+                            ON  ({$t['ACL']}.entity_table = '{$t['ACLRole']}'
                             AND     {$t['ACL']}.entity_id = 
-                                    {$t['ACLGroupJoin']}.acl_group_id)
+                                    {$t['ACLEntityRole']}.acl_role_id)
                                     
-                    INNER JOIN  {$t['ACLGroup']}
+                    INNER JOIN  {$t['ACLRole']}
                             ON      {$t['ACL']}.entity_id = 
-                                    {$t['ACLGroup']}.id
+                                    {$t['ACLRole']}.id
                     
-                    WHERE       {$t['ACLGroupJoin']}.entity_table =
+                    WHERE       {$t['ACLEntityRole']}.entity_table =
                                     '{$t['Domain']}'
-                            AND {$t['ACLGroup']}.is_active      = 1
-                            AND {$t['ACLGroupJoin']}.entity_id  = $domainId
+                            AND {$t['ACLRole']}.is_active      = 1
+                            AND {$t['ACLEntityRole']}.entity_id  = $domainId
                             AND ($where)";
         
         /* Query for permissions granted directly to the contact */
@@ -185,18 +181,18 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         $query[] = "SELECT      {$t['ACL']}.*, 1 as override
                     FROM        {$t['ACL']}
                     
-                    INNER JOIN  {$t['ACLGroupJoin']}
-                            ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
+                    INNER JOIN  {$t['ACLEntityRole']}
+                            ON  ({$t['ACL']}.entity_table = '{$t['ACLRole']}'
                             AND     {$t['ACL']}.entity_id =
-                                    {$t['ACLGroupJoin']}.acl_group_id)
+                                    {$t['ACLEntityRole']}.acl_role_id)
                     
-                    INNER JOIN  {$t['ACLGroup']}
-                            ON  {$t['ACL']}.entity_id = {$t['ACLGroup']}.id
+                    INNER JOIN  {$t['ACLRole']}
+                            ON  {$t['ACL']}.entity_id = {$t['ACLRole']}.id
                     
-                    WHERE       {$t['ACLGroupJoin']}.entity_table = 
+                    WHERE       {$t['ACLEntityRole']}.entity_table = 
                                     '{$t['Contact']}' 
-                        AND     {$t['ACLGroup']}.is_active      = 1
-                        AND     {$t['ACLGroupJoin']}.entity_id  = $contact_id
+                        AND     {$t['ACLRole']}.is_active      = 1
+                        AND     {$t['ACLEntityRole']}.entity_id  = $contact_id
                         AND     ($where)";
 
         /* Query for permissions granted to the contact through a group */
@@ -218,22 +214,22 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         $query[] = "SELECT      {$t['ACL']}.*, 0 as override
                     FROM        {$t['ACL']}
                     
-                    INNER JOIN  {$t['ACLGroupJoin']}
-                            ON  ({$t['ACL']}.entity_table = '{$t['ACLGroup']}'
+                    INNER JOIN  {$t['ACLEntityRole']}
+                            ON  ({$t['ACL']}.entity_table = '{$t['ACLRole']}'
                             AND     {$t['ACL']}.entity_id = 
-                                    {$t['ACLGroupJoin']}.acl_group_id)
+                                    {$t['ACLEntityRole']}.acl_role_id)
                    
-                    INNER JOIN  {$t['ACLGroup']}
-                            ON  {$t['ACL']}.entity_id = {$t['ACLGroup']}.id
+                    INNER JOIN  {$t['ACLRole']}
+                            ON  {$t['ACL']}.entity_id = {$t['ACLRole']}.id
                    
                     INNER JOIN  {$t['GroupContact']}
-                            ON  ({$t['ACLGroupJoin']}.entity_table =
+                            ON  ({$t['ACLEntityRole']}.entity_table =
                                     '{$t['Group']}'
-                            AND     {$t['ACLGroupJoin']}.entity_id =
+                            AND     {$t['ACLEntityRole']}.entity_id =
                                     {$t['GroupContact']}.group_id)
                     
                     WHERE       ($where)
-                        AND     {$t['ACLGroup']}.is_active      = 1
+                        AND     {$t['ACLRole']}.is_active      = 1
                         AND     {$t['GroupContact']}.contact_id = $contact_id
                         AND     {$t['GroupContact']}.status     = 'Added'";
                     
@@ -352,12 +348,12 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
      *
      * @param int $contact_id       -   ID of a contact to search for
      * @param int $group_id         -   ID of a group to search for
-     * @param boolean $aclGroups    -   Should we include ACL Groups
+     * @param boolean $aclRoles    -   Should we include ACL Roles
      * @return array                -   Array of assoc. arrays of ACL rules 
      * @access public
      * @static
      */
-    public static function &getACLs($contact_id = null, $group_id = null, $aclGroups = false) {
+    public static function &getACLs($contact_id = null, $group_id = null, $aclRoles = false) {
         $contact_id = CRM_Utils_Type::escape($contact_id, 'Integer');
         if ( $group_id ) {
             $group_id   = CRM_Utils_Type::escape($group_id, 'Integer');
@@ -402,8 +398,8 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
             $results[$rule->id] = $rule->toArray( );
         }
 
-        if ($aclGroups) {
-            $results += self::getACLGroups($contact_id, $group_id);
+        if ($aclRoles) {
+            $results += self::getACLRoles($contact_id, $group_id);
         }
 
         return $results;
@@ -418,7 +414,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
      * @access public
      * @static
      */
-    public static function &getACLGroups($contact_id = null, $group_id = null) {
+    public static function &getACLRoles($contact_id = null, $group_id = null) {
         $contact_id = CRM_Utils_Type::escape($contact_id, 'Integer');
         if ( $group_id ) {
             $group_id   = CRM_Utils_Type::escape($group_id, 'Integer');
@@ -428,8 +424,8 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
 
         require_once 'CRM/ACL/DAO/GroupJoin.php';
         $acl           = self::getTableName();
-        $aclGroup      = 'civicrm_acl_group';
-        $aclGroupJoin  = CRM_ACL_DAO_GroupJoin::getTableName();
+        $aclRole      = 'civicrm_acl_role';
+        $aclRoleJoin  = CRM_ACL_DAO_GroupJoin::getTableName();
         $contact       = CRM_Contact_BAO_Contact::getTableName();
         $c2g           = CRM_Contact_BAO_GroupContact::getTableName();
         $group         = CRM_Contact_BAO_Group::getTableName();
@@ -437,9 +433,9 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         $query =    "   SELECT          $acl.* 
                         FROM            $acl
                         INNER JOIN      civicrm_option_group og
-                                ON      og.name = 'acl_group'
+                                ON      og.name = 'acl_role'
                         INNER JOIN      civicrm_option_value ov
-                                ON      $acl.entity_table   = '$aclGroup'
+                                ON      $acl.entity_table   = '$aclRole'
                                 AND     ov.option_group_id  = og.id
                                 AND     $acl.entity_id      = ov.value";
                                 
@@ -480,12 +476,12 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
      * Get all ACLs granted to a contact through all group memberships
      *
      * @param int $contact_id       -   The contact's ID
-     * @param boolean $aclGroups    -   Include ACL Groups?
+     * @param boolean $aclRoles     -   Include ACL Roles?
      * @return array                -   Assoc array of ACL rules
      * @access public
      * @static
      */
-    public static function &getGroupACLs($contact_id, $aclGroups = false) {
+    public static function &getGroupACLs($contact_id, $aclRoles = false) {
         $contact_id = CRM_Utils_Type::escape($contact_id, 'Integer');
 
         $rule       =& new CRM_ACL_BAO_ACL();
@@ -509,8 +505,8 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
             $results[$rule->id] =& $rule->toArray();
         }
 
-        if ($aclGroups) {
-            $results += self::getGroupACLGroups($contact_id);
+        if ($aclRoles) {
+            $results += self::getGroupACLRoles($contact_id);
         }
         
         return $results;
@@ -525,13 +521,13 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
     * @access public
     * @static
     */
-    public static function &getGroupACLGroups($contact_id) {
+    public static function &getGroupACLRoles($contact_id) {
         $contact_id = CRM_Utils_Type::escape($contact_id, 'Integer');
         
         $rule       =& new CRM_ACL_BAO_ACL();
                                                                                 
         $acl        = self::getTableName();
-        $aclGroup   = 'civicrm_acl_group';
+        $aclRole   = 'civicrm_acl_role';
         $aclGJ      = CRM_ACL_DAO_GroupJoin::getTableName( );
         $c2g        = CRM_Contact_BAO_GroupContact::getTableName();
         $group      = CRM_Contact_BAO_Group::getTableName();
@@ -539,19 +535,19 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         $query =    "   SELECT          $acl.* 
                         FROM            $acl
                         INNER JOIN      civicrm_option_group og
-                                ON      og.name = 'acl_group'
+                                ON      og.name = 'acl_role'
                         INNER JOIN      civicrm_option_value ov
-                                ON      $acl.entity_table   = '$aclGroup'
+                                ON      $acl.entity_table   = '$aclRole'
                                 AND     ov.option_group_id  = og.id
                                 AND     $acl.entity_id      = ov.value
                                 AND     ov.is_active        = 1
                         INNER JOIN      $aclGJ
-                                ON      $aclGJ.acl_group_id = $acl.entity_id
+                                ON      $aclGJ.acl_role_id = $acl.entity_id
                                 AND     $aclGJ.is_active    = 1
                         INNER JOIN  $c2g
                                 ON      $aclGJ.entity_id      = $c2g.group_id
                                 AND     $aclGJ.entity_table   = 'civicrm_group'
-                        WHERE       $acl.entity_table       = '$aclGroup'
+                        WHERE       $acl.entity_table       = '$aclRole'
                             AND     $acl.is_active          = 1
                             AND     $c2g.contact_id         = $contact_id
                             AND     $c2g.status             = 'Added'";
@@ -579,7 +575,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
     public static function &getAllByContact($contact_id) {
         $result = array();
 
-        /* First, the contact-specific ACLs, including ACL Groups */
+        /* First, the contact-specific ACLs, including ACL Roles */
         $result += self::getACLs($contact_id, null, true);
 
         /* Then, all ACLs granted through group membership */
