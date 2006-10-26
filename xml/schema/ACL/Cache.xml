@@ -35,13 +35,18 @@
         <required>true</required>
         <comment>Foreign Key to ACL</comment>
         <add>1.6</add>
-    </field>
+    </field>    
     <foreignKey>
        <name>acl_id</name>
        <table>civicrm_acl</table>
        <key>id</key>
        <add>1.6</add>
     </foreignKey>
+    <index>
+       <name>index_acl_id</name>
+       <fieldName>acl_id</fieldName>
+       <add>1.6</add>
+    </index>
     <field>
        <name>modified_date</name>
        <type>date</type>

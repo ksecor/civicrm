@@ -94,6 +94,11 @@
         <comment>ID of the ACL or ACL group being granted/revoked</comment>
         <add>1.6</add>
     </field>
+    <index>
+       <name>index_acl_id</name>
+       <fieldName>acl_id</fieldName>       
+       <add>1.6</add>
+    </index>
     <field>
        <name>is_active</name>
        <type>boolean</type>

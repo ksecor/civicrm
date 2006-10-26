@@ -43,6 +43,11 @@
       <comment>Which Mobile Provider does this phone belong to.</comment>
        <add>1.1</add>
   </field>
+  <index>
+      <name>UI_mobile_provider_id</name>
+      <fieldName>mobile_provider_id</fieldName>      
+      <add>1.6</add>
+  </index>
   <field>
        <name>phone</name>
        <type>varchar</type>

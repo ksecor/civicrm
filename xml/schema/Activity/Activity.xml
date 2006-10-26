@@ -28,8 +28,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.1</add>
-  </foreignKey>
-  
+  </foreignKey>  
   <field>
        <name>activity_type_id</name>
        <type>int unsigned</type>
@@ -37,7 +36,11 @@
        <comment>Foreign key to the referenced item.</comment>
        <add>1.1</add>
   </field>
-  
+  <index>
+       <name>UI_activity_type_id</name>
+       <fieldName>activity_type_id</fieldName>       
+       <add>1.6</add>
+  </index>   
   <field>
        <name>target_entity_table</name>
        <type>varchar</type>
@@ -53,8 +56,7 @@
        <comment>Foreign key to the referenced item.</comment>
        <add>1.1</add>
   </field>
-
- <field>
+  <field>
       <name>subject</name>
       <type>varchar</type>
       <length>64</length>

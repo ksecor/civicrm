@@ -171,6 +171,11 @@
        <comment>What is the preferred mode of communication.</comment>
        <add>1.1</add>
   </field>
+  <index>
+       <name>index_preferred_communication_method</name>
+       <fieldName>preferred_communication_method</fieldName>       
+       <add>1.6</add>
+  </index>
   <field>
        <name>preferred_mail_format</name>
        <type>enum</type>

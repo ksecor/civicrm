@@ -89,7 +89,12 @@
       <type>int unsigned</type>   
       <comment>FK to Payment Instrument</comment>   
       <add>1.3</add>   
-  </field>     
+  </field>  
+  <index>
+      <name>UI_contrib_payment_instrument_id</name>
+      <fieldName>payment_instrument_id</fieldName>      
+      <add>1.6</add>
+  </index>   
   <field> 
       <name>receive_date</name> 
       <type>datetime</type> 

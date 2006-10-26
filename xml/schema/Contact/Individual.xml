@@ -64,14 +64,14 @@
        <fulltext/>
       <add>1.1</add>
   </field>
-<field>
+  <field>
        <name>gender</name>
        <type>enum</type>
        <import>true</import>
        <values>Female, Male, Transgender</values>
        <add>1.1</add>
        <drop>1.2</drop>
-</field>
+  </field>
   <field>
       <name>prefix_id</name>
       <type>int unsigned</type>
@@ -80,6 +80,11 @@
       <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
       <add>1.2</add>
   </field>
+  <index>
+      <name>UI_prefix</name>
+      <fieldName>prefix_id</fieldName>      
+      <add>1.6</add>
+  </index>
   <field>
       <name>suffix_id</name>
       <type>int unsigned</type>
@@ -88,6 +93,11 @@
       <dataPattern>/^(sr|jr)\.?|i{2,}$/</dataPattern>
       <add>1.2</add>
   </field>
+  <index>
+      <name>UI_suffix</name>
+      <fieldName>suffix_id</fieldName>      
+      <add>1.6</add>
+  </index>
   <field>
        <name>prefix</name>
        <type>varchar</type>
@@ -130,12 +140,17 @@
        <comment>Job Title</comment>
       <add>1.1</add>
   </field>
-<field>
+  <field>
       <name>gender_id</name>
       <type>int unsigned</type>
       <comment>FK to gender ID</comment>
       <add>1.2</add>
   </field>
+  <index>
+     <name>UI_gender</name>
+     <fieldName>gender_id</fieldName>     
+     <add>1.6</add>
+  </index>
   <field>
        <name>birth_date</name>
        <type>date</type>

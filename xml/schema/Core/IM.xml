@@ -47,6 +47,11 @@
       <comment>Which IM Provider does this screen name belong to.</comment>
        <add>1.1</add>
   </field>
+  <index>
+    <name>UI_provider_id</name>
+    <fieldName>provider_id</fieldName>    
+    <add>1.6</add>
+  </index>
   <field>
        <name>is_primary</name>
        <type>boolean</type>
