@@ -145,11 +145,15 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
 
         require_once 'CRM/Core/OptionGroup.php';
         $aclRoles = CRM_Core_OptionGroup::values( 'acl_role' );
+        $groups   = CRM_Core_PseudoConstant::group( ); 
+
         while ( $dao->fetch( ) ) {
             $entityRoles[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $entityRoles[$dao->id]);
 
             $entityRoles[$dao->id]['acl_role'] = $aclRoles[$dao->acl_role_id];
+            $entityRoles[$dao->id]['entity'  ] = $groups[$dao->entity_id];
+
             // form all action links
             $action = array_sum(array_keys($this->links()));
 

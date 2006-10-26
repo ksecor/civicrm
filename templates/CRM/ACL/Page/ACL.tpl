@@ -14,24 +14,18 @@
         <table>
         <tr class="columnheader">
             <th>{ts}Name{/ts}</th>
-            <th>{ts}Allow?{/ts}</th>
             <th>{ts}Operation{/ts}</th>
-            <th>{ts}Entity Table{/ts}</th>
-            <th>{ts}Entity ID{/ts}</th>
-            <th>{ts}Object Table{/ts}</th>
-            <th>{ts}Object ID{/ts}</th>
+            <th>{ts}Role{/ts}</th>
+            <th>{ts}Permission For{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
-	        <td>{if $row.deny eq 1} {ts}Deny{/ts} {else} {ts}Allow{/ts} {/if}</td> 
 	        <td>{$row.operation}</td>	
-	        <td>{$row.entity_table}</td>	
-	        <td>{$row.entity_id}</td>	
-	        <td>{$row.object_table}</td>	
-	        <td>{$row.object_id}</td>	
+	        <td>{$row.entity}</td>	
+	        <td>{$row.object}</td>	
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>

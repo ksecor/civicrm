@@ -2,9 +2,9 @@
 
 <table>
     <base>CRM/ACL</base>
-    <class>GroupJoin</class>
+    <class>EntityRole</class>
     <name>civicrm_acl_entity_role</name>
-    <comment>Join table for Contacts and Groups to ACL Groups</comment>
+    <comment>Join table for Contacts and Groups to ACL Roles</comment>
     <add>1.6</add>
     <field>
         <name>id</name>
@@ -34,7 +34,7 @@
         <name>acl_role_id</name>
         <type>int unsigned</type>
         <required>true</required>
-        <comment>Foreign Key to ACL Group (which is an option value pair and hence an implicit FK)</comment>
+        <comment>Foreign Key to ACL Role (which is an option value pair and hence an implicit FK)</comment>
         <add>1.6</add>
     </field>
     <field>
@@ -42,7 +42,7 @@
         <type>varchar</type>
         <length>64</length>
         <required>true</required>
-        <comment>Table of the object joined to the ACL Group (Contact or Group)</comment>
+        <comment>Table of the object joined to the ACL Role (Contact or Group)</comment>
         <add>1.6</add>
     </field>
     <field>

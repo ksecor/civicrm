@@ -9,13 +9,5 @@ VALUES
 
 INSERT INTO civicrm_acl( domain_id, name, deny, object_table, object_id, operation, entity_table, entity_id, is_active )       
 VALUES
-  (1, 'All Permissions'          , 0, null                  ,  0, 'Edit', 'civicrm_acl_role',      1, 1 ),
-  (1, 'View All Contacts'        , 0, 'civicrm_contact'     ,  0, 'View', 'civicrm_acl_role',      1, 1 ),
-  (1, 'Edit All Contacts'        , 0, 'civicrm_contact'     ,  0, 'Edit', 'civicrm_acl_role',      1, 1 ),
-  (1, 'View All Contacts'        , 0, 'civicrm_contact'     ,  0, 'View', 'civicrm_acl_role',      2, 1 ),
-  (1, 'Edit All Contacts'        , 0, 'civicrm_contact'     ,  0, 'Edit', 'civicrm_acl_role',      2, 1 ),
-  (1, 'Manage Groups'            , 0, 'civicrm_group'       ,  0, 'Edit', 'civicrm_acl_role',      1, 1 ),
-  (1, 'Administer CiviCRM'       , 0, 'civicrm_group'       ,  0, 'Edit', 'civicrm_acl_role',      1, 1 ),
-  (1, 'Import'                   , 0, 'civicrm_admin'       ,  0, 'Edit', 'civicrm_acl_role',      1, 1 ),
-  (1, 'Admin'                    , 0, 'civicrm_saved_search',  0, 'All' , 'civicrm_acl_role',      1, 1 ),
-  (1, 'Admin'                    , 0, 'civicrm_saved_search',  1, 'View', 'civicrm_acl_role',      2, 1 );
+  (1, 'SuperUser access'         , 0, 'civicrm_saved_search',  0, 'All' , 'civicrm_acl_role',      1, 1 ),
+  (1, 'Admin access'             , 0, 'civicrm_saved_search',  1, 'View', 'civicrm_acl_role',      2, 1 );

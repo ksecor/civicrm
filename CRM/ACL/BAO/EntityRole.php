@@ -34,12 +34,12 @@
  *
  */
 
-require_once 'CRM/ACL/DAO/GroupJoin.php';
+require_once 'CRM/ACL/DAO/EntityRole.php';
 
 /**
- *  Access Control GroupJoin
+ *  Access Control EntityRole
  */
-class CRM_ACL_BAO_GroupJoin extends CRM_ACL_DAO_GroupJoin {
+class CRM_ACL_BAO_EntityRole extends CRM_ACL_DAO_EntityRole {
     static $_entityTable = null;
 
     static function entityTable( ) {
@@ -52,7 +52,7 @@ class CRM_ACL_BAO_GroupJoin extends CRM_ACL_DAO_GroupJoin {
     }
 
     static function create( &$params ) {
-        $dao =& new CRM_ACL_DAO_GroupJoin( );
+        $dao =& new CRM_ACL_DAO_EntityRole( );
         $dao->copyValues( $params );
         $dao->domain_id = CRM_Core_Config::domainID( );
 
@@ -60,7 +60,7 @@ class CRM_ACL_BAO_GroupJoin extends CRM_ACL_DAO_GroupJoin {
     }
 
     static function retrieve( &$params, &$defaults ) {
-        CRM_Core_DAO::commonRetrieve( 'CRM_ACL_DAO_GroupJoin', $params, $defaults );
+        CRM_Core_DAO::commonRetrieve( 'CRM_ACL_DAO_EntityRole', $params, $defaults );
         CRM_Core_Error::debug( 'd', $defaults );
     }    
 }

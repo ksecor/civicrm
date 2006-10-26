@@ -3,7 +3,7 @@
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}
-   {include file="CRM/ACL/Form/GroupJoin.tpl"}
+   {include file="CRM/ACL/Form/EntityRole.tpl"}
 {/if}
 
 {if $rows}
@@ -13,19 +13,15 @@
         {strip}
         <table>
         <tr class="columnheader">
-            <th>{ts}Name{/ts}</th>
-            <th>{ts}ACL Group{/ts}</th>
-            <th>{ts}Entity Table{/ts}</th>
-            <th>{ts}Entity ID{/ts}</th>
+            <th>{ts}ACL Role{/ts}</th>
+            <th>{ts}Permission Assigned To{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-	        <td>{$row.name}</td>	
-	        <td>{$row.acl_group}</td>	
-	        <td>{$row.entity_table}</td>	
-	        <td>{$row.entity_id}</td>	
+	        <td>{$row.acl_role}</td>	
+	        <td>{$row.entity}</td>	
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>
