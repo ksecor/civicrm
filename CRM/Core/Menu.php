@@ -266,6 +266,17 @@ class CRM_Core_Menu {
                             ),
 
                       array(
+                            'path'    => 'civicrm/admin/setting',
+                            'title'   => ts('Global Settings'),
+                            'query'  => 'reset=1',
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'adminGroup' => ts('Setup'),
+                            'icon'    => 'admin/01.png',
+                            'weight'  => 300
+                            ),
+
+                      array(
                             'path'    => 'civicrm/admin/options',
                             'title'   => ts('Gender Options (Male, Female...)'),
                             'query'  => 'group=gender&reset=1',

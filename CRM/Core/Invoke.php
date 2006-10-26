@@ -557,7 +557,10 @@ class CRM_Core_Invoke {
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             
             break;
-            
+
+        case 'setting':
+            return self::setting( $args );
+
             
         default:
             require_once 'CRM/Core/Component.php';
@@ -818,6 +821,54 @@ class CRM_Core_Invoke {
         return false;
     }
 
+    /** 
+     * This function contains the actions for setting arguments
+     * 
+     *  $args array this array contains the arguments of the url 
+     * 
+     * @static 
+     * @access public 
+     */ 
+
+    static function setting ( $args ) {
+        if ( $args[2] !== 'setting' ) {
+            return; 
+        }
+       
+        $session =& CRM_Core_Session::singleton();
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/setting', 'reset=1' ) );
+
+        $wrapper =& new CRM_Utils_Wrapper( );
+        
+        switch ( $args[3] ) {
+        case 'component' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
+        case 'path' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Path', ts('File System Paths'), null); 
+        case 'site' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Url', ts('Site URLs'), null); 
+        case 'smtp' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Smtp', ts('Smtp Server'), null); 
+        case 'mapping' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Mapping', ts('Mapping and Geocoding'), null); 
+        case 'payment' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Payment', ts('Online Payments'), null); 
+        case 'localisation' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Localisation', ts('Localisation'), null); 
+        case 'address' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Address', ts('Address Formatting'), null); 
+        case 'date' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Date', ts('Date Formatting'), null); 
+        case 'misc' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Miscellaneous', ts('Miscellaneous'), null); 
+        case 'debug' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Debugging', ts('Debugging'), null); 
+        default : 
+            require_once 'CRM/Admin/Page/Setting.php';
+            $view =& new CRM_Admin_Page_Setting();
+            return $view->run();
+        }
+    }
 }
 
 ?>

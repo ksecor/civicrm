@@ -584,6 +584,25 @@ class CRM_Core_SelectValues {
         return $minutes;
     }
 
+
+    /**
+     * Function to get the components 
+     * 
+     */
+
+    static function &component()
+    {
+        static $components = null;
+        if (!$components) {
+            $components = array(
+                                'CiviContribute'  => ts('CiviContribute'),
+                                'CiviMail'        => ts('CiviMail'),
+                                'CiviMember'      => ts('CiviMember'),
+                                'Quest'       => ts('Quest')
+                                );
+        }
+        return $components;
+    }
 }
 
 ?>
