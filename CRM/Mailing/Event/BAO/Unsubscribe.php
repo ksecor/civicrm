@@ -171,7 +171,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
          * those except smart groups and those that the contact belongs to */
         $do->query("
             SELECT      $group.id as group_id,
-                        $group.name as name
+                        $group.title as title
             FROM        $group
             LEFT JOIN   $gc
                 ON      $gc.group_id = $group.id
