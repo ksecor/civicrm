@@ -345,7 +345,7 @@ BEGIN {
       $SYSLOG_LEVEL
     )],
   );
-  Exporter::export_tags qw(dynamic_confvars confvars sa civcrm platform
+  Exporter::export_tags qw(dynamic_confvars confvars sa civicrm platform
                       hidden_confvars legacy_dynamic_confvars legacy_confvars);
 } # BEGIN
 
