@@ -80,12 +80,12 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         $email->sent_date  = date( 'Ymd' );
         $email->save( );
 
-        $sent = $notSent = 0;
+        $sent = $notSent = array();
         foreach ( $contactIds as $contactId ) {
             if ( self::sendMessage( $from, $contactId, $subject, $message, $emailAddress, $email->id ) ) {
-                $sent++;
+                $sent[] =  $contactId;
             } else {
-                $notSent++;
+                $notSent[] = $contactId;
             }
         }
 

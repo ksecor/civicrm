@@ -249,11 +249,23 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                         ts('Total Selected Contact(s): %1', array(1 => $total))
                         );
         if ( $sent ) {
-            $status[] = ts('Email sent to contact(s): %1', array(1 => $sent));
+            $status[] = ts('Email sent to contact(s): %1', array(1 => count($sent)));
         }
+        //Display the name and number of contacts for those email is not sent.
         if ( $notSent ) {
-            $status[] = ts('Email not sent to contact(s) (no email address on file or communication preferences specify DO NOT EMAIL): %1', array(1 => $notSent));
+            $statusDisplay = ts('Email not sent to contact(s) (no email address on file or communication preferences specify DO NOT EMAIL): %1  <br />Details : ', array(1 => count($notSent)));
+            foreach($notSent as $cIds=>$cId) {
+                $name = new CRM_Contact_DAO_Contact();
+                $name->id = $cId;
+                $details = CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$cId");
+                $name->find();
+                while( $name->fetch() ) {
+                    $statusDisplay .= ts("<a href=$details>" . $name->display_name . "</a> ") ." , ";
+                }
+            }
+            $status[] = $statusDisplay;
         }
+        
         CRM_Core_Session::setStatus( $status );
         
     }//end of function
