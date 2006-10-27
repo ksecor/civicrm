@@ -107,7 +107,8 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
 
         $mailing->body_html = file_get_contents($options['htmlFile']);
         $mailing->body_text = file_get_contents($options['textFile']);
-        
+
+        $recipient = null;
         $mime =& $mailing->compose(null, null, null, 
                                     $contactId, $email, $recipient, true);
 
