@@ -119,7 +119,7 @@ class CRM_Contribute_Payment_PayPalIPN {
 
         $contribution->contribution_status_id  = 1;
         $contribution->is_test    = CRM_Utils_Request::retrieve( 'test_ipn', 'Integer', $store,
-                                                              false, 0, 'POST' );
+                                                                 false, 0, 'POST' );
         $contribution->fee_amount = CRM_Utils_Request::retrieve( 'payment_fee', 'Money', $store, 
                                                                  false, 0, 'POST' );
         $contribution->net_amount = CRM_Utils_Request::retrieve( 'settle_amount', 'Money', $store,  
@@ -154,15 +154,17 @@ class CRM_Contribute_Payment_PayPalIPN {
                                               $contribution->contribution_page_id,
                                               'title' );
 
-        // also create an activity history record
         require_once 'CRM/Utils/Money.php';
+        $formattedAmount = CRM_Utils_Money::format($amount);
+
+        // also create an activity history record
         $ahParams = array('entity_table'     => 'civicrm_contact', 
                           'entity_id'        => $contactID, 
                           'activity_type'    => $contributionType->name,
                           'module'           => 'CiviContribute', 
                           'callback'         => 'CRM_Contribute_Page_Contribution::details',
                           'activity_id'      => $contribution->id, 
-                          'activity_summary' => CRM_Utils_Money::format($amount). ' - ' . $title . ' (online)',
+                          'activity_summary' => "$formattedAmount - $title (online)",
                           'activity_date'    => $now,
                           );
 
@@ -171,8 +173,25 @@ class CRM_Contribute_Payment_PayPalIPN {
             CRM_Core_Error::debug_log_message( "error in updating activity" );
         }
 
+        $values = array( );
+        require_once 'CRM/Contribute/BAO/ContributionPage.php';
+
+        CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
+
+        // TODO: membership and honor stuff
+
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
         CRM_Core_DAO::transaction( 'COMMIT' );
+
+        // add the new contribution values
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( 'amount' , $amount );
+        $template->assign( 'trxn_id', $contribution->trxn_id );
+        $template->assign( 'receive_date',
+                           CRM_Utils_Date::mysqlToIso( $contribution->receipt_date ) );
+        $template->assign( 'contribute_mode', 'none' );
+
+        CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values );
     }
 
     static function main( ) {

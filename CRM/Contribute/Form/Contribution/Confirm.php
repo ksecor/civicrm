@@ -359,7 +359,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             self::postProcessPremium( $premiumParams, $contribution );
         
             // finally send an email receipt
-            self::sendMail( $contactID );
+            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $this->_values );
         }
     
     }
@@ -588,40 +588,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         return $contribution;
     }
 
-     /**
-     * Process that send e-mails
-     *
-     * @return void
-     * @access public
-     */
-    function sendMail( $contactID ) {
-        if ( $this->_values['is_email_receipt'] ) {
-            list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
-            $this->buildCustomDisplay( $this->_values['custom_pre_id'],  'customPre', $contactID);
-            $this->buildCustomDisplay( $this->_values['custom_post_id'], 'customPost', $contactID);
-
-            $template =& CRM_Core_Smarty::singleton( );
-            $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
-            $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
-
-            
-           
-            $receiptFrom = '"' . $this->_values['receipt_from_name'] . '" <' . $this->_values['receipt_from_email'] . '>';
-            require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $receiptFrom,
-                                   $displayName,
-                                   $email,
-                                   $subject,
-                                   $message,
-                                   $this->_values['cc_receipt'],
-                                   $this->_values['bcc_receipt']
-                                   );
-            
-        }
-        
-
-    }
-    
     /**
      * Create the Honor contact
      *
@@ -631,7 +597,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     function createHonorContact(  ) {
         $params = $this->controller->exportValues( 'Main' );
         $honorParams = array();
-        $honorParams["prefix_id"] = $params["honor_prefix_id"];
+        $honorParams["prefix_id"]    = $params["honor_prefix_id"];
         $honorParams["first_name"]   = $params["honor_first_name"];
         $honorParams["last_name"]    = $params["honor_last_name"];
         $honorParams["email"]        = $params["honor_email"];
@@ -666,24 +632,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             return $contact->id;    
         }
     }
-
-    /**  
-     * Function to add the custom fields
-     *  
-     * @return None  
-     * @access public  
-     */ 
-    function buildCustomDisplay( $gid, $name, $cid ) {
-        if ( $gid ) {
-           $values = array( );
-           $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
-           CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false );
-           if ( count( $values ) ) {
-               $this->assign( $name, $values );
-           }
-        }
-    }
-
 
 }
 

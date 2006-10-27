@@ -3,7 +3,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2006                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -106,7 +106,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         // make sure we have a valid payment class, else abort
         if ( ! $config->paymentClass ) {
             CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file.' ) );
-            // CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
         }
 
         // current contribution page id 
@@ -139,35 +138,19 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         if ( ! $this->_values ) {
             // get all the values from the dao object
-            $params = array('id' => $this->_id); 
             $this->_values = array( );
             $this->_fields = array( );
 
-            CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $this->_values );
-
-            $session->set( 'pastContributionThermometer', $this->_values['is_thermometer'] );
+            require_once 'CRM/Contribute/BAO/ContributionPage.php';
+            CRM_Contribute_BAO_ContributionPage::setValues( $this->_id, $this->_values );
 
             // check if form is active
             if ( ! $this->_values['is_active'] ) {
-                // form is inactive, bounce user back to front page of CMS
+                // form is inactive, die a fatal death
                 CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
-                // CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
             }
 
-            // get the amounts and the label
-            require_once 'CRM/Core/BAO/CustomOption.php';  
-            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_contribution_page', $this->_id, $this->_values );
-            
-            // get the profile ids
-            require_once 'CRM/Core/BAO/UFJoin.php'; 
-            
-            $ufJoinParams = array( 'entity_table' => 'civicrm_contribution_page',   
-                                   'entity_id'    => $this->_id,   
-                                   'weight'       => 1 ); 
-            $this->_values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
-            
-            $ufJoinParams['weight'] = 2; 
-            $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+            $session->set( 'pastContributionThermometer', $this->_values['is_thermometer'] );
 
             if ( ($config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_FORM) && $this->_values['is_monetary'] ) {
                 $this->setCreditCardFields( );
@@ -182,7 +165,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $membership = CRM_Member_BAO_Membership::getMembershipBlock( $this->_id );
         if ( ! $this->_values['amount_block_is_active'] && ! $membership['is_active'] ) {
             CRM_Core_Error::fatal( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
-            CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
         }
         if ( $this->_values['amount_block_is_active'] ) {
             $this->set('amount_block_is_active',$this->_values['amount_block_is_active' ]);

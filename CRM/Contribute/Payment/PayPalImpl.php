@@ -49,6 +49,8 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
      */ 
     static private $_singleton = null; 
 
+    static protected $_mode = null;
+
     /** 
      * Constructor 
      * 
@@ -60,7 +62,14 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         require_once 'PayPal.php';
         require_once 'PayPal/Profile/API.php';
 
+        $this->_mode = $mode;
+
         $config =& CRM_Core_Config::singleton( );
+
+        if ( $config->paymentProcessor == 'PayPal_Standard' ) {
+            return;
+        }
+
         if ( $config->paymentUsername[$mode] ) {
             require_once 'PayPal/Profile/Handler/Array.php';
             $environment = ( $mode == 'test' ) ? 'sandbox' : 'live';
@@ -543,7 +552,7 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
 
         $paypalParams =
             array( 'cmd'                => 'xclick',
-                   'business'           => 'paypal@openngo.org',
+                   'business'           => $config->paymentUsername[$this->_mode],
                    'notify_url'         => $notifyURL,
                    'amount'             => $params['amount'],
                    'item_name'          => $params['item_name'],
@@ -570,7 +579,8 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         }
 
         $uri = substr( $uri, 1 );
-        $paypalURL = "https://www.sandbox.paypal.com/xclick/$uri";
+        $url = ( $this->_mode == 'test' ) ? $config->paymentPayPalExpressTestUrl : $config->paymentPayPalExpressUrl;
+        $paypalURL = "https://{$url}/xclick/$uri";
 
         CRM_Utils_System::redirect( $paypalURL );
     }

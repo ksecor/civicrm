@@ -44,6 +44,7 @@ Membership End Date   : {$mem_end_date|crmDate}
 Email : {$honor_email}
 
 {/if}
+{if $contributeMode ne 'none'}
 ===========================================================
 {ts}Billing Name and Address{/ts}
 
@@ -52,6 +53,7 @@ Email : {$honor_email}
 {$address}
 
 {$email}
+{/if}
 
 {if $contributeMode eq 'direct'}
 ===========================================================

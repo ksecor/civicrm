@@ -54,6 +54,77 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         return $dao;
     }
 
+    static function setValues( $id, &$values ) {
+        $params = array('id' => $id);
+
+        CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $values );
+
+        // get the amounts and the label
+        require_once 'CRM/Core/BAO/CustomOption.php';  
+        CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_contribution_page', $id, $values );
+
+        // get the profile ids
+        require_once 'CRM/Core/BAO/UFJoin.php'; 
+        $ufJoinParams = array( 'entity_table' => 'civicrm_contribution_page',   
+                               'entity_id'    => $id,   
+                               'weight'       => 1 ); 
+        $values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
+        
+        $ufJoinParams['weight'] = 2; 
+        $values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+    }
+
+     /**
+     * Process that send e-mails
+     *
+     * @return void
+     * @access public
+     */
+    static function sendMail( $contactID, &$values ) {
+        if ( $values['is_email_receipt'] ) {
+            $template =& CRM_Core_Smarty::singleton( );
+
+            require_once 'CRM/Contact/BAO/Contact.php';
+            list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template );
+            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template );
+
+            $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
+            $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
+           
+            $receiptFrom = '"' . $values['receipt_from_name'] . '" <' . $values['receipt_from_email'] . '>';
+            require_once 'CRM/Utils/Mail.php';
+            CRM_Utils_Mail::send( $receiptFrom,
+                                   $displayName,
+                                   $email,
+                                   $subject,
+                                   $message,
+                                   $values['cc_receipt'],
+                                   $values['bcc_receipt']
+                                   );
+            
+        }
+    }
+    
+    /**  
+     * Function to add the custom fields
+     *  
+     * @return None  
+     * @access public  
+     */ 
+    function buildCustomDisplay( $gid, $name, $cid, &$template ) {
+        if ( $gid ) {
+           $values = array( );
+           $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
+           CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false );
+           if ( count( $values ) ) {
+               $template->assign( $name, $values );
+           }
+        }
+    }
+
+
+
 }
 
 ?>
