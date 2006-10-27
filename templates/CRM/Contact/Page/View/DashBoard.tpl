@@ -54,6 +54,9 @@
 <fieldset><legend>{ts}Quick Search{/ts}</legend>
     <form action="{$postURL}" method="post">
     <div class="form-item">
+        {if $drupalFormToken}
+            <input type="hidden" name="edit[token]" value="{$drupalFormToken}" />
+        {/if}
         <input type="hidden" name="contact_type" value="" />
         <input type="text" name="sort_name" class="form-text required eight" value="" />
         <input type="submit" name="_qf_Search_refresh" value="{ts}Search{/ts}" class="form-submit" />
