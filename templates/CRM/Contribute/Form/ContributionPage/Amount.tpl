@@ -9,9 +9,13 @@
 <div class="form-item" id="map-field">
     <fieldset><legend>{ts}Contribution Amounts{/ts}</legend>
     <dl>
-
     <dt>{$form.amount_block_is_active.label}</dt><dd>{$form.amount_block_is_active.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Uncheck this box if you are using this contribution page for membership signup and renewal only - and you do NOT want users to select or enter any additional contribution amounts.{/ts}</dd>
+    </dl>
+
+    <dl>
+    <dt>{$form.is_monetary.label}</dt><dd>{$form.is_monetary.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Uncheck this box if you are using this contribution page for users to enter in-kind / non-monetary donations such as furniture, equipment.. etc.{/ts}</dd>
     </dl>
     
     <dl>

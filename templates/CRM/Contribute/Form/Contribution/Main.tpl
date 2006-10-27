@@ -64,6 +64,7 @@ function clearAmountOther() {
     
     {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
 
+{if $is_monetary}
 {if $form.credit_card}
     <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
     {if $config->paymentBillingMode & 2}
@@ -80,7 +81,7 @@ function clearAmountOther() {
         <tr><td class="label">{$form.cvv2.label}{$reqMark}</td><td>{$form.cvv2.html} &nbsp; <img src="{$config->resourceBase}i/mini_cvv2.gif" alt="{ts}Security Code Location on Credit Card{/ts}" style="vertical-align: text-bottom;" /><br />
             <span class="description">{ts}Usually the last 3-4 digits in the signature area on the back of the card.{/ts}</span></td></tr>
         <tr><td class="label">{$form.credit_card_exp_date.label}{$reqMark}</td><td>{$form.credit_card_exp_date.html}</td></tr>
-v        </table>
+        </table>
         </fieldset>
         
         <fieldset><legend>{ts}Billing Name and Address{/ts}</legend>
@@ -98,9 +99,11 @@ v        </table>
     {/if}
     </fieldset>
 {/if}
+{/if}
 
 {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
 
+{if $is_monetary}
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *}
 {if $config->paymentProcessor EQ 'PayPal_Express'}
     <fieldset><legend>{ts}Checkout with PayPal{/ts}</legend>
@@ -109,6 +112,7 @@ v        </table>
     <tr><td>{$form._qf_Main_next_express.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td></tr>
     </table>
     </fieldset>
+{/if}
 {/if}
 
 <div id="crm-submit-buttons">

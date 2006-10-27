@@ -78,6 +78,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         $this->addElement('checkbox', 'amount_block_is_active', ts('Contribution Amounts Section Enabled') );
 
+        $this->addElement('checkbox', 'is_monetary', ts('Execute real-time monetary transactions') );
+
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
 
         parent::buildQuickForm( );

@@ -130,8 +130,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->applyFilter('__ALL__', 'trim');
 
         $this->add( 'text', 'email', ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
- 
-        $this->buildCreditCard( );
+        if ( $this->_values['is_monetary'] ) {
+            $this->buildCreditCard( );
+        }
         if ( $this->_values['amount_block_is_active'] ) {
             $this->buildAmount( );
         }
@@ -152,9 +153,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
-        
         // if payment is via a button only, dont display continue
-        if ( $config->paymentBillingMode != CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
+        if ( $config->paymentBillingMode != CRM_Contribute_Payment::BILLING_MODE_BUTTON || !$this->_values['is_monetary']) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
                                             'name'      => ts('Continue >>'), 
@@ -414,7 +414,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     public function postProcess() 
     {
         $config =& CRM_Core_Config::singleton( );
-
+        
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
 
@@ -432,6 +432,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
             if ( $memFee ) {
                 $params['amount'] = $memFee;
+            } else {
+                $params['amount'] = 0;
             }
         }
         $this->set( 'amount', $params['amount'] ); 
@@ -443,46 +445,49 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         $this->set( 'invoiceID', $invoiceID );
 
-        $payment =& CRM_Contribute_Payment::singleton( $this->_mode ); 
-  
-        // default mode is direct
-        $this->set( 'contributeMode', 'direct' ); 
-
-        if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
-            //get the button name  
-            $buttonName = $this->controller->getButtonName( );  
-            if ($buttonName == $this->_expressButtonName || 
-                $buttonName == $this->_expressButtonName . '_x' || 
-                $buttonName == $this->_expressButtonName . '_y' ) { 
-                $this->set( 'contributeMode', 'express' ); 
-                
-                $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
-                $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1', true, null, false ); 
-                $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
-                $params['invoiceID' ] = $invoiceID;
-                
-                $token = $payment->setExpressCheckout( $params ); 
-                if ( is_a( $token, 'CRM_Core_Error' ) ) { 
-                    CRM_Core_Error::displaySessionError( $token ); 
-                    CRM_Utils_System::redirect( $params['cancelURL' ] );
-                } 
-
-                $this->set( 'token', $token ); 
-
-                if ( $this->_mode == 'test' ) {
-                    $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl. "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                } else {
-                    $paymentURL = "https://" . $config->paymentPayPalExpressUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                    // hack to allow us to test without donating, need to comment out below line before release
-                    // $paymentURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+        // not required if is_monetary=FALSE 
+        if ( $this->_values['is_monetary'] ) {
+            
+            $payment =& CRM_Contribute_Payment::singleton( $this->_mode ); 
+            // default mode is direct
+            $this->set( 'contributeMode', 'direct' ); 
+            
+            if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
+                //get the button name  
+                $buttonName = $this->controller->getButtonName( );  
+                if ($buttonName == $this->_expressButtonName || 
+                    $buttonName == $this->_expressButtonName . '_x' || 
+                    $buttonName == $this->_expressButtonName . '_y' ) { 
+                    $this->set( 'contributeMode', 'express' ); 
+                    
+                    $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
+                    $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1', true, null, false ); 
+                    $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
+                    $params['invoiceID' ] = $invoiceID;
+                    
+                    $token = $payment->setExpressCheckout( $params ); 
+                    if ( is_a( $token, 'CRM_Core_Error' ) ) { 
+                        CRM_Core_Error::displaySessionError( $token ); 
+                        CRM_Utils_System::redirect( $params['cancelURL' ] );
+                    } 
+                    
+                    $this->set( 'token', $token ); 
+                    
+                    if ( $this->_mode == 'test' ) {
+                        $paymentURL = "https://" . $config->paymentPayPalExpressTestUrl. "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                    } else {
+                        $paymentURL = "https://" . $config->paymentPayPalExpressUrl . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                        // hack to allow us to test without donating, need to comment out below line before release
+                        // $paymentURL = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                    }
+                    CRM_Utils_System::redirect( $paymentURL ); 
                 }
-                CRM_Utils_System::redirect( $paymentURL ); 
+            } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NONE ) {
+                $this->set( 'contributeMode', 'none' );
             }
-        } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NONE ) {
-            $this->set( 'contributeMode', 'none' );
-        }
+        }         
     }
-
+    
 }
 
 ?>

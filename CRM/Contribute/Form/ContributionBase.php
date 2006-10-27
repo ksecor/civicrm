@@ -169,14 +169,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $ufJoinParams['weight'] = 2; 
             $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
 
-            if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_FORM ) {
+            if ( ($config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_FORM) && $this->_values['is_monetary'] ) {
                 $this->setCreditCardFields( );
             }
 
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
         }
-        // print_r( $this->_values ) ;
+
         // check if one of the (amount , membership)  bloks is active or not
         require_once 'CRM/Member/BAO/Membership.php';
         $membership = CRM_Member_BAO_Membership::getMembershipBlock( $this->_id );
@@ -190,6 +190,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode ); 
+
+        //assigning is_monetary to template
+        $this->assign( 'is_monetary', $this->_values['is_monetary'] );
 
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );

@@ -65,6 +65,12 @@
       <add>1.3</add>  
   </field> 
   <field>   
+      <name>is_monetary</name>   
+      <type>boolean</type>                   
+      <comment>if true - allows real-time monetary transactions otherwise non-monetary transactions</comment>   
+      <add>1.6</add>   
+  </field>
+  <field>   
       <name>is_allow_other_amount</name>   
       <type>boolean</type>                   
       <comment>if true, page will include an input text field where user can enter their own amount</comment>   
