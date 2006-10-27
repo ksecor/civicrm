@@ -51,7 +51,10 @@ class CRM_Contribute_Payment_PayPalIPN {
                                                            false, null, 'GET' );
         $contributionTypeID = CRM_Utils_Request::retrieve( 'contributionTypeID', 'Integer', $store,
                                                          false, null, 'GET' );
-
+        if ( ! $contactID || ! $contributionID || ! $contributionTypeID ) {
+            CRM_Core_Error::debug_log_message( "Could not find the right GET parameters" );
+            return;
+        }
 
         // make sure the invoice is valid and matches what we have in the contribution record
         require_once 'CRM/Contribute/DAO/Contribution.php';
@@ -61,6 +64,8 @@ class CRM_Contribute_Payment_PayPalIPN {
             CRM_Core_Error::debug_log_message( "Could not find contribution record: $contributionID" );
             return;
         }
+        $now = date( 'YmdHis' );
+        $contribution->receive_date = null; // lets keep this the same
 
         require_once 'CRM/Contribute/DAO/ContributionType.php';
         $contributionType =& new CRM_Contribute_DAO_ContributionType( );
@@ -84,12 +89,10 @@ class CRM_Contribute_Payment_PayPalIPN {
             return;
         }
         
-        CRM_Core_DAO::transaction( 'BEGIN' );
-
         $status = CRM_Utils_Request::retrieve( 'payment_status', 'String', $store,
                                                false, 0, 'POST' );
         if ( $status == 'Denied' || $status == 'Failed' || $status == 'Voided' ) {
-            $contribution->status_id = 4;
+            $contribution->contribution_status_id = 4;
             $contribution->save( );
             CRM_Core_DAO::transaction( 'COMMIT' );
             CRM_Core_Error::debug_log_message( "Setting contribution status to failed" );
@@ -97,13 +100,24 @@ class CRM_Contribute_Payment_PayPalIPN {
         } else if ( $status == 'Pending' ) {
             CRM_Core_Error::debug_log_message( "returning since contribution status is pending" );
             return;
+        } else if ( $status == 'Refunded' || $status == 'Reversed' ) {
+            $contribution->contribution_status_id = 3;
+            $contribution->cancel_date = $now;
+            $contribution->cancel_reason = CRM_Utils_Request::retrieve( 'ReasonCode', 'String', $store,
+                                                                        false, null,'POST' );
         } else if ( $status != 'Completed' ) {
             // we dont handle this as yet
             CRM_Core_Error::debug_log_message( "returning since contribution status: $status is not handled" );
             return;
         }
 
-        $contribution->status_id  = 1;
+        // check if contribution is already completed, if so we ignore this ipn
+        if ( $contribution->contribution_status_id == 1 ) {
+            CRM_Core_Error::debug_log_message( "returning since contribution has already been handled" );
+            return;
+        }
+
+        $contribution->contribution_status_id  = 1;
         $contribution->is_test    = CRM_Utils_Request::retrieve( 'test_ipn', 'Integer', $store,
                                                               false, 0, 'POST' );
         $contribution->fee_amount = CRM_Utils_Request::retrieve( 'payment_fee', 'Money', $store, 
@@ -112,9 +126,10 @@ class CRM_Contribute_Payment_PayPalIPN {
                                                                  false, 0, 'POST' ); 
         $contribution->trxn_id    = CRM_Utils_Request::retrieve( 'txn_id', 'String', $store,
                                                                  false, 0, 'POST' );
-        $now = date( 'YmdHis' );
-        $contribution->receive_date = null; // lets keep this the same
-        $contribution->receipt_date = date( 'YmdHis' );
+        $contribution->receipt_date = $now;
+
+        CRM_Core_DAO::transaction( 'BEGIN' );
+
         $contribution->save( );
 
         // next create the transaction record
@@ -135,7 +150,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
 
         // get the title of the contribution page
-        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribution_DAO_ContributionPage',
+        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
                                               $contribution->contribution_page_id,
                                               'title' );
 
@@ -151,7 +166,8 @@ class CRM_Contribute_Payment_PayPalIPN {
                           'activity_date'    => $now,
                           );
 
-        if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
+        require_once 'api/History.php';
+        if ( is_a( crm_create_activity_history($ahParams), 'CRM_Core_Error' ) ) { 
             CRM_Core_Error::debug_log_message( "error in updating activity" );
         }
 

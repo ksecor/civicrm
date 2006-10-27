@@ -451,7 +451,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $payment =& CRM_Contribute_Payment::singleton( $this->_mode ); 
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
-            
+
             if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_BUTTON ) {
                 //get the button name  
                 $buttonName = $this->controller->getButtonName( );  
