@@ -447,6 +447,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
 
+        foreach ( array( 'non_deductible_amount', 'total_amount', 'fee_amount', 'net_amount' ) as $f ) {
+            $params[$f] = CRM_Utils_Rule::cleanMoney( $params[$f] );
+        }
+
         $dates = array( 'receive_date',
                         'receipt_date',
                         'thankyou_date',

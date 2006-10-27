@@ -295,7 +295,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     static function formRule( &$fields, &$files, &$self ) { 
        
         $errors = array( ); 
-       
+
+        // first clean up the other amount field if present
+        if ( isset( $fields['amount_other'] ) ) {
+            $fields['amount_other'] = CRM_Utils_Rule::cleanMoney( $fields['amount_other'] );
+        }
+
         if( $fields['selectProduct'] && $fields['selectProduct'] != 'no_thanks' && $self->_values['amount_block_is_active'] ) {
             require_once 'CRM/Contribute/DAO/Product.php';
             require_once 'CRM/Utils/Money.php';
@@ -415,6 +420,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $params['currencyID']     = $config->defaultCurrency;
 
+        // first clean up the other amount field if present
+        if ( isset( $params['amount_other'] ) ) {
+            $params['amount_other'] = CRM_Utils_Rule::cleanMoney( $params['amount_other'] );
+        }
+        
         $params['payment_action'] = 'Sale'; 
         $params['amount'] = ( $params['amount'] == 'amount_other_radio' ) ? $params['amount_other'] : $params['amount'];
         

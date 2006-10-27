@@ -99,6 +99,7 @@ class CRM_Contribute_Payment_PayPalIPN {
             return;
         } else if ( $status != 'Completed' ) {
             // we dont handle this as yet
+            CRM_Core_Error::debug_log_message( "returning since contribution status: $status is not handled" );
             return;
         }
 
@@ -154,6 +155,7 @@ class CRM_Contribute_Payment_PayPalIPN {
             CRM_Core_Error::debug_log_message( "error in updating activity" );
         }
 
+        CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
         CRM_Core_DAO::transaction( 'COMMIT' );
     }
 

@@ -108,6 +108,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'description' ) );
         $this->add('text', 'minimum_fee', ts('Minimum Fee'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'minimum_fee' ) );
+        $this->addRule( 'minimum_fee', ts('Please enter a monetary value for the Minimum Fee.'), 'money' );
+
         $this->add('select', 'duration_unit', ts('Duration') . ' ', CRM_Core_SelectValues::unitList('duration'));
         //period type
         $this->addElement('select', 'period_type', ts('Period Type'), 
@@ -283,6 +285,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $this->set( 'searchDone', 1 );
                 return;
             }
+
+            $params['minimum_fee'] = CRM_Utils_Rule::cleanMoney( $params['minimum_fee'] );
             if ( $params['relationship_type_id'] ) {
                 $relationId = explode( '_', $params['relationship_type_id'] );
                 $params['relationship_type_id'] = $relationId[0];

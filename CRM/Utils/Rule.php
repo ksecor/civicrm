@@ -282,11 +282,37 @@ class CRM_Utils_Rule
         return preg_match( '/^\d{'.$noOfDigit.'}$/', $value ) ? true : false;
     }
 
+    static function cleanMoney( $value ) {
+        // first remove all white space
+        $value = str_replace( array( ' ', "\t", "\n" ), '', $value );
+
+        $config =& CRM_Core_Config::singleton( );
+        setlocale( LC_ALL, $config->lcMessages );
+        $localeInfo = localeconv( );
+
+        $mon_thousands_sep = $localeInfo['mon_thousands_sep'];
+        if ( ! $mon_thousands_sep ) {
+            $mon_thousands_sep = ',';
+        }
+        $value = str_replace( $mon_thousands_sep, '', $value );
+
+        $mon_decimal_point = $localeInfo['mon_decimal_point'];
+        if ( ! $mon_decimal_point ) {
+            $mon_decimal_point = '.';
+        }
+        $value = str_replace( $mon_decimal_point, '.', $value );
+
+        return $value;
+    }
+
     static function money($value) 
     {
+        $value = self::cleanMoney( $value );
+
         if ( self::integer( $value ) ) {
             return true;
         }
+
         return preg_match( '/(^\d+\.\d?\d?$)|(^\.\d\d?$)/', $value ) ? true : false;
     }
 

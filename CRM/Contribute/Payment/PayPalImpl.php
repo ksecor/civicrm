@@ -571,6 +571,7 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
 
         $uri = substr( $uri, 1 );
         $paypalURL = "https://www.sandbox.paypal.com/xclick/$uri";
+
         CRM_Utils_System::redirect( $paypalURL );
     }
 

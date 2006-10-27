@@ -353,6 +353,11 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
                 $ids['premium'] = $this->_id;
             }
             
+            // fix the money fields
+            foreach ( array( 'cost', 'price', 'min_contribution' ) as $f ) {
+                $params[$f] = CRM_Utils_Rule::cleanMoney( $f );
+            }
+
             $premium = CRM_Contribute_BAO_ManagePremiums::add($params, $ids);
             if ( $error ) {
                 CRM_Core_Session::setStatus(ts('NOTICE: No thumbnail of your image was created because the GD image library is not currently compiled in your PHP installation. Product is currently configured to use default thumbnail image. If you have a local thumbnail image you can upload it separately and input the thumbnail URL by editing this premium.'));

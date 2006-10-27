@@ -127,6 +127,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $minAmount = CRM_Utils_Array::value( 'min_amount', $fields );
         $maxAmount = CRM_Utils_Array::value( 'max_amount', $fields );
         if ( ! empty( $minAmount) && ! empty( $maxAmount ) ) {
+            $minAmount = CRM_Utils_Rule::cleanMoney( $minAmount );
+            $maxAmount = CRM_Utils_Rule::cleanMoney( $maxAmount );
             if ( (float ) $minAmount > (float ) $maxAmount ) {
                 $errors['min_amount'] = ts( 'Minimum Amount should be less than Maximum Amount' );
             }
@@ -150,6 +152,9 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $params['domain_id']             = CRM_Core_Config::domainID( );
         $params['is_allow_other_amount'] = CRM_Utils_Array::value('is_allow_other_amount', $params, false);
 
+        $params['min_amount'] = CRM_Utils_Rule::cleanMoney( $params['min_amount'] );
+        $params['max_amount'] = CRM_Utils_Rule::cleanMoney( $params['max_amount'] );
+
         require_once 'CRM/Core/DAO/CustomOption.php';
             
         // delete all the prior label values in the custom options table
@@ -168,7 +173,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                 if ( ! empty( $labels[$i] ) && !empty( $values[$i] ) ) {
                     $dao =& new CRM_Core_DAO_CustomOption( );
                     $dao->label        = trim( $labels[$i] );
-                    $dao->value        = trim( $values[$i] );
+                    $dao->value        = CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) );
                     $dao->entity_table = 'civicrm_contribution_page';
                     $dao->entity_id    = $this->_id;
                     $dao->weight       = $i;
