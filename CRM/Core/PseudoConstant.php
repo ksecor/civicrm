@@ -384,19 +384,10 @@ class CRM_Core_PseudoConstant {
      *
      */
     public static function &IMProvider( $all = false ) {
-        require_once 'CRM/Core/BAO/OptionGroup.php';
-        $groupParams = array( 'name' => 'instant_messenger_service' );
-        $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
-        
-        if (!self::$imProvider) {
-            if ($optionGroup->id) {
-                self::populate( self::$imProvider, 'CRM_Core_DAO_OptionValue', $all, 'name', 
-                                'is_active', "option_group_id = " . $optionGroup->id, 'name' );
-            } else {
-                // since there is a break if it doesn't return anything
-                return array();
-            }
-        }
+        require_once 'CRM/Core/OptionGroup.php';
+        if ( ! self::$imProvider ) {
+            self::$imProvider = CRM_Core_OptionGroup::values('instant_messenger_service');
+        }        
         return self::$imProvider;
     }
 
