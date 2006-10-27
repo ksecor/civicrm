@@ -1,0 +1,17 @@
+use strict;
+
+# These settings are here just to enable a Debian package that does not
+# depend on clamav.  The local admin is expected to override them
+# in /etc/amavis/conf.d/15-content_filter_mode, if any sort of antivirus
+# support is wanted
+
+@bypass_virus_checks_maps  = (1);  # DISABLE anti-virus code by default
+
+# These settings are here just to enable a Debian package that does not
+# depend on spamassassin.  The local admin is expected to override them
+# in /etc/amavis/conf.d/15-content_filter_mode, if spamassassin support
+# is wanted
+
+@bypass_spam_checks_maps  = (1);  # DISABLE anti-spam code by default
+
+1;  # insure a defined return

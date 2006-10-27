@@ -1,0 +1,159 @@
+#! /bin/sh
+# postinst script for amavisd-new
+# $Id: amavisd-new.postinst,v 1.17.2.3 2006/10/16 12:52:18 hmh Exp $
+#
+# see: dh_installdeb(1)
+
+# debconf
+set -e
+. /usr/share/debconf/confmodule
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+#
+# quoting from the policy:
+#     Any necessary prompting should almost always be confined to the
+#     post-installation script, and should be protected with a conditional
+#     so that unnecessary prompting doesn't happen if a package's
+#     installation fails and the `postinst' is called with `abort-upgrade',
+#     `abort-remove' or `abort-deconfigure'.
+
+case "$1" in
+    configure)
+	# add amavis system user and group (requires adduser >= 3.34)
+	# don't muck around with this unless you KNOW what you're doing
+	# also, don't attempt to second guess what kind of fucked up
+	# mistakes other amavis packages might have made.  Tell the user
+	# to kill the bogus entry.  We can't simply overwrite it with
+	# usermod, since that would certainly cause severe headaches for
+	# a sysadmin out there...
+	#
+	# I don't care that users migrating from other amavis packages
+	# will have extra work.  Someone lost 30GB because we tried to
+	# be nice once.  See #190414.
+	echo "Creating/updating amavis user account..." >&2
+	addgroup --quiet --system amavis || {
+	  # addgroup failed. Why?
+	  if ! getent group amavis >/dev/null ; then
+	     echo "Could not create system group amavis." >&2
+	     exit 1
+	  fi
+	  # well, the group is there, so just ignore the error
+	}
+	adduser --system --ingroup amavis \
+		--home /var/lib/amavis --no-create-home \
+		--gecos "AMaViS system user" --shell /bin/sh \
+		--quiet --disabled-password amavis || {
+	  # adduser failed. Why?
+	  if getent passwd amavis >/dev/null ; then
+	     echo "Non-system user amavis found. I will not overwrite a non-system" >&2
+	     echo "user.  Remove the user and reinstall amavisd-new." >&2
+	     exit 1
+	  fi
+	  # unknown adduser error, simply exit
+	  exit 1
+	}
+
+	# Clean up after #190414, and since we don't support amavis homedirs
+	# elsewhere, do it unconditionally
+	homedir=$(getent passwd amavis | cut -d : -f 6)
+	if [ "${homedir}" != "/var/lib/amavis" ] ; then
+	  echo 'WARNING! Homedir of user amavis was set to' "${homedir}," >&2
+	  echo 'this is not supported by this package, overriding it to /var/lib/amavis...' >&2
+	  homedir=/var/lib/amavis
+	  usermod -d "${homedir}" amavis
+	fi
+
+	# Sanity-checks (see #367807), should not be necessary anymore, but still...
+	if [ ! -d "${homedir}" ] ; then
+	  echo "Broken amavis system user found (missing ${homedir})." >&2
+	  echo "To insure data-safety, it is up to you the local administrator" >&2
+	  echo "to remove the broken amavis user, or repair it so that" >&2
+	  echo "it is sane" >&2
+	  exit 1
+	fi
+
+	umask 022
+	for i in /var/lib/amavis /var/lib/amavis/db /var/lib/amavis/tmp \
+		 /var/lib/amavis/virusmails /var/run/amavis
+	do
+		if ! dpkg-statoverride --list "$i" > /dev/null ; then
+			dpkg-statoverride --add amavis amavis 755 "$i"
+			mode="amavis:amavis"
+		else
+			mode=$(dpkg-statoverride --list "$i" | \
+				tr -s " " ":" | cut -d ":" -f -2)
+		fi
+		if [ ! -d "$i" ] ; then
+			mkdir -p "$i"
+		fi
+		chown -R --preserve-root --quiet ${mode} "$i"
+	done
+
+	# add amavis: root entry to aliases, if none exist
+	if [ -f /etc/aliases ] || [ -L /etc/aliases ]; then
+		if ! grep -qi "^amavis[[:blank:]]*:" /etc/aliases; then
+			echo "amavis: root" >> /etc/aliases
+			newaliases=$(which newaliases)
+			if [ "$newaliases" ] && [ -x "$newaliases" ]; then
+				newaliases || true
+			fi
+		fi
+	fi
+
+	#
+	# Conffile upgrade handling
+	#
+
+	# from sarge amavisd-new (1.0) and previous
+	# disable the config file, initscript will refuse to run
+	db_fset amavisd-new/outdated_config_style_warning seen false || true
+	for i in /etc/amavisd.conf /etc/amavis/amavisd.conf ; do
+		if [ -e "$i" ] ; then
+			mv "$i" "${i}.disabled" || true
+			db_input high amavisd-new/outdated_config_style_warning || true
+			db_go || true
+		fi
+	done
+
+	# Work around dpkg not deleting removed conffiles
+	
+	# (template directories (with files) removed in 1:2.3.3-2)
+	if dpkg --compare-versions "1:2.3.3-2" gt-nl "$1" ; then
+		for i in pt_BR fr it_IT de_DE ; do
+			if [ -e "/etc/amavis/$i" ] ; then
+				echo "Moving outdated l10n template to /etc/amavis/${i}.outdated_for_2.3.3-2" >&2
+				mv "/etc/amavis/$i" "/etc/amavis/${i}.outdated_for_2.3.3-2"
+			fi
+		done
+	fi
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+# We don't need debconf anymore from here on
+db_stop
+
+# dh_installdeb will replace this with shell code automatically
+# generated by other debhelper scripts.
+
+#DEBHELPER#
+
+exit 0
+

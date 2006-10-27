@@ -1,0 +1,2 @@
+amavisd-new: no-debconf-config
+amavisd-new: postinst-uses-db-input

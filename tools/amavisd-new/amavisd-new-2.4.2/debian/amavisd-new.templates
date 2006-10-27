@@ -1,0 +1,24 @@
+Template: amavisd-new/outdated_config_style_warning
+Type: note
+_Description: Incompatible configuration file layout detected
+ The Debian packages have changed the way they handle configuration files
+ for amavisd-new to a better system, which uses multiple files instead of a
+ single, monolithic file.
+ .
+ The old amavisd-new configuration files that are still present in your
+ system (named either /etc/amavisd.conf or /etc/amavis/amavisd.conf) are
+ incompatible with this new config file layout.
+ .
+ You should read /usr/share/doc/amavisd-new/README.Debian to understand the
+ new configuration layout, and after that you should port your
+ configuration to the new layout.
+ .
+ For your safety, the old configuration files in your system have been
+ disabled, and a ".disabled" postfix was added to their file names.  The
+ amavisd-new service will refuse to start until you remove (or rename)
+ these ".disabled" files.
+ .
+ This safety is in place to avoid starting an unconfigured amavisd-new in
+ place of your previously configured one.  Do not remove the ".disabled"
+ files until you have read the /usr/share/doc/amavisd-new/README.Debian
+ file and ported your old configuration to the new layout.
