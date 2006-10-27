@@ -46,6 +46,8 @@
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
+
+    {if $contributeMode ne 'none'}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -56,6 +58,7 @@
     <div class="display-block">
         {$email}
     </div>
+    {/if}
 
     {if $contributeMode eq 'direct'}
     <div class="header-dark">

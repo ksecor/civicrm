@@ -179,7 +179,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         // print_r( $this->_values ) ;
         // check if one of the (amount , membership)  bloks is active or not
         require_once 'CRM/Member/BAO/Membership.php';
-        $membership = CRM_Member_BAO_Membership::getMemershipBlock( $this->_id );
+        $membership = CRM_Member_BAO_Membership::getMembershipBlock( $this->_id );
         if ( ! $this->_values['amount_block_is_active'] && ! $membership['is_active'] ) {
             CRM_Core_Error::fatal( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
             CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
@@ -242,7 +242,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
 
-        if ( $this->_contributeMode != 'express' ) {
+        if ( $this->_contributeMode == 'direct' ) {
             $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
             $date = CRM_Utils_Date::mysqlToIso( $date );
             $this->assign( 'credit_card_exp_date', $date );

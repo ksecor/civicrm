@@ -166,6 +166,11 @@ class CRM_Contribute_Config {
                 $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
                 break;
 
+            case 'PayPal_Standard':
+                $config->paymentClass = 'CRM_Contribute_Payment_PayPalImpl';
+                $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_NONE;
+                break;
+
             case 'Moneris':
                 $config->paymentClass = 'CRM_Contribute_Payment_Moneris';
                 $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_FORM;

@@ -534,6 +534,46 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         }
     }
 
+    function doTransferCheckout( &$params ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}";
+        $returnURL = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_ThankYou_display=1', true, null, false );
+        $cancelURL = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1&cancel=1', true, null, false );
+
+        $paypalParams =
+            array( 'cmd'                => 'xclick',
+                   'business'           => 'paypal@openngo.org',
+                   'notify_url'         => $notifyURL,
+                   'amount'             => $params['amount'],
+                   'item_name'          => $params['item_name'],
+                   'quantity'           => 1,
+                   'undefined_quantity' => 0,
+                   'cancel_return'      => $cancelURL,
+                   'no_note'            => 1,
+                   'no_shipping'        => 1,
+                   'return'             => $returnURL,
+                   'rm'                 => 1,
+                   'currency_code'      => $params['currencyID'],
+                   'invoice'            => $params['invoiceID'] );
+
+
+        $uri = '';
+        foreach ( $paypalParams as $key => $value ) {
+            $value = urlencode( $value );
+            if ( $key == 'return' ||
+                 $key == 'cancel_return' ||
+                 $key == 'notify_url' ) {
+                $value = str_replace( '%2F', '/', $value );
+            }
+            $uri .= "&{$key}={$value}";
+        }
+
+        $uri = substr( $uri, 1 );
+        $paypalURL = "https://www.sandbox.paypal.com/xclick/$uri";
+        CRM_Utils_System::redirect( $paypalURL );
+    }
+
 }
 
 ?>

@@ -193,8 +193,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 if ( substr( $name, 0, 7 ) == 'custom_' ) {
                     $id = substr( $name, 7 );
                     $defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact[$name],
-                                                                                         $id,
-                                                                                         $options );
+                                                                                  $id,
+                                                                                  $options );
                 } else {
                     $defaults[$name] = $contact[$name];
                 } 
@@ -294,19 +294,19 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             require_once 'CRM/Member/BAO/MembershipType.php';
             require_once 'CRM/Member/BAO/Membership.php';
-            $membersshipID = $membershipParams['selectMembership'];
-            $membersshipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membersshipID );
-            $this->assign('membership_name',$membersshipDetails['name']);
+            $membershipID = $membershipParams['selectMembership'];
+            $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipID );
+            $this->assign('membership_name',$membershipDetails['name']);
 
-            $minimumFee = $membersshipDetails['minimum_fee'];
-            $memBlockDetails    = CRM_Member_BAO_Membership::getMemershipBlock( $this->id );
+            $minimumFee = $membershipDetails['minimum_fee'];
+            $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $this->id );
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
             if ( $this->_values['amount_block_is_active']) {
                  $contributionType->id = $this->_values['contribution_type_id'];
             } else {
                 $paymemtDone  = true ;
                 $membershipParams['amount'] = $minimumFee;
-                $contributionType->id = $membersshipDetails['contribution_type_id']; 
+                $contributionType->id = $membershipDetails['contribution_type_id']; 
             }
             if ( ! $contributionType->find( true ) ) {
                 CRM_Core_Error::fatal( "Could not find a system table" );
@@ -348,7 +348,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
             if ( $memBlockDetails['is_separate_payment']  && ! $paymemtDone ) {
                 $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-                $contributionType->id = $membersshipDetails['contribution_type_id']; 
+                $contributionType->id = $membershipDetails['contribution_type_id']; 
                 if ( ! $contributionType->find( true ) ) {
                     CRM_Core_Error::fatal( "Could not find a system table" );
                 }
@@ -368,7 +368,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     
                     $this->assign('membership_trx_id' , $result['trxn_id']);
                     $this->assign('membership_amount'  , $minimumFee);
-                    $contribution[2] =  self::processContribution( $tempParams ,$result ,$contactID ,$contributionType ,false );
+                    $contribution[2] =  self::processContribution( $tempParams, $result, $contactID, $contributionType, false );
                 }
             }
             if ( $memBlockDetails['is_separate_payment'] ) {
@@ -377,7 +377,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $index = 1;
             }
             if ( ! $errors[$index] ){
-                if ( $currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID , $membersshipID) ) {
+                if ( $currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID,  $membershipID) ) {
                     $this->set("renewal_mode", true );
                     if ( ! $currentMembership['is_current_member'] ) {
                         require_once 'CRM/Member/BAO/MembershipStatus.php';
@@ -400,7 +400,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         $dao->modified_date = date('Ymd');
                         $dao->save();
 
-                        $this->assign('mem_start_date' , CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                        $this->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
                         $this->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                         
                     } else {
@@ -421,7 +421,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         $dao->modified_id   = $contactID;
                         $dao->modified_date = date('Ymd');
                         $dao->save();
-                        $this->assign('mem_start_date' , CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                        $this->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
                         $this->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                         
                     }
@@ -430,8 +430,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     require_once 'CRM/Member/BAO/MembershipStatus.php';
                     $memParams = array();
                     $memParams['contact_id']             = $contactID;
-                    $memParams['membership_type_id']     = $membersshipID;
-                    $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membersshipID);
+                    $memParams['membership_type_id']     = $membershipID;
+                    $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membershipID);
                   
                     $memParams['join_date']  = CRM_Utils_Date::customFormat($dates['join_date'],'%Y%m%d');
                     $memParams['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
@@ -444,12 +444,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                     $dao = &new CRM_Member_DAO_Membership();
                     $dao->copyValues($memParams);
                     $membership = $dao->save();
-                    $this->assign('mem_start_date' , CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                    $this->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
                     $this->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                 }
+
                 //insert payment record
                 require_once 'CRM/Member/DAO/MembershipPayment.php';
-                $dao = &new CRM_Member_DAO_MembershipPayment();    
+                $dao =& new CRM_Member_DAO_MembershipPayment();    
                 $dao->membership_id         =  $membership->id;
                 $dao->payment_entity_table  = 'civicrm_contribute';
                 $dao->payment_entity_id     = $contribution[$index]->id;
@@ -483,9 +484,28 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             if ( $this->_contributeMode == 'express' ) {
                 $result =& $payment->doExpressCheckout( $this->_params );
-                     } else {
+            } else if ( $this->_contributeMode == 'none' ) {
+                // this is not going to come back, i.e. we fill in the other details
+                // when we get a callback from the payment processor
+                // also add the contact ID and contribution ID to the params list
+                $this->_params['contactID'] = $contactID;
+                $contribution =& self::processContribution( $this->_params,
+                                                            null,
+                                                            $contactID,
+                                                            $contributionType, 
+                                                            true,
+                                                            true );
+                $this->_params['contributionID'    ] = $contribution->id;
+                $this->_params['contributionTypeID'] = $contributionType->id;
+                $this->_params['item_name'         ] = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
+
+                // commit the transaction before we xfer
+                CRM_Core_DAO::transaction( 'COMMIT' );
+
+                $result =& $payment->doTransferCheckout( $this->_params );
+            } else {
                 $result =& $payment->doDirectPayment( $this->_params );
-               }
+            }
             
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
                 CRM_Core_Error::displaySessionError( $result );
@@ -505,14 +525,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // lets archive it to a financial transaction
             $config =& CRM_Core_Config::singleton( );
             if ( $contributionType->is_deductible ) {
-                $this->assign('is_deductible' , true );
-                $this->set('is_deductible' , true);
+                $this->assign('is_deductible',  true );
+                $this->set('is_deductible',  true);
             }
             
-            $contribution =  self::processContribution( $this->_params ,$result ,$contactID ,$contributionType , true );
+            $contribution =  self::processContribution( $this->_params, $result, $contactID, $contributionType,  true );
             
-            self::postProcessPremium( $premiumParams ,$contribution );
-            
+            self::postProcessPremium( $premiumParams, $contribution );
         
             // finally send an email receipt
             self::sendMail( $contactID );
@@ -526,17 +545,17 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return void
      * @access public
      */
-    public function postProcessPremium( $premiumParams ,$contribution )
+    public function postProcessPremium( $premiumParams, $contribution )
     {
         // assigning Premium information to receipt tpl
         if ( $premiumParams['selectProduct'] && $premiumParams['selectProduct'] != 'no_thanks') {
             $startDate = $endDate = "";
-            $this->assign('selectPremium' , true );
+            $this->assign('selectPremium',  true );
             require_once 'CRM/Contribute/DAO/Product.php';
             $productDAO =& new CRM_Contribute_DAO_Product();
             $productDAO->id = $premiumParams['selectProduct'];
             $productDAO->find(true);
-            $this->assign('product_name' , $productDAO->name );
+            $this->assign('product_name',  $productDAO->name );
             $this->assign('price', $productDAO->price);
             $this->assign('sku', $productDAO->sku);
             $this->assign('option',$premiumParams['options_'.$premiumParams['selectProduct']]);
@@ -616,27 +635,28 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     }
 
     /**
-     * Process the form
+     * Process the contribution
      *
      * @return void
      * @access public
      */
-    public function processContribution( $params ,$result ,$contactID ,$contributionType ,$deductableMode = true ) {
+    public function processContribution( $params, $result, $contactID, $contributionType, $deductibleMode = true, $pending = false ) {
         CRM_Core_DAO::transaction( 'BEGIN' );
-        $honor_block_is_active = $this->get( 'honor_block_is_active');
-        if ( $honor_block_is_active ) {
+
+        if ( $this->get( 'honor_block_is_active' ) ) {
            $honorCId = self::createHonorContact( );
         }
+
         $config =& CRM_Core_Config::singleton( );
-        $nonDeductibleAmount = $result['gross_amount'];
-        if ( $contributionType->is_deductible && $deductableMode ) {
+        $nonDeductibleAmount = $params['amount'];
+        if ( $contributionType->is_deductible && $deductibleMode ) {
             if ( $this->_params['selectProduct'] != 'no_thanks' ) {
                 require_once 'CRM/Contribute/DAO/Product.php';
                 $productDAO =& new CRM_Contribute_DAO_Product();
                 $productDAO->id = $premiumParams['selectProduct'];
                 $productDAO->find(true);
-                if( $result['gross_amount'] < $productDAO->price ){
-                    $nonDeductibleAmount = $result['gross_amount'];
+                if( $params['amount'] < $productDAO->price ){
+                    $nonDeductibleAmount = $params['amount'];
                 } else {
                     $nonDeductibleAmount = $productDAO->price;
                 }
@@ -654,33 +674,42 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // check contribution Type
         // first create the contribution record
         $contribParams = array(
-                        'contact_id'            => $contactID,
-                        'contribution_type_id'  => $contributionType->id,
-                        'contribution_page_id'  => $this->_id,
-                        'payment_instrument_id' => 1,
-                        'receive_date'          => $now,
-                        'non_deductible_amount' => $nonDeductibleAmount,
-                        'total_amount'          => $result['gross_amount'],
-                        'fee_amount'            => CRM_Utils_Array::value( 'fee_amount', $result ),
-                        'net_amount'            => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
-                        'trxn_id'               => $result['trxn_id'],
-                        'invoice_id'            => $params['invoiceID'],
-                        'currency'              => $params['currencyID'],
-                        'receipt_date'          => $receiptDate,
-                        'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title'],
-                        );
+                               'contact_id'            => $contactID,
+                               'contribution_type_id'  => $contributionType->id,
+                               'contribution_page_id'  => $this->_id,
+                               'payment_instrument_id' => 1,
+                               'receive_date'          => $now,
+                               'non_deductible_amount' => $nonDeductibleAmount,
+                               'total_amount'          => $params['amount'],
+                               'invoice_id'            => $params['invoiceID'],
+                               'currency'              => $params['currencyID'],
+                               'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title']
+                               );
+        if ( ! $pending && $result ) {
+            $contribParams += array(
+                                    'fee_amount'   => CRM_Utils_Array::value( 'fee_amount', $result ),
+                                    'net_amount'   => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
+                                    'trxn_id'      => $result['trxn_id'],
+                                    'receipt_date' => $receiptDate,
+                               );
+        }
             
         if ( $honorCId  ) {
             $contribParams["honor_contact_id"] = $honorCId;
         }
-               
+
+        if ( $pending ) {
+            $contribParams["contribution_status_id"] = 2;
+        } else {
+            $contribParams["contribution_status_id"] = 1;
+        }
+
         if( $this->_action & CRM_Core_Action::PREVIEW ) {
             $contribParams["is_test"] = 1;
         }
         
         $ids = array( );
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-
            
         // process the custom data that is submitted or that came via the url
         $groupTree    = $this->get( 'groupTree' );
@@ -690,21 +719,26 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         require_once 'CRM/Core/BAO/CustomGroup.php';
         CRM_Core_BAO_CustomGroup::postProcess( $groupTree, $customValues );
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, 'Contribution', $contribution->id);
-            
+
+        // return if pending
+        if ( $pending ) {
+            return $contribution;
+        }
+
         // next create the transaction record
         $trxnParams = array(
-                        'entity_table'      => 'civicrm_contribution',
-                        'entity_id'         => $contribution->id,
-                        'trxn_date'         => $now,
-                        'trxn_type'         => 'Debit',
-                        'total_amount'      => $result['gross_amount'],
-                        'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
-                        'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $result['gross_amount'] ),
-                        'currency'          => $params['currencyID'],
-                        'payment_processor' => $config->paymentProcessor,
-                        'trxn_id'           => $result['trxn_id'],
-                        );
-            
+                            'entity_table'      => 'civicrm_contribution',
+                            'entity_id'         => $contribution->id,
+                            'trxn_date'         => $now,
+                            'trxn_type'         => 'Debit',
+                            'total_amount'      => $params['amount'],
+                            'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
+                            'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
+                            'currency'          => $params['currencyID'],
+                            'payment_processor' => $config->paymentProcessor,
+                            'trxn_id'           => $result['trxn_id'],
+                            );
+        
         require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
         $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
 
@@ -716,9 +750,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         'module'           => 'CiviContribute', 
                         'callback'         => 'CRM_Contribute_Page_Contribution::details',
                         'activity_id'      => $contribution->id, 
-                        'activity_summary' => CRM_Utils_Money::format($result['gross_amount']). ' - ' . $this->_values['title'] . ' (online)',
+                        'activity_summary' => CRM_Utils_Money::format($params['amount']). ' - ' . $this->_values['title'] . ' (online)',
                         'activity_date'    => $now,
                         );
+
         if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
             CRM_Core_Error::fatal( "Could not create a system record" );
         }
@@ -742,8 +777,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
 
-            $this->buildCustomDisplay( $this->_values['custom_pre_id'] , 'customPre' ,$contactID);
-            $this->buildCustomDisplay( $this->_values['custom_post_id'], 'customPost' ,$contactID);
+            $this->buildCustomDisplay( $this->_values['custom_pre_id'],  'customPre', $contactID);
+            $this->buildCustomDisplay( $this->_values['custom_post_id'], 'customPost', $contactID);
            
             $receiptFrom = '"' . $this->_values['receipt_from_name'] . '" <' . $this->_values['receipt_from_email'] . '>';
             require_once 'CRM/Utils/Mail.php';

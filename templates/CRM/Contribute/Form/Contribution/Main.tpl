@@ -64,7 +64,7 @@ function clearAmountOther() {
     
     {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
 
-{if $config->paymentProcessor neq 'PayPal_Express'}
+{if $form.credit_card}
     <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
     {if $config->paymentBillingMode & 2}
         <table class="form-layout-compressed">
@@ -80,7 +80,7 @@ function clearAmountOther() {
         <tr><td class="label">{$form.cvv2.label}{$reqMark}</td><td>{$form.cvv2.html} &nbsp; <img src="{$config->resourceBase}i/mini_cvv2.gif" alt="{ts}Security Code Location on Credit Card{/ts}" style="vertical-align: text-bottom;" /><br />
             <span class="description">{ts}Usually the last 3-4 digits in the signature area on the back of the card.{/ts}</span></td></tr>
         <tr><td class="label">{$form.credit_card_exp_date.label}{$reqMark}</td><td>{$form.credit_card_exp_date.html}</td></tr>
-        </table>
+v        </table>
         </fieldset>
         
         <fieldset><legend>{ts}Billing Name and Address{/ts}</legend>

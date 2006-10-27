@@ -43,7 +43,8 @@ abstract class CRM_Contribute_Payment {
      */
     const
         BILLING_MODE_FORM   = 1,
-        BILLING_MODE_BUTTON = 2;
+        BILLING_MODE_BUTTON = 2,
+        BILLING_MODE_NONE   = 4;
 
     /**
      * We only need one instance of this object. So we use the singleton

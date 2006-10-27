@@ -104,7 +104,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         //set default membership for membershipship block
         require_once 'CRM/Member/BAO/Membership.php';
-        if ( $membershipBlock = CRM_Member_BAO_Membership::getMemershipBlock($this->id) ) {
+        if ( $membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock($this->id) ) {
             $this->_defaults['selectMembership'] = $membershipBlock['membership_type_default'];
         }
 
@@ -326,7 +326,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if( $fields['selectMembership'] && $fields['selectMembership'] != 'no_thanks') {
             require_once 'CRM/Member/BAO/Membership.php';
             require_once 'CRM/Member/BAO/MembershipType.php';
-            $memBlock       = CRM_Member_BAO_Membership::getMemershipBlock( $self->_id );
+            $memBlock       = CRM_Member_BAO_Membership::getMembershipBlock( $self->_id );
             $memTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $fields['selectMembership']);
             if ( $self->_values['amount_block_is_active'] && ! $memBlock['is_separate_payment']) {
                 if ($fields['amount'] == 'amount_other_radio') {
@@ -468,6 +468,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
                 CRM_Utils_System::redirect( $paymentURL ); 
             }
+        } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NONE ) {
+            $this->set( 'contributeMode', 'none' );
         }
     }
 

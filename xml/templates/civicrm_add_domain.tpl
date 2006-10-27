@@ -88,19 +88,21 @@ VALUES
    (@domain_id, 'individual_prefix'             , 'Individual contact prefixes.'       , 0, 1),
    (@domain_id, 'individual_suffix'             , 'Individual contact suffixes.'       , 0, 1),
    (@domain_id, 'acl_role'                      , 'ACL Role.'                          , 0, 1),
-   (@domain_id, 'accept_creditcard'             , 'Accept Credit Card'                  , 0, 1),
-   (@domain_id, 'payment_instrument'             ,'Payment Instrument'                  , 0, 1);
+   (@domain_id, 'accept_creditcard'             , 'Accept Credit Card'                 , 0, 1),
+   (@domain_id, 'payment_instrument'            , 'Payment Instrument'                 , 0, 1);
+   (@domain_id, 'contribution_status'           , 'Contribution Status'               , 0, 1);
 
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
 SELECT @option_group_id_gender         := max(id) from civicrm_option_group where name = 'gender';
 SELECT @option_group_id_IMProvider     := max(id) from civicrm_option_group where name = 'instant_messenger_service';
 SELECT @option_group_id_mobileProvider := max(id) from civicrm_option_group where name = 'mobile_provider';
-SELECT @option_group_id_prefix  := max(id) from civicrm_option_group where name = 'individual_prefix';
-SELECT @option_group_id_suffix  := max(id) from civicrm_option_group where name = 'individual_suffix';
-SELECT @option_group_id_aclRole := max(id) from civicrm_option_group where name = 'acl_role';
+SELECT @option_group_id_prefix         := max(id) from civicrm_option_group where name = 'individual_prefix';
+SELECT @option_group_id_suffix         := max(id) from civicrm_option_group where name = 'individual_suffix';
+SELECT @option_group_id_aclRole        := max(id) from civicrm_option_group where name = 'acl_role';
 SELECT @option_group_id_acc            := max(id) from civicrm_option_group where name = 'accept_creditcard';
-SELECT @option_group_id_pi            := max(id) from civicrm_option_group where name =  'payment_instrument';
+SELECT @option_group_id_pi             := max(id) from civicrm_option_group where name = 'payment_instrument';
+SELECT @option_group_id_cs             := max(id) from civicrm_option_group where name = 'contribution_status';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -158,7 +160,11 @@ VALUES
   (@option_group_id_pi, 'Debit Card',  2, 'Debit Card', NULL, 0, NULL, 2, NULL, 0, 0, 1),
   (@option_group_id_pi, 'Cash',  3, 'Cash', NULL, 0, NULL, 3, NULL, 0, 0, 1),
   (@option_group_id_pi, 'Check',  4, 'Check', NULL, 0, NULL, 4, NULL, 0, 0, 1),
-  (@option_group_id_pi, 'EFT',  5, 'EFT', NULL, 0, NULL, 5, NULL, 0, 0, 1);
+  (@option_group_id_pi, 'EFT',  5, 'EFT', NULL, 0, NULL, 5, NULL, 0, 0, 1),
+
+  (@option_group_id_cs, 'Completed', 1, 'Completed', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_cs, 'Pending'  , 2, 'Pending'  , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_cs, 'Cancelled', 3, 'Cancelled', NULL, 0, NULL, 3, NULL, 0, 0, 1);
 
 
 -- sample membership status entries

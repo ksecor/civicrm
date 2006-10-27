@@ -396,7 +396,7 @@ UPDATE civicrm_membership_type
      * @param int $pageId 
      * @static
      */
-    static function getMemershipBlock( $pageID ) {
+    static function getMembershipBlock( $pageID ) {
         $membershipBlock = array();
         require_once 'CRM/Member/DAO/MembershipBlock.php';
         $dao = & new CRM_Member_DAO_MembershipBlock();

@@ -1,9 +1,10 @@
 <?php
+
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 1.6                                                |
  +--------------------------------------------------------------------+
- | copyright CiviCRM LLC (c) 2004-2006                                  |
+ | Copyright CiviCRM LLC (c) 2004-2006                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -18,37 +19,35 @@
  |                                                                    |
  | You should have received a copy of the Affero General Public       |
  | License along with this program; if not, contact the Social Source |
- | Foundation at info[AT]civicrm[DOT]org.  If you have questions       |
+ | Foundation at info[AT]civicrm[DOT]org.  If you have questions      |
  | about the Affero General Public License or the licensing  of       |
- | of CiviCRM, see the Social Source Foundation CiviCRM license FAQ   |
+ | CiviCRM, see the CiviCRM license FAQ at                            |
  | http://www.civicrm.org/licensing/                                  |
  +--------------------------------------------------------------------+
 */
+
+/**
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@civicrm.org>
+ * @copyright CiviCRM LLC (c) 2004-2006
+ * $Id$
+ *
+ */
 
 session_start( );
 
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
-$server =& new SoapServer(null, 
-                          array('uri' => 'urn:civicrm',
-                                'soap_version' => SOAP_1_2 ) );
-
-
-require_once 'CRM/Utils/SoapServer.php';
-$crm_soap =& new CRM_Utils_SoapServer();
-
 /* Cache the real UF, override it with the SOAP environment */
 $config =& CRM_Core_Config::singleton();
-
-$server->setClass('CRM_Utils_SoapServer', $config->userFrameworkClass);
 
 $config->userFramework          = 'Soap';
 $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
 $config->userHookClass          = 'CRM_Utils_Hook_Soap';
 
-$server->setPersistence(SOAP_PERSISTENCE_SESSION);
-
-$server->handle();
+require_once 'CRM/Contribute/Payment/PayPalIPN.php';
+CRM_Contribute_Payment_PayPalIPN::main( );
 
 ?>

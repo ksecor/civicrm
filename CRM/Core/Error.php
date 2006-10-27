@@ -447,18 +447,17 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      *
      * @static
      */
-    static function debug_log_message($message="", $log=true)
+    static function debug_log_message( $message, $out = false )
     {
         $config =& CRM_Core_Config::singleton( );
-        //$file_log = Log::singleton('file', $config->uploadDir . 'CRM.LOG');
-        $file_log = Log::singleton('file', '/tmp/CRM.LOG');
+        $file_log = Log::singleton('file', $config->uploadDir . 'CiviCRM.log');
         $file_log->log("$message\n");
-        // $error =& self::singleton( );
-        $out = "<p /><code>$message</code>";
-        if ($log) {
-            //echo $out;
+        if ( $out ) {
+            $str = "<p/><code>$message</code>";
+            echo $str;
         }
-        return $out;
+        $file_log->close( );
+        return $str;
     }
 
     static function backtrace( $msg = 'backTrace' ) {
