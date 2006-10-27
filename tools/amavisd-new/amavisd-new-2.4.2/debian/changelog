@@ -1,3 +1,10 @@
+amavisd-new (1:2.4.2-3civimail1) unstable; urgency=low
+
+  * add debian/etc/conf.d/40-civimail
+  * amavisd: add CiviMail changes
+
+ -- Piotr Szotkowki <shot@civicrm.org>  Fri, 27 Oct 2006 10:02:43 +0200
+
 amavisd-new (1:2.4.2-3) unstable; urgency=high
 
   * Work around adduser not creating a missing homedir for a system user:

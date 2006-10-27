@@ -108,6 +108,7 @@
 #  Amavis::SpamControl
 #  Amavis::SpamControl::SpamAssassin
 #  Amavis::Unpackers
+#  Amavis::CiviCRM
 #------------------------------------------------------------------------------
 
 no warnings 'uninitialized';
@@ -263,6 +264,13 @@ BEGIN {
       $helpers_home $dspam
       $sa_local_tests_only $sa_auto_whitelist $sa_timeout $sa_debug
     )],
+    'civicrm' => [qw(
+        $civicrm_soap_proxy
+        $civicrm_soap_login
+        $civicrm_soap_pass
+        @civicrm_sql_dsn
+        $sql_select_civicrm_soap
+    )],
     'platform' => [qw(
       $can_truncate $unicode_aware $eol
       &D_REJECT &D_BOUNCE &D_DISCARD &D_PASS
@@ -337,7 +345,7 @@ BEGIN {
       $SYSLOG_LEVEL
     )],
   );
-  Exporter::export_tags qw(dynamic_confvars confvars sa platform
+  Exporter::export_tags qw(dynamic_confvars confvars sa civcrm platform
                       hidden_confvars legacy_dynamic_confvars legacy_confvars);
 } # BEGIN
 
@@ -409,7 +417,7 @@ sub ca($) {
 }
 
 $myproduct_name = 'amavisd-new';
-$myversion_id = '2.4.2'; $myversion_date = '20060627';
+$myversion_id = '2.4.2.civicrm'; $myversion_date = '20060627';
 
 $myversion = "$myproduct_name-$myversion_id ($myversion_date)";
 $myversion_id_numeric =  # x.yyyzzz, allows numerical comparision, like Perl $]
@@ -702,6 +710,10 @@ $file = 'file';  # path to the file(1) utility for classifying contents
 
 $MIN_EXPANSION_FACTOR =   5;  # times original mail size
 $MAX_EXPANSION_FACTOR = 500;  # times original mail size
+
+$civicrm_soap_proxy = undef;
+$civicrm_soap_login = undef;
+$civicrm_soap_pass  = undef;
 
 # See amavisd.conf and README.lookups for details.
 
@@ -6406,7 +6418,7 @@ use Net::Server 0.87;  # need Net::Server::PreForkSimple::done
 use Net::Server::PreForkSimple;
 
 BEGIN {
-  import Amavis::Conf qw(:platform :sa :confvars c cr ca);
+  import Amavis::Conf qw(:platform :sa :confvars c cr ca :civicrm);
   import Amavis::Util qw(untaint min max unique ll do_log sanitize_str
                          debug_oneshot am_id add_entropy generate_mail_id
                          prolong_timer waiting_for_client 
@@ -6449,7 +6461,7 @@ use vars qw(
   $extra_code_out_smtp $extra_code_out_pipe
   $extra_code_out_bsmtp $extra_code_out_local $extra_code_p0f
   $extra_code_antivirus $extra_code_antispam $extra_code_antispam_sa
-  $extra_code_unpackers);
+  $extra_code_unpackers $extra_code_civicrm);
 
 use vars qw(%modules_basic);
 use vars qw($user_id_sql $wb_listed_sql $implicit_maps_inserted);
@@ -6472,7 +6484,7 @@ use vars qw($amcl_in_obj $smtp_in_obj $courier_in_obj);
 use vars qw($sql_dataset_conn_lookups); # Amavis::Out::SQL::Connection object
 use vars qw($sql_dataset_conn_storage); # Amavis::Out::SQL::Connection object
 use vars qw($sql_storage);              # Amavis::Out::SQL::Log object
-use vars qw($sql_policy $sql_wblist);   # Amavis::Lookup::SQL objects
+use vars qw($sql_policy $sql_wblist $sql_civicrm);   # Amavis::Lookup::SQL objects
 use vars qw($ldap_connection);          # Amavis::LDAP::Connection object
 use vars qw($ldap_policy);              # Amavis::Lookup::LDAP object
 
@@ -6833,7 +6845,7 @@ sub after_chroot_init() {
       Razor2::Client::Version Mail::SPF::Query Digest::MD5 Authen::SASL
       IO::Socket::INET6 Net::DNS Net::SMTP Net::Cmd Net::Server Net::LDAP
       DBI DBD::mysql DBD::Pg DBD::SQLite BerkeleyDB DB_File
-      SAVI Unix::Syslog Time::HiRes);
+      SAVI SOAP::Lite Unix::Syslog Time::HiRes);
     do_log(0, "Module %-19s %s", $m, $m->VERSION || '?');
   }
   do_log(0,"Amavis::DB code     %s loaded", $extra_code_db         ?'':" NOT");
@@ -6855,6 +6867,7 @@ sub after_chroot_init() {
   do_log(0,"ANTI-SPAM code      %s loaded", $extra_code_antispam   ?'':" NOT");
   do_log(0,"ANTI-SPAM-SA code   %s loaded", $extra_code_antispam_sa?'':" NOT");
   do_log(0,"Unpackers code      %s loaded", $extra_code_unpackers  ?'':" NOT");
+  do_log(0,"CiviCRM code        %s loaded", $extra_code_civicrm    ?'':" NOT");
 
   # store policy names into 'policy_bank_name' fields, if not explicitly set
   for my $name (keys %policy_bank) {
@@ -6930,6 +6943,7 @@ sub pre_loop_hook {
       elsif (-d _ && !-w _){ die "QUARANTINEDIR directory not writable: $name"}
     }
     Amavis::SpamControl::init_pre_fork()  if $extra_code_antispam;
+    Amavis::CiviCRM::init() if $extra_code_civicrm;
   };
   if ($@ ne '') {
     chomp($@); my($msg) = "TROUBLE in pre_loop_hook: $@"; do_log(-2,"%s",$msg);
@@ -7754,6 +7768,10 @@ sub check_mail($$$) {
       }
     }
     chdir($TEMPBASE) or die "Can't chdir to $TEMPBASE: $!";
+
+    # do the CiviCRM processing
+    Amavis::CiviCRM::process($conn, $msginfo) if $extra_code_civicrm;
+
     # consider doing spam scanning
     if (!$extra_code_antispam) {
       do_log(5, "no anti-spam code loaded, skipping spam_scan");
@@ -9140,13 +9158,14 @@ sub fetch_modules_extra() {
   my(@modules);
   if ($extra_code_sql_base) {
     push(@modules, 'DBI');
-    for (@lookup_sql_dsn, @storage_sql_dsn) {
+    for (@lookup_sql_dsn, @storage_sql_dsn, @civicrm_sql_dsn) {
       my(@dsn) = split(/:/,$_->[0],-1);
       push(@modules, 'DBD::'.$dsn[1])  if uc($dsn[0]) eq 'DBI';
     }
   }
   push(@modules, qw(Net::LDAP Net::LDAP::Util Net::LDAP::Search
                     Net::LDAP::Bind))  if $extra_code_ldap;
+  push(@modules, qw(SOAP::Lite)) if $extra_code_civicrm;
   if (c('bypass_decode_parts') &&
       !grep {exists $policy_bank{$_}{'bypass_decode_parts'} &&
              !$policy_bank{$_}{'bypass_decode_parts'} } keys %policy_bank) {
@@ -9233,7 +9252,7 @@ do { local($/) = "__DATA__\n";   # set line terminator to this string
     $extra_code_out_smtp, $extra_code_out_pipe,
     $extra_code_out_bsmtp, $extra_code_out_local, $extra_code_p0f,
     $extra_code_sql_base, $extra_code_sql_log, $extra_code_sql_quar,
-    $extra_code_antivirus, $extra_code_antispam, $extra_code_antispam_sa,
+    $extra_code_antivirus, $extra_code_civicrm, $extra_code_antispam, $extra_code_antispam_sa,
     $extra_code_unpackers,
     $Amavis::Conf::log_templ, $Amavis::Conf::log_recip_templ);
   if ($unicode_aware) {
@@ -9423,7 +9442,7 @@ else {
 }
 
 if (!@storage_sql_dsn) { $extra_code_sql_log = undef }
-if (!@lookup_sql_dsn)  { $extra_code_sql_lookup = undef }
+if (!@lookup_sql_dsn && !@civicrm_sql_dsn)  { $extra_code_sql_lookup = undef }
 if (!defined($extra_code_sql_log) ||        # sql quarantine depends on sql log
     !grep { c($_)=~/^sql:/i } qw(clean_quarantine_method
                    virus_quarantine_method spam_quarantine_method
@@ -9524,6 +9543,14 @@ else {
     $extra_code_p0f = 1;        # release memory occupied by the source code
   }
 }
+
+if (!$civicrm_soap_proxy) {
+    $extra_code_civicrm = undef;
+} else {
+    eval $extra_code_civicrm or die "Problem in the CiviCRM code: $@";
+    $extra_code_civicrm = 1;
+}
+
 
 my($bpvcm) = ca('bypass_virus_checks_maps');
 if (!@{ca('av_scanners')} && !@{ca('av_scanners_backup')}) {
@@ -10269,6 +10296,17 @@ sub init {
     $self->clear_cache;  # db handle has changed, invalidate cache
   }
   $self;
+}
+
+# store DBI handle and prepared selects into existing Lookup::SQL obj
+sub store_civicrm_dbh($$$) {
+    my($self, $dbh, $select_clause) = @_;
+    $self->{dbh} = $dbh;  # save DBI handle
+    my($sel) = $select_clause;
+    do_log(5,"SQL prepare: ".$sel);
+    $self->{"sth1"} = $dbh->prepare($sel);
+    $self->clear_cache;  # let's start afresh just in case
+    $self;
 }
 
 sub clear_cache {
@@ -14739,6 +14777,320 @@ sub files_to_scan($$) {
 }
 
 1;
+
+__DATA__
+#
+package Amavis::CiviCRM;
+
+use strict;
+
+BEGIN {
+    use Exporter ();
+    use vars qw(@ISA @EXPORT @EXPORT_OK %EXPORT_TAGS $VERSION);
+    $VERSION = '2.0';
+    @ISA = qw(Exporter);
+    %EXPORT_TAGS = {};
+    @EXPORT = ();
+    @EXPORT_OK = qw(&init, &process);
+}
+use SOAP::Lite;
+use MIME::WordDecoder;
+use MIME::Entity;
+use Mail::Address;
+use Mail::Verp;
+use HTTP::Cookies;
+
+use subs @EXPORT_OK;
+use vars qw($soapClient $soapKey $civicrm_sql_connected);
+
+BEGIN {
+    import Amavis::Conf qw(:platform :civicrm);
+    import Amavis::Util qw(do_log);
+}
+
+sub init() {
+    do_log(1, "CiviCRM: initializing");
+    
+    # If we're not configuring via the database then we set up the soapClient 
+    # once, so we do it while initializing CiviCRM.  If we are configuring via
+    # the database, then we set up the soapClient each time we process a CiviCRM
+    # mail.
+    if (!@civicrm_sql_dsn) {
+      $soapClient = SOAP::Lite
+          -> proxy($civicrm_soap_proxy, 
+              cookie_jar => HTTP::Cookies->new(ignore_discard => 1))
+          -> uri('urn:civicrm');
+
+      authenticate(0);
+    }
+    
+    do_log(1, "CiviCRM: done");
+}
+
+# Connect to a database.  Take a list of database connection
+# parameters and try each until one succeeds.
+#  -- based on code from Ben Ransford <amavis@uce.ransford.org> 2002-09-22
+sub connect_to_sql(@) {
+    my(@dsns) = @_;  # a list of DSNs to try connecting to sequentially
+    my($dbh);
+    do_log(3,"Connecting to SQL database server");
+    for my $tmpdsn (@dsns) {
+	my($dsn, $username, $password) = @$tmpdsn;
+	do_log(4, "connect_to_sql: trying '$dsn'");
+	$dbh = DBI->connect($dsn, $username, $password,
+			    {PrintError => 0, RaiseError => 0, Taint => 1} );
+	if ($dbh) { do_log(3,"connect_to_sql: '$dsn' succeeded"); last }
+	do_log(0, "connect_to_sql: unable to connect to DSN '$dsn': " .
+		  $DBI::errstr);
+    }
+    do_log(0, "connect_to_sql: unable to connect to any DSN at all!"
+	  )  if !$dbh && @dsns>1;
+    $civicrm_sql_connected = 1  if $dbh;
+    $dbh;
+}
+
+# The SQL select clause to fetch per-domain_id soap proxy settings.
+$sql_select_civicrm_soap =
+    'SELECT proxy, login, pass FROM civicrm_soap'.
+    ' WHERE domain_id = ?';
+
+sub authenticate($) {
+
+    my($domain_id) = shift(@_);
+    my($proxy, $login, $pass);
+
+    if (@civicrm_sql_dsn) {
+      if (!$civicrm_sql_connected) {
+        do_log(3, "CiviCRM: connecting to database");
+        my($civicrm_sql_dbh) = connect_to_sql(@civicrm_sql_dsn);
+        defined($civicrm_sql_dbh) or die "CiviCRM SQL server(s) not reachable";
+        $civicrm_sql_dbh->{'RaiseError'} = 1;
+        $Amavis::sql_civicrm = Amavis::Lookup::SQL->new;
+        $Amavis::sql_civicrm->store_civicrm_dbh($civicrm_sql_dbh, $sql_select_civicrm_soap)
+          if defined $sql_select_civicrm_soap;
+      }
+      my($sth) = $Amavis::sql_civicrm->{"sth1"};
+      my($a_ref,$found,$match); $match = {};
+      eval {
+        $sth->execute($domain_id);
+        while (defined($a_ref=$sth->fetchrow_arrayref)) {
+          my(@names) = @{$sth->{NAME_lc}};
+          $found = 1; $match = {}; @$match{@names} = @$a_ref;
+          $proxy = $match->{'proxy'};
+          $login = $match->{'login'};
+          $pass = $match->{'pass'};
+          do_log(3, "authenticate sql lookup, found match for domain_id \"$domain_id\"");
+        }
+        $sth->finish();
+      };
+      if ($@ ne '') {
+        my($err) = $@;
+        do_log(0, "authenticate sql lookup: $DBI::err, $DBI::errstr");
+        if ($sth && ($sth->err eq '2006' ||        # MySQL server has gone away
+          $sth->errstr =~ /\bserver has gone away\b/ ||
+          $sth->err eq '2013' ||
+          $sth->errstr =~ /\bLost connection to\b/)) {
+          do_log(0,"NOTICE: Disconnected from SQL server");
+          $civicrm_sql_connected = 0;  $Amavis::sql_civicrm->{dbh}->disconnect;
+        }
+        die $err;
+      }
+      if (!$found) {
+        $match = undef;
+        do_log(3, "authenticate sql lookup, no match for domain_id \"$domain_id\"");
+      }
+      $soapClient = SOAP::Lite
+          -> proxy($proxy, 
+              cookie_jar => HTTP::Cookies->new(ignore_discard => 1))
+          -> uri('urn:civicrm');
+    }
+    else {
+      $login = $civicrm_soap_login;
+      $pass = $civicrm_soap_pass;
+    }
+
+    my $result = 
+        $soapClient->authenticate($login, $pass);
+    
+    if ($result->fault) {
+        # Authentication error, fail!
+        soapError($result->faultstring);
+    }
+    $soapKey = $result->result;
+
+}
+
+sub soapError($) {
+    my $error = shift;
+
+    do_log(0, "CiviCRM: SOAP Error: $error");
+    die;
+}
+
+sub process($$) {
+    my($conn,$msginfo) = @_;
+    my ($verpInfo, $email) = Mail::Verp->decode(
+        MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('To')));
+    my ($dest, $domainId, $jobId, $qId, $hash) =
+        ($verpInfo =~ m/(\w+)\.(\d+)\.(\d+)\.(\d+)\.([0-9A-F]+)\@.*/i);
+    
+    my $result;
+    
+    my $attempt = 0;
+
+    if (@civicrm_sql_dsn && defined($domainId)) {
+      authenticate($domainId);
+    }
+    
+    if (defined($hash)) {
+        if ($dest eq 'bounce') {
+            # bounce
+            my $body = join('', @{$msginfo->mime_entity->body});
+
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_bounce( $soapKey, $jobId, $qId, 
+                                                        $hash, $body);
+                last unless $result->fault;
+                
+                if ($attempt < 1) {
+                    authenticate($domainId);
+                    $attempt++;
+                    next;
+                }
+                soapError($result->faultstring);
+            }
+            
+            if ($result->result == 1) {
+                do_log(2, "CiviCRM: succesful bounce event: $verpInfo");
+            } else {
+                do_log(1, "CiviCRM: failed bounce event: $verpInfo");
+            }
+        } elsif ($dest eq 'reply') {
+            # reply
+            my $body = join('', @{$msginfo->mime_entity->body});
+            my $replyto = 
+                (MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('Reply-to')) or '');
+           
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_reply($soapKey,  
+                                                        $jobId, $qId, $hash,
+                                                        $body, $replyto);
+                
+                last unless $result->fault;
+                
+                if ($attempt < 1) {
+                    authenticate($domainId);
+                    $attempt++;
+                    next;
+                } 
+                soapError($result->faultstring);
+            }
+
+            if ($result->result == 1) {
+                do_log(2, "CiviCRM: succesful reply event: $verpInfo");
+            } else {
+                do_log(1, "CiviCRM: failed reply event: $verpInfo");
+            }
+        } elsif ($dest eq 'unsubscribe') {
+            # unsubscription
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_unsubscribe($soapKey,
+                                                        $jobId, $qId, $hash);
+
+                last unless $result->fault;
+                
+                if ($attempt < 1) {
+                    authenticate($domainId);
+                    $attempt++;
+                    next;
+                }
+                soapError($result->faultstring);
+            }
+
+            if ($result->result == 1) {
+                do_log(2, "CiviCRM: succesful unsubscribe event: $verpInfo");
+            } else {
+                do_log(1, "CiviCRM: failed unsubscribe event: $verpInfo");
+            }
+        } elsif ($dest eq 'confirm') {
+            # opt-in
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_confirm(  $soapKey,
+                                                        $jobId, $qId, $hash);
+
+                last unless $result->fault;
+
+                if ($attempt < 1) {
+                    authenticate($domainId);
+                    $attempt++;
+                    next;
+                }
+                soapError($result->faultstring);
+            }
+            
+            if ($result->result == 1) {
+                do_log(2, "CiviCRM: succesful confirm event: $verpInfo");
+            } else {
+                do_log(1, "CiviCRM: failed confirm event: $verpInfo");
+            }
+        } elsif ($dest eq 'optOut') {
+            # opt-out
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_domain_unsubscribe(
+                                            $soapKey, $jobId, $qId, $hash);
+            
+                last unless $result->fault;
+                if ($attempt< 1) {
+                    authenticate($domainId);
+                    $attempt++;
+                    next;
+                }
+                
+                soapError($result->faultstring);
+            }
+            
+            if ($result->result == 1) {
+                do_log(2, "CiviCRM: succesful opt-out event: $verpInfo");
+            } else {
+                do_log(1, "CiviCRM: failed opt-out event: $verpInfo");
+            }
+        }
+    } else {
+        my ($dest, $dId, $gId) =
+            ($verpInfo =~ m/(subscribe)\.(\d+).(\d+)\@.*/) or return;
+
+        my $email = 
+            MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('From'));
+        my $from = ((Mail::Address->parse($email))[0])->address;
+        
+        while (1) {
+            $result = 
+                $soapClient->mailer_event_subscribe( 
+                                        $soapKey, $from, $dId, $gId);
+
+            last unless $result->fault;
+            if ($attempt < 1) {
+                authenticate($domainId);
+                $attempt++;
+                next;
+            }
+            soapError($result->faultstring);
+        }     
+        if ($result->result == 1) {
+            do_log(2, "CiviCRM: succesful subscribe event: $verpInfo");
+        } else {
+            do_log(1, "CiviCRM: failed subscribe event: $verpInfo");
+        }
+    }
+}
+
+1;
+
 
 __DATA__
 #
