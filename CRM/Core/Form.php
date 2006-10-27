@@ -276,6 +276,14 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
 
         $this->preProcess();
 
+	// add the drupal form token hidden value to allow things to work
+	$config =& CRM_Core_Config::singleton( );
+	if ( $config->userFramework == 'Drupal' &&
+	     $config->userFramework <= 4.6      &&
+             function_exists( 'drupal_get_token' ) ) {
+	   $this->addElement( 'hidden', 'edit[token]', drupal_get_token( ) );
+        }
+
         $this->buildQuickForm();
 
         $defaults =& $this->setDefaultValues( );
