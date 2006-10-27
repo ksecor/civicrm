@@ -43,6 +43,25 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Admin_Form_Setting extends CRM_Core_Form
 {
+
+    /**
+     * This function sets the default values for the form.
+     * default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $defaults = array( );
+        
+        require_once "CRM/Core/BAO/Setting.php";
+        CRM_Core_BAO_Setting::retrieve($defaults);
+
+        //CRM_Core_Error::debug('def', $defaults);
+        return $defaults;
+    }
+
+
   
     /**
      * Function to actually build the form

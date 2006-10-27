@@ -102,6 +102,24 @@ class CRM_Core_BAO_Setting
         $params = array_merge($params, $values);
     }
 
+    /**
+     * Function to retrieve the settings values from db
+     *
+     * @return array $defaults  
+     * @static
+     */
+    static function retrieve(&$defaults) {
+
+        require_once "CRM/Core/DAO/Domain.php";
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->id = CRM_Core_Config::domainID( );
+
+        $domain->find(true);
+        if ($domain->config_backend) {
+            $defaults = unserialize($domain->config_backend);
+        }
+    }
+
 }
 
 ?>

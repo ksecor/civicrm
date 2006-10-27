@@ -51,7 +51,14 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) {
 
-        $this->addElement('text','lcMessages', ts('LC Message')); 
+        $config =& CRM_Core_Config::singleton();
+        $dirList = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
+        
+        foreach ($dirList as $key) {
+            $locales[$key] = $key;
+        }
+        
+        $this->addElement('select','lcMessages', ts('LC Messages'), $locales);
         $this->addElement('text','moneyformat', ts('Money Format')); 
         $this->addElement('text','lcMonetary', ts('Monetory')); 
 
