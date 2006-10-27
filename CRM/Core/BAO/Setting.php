@@ -35,50 +35,73 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-
 /**
- * This class generates form components generic to CiviCRM settings
+ * file contains functions used in civicrm configuration
  * 
  */
-class CRM_Admin_Form_Setting extends CRM_Core_Form
+class CRM_Core_BAO_Setting 
 {
-  
     /**
-     * Function to actually build the form
+     * Function to add civicrm settings
      *
-     * @return None
-     * @access public
-     */
-    public function buildQuickForm( ) {
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Save'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
-    }
-
-    
-    /**
-     * Function to process the form
+     * @params array $params associated array of civicrm variables
      *
-     * @access public
-     * @return None
+     * @return null
+     * @static
      */
-    public function postProcess() 
+    static function add(&$params) 
     {
-        // store the submitted values in an array
-        $params = array();
-        $params = $this->controller->exportValues($this->_name);
+        CRM_Core_BAO_Setting::fixParams($params);
 
-        require_once "CRM/Core/BAO/Setting.php";
-        CRM_Core_BAO_Setting::add($params);
+        require_once "CRM/Core/DAO/Domain.php";
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->id = CRM_Core_Config::domainID( );
 
-        CRM_Core_Session::setStatus( ts('Global settings has been saved.') );
+        $domain->find(true);
+        if ($domain->config_backend) {
+            $values = unserialize($domain->config_backend);
+            CRM_Core_BAO_Setting::formatParams($params, $values);
+        }
+        
+        $domain->config_backend = serialize($params);
+        $domain->save();
     }
+
+    /**
+     * Function to fix submitted civicrm setting variables
+     *
+     * @params array $params associated array of civicrm variables
+     *
+     * @return null
+     * @static
+     */
+    static function fixParams(&$params) 
+    {
+        if ( $params['enableComponents'] ) {
+            $params['enableComponents'] = implode(',', $params['enableComponents']);
+        }
+    }
+
+    /**
+     * Function to format the array containing before inserting in db
+     *
+     * @param  array $params associated array of civicrm variables(submitted)
+     * @param  array $values associated array of civicrm variables stored in db
+     *
+     * @return null
+     * @static
+     */
+    static function formatParams(&$params, &$values) 
+    {
+        foreach ($params as $key => $val) {
+            if ( array_key_exists($key, $values)) {
+                unset($values[$key]);
+            }
+        }
+
+        $params = array_merge($params, $values);
+    }
+
 }
 
 ?>
