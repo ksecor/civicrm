@@ -53,22 +53,22 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
 
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL' );
 
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL', 'name' ) );
+        $this->add('text', 'name', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL', 'name' ), true );
         
         require_once 'CRM/ACL/BAO/ACL.php';
         $operations   = array( '' => ts( ' -select- ' ) ) + CRM_ACL_BAO_ACL::operation( );
-        $this->addElement( 'select', 'operation', ts( 'Operation' ),
-                           $operations );
+        $this->add( 'select', 'operation', ts( 'Operation' ),
+                           $operations, true );
 
         require_once 'CRM/Core/OptionGroup.php';
 
         $label = ts( 'Role' );
         $role = array( '' => ts('- select role -')) + CRM_Core_OptionGroup::values( 'acl_role' );
-        $this->add( 'select', 'entity_id', $label, $role );
+        $this->add( 'select', 'entity_id', $label, $role, true );
 
         $label = ts( 'Permission For' );
         $group = array( '' => ts('- select group -')) + CRM_Core_PseudoConstant::group( );
-        $this->add( 'select', 'object_id', $label, $group );
+        $this->add( 'select', 'object_id', $label, $group, true );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
     }

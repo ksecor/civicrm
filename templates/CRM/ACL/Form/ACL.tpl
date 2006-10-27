@@ -13,13 +13,13 @@
   </div>
 {else}
   <dl>
-    <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
-    <dt>{$form.deny.label}</dt><dd>{$form.deny.html}</dd>
     <dt>{$form.operation.label}</dt><dd>{$form.operation.html}</dd>
-    <dt>{$form.entity_table.label}</dt><dd>{$form.entity_table.html}</dd>
-    <dt>{$form.entity_id.label}</dt><dd>{$form.entity_id.html}</dd>
-    <dt>{$form.object_table.label}</dt><dd>{$form.object_table.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Which action to permit.{/ts}</dd>
     <dt>{$form.object_id.label}</dt><dd>{$form.object_id.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Permitted on this group of contacts.{/ts}</dd>
+    <dt>{$form.entity_id.label}</dt><dd>{$form.entity_id.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Permission granted to this role.{/ts}</dd>
+    <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
   </dl>
 {/if}

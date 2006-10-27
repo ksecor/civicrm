@@ -71,8 +71,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
         if ( ! self::$_operation ) {
             self::$_operation = array(
                                       'View'   => ts( 'View'   ),
-                                      'Edit'   => ts( 'Edit'   ),
-                                      'All'    => ts( 'Both'   ),
+                                      'Edit'   => ts( 'View and Edit'   ),
                                       );
         }
         return self::$_operation;
@@ -598,6 +597,20 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
     static function retrieve( &$params, &$defaults ) {
         CRM_Core_DAO::commonRetrieve( 'CRM_ACL_DAO_ACL', $params, $defaults );
     }    
+
+    /**
+    * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * @static
+     */
+    static function setIsActive( $id, $is_active ) 
+    {
+        return CRM_Core_DAO::setFieldValue( 'CRM_ACL_DAO_ACL', $id, 'is_active', $is_active );
+    }
 
     static function check( $str, $contactID ) {
         require_once 'CRM/ACL/BAO/Cache.php';

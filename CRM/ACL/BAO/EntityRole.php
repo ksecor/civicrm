@@ -61,8 +61,22 @@ class CRM_ACL_BAO_EntityRole extends CRM_ACL_DAO_EntityRole {
 
     static function retrieve( &$params, &$defaults ) {
         CRM_Core_DAO::commonRetrieve( 'CRM_ACL_DAO_EntityRole', $params, $defaults );
-        CRM_Core_Error::debug( 'd', $defaults );
     }    
+
+    /**
+        * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * @static
+     */
+    static function setIsActive( $id, $is_active ) 
+    {
+        return CRM_Core_DAO::setFieldValue( 'CRM_ACL_DAO_EntityRole', $id, 'is_active', $is_active );
+    }
+    
 }
 
 ?>

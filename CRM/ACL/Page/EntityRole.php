@@ -63,29 +63,35 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
     function &links()
     {
           if (!(self::$_links)) {
-            // helper variable for nicer formatting
+              $disableExtra = ts('Are you sure you want to disable this ACL Role Assignment?');
               self::$_links = array(
-                                  CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/acl/entityrole',
-                                                                    'qs'    => 'action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete ACL EntityRole') 
-                                                                   ),
-                                  CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/acl/entityrole',
-                                                                    'qs'    => 'action=update&id=%%id%%',
-                                                                    'title' => ts('Edit ACL EntityRole') 
-                                                                   ),
-                                  CRM_Core_Action::VIEW    => array(
-                                                                    'name'  => ts('View'),
-                                                                    'url'   => 'civicrm/acl/entityrole',
-                                                                    'qs'    => 'action=view&id=%%id%%',
-                                                                    'title' => ts('View ACL EntityRole') 
-                                                                   ),
-                                
-                                  
-                                 );
+                                    CRM_Core_Action::UPDATE  => array(
+                                                                      'name'  => ts('Edit'),
+                                                                      'url'   => 'civicrm/acl/entityrole',
+                                                                      'qs'    => 'action=update&id=%%id%%',
+                                                                      'title' => ts('Edit ACL Role Assignment') 
+                                                                      ),
+                                    CRM_Core_Action::DISABLE => array(
+                                                                      'name'  => ts('Disable'),
+                                                                      'url'   => 'civicrm/acl/entityrole',
+                                                                      'qs'    => 'action=disable&id=%%id%%',
+                                                                      'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                      'title' => ts('Disable ACL Role Assignment') 
+                                                                      ),
+                                    CRM_Core_Action::ENABLE  => array(
+                                                                      'name'  => ts('Enable'),
+                                                                      'url'   => 'civicrm/acl/entityrole',
+                                                                      'qs'    => 'action=enable&id=%%id%%',
+                                                                      'title' => ts('Enable ACL Role Assignment') 
+                                                                      ),
+                                    CRM_Core_Action::DELETE  => array(
+                                                                      'name'  => ts('Delete'),
+                                                                      'url'   => 'civicrm/acl/entityrole',
+                                                                      'qs'    => 'action=delete&id=%%id%%',
+                                                                      'title' => ts('Delete ACL Role Assignment') 
+                                                                      ),
+                                    
+                                    );
         }
         return self::$_links;
     }
@@ -145,7 +151,7 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
 
         require_once 'CRM/Core/OptionGroup.php';
         $aclRoles = CRM_Core_OptionGroup::values( 'acl_role' );
-        $groups   = CRM_Core_PseudoConstant::group( ); 
+        $groups   = CRM_Core_PseudoConstant::staticGroup( ); 
 
         while ( $dao->fetch( ) ) {
             $entityRoles[$dao->id] = array();
@@ -156,7 +162,12 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
 
             // form all action links
             $action = array_sum(array_keys($this->links()));
-
+            if ($dao->is_active) {
+                $action -= CRM_Core_Action::ENABLE;
+            } else {
+                $action -= CRM_Core_Action::DISABLE;
+            }
+            
             $entityRoles[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                          array('id' => $dao->id));
         }

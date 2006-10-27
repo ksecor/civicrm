@@ -155,6 +155,13 @@ class CRM_Core_PseudoConstant {
     private static $relationshipType;
 
     /**
+     * civicrm groups that are not smart groups
+     * @var array
+     * @static
+     */
+    private static $staticGroup;
+
+    /**
      * user framework groups
      * @var array
      * @static
@@ -642,7 +649,31 @@ class CRM_Core_PseudoConstant {
         return CRM_Core_Permission::group( );
     }
 
-    /**
+/**
+* Get all permissioned groups from database
+ *
+ * The static array group is returned, and if it's
+ * called the first time, the <b>Group DAO</b> is used 
+ * to get all the groups.
+ *
+ * Note: any database errors will be trapped by the DAO.
+ *
+ * @access public
+ * @static
+ *
+ * @return array - array reference of all groups.
+ *
+ */
+    public static function &staticGroup()
+    {
+        if ( ! self::$staticGroup ) {
+            $condition = 'saved_search_id = 0 OR saved_search_id IS NULL';
+            self::populate( self::$staticGroup, 'CRM_Contact_DAO_Group', false, 'title', 'is_active', $condition, 'title' );
+        }
+        return self::$staticGroup;        
+    }
+
+/**
      * Get all the user framework groups
      *
      * @access public

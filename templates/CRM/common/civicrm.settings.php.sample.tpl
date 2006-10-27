@@ -449,11 +449,11 @@ define('CIVICRM_VERSION_CHECK', true);
  * You should start with a Test Server (e.g. Sandbox) account, and configure both the LIVE and TEST
  * settings below using your test (sandbox) account info. Once you are ready to go live, update
  * the LIVE settings to use your live account info. Consult your Payment Processor's documentation
- * and CiviCRM Payment Processor Configuration documentation (http://objectledge.org/confluence/display/CRM/CiviContribute+Payment+Processor+Configuration)
+ * and CiviCRM Payment Processor Configuration documentation (http://wiki.civicrm.org/confluence//x/ihk)
  * for details on these settings.
  */
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR'     , '' );
-// Valid values are 'PayPal' (Website Payments Pro), 'PayPal_Express', and 'Moneris'.
+// Valid values are 'PayPal' (Website Payments Pro), 'PayPal_Express', 'PayPal_Standard' (Website Payments Standard), and 'Moneris'.
 
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif');
 // URL to the button image used for "express" option checkout, e.g. PayPal Express. URL to PayPal US button is provided by default.
@@ -465,8 +465,8 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON', 'https://www.paypal.com/en_
  * 
  */
 
-// API Username
-// PayPal API Signature credential only: API Username value (from your PayPal account - View API Signature screen).
+// PayPal Standard: The email address associated with your TEST (sandbox) PayPal account.
+// PayPal Pro or Express with API Signature credential: API Username value (from your PayPal account - View API Signature screen).
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME'      , '' );
 
 // API Password
@@ -489,7 +489,7 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH'     , '');
 // PayPal API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_SUBJECT'       , '' );
 
-// Hostname for "PayPal Express" button submit in test-drive mode. Value for US is provided by default.
+// Machine name for TEST PayPal server. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypal.com');
 
@@ -499,31 +499,31 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL', 'www.sandbox.paypa
  * 
  */
 
-// API Username
-// PayPal API Signature credential only: API Username value (from your PayPal account - View API Signature screen).
+// PayPal Standard: The email address associated with your LIVE PayPal account.
+// PayPal Pro or Express with API Signature credential: API Username value (from your PayPal account - View API Signature screen).
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME'      , '' );
 
 // API Password
-// PayPal API Signature credential: API Password value (from your PayPal account - View API Signature screen)
-// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+// PayPal Pro or Express with API Signature credential: API Password value (from your PayPal account - View API Signature screen)
+// PayPal Pro or Express with API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
 // Moneris: API Token value.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , '' );
 
 // API Signature or Key 
-// PayPal API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
-// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+// PayPal Pro or Express with API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
+// PayPal Pro or Express with API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
 // Moneris: Use the storeid value.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
 
 // API Certificate Path
-// PayPal API Certificate credential only: File system path where API Profile files should be created and stored.
+// PayPal Pro or Express with API Certificate credential only: File system path where API Profile files should be created and stored.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH'     , '' );
 
 // API Subject
-// PayPal API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
+// PayPal Pro or Express with API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_SUBJECT'       , '' );
 
-// Hostname for "PayPal Express" button submit in live mode. Value for US is provided by default.
+// Machine name for LIVE PayPal server. Value for US is provided by default.
 // Do not change this value unless you are submitting to a non-US PayPal instance.
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL', 'www.paypal.com');
 
