@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amavisd-new\n"
 "Report-Msgid-Bugs-To: bam@debian.org\n"
-"POT-Creation-Date: 2006-08-10 11:09-0300\n"
+"POT-Creation-Date: 2006-10-27 12:21+0200\n"
 "PO-Revision-Date: 2006-03-24 19:36+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -17,13 +17,13 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../amavisd-new.templates:1001
+#: ../amavisd-new.templates:3
 msgid "Incompatible configuration file layout detected"
 msgstr "Rozpoznáno nekompatibilní rozložení konfiguračního souboru"
 
 #. Type: note
 #. Description
-#: ../amavisd-new.templates:1001
+#: ../amavisd-new.templates:3
 msgid ""
 "The Debian packages have changed the way they handle configuration files for "
 "amavisd-new to a better system, which uses multiple files instead of a "
@@ -35,7 +35,7 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../amavisd-new.templates:1001
+#: ../amavisd-new.templates:3
 msgid ""
 "The old amavisd-new configuration files that are still present in your "
 "system (named either /etc/amavisd.conf or /etc/amavis/amavisd.conf) are "
@@ -47,7 +47,7 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../amavisd-new.templates:1001
+#: ../amavisd-new.templates:3
 msgid ""
 "You should read /usr/share/doc/amavisd-new/README.Debian to understand the "
 "new configuration layout, and after that you should port your configuration "
@@ -59,7 +59,7 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../amavisd-new.templates:1001
+#: ../amavisd-new.templates:3
 msgid ""
 "For your safety, the old configuration files in your system have been "
 "disabled, and a \".disabled\" postfix was added to their file names.  The "
@@ -72,7 +72,7 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../amavisd-new.templates:1001
+#: ../amavisd-new.templates:3
 msgid ""
 "This safety is in place to avoid starting an unconfigured amavisd-new in "
 "place of your previously configured one.  Do not remove the \".disabled\" "
