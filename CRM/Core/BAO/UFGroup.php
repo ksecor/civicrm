@@ -492,7 +492,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      * @static
      */
-    public static function getValues( $cid, &$fields, &$values ) {
+    public static function getValues( $cid, &$fields, &$values ,$searchable = true ) {
         $options = array( );
 
         $studentFields = array( );
@@ -656,7 +656,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                               urlencode( $fieldName ) .
                                               '=' .
                                               urlencode( $params[$index] ) );
-                if ( ! empty( $values[$index] ) ) {
+                if ( ! empty( $values[$index] ) && $searchable ) {
                     $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
                 }
             }

@@ -597,13 +597,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     function sendMail( $contactID ) {
         if ( $this->_values['is_email_receipt'] ) {
             list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
-            
+            $this->buildCustomDisplay( $this->_values['custom_pre_id'],  'customPre', $contactID);
+            $this->buildCustomDisplay( $this->_values['custom_post_id'], 'customPost', $contactID);
+
             $template =& CRM_Core_Smarty::singleton( );
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
 
-            $this->buildCustomDisplay( $this->_values['custom_pre_id'],  'customPre', $contactID);
-            $this->buildCustomDisplay( $this->_values['custom_post_id'], 'customPost', $contactID);
+            
            
             $receiptFrom = '"' . $this->_values['receipt_from_name'] . '" <' . $this->_values['receipt_from_email'] . '>';
             require_once 'CRM/Utils/Mail.php';
@@ -676,7 +677,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( $gid ) {
            $values = array( );
            $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
-           CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values );
+           CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false );
            if ( count( $values ) ) {
                $this->assign( $name, $values );
            }

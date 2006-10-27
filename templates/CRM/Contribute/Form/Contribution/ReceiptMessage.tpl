@@ -97,3 +97,24 @@ End Date: {$end_date|crmDate}
 {ts 1=$price|crmMoney}The value of this premium is %1. This may affect the amount of the
 tax deduction you can claim. Consult your tax advisor for more information.{/ts}{/if}
 {/if}
+
+{if $customPre}
+===========================================================
+{ts}Profile Information{/ts}
+
+===========================================================
+{foreach from=$customPre item=value key=name}
+ {$name} : {$value}
+{/foreach}
+{/if}
+
+
+{if $customPost}
+===========================================================
+{ts}Profile Information{/ts}
+
+===========================================================
+{foreach from=$customPost item=value key=name}
+ {$name} : {$value}
+{/foreach}
+{/if}
