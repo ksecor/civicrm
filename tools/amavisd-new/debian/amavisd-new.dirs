@@ -1,7 +1,0 @@
-usr/sbin
-etc
-etc/ldap/schema
-var/lib/amavis
-var/lib/amavis/virusmails
-etc/logcheck/ignore.d.workstation
-etc/logcheck/ignore.d.server
