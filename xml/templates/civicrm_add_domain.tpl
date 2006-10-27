@@ -89,7 +89,7 @@ VALUES
    (@domain_id, 'individual_suffix'             , 'Individual contact suffixes.'       , 0, 1),
    (@domain_id, 'acl_role'                      , 'ACL Role.'                          , 0, 1),
    (@domain_id, 'accept_creditcard'             , 'Accept Credit Card'                 , 0, 1),
-   (@domain_id, 'payment_instrument'            , 'Payment Instrument'                 , 0, 1);
+   (@domain_id, 'payment_instrument'            , 'Payment Instrument'                 , 0, 1),
    (@domain_id, 'contribution_status'           , 'Contribution Status'               , 0, 1);
 
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';

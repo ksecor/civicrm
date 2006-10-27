@@ -282,11 +282,11 @@
       <title>Status</title>
       <type>int unsigned</type>
       <default>1</default>
-      <add>1/6</add>
+      <add>1.6</add>
   </field>
   <index>
     <name>index_contribution_status</name>
-    <fieldName>status_id</fieldName>
+    <fieldName>contribution_status_id</fieldName>
     <add>1.6</add>
   </index>
 </table>

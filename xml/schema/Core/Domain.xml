@@ -58,4 +58,22 @@
        <comment>The domain from which outgoing email for this domain will appear to originate</comment>
        <add>1.1</add>
   </field>
+  <field>
+       <name>config_backend</name>
+       <type>text</type>
+       <comment>Backend configuration.</comment>
+       <htmlType>textarea</htmlType>
+       <rows>20</rows>
+       <cols>80</cols>
+       <add>1.6</add>
+  </field>
+  <field>
+       <name>config_frontend</name>
+       <type>text</type>
+       <comment>Frontend configuration.</comment>
+       <htmlType>textarea</htmlType>
+       <rows>20</rows>
+       <cols>80</cols>
+       <add>1.6</add>
+  </field>
 </table>
