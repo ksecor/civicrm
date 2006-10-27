@@ -51,15 +51,15 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) {
 
-        $this->addYesNo( 'ssl', ts( 'Enable SSL' ));
-        $this->addElement('text','pay_processor', ts('Payment Processor'));  
-        $this->addElement('text','express_button', ts('Payment Express Button '));  
-        $this->addElement('text','test_name', ts('Paypal Test Username')); 
-        $this->addElement('text','test_certpath', ts('Paypal Test Certificate Path')); 
-        $this->addElement('text','test_url', ts('Paypal Express Test Url')); 
-        $this->addElement('text','name', ts('Paypal Live Username')); 
-        $this->addElement('text','certpath', ts('Paypal Live Certificate Path')); 
-        $this->addElement('text','url', ts('Paypal Express Url'));
+        $this->addYesNo( 'enableSSL', ts( 'Enable SSL' ));
+        $this->addElement('text','paymentProcessor', ts('Payment Processor'));  
+        $this->addElement('text','paymentProcessorButton', ts('Payment Express Button '));  
+        $this->addElement('text','paymentUsername_test', ts('Paypal Test Username')); 
+        $this->addElement('text','paymentCertPath_test', ts('Paypal Test Certificate Path')); 
+        $this->addElement('text','paymentPayPalExpressTestUrl', ts('Paypal Express Test Url')); 
+        $this->addElement('text','paymentUsername_live', ts('Paypal Live Username')); 
+        $this->addElement('text','paymentCertPath_live', ts('Paypal Live Certificate Path')); 
+        $this->addElement('text','paymentPayPalExpressUrl', ts('Paypal Express Url'));
         
         parent::buildQuickForm();
     }

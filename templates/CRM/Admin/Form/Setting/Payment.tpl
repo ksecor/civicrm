@@ -1,15 +1,15 @@
 <div class="form-item">
 <fieldset><legend>{ts}Online Payments{/ts}</legend>
         <dl>
-            <dt>{$form.ssl.label}<dd>{$form.ssl.html}</dd></dt>
-            <dt>{$form.pay_processor.label}<dd>{$form.pay_processor.html}</dd></dt>
-            <dt>{$form.express_button.label}<dd>{$form.express_button.html}</dd></dt>
-            <dt>{$form.test_name.label}<dd>{$form.test_name.html}</dd></dt>
-            <dt>{$form.test_certpath.label}<dd>{$form.test_certpath.html}</dd></dt>
-            <dt>{$form.test_url.label}<dd>{$form.test_url.html}</dd></dt>
-            <dt>{$form.name.label}</dt>{$form.name.html}</dd></dt>
-            <dt>{$form.certpath.label}<dd>{$form.certpath.html}</dd></dt>
-            <dt>{$form.url.label}<dd>{$form.url.html}</dd></dt>
+            <dt>{$form.enableSSL.label}<dd>{$form.enableSSL.html}</dd></dt>
+            <dt>{$form.paymentProcessor.label}<dd>{$form.paymentProcessor.html}</dd></dt>
+            <dt>{$form.paymentProcessorButton.label}<dd>{$form.paymentProcessorButton.html}</dd></dt>
+            <dt>{$form.paymentUsername_test.label}<dd>{$form.paymentUsername_test.html}</dd></dt>
+            <dt>{$form.paymentCertPath_test.label}<dd>{$form.paymentCertPath_test.html}</dd></dt>
+            <dt>{$form.paymentPayPalExpressTestUrl.label}<dd>{$form.paymentPayPalExpressTestUrl.html}</dd></dt>
+            <dt>{$form.paymentUsername_live.label}</dt>{$form.paymentUsername_live.html}</dd></dt>
+            <dt>{$form.paymentCertPath_live.label}<dd>{$form.paymentCertPath_live.html}</dd></dt>
+            <dt>{$form.paymentPayPalExpressUrl.label}<dd>{$form.paymentPayPalExpressUrl.html}</dd></dt>
         </dl>
         <dl>
             <dt></dt><dd>{$form.buttons.html}</dd>
