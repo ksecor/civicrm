@@ -557,5 +557,194 @@ civicrm_membership_status.is_current_member =1";
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view/membership', "reset=1&force=1&cid={$contactId}"));
         }
     }
+
+    /**
+     * Process the form
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcessMembership( $membershipParams, $contactID ,&$form )
+    {
+        $tempParams = $membershipParams;
+        $paymemtDone = false;
+        
+        $form->assign('membership_assign' , true );
+        $form->set('membershipID' , $membershipParams['selectMembership']);
+        
+        require_once 'CRM/Member/BAO/MembershipType.php';
+        require_once 'CRM/Member/BAO/Membership.php';
+        $membershipID = $membershipParams['selectMembership'];
+        $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipID );
+        $form->assign('membership_name',$membershipDetails['name']);
+        
+        $minimumFee = $membershipDetails['minimum_fee'];
+        $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $form->id );
+        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+        if ( $form->_values['amount_block_is_active']) {
+            $contributionType->id = $form->_values['contribution_type_id'];
+        } else {
+            $paymemtDone  = true ;
+            $membershipParams['amount'] = $minimumFee;
+            $contributionType->id = $membershipDetails['contribution_type_id']; 
+        }
+        if ( ! $contributionType->find( true ) ) {
+            CRM_Core_Error::fatal( "Could not find a system table" );
+        }
+        $membershipParams['contributionType_name'] = $contributionType->name;
+        $membershipParams['contributionType_accounting_code'] = $contributionType->accounting_code;
+        $membershipParams['contributionForm_id']              = $form->_values['id'];
+        
+        require_once 'CRM/Contribute/Payment.php';
+        $payment =& CRM_Contribute_Payment::singleton( $form->_mode );
+        
+        if ( $form->_contributeMode == 'express' ) {
+            $result =& $payment->doExpressCheckout( $membershipParams);
+        } else {
+            $result =& $payment->doDirectPayment( $membershipParams );
+        }
+        
+        $errors = array();
+        if ( is_a( $result, 'CRM_Core_Error' ) ) {
+            $errors[1] = $result;
+        } else {
+            $now = date( 'YmdHis' );
+            $membershipParams = array_merge($membershipParams, $result );
+            $membershipParams['receive_date'] = $now;
+            $form->set( 'params', $membershipParams );
+            $form->assign( 'trxn_id', $result['trxn_id'] );
+            $form->assign( 'receive_date',
+                           CRM_Utils_Date::mysqlToIso( $membershipParams['receive_date']) );
+            
+            $config =& CRM_Core_Config::singleton( );
+            if ( $contributionType->is_deductible ) {
+                $form->assign('is_deductible' , true );
+                $form->set('is_deductible' , true);
+            }
+            $contribution[1] =  CRM_Contribute_Form_Contribution_Confirm::processContribution( $membershipParams ,$result ,$contactID ,$contributionType ,true );
+            CRM_Contribute_Form_Contribution_Confirm::postProcessPremium( $premiumParams ,$contribution[1] );
+            
+        }
+        
+        if ( $memBlockDetails['is_separate_payment']  && ! $paymemtDone ) {
+            $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+            $contributionType->id = $membershipDetails['contribution_type_id']; 
+            if ( ! $contributionType->find( true ) ) {
+                CRM_Core_Error::fatal( "Could not find a system table" );
+            }
+            $tempParams['amount'] = $minimumFee;
+            $invoiceID = md5(uniqid(rand(), true));
+            $tempParams['invoiceID'] = $invoiceID;
+            if ( $form->_contributeMode == 'express' ) {
+                $result =& $payment->doExpressCheckout( $tempParams );
+            } else {
+                $result =& $payment->doDirectPayment( $tempParams );
+            }
+            if ( is_a( $result, 'CRM_Core_Error' ) ) {
+                $errors[2] = $result;
+            } else {
+                $form->set('membership_trx_id' , $result['trxn_id']);
+                $form->set('membership_amount'  , $minimumFee);
+                
+                $form->assign('membership_trx_id' , $result['trxn_id']);
+                $form->assign('membership_amount'  , $minimumFee);
+                $contribution[2] =  CRM_Contribute_Form_Contribution_Confirm::processContribution( $tempParams, $result, $contactID, $contributionType, false );
+            }
+        }
+        
+        $index = $memBlockDetails['is_separate_payment'] ? 2 : 1;
+
+        if ( ! $errors[$index] ){
+            if ( $currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID,  $membershipID) ) {
+                $form->set("renewal_mode", true );
+                if ( ! $currentMembership['is_current_member'] ) {
+                    require_once 'CRM/Member/BAO/MembershipStatus.php';
+                    $dao = &new CRM_Member_DAO_Membership();
+                    $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id']);
+                    $currentMembership['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
+                    $currentMembership['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
+                    $currentMembership['source']     = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+                    $dao->copyValues($currentMembership);
+                    $membership = $dao->save();
+                    
+                    //insert log here 
+                    require_once 'CRM/Member/DAO/MembershipLog.php';
+                    $dao = new CRM_Member_DAO_MembershipLog();
+                    $dao->membership_id = $membership->id;
+                    $dao->status_id     = $membership->status_id;
+                    $dao->start_date    = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
+                    $dao->end_date      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'); 
+                    $dao->modified_id   = $contactID;
+                    $dao->modified_date = date('Ymd');
+                    $dao->save();
+                    
+                    $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                    $form->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
+                    
+                } else {
+                    require_once 'CRM/Member/BAO/MembershipStatus.php';
+                    $dao = &new CRM_Member_DAO_Membership();
+                    $dao->id = $currentMembership['id'];
+                    $dao->find(true); 
+                    $membership = $dao ;
+                    
+                    //insert log here 
+                    require_once 'CRM/Member/DAO/MembershipLog.php';
+                    $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id);
+                    $dao = new CRM_Member_DAO_MembershipLog();
+                    $dao->membership_id = $membership->id;
+                    $dao->status_id     = $membership->status_id;
+                    $dao->start_date    = CRM_Utils_Date::customFormat($dates['log_start_date'],'%Y%m%d');
+                    $dao->end_date      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'); 
+                    $dao->modified_id   = $contactID;
+                    $dao->modified_date = date('Ymd');
+                    $dao->save();
+                    $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                    $form->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
+                    
+                }
+                
+            } else {
+                require_once 'CRM/Member/BAO/MembershipStatus.php';
+                $memParams = array();
+                $memParams['contact_id']             = $contactID;
+                $memParams['membership_type_id']     = $membershipID;
+                $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membershipID);
+                
+                $memParams['join_date']  = CRM_Utils_Date::customFormat($dates['join_date'],'%Y%m%d');
+                $memParams['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
+                $memParams['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
+                $memParams['source'  ]   = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+                $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( CRM_Utils_Date::customFormat($dates['start_date'],'%Y-%m-%d'),CRM_Utils_Date::customFormat($dates['end_date'],'%Y-%m-%d'),CRM_Utils_Date::customFormat($dates['join_date'],'%Y-%m-%d')) ;
+                
+                $memParams['status_id']   = $status['id'];
+                $memParams['is_override'] = false;
+                $dao = &new CRM_Member_DAO_Membership();
+                $dao->copyValues($memParams);
+                $membership = $dao->save();
+                $form->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                $form->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
+            }
+            
+            //insert payment record
+            require_once 'CRM/Member/DAO/MembershipPayment.php';
+            $dao =& new CRM_Member_DAO_MembershipPayment();    
+            $dao->membership_id         =  $membership->id;
+            $dao->payment_entity_table  = 'civicrm_contribute';
+            $dao->payment_entity_id     = $contribution[$index]->id;
+            $dao->save();
+        }
+        
+        foreach($errors as $error ) {
+            CRM_Core_Error::displaySessionError( $error );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
+        }
+        
+        //finally send an email receipt
+        if ( !$errors[1]  &&  !$errors[2] ) {
+            CRM_Contribute_Form_Contribution_Confirm::sendMail( $contactID );
+        }
+    }
+    
 }
 ?>
