@@ -8,7 +8,9 @@
         </p>
     </div>
     <div id="help">
+        {if $contribute_mode ne 'none'}
         <p>{ts}Your contribution has been processed successfully. Please print this page for your records.{/ts}</p>
+        {/if}
         {if $is_email_receipt}
             <p>{ts 1=$email}An email receipt for this contribution has also been sent to %1{/ts}</p>
         {/if}
@@ -27,8 +29,10 @@
         {else}
             {ts}Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
         {/if}
-        {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
-        {ts}Transaction #{/ts}: {$trxn_id}<br />
+        {if $contribute_mode ne 'none'}
+          {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
+          {ts}Transaction #{/ts}: {$trxn_id}<br />
+        {/if}
         {if $membership_trx_id}
            {ts}Membership Transaction #{/ts}: {$membership_trx_id}
         {/if}
