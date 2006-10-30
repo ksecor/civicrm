@@ -102,7 +102,7 @@ tax deduction you can claim. Consult your tax advisor for more information.{/ts}
 
 {if $customPre}
 ===========================================================
-{ts}Profile Information{/ts}
+{ts}{$customPre_grouptitle} {/ts}
 
 ===========================================================
 {foreach from=$customPre item=value key=name}
@@ -113,7 +113,7 @@ tax deduction you can claim. Consult your tax advisor for more information.{/ts}
 
 {if $customPost}
 ===========================================================
-{ts}Profile Information{/ts}
+{ts}{$customPost_grouptitle}{/ts}
 
 ===========================================================
 {foreach from=$customPost item=value key=name}

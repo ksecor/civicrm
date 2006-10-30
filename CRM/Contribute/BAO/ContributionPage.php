@@ -115,8 +115,16 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
     function buildCustomDisplay( $gid, $name, $cid, &$template ) {
         if ( $gid ) {
            $values = array( );
+           $groupTitle = null;
            $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
            CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false );
+           foreach( $fields as $v  ) {
+               $groupTitle = $v["groupTitle"];
+           }
+           if ( $groupTitle ) {
+               $template->assign( $name."_grouptitle", $groupTitle );
+           }
+
            if ( count( $values ) ) {
                $template->assign( $name, $values );
            }
