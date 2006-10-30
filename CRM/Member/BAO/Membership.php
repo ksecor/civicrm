@@ -742,7 +742,8 @@ civicrm_membership_status.is_current_member =1";
         
         //finally send an email receipt
         if ( !$errors[1]  &&  !$errors[2] ) {
-            CRM_Contribute_Form_Contribution_Confirm::sendMail( $contactID );
+            require_once "CRM/Contribute/BAO/ContributionPage.php";
+            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,$form->_values );
         }
     }
     
