@@ -2362,6 +2362,8 @@ class CRM_Contact_BAO_Query {
                     }
                 } else if ($sortByChar) { 
                     $order = " ORDER BY LEFT(contact_a.sort_name, 1) ";
+                } else {
+                    $order = " ORDER BY contact_a.sort_name ";
                 }
             }
 
