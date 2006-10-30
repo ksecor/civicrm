@@ -204,7 +204,16 @@ class CRM_Core_Block {
             require_once 'CRM/Core/BAO/LocationType.php';
             $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
             $values = array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&amp;ct=Individual' ), 
-                             'primaryLocationType' => $defaultLocation->id ); 
+                             'primaryLocationType' => $defaultLocation->id );
+
+            // add the drupal form token hidden value to allow form submits to work
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->userFramework == 'Drupal' &&
+                 $config->userFramework <= 4.6      &&
+                 function_exists( 'drupal_get_token' ) ) {
+                $values['drupalFormToken'] = drupal_get_token( );
+            }
+            
             self::setProperty( self::ADD,
                                'templateValues',
                                $values );
@@ -218,6 +227,13 @@ class CRM_Core_Block {
                                                               'reset=1' ),
                 'dataURL'           => $config->userFrameworkResourceURL . "extern/ajax.php?q=civicrm/search&d={$domainID}&s=%{searchString}",
             );
+            // add the drupal form token hidden value to allow form submits to work
+            $config =& CRM_Core_Config::singleton( );
+            if ( $config->userFramework == 'Drupal' &&
+                 $config->userFramework <= 4.6      &&
+                 function_exists( 'drupal_get_token' ) ) {
+                $urlArray['drupalFormToken'] = drupal_get_token( );
+            }
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );
         } else if ( $id == self::MENU ) {
             self::setTemplateMenuValues( );
