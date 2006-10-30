@@ -83,6 +83,9 @@ class CRM_Utils_PDF_Label extends UFPDF {
                                'lMargin' => 7.1, 'tMargin' => 19, 'NX' => 3, 'NY' => 10,
                                'SpaceX' => 9.5, 'SpaceY' => 3.1, 'width' => 66.6,
                                'height' => 25.4, 'font-size' => 8),
+               'L7160' => array('name' => 'L7160', 'paper-size' => 'A4', 'metric' => 'mm', 'lMargin' => 7,
+                                'tMargin' => 15, 'NX' => 3, 'NY' => 7, 'SpaceX' => 25, 'SpaceY' => 0,
+                                'width' => 99.1, 'height' => 38.1, 'font-size' => 9),
                'L7163' => array('name' => 'L7163', 'paper-size' => 'A4', 'metric' => 'mm', 'lMargin' => 5,
                                 'tMargin' => 15, 'NX' => 2, 'NY' => 7, 'SpaceX' => 25, 'SpaceY' => 0,
                                 'width' => 99.1, 'height' => 38.1, 'font-size' => 9)

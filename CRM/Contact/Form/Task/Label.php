@@ -71,6 +71,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                        "5163" => "5163", 
                        "5164" => "5164", 
                        "8600" => "8600",
+                       "L7160" => "L7160",
                        "L7163" => "L7163");
         
         $this->add('select', 'label_id', ts('Select Label'), array( '' => ts('- select label -')) + $label, true);
