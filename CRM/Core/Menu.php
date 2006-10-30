@@ -113,7 +113,9 @@ class CRM_Core_Menu {
                       array(
                             'path'    => 'civicrm/admin/access',
                             'title'   => ts('Access Control'),
+                            'query'   => 'reset=1',
                             'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
                             'adminGroup' => ts('Manage'),
                             'icon'    => 'admin/03.png',
                             'weight'  => 110
@@ -613,6 +615,16 @@ class CRM_Core_Menu {
                             'path'    => 'civicrm/profile/note',
                             'title'   => ts( 'Notes about the Person' ),
                             'access'  => CRM_Core_Permission::check( 'profile listings and forms'),
+                            'type'    => self::CALLBACK, 
+                            'crmType' => self::CALLBACK, 
+                            'weight'  => 0,
+                            ),
+
+                      array(
+                            'path'    => 'civicrm/acl',
+                            'title'   => ts( 'Manage ACLs' ),
+                            'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                                         CRM_Core_Permission::check( 'access CiviCRM' ),
                             'type'    => self::CALLBACK, 
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0,

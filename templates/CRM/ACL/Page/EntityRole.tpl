@@ -2,9 +2,11 @@
 {capture assign=rolesURL}{crmURL p='civicrm/admin/options' q='group=acl_role&reset=1'}{/capture}
 
 <div id="help">
-    <p>{ts}ACL's allow you control access to CiviCRM contacts. An ACL consists of an <strong>Operation</strong> ('View' or 'View and Edit'), a <strong>Group of contacts</strong> that the operation can be performed on, and an <strong>ACL Role</strong> that has permission to do this operation.{/ts}</p>
-    <p>{ts 1=$aclURL 2=$rolesURL 3="http://wiki.civicrm.org/confluence//x/fCM"}An ACL Role represents a collection of individual ACL's. You can assign roles to groups of CiviCRM contacts who are users of your site below. You can add or modify ACL's <a href="%1">here</a>. You can create additional ACL Roles <a href="%2">here</a>.
-        Refer to the <a href="%3">ACL Administrator Guide</a> for more info.{/ts}</p>
+    <p>{ts 1="http://wiki.civicrm.org/confluence//x/fCM"}ACL&rsquo;s allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong>
+        (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts),
+        and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1">ACL Administrator Guide</a> for more info.{/ts}</p>
+    <p>{ts 1=$aclURL 2=$rolesURL}An ACL Role represents a collection ACL&rsquo;s (permissions). You can assign roles to groups of CiviCRM contacts who are users of your site below.
+        You can add or modify ACL&rsquo;s <a href="%1">here</a>. You can create additional ACL Roles <a href="%2">here</a>.{/ts}</p>
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}
