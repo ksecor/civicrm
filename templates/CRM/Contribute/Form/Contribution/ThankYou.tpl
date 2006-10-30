@@ -29,7 +29,7 @@
         {else}
             {ts}Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
         {/if}
-        {if $contribute_mode ne 'none'}
+        {if $contribute_mode ne 'none' and $is_monetary}
           {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
