@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-24 12:52+0200\n"
-"PO-Revision-Date: 2006-10-23 10:58-0700\n"
+"PO-Revision-Date: 2006-10-24 07:22-0700\n"
 "Last-Translator: Per Jonsson <per@ankarlift.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -15241,31 +15241,31 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Female"
-msgstr ""
+msgstr "Kvinna"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Male"
-msgstr ""
+msgstr "Man"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Transgender"
-msgstr ""
+msgstr "Ospecificerat"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Donation"
-msgstr ""
+msgstr "Donation"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Member Dues"
-msgstr ""
+msgstr "Medlemsavgifter"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Campaign Contribution"
-msgstr ""
+msgstr "Kampanjbidrag"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Credit Card"
-msgstr ""
+msgstr "Kreditkort"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Debit Card"
@@ -15273,11 +15273,11 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Cash"
-msgstr ""
+msgstr "Kontanter"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Check"
-msgstr ""
+msgstr "Check"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "EFT"
