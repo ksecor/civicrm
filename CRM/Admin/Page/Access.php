@@ -45,6 +45,7 @@ class CRM_Admin_Page_Access extends CRM_Core_Page
     function run( ) {
         $ufAccessURL = CRM_Utils_System::url( 'admin/access' );
         $this->assign('ufAccessURL', $ufAccessURL);
+        return parent::run();
     }
 }
 

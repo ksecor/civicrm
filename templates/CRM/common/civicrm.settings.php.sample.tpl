@@ -298,13 +298,20 @@ define( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' , 'USD' );
  */
 define( 'CIVICRM_LC_MESSAGES' , 'en_US' );
 
-/**
- * USPS specific settings.
- *
- */
 
-define( 'CIVICRM_USPS_ADDRESS_CHECK', 1);
-define( 'CIVICRM_USPS_USERID', '');
+/** Address Standarization
+ *
+ * Use this section to enable a postal address standardization plugin.
+ * Currently, a plugin for using the US Postal Service address standardization service
+ * has been implemented (PROVIDER = 'USPS'). You must register to use the USPS
+ * service at http://www.usps.com/webtools/address.htm . When qualified, you will be
+ * provided with a USERID and test and live URLs for the service.
+ *
+ * Other plugins may be added at a later date.
+ */
+define( 'CIVICRM_ADDRESS_STANDARDIZATION_PROVIDER', '' );
+define( 'CIVICRM_ADDRESS_STANDARDIZATION_USERID', '' );
+define( 'CIVICRM_ADDRESS_STANDARDIZATION_URL', '' );
 
 
 /**
