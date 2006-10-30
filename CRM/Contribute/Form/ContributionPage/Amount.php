@@ -170,6 +170,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $values  = CRM_Utils_Array::value( 'value'  , $params );
         $default = CRM_Utils_Array::value( 'default', $params ); 
         $params['amount_block_is_active']  = CRM_Utils_Array::value( 'amount_block_is_active', $params ,false);
+        $params['is_monetary']  = CRM_Utils_Array::value( 'is_monetary', $params ,false);
         if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values ) ) {
             for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
                 if ( ! empty( $labels[$i] ) && !empty( $values[$i] ) ) {
