@@ -67,6 +67,7 @@
   <field>   
       <name>is_monetary</name>   
       <type>boolean</type>                   
+      <default>1</default> 
       <comment>if true - allows real-time monetary transactions otherwise non-monetary transactions</comment>   
       <add>1.6</add>   
   </field>

@@ -162,7 +162,7 @@ CREATE TABLE civicrm_acl_cache (
 	ALTER TABLE `civicrm_contribution_page` ADD honor_block_is_active tinyint COMMENT 'Should this contribution have the honor  block enabled?';
 	ALTER TABLE `civicrm_contribution_page` ADD honor_block_title varchar(255) COMMENT 'Title for honor block.';
 	ALTER TABLE `civicrm_contribution_page` ADD honor_block_text text COMMENT 'text for honor block.';
-	ALTER TABLE `civicrm_contribution_page` ADD is_monetary boolean COMMENT 'if true - allows real-time monetary transactions otherwise non-monetary transactions.';
+	ALTER TABLE `civicrm_contribution_page` ADD is_monetary boolean DEFAULT 1 COMMENT 'if true - allows real-time monetary transactions otherwise non-monetary transactions.';
 	UPDATE `civicrm_contribution_page` set `is_monetary`=1;		
 
 -- /*******************************************************

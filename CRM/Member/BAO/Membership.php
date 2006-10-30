@@ -568,7 +568,7 @@ civicrm_membership_status.is_current_member =1";
     {
         $tempParams = $membershipParams;
         $paymemtDone = false;
-        
+
         $form->assign('membership_assign' , true );
         $form->set('membershipID' , $membershipParams['selectMembership']);
         
@@ -594,22 +594,25 @@ civicrm_membership_status.is_current_member =1";
         $membershipParams['contributionType_name'] = $contributionType->name;
         $membershipParams['contributionType_accounting_code'] = $contributionType->accounting_code;
         $membershipParams['contributionForm_id']              = $form->_values['id'];
-        
-        require_once 'CRM/Contribute/Payment.php';
-        $payment =& CRM_Contribute_Payment::singleton( $form->_mode );
-        
-        if ( $form->_contributeMode == 'express' ) {
-            $result =& $payment->doExpressCheckout( $membershipParams);
-        } else {
-            $result =& $payment->doDirectPayment( $membershipParams );
+
+        if ($form->_values['is_monetary']) {
+            require_once 'CRM/Contribute/Payment.php';
+            $payment =& CRM_Contribute_Payment::singleton( $form->_mode );
+            
+            if ( $form->_contributeMode == 'express' ) {
+                $result =& $payment->doExpressCheckout( $membershipParams);
+            } else {
+                $result =& $payment->doDirectPayment( $membershipParams );
+            }
         }
-        
         $errors = array();
         if ( is_a( $result, 'CRM_Core_Error' ) ) {
             $errors[1] = $result;
         } else {
             $now = date( 'YmdHis' );
-            $membershipParams = array_merge($membershipParams, $result );
+            if ( $result ) {
+                $membershipParams = array_merge($membershipParams, $result );
+            }
             $membershipParams['receive_date'] = $now;
             $form->set( 'params', $membershipParams );
             $form->assign( 'trxn_id', $result['trxn_id'] );
@@ -635,10 +638,12 @@ civicrm_membership_status.is_current_member =1";
             $tempParams['amount'] = $minimumFee;
             $invoiceID = md5(uniqid(rand(), true));
             $tempParams['invoiceID'] = $invoiceID;
-            if ( $form->_contributeMode == 'express' ) {
-                $result =& $payment->doExpressCheckout( $tempParams );
-            } else {
-                $result =& $payment->doDirectPayment( $tempParams );
+            if ($form->_values['is_monetary']) {
+                if ( $form->_contributeMode == 'express' ) {
+                    $result =& $payment->doExpressCheckout( $tempParams );
+                } else {
+                    $result =& $payment->doDirectPayment( $tempParams );
+                }
             }
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
                 $errors[2] = $result;

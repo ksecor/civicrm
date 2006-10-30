@@ -244,7 +244,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
-        
+
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)
@@ -308,7 +308,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $payment =& CRM_Contribute_Payment::singleton( $this->_mode );
 
             if ( $this->_contributeMode == 'express' ) {
-                $result =& $payment->doExpressCheckout( $this->_params );
+                if ( $this->_values['is_monetary'] ) {
+                    $result =& $payment->doExpressCheckout( $this->_params );
+                }
             } else if ( $this->_contributeMode == 'none' ) {
                 // this is not going to come back, i.e. we fill in the other details
                 // when we get a callback from the payment processor
@@ -327,8 +329,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 // commit the transaction before we xfer
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
-                $result =& $payment->doTransferCheckout( $this->_params );
-            } else {
+                if ( $this->_values['is_monetary'] ) {
+                    $result =& $payment->doTransferCheckout( $this->_params );
+                }
+            } elseif ( $this->_values['is_monetary'] ) {
                 $result =& $payment->doDirectPayment( $this->_params );
             }
             
@@ -338,8 +342,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
             
             $now = date( 'YmdHis' );
-            
-            $this->_params = array_merge( $this->_params, $result );
+            if ( $result ) {
+                $this->_params = array_merge( $this->_params, $result );
+            }
             $this->_params['receive_date'] = $now;
             $this->set( 'params', $this->_params );
             $this->assign( 'trxn_id', $result['trxn_id'] );
@@ -353,7 +358,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->assign('is_deductible',  true );
                 $this->set('is_deductible',  true);
             }
-            
+
             $contribution =  self::processContribution( $this->_params, $result, $contactID, $contributionType,  true );
             
             self::postProcessPremium( $premiumParams, $contribution );
@@ -552,21 +557,23 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         // next create the transaction record
-        $trxnParams = array(
-                            'entity_table'      => 'civicrm_contribution',
-                            'entity_id'         => $contribution->id,
-                            'trxn_date'         => $now,
-                            'trxn_type'         => 'Debit',
-                            'total_amount'      => $params['amount'],
-                            'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
-                            'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
-                            'currency'          => $params['currencyID'],
-                            'payment_processor' => $config->paymentProcessor,
-                            'trxn_id'           => $result['trxn_id'],
-                            );
-        
-        require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
-        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
+        if ( $this->_values['is_monetary'] ) {
+            $trxnParams = array(
+                                'entity_table'      => 'civicrm_contribution',
+                                'entity_id'         => $contribution->id,
+                                'trxn_date'         => $now,
+                                'trxn_type'         => 'Debit',
+                                'total_amount'      => $params['amount'],
+                                'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
+                                'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
+                                'currency'          => $params['currencyID'],
+                                'payment_processor' => $config->paymentProcessor,
+                                'trxn_id'           => $result['trxn_id'],
+                                );
+            
+            require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
+            $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
+        }
 
         // also create an activity history record
         require_once 'CRM/Utils/Money.php';
