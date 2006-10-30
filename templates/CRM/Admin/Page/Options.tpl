@@ -24,8 +24,8 @@
     <p>{ts 1="http://wiki.civicrm.org/confluence//x/fCM"}ACL&rsquo;s allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong>
         (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts),
         and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href="%1">ACL Administrator Guide</a> for more info.{/ts}</p>
-    <p>{ts 1=$aclURL 2=$erURL}You can add or modify your ACL Roles below. You can create additional ACL&rsquo;s <a href="%1">here</a>...
-        and you can assign Roles to CiviCRM contacts who are users of your site <a href="%2">here</a>.{/ts}</p>
+    <p>{ts 1=$aclURL 2=$erURL}You can add or modify your ACL Roles below. You can create ACL&rsquo;s and grant permission to roles <a href="%1">here</a>...
+        and you can assign role(s) to CiviCRM contacts who are users of your site <a href="%2">here</a>.{/ts}</p>
   {else}
         <p>{ts}The existing option choices for {$GName} group are listed below. You can add, edit or delete them from this screen.{/ts}</p>
   {/if}
@@ -64,9 +64,9 @@
         {/strip}
 
         {if $action ne 1 and $action ne 2}
-	    <div class="action-link">
-    	<a href="{crmURL q="group="|cat:$gName|cat:"&action=add&reset=1"}" id="new"|cat:$GName >&raquo; {ts}New {$GName}{/ts}</a>
-        </div>
+            <div class="action-link">
+                <a href="{crmURL q="group="|cat:$gName|cat:"&action=add&reset=1"}" id="new"|cat:$GName >&raquo; {ts}New {$GName}{/ts}</a>
+            </div>
         {/if}
     </div>
 </div>

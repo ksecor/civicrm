@@ -7,7 +7,7 @@
     <dl>
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
       <dd>    
-        {ts}WARNING: Deleting this option will remove this ACL from all ACL group permissions.{/ts}{ts}Do you want to continue?{/ts}
+        {ts}WARNING: Deleting this option will remove this permission from all ACL Roles.{/ts} {ts}Do you want to continue?{/ts}
       </dd>
     </dl>
   </div>
