@@ -53,7 +53,7 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
 
         $this->addYesNo( 'enableSSL', ts( 'Enable SSL' ));
         $this->addElement('text','paymentProcessor', ts('Payment Processor'));  
-        $this->addElement('text','paymentProcessorButton', ts('Payment Express Button '));  
+        $this->addElement('text','paymentExpressButton', ts('Payment Express Button '));  
         $this->addElement('text','paymentUsername_test', ts('Paypal Test Username')); 
         $this->addElement('text','paymentCertPath_test', ts('Paypal Test Certificate Path')); 
         $this->addElement('text','paymentPayPalExpressTestUrl', ts('Paypal Express Test Url')); 

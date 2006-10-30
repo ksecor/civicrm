@@ -91,6 +91,9 @@ class CRM_Core_BAO_Setting
             //$defaultCountry = CRM_Core_PseudoConstant::countryIsoCode($params['defaultContactCountry']);
             $params['defaultContactCountry'] = $params['defaultContactCountry'];
         }
+        if ( $params['provinceLimit'] ) {
+            $params['provinceLimit'] = implode(',',  $params['provinceLimit']);
+        }
     }
 
     /**

@@ -3,7 +3,7 @@
         <dl>
             <dt>{$form.enableSSL.label}<dd>{$form.enableSSL.html}</dd></dt>
             <dt>{$form.paymentProcessor.label}<dd>{$form.paymentProcessor.html}</dd></dt>
-            <dt>{$form.paymentProcessorButton.label}<dd>{$form.paymentProcessorButton.html}</dd></dt>
+            <dt>{$form.paymentExpressButton.label}<dd>{$form.paymentExpressButton.html}</dd></dt>
             <dt>{$form.paymentUsername_test.label}<dd>{$form.paymentUsername_test.html}</dd></dt>
             <dt>{$form.paymentCertPath_test.label}<dd>{$form.paymentCertPath_test.html}</dd></dt>
             <dt>{$form.paymentPayPalExpressTestUrl.label}<dd>{$form.paymentPayPalExpressTestUrl.html}</dd></dt>
