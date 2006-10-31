@@ -474,6 +474,12 @@ class CRM_Core_Config {
         if (self::$_singleton === null ) {
             self::$_singleton =& new CRM_Core_Config($key);
 
+            self::$_singleton->initialize( );
+
+            require_once "CRM/Core/BAO/Setting.php";
+            $defaults = array();
+            CRM_Core_BAO_Setting::retrieve($defaults);
+            // CRM_Core_Error::debug('s', $defaults);
         }
         return self::$_singleton;
     }
@@ -839,9 +845,6 @@ class CRM_Core_Config {
 
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::addConfig( $this );
-
-        // initialize the framework
-        $this->initialize();
     }
 
     /**
