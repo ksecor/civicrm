@@ -79,20 +79,20 @@ class CRM_Core_BAO_Setting
     {
         $country = array();
         if ( $params['enableComponents'] ) {
-            $params['enableComponents'] = implode(',', $params['enableComponents']);
+            //$params['enableComponents'] = implode(',', $params['enableComponents']);
         }
         if ( $params['countryLimit'] ) {
 //             foreach( $params['countryLimit'] as $key=>$value ) {
 //                 $country[] = CRM_Core_PseudoConstant::countryIsoCode($value );
 //             }
-            $params['countryLimit'] = implode(',',  $params['countryLimit']);
+            //$params['countryLimit'] = implode(',',  $params['countryLimit']);
         }
         if ( $params['defaultContactCountry'] ) {
             //$defaultCountry = CRM_Core_PseudoConstant::countryIsoCode($params['defaultContactCountry']);
             $params['defaultContactCountry'] = $params['defaultContactCountry'];
         }
         if ( $params['provinceLimit'] ) {
-            $params['provinceLimit'] = implode(',',  $params['provinceLimit']);
+            //$params['provinceLimit'] = implode(',',  $params['provinceLimit']);
         }
     }
 

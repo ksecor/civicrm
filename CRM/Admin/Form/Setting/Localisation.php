@@ -58,9 +58,9 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
             $locales[$key] = $key;
         }
         
-        $this->addElement('select','lcMessages', ts('LC Messages'), $locales);
+        $this->addElement('select','lcMessages', ts('LC Messages'), array('en_US' => 'en_US') + $locales);
         $this->addElement('text','moneyformat', ts('Money Format')); 
-        $this->addElement('text','lcMonetary', ts('Monetory')); 
+        $this->addElement('select','lcMonetary', ts('Monetory'), array('en_US' => 'en_US') + $locales);
 
         $country = CRM_Core_PseudoConstant::country();
         $includeCountry =& $this->addElement('advmultiselect', 'countryLimit', 
@@ -70,16 +70,15 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
         $includeCountry->setButtonAttributes('add', array('value' => ts('Add >>')));
         $includeCountry->setButtonAttributes('remove', array('value' => ts('<< Remove')));
 
-        $stateProvince = CRM_Core_PseudoConstant::stateProvince();
         $includeState =& $this->addElement('advmultiselect', 'provinceLimit', 
-                                      ts('Province Limit') . ' ', $stateProvince,
+                                      ts('Province Limit') . ' ', $country,
                                       array('size' => 5, 'style' => 'width:150px'));
 
         $includeState->setButtonAttributes('add', array('value' => ts('Add >>')));
         $includeState->setButtonAttributes('remove', array('value' => ts('<< Remove')));
     
         $this->addElement('select','defaultContactCountry', ts('Default Contact Country'), $country);
-        $this->addElement('text','defaultCurrency', ts('CiviContribute Default Currency')); 
+        $this->addElement('select','defaultCurrency', ts('CiviContribute Default Currency'), $config->currencySymbols);
         $this->addElement('text','legacyEncoding', ts('Legacy Encoding'));  
        
         parent::buildQuickForm();
