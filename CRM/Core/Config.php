@@ -507,8 +507,6 @@ class CRM_Core_Config
             $this->dsn = CIVICRM_DSN;
         }
 
-        $this->retrieveFromSettings( );
-
         if (defined('CIVICRM_DAO_DEBUG') ) {
             $this->daoDebug = CIVICRM_DAO_DEBUG;
         }
@@ -645,6 +643,8 @@ class CRM_Core_Config
         if ( defined( 'CIVICRM_MAILER_BATCH_LIMIT' ) ) {
             $this->mailerBatchLimit = (int) CIVICRM_MAILER_BATCH_LIMIT;
         }
+
+        $this->retrieveFromSettings( );
 
     }
 
