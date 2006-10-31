@@ -414,7 +414,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     public function postProcess() 
     {
         $config =& CRM_Core_Config::singleton( );
-        
+    
+        // we first reset the confirm page so it accepts new values
+        $this->controller->resetPage( 'Confirm' );
+
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
 
