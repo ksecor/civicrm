@@ -464,7 +464,6 @@ class CRM_Core_Invoke {
         switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
             
         case 'access':
-//            CRM_Utils_System::redirect( CRM_Utils_System::url( 'admin/access' ) );
             require_once 'CRM/Admin/Page/Access.php';
             $view =& new CRM_Admin_Page_Access(ts('Access Control'));
             break;
