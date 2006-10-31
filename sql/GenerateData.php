@@ -318,7 +318,7 @@ class CRM_GCD {
 
 
     // insert data into db's
-    private function _insert($dao)
+    private function _insert(&$dao)
     {
         if (self::ADD_TO_DB) {
             if (!$dao->insert()) {
@@ -1155,7 +1155,7 @@ class CRM_GCD {
             $group->title      = $this->group[$i];
             $group->visibility = 'Public User Pages and Listings';
             $group->is_active  = 1;
-            $this->_insert($group);
+            $group->save( );
         }
 
         // 60 are for newsletter
@@ -1168,6 +1168,7 @@ class CRM_GCD {
 
             $subscriptionHistory =& new CRM_Contact_DAO_SubscriptionHistory();
             $subscriptionHistory->contact_id = $groupContact->contact_id;
+
             $subscriptionHistory->group_id = $groupContact->group_id;
             $subscriptionHistory->status = $groupContact->status;
             $subscriptionHistory->method = $this->_getRandomElement($this->subscriptionHistoryMethod); // method
