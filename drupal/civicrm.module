@@ -441,9 +441,14 @@ function civicrm_view_data($user )
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
         $config =& CRM_Core_Config::singleton( ); 
-        
-        $url = CRM_Utils_System::url( 'civicrm/contact/view&reset=1&cid=' .$userID );
-        $contactURL = '<a href="' .$url. '">&raquo; ' .ts("View Contact Record") . '</a>';
+
+        // make sure user has permission to view the record
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contactURL = null;
+        if ( CRM_Contact_BAO_Contact::permissioned::permissionedContact( $cid ) ) {
+            $url = CRM_Utils_System::url( 'civicrm/contact/view&reset=1&cid=' .$userID );
+            $contactURL = '<a href="' .$url. '">&raquo; ' .ts("View Contact Record") . '</a>';
+        }
 
         require_once 'CRM/Profile/Page/Dynamic.php';
         

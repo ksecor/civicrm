@@ -132,27 +132,27 @@ class CRM_Contribute_Config {
      */
     static function add( &$config ) {
 
-//         $config->paymentProcessor       = null;
+        $config->paymentProcessor       = null;
         $config->paymentClass           = null;
         $config->paymentBillingMode     = null;
-//         $config->paymentCertPath        = null;
-//         $config->paymentUsername        = null;
+        $config->paymentCertPath        = null;
+        $config->paymentUsername        = null;
         $config->paymentPassword        = null;
         $config->paymentSubject         = null;
         $config->paymentKey             = null;
-//         $config->paymentProcessorButton = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif";
-//         $config->paymentPayPalExpressUrl = "www.paypal.com";
-//         $config->paymentPayPalExpressTestUrl = "www.sandbox.paypal.com";
+        $config->paymentProcessorButton = "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif";
+        $config->paymentPayPalExpressUrl = "www.paypal.com";
+        $config->paymentPayPalExpressTestUrl = "www.sandbox.paypal.com";
 
-        if ( $config->paymentProcessor ) {
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR' ) ) {
             require_once 'CRM/Contribute/Payment.php';
-            //$config->paymentProcessor = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
+            $config->paymentProcessor = CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR;
             switch ( $config->paymentProcessor ) {
             case 'PayPal':
                 $config->paymentClass = 'CRM_Contribute_Payment_PayPalImpl';
-//                 $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
-//                 $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
-//                 $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
+                $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
+                $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
+                $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
                 $config->paymentBillingMode =
                     CRM_Contribute_Payment::BILLING_MODE_FORM |
                     CRM_Contribute_Payment::BILLING_MODE_BUTTON;
@@ -161,16 +161,16 @@ class CRM_Contribute_Config {
             case 'PayPal_Express':
                 $config->paymentClass = 'CRM_Contribute_Payment_PayPalImpl';
                 $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_BUTTON;
-//                 $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
-//                 $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
-//                 $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
+                $config->paymentExpressButton = CIVICRM_CONTRIBUTE_PAYMENT_EXPRESS_BUTTON;
+                $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
+                $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
                 break;
 
             case 'PayPal_Standard':
                 $config->paymentClass = 'CRM_Contribute_Payment_PayPalImpl';
                 $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_NONE;
-//                 $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
-//                 $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
+                $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
+                $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;
                 break;
 
             case 'Moneris':
@@ -180,21 +180,21 @@ class CRM_Contribute_Config {
             }
         }
 
-//         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {
-//             $config->paymentCertPath['live'] = CRM_Core_Config::addTrailingSlash( CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH );
-//         }
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH' ) ) {
+            $config->paymentCertPath['live'] = CRM_Core_Config::addTrailingSlash( CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH );
+        }
 
-//         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH' ) ) {
-//             $config->paymentCertPath['test'] = CRM_Core_Config::addTrailingSlash( CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH );
-//         }
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH' ) ) {
+            $config->paymentCertPath['test'] = CRM_Core_Config::addTrailingSlash( CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH );
+        }
 
-//         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME' ) ) {
-//             $config->paymentUsername['live'] = CIVICRM_CONTRIBUTE_PAYMENT_USERNAME;
-//         }
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME' ) ) {
+            $config->paymentUsername['live'] = CIVICRM_CONTRIBUTE_PAYMENT_USERNAME;
+        }
 
-//         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME' ) ) {
-//             $config->paymentUsername['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME;
-//         }
+        if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME' ) ) {
+            $config->paymentUsername['test'] = CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME;
+        }
 
         if ( defined( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY' ) ) {
             $config->paymentKey['live'] = CIVICRM_CONTRIBUTE_PAYMENT_KEY;
