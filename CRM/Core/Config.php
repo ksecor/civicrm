@@ -480,7 +480,6 @@ class CRM_Core_Config
             
             //initialize variable
             //self::$_singleton->initVariables();
-            CRM_Core_Error::debug( 's', self::$_singleton );
         }
 
         return self::$_singleton;
