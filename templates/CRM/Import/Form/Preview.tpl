@@ -1,5 +1,7 @@
 {literal}
 <script type="text/javascript">
+var finished = 0;
+
 setProgress = function(type,data,evt){
   finished = 1;
 {/literal}
@@ -42,7 +44,7 @@ submitForm = function( e ) {
 pollLoop = function(){
     doProgress();
     if ( ! finished ) {
-        dojo.lang.setTimeout(pollLoop,10*1000); //10 secs
+        dojo.lang.setTimeout(pollLoop,1*1000); //10 secs
     }
 }
 
