@@ -46,12 +46,10 @@ class CRM_Utils_Address_USPS {
                ! isset($values['postal_code']) ) ) {
             return false;
         }
-                
-        //$userID = '597WEBAC0483';
         
         $config = new CRM_Core_Config();
-        $userID = $config->USPSUserID;
-        $url = $config->USPSURL;
+        $userID = $config->AddressStdUserID;
+        $url = $config->AddressStdURL;
 
         $address2 = str_replace( ',', '', $values['street_address'] );
         

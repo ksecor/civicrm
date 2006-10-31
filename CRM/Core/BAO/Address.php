@@ -120,11 +120,11 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         if ( is_numeric( $params['country_id'] ) ) {
              $params['country'] = CRM_Core_PseudoConstant::country($params['country_id']);
         }
-    
+        
         $config =& CRM_Core_Config::singleton( );
-
+        
         // clean up the address via USPS web services if enabled
-        if ( $config->USPSUserID && $config->USPSURL ) {
+        if ($config->AddressStdProvider === 'USPS') {
             require_once 'CRM/Utils/Address/USPS.php';
             CRM_Utils_Address_USPS::checkAddress($params);
         }

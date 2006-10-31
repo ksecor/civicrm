@@ -173,16 +173,22 @@ class CRM_Core_Config
     public $addressFormat = "{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{county}{ }{state_province}{ }{postal_code}\n{country}";
         
     /**
-     * USPS USer ID.
+     * Address Standardization Provider.
      * @var string
      */
-    public $USPSUserID = null;
+    public $AddressStdProvider = null;
+        
+    /**
+     * Address Standardization User ID.
+     * @var string
+     */
+    public $AddressStdUserID = null;
     
     /**
-     * USPS URL.
+     * Address Standardization URL.
      * @var string
      */
-    public $USPSURL = null;
+    public $AddressStdURL = null;
     
     /**
      * The sequence of the address fields.
@@ -538,17 +544,21 @@ class CRM_Core_Config
         if ( defined( 'CIVICRM_CLEANURL' ) ) {
             $this->cleanURL = CIVICRM_CLEANURL;
         }
-
+        
         if ( defined( 'CIVICRM_INCLUDE_COUNTY' ) ) {
             $this->includeCounty = CIVICRM_INCLUDE_COUNTY;
         }
         
-        if ( defined( 'CIVICRM_USPS_USERID' ) ) {
-            $this->USPSUserID = CIVICRM_USPS_USERID;
+        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_PROVIDER' ) ) {
+            $this->AddressStdProvider = CIVICRM_ADDRESS_STANDARDIZATION_PROVIDER;
         }
-
-        if ( defined( 'CIVICRM_USPS_URL' ) ) {
-            $this->USPSURL = CIVICRM_USPS_URL;
+         
+        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_USERID' ) ) {
+            $this->AddressStdUserID = CIVICRM_ADDRESS_STANDARDIZATION_USERID;
+        }
+        
+        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_URL' ) ) {
+            $this->AddressStdURL = CIVICRM_ADDRESS_STANDARDIZATION_URL;
         }
         
         if ( defined( 'CIVICRM_LC_MONETARY' ) ) {
