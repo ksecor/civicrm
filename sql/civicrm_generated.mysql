@@ -22,7 +22,7 @@
 
 /*!40000 ALTER TABLE `civicrm_acl` DISABLE KEYS */;
 LOCK TABLES `civicrm_acl` WRITE;
-INSERT INTO `civicrm_acl` VALUES (1,1,'All Permissions',0,'civicrm_acl_group',1,'Edit',NULL,0,NULL,NULL,1),(2,1,'View All Contacts',0,'civicrm_acl_group',1,'View','civicrm_contact',0,NULL,NULL,1),(3,1,'Edit All Contacts',0,'civicrm_acl_group',1,'Edit','civicrm_contact',0,NULL,NULL,1),(4,1,'View All Contacts',0,'civicrm_acl_group',2,'View','civicrm_contact',0,NULL,NULL,1),(5,1,'Edit All Contacts',0,'civicrm_acl_group',2,'Edit','civicrm_contact',0,NULL,NULL,1),(6,1,'Manage Groups',0,'civicrm_acl_group',1,'Edit','civicrm_group',0,NULL,NULL,1),(7,1,'Administer CiviCRM',0,'civicrm_acl_group',1,'Edit','civicrm_group',0,NULL,NULL,1),(8,1,'Import',0,'civicrm_acl_group',1,'Edit','civicrm_admin',0,NULL,NULL,1),(9,1,'Edit All Contacts',0,'civicrm_acl_group',1,'All','civicrm_saved_search',0,NULL,NULL,1);
+INSERT INTO `civicrm_acl` VALUES (1,1,'Edit All Contacts',0,'civicrm_acl_group',1,'All','civicrm_saved_search',0,NULL,NULL,1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_acl` ENABLE KEYS */;
 

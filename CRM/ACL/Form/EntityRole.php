@@ -85,7 +85,7 @@ class CRM_ACL_Form_EntityRole extends CRM_Admin_Form
             $params['id'] = $this->_id;
         }
 
-        $params['entity_table'] = 'civicrm_acl_role';
+        $params['entity_table'] = 'civicrm_group';
         CRM_ACL_BAO_EntityRole::create( $params );
     }
 

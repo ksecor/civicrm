@@ -179,12 +179,4 @@ VALUES
 -- sample acl entries
 INSERT INTO civicrm_acl( domain_id, name, deny, object_table, object_id, operation, entity_table, entity_id, is_active )
 VALUES
-  (@domain_id, 'All Permissions'   , 0, null                  , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
-  (@domain_id, 'View All Contacts' , 0, 'civicrm_contact'     , 0, 'View', 'civicrm_acl_group', 1, 1 ),
-  (@domain_id, 'Edit All Contacts' , 0, 'civicrm_contact'     , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
-  (@domain_id, 'View All Contacts' , 0, 'civicrm_contact'     , 0, 'View', 'civicrm_acl_group', 2, 1 ),
-  (@domain_id, 'Edit All Contacts' , 0, 'civicrm_contact'     , 0, 'Edit', 'civicrm_acl_group', 2, 1 ),
-  (@domain_id, 'Manage Groups'     , 0, 'civicrm_group'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
-  (@domain_id, 'Administer CiviCRM', 0, 'civicrm_group'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
-  (@domain_id, 'Import'            , 0, 'civicrm_admin'       , 0, 'Edit', 'civicrm_acl_group', 1, 1 ),
-  (@domain_id, 'Edit All Contacts' , 0, 'civicrm_saved_search', 0, 'All' , 'civicrm_acl_group', 1, 1 );
+  (@domain_id, 'Edit All Contacts' , 0, 'civicrm_saved_search', 0, 'All' , 'civicrm_acl_role', 1, 1 );

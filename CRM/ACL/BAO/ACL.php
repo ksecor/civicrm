@@ -421,10 +421,10 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
 
         $rule       =& new CRM_ACL_BAO_ACL();
 
-        require_once 'CRM/ACL/DAO/GroupJoin.php';
+        require_once 'CRM/ACL/DAO/EntityRole.php';
         $acl           = self::getTableName();
         $aclRole      = 'civicrm_acl_role';
-        $aclRoleJoin  = CRM_ACL_DAO_GroupJoin::getTableName();
+        $aclRoleJoin  = CRM_ACL_DAO_EntityRole::getTableName();
         $contact       = CRM_Contact_BAO_Contact::getTableName();
         $c2g           = CRM_Contact_BAO_GroupContact::getTableName();
         $group         = CRM_Contact_BAO_Group::getTableName();
@@ -527,7 +527,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                                                                                 
         $acl        = self::getTableName();
         $aclRole   = 'civicrm_acl_role';
-        $aclGJ      = CRM_ACL_DAO_GroupJoin::getTableName( );
+        $aclER      = CRM_ACL_DAO_EntityRole::getTableName( );
         $c2g        = CRM_Contact_BAO_GroupContact::getTableName();
         $group      = CRM_Contact_BAO_Group::getTableName();
      
@@ -540,12 +540,12 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                                 AND     ov.option_group_id  = og.id
                                 AND     $acl.entity_id      = ov.value
                                 AND     ov.is_active        = 1
-                        INNER JOIN      $aclGJ
-                                ON      $aclGJ.acl_role_id = $acl.entity_id
-                                AND     $aclGJ.is_active    = 1
+                        INNER JOIN      $aclER
+                                ON      $aclER.acl_role_id = $acl.entity_id
+                                AND     $aclER.is_active    = 1
                         INNER JOIN  $c2g
-                                ON      $aclGJ.entity_id      = $c2g.group_id
-                                AND     $aclGJ.entity_table   = 'civicrm_group'
+                                ON      $aclER.entity_id      = $c2g.group_id
+                                AND     $aclER.entity_table   = 'civicrm_group'
                         WHERE       $acl.entity_table       = '$aclRole'
                             AND     $acl.is_active          = 1
                             AND     $c2g.contact_id         = $contact_id
@@ -553,6 +553,7 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
             
         $results = array();
 
+        //CRM_Core_Error::debug( 'q', $query );
         $rule->query($query);
         
         while ($rule->fetch()) {
@@ -638,6 +639,8 @@ SELECT count( id )
         require_once 'CRM/ACL/BAO/Cache.php';
 
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
+        //CRM_Core_Error::debug( "a: $contactID", $acls );
+
         if ( empty( $acls ) ) {
             return ' ( 0 ) ';
         }
@@ -654,6 +657,8 @@ SELECT   a.operation, a.object_id
    AND   a.id        IN ( $aclKeys )
 ORDER BY a.object_id
 ";
+        //CRM_Core_Error::debug( 'q', $query );
+
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         // do an or of all the where clauses u see

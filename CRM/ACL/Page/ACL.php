@@ -164,8 +164,17 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
             $acl[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $acl[$dao->id]);
 
-            $acl[$dao->id]['entity'] = $roles [$acl[$dao->id]['entity_id']];
-            $acl[$dao->id]['object'] = $groups[$acl[$dao->id]['object_id']];
+            if ( $acl[$dao->id]['entity_id'] ) {
+                $acl[$dao->id]['entity'] = $roles [$acl[$dao->id]['entity_id']];
+            } else {
+                $acl[$dao->id]['entity'] = ts( 'All Roles' );
+            }
+            
+            if ( $groups[$acl[$dao->id]['object_id']] ) {
+                $acl[$dao->id]['object'] = $groups[$acl[$dao->id]['object_id']];
+            } else {
+                $acl[$dao->id]['object'] = ts( 'All Saved Searches' );
+            }
 
             // form all action links
             $action = array_sum(array_keys($this->links()));

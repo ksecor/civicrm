@@ -473,6 +473,7 @@ class CRM_Core_Config {
     static function &singleton($key = 'crm') {
         if (self::$_singleton === null ) {
             self::$_singleton =& new CRM_Core_Config($key);
+
         }
         return self::$_singleton;
     }
@@ -485,6 +486,7 @@ class CRM_Core_Config {
      * @access private
      */
     function __construct() {
+
         require_once 'CRM/Core/Session.php';
         $session =& CRM_Core_Session::singleton( );
         if ( defined( 'CIVICRM_DOMAIN_ID' ) ) {
@@ -857,6 +859,7 @@ class CRM_Core_Config {
 
         // set the error callback
         CRM_Core_Error::setCallback();
+
     }
 
     /**
