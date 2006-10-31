@@ -42,8 +42,33 @@ require_once 'CRM/Core/Page.php';
 class CRM_Admin_Page_Setting extends CRM_Core_Page {
 
     function run() {
-        parent::run();
+        
         CRM_Utils_System::setTitle(ts("Global Settings"));
+        
+        $allTabs  = array( );
+        
+        $tabs = array( 'component'    => ts( 'Components'           ), 
+                       'path'         => ts( 'File System Paths'    ),
+                       'site'         => ts( 'Site URLs'            ),
+                       'smtp'         => ts( 'SMTP Server'          ),
+                       'mapping'      => ts( 'Mapping and Geocoding'),
+                       'payment'      => ts( 'Online Payment'       ),
+                       'localisation' => ts( 'Localisation'         ),
+                       'address'      => ts( 'Address Formatting'   ),
+                       'date'         => ts( 'Date Formatting'      ),
+                       'misc'         => ts( 'Miscellaneous'        ),
+                       'debug'        => ts( 'Debugging'            ),
+                       );
+        
+        foreach ( $tabs as $k => $v ) {
+            $allTabs[$v] = CRM_Utils_System::url( "civicrm/admin/setting/$k",
+                                                  "reset=1&snippet=1}" ); 
+        }
+        
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.TabContainer');dojo.require('dojo.widget.ContentPane');dojo.require('dojo.widget.LinkPane');" );
+        $this->assign( 'allTabs'     , $allTabs     );
+
+        parent::run();
     }   
 }
 
