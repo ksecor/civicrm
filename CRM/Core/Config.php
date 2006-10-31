@@ -820,8 +820,6 @@ class CRM_Core_Config
 //             $this->captchaFont = CIVICRM_CAPTCHA_FONT;
 //         }
 
-        require_once 'CRM/Core/Component.php';
-        CRM_Core_Component::addConfig( $this );   
     }
 
     /**
@@ -1062,6 +1060,10 @@ class CRM_Core_Config
         if ( $this->defaultCurrency ) {
             $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
         }    
+
+        require_once 'CRM/Core/Component.php';
+        CRM_Core_Component::addConfig( $this );   
+        
 
         //CRM_Core_Error::debug('this', $this );
     }
