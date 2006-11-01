@@ -55,15 +55,15 @@ class CRM_ACL_Form_EntityRole extends CRM_Admin_Form
 
         require_once 'CRM/Core/OptionGroup.php';
         $aclRoles = array( '' => ts( ' -select- ' ) ) + CRM_Core_OptionGroup::values( 'acl_role' );
-        $this->addElement( 'select', 'acl_role_id', ts( 'ACL Role' ),
-                           $aclRoles );
+        $this->add( 'select', 'acl_role_id', ts( 'ACL Role' ),
+                           $aclRoles, true );
 
         
         require_once 'CRM/ACL/BAO/EntityRole.php';
 
         $label = ts( 'Assigned To' );
         $group = array( '' => ts('- select group -')) + CRM_Core_PseudoConstant::staticGroup( );
-        $this->add( 'select', 'entity_id', $label, $group );
+        $this->add( 'select', 'entity_id', $label, $group, true );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
     }

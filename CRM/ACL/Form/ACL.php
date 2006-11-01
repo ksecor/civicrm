@@ -63,11 +63,11 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         require_once 'CRM/Core/OptionGroup.php';
 
         $label = ts( 'Role' );
-        $role = array( '0' => ts('- all roles -')) + CRM_Core_OptionGroup::values( 'acl_role' );
+        $role = array( '' => ts(' -select role- ')) + CRM_Core_OptionGroup::values( 'acl_role' );
         $this->add( 'select', 'entity_id', $label, $role, true );
 
         $label = ts( 'Permission For' );
-        $group = array( '0' => ts('- all groups -')) + CRM_Core_PseudoConstant::group( );
+        $group = array( '0' => ts('All Groups')) + CRM_Core_PseudoConstant::group( );
         $this->add( 'select', 'object_id', $label, $group, true );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
