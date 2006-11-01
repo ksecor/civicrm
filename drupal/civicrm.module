@@ -1,7 +1,4 @@
 <?php
-echo 'here';
-exit();
-
 /** 
  * Project:     CiviCRM: Constituent Relationship Management for NP's
  * File:        civicrm.module 
