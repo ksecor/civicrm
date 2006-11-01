@@ -68,9 +68,11 @@
 <fieldset><legend>{ts}Menu{/ts}</legend>
 {$menuBlock.content}
 </fieldset>
-<fieldset><legend>{ts}Shortcuts{/ts}</legend>
-{$shortcutBlock.content}
-</fieldset>
+{if $shortcutBlock.content}
+    <fieldset><legend>{ts}Shortcuts{/ts}</legend>
+    {$shortcutBlock.content}
+    </fieldset>
+{/if}
 </td>
 </tr>
 </table>
