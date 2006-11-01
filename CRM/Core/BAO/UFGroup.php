@@ -622,8 +622,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( ! $locationTypeName ) {
                     continue;
                 }
-
+                
                 $detailName = "{$locationTypeName}-{$fieldName}";
+                $detailName = str_replace( ' ', '_', $detailName );
                 if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
                     if ( $type ) {
                         $detailName .= "-{$type}";

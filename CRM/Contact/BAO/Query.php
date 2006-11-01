@@ -553,6 +553,8 @@ class CRM_Contact_BAO_Query {
         foreach ( $this->_returnProperties['location'] as $name => $elements ) {
             $index++;
             $lName = "`$name-location`";
+            $lName = str_replace( ' ', '_', $lName );
+
             $lCond = self::getPrimaryCondition( $name );
 
             if ( $lCond ) {
@@ -567,6 +569,7 @@ class CRM_Contact_BAO_Query {
 
             $locationJoin = $locationTypeJoin = $addressJoin = $locationIndex = null;
 
+            $name = str_replace( ' ', '_', $name );
             $tName = "$name-location";
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
@@ -1139,6 +1142,7 @@ class CRM_Contact_BAO_Query {
                     } else {
                         $tName = $locationType[$locType[1]] . "-address";
                     }
+                    $tName = str_replace( ' ', '_', $tName );
                     $where = "`$tName`.$fldName";
                     if ( $op != 'IN' ) {
                         $this->_where[$grouping][] = "LOWER( $where ) $op '$value'";

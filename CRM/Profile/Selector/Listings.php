@@ -373,7 +373,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     if ( ! $locationTypeName ) {
                         continue;
                     }
-
+                    $locationTypeName = str_replace( ' ', '_', $locationTypeName );
                     if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) { 
                         if ( $type ) {
                             $names[] = "{$locationTypeName}-{$fieldName}-{$type}";

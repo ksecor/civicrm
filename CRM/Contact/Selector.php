@@ -417,6 +417,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                             continue;
                         }
                         
+                        $locationTypeName = str_replace( ' ', '_', $locationTypeName );
                         if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) { 
                             if ( $type ) {
                                 $names[] = "{$locationTypeName}-{$fieldName}-{$type}";

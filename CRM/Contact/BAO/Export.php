@@ -138,6 +138,9 @@ class CRM_Contact_BAO_Export {
         $dao =& CRM_Core_DAO::executeQuery($queryString, $temp);
         $header = false;
 
+        //fix for location type name having spaces in it.
+        //print_r($returnProperties);
+
         $contactDetails = array( );
         while ($dao->fetch()) {
             $row = array( );
@@ -148,7 +151,8 @@ class CRM_Contact_BAO_Export {
                     if (is_array($props)) {
                         foreach($props as $propKey1=>$prop) {
                             foreach($prop as $propkey2=>$prop1) {
-                                if($propKey1."-".$propkey2 == $key) {
+                                $locationfield = str_replace( ' ', '_', $propKey1."-".$propkey2 );
+                                if( $locationfield == $key) {
                                     $flag = true;
                                 }
                             }
