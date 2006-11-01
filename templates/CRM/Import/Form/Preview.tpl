@@ -60,7 +60,7 @@ dojo.addOnLoad( function( ) {
 
 <div id="intermediate"></div>
 <br />
-<div maxProgressValue="100" id="importProgressBar" dojoType="ProgressBar"></div>
+<div height="20" width="400" maxProgressValue="100" id="importProgressBar" dojoType="ProgressBar"></div>
 <br />
 <div id="progress_status"></div>
 
