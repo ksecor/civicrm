@@ -303,10 +303,14 @@ abstract class CRM_Import_Parser {
         }
 
         if ( $statusID ) {
-            $skip = 100;
+            $skip = 4;
             $config =& CRM_Core_Config::singleton( );
             $statusFile = "{$config->uploadDir}status_{$statusID}.txt";
-            file_put_contents( $statusFile, 'No status reported yet' );
+            $status = "<div class='status'>No Status reported yet</div>";
+            require_once 'Services/JSON.php';
+            $json =& new Services_JSON( ); 
+            $contents = $json->encode( array( 0, $status ) );
+            file_put_contents( $statusFile, $contents );
             $startTimestamp = $currTimestamp = $prevTimestamp = time( );
         }
         while ( ! feof( $fd ) ) {
@@ -354,16 +358,14 @@ abstract class CRM_Import_Parser {
                         $recordsLeft = 0;
                     }
                     $estimatedTime = ( $recordsLeft / $skip ) * $time;
-                    $status = "<div class='status'>
-Processed Rows: {$this->_lineCount} rows.<p>
-Time since beginning: $totalTime seconds<p>
-Time to process last $skip records: $time seconds<p>
-Approx Records left to process: $recordsLeft<p>
-Estimated time remaining: $estimatedTime seconds<p>
-</div>";
-                    file_put_contents( $statusFile,
-                                       $status );
+                    $processedPercent  = (int ) ( ( $this->_lineCount * 100 ) / $totalRowCount );
+                    $status = "<div class='status'>Processed Rows: {$this->_lineCount} rows.<p>Time since beginning: $totalTime seconds<p>Time to process last $skip records: $time seconds<p>Approx Records left to process: $recordsLeft<p>Estimated time remaining: $estimatedTime seconds<p></div>";
+                    require_once 'Services/JSON.php';
+                    $json =& new Services_JSON( ); 
+                    $contents = $json->encode( array( $processedPercent, $status ) );
+                    file_put_contents( $statusFile, $contents );
                     $prevTimestamp = $currTimestamp;
+                    sleep( 1 );
                 }
             } else {
                 $returnCode = self::ERROR;

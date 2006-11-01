@@ -88,6 +88,8 @@ dojo.widget.defineWidget(
 			this._pixelPercentRatio = this._floatDimension/100;
 			this.setMaxProgressValue(this.maxProgressValue, true);
 			this.setProgressValue(dojo.string.trim(this.progressValue), true);
+			dojo.debug("height: " + this.height );
+			dojo.debug("width: " + this.width );
 			dojo.debug("float dimension: " + this._floatDimension);
 			dojo.debug("this._unitPixelRatio: " + this._unitPixelRatio);
 			this.showText(this.hasText);

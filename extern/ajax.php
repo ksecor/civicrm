@@ -59,7 +59,8 @@ function search( &$config ) {
 SELECT sort_name
   FROM civicrm_contact
  WHERE domain_id = $domainID
-   AND LOWER( sort_name ) LIKE '$name%'";
+   AND sort_name LIKE '$name%'
+ORDER BY sort_name";
     $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
     $count = 0;

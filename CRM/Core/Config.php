@@ -540,6 +540,11 @@ class CRM_Core_Config
             CRM_Utils_File::createDir( $this->templateCompileDir );
         }
 
+        if ( defined( 'CIVICRM_UPLOADDIR' ) ) {
+            $this->uploadDir = self::addTrailingSlash( CIVICRM_UPLOADDIR );
+
+            CRM_Utils_File::createDir( $this->uploadDir );
+        }
 
         if ( defined( 'CIVICRM_CLEANURL' ) ) {
             $this->cleanURL = CIVICRM_CLEANURL;

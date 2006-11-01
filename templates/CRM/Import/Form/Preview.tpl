@@ -1,8 +1,9 @@
 {literal}
 <script type="text/javascript">
 var finished = 0;
+dojo.require('dojo.widget.ProgressBar');
 
-setProgress = function(type,data,evt){
+setFinished = function(type,data,evt){
   finished = 1;
 {/literal}
   location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true'}";
@@ -15,13 +16,16 @@ setError = function(type,data,evt){
 }
 setIntermediate = function(type,data,evt){
   var inter = dojo.byId('intermediate');
-  inter.innerHTML = data;
+  inter.innerHTML = data[1];
+	
+  dojo.widget.byId("importProgressBar").setProgressValue(data[0]);
 }
 doProgress = function(){
     dojo.io.bind({
 {/literal}
         url: "{$config->resourceBase}extern/ajax.php?q=civicrm/status&id={$statusID}",
 {literal}
+        mimetype: "text/json",
         load: setIntermediate
     });
 }
@@ -33,7 +37,7 @@ submitForm = function( e ) {
 	url: "{crmURL p='civicrm/import/contact'}",
 {literal}
 	formNode: dojo.byId("Preview"),
-	load: setProgress,
+	load: setFinished,
 	error: setError,
 	method: "POST",
 	multipart: false
@@ -55,6 +59,9 @@ dojo.addOnLoad( function( ) {
 {/literal}
 
 <div id="intermediate"></div>
+<br />
+<div maxProgressValue="100" id="importProgressBar" dojoType="ProgressBar"></div>
+<br />
 <div id="progress_status"></div>
 
 {* Import Wizard - Step 3 (preview import results prior to actual data loading) *}
