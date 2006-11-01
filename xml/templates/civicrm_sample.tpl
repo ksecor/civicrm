@@ -91,7 +91,7 @@ INSERT INTO civicrm_premiums_product VALUES (1, 1, 1, 1);
 INSERT INTO civicrm_acl
     ( domain_id, name, deny, object_table, object_id, operation, entity_table, entity_id, is_active )
 VALUES
-  (%%CIVICRM_DOMAIN_ID%%, 'Edit All Contacts' , 0, 'civicrm_saved_search', 0, 'All' , 'civicrm_acl_role', 1, 1 );
+  (%%CIVICRM_DOMAIN_ID%%, 'Edit All Contacts' , 0, 'civicrm_saved_search', 0, 'Edit' , 'civicrm_acl_role', 1, 1 );
 
 -- Create default Groups for User Permissioning
 INSERT INTO civicrm_group

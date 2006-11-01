@@ -19,7 +19,7 @@
 
 /*!40000 ALTER TABLE `civicrm_acl` DISABLE KEYS */;
 LOCK TABLES `civicrm_acl` WRITE;
-INSERT INTO `civicrm_acl` VALUES (1,1,'Edit All Contacts',0,'civicrm_acl_role',1,'All','civicrm_saved_search',0,NULL,NULL,1);
+INSERT INTO `civicrm_acl` VALUES (1,1,'Edit All Contacts',0,'civicrm_acl_role',1,'Edit','civicrm_saved_search',0,NULL,NULL,1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_acl` ENABLE KEYS */;
 
