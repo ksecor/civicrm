@@ -170,14 +170,14 @@ class CRM_Core_Component {
         return $items;
     }
 
-    static function addConfig( &$config ) {
+    static function addConfig( &$config, $oldMode = false ) {
         $info =& self::info( );
 
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) ) {
                 $className = $info[$name]['path'] . 'Config';
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
-                eval( $className . '::add( $config );' );
+                eval( $className . '::add( $config, $oldMode );' );
             }
         }
         return;

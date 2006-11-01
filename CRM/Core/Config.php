@@ -646,7 +646,6 @@ class CRM_Core_Config
             $this->maxImportFileSize = $size;
         }
 
-
         if ( defined( 'CIVICRM_MAILER_SPOOL_PERIOD' ) ) {
             $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
         }
@@ -842,7 +841,7 @@ class CRM_Core_Config
          }
 
         require_once 'CRM/Core/Component.php';
-        CRM_Core_Component::addConfig( $this );   
+        CRM_Core_Component::addConfig( $this, true );   
     }
 
 
