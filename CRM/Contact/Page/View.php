@@ -117,6 +117,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             $this->assign( 'permission', 'view' );
             $this->_permission = CRM_Core_Permission::VIEW;
         } else {
+            $session->pushUserContext( CRM_Utils_System::url('civicrm', 'reset=1' ) );
             CRM_Core_Error::statusBounce( ts('You do not have the necessary permission to view this contact.') );
         }
 
