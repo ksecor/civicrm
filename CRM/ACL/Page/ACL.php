@@ -173,7 +173,7 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
             if ( $groups[$acl[$dao->id]['object_id']] ) {
                 $acl[$dao->id]['object'] = $groups[$acl[$dao->id]['object_id']];
             } else {
-                $acl[$dao->id]['object'] = ts( 'All Saved Searches' );
+                $acl[$dao->id]['object'] = ts( 'All Groups' );
             }
 
             // form all action links
