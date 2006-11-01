@@ -703,12 +703,12 @@ class CRM_GCD {
      ******************************************************/
     private function addCustomDataValue($contact_id) {
                 
-        $randLength = mt_rand(0, 7);
+        $randLength = mt_rand(0, 2);
         $done = array( );
 
         for($cnt = 0; $cnt <= $randLength; $cnt++) {
 
-            $item = mt_rand(0, 7);
+            $item = mt_rand(0, 2);
             if ( $done[$item] ) {
                 continue;
             }
@@ -719,63 +719,20 @@ class CRM_GCD {
                 //do nothing
                 break;
 
-            case 1:
-                $customData =& new CRM_Core_DAO_CustomValue();
-                $customData->entity_table = 'civicrm_contact';
-                $customData->entity_id = $contact_id;
-                $customData->custom_field_id = 1;
-                $customData->int_data = mt_rand(0, 1);
-                $this->_insert($customData);
-                
-                $customData =& new CRM_Core_DAO_CustomValue();
-                $customData->entity_table = 'civicrm_contact';
-                $customData->entity_id = $contact_id;
-                $customData->custom_field_id = 2;
-                $customData->char_data = $this->_getRandomElement($this->party_registration);
-                $this->_insert($customData);
-                break;
-
-            case 2:
-                $customData =& new CRM_Core_DAO_CustomValue();
-                $customData->entity_table = 'civicrm_contact';
-                $customData->entity_id = $contact_id;
-                $customData->custom_field_id = 8;
-                $customData->char_data = $this->_getRandomElement($this->degree);
-                $this->_insert($customData);
-                break;
-
-            case 3:
-                $customData =& new CRM_Core_DAO_CustomValue();
-                $customData->entity_table = 'civicrm_contact';
-                $customData->entity_id = $contact_id;
-                $customData->custom_field_id = 9;
-                $customData->char_data = $this->_getRandomElement($this->school);
-                $this->_insert($customData);
-                break;
-
-            case 5: 
+            case 1: 
                 $customData =& new CRM_Core_DAO_CustomValue(); 
                 $customData->entity_table = 'civicrm_contact'; 
                 $customData->entity_id = $contact_id; 
-                $customData->custom_field_id = 5; 
+                $customData->custom_field_id = 1; 
                 $customData->char_data = $this->_getRandomElement($this->issue); 
                 $this->_insert($customData); 
                 break; 
 
-            case 6: 
+            case 2: 
                 $customData =& new CRM_Core_DAO_CustomValue(); 
                 $customData->entity_table = 'civicrm_contact'; 
                 $customData->entity_id = $contact_id; 
-                $customData->custom_field_id = 6; 
-                $customData->char_data = $this->_getRandomElement($this->gotv); 
-                $this->_insert($customData); 
-                break; 
-
-            case 7: 
-                $customData =& new CRM_Core_DAO_CustomValue(); 
-                $customData->entity_table = 'civicrm_contact'; 
-                $customData->entity_id = $contact_id; 
-                $customData->custom_field_id = 7; 
+                $customData->custom_field_id = 2; 
                 $customData->char_data = $this->_getRandomElement($this->marital_status); 
                 $this->_insert($customData); 
                 break; 
@@ -1143,13 +1100,11 @@ class CRM_GCD {
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $group =& new CRM_Contact_DAO_Group();
-
-        
         // add the 3 groups first
         $numGroup = count($this->group);
 
         for ($i=0; $i<$numGroup; $i++) {
+            $group =& new CRM_Contact_DAO_Group();            
             $group->domain_id  = 1;
             $group->name       = $this->group[$i];
             $group->title      = $this->group[$i];
@@ -1161,7 +1116,7 @@ class CRM_GCD {
         // 60 are for newsletter
         for ($i=0; $i<60; $i++) {
             $groupContact =& new CRM_Contact_DAO_GroupContact();
-            $groupContact->group_id = 1;                                                     // newsletter subscribers
+            $groupContact->group_id = 2;                                                     // newsletter subscribers
             $groupContact->contact_id = $this->individual[$i];
             $groupContact->status = $this->_getRandomElement($this->groupMembershipStatus);  // membership status
 
@@ -1182,7 +1137,7 @@ class CRM_GCD {
         // 15 volunteers
         for ($i=0; $i<15; $i++) {
             $groupContact =& new CRM_Contact_DAO_GroupContact();
-            $groupContact->group_id = 2; // Volunteers
+            $groupContact->group_id = 3; // Volunteers
             $groupContact->contact_id = $this->individual[$i+60];
             $groupContact->status = $this->_getRandomElement($this->groupMembershipStatus);  // membership status
 
@@ -1202,7 +1157,7 @@ class CRM_GCD {
         // 8 advisory board group
         for ($i=0; $i<8; $i++) {
             $groupContact =& new CRM_Contact_DAO_GroupContact();
-            $groupContact->group_id = 3; // advisory board group
+            $groupContact->group_id = 4; // advisory board group
             $groupContact->contact_id = $this->individual[$i*7];
             $groupContact->status = $this->_getRandomElement($this->groupMembershipStatus);  // membership status
 

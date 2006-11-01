@@ -176,7 +176,3 @@ VALUES
     (@domain_id,'Grace', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 0, 1),
     (@domain_id,'Expired', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 0, 1);
 
--- sample acl entries
-INSERT INTO civicrm_acl( domain_id, name, deny, object_table, object_id, operation, entity_table, entity_id, is_active )
-VALUES
-  (@domain_id, 'Edit All Contacts' , 0, 'civicrm_saved_search', 0, 'All' , 'civicrm_acl_role', 1, 1 );

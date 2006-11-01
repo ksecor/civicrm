@@ -3,39 +3,25 @@
 INSERT INTO civicrm_custom_group
     (domain_id, name, title, extends, style, collapse_display, help_pre, weight, is_active)
 VALUES
-    (%%CIVICRM_DOMAIN_ID%%, 'voter_info', 'Voter Info', 'Individual', 'Inline', 0, 'Please complete the voter information fields as data becomes available for this contact.', 1, 1),
-    (%%CIVICRM_DOMAIN_ID%%, 'education', 'Education Qualification', 'Individual', 'Tab', 0, 'Please furnish educational history starting from high school', 2, 1);
+    (%%CIVICRM_DOMAIN_ID%%, 'constituent_information', 'Constituent Information', 'Individual', 'Inline', 1, 'Please enter additional constituent information as data becomes available for this contact.', 1, 1);
 
 INSERT INTO civicrm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable, options_per_line)
 VALUES
-    (1, 'registered_voter', 'Registered Voter?', 'Boolean', 'Radio', 0, 1, '', 1, 1, NULL),
-    (1, 'party_registration', 'Party Registration', 'String', 'Text', 0, 2, 'If contact is registered, enter party name here.', 1, 1, NULL),   
-    (1, 'date_last_voted', 'Date Last Voted', 'Date', 'Select Date', 0, 3, '', 1, 1, NULL),
-    (1, 'voting_precinct', 'Voting Precinct', 'Int', 'Text', 0, 4, 'Precinct number - if available.', 1, 1, NULL),
     (1, 'most_important_issue', 'Most Important Issue', 'String', 'Radio', 0, 5, '', 1, 1, NULL),
-    (1, 'gotv_experience', 'GOTV Experience', 'String', 'Checkbox', 0, 6, 'Which Get Out the Vote activities have you done in the past.', 1, 1, 1),
-    (1, 'marital_status', 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL),
-    (2, 'degree', 'Degree Obtained', 'String', 'Text', 1, 2, '', 1, 0, NULL),
-    (2, 'school_college', 'School / College', 'String', 'Text', 0, 1, '', 1, 0, NULL),
-    (2, 'marks', 'Marks Obtained', 'String', 'Text', 0, 3, '', 1, 0, NULL),
-    (2, 'date_of_degree', 'Degree date', 'Date', 'Select Date', 0, 4, '', 1, 0, NULL);
+    (1, 'marital_status', 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL);
 
 INSERT INTO civicrm_custom_option
     (entity_table,entity_id,label,value,weight,is_active)
 VALUES
-    ('civicrm_custom_field', 5, 'Education', 'Edu', 1, 1),
-    ('civicrm_custom_field', 5, 'Environment', 'Env', 2, 1),
-    ('civicrm_custom_field', 5, 'Social Justice', 'SocJus', 3, 1),
-    ('civicrm_custom_field', 6, 'Host House Meetings', 'HM', 1, 1),
-    ('civicrm_custom_field', 6, 'Phone Banking', 'PB', 2, 1),
-    ('civicrm_custom_field', 6, 'Precinct Walking', 'PW', 3, 1),
-    ('civicrm_custom_field', 6, 'Speakers Bureau', 'SB', 4, 1),
-    ('civicrm_custom_field', 7, 'Single', 'S', 1, 1),
-    ('civicrm_custom_field', 7, 'Married', 'M', 2, 1),
-    ('civicrm_custom_field', 7, 'Domestic Partner', 'D', 3, 1),
-    ('civicrm_custom_field', 7, 'Widowed', 'W', 4, 1),
-    ('civicrm_custom_field', 7, 'Other', 'O', 5, 1),
+    ('civicrm_custom_field', 1, 'Education', 'Edu', 1, 1),
+    ('civicrm_custom_field', 1, 'Environment', 'Env', 2, 1),
+    ('civicrm_custom_field', 1, 'Social Justice', 'SocJus', 3, 1),
+    ('civicrm_custom_field', 2, 'Single', 'S', 1, 1),
+    ('civicrm_custom_field', 2, 'Married', 'M', 2, 1),
+    ('civicrm_custom_field', 2, 'Domestic Partner', 'D', 3, 1),
+    ('civicrm_custom_field', 2, 'Widowed', 'W', 4, 1),
+    ('civicrm_custom_field', 2, 'Other', 'O', 5, 1),
     ('civicrm_contribution_page',1,'Friend','0.10',1,1),
     ('civicrm_contribution_page',1,'Supporter','0.50',2,1),
     ('civicrm_contribution_page',1,'Booster','1.00',3,1),
@@ -44,16 +30,15 @@ VALUES
 INSERT INTO civicrm_uf_group
     (domain_id, is_active, form_type, title, help_pre)
 VALUES
-    (%%CIVICRM_DOMAIN_ID%%, 1, 'CiviCRM Profile', 'Constituent Information', ''),
-    (%%CIVICRM_DOMAIN_ID%%, 1, 'CiviCRM Profile', 'Contributor Info', 'Tell us about the issue that is most important for you, and your experience in prior campaigns.' );
+    (%%CIVICRM_DOMAIN_ID%%, 1, 'CiviCRM Profile', 'Name and Address', '');
 
 INSERT INTO civicrm_uf_join
    (is_active,module,entity_table,entity_id,weight,uf_group_id)
 VALUES
    (1,'User Registration','','',1,1),
    (1,'User Account','','',1,1),
-   (1,'Profile','','',1,1), 
-   (1,'CiviContribute','civicrm_contribution_page',1,2,2);
+   (1,'Profile','','',1,1),
+   (1,'CiviContribute','civicrm_contribution_page',1,2,1);
 
 INSERT INTO civicrm_contribution_page
   (domain_id,title,intro_text,contribution_type_id,is_monetary,is_allow_other_amount,default_amount,min_amount,max_amount,goal_amount,thankyou_title,thankyou_text,thankyou_footer,receipt_from_name,receipt_from_email,is_email_receipt,cc_receipt,bcc_receipt,receipt_text,is_active,footer_text,amount_block_is_active,is_thermometer,thermometer_title,honor_block_is_active,honor_block_title,honor_block_text)
@@ -83,27 +68,40 @@ INSERT INTO civicrm_membership_block
 VALUES
     ('civicrm_contribution_page', 2, '1,2', 1, 1, NULL, 'Membership Levels and Fees', 'Please select the appropriate membership level below. You will have a chance to review your selection and the corresponding dues on the next page prior to your credit card being charged.', 'Renew or Upgrade Your Membership', 'Information on your current membership level and expiration date is shown below. You may renew or upgrade at any time - but don''t let your membership lapse!', 1, 1);
 
+
 INSERT INTO civicrm_uf_field
-    (uf_group_id, field_name, weight, is_active, is_view, is_required, visibility, help_post, in_selector, location_type_id,is_searchable,field_type, label)
+    (`id`, `uf_group_id`, `field_name`, `is_active`, `is_view`, `is_required`, `weight`, `help_post`, `visibility`, `in_selector`, `is_searchable`, `location_type_id`, `phone_type`, `label`, `field_type`)
 VALUES
-    (1,'first_name',1,1,0,1,'Public User Pages and Listings','',0,NULL,1,'Individual', 'First Name'),
-    (1,'last_name',2,1,0,1,'Public User Pages and Listings','First and last name will be shared with other visitors to the site.',0,NULL,1,'Individual', 'Last Name'),
-    (1,'street_address',3,1,0,0,'User and User Admin Only','',0,1,1,'Individual', 'Street Address (Home)'),
-    (1,'city',4,1,0,0,'User and User Admin Only','',0,1,1,'Individual', 'City (Home)'),
-    (1,'postal_code',5,1,0,0,'User and User Admin Only','',0,1,1,'Individual', 'Postal Code (Home)'),
-    (1,'state_province',6,1,0,0,'Public User Pages and Listings','Your state/province and country of residence will be shared with others so folks can find others in their community.',1,1,1,'Individual', 'State (Home)'),
-    (1,'country',7,1,0,0,'Public User Pages and Listings','',0,1,1,'Individual', 'Country (Home)'),
-    (1,'email',8,1,0,0,'Public User Pages and Listings','',1,1,1,'Individual', 'Email (Home)'),
-    (1,'custom_5',9,1,0,0,'Public User Pages and Listings','',1,NULL,1,'Individual', 'Most Important Issue'),
-    (1,'custom_6',10,1,0,0,'Public User Pages and Listings','',1,NULL,1,'Individual', 'GOTV Experience'),
-    (1,'custom_7',11,1,0,0,'Public User Pages and Listings','',0,NULL,1,'Individual', 'Marital Status'),
-    (2,'custom_5',1,1,0,0,'User and User Admin Only','',0,NULL,1,'Individual', 'Most Important Issue'),
-    (2,'custom_6',2,1,0,0,'User and User Admin Only','',0,NULL,1,'Individual', 'GOTV Experience');
-    
+    (1, 1, 'first_name', 1, 0, 1, 1, '', 'Public User Pages and Listings', 0, 1, NULL, NULL, 'First Name', 'Individual'),
+    (2, 1, 'last_name', 1, 0, 1, 2, 'First and last name will be shared with other visitors to the site.', 'Public User Pages and Listings', 0, 1, NULL, NULL, 'Last Name', 'Individual'),
+    (3, 1, 'street_address', 1, 0, 0, 3, '', 'User and User Admin Only', 0, 1, 1, NULL, 'Street Address (Home)', 'Individual'),
+    (4, 1, 'city', 1, 0, 0, 4, '', 'User and User Admin Only', 0, 1, 1, NULL, 'City (Home)', 'Individual'),
+    (5, 1, 'postal_code', 1, 0, 0, 5, '', 'User and User Admin Only', 0, 1, 1, NULL, 'Postal Code (Home)', 'Individual'),
+    (6, 1, 'state_province', 1, 0, 0, 6, 'Your state/province and country of residence will be shared with others so folks can find others in their community.', 'Public User Pages and Listings', 1, 1, 1, NULL, 'State (Home)', 'Individual'),
+    (7, 1, 'country', 1, 0, 0, 7, '', 'Public User Pages and Listings', 0, 1, 1, NULL, 'Country (Home)', 'Individual');
+        
 INSERT INTO civicrm_premiums 
     VALUES (%%CIVICRM_DOMAIN_ID%%, 'civicrm_contribution_page', 1, 1, 'Thank-you Gifts', 'We appreciate your support and invite you to choose from the exciting collection of thank-you gifts below. Minimum contribution amounts for each selection are included in the descriptions. ', 'premiums@example.org', NULL, 1);
 
 INSERT INTO civicrm_product VALUES (1, %%CIVICRM_DOMAIN_ID%%,'Coffee Mug', 'This heavy-duty mug is great for home or office, coffee or tea or hot chocolate. Show your support to family, friends and colleagues. Choose from three great colors.', 'MUG-101', 'White, Black, Green', NULL, NULL, 12.50, 5.00, 2.25, 1, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO civicrm_premiums_product VALUES (1, 1, 1, 1);
 
+-- sample acl entries
+-- Create ACL to edit and view contacts in all groups
+INSERT INTO civicrm_acl
+    ( domain_id, name, deny, object_table, object_id, operation, entity_table, entity_id, is_active )
+VALUES
+  (%%CIVICRM_DOMAIN_ID%%, 'Edit All Contacts' , 0, 'civicrm_saved_search', 0, 'All' , 'civicrm_acl_role', 1, 1 );
+
+-- Create default Groups for User Permissioning
+INSERT INTO civicrm_group
+(`id`, `domain_id`, `name`, `title`, `description`, `source`, `saved_search_id`, `is_active`, `visibility`, `where_clause`, `select_tables`, `where_tables`)
+    VALUES
+(1, %%CIVICRM_DOMAIN_ID%%, 'Administrators', 'Administrators', 'Contacts in this group are assigned Administrator role permissions.', NULL, NULL, 1, 'User and User Admin Only', ' ( `civicrm_group_contact-1`.group_id = (1) AND `civicrm_group_contact-1`.status IN ("Added") ) ', 'a:10:{s:15:"civicrm_contact";i:1;s:18:"civicrm_individual";i:1;s:16:"civicrm_location";i:1;s:15:"civicrm_address";i:1;s:22:"civicrm_state_province";i:1;s:15:"civicrm_country";i:1;s:13:"civicrm_email";i:1;s:13:"civicrm_phone";i:1;s:10:"civicrm_im";i:1;s:25:"`civicrm_group_contact-1`";s:114:" LEFT JOIN civicrm_group_contact `civicrm_group_contact-1` ON contact_a.id = `civicrm_group_contact-1`.contact_id ";}', 'a:2:{s:15:"civicrm_contact";i:1;s:25:"`civicrm_group_contact-1`";s:114:" LEFT JOIN civicrm_group_contact `civicrm_group_contact-1` ON contact_a.id = `civicrm_group_contact-1`.contact_id ";}');
+
+-- Assign above Group (entity) to the Administrator Role
+INSERT INTO civicrm_acl_entity_role
+    (`domain_id`, `acl_role_id`, `entity_table`, `entity_id`, `is_active`)
+VALUES
+    (%%CIVICRM_DOMAIN_ID%%, 1, 'civicrm_group', 1, 1);
 

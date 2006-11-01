@@ -48,8 +48,8 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
      */
     public function buildQuickForm()
     {
-        $this->add( 'select', 'custom_pre_id' , ts('Custom Fields') . '<br />' . ts('(above billing info)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
-        $this->add( 'select', 'custom_post_id', ts('Custom Fields') . '<br />' . ts('(below billing info)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
+        $this->add( 'select', 'custom_pre_id' , ts('Custom Fields') . '<br />' . ts('(top of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
+        $this->add( 'select', 'custom_post_id', ts('Custom Fields') . '<br />' . ts('(bottom of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
 
         parent::buildQuickForm( );
     }
