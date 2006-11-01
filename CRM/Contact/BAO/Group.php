@@ -215,13 +215,15 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @static
      */
     static function checkPermission( $id, $title ) {
+        require_once 'CRM/ACL/API.php';
+
         if ( CRM_Core_Permission::check( 'edit all contacts' ) ||
-             CRM_Core_Permission::check( CRM_Core_Permission::EDIT_GROUPS . $title ) ) {
+             CRM_ACL_API::groupPermission( CRM_ACL_API::EDIT, $id ) ) {
             return CRM_Core_Permission::EDIT;
         }
 
         if ( CRM_Core_Permission::check( 'view all contacts' ) ||
-             CRM_Core_Permission::check( CRM_Core_Permission::VIEW_GROUPS . $title ) ) {
+             CRM_ACL_API::groupPermission( CRM_ACL_API::VIEW, $id ) ) {
             return CRM_Core_Permission::VIEW;
         }
 

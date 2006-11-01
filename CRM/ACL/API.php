@@ -126,6 +126,20 @@ class CRM_ACL_API {
         return CRM_ACL_BAO_ACL::group( $type, $contactID );
     }
 
+    /**
+     * check if the user has access to this group for operation $type
+     *
+     * @param int $type the type of permission needed
+     * @param int    $contactID the contactID for whom the check is made
+     *
+     * @return array the ids of the groups for which the user has permissions
+     * @access public
+     */
+    public static function groupPermission( $type, $groupID, $contactID = null ) {
+        $groups =& self::group( $type, $contactID );
+
+        return in_array( $groupID, $groups ) ? true : false;
+    }
 }
 
 ?>
