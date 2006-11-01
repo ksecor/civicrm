@@ -222,9 +222,11 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
 
             // add class to this row if overdue
             if ( CRM_Utils_Date::overdue( $row['date'] ) ) {
-                $row['class'] = 'status-overdue';
+                $row['overdue'] = 1;
+                $row['class']   = 'status-overdue';
             } else {
-                $row['class'] = 'status-ontime';
+                $row['overdue'] = 0;
+                $row['class']   = 'status-ontime';
             }
 
             $actionLinks =& self::actionLinks($row['activity_type_id']);
