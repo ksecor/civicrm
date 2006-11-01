@@ -57,145 +57,23 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     function buildQuickForm( ) 
     {
-        // add checkboxes for contact type
-        $contact_type = array( );
-        foreach (CRM_Core_SelectValues::contactType() as $k => $v) {
-            if ( ! empty( $k ) ) {
-                $contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
-            }
-        }
-        $this->addGroup($contact_type, 'contact_type', ts('Contact Type(s)'), '<br />');
-        
-        // checkboxes for groups
-        $group = array();
-        foreach ($this->_group as $groupID => $groupName) {
-            $this->_groupElement =& $this->addElement('checkbox', "group[$groupID]", null, $groupName);
-        }
 
-        // checkboxes for categories
-        foreach ($this->_tag as $tagID => $tagName) {
-            $this->_tagElement =& $this->addElement('checkbox', "tag[$tagID]", null, $tagName);
-        }
+        require_once 'CRM/Contact/Form/Search/Criteria.php';
 
-        // add text box for last name, first name, street name, city
-        $this->addElement('text', 'sort_name', ts('Find...'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-        //added contact source
-        $this->addElement('text', 'contact_source', ts('Contact Source'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'source') );
-                
-        // add search profiles
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Search Profile', 1);
-        $searchProfiles = array ( );
-        foreach ($ufGroups as $key => $var) {
-            $searchProfiles[$key] = $var['title'];
-        }
-        
-        $this->addElement('select', 'uf_group_id', ts('Search Views'),  array('' => ts('- default view -')) + $searchProfiles);
-
-        $this->addElement('text', 'street_address', ts('Street Address'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'street_address'));
-        $this->addElement('text', 'city', ts('City'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'city'));
-
-        // select for state province
-        $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
-        $this->addElement('select', 'state_province', ts('State/Province'), $stateProvince);
-
-        // select for country
-        $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( );
-        $this->addElement('select', 'country', ts('Country'), $country);
-
-        // add text box for postal code
-        $this->addElement('text', 'postal_code', ts('Postal Code'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'postal_code') );
-        
-        $this->addElement('text', 'postal_code_low', ts('Range-From'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address','postal_code') );
-
-        $this->addElement('text', 'postal_code_high', ts('To'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address', 'postal_code') );
-
-        $this->addElement('text', 'location_name', ts('Location Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name') );
-
-        // checkboxes for DO NOT phone, email, mail
-        // we take labels from SelectValues
-        $t = CRM_Core_SelectValues::privacy();
-        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_phone', null, $t['do_not_phone']);
-        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_email', null, $t['do_not_email']);
-        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_mail' , null, $t['do_not_mail']);
-        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_trade', null, $t['do_not_trade']);
-        
-        $this->addGroup($privacy, 'privacy', ts('Privacy'), '&nbsp;');
-
-        // checkboxes for location type
-        $location_type = array();
-        $locationType = CRM_Core_PseudoConstant::locationType( );
-        foreach ($locationType as $locationTypeID => $locationTypeName) {
-            $location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
-        }
-        $this->addGroup($location_type, 'location_type', ts('Location Types'), '&nbsp;');
-        
-        // textbox for Activity Type
-        $this->addElement('text', 'activity_type', ts('Activity Type'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_ActivityHistory', 'activity_type'));
-
-        // Date selects for activity date
-        $this->add('date', 'activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
-        $this->addRule('activity_date_low', ts('Select a valid date.'), 'qfDate');
-
-        $this->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
-        $this->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
-
-
-        // textbox for open Activity Type
-
-        $this->_activityType =
-            array( ''   => ' - select activity - ' ) + 
-            CRM_Core_PseudoConstant::ActivityType( false, null );
-
-         $this->add('select', 'open_activity_type_id', ts('Activity Type'),
-                   $this->_activityType,
-                   false);
-        
-        // Date selects for activity date
-        $this->add('date', 'open_activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
-        $this->addRule('open_activity_date_low', ts('Select a valid date.'), 'qfDate');
-
-        $this->add('date', 'open_activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
-        $this->addRule('open_activity_date_high', ts('Select a valid date.'), 'qfDate');
-
-
-        // block for change log
-
-        $this->addElement('text', 'changed_by', ts('Changed By'), null);
-      
-        $this->add('date', 'modified_date_low', ts('Modified - From'), CRM_Core_SelectValues::date('relative'));
-        $this->addRule('modified_date_low', ts('Select a valid date.'), 'qfDate');
-
-        $this->add('date', 'modified_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
-        $this->addRule('modified_date_high', ts('Select a valid date.'), 'qfDate');
-
+        CRM_Contact_Form_Search_Criteria::basic          ( $this );
+        CRM_Contact_Form_Search_Criteria::location       ( $this );
+        CRM_Contact_Form_Search_Criteria::activityHistory( $this );
+        CRM_Contact_Form_Search_Criteria::openActivity   ( $this );
+        CRM_Contact_Form_Search_Criteria::changeLog      ( $this );
+        CRM_Contact_Form_Search_Criteria::task           ( $this );
+        CRM_Contact_Form_Search_Criteria::relationship   ( $this );
 
         // add task components
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::buildSearchForm( $this );
 
-        if ( CRM_Core_Permission::access( 'Quest' ) ) {
-            $this->assign( 'showTask', 1 );
-
-            // add the task search stuff
-            // we add 2 select boxes, one for the task from the task table
-            $taskSelect       = array( '' => '- select -' ) + CRM_Core_PseudoConstant::tasks( );
-            $this->addElement( 'select', 'task_id', ts( 'Task' ), $taskSelect );
-            $this->addSelect( 'task_status', ts( 'Task Status' ) );
-        }
-
         //relationship fields
         
-        require_once 'CRM/Contact/BAO/Relationship.php';
-        require_once 'CRM/Core/PseudoConstant.php';
-        $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
-        $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
-        $relTypeHou =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Household');
-        $allRelationshipType =array();
-        $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
-        $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
-        $this->addElement('select', 'relation_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $allRelationshipType);
-        $this->addElement('text', 'relation_target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         //Custom data Search Fields
         $this->customDataSearch();
         

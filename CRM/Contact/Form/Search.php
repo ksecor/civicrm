@@ -74,9 +74,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * the groupId retrieved from the GET vars
      *
      * @var int
-     * @access protected
+     * @access public
      */
-    protected $_groupID;
+    public $_groupID;
 
     /**
      * the Group ID belonging to Add Member to group ID
@@ -131,10 +131,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * the group elements
      *
      * @var array
-     * @access protected
+     * @access public
      */
-    protected $_group;
-    protected $_groupElement;
+    public $_group;
+    public $_groupElement;
 
     /**
      * the tag elements
@@ -142,8 +142,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var array 
      * @access protected
      */
-    protected $_tag;
-    protected $_tagElement;
+    public $_tag;
+    public $_tagElement;
 
     /**
      * form values that we will be using
