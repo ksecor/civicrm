@@ -52,10 +52,10 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
     public function buildQuickForm( ) {
 
           
-        $this->addElement('text','smtpServer', ts('CiviCRM SMTP Server'));  
-        $this->addElement('text','smtpPort', ts('CiviCRM SMTP Port'));  
-        $this->addYesNo( 'smtpAuth', ts( 'CiviCRM SMTP Auth' ));
-        $this->addElement('text','smtpUsername', ts('CiviCRM SMTP UserName')); 
+        $this->addElement('text','smtpServer', ts('SMTP Server'));  
+        $this->addElement('text','smtpPort', ts('SMTP Port'));  
+        $this->addYesNo( 'smtpAuth', ts( 'SMTP Auth' ));
+        $this->addElement('text','smtpUsername', ts('SMTP UserName')); 
        
         parent::buildQuickForm();
     }

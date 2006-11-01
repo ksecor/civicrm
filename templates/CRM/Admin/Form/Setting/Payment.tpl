@@ -1,17 +1,27 @@
 <div class="form-item">
 <fieldset><legend>{ts}Online Payments{/ts}</legend>
+<div id="help">
+{ts} If using CiviContribute for Online Contributions,must obtain a Payment Processor (merchant) account and configure  site and the settings below with that account information.Start with a Test Server (e.g. Sandbox) account, and configure both the LIVE and TEST settings below using test (sandbox) account info.Once you are ready to go live, update the LIVE settings to use live account info{/ts}
+</div>
         <dl>
-            <dt>{$form.enableSSL.label}<dd>{$form.enableSSL.html}</dd></dt>
-            <dt>{$form.paymentProcessor.label}<dd>{$form.paymentProcessor.html}</dd></dt>
-            <dt>{$form.paymentExpressButton.label}<dd>{$form.paymentExpressButton.html}</dd></dt>
-            <dt>{$form.paymentUsername_test.label}<dd>{$form.paymentUsername_test.html}</dd></dt>
-            <dt>{$form.paymentCertPath_test.label}<dd>{$form.paymentCertPath_test.html}</dd></dt>
-            <dt>{$form.paymentPayPalExpressTestUrl.label}<dd>{$form.paymentPayPalExpressTestUrl.html}</dd></dt>
-            <dt>{$form.paymentUsername_live.label}</dt>{$form.paymentUsername_live.html}</dd></dt>
-            <dt>{$form.paymentCertPath_live.label}<dd>{$form.paymentCertPath_live.html}</dd></dt>
-            <dt>{$form.paymentPayPalExpressUrl.label}<dd>{$form.paymentPayPalExpressUrl.html}</dd></dt>
-        </dl>
-        <dl>
+            <dt>{$form.enableSSL.label}</dt><dd>{$form.enableSSL.html}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}If Yes is selected, CiviCRM will automatically redirect requests for online contribution pages to an https (SSL secured) URL.{/ts}</dd>
+            <dt>{$form.paymentProcessor.label}</dt><dd>{$form.paymentProcessor.html}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}Valid values are 'PayPal' (Website Payments Pro), 'PayPal_Express', and 'Moneris'.{/ts}</dd>
+            <dt>{$form.paymentExpressButton.label}</dt><dd>{$form.paymentExpressButton.html}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}URL to the button image used for "express" option checkout.{/ts}</dd>
+            <dt>{$form.paymentUsername_test.label}</dt><dd>{$form.paymentUsername_test.html}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}API Test Username.{/ts}</dd>
+            <dt>{$form.paymentCertPath_test.label}</dt><dd>{$form.paymentCertPath_test.html}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}File system path where API Profile files should be created and stored.{/ts}</dd>
+            <dt>{$form.paymentPayPalExpressTestUrl.label}</dt><dd>{$form.paymentPayPalExpressTestUrl.html}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}Hostname for "PayPal Express" button submit in test-drive mode.{/ts}</dd>       
+            <dt>{$form.paymentUsername_live.label}</dt><dd>{$form.paymentUsername_live.html}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}API Live Username.{/ts}</dd>
+            <dt>{$form.paymentCertPath_live.label}</dt><dd>{$form.paymentCertPath_live.html}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}File system path where API Profile files should be created and stored.{/ts}</dd>
+            <dt>{$form.paymentPayPalExpressUrl.label}</dt><dd>{$form.paymentPayPalExpressUrl.html}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}Hostname for "PayPal Express" button submit in live mode.{/ts}</dd>
             <dt></dt><dd>{$form.buttons.html}</dd>
         </dl>
 <div class="spacer"></div>

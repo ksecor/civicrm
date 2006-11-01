@@ -51,9 +51,9 @@ class CRM_Admin_Form_Setting_Path extends CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) {
           
-        $this->addElement('text','uploadDir', ts('CiviCRM Upload URL'));  
-        $this->addElement('text','imageUploadDir', ts('CiviCRM Image Upload Dir'));  
-        $this->addElement('text','customFileUploadDir', ts('CiviCRM Custom File Upload Dir'));  
+        $this->addElement('text','uploadDir', ts('Upload Dir'));  
+        $this->addElement('text','imageUploadDir', ts('Image Upload Dir'));  
+        $this->addElement('text','customFileUploadDir', ts('Custom File Upload Dir'));  
 
         parent::buildQuickForm();
     }
