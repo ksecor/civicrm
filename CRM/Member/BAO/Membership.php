@@ -79,6 +79,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         } else {
             CRM_Utils_Hook::pre( 'create', 'Membership', null, $params ); 
         }
+
         // converting dates to mysql format
         $params['join_date']  = CRM_Utils_Date::isoToMysql($params['join_date']);
         $params['start_date'] = CRM_Utils_Date::isoToMysql($params['start_date']);
