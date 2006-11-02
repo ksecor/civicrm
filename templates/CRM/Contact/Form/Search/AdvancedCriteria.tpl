@@ -9,17 +9,15 @@
     <div class="form-item">
     {strip}
 
+<div dojoType="TitlePane" label="Basic Criteria" labelNodeClass="label" containerNodeClass="content">
 {include file="CRM/Contact/Form/Search/Criteria/Basic.tpl"}
-{include file="CRM/Contact/Form/Search/Criteria/Location.tpl"}
-{include file="CRM/Contact/Form/Search/Criteria/ActivityHistory.tpl"}
-{include file="CRM/Contact/Form/Search/Criteria/OpenActivity.tpl"}
-{include file="CRM/Contact/Form/Search/Criteria/ChangeLog.tpl"}
-{include file="CRM/Custom/Form/Search.tpl" showHideLinks=true}
-{include file="CRM/Contact/Form/Search/Criteria/Contribute.tpl"}
-{include file="CRM/Contact/Form/Search/Criteria/Quest.tpl"}
-{include file="CRM/Contact/Form/Search/Criteria/Relationship.tpl"}
-{include file="CRM/Contact/Form/Search/Criteria/Task.tpl"}
+</div>
 
+{foreach from=$allPanes key=paneName item=paneValue}
+  <div id="{$paneName}" dojoType="TitlePane" href="{$paneValue.url}" label="{$paneName}" open="{$paneValue.open}" style="display: none" adjustPaths="false"></div>
+{/foreach}
+
+</div>
     <table class="form-layout">
     <tr>
     <td></td>
@@ -29,17 +27,3 @@
     {/strip}
     </div>
 </fieldset>
-
-<script type="text/javascript">
-    var showBlocks = new Array({$showBlocks});
-    var hideBlocks = new Array({$hideBlocks});
-
-{* hide and display the appropriate blocks as directed by the php code *}
-    on_load_init_blocks( showBlocks, hideBlocks );
-
-{if $customShow} 
-    var showBlocks = new Array({$customShow});
-    var hideBlocks = new Array({$customHide});	
-    on_load_init_blocks( showBlocks, hideBlocks );
-{/if}    
-</script>

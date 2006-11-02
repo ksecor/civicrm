@@ -1,9 +1,5 @@
-    <div id="relationship_show" class="data-group">
-      <a href="#" onclick="hide('relationship_show'); show('relationship'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
-      <label>{ts}Relationship{/ts}</label>
-    </div>
     <div id="relationship">
-    <fieldset><legend><a href="#" onclick="hide('relationship'); show('relationship_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Relationship{/ts}</legend>
+    <fieldset><legend>{ts}Relationship{/ts}</legend>
     <table class="form-layout">
          <tr>
             <td class="label">

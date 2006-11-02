@@ -204,6 +204,45 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addElement('text', 'relation_target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
     }
 
+
+    /**
+     * Generate the custom Data Fields based
+     * on the is_searchable
+     *
+     * @access private
+     * @return void
+     */
+    static function custom( &$form ) {
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true,
+                                                                  array( 'Contact', 'Individual', 'Household', 'Organization' ) );
+        $form->assign('groupTree', $groupDetails);
+
+        foreach ($groupDetails as $key => $group) {
+            $_groupTitle[$key] = $group['name'];
+            CRM_Core_ShowHideBlocks::links( $form, $group['name'], '', '');
+            
+            $groupId = $group['id'];
+            foreach ($group['fields'] as $field) {
+                $fieldId = $field['id'];                
+                $elementName = 'custom_' . $fieldId;
+                
+                CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                               $elementName,
+                                                               $fieldId,
+                                                               false, false, true );
+            }
+        }
+    }
+
+    static function contribute( &$form ) {
+        require_once 'CRM/Contribute/BAO/Query.php';
+        CRM_Contribute_BAO_Query::buildSearchForm( $form );
+    }
+
+    static function quest( &$form ) {
+        require_once 'CRM/Quest/BAO/Query.php';
+        CRM_Quest_BAO_Query::buildSearchForm( $form );
+    }
 }
 
 ?>

@@ -1,5 +1,5 @@
-<div id="openAtcivity">
-  <fieldset><legend><a href="#" onclick="hide('openAtcivity'); show('openAtcivity_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Scheduled Activities{/ts}</legend>
+<div id="openActivity">
+  <fieldset><legend>{ts}Scheduled Activities{/ts}</legend>
     <table class="form-layout">
         <tr>
             <td class="label">

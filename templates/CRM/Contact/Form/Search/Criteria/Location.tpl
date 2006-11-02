@@ -1,9 +1,5 @@
-<div id="location_show" class="data-group">
-<a href="#" onclick="hide('location_show'); show('location'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
-<label>{ts}Location{/ts}</label>
-</div>
 <div id="location">
-  <fieldset><legend><a href="#" onclick="hide('location'); show('location_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Location{/ts}</legend>
+  <fieldset><legend>{ts}Location{/ts}</legend>
     <table class="form-layout">
         <tr>
             <td class="label">{$form.street_address.label}</td>

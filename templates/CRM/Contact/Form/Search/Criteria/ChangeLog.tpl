@@ -1,9 +1,5 @@
-<div id="changelog_show" class="data-group">
-<a href="#" onclick="hide('changelog_show'); show('changelog'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
-<label>{ts}Change Log{/ts}</label>
-</div>
 <div id="changelog">
-<fieldset><legend><a href="#" onclick="hide('changelog'); show('changelog_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Change Log{/ts}</legend>
+<fieldset><legend>{ts}Change Log{/ts}</legend>
     <table class="form-layout">
         <tr>
             <td class="label">

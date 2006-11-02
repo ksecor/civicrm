@@ -1,10 +1,6 @@
     {if $validCiviContribute}
-    <div id="contributeForm_show" class="data-group">
-      <a href="#" onclick="hide('contributeForm_show'); show('contributeForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
-      <label>{ts}Contributions{/ts}</label>
-    </div>
     <div id="contributeForm">
-    <fieldset><legend><a href="#" onclick="hide('contributeForm'); show('contributeForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>{ts}Contributions{/ts}</legend>
+    <fieldset><legend>{ts}Contributions{/ts}</legend>
     <table class="form-layout"> 
        {include file="CRM/Contribute/Form/Search/Common.tpl"}
     </table>

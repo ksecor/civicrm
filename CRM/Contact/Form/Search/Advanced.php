@@ -60,133 +60,56 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         require_once 'CRM/Contact/Form/Search/Criteria.php';
 
-        CRM_Contact_Form_Search_Criteria::basic          ( $this );
-        CRM_Contact_Form_Search_Criteria::location       ( $this );
-        CRM_Contact_Form_Search_Criteria::activityHistory( $this );
-        CRM_Contact_Form_Search_Criteria::openActivity   ( $this );
-        CRM_Contact_Form_Search_Criteria::changeLog      ( $this );
-        CRM_Contact_Form_Search_Criteria::task           ( $this );
-        CRM_Contact_Form_Search_Criteria::relationship   ( $this );
-
-        // add task components
-        require_once 'CRM/Core/Component.php';
-        CRM_Core_Component::buildSearchForm( $this );
-
-        //relationship fields
+        $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
         
-        //Custom data Search Fields
-        $this->customDataSearch();
-        
-        $this->buildQuickFormCommon();
-    }
+        if ( ! $this->_formType || $this->_formType == 'basic' ) {
+            CRM_Contact_Form_Search_Criteria::basic          ( $this );
+        }
 
-    /**
-     * Fix what blocks to show/hide based on the default values set
-     *
-     * @param    array    array of Group Titles
-     * @param    array    array of Group Collapse Display 
-     *
-     * @return   
-     *
-     * @access   protected
-     */
-    
-    protected function setShowHide(&$groupTitle , $groupDetails = null)
-    {
-        $showHide =& new CRM_Core_ShowHideBlocks('','');
-        
-        $showHide->addHide( 'relationship' );
-        $showHide->addShow( 'relationship_show' );
+        $allPanes = array( );
+        $paneNames = array( ts('Location')         => 'location',
+                            ts('Activity History') => 'activityHistory',
+                            ts('Open Activity')    => 'openActivity',
+                            ts('Change Log')       => 'changeLog',
+                            ts('Relationship')     => 'relationship' );
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            $paneNames[ts('Contributions')] = 'contribute';
+        }
 
-        $showHide->addHide( 'changelog' );
-        $showHide->addShow( 'changelog_show' );
-
-        $showHide->addHide( 'openAtcivity' );
-        $showHide->addShow( 'openAtcivity_show' );
-
-        $showHide->addHide( 'atcivityHistory' );
-        $showHide->addShow( 'atcivityHistory_show' );
-
-        $showHide->addHide( 'location' );
-        $showHide->addShow( 'location_show' );
-        
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
-            $showHide->addHide( 'task_block' );
-            $showHide->addShow( 'task_show' );
+            $paneNames[ts('Quest')] = 'quest';
+            $paneNames[ts('Task' )] = 'task';                
         }
 
-        CRM_Core_Component::addShowHide( $showHide );
-
-        if ( ! empty( $groupTitle ) ) {
-            foreach ($groupTitle as $key => $title) {
-                if( !empty($groupDetails) ) {
-                    if( $groupDetails[$key]['collapse_display'] ) {
-                        $hideBlocks = $title . '_show' ;
-                        $showBlocks = $title;
-                    } else {
-                        $showBlocks = $title . '_show' ;
-                        $hideBlocks = $title;
-                    }
-                    
-                } else {
-                    $showBlocks = $title . '_show' ;
-                    $hideBlocks = $title;
-                }
-                                
-                $showHide->addShow($hideBlocks);
-                $showHide->addHide($showBlocks);
+        foreach ( $paneNames as $name => $type ) {
+            $allPanes[$name] = array( 'url' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
+                                                                      "snippet=1&formType=$type" ),
+                                      'open' => 'false' );
+            
+            // see if we need to include this paneName in the current form
+            if ( $this->_formType == $type ||
+                 isset( $_POST[ "hidden_{$type}" ] ) ) {
+                $allPanes[$name]['open'] = 'true';
+                eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
             }
         }
-        $showHide->addToTemplate();
+
+        $this->assign( 'allPanes', $allPanes );
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.TitlePane');" );
+
+        if ( ! $this->_formType ) {
+            $this->buildQuickFormCommon();
+        }
     }
 
-    /**
-     * Generate the custom Data Fields based
-     * on the is_searchable
-     *
-     * @access private
-     * @return void
-     */
-    public function customDataSearch() {
-        
-        // expand on search result if criteria entered
-        $customDataSearch = $this->get('customDataSearch');
-        if ( !empty($customDataSearch)) {
-            $customAssignHide = array();
-            $customAssignShow = array();
-            foreach(array_unique($customDataSearch) as $v) {
-                $customAssignHide[] = $v . '_show';
-                $customAssignShow[] = $v;
-            }
-            
-            $customShow = '"' . implode("\",\"",$customAssignShow) . '"';
-            $customHide = '"' . implode("\",\"",$customAssignHide) . '"';
-
-            $this->assign('customShow', $customShow);
-            $this->assign('customHide', $customHide);
+    function getTemplateFileName() {
+        if ( ! $this->_formType ) {
+            return parent::getTemplateFileName( );
+        } else {
+            $name = ucfirst( $this->_formType );
+            return "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
         }
-
-        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Contact', 'Individual', 'Household', 'Organization' ) );
-        $this->assign('groupTree', $groupDetails);
-
-        foreach ($groupDetails as $key => $group) {
-            $_groupTitle[$key] = $group['name'];
-            CRM_Core_ShowHideBlocks::links( $this, $group['name'], '', '');
-            
-            $groupId = $group['id'];
-            foreach ($group['fields'] as $field) {
-                $fieldId = $field['id'];                
-                $elementName = 'custom_' . $fieldId;
-                
-                CRM_Core_BAO_CustomField::addQuickFormElement( $this,
-                                                               $elementName,
-                                                               $fieldId,
-                                                               false, false, true );
-            }
-        }
-        $this->setShowHide($_groupTitle , $groupDetails );
     }
-    
     /**
      * Set the default form values
      *

@@ -398,6 +398,10 @@ class CRM_Core_Invoke {
 
         require_once 'CRM/Contact/Controller/Search.php';
         $controller =& new CRM_Contact_Controller_Search($title, $mode);
+
+        if ( $_GET['snippet'] ) {
+            $controller->setPrint( CRM_Core_Smarty::PRINT_SNIPPET ); 
+        }
         $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
         return $controller->run();
     }
