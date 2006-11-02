@@ -65,7 +65,8 @@ class CRM_Contribute_Payment_PayPalIPN {
             return;
         }
         $now = date( 'YmdHis' );
-        $contribution->receive_date = null; // lets keep this the same
+        
+        $contribution->receive_date = CRM_Utils_Date::isoToMysql($receive_date); // lets keep this the same
 
         require_once 'CRM/Contribute/DAO/ContributionType.php';
         $contributionType =& new CRM_Contribute_DAO_ContributionType( );
@@ -117,6 +118,8 @@ class CRM_Contribute_Payment_PayPalIPN {
             return;
         }
 
+        CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
+
         $contribution->contribution_status_id  = 1;
         $contribution->is_test    = CRM_Utils_Request::retrieve( 'test_ipn', 'Integer', $store,
                                                                  false, 0, 'POST' );
@@ -126,7 +129,9 @@ class CRM_Contribute_Payment_PayPalIPN {
                                                                  false, 0, 'POST' ); 
         $contribution->trxn_id    = CRM_Utils_Request::retrieve( 'txn_id', 'String', $store,
                                                                  false, 0, 'POST' );
-        $contribution->receipt_date = $now;
+        if ( $values['is_email_receipt'] ) {
+            $contribution->receipt_date = $now;
+        }
 
         CRM_Core_DAO::transaction( 'BEGIN' );
 
@@ -176,8 +181,6 @@ class CRM_Contribute_Payment_PayPalIPN {
         $values = array( );
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
 
-        CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
-
         // TODO: membership and honor stuff
 
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
@@ -187,9 +190,8 @@ class CRM_Contribute_Payment_PayPalIPN {
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'amount' , $amount );
         $template->assign( 'trxn_id', $contribution->trxn_id );
-        $template->assign( 'receive_date',
-                           CRM_Utils_Date::mysqlToIso( $contribution->receipt_date ) );
-        $template->assign( 'contribute_mode', 'notify' );
+        $template->assign( 'receive_date', $contribution->receive_date ) );
+        $template->assign( 'contributeMode', 'notify' );
 
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values );
     }

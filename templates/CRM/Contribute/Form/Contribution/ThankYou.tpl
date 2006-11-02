@@ -1,6 +1,7 @@
 {if $action eq 1024}
     {include file="CRM/Contribute/Form/Contribution/PreviewHeader.tpl"}
 {/if}
+{debug}
 <div class="form-item">
     <div id="thankyou_text">
         <p>
@@ -9,9 +10,9 @@
     </div>
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
-        {if $contribute_mode EQ 'notify'}
+        {if $contributeMode EQ 'notify'}
             <p>
-            {ts}Your transaction has been completed. Please print this page for your records.{/ts}
+            {ts}Your contribution has been submitted to PayPal for processing. Please print this page for your records.{/ts}
             {if $is_email_receipt}
                 {ts 1=$email} An email receipt will be sent to %1 once the transaction is processed successfully.{/ts}</p>
             {/if}
@@ -37,8 +38,8 @@
         {else}
             {ts}Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
         {/if}
-        {if $contribute_mode ne 'notify' and $is_monetary}
           {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
+        {if $contributeMode ne 'notify' and $is_monetary}
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
         {if $membership_trx_id}

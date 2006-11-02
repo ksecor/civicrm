@@ -165,7 +165,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         
         $contribButton = ts('Make Contribution');
         if ( $this->_contributeMode == 'notify' ) {
-            $this->assign('contribute_mode', 'notify');
             $contribButton = ts('Continue');
         }
         $this->addButtons(array(

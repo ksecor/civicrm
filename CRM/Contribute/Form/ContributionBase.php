@@ -173,8 +173,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_contributeMode = $this->get( 'contributeMode' );
         $this->assign( 'contributeMode', $this->_contributeMode ); 
 
-        //assigning is_monetary to template
+        //assigning is_monetary and is_email_receipt to template
         $this->assign( 'is_monetary', $this->_values['is_monetary'] );
+        $this->assign( 'is_email_receipt', $this->_values['is_email_receipt'] );
 
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );

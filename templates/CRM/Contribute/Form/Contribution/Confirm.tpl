@@ -4,8 +4,13 @@
 
 <div class="form-item">
     <div id="help">
-        <p>
-        {ts}Please verify Contribution Amount and all other information carefully. Click <strong>Go Back</strong> if you need to make changes. To complete your contribution, click the <strong>Make Contribution</strong> button below.{/ts}
+        <p>{ts}Please verify Contribution Amount and all other information carefully. Click <strong>Go Back</strong>
+            if you need to make changes.{/ts}
+            {if $contributeMode EQ 'notify'}
+                {ts}Click the <strong>Continue</strong> button to go to PayPal, where you will select your payment method and complete the contribution.{/ts}
+            {else}
+                {ts}To complete your contribution, click the <strong>Make Contribution</strong> button below.{/ts}
+            {/if}
         </p> 
     </div>
     
@@ -47,7 +52,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
     
-    {if $contributeMode ne 'none' and $is_monetary}    
+    {if $contributeMode ne 'notify' and $is_monetary}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -87,7 +92,7 @@
 
 
     
-    {if $contribute_mode NEQ 'notify'} {* In 'notify mode, contributor is taken to processor payment forms next *}
+    {if $contributeMode NEQ 'notify'} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
         {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
