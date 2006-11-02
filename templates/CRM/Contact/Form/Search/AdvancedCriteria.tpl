@@ -9,12 +9,12 @@
     <div class="form-item">
     {strip}
 
-<div dojoType="TitlePane" label="Basic Criteria" labelNodeClass="label" containerNodeClass="content">
+<div dojoType="TitlePane" label="Basic Criteria" labelNodeClass="header-dark" open="true">
 {include file="CRM/Contact/Form/Search/Criteria/Basic.tpl"}
 </div>
 
 {foreach from=$allPanes key=paneName item=paneValue}
-  <div id="{$paneName}" dojoType="TitlePane" href="{$paneValue.url}" label="{$paneName}" open="{$paneValue.open}" style="display: none" adjustPaths="false"></div>
+  <div id="{$paneName}" dojoType="TitlePane" labelNodeClass="header-dark" href="{$paneValue.url}" label="{$paneName}" open="{$paneValue.open}" adjustPaths="false"></div>
 {/foreach}
 
 </div>

@@ -215,6 +215,7 @@ class CRM_Contact_Form_Search_Criteria {
     static function custom( &$form ) {
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true,
                                                                   array( 'Contact', 'Individual', 'Household', 'Organization' ) );
+
         $form->assign('groupTree', $groupDetails);
 
         foreach ($groupDetails as $key => $group) {

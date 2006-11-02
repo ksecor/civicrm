@@ -68,10 +68,12 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         $allPanes = array( );
         $paneNames = array( ts('Location')         => 'location',
+                            ts('Custom Fields')    => 'custom',
                             ts('Activity History') => 'activityHistory',
                             ts('Open Activity')    => 'openActivity',
                             ts('Change Log')       => 'changeLog',
                             ts('Relationship')     => 'relationship' );
+
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $paneNames[ts('Contributions')] = 'contribute';
         }
