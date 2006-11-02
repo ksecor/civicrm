@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-24 12:52+0200\n"
-"PO-Revision-Date: 2006-03-11 02:09+0100\n"
-"Last-Translator: Guillaume Grenier <moi@berlue.com>\n"
+"POT-Creation-Date: 2006-11-02 14:13+0100\n"
+"PO-Revision-Date: 2006-11-01 15:20-0800\n"
+"Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-"X-Generator: Pootle 0.6.3.20050808\n"
+"X-Generator: Pootle 0.10\n"
 
 #: CRM/Activity/BAO/Activity.php CRM/Contact/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -6746,7 +6746,7 @@ msgstr "Services de messagerie instantanée"
 
 #: CRM/Core/Menu.php
 msgid "Mobile Phone Providers"
-msgstr ""
+msgstr "Fournisseurs de services de téléphonie mobile"
 
 #: CRM/Core/Menu.php
 msgid "Individual Prefixes (Ms, Mr...)"
@@ -9571,7 +9571,7 @@ msgstr ""
 
 #: CRM/UF/Form/Group.php
 msgid "Profile Name"
-msgstr ""
+msgstr "Nom du profil"
 
 #: CRM/UF/Form/Group.php
 msgid "Is this CiviCRM Profile active?"
@@ -10130,6 +10130,10 @@ msgstr ""
 "AVERTISSEMENT: la suppression de cette option entraînera la perte de toutes "
 "les entrées qui utilisent cette option."
 
+#: templates/CRM/Admin/Form/LocationType.tpl
+msgid "WARNING: Do NOT use spaces in the Location Name."
+msgstr ""
+
 #: templates/CRM/Admin/Form/Mapping.tpl templates/CRM/Admin/Form/Tag.tpl
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid "New Tag"
@@ -10238,7 +10242,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid "Reserved?"
-msgstr ""
+msgstr "Réservé?"
 
 #: templates/CRM/Admin/Page/ActivityType.tpl
 msgid ""
@@ -10251,12 +10255,15 @@ msgid ""
 "A newer version of CiviCRM is available: %1 (this site is currently running %"
 "2)."
 msgstr ""
+"Une nouvelle version de CiviCRM est disponible: %1 (ce site utilise %2)."
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
 "Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
 "\">download it here</a>."
 msgstr ""
+"Vous pouvez obtenir plus d'information <a href=\"%1\">sur notre site web</a> "
+"et vous pouvez <a href=\"%2\">télécharger la nouvelle version ici</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid ""
@@ -10484,13 +10491,12 @@ msgid "Click to select date/time from calendar."
 msgstr "Cliquez pour choisir une date/une heure à partir du calendrier."
 
 #: templates/CRM/common/footer.tpl
-#, fuzzy
 msgid "Last Change by"
-msgstr "Nom de famille"
+msgstr "Dernière modification par"
 
 #: templates/CRM/common/footer.tpl
 msgid "View Change Log"
-msgstr ""
+msgstr "Afficher le journal des modifications"
 
 #: templates/CRM/common/footer.tpl
 #, fuzzy
@@ -14552,9 +14558,9 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
-"Select the contribution type assigned to fees for this membership type (if "
-"you are offering online membership signup and renewal, AND there is a "
-"minimum fee)."
+"Select the contribution type assigned to fees for this membership type (for "
+"example \"Membership Fees\"). This is required for all membership types - "
+"including free or complimentary memberships."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -14947,10 +14953,7 @@ msgstr ""
 
 #: templates/CRM/Quest/Form/MatchApp/AppContainer.tpl
 #: templates/CRM/Quest/Form/PreApp/AppContainer.tpl
-msgid ""
-"\n"
-"               You must click 'Save &amp; Continue' to save your changes.\n"
-"             "
+msgid "You must click 'Save &amp; Continue' to save your changes."
 msgstr ""
 
 #: templates/CRM/Quest/Form/MatchApp/Essay/Extracurricular.tpl
@@ -15375,41 +15378,50 @@ msgstr ""
 
 #: templates/CRM/Quest/Form/MatchApp/Submit.tpl
 msgid ""
-" If you have completed the application, please click the \"Submit\n"
-"Application\" button below. Once you click \"Submit\", we will check the\n"
-"application for any errors or missing pieces of information that are\n"
-"required. Please be patient as the checking process may take a minute\n"
-"or so. Please note: if you need to make changes to the application\n"
-"after you have submitted it, please \"Submit\" the application again so\n"
-"it can be checked again. Thank you."
+"If you have completed the application, please click the \"Submit Application"
+"\" button below. Once you click \"Submit\", we will check the application "
+"for any errors or missing pieces of information that are required. Please be "
+"patient as the checking process may take a minute or so. Please note: if you "
+"need to make changes to the application after you have submitted it, please "
+"\"Submit\" the application again so it can be checked again. Thank you."
 msgstr ""
 
 #: templates/CRM/Quest/Form/MatchApp/Submit.tpl
 msgid ""
-"Please note: if you need to make changes to the application after\n"
-"you have submitted it, please \"Submit\" the application again so it can\n"
-"be checked again. Thank you."
+"Please note: if you need to make changes to the application after you have "
+"submitted it, please \"Submit\" the application again so it can be checked "
+"again. Thank you."
 msgstr ""
 
 #: templates/CRM/Quest/Form/MatchApp/Submit.tpl
 msgid ""
-" I understand that my\n"
-"application will be shared with QuestBridge's partner(s) (college\n"
-"partners and scholarship partners). If you are admitted to our partner\n"
-"college(s) or are awarded a scholarship from our scholarship partner,\n"
-"I grant QuestBridge the right to use my name, address (city, state and\n"
-"country only), photograph, biographical and academic information for\n"
-"any publicity, advertising and promotional purposes, except where\n"
-"prohibited by law. By submitting this application, I understand I am\n"
-"also giving QuestBridge written permission to find out where I\n"
-"ultimately enroll in college. I also give QuestBridge permission to\n"
-"find out from its partner colleges whether I have been offered\n"
-"admission. I have filled out the application to the best of my\n"
-"knowledge and understand any deliberate misrepresentation of\n"
-"information will result in forfeiture of any scholarship(s) or\n"
-"admission received. I certify that all information in my application,\n"
-"including my essays, is my own work, factually true, complete and\n"
-"accurate, and honestly presented. *"
+"I understand that my application will be shared with QuestBridge's partner"
+"(s) (college partners and scholarship partners). If you are admitted to our "
+"partner college(s) or are awarded a scholarship from our scholarship "
+"partner, I grant QuestBridge the right to use my name, address (city, state "
+"and country only), photograph, biographical and academic information for any "
+"publicity, advertising and promotional purposes, except where prohibited by "
+"law. By submitting this application, I understand I am also giving "
+"QuestBridge written permission to find out where I ultimately enroll in "
+"college. I also give QuestBridge permission to find out from its partner "
+"colleges whether I have been offered admission. I have filled out the "
+"application to the best of my knowledge and understand any deliberate "
+"misrepresentation of information will result in forfeiture of any scholarship"
+"(s) or admission received. I certify that all information in my application, "
+"including my essays, is my own work, factually true, complete and accurate, "
+"and honestly presented. *"
+msgstr ""
+
+#: templates/CRM/Quest/Form/MatchApp/Submit.tpl
+#, fuzzy
+msgid "Recommendation Waiver * [36]"
+msgstr "Don"
+
+#: templates/CRM/Quest/Form/MatchApp/Submit.tpl
+msgid ""
+"I understand that federal law provides me, after enrollment, with a right to "
+"accesss to my recommendations, and that no school or person can require me "
+"to waive this right."
 msgstr ""
 
 #: templates/CRM/Quest/Form/MatchApp/Testing.tpl

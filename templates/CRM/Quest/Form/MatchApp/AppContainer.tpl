@@ -130,9 +130,7 @@
     <table cellpadding="0" cellspacing="0" border="0" id="app-content">
         <tr>
            <td class="app-message" colspan="2">
-             {ts}
-               You must click 'Save &amp; Continue' to save your changes.
-             {/ts}
+             {ts}You must click 'Save &amp; Continue' to save your changes.{/ts}
            </td>
     </table>
   {/if}
