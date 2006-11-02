@@ -65,7 +65,7 @@ function clearAmountOther() {
     {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
 
 {if $is_monetary}
-{if $form.credit_card}
+{if $form.credit_card_number}
     <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
     {if $config->paymentBillingMode & 2}
         <table class="form-layout-compressed">
