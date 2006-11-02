@@ -5,7 +5,7 @@
 <div class="form-item">
     <div id="help">
         <p>
-        {ts}Please verify Contribution Amount, Billing Name and Address and Credit Card information carefully. Click <strong>Go Back</strong> if you need to make changes. To complete your contribution, click the <strong>Make Contribution</strong> button below.{/ts}
+        {ts}Please verify Contribution Amount and all other information carefully. Click <strong>Go Back</strong> if you need to make changes. To complete your contribution, click the <strong>Make Contribution</strong> button below.{/ts}
         </p> 
     </div>
     
@@ -87,13 +87,13 @@
 
 
     
-
+    {if $contribute_mode NEQ 'notify'} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
         {ts}Your contribution will not be completed until you click the <strong>Make Contribution</strong> button. Please click the button one time only.{/ts}
         </p>
     </div>
-    
+    {/if}
     
     <div id="crm-submit-buttons">
         {$form.buttons.html}

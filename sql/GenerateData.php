@@ -1102,9 +1102,9 @@ class CRM_GCD {
 
         // add the 3 groups first
         $numGroup = count($this->group);
-
+	require_once 'CRM/Contact/BAO/Group.php';
         for ($i=0; $i<$numGroup; $i++) {
-            $group =& new CRM_Contact_DAO_Group();            
+            $group =& new CRM_Contact_BAO_Group();   
             $group->domain_id  = 1;
             $group->name       = $this->group[$i];
             $group->title      = $this->group[$i];
@@ -1114,7 +1114,7 @@ class CRM_GCD {
             $group->buildClause( );
             $group->save( );
         }
-
+        
         // 60 are for newsletter
         for ($i=0; $i<60; $i++) {
             $groupContact =& new CRM_Contact_DAO_GroupContact();

@@ -146,7 +146,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $amount_block_is_active = $this->get( 'amount_block_is_active');
         $this->assign('amount_block_is_active', $amount_block_is_active );
-        
+
         if ( $params['selectProduct'] && $params['selectProduct'] != 'no_thanks') {
             $option    = $params['options_'.$params['selectProduct']];
             $productID = $params['selectProduct']; 
@@ -163,9 +163,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
+        $contribButton = ts('Make Contribution');
+        if ( $this->_contributeMode == 'notify' ) {
+            $this->assign('contribute_mode', 'notify');
+            $contribButton = ts('Continue');
+        }
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => ts('Make Contribution'),
+                                        'name'      => $contribButton,
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true,
                                         'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" ) ),
@@ -311,7 +316,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 if ( $this->_values['is_monetary'] ) {
                     $result =& $payment->doExpressCheckout( $this->_params );
                 }
-            } else if ( $this->_contributeMode == 'none' ) {
+            } else if ( $this->_contributeMode == 'notify' ) {
                 // this is not going to come back, i.e. we fill in the other details
                 // when we get a callback from the payment processor
                 // also add the contact ID and contribution ID to the params list

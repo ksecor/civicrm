@@ -8,11 +8,19 @@
         </p>
     </div>
     <div id="help">
-        {if $contribute_mode ne 'none'}
-        <p>{ts}Your contribution has been processed successfully. Please print this page for your records.{/ts}</p>
-        {/if}
-        {if $is_email_receipt}
-            <p>{ts 1=$email}An email receipt for this contribution has also been sent to %1{/ts}</p>
+        {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
+        {if $contribute_mode EQ 'notify'}
+            <p>
+            {ts}Your transaction has been completed. Please print this page for your records.{/ts}
+            {if $is_email_receipt}
+                {ts 1=$email} An email receipt will be sent to %1 once the transaction is processed successfully.{/ts}</p>
+            {/if}
+            </p>
+        {else}
+            <p>{ts}Your contribution has been processed successfully. Please print this page for your records.{/ts}</p>
+            {if $is_email_receipt}
+                <p>{ts 1=$email}An email receipt for this contribution has also been sent to %1{/ts}</p>
+            {/if}
         {/if}
     </div>
     
@@ -29,7 +37,7 @@
         {else}
             {ts}Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
         {/if}
-        {if $contribute_mode ne 'none' and $is_monetary}
+        {if $contribute_mode ne 'notify' and $is_monetary}
           {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
@@ -51,7 +59,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
-    {if $contributeMode ne 'none' and $is_monetary}    
+    {if $contributeMode ne 'notify' and $is_monetary}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>

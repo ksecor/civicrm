@@ -276,6 +276,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
     
         if ( ! empty( $params ) ) {
             $tables = $whereTables = array( );
+            require_once 'CRM/Contact/BAO/Query.php';
             $this->where_clause = CRM_Contact_BAO_Query::getWhereClause( $params, null, $tables, $whereTables );
             if ( ! empty( $tables ) ) {
                 $this->select_tables = serialize( $tables );

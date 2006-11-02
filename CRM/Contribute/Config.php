@@ -176,7 +176,7 @@ class CRM_Contribute_Config {
 
             case 'PayPal_Standard':
                 $config->paymentClass = 'CRM_Contribute_Payment_PayPalImpl';
-                $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_NONE;
+                $config->paymentBillingMode = CRM_Contribute_Payment::BILLING_MODE_NOTIFY;
                 if ( $oldMode ) {
                     $config->paymentPayPalExpressUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_URL;
                     $config->paymentPayPalExpressTestUrl = CIVICRM_CONTRIBUTE_PAYMENT_PAYPAL_EXPRESS_TEST_URL;

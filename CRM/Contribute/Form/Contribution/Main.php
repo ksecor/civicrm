@@ -485,8 +485,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     }
                     CRM_Utils_System::redirect( $paymentURL ); 
                 }
-            } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NONE ) {
-                $this->set( 'contributeMode', 'none' );
+            } else if ( $config->paymentBillingMode & CRM_Contribute_Payment::BILLING_MODE_NOTIFY ) {
+                $this->set( 'contributeMode', 'notify' );
             }
         }         
     }

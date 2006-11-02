@@ -189,7 +189,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         $template->assign( 'trxn_id', $contribution->trxn_id );
         $template->assign( 'receive_date',
                            CRM_Utils_Date::mysqlToIso( $contribution->receipt_date ) );
-        $template->assign( 'contribute_mode', 'none' );
+        $template->assign( 'contribute_mode', 'notify' );
 
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values );
     }
