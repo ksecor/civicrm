@@ -2337,6 +2337,7 @@ class CRM_Contact_BAO_Query {
 
             // regenerate fromClause since permission might have added tables
             if ( $permission ) {
+                $this->_useDistinct = true;
                 $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation, $this->_mode ); 
                 $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
             }
