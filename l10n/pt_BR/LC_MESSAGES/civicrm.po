@@ -11,12 +11,13 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-30 18:07+0100\n"
-"PO-Revision-Date: 2006-10-27 17:54-0300\n"
+"PO-Revision-Date: 2006-11-01 12:10-0800\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: Portuguese/Brazil\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 #: CRM/Activity/BAO/Activity.php CRM/Contact/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -50,7 +51,7 @@ msgstr "Assunto"
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
 msgid "Scheduled Date Time"
-msgstr "Agendada Data"
+msgstr "Data Agendada"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
@@ -1591,7 +1592,7 @@ msgstr "Duração do intervalo"
 #: CRM/Contribute/DAO/Product.php CRM/Core/SelectValues.php
 #: CRM/Member/DAO/MembershipType.php
 msgid "rolling"
-msgstr ""
+msgstr "rolando"
 
 #: CRM/Contribute/DAO/Product.php CRM/Core/SelectValues.php
 #: CRM/Member/DAO/MembershipType.php
@@ -2900,7 +2901,7 @@ msgstr "Informações do Requerente"
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhAthletics.php
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhEssay.php
 msgid "Amherst College"
-msgstr ""
+msgstr "Amherst College"
 
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhArts.php
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowArts.php
@@ -2971,12 +2972,12 @@ msgstr "Universidade de Stanford"
 #: CRM/Quest/Form/MatchApp/Partner/Wellesley/WellApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Wellesley/WellEssay.php
 msgid "Wellesley College"
-msgstr ""
+msgstr "Faculdade Wellesley"
 
 #: CRM/Quest/Form/MatchApp/Partner/Wheaton/WheApplicant.php
 #: CRM/Quest/Form/MatchApp/Partner/Wheaton/WheRecommendation.php
 msgid "Wheaton College"
-msgstr ""
+msgstr "Faculdade Wheaton"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Please select Gender"
@@ -2991,7 +2992,7 @@ msgstr "Endereço de Mailing"
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
 msgid "Mailing Telephone"
-msgstr ""
+msgstr "Telefone de Mailing"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
@@ -3740,9 +3741,8 @@ msgid "Group Status -"
 msgstr "Status do Grupo -"
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Tagged %1"
-msgstr "Rotulado"
+msgstr "Rotulado %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name or Email like - \"%1\""
@@ -4612,7 +4612,7 @@ msgstr "Etiquetas Adesivas"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "%1 - %2 (offline)"
-msgstr ""
+msgstr "%1 - %2 (offline)"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid "This contribution type can not be deleted"
@@ -5438,7 +5438,7 @@ msgstr "Quer mesmo excluir esta página de Contribuição?"
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Test-drive"
-msgstr ""
+msgstr "Test-drive"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "New Online Contribution Page"
@@ -5585,14 +5585,12 @@ msgid "%1 must be a number (with or without decimal point)."
 msgstr "%1 deve ser um número (com ou sem ponto decimal)."
 
 #: CRM/Core/BAO/CustomQuery.php
-#, fuzzy
 msgid "greater than or equal to \"%1\""
-msgstr "maior que \"%1\""
+msgstr "igual ou maior que \"%1\""
 
 #: CRM/Core/BAO/CustomQuery.php
-#, fuzzy
 msgid "less than or equal to \"%1\""
-msgstr "menor que \"%1\""
+msgstr "igual a ou menor que \"%1\""
 
 #: CRM/Core/BAO/CustomQuery.php
 msgid "and"
@@ -5646,7 +5644,7 @@ msgstr "Excluído o Rótulo selecionado."
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Another search field"
-msgstr "Email adicional"
+msgstr "Outro campo de busca"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Select more fields"
@@ -5654,7 +5652,7 @@ msgstr "Selecione mais campos"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Cannot have two clauses with different types: %1, %2"
-msgstr ""
+msgstr "Não se pode ter duas cláusulas com tipos diferentes: %1, %2"
 
 #: CRM/Core/BAO/Note.php
 msgid "Selected Note has been Deleted Successfuly."
@@ -6054,43 +6052,43 @@ msgstr "Operação\" "
 
 #: CRM/Core/DAO/MappingField.php
 msgid "="
-msgstr ""
+msgstr "="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "!="
-msgstr ""
+msgstr "!="
 
 #: CRM/Core/DAO/MappingField.php
 msgid ">"
-msgstr ""
+msgstr ">"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "<"
-msgstr ""
+msgstr "<"
 
 #: CRM/Core/DAO/MappingField.php
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #: CRM/Core/DAO/MappingField.php
 msgid "IN"
-msgstr ""
+msgstr "IN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT IN"
-msgstr ""
+msgstr "NOT IN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "LIKE"
-msgstr ""
+msgstr "LIKE"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT LIKE"
-msgstr ""
+msgstr "NOT LIKE"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Export"
@@ -7656,11 +7654,11 @@ msgstr "Data Final"
 
 #: CRM/Member/DAO/MembershipStatus.php
 msgid "join_date"
-msgstr ""
+msgstr "join_date"
 
 #: CRM/Member/DAO/MembershipType.php
 msgid "Visible"
-msgstr "Desativar"
+msgstr "Visível"
 
 #: CRM/Member/DAO/MembershipType.php
 msgid "lifetime"
@@ -8233,11 +8231,11 @@ msgstr ""
 
 #: CRM/Quest/Form/MatchApp/CmRanking.php
 msgid "College Match Ranking"
-msgstr ""
+msgstr "College Match Ranking"
 
 #: CRM/Quest/Form/MatchApp/Educational.php
 msgid "Please select your educational interests"
-msgstr "Selecione um tipo de Relacionamento."
+msgstr "Selecione seus interesses educacionais"
 
 #: CRM/Quest/Form/MatchApp/Educational.php
 msgid "Please select the type(s) of college(s) you are interested in attending"
@@ -8245,7 +8243,7 @@ msgstr "Selecione o(s) tipo(s) de faculdade(s) que você deseja freqüentar"
 
 #: CRM/Quest/Form/MatchApp/Essay/Biographical.php
 msgid "Biographical Essay"
-msgstr "Demográfico"
+msgstr "Redação Biográfica"
 
 #: CRM/Quest/Form/MatchApp/Essay/Experience.php
 msgid "Experience that excites you"
@@ -8257,7 +8255,7 @@ msgstr "Redação Extracurricular"
 
 #: CRM/Quest/Form/MatchApp/Essay/Optional.php
 msgid "Optional Essay"
-msgstr "Opções"
+msgstr "Redação Opcional"
 
 #: CRM/Quest/Form/MatchApp/Essay/PersonalStat.php
 msgid "Personal Statement"
@@ -8265,7 +8263,7 @@ msgstr "Declaração Pessoal"
 
 #: CRM/Quest/Form/MatchApp/ExtracurricularInfo.php
 msgid "Varsity Sports (list):"
-msgstr ""
+msgstr "Esportes Varsity (listar):"
 
 #: CRM/Quest/Form/MatchApp/ExtracurricularInfo.php
 msgid "Arts (music, dance/theatre, visual, etc) (list):"
@@ -8273,7 +8271,7 @@ msgstr "Artes (música, dança/teatro, visuais etc) (listar):"
 
 #: CRM/Quest/Form/MatchApp/ExtracurricularInfo.php
 msgid "Extracurricular Information"
-msgstr "Informação do Contato"
+msgstr "Informação Extracurricular"
 
 #: CRM/Quest/Form/MatchApp/ForwardApp.php
 msgid "Application Forwarding "
@@ -8323,7 +8321,7 @@ msgid ""
 "situation (e.g., perhaps your older sibling was your guardian), or if you "
 "have any other unique circumstances regarding your household situation, "
 "please provide additional information here:"
-msgstr ""
+msgstr "Se esta seção acima não descreve bem sua situação primária de cuidador (ex: talvez seu irmão mais velho seja o responsável por você), ou se houver alguma circunstância pouco usual em seu domicílio, informe melhor aqui:"
 
 #: CRM/Quest/Form/MatchApp/Household.php
 msgid "Are you, or have you been, in foster care?"
@@ -8335,21 +8333,21 @@ msgstr "Receita Total informada por esta pessoa"
 
 #: CRM/Quest/Form/MatchApp/Noncustodial.php
 msgid "Noncustodial Waiver"
-msgstr ""
+msgstr "Declaração de Não-Responsável"
 
 #: CRM/Quest/Form/MatchApp/Partner/Amherst/AmhEssay.php
 msgid "Please select an Essay Quotation."
-msgstr "Selecione status."
+msgstr "Selecione uma Citação de Redação."
 
 #: CRM/Quest/Form/MatchApp/Partner/Bowdoin/BowApplicant.php
 msgid "How did you first learn about Bowdoin?"
-msgstr ""
+msgstr "Como você tomou conhecimento sobre Bowdoin?"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColApplicant.php
 msgid ""
 "Select possible careers you see yourself pursuing after schooling (check any "
 "that apply)"
-msgstr ""
+msgstr "Selecione possíveis carreiras em que você se pode ver depois do curso (marque qualquer que se aplique)"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColApplicant.php
 msgid "Other Career"
@@ -8359,31 +8357,31 @@ msgstr "Outra Carreira"
 msgid ""
 "Do you wish to reside on campus (Housing is guaranteed to all entering "
 "students.) ?"
-msgstr ""
+msgstr "Você deseja residir no campus (Alojamento é garantido a todos os estudantes ingressantes.) ?"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColApplicant.php
 msgid "Is either parent a full-time employee of Columbia?"
-msgstr ""
+msgstr "Qualquer de seus pais é funcionário da Columbia em tempo integral?"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColApplicant.php
 msgid "Are you requesting need-based financial aid from Columbia?"
-msgstr ""
+msgstr "Você está requerendo da Columbia auxílio financeiro para carentes?"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColApplicant.php
 msgid "Have you visited the Columbia campus?"
-msgstr ""
+msgstr "Você já visitou o campus da Columbia?"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColApplicant.php
 msgid "How has your interest in Columbia developed? (check all that apply) "
-msgstr ""
+msgstr "Como se desenvolveu seu interesse na Columbia? (marque o que se aplicar)"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColApplicant.php
 msgid "Other Interest"
-msgstr "Outra Quantia"
+msgstr "Outro Interesse"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColInterest.php
 msgid "Interests"
-msgstr "Texto Introdutório"
+msgstr "Interesses"
 
 #: CRM/Quest/Form/MatchApp/Partner/Columbia/ColPersonal.php
 msgid "Personal Essay"
@@ -8391,7 +8389,7 @@ msgstr "Redação Pessoal"
 
 #: CRM/Quest/Form/MatchApp/Partner/PartnerIntro.php
 msgid "Introduction"
-msgstr "Opções de Produto"
+msgstr "Introdução"
 
 #: CRM/Quest/Form/MatchApp/Partner/Pomona/PomApplicant.php
 msgid "If yes, please explain:"
@@ -8399,11 +8397,11 @@ msgstr "Se sim, explique:"
 
 #: CRM/Quest/Form/MatchApp/Partner/Pomona/PomApplicant.php
 msgid "Pomona College"
-msgstr ""
+msgstr "Faculdade Pomona"
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 msgid "Are you an International Baccalaureate diploma candidate?"
-msgstr ""
+msgstr "Você é um candidato a diploma de Bacharelado Internacional?"
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 msgid " Month/Year)"
@@ -8411,88 +8409,88 @@ msgstr "(Mês/Ano)"
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 msgid "SL"
-msgstr ""
+msgstr "SL"
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 msgid "HL"
-msgstr "HTML"
+msgstr "HL"
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 msgid "Score must be an integer"
-msgstr "%1 To deve ser um número inteiro."
+msgstr "O escore deve ser um número inteiro"
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 msgid ""
 "Please indicate the three activities in which, at this time, you would be "
 "most inclined to participate at Princeton.  "
-msgstr ""
+msgstr "Indique as três atividades das quais, neste momento, você estaria mais inclinado a participar, em Princeton."
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 msgid "Please choose a four digit pin number."
-msgstr "Entre com um Número Válido"
+msgstr "Escolha um número de pin com quatro dígitos."
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 msgid ""
 "Which degree would you most likely pursue at Princeton? (Your choice is not "
 "binding in any way.)"
-msgstr ""
+msgstr "Qual graduação você mais buscaria em Princeton? (Essa escolha não constitui compromisso, por ora)."
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 msgid "A.B. Departments"
-msgstr ""
+msgstr "Departamentos A.B."
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.php
 msgid " B.S.E Departments"
-msgstr ""
+msgstr "Departamentos B.S.E."
 
 #: CRM/Quest/Form/MatchApp/Partner/Princeton/PrEnggEssay.php
 msgid "Engineering Essay"
-msgstr ""
+msgstr "Redação de Engenharia"
 
 #: CRM/Quest/Form/MatchApp/Partner/Rice/RiceApplicant.php
 msgid "Rice University"
-msgstr ""
+msgstr "Universidade Rice"
 
 #: CRM/Quest/Form/MatchApp/Partner/Rice/RiceApplicant.php
 msgid ""
 "What aspirations, experiences, or relationships have motivated you to pursue "
 "the study of architecture? is required field"
-msgstr ""
+msgstr "Que aspirações, experiências ou relacionamentos motivaram você a buscar o estudo de arquitetura? Campo obrigatório."
 
 #: CRM/Quest/Form/MatchApp/Partner/Rice/RiceApplicant.php
 msgid ""
 "Outside of academics, what do you enjoy most or find most challenging? is "
 "required field"
-msgstr ""
+msgstr "Além da área acadêmica, do que você gosta mais ou acha mais desafiador? Campo obrigatório."
 
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.php
 msgid ""
 "Have you been enrolled full-time in college/university (other than summer "
 "session)?"
-msgstr ""
+msgstr "Você já esteve matriculado em tempo integral numa faculdade/universidade, fora de curso de verão?"
 
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.php
 msgid "Please select possible area of major, in order of preference"
-msgstr ""
+msgstr "Selecione possível área de concentração, pela ordem da sua preferência."
 
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.php
 msgid ""
 "Is either parent or step-parent currently employed by Stanford University?"
-msgstr ""
+msgstr "Algum de seus pais ou padrastos é atualmente funcionário da Universidade Stanford?"
 
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.php
 msgid "Freshman"
-msgstr ""
+msgstr "Calouro"
 
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.php
 msgid "Transfer"
-msgstr "Transsexual"
+msgstr "Transferência"
 
 #: CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.php
 msgid ""
 "Are any siblings or step-siblings applying to the undergraduate program at "
 "Stanford this year? "
-msgstr ""
+msgstr "Algum descendente ou enteado está se candidatando ao programa de graduação da Stanford este ano?"
 
 #: CRM/Quest/Form/MatchApp/Partner/Wellesley/WellApplicant.php
 msgid "Undecided."
@@ -8508,121 +8506,121 @@ msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Partner/Wellesley/WellApplicant.php
 msgid "Preprofessional Interest"
-msgstr ""
+msgstr "Interesse Pré-profissional"
 
 #: CRM/Quest/Form/MatchApp/Partner/Wheaton/WheApplicant.php
 msgid "Denomination"
-msgstr "Doação"
+msgstr "Denominação"
 
 #: CRM/Quest/Form/MatchApp/Partner/Wheaton/WheApplicant.php
 msgid "Church Name"
-msgstr "Nome vCard"
+msgstr "Nome da Igreja"
 
 #: CRM/Quest/Form/MatchApp/Partner/Wheaton/WheRecommendation.php
 msgid "Recommendation"
-msgstr "Doação"
+msgstr "Recomendação"
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "Preferred name"
-msgstr "Fone preferido:"
+msgstr "Nome preferido"
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "Please select the option that best describes your home area"
-msgstr "Selecione uma opção como imagem do premium."
+msgstr "Selecione a opção que melhor descreve a área onde mora"
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "Where did you grow up (if different from current country of residence)"
-msgstr ""
+msgstr "Onde você cresceu (se diferente do atual país de residência)?"
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "Country(ries) of family's origin"
-msgstr ""
+msgstr "País(es) de origem da sua família"
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "add another country"
-msgstr "- qualquer país -"
+msgstr "acrescente outro país"
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "hide this country"
-msgstr "ocultar este fone"
+msgstr "ocultar este país"
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "Select a valid graduation year."
-msgstr "Selecione uma data válida."
+msgstr "Selecione um ano de graduação válido."
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "Upload your picture"
-msgstr ""
+msgstr "Carregue seu retrato"
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "Tribe affiliation"
-msgstr ""
+msgstr "Afiliação tribal"
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "Date enrolled in tribe"
-msgstr ""
+msgstr "Data em que se inscreveu na tribo"
 
 #: CRM/Quest/Form/MatchApp/Personal.php
 msgid "Please specify"
-msgstr ""
+msgstr "Especifique, por favor"
 
 #: CRM/Quest/Form/MatchApp/Recommendation.php
 #: templates/CRM/Quest/Form/MatchApp/Recommendation.tpl
 msgid "School"
-msgstr ""
+msgstr "Escola"
 
 #: CRM/Quest/Form/MatchApp/Recommendation.php
 msgid "You need to have different recommenders"
-msgstr ""
+msgstr "Você precisa ter diferentes recomendantes"
 
 #: CRM/Quest/Form/MatchApp/Recommendation.php
 msgid "there was an error when processing some of your recommendations"
-msgstr ""
+msgstr "Houve um erro ao processar alguma de suas recomendações"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid ""
 "Will you be covered by your parents' medical insurance while at college?"
-msgstr ""
+msgstr "Você estará coberto pelo seguro médico de seus pais enquanto estiver na faculdade?"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid "Are you eligible for Federal Free or Reduced Price Meals?"
-msgstr ""
+msgstr "Você tem direito a Refeições Grátis ou de Preço Reduzido oferecidas pelo Governo Federal?"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid "Do you plan to apply for college financial aid?"
-msgstr ""
+msgstr "Você pensa se candidatar a financiamento do curso na faculdade?"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid ""
 "Are you currently displaced by Hurricane Katrina or Rita? If so, please take "
 "a moment to provide details of your displacement"
-msgstr ""
+msgstr "Você está atualmente desabrigado pelo  furacão Katrina ou Rita? Se sim, forneça detalhes dessa situação."
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid "How did you hear about QuestBridge?"
-msgstr ""
+msgstr "Já ouviu falar da QuestBridge?"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid "Partner Institution"
-msgstr "Imprimir Contribuições"
+msgstr "Instituição Parceira"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid "Class Year"
-msgstr ""
+msgstr "Turma do Ano"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid ""
 "Have you ever violated an Honor code, or been dismissed, suspended from "
 "school, put on probation or subjected to any legal disciplinary action?"
-msgstr ""
+msgstr "Você já violou um Código de Honra, ou foi dispensado ou suspenso da escola, colocado em condicional ou submetido a qualquer ação disciplinar da lei?"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid "Please select "
-msgstr "Selecione status."
+msgstr "Selecione"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid "Please explain"
-msgstr ""
+msgstr "Explique"
 
 #: CRM/Quest/Form/MatchApp/Scholarship.php
 msgid ""
@@ -8630,107 +8628,107 @@ msgid ""
 "any crime (except minor traffic citations),had a criminal charge sustained "
 "against you in a juvenile proceeding (except minor traffic citations), or "
 "been placed on court-supervised probation?"
-msgstr ""
+msgstr "Você já foi condenado, ou se confessou culpado, ou nolo contendere, de algum crime (exceto pequenas autuações de trânsito), teve uma acusação criminal contra você num processo juvenil (exceto pequenas autuações de trânsito), ou foi colocado em condicional supervisionada por tribunal?"
 
 #: CRM/Quest/Form/MatchApp/SchoolOther.php
 msgid "add another School"
-msgstr "outra escolha"
+msgstr "acrescente outra Escola"
 
 #: CRM/Quest/Form/MatchApp/SchoolOther.php
 msgid "hide this School"
-msgstr "ocultar este fone"
+msgstr "ocultar esta Escola"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php
 msgid "Please Enter a Valid date for Birthdate"
-msgstr "Por favor entre com um valor válido para este campo."
+msgstr "Digite um valor válido para este campo de data de nascimento"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php
 msgid "Current year in school"
-msgstr "Relacionamentos atuais"
+msgstr "Ano atual na escola"
 
 #: CRM/Quest/Form/MatchApp/Sibling.php
 msgid ""
 "If important information regarding your relationship with this sibling is "
 "not captured above, please enter it here."
-msgstr ""
+msgstr "Se alguma informação importante sobre seu relacionamento com este descendente não foi obtida acima, digite-a aqui, agora."
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "Add another ACT test"
-msgstr ""
+msgstr "Acrescentar outro teste ACT"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "Hide this ACT test"
-msgstr "ocultar este email"
+msgstr "Ocultar este teste ACT"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "Add another SAT test score"
-msgstr ""
+msgstr "Acrescentar outro escore de teste SAT"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "Hide this SAT test"
-msgstr "ocultar este email"
+msgstr "Ocultar este teste SAT"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "add another TOEFL test score"
-msgstr ""
+msgstr "Adicionar outro escore de teste TOEFL"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "hide this TOEFL test"
-msgstr "ocultar este fone"
+msgstr "Ocultar este teste TOEFL"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid ""
 "Have you received tutoring or taken test prep classes for any of the "
 "standardized tests?"
-msgstr ""
+msgstr "Você já recebeu atendimento tutorial ou aulas de preparação para qualquer um dos testes padronizados?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "Do you plan to take the SAT again?"
-msgstr ""
+msgstr "Você pensa em fazer de novo o SAT?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "When do you plan to take the SAT?"
-msgstr ""
+msgstr "Quando você pretende fazer o SAT?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "Do you plan to take the ACT again?"
-msgstr ""
+msgstr "Você pensa em fazer o ACT de novo?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "When do you plan to take the ACT?"
-msgstr ""
+msgstr "Quando você pensa em fazer o ACT?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "Do you plan to take any more SAT II tests?"
-msgstr ""
+msgstr "Você planeja fazer mais testes SAT II?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "Which subjects?"
-msgstr "Assunto do Mailing"
+msgstr "Quais matérias?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "When do you plan to take more SATIIs?"
-msgstr ""
+msgstr "Quando você planeja fazer mais testes SAT II?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "After using the Princeton Review SAT Prep, did you retake the SAT?"
-msgstr ""
+msgstr "Depois de usar o Princeton Review SAT Prep, você fez de novo o teste SAT?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "Did your SAT score improve?"
-msgstr ""
+msgstr "Seu escore no SAT melhorou?"
 
 #: CRM/Quest/Form/MatchApp/Testing.php
 msgid "By how much?"
-msgstr ""
+msgstr "Melhorou quanto?"
 
 #: CRM/Quest/Form/MatchApp/Transcript/Eleven.php
 msgid "11th Grade"
-msgstr ""
+msgstr "11º Grau"
 
 #: CRM/Quest/Form/MatchApp/Transcript/Nine.php
 msgid "9th Grade"
-msgstr "Grad"
+msgstr "9º Grau"
 
 #: CRM/Quest/Form/MatchApp/Transcript.php
 msgid "Term System"
@@ -8738,67 +8736,67 @@ msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Transcript.php
 msgid "Transcript Information"
-msgstr "Informação do Contato"
+msgstr "Informação Transcrita"
 
 #: CRM/Quest/Form/MatchApp/Transcript/Summer.php
 msgid "Summer School"
-msgstr ""
+msgstr "Escola de Verão"
 
 #: CRM/Quest/Form/MatchApp/Transcript/Ten.php
 msgid "10th Grade"
-msgstr ""
+msgstr "10º Grau"
 
 #: CRM/Quest/Form/MatchApp/Transcript/Twelve.php
 msgid "12th Grade"
-msgstr ""
+msgstr "12º Grau"
 
 #: CRM/Quest/Form/MatchApp/WorkExperience.php
 msgid "Specific Nature of Work"
-msgstr ""
+msgstr "Natureza Específica do Trabalho"
 
 #: CRM/Quest/Form/MatchApp/WorkExperience.php
 msgid "Employer"
-msgstr "Empregador de"
+msgstr "Empregador"
 
 #: CRM/Quest/Form/MatchApp/WorkExperience.php
 msgid "Please enter valid date for Start Date."
-msgstr "Por favor entre com um valor válido para este campo."
+msgstr "Digite uma data válida para Data Inicial."
 
 #: CRM/Quest/Form/MatchApp/WorkExperience.php
 msgid "Please enter valid date for End Date."
-msgstr "Digite um Gênero válido."
+msgstr "Digite uma data válida para Data Final."
 
 #: CRM/Quest/Form/MatchApp/WorkExperience.php
 msgid "Aproximate hours/week"
-msgstr ""
+msgstr "Número aproximado de horas/semanas"
 
 #: CRM/Quest/Form/MatchApp/WorkExperience.php
 msgid "Please enter a numeric value for hours/week"
-msgstr "Digite um valor inteiro como peso."
+msgstr "Digite um valor numérico para hoas/semanas"
 
 #: CRM/Quest/Form/MatchApp/WorkExperience.php
 msgid "Check if Summer jobs only"
-msgstr ""
+msgstr "Marque se forem só empregos de verão"
 
 #: CRM/Quest/Form/MatchApp/WorkExperience.php
 msgid "To what use have you put your earnings? "
-msgstr ""
+msgstr "O que você fez com seus ganhos?"
 
 #: CRM/Quest/Form/MatchApp/WorkExperience.php
 msgid "Work Experience"
-msgstr ""
+msgstr "Experiência de Trabalho"
 
 #: CRM/Quest/Form/PreApp/Academic.php
 msgid "What is your GPA?"
-msgstr ""
+msgstr "Qual é o seu GPA?"
 
 #: CRM/Quest/Form/PreApp/Educational.php
 msgid "Please select all of your educational interests"
-msgstr "Selecione um tipo de Relacionamento."
+msgstr "Selecione todos os seus interesses educacionais"
 
 #: CRM/Quest/Form/PreApp/Educational.php
 msgid "Please select the type(s) of college you are interested in attending"
-msgstr ""
+msgstr "Selecione o(s) tipo(s) de faculdade que você está interessado em freqüentar"
 
 #: CRM/Quest/Form/PreApp/Educational.php
 msgid ""
@@ -8807,13 +8805,13 @@ msgid ""
 "that partner college. If you check other (non-partner) colleges' boxes, your "
 "information may be forwarded to that college. Partner colleges are listed in "
 "blue and italics."
-msgstr ""
+msgstr "Selecione as faculdades que você está interessado em freqüentar. Se marcar uma caixa de faculdade parceira da QuestBridge, sua informação será encaminhada a ela. Se marcar outra, de não-parceira, o encaminhamento se fará de acordo. As faculdades parceiras são listadas em azul e itálico."
 
 #: CRM/Quest/Form/PreApp/Educational.php
 msgid ""
 "List any other colleges that you could see yourself attending. (List one per "
 "line)"
-msgstr ""
+msgstr "Liste quaisquer outras faculdades que você se vê freqüentando. (Listar uma por linha)"
 
 #: CRM/Quest/Form/PreApp/Essay.php
 msgid ""
@@ -8825,22 +8823,22 @@ msgstr ""
 
 #: CRM/Quest/Form/PreApp/Essay.php
 msgid "Current character count"
-msgstr "Ano Atual, até hoje"
+msgstr "Atual contagem de caracteres"
 
 #: CRM/Quest/Form/PreApp/Guardian.php
 msgid "Please enter First Name"
-msgstr "Por favor entre com o nome do Produto."
+msgstr "Digite seu Primeiro Nome"
 
 #: CRM/Quest/Form/PreApp/Guardian.php
 msgid "Please enter Last Name"
-msgstr "Por favor entre com o nome do Produto."
+msgstr "Digite seu Sobrenome"
 
 #: CRM/Quest/Form/PreApp/Guardian.php
 msgid ""
 "If there are any extenuating circumstances, or details regarding your parent"
 "(s), guardian(s), or household situation that you would like to add or "
 "clarify, please do so here"
-msgstr ""
+msgstr "Se houver quaisquer circunstâncias extenuating, ou detalhes sobre seus pais, responsáveis ou situação domiciliar que você gostaria de acrescentar ou esclarecer, faça-o aqui:"
 
 #: CRM/Quest/Form/PreApp/Household.php
 msgid "How many people live with you in your current household?"
@@ -8852,19 +8850,19 @@ msgid ""
 "situation (e,g, perhaps your older sibling was your guardian), or if you "
 "have any other unique circumstances regarding your household situation, "
 "please describe it here:"
-msgstr ""
+msgstr "Se esta seção acima não descreve adequadamente sua situação primária de cuidador (ex: talvez um irmão mais velho seja responsável por você), ou se você tiver outras circunstâncias específicas em sua situação domiciliar, descreva aqui:"
 
 #: CRM/Quest/Form/PreApp/Personal.php
 msgid "Please enter your First Name"
-msgstr "Por favor entre com o nome do Produto."
+msgstr "Digite seu Nome"
 
 #: CRM/Quest/Form/PreApp/Personal.php
 msgid "Please enter your Last Name"
-msgstr "Digite 1 ou 0 como valor."
+msgstr "Digite seu Sobrenome"
 
 #: CRM/Quest/Form/PreApp/Personal.php
 msgid "Preferred/Nickname"
-msgstr "Fone preferido:"
+msgstr "Nome Preferido/Apelido"
 
 #: CRM/Quest/Form/PreApp/Personal.php
 msgid "Would you describe your home area as"
@@ -8896,31 +8894,31 @@ msgstr "Se tem, ele também acessa a internet?"
 
 #: CRM/Quest/Form/PreApp/Scholarship.php
 msgid "Are you eligible for Federal Free or Reduced Price Lunches?"
-msgstr ""
+msgstr "Você tem direito a Refeições Grátis ou de Preço Reduzido oferecidas pelo Governo Federal?"
 
 #: CRM/Quest/Form/PreApp/Scholarship.php
 msgid "Do you plan on taking the SAT or ACT?"
-msgstr ""
+msgstr "Você pensa em fazer o teste SAT ou ACT?"
 
 #: CRM/Quest/Form/PreApp/Scholarship.php
 msgid "If yes, do you plan to study? If so, how?"
-msgstr ""
+msgstr "Se sim, planeja estudar? Como?"
 
 #: CRM/Quest/Form/PreApp/Scholarship.php
 msgid "Do you plan to be a financial aid applicant to colleges?"
-msgstr ""
+msgstr "Planeja se candidatar a auxílio financeiro das faculdades?"
 
 #: CRM/Quest/Form/PreApp/Scholarship.php
 msgid ""
 "Do you plan to use, or have you already used, fee waivers to register for "
 "standarized tests?"
-msgstr ""
+msgstr "Você planeja usar, ou já usou, isenção de taxas para fazer os testes padronizados?"
 
 #: CRM/Quest/Form/PreApp/Scholarship.php
 msgid ""
 "Rank the 3 awards you are interested in receiving, if you are awarded the "
 "scholarship"
-msgstr ""
+msgstr "Relacione os três prêmios que você quer ganhar, se lhe for concedida a bolsa de estudos"
 
 #: CRM/Quest/Form/PreApp/Scholarship.php templates/CRM/Block/Add.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -8935,11 +8933,11 @@ msgstr "Email inválido."
 
 #: CRM/Quest/Form/PreApp/SchoolOther.php
 msgid "add another Special Program"
-msgstr ""
+msgstr "Acrescente outro Programa Especial"
 
 #: CRM/Quest/Form/PreApp/SchoolOther.php
 msgid "hide this Program"
-msgstr "ocultar esta linha"
+msgstr "ocultar este Programa"
 
 #: CRM/Quest/Form/PreApp/Sibling.php
 msgid "Year in school"
@@ -8951,21 +8949,21 @@ msgstr "Comentário"
 
 #: CRM/Quest/Form/PreApp/Submit.php
 msgid "Consent and verification checkbox"
-msgstr "Numero de verificacao do Cartao de Credito"
+msgstr "Caixa de marcação de consentimento e verificação"
 
 #: CRM/Quest/Form/PreApp/Submit.php
 msgid "Complete Application"
-msgstr "Completado Data"
+msgstr "Requerimento Completo"
 
 #: CRM/Quest/Form/PreApp/Testing.php
 msgid ""
 "Have you received tutoring or taken test prep classes for any of the "
 "standardized tests above?"
-msgstr ""
+msgstr "Já recebeu tutorial ou aulas preparatórios para testes, de qualquer um dos testes padronizados acima?"
 
 #: CRM/Quest/Form/SchoolSearch.php templates/CRM/Quest/Form/SchoolSearch.tpl
 msgid "School Name"
-msgstr "Ordenar Nome"
+msgstr "Nome da Escola"
 
 #: CRM/Quest/Form/SchoolSearch.php
 msgid "Find Your School"
@@ -8973,33 +8971,33 @@ msgstr "Encontre Sua Escola"
 
 #: CRM/Quest/Form/Task/PDF.php
 msgid "You can export a PDF copy of the application for only one student"
-msgstr ""
+msgstr "Você só pode exportar uma cópia PDF do requerimento para cada estudante"
 
 #: CRM/Quest/Form/Teacher/Evaluation.php
 msgid "What three words would you use to describe this applicant?"
-msgstr ""
+msgstr "Quais três palavras você usaria para descrever este candidato?"
 
 #: CRM/Quest/Form/Teacher/Evaluation.php
 msgid ""
 "Please indicate which of the following factors have most influenced this "
 "students academic success, and provide a brief explanation. (150 words max)"
-msgstr ""
+msgstr "Indique quais dos seguintes fatores mais têm influenciado o sucesso acadêmico deste aluno, e forneça uma breve explicação (máximo de 150 palavras)"
 
 #: CRM/Quest/Form/Teacher/Evaluation.php
 msgid ""
 "Has this applicant faced any special obstacles that make his/her other "
 "accomplishments all the more remarkable?"
-msgstr ""
+msgstr "Este candidato enfrentou alguns obstáculos especiais que fazem suas outras conquistas ainda mais destacadas?"
 
 #: CRM/Quest/Form/Teacher/Evaluation.php
 msgid ""
 "Are there any factors that might interfere with the candidate's academic "
 "performance?"
-msgstr ""
+msgstr "Há fatores que podem interferir no desempenho acadêmico do candidato?"
 
 #: CRM/Quest/Form/Teacher/Personal.php
 msgid "School Department"
-msgstr ""
+msgstr "Departamento na Escola"
 
 #: CRM/Quest/Form/Teacher/Ranking.php
 msgid "Years you have been a teacher"
@@ -9007,65 +9005,65 @@ msgstr "Anos que você é um professor"
 
 #: CRM/Quest/Form/Teacher/Ranking.php
 msgid "Year must be an integer"
-msgstr "%1 deve ser um número inteiro."
+msgstr "O ano deve ser um número inteiro"
 
 #: CRM/Quest/Form/Teacher/Ranking.php
 msgid "In what subject(s) have you taught him/her?"
-msgstr ""
+msgstr "Em que disciplina você foi professor dele/a?"
 
 #: CRM/Quest/Form/Teacher/Ranking.php
 msgid "What grade(s) did he/she receive from you?"
-msgstr ""
+msgstr "Que notas ele/a recebeu de você?"
 
 #: CRM/Quest/Form/Verify.php
 msgid "Password"
-msgstr ""
+msgstr "Senha"
 
 #: CRM/Quest/Form/Verify.php
 msgid "Re-enter Password"
-msgstr ""
+msgstr "Digite a senha novamente"
 
 #: CRM/Quest/Form/Verify.php
 msgid "The passwords do not match"
-msgstr ""
+msgstr "As senhas não conferem entre si"
 
 #: CRM/Quest/Form/Verify.php
 msgid "Verify Registration and Sign-in"
-msgstr "Registro de Usuário"
+msgstr "Verificar Registro e Inscrição"
 
 #: CRM/Quest/Form/Verify.php
 msgid ""
 "We could not verify your information. Please check that you have entered the "
 "email address where you received this Recommendation Request and try again."
-msgstr ""
+msgstr "Não foi possível conferir sua informação. Marque que você digitou o endereço de email onde recebeu esta Solicitação de Recomendação, e tente novamente."
 
 #: CRM/Quest/Invoke.php
 msgid "CEEB School Search"
-msgstr ""
+msgstr "Busca de Escola CEEB"
 
 #: CRM/Quest/Invoke.php
 msgid "Verify your Registration"
-msgstr "Registro de Usuário"
+msgstr "Verificar seu Registro"
 
 #: CRM/Quest/Menu.php
 msgid "2006 College Prep Scholarship Application"
-msgstr ""
+msgstr "Requerimento de Bolsa de Estudos Preparatório a Faculdade em 2006"
 
 #: CRM/Quest/Menu.php
 msgid "2006 College Match Application"
-msgstr ""
+msgstr "Requerimento de College Match de 2006"
 
 #: CRM/Quest/Menu.php
 msgid "QuestBridge School Search"
-msgstr ""
+msgstr "Busca de Escola na QuestBridge"
 
 #: CRM/Quest/Menu.php
 msgid "2006 College Match Recommendation Form"
-msgstr ""
+msgstr "Formulário de Recomendação College Match de 2006"
 
 #: CRM/Quest/Menu.php
 msgid "QuestBridge Recommender Verification"
-msgstr ""
+msgstr "Verificação de Recomendador QuestBridge"
 
 #: CRM/SMS/BAO/History.php
 msgid "To: %1; Message: %2"
@@ -9089,7 +9087,7 @@ msgstr "SMS não enviado para contato(s): %1"
 
 #: CRM/Tag/Form/Tag.php
 msgid "Update Tags"
-msgstr "Atualizar rótulos"
+msgstr "Atualizar Rótulos"
 
 #: CRM/Tag/Form/Tag.php
 msgid "Your update(s) have been saved."
@@ -9101,18 +9099,16 @@ msgstr "Excluir Campo de Perfil"
 
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "In Selector?"
-msgstr "no Seletor?"
+msgstr "No Seletor?"
 
 #: CRM/UF/Form/Field.php
 msgid "Listings Title"
-msgstr "Título das Listagens"
+msgstr "Título de Listagens"
 
 #: CRM/UF/Form/Field.php
 msgid ""
 "Please enter a valid title for this field when displayed in user listings."
-msgstr ""
-"Entre com um título válido para este campo para ser mostrado nas listagens "
-"de usuários."
+msgstr "Entre com um título válido para este campo ser mostrado nas listagens de usuários."
 
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "Searchable?"
@@ -9128,15 +9124,15 @@ msgstr "O Campo de Perfil selecionado foi excluído."
 
 #: CRM/UF/Form/Field.php
 msgid "The selected field was not added. It already exists in this profile."
-msgstr "O campo selecionado nao foi adicionado. Ja  existe neste perfil."
+msgstr "O campo selecionado não foi adicionado. Ele já  existe neste perfil."
 
 #: CRM/UF/Form/Field.php
 msgid "Your civicrm profile field \"%1\" has been saved."
-msgstr "Seu perfil CiviCRM \"%1\" foi salvo."
+msgstr "Seu campo de perfil CiviCRM \"%1\" foi salvo."
 
 #: CRM/UF/Form/Group.php
 msgid "Profile Settings - %1"
-msgstr "Configurações do perfil - %1"
+msgstr "Definições do perfil - %1"
 
 #: CRM/UF/Form/Group.php
 msgid "New CiviCRM Profile Group"
@@ -9152,7 +9148,7 @@ msgstr "Nome do Perfil"
 
 #: CRM/UF/Form/Group.php
 msgid "Is this CiviCRM Profile active?"
-msgstr "Esta este perfil ativo?"
+msgstr "Este perfil do CiviCRM está ativo?"
 
 #: CRM/UF/Form/Group.php
 msgid "Should mapping be enabled on this profile?"
@@ -9168,34 +9164,32 @@ msgstr "Entre com uma URL válida."
 
 #: CRM/UF/Form/Group.php
 msgid "Cancel Redirect URL"
-msgstr "Redirecionar URL"
+msgstr "Cancelar Redirecionar URL"
 
 #: CRM/UF/Form/Group.php
 msgid "Limit Listings to Group"
-msgstr "Editar Grupo Customizado"
+msgstr "Limitar Listagens ao Grupo"
 
 #: CRM/UF/Form/Group.php
 msgid "Add Contacts to Group"
-msgstr "Adicionar Contatos a um Grupo"
+msgstr "Adicionar Contatos a Grupo"
 
 #: CRM/UF/Form/Group.php
 msgid "Include CAPTCHA?"
-msgstr "Incluir"
+msgstr "Incluir CAPTCHA ?"
 
 #: CRM/UF/Form/Group.php
 msgid "Collapse profile fieldset on initial display?"
-msgstr "Expandir esse grupo na tela inicial"
+msgstr "Expandir esse conjunto de campos de perfil na tela inicial ?"
 
 #: CRM/UF/Form/Group.php
 msgid "This profile cannot be deleted since it is used for other modules."
-msgstr "Este perfil não pode ser apagado porque é útil a outros módulos."
+msgstr "Este perfil não pode ser apagado porque é usado por outros módulos."
 
 #: CRM/UF/Form/Group.php
 msgid ""
 "You must delete all profile fields for \"%1\" prior to deleting the profile."
-msgstr ""
-"Antes de apagar perfil é necessário apagar todos os campos de perfilde \"%1"
-"\"."
+msgstr "Antes de apagar perfil é necessário apagar todos os campos de perfil de \"%1\"."
 
 #: CRM/UF/Form/Group.php
 msgid "Your CiviCRM Profile Group \"%1\" has been deleted."
@@ -9215,8 +9209,7 @@ msgstr ""
 
 #: CRM/UF/Page/Field.php
 msgid "Are you sure you want to disable this CiviCRM Profile field?"
-msgstr ""
-"Você tem certeza de que deseja desabilitar este campo de perfil no CiviCRM"
+msgstr "Quer mesmo desativar este campo de perfil no CiviCRM ?"
 
 #: CRM/UF/Page/Field.php
 msgid "Edit CiviCRM Profile Field"
@@ -9240,7 +9233,7 @@ msgstr "%1 - Campos de Perfil CiviCRM"
 
 #: CRM/UF/Page/Group.php
 msgid "Are you sure you want to disable this CiviCRM Profile group?"
-msgstr "Tem certeza de que deseja desabilitar  Perfil de Grupos CiviCRM?"
+msgstr "Quer mesmo desativar este grupo de Perfil CiviCRM?"
 
 #: CRM/UF/Page/Group.php
 msgid "View and Edit Fields"
@@ -9408,14 +9401,14 @@ msgstr "Ver Reunião Agendada"
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Hrs"
-msgstr ""
+msgstr "Hrs"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Min"
-msgstr ""
+msgstr "Min"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 msgid "Meeting will be moved to Activity History when status is 'Completed'."
@@ -9525,7 +9518,7 @@ msgstr ""
 #: templates/CRM/UF/Form/Field.tpl templates/CRM/UF/Form/Group.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "status"
-msgstr ""
+msgstr "status"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid ""
@@ -9874,11 +9867,11 @@ msgid ""
 "updating an existing contact, and importing contacts with the Import Wizard. "
 "Click <a href=\"%1\">Edit Rule</a> to modify the set of contact fields used "
 "for identifying duplicate contacts."
-msgstr ""
+msgstr "O CiviCRM usa uma Regra de Checagem de Duplicação para determinar quando um novo contato Indivíduo deve ser marcado como uma duplicata em potencial de um registro existente. A configuração default compara endereço de email E nome E sobrenome. Esta regra é usada quando se inclui um novo indivíduo, quando se atualiza um contato existente, e quando se importa contatos com o Assistente de Importação. Clique em <a href=\"%1\">Editar Regra</a> para modificar o conjunto de campos de contato usados para identificar duplicados."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid "Duplicate Matching Rule"
-msgstr ""
+msgstr "Regra de Checagem de Duplicata"
 
 #: templates/CRM/Admin/Page/Gender.tpl
 msgid ""
@@ -9969,7 +9962,7 @@ msgstr "Tipos de localização fornecem rótulos convenientes para diferenciar "
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "vCard"
-msgstr ""
+msgstr "vCard"
 
 #: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
@@ -9986,12 +9979,14 @@ msgid ""
 "Export task.\n"
 "    This screen allows you to rename or delete existing mappings."
 msgstr ""
+"Mapeamentos salvos permitem rodar facilmente, várias vezes, o mesmo trabalho de importação ou exportação. Mapeamentos são criados e atualizados como parte de uma tarefa de Importação ou Exportação.\n"
+"     Esta tela permite renomear ou excluir mapeamentos existentes."
 
 #: templates/CRM/Admin/Page/Mapping.tpl
 msgid ""
 "There are currently no saved import or export mappings. You create saved "
 "mappings as part of an Import or Export task."
-msgstr ""
+msgstr "Não há atualmente mapeamentos salvos de importação ou exportação. Você cria esses mapeamentos como parte de uma tarefa de Importação ou Exportação."
 
 #: templates/CRM/Admin/Page/MobileProvider.tpl
 msgid ""
@@ -10029,6 +10024,8 @@ msgid ""
 "    a group is editable, you can click <strong>Multiple Choice Options</"
 "strong> to view and modify the available choices."
 msgstr ""
+"O CiviCRM guarda como \"grupos de opções\" as opções configuráveis para vários campos tipo drop-down. Opções usadas por núcleos de campos são reservadas e não podem ser modificadas. Se \n"
+" um grupo é editável, você pode clicar em <strong>Opções de Escolha Múltipla</strong> para visualizar e modificar as opções disponíveis."
 
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 msgid "There are no Option Group entered. You can <a href=\"%1\">add one</a>."
@@ -10040,7 +10037,7 @@ msgstr ""
 msgid ""
 "The existing option choices for this option group are listed below. You can "
 "add, edit or delete them from this screen."
-msgstr ""
+msgstr "As opções existentes para este grupo de opções estão listadas abaixo. Você pode acrescentá-las, editá-las ou excluí-las a partir desta tela."
 
 #: templates/CRM/Admin/Page/OptionValue.tpl
 msgid ""
@@ -10123,7 +10120,7 @@ msgstr "Última Alteração feita por"
 
 #: templates/CRM/common/footer.tpl
 msgid "View Change Log"
-msgstr ""
+msgstr "Ver Registro de Mudanças"
 
 #: templates/CRM/common/footer.tpl
 msgid ""
@@ -10165,7 +10162,7 @@ msgstr "Nome da rua,Número da casa,apartamento/conjunto - OU 'Caixa Postal"
 #: templates/CRM/Contact/Form/Address/supplemental_address_2.tpl
 msgid ""
 "Supplemental address info, e.g. c/o, department name, building name, etc."
-msgstr ""
+msgstr "Informação suplementar de endereço, tal como nome de departamento, nome de edifício etc."
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
 msgid "Communication Preferences"
@@ -10179,7 +10176,7 @@ msgstr "Selecione o método preferido de comunicação com este contato."
 msgid ""
 "Select the email format preferred by this contact. Select 'Both' to send "
 "HTML and Text formats."
-msgstr ""
+msgstr "Selecione o formato de email preferido por este contato. Selecione 'Ambos' para enviar nos formatos HTML e Texto."
 
 #: templates/CRM/Contact/Form/CustomData.tpl
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -10230,7 +10227,7 @@ msgid ""
 "value. Enter a fully qualified email address which belongs to a valid SMTP "
 "account in your domain. If this field is left blank, the FROM email address "
 "will be used as the RETURN-PATH."
-msgstr ""
+msgstr "Use este campo para popular com um valor fixo o elemento de cabeçalho do RETURN-PATH da mensagem. Digite um endereço de email completamente qualificado, que pertence a uma conta SMTP válida em seu domínio. Se este campo for deixado em branco, o endereço de email FROM será usado como RETURN-PATH."
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
@@ -10247,7 +10244,7 @@ msgstr "Rótulos e Grupos"
 
 #: templates/CRM/Contact/Form/IM.tpl
 msgid "Select im service provider, and enter screen-name / user id."
-msgstr ""
+msgstr "Selecione um provedor de serviços, e digite o seu nome de tela ou ID de usuário."
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Primary Location"
@@ -10271,7 +10268,7 @@ msgstr "Nota:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Status:"
-msgstr ""
+msgstr "Status:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Enabled"
@@ -10395,7 +10392,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Quest Student"
-msgstr ""
+msgstr "Aluno Quest"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Complete OR partial contact name."
@@ -10565,7 +10562,7 @@ msgid ""
 "\"Group A\" OR \"Group B\"). All other search fields are combined as "
 "<strong>AND</strong> criteria (e.g. selecting Tag is \"Major Donor\" AND "
 "Country is \"Mexico\" returns only those contacts who meet both criteria)."
-msgstr ""
+msgstr "Se caixas múltiplas estiverem marcadas para Tipos de Contato, Grupos, Rótulos e Tipos de Localidade, as seleções são combinadas como critérios <strong>OR</strong>. Ex: Marcados \"Grupo A\" e \"Grupo B\" resultarão em contatos que figurem num grupo OU no outro. Todos os outros campos de busca são combinados como critérios <strong>AND</strong>. Ex: Se o Rótulo selecionado for \"Doador Principal\" E o País for \"México\", resultarão apenas aqueles contatos que atendam a ambos os critérios."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -10736,7 +10733,7 @@ msgid ""
 "If you want to use the same export setup in the future, check 'Save this "
 "field mapping' at the bottom of the page before continuing. You will then be "
 "able to reload this setup with a single click."
-msgstr ""
+msgstr "Se você quer usar a mesma definição de exportação no futuro, marque, antes de continuar, 'Salve este mapeamento de campo' no rodapé da página. Assim poderá recarregar essa definição com um simples clique."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid ""
@@ -10826,7 +10823,7 @@ msgstr "Não há pesquisas salvas. Para criar uma:"
 msgid ""
 "Use <a href=\"%1\">Find</a> or <a href=\"%2\"> Advanced Search</a> form to "
 "enter search criteria"
-msgstr ""
+msgstr "Use <a href=\"%1\">Encontrar</a> ou o formulário <a href=\"%2\">Busca Avançada</a> para informar os critérios de busca."
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Run and refine the search criteria as necessary"
@@ -10954,7 +10951,7 @@ msgstr "# Contribuições"
 msgid ""
 "There are no contributions recorded for this contact. You can <a href=\"%1"
 "\">enter one now</a>."
-msgstr ""
+msgstr "Não há contribuições registradas para este contato. Você pode <a href=\"%1\">digitar uma agora</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Contribution.tpl
@@ -10976,7 +10973,7 @@ msgstr "Nova Contribuição"
 msgid ""
 "There are no memberships recorded for this contact. You can <a href=\"%1"
 "\">enter one now</a>."
-msgstr ""
+msgstr "Não há afiliações registradas para este contato. Você pode <a href=\"%1\">digitar uma agora</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
@@ -11002,7 +10999,7 @@ msgstr "Atividades Agendadas"
 msgid ""
 "No Scheduled Activities. You can schedule a <a href=\"%1\">meeting</a> or a "
 "<a href=\"%2\">call</a>."
-msgstr ""
+msgstr "Nenhuma Atividade Agendada. Você pode agendar uma <a href=\"%1\">reunião</a> ou um <a href=\"%2\">telefonema</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "There are no Scheduled Activities for this contact."
@@ -11049,7 +11046,7 @@ msgstr "Ver todos os Históricos de Atividades..."
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "No relationships. You can <a href=\"%1\">create a new relationship</a>."
-msgstr ""
+msgstr "Nenhum relacionamento. Você pode <a href=\"%1\">criar um novo relacionamento</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
@@ -11074,7 +11071,7 @@ msgstr "Ver todos os Relacionamentos..."
 msgid ""
 "This contact is not in any groups. You can <a href=\"%1\">add %2 to a group</"
 "a>."
-msgstr ""
+msgstr "Este contato não está em nenhum grupo. Você pode <a href=\"%1\">acrescentar %2 a um grupo</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "This contact is not in any groups."
@@ -11120,7 +11117,7 @@ msgstr "Adicionar %1 a um Grupo"
 msgid ""
 "There are no Notes. You can <a href=\"%1\">enter notes</a> about this "
 "contact."
-msgstr ""
+msgstr "Não há Notas. Você pode <a href=\"%1\">digitar notas</a> sobre este contato."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
@@ -11163,7 +11160,7 @@ msgstr "Esta página lista todas as contribuições recebidas de %1 '"
 msgid ""
 "Click <a href=\"%1\">New Contribution</a> to record a new offline "
 "contribution for this contact."
-msgstr ""
+msgstr "Clique em <a href=\"%1\">Nova Contribuição</a> para registrar uma nova contribuição offline para este contato."
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "No activities are currently scheduled."
@@ -11175,7 +11172,7 @@ msgstr "Busca Rápida"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Shortcuts"
@@ -11185,7 +11182,7 @@ msgstr "Atalhos'"
 msgid ""
 "Are you sure you want to delete the contact record and all related "
 "information for <strong>%1</strong>?"
-msgstr ""
+msgstr "Quer mesmo excluir o registro do contato e todas as informações relacionadas com <strong>%1</strong>?"
 
 #: templates/CRM/Contact/Page/View/Delete.tpl
 #: templates/CRM/Group/Form/Delete.tpl
@@ -11216,7 +11213,7 @@ msgstr "Quer mesmo remover %1 de %2?"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Joining these group(s) is pending confirmation by this contact."
-msgstr ""
+msgstr "Está pendente para este contato a adesão ao(s) grupo(s)."
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Date Pending"
@@ -11321,7 +11318,7 @@ msgstr "Quer mesmo excluir a nota \"%1\"?"
 #: templates/CRM/Profile/Page/Note.tpl
 msgid ""
 "There are no Notes for this contact. You can <a href=\"%1\">add one</a>."
-msgstr ""
+msgstr "Não há Notas para este contato. Você pode a href=\"%1\">acrescentar uma</a>."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Current Relationships"
@@ -11335,7 +11332,7 @@ msgstr "Estado/UF"
 msgid ""
 "There are no Relationships entered for this contact. You can <a href=\"%1"
 "\">add one</a>."
-msgstr ""
+msgstr "Não há Relacionamentos informados para este contato. Você pode <a href=\"%1\">acrescentar um</a>."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Past Relationships"
@@ -11370,7 +11367,7 @@ msgstr "Excluir Cartão de Crédito"
 msgid ""
 "WARNING: If you delete this option, contributors will not be able to use "
 "this credit card type on your Online Contribution pages."
-msgstr ""
+msgstr "AVISO: Se excluir esta opção, contribuintes não poderão usar este tipo de cartão de crédito em suas páginas de Contribuição Online."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
@@ -11531,7 +11528,7 @@ msgid ""
 "Pick a premium to include on this Contribution Page. Use <a href=\"%1"
 "\">Manage Premiums</a> to create or enable additional premium choices for "
 "your site."
-msgstr ""
+msgstr "Escolha um premium para incluir nesta Página de Contribuição. Use <a href=\"%1\">Gerenciar Premiums</a> para criar ou ativar opções adicionais de premium para seu site."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
@@ -11670,10 +11667,8 @@ msgid "Configure Premiums Section"
 msgstr "Seção de Configuração de Premiums"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
-#, fuzzy
 msgid "Is the Premiums section enabled for this Online Contributions page?"
-msgstr ""
-"A seção Premiums está ativada para esta página de Contribuições Online? (%1)"
+msgstr "A seção Premiums está ativada para esta página de Contribuições Online?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Title to appear at the top of the Premiums section."
@@ -11798,13 +11793,13 @@ msgstr ""
 msgid ""
 "Enter the goal amount for this contribution page. If enabled, the progress "
 "thermometer will track progress against this goal."
-msgstr ""
+msgstr "Digite a quantia-meta para esta página de contribuição. Se ativada, o termômetro de progressão irá monitorar o avanço em relação à meta."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
 "Display the progress thermometer block when the user is making a "
 "contribution."
-msgstr ""
+msgstr "Exiba o bloco do termômetro de progressão quando o usuário estiver fazendo uma contribuição."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "Set a title for the progress thermometer block."
@@ -11814,7 +11809,7 @@ msgstr "Defina um título para o bloco do termômetro de progressão."
 msgid ""
 "When your page is active, you can link people to the page by copying and "
 "pasting the following URL:"
-msgstr ""
+msgstr "Quando sua página estiver ativa, você poderá vincular pessoas à página copiando e colando a seguinte URL:"
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -12092,7 +12087,7 @@ msgstr ""
 msgid ""
 "For offline contributions, you can enter an account+check number, bank "
 "transfer identifier, etc."
-msgstr ""
+msgstr "Para contribuição offline, você pode digitar uma quantia+número de checagem, identificador de transferência bancária etc."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a receipt was sent to the contributor."
@@ -12567,7 +12562,7 @@ msgstr "Carreiras com erros"
 msgid ""
 "Rows with invalid data in one or more fields. These rows will be skipped "
 "(not imported)."
-msgstr ""
+msgstr "Carreiras com dados inválidos em um ou mais campos. Essas carreiras serão puladas (não importadas)."
 
 #: templates/CRM/Contribute/Import/Form/Preview.tpl
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
@@ -12629,13 +12624,14 @@ msgid ""
 msgid_plural ""
 "CiviCRM has detected mismatched contribution IDs. These records have not "
 "been Updated."
-msgstr[0] ""
+msgstr[0] "O CiviCRM detectou ID de contribuição desparelhado. Esse registro não foi então atualizado."
+msgstr[1] "O CiviCRM detectou IDs de contribuição desparelhados. Esses registros não foram então atualizados."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Contributions</a>. You may then "
 "correct them, and import the new file with the corrected data."
-msgstr ""
+msgstr "Você pode <a href=\"%1\">Baixar Contribuições Desparelhadas</a>. Você poderá então corrigí-las e depois importar o novo arquivo com esses dados corrigidos."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
@@ -12646,7 +12642,8 @@ msgid ""
 msgid_plural ""
 "CiviCRM has detected invalid data and/or formatting errors in %count "
 "records. These records have not been imported."
-msgstr[0] ""
+msgstr[0] "O CiviCRM detectou dados inválidos e/ou erros de formatação em um registro. Esse registro, por isso, não foi importado."
+msgstr[1] "O CiviCRM detectou dados inválidos e/ou erros de formatação em %count registros. Esses registros, por isso, não foram importados."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
@@ -12667,7 +12664,8 @@ msgid_plural ""
 "CiviCRM has detected %count records with conflicting transaction IDs within "
 "this data file or relative to existing contribution records. These records "
 "have not been imported."
-msgstr[0] ""
+msgstr[0] "O CiviCRM detectou um registro com ID de transação conflitante dentro desse arquivo de dados ou em relação a atuais registros de contribuição. Esse registro, por isso, não foi importado."
+msgstr[1] "O CiviCRM detectou %count registros com IDs de transação conflitantes dentro desse arquivo de dados ou em relação a atuais registros de contribuição. Esses registros, por isso, não foram importados."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
@@ -12675,7 +12673,7 @@ msgid ""
 "You can <a href=\"%1\">Download Conflicts</a>. You may then review these "
 "records to determine if they are actually conflicts, and correct the "
 "transaction IDs for those that are not."
-msgstr ""
+msgstr "Você pode <a href=\"%1\">Baixar Conflitos</a>. Daí, poderá revisar esses registros para determinar se há mesmo conflitos, e então corrigir os IDs de transação, se for o caso."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -12684,7 +12682,8 @@ msgid ""
 msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contribution records."
-msgstr[0] ""
+msgstr[0] "O CiviCRM detectou um registro que é duplicata de outro registro de contribuição."
+msgstr[1] "O CiviCRM detectou %count registros que são duplicatas de outros registros de contribuição."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
@@ -12692,7 +12691,7 @@ msgid ""
 "You can <a href=\"%1\">Download Duplicates</a>. You may then review these "
 "records to determine if they are actually duplicates, and correct the "
 "transaction IDs for those that are not."
-msgstr ""
+msgstr "Você pode <a href=\"%1\">Baixar Duplicatas</a>. Daí, poderá revisar esses registros para determinar se são mesmo duplicatas, e, sendo o caso, corrigir os IDs de transação."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
@@ -12830,7 +12829,7 @@ msgstr ""
 msgid ""
 "There are currently no accepted credit cards configured for this site. You "
 "can <a href=\"%1\">add one now</a>."
-msgstr ""
+msgstr "Não há no momento cartões de crédito aceitos que tenham sido definidos para este site. Você pode <a href=\"%1\">acrescentar um agora</a>."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "This page is <strong>active</strong>."
@@ -12844,7 +12843,7 @@ msgstr "Use a seguinte URL para ligar visitantes a esta página"
 msgid ""
 "This page is currently <strong>inactive</strong> (not accessible to "
 "visitors)."
-msgstr ""
+msgstr "Esta página está <strong>inativa</strong> no momento, ou seja, inacessível a visitantes."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -12989,7 +12988,7 @@ msgstr ""
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Status?"
-msgstr ""
+msgstr "Status?"
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
@@ -13106,7 +13105,7 @@ msgstr "Mês Atual, até hoje"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "(n/a)"
-msgstr ""
+msgstr "(n/d)"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "view details"
@@ -13245,7 +13244,7 @@ msgid ""
 "Select the type of data you want to collect and store for this contact. Then "
 "select from the available HTML input field types (choices are based on the "
 "type of data being collected)."
-msgstr ""
+msgstr "Selecione o tipo de dados que você quer coletar e guardar para este contato. Depois, selecione dentre os tipos disponíveis de campo de entrada HTML. As opções são baseadas no tipo de dados sendo coletados."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid "years prior to current date."
@@ -13277,7 +13276,7 @@ msgid ""
 "Is this field included in the Advanced Search form? NOTE: This feature is "
 "only available to custom fields used for <strong>Contacts</strong> at this "
 "time."
-msgstr ""
+msgstr "Este campo está incluído no formulário de Busca Avançada? NOTA: Esta funcionalidade só é disponível para campos customizados usados neste momento para <strong>Contatos</strong>."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid "View / Edit Multiple Choice Options"
@@ -13347,7 +13346,7 @@ msgstr ""
 msgid ""
 "Check this box if you want only the title for this fieldset to be displayed "
 "when the page is initially loaded (fields are hidden)."
-msgstr ""
+msgstr "Marque esta caixa se quiser que só o título para este conjunto de campos seja exibido quando a página for inicialmente carregada (campos são ocultos)."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid "Explanatory text displayed at the beginning of this group of fields."
@@ -13380,7 +13379,7 @@ msgstr ""
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Defaults"
-msgstr ""
+msgstr "Predefinições"
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "another choice"
@@ -13422,7 +13421,7 @@ msgstr ""
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Req?"
-msgstr ""
+msgstr "Obrig?"
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "New Custom Field"
@@ -13612,7 +13611,7 @@ msgstr "Editar Histórico de Atividade"
 msgid ""
 "Are you sure you want to delete the Activity History dated \"%2\" of type \"%"
 "1\" with description \"%3\" ?"
-msgstr ""
+msgstr "Quer mesmo apagar o Histórico de Atividade datado de \"%2\", do tipo \"%1\" e com a descrição \"%3\"?"
 
 #: templates/CRM/History/Import/Form/Preview.tpl
 #: templates/CRM/History/Import/Form/Summary.tpl
@@ -13639,7 +13638,7 @@ msgstr[1] ""
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Activity History records</a>. You "
 "may then correct them, and import the new file with the corrected data."
-msgstr ""
+msgstr "Você pode <a href=\"%1\">Baixar registros de Histórico de Atividade Desparelhados</a>. Aí poderá corrigí-los, e importar o novo arquivo com os dados corretos."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid ""
@@ -13767,7 +13766,7 @@ msgstr ""
 msgid ""
 "Rows with conflicting email addresses within this file. These rows will be "
 "skipped (not imported)."
-msgstr ""
+msgstr "Carreiras com endereços de email conflitantes dentro deste arquivo. Essas carreiras serão puladas (sem importação)."
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "&raquo; <label> Create a new group from imported records</label>"
@@ -13777,7 +13776,7 @@ msgstr ""
 #: templates/CRM/Import/Form/Preview.tpl
 msgid ""
 "&raquo; <label> Create a new tag and assign it to imported records</label>"
-msgstr ""
+msgstr "&raquo; <label> Crie um novo rótulo e atribua-o a registros importados</label>"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Tag imported records"
@@ -13801,7 +13800,7 @@ msgstr[1] ""
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Contacts</a>. You may then "
 "correct them, and import the new file with the corrected data."
-msgstr ""
+msgstr "Você pode <a href=\"%1\">Baixar Contatos Desparelhados</a>. Aí então poderá corrigí-los e depois importar o novo arquivo com os dados corrigidos."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -13842,7 +13841,7 @@ msgid ""
 "You can <a href=\"%1\">Download Conflicts</a>. You may then review these "
 "records to determine if they are actually conflicts, and correct the email "
 "addresses for those that are not."
-msgstr ""
+msgstr "Você pode <a href=\"%1\">Baixar Conflitos</a>. Aí, então, poderá revisar os registros para ver se são mesmo conflitantes, e corrigir os endereços de email que precisem disso."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -14020,7 +14019,7 @@ msgstr "Tentar novamente o Mailing: %1"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "The Test Mailing Will Be Sent To"
-msgstr "O teste de mailing será enviado para "
+msgstr "O mailing de teste será enviado para "
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -14028,38 +14027,38 @@ msgid ""
 "mailing - an HTML formatted file, and a simple text file. Save these files "
 "somewhere on your local computer - and locate them using the "
 "<strong>Browse...</strong> buttons below."
-msgstr ""
+msgstr "Você deve criar dois arquivos com a mensagem real que está mandando neste mailing - um arquivo em formato HTML e um arquivo de texto simples. Salve esses arquivos em um local de seu computador e, para localizá-los, use os botões <strong>Browse...</strong>abaixo."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
 "CiviMail email messages must include an unsubscribe link, an opt-out link, "
 "and the postal address of your organization. These elements help reduce the "
 "chances of your email being categorized as SPAM."
-msgstr ""
+msgstr "Mensagens de email do CiviMail devem incluir um link para sair do grupo de destinatários, conhecido como opt-out link, e o endereço \"de carteiro\" da sua organização. Esses elementos ajudam a reduzir as chances de que sua emissão seja caracterizada como SPAM."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "Help on messages. Opens a new window."
-msgstr ""
+msgstr "Ajuda sobre mensagens. Abra uma nova janela."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "More information and sample messages..."
-msgstr ""
+msgstr "Mais informação e mensagens de amostra..."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "Settings and Content"
-msgstr "Configurações e Conteúdos"
+msgstr "Definições e Conteúdos"
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
 "Browse to the <strong>TEXT</strong> message file you have prepared for this "
 "mailing."
-msgstr ""
+msgstr "Navegue ao arquivo de mensagem <strong>TEXTO</strong> que você preparou para esta emissão."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
 "Browse to the <strong>HTML</strong> message file you have prepared for this "
 "mailing."
-msgstr ""
+msgstr "Navegue ao arquivo de mensagem <strong>HTML</strong> que você preparou para esta emissão."
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."
@@ -14071,11 +14070,11 @@ msgstr "Corpo HTML"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Settings"
-msgstr "Configurações de Mailing"
+msgstr "Definições da Emissão"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Reply-to email"
-msgstr "Responder email para"
+msgstr "Email para resposta"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Forward replies"
@@ -14091,7 +14090,7 @@ msgstr "Desligado"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Auto-respond to replies"
-msgstr "Auto-respond to replies"
+msgstr "Auto-responder a retornos"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Open tracking"
@@ -14172,7 +14171,7 @@ msgid ""
 "membership signup, leave the <strong>Enabled</strong> box un-checked. Refer "
 "to the <a href=\"%1\" target=\"_blank\" title=\"CiviMember Guide. Opens "
 "documentation in a new window.\">CiviMember Guide</a> for more information."
-msgstr ""
+msgstr "Use este formulário para ativar e configurar uma seção de Inscrição de Afiliação e de Renovação para esta Página de Contribuição Online. Se você não está usando esta página para inscrição de afiliados, deixe desmarcada a caixa <strong>Ativada</strong>. Para saber mais, consulte o <a href=\"%1\" target=\"_blank\" title=\"Guia do CiviMember. A documentação abre numa nova janela</a>."
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Configure Membership Section"
@@ -14181,7 +14180,7 @@ msgstr "Seção de Configuração de Afiliações"
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
 "Include a Membership Signup section in this Online Contribution page? (%1)"
-msgstr ""
+msgstr "Incluir nesta página de Contribuição Online uma seção de Inscrição de Afiliado?"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section title - for new member signups."
@@ -14203,13 +14202,13 @@ msgstr "Texto introdutório à seção de afiliação - exibido a membros em '"
 msgid ""
 "If checked, user must signup for one of the displayed membership options "
 "before continuing."
-msgstr ""
+msgstr "Se estiver marcado, o usuário deve se inscrever para uma das opções de afiliação, antes de prosseguir."
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
 "Display the minimum membership fee along with the membership name and "
 "description for each membership option?"
-msgstr ""
+msgstr "Exibir a taxa mínima de afiliação junto com o nome da afiliação e sua descrição, para cada opção?"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -14217,7 +14216,7 @@ msgid ""
 "option is checked AND the contribution page includes a separate contribution "
 "amount block - two transactions will be generated: one for the membership "
 "fee amount; and one for the selected contribution amount."
-msgstr ""
+msgstr "A taxa de afiliação deve ser processada como uma transação separada? Se esta opção for marcada E se a página de contribuição incluir um bloco de quantia de contribuição separado -- então duas transações serão geradas: uma para a quantia da taxa de afiliação; e outra para a quantia de contribuição selecionada."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
@@ -14228,44 +14227,44 @@ msgstr "Novo Status de Afiliação"
 msgid ""
 "WARNING: Deleting this option will result in the loss of all membership "
 "records of this status."
-msgstr ""
+msgstr "AVISO: Se excluir esta opção perderá todos os registros de afiliação que tenham este status."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "Display name for this Membership status (e.g. New, Current, Grace, "
 "Expired...)."
-msgstr ""
+msgstr "Exibir nome para este status de Afiliação (ex: Nova, Atual, Graça, Vencida...)."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "When does this status begin? EXAMPLE: <strong>New</strong> status begins at "
 "the membership \"join date\"."
-msgstr ""
+msgstr "Quando esse status começa? EXEMPLO: <strong>Novo</strong> status começa na \"join date\" (data de adesão) da afiliação."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "Optional adjustment period added or subtracted from the Start Event. "
 "EXAMPLE: <strong>Current</strong> status might begin at \"join date\" PLUS 3 "
 "months (to distinguish Current from New members)."
-msgstr ""
+msgstr "Período de ajustamento opcional acrescentado ou subtraído do Evento Inicial. EXEMPLO: status <strong>Atual</strong> poderia começar na \"join date\" MAIS 3 meses (para diferenciar membros Atuais dos Novos."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "When does this status end? EXAMPLE: <strong>Current</strong> status ends at "
 "the membership \"end date\"."
-msgstr ""
+msgstr "Quando termina esse status? EXEMPLO: status <strong>Atual</strong> termina na \"data final\"."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "Optional adjustment period added or subtracted from the End Event. EXAMPLE: "
 "<strong>Grace</strong> status might end at \"end date\" PLUS 1 month."
-msgstr ""
+msgstr "Período de ajustamento opcional acrescentado ou subtraído do Evento Final. EXEMPLO: status <strong>Graça</strong> poderia terminar na \"data final\" MAIS 1 mês."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "Should this status be considered a current membership in good standing. "
 "EXAMPLE: New, Current and Grace could all be considered \"current\"."
-msgstr ""
+msgstr "Este status deve ser considerado como uma afiliação atual em boa condição? EXEMPLO: Novo, Atual e Grace poderiam todos ser considerados \"atuais\"."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -14273,7 +14272,7 @@ msgid ""
 "is never automatically assigned by CiviMember. EXAMPLE: This setting can be "
 "useful for special case statuses like \"Non-expiring\", \"Barred\" or "
 "\"Expelled\", etc."
-msgstr ""
+msgstr "Este status é para uso exclusivo da equipe administrativa? Se marcada, esse status não será nunca automaticamente atribuído pelo CiviMember. EXEMPLO: Esta definição pode ser útil para casos especiais de status como \"Nunca vence\", \"Barrado\" ou \"Expulso\" etc."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -14282,13 +14281,13 @@ msgid ""
 "\"New\" and \"Current\" statuses have overlapping ranges.  Memberships that "
 "meet both status range criteria are assigned the status with the lower "
 "weight."
-msgstr ""
+msgstr "O peso define a ordem de precedência para atribuição automática de status a uma afiliação. Também define a ordem para exibição de status. EXEMPLO: Os tipos de status \"Novo\" e \"Atual\" se sobrepõem. Afiliações que atendam a ambos os critérios são atribuídas ao status que tenha o menor peso."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "The default status is assigned when there are no matching status rules for a "
 "membership."
-msgstr ""
+msgstr "O status predefinido é atribuído quando não há regras de conferência de status para uma afiliação."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid "Is this status enabled."
@@ -14300,7 +14299,7 @@ msgid ""
 "and payment records. This action can not be undone. Consider modifying the "
 "membership status instead if you want to maintain a record of this "
 "membership."
-msgstr ""
+msgstr "AVISO: Se excluir esta afiliação também excluirá o registro de afiliação relacionada e registros de pagamento. Esta ação não pode ser desfeita. Considere a possibilidade de modificar o status de afiliação, se quiser manter um registro desta afiliação."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Membership type for this membership."
@@ -14318,13 +14317,13 @@ msgstr "Quando este contato se tornou um membro?"
 msgid ""
 "First day of current continuous membership period. Start Date will be "
 "automatically set based on Membership Type if you don't select a date."
-msgstr ""
+msgstr "Primeiro dia do atual período contínuo de afiliação. A Data Inicial será automaticamente definida, com base no Tipo de Afiliação, caso você não selecione outra data."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
 "Latest membership period expiration date. End Date will be automatically set "
 "based on Membership Type if you don't select a date."
-msgstr ""
+msgstr "Última data de expiração do período de afiliação. A Data Final será automaticamente definida, com base no Tipo de Afiliação, caso você não selecione outra data."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
@@ -14332,13 +14331,13 @@ msgid ""
 "membership status rules. Check this box if you want to bypass this process, "
 "and manually set a status for this membership. The selected status which "
 "will remain in force unless it is again modified on this screen."
-msgstr ""
+msgstr "O status de afiliação é definido e atualizado automaticamente, com base nas suas regras configuradas para status de afiliação. Marque esta caixa se quiser fazer um desvio nesse processo, e defina manualmente um status para esta afiliação. O status selecionado permanecerá em vigor a menos que seja novamente modificado nesta tela."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
 "If <strong>Status Hold?</strong> is checked, the selected status will be in "
 "in force (it will NOT be modified by the automated status update script)."
-msgstr ""
+msgstr "Se estiver marcado <strong>Manter Status?</strong>, o status selecionado ficará em vigor (ou seja, NÃO será modificado pelo script automatizado para atualização de status)."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 #: templates/CRM/Member/Page/MembershipType.tpl
@@ -14361,7 +14360,7 @@ msgstr "exs: \"Aluno\", \"Senior\", \"Quadro de Honra\"..."
 msgid ""
 "Description of this membership type for display on signup forms. May include "
 "eligibility, benefits, terms, etc."
-msgstr ""
+msgstr "Descrição deste tipo de afiliação para exibição em formulários de inscrição. Pode incluir eligibilidade, benefícios, termos etc."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -14369,11 +14368,11 @@ msgid ""
 "this is for membership in \"Save the Whales - Northwest Chapter\"). NOTE: "
 "This organization/group/chapter must exist as a CiviCRM Organization type "
 "contact."
-msgstr ""
+msgstr "Membros designados com esse tipo de afiliação pertencem a qual organização? (Ex: isto é para afiliação no \"Capítulo Brasil do Salve as Baleias\"). NOTA: Este capítulo/grupo/organização deve existir como um tipo de contato de Organização no CiviCRM."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Select Target Contact for the Membership-Organization"
-msgstr ""
+msgstr "Selecione o Contato-Alvo para a Organização a se Afiliar"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Organization, who is the owner for this membership type."
@@ -14383,32 +14382,32 @@ msgstr "Organização, quem é o dono deste tipo de afiliação."
 msgid ""
 "Select the target contact for this membership-organization if it appears "
 "below. Otherwise you may modify the search name above and click Search again."
-msgstr ""
+msgstr "Selecione o contato-alvo para esta afiliação a organização se aparece abaixo. Caso contrário, você pode modificar o nome de busca abaixo e clicar de novo em Buscar."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Minimum fee required for this membership type. For free/complimentary "
 "memberships - set minimum fee to zero (0). NOTE: Online (self-service) "
 "signup is not supported for free memberships in this release."
-msgstr ""
+msgstr "Taxa mínima exigida para este tipo de afiliação. Para afiliações gratuitas/cortesia - defina em zero (0) esse mínimo. NOTA: Inscrição online (auto-serviço) não é possível para afiliações gratuitas nesta versão do CiviCRM."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Select the contribution type assigned to fees for this membership type (for "
 "example \"Membership Fees\"). This is required for all membership types - "
 "including free or complimentary memberships."
-msgstr ""
+msgstr "Selecione o tipo de contribuição atribuído a taxas para esse tipo de afiliação (por exemplo, \"Taxas de Afiliação\"). Isto é exigido para todos os tipos de afiliação -- inclusive as gratuitas ou de cortesia."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Duration of this membership (e.g. 30 days, 2 months, 5 years, 1 lifetime)"
-msgstr ""
+msgstr "Duração desta afiliação (ex: 30 dias, 2 meses, 5 anos, 1 vida inteira)."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Select \"rolling\" if membership periods begin at date of signup. Select "
 "\"fixed\" if membership periods begin on a set calendar date."
-msgstr ""
+msgstr "Selecione \"rolando\" se os períodos de afiliação começam na data da inscrição. Selecione \"fixo\" se os períodos iniciam numa data definida do calendário."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -14424,20 +14423,20 @@ msgid ""
 "Membership signups after this date cover the following calendar year as "
 "well. Example: If the rollover day is November 31, membership period for "
 "signups during December will cover the following year."
-msgstr ""
+msgstr "Inscrições de afiliação depois dessa data cobrem também o ano-calendário. Exemplo: Se o dia \"rollover\" for 31 de novembro, o período de inscrição para afiliações durante dezembro cobrirá o ano seguinte."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Select relationship type for this membership type. e.g. if relationship type "
 "is 'Household Member', and the direct member is a household, then all "
 "household members for that household are also considered to be members."
-msgstr ""
+msgstr "Selecione tipo de relacionamento para esse tipo de afiliação. Exemplo: se o tipo de relacionamento for 'Membro de Domicílio' e o membro direto for um domicílio, então todos os membros de domicílio para aquele domicílio serão também considerados membros."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Is this membership type available for self-service signups (\"Public\") or "
 "assigned by CiviCRM \"staff\" users only (\"Admin\")"
-msgstr ""
+msgstr "Este tipo de avaliação é disponível para inscrições de auto-serviço (\"Public\") ou atribuído apenas para usuários que sejam membros da \"equipe\" do CiviCRM (\"Admin\")"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Join date"
@@ -14487,6 +14486,9 @@ msgid ""
 "\"Phone-banking\"\n"
 "    returns only those contacts who meet both criteria)."
 msgstr ""
+"Use este formulário para encontrar membro(s) pelo nome ou endereço de email, tipo de afiliação, status, origem e/ou datas inicial e final do período de afiliação.\n"
+"     Seleções múltiplas para Tipo de Afiliação e Status são combinadas como critérios OR (ex: marcar \"Tipo A de Afiliação\" e \"Tipo B de Afiliação\" resultará em contatos que tenham qualquer das afiliações. Todos os outros campos de busca são combinados como critérios AND (Ex: se o Status selecionado for \"Vencido\" E a Origem for \"Phone-banking\"\n"
+"resultará apenas naqueles contatos que atendem a ambos os critérios)."
 
 #: templates/CRM/Member/Form/Selector.tpl
 msgid "View all memberships for this contact"
@@ -14536,7 +14538,7 @@ msgid ""
 "(s) for online membership sign-up and renewal. Administrators can create or "
 "modify Membership Types <a href=\"%2\">here</a>, and configure Online "
 "Contribution Pages which include membership sign-up <a href=\"%1\">here</a>."
-msgstr ""
+msgstr "O CiviMember permite criar tipos de afiliação customizados assim como página(s) para inscrição e renovação de afiliação online. Administradores podem criar ou modificar Tipos de Afiliação <a href=\"%2\">aqui</a> e configurar Páginas de Contribuição Online que incluam inscrição de afiliação <a href=\"%1\">aqui</a>."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid ""
@@ -14547,7 +14549,7 @@ msgid ""
 "Refer to the <a href=\"%2\" target=\"_blank\" title=\"CiviMember Guide. "
 "Opens documentation in a new window.\">CiviMember Guide</a> for more "
 "information."
-msgstr ""
+msgstr "Você também pode entrar dados e rastrear inscrições de afiliação offline. Para registrar manualmente afiliações para contatos individuais, use <a href=\"%1\">Buscar Contatos</a> para localizar. Então clique em <strong>Visualizar</strong> para ir à página de sumário deles e clicar no link <strong>Nova Afiliação</strong>. Para mais informação, consulte o <a href=\"%2\" target=\"_blank\" title=\"Guia do CiviMember. Abre a documentação numa nova janela.\">Guia do CiviMember</a>."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Membership Summary"
@@ -14560,7 +14562,7 @@ msgid ""
 "commonly used search criteria. To run your own customized searches - click "
 "<a href=\"%1\">Find Members</a>. You can search by Member Name, Membership "
 "Type, Status, and Signup Date Ranges."
-msgstr ""
+msgstr "Esta tabela fornece um sumário de <strong>Atividade de Inscrição e de Renovação de Afiliação>/strong>, e inclui atalhos para visualizar os detalhes para esses critérios de busca comumente usados. Para rodar as próprias buscas customizadas - clique em <a href=\"%1\">Buscar Membros</a>. Pode-se pesquisar por Nome do Membro, Tipo de Afiliação, Status, e Faixas de Data de Inscrição."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Members by Type"
@@ -14588,7 +14590,7 @@ msgid ""
 "sometime within the past month.\" Refer to the <a href=\"%1\" target=\"_blank"
 "\" title=\"CiviMember Guide. Opens documentation in a new window."
 "\">CiviMember Guide</a> for more info."
-msgstr ""
+msgstr "O CiviMember calcula automaticamente o status atual de cada afiliação do contato, baseando-se nos nomes e regras de status configuradas aqui. A \"regra\" de status diz ao CiviMember qual status atribuir, com base nas datas inicial e final de uma determinada afiliação. Por exemplo, a regra de status predefinida diz... \"atribuir status Grace se o período de afiliação termina em algum dia do mês passado\". Para saber mais, consulte o <a href=\"%1\" target=\"_blank\" title=\"Guia do CiviMember. Abre a documentação numa nova janela.\">Guia do CiviMember</a>"
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
@@ -14596,7 +14598,7 @@ msgid ""
 "organization. However, you can easily change the status names and/or adjust "
 "the rules by clicking the Edit links below. Or you can <a href=\"%1\">add a "
 "new status and rule</a>."
-msgstr ""
+msgstr "As regras de status predefinidas podem ser suficientes para sua organização. Contudo, você pode facilmente mudar os nomes de status e/ou ajustar as regras. Para isso, clique nos links Editar, abaixo. Ou então <a href=\"%1\">adicione novos status e regra</a>."
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
@@ -14615,7 +14617,7 @@ msgid ""
 "the membership entity (organization) - e.g. Bay Area Chapter. Refer to the "
 "<a href=\"%1\" target=\"_blank\" title=\"CiviMember Guide. Opens "
 "documentation in a new window.\">CiviMember Guide</a> for more info."
-msgstr ""
+msgstr "Tipos de afiliação são usados para categorizar afiliações. Você pode definir um número ilimitado de tipos. Cada tipo incorpora um \"nome\" (Membro Ouro, Membro Honorário etc...), uma descrição, uma taxa mínima (pode ser $0) e uma duração (pode ser \"vitalícia\"). Cada tipo de afiliação é especificamente vinculada à entidade de afiliação (organização). Por exemplo, Capítulo da Região Metropolitana. Para mais informação, consulte o <a href=\"%1\" target=\"_blank\" title=\"Guia do CiviMember. Abre documentação numa nova janela.\">Guia do CiviMember</a>"
 
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid "Fixed Start"
@@ -14725,13 +14727,13 @@ msgstr "Voltar à Página Inicial QuestBridge"
 msgid ""
 "Please list all of the Advanced Placement and International Baccalaureate "
 "classes your school offers."
-msgstr ""
+msgstr "Liste todas as turmas de Colocação Avançada e Bacharelado Internacional que sua escola oferece."
 
 #: templates/CRM/Quest/Form/Counselor/Academic.tpl
 msgid ""
 "What are the numerical values that correspond to your alphabetical grading "
 "system?"
-msgstr ""
+msgstr "Quais são os valores numéricos que correspondem ao seu sistema alfabético de notas?"
 
 #: templates/CRM/Quest/Form/Counselor/Personal.tpl
 #: templates/CRM/Quest/Form/Teacher/Personal.tpl
@@ -14748,25 +14750,25 @@ msgstr "Seja especifico."
 msgid ""
 "Describe the top 6 honors you have been awarded since you entered high "
 "school."
-msgstr ""
+msgstr "Descreva as 6 honrarias mais altas que você ganhou quando ingressou no ensino de segundo grau."
 
 #: templates/CRM/Quest/Form/MatchApp/AppContainer.tpl
 msgid ""
 "Please note: the Recommendations deadline is Oct 8, 2006.  ( * = required "
 "field)"
-msgstr ""
+msgstr "Atenção: o prazo para Recomendações é 8 de Outubro de 2006. ( * = campo obrigatório)"
 
 #: templates/CRM/Quest/Form/MatchApp/AppContainer.tpl
 msgid ""
 "Please note: the Partner Supplements deadline is Oct 15, 2006.  ( * = "
 "required field)"
-msgstr ""
+msgstr "Atenção: o prazo de Suplementos de Parceiros é 15 de Outubro de 2006. ( * = campo obrigatório)"
 
 #: templates/CRM/Quest/Form/MatchApp/AppContainer.tpl
 msgid ""
 "Note: The Application deadline is Oct 1, 2006. ( * = required field)<br /"
 ">You must click 'Save &amp; Continue' to save your changes."
-msgstr ""
+msgstr "Atenção: o prazo para Solicitação é 1º de Outubro de 2006. ( * = campo obrigatório)<br /> Você deve clicar em 'Salvar &amp; Continuar' para que suas alterações sejam salvas."
 
 #: templates/CRM/Quest/Form/MatchApp/AppContainer.tpl
 #: templates/CRM/Quest/Form/PreApp/AppContainer.tpl
@@ -14780,20 +14782,22 @@ msgid ""
 "               You must click 'Save &amp; Continue' to save your changes.\n"
 "             "
 msgstr ""
+"\n"
+"Você deve clicar em 'Salvar &amp; Continuar' para salvar suas alterações.\n"
 
 #: templates/CRM/Quest/Form/MatchApp/Essay/Extracurricular.tpl
 #: templates/CRM/Quest/Form/PreApp/Essay.tpl
 msgid ""
 "To minimize the risk of losing your work, you may wish to write your essay "
 "in another program and then paste it in this box when you are ready."
-msgstr ""
+msgstr "Para reduzir o risco de perder seu trabalho, você pode escrever sua redação num outro programa e então colar o texto nesta caixa quando estiver pronto."
 
 #: templates/CRM/Quest/Form/MatchApp/Essay/Short.tpl
 msgid ""
 "Please answer the following questions in no more than three lines. (<em>You "
 "may use lists instead of sentences when appropriate</em>.) (30 words max, "
 "per essay)"
-msgstr ""
+msgstr "Responda às seguintes perguntas em não mais que três linhas (<em>Você pode usar listas em vez de sentenças, quando apropriado</em>). (máximo de 30 palavras por redação)."
 
 #: templates/CRM/Quest/Form/MatchApp/Essay.tpl
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
@@ -14804,13 +14808,13 @@ msgstr "&raquo; <label>Carregue uma nova foto</label>"
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 msgid ""
 "The file should be of type GIF or JPEG. The file size should be at most 2MB."
-msgstr ""
+msgstr "O arquivo deve ser do tipo GIF ou JPEG, com o tamanho máximo de 2MB."
 
 #: templates/CRM/Quest/Form/MatchApp/Essay.tpl
 msgid ""
 "(The file should be of type GIF or JPEG. The file size should be at most "
 "2MB.)"
-msgstr ""
+msgstr "(O arquivo deve ser do tipo GIF ou JPEG, com tamanho máximo de 2MB.)"
 
 #: templates/CRM/Quest/Form/MatchApp/ExtracurricularInfo.tpl
 msgid ""
@@ -14820,17 +14824,19 @@ msgid ""
 "and/or major accomplishments such as musical intruments played, varsity "
 "letters earned, etc."
 msgstr ""
+"<strong>Atividades Extracurriculares, Voluntárias e Pessoais</strong><br />\n"
+"Liste suas principais atividades extracurriculares, comunitárias e familiares, além de passatempos, na ordem de maior interesse para você. Inclua eventos específicos e/ou maiores conquistas, tais como instrumentos musicais que toca, títulos recebidos etc."
 
 #: templates/CRM/Quest/Form/MatchApp/ExtracurricularInfo.tpl
 msgid ""
 "We encourage you to reply to this question in sentence form, rather than as "
 "a list, if you feel this would allow you to better express your interests."
-msgstr ""
+msgstr "Recomendamos responder a essa questão na forma de sentença, em vez de lista, se achar que isso vai ajudá-lo a melhor expressar seus interesses."
 
 #: templates/CRM/Quest/Form/MatchApp/ExtracurricularInfo.tpl
 msgid ""
 "Are you interested in participating in either of the following in college?"
-msgstr ""
+msgstr "Está interessado em participar em qualquer das seguintes atividades, na Faculdade?"
 
 #: templates/CRM/Quest/Form/MatchApp/ForwardApp.tpl
 msgid ""
@@ -14840,7 +14846,7 @@ msgid ""
 "awarded a College Match scholarship, allowing us to forward your application "
 "will make you a candidate for regular admissions at our partner colleges.<br/"
 "><br/>"
-msgstr ""
+msgstr "A maioria de nossas faculdades parceiras aceita o requerimento QuestBridge para admissão e dispensará de taxas candidatos de baixa-renda que se qualifiquem. Caso você não esteja selecionado como um finalista ou ganhador de bolsa de estudos College Match, poderemos encaminhar sua solicitação a nossas parceiras.<br/><br/>"
 
 #: templates/CRM/Quest/Form/MatchApp/ForwardApp.tpl
 msgid ""
@@ -14849,14 +14855,14 @@ msgid ""
 "directly to have your application considered for admissions and you might "
 "also need to complete other documents, as required by the college or "
 "university.<br/><br/>"
-msgstr ""
+msgstr "A QuestBridge encaminhará sua solicitação para a faculdade que você selecionar abaixo. De todo modo você poderá precisar contactar a faculdade ou universidade diretamente e completar a documentação que exigir. <br/><br/>"
 
 #: templates/CRM/Quest/Form/MatchApp/ForwardApp.tpl
 msgid ""
 "Select the colleges to which you would like QuestBridge to forward your "
 "application for admissions. <span class=\"marker\" title=\"This field is "
 "required.\">*</span>"
-msgstr ""
+msgstr "Selecione as faculdades para as quais deseja que a QuestBridge encaminhe sua solicitação de admissão. <span class=\"marker\" title=\"Este campo é obrigatório.\">*</span>"
 
 #: templates/CRM/Quest/Form/MatchApp/Guardian.tpl
 #: templates/CRM/Quest/Form/MatchApp/Sibling.tpl
@@ -14898,14 +14904,14 @@ msgid ""
 "questions. If you attended a different secondary school prior to yor current "
 "school, please enter information about that school as well by clicking "
 "<strong>Add another High School</strong> below."
-msgstr ""
+msgstr "Entendemos que nossos requerentes vêm de um grupo diversificado de escolas secundárias. Responda as seguintes perguntas para nos contar sobre sua escola atual. Se você freqüentou uma escola antes dessa atual, informe sobre ela, também, clicando em <strong>Acrescentar outra Escola 2º Grau</strong>."
 
 #: templates/CRM/Quest/Form/MatchApp/HighSchool.tpl
 #: templates/CRM/Quest/Form/PreApp/HighSchool.tpl
 msgid ""
 "If you attended another high school prior to the one above, click this link "
 "to enter information for your prior school."
-msgstr ""
+msgstr "Se você freqüentou outra escola secundária antes dessa acima, clique neste link para informar sobre aquela escola."
 
 #: templates/CRM/Quest/Form/MatchApp/Household.tpl
 #: templates/CRM/Quest/Form/PreApp/Household.tpl
@@ -14914,14 +14920,14 @@ msgid ""
 "the past five years. Please answer the following regarding your current, "
 "primary household. If you live in two separate homes on a regular basis, "
 "please list the one where you spend more of your time."
-msgstr ""
+msgstr "Nesta seção, nossa meta é entender melhor a sua condição de vida nos últimos cinco anos. Responda ao seguinte sobre seu atual e primário domicílio. Se você se alterna entre duas casas, liste aquela em que passa a maior parte do tempo."
 
 #: templates/CRM/Quest/Form/MatchApp/Household.tpl
 #: templates/CRM/Quest/Form/PreApp/Household.tpl
 msgid ""
 "Please list the primary caregiver(s) (parents, legal guardians, etc.) in "
 "this household"
-msgstr ""
+msgstr "Liste os principais cuidadores (pais, responsáveis legais etc) deste domicílio."
 
 #: templates/CRM/Quest/Form/MatchApp/Household.tpl
 #: templates/CRM/Quest/Form/PreApp/Household.tpl
@@ -14933,7 +14939,7 @@ msgstr "Membros da Família"
 msgid ""
 "If you lived at the above residence for less than five years, please answer "
 "the questions below regarding your previous (primary) household."
-msgstr ""
+msgstr "Se você viveu na residência acima por menos que cinco anos, responda às perguntas abaixo sobre seu domicílio anterior."
 
 #: templates/CRM/Quest/Form/MatchApp/Household.tpl
 #: templates/CRM/Quest/Form/PreApp/Household.tpl
@@ -14948,6 +14954,8 @@ msgid ""
 "    Please enter income information for all individuals who contribute "
 "financially to your household."
 msgstr ""
+"Renda Familiar é o total de receita que entra em seu atual domicílio.\n"
+"Digite a informação sobre renda referente a todos os indivíduos que fazem contribuição financeira no seu domicílio."
 
 #: templates/CRM/Quest/Form/MatchApp/Income.tpl
 #: templates/CRM/Quest/Form/PreApp/Income.tpl
@@ -14960,20 +14968,23 @@ msgid ""
 "checking the \"Add another income source\" box on the last Parent/Guardian "
 "page."
 msgstr ""
+"\n"
+"<p class=\"preapp-instruction\">Uma página de Renda Familiar será apresentada para cada indivíduo que você listou como sendo um Pai ou Responsável na seção Domicílio.\n"
+"Para registrar renda de pessoas que não sejam seus Pais ou Responsáveis: marque a caixa \"Acrescentar outra fonte de renda\" na última página Pais/Responsáveis."
 
 #: templates/CRM/Quest/Form/MatchApp/Income.tpl
 #: templates/CRM/Quest/Form/PreApp/Income.tpl
 msgid ""
 "If this person did not contribute to your household income, click on the "
 "delete button"
-msgstr ""
+msgstr "Se essa pessoa não contribuiu para a renda de seu domicílio, clique no botão excluir."
 
 #: templates/CRM/Quest/Form/MatchApp/Income.tpl
 #: templates/CRM/Quest/Form/PreApp/Income.tpl
 msgid ""
 "Click here to enter additional information if this individual has more than "
 "one job or type of income."
-msgstr ""
+msgstr "Clique aqui para digitar informação adicional se esse indivíduo tem mais que um trabalho ou fonte de rendimento."
 
 #: templates/CRM/Quest/Form/MatchApp/Income.tpl
 #: templates/CRM/Quest/Form/PreApp/Income.tpl
@@ -14985,10 +14996,12 @@ msgid ""
 "to your household annually (e.g., alimony or child support), not their total "
 "income which may not go to your household."
 msgstr ""
+"Marque a caixa <strong>Adicionar outra fonte de renda</strong> para informar sobre indivíduos que não estejam vivendo com você, mas que contribuem financeiramente para seu domicílio.\n"
+"Para esses indivíduos, digite só a quantia com que contribuem anualmente para seu domicílio (ex: pensão alimentícia), mas não o rendimento total deles, que pode não vir para seu domicílio."
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Amherst/AmhEssay.tpl
 msgid "What is your favorite section of the library or bookstore?"
-msgstr ""
+msgstr "Qual a sua seção preferida numa biblioteca ou livraria?"
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Columbia/ColPersonal.tpl
 msgid ""
@@ -15000,20 +15013,20 @@ msgid ""
 "to your imagination. Please remember that we are concerned not only with the "
 "substance of your prose but also with your writing style as well. We prefer "
 "that you limit yourself to approximately 250-500 words."
-msgstr ""
+msgstr "Escreva uma redação que passe ao leitor uma noção de quem você é. Tópicos possíveis incluem, mas não se limitam a: experiências que moldaram sua vida, as circunstâncias de sua criação, sua mais importante conquista intelectual, o seu jeito de ver o mundo -- as pessoas nele, pequenos e grandes eventos, o dia-a-dia -- ou qualquer assunto pessoal que atraia a sua imaginação. Lembre-se de que nos interessa não apenas a substância da sua escrita, mas também o seu estilo de contar. Preferimos que você se limite entre 250 e 500 palavras."
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Columbia/ColRecommendation.tpl
 msgid ""
 "Columbia University has 3 recommendations (2 from teachers and one from your "
 "guidance counselor) that need to be completed for your application to be "
 "processed."
-msgstr ""
+msgstr "A Universidade Columbia tem 3 recomendações (2 de professores e uma do seu orientador) que devem ser completadas a fim de que sua solicitação seja processada."
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Columbia/ColRecommendation.tpl
 msgid ""
 "You can find the recommendation forms below. Please print out the forms and "
 "have them filled out and submitted by the appropriate recommender."
-msgstr ""
+msgstr "Os formulários de recomendação vêm abaixo. Imprima, preencha e entregue a quem deverá recomendá-lo."
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/PartnerSubmit.tpl
 msgid ""
@@ -15027,6 +15040,9 @@ msgid ""
 "after you have submitted it, please \"Submit\" again so it can be checked "
 "again. Thank you.\n"
 msgstr ""
+"Se você completou os suplementos de parceiro, clique, abaixo, no botão \"Submeter Suplemento de Parceiro\". Depois que clicar \"Submeter\", iremos conferir os suplementos para ver se há erros ou informações faltantes. Aguarde, porque esse processo pode tomar um minuto ou mais.\n"
+"<br /><br />\n"
+"Atenção: se precisar alterar o Suplementos de Parceiro depois de submetê-lo, clique de novo em \"Submeter\" e aguarde outra vez pela checagem. Obrigado.\n"
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/PartnerSubmit.tpl
 msgid ""
@@ -15045,13 +15061,13 @@ msgid ""
 "received. I certify that all information in my application, including my "
 "essays, is my own work, factually true, complete and accurate, and honestly "
 "presented."
-msgstr ""
+msgstr "Estou ciente de que minha solicitação será compartilhada com parceiros da QuestBridge (faculdades/universidades e programas de bolsas de estudos). Se for admitido numa de nossas faculdades parceiras ou se receber uma bolsa de estudos, autorizo a QuestBridge a usar meu nome, endereço (apenas cidade, estado e país), fotografia, e informações biográficas e acadêmicas, em qualquer publicidade, propaganda e promoção, exceto quando vedado por lei. Submetendo esta solicitação, estou ciente de que estou também concedendo à QuestBridge permissão escrita para encontrar a faculdade onde eu poderei afinal me matricular. Também dou à QuestBridge permissão para saber dessas instituições parceiras se me ofereceram admissão. Eu preenchi esta solicitação no melhor do meu conhecimento e estou ciente de que qualquer falseamento deliberado de informação resultará em invalidade de qualquer bolsa de estudos ou admissão recebida. Declaro que toda informação em minha solicitação, inclusive minhas redações, é trabalho meu, factualmente verdadeiro, completo e acurado, e apresentado honestamente."
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.tpl
 msgid ""
 "Please list any International Baccalaureate tests you have taken or plan to "
 "take in 2007."
-msgstr ""
+msgstr "Liste quaisquer testes de Bacharelado Internacional que você fez ou planeja fazer em 2007."
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.tpl
 msgid ""
@@ -15061,7 +15077,7 @@ msgid ""
 "number. Later on, you may log in to find out if we have received all of the "
 "required pieces of your application. At the end of the process, you will "
 "have the option to check your decision online."
-msgstr ""
+msgstr "Você usará este número para acessar o site de admissões de Princeton (www.princeton.edu/admission) a fim de saber o status de sua solicitação. Na primeira vez que fizer isso, será solicitado a selecionar uma senha que substituirá esse número de agora. Mais adiante você poderá acessar novamente para saber se nós recebemos todos os componentes de sua solicitação. Ao final do processo, você terá a opção de consultar online para saber a decisão."
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.tpl
 msgid ""
@@ -15070,7 +15086,7 @@ msgid ""
 "this time. Your preferences simply give us an idea of what your academic "
 "interests are at this time. (Your choices are not binding in any way.) <span "
 "class=\"marker\">*</span>"
-msgstr ""
+msgstr "Quais programas de estudo você gostaria de seguir em Princeton? Indique os três departamentos nos quais você estaria mais interessado no momento. Essas preferências simplesmente nos darão uma idéia dos seus interesses acadêmicos atuais. (Essas escolhas não constituem qualquer obrigação). <span class=\"marker\">*</span>"
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Princeton/PrApplicant.tpl
 msgid ""
@@ -15083,14 +15099,14 @@ msgid ""
 "indicated above, you also have an interest in any of the programs listed "
 "below, please indicate the three in which you are most interested at this "
 "time. (Your choices are not binding in any way.)"
-msgstr ""
+msgstr "Além de majoring em um dos departamentos listados acima, muitos estudantes também escolhem completar um ou mais programas certificados. Em alguns casos eles constituem um foco dentro de um departamento específico (ex: a track de Redação Criativa em Inglês); em outros casos eles são interdisciplinares (ex: Estudos Ambientais). Os programas conferem um certificado de proficiência. Se, além das opções de major que indicou acima, você também tiver interesse em qualquer dos programas listados abaixo, indique os três nos quais está mais interessado agora. (Suas escolhas não constituirão obrigação de qualquer forma)."
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Rice/RiceApplicant.tpl
 msgid ""
 "Check principal area(s) of interest, including areas outside the school to "
 "which you are applying. Subjects in asterisk (*) are not majors at Rice, but "
 "some courses in these disciplines are offered."
-msgstr ""
+msgstr "Marque suas principais áreas de interesse, inclusive aquelas fora da escola para a qual está se candidatando. Disciplinas com asterisco (*) não constituem majors na Rice, mas alguns cursos são oferecidos."
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Stanford/StfApplicant.tpl
 msgid "Place of birth"
@@ -15104,7 +15120,7 @@ msgstr "Quem?"
 msgid ""
 "Please answer the following questions in no more than three lines. (<em>You "
 "may use lists instead of sentences when appropriate</em>.)"
-msgstr ""
+msgstr "Responda as seguintes perguntas em não mais que três linhas. (<em>Você pode usar listas em vez de sentenças quando for o caso</em>."
 
 #: templates/CRM/Quest/Form/MatchApp/Partner/Wellesley/WellApplicant.tpl
 msgid "Please indicate no more than two areas of academic interest.*"
@@ -15137,7 +15153,7 @@ msgstr "Marque se for o mesmo que o Telefone Permanente"
 msgid ""
 "<strong>If you were born in the U.S., you are most likely a U.S. citizen, "
 "not a permanent resident.</strong>"
-msgstr ""
+msgstr "<strong>Se você nasceu nos EUA, é provavelmente um cidadão americano, não um residente permanente.</strong>"
 
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 msgid ""
@@ -15145,7 +15161,7 @@ msgid ""
 "forwarded to any government agency and unless legally required to do so. "
 "Please note that Quest does not require students to be citizens of the "
 "United States."
-msgstr ""
+msgstr "A informação obtida pela Quest em resposta a essa pergunta não será encaminhada a qualquer agência governamental, a menos que a lei exija isso. Note que a Quest não exige que estudantes sejam cidadãos dos Estados Unidos."
 
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
@@ -15158,11 +15174,11 @@ msgid ""
 "recommenders. We will send an email to your recommenders with instructions "
 "on how to complete their recommendations. Please verify all the contact "
 "information you enter for your recommenders."
-msgstr ""
+msgstr "Cite dois professores e um orientador dos quais você gostaria de ter recomendações. Enviaremos um email a eles com instruções para completar essas recomendações. Assegure-se de que colocou todas as informações necessárias para esse nosso contato com eles."
 
 #: templates/CRM/Quest/Form/MatchApp/Recommendation.tpl
 msgid "Teachers&nbsp;"
-msgstr ""
+msgstr "Professores&nbsp;"
 
 #: templates/CRM/Quest/Form/MatchApp/Recommendation.tpl
 msgid "Email address"
@@ -15177,13 +15193,13 @@ msgid ""
 "For any of your relatives who are alumni/ae at any of our partner colleges/"
 "universities, please list their names, relationship to you and years of "
 "graduation, if known:"
-msgstr ""
+msgstr "Cite nomes, parentesco com você e anos de graduação, se souber, para cada parente seu que seja ex-aluno de nossas faculdades/universidades parceiras."
 
 #: templates/CRM/Quest/Form/MatchApp/Scholarship.tpl
 msgid ""
 "Please list any of your family members or relatives who are presently "
 "employed at any of our partner colleges/universities."
-msgstr ""
+msgstr "Liste quaisquer de seus familiares que sejam atualmente empregados das nossas faculdades/universidades parceiras."
 
 #: templates/CRM/Quest/Form/MatchApp/SchoolOther.tpl
 #: templates/CRM/Quest/Form/PreApp/SchoolOther.tpl
@@ -15191,14 +15207,14 @@ msgid ""
 "If you've attended any special programs at other secondary schools, "
 "including summer schools and programs, or colleges where you took courses "
 "for credit, etc., please list them here."
-msgstr ""
+msgstr "Liste aqui quaisquer programas especiais em outras escolas secundárias, inclusive cursos de verão ou faculdades em que você fez cursos para obter créditos etc."
 
 #: templates/CRM/Quest/Form/MatchApp/Sibling.tpl
 #: templates/CRM/Quest/Form/PreApp/Sibling.tpl
 msgid ""
 "If you don't have a sibling to enter information about, click on the delete "
 "button"
-msgstr ""
+msgstr "Se não houver um descendente para informar a respeito, clique no botão para apagar."
 
 #: templates/CRM/Quest/Form/MatchApp/Submit.tpl
 msgid ""
@@ -15210,6 +15226,9 @@ msgid ""
 "after you have submitted it, please \"Submit\" the application again so\n"
 "it can be checked again. Thank you."
 msgstr ""
+"Se você completou a solicitação, clique, abaixo, no botão \"Submeter Solicitação\". Depois que clicar \"Submeter\", iremos conferir os suplementos para ver se há erros ou informações faltantes. Aguarde, porque esse processo pode tomar um minuto ou mais.\n"
+"<br /><br />\n"
+"Atenção: se precisar alterar a solicitação depois de submetê-la, clique de novo em \"Submeter\" e aguarde outra vez pela checagem. Obrigado.\n"
 
 #: templates/CRM/Quest/Form/MatchApp/Submit.tpl
 msgid ""
@@ -15217,6 +15236,7 @@ msgid ""
 "you have submitted it, please \"Submit\" the application again so it can\n"
 "be checked again. Thank you."
 msgstr ""
+"Atenção: se precisar alterar a solicitação depois de submetê-la, clique de novo em \"Submeter\" e aguarde outra vez pela checagem. Obrigado.\n"
 
 #: templates/CRM/Quest/Form/MatchApp/Submit.tpl
 msgid ""
@@ -15244,7 +15264,7 @@ msgid ""
 "Enter your test scores and dates for any of the tests below which you have "
 "taken. Please enter all test component scores and the test date for each "
 "completed test. For each test, enter the top three score received."
-msgstr ""
+msgstr "Digite os escores e datas dos testes que fez. Para cada teste, forneça os três escores mais altos que teve."
 
 #: templates/CRM/Quest/Form/MatchApp/Testing.tpl
 msgid "ACT Test(s)"
@@ -15258,7 +15278,7 @@ msgstr "Teste SAT"
 #: templates/CRM/Quest/Form/MatchApp/Testing.tpl
 #: templates/CRM/Quest/Form/PreApp/Testing.tpl
 msgid "SAT II Subject Test(s)"
-msgstr ""
+msgstr "Teste(s) de Disciplinas SAT II"
 
 #: templates/CRM/Quest/Form/MatchApp/Testing.tpl
 #: templates/CRM/Quest/Form/PreApp/Testing.tpl
@@ -15275,7 +15295,7 @@ msgstr "Informe %1 cursos e suas notas."
 
 #: templates/CRM/Quest/Form/MatchApp/Transcript.tpl
 msgid "Honors Status Key (if applicable, leave blank if none):"
-msgstr ""
+msgstr "Chave de Status de Honra (deixe em branco se não tiver):"
 
 #: templates/CRM/Quest/Form/MatchApp/Transcript.tpl
 msgid "In Progress"
@@ -15285,7 +15305,7 @@ msgstr "Em Andamento"
 msgid ""
 "List any job (including summer employment) you have held during the past "
 "three years."
-msgstr ""
+msgstr "Liste qualquer trabalho (inclusive emprego de verão) que você teve durante os últimos três anos."
 
 #: templates/CRM/Quest/Form/MatchApp/WorkExperience.tpl
 msgid "To what use have you put your earnings?"
@@ -15293,7 +15313,7 @@ msgstr "Para que finalidade você vai destinar seus ganhos?"
 
 #: templates/CRM/Quest/Form/MatchApp/WorkExperience.tpl
 msgid "During the school year, when do you work?"
-msgstr ""
+msgstr "Durante o ano letivo, onde você trabalha?"
 
 #: templates/CRM/Quest/Form/PreApp/Essay.tpl
 msgid ""
@@ -15301,14 +15321,14 @@ msgid ""
 "have grown up, formed your aspirations, and accomplished your academic "
 "successes. Please describe the factors that have most shaped your personal "
 "life and your personal aspirations. (3000 characters max, spaces count)."
-msgstr ""
+msgstr "Estamos interessados em saber mais sobre você e o contexto em que foi criado, formou suas aspirações e conquistou seus sucessos acadêmicos. Descreva os fatores que mais influenciaram sua vida e seus anseios pessoais. (máximo de 3.000 caracteres, com espaços)."
 
 #: templates/CRM/Quest/Form/PreApp/HighSchool.tpl
 msgid ""
 "We realize our applicants come from a diverse group of secondary schools. "
 "Please tell us about your particular school by answering the following "
 "questions."
-msgstr ""
+msgstr "Sabemos que nossos candidatos vêm de um grupo diversificado de escolas secundárias. Fale-nos de sua escola ao responder às perguntas seguintes."
 
 #: templates/CRM/Quest/Form/PreApp/Personal.tpl
 msgid ""
@@ -15316,20 +15336,20 @@ msgid ""
 "forwarded to any government agency and will be used solely for the purpose "
 "of your application to Quest. Please note that Quest does not require "
 "students to be citizens of the United States."
-msgstr ""
+msgstr "A informação obtida pela Quest por suas respostas não será encaminhada a qualquer agência governamental, sendo usada exclusivamente para este fim de candidatura à Quest. Note que a Quest não exige que os candidatos sejam cidadãos dos Estados Unidos."
 
 #: templates/CRM/Quest/Form/PreApp/Scholarship.tpl
 msgid ""
 "Please enter contact information for current sophomores you think would be "
 "strong applicants for next year."
-msgstr ""
+msgstr "Informe os meios de contato com atuais sophomores que você pensa que poderão ser fortes candidatos no ano que vem."
 
 #: templates/CRM/Quest/Form/PreApp/Scholarship.tpl
 msgid ""
 "We have found that fellow students are the best source of information in "
 "identifying deserving applicants<BR>for next year's application cycle. Enter "
 "3 fellow student's full name and email address."
-msgstr ""
+msgstr "Nossa experiência é a de que colegas são a melhor fonte de informação para identificar candidatos de mérito para o próximo ano. Forneça o nome completo e o endereço de email de 3 colegas nessas condições."
 
 #: templates/CRM/Quest/Form/PreApp/Submit.tpl
 msgid ""
@@ -15368,7 +15388,7 @@ msgid ""
 "Enter your test scores and dates for any of the tests below which you have "
 "taken. Please enter all test component scores and the test date for each "
 "completed test. For each test, list the top score received."
-msgstr ""
+msgstr "Informe os escores e as datas dos testes que você fez. Para cada teste, liste os escores mais altos que recebeu."
 
 #: templates/CRM/Quest/Form/PreApp/Testing.tpl
 msgid "PSAT Test"
@@ -15402,7 +15422,7 @@ msgid ""
 "universities that this applicant is applying to. I have filled out the "
 "recommendation to the best of my knowledge, and all the information on this "
 "recommendation is factually true and honestly presented."
-msgstr ""
+msgstr "Estou ciente de que minha recomendação será compartilhada com faculdades e universidades para os quais este aluno está se candidatando. Eu preenchi a recomendação com o melhor do meu conhecimennto, sendo toda informação factualmente verdadeira e honestamente apresentada."
 
 #: templates/CRM/Quest/Form/SchoolSearch.tpl
 msgid "Find Your High School"
@@ -15413,7 +15433,7 @@ msgid ""
 "Find your school by entering school name and city, zip code and/or state. If "
 "you do not find your school, click <strong>Close Window</strong> and fill in "
 "your school name and address directly on the application form."
-msgstr ""
+msgstr "Encontre sua escola informando o nome dela, a cidade, o CEP e/ou o estado. Se não a encontrar, clique <strong>Fechar Janela</strong> e escreva, diretamente no formulário, o nome e o endereço da escola."
 
 #: templates/CRM/Quest/Form/SchoolSearch.tpl
 msgid "School Search Results"
@@ -15447,7 +15467,7 @@ msgid ""
 "or try fewer search criteria. If you do not find your school, click "
 "<strong>Close Window</strong> and fill in your school name and address "
 "directly on the application form."
-msgstr ""
+msgstr "Sem resultados que correspondam a <ul><li>Nome da Escola como: %1</li><li>Cidade como: %2</li><li>Cep como: %4</li><li>Estado como: %3</li></ul>Verifique sua digitação, ou tente novamente com menos critérios de busca. Se ainda assim não encontrar sua escola, clique em <strong>Fechar Janela </strong> e escreva, diretamente no formulário, o nome e o endereço da escola."
 
 #: templates/CRM/Quest/Form/Verify.tpl
 msgid "Registration Verification"
@@ -15458,13 +15478,13 @@ msgid ""
 "Complete this form to select a password and verify your initial login to the "
 "QuestBridge Recommendations site. You will be automatically logged in to "
 "your personal <strong>Locker</strong> once you submit this form."
-msgstr ""
+msgstr "Complete este formulário para selecionar uma senha e verificar seu acesso inicial ao site para Recomendações QuestBridge. Você será automaticamente logado em seu <strong>Locker</strong>pessoal assim que houver submetido este formulário."
 
 #: templates/CRM/Quest/Form/Verify.tpl
 msgid ""
 "Please enter the exact email address where you received this Recommendation "
 "Request."
-msgstr ""
+msgstr "Digite o endereço exato de email pelo qual você recebeu este Pedido de Recomendação."
 
 #: templates/CRM/Quest/Form/Verify.tpl
 msgid "Please select a secure password for your ongoing login to QuestBridge."
@@ -15503,7 +15523,7 @@ msgstr "Total da Renda Familiar"
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
 msgid "GPA:"
-msgstr ""
+msgstr "GPA:"
 
 #: templates/CRM/Quest/Page/MatchApp/View/Student.tpl
 #: templates/CRM/Quest/Page/View/Student.tpl
@@ -15626,7 +15646,7 @@ msgstr ""
 msgid ""
 "The field label displayed on the form (over-ride the default field label "
 "here, if desired)."
-msgstr ""
+msgstr "O rótulo de campo exibido no formulário (sobreponha ao rótulo de campo predefinido aqui, se quiser)."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Are users required to complete this field?"
@@ -15644,7 +15664,7 @@ msgid ""
 "visibility is 'Public User Pages and Listings', users can also click the "
 "field value when viewing a contact in order to locate other contacts with "
 "the same value(s) (i.e. other contacts who live in Poland)."
-msgstr ""
+msgstr "Este campo é oculto de outros usuários ('User e User Admin Somente'), ou é visível para outros ('Public User Pages')? Selecione 'Public User Pages and Listings' para tornar o campo pesquisável (no formulário Busca de Perfil). Quando a visibilidade for 'Public User Pages and Listings', usuários também poderão clicar no valor do campo ao visualizar um contato, a fim de localizar outros contatos com o(s) mesmo(s) valor(es) -- ex: outros contatos que vivem na Polônia."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Do you want to include this field in the Profile's Search form?"
@@ -15654,14 +15674,14 @@ msgstr "Quer incluir este campo no formulário de Pesquisa de Perfil?"
 msgid ""
 "Is this field included as a column in the search results table? This setting "
 "applies only to fields with 'Public User Pages and Listings' visibility."
-msgstr ""
+msgstr "Este campo está incluído como uma coluna na tabela de resultados de busca? Esta definição se aplica somente a campos com visibilidade \"Páginas e Listagens de Usuário Público\"."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "Weight controls the order in which fields are displayed within a profile. "
 "Enter a positive or negative integer - lower numbers are displayed ahead of "
 "higher numbers."
-msgstr ""
+msgstr "O peso controla a ordem pela qual são exibidos os campos dentro de um perfil. Digite um número inteiro positivo ou negativo. Os números mais baixos são exibidos antes dos mais altos."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Delete CiviCRM Profile"
@@ -15695,13 +15715,13 @@ msgstr ""
 msgid ""
 "Check <strong>Profile</strong> if you want it to use it for customized "
 "listings and view screens for the civicrm/profile path."
-msgstr ""
+msgstr "Marque o <strong>Perfil</strong> se quiser usá-lo para listagens customizadas e visualizar telas para o caminho civicrm/profile."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>Search Results</strong> to use this profile to display an "
 "alternate set of results columns for CiviCRM Basic and Advanced Search."
-msgstr ""
+msgstr "Marque <strong>Resultados de Busca</strong> para usar este perfil a fim de exibir um conjunto alternativo de colunas de resultados para a Busca Avançada ou Básica do CiviCRM."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -15722,7 +15742,7 @@ msgstr ""
 msgid ""
 "Select a group if you are using this profile for adding new contacts, AND "
 "you want the new contacts to be automatically assigned to a group."
-msgstr ""
+msgstr "Selecione um grupo se você estiver usando este perfil para acrescentar novos contatos E se quiser que estes sejam incluídos num grupo."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Explanatory text displayed at the beginning of the form."
@@ -15758,28 +15778,28 @@ msgid ""
 "When CAPTCHA is included in an add / edit profile form, users are required "
 "to read an image with letters and numbers and enter the value in a field. "
 "This helps prevent abuse by automated scripts."
-msgstr ""
+msgstr "Quando o CAPTCHA é incluído num formulário de adicionar / editar perfil, os usuários são instados a ler uma imagem com letras e números e digitá-los num campo. Isso ajuda a evitar abusos praticados com scripts automatizados."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "<strong>Do not enable this feature for stand-alone profile forms. CAPTCHA "
 "requires dynamic page generation. Submitting a stand-alone form with CAPTCHA "
 "included will always result in a CAPTCHA validation error.</strong>"
-msgstr ""
+msgstr "<strong>Não ativar esta funcionalidade para formulários de perfil stand-alone. O CAPTCHA exige geração dinâmica de páginas. Submeter um formulário stand-alone com CAPTCHA incluído sempre resultará em erro de validação CAPTCHA.</strong>"
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "If enabled, a Map link is included on the profile listings rows and detail "
 "screens for any contacts whose records include sufficient location data for "
 "your mapping provider."
-msgstr ""
+msgstr "Se ativado, um link de Mapa é incluído nas telas de detalhes e nas carreiras de listagem de perfil para quaisquer contatos cujos registros contenham dados de localização suficientes para seu fornecedor de mapeamento."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check this box if you want only the profile title to be displayed when the "
 "page is initially loaded (form fields are hidden until the user expands the "
 "form by clicking on the \"plus\" icon)."
-msgstr ""
+msgstr "Marque esta caixa se quiser que somente o título do perfil seja exibido quando a página for carregada inicialmente (campos de formulário ficam ocultos até que o usuário clique no ícone \"plus\" para expandir)."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "View or Edit Fields for this Profile"
@@ -15853,7 +15873,7 @@ msgid ""
 "- the default behavior is to display the errors within the \"built-in\" "
 "profile form. You can override this behavior - specifying your own error "
 "page - by adding a hidden <strong>errorURL</strong> input field"
-msgstr ""
+msgstr "Se o formulário for submetido com erros (ex: campo obrigatório não completado...) - o comportamento predefinido é exibir os erros dentro do formulário de perfil embutido. Você pode se sobrepor a esse comportamento especificando sua própria página de erro pelo acréscimo de um campo oculto de entrada <strong>erroURL</strong)."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "more info"
@@ -15865,7 +15885,7 @@ msgid ""
 "grabbing the HTML code for a stand-alone form. CAPTCHA requires dynamic page "
 "generation. Submitting a stand-alone form with CAPTCHA included will always "
 "result in a CAPTCHA validation error."
-msgstr ""
+msgstr "Assegure-se de que a funcionalidade CAPTCHA - NÃO - está ativada para este perfil quando você capturar o código HTML para um formulário stand-alone. O CAPTCHA exige geração dinâmica de páginas. Submeter um formulário stand-alone com CAPTCHA incluído sempre resultará em erro de validação CAPTCHA."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Back to Profile Listings"
@@ -15898,7 +15918,7 @@ msgid ""
 "<strong>User Screens</strong> - One or several profiles can be linked to "
 "either the <strong>new user registration</strong> and/or view and edit "
 "screens for <strong>existing user accounts</strong>."
-msgstr ""
+msgstr "<strong>Telas de Usuário</strong> - Um ou vários perfis podem ser vinculados ao <strong>registro de novo usuário</strong> e/ou telas de visualizar e editar para <strong>atuais contas de usuários</strong>."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -15991,7 +16011,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Home"
-msgstr ""
+msgstr "Residência"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Place of residence"
@@ -16219,7 +16239,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Discover"
-msgstr "Descobrir"
+msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
@@ -16227,7 +16247,7 @@ msgstr "Conforme Termos de Serviço AOL"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"
-msgstr "Destinatário em férias"
+msgstr "Destinatário está em férias"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to resolve recipient domain"
