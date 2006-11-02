@@ -849,7 +849,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailing->query("
             SELECT          {$t['mailing_group']}.group_type as group_type,
                             {$t['group']}.id as group_id,
-                            {$t['group']}.name as group_name,
+                            {$t['group']}.title as group_title,
                             {$t['mailing']}.id as mailing_id,
                             {$t['mailing']}.name as mailing_name
             FROM            {$t['mailing_group']}
@@ -871,7 +871,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $row = array();
             if (isset($mailing->group_id)) {
                 $row['id'] = $mailing->group_id;
-                $row['name'] = $mailing->group_name;
+                $row['name'] = $mailing->group_title;
                 $row['link'] = CRM_Utils_System::url('civicrm/group/search',
                             "reset=1&force=1&context=smog&gid={$row['id']}");
             } else {
