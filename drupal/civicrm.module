@@ -37,7 +37,7 @@
  */
 function civicrm_html_head()
 {
-	civicrm_initialize( );
+    civicrm_initialize( );
 
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
@@ -196,28 +196,28 @@ function civicrm_menu($may_cache)
  */
 function civicrm_initialize( $requireAPI = false ) 
 {
-    static $initialized = false;
+    static $initialized    = null;
+    static $initializedAPI = null;
 
-    if ( $initialized ) {
-        return;
+    if ( ! $initialized ) {
+        $initialized = true;
+
+        if ( function_exists( 'conf_path' ) ) {
+            include_once conf_path( ) . '/civicrm.settings.php';
+        } else {
+            include_once conf_init( ) . '/civicrm.settings.php';
+        }
+        
+        // this does pretty much all of the civicrm initialization
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton();
+        
+        // Add module-specific header elements
+        drupal_set_html_head(civicrm_html_head());
     }
 
-    $initialized = true;
-
-    if ( function_exists( 'conf_path' ) ) {
-        include_once conf_path( ) . '/civicrm.settings.php';
-    } else {
-        include_once conf_init( ) . '/civicrm.settings.php';
-    }
-
-    // this does pretty much all of the civicrm initialization
-    require_once 'CRM/Core/Config.php';
-    $config =& CRM_Core_Config::singleton();
-
-    // Add module-specific header elements
-    drupal_set_html_head(civicrm_html_head());
-
-    if ( $requireAPI ) {
+    if ( $requireAPI && ! $initializedAPI ) {
+        $initializedAPI = true;
         require_once 'api/crm.php';
     }
 }
