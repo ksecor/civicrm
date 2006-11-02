@@ -188,8 +188,10 @@ class CRM_Contact_Task {
             return self::taskTitles( );
         } else {
             $tasks = array( 
-                           5  => self::$_tasks[5] ['title'],
+                           5  => self::$_tasks[ 5]['title'],
+                           6  => self::$_tasks[ 6] ['title'],
                            12 => self::$_tasks[12]['title'],
+                           16 => self::$_tasks[16]['title'],
                            );
             return $tasks;
         }
