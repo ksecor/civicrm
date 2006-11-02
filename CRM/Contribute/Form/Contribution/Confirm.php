@@ -248,6 +248,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
+        $now = date( 'YmdHis' );
 
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
@@ -329,6 +330,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['contributionID'    ] = $contribution->id;
                 $this->_params['contributionTypeID'] = $contributionType->id;
                 $this->_params['item_name'         ] = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
+                $this->_params['receive_date']       = $now;
+                $this->set( 'params', $this->_params );
 
                 // commit the transaction before we xfer
                 CRM_Core_DAO::transaction( 'COMMIT' );
@@ -345,7 +348,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
             }
             
-            $now = date( 'YmdHis' );
             if ( $result ) {
                 $this->_params = array_merge( $this->_params, $result );
             }
