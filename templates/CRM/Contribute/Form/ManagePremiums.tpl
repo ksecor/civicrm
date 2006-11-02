@@ -15,7 +15,7 @@
      {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="previewPremium"}
   {else}  
     <dl>
- 	<dt>{$form.product_name.label}</dt><dd>{$form.product_name.html}</dd>
+ 	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Name of the product as it will be displayed to contributors.{/ts}</dd>
     <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
 	<dt>{$form.sku.label}</dt><dd>{$form.sku.html}</dd>

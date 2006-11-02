@@ -87,7 +87,7 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             }
             
         }
-        
+       
         return $defaults;
     }
 
@@ -129,9 +129,9 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'product_name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'name' ) );
-        $this->addRule( 'product_name', ts('Please enter a product name.'), 'required' );
-        $this->addRule( 'product_name', ts('A product with this name already exists. Please select another name.'), 'objectExists', array( 'CRM_Contribute_DAO_Product', $this->_id ) );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'name' ) );
+        $this->addRule( 'name', ts('Please enter a product name.'), 'required' );
+        $this->addRule( 'name', ts('A product with this name already exists. Please select another name.'), 'objectExists', array( 'CRM_Contribute_DAO_Product', $this->_id ) );
         $this->add('text', 'sku', ts('SKU'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Product', 'sku' ));
 
         $this->add('textarea', 'description', ts('Description'), 'rows=3, cols=60' );
@@ -355,10 +355,10 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
             
             // fix the money fields
             foreach ( array( 'cost', 'price', 'min_contribution' ) as $f ) {
-                $params[$f] = CRM_Utils_Rule::cleanMoney( $f );
+                $params[$f] = CRM_Utils_Rule::cleanMoney( $params[$f] );
             }
 
-            $premium = CRM_Contribute_BAO_ManagePremiums::add($params, $ids);
+            $premium = CRM_Contribute_BAO_ManagePremiums::add($params, $ids);           
             if ( $error ) {
                 CRM_Core_Session::setStatus(ts('NOTICE: No thumbnail of your image was created because the GD image library is not currently compiled in your PHP installation. Product is currently configured to use default thumbnail image. If you have a local thumbnail image you can upload it separately and input the thumbnail URL by editing this premium.'));
             } else {

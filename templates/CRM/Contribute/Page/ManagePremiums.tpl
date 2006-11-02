@@ -28,7 +28,7 @@
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-	        <td>{$row.product_name}</td>	
+	        <td>{$row.name}</td>	
 	        <td>{$row.sku}</td>
                 <td>{$row.price }</td>
 	        <td>{$row.min_contribution}</td>
