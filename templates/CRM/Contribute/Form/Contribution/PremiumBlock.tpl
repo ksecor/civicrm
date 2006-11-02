@@ -53,7 +53,7 @@ function selectPremium(optionField) {
             {/if}
             <td>{if $row.thumbnail}<a href="javascript:popUp('{$row.image}')" ><img src="{$row.thumbnail}" alt="{$row.name}" class="no-border" /></a>{else}&nbsp;{/if}</td>    	
 	        <td>
-                <strong>{$row.product_name}</strong><br />
+                <strong>{$row.name}</strong><br />
                 {$row.description} &nbsp;
                 {if ( ($premiumBlock.premiums_display_min_contribution AND $context EQ "makeContribution") OR $preview EQ 1) AND $row.min_contribution GT 0 }
                     {ts 1=$row.min_contribution|crmMoney}(Contribute at least %1 to be eligible for this gift.){/ts}
