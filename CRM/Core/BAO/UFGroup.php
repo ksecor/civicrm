@@ -615,10 +615,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 list( $fieldName, $id, $type ) = explode( '-', $name );
                 
                 if ($id == 'Primary') {
-                    $id = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
-                }
+                    $locationTypeName = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
+                } else {
+		  $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+		}
 
-                $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
                 if ( ! $locationTypeName ) {
                     continue;
                 }

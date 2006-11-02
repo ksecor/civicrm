@@ -402,22 +402,27 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      */
     static function getProfileType($ufGroupId) 
     {
-        $profileTypes = array ( );
         require_once "CRM/Core/SelectValues.php";
         $profileTypes = CRM_Core_SelectValues::contactType();
-        $otherTypes = array ("Student" => "Students", "Contribution" => "Contributions");
+        $otherTypes   = array ("Student" => "Students", "Contribution" => "Contributions");
         $profileTypes = array_merge($profileTypes, $otherTypes);
         
         $ufField =& new CRM_Core_DAO_UFField();
         $ufField->uf_group_id = $ufGroupId;
         
         $ufField->find();
-        
+
+	$fieldType = null;
         while ( $ufField->fetch() ) {
             if ( array_key_exists( $ufField->field_type, $profileTypes ) ) {
-                return $ufField->field_type;
+	      if ( $fieldType &&
+		   $fieldType != $ufField->field_type) {
+		return 'Mixed';
+	      }
+	      $fieldType = $ufField->field_type;
             }
         }
+	return $fieldType;
     }
 
     /**
@@ -443,11 +448,12 @@ SELECT ufg.id as id
         
         $fields = array( );
         while ( $ufGroup->fetch() ) {
-            if (self::getProfileType($ufGroup->id) == 'Individual') {
+	  $profileType = self::getProfileType($ufGroup->id);
+            if ($profileType == 'Individual') {
                 $fields['Individual'] += 1;
-            } else if (self::getProfileType($ufGroup->id) == 'Contribution') {
+            } else if ($profileType == 'Contribution') {
                 $fields['Contribution'] += 1;
-            } else {
+            } else if ( $profileType ) {
                 $fields['Other'] +=1;
             }
         }
