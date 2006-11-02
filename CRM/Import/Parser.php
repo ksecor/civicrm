@@ -359,7 +359,15 @@ abstract class CRM_Import_Parser {
                     }
                     $estimatedTime = ( $recordsLeft / $skip ) * $time;
                     $processedPercent  = (int ) ( ( $this->_lineCount * 100 ) / $totalRowCount );
-                    $status = "<div class='status'>Processed Rows: {$this->_lineCount} rows.<p>Time since beginning: $totalTime seconds<p>Time to process last $skip records: $time seconds<p>Approx Records left to process: $recordsLeft<p>Estimated time remaining: $estimatedTime seconds<p></div>";
+                    $status = "
+<div class=\"status\">
+Processed Rows: {$this->_lineCount} rows.<p>
+Time since beginning: $totalTime seconds<p>
+Time to process last $skip records: $time seconds<p>
+Approx Records left to process: $recordsLeft<p>
+Estimated time remaining: $estimatedTime seconds<p>
+</div>
+";
                     require_once 'Services/JSON.php';
                     $json =& new Services_JSON( ); 
                     $contents = $json->encode( array( $processedPercent, $status ) );

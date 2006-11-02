@@ -10,15 +10,17 @@ setFinished = function(type,data,evt){
 {literal}
 }
 setError = function(type,data,evt){
-  var prog = dojo.byId('progress_status');
+  var prog = dojo.byId('error_status');
   prog.innerHTML = "<p>We encountered an unknown error: $data</p>";
   finished = 1;
 }
 setIntermediate = function(type,data,evt){
   var inter = dojo.byId('intermediate');
   inter.innerHTML = data[1];
-	
-  dojo.widget.byId("importProgressBar").setProgressValue(data[0]);
+
+  var bar = dojo.widget.byId("importProgressBar");
+  bar.show( );	
+  bar.setProgressValue(data[0]);
 }
 doProgress = function(){
     dojo.io.bind({
@@ -54,15 +56,17 @@ pollLoop = function(){
 
 dojo.addOnLoad( function( ) {
    dojo.event.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );
+   dojo.widget.byId("importProgressBar").hide( );
 } );
 </script>
 {/literal}
 
+<div height="20" width="400" hasText="true" maxProgressValue="100" id="importProgressBar" dojoType="ProgressBar">
+</div>
+<br />
 <div id="intermediate"></div>
-<br />
-<div height="20" width="400" maxProgressValue="100" id="importProgressBar" dojoType="ProgressBar"></div>
-<br />
-<div id="progress_status"></div>
+
+<div id="error_status"></div>
 
 {* Import Wizard - Step 3 (preview import results prior to actual data loading) *}
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
