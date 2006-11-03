@@ -1,7 +1,7 @@
 {if $action eq 1024}
     {include file="CRM/Contribute/Form/Contribution/PreviewHeader.tpl"}
 {/if}
-{debug}
+
 <div class="form-item">
     <div id="thankyou_text">
         <p>
