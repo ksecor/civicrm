@@ -417,7 +417,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
             $lowDate = CRM_Utils_Type::escape( $lowDate, 'Timestamp' );
             $date = CRM_Utils_Date::unformat( $lowDate, '' );
             $this->_formValues['contribution_date_low'] = $date;
-            $this->_defaults['contribution_date_lowy'] = $date;
+            $this->_defaults['contribution_date_low'] = $date;
         }
 
         $highDate= CRM_Utils_Request::retrieve( 'end', 'Timestamp',
