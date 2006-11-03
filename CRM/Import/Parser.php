@@ -364,7 +364,7 @@ abstract class CRM_Import_Parser {
                         $timeFormatted = $estMinutes . ' ' . ts('minutes') . ' ';
                         $estimatedTime = $estimatedTime - ($estMinutes*60);
                     }
-                    $timeFormatted = $round(estimatedTime) . ' ' . ts('seconds');
+                    $timeFormatted = round($estimatedTime) . ' ' . ts('seconds');
                     $processedPercent  = (int ) ( ( $this->_lineCount * 100 ) / $totalRowCount );
 //                    $statusMsg = ts('%1 of %2 records - %3 remaining',
 //                                    array(1 => $this->_lineCount, 2 => $totalRowCount, 3 => $timeFormatted) );

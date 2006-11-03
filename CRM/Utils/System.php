@@ -275,7 +275,8 @@ class CRM_Utils_System {
         return self::url( $p,
                           CRM_Utils_Array::value( 'q', $params ),
                           CRM_Utils_Array::value( 'a', $params, true ),
-                          CRM_Utils_Array::value( 'f', $params ) );
+                          CRM_Utils_Array::value( 'f', $params ),
+                          CRM_Utils_Array::value( 'h', $params, true ) );
     }
 
     /**

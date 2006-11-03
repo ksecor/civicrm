@@ -6,7 +6,7 @@ dojo.require('dojo.widget.ProgressBar');
 setFinished = function(type,data,evt){
   finished = 1;
 {/literal}
-  location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true'}";
+  location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
 {literal}
 }
 setError = function(type,data,evt){
