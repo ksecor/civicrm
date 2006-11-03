@@ -1839,7 +1839,9 @@ WHERE civicrm_contact.id IN $idString ";
      * @static
      * @access public
      */
-    static function createProfileContact( &$params, &$fields, $contactID = null, $addToGroupID = null, $ufGroupId = null ) {
+    static function createProfileContact( &$params, &$fields, $contactID = null,
+                                          $addToGroupID = null, $ufGroupId = null,
+                                          $ctype = null ) {
         require_once 'CRM/Utils/Hook.php';
         if ( $contactID ) {
             $editHook = true;
@@ -1853,6 +1855,8 @@ WHERE civicrm_contact.id IN $idString ";
         if ($ufGroupId) {
             require_once "CRM/Core/BAO/UFField.php";
             $data['contact_type'] = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
+        } else if ( $ctype ) {
+            $data['contact_type'] = $ctype;
         } else {
             $data['contact_type'] = 'Individual';
         }
@@ -2056,10 +2060,12 @@ WHERE civicrm_contact.id IN $idString ";
         }
         
         if ($contactID) {
-            $objects = array( 'contact_id'    => 'contact',
-                              'individual_id' => 'individual',
-                              'location_id'   => 'location',
-                              'address_id'    => 'address'
+            $objects = array( 'contact_id'      => 'contact',
+                              'individual_id'   => 'individual',
+                              'household_id'    => 'household',
+                              'organization_id' => 'organization',
+                              'location_id'     => 'location',
+                              'address_id'      => 'address'
                               );
             $ids = array( ); 
             
@@ -2214,7 +2220,7 @@ WHERE civicrm_contact.id IN $idString ";
        return null;
     } 
 
-    static function &matchContactOnEmail( $mail ) {
+    static function &matchContactOnEmail( $mail, $ctype = null ) {
        $query = "
 SELECT    civicrm_contact.id as contact_id,
           civicrm_contact.domain_id as domain_id,
@@ -2229,7 +2235,11 @@ LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id 
 WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
        $p = array( 1 => array( $mail, 'String' ),
                    2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
- 
+
+       if ( $ctype ) {
+           $query .= " AND civicrm_contact.contact_type = %3";
+           $p[3]   = array( $ctype, 'String' );
+       }
        
        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
 

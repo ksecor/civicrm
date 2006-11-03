@@ -379,10 +379,9 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
             }
         }
         
-        if ($check) {
-            if (count($fields) > 1) {
-                return true;
-            }
+        if ( $check &&
+             count($fields) > 1 ) {
+            return true;
         }
         
         if ( ($fields['Individual'] && $fields['Other']) || $fields['Contribution'] && $fields['Other'] ) {
@@ -412,17 +411,17 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         
         $ufField->find();
 
-	$fieldType = null;
+        $fieldType = null;
         while ( $ufField->fetch() ) {
             if ( array_key_exists( $ufField->field_type, $profileTypes ) ) {
-	      if ( $fieldType &&
-		   $fieldType != $ufField->field_type) {
-		return 'Mixed';
-	      }
-	      $fieldType = $ufField->field_type;
+                if ( $fieldType &&
+                     $fieldType != $ufField->field_type) {
+                    return 'Mixed';
+                }
+                $fieldType = $ufField->field_type;
             }
         }
-	return $fieldType;
+        return $fieldType;
     }
 
     /**
@@ -432,7 +431,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @acess public
      * @static
      */
-    static function checkProfileGroupType( ) 
+    static function checkProfileGroupType( $ctype ) 
     {
         $ufGroup =& new CRM_Core_DAO_UFGroup();
 
@@ -447,27 +446,18 @@ SELECT ufg.id as id
         $ufGroup =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
         $fields = array( );
+        $validProfiles = array( 'Individual', 'Organization', 'Household', 'Contribution' );
         while ( $ufGroup->fetch() ) {
-	  $profileType = self::getProfileType($ufGroup->id);
-            if ($profileType == 'Individual') {
-                $fields['Individual'] += 1;
-            } else if ($profileType == 'Contribution') {
-                $fields['Contribution'] += 1;
+            $profileType = self::getProfileType($ufGroup->id);
+            if ( in_array( $profileType, $validProfiles ) ) {
+                continue;
             } else if ( $profileType ) {
-                $fields['Other'] +=1;
-            }
-        }
-        
-        if (!empty ($fields)) {
-            if ( ($fields['Individual'] || $fields['Contribution'] ) && ! $fields['Other']  ) {
-                return true;
-            } else {
                 return false;
             }
         }
+
         return true;
     }
-
 
 }
 ?>

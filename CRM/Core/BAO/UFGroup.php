@@ -114,11 +114,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
-    static function getRegistrationFields( $action, $mode ) {
+    static function getRegistrationFields( $action, $mode, $ctype = null ) {
         if ( $mode & CRM_Profile_Form::MODE_REGISTER) {
-            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
+            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration', $ctype);
         } else {
-            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile');  
+            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile', $ctype);  
         }
         
         if (!is_array($ufGroups)) {
@@ -132,7 +132,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             if ( CRM_Core_BAO_UFField::checkProfileType($id) ) { // to skip mix profiles
                 continue;
             }
-            
+
+            if ( $ctype ) {
+                $fieldType = CRM_Core_BAO_UFField::getProfileType( $id );
+                if ( $fieldType != $ctype ) {
+                    continue;
+                }
+            }
+
             $subset = self::getFields( $id, true, $action );
 
             // we do not allow duplicates. the first field is the winner
@@ -385,7 +392,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                  $register = false,
                                  $reset = false,
                                  $profileID = null,
-                                 $doNotProcess  = false ) {
+                                 $doNotProcess  = false,
+                                 $ctype = null ) {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
@@ -401,6 +409,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
             $controller->set( 'id'      , $userID );
             $controller->set( 'register', 1 );
+            $controller->set( 'ctype'   , $ctype );
             $controller->process( );
             $controller->setEmbedded( true );
             $controller->run( );

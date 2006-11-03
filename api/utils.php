@@ -183,7 +183,7 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
             break;
         }
     }
-    
+
     if ( ! $valid ) {
         return _crm_error( "Required fields not found for $contact_type $error" );
     }

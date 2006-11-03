@@ -103,6 +103,13 @@ class CRM_Profile_Form extends CRM_Core_Form
      */
     protected $_context;
 
+    /**
+     * THe contact type for registration case
+     *
+     * @var string
+     */
+    protected $_ctype = null;
+
     /** 
      * pre processing work done here. 
      * 
@@ -121,27 +128,18 @@ class CRM_Profile_Form extends CRM_Core_Form
         $this->_id       = $this->get( 'id'  ); 
         $this->_gid      = $this->get( 'gid' ); 
 
-	$this->_context  = CRM_Utils_Request::retrieve( 'context', 'String',
-							$this );
+        $this->_context  = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                        $this );
 	
         if ( ! $this->_gid ) {
             $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                       $this, false, 0, 'GET');
         }
 
-        //check for mix profile display in registration
-        if ( $this->_mode == self::MODE_REGISTER ) {
-            //check for mix profile fields (eg:  individual + other contact type)
-            if ( ! CRM_Core_BAO_UFField::checkProfileGroupType( ) ) {
-                CRM_Utils_System::setUFMessage( ts( "Organization and/or Household-related fields can not be included in a User Registration Profile form. Please contact the site administrator to report this problem.") );
-                $config  =& CRM_Core_Config::singleton( );
-                CRM_Utils_System::redirect( $config->userFrameworkBaseURL );            
-            }
-        }
-
         // if we dont have a gid use the default, else just use that specific gid
         if ( ( $this->_mode == self::MODE_REGISTER || $this->_mode == self::MODE_CREATE ) && ! $this->_gid ) {
-            $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action, $this->_mode );
+            $this->_ctype  = CRM_Utils_Request::retrieve( 'ctype', 'String', $this, false, 'Individual', 'REQUEST' );
+            $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action, $this->_mode, $this->_ctype );
         } else if ( $this->_mode == self::MODE_SEARCH ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getListingFields( $this->_action,
                                                                       CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY, false, $this->_gid ,true); 
@@ -610,7 +608,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             CRM_Core_BAO_Address::setOverwrite( false );
         }
         
-        $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields, $this->_id, $this->_addToGroupID, $this->_gid );
+        $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
+                                                                   $this->_id, $this->_addToGroupID,
+                                                                   $this->_gid, $this->_ctype );
     }
 }
 

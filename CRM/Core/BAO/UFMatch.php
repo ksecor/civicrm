@@ -55,7 +55,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
      * @access public
      * @static
      */
-    static function synchronize( &$user, $update, $uf ) {
+    static function synchronize( &$user, $update, $uf, $ctype ) {
         $session =& CRM_Core_Session::singleton( );
         if ( ! is_object( $session ) ) {
             return;
@@ -94,7 +94,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             return;
         }
         
-        $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $user->$mail, $uf );
+        $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $user->$mail, $uf, null, $ctype );
         if ( ! $ufmatch ) {
             return;
         }
@@ -141,7 +141,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
      * @access public
      * @static
      */
-    static function &synchronizeUFMatch( &$user, $userKey, $mail, $uf, $status = null ) {
+    static function &synchronizeUFMatch( &$user, $userKey, $mail, $uf, $status = null, $ctype = null ) {
         // validate that mail is a valid email address. Drupal does not check for this stuff
         require_once 'CRM/Utils/Rule.php';
         if ( ! CRM_Utils_Rule::email( $mail ) ) {
@@ -155,8 +155,8 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
         $ufmatch->uf_id = $userKey;
         $ufmatch->domain_id = CRM_Core_Config::domainID( );
         if ( ! $ufmatch->find( true ) ) {
-
-            $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $mail );
+            
+            $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $mail, $ctype );
             if ( $dao ) {
                 $ufmatch->contact_id = $dao->contact_id;
                 $ufmatch->domain_id  = $dao->domain_id ;
@@ -170,7 +170,12 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
                 //CRM_Core_Error::debug('M', $mail);
                 $params= array( 'email' => $mail, 'location_type' => $locationType->name );
-                $contact =& crm_create_contact( $params, 'Individual' );
+                if ( $ctype == 'Organization' ) {
+                    $params['organization_name'] = $mail;
+                } else if ( $ctype == 'Household' ) {
+                    $params['household_name'] = $mail;
+                }
+                $contact =& crm_create_contact( $params, $ctype );
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::debug( 'error', $contact );
                     exit(1);
