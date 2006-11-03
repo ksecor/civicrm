@@ -306,7 +306,8 @@ abstract class CRM_Import_Parser {
             $skip = 4;
             $config =& CRM_Core_Config::singleton( );
             $statusFile = "{$config->uploadDir}status_{$statusID}.txt";
-            $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
+//            $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
+            $status = "<div class='description'>&nbsp; No processing status reported yet.</div>";
             require_once 'Services/JSON.php';
             $json =& new Services_JSON( ); 
             $contents = $json->encode( array( 0, $status ) );
