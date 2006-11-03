@@ -163,16 +163,11 @@ class CRM_Contribute_BAO_Query {
             
             return;
         case 'contribution_status':
-            switch( $value ) {
-            case 'Valid':
-                $query->_where[$grouping][] = "civicrm_contribution.cancel_date is null";
-                $query->_qill[$grouping ][]  = ts( 'Contribution Status - Valid' );
-                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-                return;
-
-            case 'Cancelled':
-                $query->_where[$grouping][] = "civicrm_contribution.cancel_date is not null";
-                $query->_qill[$grouping ][]  = ts( 'Contribution Status - Cancelled' );
+            require_once "CRM/Core/OptionGroup.php";
+            $statusValues = CRM_Core_OptionGroup::values("contribution_status");
+            if ($value != "All") {
+                $query->_where[$grouping][] = "civicrm_contribution.contribution_status_id = " .$value ;
+                $query->_qill[$grouping ][]  = ts( 'Contribution Status -' ) . $statusValues[$value];
                 $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
                 return;
             }
@@ -325,8 +320,14 @@ class CRM_Contribute_BAO_Query {
                    CRM_Contribute_PseudoConstant::paymentInstrument( ) );
 
         $status = array( );
-        $status[] = $form->createElement( 'radio', null, null, ts( 'Valid' )    , 'Valid'     );
-        $status[] = $form->createElement( 'radio', null, null, ts( 'Cancelled' ), 'Cancelled' );
+        
+        require_once "CRM/Core/OptionGroup.php";
+        $statusValues = CRM_Core_OptionGroup::values("contribution_status");
+        foreach ( $statusValues as $key => $val ) {
+            $status[] = $form->createElement( 'radio', null, null, $val , $key );    
+        }
+        
+  
         $status[] = $form->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
 
         $form->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
