@@ -34,46 +34,59 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+class CRM_Custom_Form_DeleteFile extends CRM_Core_Form {
 
-class CRM_Core_Page_File extends CRM_Core_Page {
-  
-    function run( ) {
+    /**
+     * the file id
+     *
+     * @var int
+     */
+    protected $_id;
 
+    /**
+     * the entity id 
+     *
+     * @var array
+     */
+    protected $_eid;
+
+    function preProcess( ) {
         require_once 'CRM/Utils/Request.php';
-        require_once 'CRM/Core/DAO.php';
+        $this->_id  = CRM_Utils_Request::retrieve( 'id' , 'Positive', $this, true );
+        $this->_eid = CRM_Utils_Request::retrieve( 'eid', 'Positive', $this, true );
+    }
 
-        $eid         = CRM_Utils_Request::retrieve( 'eid'   , 'Positive', $this, true );
-        $id          = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true );
-        $quest       = CRM_Utils_Request::retrieve( 'quest' , 'Positive', $this );
-        $action      = CRM_Utils_Request::retrieve( 'action', 'String',   $this );
-
-        require_once 'CRM/Core/BAO/File.php';
-        list( $path, $mimeType ) = CRM_Core_BAO_File::path( $id, $eid, 'civicrm_contact' ,$quest);
-        if ( ! $path ) {
-            CRM_Core_Error::statusBounce( 'Could not retrieve the file' );
-        }
+    /**
+     * Function to actually build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) {
         
-        $buffer = file_get_contents( $path );
-        if ( ! $buffer ) {
-            CRM_Core_Error::statusBounce( 'The file is either empty or you do not have permission to retrieve the file' );
-        }
-
-        if ($action & CRM_Core_Action::DELETE) {
-            if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', CRM_Core_DAO::$_nullObject )) {
-                CRM_Core_BAO_File::delete($id, $eid);
-                CRM_Core_Session::setStatus( ts('The attached file has been deleted.') );
-                
-                $session =& CRM_Core_Session::singleton();   
-                $toUrl   = $session->popUserContext();
-                CRM_Utils_System::redirect($toUrl);
-            } else {
-                $wrapper =& new CRM_Utils_Wrapper( );
-                return $wrapper->run( 'CRM_Custom_Form_DeleteFile', ts('Domain Information Page'), null);
-            }
-        } else {
-            CRM_Utils_System::download( basename( $path ), $mimeType, $buffer );
-        }
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => ts('Delete'),
+                                         'subName'   => 'view',
+                                         'isDefault' => true   ),
+                                 array ( 'type'       => 'cancel',
+                                         'name'      => ts('Cancel') ) ) );
+    }
+    
+    /**
+     * Process the form when submitted
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcess( ) {
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::delete($this->_id, $this->_eid);
+        CRM_Core_Session::setStatus( ts('The attached file has been deleted.') );
+        
+        $session =& CRM_Core_Session::singleton();   
+        $toUrl   = $session->popUserContext();
+        CRM_Utils_System::redirect($toUrl);
     }
 }
 ?>

@@ -118,6 +118,7 @@ class CRM_Utils_System {
                                                 'versioncheck'       => 'VersionCheck',
                                                 'thankyou'           => 'ThankYou',
                                                 'optiongroup'        => 'OptionGroup',
+                                                'deletefile'         => 'DeleteFile',
                                                 'optionvalue'        => 'OptionValue',
                                                 );
     
