@@ -304,7 +304,7 @@ abstract class CRM_Import_Parser {
         }
 
         if ( $statusID ) {
-            $skip = 4;
+            $skip = 10;
             $config =& CRM_Core_Config::singleton( );
             $statusFile = "{$config->uploadDir}status_{$statusID}.txt";
             $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
@@ -360,11 +360,12 @@ abstract class CRM_Import_Parser {
                     }
                     $estimatedTime = ( $recordsLeft / $skip ) * $time;
                     $estMinutes = floor($estimatedTime/60);
+                    $timeFormatted = '';
                     if ($estMinutes > 1) {
                         $timeFormatted = $estMinutes . ' ' . ts('minutes') . ' ';
                         $estimatedTime = $estimatedTime - ($estMinutes*60);
                     }
-                    $timeFormatted = round($estimatedTime) . ' ' . ts('seconds');
+                    $timeFormatted .= round($estimatedTime) . ' ' . ts('seconds');
                     $processedPercent  = (int ) ( ( $this->_lineCount * 100 ) / $totalRowCount );
                     $statusMsg = ts('%1 of %2 records - %3 remaining',
                                     array(1 => $this->_lineCount, 2 => $totalRowCount, 3 => $timeFormatted) );
@@ -379,7 +380,7 @@ abstract class CRM_Import_Parser {
                     $contents = $json->encode( array( $processedPercent, $status ) );
                     file_put_contents( $statusFile, $contents );
                     $prevTimestamp = $currTimestamp;
-                    sleep( 1 );
+//                    sleep( 1 );
                 }
             } else {
                 $returnCode = self::ERROR;
