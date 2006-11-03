@@ -39,27 +39,38 @@ require_once 'CRM/Core/Page.php';
 class CRM_Core_Page_File extends CRM_Core_Page {
   
     function run( ) {
+
         require_once 'CRM/Utils/Request.php';
         require_once 'CRM/Core/DAO.php';
 
         $eid         = CRM_Utils_Request::retrieve( 'eid'   , 'Positive', CRM_Core_DAO::$_nullObject, true );
         $id          = CRM_Utils_Request::retrieve( 'id'    , 'Positive', CRM_Core_DAO::$_nullObject, true );
         $quest       = CRM_Utils_Request::retrieve( 'quest' , 'Positive', CRM_Core_DAO::$_nullObject );
+        $action      = CRM_Utils_Request::retrieve( 'action', 'String',   CRM_Core_DAO::$_nullObject );
 
-        // make sure that the id (file_id) belongs to eid (contact_id)
         require_once 'CRM/Core/BAO/File.php';
         list( $path, $mimeType ) = CRM_Core_BAO_File::path( $id, $eid, 'civicrm_contact' ,$quest);
         if ( ! $path ) {
             CRM_Core_Error::statusBounce( 'Could not retrieve the file' );
         }
-
+        
         $buffer = file_get_contents( $path );
         if ( ! $buffer ) {
             CRM_Core_Error::statusBounce( 'The file is either empty or you do not have permission to retrieve the file' );
         }
-        CRM_Utils_System::download( basename( $path ), $mimeType, $buffer );
-    }
 
+        if ($action & CRM_Core_Action::DELETE) {
+            CRM_Core_BAO_File::delete($id, $eid);
+            CRM_Core_Session::setStatus( ts('The attached file has been deleted.') );
+            
+            $session =& CRM_Core_Session::singleton();   
+            $toUrl   = $session->popUserContext();
+            CRM_Utils_System::redirect($toUrl);
+        } else {
+            CRM_Utils_System::download( basename( $path ), $mimeType, $buffer );
+        }
+        
+    }
 }
 
 ?>

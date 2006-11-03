@@ -58,6 +58,9 @@
                    {else}
                       <a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a>
                    {/if}
+                   {if $groupTree.$group_id.fields.$field_id.customValue.deleteURL }
+		      <a href="{$groupTree.$group_id.fields.$field_id.customValue.deleteURL}" onclick = "return confirm('Are you sure you want to delete attached file ?');">{ts}Delete Attached File{/ts}</a>
+		   {/if}	
                 </span>  
                {/if} 
               {/if}

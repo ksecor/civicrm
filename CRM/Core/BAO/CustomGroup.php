@@ -280,6 +280,9 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL']    = 
                             CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid=$entityId" );
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['displayURL'] = null;
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['deleteURL'] = 
+                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileURL'] . "&amp;action=delete";
+                        
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['fileName']   = basename( $fileDAO->uri );
                         if ( $fileDAO->mime_type =="image/jpeg" ||
                              $fileDAO->mime_type =="image/gif"  ||

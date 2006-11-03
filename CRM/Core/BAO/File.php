@@ -122,7 +122,32 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         
     }
 
+    public function delete($fileID , $entityId, $entityTable = 'civicrm_contact') {
+        require_once "CRM/Core/DAO/CustomValue.php";
+        $customDAO =& new CRM_Core_DAO_CustomValue();
+        $customDAO->entity_table = $entityTable; 
+        $customDAO->file_id = $fileID;
+        if ( $customDAO->find(true) ) {
+            $customDAO->delete();
+        }
 
+        require_once "CRM/Core/DAO/EntityFile.php";
+        $entityFileDAO =& new CRM_Core_DAO_EntityFile();
+        $entityFileDAO->file_id = $fileID;
+        $entityFileDAO->entity_table = $entityTable;
+        $entityFileDAO->entity_id    = $entityId;
+        
+        if ( $entityFileDAO->find(true) ) {
+            $entityFileDAO->delete();
+        }
+
+        require_once "CRM/Core/DAO/File.php";
+        $fileDAO =& new CRM_Core_DAO_File();
+        $fileDAO->id = $fileID;
+        if ( $fileDAO->find(true) ) {
+            $fileDAO->delete();
+        }
+    }
 }
 
 ?>
