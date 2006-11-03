@@ -358,10 +358,16 @@ abstract class CRM_Import_Parser {
                         $recordsLeft = 0;
                     }
                     $estimatedTime = ( $recordsLeft / $skip ) * $time;
+                    $estMinutes = floor($estimatedTime/60);
+                    if ($estMinutes > 0) {
+                        $timeFormatted = $estMinutes . ' minutes ';
+                    }
+                    $estimatedTime = $estimatedTime - ($estMinutes*60);
+                    $timeFormatted = $estimatedTime . ' seconds';
                     $processedPercent  = (int ) ( ( $this->_lineCount * 100 ) / $totalRowCount );
                     $status = "
 <div class=\"description\">
-&nbsp; <strong>{$this->_lineCount} of $totalRowCount - $estimatedTime seconds remaining</strong>
+&nbsp; <strong>{$this->_lineCount} of $totalRowCount - $timeFormatted remaining</strong>
 </div>
 ";
                     // ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type_display))
