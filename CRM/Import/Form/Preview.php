@@ -150,10 +150,12 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 $this->addElement('checkbox', "tag[$tagID]", null, $tagName);
             }
         }
-
+        $previousURL = CRM_Utils_System::url('civicrm/import/contact', '_qf_MapField_display=true');
+        $cancelURL = CRM_Utils_System::url('civicrm', 'reset=1');
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
-                                         'name'      => ts('<< Previous') ),
+                                         'name'      => ts('<< Previous'),
+                                         'js'        => array( 'onclick' => "location.href='{$previousURL}'; return false;" ) ),
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Import Now >>'),
                                          'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
@@ -161,7 +163,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                          // 'js'        => array( 'onclick' => "return submitOnce(this,'Preview','" . ts('Processing') ."');" )
                                          ),
                                  array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
+                                         'name'      => ts('Cancel'),
+                                         'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) ),
                                  )
                            );
 
