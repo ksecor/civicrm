@@ -48,6 +48,33 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
     const NUMBER_OF_ELEMENTS = 5;
 
     /**
+     * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $mailingID = $this->get("mailingID");
+        $defaults = array( );
+        if ( $mailingID ) {
+           //  require_once "CRM/Mailing/DAO/Group.php";
+//             $dao =&new  CRM_Mailing_DAO_Group();
+//             // for included group
+//             $includedGroup = array();
+//             $dao->id = $mailingID;
+//             $dao->group_type   = "Include";
+//             $dao->entity_table = "civicrm_group";
+//             $dao->find();
+//             while ( $dao->fetch() ) {
+//                 $includedGroup[$dao->entity_id] = 1;
+//             }
+        }
+        
+        return $defaults;
+    }
+
+    /**
      * Function to actually build the form
      *
      * @return None

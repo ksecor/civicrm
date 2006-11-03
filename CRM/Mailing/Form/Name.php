@@ -42,6 +42,24 @@ require_once 'CRM/Mailing/PseudoConstant.php';
  */
 class CRM_Mailing_Form_Name extends CRM_Core_Form {
 
+
+    /**
+     * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $mailingID = $this->get("mailingID");
+        $defaults = array( );
+        if ( $mailingID ) {
+            $defaults["name"] = CRM_Core_DAO::getFieldValue("CRM_Mailing_DAO_Mailing",$mailingID,"name","id");
+        }
+        
+        return $defaults;
+    }
+    
     /**
      * Function to actually build the form
      *

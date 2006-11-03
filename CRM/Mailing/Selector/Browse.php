@@ -199,6 +199,12 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                     'qs'    => 'mid=%%mid%%',
                     'title' => ts('View Mailing Report')
                     ),
+                CRM_Core_Action::UPDATE => array(
+                    'name'  => ts('Re-Send'),
+                    'url'   => 'civicrm/mailing/send',
+                    'qs'    => 'mid=%%mid%%&reset=1',
+                    'title' => ts('Re-Send Mailing ')
+                    ),
                 CRM_Core_Action::DISABLE => array(
                     'name'  => ts('Cancel'),
                     'url'   => 'civicrm/mailing/browse',
@@ -227,6 +233,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                     $actionMask |= CRM_Core_Action::DISABLE;
                 }
                 $actionMask |= CRM_Core_Action::DELETE;
+                $actionMask |= CRM_Core_Action::UPDATE;
                 $rows[$key]['action'] = 
                     CRM_Core_Action::formLink(  $actionLinks,
                                                 $actionMask,
