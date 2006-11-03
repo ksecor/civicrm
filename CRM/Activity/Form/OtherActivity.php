@@ -46,10 +46,10 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
 {
 
     /**
-     * variable to store activity type name
+     * variable to store activity type id
      *
      */
-    protected $_activityType = 'Activity';
+    protected $_activityType = 5; //this is for other activity
 
     /**
      * Function to build the form

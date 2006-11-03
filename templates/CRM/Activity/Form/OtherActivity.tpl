@@ -74,30 +74,30 @@
       </dl>
     </fieldset>
     </div>
+    
 
-{if $action eq 1  or $form.activity_type_id.value }
+{if $action eq 1  or $action eq 2 or $form.activity_type_id.value } 
     <script type="text/javascript" >
     var activityDesc = document.getElementById("description");
     activityDesc.readOnly = 1;
     {literal}
-   
+
     function activity_get_description( )
     {
-      //reload( );
       var activityType = document.getElementById("activity_type_id");
       var activityDesc = document.getElementById("description");
       var desc = new Array();
       desc[0] = "";
       {/literal}
-      var index = 5;
-      {foreach from= $ActivityTypeDescription item=description key=id}
-        {literal}desc[5]{/literal} = "{$description}"
+      var index = 1;
+      {foreach from= $ActivityTypeDescription item=description key=id}{$ActivityTypeDescription}
+        {literal}desc[index]{/literal} = "{$description}"
         {literal}index = index + 1{/literal}
       {/foreach}
       {literal}
       activityDesc.value = desc[activityType.selectedIndex];
-    }
-                    
+     }
+    
     function reload(refresh) {
         var activityType = document.getElementById("activity_type_id");
         var url = {/literal}"{$refreshURL}"{literal}
@@ -106,14 +106,11 @@
             window.location= post; 
         }
     }
-
     
     {/literal}
     </script>
 {/if}
 
-{if $action eq 2 }
-    <script type="text/javascript" >
-       activity_get_description( );
-     </script>
-{/if}
+ <script type="text/javascript" >
+      activity_get_description( );
+ </script>

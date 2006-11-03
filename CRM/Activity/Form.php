@@ -101,9 +101,11 @@ class CRM_Activity_Form extends CRM_Core_Form
         }
         $this->_status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                       $this, false );
-        require_once 'CRM/Core/BAO/OptionValue.php';
-        if ($this->_activityType == 'Activity') {
-            $this->assign('ActivityTypeDescription', CRM_Core_BAO_OptionValue::getActivityDescription());
+        require_once 'CRM/Core/BAO/OptionValue.php';        
+        if ( $this->_activityType > 4 ) {
+            $ActivityTypeDescription = CRM_Core_BAO_OptionValue::getActivityDescription();
+            ksort($ActivityTypeDescription);
+            $this->assign('ActivityTypeDescription', $ActivityTypeDescription );            
         }
         
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_id, 0,$this->_activityType);
