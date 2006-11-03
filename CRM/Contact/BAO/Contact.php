@@ -1459,7 +1459,7 @@ WHERE civicrm_contact.id IN $idString ";
     source.display_name as sourceName,
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
-    civicrm_option_value.name  as activity_type
+    civicrm_option_value.label  as activity_type
   FROM civicrm_phonecall 
        LEFT JOIN civicrm_option_value ON (civicrm_option_value.value = 2) 
        LEFT JOIN civicrm_contact source ON (civicrm_phonecall.source_contact_id = source.id) 
@@ -1482,7 +1482,7 @@ WHERE civicrm_contact.id IN $idString ";
     source.display_name as sourceName,
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
-    civicrm_option_value.name  as activity_type
+    civicrm_option_value.label  as activity_type
   FROM civicrm_meeting
        LEFT JOIN civicrm_option_value ON (civicrm_option_value.value = 1) 
        LEFT JOIN civicrm_contact source ON (civicrm_meeting.source_contact_id = source.id) 
@@ -1505,7 +1505,7 @@ WHERE civicrm_contact.id IN $idString ";
     source.display_name as sourceName,
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
-    civicrm_option_value.name  as activity_type
+    civicrm_option_value.label  as activity_type
   FROM civicrm_activity
        LEFT JOIN civicrm_option_value   ON (civicrm_option_value.value = civicrm_activity.activity_type_id)   
        LEFT JOIN civicrm_contact source ON (civicrm_activity.source_contact_id = source.id) 
@@ -1546,7 +1546,7 @@ WHERE civicrm_contact.id IN $idString ";
         $values =array();
         $rowCnt = 0;
         while($dao->fetch()) {
-            $values[$rowCnt]['activity_type_id'] = $dao->activity_type_id;        
+            $values[$rowCnt]['activity_type_id'] = $dao->activity_type_id;       
             $values[$rowCnt]['activity_type'] = $dao->activity_type;
             $values[$rowCnt]['id']      = $dao->id;
             $values[$rowCnt]['subject'] = $dao->subject;
