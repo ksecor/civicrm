@@ -285,6 +285,7 @@ abstract class CRM_Import_Parser {
         $this->_conflicts = array();
 
         $this->_fileSize = number_format( filesize( $fileName ) / 1024.0, 2 );
+        $status = '';
         
         if ( $mode == self::MODE_MAPFIELD ) {
             $this->_rows = array( );
@@ -307,7 +308,6 @@ abstract class CRM_Import_Parser {
             $config =& CRM_Core_Config::singleton( );
             $statusFile = "{$config->uploadDir}status_{$statusID}.txt";
             $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
-//            $status = "<div class='description'>&nbsp; No processing status reported yet.</div>";
             require_once 'Services/JSON.php';
             $json =& new Services_JSON( ); 
             $contents = $json->encode( array( 0, $status ) );
@@ -366,11 +366,11 @@ abstract class CRM_Import_Parser {
                     }
                     $timeFormatted = round($estimatedTime) . ' ' . ts('seconds');
                     $processedPercent  = (int ) ( ( $this->_lineCount * 100 ) / $totalRowCount );
-//                    $statusMsg = ts('%1 of %2 records - %3 remaining',
-//                                    array(1 => $this->_lineCount, 2 => $totalRowCount, 3 => $timeFormatted) );
+                    $statusMsg = ts('%1 of %2 records - %3 remaining',
+                                    array(1 => $this->_lineCount, 2 => $totalRowCount, 3 => $timeFormatted) );
                     $status = "
 <div class=\"description\">
-&nbsp; <strong>{$this->_lineCount} of $totalRowCount - $timeFormatted remaining</strong>
+&nbsp; <strong>{$statusMsg}</strong>
 </div>
 ";
 
