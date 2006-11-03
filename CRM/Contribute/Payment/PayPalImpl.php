@@ -512,27 +512,41 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
 
         $error = array( );
 
-        if ( empty( $config->paymentCertPath[$mode] ) ) {
-            if ( $mode == 'live' ) {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH') );
-            } else {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH') );
+        if ( $config->paymentProcessor == 'PayPal_Standard' ) {
+            if ( empty( $config->paymentUsername[$mode] ) ) {
+                if ( $mode == 'live' ) {
+                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME') );
+                } else {
+                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME') );
+                }
             }
         }
-        
-        if ( empty( $config->paymentKey[$mode] ) ) {
-            if ( $mode == 'live' ) {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_KEY') ); 
-            } else {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY') ); 
+
+        if ( $config->paymentProcessor == 'PayPal' ) {
+            if ( empty( $config->paymentCertPath[$mode] ) ) {
+                if ( $mode == 'live' ) {
+                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH') );
+                } else {
+                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH') );
+                }
             }
         }
-        
-        if ( empty( $config->paymentPassword[$mode] ) ) {
-            if ( $mode == 'live' ) {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD') );
-            } else {
-                $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD') );
+
+        if ( $config->paymentProcessor != 'PayPal_Standard' ) {
+            if ( empty( $config->paymentKey[$mode] ) ) {
+                if ( $mode == 'live' ) {
+                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_KEY') ); 
+                } else {
+                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY') ); 
+                }
+            }
+            
+            if ( empty( $config->paymentPassword[$mode] ) ) {
+                if ( $mode == 'live' ) {
+                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD') );
+                } else {
+                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD') );
+                }
             }
         }
 
