@@ -366,7 +366,7 @@ abstract class CRM_Import_Parser {
                     $timeFormatted = $round(estimatedTime) . ' ' . ts('seconds');
                     $processedPercent  = (int ) ( ( $this->_lineCount * 100 ) / $totalRowCount );
                     $statusMsg = ts('%1 of %2 records - %3 remaining',
-                                    array(1 => $this->_lineCount, 2 => $totalRowCount, 3 => $timeFormatted);
+                                    array(1 => $this->_lineCount, 2 => $totalRowCount, 3 => $timeFormatted) );
                     $status = "
 <div class=\"description\">
 &nbsp; <strong>{$statusMsg}</strong>
