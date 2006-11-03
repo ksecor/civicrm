@@ -61,13 +61,6 @@ dojo.addOnLoad( function( ) {
 </script>
 {/literal}
 
-<div height="20" width="400" hasText="true" maxProgressValue="100" id="importProgressBar" dojoType="ProgressBar">
-</div>
-<br />
-<div id="intermediate"></div>
-
-<div id="error_status"></div>
-
 {* Import Wizard - Step 3 (preview import results prior to actual data loading) *}
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
@@ -94,6 +87,13 @@ dojo.addOnLoad( function( ) {
 
     <p>{ts}Click 'Import Now' if you are ready to proceed.{/ts}</p>
  </div>
+
+{* Import Progress Bar and Info *}
+<div height="20" width="400" hasText="true" maxProgressValue="100" id="importProgressBar" dojoType="ProgressBar">
+</div>
+<div id="intermediate"></div>
+
+<div id="error_status"></div>
     
  {* Summary Preview (record counts) *}
  <table id="preview-counts" class="report">

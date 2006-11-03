@@ -306,7 +306,7 @@ abstract class CRM_Import_Parser {
             $skip = 4;
             $config =& CRM_Core_Config::singleton( );
             $statusFile = "{$config->uploadDir}status_{$statusID}.txt";
-            $status = "<div class='status'>No Status reported yet</div>";
+            $status = "<div class='description'>&nbsp; No processing status reported yet.</div>";
             require_once 'Services/JSON.php';
             $json =& new Services_JSON( ); 
             $contents = $json->encode( array( 0, $status ) );
@@ -360,14 +360,11 @@ abstract class CRM_Import_Parser {
                     $estimatedTime = ( $recordsLeft / $skip ) * $time;
                     $processedPercent  = (int ) ( ( $this->_lineCount * 100 ) / $totalRowCount );
                     $status = "
-<div class=\"status\">
-Processed Rows: {$this->_lineCount} rows.<p>
-Time since beginning: $totalTime seconds<p>
-Time to process last $skip records: $time seconds<p>
-Approx Records left to process: $recordsLeft<p>
-Estimated time remaining: $estimatedTime seconds<p>
+<div class=\"description\">
+&nbsp; <strong>{$this->_lineCount} of $totalRowCount - $estimatedTime seconds remaining</strong>
 </div>
 ";
+                    // ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type_display))
                     require_once 'Services/JSON.php';
                     $json =& new Services_JSON( ); 
                     $contents = $json->encode( array( $processedPercent, $status ) );
