@@ -372,7 +372,7 @@ abstract class CRM_Import_Parser {
 &nbsp; <strong>{$statusMsg}</strong>
 </div>
 ";
-                    // ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type_display))
+
                     require_once 'Services/JSON.php';
                     $json =& new Services_JSON( ); 
                     $contents = $json->encode( array( $processedPercent, $status ) );
