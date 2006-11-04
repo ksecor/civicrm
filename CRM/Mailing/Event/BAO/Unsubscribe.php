@@ -114,7 +114,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $contact_id = $q->contact_id;
         
         CRM_Core_DAO::transaction('BEGIN');
-
+        
         $do =& new CRM_Core_DAO();
         $mg         = CRM_Mailing_DAO_Group::getTableName();
         $job        = CRM_Mailing_BAO_Job::getTableName();
@@ -137,15 +137,16 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
          
         $groups = array();
         $mailings = array();
-
+        
         while ($do->fetch()) {
             if ($do->entity_table == $group) {
-                $groups[$do->entity_id] = true;
+                //$groups[$do->entity_id] = true;
+                $groups[$do->entity_id] = $do->entity_table;
             } else if ($do->entity_table == $mailing) {
                 $mailings[] = $do->entity_id;
             }
         }
-
+        
         /* As long as we have prior mailings, find their groups and add to the
          * list */
         while (! empty($mailings)) {
@@ -181,19 +182,23 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
                                 AND $gc.status = 'Added')
                         )");
                         
-        $groups = array();
-        
         while ($do->fetch()) {
             $groups[$do->group_id] = $do->title;
         }
-
+        
         $contacts = array($contact_id);
-
+        
         foreach ($groups as $group_id => $group_name) {
-            list($total, $removed, $notremoved) = 
-                CRM_Contact_BAO_GroupContact::removeContactsFromGroup(
-                    $contacts, $group_id, 'Email', $queue_id);
+            
+            if ( $group_name == 'civicrm_group' ) {
+                list($total, $removed, $notremoved) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $contacts, $group_id, 'Email', 'Removed');
+            } else {
+                list($total, $removed, $notremoved) = CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contacts, $group_id, 'Email');
+                //CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contacts, $group_id, 'Email', $queue_id);
+            }
+            
             if ($notremoved) {
+                
                 unset($groups[$group_id]);
             }
         }
