@@ -64,12 +64,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
                 // fix state and country id if present
                 if ( CRM_Utils_Array::value( 'state_province', $this->_params ) ) {
-                    $states =& CRM_Core_PseudoConstant::stateProvinceAbbreviation();
+                    $states = CRM_Core_PseudoConstant::stateProvinceAbbreviation();
                     $states = array_flip( $states );
                     $this->_params['state_province_id'] = CRM_Utils_Array::value( $this->_params['state_province'], $states );
                 }
                 if ( CRM_Utils_Array::value( 'country', $this->_params ) ) {
-                    $states =& CRM_Core_PseudoConstant::countryIsoCode();
+                    $states = CRM_Core_PseudoConstant::countryIsoCode();
                     $states = array_flip( $states );
                     $this->_params['country_id'] = CRM_Utils_Array::value( $this->_params['country'], $states );
                 }

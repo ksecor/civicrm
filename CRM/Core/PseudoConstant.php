@@ -570,7 +570,7 @@ class CRM_Core_PseudoConstant {
     {
         if (!self::$countryIsoCode) {
             self::populate( self::$countryIsoCode, 'CRM_Core_DAO_Country',
-            true, 'iso_code');
+                            true, 'iso_code');
         }
         if ($id) { 
             if (array_key_exists($id, self::$countryIsoCode)) { 
