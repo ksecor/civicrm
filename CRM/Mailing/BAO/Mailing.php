@@ -1206,33 +1206,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             
             $dao->delete();
         }
- fixed bug in CRM-1306
- changed method name in Mailing/Event/BAO/Queue.php "deleteEmail" to "deleteEventQueue"
- deleteEmail() is used in Core/BAO/Email.php, hence change in that file also.
-        
-
-
-        /*
-        $dao = & new CRM_Mailing_DAO_Group();
-        $dao->mailing_id = $id;
-        $dao->delete();
-        
-        $dao = & new CRM_Mailing_DAO_Job();
-        $dao->mailing_id = $id;
-        $dao->find(true);
-        
-        if ( $dao->status == 'Complete') {
-            $daoQueue = new CRM_Mailing_Event_BAO_Queue();
-            $daoQueue->deleteEventQueue( $dao->id, 'job');
-        }
-        
-        $dao->delete();
-        
-        
-        $dao = & new CRM_Mailing_DAO_TrackableURL();
-        $dao->mailing_id = $id;
-        $dao->delete();
-        */
         
         $dao = & new CRM_Mailing_DAO_Mailing();
         $dao->id = $id;
