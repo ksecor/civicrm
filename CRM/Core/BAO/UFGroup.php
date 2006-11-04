@@ -114,11 +114,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @static
      * @access public
      */
+
     static function getRegistrationFields( $action, $mode, $ctype = null ) {
         if ( $mode & CRM_Profile_Form::MODE_REGISTER) {
-            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration', $ctype);
+            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
         } else {
-            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile', $ctype);  
+            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile');  
         }
         
         if (!is_array($ufGroups)) {
@@ -435,6 +436,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
 
             if ( $profileID ) {
+                // make sure profileID and ctype match if ctype exists
+                if ( $ctype ) {
+                    $profileType = CRM_Core_BAO_UFField::getProfileType( $profileID );
+                    if ( $profileType != $ctype ) {
+                        return null;
+                    }
+                }
+
                 require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
                 if ( $reset ) {
@@ -443,6 +452,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $controller->set( 'gid'     , $profileID );
                 $controller->set( 'id'      , $userID );
                 $controller->set( 'register', 0 );
+                if ( $ctype ) {
+                    $controller->set( 'ctype'   , $ctype );
+                }
                 $controller->process( );
                 $controller->setEmbedded( true );
                 $controller->run( );
@@ -1110,25 +1122,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         $ufGroups = array( );
         while ($dao->fetch( )) {
-            $process = false;
-            if ( ! $moduleName ) {
-                $process = true;
-            } else {
-                // Don't add ufgroup to array if moduleName is User Account or Profile, UNLESS the ufGroup's fields'
-                // contact type matches the contact type of the logged in user.
-                if ( $moduleName == 'User Account' || $moduleName == 'Profile' ) {
-                    $process = self::filterUFGroups($dao->id);
-                } else {
-                    $process = true;
-                }
-            }
-            
-            if ( $process ) {
-                $ufGroups[$dao->id]['name'     ] = $dao->title;
-                $ufGroups[$dao->id]['title'    ] = $dao->title;
-                $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
-                $ufGroups[$dao->id]['is_active'] = $dao->is_active;
-            }
+            $ufGroups[$dao->id]['name'     ] = $dao->title;
+            $ufGroups[$dao->id]['title'    ] = $dao->title;
+            $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
+            $ufGroups[$dao->id]['is_active'] = $dao->is_active;
         }
 
         return $ufGroups;

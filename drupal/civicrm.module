@@ -353,31 +353,38 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         return civicrm_validate_data($edit, $user, $category);
 
     case 'categories':
-        return civicrm_categories();
+        return civicrm_categories($user);
     }
 
 }
 
-function civicrm_categories( ) 
+function civicrm_categories( &$user ) 
 {
 	civicrm_initialize( );
 
+    require_once 'CRM/Core/BAO/UFMatch.php';
+    $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
+    if ( ! $userID ) {
+        return null;
+    }
+
+    $config =& CRM_Core_Config::singleton( ); 
+
+    $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID, 'contact_type' );
+
     require_once 'CRM/Core/BAO/UFGroup.php';
-    $allUFGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account', 1);
-    
     require_once 'CRM/Core/BAO/UFField.php';
+
+    $allUFGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
     $ufGroups = array( );
 
     //check if there are any fields in this group
     foreach ($allUFGroups as $key => $value) {
-        $ufField = array();
-        $ufFieldBAO =& new CRM_Core_BAO_UFField();
-        
-        // fkey is gid
-        $ufFieldBAO->uf_group_id = $key;
-        if ( $ufFieldBAO->find() ) {
-            $ufGroups[$key] = $value;
+        $fieldType = CRM_Core_BAO_UFField::getProfileType( $key );
+        if ( $fieldType != $ctype ) {
+            continue;
         }
+        $ufGroups[$key] = $value;
     }
     return $ufGroups;
 }
@@ -435,6 +442,8 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
         CRM_Core_Error::fatal( ts( "Could not get valid contact id for drupal user: %1", array( 1 => $user->uid ) ) );
     }
 
+    $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID, 'contact_type' );
+
     // get all the data for this specific category
     $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset, null, $doNotProcess, $ctype );
     
@@ -472,12 +481,18 @@ function civicrm_view_data($user )
 
         require_once 'CRM/Profile/Page/Dynamic.php';
         require_once 'CRM/Core/BAO/UFGroup.php';
+        require_once 'CRM/Core/BAO/UFField.php';
 
         $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID, 'contact_type' );
 
-        $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account', $ctype);
+        $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
         $setLink = 0 ;        
         foreach ( $ufGroups as $id => $title ) {
+            
+            $fieldType = CRM_Core_BAO_UFField::getProfileType( $id );
+            if ( $fieldType != $ctype ) {
+                continue;
+            }
             $page =& new CRM_Profile_Page_Dynamic( $userID, $id );
             $pageContent = $page->run( );
             
