@@ -42,6 +42,7 @@ class CRM_Mailing_Menu {
         $items = array(
                        array(
                              'path'    => 'civicrm/mailing',
+                             'query'   => 'reset=1',
                              'title'   => ts('CiviMail'),
                              'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                              'type'    => CRM_Core_Menu::CALLBACK,
@@ -51,6 +52,7 @@ class CRM_Mailing_Menu {
 
                        array(
                              'path'    => 'civicrm/mailing/component',
+                             'query'   => 'reset=1',
                              'title'   => ts('Mailing Header / Footer'),
                              'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                              'type'    => CRM_Core_Menu::CALLBACK,
@@ -60,6 +62,7 @@ class CRM_Mailing_Menu {
 
                        array(
                              'path'    => 'civicrm/mailing/send',
+                             'query'   => 'reset=1',
                              'title'   => ts('Send Mailing'),
                              'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                              'type'    => CRM_Core_Menu::CALLBACK,
@@ -69,13 +72,13 @@ class CRM_Mailing_Menu {
                       
                        array(
                              'path'    => 'civicrm/mailing/browse',
+                             'query'   => 'reset=1',
                              'title'   => ts( 'Browse Sent Mailings' ),
                              'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                              'type'    => CRM_Core_Menu::CALLBACK, 
                              'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                              'weight'  => 630, 
                              ),
-
                        );
         return $items;
     }

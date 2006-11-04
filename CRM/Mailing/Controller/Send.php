@@ -45,13 +45,7 @@ class CRM_Mailing_Controller_Send extends CRM_Core_Controller {
         require_once 'CRM/Mailing/StateMachine/Send.php';
         parent::__construct( $title, $modal );
 
-        $mailingID = CRM_Utils_Request::retrieve('mid', 'String',
-                                                     CRM_Core_DAO::$_nullObject, false, null );
-        if ($mailingID ) {
-            $this->set("mailingID", $mailingID);
-        } else {
-            $this->set("mailingID", null);
-        }
+        $mailingID = CRM_Utils_Request::retrieve('mid', 'String', $this, false, null );
 
         $this->_stateMachine =& new CRM_Mailing_StateMachine_Send( $this, $action, $mailingID);
 

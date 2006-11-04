@@ -40,7 +40,8 @@ require_once 'CRM/Core/Form.php';
  * Choose include / exclude groups and mailings
  *
  */
-class CRM_Mailing_Form_Group extends CRM_Core_Form {
+class CRM_Mailing_Form_Group extends CRM_Core_Form 
+{
 
     /**
      * The number of groups / mailings we will process
@@ -48,27 +49,33 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
     const NUMBER_OF_ELEMENTS = 5;
 
     /**
-     * This function sets the default values for the form. Note that in edit/view mode
+     * This function sets the default values for the form.
      * the default values are retrieved from the database
      * 
      * @access public
      * @return None
      */
-    function setDefaultValues( ) {
-        $mailingID = $this->get("mailingID");
+    function setDefaultValues( ) 
+    {
+        $mailingID = $this->get("mid");
+
         $defaults = array( );
         if ( $mailingID ) {
-           //  require_once "CRM/Mailing/DAO/Group.php";
-//             $dao =&new  CRM_Mailing_DAO_Group();
-//             // for included group
-//             $includedGroup = array();
-//             $dao->id = $mailingID;
-//             $dao->group_type   = "Include";
-//             $dao->entity_table = "civicrm_group";
-//             $dao->find();
-//             while ( $dao->fetch() ) {
-//                 $includedGroup[$dao->entity_id] = 1;
-//             }
+            require_once "CRM/Mailing/DAO/Group.php";
+            $dao =&new  CRM_Mailing_DAO_Group();
+            
+            $mailingGroups = array();
+            $dao->mailing_id = $mailingID;
+            $dao->find();
+            while ( $dao->fetch() ) {
+                $mailingGroups[$dao->entity_table][$dao->group_type][] = $dao->entity_id;
+            }
+            
+            $defaults['includeGroups'] = $mailingGroups['civicrm_group']['Include'];
+            $defaults['excludeGroups'] = $mailingGroups['civicrm_group']['Exclude'];
+
+            $defaults['includeMailings'] = $mailingGroups['civicrm_mailing']['Include'];
+            $defaults['excludeMailings'] = $mailingGroups['civicrm_mailing']['Exclude'];
         }
         
         return $defaults;
@@ -80,13 +87,8 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
-        $template = '
-<table{class}>
-<tr><td>{unselected}</td><td>{selected}</tr></tr>
-<tr><td>{add}</td><td>{remove}</tr></tr>
-</table>';
-        
+    public function buildQuickForm( ) 
+    {
         $groups =& CRM_Core_PseudoConstant::group();
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
                                   ts('Include Group(s)') . ' ', $groups,
@@ -100,8 +102,6 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
         $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $inG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
         $outG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-        //         $inG->setElementTemplate($template);
-        //         $outG->setElementTemplate($template);
         
         $mailings =& CRM_Mailing_PseudoConstant::completed();
         if (! $mailings) {
@@ -118,8 +118,6 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
         $outM->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $inM->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
         $outM->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-        //         $inM->setElementTemplate($template);
-        //         $outM->setElementTemplate($template);
         
         $this->addFormRule( array( 'CRM_Mailing_Form_Group', 'formRule' ));
         
@@ -138,7 +136,8 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
         $this->assign('mailingCount', count($mailings));
     }
 
-    public function postProcess() {
+    public function postProcess() 
+    {
         $inGroups = $this->controller->exportValue($this->_name, 'includeGroups');
         $outGroups = $this->controller->exportValue($this->_name, 'excludeGroups');
         $inMailings = $this->controller->exportValue($this->_name, 'includeMailings');
@@ -185,7 +184,8 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
      * @access public
      * @return string
      */
-    public function getTitle( ) {
+    public function getTitle( ) 
+    {
         return ts( 'Select Recipients' );
     }
 
@@ -198,7 +198,8 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields ) 
+    {
         $errors = array( );
         if (is_array($fields['includeGroups']) && is_array($fields['excludeGroups'])) {
             $checkGroups = array();
@@ -218,8 +219,6 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
         
         return empty($errors) ? true : $errors;
     }
-
-    
 
 }
 

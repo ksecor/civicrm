@@ -703,12 +703,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailing->subject       = $params['subject'];
         if (file_exists($params['htmlFile'])) {
             $mailing->body_html = file_get_contents($params['htmlFile']);
+        } else {
+            $mailing->body_html = $params['htmlFile'];
         }
         if (file_exists($params['textFile'])) {
             $mailing->body_text = file_get_contents($params['textFile']);
+        } else if ($params['textFile']) {
+            $mailing->body_text = $params['textFile'];
         } else {
             $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
         }
+        
         $mailing->is_template   = $params['template'] ? true : false;
         $mailing->auto_responder= $params['auto_responder'] ? true : false;
         $mailing->url_tracking  = $params['track_urls'] ? true : false;

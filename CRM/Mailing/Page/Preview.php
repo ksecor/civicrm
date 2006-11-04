@@ -56,7 +56,7 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
 
         $options = array();
         $session->getVars($options, 'CRM_Mailing_Controller_Send');
-
+        
         $type = CRM_Utils_Request::retrieve('type', 'String', CRM_Core_DAO::$_nullObject, false, 'text');
 
         // FIXME: the below and CRM_Mailing_Form_Test::testMail()
@@ -72,13 +72,21 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         $mailing->from_email = $options['from_email'];
         $mailing->subject = $options['subject'];
 
-        $mailing->body_html = file_get_contents($options['htmlFile']);
+
+        if (file_exists($options['htmlFile'])) {
+            $mailing->body_html = file_get_contents($options['htmlFile']);
+        } else {
+            $mailing->body_html = $options['htmlFile'];
+        }
+
         if (file_exists($options['textFile'])) {
             $mailing->body_text = file_get_contents($options['textFile']);
+        } else if ( $options['textFile'] ) {
+            $mailing->body_text = $options['textFile'];
         } else {
             $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
         }
-
+ 
         $mime =& $mailing->compose(null, null, null, $session->get('userID'), $options['from_email'], $options['from_email'], true);
 
         // there doesn't seem to be a way to get to Mail_Mime's text and HTML

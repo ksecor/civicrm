@@ -35,11 +35,13 @@
  */
 
 /**
- *
+ * Form to send test mail
  */
-class CRM_Mailing_Form_Test extends CRM_Core_Form {
-
-    public function buildQuickForm() {
+class CRM_Mailing_Form_Test extends CRM_Core_Form 
+{
+    
+    public function buildQuickForm() 
+    {
         $session =& CRM_Core_Session::singleton();
         $this->add('checkbox', 'test', ts('Send a Test Mailing?'));
         $defaults['test'] = true;
@@ -69,7 +71,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
             'from_email'=> $this->get('from_email'),
             'subject'   => $this->get('subject'),
         );
-        
+
         $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
         $preview = array(
             'text_link' => CRM_Utils_System::url('civicrm/mailing/preview', 'type=text'),
@@ -87,12 +89,13 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
      * @return boolean          true on succesful SMTP handoff
      * @access public
      */
-    public function &testMail($params, &$files, &$options) {
+    public function &testMail($params, &$files, &$options) 
+    {
         if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
-            ! $params['test']) 
-        {
+            ! $params['test']) {
             return true;
         }
+        
         $config =& CRM_Core_Config::singleton();
         $session    =& CRM_Core_Session::singleton();
         
@@ -109,9 +112,16 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form {
         $mailing->replyTo_email = $email;
         $mailing->subject = ts('Test Mailing:') . ' ' . $options['subject'];
 
-        $mailing->body_html = file_get_contents($options['htmlFile']);
+        if (file_exists($options['htmlFile'])) {
+            $mailing->body_html = file_get_contents($options['htmlFile']);
+        } else {
+            $mailing->body_html = $options['htmlFile'];
+        }
+
         if (file_exists($options['textFile'])) {
             $mailing->body_text = file_get_contents($options['textFile']);
+        } else if ( $options['textFile'] ) {
+            $mailing->body_text = $options['textFile'];
         } else {
             $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
         }

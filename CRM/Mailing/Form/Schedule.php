@@ -37,7 +37,8 @@
 /**
  *
  */
-class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
+class CRM_Mailing_Form_Schedule extends CRM_Core_Form 
+{
 
     /**
      * Build the form for the last step of the mailing wizard
@@ -46,7 +47,8 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function buildQuickform() {
+    public function buildQuickform() 
+    {
         $this->addElement('date', 'start_date', ts('Start Date'),
             CRM_Core_SelectValues::date('mailing'));
         $this->addElement('checkbox', 'now', ts('Send Immediately'));
@@ -64,6 +66,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
                             )
                         );
     }
+    
     /**
      * Form rule to validate the date selector and/or if we should deliver
      * immediately.
@@ -76,7 +79,8 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
      *                          date is properly set.
      * @static
      */
-    public static function &formRule(&$params) {
+    public static function &formRule(&$params) 
+    {
         if ($params['now']) {
             return true;
         }
@@ -97,7 +101,8 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function postProcess() {
+    public function postProcess() 
+    {
         $params = array();
         foreach (array( 
                     'template', 'mailing_name',
@@ -130,7 +135,8 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
      * @access public
      * @return string
      */
-    public function getTitle( ) {
+    public function getTitle( ) 
+    {
         return ts( 'Schedule / Send' );
     }
 

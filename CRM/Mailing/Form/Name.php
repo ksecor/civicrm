@@ -42,16 +42,18 @@ require_once 'CRM/Mailing/PseudoConstant.php';
  */
 class CRM_Mailing_Form_Name extends CRM_Core_Form {
 
-
     /**
-     * This function sets the default values for the form. Note that in edit/view mode
+     * This function sets the default values for the form.
      * the default values are retrieved from the database
      * 
      * @access public
      * @return None
      */
-    function setDefaultValues( ) {
-        $mailingID = $this->get("mailingID");
+    function setDefaultValues( ) 
+    {
+
+        $mailingID = $this->get("mid");
+        
         $defaults = array( );
         if ( $mailingID ) {
             $defaults["name"] = CRM_Core_DAO::getFieldValue("CRM_Mailing_DAO_Mailing",$mailingID,"name","id");
@@ -66,7 +68,8 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
         $this->add( 'text', 'name', ts('Name Your Mailing'),
                     CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
                     true );
@@ -94,7 +97,8 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
 
     }
 
-    public function postProcess() {
+    public function postProcess() 
+    {
         $mailingName = $this->controller->exportValue($this->_name, 'name');
         $isTemplate  = $this->controller->exportValue($this->_name, 'template');
         $this->set('mailing_name', $mailingName);
@@ -107,7 +111,8 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
      * @access public
      * @return string
      */
-    public function getTitle( ) {
+    public function getTitle( ) 
+    {
         return ts( 'Name' );
     }
 

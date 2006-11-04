@@ -35,17 +35,57 @@
  */
 
 /**
- *
+ * This file is used to build the form configuring mailing details
  */
-class CRM_Mailing_Form_Upload extends CRM_Core_Form {
+class CRM_Mailing_Form_Upload extends CRM_Core_Form 
+{
+    
+    /**
+     * This function sets the default values for the form.
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+        $mailingID = $this->get("mid");
 
+        $session =& CRM_Core_Session::singleton();
+        $session->set('skipTextFile', false);
+        $session->set('skipHtmlFile', false);
+
+        $defaults = array( );
+        if ( $mailingID ) {
+            require_once "CRM/Mailing/DAO/Mailing.php";
+            $dao =&new  CRM_Mailing_DAO_Mailing();
+            $dao->id = $mailingID; 
+            $dao->find(true);
+            $dao->storeValues($dao, $defaults);
+            
+            if ($defaults['body_text']) {
+                $this->set('textFile', $defaults['body_text'] );
+                $session->set('skipTextFile', true);
+            }
+
+            if ($defaults['body_html']) {
+                $this->set('htmlFile', $defaults['body_html'] );
+                $session->set('skipHtmlFile', true);
+            }
+        }
+
+        return $defaults;
+    }
+
+ 
     /**
      * Function to actually build the form
      *
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
         $session =& CRM_Core_Session::singleton();
         
         $this->add('text', 'from_name', ts('From Name'));
@@ -99,15 +139,25 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
         $this->setDefaults($defaults);
     }
 
-    public function postProcess() {
+    public function postProcess() 
+    {
         foreach (array( 'from_name', 'from_email','subject', 
                         'forward_reply', 'track_urls', 'track_opens',
                         'header_id', 'footer_id', 'reply_id', 'unsubscribe_id',
-                        'optout_id', 'auto_responder', 'textFile', 'htmlFile') 
+                        'optout_id', 'auto_responder') 
                     as $key) 
         {
             $this->set($key, $this->controller->exportvalue($this->_name, $key));
         }
+
+        if ( $this->controller->exportvalue($this->_name, 'textFile') ) {
+            $this->set('textFile', $this->controller->exportvalue($this->_name, 'textFile') );
+        }
+
+        if ($this->controller->exportvalue($this->_name, 'htmlFile')) {
+            $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
+        }
+
     }
 
     /**
@@ -119,7 +169,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
      * @access public
      * @static
      */
-    static function dataRule(&$params, &$files, &$options) {
+    static function dataRule(&$params, &$files, &$options) 
+    {
         if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST)) {
             return true;
         }
@@ -164,8 +215,13 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
 
         require_once 'CRM/Utils/Token.php';
 
+        $skipTextFile = $session->get('skipTextFile');
+        $skipHtmlFile = $session->get('skipHtmlFile');
+
         if (!file_exists($files['textFile']['tmp_name']) and !file_exists($files['htmlFile']['tmp_name'])) {
-            $errors['textFile'] = ts('Please provide either the text or HTML message.');
+            if ( !($skipTextFile || $skipHtmlFile) ) {
+                $errors['textFile'] = ts('Please provide either the text or HTML message.');
+            }
         }
 
         foreach (array('textFile', 'htmlFile') as $file) {
@@ -220,7 +276,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form {
      * @access public
      * @return string
      */
-    public function getTitle( ) {
+    public function getTitle( ) 
+    {
         return ts( 'Upload Message' );
     }
 }
