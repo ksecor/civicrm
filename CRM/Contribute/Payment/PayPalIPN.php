@@ -190,7 +190,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'amount' , $amount );
         $template->assign( 'trxn_id', $contribution->trxn_id );
-        $template->assign( 'receive_date', $contribution->receive_date ) );
+        $template->assign( 'receive_date', $contribution->receive_date );
         $template->assign( 'contributeMode', 'notify' );
 
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values );
