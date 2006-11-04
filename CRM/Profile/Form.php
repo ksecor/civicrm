@@ -309,13 +309,15 @@ class CRM_Profile_Form extends CRM_Core_Form
                     
                     $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $defaults[$customOptionValueId], 'file_id', 'id' );
                     if ($fileId) {
+                        $deleteExtra = "Are you sure you want to delete attached file ?";
                         $fileType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_File', $fileId, 'mime_type', 'id' );
                         $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileId}&eid=$this->_id" );
                         if ( $fileType =="image/jpeg" || $fileType =="image/gif" || $fileType =="image/png" ) { 
-                            $customFiles[$field['name']] = "Attached File : <a href='javascript:popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
+                            $customFiles[$field['name']]['displayURL'] = "Attached File : <a href='javascript:popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";
                         } else { //for files other than images
-                            $customFiles[$field['name']] = "Attached File : <a href=$url>" . $defaults[$field['name']] . "</a>";
+                            $customFiles[$field['name']]['displayURL'] = "Attached File : <a href=$url>" . $defaults[$field['name']] . "</a>";
                         }
+                        $customFiles[$field['name']]['deleteURL'] = "<a href=\"" . $url . "&amp;action=delete\" onclick = \"if (confirm( ' $deleteExtra ' )) this.href+='&amp;confirmed=1'; else return false;\">Delete Attached File</a>";
                     }
                 }
             }
