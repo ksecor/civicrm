@@ -44,14 +44,16 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
 
     function path( $fileID,
                    $entityID,
-                   $entityTable = 'civicrm_contact' ,$quest = false  ) {
+                   $entityTable = null, $quest = false  ) {
         require_once 'CRM/Core/DAO/EntityFile.php'; 
         
         $entityFileDAO =& new CRM_Core_DAO_EntityFile();
-        $entityFileDAO->entity_table = $entityTable;
+        if ($entityTable) {
+            $entityFileDAO->entity_table = $entityTable;
+        }
         $entityFileDAO->entity_id    = $entityID;
         $entityFileDAO->file_id      = $fileID;
-
+        
         if ( $entityFileDAO->find( true ) ) {
             require_once 'CRM/Core/DAO/File.php'; 
             $fileDAO =& new CRM_Core_DAO_File( );
@@ -122,20 +124,25 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         
     }
 
-    public function delete($fileID , $entityId, $entityTable = 'civicrm_contact') {
+    public function delete($fileID , $entityId, $entityTable = null) {
         require_once "CRM/Core/DAO/CustomValue.php";
         $customDAO =& new CRM_Core_DAO_CustomValue();
-        $customDAO->entity_table = $entityTable; 
-        $customDAO->file_id = $fileID;
+        $customDAO->entity_id = $entityId;
+        $customDAO->file_id   = $fileID;
+        if ($entityTable) {
+            $customDAO->entity_table = $entityTable; 
+        }
         if ( $customDAO->find(true) ) {
             $customDAO->delete();
         }
 
         require_once "CRM/Core/DAO/EntityFile.php";
         $entityFileDAO =& new CRM_Core_DAO_EntityFile();
-        $entityFileDAO->file_id = $fileID;
-        $entityFileDAO->entity_table = $entityTable;
-        $entityFileDAO->entity_id    = $entityId;
+        $entityFileDAO->file_id    = $fileID;
+        $entityFileDAO->entity_id  = $entityId;
+        if ($entityTable) {
+            $entityFileDAO->entity_table = $entityTable;
+        }
         
         if ( $entityFileDAO->find(true) ) {
             $entityFileDAO->delete();

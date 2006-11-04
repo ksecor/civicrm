@@ -49,7 +49,7 @@ class CRM_Core_Page_File extends CRM_Core_Page {
         $action      = CRM_Utils_Request::retrieve( 'action', 'String',   $this );
 
         require_once 'CRM/Core/BAO/File.php';
-        list( $path, $mimeType ) = CRM_Core_BAO_File::path( $id, $eid, 'civicrm_contact' ,$quest);
+        list( $path, $mimeType ) = CRM_Core_BAO_File::path( $id, $eid, null, $quest);
         if ( ! $path ) {
             CRM_Core_Error::statusBounce( 'Could not retrieve the file' );
         }

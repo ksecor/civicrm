@@ -442,7 +442,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
                         $entityFileDAO =& new CRM_Core_DAO_EntityFile();
                         
                         if ( isset($field['customValue']['fid'] )) {
-                            $entityFileDAO->file_id = isset($field['customValue']['fid'] );
+                            $entityFileDAO->file_id = $field['customValue']['fid'];
                             $entityFileDAO->find(true);
                         }
                         
