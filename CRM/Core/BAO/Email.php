@@ -136,7 +136,7 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
 
         require_once 'CRM/Mailing/Event/BAO/Queue.php';
         while ($dao->fetch()) {
-            CRM_Mailing_Event_BAO_Queue::deleteEmail( $dao->id );
+            CRM_Mailing_Event_BAO_Queue::deleteEventQueue( $dao->id );
         }
         
         $dao->reset();
