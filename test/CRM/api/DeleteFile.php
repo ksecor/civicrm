@@ -16,13 +16,13 @@ class TestofDeleteFile extends UnitTestCase
     {
         $params = array(
                         'file_type_id' => 1,
-                        'uri'          => 'file://home/rupam/desktop/details.txt',
+                        'uri'          => 'file://tmp/details.txt',
                         'description'  => 'new file',
                         );
         $this->_file =& crm_create_file($params);
         $this->assertEqual($this->_file['file_type_id'], 1);
         $this->assertEqual($this->_file['description'],'new file');
-        $this->assertEqual($this->_file['uri'],'file://home/rupam/desktop/details.txt' ); 
+        $this->assertEqual($this->_file['uri'],'file://tmp/details.txt' ); 
     }
     
     function testDeleteFileErrorEmpty()
@@ -37,6 +37,7 @@ class TestofDeleteFile extends UnitTestCase
         $params = array(
                         'description' => 'new file'
                         );
+        
         $deleteFile =& crm_delete_file($params);
         $this->assertIsA($deleteFile, 'CRM_Core_Error');
     }
@@ -53,7 +54,7 @@ class TestofDeleteFile extends UnitTestCase
     function testDeleteFileErrorByUri()
     {
         $params = array(
-                        'uri' =>'file://home/rupam/desktop/details.txt'
+                        'uri' =>'file://tmp/details.txt'
                         );
         $deleteFile =& crm_delete_file($params);
         $this->assertIsA($deleteFile, 'CRM_Core_Error');
@@ -64,32 +65,30 @@ class TestofDeleteFile extends UnitTestCase
         $deleteFile =& crm_delete_file($this->_file['id']);
         $this->assertNull($deleteFile);
     }
-
-
-
-     /* Special Case for Delete File .. To check whether the Contact entries get deleted from civicrm_file_entity after successfule delete of File from civicrm_file. */
+    
+    /* Special Case for Delete File .. To check whether the Contact entries get deleted from civicrm_file_entity after successfule delete of File from civicrm_file. */
 
    function  testCreateFile1()
     {
         $params1 = array(
                         'file_type_id' => 1,
-                        'uri'          => 'file://home/rupam/desktop/details.txt',
+                        'uri'          => 'file://tmp/details.txt',
                         'description'  => '.txt file',
                         );
         $this->_file1 =& crm_create_file($params1);
         $this->assertEqual($this->_file1['file_type_id'], 1);
         $this->assertEqual($this->_file1['description'],'.txt file');
-        $this->assertEqual($this->_file1['uri'],'file://home/rupam/desktop/details.txt' ); 
+        $this->assertEqual($this->_file1['uri'],'file://tmp/details.txt' ); 
         
         $params2 = array(
                         'file_type_id' => 2,
-                        'uri'          => 'file://home/rupam/desktop/bill.png',
+                        'uri'          => 'file://tmp/bill.png',
                         'description'  => '.png file',
                         );
         $this->_file2 =& crm_create_file($params2);
         $this->assertEqual($this->_file2['file_type_id'], 2);
         $this->assertEqual($this->_file2['description'],'.png file');
-        $this->assertEqual($this->_file2['uri'],'file://home/rupam/desktop/bill.png' );
+        $this->assertEqual($this->_file2['uri'],'file://tmp/bill.png' );
     }
     
     function testCreateContact1()
@@ -202,5 +201,6 @@ class TestofDeleteFile extends UnitTestCase
         $deleteContact2 =& crm_delete_contact(& $this->_individual2);
         $this->assertNull($deleteContact2);
     }
+    
 }
 ?>

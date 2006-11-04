@@ -21,7 +21,7 @@ class TestOfCreateHistoryAPI extends UnitTestCase {
     {
         $params = array('entity_id' => 1);
         $history =& crm_create_activity_history($params);
-        $this->assertIsA($history, 'CRM_Core_Error');
+        $this->assertIsA($history, 'CRM_Core_DAO_ActivityHistory');
     }
 
     function testCreateOnlyEntityIdActivityId()
@@ -41,7 +41,6 @@ class TestOfCreateHistoryAPI extends UnitTestCase {
                         'callback' => '',
                         'activity_summary' => 'Form letter and follow-up phone call.',
                         'activity_date' => '20060422',
-                        'relationship_id' => '151'
                         );
         $history =& crm_create_activity_history($params);
         $this->assertIsA($history, 'CRM_Core_DAO_ActivityHistory');

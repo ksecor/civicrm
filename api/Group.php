@@ -205,12 +205,12 @@ function crm_add_group_contacts(&$group, &$contacts, $status = 'Added', $method 
         return _crm_error( 'Invalid group object passed in' );
     }
     
-
     foreach($contacts as $contact){
-        if ( ! isset( $contact->contact_id )) {
+        if ( ! isset( $contact->contact_type_object->contact_id )) {
             return _crm_error( 'Invalid contact object passed in' );
         }
-        $contactID[] = $contact->contact_id;
+        
+        $contactID[] = $contact->contact_type_object->contact_id;
     } 
     
     CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID, $group->id, $method, $status);
@@ -279,10 +279,11 @@ function crm_delete_group_contacts(&$group, $contacts, $method = 'Admin') {
 
     $contactID = array( );
     foreach ( $contacts as $contact ) {
-        if ( ! isset($contact->contact_id)) {
-            return _crm_error( 'Invalid contact object passed in' );
-        }
-        $contactID[] = $contact->contact_id;
+         if ( ! isset($contact->contact_type_object->contact_id)) {
+             return _crm_error( 'Invalid contact object passed in' );
+         }
+         
+         $contactID[] = $contact->contact_type_object->contact_id;
     }
 
     if ( ! empty( $contactID ) ) {

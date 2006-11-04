@@ -36,47 +36,43 @@ class TestOfGetLocationAPI extends UnitTestCase
     
     function testCreateLocationIndividual()
     {
-        $workPhone  = & new CRM_Core_DAO_Phone();
-        $workPhone->phone       = '91-20-276048';
-        $workPhone->phone_type  = 'Phone';
+   
+        $workPhone = array( 'phone'      => '91-20-276048',
+                            'phone_type' => 'Phone'
+                            );
         
-        $workMobile =& new CRM_Core_DAO_Phone();
-        $workMobile->phone           = '91-20-9890848585';
-        $workMobile->phone_type      = 'Mobile';
-        $workMobile->mobile_provider = 'Sprint';
+        $workMobile = array('phone'           => '91-20-9890848585',
+                            'phone_type'      => 'Mobile',
+                            'mobile_provider' => 'Sprint'
+                            );
         
-        $workFax    =& new CRM_Core_DAO_Phone();
-        $workFax->phone         = '91-20-234-657686';
-        $workFax->phone_type    = 'Fax';
-        $workFax->is_primary    = TRUE;
-        
+        $workFax = array('phone'      => '91-20-234-657686',
+                         'phone_type' => 'Fax',
+                         'is_primary' => TRUE
+                         );
+                
         $phone     = array ($workPhone, $workMobile, $workFax);
         
-        $workIMFirst  =& new CRM_Core_DAO_IM();
-        $workIMFirst->name = 'mlzope';
-        $workIMFirst->provider_id    = '1';
-        $workIMFirst->is_primary    = FALSE;
+        $workIMFirst = array('name'        => 'mlzope',
+                             'provider_id' => '1',
+                             'is_primary'  => FALSE
+                             );
         
-        $workIMSecond =& new CRM_Core_DAO_IM();
-        $workIMSecond->name = 'mlzope';
-        $workIMSecond->provider_id    = '2';
-        $workIMSecond->is_primary    = FALSE;
+        $workIMSecond = array('name'       => 'mlzope',
+                              'provider_id' => '2',
+                              'is_primary'  => FALSE
+                              );
         
-        $workIMThird  =& new CRM_Core_DAO_IM();
-        $workIMThird->name = 'mlzope';
-        $workIMThird->provider_id    = '5';
-        $workIMThird->is_primary    = TRUE;
+        $workIMThird = array('name'        => 'mlzope',
+                             'provider_id' => '5',
+                             'is_primary'  => TRUE
+                             );
         
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
-        
-        $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'manish@indiatimes.com';
-        
-        $workEmailSecond =& new CRM_Core_DAO_Email();
-        $workEmailSecond->email = 'manish@hotmail.com';
-        
-        $workEmailThird =& new CRM_Core_DAO_Email();
-        $workEmailThird->email = 'manish@sify.com';
+
+        $workEmailFirst = array('email' => 'manish@indiatimes.com');
+        $workEmailSecond = array('email' => 'manish@hotmail.com');
+        $workEmailThird = array('email' => 'manish@sify.com');
         
         $email = array($workEmailFirst, $workEmailSecond, $workEmailThird);
         
@@ -104,7 +100,15 @@ class TestOfGetLocationAPI extends UnitTestCase
     
     function testGetLocationIndividualError()
     {
-        $location_types    = array ('Other');
+        $location_types    = array ('other');
+        $contact           = $this->_individual;
+        $newlocation       =& crm_get_locations(&$contact, $location_types);
+        $this->assertNotA($newlocation, 'CRM_Core_Error');
+    }
+
+    function testGetLocationIndividualEmptyError()
+    {
+        $location_types    = array ();
         $contact           = $this->_individual;
         $newlocation       =& crm_get_locations(&$contact, $location_types);
         $this->assertIsA($newlocation, 'CRM_Core_Error');
@@ -125,7 +129,7 @@ class TestOfGetLocationAPI extends UnitTestCase
         }
     }
     
-    /* Test cases for crm_get_location for Household contact */
+    //   Test cases for crm_get_location for Household contact
     
     function testCreateContactHousehold() 
     {
@@ -142,48 +146,49 @@ class TestOfGetLocationAPI extends UnitTestCase
 
     function testCreateLocationHousehold()
     {
-        $workPhone  = & new CRM_Core_DAO_Phone();
-        $workPhone->phone       = '91-20-276048';
-        $workPhone->phone_type  = 'Phone';
+        $workPhone = array('phone'       => '91-20-276048',
+                           'phone_type'  => 'Phone'
+                           );
         
-        $workMobile =& new CRM_Core_DAO_Phone();
-        $workMobile->phone           = '91-20-9890848585';
-        $workMobile->phone_type      = 'Mobile';
-        $workMobile->mobile_provider = 'Sprint';
+       
+        $workMobile = array('phone'           => '91-20-9890848585',
+                            'phone_type'      => 'Mobile',
+                            'mobile_provider' => 'Sprint'
+                            );
         
-        $workFax    =& new CRM_Core_DAO_Phone();
-        $workFax->phone         = '91-20-234-657686';
-        $workFax->phone_type    = 'Fax';
-        $workFax->is_primary    = TRUE;
+        $workFax    = array('phone'      => '91-20-234-657686',
+                            'phone_type' => 'Fax',
+                            'is_primary' =>' TRUE'
+                            );
+        
+
         
         $phone     = array ($workPhone, $workMobile, $workFax);
         
-        $workIMFirst  =& new CRM_Core_DAO_IM();
-        $workIMFirst->name = 'mlzope';
-        $workIMFirst->provider_id    = '1';
-        $workIMFirst->is_primary    = FALSE;
+        $workIMFirst  =array('name'        => 'mlzope',
+                             'provider_id' => '1',
+                             'is_primary'  => FALSE
+                             );
         
-        $workIMSecond =& new CRM_Core_DAO_IM();
-        $workIMSecond->name = 'mlzope';
-        $workIMSecond->provider_id    = '2';
-        $workIMSecond->is_primary    = FALSE;
+        $workIMSecond =array('name'        => 'mlzope',
+                             'provider_id' => '2',
+                             'is_primary'  => FALSE
+                             );
         
-        $workIMThird  =& new CRM_Core_DAO_IM();
-        $workIMThird->name = 'mlzope';
-        $workIMThird->provider_id    = '5';
-        $workIMThird->is_primary    = TRUE;
+        $workIMThird  =array('name'        => 'mlzope',
+                             'provider_id' => '5',
+                             'is_primary'  => TRUE
+                             );
+
         
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
         
-        $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'manish@indiatimes.com';
+        $workEmailFirst  = array('email' => 'manish@indiatimes.com');
         
-        $workEmailSecond =& new CRM_Core_DAO_Email();
-        $workEmailSecond->email = 'manish@hotmail.com';
+        $workEmailSecond = array('email' => 'manish@hotmail.com');
         
-        $workEmailThird =& new CRM_Core_DAO_Email();
-        $workEmailThird->email = 'manish@sify.com';
-        
+        $workEmailThird = array('email' => 'manish@sify.com');
+
         $email = array($workEmailFirst, $workEmailSecond, $workEmailThird);
         
         $params = array('location_type'          => 'Main',
@@ -239,47 +244,46 @@ class TestOfGetLocationAPI extends UnitTestCase
     
     function testCreateLocationOrganization()
     {
-        $workPhone  = & new CRM_Core_DAO_Phone();
-        $workPhone->phone       = '91-20-276048';
-        $workPhone->phone_type  = 'Phone';
+        $workPhone = array('phone'      => '91-20-276048',
+                           'phone_type' => 'Phone'
+                           );
         
-        $workMobile =& new CRM_Core_DAO_Phone();
-        $workMobile->phone           = '91-20-9890848585';
-        $workMobile->phone_type      = 'Mobile';
-        $workMobile->mobile_provider = 'Sprint';
+
+        $workMobile = array('phone'           => '91-20-9890848585',
+                            'phone_type'      => 'Mobile',
+                            'mobile_provider' => 'Sprint'
+                            );
         
-        $workFax    =& new CRM_Core_DAO_Phone();
-        $workFax->phone         = '91-20-234-657686';
-        $workFax->phone_type    = 'Fax';
-        $workFax->is_primary    = TRUE;
+        $workFax    = array('phone'      => '91-20-234-657686',
+                            'phone_type' => 'Fax',
+                            'is_primary' =>  TRUE
+                            );
         
         $phone     = array ($workPhone, $workMobile, $workFax);
+
+        $workIMFirst  = array ('name'        => 'mlzope',
+                               'provider_id' => '1',
+                               'is_primary'  =>  FALSE
+                               );
         
-        $workIMFirst  =& new CRM_Core_DAO_IM();
-        $workIMFirst->name = 'mlzope';
-        $workIMFirst->provider_id    = '1';
-        $workIMFirst->is_primary    = FALSE;
+        $workIMSecond = array ('name'        => 'mlzope',
+                               'provider_id' => '2',
+                               'is_primary'  => FALSE
+                               );
         
-        $workIMSecond =& new CRM_Core_DAO_IM();
-        $workIMSecond->name = 'mlzope';
-        $workIMSecond->provider_id    = '2';
-        $workIMSecond->is_primary    = FALSE;
-        
-        $workIMThird  =& new CRM_Core_DAO_IM();
-        $workIMThird->name = 'mlzope';
-        $workIMThird->provider_id    = '5';
-        $workIMThird->is_primary    = TRUE;
+        $workIMThird  = array ('name'        => 'mlzope',
+                               'provider_id' => '5',
+                               'is_primary'  => TRUE
+                               );
         
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
         
-        $workEmailFirst  =& new CRM_Core_DAO_Email();
-        $workEmailFirst->email = 'manish@indiatimes.com';
+
+        $workEmailFirst  = array ('email' => 'manish@indiatimes.com');
         
-        $workEmailSecond =& new CRM_Core_DAO_Email();
-        $workEmailSecond->email = 'manish@hotmail.com';
+        $workEmailSecond = array ('email' => 'manish@hotmail.com');
         
-        $workEmailThird =& new CRM_Core_DAO_Email();
-        $workEmailThird->email = 'manish@sify.com';
+        $workEmailThird = array ('email' => 'manish@sify.com');
         
         $email = array($workEmailFirst, $workEmailSecond, $workEmailThird);
         

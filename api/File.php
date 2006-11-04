@@ -180,20 +180,23 @@ function &crm_delete_file( $fileId ) {
         return _crm_error( 'Required parameter missing' );
     }
     
+    $check = false;
+    
     require_once 'CRM/Core/DAO/EntityFile.php';
     $entityFileDAO =& new CRM_Core_DAO_EntityFile( );
     $entityFileDAO->file_id = $fileId;
     if ($entityFileDAO->find()) {
-        $entityFileDAO->delete();
+        $check = $entityFileDAO->delete();
     }
     
     require_once 'CRM/Core/DAO/File.php';
     $fileDAO =& new CRM_Core_DAO_File( );
     $fileDAO->id = $fileId;
     if ($fileDAO->find(true)) {
-        $del = $fileDAO->delete();
+        $check = $fileDAO->delete();
     }
-    return $del ? null : _crm_error('Error while deleting a file.');
+    
+    return $check ? null : _crm_error('Error while deleting a file.');
 }
 
 /**

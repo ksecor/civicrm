@@ -71,14 +71,20 @@ class TestofGetNote extends UnitTestCase
                         'entity_id'    => $this->_individual->id,
                         );
         $note =& crm_get_note($params);
-        $this->assertIsA($note[$this->_note['id']], 'CRM_Core_BAO_Note');
+        //$this->assertIsA($note[$this->_note['id']], 'CRM_Core_BAO_Note');
+        $this->assertEqual($this->_note['entity_table'], 'civicrm_contact');
+        $this->assertEqual($this->_note['entity_id'], $this->_individual->id);
+
     }
 
     function testGetNoteById()
     {   
         $params = array('id' => $this->_note['id']);
         $note =& crm_get_note($params);
-        $this->assertIsA($note[$this->_note['id']], 'CRM_Core_BAO_Note');
+        //        $this->assertIsA($note[$this->_note['id']], 'CRM_Core_BAO_Note');
+        $this->assertEqual($this->_note['entity_table'], 'civicrm_contact');
+        $this->assertEqual($this->_note['entity_id'], $this->_individual->id);
+        $this->assertEqual($this->_note['note'], 'rupam jaiswal');
     }
     
     function testDeleteNote()

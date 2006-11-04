@@ -134,7 +134,7 @@ function crm_create_location(&$contact, $params) {
  */
 function crm_update_location(&$contact, $location_id, $params) {
     _crm_initialize( );
-    
+   
     if( ! isset( $contact->id ) ) {
         return _crm_error('$contact is not valid contact datatype');
     } 
@@ -146,14 +146,15 @@ function crm_update_location(&$contact, $location_id, $params) {
     
     // $locationObj is the original location object that we are updating
     $locationObj = null;
-
     $locations =& crm_get_locations($contact);
+    
     foreach ($locations as $locNumber => $locValue) {
         if ($locValue->id == $locationId) {
             $locationObj = $locValue;
             break;
         }
     }
+
     if ( ! $locationObj ) {
         return _crm_error('invalid $location_id');
     }
@@ -162,7 +163,6 @@ function crm_update_location(&$contact, $location_id, $params) {
                     'contact_id'    => $contact->id,
                     'location'      => array(1 => array()),
                     );
-    
     
     $loc =& $values['location'][1];
 
@@ -231,7 +231,7 @@ function crm_update_location(&$contact, $location_id, $params) {
 
     $par = array('id' => $contact->id,'contact_id' => $contact->id);
     $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
-    
+       
     CRM_Contact_BAO_Contact::resolveDefaults($values, true);
    
     $location = CRM_Core_BAO_Location::add($values, $ids, 1);
@@ -307,7 +307,11 @@ function crm_get_locations(&$contact, $location_types = null) {
     
     if( ! isset( $contact->id ) ) {
         return _crm_error('$contact is not valid contact datatype');
-    } 
+    }
+    
+    if ( is_array($location_types) && ! count($location_types) ) {
+        return _crm_error('Location type array can not be empty');
+    }
     
     $params = array();
     $params['contact_id']   = $contact->id;
@@ -317,8 +321,8 @@ function crm_get_locations(&$contact, $location_types = null) {
     $locationDAO->entity_id = $contact->id;
     $locationCount = $locationDAO->count();
     $values = array();
-    $locations = CRM_Core_BAO_Location::getValues($params,$values,$ids,$locationCount);
-    
+    $locations = CRM_Core_BAO_Location::getValues($params,$values,$ids,$locationCount); 
+       
     if( is_array($location_types) && count($location_types)>0 ) {
         $newLocations = array();
         foreach($location_types as $locationName) {
@@ -327,15 +331,15 @@ function crm_get_locations(&$contact, $location_types = null) {
             $LocationTypeDAO->find();
             $LocationTypeDAO->fetch();
             foreach($locations as $location) {
-                if($location->location_type_id == $LocationTypeDAO->id) {
-                    $newLocations[] = $location;
+            if($location->location_type_id == $LocationTypeDAO->id) {
+                $newLocations[] = $location;
                 }
             }
         }
         // its ok to return an empty array of locations
         return $newLocations;
     }
-
+  
     return $locations;
 }
 

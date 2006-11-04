@@ -72,7 +72,9 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactIndividualByContactID() 
     {
-        $params = array(array('contact_id', '=', $this->_individual->id, 0, 0));
+        //  $params = array(array('contact_id', '=', $this->_individual->id, 0, 0));
+        $params = array('contact_id' => $this->_individual->id);
+        // CRM_Core_Error::debug('$this->_individual->id', $this->_individual->id);
         $returnProperties = array( 'phone' => 1,
                                    'email' => 1 );
         $contact =& crm_fetch_contact($params, $returnProperties);
@@ -84,7 +86,8 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactHouseHold() 
     {
-        $params = array( array( 'contact_id', '=', $this->_household->id, 0, 0 ) );
+        //        $params = array( array( 'contact_id', '=', $this->_household->id, 0, 0 ) );
+        $params = array('contact_id' => $this->_household->id);
         $returnProperties = array( 'phone' => 1,
                                    'email' => 1 );
         $contact =& crm_fetch_contact($params);
@@ -95,7 +98,8 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactOrganization() 
     {
-        $params = array( array( 'contact_id', '=', $this->_organization->id, 0, 0 ) );
+        // $params = array( array( 'contact_id', '=', $this->_organization->id, 0, 0 ) );
+        $params = array('contact_id' => $this->_organization->id);
         $contact =& crm_fetch_contact($params);
         $returnProperties = array( 'phone' => 1,
                                    'email' => 1 );
@@ -106,14 +110,16 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactError() 
     {
-        $params = array( array( 'contact_id', '=', -3, 0, 0 ) );
+        //$params = array( array( 'contact_id', '=', -3, 0, 0 ) );
+        $params = array('contact_id' => -3);
         $contact =& crm_fetch_contact($params);
         $this->assertIsA($contact, 'CRM_Core_Error');
     }
     
     function testFetchContactReturnValuesIndividualByID() 
     {
-        $params = array( array( 'contact_id', '=', $this->_individual->id, 0, 0 ) );
+        //    $params = array( array( 'contact_id', '=', $this->_individual->id, 0, 0 ) );
+        $params = array('contact_id' => $this->_individual->id);
         $returnValues = array('id'             => 1,
                               'first_name'     => 1,
                               'last_name'      => 1,
@@ -132,8 +138,8 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactReturnValuesIndividualByFNameLName()
     {
-        $params = array( array( 'contact_id', '=', $this->_individual->id, 0, 0 ),
-                         array( 'sort_name', '=', 'zope01, manish01', 0, 0 ) 
+        $params = array( 'contact_id'  => $this->_individual->id,
+                         'sort_name' => 'zope01, manish01' 
                          );
         $returnValues = array( 'id'             => 1,
                                'first_name'     => 1,
@@ -152,8 +158,11 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactIndividualByEmail()
     {
-        $params = array( array( 'contact_id', '=', $this->_individual->id, 0, 0 ),
-                         array( 'email', '=', 'manish01@yahoo.com', 0, 0 ) 
+     //    $params = array( array( 'contact_id', '=', $this->_individual->id, 0, 0 ),
+//                          array( 'email', '=', 'manish01@yahoo.com', 0, 0 ) 
+//                          );
+        $params = array(  'contact_id' => $this->_individual->id,
+                          'email', '=', 'manish01@yahoo.com'
                          );
         $returnValues = array( 'id'             => 1,
                                'contact_type'   => 1,
@@ -176,7 +185,11 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactReturnValuesHouseholdByID() 
     {
-        $params = array( array( 'contact_id', '=', $this->_household->id, 0, 0 ) );
+        //        $params = array( array( 'contact_id', '=', $this->_household->id, 0, 0 ) );
+
+        $params = array(  'contact_id' => $this->_household->id,
+                          'email', '=', 'manish01@yahoo.com'
+                         );
         $returnValues = array( 'household_name' => 1,
                                'nick_name'      => 1,
                                'email'          => 1,
@@ -192,9 +205,13 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactReturnValuesHouseholdByHName()
     {
-        $params = array( array( 'contact_id', '=', $this->_household->id, 0, 0 ),
-                         array( 'household_name', '=', 'Zope01 House', 0, 0 ),
-                         array( 'nick_name', '=', 'Z01 House', 0, 0 ) 
+   //      $params = array( array( 'contact_id', '=', $this->_household->id, 0, 0 ),
+//                          array( 'household_name', '=', 'Zope01 House', 0, 0 ),
+//                          array( 'nick_name', '=', 'Z01 House', 0, 0 ) 
+//                          );
+        $params = array(  'contact_id' => $this->_household->id,
+                          'household_name' => 'Zope01 House',
+                          'nick_name' => 'Z01 House' 
                          );
         $return_properties = array( 'contact_type' => 1,
                                     'phone'        => 1, 
@@ -214,7 +231,8 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactReturnValuesOrganization() 
     {
-        $params = array( array( 'contact_id', '=', $this->_organization->id, 0, 0 ) );
+        // $params = array( array( 'contact_id', '=', $this->_organization->id, 0, 0 ) );
+        $params = array('contact_id' => $this->_organization->id);
         $returnValues = array( 'organization_name' => 1,
                                'nick_name'         => 1,
                                'email'             => 1,
@@ -230,8 +248,8 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactReturnValuesOrganizationByOrganizationName()
     {
-        $params = array( array( 'contact_id', '=', $this->_organization->id, 0, 0 ),
-                         array( 'email', '=', 'organization@yahoo.com', 0, 0 ) 
+        $params = array( 'contact_id' => $this->_organization->id,
+                         'email' => 'organization@yahoo.com' 
                          );
         $return_properties = array( 'contact_type'      => 1,
                                     'organization_name' => 1,
@@ -253,7 +271,7 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactContactByPhone()
     {
-        $params = array( array( 'phone', '=', '222222', 0, 0 ) );
+        $params = array( 'phone' => '222222' );
         $return_properties = array( 'contact_type'    => 1,
                                     'individual_name' => 1,
                                     'phone'           => 1,
@@ -267,8 +285,8 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactIndividualByPhoneAndCity()
     {
-        $params = array( array( 'phone', '=', '222222', 0, 0 ),
-                         array( 'city', '=', 'mumbai', 0, 0 ) 
+        $params = array('phone' =>, '222222',
+                        'city'  => 'mumbai' 
                          );
         $return_properties = array( 'contact_type'    => 1,
                                     'individual_name' => 1,
@@ -287,7 +305,7 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactIndividualCity()
     {
-        $params = array( array( 'city', '=', 'mumbai', 0, 0 ) );
+        $params = array( 'city'  => 'mumbai' );
         $return_properties = array( 'contact_type'    => 1,
                                     'individual_name' => 1,
                                     'phone'           => 1,
@@ -305,8 +323,8 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactIndividualCityAndEmail()
     {
-        $params = array( array( 'email', '=', 'manish01@yahoo.com', 0, 0 ),
-                         array( 'city', '=', 'mumbai', 0, 0 ) 
+        $params = array(  'email' => 'manish01@yahoo.com',
+                          'city' => 'mumbai', 
                          );
         $return_properties = array( 'contact_type'    => 1,
                                     'individual_name' => 1, 
@@ -325,8 +343,8 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactOrganizationByPhoneAndCity()
     {
-        $params = array( array( 'phone', '=', '888888', 0, 0 ),
-                         array( 'city', '=', 'pune', 0, 0 ) 
+        $params = array(  'phone' => '888888',
+                          'city' => 'pune'
                          );
         $return_properties = array( 'contact_type'      => 1, 
                                     'organization_name' => 1, 
@@ -343,7 +361,7 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactOrganizationByCity()
     {
-        $params = array( array( 'city', '=', 'pune', 0, 0 ) );
+        $params = array( 'city' => 'pune' );
         $return_properties = array( 'contact_type'      => 1, 
                                     'organization_name' => 1, 
                                     'phone'             => 1,
@@ -360,8 +378,8 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactHouseholdByPhoneAndCity()
     {
-        $params = array( array( 'phone', '=', '444444', 0, 0 ),
-                         array( 'city', '=', 'kolhapur', 0, 0 ) 
+        $params = array(  'phone' => '444444',
+                          'city' => 'kolhapur' 
                          );
         $return_properties = array( 'contact_type'   => 1, 
                                     'household_name' => 1,
@@ -377,7 +395,7 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactHouseholdByCity()
     {
-        $params = array( array( 'city', '=', 'kolhapur', 0, 0 ) );
+        $params = array( 'city' => 'kolhapur' );
         $return_properties = array( 'contact_type'   => 1, 
                                     'household_name' => 1, 
                                     'phone'          => 1
@@ -392,9 +410,9 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactIndividualHouseholdOrganizationWithError()
     {
-        $params = array( array( 'phone', '=', '888888', 0, 0 ),
-                         array( 'city', '=', 'kolhapur', 0, 0 ),
-                         array( 'email', '=', 'manish01@yahoo.com', 0, 0 )
+        $params = array( 'phone'  => '888888',
+                         'city'  => 'kolhapur',
+                         'email' => 'manish01@yahoo.com'
                          );
         $return_properties = array( 'contact_type'    => 1, 
                                     'individual_name' => 1, 
