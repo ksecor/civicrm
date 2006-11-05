@@ -2078,6 +2078,10 @@ WHERE civicrm_contact.id IN $idString ";
                     } else if (is_array($value)) {
                         foreach ($value as $k => $v) {
                             if ( array_key_exists($k, $objects)) {
+                                if ( ! isset( $ids['location'] ) ||
+                                     ! is_array( $ids['location'] ) ) {
+                                   $ids['location'] = array( );
+                                }
                                 if ($k == 'location_id') {
                                     $ids['location'][$locNo]['id'] = $v;
                                 } else {
@@ -2099,7 +2103,6 @@ WHERE civicrm_contact.id IN $idString ";
                         $locNo++;
                     }
                 }
-                
             }
             
         }

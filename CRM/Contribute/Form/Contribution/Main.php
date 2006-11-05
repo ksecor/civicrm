@@ -53,7 +53,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     public function preProcess()  
     {  
         parent::preProcess( );
-     
+
         $this->assign( 'intro_text', $this->_values['intro_text'] );
         $this->assign( 'footer_text', $this->_values['footer_text'] );
         
@@ -75,31 +75,15 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 //don't set custom data Used for Contribution (CRM-1344)
                 if ( substr( $name, 0, 7 ) == 'custom_' ) {  
                     $id = substr( $name, 7 );
-                    if ( CRM_Core_BAO_CustomGroup::checkCustomField( $id, $removeCustomFieldTypes )) {
-                        $fields[$name] = 1;
-                    } else {
+                    if ( ! CRM_Core_BAO_CustomGroup::checkCustomField( $id, $removeCustomFieldTypes )) {
                         continue;
                     }
                 }
-                
                 $fields[$name] = 1;
             }
             $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
-            
-            $contact =& CRM_Contact_BAO_Contact::contactDetails( $contactID, $options, $fields );
 
-            foreach ($fields as $name => $dontCare ) {
-                if ( $contact->$name ) {
-                    if ( substr( $name, 0, 7 ) == 'custom_' ) {
-                        $id = substr( $name, 7 );
-                        $this->_defaults[$name] = CRM_Core_BAO_CustomField::getDefaultValue( $contact->$name,
-                                                                                             $id,
-                                                                                             $options );
-                    } else {
-                        $this->_defaults[$name] = $contact->$name;
-                    } 
-                }
-            }
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
         }
 
         //set default membership for membershipship block
@@ -109,12 +93,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         // hack to simplify credit card entry for testing
-        /**
         $this->_defaults['credit_card_type']     = 'Visa';
+        $this->_defaults['amount']               = 5.00;
         $this->_defaults['credit_card_number']   = '4807731747657838';
         $this->_defaults['cvv2']                 = '000';
         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
-        **/
 
         return $this->_defaults;
     }

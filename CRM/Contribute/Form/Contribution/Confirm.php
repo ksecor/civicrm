@@ -249,6 +249,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $contactID = $session->get( 'userID' );
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
         $now = date( 'YmdHis' );
+        
+        $fields = array( );
+        foreach ( $this->_fields as $name => $dontCare ) {
+            $fields[$name] = 1;
+        }
+        $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
 
         if ( ! $contactID ) {
             // make a copy of params so we dont destroy our params
@@ -261,41 +267,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             // if we find more than one contact, use the first one
             $contact_id  = $contactsIDs[0];
-            $contact = null;
-            if ( $contact_id ) {
-                $contact =& crm_get_contact( array( 'contact_id' => $contact_id ) );
-            }
-
-            $ids = array( );
-            if ( ! $contact || ! is_a( $contact, 'CRM_Contact_BAO_Contact' ) ) {
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
-            } else {
-                // need to fix and unify all contact creation
-                $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
-                $defaults = array( );
-                CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
-            }
-            
-            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-                CRM_Core_Error::fatal( "Failed creating contact for contributor" );
-            }
-
-            $contactID = $contact->id;
-
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id );
             $this->set( 'contactID', $contactID );
         } else {
-            $idParams = array( 'id' => $contactID, 'contact_id' => $contactID );
-            $defaults = array( );
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-            $contact =& CRM_Contact_BAO_Contact::createFlat( $params, $ids );
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID );
         }
 
         if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks') {
             require_once "CRM/Member/BAO/Membership.php";
             CRM_Member_BAO_Membership::postProcessMembership($membershipParams,$contactID,$this );
-
-           
         } else {
             $contributionType =& new CRM_Contribute_DAO_ContributionType( );
             $contributionType->id = $this->_values['contribution_type_id'];
