@@ -485,7 +485,7 @@ class CRM_Core_Config
             self::$_singleton->initialize( );
             
             //initialize variable
-            //self::$_singleton->initVariables();
+            self::$_singleton->initVariables();
         }
 
         return self::$_singleton;
@@ -658,8 +658,7 @@ class CRM_Core_Config
             $this->mailerBatchLimit = (int) CIVICRM_MAILER_BATCH_LIMIT;
         }
 
-        $this->retrieveFromSettings( );
-
+        // $this->retrieveFromSettings( );
     }
 
     function retrieveFromSettings( ) {
@@ -1006,7 +1005,7 @@ class CRM_Core_Config
         require_once "CRM/Core/BAO/Setting.php";
         $variables = array();
         CRM_Core_BAO_Setting::retrieve($variables);
-        //CRM_Core_Error::debug('def', $variables );
+        // CRM_Core_Error::debug('def', $variables );
         
         $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
 
@@ -1030,6 +1029,12 @@ class CRM_Core_Config
                 if (in_array($v, $paymentArray)) {
                     $key = $v;
                     
+                    if ( isset( $this->$key ) &&
+                         is_array( $this->$key ) ) {
+                        $d = $this->$key;
+                    } else {
+                        $d = array( );
+                    }
                     $d[$p] = $value;
                     $value = $d;
                 }

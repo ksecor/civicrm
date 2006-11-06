@@ -523,7 +523,7 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         }
 
         if ( $config->paymentProcessor == 'PayPal' ) {
-            if ( empty( $config->paymentCertPath[$mode] ) ) {
+            if ( empty(  $config->paymentUsername[$mode] ) && empty( $config->paymentCertPath[$mode] ) ) {
                 if ( $mode == 'live' ) {
                     $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH') );
                 } else {
