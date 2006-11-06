@@ -1156,11 +1156,13 @@ WHERE civicrm_contact.id IN $idString ";
      * 
      * @param  int  $id id of the contact to delete
      *
+     * @userID int  $userId  the Logged-in id of the Civicrm.
+     *
      * @return boolean true if contact deleted, false otherwise
      * @access public
      * @static
      */
-    function deleteContact( $id ) {
+    function deleteContact( $id, $userId = null ) {
         require_once 'CRM/Core/BAO/EmailHistory.php';
         require_once 'CRM/Activity/BAO/Activity.php';
 
@@ -1182,7 +1184,7 @@ WHERE civicrm_contact.id IN $idString ";
         CRM_Utils_Hook::pre( 'delete', $contactType, $id, CRM_Core_DAO::$_nullArray );
 
         CRM_Core_DAO::transaction( 'BEGIN' );
-
+       
         // do a top down deletion
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             if ( $contact->contact_sub_type == 'Student' ) {
@@ -1190,12 +1192,12 @@ WHERE civicrm_contact.id IN $idString ";
                 CRM_Quest_BAO_Student::deleteStudent($id);
             }
         }
-        
+       
         require_once 'CRM/Core/DAO/Log.php';
         $logDAO =& new CRM_Core_DAO_Log(); 
         $logDAO->modified_id = $id;
         $logDAO->delete();
-
+       
         // delete task status here 
         require_once 'CRM/Project/DAO/TaskStatus.php';
         $taskDAO =& new CRM_Project_DAO_TaskStatus(); 
@@ -1211,9 +1213,11 @@ WHERE civicrm_contact.id IN $idString ";
         CRM_Contact_BAO_Relationship::deleteContact( $id );
 
         CRM_Contribute_BAO_Contribution::deleteContact( $id );
-
-        require_once 'CRM/Member/BAO/Membership.php';
-        CRM_Member_BAO_Membership::deleteContact( $id );
+        
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            require_once 'CRM/Member/BAO/Membership.php';
+            CRM_Member_BAO_Membership::deleteContact( $id, $userId );
+        }
 
         CRM_Core_BAO_Note::deleteContact($id);
 

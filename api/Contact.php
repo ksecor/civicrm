@@ -387,20 +387,22 @@ function &crm_update_contact( &$contact, $params ) {
  *
  * @param CRM_Contact $contact Contact object to be deleted
  *
+ * @userID int $userId of the Logged-in id of the Civicrm.
+ *
  * @return void|CRM_Core_Error  An error if 'contact' is invalid,
  *                         permissions are insufficient, etc.
  *
  * @access public
  *
  */
-function crm_delete_contact( &$contact ) {
+function crm_delete_contact( &$contact, $userId = null ) {
     _crm_initialize( );
 
     if ( ! isset( $contact->id ) || ! isset( $contact->contact_type ) ) {
         return _crm_error( 'Invalid contact object passed in' );
     }
     
-    CRM_Contact_BAO_Contact::deleteContact( $contact->id );
+    CRM_Contact_BAO_Contact::deleteContact( $contact->id, $userId );
 }
 
 /** 

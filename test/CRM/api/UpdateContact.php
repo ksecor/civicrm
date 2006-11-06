@@ -79,7 +79,7 @@ class TestOfUpdateContactAPI extends UnitTestCase
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
         $this->assertEqual($contact->contact_type_object->first_name, 'manish');
         $this->assertEqual($contact->contact_type_object->last_name , 'zope');
-        $this->assertEqual($contact->location[1]->phone[1]->phone, '999999');
+        $this->assertEqual($contact->location[1]->phone[2]->phone, '999999');
         $this->assertEqual($contact->location[1]->email[1]->email, 'manish@gmail.com');
     }
 

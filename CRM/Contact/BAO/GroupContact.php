@@ -474,7 +474,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
         //CRM_Core_Error::debug( 'q', $query );
         
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao =& new CRM_Contact_DAO_Contact( );
+        $dao->query( $query );
         
         // this is quite inefficient, we need to change the return
         // values in docs

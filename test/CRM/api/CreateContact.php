@@ -185,7 +185,7 @@ class TestOfCreateContactAPI extends UnitTestCase
     {
         foreach ($this->_individual as $id => $obj) {
             $contact = $this->_individual[$id];
-            $val =& crm_delete_contact(& $contact);
+            $val =& crm_delete_contact(& $contact,102);
             $this->assertNull($val);
         }
     }
@@ -194,7 +194,7 @@ class TestOfCreateContactAPI extends UnitTestCase
     {
         foreach ($this->_household as $id => $obj) {
             $contact = $this->_household[$id];
-            $val =& crm_delete_contact(& $contact);
+            $val =& crm_delete_contact(& $contact,102);
             $this->assertNull($val);
         }
     }
@@ -203,7 +203,7 @@ class TestOfCreateContactAPI extends UnitTestCase
     {
         foreach ($this->_organization as $id => $obj) {
             $contact = $this->_organization[$id];
-            $val =& crm_delete_contact(& $contact);
+            $val =& crm_delete_contact(& $contact,102);
             $this->assertNull($val);
         }
     }
