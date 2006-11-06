@@ -42,7 +42,7 @@
         <tr>
             <td class="label">{$form.contribution_in_honor_of.label}</td> 
             <td>{$form.contribution_in_honor_of.html}</td> 
-            <td>{$form.contribution_test.html}&nbsp;<label>{ts}Test Mode Contributions?{/ts}</label></td> 
+            <td>{$form.contribution_test.html}&nbsp;<label>{ts}Find Test Contributions{/ts}</label></td> 
         </tr>
         <tr>
             <td class="label">{$form.contribution_source.label}</td>

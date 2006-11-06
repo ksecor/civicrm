@@ -282,6 +282,7 @@
       <title>Status</title>
       <type>int unsigned</type>
       <default>1</default>
+      <import>true</import>
       <add>1.6</add>
   </field>
   <index>

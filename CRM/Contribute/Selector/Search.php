@@ -81,6 +81,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'contribution_source',
                                  'receive_date',
                                  'thankyou_date',
+                                 'contrib_status',
                                  'cancel_date',
                                  'product_name',
                                  'is_test'
@@ -373,8 +374,8 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Cancelled'),
-                                                'sort'      => 'cancel_date',
+                                                'name'      => ts('Status'),
+                                                'sort'      => 'contrib_status',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(

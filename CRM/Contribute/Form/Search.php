@@ -142,7 +142,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
      * @return void 
      * @access public 
      */ 
-    function preProcess( ) { 
+    function preProcess( ) {
         /** 
          * set the button names 
          */ 
@@ -177,8 +177,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
-
-        if ( $this->_force ) { 
+        if ( $this->_force ) {
             $this->postProcess( );
             $this->set( 'force', 0 );
         }
@@ -190,7 +189,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         } 
 
         require_once 'CRM/Contact/Form/Search.php';
-        $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
+        $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues );
         $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,
                                                          $this->_action,
                                                          null,
@@ -218,7 +217,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
 
     function setDefaultValues( ) 
     { 
-        return $this->_defaults; 
+        return $this->_defaults;
     } 
 
     /**
@@ -311,7 +310,6 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $this->_formValues = $this->controller->exportValues($this->_name);
 
         $this->fixFormValues( );
-
         require_once 'CRM/Contact/Form/Search.php';
         $this->_queryParams =& CRM_Contact_Form_Search::convertFormValues( $this->_formValues ); 
 
@@ -386,14 +384,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                CRM_Core_DAO::$_nullObject );
         if ( $status ) {
-            switch ( $status ) {
-            case 'Valid':
-            case 'Cancelled':
-            case 'All':
-                $this->_formValues['contribution_status'] = $status;
-                $this->_defaults['contribution_status'] = $status;
-                break;
-            }
+            $this->_formValues['contribution_status'] = $status;
+            $this->_defaults['contribution_status']   = $status;
         }
 
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',

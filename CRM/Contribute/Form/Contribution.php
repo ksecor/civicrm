@@ -464,7 +464,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
             }
         }
-
+        // FIX ME
+        if ( $params["cancel_date"] ) {
+            $params["contribution_status_id"] = 3;
+        } 
         $ids['contribution'] = $params['id'] = $this->_id;
         if ( CRM_Utils_Array::value( 'contribution_honor', $formValues) ) {
             if ($formValues["contribution_honor"]) {

@@ -287,7 +287,7 @@ class CRM_Contact_BAO_Query {
 
             $this->_fields = array_merge( $this->_fields, $fields );
         }
-
+        
         // basically do all the work once, and then reuse it
         $this->initialize( );
         // CRM_Core_Error::debug( 'q', $this );

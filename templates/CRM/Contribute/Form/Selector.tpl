@@ -47,7 +47,12 @@
     <td>{$row.contribution_source}</td>
     <td>{$row.receive_date|truncate:10:''|crmDate}</td>
     <td>{$row.thankyou_date|truncate:10:''|crmDate}</td>
-    <td>{$row.cancel_date|truncate:10:''|crmDate}</td>
+    <td> 
+        {$row.contrib_status}<br />
+        {if $row.cancel_date}    
+        {$row.cancel_date|truncate:10:''|crmDate}
+        {/if}
+    </td>
     <td>{$row.product_name}</td>
     <td>{$row.action}</td>
   </tr>

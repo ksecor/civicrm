@@ -40,6 +40,28 @@ class CRM_Contribute_BAO_Query {
     static function &getFields( ) {
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $fields =& CRM_Contribute_BAO_Contribution::exportableFields( );
+
+        //fix for adding the option values filed in 
+        require_once "CRM/Core/DAO/OptionValue.php";
+        $option = CRM_Core_DAO_OptionValue::import( );
+        
+        foreach (array_keys( $option ) as $id ) {
+            $optionName = $option[$id];
+        }
+        $nameTitle = array('contrib_status'            => array('name' => 'contrib_status',
+                                                                'title'=> 'Contribution Status'),
+                           );
+        foreach ( $nameTitle as $name => $attribs ) {
+            $optionFields[$name] = $optionName;
+            list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
+            $optionFields[$name]['where'] = $name . '.' . $fieldName;
+            foreach ( $attribs as $key => $val ) {
+                $optionFields[$name][$key] = $val;
+            }
+        }
+        if ( !empty ( $optionFields ) ) {
+            $fields =  array_merge( $fields ,$optionFields );
+        }
         unset( $fields['contact_id']);
         unset( $fields['note'] ); 
         return $fields;
@@ -187,7 +209,9 @@ class CRM_Contribute_BAO_Query {
 
         case 'contribution_test':
             $query->_where[$grouping][] = " civicrm_contribution.is_test $op '$value'";
-            $query->_qill[$grouping][]  = "Contribution Test Mode $op \"$value\"";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Test Contributions Only";
+            }
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
             return;
@@ -227,6 +251,12 @@ class CRM_Contribute_BAO_Query {
             $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_contribution.honor_contact_id = contact_b.id )";
             
             break;
+
+        case 'contrib_status':
+            $from .= " $side JOIN civicrm_option_group option_group_contrib_status ON (option_group_contrib_status.name = 'contribution_status')";
+            $from .= " $side JOIN civicrm_option_value contrib_status ON (civicrm_contribution.contribution_status_id = contrib_status.value AND option_group_contrib_status.id = contrib_status.option_group_id ) ";
+            break;
+
         }
         return $from;
     }
@@ -263,6 +293,8 @@ class CRM_Contribute_BAO_Query {
                                 'contribution_start_date' => 1,
                                 'contribution_end_date'   => 1,
                                 'is_test'                 => 1,
+                                'contribution_status_id'  => 1,
+                                'contrib_status'          => 1,
                                 );
 
             // also get all the custom contribution properties
@@ -331,7 +363,7 @@ class CRM_Contribute_BAO_Query {
         $status[] = $form->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
 
         $form->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
-        $form->setDefaults(array('contribution_status' => 'All'));
+        $form->setDefaults(array('contribution_status' => '1'));
 
         // add null checkboxes for thank you and receipt
         $form->addElement( 'checkbox', 'contribution_thankyou_date_isnull', ts( 'Thank-you date not set?' ) );
@@ -339,7 +371,7 @@ class CRM_Contribute_BAO_Query {
 
         //add fields for honor search
         $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
-        $form->addElement( 'checkbox', 'contribution_test' , ts( 'Test Mode Contribution ?' ) );
+        $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions ?' ) );
         
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

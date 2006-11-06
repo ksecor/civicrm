@@ -6,7 +6,7 @@
         <th> &nbsp; {ts}# Contributions{/ts} - {$contributionSummary.total.count}</th>
         <th> &nbsp; {ts}Avg Amount{/ts} - {$contributionSummary.total.avg|crmMoney}</th>
     {/if}
-    {if $contributionSummary.cancel.amount}
+    {if $contributionSummary.cancel.amount && $mode neq "view"}
         <th class="disabled"> &nbsp; {ts}Total Cancelled Amount{/ts} - {$contributionSummary.cancel.amount|crmMoney}</th>
     {/if}
     </tr>
