@@ -30,7 +30,7 @@
 {foreach from=$location item=loc key=locationIndex}
 
  <div id="location_{$locationIndex}_show" class="data-group">
-  <a href="#" onclick="hide('location_{$locationIndex}_show'); show('location_{$locationIndex}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$loc.location_type}{if $loc.location_name} - {$loc.location_name}{/if}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}</label>
+  <a href="#" onclick="hide('location_{$locationIndex}_show'); show('location_{$locationIndex}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{$loc.location_type}{if $loc.name} - {$loc.name}{/if}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}</label>
   {if $preferred_communication_method_display eq 'Email' && $loc.email.1.email}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Email:{/ts}</label> {$loc.email.1.email}
   {elseif $preferred_communication_method_display eq 'Phone' && $loc.phone.1.phone}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>{ts}Preferred Phone:{/ts}</label> {$loc.phone.1.phone}{/if}
  </div>
@@ -38,7 +38,7 @@
  <div id="location_{$locationIndex}">
   <fieldset>
    <legend{if $locationIndex eq 1} class="label"{/if}>
-    <a href="#" onclick="hide('location_{$locationIndex}'); show('location_{$locationIndex}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$loc.location_type}{if $loc.location_name} - {$loc.location_name}{/if}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}
+    <a href="#" onclick="hide('location_{$locationIndex}'); show('location_{$locationIndex}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{$loc.location_type}{if $loc.name} - {$loc.name}{/if}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}
    </legend>
 
   <div class="col1">
@@ -71,8 +71,8 @@
    </div>
 
    <div class="col2">
-    {if $loc.location_name}
-        <strong>{$loc.location_name}</strong><br />
+    {if $loc.name}
+        <strong>{$loc.name}</strong><br />
     {/if}
     {* If mapGeoCoding config setting is 1, then we can map with just city and state (we don't need or use lat/long values) *}
     {if ( $config->mapAPIKey AND ( is_numeric($loc.address.geo_code_1)  OR ( $config->mapGeoCoding AND $loc.address.city AND $loc.address.state_province ) ) ) }
