@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Member</base>
+  <class>MessageTemplate</class>
+  <name>civicrm_msg_template</name>
+  <comment>Users will need a way to save and retrieve templates with tokens for use in recurring email communication tasks</comment>
+  <add>1.6</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Message Template ID</comment>
+      <add>1.6</add>
+  </field>
+  <primaryKey>
+      <name>id</name>
+      <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+       <add>1.6</add>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+       <add>1.6</add>
+  </foreignKey>
+  <field>
+      <name>msg_title</name>
+      <type>varchar</type>
+      <length>255</length>
+      <comment>Descriptive title of message</comment>
+      <add>1.6</add>
+  </field>
+  <field>
+      <name>msg_subject </name>
+      <type>varchar</type>
+      <length>255</length>
+      <comment>Subject for email message.</comment>
+      <add>1.6</add>
+  </field>
+  <field>
+      <name>msg_text </name>
+      <type>text</type>
+      <comment>Text formatted message</comment>
+      <add>1.6</add>
+  </field>
+  <field>
+      <name>msg_html</name>
+      <type>text</type>
+      <comment>HTML formatted message</comment>
+      <add>1.6</add>
+  </field>
+  <field> 
+      <name>is_active</name>     
+      <title>Is Active</title>
+      <type>boolean</type>
+      <default>1</default>
+      <add>1.6</add>  
+  </field> 
+</table>
