@@ -60,7 +60,8 @@ SELECT sort_name
   FROM civicrm_contact
  WHERE domain_id = $domainID
    AND sort_name LIKE '$name%'
-ORDER BY sort_name";
+ORDER BY sort_name
+LIMIT 6";
     $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
     $count = 0;
@@ -86,9 +87,11 @@ function status( &$config ) {
         $str = file_get_contents( $file );
         echo $str;
     } else {
-        echo "No status recorded for $file as yet<p>";
+        require_once 'Services/JSON.php';
+        $json =& new Services_JSON( );
+        $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
+        echo $json->encode( array( 0, $status ) );
     }
-    
 }
 
 invoke( );
