@@ -208,8 +208,8 @@ class CRM_Core_Block {
 
             // add the drupal form token hidden value to allow form submits to work
             $config =& CRM_Core_Config::singleton( );
-            if ( $config->userFramework == 'Drupal' &&
-                 $config->userFramework <= 4.6      &&
+            if ( $config->userFramework        == 'Drupal' &&
+                 $config->userFrameworkVersion <= 4.6      &&
                  function_exists( 'drupal_get_token' ) ) {
                 $values['drupalFormToken'] = drupal_get_token( );
             }
@@ -230,7 +230,7 @@ class CRM_Core_Block {
             // add the drupal form token hidden value to allow form submits to work
             $config =& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Drupal' &&
-                 $config->userFramework <= 4.6      &&
+                 $config->userFrameworkVersion <= 4.6      &&
                  function_exists( 'drupal_get_token' ) ) {
                 $urlArray['drupalFormToken'] = drupal_get_token( );
             }
