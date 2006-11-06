@@ -485,7 +485,7 @@ class CRM_Core_Config
             self::$_singleton->initialize( );
             
             //initialize variable
-            self::$_singleton->initVariables();
+            //self::$_singleton->initVariables();
         }
 
         return self::$_singleton;
@@ -658,7 +658,7 @@ class CRM_Core_Config
             $this->mailerBatchLimit = (int) CIVICRM_MAILER_BATCH_LIMIT;
         }
 
-#       $this->retrieveFromSettings( );
+        $this->retrieveFromSettings( );
 
     }
 
