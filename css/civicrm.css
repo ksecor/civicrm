@@ -714,3 +714,39 @@ div.crm-pager a {
 #crm-container .underline-effect:before {
   content: "\00BB";
 }
+
+div#searchForm {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+#main {
+	height: 95%;
+	width: 95%;
+	left: 1%;
+	top: 1%;
+	position: relative;
+}
+.label-pane {
+	border: 1px solid black;
+//	background: #232323;
+    background-color: #B0B0B0;
+	cursor: pointer;
+	color: #fff;
+	font-weight: bold;
+}
+
+.label-pane :hover {
+	cursor: pointer;
+}
+
+#crm-container fieldset.collapsible {
+  border: none;
+}
+
+.content-pane {
+//	background: #ededed;
+	overflow: auto;
+}
+

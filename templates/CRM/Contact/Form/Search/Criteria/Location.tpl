@@ -1,5 +1,5 @@
 <div id="location">
-<fieldset><legend>{ts}Location{/ts}</legend>
+<fieldset class="collapsible">
     <table class="form-layout">
         <tr>
             <td class="label">{$form.street_address.label}</td>
