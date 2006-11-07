@@ -80,6 +80,9 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
             $defaults['uploadDir'] = $path . "upload/";
         }
 
+        if ( !$defaults['paymentExpressButton'] ) {
+            $defaults['paymentExpressButton'] = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif';
+        }
         
         //CRM_Core_Error::debug('def', $defaults);
         

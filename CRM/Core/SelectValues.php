@@ -586,10 +586,11 @@ class CRM_Core_SelectValues {
 
 
     /**
-     * Function to get the components 
+     * Function to get CiviCRM components 
      * 
+     * @return array $components array of components
+     * @static
      */
-
     static function &component()
     {
         static $components = null;
@@ -607,17 +608,19 @@ class CRM_Core_SelectValues {
     /**
      * Function to get the Payment Processor 
      * 
+     * @return array $processor array of payment processor
+     * @static
      */
-
     static function &paymentProcessor()
     {
         static $processor = null;
         if (!$processor) {
             $processor = array(
-                                'PayPal'        => ts('PayPal'),
-                                'PayPalExpress' => ts('PayPalExpress'),
-                                'Moneris'       => ts('Moneris'),
-                                );
+                               'PayPal'           => ts('PayPal'),
+                               'PayPal_Express'   => ts('PayPal Express'),
+                               'PayPal_Standard'  => ts('PayPal Standard'),
+                               'Moneris'          => ts('Moneris')
+                               );
         }
         return $processor;
     }
@@ -625,16 +628,17 @@ class CRM_Core_SelectValues {
     /**
      * Function to get the Map Provider 
      * 
+     * @return array $map array of map providers
+     * @static
      */
-
     static function &mapProvider()
     {
         static $map = null;
         if (!$map) {
             $map = array(
-                                'Yahoo'  => ts('Yahoo'),
-                                'Google' => ts('Google'),
-                                );
+                         'Yahoo'  => ts('Yahoo'),
+                         'Google' => ts('Google')
+                         );
         }
         return $map;
     }

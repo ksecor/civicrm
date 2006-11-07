@@ -548,24 +548,8 @@ class CRM_Core_Config
 
         if ( defined( 'CIVICRM_CLEANURL' ) ) {
             $this->cleanURL = CIVICRM_CLEANURL;
-        }
-        
-        if ( defined( 'CIVICRM_INCLUDE_COUNTY' ) ) {
-            $this->includeCounty = CIVICRM_INCLUDE_COUNTY;
-        }
-        
-        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_PROVIDER' ) ) {
-            $this->AddressStdProvider = CIVICRM_ADDRESS_STANDARDIZATION_PROVIDER;
-        }
-         
-        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_USERID' ) ) {
-            $this->AddressStdUserID = CIVICRM_ADDRESS_STANDARDIZATION_USERID;
-        }
-        
-        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_URL' ) ) {
-            $this->AddressStdURL = CIVICRM_ADDRESS_STANDARDIZATION_URL;
-        }
-        
+        }       
+      
         if ( defined( 'CIVICRM_LC_MONETARY' ) ) {
             $this->lcMonetary = CIVICRM_LC_MONETARY;
             setlocale(LC_MONETARY, $this->lcMonetary . '.UTF-8', $this->lcMonetary, 'C');
@@ -644,18 +628,6 @@ class CRM_Core_Config
                 $size *= 1024;
             }
             $this->maxImportFileSize = $size;
-        }
-
-        if ( defined( 'CIVICRM_MAILER_SPOOL_PERIOD' ) ) {
-            $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
-        }
-
-        if ( defined( 'CIVICRM_VERP_SEPARATOR' ) ) {
-            $this->verpSeparator = CIVICRM_VERP_SEPARATOR;
-        }
-
-        if ( defined( 'CIVICRM_MAILER_BATCH_LIMIT' ) ) {
-            $this->mailerBatchLimit = (int) CIVICRM_MAILER_BATCH_LIMIT;
         }
 
         // $this->retrieveFromSettings( );
@@ -838,6 +810,34 @@ class CRM_Core_Config
          if ( defined( 'CIVICRM_CAPTCHA_FONT' ) ) {
              $this->captchaFont = CIVICRM_CAPTCHA_FONT;
          }
+
+        if ( defined( 'CIVICRM_INCLUDE_COUNTY' ) ) {
+            $this->includeCounty = CIVICRM_INCLUDE_COUNTY;
+        }
+        
+        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_PROVIDER' ) ) {
+            $this->AddressStdProvider = CIVICRM_ADDRESS_STANDARDIZATION_PROVIDER;
+        }
+         
+        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_USERID' ) ) {
+            $this->AddressStdUserID = CIVICRM_ADDRESS_STANDARDIZATION_USERID;
+        }
+        
+        if ( defined( 'CIVICRM_ADDRESS_STANDARDIZATION_URL' ) ) {
+            $this->AddressStdURL = CIVICRM_ADDRESS_STANDARDIZATION_URL;
+        }
+
+        if ( defined( 'CIVICRM_MAILER_SPOOL_PERIOD' ) ) {
+            $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
+        }
+
+        if ( defined( 'CIVICRM_VERP_SEPARATOR' ) ) {
+            $this->verpSeparator = CIVICRM_VERP_SEPARATOR;
+        }
+
+        if ( defined( 'CIVICRM_MAILER_BATCH_LIMIT' ) ) {
+            $this->mailerBatchLimit = (int) CIVICRM_MAILER_BATCH_LIMIT;
+        }
 
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::addConfig( $this, true );   
