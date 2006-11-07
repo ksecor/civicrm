@@ -559,8 +559,13 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
 
     function doTransferCheckout( &$params ) {
         $config =& CRM_Core_Config::singleton( );
-
+        
         $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}";
+        
+        if ( $params['selectMembership'] &&  $params['selectMembership'] != 'no_thanks' ) {
+            $notifyURL .= "&membershipTypeID={$params['selectMembership']}";
+        }
+
         $returnURL = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_ThankYou_display=1', true, null, false );
         $cancelURL = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1&cancel=1', true, null, false );
 

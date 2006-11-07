@@ -295,7 +295,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID );
         }
 
-        if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks') {
+        if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks' && 
+             $this->_contributeMode != 'notify' ) {
             require_once "CRM/Member/BAO/Membership.php";
             CRM_Member_BAO_Membership::postProcessMembership($membershipParams,$contactID,$this );
         } else {
@@ -333,7 +334,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['contributionTypeID'] = $contributionType->id;
                 $this->_params['item_name'         ] = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
                 $this->_params['receive_date']       = $now;
+                
                 $this->set( 'params', $this->_params );
+                self::postProcessPremium( $premiumParams, $contribution );
+
                 // commit the transaction before we xfer
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
