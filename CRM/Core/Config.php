@@ -485,7 +485,7 @@ class CRM_Core_Config
             self::$_singleton->initialize( );
             
             //initialize variable
-            //self::$_singleton->initVariables();
+            self::$_singleton->initVariables();
         }
 
         return self::$_singleton;
@@ -630,7 +630,7 @@ class CRM_Core_Config
             $this->maxImportFileSize = $size;
         }
 
-         $this->retrieveFromSettings( );
+        //$this->retrieveFromSettings( );
     }
 
     function retrieveFromSettings( ) {
