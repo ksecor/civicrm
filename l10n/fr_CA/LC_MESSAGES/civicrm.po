@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-02 14:13+0100\n"
-"PO-Revision-Date: 2006-11-01 15:20-0800\n"
+"PO-Revision-Date: 2006-11-02 12:42-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -3070,9 +3070,8 @@ msgid "Wheaton College"
 msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
-#, fuzzy
 msgid "Please select Gender"
-msgstr "Veuillez choisir le groupe."
+msgstr "Veuillez choisir le genre."
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 #: templates/CRM/Quest/Form/MatchApp/Personal.tpl
@@ -3103,7 +3102,7 @@ msgstr ""
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "Race/Ethnicity"
-msgstr ""
+msgstr "Race/ethnicité"
 
 #: CRM/Quest/Form/MatchApp/Personal.php CRM/Quest/Form/PreApp/Personal.php
 msgid "add another Race/Ethnicity"
@@ -15974,27 +15973,27 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "Profile Preview"
-msgstr ""
+msgstr "Aperçu du profil"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "This CiviCRM profile field is view only."
-msgstr ""
+msgstr "Ce champ de profil CiviCRM est accessible en lecture seulement"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "CiviCRM Field Name"
-msgstr ""
+msgstr "Nom du champ CiviCRM"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Required"
-msgstr ""
+msgstr "Obligatoire"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "View Only"
-msgstr ""
+msgstr "Lecture seulement"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
-msgstr ""
+msgstr "Nouveau champ de profil CiviCRM"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid ""
@@ -16112,25 +16111,25 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
-msgstr ""
+msgstr "Titre du profil"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "New CiviCRM Profile"
-msgstr ""
+msgstr "Nouveau profil CiviCRM"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Get HTML for All Active Profiles"
-msgstr ""
+msgstr "Obtenir le HTML pour tous les profils actifs"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "No CiviCRM Profiles have been created yet. You can <a href=\"%1\">add one "
 "now</a>."
-msgstr ""
+msgstr "Aucun profil CiviCRM n'a été créé. Vous pouvez en <a href=\"%1\">ajouter un maintenant</a>."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Home"
@@ -16183,11 +16182,11 @@ msgstr "Relation conjugale."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sibling of"
-msgstr ""
+msgstr "Frère ou soeur de"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sibling relationship."
-msgstr ""
+msgstr "Enfants de même parents."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employee of"
@@ -16203,15 +16202,15 @@ msgstr "Relation d'emploi."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer for"
-msgstr ""
+msgstr "Bévévole de"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer is"
-msgstr ""
+msgstr "Le (la) bénévole est"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer relationship."
-msgstr ""
+msgstr "Relation entre bénévoles."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Head of Household for"
@@ -16279,31 +16278,31 @@ msgstr "Bénévoles actifs."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event"
-msgstr ""
+msgstr "Événement"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Ms"
-msgstr ""
+msgstr "Mlle"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mr"
-msgstr ""
+msgstr "M"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Dr"
-msgstr ""
+msgstr "Dr"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Jr"
-msgstr ""
+msgstr "Jr"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sr"
-msgstr ""
+msgstr "Sr"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "II"
-msgstr ""
+msgstr "II"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Female"
@@ -16387,7 +16386,7 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Email address is not valid"
-msgstr ""
+msgstr "L'adresse de courrier électronique est invalide"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Mail routing error"
