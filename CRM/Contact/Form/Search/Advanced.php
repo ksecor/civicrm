@@ -67,17 +67,21 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         $allPanes = array( );
-        $paneNames = array( ts('Location')         => 'location',
+        $paneNames = array( ts('Address Fields')   => 'location',
                             ts('Custom Fields')    => 'custom',
                             ts('Activity History') => 'activityHistory',
-                            ts('Open Activity')    => 'openActivity',
-                            ts('Change Log')       => 'changeLog',
-                            ts('Relationship')     => 'relationship' );
+                            ts('Scheduled Activities')  => 'openActivity',
+                            ts('Relationships')    => 'relationship',
+                            ts('Change Log')       => 'changeLog');
 
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            $paneNames[ts('Memberships')] = 'membership';
+        }
+        
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $paneNames[ts('Contributions')] = 'contribute';
         }
-
+        
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $paneNames[ts('Quest')] = 'quest';
             $paneNames[ts('Task' )] = 'task';                
@@ -86,7 +90,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         foreach ( $paneNames as $name => $type ) {
             $allPanes[$name] = array( 'url' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
                                                                       "snippet=1&formType=$type" ),
-                                      'open' => 'false' );
+                                      'open' => 'false',
+                                      'id'   => $type );
             
             // see if we need to include this paneName in the current form
             if ( $this->_formType == $type ||

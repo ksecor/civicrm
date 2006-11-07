@@ -240,6 +240,11 @@ class CRM_Contact_Form_Search_Criteria {
         CRM_Contribute_BAO_Query::buildSearchForm( $form );
     }
 
+    static function membership( &$form ) {
+        require_once 'CRM/Member/BAO/Query.php';
+        CRM_Member_BAO_Query::buildSearchForm( $form );
+    }
+
     static function quest( &$form ) {
         require_once 'CRM/Quest/BAO/Query.php';
         CRM_Quest_BAO_Query::buildSearchForm( $form );

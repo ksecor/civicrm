@@ -1,5 +1,5 @@
 <div id="location">
-  <fieldset><legend>{ts}Location{/ts}</legend>
+<fieldset><legend>{ts}Location{/ts}</legend>
     <table class="form-layout">
         <tr>
             <td class="label">{$form.street_address.label}</td>
@@ -32,6 +32,6 @@
             <td class="label">{$form.location_name.label}</td><td>{$form.location_name.html|crmReplace:class:medium}</td>
         </tr>
     </table>
-    </fieldset>
+</fieldset>
 </div>
 

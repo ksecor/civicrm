@@ -42,11 +42,11 @@
         <tr>
             <td class="label">{$form.contribution_in_honor_of.label}</td> 
             <td>{$form.contribution_in_honor_of.html}</td> 
-            <td>{$form.contribution_test.html}&nbsp;<label>{ts}Find Test Contributions{/ts}</label></td> 
+            <td colspan="2">{$form.contribution_test.html}&nbsp;<label>{ts}Find Test Contributions{/ts}</label></td> 
         </tr>
         <tr>
             <td class="label">{$form.contribution_source.label}</td>
-            <td>{$form.contribution_source.html}</td>
+            <td colspan="3">{$form.contribution_source.html}</td>
         </tr>
         <tr>
             <td colspan="4">

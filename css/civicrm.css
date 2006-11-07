@@ -453,7 +453,7 @@ div.spacer, .spacer {
   background-color: #ffff99;
 }
 
-#crm-container .font-red, #crm-container .status-removed, #crm-container .disabled, #crm-container .status-overdue {
+#crm-container .font-red, #crm-container .status-removed, #crm-container .disabled, #crm-container .status-overdue, #crm-container .status-hold {
   color: #FF0105;
 }
 
