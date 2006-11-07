@@ -1088,7 +1088,11 @@ class CRM_Core_Config
         if ( $this->defaultCurrency ) {
             $this->defaultCurrencySymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
         }    
-
+        
+        if ( $this->mapProvider ) {
+            $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
+        }
+        
         require_once 'CRM/Core/Component.php';
         CRM_Core_Component::addConfig( $this );   
         

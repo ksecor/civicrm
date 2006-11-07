@@ -57,7 +57,32 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         require_once "CRM/Core/BAO/Setting.php";
         CRM_Core_BAO_Setting::retrieve($defaults);
 
+        global $base_url;
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->templateCompileDir ) {
+            $path = substr($config->templateCompileDir, 0, -12);
+        }
+
+        //set defaults if not set in db
+        if ( !$defaults['userFrameworkResourceURL'] ) {
+            $defaults['userFrameworkResourceURL'] = $base_url. "/modules/civicrm/"; 
+        }
+
+        if ( !$defaults['imageUploadDir'] ) {
+            $defaults['imageUploadDir'] = $path . "persist/contribute/";
+        }
+        
+        if ( !$defaults['customFileUploadDir'] ) {
+            $defaults['customFileUploadDir'] = $path . "upload/custom/";
+        }
+
+        if ( !$defaults['uploadDir'] ) {
+            $defaults['uploadDir'] = $path . "upload/";
+        }
+
+        
         //CRM_Core_Error::debug('def', $defaults);
+        
         return $defaults;
     }
 
