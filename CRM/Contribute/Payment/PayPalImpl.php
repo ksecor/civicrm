@@ -596,6 +596,12 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         $url = ( $this->_mode == 'test' ) ? $config->paymentPayPalExpressTestUrl : $config->paymentPayPalExpressUrl;
         $paypalURL = "https://{$url}/xclick/$uri";
 
+        // CRM_Core_Error::debug( 'paypalParams', $paypalParams );
+        // CRM_Core_Error::debug( 'paypalURL'   , $paypalURL );
+
+        CRM_Core_Error::debug_var( 'paypalParams', $paypalParams );
+        CRM_Core_Error::debug_var( 'paypalURL'   , $paypalURL );
+
         CRM_Utils_System::redirect( $paypalURL );
     }
 

@@ -334,7 +334,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['item_name'         ] = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
                 $this->_params['receive_date']       = $now;
                 $this->set( 'params', $this->_params );
-
                 // commit the transaction before we xfer
                 CRM_Core_DAO::transaction( 'COMMIT' );
 
