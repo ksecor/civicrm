@@ -78,4 +78,12 @@
       <comment>Date this membership modification action was logged.</comment>  
       <add>1.5</add>  
   </field>
+  <field>
+      <name>renewal_reminder_date</name>
+      <title>Renewal Reminder Date</title>
+      <type>date</type>   
+      <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
+      <comment>The day we sent a renewal reminder</comment>  
+      <add>1.6</add>  
+  </field>
 </table>

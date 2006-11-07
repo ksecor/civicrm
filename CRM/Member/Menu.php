@@ -67,6 +67,19 @@ class CRM_Member_Menu {
                              'icon'    => 'admin/membership_status.png',
                              'weight'  => 380
                              ),
+                       
+                       array(
+                             'path'    => 'civicrm/admin/member/messageTemplates',
+                             'title'   => ts('Message Templates'),
+                             'query'  => 'reset=1',
+                             'access'  => CRM_Core_Permission::check('administer CiviCRM') &&
+                             CRM_Core_Permission::check( 'access CiviMember' ),
+                             'type'    => CRM_Core_Menu::CALLBACK,
+                             'crmType' => CRM_Core_Menu::LOCAL_TASK,
+                             'adminGroup' => 'CiviMember',
+                             'icon'    => 'admin/membership_status.png',
+                             'weight'  => 390
+                             ),
 
                        array( 
                              'path'    => 'civicrm/contact/view/membership', 

@@ -385,17 +385,26 @@ function crm_update_contact_membership($params)
     require_once 'CRM/Member/BAO/Membership.php';
     $membershipBAO =& new CRM_Member_BAO_Membership( );
     $membershipBAO->id = $params['id'];
+    $fields = $membershipBAO->fields( );
+    $datefields = array("start_date"    => "membership_start_date",
+                        "end_date"      => "membership_end_date",
+                        "join_date"     => "join_date",
+                        "reminder_date" => "reminder_date"
+                        ); 
     
     if ($membershipBAO->find(true)) {
-        $fields = $membershipBAO->fields( );
         foreach ( $fields as $name => $field) {
             if (array_key_exists($name, $params)) {
-                $membershipBAO->$name = $params[$name];
+                if ( array_key_exists( $name,  $datefields ) ) {
+                    $membershipBAO->$name = $params[$datefields[$name]];
+                } else {
+                    $membershipBAO->$name = $params[$name];
+                }
             }
-            if ($field['type'] & CRM_Utils_Type::T_DATE) {
-                $dropArray = array('-' => '', ':' => '', ' ' => '');
-                $membershipBAO->$name = strtr($membershipBAO->$name, $dropArray);
-            }
+        }
+        //fix the dates 
+        foreach ( $datefields as $key => $value ) {
+            $membershipBAO->$key  = CRM_Utils_Date::customFormat($membershipBAO->$key,'%Y%m%d');
         }
         $membershipBAO->save();
     }

@@ -139,6 +139,18 @@
       <type>int</type>
       <add>1.5</add>  
   </field>
+  <field>
+      <name>renewal_msg_id</name>
+      <type>int unsigned</type>
+      <comment>FK to civicrm_msg_template.id</comment>
+      <add>1.6</add>
+  </field>
+  <foreignKey> 
+      <name>renewal_msg_id</name> 
+      <table>civicrm_msg_template</table> 
+      <key>id</key> 
+      <add>1.6</add>
+  </foreignKey>
   <field> 
       <name>is_active</name>     
       <title>Is Active</title>

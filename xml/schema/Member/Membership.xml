@@ -111,4 +111,11 @@
       <comment>Admin users may set a manual status which overrides the calculated status. When this flag is true, automated status update scripts should NOT modify status for the record.</comment>
       <add>1.5</add>  
   </field> 
+  <field> 
+      <name>reminder_date</name>  
+      <type>date</type>
+      <comment>When should a reminder be sent.</comment>  
+      <add>1.6</add>  
+  </field> 
+
 </table>

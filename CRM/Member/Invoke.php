@@ -57,6 +57,11 @@ class CRM_Member_Invoke {
             $view =& new CRM_Member_Page_MembershipStatus(ts('Membership Status'));
             break;
             
+        case 'messageTemplates':
+            require_once 'CRM/Member/Page/MessageTemplates.php';
+            $view =& new CRM_Member_Page_MessageTemplates(ts('Message Templates'));
+            break;
+            
         default:
             require_once 'CRM/Member/Page/MembershipType.php';
             $view =& new CRM_Member_Page_MembershipType(ts('Membership Types'));
