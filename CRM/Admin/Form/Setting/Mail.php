@@ -38,10 +38,9 @@
 require_once 'CRM/Admin/Form/Setting.php';
 
 /**
- * This class generates form components for Smtp Server
- * 
+ * This class generates form components for CiviMail
  */
-class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
+class CRM_Admin_Form_Setting_Mail extends CRM_Admin_Form_Setting
 {
     /**
      * Function to build the form
@@ -49,15 +48,12 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
-
-          
-        $this->addElement('text','smtpServer', ts('SMTP Server'));
-        $this->addElement('text','smtpPort', ts('SMTP Port'));  
-        $this->addRule('smtpPort',ts('SMTP Port is a required field'),'required');  
-        $this->addYesNo( 'smtpAuth', ts( 'SMTP Auth' ));
-        $this->addElement('text','smtpUsername', ts('SMTP UserName')); 
-       
+    public function buildQuickForm( ) 
+    {
+        $this->addElement('text','mailerPeriod', ts('Mailer Spool Period'));
+        $this->addElement('text','verpSeparator', ts(' VERP separator'));
+        $this->addElement('text','mailerBatchLimit', ts('Mailer Batch Limit'));
+  
         parent::buildQuickForm();
     }
 }

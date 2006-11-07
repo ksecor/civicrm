@@ -153,27 +153,6 @@ define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
 define( 'CIVICRM_SMTP_PASSWORD', ''    );
 
 /**
- * Include county in address block
- * CIVICRM_INCLUDE_COUNTY is set true if you want to include county
- * select box in address block for contact and also in profile
- */
-define( 'CIVICRM_INCLUDE_COUNTY' , true );
-
-/** Address Standarization
- *
- * Use this section to enable a postal address standardization plugin.
- * Currently, a plugin for using the US Postal Service address standardization service
- * has been implemented (PROVIDER = 'USPS'). You must register to use the USPS
- * service at http://www.usps.com/webtools/address.htm . When qualified, you will be
- * provided with a USERID and test and live URLs for the service.
- *
- * Other plugins may be added at a later date.
- */
-define( 'CIVICRM_ADDRESS_STANDARDIZATION_PROVIDER', '' );
-define( 'CIVICRM_ADDRESS_STANDARDIZATION_USERID', '' );
-define( 'CIVICRM_ADDRESS_STANDARDIZATION_URL', '' );
-
-/**
  * Payment Processor Settings:
  *
  * If you are using CiviContribute for Online Contributions, you must obtain a Payment Processor
@@ -239,22 +218,6 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_SUBJECT'       , '' );
  * Refer to the 'Multi-site Support' section of the Installation Guide for more info.
  */
 define('CIVICRM_DOMAIN_ID' , 1 );
-
- 
-/**
- * Additional CiviMail Settings:
- *
- * CIVICRM_MAILER_SPOOL_PERIOD - Number of seconds between delivery attempts
- * for new outgoing mailings.
- *
- * CIVICRM_VERP_SEPARATOR - Separator character used when CiviMail generates
- * VERP (variable envelope return path) Mail-From addresses. 
- *
- * CIVICRM_MAILER_BATCH_LIMIT - Number of emails sent every CiviMail run (0 - no limit).
- */
-define( 'CIVICRM_MAILER_SPOOL_PERIOD', 180);
-define( 'CIVICRM_VERP_SEPARATOR', '.' );
-define( 'CIVICRM_MAILER_BATCH_LIMIT', 0 );
 
 /**
  * CiviSMS Settings:

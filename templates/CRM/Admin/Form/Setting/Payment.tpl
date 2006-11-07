@@ -12,14 +12,14 @@
             <dt>&nbsp</dt><dd class="description">{ts}URL to the button image used for "express" option checkout.{/ts}</dd>
             <dt>{$form.paymentUsername_test.label}</dt><dd>{$form.paymentUsername_test.html}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}API Test Username.{/ts}</dd>
-            <dt>{$form.paymentCertPath_test.label}</dt><dd>{$form.paymentCertPath_test.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}File system path where API Profile files should be created and stored.{/ts}</dd>
+            <div id="certificate_path"><dl>	
+                <dt>{$form.paymentCertPath_test.label}</dt><dd>{$form.paymentCertPath_test.html}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}File system path where API Profile files should be created and stored.{/ts}</dd>                <dt>{$form.paymentCertPath_live.label}</dt><dd>{$form.paymentCertPath_live.html}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}File system path where API Profile files should be created and stored.{/ts}</dd>             </dl></div>
             <dt>{$form.paymentPayPalExpressTestUrl.label}</dt><dd>{$form.paymentPayPalExpressTestUrl.html}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}Hostname for "PayPal Express" button submit in test-drive mode.{/ts}</dd>       
             <dt>{$form.paymentUsername_live.label}</dt><dd>{$form.paymentUsername_live.html}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}API Live Username.{/ts}</dd>
-            <dt>{$form.paymentCertPath_live.label}</dt><dd>{$form.paymentCertPath_live.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}File system path where API Profile files should be created and stored.{/ts}</dd>
             <dt>{$form.paymentPayPalExpressUrl.label}</dt><dd>{$form.paymentPayPalExpressUrl.html}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}Hostname for "PayPal Express" button submit in live mode.{/ts}</dd>
             <dt></dt><dd>{$form.buttons.html}</dd>
@@ -27,3 +27,17 @@
 <div class="spacer"></div>
 </fieldset>
 </div> 
+{literal}
+    <script type="text/javascript">
+	
+	 hide('certificate_path');  
+	
+	function showHideCertificatePath(){
+	   if (document.getElementsByName("paymentProcessor")[0].value == "Moneris") {
+          hide('certificate_path');
+	     } else {
+          show('certificate_path');
+	   }
+	} 
+    </script>
+{/literal}

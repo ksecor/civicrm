@@ -603,6 +603,41 @@ class CRM_Core_SelectValues {
         }
         return $components;
     }
+
+    /**
+     * Function to get the Payment Processor 
+     * 
+     */
+
+    static function &paymentProcessor()
+    {
+        static $processor = null;
+        if (!$processor) {
+            $processor = array(
+                                'PayPal'        => ts('PayPal'),
+                                'PayPalExpress' => ts('PayPalExpress'),
+                                'Moneris'       => ts('Moneris'),
+                                );
+        }
+        return $processor;
+    }
+
+    /**
+     * Function to get the Map Provider 
+     * 
+     */
+
+    static function &mapProvider()
+    {
+        static $map = null;
+        if (!$map) {
+            $map = array(
+                                'Yahoo'  => ts('Yahoo'),
+                                'Google' => ts('Google'),
+                                );
+        }
+        return $map;
+    }
 }
 
 ?>

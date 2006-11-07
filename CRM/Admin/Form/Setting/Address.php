@@ -52,7 +52,13 @@ class CRM_Admin_Form_Setting_Address extends CRM_Admin_Form_Setting
     {
           
         $this->addElement('textarea','addressFormat', ts('Address Formatting'));  
-        $this->addElement('text','maxLocationBlocks', ts('Maximum Location Blocks'));  
+        $this->addElement('text','maxLocationBlocks', ts('Maximum Location Blocks'));
+        $this->addYesNo('includeCounty', ts('Include County'));
+        // Address Standarization
+        $this->addElement('text','AddressStdProvider', ts('Standarization Provider'));
+        $this->addElement('text','AddressStdUserID', ts('Standarization User Id'));
+        $this->addElement('text','AddressStdURL', ts('Standarization Url'));
+  
         parent::buildQuickForm();
     }
 }

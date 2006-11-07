@@ -5,7 +5,7 @@
 
        <a href="{crmURL p='civicrm/admin/setting/path?reset=1'}" id="path">&raquo; {ts}File System Paths{/ts}</a><br />
 
-       <a href="{crmURL p='civicrm/admin/setting/site?reset=1'}" id="site">&raquo; {ts}Site URLs{/ts}</a><br />
+       <a href="{crmURL p='civicrm/admin/setting/url?reset=1'}" id="site">&raquo; {ts}Site URLs{/ts}</a><br />
 
         <a href="{crmURL p='civicrm/admin/setting/smtp?reset=1'}" id="site">&raquo; {ts}SMTP Server{/ts}</a><br />
 
@@ -21,7 +21,9 @@
 
        <a href="{crmURL p='civicrm/admin/setting/misc?reset=1'}" id="misc">&raquo; {ts}Miscellaneous{/ts}</a><br />
  
-       <a href="{crmURL p='civicrm/admin/setting/debug?reset=1'}" id="debug">&raquo; {ts}Debugging{/ts}</a>
+       <a href="{crmURL p='civicrm/admin/setting/debug?reset=1'}" id="debug">&raquo; {ts}Debugging{/ts}</a><br />
+
+        <a href="{crmURL p='civicrm/admin/setting/mail?reset=1'}" id="mail">&raquo; {ts}Mailing{/ts}</a>
    </div>
 
 {foreach from=$allTabs key=tabName item=tabURL}

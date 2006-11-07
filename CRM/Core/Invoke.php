@@ -850,7 +850,7 @@ class CRM_Core_Invoke {
             return $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
         case 'path' : 
             return $wrapper->run( 'CRM_Admin_Form_Setting_Path', ts('File System Paths'), null); 
-        case 'site' : 
+        case 'url' : 
             return $wrapper->run( 'CRM_Admin_Form_Setting_Url', ts('Site URLs'), null); 
         case 'smtp' : 
             return $wrapper->run( 'CRM_Admin_Form_Setting_Smtp', ts('Smtp Server'), null); 
@@ -868,6 +868,8 @@ class CRM_Core_Invoke {
             return $wrapper->run( 'CRM_Admin_Form_Setting_Miscellaneous', ts('Miscellaneous'), null); 
         case 'debug' : 
             return $wrapper->run( 'CRM_Admin_Form_Setting_Debugging', ts('Debugging'), null); 
+        case 'mail' : 
+            return $wrapper->run( 'CRM_Admin_Form_Setting_Mail', ts('CiviMail Settings'), null); 
         default : 
             require_once 'CRM/Admin/Page/Setting.php';
             $view =& new CRM_Admin_Page_Setting();
