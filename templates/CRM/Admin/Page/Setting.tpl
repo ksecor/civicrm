@@ -1,5 +1,4 @@
-{include file="CRM/common/dojo.tpl"}
-<div id="mainTabContainer" dojoType="TabContainer" style="width: 100%; height: 600px" selectedTab="Components">
+<div style="width: 100%; height: 600px">
    <div class="action-link"> 
        <a href="{crmURL p="civicrm/admin/setting/component?reset=1"}" id="component">&raquo; {ts}Components{/ts}</a><br />
 
@@ -26,7 +25,4 @@
         <a href="{crmURL p='civicrm/admin/setting/mail?reset=1'}" id="mail">&raquo; {ts}Mailing{/ts}</a>
    </div>
 
-{foreach from=$allTabs key=tabName item=tabURL}
-  <div id="{$tabName}" dojoType="ContentPane" href="{$tabURL}" label="{$tabName}" style="display: none" adjustPaths="false"></div>
-{/foreach}
 </div>
