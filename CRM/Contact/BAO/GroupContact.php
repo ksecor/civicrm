@@ -420,18 +420,20 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
         
         // make sure user has got permission to view this group
-         if ( ! CRM_Contact_BAO_Group::checkPermission( $groupDAO->id, $groupDAO->title ) ) {
-             return CRM_Core_Error::createError( "You do not have permission to access group with id: $id" );
+        if ( ! CRM_Contact_BAO_Group::checkPermission( $groupDAO->id, $groupDAO->title ) ) {
+            return CRM_Core_Error::createError( "You do not have permission to access group with id: $id" );
         }
+        
+        $grpStatus = "`civicrm_group_contact-$group->id`.status";
         
         $query = '';
         if ( empty($returnProperties) ) {
             $query = "SELECT contact_a.id as contact_id,
-                      civicrm_email.email as email";
+                      civicrm_email.email as email, $grpStatus as status";
             //$query = "SELECT *,contact_a.id as contact_id, (talk to lobo before re-enabling this)
             //civicrm_email.email as email";
         } else {
-            $query  = "SELECT contact_a.id as contact_id ,";
+            $query  = "SELECT contact_a.id as contact_id , $grpStatus as status";
             $query .= implode( ',', $returnProperties );
         }
   

@@ -4,7 +4,7 @@ require_once 'api/crm.php';
 
 class TestOfGetClassProperties extends UnitTestCase 
 {
-    
+
     function setUp() 
     {
     }
@@ -15,20 +15,21 @@ class TestOfGetClassProperties extends UnitTestCase
 
     function testGetClassPropertiesIndividualCore() 
     {
+        require_once 'CRM/Contact/DAO/Individual.php';
         $property_object = array();
         $prop = crm_get_class_properties("Individual","core");
         $this->assertNotA($prop,'CRM_Core_Error');
-        $fields = CRM_Contact_DAO_Individual::fields( );
+        //   $fields = CRM_Contact_DAO_Individual::fields( );
         $id = -1;
-        foreach($fields as $key => $values) {
-            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
-        }
+//         foreach($fields as $key => $values) {
+//             $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+//         }
         $fields = CRM_Contact_DAO_Contact::fields( );
         foreach($fields as $key => $values) {
             
             $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']) ,"description"=>$values['title']);
         }
-        
+    
         $this->assertEqual($prop,$property_object);
     }
     
@@ -38,11 +39,11 @@ class TestOfGetClassProperties extends UnitTestCase
         $prop = crm_get_class_properties("Individual","custom");
         $this->assertNotA($prop,'CRM_Core_Error');
 
-        $fields = CRM_Contact_DAO_Individual::fields( );
+        // $fields = CRM_Contact_DAO_Individual::fields( );
         $id = -1;
-        foreach($fields as $key => $values) {
-            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
-        }
+       //  foreach($fields as $key => $values) {
+//             $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        //      }
         $fields = CRM_Contact_DAO_Contact::fields( );
         foreach($fields as $key => $values) {
             
@@ -65,14 +66,15 @@ class TestOfGetClassProperties extends UnitTestCase
 
     function testGetClassPropertiesOrganizationCore() 
     {
+        require_once 'CRM/Contact/DAO/Organization.php';
         $prop = crm_get_class_properties("Organization","Core");
         $this->assertNotA($prop,'CRM_Core_Error');
         
-        $fields = CRM_Contact_DAO_Organization::fields( );
+        //  $fields = CRM_Contact_DAO_Organization::fields( );
         $id = -1;
-        foreach($fields as $key => $values) {
-            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
-        }
+   //      foreach($fields as $key => $values) {
+//             $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        //      }
         $fields = CRM_Contact_DAO_Contact::fields( );
         foreach($fields as $key => $values) {
             
@@ -89,11 +91,11 @@ class TestOfGetClassProperties extends UnitTestCase
         $prop = crm_get_class_properties("Organization","custom");
         $this->assertNotA($prop,'CRM_Core_Error');
 
-        $fields = CRM_Contact_DAO_Organization::fields( );
+//   $fields = CRM_Contact_DAO_Organization::fields( );
         $id = -1;
-        foreach($fields as $key => $values) {
-            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
-        }
+      //   foreach($fields as $key => $values) {
+//             $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+//        }
         $fields = CRM_Contact_DAO_Contact::fields( );
         foreach($fields as $key => $values) {
             
@@ -115,14 +117,16 @@ class TestOfGetClassProperties extends UnitTestCase
 
     function testGetClassPropertiesHouseholdCore() 
     {
+
+        require_once 'CRM/Contact/DAO/Household.php';
         $prop = crm_get_class_properties("Household","Core");
         $this->assertNotA($prop,'CRM_Core_Error');
 
-        $fields = CRM_Contact_DAO_Household::fields( );
+//  $fields = CRM_Contact_DAO_Household::fields( );
         $id = -1;
-        foreach($fields as $key => $values) {
-            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
-        }
+       //  foreach($fields as $key => $values) {
+//             $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        //      }
         $fields = CRM_Contact_DAO_Contact::fields( );
         foreach($fields as $key => $values) {
             
@@ -138,11 +142,11 @@ class TestOfGetClassProperties extends UnitTestCase
         $prop = crm_get_class_properties("Household","custom");
         $this->assertNotA($prop,'CRM_Core_Error');
 
-        $fields = CRM_Contact_DAO_Household::fields( );
+//$fields = CRM_Contact_DAO_Household::fields( );
         $id = -1;
-        foreach($fields as $key => $values) {
-            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
-        }
+       //  foreach($fields as $key => $values) {
+//             $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        //       }
         $fields = CRM_Contact_DAO_Contact::fields( );
         foreach($fields as $key => $values) {
             
@@ -160,13 +164,7 @@ class TestOfGetClassProperties extends UnitTestCase
             
         }
         $this->assertEqual($prop,$property_object);
-
         
     }
-
-
-
-
-
 }
 ?>

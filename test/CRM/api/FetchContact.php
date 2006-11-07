@@ -285,7 +285,7 @@ class TestOfFetchContactAPI extends UnitTestCase
     
     function testFetchContactIndividualByPhoneAndCity()
     {
-        $params = array('phone' =>, '222222',
+        $params = array('phone' => '222222',
                         'city'  => 'mumbai' 
                          );
         $return_properties = array( 'contact_type'    => 1,
