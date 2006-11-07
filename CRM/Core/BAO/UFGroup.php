@@ -663,15 +663,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $values[$index] = $params[$index] = $details->$detailName;
                 }
             }
+            //CRM_Core_Error::debug('s', $field);
 
             if ( $field['visibility'] == "Public User Pages and Listings" &&
                  CRM_Core_Permission::check( 'profile listings and forms' ) ) {
+                
+//             if ( $field['visibility'] == "Public User Pages and Listings" &&
+//                  CRM_Core_Permission::check( 'profile listings and forms' ) && !$field['is_view'] ) {
                 
                 if ( CRM_Utils_System::isNull( $params[$index] ) ) {
                     $params[$index] = $values[$index];
                 }
                 if ( !isset( $params[$index] ) ) {
-		    continue;
+                    continue;
                 }
                 $fieldName = $field['name'];
                 $url = CRM_Utils_System::url( 'civicrm/profile',
@@ -1350,7 +1354,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
         }
 
-        if ($view) {
+        if ($view && $mode != CRM_Profile_Form::MODE_SEARCH) {
             $form->freeze($name);
         }
 
