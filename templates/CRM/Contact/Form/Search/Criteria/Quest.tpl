@@ -1,6 +1,6 @@
     {if $validQuest}
     <div id="questForm">
-    <fieldset><legend>{ts}Quest Student{/ts}</legend>
+    <fieldset class="collapsible">
     <table class="form-layout"> 
        {include file="CRM/Quest/Form/Search/Common.tpl"}
     </table>

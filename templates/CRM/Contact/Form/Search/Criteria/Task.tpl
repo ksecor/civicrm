@@ -1,6 +1,6 @@
 {if $showTask}
     <div id="task_block">
-    <fieldset><legend>{ts}Task{/ts}</legend>
+    <fieldset class="collapsible">
     <table class="form-layout">
          <tr>
             <td class="label">

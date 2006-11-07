@@ -74,12 +74,12 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             ts('Relationships')    => 'relationship',
                             ts('Change Log')       => 'changeLog');
 
-        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-            $paneNames[ts('Memberships')] = 'membership';
-        }
-        
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $paneNames[ts('Contributions')] = 'contribute';
+        }
+        
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            $paneNames[ts('Memberships')] = 'membership';
         }
         
         if ( CRM_Core_Permission::access( 'Quest' ) ) {

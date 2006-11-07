@@ -1,5 +1,5 @@
     <div id="relationship">
-    <fieldset><legend>{ts}Relationship{/ts}</legend>
+    <fieldset class="collapsible">
     <table class="form-layout">
          <tr>
             <td class="label">

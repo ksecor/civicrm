@@ -1,5 +1,5 @@
 <div id="openActivity">
-  <fieldset><legend>{ts}Scheduled Activities{/ts}</legend>
+  <fieldset class="collapsible">
     <table class="form-layout">
         <tr>
             <td class="label">

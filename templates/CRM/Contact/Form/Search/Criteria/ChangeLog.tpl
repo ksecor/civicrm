@@ -1,5 +1,5 @@
 <div id="changelog">
-<fieldset><legend>{ts}Change Log{/ts}</legend>
+<fieldset class="collapsible">
     <table class="form-layout">
         <tr>
             <td class="label">

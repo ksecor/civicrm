@@ -1,5 +1,5 @@
 <div id="atcivityHistory">
-  <fieldset><legend>{ts}Activity History{/ts}</legend>
+  <fieldset class="collapsible">
      <table class="form-layout">
         <tr>
             <td class="label">

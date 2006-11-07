@@ -1,6 +1,6 @@
 {if $validCiviContribute}
     <div id="contributeForm">
-    <fieldset><legend>{ts}Contributions{/ts}</legend>
+    <fieldset class="collapsible">
     <table class="form-layout"> 
        {include file="CRM/Contribute/Form/Search/Common.tpl"}
     </table>
