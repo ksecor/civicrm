@@ -912,7 +912,7 @@ class CRM_Core_Config
             }
 
             $params['host'] = self::$_singleton->smtpServer;
-            $params['port'] = self::$_singleton->smtpPort;
+            $params['port'] = self::$_singleton->smtpPort ? self::$_singleton->smtpPort : 25;
 
             if (self::$_singleton->smtpAuth) {
                 $params['username'] = self::$_singleton->smtpUsername;

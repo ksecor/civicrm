@@ -7,7 +7,7 @@
     {if $field.groupTitle != $fieldset} 
         {if $fieldset != $zeroField} 
            </table> 
-           {if $groupHelpPost} 
+           {if $groupHelpPost && $action neq 4} 
               <div class="messages help">{$groupHelpPost}</div> 
            {/if} 
            {if $mode ne 8} 
@@ -19,7 +19,7 @@
         {/if} 
         {assign var=fieldset  value=`$field.groupTitle`} 
         {assign var=groupHelpPost  value=`$field.groupHelpPost`} 
-        {if $field.groupHelpPre} 
+        {if $field.groupHelpPre && $action neq 4} 
             <div class="messages help">{$field.groupHelpPre}</div> 
         {/if} 
         <table class="form-layout-compressed"> 
@@ -60,12 +60,12 @@
         <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td></tr> 
         {/if} 
         {* Show explanatory text for field if not in 'view' mode *} 
-        {if $field.help_post && $action neq 4} 
+        {if $field.help_post && $action neq 4}
             <tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr> 
         {/if} 
     {/foreach} 
    </table> 
-{if $field.groupHelpPost} 
+{if $field.groupHelpPost && $action neq 4} 
     <div class="messages help">{$field.groupHelpPost}</div> 
 {/if} 
 {if $mode eq 4} 

@@ -1942,9 +1942,17 @@ WHERE civicrm_contact.id IN $idString ";
                     $data['location'][$loc]['im'][1]['is_primary'] = 1;
                 } else {
                     if ($fieldName === 'state_province') {
-                        $data['location'][$loc]['address']['state_province_id'] = $value;
+                        if ( is_numeric( $value ) ) {
+                          $data['location'][$loc]['address']['state_province_id'] = $value;
+                        } else {
+                          $data['location'][$loc]['address']['state_province'] = $value;
+                        }
                     } else if ($fieldName === 'country') {
-                        $data['location'][$loc]['address']['country_id'] = $value;
+                        if ( is_numeric( $value ) ) {
+                          $data['location'][$loc]['address']['country_id'] = $value;
+                        } else {
+                          $data['location'][$loc]['address']['country'] = $value;
+                        }
                     } else if ($fieldName === 'county') {
                         $data['location'][$loc]['address']['county_id'] = $value;
                     } else {

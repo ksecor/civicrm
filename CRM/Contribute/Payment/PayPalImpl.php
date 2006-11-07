@@ -412,7 +412,7 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         $paymentDetails->setInvoiceID( $params['invoiceID'], self::CHARSET );
 
         $shipToAddress = $address;
-        $shipToAddress->setName( $params['first_name' ] . ' ' . $params['last_name'] );
+        $shipToAddress->setName( $params['first_name'] . ' ' . $params['last_name'] );
         $paymentDetails->setShipToAddress( $shipToAddress );
 
         if ( PayPal::isError( $doDirectPaymentRequestDetails ) ) {

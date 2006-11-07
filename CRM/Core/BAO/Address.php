@@ -101,6 +101,32 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             $params['postal_code_suffix'] = $match[2];
         }
 
+        // add state_id if state is set
+        if ( ! is_numeric( $params['state_province_id'] ) &&
+             isset( $params['state_province'] ) ) {
+            $state_province       = & new CRM_Core_DAO_StateProvince();
+            $state_province->name = $params['state_province'];
+            if ( ! $state_province->find(true) ) {
+                $state_province->name = null;
+                $state_province->abbreviation = $params['state_province'];
+                $state_province->find(true);
+            }
+            $params['state_province_id'] = $state_province->id;
+        }
+
+        // add country id if not set
+        if ( ! is_numeric( $params['country_id'] ) &&
+             isset( $params['country'] ) ) {
+            $country       = & new CRM_Core_DAO_Country( );
+            $country->name = $params['country'];
+            if ( ! $country->find(true) ) {
+                $country->name = null;
+                $country->iso_code = $params['country'];
+                $country->find(true);
+            }
+            $params['country_id'] = $country->id;
+        }
+            
         // currently copy values populates empty fields with the string "null"
         // and hence need to check for the string null
         if ( is_numeric( $params['state_province_id'] ) && ( !isset($params['country_id']) || empty($params['country_id']))) {

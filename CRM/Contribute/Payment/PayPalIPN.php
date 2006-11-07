@@ -66,8 +66,6 @@ class CRM_Contribute_Payment_PayPalIPN {
         }
         $now = date( 'YmdHis' );
         
-        $contribution->receive_date = CRM_Utils_Date::isoToMysql($receive_date); // lets keep this the same
-
         require_once 'CRM/Contribute/DAO/ContributionType.php';
         $contributionType =& new CRM_Contribute_DAO_ContributionType( );
         $contributionType->id = $contributionTypeID;
@@ -89,7 +87,32 @@ class CRM_Contribute_Payment_PayPalIPN {
             CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
             return;
         }
-        
+
+        // ok we are done with error checking, now let the real work begin
+        // update the contact record with the name and address
+        $params = array( );
+        $lookup = array( 'first_name'     => 'first_name',
+                         'last_name'      => 'last_name' ,
+                         'street_address' => 'address_street',
+                         'city'           => 'address_city',
+                         'state'          => 'address_state',
+                         'postal_code'    => 'address_zip',
+                         'country'        => 'address_country_code' );
+        foreach ( $lookup as $name => $paypalName ) {
+            $value = CRM_Utils_Request::retrieve( $paypalName, 'String', $store,
+                                                  false, null, 'POST' );
+            if ( $value ) {
+                $params[$name] = $value;
+            }
+        }
+        if ( ! empty( $params ) ) {
+            // update contact record
+            $idParams = array( 'id' => $contactID, 'contact_id' => $contactID );
+            CRM_Contact_BAO_Contact::createFlat($params, $idParams );
+        }
+
+        $contribution->receive_date = CRM_Utils_Date::isoToMysql($receive_date); // lets keep this the same
+
         $status = CRM_Utils_Request::retrieve( 'payment_status', 'String', $store,
                                                false, 0, 'POST' );
         if ( $status == 'Denied' || $status == 'Failed' || $status == 'Voided' ) {
