@@ -80,6 +80,11 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         $this->addElement('checkbox', 'is_monetary', ts('Execute real-time monetary transactions') );
 
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->paymentProcessor == 'PayPal_Standard' ) {
+            $this->addElement('checkbox', 'is_recur', ts('Enable recurring payments') );
+        }
+
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
 
         parent::buildQuickForm( );

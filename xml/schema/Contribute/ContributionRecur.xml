@@ -86,7 +86,7 @@
   </field>
   <field>     
       <name>is_active</name>
-      <type>tinyint</type> 
+      <type>boolean</type> 
       <required>true</required> 
       <comment>Set to false by contributor cancellation or greater than max permitted failures - if we know about that.</comment>  
       <add>1.4</add>  
@@ -128,7 +128,7 @@
   </field>  
   <field>     
       <name>auto_renew</name>
-      <type>tinyint</type> 
+      <type>boolean</type> 
       <required>true</required> 
       <default>0</default>
       <comment>Some systems allow contributor to set a number of installments - but then auto-renew the subscription or commitment if they do not cancel.</comment>  

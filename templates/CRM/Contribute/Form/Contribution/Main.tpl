@@ -24,7 +24,7 @@ function clearAmountOther() {
 //-->
 </script>
 {/literal}
-{if $action eq 1024}
+{if $action & 1024}
     {include file="CRM/Contribute/Form/Contribution/PreviewHeader.tpl"}
 {/if}
 {capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
@@ -42,6 +42,17 @@ function clearAmountOther() {
     </tr>
     {if $is_allow_other_amount}
         <tr><td class="label">{$form.amount_other.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.amount_other.html}</td></tr>
+    {/if}
+    {if $form.is_recur}  
+        <tr>
+           <td class="label">{$form.is_recur.label}</td><td>{$form.is_recur.html}</td>
+       </tr>
+        <tr>
+           <td class="label">{$form.frequency_interval.label}</td><td>{$form.frequency_interval.html}&nbsp;{$form.frequency_unit.html}</td>
+       </tr>
+        <tr>
+           <td class="label">{$form.installments.label}</td><td>{$form.installments.html}</td>
+       </tr>
     {/if}
     <tr>
         <td class="label">{$form.email.label}</td><td>{$form.email.html}</td>

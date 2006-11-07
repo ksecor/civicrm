@@ -568,12 +568,10 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
 
         $returnURL = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_ThankYou_display=1', true, null, false );
         $cancelURL = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1&cancel=1', true, null, false );
-
+        
         $paypalParams =
-            array( 'cmd'                => 'xclick',
-                   'business'           => $config->paymentUsername[$this->_mode],
+            array( 'business'           => $config->paymentUsername[$this->_mode],
                    'notify_url'         => $notifyURL,
-                   'amount'             => $params['amount'],
                    'item_name'          => $params['item_name'],
                    'quantity'           => 1,
                    'undefined_quantity' => 0,
@@ -584,10 +582,33 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
                    'rm'                 => 1,
                    'currency_code'      => $params['currencyID'],
                    'invoice'            => $params['invoiceID'] );
-
+        
+        // if recurring donations, add a few more items
+        if ( ! empty( $params['is_recur'] ) ) {
+            $paypalParams +=
+                array( 'cmd'                => '_xclick-subscriptions',
+                       'a3'                 => $params['amount'],
+                       'p3'                 => $params['frequency_interval'],
+                       't3'                 => ucfirst( substr( $params['frequency_unit'], 0, 1 ) ),
+                       'src'                => 1,
+                       'sra'                => 1,
+                       'srt'                => ( $params['installments'] > 0 ) ? $params['installments'] : null,
+                       'no_note'            => 1,
+                       'modify'             => 0,
+                       );
+        } else {
+            $paypalParams +=
+                array( 'cmd'                => 'xclick',
+                       'amount'             => $params['amount'],
+                       );
+        }
 
         $uri = '';
         foreach ( $paypalParams as $key => $value ) {
+            if ( $value === null ) {
+                continue;
+            }
+
             $value = urlencode( $value );
             if ( $key == 'return' ||
                  $key == 'cancel_return' ||
@@ -599,7 +620,8 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
 
         $uri = substr( $uri, 1 );
         $url = ( $this->_mode == 'test' ) ? $config->paymentPayPalExpressTestUrl : $config->paymentPayPalExpressUrl;
-        $paypalURL = "https://{$url}/xclick/$uri";
+        $sub = empty( $params['is_recur'] ) ? 'xclick' : 'subscriptions';
+        $paypalURL = "https://{$url}/{$sub}/$uri";
 
         // CRM_Core_Error::debug( 'paypalParams', $paypalParams );
         // CRM_Core_Error::debug( 'paypalURL'   , $paypalURL );

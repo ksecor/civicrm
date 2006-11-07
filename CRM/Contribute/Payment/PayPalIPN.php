@@ -56,6 +56,7 @@ class CRM_Contribute_Payment_PayPalIPN {
 
         if ( ! $contactID || ! $contributionID || ! $contributionTypeID ) {
             CRM_Core_Error::debug_log_message( "Could not find the right GET parameters" );
+            echo "Failure: Invalid parameters<p>";
             return;
         }
 
@@ -65,6 +66,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         $contribution->id = $contributionID;
         if ( ! $contribution->find( true ) ) {
             CRM_Core_Error::debug_log_message( "Could not find contribution record: $contributionID" );
+            echo "Failure: Could not find contribution record for $contributionID<p>";
             return;
         }
         $now = date( 'YmdHis' );
@@ -74,6 +76,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         $contributionType->id = $contributionTypeID;
         if ( ! $contributionType->find( true ) ) {
             CRM_Core_Error::debug_log_message( "Could not find contribution type record: $contributionTypeID" );
+            echo "Failure: Could not find contribution type record for $contributionTypeID<p>";
             return;
         }
         
@@ -81,6 +84,7 @@ class CRM_Contribute_Payment_PayPalIPN {
                                                 false, null, 'POST' );
         if ( $contribution->invoice_id != $invoice ) {
             CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
+            echo "Failure: Invoice values dont match between database and IPN request<p>";
             return;
         }
 
@@ -88,6 +92,7 @@ class CRM_Contribute_Payment_PayPalIPN {
                                                false, null, 'POST' );
         if ( $contribution->total_amount != $amount ) {
             CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
+            echo "Failure: Amount values dont match between database and IPN request<p>";
             return;
         }
 
@@ -124,24 +129,34 @@ class CRM_Contribute_Payment_PayPalIPN {
             $contribution->save( );
             CRM_Core_DAO::transaction( 'COMMIT' );
             CRM_Core_Error::debug_log_message( "Setting contribution status to failed" );
+            echo "Success: Setting contribution status to failed<p>";
             return;
         } else if ( $status == 'Pending' ) {
             CRM_Core_Error::debug_log_message( "returning since contribution status is pending" );
+
+            echo "Success: Returning since contribution status is pending<p>";
             return;
         } else if ( $status == 'Refunded' || $status == 'Reversed' ) {
             $contribution->contribution_status_id = 3;
             $contribution->cancel_date = $now;
             $contribution->cancel_reason = CRM_Utils_Request::retrieve( 'ReasonCode', 'String', $store,
                                                                         false, null,'POST' );
+            $contribution->save( );
+            CRM_Core_DAO::transaction( 'COMMIT' );
+            CRM_Core_Error::debug_log_message( "Setting contribution status to cancelled" );
+            echo "Success: Setting contribution status to cancelled<p>";
+            return;
         } else if ( $status != 'Completed' ) {
             // we dont handle this as yet
             CRM_Core_Error::debug_log_message( "returning since contribution status: $status is not handled" );
+            echo "Failure: contribution status $status is not handled<p>";
             return;
         }
 
         // check if contribution is already completed, if so we ignore this ipn
         if ( $contribution->contribution_status_id == 1 ) {
             CRM_Core_Error::debug_log_message( "returning since contribution has already been handled" );
+            echo "Success: Contribution has already been handled<p>";
             return;
         }
 
@@ -284,6 +299,8 @@ class CRM_Contribute_Payment_PayPalIPN {
         $template->assign( 'contributeMode', 'notify' );
 
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values );
+
+        echo "Success: Database updated<p>";
     }
 
     static function main( ) {

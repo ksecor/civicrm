@@ -99,11 +99,17 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
         } else {
             $this->_params = $this->controller->exportValues( 'Main' );
-          
-            $this->_params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['state_province_id'] ); 
-            $this->_params['country']        = CRM_Core_PseudoConstant::countryIsoCode( $this->_params['country_id'] ); 
-            $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
-            $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
+
+            if ( isset( $this->_params['state_province_id'] ) ) {
+                $this->_params['state_province'] = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params['state_province_id'] ); 
+            }
+            if ( isset( $this->_params['country_id'] ) ) {
+                $this->_params['country']        = CRM_Core_PseudoConstant::countryIsoCode( $this->_params['country_id'] ); 
+            }
+            if ( isset( $this->_params['credit_card_exp_date'] ) ) {
+                $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
+                $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
+            }
             $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR']; 
 
             $this->_params['amount'        ] = $this->get( 'amount' );
@@ -112,7 +118,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         $this->_params['invoiceID'] = $this->get( 'invoiceID' );
-
         $this->set( 'params', $this->_params );
 ;       
     }
@@ -217,7 +222,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @access public
      */
     function getAction( ) {
-        return CRM_Core_Action::VIEW;
+        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+            return CRM_Core_Action::VIEW | CRM_Core_Action::PREVIEW;
+        } else {
+            return CRM_Core_Action::VIEW;
+        }
     }
 
     /**

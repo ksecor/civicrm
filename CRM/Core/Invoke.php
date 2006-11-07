@@ -220,9 +220,9 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View_Tag( );
                 break;
             
-            case 'tabbed':
-                require_once 'CRM/Contact/Page/View/Tabbed.php';
-                $view =& new CRM_Contact_Page_View_Tabbed( );
+            case 'basic':
+                require_once 'CRM/Contact/Page/View/Basic.php';
+                $view =& new CRM_Contact_Page_View_Basic( );
                 break;
             
             case 'log':
@@ -311,8 +311,8 @@ class CRM_Core_Invoke {
                     require_once 'CRM/Contact/Page/View/' . $contact_type . '.php';
                     eval( '$view =& new CRM_Contact_Page_View_' . $contact_type . '( );' );
                 } else {
-                    require_once 'CRM/Contact/Page/View/Basic.php';
-                    $view =& new CRM_Contact_Page_View_Basic( );
+                    require_once 'CRM/Contact/Page/View/Tabbed.php';
+                    $view =& new CRM_Contact_Page_View_Tabbed( );
                 }
                 break;
             }

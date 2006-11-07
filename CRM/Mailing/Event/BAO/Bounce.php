@@ -54,7 +54,8 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
      */
     static function &create(&$params) {
         $q =& CRM_Mailing_Event_BAO_Queue::verify($params['job_id'],
-                $params['event_queue_id'], $params['hash']);
+                                                  $params['event_queue_id'],
+                                                  $params['hash']);
         if (! $q) {
             return null;
         }

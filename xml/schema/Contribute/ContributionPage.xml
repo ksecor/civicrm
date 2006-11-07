@@ -72,6 +72,13 @@
       <add>1.6</add>   
   </field>
   <field>   
+      <name>is_recur</name>   
+      <type>boolean</type>                   
+      <default>0</default> 
+      <comment>if true - allows recurring contributions, valid only for PayPal_Standard</comment>   
+      <add>1.6</add>   
+  </field>
+  <field>   
       <name>is_allow_other_amount</name>   
       <type>boolean</type>                   
       <comment>if true, page will include an input text field where user can enter their own amount</comment>   
@@ -215,14 +222,14 @@
        <comment>Should this contribution have the honor  block enabled?</comment>  
        <add>1.6</add>  
   </field>
-   <field>  
+  <field>  
        <name>honor_block_title</name>  
        <type>varchar</type>  
        <length>255</length>
        <comment>Title for honor block.</comment>  
        <add>1.5</add>  
   </field>
-   <field>  
+  <field>  
        <name>honor_block_text</name>  
        <type>text</type> 
        <htmlType>textarea</htmlType>

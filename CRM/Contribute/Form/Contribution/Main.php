@@ -110,17 +110,24 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */
     public function buildQuickForm( ) 
     {
+        $config =& CRM_Core_Config::singleton( );
+
         $this->applyFilter('__ALL__', 'trim');
 
         $this->add( 'text', 'email', ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         if ( $this->_values['is_monetary'] ) {
             $this->buildCreditCard( );
+
+            if ( $this->_values['is_recur'] &&
+                 $config->paymentProcessor == 'PayPal_Standard' ) {
+                $this->buildRecur( );
+            }
         }
+
         if ( $this->_values['amount_block_is_active'] ) {
             $this->buildAmount( );
         }
               
-        $config =& CRM_Core_Config::singleton( );
         require_once 'CRM/Contribute/BAO/Premium.php';
         CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
         
@@ -261,8 +268,33 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                        $config->paymentExpressButton,
                        array( 'class' => 'form-submit' ) );
         }
-        
     }
+
+    /** 
+     * build elements to collect information for recurring contributions
+     *
+     * @access public
+     */
+    function buildRecur( ) {
+        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionRecur' );
+
+        $this->addYesNo( 'is_recur', ts( 'Recurring Contribution' ) );
+
+        $this->add( 'text', 'frequency_interval', ts( 'Contribution Frequency' ),
+                    $attributes['frequency_interval'] );
+
+        $units = array( 0       => ts( ' -select-' ),
+                        'day'   => ts( 'Days'      ),
+                        'week'  => ts( 'Weeks'     ),
+                        'month' => ts( 'Months'    ),
+                        'year'  => ts( 'Years'     ) );
+        $this->add( 'select', 'frequency_unit', null, $units );
+
+        $this->add( 'text', 'installments', ts( 'Number of Contributions' ),
+                    $attributes['installments'] );
+
+    }
+
 
     /** 
      * global form rule 

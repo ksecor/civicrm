@@ -17,7 +17,13 @@
     <dt>{$form.is_monetary.label}</dt><dd>{$form.is_monetary.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Uncheck this box if you are using this contribution page for users to enter in-kind / non-monetary donations such as furniture, equipment.. etc.{/ts}</dd>
     </dl>
-    
+
+{if $form.is_recur}
+    <dl>
+    <dt>{$form.is_recur.label}</dt><dd>{$form.is_recur.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to allow users to enter recurring contributions.{/ts}</dd>
+    </dl>
+{/if}    
     <dl>
     <dt>{$form.is_allow_other_amount.label}</dt><dd>{$form.is_allow_other_amount.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to give users the option to enter their own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>.{/ts}</dd>

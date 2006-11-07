@@ -1,4 +1,4 @@
-{if $action eq 1024}
+{if $action & 1024}
     {include file="CRM/Contribute/Form/Contribution/PreviewHeader.tpl"}
 {/if}
 
