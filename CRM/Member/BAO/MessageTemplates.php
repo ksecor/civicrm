@@ -34,7 +34,9 @@
  *
  */
 
+require_once 'Mail/mime.php';
 require_once 'CRM/Member/DAO/MessageTemplates.php';
+
 
 class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates 
 {
@@ -145,6 +147,103 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
             $msgTpls[$messageTemplates->id] = $messageTemplates->msg_title;
         }
         return $msgTpls;
+    }
+
+    static function sendReminder( $contactId, $email, $domainID, $messageTemplateID ,$from) {
+        $messageTemplates =& new CRM_Member_DAO_MessageTemplates( );
+        $messageTemplates->id = $messageTemplateID;
+        require_once "CRM/Core/BAO/Domain.php";
+        require_once "CRM/Utils/String.php";
+        require_once "CRM/Utils/Token.php";
+
+        $domain = CRM_Core_BAO_Domain::getDomainByID($domainID);
+        
+        if ( $messageTemplates->find(true) ) {
+            $body_text = $messageTemplates->msg_text;
+            $body_html = $messageTemplates->msg_html;
+            if ( $body_html ) {
+                $html = CRM_Utils_Token::replaceDomainTokens($html,
+                                                             $domain, true);
+               
+            }
+            if (!$body_text) {
+                $body_text = CRM_Utils_String::htmlToText($body_html);
+            }
+            $body_text = CRM_Utils_Token::replaceDomainTokens($body_text,
+                                                               $domain, false);
+            $html = $body_html;
+            $text = $body_text;
+
+            $params  = array( 'contact_id' => $contactId );
+            $contact =& crm_fetch_contact( $params );
+            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+                return null;
+            }
+            $message =& new Mail_Mime("\n");
+
+            /* Do contact-specific token replacement in text mode, and add to the
+             * message if necessary */
+            if ( !$html || $contact['preferred_mail_format'] == 'Text' ||
+                $contact['preferred_mail_format'] == 'Both') 
+                {
+                    $text = CRM_Utils_Token::replaceContactTokens(
+                                                                  $text, $contact, false);
+                    // render the &amp; entities in text mode, so that the links work
+                    $text = str_replace('&amp;', '&', $text);
+                }
+            
+            if ( !$html || $contact['preferred_mail_format'] == 'Text' ||
+                $contact['preferred_mail_format'] == 'Both') 
+                {
+                    $message->setTxtBody($text);
+                    
+                    unset( $text );
+                }
+            
+            if ($html && ( $contact['preferred_mail_format'] == 'HTML' ||
+                          $contact['preferred_mail_format'] == 'Both'))
+                {
+                    $message->setHTMLBody($html);
+                    
+                    unset( $html );
+                }
+            $recipient = "\"{$contact['display_name']}\" <$email>";
+
+            $headers = array(
+                             'From'      => $from,
+                             'Subject'   => $messageTemplates->msg_subject,
+                         );
+            $headers['To'] = $recipient;
+
+            $mailMimeParams = array(
+                                    'text_encoding' => '8bit',
+                                    'html_encoding' => '8bit',
+                                    'head_charset'  => 'utf-8',
+                                    'text_charset'  => 'utf-8',
+                                    'html_charset'  => 'utf-8',
+                                    );
+            $message->get($mailMimeParams);
+            $message->headers($headers);
+
+            $config =& CRM_Core_Config::singleton();
+            $mailer =& $config->getMailer();
+            
+            $body = $message->get();
+            $headers = $message->headers();
+
+          //   require_once "CRM/Utils/Mail.php";
+//             CRM_Utils_Mail::send(    $from,
+//                                      $contact['display_name'],$email,
+//                                      $messageTemplates->msg_subject,
+//                                      $body ) ;
+            
+          PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
+                                  array('CRM_Mailing_BAO_Mailing', 
+                                          'catchSMTP'));
+          $result = $mailer->send($recipient, $headers, $body);
+          CRM_Core_Error::setCallback();
+        }
+        
     }
 }
 ?>
