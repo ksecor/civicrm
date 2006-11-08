@@ -221,12 +221,15 @@ class CRM_Core_I18n
     /**
      * Static instance provider.
      *
-     * Method providing static instance of SmartTemplate, as
-     * in Singleton pattern.
+     * Method providing static instance of CRM_Core_I18n, as
+     * in Singleton pattern; re-initialise on lcMessages change.
      */
     static function &singleton()
     {
-        if (!isset(self::$_singleton)) {
+        static $lcMessages = null;
+        $config =& CRM_Core_Config::singleton();
+        if (!isset(self::$_singleton) or $lcMessages != $config->lcMessages) {
+            $lcMessages = $config->lcMessages;
             self::$_singleton =& new CRM_Core_I18n();
         }
         return self::$_singleton;
