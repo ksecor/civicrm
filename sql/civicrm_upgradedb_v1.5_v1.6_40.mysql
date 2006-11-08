@@ -1,4 +1,98 @@
 -- /*******************************************************
+-- All domain-keyed values handled by this included file
+-- Handles all domain-keyed data. Included in civicrm_data.tpl for base initialization (@domain_id = 1).
+-- *******************************************************/
+
+    set @domain_id = 1;
+
+-- /*******************************************************
+-- *
+-- * update the option group and option value
+-- *
+-- *******************************************************/
+
+INSERT INTO 
+   `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+   (@domain_id, 'activity_type'                 , 'Activity Type'                      , 0, 1),
+   (@domain_id, 'gender'                        , 'Gender'                             , 0, 1),
+   (@domain_id, 'instant_messenger_service'     , 'Instant Messenger (IM) screen-names', 0, 1),
+   (@domain_id, 'mobile_provider'               , 'Mobile Phone Providers'             , 0, 1),
+   (@domain_id, 'individual_prefix'             , 'Individual contact prefixes.'       , 0, 1),
+   (@domain_id, 'individual_suffix'             , 'Individual contact suffixes.'       , 0, 1),
+   (@domain_id, 'acl_role'                      , 'ACL Role.'                          , 0, 1),
+   (@domain_id, 'accept_creditcard'             , 'Accept Credit Card'                 , 0, 1),
+   (@domain_id, 'payment_instrument'            , 'Payment Instrument'                 , 0, 1),
+   (@domain_id, 'contribution_status'           , 'Contribution Status'               , 0, 1);
+
+SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
+SELECT @option_group_id_gender         := max(id) from civicrm_option_group where name = 'gender';
+SELECT @option_group_id_IMProvider     := max(id) from civicrm_option_group where name = 'instant_messenger_service';
+SELECT @option_group_id_mobileProvider := max(id) from civicrm_option_group where name = 'mobile_provider';
+SELECT @option_group_id_prefix         := max(id) from civicrm_option_group where name = 'individual_prefix';
+SELECT @option_group_id_suffix         := max(id) from civicrm_option_group where name = 'individual_suffix';
+SELECT @option_group_id_aclRole        := max(id) from civicrm_option_group where name = 'acl_role';
+SELECT @option_group_id_acc            := max(id) from civicrm_option_group where name = 'accept_creditcard';
+SELECT @option_group_id_pi             := max(id) from civicrm_option_group where name = 'payment_instrument';
+SELECT @option_group_id_cs             := max(id) from civicrm_option_group where name = 'contribution_status';
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
+VALUES
+   (@option_group_id_act, 'Meeting', 1, 'Meeting',NULL, 0, NULL, 1, 'Schedule a meeting', 0, 0, 1),
+   (@option_group_id_act, 'Phone Call', 2, 'Phone Call', NULL,  0, NULL, 2, 'Schedule a Phone Call', 0, 0, 1),
+   (@option_group_id_act, 'Email', 3, 'Email', NULL, 0, NULL, 3, 'Email Sent', 0, 0, 1),
+   (@option_group_id_act, 'SMS', 4, 'SMS', NULL, 0, NULL, 4, 'SMS', 0, 0, 1),
+   (@option_group_id_act, 'Event', 5,'Event', NULL, 0, NULL, 5, 'Event', 0, 0, 1),
+
+   (@option_group_id_gender, 'Female',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_gender, 'Male',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_gender, 'Transgender', 3, 'Transgender', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+
+   (@option_group_id_IMProvider, 'Yahoo', 1, 'Yahoo', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'MSN',   2, 'Msn',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'AIM',   3, 'Aim',   NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'GTalk', 4, 'Gtalk', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'Jabber',5, 'Jabber',NULL, 0, NULL, 5, NULL, 0, 0, 1),
+   (@option_group_id_IMProvider, 'Skype', 6, 'Skype', NULL, 0, NULL, 6, NULL, 0, 0, 1),
+
+   (@option_group_id_mobileProvider, 'Sprint'  , 1, 'Sprint'  , NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_mobileProvider, 'Verizon' , 2, 'Verizon' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_mobileProvider, 'Cingular', 3, 'Cingular', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+
+   (@option_group_id_prefix, 'Mrs', 1, 'Mrs', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Ms',  2, 'Ms', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Mr',  3, 'Mr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_prefix, 'Dr',  4, 'Dr', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+
+   (@option_group_id_suffix, 'Jr',  1, 'Jr', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'Sr',  2, 'Sr', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'II',  3, 'II', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'III', 4, 'III', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'IV',  5, 'IV',  NULL, 0, NULL, 5, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'V',   6, 'V',   NULL, 0, NULL, 6, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'VI',  7, 'VI',  NULL, 0, NULL, 7, NULL, 0, 0, 1),
+   (@option_group_id_suffix, 'VII', 8, 'VII', NULL, 0, NULL, 8, NULL, 0, 0, 1),
+
+   (@option_group_id_aclRole, 'Administrator',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_aclRole, 'Authenticated',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+
+   (@option_group_id_acc, 'Visa',  1, 'Visa', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_acc, 'MasterCard',  2, 'MasterCard', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_acc, 'American Express',  3, 'American Express', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_acc, 'Discover',  4, 'Discover', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+
+  (@option_group_id_pi, 'Credit Card',  1, 'Credit Card', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_pi, 'Debit Card',  2, 'Debit Card', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_pi, 'Cash',  3, 'Cash', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_pi, 'Check',  4, 'Check', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+  (@option_group_id_pi, 'EFT',  5, 'EFT', NULL, 0, NULL, 5, NULL, 0, 0, 1),
+
+  (@option_group_id_cs, 'Completed', 1, 'Completed', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_cs, 'Pending'  , 2, 'Pending'  , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_cs, 'Cancelled', 3, 'Cancelled', NULL, 0, NULL, 3, NULL, 0, 0, 1);
+
+-- /*******************************************************
 -- *
 -- * add the Netherlands state of Limburg (CRM-1228)
 -- *
@@ -60,6 +154,7 @@
 DROP TABLE IF EXISTS civicrm_accept_credit_card;
 DROP TABLE IF EXISTS civicrm_activity_type;
 DROP TABLE IF EXISTS civicrm_acl_group; 
+DROP TABLE IF EXISTS civicrm_acl_group_join; 
 DROP TABLE IF EXISTS civicrm_gender;
 DROP TABLE IF EXISTS civicrm_individual_prefix;
 DROP TABLE IF EXISTS civicrm_individual_suffix;
@@ -90,9 +185,41 @@ CREATE TABLE civicrm_acl_cache (
      FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id)
 ,      INDEX FKEY_acl_id ( acl_id ) ,  
      FOREIGN KEY (acl_id) REFERENCES civicrm_acl(id)
-  
+,    INDEX index_acl_id( acl_id)
+	
 )  TYPE=InnoDB;
 
+-- /*******************************************************
+-- *
+-- * civicrm_acl_entity_role
+-- *
+-- * Join table for Contacts and Groups to ACL Roles
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_acl_entity_role (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique table ID',
+     domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this contact',
+     acl_role_id int unsigned NOT NULL   COMMENT 'Foreign Key to ACL Role (which is an option value pair and hence an implicit FK)',
+     entity_table varchar(64) NOT NULL   COMMENT 'Table of the object joined to the ACL Role (Contact or Group)',
+     entity_id int unsigned NOT NULL   COMMENT 'ID of the group/contact object being joined',
+     is_active tinyint    COMMENT 'Is this property active?' 
+,
+    PRIMARY KEY ( id )
+ 
+    ,     INDEX index_role(
+        acl_role_id
+  )
+  ,     INDEX index_entity(
+        entity_table
+      , entity_id
+  )
+  
+,      INDEX FKEY_domain_id ( domain_id ) ,  
+     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+  
+)  TYPE=InnoDB  ;
 
 -- /*******************************************************
 -- *
@@ -100,33 +227,16 @@ CREATE TABLE civicrm_acl_cache (
 -- *******************************************************/
 
 	ALTER TABLE `civicrm_acl` ADD domain_id int(10) unsigned NOT NULL   COMMENT 'Which Domain owns this contact';
-	ALTER TABLE `civicrm_acl` ADD INDEX `domain_id` (`domain_id`);	
+	ALTER TABLE `civicrm_acl` ADD INDEX domain_id (`domain_id`);		
 	ALTER TABLE `civicrm_acl` ADD FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain`(`id`);
-		
 
 	ALTER TABLE `civicrm_acl` ADD name varchar(64) COMMENT 'ACL Name.';
 
 	ALTER TABLE `civicrm_acl` CHANGE `operation` `operation` ENUM('All', 'View', 'Edit', 'Create', 'Delete', 'Grant', 'Revoke') NOT NULL   COMMENT 'What operation does this ACL entry control?';
 
-
--- /*******************************************************
--- *
--- * civicrm_acl_group_join
--- *
--- * Join table for Contacts and Groups to ACL Groups
--- *
--- *******************************************************/
+	ALTER TABLE `civicrm_acl` ADD is_active tinyint(4) COMMENT 'Is this property active?';
 	
-	ALTER TABLE `civicrm_acl_group_join` ADD domain_id int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-	ALTER TABLE `civicrm_acl_group_join` ADD INDEX `domain_id` (`domain_id`);	
-	ALTER TABLE `civicrm_acl_group_join` ADD FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`);
-
-	ALTER TABLE `civicrm_acl_group_join` ADD name varchar(64) COMMENT 'ACL GroupJoin Name.';
-	ALTER TABLE `civicrm_acl_group_join` ADD is_active tinyint COMMENT 'Is this property active?'; 
-
-	ALTER TABLE `civicrm_acl_group_join` DROP FOREIGN KEY `civicrm_acl_group_join_ibfk_1`;
-	ALTER TABLE `civicrm_acl_group_join` DROP INDEX `FKEY_acl_group_id`;
-	ALTER TABLE `civicrm_acl_group_join` MODIFY `acl_group_id` INT( 10 ) UNSIGNED NOT NULL COMMENT 'Foreign Key to ACL Group (which is an option value pair and hence an implicit FK)'; 
+	ALTER TABLE `civicrm_acl` ADD INDEX index_acl_id (acl_id);
 
 -- /*******************************************************
 -- *
@@ -136,23 +246,49 @@ CREATE TABLE civicrm_acl_cache (
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_activity` ADD INDEX (`activity_type_id`);
+	ALTER TABLE `civicrm_activity` ADD INDEX UI_activity_type_id (`activity_type_id`);
+	ALTER TABLE `civicrm_activity` DROP FOREIGN KEY `civicrm_activity_ibfk_2`;
+	ALTER TABLE `civicrm_activity` DROP INDEX `FKEY_activity_type_id`;
 
+-- /*******************************************************
+-- *
+-- * civicrm_activity_history
+-- *
+-- * Record history for an entity in the crm module
+-- *
+-- *******************************************************/
+
+	ALTER TABLE `civicrm_activity_history` ADD INDEX index_activity (`activity_id`);
+
+-- /*******************************************************
+-- *
+-- * civicrm_contact
+-- *
+-- * Three types of contacts are defined: Individual, Organization and Household. Contact objects are defined by a civicrm_contact record plus a related civicrm_contact_type record.
+-- *
+-- *******************************************************/
+
+	ALTER TABLE civicrm_contact ADD INDEX index_contact_type_domain (contact_type, domain_id);
+	ALTER TABLE civicrm_contact ADD INDEX index_contact_sub_type_domain (contact_sub_type, domain_id);
+	ALTER TABLE civicrm_contact ADD INDEX index_preferred_communication_method (preferred_communication_method);
+	
 -- /*******************************************************
 -- *
 -- * civicrm_contribution
 -- *
 -- *******************************************************/
 
+	ALTER TABLE `civicrm_contribution` ADD	`contribution_status_id` int unsigned   DEFAULT '1';  
 	ALTER TABLE `civicrm_contribution` DROP FOREIGN KEY `civicrm_contribution_ibfk_6`;
 	ALTER TABLE `civicrm_contribution` DROP INDEX `FKEY_payment_instrument_id`;
-
-	ALTER TABLE `civicrm_contribution` ADD is_test tinyint DEFAULT 0;
-
+	ALTER TABLE `civicrm_contribution` ADD is_test tinyint NULL DEFAULT 0;
+	
 	ALTER TABLE `civicrm_contribution` ADD `honor_contact_id` int unsigned COMMENT 'FK to contact ID';
-	ALTER TABLE `civicrm_contribution` ADD INDEX (`honor_contact_id`);
-	ALTER TABLE `civicrm_contribution` ADD FOREIGN KEY (`honor_contact_id`) REFERENCES `civicrm_contact` (`id`);
-  
+	
+	ALTER TABLE `civicrm_contribution` ADD INDEX `UI_contrib_payment_instrument_id`(payment_instrument_id);
+	ALTER TABLE `civicrm_contribution` ADD INDEX `index_contribution_status` (contribution_status_id);
+	ALTER TABLE `civicrm_contribution` ADD INDEX FKEY_honor_contact_id (honor_contact_id);
+	ALTER TABLE `civicrm_contribution` ADD CONSTRAINT FOREIGN KEY (`honor_contact_id`) REFERENCES `civicrm_contact` (`id`);
 	
 -- /*******************************************************
 -- *
@@ -165,9 +301,7 @@ CREATE TABLE civicrm_acl_cache (
 	ALTER TABLE `civicrm_contribution_page` ADD honor_block_is_active tinyint COMMENT 'Should this contribution have the honor  block enabled?';
 	ALTER TABLE `civicrm_contribution_page` ADD honor_block_title varchar(255) COMMENT 'Title for honor block.';
 	ALTER TABLE `civicrm_contribution_page` ADD honor_block_text text COMMENT 'text for honor block.';
-	ALTER TABLE `civicrm_contribution_page` ADD is_monetary boolean DEFAULT 1 COMMENT 'if true - allows real-time monetary transactions otherwise non-monetary transactions.';
-	UPDATE `civicrm_contribution_page` set `is_monetary`=1;		
-
+	ALTER TABLE `civicrm_contribution_page` ADD is_monetary tinyint DEFAULT '1' COMMENT 'if true - allows real-time monetary transactions otherwise non-monetary transactions.';
 
 -- /*******************************************************
 -- *
@@ -179,6 +313,33 @@ CREATE TABLE civicrm_acl_cache (
 
 	ALTER TABLE `civicrm_custom_group` ADD extends_entity_column_name varchar(64) COMMENT 'linking custom group for dynamic object';
 	ALTER TABLE `civicrm_custom_group` ADD extends_entity_column_value varchar(64) COMMENT 'linking custom group for dynamic object';
+
+	ALTER TABLE `civicrm_custom_group` MODIFY extends enum('Contact','Individual','Household','Organization','Location','Address','Contribution','Activity','Relationship','Phonecall','Meeting','Group','Membership') NULL DEFAULT 'Contact' COMMENT 'Type of object this group extends (can add other options later e.g. contact_address, etc.).';
+
+-- /*******************************************************
+-- *
+-- * civicrm_custom_value
+-- *
+-- * Data store for each extended properties.
+-- *
+-- *******************************************************/
+
+	ALTER TABLE civicrm_custom_value ADD INDEX index_int_field (int_data, custom_field_id);
+    	ALTER TABLE civicrm_custom_value ADD INDEX index_float_field (float_data, custom_field_id);
+    	ALTER TABLE civicrm_custom_value ADD INDEX index_decimal_field (decimal_data, custom_field_id);
+    	ALTER TABLE civicrm_custom_value ADD INDEX index_char_field (char_data, custom_field_id);
+    	ALTER TABLE civicrm_custom_value ADD INDEX index_date_field (date_data, custom_field_id);
+
+-- /*******************************************************
+-- *
+-- * civicrm_domain
+-- *
+-- * Top-level hierarchy to support multi-org/domain installations. Define domains for multi-org installs, else all contacts belong to one domain.
+-- *
+-- *******************************************************/
+
+	ALTER TABLE civicrm_domain ADD config_backend text COMMENT 'Backend configuration.';
+    	ALTER TABLE civicrm_domain ADD config_frontend text COMMENT 'Frontend configuration.';
 
 -- /*******************************************************
 -- *
@@ -192,202 +353,60 @@ CREATE TABLE civicrm_acl_cache (
 
 -- /*******************************************************
 -- *
+-- * civicrm_file
+-- *
+-- * Data store for uploaded (attached) files (pointer to file on disk OR blob). Maybe be joined to entities via custom_value.file_id or entity_file table.
+-- *
+-- *******************************************************/
+
+	ALTER TABLE `civicrm_file` DROP FOREIGN KEY `civicrm_file_ibfk_1`;
+	ALTER TABLE `civicrm_file` DROP INDEX `FKEY_file_type_id`;
+
+-- /*******************************************************
+-- *
 -- * civicrm_group
 -- *
 -- * Provide grouping of related contacts
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_group` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
+	ALTER TABLE civicrm_group ADD where_clause text NULL DEFAULT NULL AFTER visibility;
+    	ALTER TABLE civicrm_group ADD select_tables text NULL DEFAULT NULL AFTER where_clause;
+    	ALTER TABLE civicrm_group ADD where_tables text NULL DEFAULT NULL AFTER select_tables;
 
 -- /*******************************************************
 -- *
--- * civicrm_location
+-- * civicrm_im
 -- *
--- * Define location specific properties
+-- * IM information for a specific location.
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_location` MODIFY `location_type_id` int unsigned NOT NULL COMMENT 'FK to Location Type ID';
-	ALTER TABLE `civicrm_location` MODIFY `entity_id` int unsigned NOT NULL COMMENT 'Foreign key to the referenced item.';
-
--- /*******************************************************
--- *
--- * civicrm_location_type
--- *
--- *******************************************************/
-	ALTER TABLE `civicrm_group` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-
--- /*******************************************************
--- *
--- * civicrm_log
--- *
--- * Log can be linked to any object in the application.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_log` MODIFY `entity_id` int unsigned NOT NULL   COMMENT 'Foreign key to the referenced item.';
-
--- /*******************************************************
--- *
--- * civicrm_mailing
--- *
--- * Stores information about a mailing.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-	ALTER TABLE `civicrm_mailing` MODIFY `reply_id` int unsigned NOT NULL COMMENT 'FK to the auto-responder component.';
-	ALTER TABLE `civicrm_mailing` MODIFY `unsubscribe_id` int unsigned NOT NULL COMMENT 'FK to the unsubscribe component.';
-	ALTER TABLE `civicrm_mailing` MODIFY `optout_id`int unsigned NOT NULL COMMENT 'FK to the opt-out component.';
-
--- /*******************************************************
--- *
--- * civicrm_mailing_bounce_pattern
--- *
--- * Pseudo-constant table of patterns for bounce classification
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_bounce_pattern` MODIFY `bounce_type_id` int unsigned NOT NULL  COMMENT 'Type of bounce';
-
--- /*******************************************************
--- *
--- * civicrm_mailing_event_bounce
--- *
--- * Tracks when and why an email bounced.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_event_bounce` MODIFY `event_queue_id` int unsigned NOT NULL  COMMENT 'FK to EventQueue';
-
-	ALTER TABLE `civicrm_mailing_event_bounce` MODIFY `time_stamp` datetime NOT NULL   COMMENT 'When this bounce event occurred.';	
-
--- /*******************************************************
--- *
--- * civicrm_mailing_event_delivered
--- *
--- * Tracks when a queued email is actually delivered to the MTA
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_event_delivered` MODIFY `time_stamp` datetime NOT NULL   COMMENT 'When this bounce event occurred.';
-
--- /*******************************************************
--- *
--- * civicrm_mailing_event_forward
--- *
--- * Tracks when a contact forwards a mailing to a (new) contact
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_event_forward` MODIFY `time_stamp` datetime NOT NULL   COMMENT 'When this bounce event occurred.';
-	
--- /*******************************************************
--- *
--- * civicrm_mailing_event_opened
--- *
--- * Tracks when a delivered email is opened by the recipient
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_event_opened` MODIFY `time_stamp` datetime NOT NULL COMMENT 'When this bounce event occurred.';
-
--- /*******************************************************
--- *
--- * civicrm_mailing_event_queue
--- *
--- * A collection of all intended recipients of a job
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_event_queue` MODIFY `job_id` int unsigned NOT NULL  COMMENT 'FK to Job';
-	ALTER TABLE `civicrm_mailing_event_queue` MODIFY `email_id` INT unsigned NOT NULL COMMENT 'FK to Email';
-	ALTER TABLE `civicrm_mailing_event_queue` MODIFY `contact_id` INT unsigned NOT NULL COMMENT 'FK to Contact';
-
--- /*******************************************************
--- *
--- * civicrm_mailing_event_reply
--- *
--- * Tracks when a contact replies to a mailing
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_event_reply` MODIFY `event_queue_id` int unsigned NOT NULL  COMMENT 'FK to EventQueue';
-	
-	ALTER TABLE `civicrm_mailing_event_reply` MODIFY time_stamp datetime NOT NULL COMMENT 'When this delivery event occurred.';
+    	ALTER TABLE `civicrm_im` DROP FOREIGN KEY civicrm_im_ibfk_2;
+	ALTER TABLE `civicrm_im` DROP INDEX FKEY_provider_id;
+	ALTER TABLE `civicrm_im` ADD INDEX UI_provider_id (provider_id);
 
 
 -- /*******************************************************
 -- *
--- * civicrm_mailing_event_subscribe
+-- * civicrm_individual
 -- *
--- * Tracks when a (new) contact subscribes to a group by email
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_event_subscribe` MODIFY `group_id` INT unsigned NOT NULL COMMENT 'FK to Group';
-	
-	ALTER TABLE `civicrm_mailing_event_subscribe` MODIFY `contact_id` INT unsigned NOT NULL COMMENT 'FK to Contact';
-
--- /*******************************************************
--- *
--- * civicrm_mailing_event_trackable_url_open
--- *
--- * Tracks when a TrackableURL is clicked by a recipient.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_event_trackable_url_open` MODIFY `event_queue_id` int unsigned NOT NULL  COMMENT 'FK to EventQueue';
-
-	ALTER TABLE `civicrm_mailing_event_trackable_url_open` MODIFY `trackable_url_id` int unsigned NOT NULL COMMENT 'FK to TrackableURL';
-	ALTER TABLE `civicrm_mailing_event_trackable_url_open` MODIFY `time_stamp` datetime NOT NULL COMMENT 'When this delivery event occurred.';
-
--- /*******************************************************
--- *
--- * civicrm_mailing_event_unsubscribe
--- *
--- * Tracks when a recipient unsubscribes from a group/domain
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_event_unsubscribe` MODIFY `event_queue_id` int unsigned NOT NULL  COMMENT 'FK to EventQueue';
-
-	ALTER TABLE `civicrm_mailing_event_unsubscribe` MODIFY `org_unsubscribe` tinyint NOT NULL COMMENT 'Unsubscribe at org- or group-level';
-	ALTER TABLE `civicrm_mailing_event_unsubscribe` MODIFY `time_stamp` datetime NOT NULL COMMENT 'When this delivery event occurred.';
-
--- /*******************************************************
--- *
--- * civicrm_mailing_group
--- *
--- * Stores information about the groups that participate in this mailing..
+-- * Define contact-individual specific properties. Extends civicrm_contact.
 -- *
 -- *******************************************************/
 	
-	ALTER TABLE `civicrm_mailing_group` MODIFY `mailing_id` int unsigned NOT NULL COMMENT 'The ID of a previous mailing to include/exclude recipients.';
-
-	ALTER TABLE `civicrm_mailing_group` MODIFY `entity_id` int unsigned NOT NULL COMMENT 'Foreign key to the referenced item.';
-
--- /*******************************************************
--- *
--- * civicrm_mailing_job
--- *
--- * Stores information about the job that executes this mailing
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_job` MODIFY `mailing_id` int unsigned NOT NULL COMMENT 'The ID of the mailing this Job will send.';
-
--- /*******************************************************
--- *
--- * civicrm_mailing_trackable_url
--- *
--- * Stores URLs for which we should track click-throughs from mailings
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mailing_trackable_url` MODIFY `mailing_id` int unsigned NOT NULL COMMENT 'FK to the mailing';
-
+	ALTER TABLE civicrm_individual DROP FOREIGN KEY civicrm_individual_ibfk_2;
+	ALTER TABLE civicrm_individual DROP FOREIGN KEY civicrm_individual_ibfk_3;
+	ALTER TABLE civicrm_individual DROP FOREIGN KEY civicrm_individual_ibfk_4;
+	
+	ALTER TABLE civicrm_individual DROP INDEX FKEY_prefix_id;
+    	ALTER TABLE civicrm_individual DROP INDEX FKEY_suffix_id;
+    	ALTER TABLE civicrm_individual DROP INDEX FKEY_gender_id;
+		
+	ALTER TABLE civicrm_individual ADD INDEX UI_prefix (prefix_id);
+    	ALTER TABLE civicrm_individual ADD INDEX UI_suffix (suffix_id);
+    	ALTER TABLE civicrm_individual ADD INDEX UI_gender (gender_id);
+	
 -- /*******************************************************
 -- *
 -- * civicrm_mapping
@@ -396,147 +415,7 @@ CREATE TABLE civicrm_acl_cache (
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_mapping` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-
--- /*******************************************************
--- *
--- * civicrm_mapping_field
--- *
--- * Individual field mappings for Mapping
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_mapping_field` MODIFY mapping_id int unsigned NOT NULL COMMENT 'Mapping to which this field belongs';
-
-	ALTER TABLE `civicrm_mapping_field` MODIFY column_number int unsigned NOT NULL COMMENT 'Column number for mapping set';
-
-
--- /*******************************************************
--- *
--- * civicrm_meeting
--- *
--- * Meeting details stored here include contact, location, details.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_meeting` MODIFY source_contact_id int unsigned NOT NULL COMMENT 'Contact ID of person scheduling or logging this meeting. This will generally an authenticated user.';
-
-	ALTER TABLE `civicrm_meeting` MODIFY target_entity_id int unsigned NOT NULL   COMMENT 'Foreign key to the referenced item.';
-
--- /*******************************************************
--- *
--- * civicrm_membership
--- *
--- * Contact Membership records.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_membership` MODIFY contact_id INT unsigned NOT NULL COMMENT 'FK to Contact';
-
-	ALTER TABLE `civicrm_membership` MODIFY membership_type_id INT unsigned NOT NULL COMMENT 'FK to Membership Type';
-
-	ALTER TABLE `civicrm_membership` MODIFY status_id INT unsigned NOT NULL COMMENT 'FK to Membership Status';
-
-
--- /*******************************************************
--- *
--- * civicrm_membership_block
--- *
--- * A Membership Block stores admin configurable status options and rules
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_membership_block` MODIFY entity_id INT unsigned NOT NULL COMMENT 'FK to civicrm_contribution_page.id';
-
--- /*******************************************************
--- *
--- * civicrm_membership_log
--- *
--- * Logs actions which affect a Membership record (signup, status override, renewal, etc.)
--- *
--- *******************************************************/
-		
-	ALTER TABLE `civicrm_membership_log` MODIFY membership_id INT unsigned NOT NULL COMMENT 'FK to Membership table';
-
-	ALTER TABLE `civicrm_membership_log` MODIFY status_id INT unsigned NOT NULL COMMENT 'FK to Membership Status';
-
--- /*******************************************************
--- *
--- * civicrm_membership_payment
--- *
--- * Membership Payment
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_membership_payment` MODIFY membership_id INT unsigned NOT NULL COMMENT 'FK to Membership table';
-
--- /*******************************************************
--- *
--- * civicrm_membership_status
--- *
--- * Membership Status stores admin configurable rules for assigning status to memberships.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_membership_status` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-
--- /*******************************************************
--- *
--- * civicrm_membership_type
--- *
--- * Sites can configure multiple types of memberships. They encode the owner organization, fee, and the rules needed to set start and end (expire) dates when a member signs up for that type.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_membership_type` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-
-	ALTER TABLE `civicrm_membership_type` MODIFY `member_of_contact_id` int unsigned NOT NULL   COMMENT 'Owner organization for this membership type. FK to Contact ID';
-
-	ALTER TABLE `civicrm_membership_type` MODIFY `contribution_type_id` int unsigned NOT NULL  COMMENT 'If membership is paid by a contribution - what contribution type should be used. FK to Contribution Type ID';
-
--- /*******************************************************
--- *
--- * civicrm_note
--- *
--- * Notes can be linked to any object in the application.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_note` MODIFY entity_id INT unsigned NOT NULL COMMENT 'Foreign key to the referenced item.';
-
-	ALTER TABLE `civicrm_note` MODIFY contact_id INT unsigned NOT NULL COMMENT 'FK to Contact';
-	
--- /*******************************************************
--- *
--- * civicrm_option_group
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_option_group` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-
--- /*******************************************************
--- *
--- * civicrm_option_value
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_option_value` MODIFY option_group_id int unsigned NOT NULL COMMENT 'Group which this option belongs to.';
-
-	ALTER TABLE `civicrm_option_value` MODIFY value int unsigned NOT NULL COMMENT 'The actual value stored (as a foreign key) in the data record. Functions which need lookup option_value.title should use civicrm_option_value.option_group_id plus civicrm_option_value.value as the key.';
-
-	ALTER TABLE `civicrm_option_value` MODIFY filter int unsigned NOT NULL COMMENT 'Bitwise logic can be used to create subsets of options within an option_group for different uses.';
-	
-	ALTER TABLE `civicrm_option_value` MODIFY weight int unsigned NOT NULL COMMENT 'Controls display sort order.';
-
--- /*******************************************************
--- *
--- * civicrm_organization
--- *
--- * Define organization specific properties
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_organization` MODIFY contact_id INT unsigned NOT NULL COMMENT 'FK to Contact ID';
+	ALTER TABLE `civicrm_mapping` MODIFY mapping_type enum('Export','Import','Export Contributions','Import Contributions','Import Activity History','Search Builder','Import Memberships') COMMENT 'Type of Mapping.';
 
 -- /*******************************************************
 -- *
@@ -546,60 +425,10 @@ CREATE TABLE civicrm_acl_cache (
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_phone` MODIFY location_id INT unsigned NOT NULL COMMENT 'Which Location does this phone belong to.';
+	ALTER TABLE `civicrm_phone` DROP FOREIGN KEY civicrm_phone_ibfk_2;
+	ALTER TABLE `civicrm_phone` DROP INDEX FKEY_mobile_provider_id;
 
--- /*******************************************************
--- *
--- * civicrm_phonecall
--- *
--- * Record details regarding phone call to a contact
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_phonecall` MODIFY source_contact_id INT unsigned NOT NULL  COMMENT 'Contact ID of person making the call. This will generally an authenticated user.';
-
-	ALTER TABLE `civicrm_phonecall` MODIFY target_entity_id INT unsigned NOT NULL COMMENT 'Foreign key to the referenced item.';
-
--- /*******************************************************
--- *
--- * civicrm_premiums
--- *
--- * table - settings for the Premiums features for a given contribution page 
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_premiums` MODIFY entity_id INT unsigned NOT NULL COMMENT 'FK to Contact';
-
-	ALTER TABLE `civicrm_premiums` MODIFY premiums_display_min_contribution tinyint NOT NULL COMMENT 'Boolean. Should we automatically display minimum contribution amount text after the premium descriptions.';
-	
-
--- /*******************************************************
--- *
--- * civicrm_premiums_product
--- *
--- * joins premiums (settings) to individual product/premium items - 
--- * determines which products are available for a given contribution page
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_premiums_product` MODIFY premiums_id INT unsigned NOT NULL COMMENT 'Foreign key to premiums settings record.';
-
-	ALTER TABLE `civicrm_premiums_product` MODIFY product_id INT unsigned NOT NULL COMMENT 'Foreign key to each product object.';
-
-	ALTER TABLE `civicrm_premiums_product` MODIFY sort_position INT unsigned NOT NULL;
-
--- /*******************************************************
--- *
--- * civicrm_product
--- *
--- * able - stores "product info" for premiums and can be used for non-incentive products 
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_product` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-
-	ALTER TABLE `civicrm_product` MODIFY is_active tinyint NOT NULL COMMENT 'Disabling premium removes it from the premiums_premium join table below.';
-
+	ALTER TABLE `civicrm_phone` ADD INDEX UI_mobile_provider_id (mobile_provider_id);
 
 -- /*******************************************************
 -- *
@@ -609,34 +438,9 @@ CREATE TABLE civicrm_acl_cache (
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_project` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-
-	ALTER TABLE `civicrm_project` MODIFY owner_entity_id tinyint NOT NULL COMMENT 'Foreign key to project owner (contact, group, etc.).';
-
--- /*******************************************************
--- *
--- * civicrm_relationship
--- *
--- * Relationship between any 2 types of contacts.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_relationship` MODIFY contact_id_a int unsigned NOT NULL COMMENT 'id of the first contact';
-
-	ALTER TABLE `civicrm_relationship` MODIFY contact_id_b int unsigned NOT NULL COMMENT 'id of the second contact';
-
-	ALTER TABLE `civicrm_relationship` MODIFY relationship_type_id int unsigned NOT NULL COMMENT  'id of the relationship';
-
--- /*******************************************************
--- *
--- * civicrm_relationship_type
--- *
--- * Relationship types s/b structured with contact_a as the 'subject/child' contact and contact_b as the 'object/parent' contact (e.g. Individual A is Employee of Org B).
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_relationship_type` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-
+	ALTER TABLE civicrm_project DROP FOREIGN KEY civicrm_project_ibfk_2;
+	ALTER TABLE civicrm_project DROP INDEX FKEY_status_id;
+	
 -- /*******************************************************
 -- *
 -- * civicrm_saved_search
@@ -651,46 +455,7 @@ CREATE TABLE civicrm_acl_cache (
 
 	ALTER TABLE `civicrm_saved_search` ADD where_tables text DEFAULT NULL COMMENT 'the tables to be included in the count statement'; 
 
-
--- /*******************************************************
--- *
--- * civicrm_sms_history
--- *
--- * SMS History can be linked to any object in the application.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_sms_history` MODIFY contact_id INT unsigned NOT NULL COMMENT 'FK to Contact';
-
--- /*******************************************************
--- *
--- * civicrm_state_province
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_state_province` MODIFY `country_id` int unsigned NOT NULL COMMENT 'ID of Country that State / Province belong';
-
--- /*******************************************************
--- *
--- * civicrm_subscription_history
--- *
--- * History information of subscribe/unsubscribe actions
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_subscription_history` MODIFY contact_id INT unsigned NOT NULL COMMENT 'FK to Contact';
-
-	ALTER TABLE `civicrm_subscription_history` MODIFY date datetime NOT NULL COMMENT 'Date of the (un)subscription';
-
--- /*******************************************************
--- *
--- * civicrm_tag
--- *
--- * Provides support for flat or hierarchical classification of various types of entities (contacts, groups, actions...).
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_tag` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
+-- /*******************************************************/
 
 -- /*******************************************************
 -- *
@@ -700,9 +465,11 @@ CREATE TABLE civicrm_acl_cache (
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_task` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-
-	ALTER TABLE `civicrm_task` MODIFY owner_entity_id tinyint NOT NULL COMMENT 'Foreign key to Task owner (contact, group, etc.).';
+	ALTER TABLE `civicrm_task` DROP FOREIGN KEY civicrm_task_ibfk_2;
+	ALTER TABLE `civicrm_task` DROP FOREIGN KEY civicrm_task_ibfk_3;
+	
+	ALTER TABLE `civicrm_task` DROP INDEX FKEY_task_type_id;
+	ALTER TABLE `civicrm_task` DROP INDEX FKEY_priority_id;
 
 -- /*******************************************************
 -- *
@@ -711,22 +478,9 @@ CREATE TABLE civicrm_acl_cache (
 -- * Tracks the responsible entity, optional target entity and status of a task. Tasks can have multiple task_status entries if assigned to multiple responsible entities and-or there are multiple targets.
 -- *
 -- *******************************************************/
-
-	ALTER TABLE `civicrm_task_status` MODIFY `task_id` int unsigned NOT NULL COMMENT 'Status is for which task.';
-
-	ALTER TABLE `civicrm_task_status` MODIFY `responsible_entity_id` int unsigned NOT NULL COMMENT 'Foreign key to responsible entity (contact, group, etc.).';
-
-	ALTER TABLE `civicrm_task_status` MODIFY `target_entity_id` int unsigned NOT NULL COMMENT 'Foreign key to target entity (contact, group, etc.).';
-
--- /*******************************************************
--- *
--- * civicrm_uf_field
--- *
--- * User Framework fields and their properties.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_uf_field` MODIFY `uf_group_id` int unsigned NOT NULL COMMENT 'Which form does this field belong to.';
+	
+	ALTER TABLE `civicrm_task_status` DROP FOREIGN KEY civicrm_task_status_ibfk_2;
+	ALTER TABLE `civicrm_task_status` DROP INDEX FKEY_status_id;
 
 -- /*******************************************************
 -- *
@@ -736,42 +490,7 @@ CREATE TABLE civicrm_acl_cache (
 -- *
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_uf_group` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this group';
-
--- /*******************************************************
--- *
--- * civicrm_uf_join
--- *
--- * User framework join table. This links various internal civicrm object with a profile. Initial use cases are the donation object and the user module
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_uf_join` MODIFY `uf_group_id` int unsigned NOT NULL COMMENT 'Which form does this field belong to.';
-
--- /*******************************************************
--- *
--- * civicrm_uf_match
--- *
--- * The mapping from an user framework (UF) object to a CRM object.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_uf_match` MODIFY `uf_id` int unsigned NOT NULL  COMMENT 'UF ID';
-
-	ALTER TABLE `civicrm_uf_match` MODIFY contact_id INT unsigned NOT NULL COMMENT 'FK to Contact ID';
-
-	ALTER TABLE `civicrm_uf_match` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this contact (cached here for ease of use reasons)';
-
--- /*******************************************************
--- *
--- * civicrm_validation
--- *
--- * Stores core info about an extended (custom) property. Input form-related info is kept separately (in contact_form_field), so a property may be 'presented' in multiple form fields.
--- *
--- *******************************************************/
-
-	ALTER TABLE `civicrm_validation` MODIFY `domain_id` int unsigned NOT NULL COMMENT 'Which Domain owns this contact';
-
+	ALTER TABLE `civicrm_uf_group` ADD is_edit_link tinyint NULL DEFAULT '0' COMMENT 'Should edit link display in profile selector';
 
 -- /*******************************************************
 -- *
@@ -781,9 +500,12 @@ CREATE TABLE civicrm_acl_cache (
 
     CREATE UNIQUE INDEX UI_contact_group ON civicrm_group_contact(contact_id,group_id);
     CREATE UNIQUE INDEX UI_contact ON civicrm_individual(contact_id);
-    CREATE UNIQUE INDEX UI_contact ON civicrm_household(contact_id);
+    CREATE UNIQUE INDEX UI_contact ON civicrm_household(contact_id); 
     CREATE UNIQUE INDEX UI_contact ON civicrm_organization(contact_id);
-    CREATE UNIQUE INDEX UI_location ON civicrm_address(location_id);
+    
+    /*Commenting "UI_location" as it is no more availble in civicrm1.6-mysql4.0 DB*/
+    /*CREATE UNIQUE INDEX UI_location ON civicrm_address(location_id); */
+    
     CREATE UNIQUE INDEX UI_contact ON civicrm_uf_match(contact_id);
     DROP INDEX UI_uf_id ON civicrm_uf_match;
     CREATE UNIQUE INDEX UI_uf_id ON civicrm_uf_match(uf_id);    
