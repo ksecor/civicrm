@@ -142,6 +142,12 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'weight' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
+        require_once "CRM/Member/BAO/MessageTemplates.php";
+        $msgTemplates = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
+        if ( ! empty( $msgTemplates ) ) {
+            $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), $msgTemplates );
+        }
+
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
         $searchDone            = $this->get( 'searchDone' );

@@ -117,11 +117,8 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
     }
 
     /**
-     * function to add the Message Templates
+     * function to delete the Message Templates
      *
-     * @param array $params reference array contains the values submitted by the form
-     * @param array $ids    reference array contains the id
-     * 
      * @access public
      * @static 
      * @return object
@@ -131,6 +128,27 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
         $messageTemplates->id = $messageTemplatesID;
         $messageTemplates->delete();
     }
+
+    /**
+     * function to delete the Message Templates
+     *
+     * @access public
+     * @static 
+     * @return object
+     */
+    static function getMessageTemplates() {
+        $msgTpls =array();
+        $messageTemplates               =& new CRM_Member_DAO_MessageTemplates( );
+        $messageTemplates->find();
+        while ( $messageTemplates->fetch() ) {
+            $msgTpls[$messageTemplates->id] = $msgTpls[$messageTemplates->msg_title];
+        }
+        return $msgTpls;
+        
+    }
+    
   
+    
+    
 }
 ?>
