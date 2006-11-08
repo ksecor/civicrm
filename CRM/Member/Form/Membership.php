@@ -214,7 +214,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $dates = array( 'join_date',
                         'start_date',
-                        'end_date'
+                        'end_date',
+                        'reminder_date'
                         );
         $currentTime = getDate();        
         foreach ( $dates as $d ) {
