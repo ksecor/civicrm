@@ -151,6 +151,12 @@
       <key>id</key> 
       <add>1.6</add>
   </foreignKey>
+  <field>
+      <name>renewal_reminder_day</name>
+      <type>int</type>
+      <comment>Number of days prior to expiration to send renewal reminder</comment>
+      <add>1.6</add>
+  </field>
   <field> 
       <name>is_active</name>     
       <title>Is Active</title>
