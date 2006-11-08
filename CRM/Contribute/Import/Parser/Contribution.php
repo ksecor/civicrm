@@ -279,9 +279,19 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             if ($field == null || $field === '') {
                 continue;
             }
+            if ($key == 'contribution_source') {
+                // $key = 'source';
+            }
             $value = array($key => $field);
             _crm_add_formatted_contrib_param($value, $formatted);
         }
+        
+        //fix contribution source
+        if ( isset($formatted['contribution_source']) ) {
+            $formatted['source'] = $formatted['contribution_source'];
+            unset($formatted['contribution_source']);
+        }
+
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {

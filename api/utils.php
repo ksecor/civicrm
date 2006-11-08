@@ -1354,9 +1354,7 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
 
     if ($fields == null) {
         $fields = array();
-    }//CRM_Core_Error::backTrace();
-    //print_r($values); 
-    //  print_r($params);
+    }
     
     if (isset($values['contribution_type'])) {
         $params['contribution_type'] = $values['contribution_type'];
@@ -1422,7 +1420,7 @@ function _crm_add_formatted_contrib_param(&$values, &$params) {
     /* Finally, check for contribution fields */
     if (!isset($fields['Contribution'])) {
         $fields['Contribution'] =& CRM_Contribute_DAO_Contribution::fields( );
-    }//print_r($fields['Contribution']);
+    }
     _crm_store_values( $fields['Contribution'], $values, $params );
 }
 

@@ -275,17 +275,23 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
         
         // BAO_Membership::add() handles only start_date and end_date.
         // So if $formatted contains membership_start_date or
-        // membership_end_date convert it to start_date or end_date respectively.
-        foreach ( $formatted as $key => $value ) {
-            if ($key == 'membership_start_date') {
-                $formatted['start_date'] = $value;
-                unset($formatted[$key]);
-            }else if ($key == 'membership_end_date') {
-                $formatted['end_date'] = $value;
-                unset($formatted[$key]);
-            }
-        }
+        // membership_end_date convert it to start_date or end_date
+        // respectively. also membership_source to source
+        if ( isset($formatted['membership_start_date']) ) {
+            $formatted['start_date'] = $formatted['membership_start_date'];
+            unset($formatted['membership_start_date']);
+        } 
+
+        if ( isset($formatted['membership_end_date'])) {
+            $formatted['end_date'] = $formatted['membership_end_date'];
+            unset($formatted['membership_end_date']);
+        }  
         
+        if ( isset($formatted['membership_source'])) {
+            $formatted['source'] = $formatted['membership_source'];
+            unset($formatted['membership_source']);
+        }
+                       
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {

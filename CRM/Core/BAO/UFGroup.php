@@ -1312,21 +1312,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->addGroup($communicationOptions, $name, $title, '<br/>' );
         } else if ($fieldName === 'preferred_mail_format') {
             $form->add('select', $name, $title, CRM_Core_SelectValues::pmf());
-            /* need to fix for groups and tags
         } else if ( $fieldName === 'group' ) {
             require_once 'CRM/Contact/Form/GroupTag.php';
-            CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $form->_id,
+            CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $contactId,
                                                           CRM_Contact_Form_GroupTag::GROUP,
                                                           true, $required,
                                                           $title, null );
         } else if ( $fieldName === 'tag' ) {
             require_once 'CRM/Contact/Form/GroupTag.php';
-            CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $form->_id,
+            CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, $contactId,
                                                           CRM_Contact_Form_GroupTag::TAG,
                                                           false, $required,
                                                           null, $title
-        );
-            */
+                                                          );
+
         } else if (substr($fieldName, 0, 6) === 'custom') {
             $customFieldID = CRM_Core_BAO_CustomField::getKeyID($fieldName);
             CRM_Core_BAO_CustomField::addQuickFormElement($form, $name, $customFieldID, $inactiveNeeded, $required, $search, $title);
