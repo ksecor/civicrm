@@ -87,6 +87,16 @@
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select relationship type for this membership type. e.g. if relationship type is 'Household Member', and the direct member is a household, then all household members for that household are also considered to be members.{/ts}</dd>
         <dt>{$form.visibility.label}</dt><dd class="html-adjust">{$form.visibility.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</dd>
+	{if $noMsgTemplates}
+	<dt>{capture assign=msgTemplate}{crmURL p='civicrm/admin/member/messageTemplates' q="action=add&reset=1"}{/capture}</dt>
+	<dd class="html-adjust">{ts 1=$msgTemplate}If you like to send an automatic renewal reminder to members,  <a href="%1">click here</a> to create a reminder email template.{/ts}</dd>
+	{else}
+          <dt>{$form.renewal_msg_id.label}</dt><dd class="html-adjust">{$form.renewal_msg_id.html}</dd>
+          <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select the renewal reminder message to be sent to the members of this membership type.{/ts}</dd>
+          <dt>{$form.renewal_reminder_day.label}</dt><dd class="html-adjust">{$form.renewal_reminder_day.html}</dd>
+          <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Send Reminder these many days prior to membership expiration.{/ts}</dd>
+	{/if}
+
         <dt>{$form.weight.label}</dt><dd class="html-adjust">{$form.weight.html}</dd>
         <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
         <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>

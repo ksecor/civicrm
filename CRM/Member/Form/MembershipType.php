@@ -144,9 +144,14 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
 
         require_once "CRM/Member/BAO/MessageTemplates.php";
         $msgTemplates = CRM_Member_BAO_MessageTemplates::getMessageTemplates();
+
         if ( ! empty( $msgTemplates ) ) {
-            $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), $msgTemplates );
+            $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), array('' => ts('- select -')) + $msgTemplates );
+        } else {
+            $this->assign('noMsgTemplates', true );            
         }
+        $this->add('text', 'renewal_reminder_day', ts('Renewal Reminder Day'),
+                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'renewal_reminder_day' ) );
 
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );

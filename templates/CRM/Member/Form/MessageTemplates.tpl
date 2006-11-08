@@ -14,14 +14,13 @@
    {else}
         <dl>
         <dt>{$form.msg_title.label}</dt><dd class="html-adjust">{$form.msg_title.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Descriptive title of message - used for template selection{/ts}</dd>
         <dt>{$form.msg_subject.label}</dt><dd class="html-adjust">{$form.msg_subject.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Subject for email message. Allows tokens{/ts}</dd>
         <dt>{$form.msg_text.label}</dt><dd class="html-adjust">{$form.msg_text.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Text formatted message. Allows tokens.{/ts}</dd>
         <dt>{$form.msg_html.label}</dt><dd class="html-adjust">{$form.msg_html.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}{/ts}</dd>
-    
+        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}HTML formatted message. Allows tokens.{/ts}</dd>
         <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this template enabled.{/ts}</dd>
         </dl> 

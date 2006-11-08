@@ -138,17 +138,13 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
      */
     static function getMessageTemplates() {
         $msgTpls =array();
-        $messageTemplates               =& new CRM_Member_DAO_MessageTemplates( );
+        $messageTemplates =& new CRM_Member_DAO_MessageTemplates( );
+        $messageTemplates->is_active = 1;
         $messageTemplates->find();
         while ( $messageTemplates->fetch() ) {
-            $msgTpls[$messageTemplates->id] = $msgTpls[$messageTemplates->msg_title];
+            $msgTpls[$messageTemplates->id] = $messageTemplates->msg_title;
         }
         return $msgTpls;
-        
     }
-    
-  
-    
-    
 }
 ?>
