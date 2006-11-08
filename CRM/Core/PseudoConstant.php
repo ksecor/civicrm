@@ -199,10 +199,10 @@ class CRM_Core_PseudoConstant {
      * @param string  $condition  the condition that gets passed to the final query as the WHERE clause
      *
      * @return void
-     * @access protected
+     * @access public
      * @static
      */
-    protected static function populate( &$var, $name, $all = false, $retrieve = 'name',
+    public static function populate( &$var, $name, $all = false, $retrieve = 'name',
                                         $filter = 'is_active', $condition = null, $orderby = null ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object =& new ' . $name . '( );' );

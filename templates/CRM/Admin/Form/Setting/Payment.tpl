@@ -29,15 +29,20 @@
 </div> 
 {literal}
     <script type="text/javascript">
-	
-	 hide('certificate_path');  
-	
+      
+     if ((document.getElementsByName("paymentProcessor")[0].value == "PayPal") || (document.getElementsByName("paymentProcessor")[0].value == "PayPal_Express") ||(document.getElementsByName("paymentProcessor")[0].value == "PayPal_Standard") ) {
+        show('certificate_path');
+     } else {
+        hide('certificate_path');
+	 }
+    
 	function showHideCertificatePath(){
-	   if (document.getElementsByName("paymentProcessor")[0].value == "Moneris") {
-          hide('certificate_path');
-	     } else {
+	   if ((document.getElementsByName("paymentProcessor")[0].value == "PayPal") || (document.getElementsByName("paymentProcessor")[0].value == "PayPal_Express") ||(document.getElementsByName("paymentProcessor")[0].value == "PayPal_Standard") ) {
+
           show('certificate_path');
+        }   else {
+          hide('certificate_path');
 	   }
 	} 
-    </script>
+     </script>
 {/literal}

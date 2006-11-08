@@ -56,7 +56,13 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         
         require_once "CRM/Core/BAO/Setting.php";
         CRM_Core_BAO_Setting::retrieve($defaults);
+        self::setValues(&$defaults);
+        
+        return $defaults;
+    }
 
+
+    public function setValues(&$defaults) {
         global $base_url;
         $config =& CRM_Core_Config::singleton( );
         if ( $config->templateCompileDir ) {
@@ -67,28 +73,96 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         if ( !$defaults['userFrameworkResourceURL'] ) {
             $defaults['userFrameworkResourceURL'] = $base_url. "/modules/civicrm/"; 
         }
-
         if ( !$defaults['imageUploadDir'] ) {
             $defaults['imageUploadDir'] = $path . "persist/contribute/";
         }
-        
         if ( !$defaults['customFileUploadDir'] ) {
             $defaults['customFileUploadDir'] = $path . "upload/custom/";
         }
-
         if ( !$defaults['uploadDir'] ) {
             $defaults['uploadDir'] = $path . "upload/";
         }
-
+        if ( !$defaults['smtpPort'] ) {
+            $defaults['smtpPort'] = 25;
+        }
+        if ( !$defaults['smtpAuthsmtp'] ) {
+            $defaults['smtpAuth'] = 0;
+        }
+        if ( !$defaults['countryLimit'][0] ) {
+            $defaults['countryLimit'] = 1228;
+        }
+        if ( !$defaults['provinceLimit'][0] ) {
+            $defaults['provinceLimit'] = 1228;
+        }
+        if ( !$defaults['defaultContactCountry'] ) {
+            $defaults['defaultContactCountry'] = 1228;
+        }
+        if ( !$defaults['defaultCurrency'] ) {
+            $defaults['defaultCurrency'] = 'USD';
+        }
+        if ( !$defaults['lcMonetary'] ) {
+            $defaults['lcMonetary'] = 'en_US';
+        }
+        if ( !$defaults['mapGeoCoding'] ) {
+            $defaults['mapGeoCoding'] = 1;
+        }
+        if ( !$defaults['versionCheck'] ) {
+            $defaults['versionCheck'] = 1;
+        }
+        if ( !$defaults['enableSSL'] ) {
+            $defaults['enableSSL'] = 0;
+        }
         if ( !$defaults['paymentExpressButton'] ) {
             $defaults['paymentExpressButton'] = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif';
         }
+        if ( !$defaults['paymentPayPalExpressTestUrl'] ) {
+            $defaults['paymentPayPalExpressTestUrl'] = 'www.sandbox.paypal.com';
+        }
+        if ( !$defaults['paymentPayPalExpressUrl'] ) {
+            $defaults['paymentPayPalExpressUrl'] = 'www.paypal.com';
+        }
+        if ( !$defaults['maxLocationBlocks'] ) {
+            $defaults['maxLocationBlocks'] = 2;
+        }
+        if ( !$defaults['captchaFontPath'] ) {
+            $defaults['captchaFontPath'] = '/usr/X11R6/lib/X11/fonts/';
+        }
+        if ( !$defaults['captchaFont'] ) {
+            $defaults['captchaFont'] = 'HelveticaBold.ttf';
+        }
+        if ( !$defaults['debug'] ) {
+            $defaults['debug'] = 0;
+        }
+        if ( !$defaults['backtrace'] ) {
+            $defaults['backtrace'] = 0;
+        }
+        if ( !$defaults['fatalErrorTemplate'] ) {
+            $defaults['fatalErrorTemplate'] = 'CRM/error.tpl';
+        }
+        if ( !$defaults['mailerPeriod'] ) {
+            $defaults['mailerPeriod'] = 180;
+        }
+        if ( !$defaults['mailerBatchLimit'] ) {
+            $defaults['mailerBatchLimit'] = 0;
+        }
+        if ( !$defaults['legacyEncoding'] ) {
+            $defaults['legacyEncoding'] = 'Windows-1252';
+        }
+        if ( !$defaults['enableComponents'] ) {
+            $defaults['enableComponents'] = array(
+                                                  0 => 'CiviContribute',
+                                                  1 => 'CiviMember'
+                                                  );
+        }
+        if ( !$defaults['addressFormat'] ) {
+            $defaults['addressFormat']= '{street_address}
+                                         {supplemental_address_1}
+                                         {supplemental_address_2}
+                                         {city}{, }{state_province}{ }{postal_code}
+                                         {country}';
+        }
         
-        //CRM_Core_Error::debug('def', $defaults);
-        
-        return $defaults;
     }
-
 
   
     /**
