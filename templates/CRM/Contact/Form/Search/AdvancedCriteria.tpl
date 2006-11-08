@@ -14,7 +14,7 @@
 </div>
 
 {foreach from=$allPanes key=paneName item=paneValue}
-  <d    iv id="{$paneValue.id}" dojoType="TitlePane" labelNodeClass="label-pane" href="{$paneValue.url}" label="&raquo; {$paneName}" open="{$paneValue.open}" adjustPaths="false" containerNodeClass="content-pane"></div>
+  <div id="{$paneValue.id}" dojoType="TitlePane" labelNodeClass="label-pane" href="{$paneValue.url}" label="&raquo; {$paneName}" open="{$paneValue.open}" adjustPaths="false" containerNodeClass="content-pane"></div>
 {/foreach}
 
     <div class="spacer"></div>
