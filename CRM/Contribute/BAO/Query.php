@@ -363,7 +363,6 @@ class CRM_Contribute_BAO_Query {
         $status[] = $form->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
 
         $form->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
-        $form->setDefaults(array('contribution_status' => '1'));
 
         // add null checkboxes for thank you and receipt
         $form->addElement( 'checkbox', 'contribution_thankyou_date_isnull', ts( 'Thank-you date not set?' ) );

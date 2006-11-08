@@ -213,6 +213,8 @@ class CRM_Contact_Form_Search_Criteria {
      * @return void
      */
     static function custom( &$form ) {
+        $form->add( 'hidden', 'hidden_custom', 1 ); 
+
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true,
                                                                   array( 'Contact', 'Individual', 'Household', 'Organization' ) );
 
@@ -236,11 +238,15 @@ class CRM_Contact_Form_Search_Criteria {
     }
 
     static function contribute( &$form ) {
+        $form->add( 'hidden', 'hidden_contribute', 1 );
+
         require_once 'CRM/Contribute/BAO/Query.php';
         CRM_Contribute_BAO_Query::buildSearchForm( $form );
     }
 
     static function membership( &$form ) {
+        $form->add( 'hidden', 'hidden_membership', 1 );
+
         require_once 'CRM/Member/BAO/Query.php';
         CRM_Member_BAO_Query::buildSearchForm( $form );
     }
