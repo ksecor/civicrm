@@ -454,15 +454,9 @@ class CRM_Contact_BAO_Query {
                     $this->_tables['civicrm_tag'       ] = 1;
                     $this->_tables['civicrm_entity_tag'] = 1;
                 } elseif ($name === 'groups') {
-                    $groups = array_keys($this->_paramLookup['group'][0][2]);
-                    $groupId = $groups[0];
-                    $gctbName = "`civicrm_group_contact-{$groupId}`";
-                    $gtbName = "`civicrm_group-{$groupId}`";
+                    $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_group.name)) AS groups";
                     
-                    $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT({$gtbName}.name)) AS groups";
-                    $this->_tables[$gtbName] = 1;
-
-                    // $this->_tables['civicrm_group'        ] = 1;
+                    $this->_tables['civicrm_group'        ] = 1;
                     // $this->_tables['civicrm_group_contact'] = 1;
                 }
             } else if ( CRM_Utils_Array::value( 'is_search_range', $field ) ) {
