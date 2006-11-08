@@ -36,7 +36,7 @@ no helper programs amavis(.c) or amavisd-milter(.c) are needed)
 For the first time it is best to start amavisd daemon interactively
 and keep it attached to the terminal:
 
-     $ /usr/local/sbin/amavisd debug
+     $ /etc/init.d/amavis debug
 
 From another window check that it is listening on a
 local SMTP port 10024 (the default port):

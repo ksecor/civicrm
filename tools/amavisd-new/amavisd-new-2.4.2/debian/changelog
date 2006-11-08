@@ -1,16 +1,26 @@
-amavisd-new (1:2.4.2-3civimail2) unstable; urgency=low
-
-  * debian/control: add the libsoap-lite-perl and
-    libmail-verp-perl dependencies required by CiviMail
-
- -- Piotr Szotkowki <shot@civicrm.org>  Mon,  6 Nov 2006 15:12:57 +0100
-
-amavisd-new (1:2.4.2-3civimail1) unstable; urgency=low
+amavisd-new (1:2.4.2-4civimail1) unstable; urgency=low
 
   * add debian/etc/conf.d/40-civimail
   * amavisd: add CiviMail changes
+  * debian/control: add the libsoap-lite-perl and
+    libmail-verp-perl dependencies required by CiviMail
 
- -- Piotr Szotkowki <shot@civicrm.org>  Fri, 27 Oct 2006 10:02:43 +0200
+ -- Piotr Szotkowki <shot@civicrm.org>  Wed,  8 Nov 2006 11:02:57 +0100
+
+amavisd-new (1:2.4.2-4) unstable; urgency=high
+
+  * control: depend on libmime << 5.419, not << 5.4.19 (used only for sarge
+    backports)
+  * control: depend on libnet-perl (>= 1.16) | perl-modules (>= 5.8.1)
+    (closes: #397503)
+  * Do some partial cleanup on logcheck.ignore rules.  We won't touch the
+    violations ignore list, though (closes: #397502, #397456)
+  * Update README.postfix invocation of amavisd-new for Debian
+    (closes: #396348)
+  * [l10n] Add debconf-po translation for de, thanks to Matthias Julius
+    <mdeb@julius-net.net> for the translation (closes: #395456)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed,  8 Nov 2006 00:57:30 -0200
 
 amavisd-new (1:2.4.2-3) unstable; urgency=high
 
