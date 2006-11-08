@@ -52,6 +52,8 @@ class CRM_Core_BAO_Setting
     static function add(&$params) 
     {
         CRM_Core_BAO_Setting::fixParams($params);
+        // CRM_Core_Error::debug('par', $params);
+        //  exit();
 
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
@@ -68,7 +70,7 @@ class CRM_Core_BAO_Setting
     }
 
     /**
-     * Function to fix submitted civicrm setting variables
+     * Function to fix civicrm setting variables
      *
      * @params array $params associated array of civicrm variables
      *
@@ -77,22 +79,25 @@ class CRM_Core_BAO_Setting
      */
     static function fixParams(&$params) 
     {
-        $country = array();
-        if ( $params['enableComponents'] ) {
-            //$params['enableComponents'] = implode(',', $params['enableComponents']);
-        }
-        if ( $params['countryLimit'] ) {
-//             foreach( $params['countryLimit'] as $key=>$value ) {
-//                 $country[] = CRM_Core_PseudoConstant::countryIsoCode($value );
-//             }
-            //$params['countryLimit'] = implode(',',  $params['countryLimit']);
-        }
-        if ( $params['defaultContactCountry'] ) {
-            //$defaultCountry = CRM_Core_PseudoConstant::countryIsoCode($params['defaultContactCountry']);
-            $params['defaultContactCountry'] = $params['defaultContactCountry'];
-        }
-        if ( $params['provinceLimit'] ) {
-            //$params['provinceLimit'] = implode(',',  $params['provinceLimit']);
+        // in our old civicrm.settings.php we were using ISO code for country and
+        // province limit, now we have changed it to use ids
+
+        $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
+        
+        $specialArray = array('countryLimit', 'provinceLimit');
+        $paymentArray = array('paymentCertPath', 'paymentUsername');
+        
+        foreach($params as $key => $value) {
+            if ( in_array($key, $specialArray) && is_array($value) ) {
+                foreach( $value as $k => $val ) {
+                    $params[$key][$k] = array_search($val, $countryIsoCodes); 
+                }
+            } else if ( $key == 'defaultContactCountry' ) {
+                $params[$key] =  array_search($value, $countryIsoCodes); 
+            } else if (in_array($key, $paymentArray)) {
+                $params[$key . "_test"] = $value['test'];
+                $params[$key . "_live"] = $value['live'];
+            }
         }
     }
 

@@ -1005,7 +1005,16 @@ class CRM_Core_Config
         require_once "CRM/Core/BAO/Setting.php";
         $variables = array();
         CRM_Core_BAO_Setting::retrieve($variables);
-        // CRM_Core_Error::debug('def', $variables );
+        
+        if ( empty($variables) ) {
+            $this->retrieveFromSettings( );
+            $params = array();
+            $params = get_object_vars($this); 
+            CRM_Core_BAO_Setting::add($params);
+            return;
+        }
+        
+        //CRM_Core_Error::debug('def', $variables );
         
         $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
 
@@ -1015,7 +1024,7 @@ class CRM_Core_Config
         $dirArray     = array('uploadDir','customFileUploadDir');
         
         foreach($variables as $key => $value) {
-            if ( in_array($key, $specialArray) ) {
+            if ( in_array($key, $specialArray) && is_array($value) ) {
                 $country = array();
                 foreach( $value as $val ) {
                     $country[] = $countryIsoCodes[$val]; 

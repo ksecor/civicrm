@@ -80,7 +80,7 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
         $this->addElement('select','defaultContactCountry', ts('Default Contact Country'), $country);
         $symbol = $config->currencySymbols;
         foreach($symbol as $key=>$value) {
-            $currencySymbols[$key] = $key .'-' . $value;
+            $currencySymbols[$key] = "$key ($value)";
         } 
         $this->addElement('select','defaultCurrency', ts('CiviContribute Default Currency'), $currencySymbols);
         $this->addElement('text','legacyEncoding', ts('Legacy Encoding'));  
