@@ -672,7 +672,7 @@ class CRM_Core_Config
          }
         
          if ( $this->lcMessages ) {
-             //$this->lcMessages = CIVICRM_LC_MESSAGES;
+             $this->lcMessages = CIVICRM_LC_MESSAGES;
 
              // reset the templateCompileDir to locale-specific and make sure it exists
              $this->templateCompileDir .= self::addTrailingSlash($this->lcMessages);
