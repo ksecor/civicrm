@@ -111,6 +111,7 @@ class CRM_Utils_File {
         }
 
         CRM_Utils_File::createDir( dirname( $path ) );
+        CRM_Core_Error::backtrace( $path );
         mkdir( $path, 0777 );
     }
 

@@ -706,7 +706,7 @@ class CRM_Core_Menu {
                 }
                 ksort( $localTasks );
                 $template =& CRM_Core_Smarty::singleton( );
-                $template->assign_by_ref( 'localTasks', $localTasks );
+                // $template->assign_by_ref( 'localTasks', $localTasks );
                 return;
             }
         }

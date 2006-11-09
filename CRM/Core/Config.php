@@ -483,9 +483,13 @@ class CRM_Core_Config
             self::$_singleton =& new CRM_Core_Config($key);
 
             self::$_singleton->initialize( );
-            
+
             //initialize variable
             self::$_singleton->initVariables();
+
+            // retrieve and overwrite stuff from the settings file
+            self::$_singleton->addCoreVariables( );
+
         }
 
         return self::$_singleton;
@@ -508,7 +512,9 @@ class CRM_Core_Config
             self::$_domainID = 1;
         }
         $session->set( 'domainID', self::$_domainID );
+    }
 
+    function addCoreVariables( ) {
         if (defined('CIVICRM_DSN')) {
             $this->dsn = CIVICRM_DSN;
         }
@@ -536,6 +542,10 @@ class CRM_Core_Config
         if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
             $this->templateCompileDir = self::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
 
+            if ( ! empty( $this->lcMessages ) ) {
+                $this->templateCompileDir .= self::addTrailingSlash($this->lcMessages);
+            }
+                
             // make sure this directory exists
             CRM_Utils_File::createDir( $this->templateCompileDir );
         }
@@ -601,7 +611,6 @@ class CRM_Core_Config
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
             $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
         }
-
 
         if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
             $this->userFrameworkFrontend = CIVICRM_UF_FRONTEND;
@@ -853,6 +862,17 @@ class CRM_Core_Config
      */
     function initialize() 
     {
+        if (defined('CIVICRM_DSN')) {
+            $this->dsn = CIVICRM_DSN;
+        }
+
+        if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
+            $this->templateCompileDir = self::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
+
+            // make sure this directory exists
+            CRM_Utils_File::createDir( $this->templateCompileDir );
+        }
+
         $this->initDAO();
 
         // also initialize the logger
@@ -1018,7 +1038,7 @@ class CRM_Core_Config
             return;
         }
         
-        //CRM_Core_Error::debug('def', $variables );
+        // CRM_Core_Error::debug('def', $variables );
         
         $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
 
