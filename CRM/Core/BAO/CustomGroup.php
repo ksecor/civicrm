@@ -658,6 +658,7 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
         // process each group with menu tab
         while ($customGroupDAO->fetch( ) ) {
             $group = array();
+            $group['id']      = $customGroupDAO->id;
             $group['path']    = $path;
             $group['title']   = "$customGroupDAO->title";
             $group['query']   = "reset=1&gid={$customGroupDAO->id}&cid={$cidToken}";

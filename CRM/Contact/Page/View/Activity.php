@@ -137,10 +137,10 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
                                                $this );
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
-            $url     = 'civicrm/contact/view/activity';
+            $url     = 'civicrm/contact/view';
 
             $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext( CRM_Utils_System::url($url, 'action=browse&history=1&show=1' ) );
+            $session->pushUserContext( CRM_Utils_System::url($url, 'action=browse&selectedChild=activity&history=1&show=1' ) );
 
             $controller =& new CRM_Core_Controller_Simple('CRM_History_Form_Activity',
                                                           ts('Delete Activity History'),

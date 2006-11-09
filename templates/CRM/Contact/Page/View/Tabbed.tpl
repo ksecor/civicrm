@@ -2,9 +2,9 @@
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
 {include file="CRM/common/dojo.tpl"}
-<div id="mainTabContainer" dojoType="TabContainer" style="width: 100%; height: 600px" selectedTab="summaryTab"">
+<div id="mainTabContainer" dojoType="TabContainer" style="width: 100%; height: 600px" selectedChild="{$selectedChild}">
 
-<div id="summaryTab" dojoType="ContentPane" label="Summary">
+<div id="summary" dojoType="ContentPane" label="Summary">
 
 {* View Contact Summary *}
 <div id="contact-name" class="data-group">
@@ -148,8 +148,8 @@
  {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
 </div>
 
-{foreach from=$allTabs key=tabName item=tabURL}
-  <div id="{$tabName}" dojoType="ContentPane" href="{$tabURL}" label="{$tabName}" style="display: none" adjustPaths="false"></div>
+{foreach from=$allTabs key=tabName item=tabValue}
+  <div id="{$tabValue.id}" dojoType="ContentPane" href="{$tabValue.url}" label="{$tabName}" style="display: none" adjustPaths="false"></div>
 {/foreach}
 </div>
 

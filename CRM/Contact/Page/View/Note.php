@@ -117,7 +117,7 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/contact/view/note', 'action=browse&cid=' . $this->_contactId );
+        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=note&cid=' . $this->_contactId );
         $session->pushUserContext( $url );
 
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
