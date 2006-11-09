@@ -12,6 +12,10 @@ require_once '../civicrm.config.php';
 require_once 'api/crm.php';
 require_once 'CRM/Member/BAO/Membership.php';
 require_once 'CRM/Contact/DAO/Contact.php';
+require_once "CRM/Member/BAO/MessageTemplates.php";
+require_once "CRM/Member/BAO/MembershipType.php";
+require_once 'CRM/Member/BAO/MembershipLog.php';
+require_once "CRM/Utils/Date.php";
 
 class CRM_UpdateMembershipRecord {
     
@@ -35,6 +39,55 @@ class CRM_UpdateMembershipRecord {
                     crm_update_contact_membership( array('id'        => $membership->id,
                                                          'status_id' => $newStatus['id']) );
                 }
+
+                
+                //send remider for memnership renewal
+                
+                if ($membership->reminder_date && ( $membership->reminder_date <= date("Y-m-d")) ) {
+                    $membershipType = $membership->membership_type_id;
+                    $memType = new CRM_Member_BAO_MembershipType( );
+                    $memType->id = $membershipType;
+                    if ( $memType->find(true) ) {
+                        if ( $memType->renewal_msg_id ) {
+                            $emails     = CRM_Contact_BAO_Contact::allEmails( $contact->id );
+                            if ( is_array( $emails )) {
+                                foreach ( $emails as $email => $item ) {
+                                    if ( $item['is_primary'] ) {
+                                        $toEmail = $email;
+                                    }
+                                }
+                            }
+                            if ( $toEmail ) {
+                                // NEED to be FIXED
+                                $from = "admin@civicrm.org";
+                                CRM_Member_BAO_MessageTemplates::sendReminder( $contact->id, $toEmail, $domainID, $memType->renewal_msg_id,$from);
+
+                                //modify the the membership record, set remider date to NULL
+                                 crm_update_contact_membership( array('id'             => $membership->id,
+                                                                      'reminder_date'  => NULL ));
+
+                                 
+                                 //insert the log record.
+                                 $memb = new CRM_Member_BAO_Membership( );
+                                 $memb->id = $membership->id;
+                                 if ( $memb->find(true) ) {
+                                     $membershipLog = new CRM_Member_BAO_MembershipLog( );
+                                     $membershipLog->membership_id = $memb->id;
+                                     $membershipLog->status_id  = $memb->status_id;
+                                     $membershipLog->start_date = CRM_Utils_Date::customFormat($memb->start_date,'%Y%m%d');
+                                     $membershipLog->end_date   = CRM_Utils_Date::customFormat($memb->end_date,'%Y%m%d');
+                                     $membershipLog->modified_id= $contact->id;
+                                     $membershipLog->modified_date = date("Ymd");
+                                     $membershipLog->renewal_reminder_date = date("Ymd");
+                                     $membershipLog->save();
+                                 }
+                                
+                            }
+                        }
+                    }
+                }
+                
+                
             }
         }
         

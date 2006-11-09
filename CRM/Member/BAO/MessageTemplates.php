@@ -230,18 +230,9 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
             
             $body = $message->get();
             $headers = $message->headers();
-
-          //   require_once "CRM/Utils/Mail.php";
-//             CRM_Utils_Mail::send(    $from,
-//                                      $contact['display_name'],$email,
-//                                      $messageTemplates->msg_subject,
-//                                      $body ) ;
             
-          PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                  array('CRM_Mailing_BAO_Mailing', 
-                                          'catchSMTP'));
-          $result = $mailer->send($recipient, $headers, $body);
-          CRM_Core_Error::setCallback();
+            $result = $mailer->send($recipient, $headers, $body);
+         
         }
         
     }
