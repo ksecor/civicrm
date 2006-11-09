@@ -14945,7 +14945,7 @@ sub process($$) {
     if (defined($hash)) {
         if ($dest eq 'bounce') {
             # bounce
-            my $body = join('', @{$msginfo->mime_entity->body});
+            my $body = substr(join('', @{$msginfo->mime_entity->body}), 0, 4096);
 
             while (1) {
                 $result = 
@@ -14968,7 +14968,7 @@ sub process($$) {
             }
         } elsif ($dest eq 'reply') {
             # reply
-            my $body = join('', @{$msginfo->mime_entity->body});
+            my $body = substr(join('', @{$msginfo->mime_entity->body}), 0, 4096);
             my $replyto = 
                 (MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('Reply-to')) or '');
            
