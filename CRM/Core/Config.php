@@ -477,18 +477,21 @@ class CRM_Core_Config
      * @static
      *
      */
-    static function &singleton($key = 'crm') 
+    static function &singleton($key = 'crm', $loadFromDB = true ) 
     {
         if (self::$_singleton === null ) {
             self::$_singleton =& new CRM_Core_Config($key);
 
             self::$_singleton->initialize( );
 
-            //initialize variable
-            self::$_singleton->initVariables();
-
-            // retrieve and overwrite stuff from the settings file
-            self::$_singleton->addCoreVariables( );
+            //initialize variable. for gencode we cannot load from the
+            //db since the db might not be initialized
+            if ( $loadFromDB ) {
+                self::$_singleton->initVariables();
+                
+                // retrieve and overwrite stuff from the settings file
+                self::$_singleton->addCoreVariables( );
+            }
 
         }
 
