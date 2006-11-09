@@ -663,7 +663,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $values[$index] = $params[$index] = $details->$detailName;
                 }
             }
-            //CRM_Core_Error::debug('s', $field);
+           
 
             if ( $field['visibility'] == "Public User Pages and Listings" &&
                  CRM_Core_Permission::check( 'profile listings and forms' ) ) {
@@ -1398,6 +1398,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $fldName = "field[$contactId][$name]";
                 }
                 
+                require_once 'CRM/Contact/Form/GroupTag.php';
+                if ( $name == 'group' ) {                   
+                    CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::GROUP ); 
+                }
+                if( $name == 'tag' ) {
+                    CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::TAG ); 
+                }
                 if (CRM_Utils_Array::value($name, $details )) {
                     //to handle custom data (checkbox) to be written
                     // to handle gender / suffix / prefix
