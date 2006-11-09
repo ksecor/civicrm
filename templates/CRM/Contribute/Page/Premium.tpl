@@ -2,6 +2,7 @@
 {capture assign=managePremiumsURL}{crmURL p='civicrm/admin/contribute/managePremiums' q="reset=1"}{/capture}
 {if $rows}
 <div id="ltype">
+    <label>Select Premiums for this Contribution Page</label>
     <div class="description">
         <p>{ts 1=$managePremiumsURL}The premiums listed below are currently offered on this Contribution Page. If you have other premiums which are not already being offered on this page, you will see a link below to offer another premium. Use <a href="%1">Administer CiviCRM &raquo; Manage Premiums</a> to create or enable additional premium choices which can be used on any Contribution page.{/ts}</p>
     </div>

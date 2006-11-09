@@ -330,6 +330,9 @@ class CRM_Core_DAO extends DB_DataObject {
             $dbName = $value['name'];
             if ( isset( $object->$dbName ) ) {
                 $values[$dbName] = $object->$dbName;
+                if ( $name != $dbName ) {
+                   $values[$name] = $object->$dbName;
+                }
             }
         }
     }

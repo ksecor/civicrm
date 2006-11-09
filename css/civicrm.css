@@ -181,27 +181,27 @@ div.spacer, .spacer {
   /* width: auto; */
   width: 98%;	
   border-collapse: collapse;
-  border: none;
+  border: 0px hidden;
 }
 
 #crm-container table.form-layout-compressed {
   margin: 0em;
   width: auto;
   border-collapse: collapse;
-  border: none;
+  border: 0px hidden;
 }
 
 #crm-container .form-layout td {
   padding: 3px;
   white-space: nowrap;
-  border: none;
+  border: 0px hidden;
 }
 
 #crm-container .form-layout td.report {
   white-space: normal;
 }
 
-#crm-container .form-layout td, #crm-container .form-layout-compressed td {
+#crm-container .form-layout td, #crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
   vertical-align: text-top;
 }
 
@@ -209,13 +209,14 @@ div.spacer, .spacer {
   padding: 3px;
   width: 25%;
   white-space: nowrap;
-  border: none;
+  border: 0px hidden;
   text-align: center;
 }
 
-#crm-container .form-layout td.label, #crm-container .form-layout-compressed td.label, #crm-container .selector td.label {
+#crm-container .form-layout td.label, #crm-container .form-layout-compressed td.label, #crm-container .selector td.label, #crm-container .form-layout-compressed th.label {
   text-align: right;
   padding: 0em 0.50em 0em 0.75em;
+  border: 0px hidden;
 }
 
 #crm-container .form-layout-compressed td.describe-image {

@@ -3,8 +3,8 @@
     <dl>
     {if $is_active}
         <dt><img src="{$config->resourceBase}i/traffic_green.gif" alt="{ts}status{/ts}"/></dt>
-        <dd><p>{ts}This page is <strong>active</strong>.{/ts}</p>
-        <p>{ts}Link visitors to this page using the following URL{/ts}:</p>
+        <dd><p><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">&raquo; {ts}Go to this LIVE Online Contribution page{/ts}</a></p>
+        <p>{ts}Create links to this contribution page by copying and pasting the following URL into any web page.{/ts}:<br />
         <a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}">{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</a>
         </dd>
     {else}
@@ -26,7 +26,10 @@
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/contribute' q="reset=1&action=update&id=`$id`&subPage=Amount"}" id="idContributionAmounts">&raquo; {ts}Contribution Amounts{/ts}</a></td>
-    <td>{ts}Configure contribution amount options and labels, minimum and maximum amounts.{/ts}</td>
+    <td>
+        {ts}Configure contribution amount options and labels, minimum and maximum amounts.{/ts}
+        {if $config->paymentProcessor EQ 'PayPal_Standard'}{ts}Enable recurring contributions.{/ts}{/if}
+    </td>
 </tr>
 {if $CiviMember}
 <tr>
@@ -52,4 +55,13 @@
     <td class="nowrap"><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&action=preview&id=`$id`"}" id="idTest-drive">&raquo; {ts}Test-drive{/ts}</a></td>
     <td>{ts}Test-drive the entire contribution process - including custom fields, confirmation, thank-you page, and receipting. Transactions will be directed to your payment processor's test server. <strong>No live financial transactions will be submitted. However, a contact record will be created or updated and a contribution record will be saved to the database. Use obvious test contact names so you can review and delete these records as needed.</strong>{/ts}</td>
 </tr>
+{if $is_active}
+<tr>
+    <td class="nowrap"><a href="{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}" id="idLive">&raquo; {ts}Live Contribution Page{/ts}</a></td>
+    <td>{ts}Review your customized <strong>LIVE</strong> online contribution page here. Use the following URL in links and buttons on any website to send visitors to this live page{/ts}:<br />
+        <strong>{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$id`"}</strong>
+    </td>
+</tr>
+{/if}
+
 </table>

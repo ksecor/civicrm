@@ -52,6 +52,9 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
     function setDefaultValues()
     {
         //parent::setDefaultValues();
+        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
+        CRM_Utils_System::setTitle(ts('Premiums (%1)', array(1 => $title)));
+
         $defaults = array();
         if ( isset($this->_id ) ) {
             $dao =& new CRM_Contribute_DAO_Premium();
@@ -78,17 +81,15 @@ class CRM_Contribute_Form_ContributionPage_Premium extends CRM_Contribute_Form_C
         
         $this->addElement('text', 'premiums_intro_title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_intro_title'));
         
-        //$this->addRule('premiums_intro_title',ts('Plese Eneter the Title'),'required');
-        // intro_text
         $this->add('textarea', 'premiums_intro_text', ts('Introductory Message'), 'rows=5, cols=50');
 
         $this->add('text','premiums_contact_email',ts('Contact Email') . ' ',CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_contact_email')); 
         
-        $this->addRule('premiums_contact_email',ts('Please enter valid email address for Contact Email') . ' ','email');
+        $this->addRule('premiums_contact_email',ts('Please enter a valid email address for Contact Email') . ' ','email');
         
         $this->add('text','premiums_contact_phone',ts('Contact Phone'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Premium', 'premiums_contact_phone'));
         
-        $this->addRule('premiums_contact_phone',ts('Please enter valid phone'),'phone');
+        $this->addRule('premiums_contact_phone',ts('Please enter a valid phone number.'),'phone');
 
         $this->addElement('checkbox', 'premiums_display_min_contribution', ts('Display Minimum Contribution Amount?') );
        

@@ -1,4 +1,10 @@
-{* this template is used for adding/editing/deleting contribution type  *}
+{* this template is used to generate the PayPal Profile file (PPD) for certificate-based Authentication  *}
+<div id="help">
+    <p>{ts 1="http://wiki.civicrm.org/confluence//x/4Rg"}This form is used to create the PayPal API Profile file for use
+    with PayPal's Certificate-based authentication method for PayPal Express and/or Pro (Website Payments Direct). If you are use
+    a <strong>Signature Credential</strong>, you do not need to use this form. Refer to the <a href="%1" target="_blank" title="PayPal Configuration Guide. Opens documentation in a new window.">PayPal Configuration Guide</a> for more info.{/ts}</p>
+</div>
+
 <div class="form-item">
 <fieldset><legend>{ts}Create PayPal API Profile{/ts}</legend>
   
