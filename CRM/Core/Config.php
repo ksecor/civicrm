@@ -1026,7 +1026,7 @@ class CRM_Core_Config
         $variables = array();
         CRM_Core_BAO_Setting::retrieve($variables);
         
-        if ( empty($variables) || 1 ) {
+        if ( empty($variables) ) {
             $this->retrieveFromSettings( );
 
             $variables = get_object_vars($this);

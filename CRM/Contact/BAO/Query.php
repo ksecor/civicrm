@@ -260,8 +260,8 @@ class CRM_Contact_BAO_Query {
         // CRM_Core_Error::backtrace( );
         // CRM_Core_Error::debug( 'params', $params );
         // CRM_Core_Error::debug( 'f', $fields );
-        //CRM_Core_Error::debug( 'post', $_POST );
-        //CRM_Core_Error::debug( 'r', $returnProperties );
+        // CRM_Core_Error::debug( 'post', $_POST );
+        // CRM_Core_Error::debug( 'r', $returnProperties );
         $this->_params =& $params;
 
         if ( empty( $returnProperties ) ) {

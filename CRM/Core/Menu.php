@@ -438,7 +438,7 @@ class CRM_Core_Menu {
                             'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('View Contact'),
                             'type'    => self::CALLBACK,
-                            'crmType' => self::ROOT_LOCAL_TASK,
+                            'crmType' => self::CALLBACK,
                             'weight'   => 0,
                             ),
 
@@ -447,7 +447,7 @@ class CRM_Core_Menu {
                             'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Contact Summary'),
                             'type'    => self::CALLBACK,
-                            'crmType' => self::DEFAULT_LOCAL_TASK,
+                            'crmType' => self::CALLBACK,
                             'weight'  => 0
                             ),
 
@@ -455,9 +455,9 @@ class CRM_Core_Menu {
                             'path'    => 'civicrm/contact/view/activity',
                             'query'   => 'show=1&reset=1&cid=%%cid%%',
                             'title'   => ts('Activities'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'weight'  => 3
+                            'type'    => self::CALLBACK, 
+                            'crmType' => self::CALLBACK,
+                           'weight'  => 3
                             ),
 
                       array(
@@ -465,7 +465,7 @@ class CRM_Core_Menu {
                             'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Relationships'),
                             'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
+                            'crmType' => self::CALLBACK,
                             'weight'  => 4
                             ),
         
@@ -474,7 +474,7 @@ class CRM_Core_Menu {
                             'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Groups'),
                             'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
+                            'crmType' => self::CALLBACK,
                             'weight'  => 5
                             ),
                       
@@ -483,7 +483,7 @@ class CRM_Core_Menu {
                             'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Notes'),
                             'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
+                            'crmType' => self::CALLBACK,
                             'weight'  => 6
                             ),
 
@@ -492,7 +492,7 @@ class CRM_Core_Menu {
                             'query'   => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Tags'),
                             'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
+                            'crmType' => self::CALLBACK,
                             'weight'  => 7
                             ),
 
@@ -706,7 +706,7 @@ class CRM_Core_Menu {
                 }
                 ksort( $localTasks );
                 $template =& CRM_Core_Smarty::singleton( );
-                // $template->assign_by_ref( 'localTasks', $localTasks );
+                $template->assign_by_ref( 'localTasks', $localTasks );
                 return;
             }
         }
