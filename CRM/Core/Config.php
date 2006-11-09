@@ -1026,16 +1026,16 @@ class CRM_Core_Config
         $variables = array();
         CRM_Core_BAO_Setting::retrieve($variables);
         
-        if ( empty($variables) ) {
+        if ( empty($variables) || 1 ) {
             $this->retrieveFromSettings( );
-            $params = array();
-            $params = get_object_vars($this);
-            
-            // unset the variables that we take from file
-            unset($params['templateCompileDir']);
 
-            CRM_Core_BAO_Setting::add($params);
-            return;
+            $variables = get_object_vars($this);
+
+            // if we dont get stuff from the sttings file, apply appropriate defaults
+            require_once 'CRM/Admin/Form/Setting.php';
+            CRM_Admin_Form_Setting::setValues( $variables );
+
+            CRM_Core_BAO_Setting::add($variables);
         }
         
         // CRM_Core_Error::debug('def', $variables );

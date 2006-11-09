@@ -52,6 +52,13 @@ class CRM_Core_BAO_Setting
     static function add(&$params) 
     {
         CRM_Core_BAO_Setting::fixParams($params);
+
+        // unset any of the variables we read from file
+        $skipVars = array( 'dsn', 'templateCompileDir', 'userFrameworkBaseURL' );
+        foreach ( $skipVars as $var ) {
+            unset( $params[$var] );
+        }
+                           
         // CRM_Core_Error::debug('par', $params);
         //  exit();
 

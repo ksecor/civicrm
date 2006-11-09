@@ -63,10 +63,13 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 
 
     public function setValues(&$defaults) {
+        // should actually call CRM_Utils_System::baseURL( );
         global $base_url;
+
         $config =& CRM_Core_Config::singleton( );
         if ( $config->templateCompileDir ) {
-            $path = substr($config->templateCompileDir, 0, -12);
+            $path = dirname( $config->templateCompileDir );
+            $path = CRM_Core_Config::addTrailingSlash( $path );
         }
 
         //set defaults if not set in db
