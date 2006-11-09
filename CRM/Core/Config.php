@@ -671,7 +671,7 @@ class CRM_Core_Config
              $this->defaultContactCountry = CIVICRM_DEFAULT_CONTACT_COUNTRY;
          }
         
-         if ( $this->lcMessages ) {
+         if ( defined( 'CIVICRM_LC_MESSAGES' ) ) {
              $this->lcMessages = CIVICRM_LC_MESSAGES;
 
              // reset the templateCompileDir to locale-specific and make sure it exists
@@ -1009,7 +1009,11 @@ class CRM_Core_Config
         if ( empty($variables) ) {
             $this->retrieveFromSettings( );
             $params = array();
-            $params = get_object_vars($this); 
+            $params = get_object_vars($this);
+            
+            // unset the variables that we take from file
+            unset($params['templateCompileDir']);
+
             CRM_Core_BAO_Setting::add($params);
             return;
         }

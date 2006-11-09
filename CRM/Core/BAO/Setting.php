@@ -90,10 +90,14 @@ class CRM_Core_BAO_Setting
         foreach($params as $key => $value) {
             if ( in_array($key, $specialArray) && is_array($value) ) {
                 foreach( $value as $k => $val ) {
-                    $params[$key][$k] = array_search($val, $countryIsoCodes); 
+                    if ( !is_numeric($val) ) {
+                        $params[$key][$k] = array_search($val, $countryIsoCodes); 
+                    }
                 }
             } else if ( $key == 'defaultContactCountry' ) {
-                $params[$key] =  array_search($value, $countryIsoCodes); 
+                if ( !is_numeric($value) ) {
+                    $params[$key] =  array_search($value, $countryIsoCodes); 
+                }
             } else if (in_array($key, $paymentArray)) {
                 $params[$key . "_test"] = $value['test'];
                 $params[$key . "_live"] = $value['live'];
