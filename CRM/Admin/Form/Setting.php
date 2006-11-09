@@ -56,7 +56,7 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         
         require_once "CRM/Core/BAO/Setting.php";
         CRM_Core_BAO_Setting::retrieve($defaults);
-        self::setValues(&$defaults);
+        self::setValues($defaults);
         
         return $defaults;
     }
@@ -73,91 +73,91 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         }
 
         //set defaults if not set in db
-        if ( !$defaults['userFrameworkResourceURL'] ) {
+        if ( ! isset( $defaults['userFrameworkResourceURL'] ) ) {
             $defaults['userFrameworkResourceURL'] = $base_url. "/modules/civicrm/"; 
         }
-        if ( !$defaults['imageUploadDir'] ) {
+        if ( ! isset( $defaults['imageUploadDir'] ) ) {
             $defaults['imageUploadDir'] = $path . "persist/contribute/";
         }
-        if ( !$defaults['customFileUploadDir'] ) {
+        if ( ! isset( $defaults['customFileUploadDir'] ) ) {
             $defaults['customFileUploadDir'] = $path . "upload/custom/";
         }
-        if ( !$defaults['uploadDir'] ) {
+        if ( ! isset( $defaults['uploadDir'] ) ) {
             $defaults['uploadDir'] = $path . "upload/";
         }
-        if ( !$defaults['smtpPort'] ) {
+        if ( ! isset( $defaults['smtpPort'] ) ) {
             $defaults['smtpPort'] = 25;
         }
-        if ( !$defaults['smtpAuthsmtp'] ) {
+        if ( ! isset( $defaults['smtpAuth'] ) ) {
             $defaults['smtpAuth'] = 0;
         }
-        if ( !$defaults['countryLimit'][0] ) {
+        if ( ! isset( $defaults['countryLimit'][0] ) ) {
             $defaults['countryLimit'] = 1228;
         }
-        if ( !$defaults['provinceLimit'][0] ) {
+        if ( ! isset( $defaults['provinceLimit'][0] ) ) {
             $defaults['provinceLimit'] = 1228;
         }
-        if ( !$defaults['defaultContactCountry'] ) {
+        if ( ! isset( $defaults['defaultContactCountry'] ) ) {
             $defaults['defaultContactCountry'] = 1228;
         }
-        if ( !$defaults['defaultCurrency'] ) {
+        if ( ! isset( $defaults['defaultCurrency'] ) ) {
             $defaults['defaultCurrency'] = 'USD';
         }
-        if ( !$defaults['lcMonetary'] ) {
+        if ( ! isset( $defaults['lcMonetary'] ) ) {
             $defaults['lcMonetary'] = 'en_US';
         }
-        if ( !$defaults['mapGeoCoding'] ) {
+        if ( ! isset( $defaults['mapGeoCoding'] ) ) {
             $defaults['mapGeoCoding'] = 1;
         }
-        if ( !$defaults['versionCheck'] ) {
+        if ( ! isset( $defaults['versionCheck'] ) ) {
             $defaults['versionCheck'] = 1;
         }
-        if ( !$defaults['enableSSL'] ) {
+        if ( ! isset( $defaults['enableSSL'] ) ) {
             $defaults['enableSSL'] = 0;
         }
-        if ( !$defaults['paymentExpressButton'] ) {
+        if ( ! isset( $defaults['paymentExpressButton'] ) ) {
             $defaults['paymentExpressButton'] = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif';
         }
-        if ( !$defaults['paymentPayPalExpressTestUrl'] ) {
+        if ( ! isset( $defaults['paymentPayPalExpressTestUrl'] ) ) {
             $defaults['paymentPayPalExpressTestUrl'] = 'www.sandbox.paypal.com';
         }
-        if ( !$defaults['paymentPayPalExpressUrl'] ) {
+        if ( ! isset( $defaults['paymentPayPalExpressUrl'] ) ) {
             $defaults['paymentPayPalExpressUrl'] = 'www.paypal.com';
         }
-        if ( !$defaults['maxLocationBlocks'] ) {
+        if ( ! isset( $defaults['maxLocationBlocks'] ) ) {
             $defaults['maxLocationBlocks'] = 2;
         }
-        if ( !$defaults['captchaFontPath'] ) {
+        if ( ! isset( $defaults['captchaFontPath'] ) ) {
             $defaults['captchaFontPath'] = '/usr/X11R6/lib/X11/fonts/';
         }
-        if ( !$defaults['captchaFont'] ) {
+        if ( ! isset( $defaults['captchaFont'] ) ) {
             $defaults['captchaFont'] = 'HelveticaBold.ttf';
         }
-        if ( !$defaults['debug'] ) {
+        if ( ! isset( $defaults['debug'] ) ) {
             $defaults['debug'] = 0;
         }
-        if ( !$defaults['backtrace'] ) {
+        if ( ! isset( $defaults['backtrace'] ) ) {
             $defaults['backtrace'] = 0;
         }
-        if ( !$defaults['fatalErrorTemplate'] ) {
+        if ( ! isset( $defaults['fatalErrorTemplate'] ) ) {
             $defaults['fatalErrorTemplate'] = 'CRM/error.tpl';
         }
-        if ( !$defaults['mailerPeriod'] ) {
+        if ( ! isset( $defaults['mailerPeriod'] ) ) {
             $defaults['mailerPeriod'] = 180;
         }
-        if ( !$defaults['mailerBatchLimit'] ) {
+        if ( ! isset( $defaults['mailerBatchLimit'] ) ) {
             $defaults['mailerBatchLimit'] = 0;
         }
-        if ( !$defaults['legacyEncoding'] ) {
+        if ( ! isset( $defaults['legacyEncoding'] ) ) {
             $defaults['legacyEncoding'] = 'Windows-1252';
         }
-        if ( !$defaults['enableComponents'] ) {
+        if ( ! isset( $defaults['enableComponents'] ) ) {
             $defaults['enableComponents'] = array(
                                                   0 => 'CiviContribute',
                                                   1 => 'CiviMember'
                                                   );
         }
-        if ( !$defaults['addressFormat'] ) {
+        if ( ! isset( $defaults['addressFormat'] ) ) {
             $defaults['addressFormat']= '{street_address}
                                          {supplemental_address_1}
                                          {supplemental_address_2}
