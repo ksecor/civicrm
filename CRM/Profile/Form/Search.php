@@ -60,7 +60,7 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
     function preProcess() 
     { 
         $this->_mode = CRM_Profile_Form::MODE_SEARCH; 
-         
+
         parent::preProcess( ); 
     } 
 
@@ -81,11 +81,13 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
             if ( substr( $key, 0, 7 ) == 'custom_' ) {
                 if ( strpos( $value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) !== false ) {
                     $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
-                    $value = array( );
-                    foreach ( $v as $item ) {
-                        $value[$item] = 1;
+		    $value = array();
+		    foreach ( $v as $item ) {
+		      if( $item ) {
+                        $value[$item] = $item;
+		      }
                     }
-                }
+		}
             } else if ( $key == 'group' || $key == 'tag' ) {
                 $v = explode( ',', $value );
                 $value = array( ); 
@@ -95,7 +97,6 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
             }
             $defaults[$key] = $value;
         }
-
         return $defaults;
     }
 
