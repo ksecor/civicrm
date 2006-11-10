@@ -125,7 +125,6 @@
     {/strip}
 
 </div> {* end crm-container div *}
-{/if} {* fields array is not empty *}
 
 <script type="text/javascript">
   {if $mode ne 8}
@@ -145,3 +144,5 @@
   }
   {/literal}	
 </script>
+
+{/if} {* fields array is not empty *}
