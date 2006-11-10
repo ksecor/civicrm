@@ -529,7 +529,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $params  = array( array( 'contact_id', '=', $cid, 0, 0 ) );
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
         $options =& $query->_options;
-
+        
         $details = $query->searchQuery( );
         if ( ! $details->fetch( ) ) {
             return;
@@ -605,7 +605,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         } else {
                             require_once 'CRM/Core/BAO/CustomField.php';
                             if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                                
                                 $customOptionValueId = "custom_value_{$cfID}_id";
 
                                 $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', $details->$customOptionValueId, 'file_id', 'id' );
@@ -619,8 +618,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                         $params[$index] = $values[$index] = "<a href=$url>" . $details->$name ."</a>";
                                     }                                    
                                 } else {
-                                    $params[$index] = $details->$name;
-                                    $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $details->$name, $cfID, $options );
+                                    if (preg_match("/^\d*(\.\d+)?$/", $details->{$name})) {
+                                        $customVal = (float)($details->{$name});
+                                    } else {
+                                        $customVal = $details->{$name};
+                                    }
+                                    $params[$index] = $customVal;
+                                    $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal, $cfID, $options );
                                 }
                             } else if ( $name == 'home_URL' &&
                                         ! empty( $details->$name ) ) {

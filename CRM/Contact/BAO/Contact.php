@@ -1971,10 +1971,7 @@ WHERE civicrm_contact.id IN $idString ";
                         
                         $str = "custom_value_{$customFieldID}_id";
                         
-                        if ($contactDetails[$str]) {
-                            $customOptionValueId = $contactDetails[$str];
-                        }
-
+                        $customOptionValueId = $contactDetails[$str] ? $contactDetails[$str] : NULL;
                         
                         //fix checkbox
                         if ( $customFields[$customFieldID][3] == 'CheckBox' ) {

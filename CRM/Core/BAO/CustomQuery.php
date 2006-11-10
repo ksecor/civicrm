@@ -168,7 +168,12 @@ class CRM_Core_BAO_CustomQuery {
                 implode( ',', $optionIds ) . ' ) AND entity_table = \'civicrm_custom_field\''; 
             $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             while ( $dao->fetch( ) ) {
-                $this->_options[$dao->entity_id][$dao->value] = $dao->label;
+                if (preg_match("/^\d*(\.\d+)?$/", $dao->value)) {
+                    $num = round($dao->value, 2);
+                    $this->_options[$dao->entity_id]["$num"] = $dao->label;
+                } else {
+                    $this->_options[$dao->entity_id][$dao->value] = $dao->label;
+                }
             }
         }
     }

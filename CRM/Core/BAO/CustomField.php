@@ -720,10 +720,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                     $value = $cv->int_data;
                     break;
                 case 'Float':
-                    $value = $cv->int_float;
+                    $value = $cv->float_data;
                     break;
                 case 'Money':
-                    $value = $cv->decimal_data;
+                    $co =& new CRM_Core_BAO_CustomOption();
+                    $co->entity_table = 'civicrm_custom_field';
+                    $co->entity_id = $customFieldId;
+                    $co->find();
+                    while ($co->fetch()) {
+                        if (round($co->value,2) == $cv->decimal_data) {
+                            $value = $co->value;
+                        }
+                    }
+                    //$value = $cv->decimal_data;
                     break;
                 case 'Memo':
                     $value = $cv->memo_data;
