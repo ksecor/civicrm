@@ -38,14 +38,14 @@ class TC_TestAdminActivity < Test::Unit::TestCase
   
   # Add new Activity information
   def add_activity
-    if @selenium.is_text_present("There are no custom Activity Types entered")
+    if @selenium.is_text_present("There are no option values entered. You can add one.")
       @page.click_and_wait "link=add one"
     else
-      @page.click_and_wait "link=» New Activity Type Option"
+      @page.click_and_wait "//div[@id='activity_type']/div/div/a[@id='new']"
     end
     
     # Read new activity information
-    @selenium.type "name","New Activity"
+    @selenium.type "label","New Activity"
     @selenium.check "is_active" 
     
     # Submit the form 

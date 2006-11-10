@@ -73,7 +73,7 @@ class TC_TestContactContribution < Test::Unit::TestCase
     @selenium.select "contribution_type_id", "label=Donation"
     @selenium.select "receive_date[d]", "label=15"
     @selenium.select "receive_date[M]", "label=Sep"
-    @selenium.select "payment_instrument_id", "label=Credit Card"
+    # @selenium.select "payment_instrument_id", "label=Credit Card"
     @selenium.type "source", "contribution for old age home"
     @selenium.type "total_amount", "1000"
     @selenium.type "non_deductible_amount", "0"
@@ -109,7 +109,7 @@ class TC_TestContactContribution < Test::Unit::TestCase
     @page.click_and_wait "link=Edit"
 
     #modify details
-    @selenium.select "payment_instrument_id", "label=Check"
+   # @selenium.select "payment_instrument_id", "label=Check"
     @selenium.type   "non_deductible_amount", "50"
 
     #submit form

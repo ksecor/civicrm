@@ -39,10 +39,16 @@ class TC_TestAdminPrefix < Test::Unit::TestCase
 
   # Add new Prefix
   def add_prefix
-    @page.click_and_wait "link=» New Individual Prefix Option"
+    if @selenium.is_text_present("There are no option values entered. You can add one")
+      @page.click_and_wait "link=add one"
+    else
+      assert_equal "» New Individual Prefix", @selenium.get_text("link=» New Individual Prefix")
+      @page.click_and_wait "link=» New Individual Prefix"    
+    end
+    
     
     # Read new Prefix information
-    @selenium.type "name",       "Lt."
+    @selenium.type "label",       "Lt."
     @selenium.type "weight",     "2"
     @selenium.check "is_active" 
     

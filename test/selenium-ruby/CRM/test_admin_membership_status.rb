@@ -19,8 +19,8 @@ class TC_TestAdminMembershipStatus < Test::Unit::TestCase
   def test_membership_status
     move_to_membership_status()
 
-    #add_membership_status()
-    #edit_membership_status()
+    add_membership_status()
+    edit_membership_status()
     disable_membership_status()
     enable_membership_status()
     delete_membership_status()
@@ -38,7 +38,13 @@ class TC_TestAdminMembershipStatus < Test::Unit::TestCase
 
   # Add new Membership Status information
   def add_membership_status
-    @page.click_and_wait "link=» New Membership Status"
+    if @selenium.is_text_present("There are no custom membership status entered. You can add one.")
+      @page.click_and_wait "link=add one"
+    else
+      @selenium.get_text("link=» New Membership Status")
+      @page.click_and_wait "link=» New Membership Status"   
+    end
+   
     
     # Read new Membership information
     @selenium.type "name", "New Membership Status"

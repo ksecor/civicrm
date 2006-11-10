@@ -45,8 +45,12 @@ class TC_TestAdminRelationshipType < Test::Unit::TestCase
   
   # Add new Relationship type information
   def add_relationship_type
-    assert_equal "» New Relationship Type", @selenium.get_text("link=» New Relationship Type")
-    @page.click_and_wait "link=» New Relationship Type"
+    if @selenium.is_text_present("There are no relationship types present. You can add one.")
+      @page.click_and_wait "link=add one"
+    else
+      assert_equal "» New Relationship Type", @selenium.get_text("link=» New Relationship Type")
+      @page.click_and_wait "link=» New Relationship Type"
+    end
     
     # Read new Relationship information
     @selenium.type "name_a_b", "brother of"

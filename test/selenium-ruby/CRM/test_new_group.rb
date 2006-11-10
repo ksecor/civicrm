@@ -30,13 +30,17 @@ class TC_TestNewGroup < Test::Unit::TestCase
     assert @selenium.is_text_present("New Group")
     
     #add details
-    @selenium.type "title", "testGroup"
-    @selenium.type "description", "added a group for testing"
+    @selenium.type "title", "New Group"
+    @selenium.type "description", "Group created for testing"
     @selenium.select "visibility", "label=Public User Pages"
 
     #submit form
     @page.click_and_wait "//input[@type='submit' and @value='Continue']"
-    assert @selenium.is_text_present("The Group \"testGroup\" has been saved.")
+    if @selenium.is_text_present("The Group \"New Group\" has been saved.")
+      assert @selenium.is_text_present("The Group \"New Group\" has been saved.")
+    else
+      assert @selenium.is_text_present("Name already exists in Database.")
+    end 
   end
 
 end

@@ -19,7 +19,7 @@ class TC_TestAdminManagePremium < Test::Unit::TestCase
   def test_manage_premium
     move_to_manage_premium()
 
-   # add_premium()
+    add_premium()
     edit_premium()
     enable_premium()
     disable_premium()
@@ -38,11 +38,16 @@ class TC_TestAdminManagePremium < Test::Unit::TestCase
 
   # Add new Manage Premium information
   def add_premium
-    assert_equal "» New Premium", @selenium.get_text("link=» New Premium")
-    @page.click_and_wait "link=» New Premium"
+    if @selenium.is_text_present("No premium products have been created for your site. You can add one.")
+      assert @selenium.is_text_present("add one")
+      @page.click_and_wait "link=add one"
+    else
+      assert_equal "» New Premium", @selenium.get_text("link=» New Premium")
+      @page.click_and_wait "link=» New Premium"
+    end
     
     # Read new Premium information
-    @selenium.type  "product_name", "New Premium"
+    @selenium.type  "name","New Premium"
     @selenium.type  "description", "Description"
     @selenium.type  "sku", "SKU1"
     @selenium.check "//input[@value='default_image']"
@@ -61,15 +66,21 @@ class TC_TestAdminManagePremium < Test::Unit::TestCase
 
     # Submit the form 
     @page.click_and_wait "//input[@type='submit' and @name='_qf_ManagePremiums_upload']"
-    assert @selenium.is_text_present("The Premium Product \"New Premium\" has been saved.")
+    if @selenium.is_text_present("The Premium Product \"New Premium\" has been saved.")
+      assert @selenium.is_text_present("The Premium Product \"New Premium\" has been saved.")
+    else
+      assert @selenium.is_text_present("A product with this name already exists. Please select another name.")
+    end
   end
   
   # Editing Premium information
   def edit_premium
     assert_equal "Edit", @selenium.get_text("//div[@id='ltype']/descendant::tr[td[contains(.,'New Premium')]]/descendant::a[contains(.,'Edit')]")
     @page.click_and_wait "//div[@id='ltype']/descendant::tr[td[contains(.,'New Premium')]]/descendant::a[contains(.,'Edit')]"
-   
-    # @selenium.check "//input[@type='radio' and @value='noImage']"
+    
+    @selenium.type "thumbnailUrl", ""
+    @selenium.type "imageUrl", ""
+    @selenium.check "//input[@value='noImage']"
     @selenium.uncheck "is_active" 
     
     #Submit the form 

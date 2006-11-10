@@ -19,10 +19,10 @@ class TC_TestSearchBuilder < Test::Unit::TestCase
   def test_search_builder
     move_to_search_builder()
     
-    Find Contacts with Given Search criteria 
+    #Find Contacts with Given Search criteria 
     multiple_field_search()
     search_with_field_contribution()
-    search_with_field_household()
+    #search_with_field_household()
     search_with_multiple_field_household()
     search_with_field_organization()
   end

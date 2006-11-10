@@ -39,10 +39,15 @@ class TC_TestAdminSuffix < Test::Unit::TestCase
 
   # Add new Suffix
   def add_suffix
-    @page.click_and_wait "link=» New Individual Suffix Option"
-    
+    if @selenium.is_text_present("There are no option values entered. You can add one")
+      @page.click_and_wait "link=add one"
+    else
+      assert_equal "» New Individual Suffix", @selenium.get_text("link=» New Individual Suffix")
+      @page.click_and_wait "link=» New Individual Suffix"    
+    end
+        
     # Read new Suffix information
-    @selenium.type "name",       "New Suffix"
+    @selenium.type "label",       "New Suffix"
     @selenium.type "weight",     "2"
     @selenium.check "is_active" 
     

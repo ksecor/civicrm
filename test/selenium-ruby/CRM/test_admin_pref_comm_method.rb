@@ -38,11 +38,15 @@ class TC_TestPrefCommMethod < Test::Unit::TestCase
   
   # Add new Communication method information
   def add_pref_comm_method
-    assert @selenium.is_text_present("» New Preferred Communication Method Option")
-    @page.click_and_wait "link=» New Preferred Communication Method Option"
-    
+    if @selenium.is_text_present("There are no option values entered. You can add one")
+      @page.click_and_wait "link=add one"
+    else
+      assert @selenium.is_text_present("» New Preferred Communication Method")
+      @page.click_and_wait "link=» New Preferred Communication Method"
+    end
+            
     # Read method information
-    @selenium.type "name", "testMethod"
+    @selenium.type "label", "testMethod"
         
     # Submit the form 
     @page.click_and_wait "_qf_Options_next"

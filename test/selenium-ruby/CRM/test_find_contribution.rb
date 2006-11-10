@@ -43,7 +43,7 @@ class TC_TestFindContribution < Test::Unit::TestCase
     @selenium.type "contribution_amount_low", "50"
     @selenium.type "contribution_amount_high", "150"
     @selenium.select "contribution_type_id", "label=Donation"
-    @selenium.select "contribution_payment_instrument_id", "label=CreditCard"
+    @selenium.select "contribution_payment_instrument_id", "label=Credit Card"
     
     #click search 
     assert_equal "Search", @selenium.get_value("//input[@type='submit' and @name='_qf_Search_refresh']")    

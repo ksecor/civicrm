@@ -46,10 +46,10 @@ class TC_TestAdminImportExportMapping < Test::Unit::TestCase
   
   # Delete import-export mapping information
   def delete_mapping
-    if !@selenium.is_text_present("There are currently no saved import or export mappings. You create saved mappings as part of an Import or Export task.")
+    if ! @selenium.is_text_present("There are currently no saved import or export mappings. You create saved mappings as part of an Import or Export task.")
       @page.click_and_wait "link=Delete"
       if @selenium.is_element_present("//div[@id='mapping']/descendant::tr[td[contains(.,'Import')]]/td[3]")
-        assert @selenium.is_element_present("WARNING : Are you sure you want to delete Import Mapping? This action can not be undone.")
+        assert @selenium.is_text_present("WARNING : Are you sure you want to delete Import Mapping? This action can not be undone.")
       elsif @selenium.get_text("//div[@id='mapping']/descendant::tr[td[contains(.,'Export')]]/td[3]") == 'Export'
         assert @selenium.is_text_present("WARNING : Are you sure you want to delete Export Mapping? This action can not be undone.")
       end

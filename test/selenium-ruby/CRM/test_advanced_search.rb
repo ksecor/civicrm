@@ -120,10 +120,10 @@ class TC_TestAdvancedSearch < Test::Unit::TestCase
 
   def search_location
     #select location
-    @selenium.click "//a[@onclick=\"hide('location_show'); show('location'); return false;\"]"
-    @selenium.select "state_province", "label=California"
+    # @selenium.select "//div[@id='searchForm']/descendant::div[@id='crm-container-snippet']/descendant::div[@id='location']/descendant::select[@id='state_province']", "label=California"
+    # @selenium.select "//div[@id='location']/descendant::select[@id='state_province']", "label=California"
     @selenium.select "country", "label=United States"
-
+ 
     #submit form
     search_click()
 

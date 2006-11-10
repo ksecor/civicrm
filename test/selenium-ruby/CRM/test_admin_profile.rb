@@ -35,8 +35,12 @@ class TC_TestAdminProfile < Test::Unit::TestCase
   
   # Add new Profile information
   def add_profile
-    @page.click_and_wait "link=» New CiviCRM Profile"
-    
+   if @selenium.is_text_present("No CiviCRM Profiles have been created yet. You can add one now.")
+     @page.click_and_wait "link=add one now"
+   else
+     @page.click_and_wait "link=» New CiviCRM Profile"
+   end
+
     # Read new Profile information
     @selenium.type "title", "New Profile"
     

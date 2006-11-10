@@ -55,6 +55,6 @@ require 'test_admin_accept_credit_card'
 #CiviMember sction
 require 'test_admin_membership_type'
 require 'test_admin_membership_status'
-
+require 'test_admin_message_templates'
 
 

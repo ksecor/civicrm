@@ -38,9 +38,13 @@ class TC_TestAdminMembershipType < Test::Unit::TestCase
   
   # Add new Membership Types information
   def add_membership_type
-    @selenium.get_text("link=» New Membership Type")
-    @page.click_and_wait "link=» New Membership Type"
-
+    if @selenium.is_text_present("There are no custom membership types entered. You can add one.")
+      @page.click_and_wait "link=add one"
+    else
+      @selenium.get_text("link=» New Membership Type")
+      @page.click_and_wait "link=» New Membership Type"
+    end
+    
     # Read new Membership information
     
     @selenium.type   "name", "New Membership"
@@ -50,7 +54,7 @@ class TC_TestAdminMembershipType < Test::Unit::TestCase
     @selenium.type   "duration_interval", "1"
     @selenium.select "duration_unit", "label=year"
     @selenium.select "period_type", "label=rolling"
-    @selenium.select "relationship_type_id", "label=Employee of"
+    # @selenium.select "relationship_type_id", "label=Employee of"
     @selenium.type   "weight", "4"
     
     @selenium.select "visibility", "label=Public"

@@ -37,9 +37,13 @@ class TC_TestAdminTag < Test::Unit::TestCase
   
   # Add new tag information
   def add_tag
-    assert_equal "» New Tag", @selenium.get_text("link=» New Tag")
-    @page.click_and_wait "link=» New Tag"
-    
+    if @selenium.is_text_present("There are no Tags present. You can add one.")
+      @page.click_and_wait "link=add one"
+    else
+      assert_equal "» New Tag", @selenium.get_text("link=» New Tag")
+      @page.click_and_wait "link=» New Tag"
+    end
+
     # Read new tag information
     @selenium.type "name",       "New Tag"
     @selenium.type "description","Tag Created for Testing"

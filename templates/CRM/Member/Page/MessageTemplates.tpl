@@ -10,7 +10,7 @@
 {if $rows}
 <div id="ltype">
 <p></p>
-    <div class="form-item" id=membership_status_id>
+    <div class="form-item" id=message_status_id>
         {strip}
         <table>
         <tr class="columnheader">

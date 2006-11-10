@@ -39,10 +39,15 @@ class TC_TestAdminMobileProvider < Test::Unit::TestCase
 
   # Add new Mobile Phone Service Provider 
   def add_mobile_provider
-    @page.click_and_wait "link=» New Mobile Provider Option"
-    
+    if @selenium.is_text_present("There are no option values entered. You can add one")
+      @page.click_and_wait "link=add one"
+    else
+      assert_equal "» New Mobile Provider", @selenium.get_text("link=» New Mobile Provider")
+      @page.click_and_wait "link=» New Mobile Provider"    
+    end
+        
     # Read new Mobile Phone Service Name
-    @selenium.type  "name", "New Provider"
+    @selenium.type  "label", "New Provider"
     
     if @selenium.get_value("//input[@type='checkbox' and @name='is_active']") == 'off'
       @selenium.check 'is_active'
@@ -59,7 +64,7 @@ class TC_TestAdminMobileProvider < Test::Unit::TestCase
     @page.click_and_wait "//div[@id='mobile_provider']/descendant::tr[td[contains(.,'New Provider')]]/descendant::a[contains(.,'Edit')]"
     
     # Read new Mobile Phone Provider Service
-    @selenium.type "name", "New Mobile Provider"
+    @selenium.type "label", "New Mobile Provider"
     assert_equal 'on', @selenium.get_value("//input[@type='checkbox' and @name='is_active']")
     
     # Submit the form 

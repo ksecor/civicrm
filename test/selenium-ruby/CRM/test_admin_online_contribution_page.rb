@@ -20,20 +20,20 @@ class TC_TestAdminOnlineContribution < Test::Unit::TestCase
   def test_online_contribution
     move_to_online_contribution_page()
 
-    #add_online_contribution()
-    #configure_click()
-    #configure_title_settings_page()
-    #configure_amounts_page()
-    #configure_membership_settings_page()
-    #configure_thankyou_page()
-    #configure_custom_page()
-    #configure_premiums_page()
+    add_online_contribution()
+    configure_click()
+    configure_title_settings_page()
+    configure_amounts_page()
+    configure_membership_settings_page()
+    configure_thankyou_page()
+    configure_custom_page()
+    configure_premiums_page()
     #configure_testdrive_page()
-    #back_to_online_contribution_page()
-    #disable_contribution_page()
-    #enable_contribution_page()
-    testdrive_contribution_page()
-    #delete_contribution_page()
+    back_to_online_contribution_page()
+    disable_contribution_page()
+    enable_contribution_page()
+    #contribution_page_testdrive()
+    delete_contribution_page()
   end
 
   def move_to_online_contribution_page
@@ -122,8 +122,8 @@ class TC_TestAdminOnlineContribution < Test::Unit::TestCase
     @page.click_and_wait "//input[@type='submit' and @name='_qf_ThankYou_next']"
     
     # Custom Page Elements (step 5 of 6)
-    @selenium.select "custom_pre_id", "label=Constituent Information"
-    @selenium.select "custom_post_id", "label=Contributor Info"
+    @selenium.select "custom_pre_id", "label=- select -"
+    @selenium.select "custom_post_id", "label=- select -"
 
     # Click button
     @page.click_and_wait "//input[@type='submit' and @name='_qf_Custom_next']"
@@ -216,7 +216,7 @@ class TC_TestAdminOnlineContribution < Test::Unit::TestCase
     #Clicking Test drive
     assert_equal "» Test-drive", @selenium.get_text("link=» Test-drive")
     @page.click_and_wait "link=» Test-drive"
-
+    
     @selenium.select "credit_card_type", "label=Visa"
     @selenium.type "credit_card_number", "4111111111111111"
     @selenium.type "cvv2", "123"
@@ -229,14 +229,13 @@ class TC_TestAdminOnlineContribution < Test::Unit::TestCase
     @selenium.select "state_province_id", "label=California"
     @selenium.type "postal_code", "400072"
     @selenium.select "country_id", "label=United States"
+    @selenium.check "document.Main.amount[1]"
 
-    @selenium.wait_for_page_to_load 15000
-    
-    @page.click_and_wait "//input[@type='submit' and @name='_qf_Main_next']"    
+    @page.click_and_wait "//input[@type='image' and @id='_qf_Main_next_express']"    
   end
 
   #TestDrive to contribution page
-  def testdrive_contribution_page
+  def contribution_page_testdrive
     assert @selenium.is_element_present("//div[@id='configure_contribution_page']/descendant::tr[td[contains(.,'Test Contribution Page')]]/descendant::a[contains(.,'Test-drive')]")
     @page.click_and_wait "//div[@id='configure_contribution_page']/descendant::tr[td[contains(.,'Test Contribution Page')]]/descendant::a[contains(.,'Test-drive')]"
 

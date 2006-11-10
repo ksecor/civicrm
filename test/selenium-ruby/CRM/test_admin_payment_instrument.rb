@@ -19,10 +19,10 @@ class TC_TestAdminPaymentInstrument < Test::Unit::TestCase
   def test_payment_instrument
     move_to_payment_instruments()
     
-    #add_payment()
-    #edit_payment()
-    #enable_payment()
-    #disable_payment()
+    add_payment()
+    edit_payment()
+    enable_payment()
+    disable_payment()
     delete_payment()
   end
 
@@ -38,11 +38,15 @@ class TC_TestAdminPaymentInstrument < Test::Unit::TestCase
 
   # Add new Payment Instruments information
   def add_payment
-    assert_equal "» New Payment Instrument Option", @selenium.get_text("link=» New Payment Instrument Option")
-    @page.click_and_wait "link=» New Payment Instrument Option"
+    if @selenium.is_text_present("There are no option values entered. You can add one")
+      @page.click_and_wait "link=add one"
+    else
+      assert_equal "» New Payment Instrument", @selenium.get_text("link=» New Payment Instrument")
+      @page.click_and_wait "link=» New Payment Instrument"
+    end
     
     # Read new Payment Instruments information
-    @selenium.type  "name",        "Test Instrument"
+    @selenium.type  "label", "Test Instrument"
     @selenium.check "is_active"
     
     # Submit the form 
@@ -82,6 +86,6 @@ class TC_TestAdminPaymentInstrument < Test::Unit::TestCase
     assert @selenium.is_text_present("WARNING: Deleting this option will result in the loss of all Payment Instrument related records which use the option. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
 
     @page.click_and_wait "//input[@type='submit' and @value='Delete']"
-    assert @selenium.is_text_present("Selected Payment Instrument has been deleted.")
+    assert @selenium.is_text_present("Selected Payment Instrument type has been deleted.")
   end
 end

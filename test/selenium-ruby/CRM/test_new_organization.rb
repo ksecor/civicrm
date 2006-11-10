@@ -55,7 +55,6 @@ class TC_TestNewOrganization < Test::Unit::TestCase
    def click_cancel
      #goto Contact Summary after clicking cancel button of form
      assert_equal "Cancel", @selenium.get_value("_qf_Edit_cancel")
-     #assert_equal "Cancel", @selenium.get_value("//input[@type='submit' and @value='Cancel']")
      @page.click_and_wait "//input[@type='submit' and @value='Cancel']"
    end
 
@@ -66,17 +65,18 @@ class TC_TestNewOrganization < Test::Unit::TestCase
     @selenium.type "sic_code", "s101"
     @selenium.type "home_URL", "http://www.webaccess.co.in"
     @selenium.type "nick_name", "WA"
-    @selenium.click "__privacy[do_not_phone]"
-    @selenium.click "__privacy[do_not_mail]"
-    @selenium.click "__preferred_communication_method[2]"
-    @selenium.click "__preferred_communication_method[4]"
+    @selenium.check  "//input[@type='checkbox' and @name='privacy[do_not_phone]']"
+    @selenium.check  "//input[@type='checkbox' and @name='privacy[do_not_mail]']"     
+   
+    @selenium.check  "//input[@type='checkbox' and @name='preferred_communication_method[2]']"
+    @selenium.check  "//input[@type='checkbox' and @name='preferred_communication_method[4]']"
     @selenium.select "preferred_mail_format", "label=HTML"
     @selenium.select "document.Edit.elements['location[1][location_type_id]']", "label=Work"
     @selenium.type "location[1][name]", "Web Access India Pvt Ltd"
     @selenium.select "location[1][phone][1][phone_type]", "label=Phone"
     @selenium.type "location[1][phone][1][phone]", "022-2374-2377378"
     @selenium.type "document.Edit.elements['location[1][email][1][email]']", "mail@webaccess.co.in"
-    @selenium.select "location[1][im][1][provider_id]", "label=Msn"
+    @selenium.select "location[1][im][1][provider_id]", "label=MSN"
     @selenium.type "location[1][address][street_address]", "chandivali"
     @selenium.type "location[1][address][supplemental_address_1]", "andheri (e)"
     @selenium.type "location[1][address][street_address]", "oberoi garden estate, chandivali"
@@ -87,26 +87,31 @@ class TC_TestNewOrganization < Test::Unit::TestCase
     #submit form
     assert_equal "Save", @selenium.get_value("//input[@type='submit' and @name='_qf_Edit_next_view']")
     @page.click_and_wait "//input[@type='submit' and @name='_qf_Edit_next_view']"
-    assert @selenium.is_text_present("Your Organization contact record has been saved.")
-  end
 
+    if @selenium.is_text_present("Your Organization contact record has been saved.")
+      assert @selenium.is_text_present("Your Organization contact record has been saved.")
+    else
+      assert @selenium.is_text_present("One matching contact was found. You can edit it here: CiviCRM Organization, or click Save Duplicate Contact button below.")
+    end
+  end
+  
   def save_and_new_organization
     #add details of an organizations
-     @selenium.type "organization_name", "New Organization"
+    @selenium.type "organization_name", "New Organization"
     @selenium.type "legal_name", "New Org"
     @selenium.type "sic_code", "s102"
     @selenium.type "home_URL", "http://www.newOrg.co.in"
     @selenium.type "nick_name", "newOrg"
-    @selenium.click "__privacy[do_not_mail]"
-    @selenium.click "__preferred_communication_method[2]"
-    @selenium.click "__preferred_communication_method[4]"
+    @selenium.check  "//input[@type='checkbox' and @name='privacy[do_not_mail]']"     
+    @selenium.check  "//input[@type='checkbox' and @name='preferred_communication_method[2]']"
+    @selenium.check  "//input[@type='checkbox' and @name='preferred_communication_method[4]']"
     @selenium.select "preferred_mail_format", "label=HTML"
     @selenium.select "document.Edit.elements['location[1][location_type_id]']", "label=Work"
     @selenium.type "location[1][name]", "New Organization Pvt Ltd"
     @selenium.select "location[1][phone][1][phone_type]", "label=Phone"
     @selenium.type "location[1][phone][1][phone]", "022-2374-2377378"
     @selenium.type "document.Edit.elements['location[1][email][1][email]']", "mail@newOrg.co.in"
-    @selenium.select "location[1][im][1][provider_id]", "label=Msn"
+    @selenium.select "location[1][im][1][provider_id]", "label=Yahoo"
     @selenium.type "location[1][address][street_address]", "chandivali"
     @selenium.type "location[1][address][supplemental_address_1]", "andheri (e)"
     @selenium.type "location[1][address][street_address]", "oberoi garden estate, chandivali"
@@ -117,7 +122,12 @@ class TC_TestNewOrganization < Test::Unit::TestCase
     #submit form
     assert_equal "Save and New", @selenium.get_value("//input[@type='submit' and @name='_qf_Edit_next_new']")
     @page.click_and_wait "//input[@type='submit' and @name='_qf_Edit_next_new']"
-    assert @selenium.is_text_present("Your Organization contact record has been saved.")
+   
+    if @selenium.is_text_present("Your Organization contact record has been saved.")
+      assert @selenium.is_text_present("Your Organization contact record has been saved.")
+    else
+      assert @selenium.is_text_present("One matching contact was found. You can edit it here: New Organization, or click Save Duplicate Contact button below.")
+    end
   end
 
   #edit organization contact

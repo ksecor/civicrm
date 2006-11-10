@@ -34,10 +34,15 @@ class TC_TestAdminIMProvider < Test::Unit::TestCase
   
   # Add new IM Service Provider
   def add_IMProvider
-    @page.click_and_wait "link=» New Instant Messenger Service Option"
+    if @selenium.is_text_present("There are no option values entered. You can add one")
+      @page.click_and_wait "link=add one"
+    else
+      assert_equal "» New Instant Messenger Service", @selenium.get_text("link=» New Instant Messenger Service")
+      @page.click_and_wait "link=» New Instant Messenger Service"
+    end
     
     # Read new IM Service Name
-    @selenium.type "name", "New IM Provider"
+    @selenium.type "label", "New IM Provider"
     
     if @selenium.get_value("//input[@type='checkbox' and @name='is_active']") == 'off'
       @selenium.check 'is_active'

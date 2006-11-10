@@ -8,7 +8,7 @@
     <div id="help">{ts}Custom Data Groups are used to collect and store additional data not included in the standard CiviCRM forms. You can create one or many groups - each one containing a related set of custom data fields.{/ts}</div>
 
     {if $rows}
-    <div id="notes">
+    <div id="custom_group">
     <p></p>
         <div class="form-item">
         {strip}

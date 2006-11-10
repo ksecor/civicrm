@@ -33,11 +33,16 @@ class TC_TestAdminGender < Test::Unit::TestCase
   
   # Add new Gender information
   def add_gender
-    @page.click_and_wait "link=» New Gender Option"
+    if @selenium.is_text_present("There are no option values entered. You can add one.")
+      @page.click_and_wait "link=add one"
+    else
+      assert_equal "» New Gender", @selenium.get_text("link=» New Gender")
+      @page.click_and_wait "link=» New Gender"
+    end
     
     # Read new Gender information
-    @selenium.type  "name",       "New Gender"
-    @selenium.type  "weight",     "2"
+    @selenium.type  "label",  "New Gender"
+    @selenium.type  "weight", "2"
     
     if @selenium.get_value("//input[@type='checkbox' and @name='is_active']") == 'on'
       @selenium.uncheck "//input[@type='checkbox' and @name='is_active']"

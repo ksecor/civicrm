@@ -72,16 +72,12 @@ class TC_TestAdminOptionGroup < Test::Unit::TestCase
   
   # add a multiple choice option
   def add_multiple_choice_option
-    
-    #if @selenium.is_text_present("There are no Option Value entered. You can add one.\n\n")
-    #  @page.click_and_wait "link=add one"
-    #end
     @page.click_and_wait "link=add one"
-    
     assert @selenium.is_element_present("//input[@type='text' and @id='label']")
     
     # Read new multiple choice information
     @selenium.type  "//input[@type='text' and @id='label']", "First Choice"
+    @selenium.type  "//input[@type='text' and @id='value']", "01"
     @selenium.type  "//input[@type='text' and @id='name']",  "New option choice one"
     @selenium.type  "description",                           "This is first choice for testing"
     @selenium.type  "weight",                                "3"
@@ -120,9 +116,9 @@ class TC_TestAdminOptionGroup < Test::Unit::TestCase
     # delete multiple choice option
   def delete_multiple_choice
     assert_equal "Delete", @selenium.get_text("link=Delete")
-    @selenium.click "link=Delete"
+    @page.click_and_wait "link=Delete"
     assert @selenium.is_text_present("WARNING: Deleting this option value will result in the loss of all records which use the option value. This may mean the loss of a substantial amount of data, and the action cannot be undone. Do you want to continue?")
-    @page.click_and_wait "_qf_OptionValue_next"
+    @page.click_and_wait "//input[@type='submit' and @value='Delete']"
     assert @selenium.is_text_present("Selected option value has been deleted.")
   end
   

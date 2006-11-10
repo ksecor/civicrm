@@ -38,11 +38,15 @@ class TC_TestAdminCreditCard < Test::Unit::TestCase
 
   # Add new Credit Card information
   def add_credit_card
-    assert_equal "» New Accept Creditcard Option", @selenium.get_text("link=» New Accept Creditcard Option")
-    @page.click_and_wait "link=» New Accept Creditcard Option"
+    if @selenium.is_text_present("There are no option values entered. You can add one")
+      @page.click_and_wait "link=add one"
+    else
+      assert_equal "» New Accept Creditcard", @selenium.get_text("link=» New Accept Creditcard")
+      @page.click_and_wait "link=» New Accept Creditcard"
+    end
     
     # Read new Credit Card information
-    @selenium.type "name", "New Credit Card"
+    @selenium.type "label", "New Credit Card"
     @selenium.check "is_active"
     
     # Submit the form 

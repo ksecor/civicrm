@@ -14,7 +14,7 @@
 </div>
 
 {if $rows}
-    <div class="form-item">
+    <div class="form-item" id="configure_contribution_page">
         {strip}
         <table>
         <tr class="columnheader">
