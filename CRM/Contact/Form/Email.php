@@ -65,6 +65,9 @@ class CRM_Contact_Form_Email
                                                                              CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
                                                                                                    'email'));
             $form->addRule( "location[$locationId][email][$i][email]", ts('Email is not valid.'), 'email' );
+            
+            $location[$locationId]['email'][$i]['on_hold'] = $form->addElement('advcheckbox',
+                                                                             "location[$locationId][email][$i][on_hold]",null, ts('On Hold'));
         }
     }
 }

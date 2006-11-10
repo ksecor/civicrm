@@ -63,7 +63,7 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
         if ( ! self::dataExists( $params, $locationId, $emailId, $ids ) ) {
             return null;
         }
-
+        
         $email =& new CRM_Core_DAO_Email();
         $email->id = CRM_Utils_Array::value( $emailId, $ids['location'][$locationId]['email'] );
         $email->email       = $params['location'][$locationId]['email'][$emailId]['email'];
@@ -71,16 +71,34 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
             $email->delete( );
             return null;
         }
-
+        
         $email->location_id = $params['location'][$locationId]['id'];
-
+        
         // set this object to be the value of isPrimary and make sure no one else can be isPrimary
         $email->is_primary  = $isPrimary;
         $isPrimary          = false;
         
-        return $email->save( );
+        $email->save( );
+        
+        //CRM_Core_Error::debug('Params', $params);
+        //CRM_Core_Error::debug('ids', $ids);
+        
+        //CRM_Core_Error::debug('Location ID', $locationId);
+        //CRM_Core_Error::debug('Email ID', $emailId);
+        
+        $values = array(
+                  'location' => array( $locationId => $params['location'][$locationId]['id'] ),
+                  'email'    => $ids['location'][$locationId]['email']
+                  );
+        
+        //CRM_Core_Error::debug( 'Values', $values);
+        
+        self::holdEmail( $values, $locationId, $emailId,
+                         CRM_Utils_Array::value( 'on_hold', $params['location'][$locationId]['email'][$emailId], false));
+        
+        return $email;
     }
-
+    
     /**
      * Check if there is data to create the object
      *
@@ -143,6 +161,38 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
         $dao->location_id = $locationId;
         $dao->delete();
     }
+    
+    public static function holdEmail( $values, $locationBlockId = 1, $emailBlockId = 1, $holdStatus = false) {
+        
+        $emailDAO = new CRM_Core_DAO_Email();
+        
+        if ($holdStatus) {
+            $emailDAO->location_id = $values['location'][$locationBlockId];
+            
+            if( $emailDAO->find(true) ) {
+                $emailDAO->on_hold     = 1;
+                $emailDAO->hold_date  = date( 'YmdHis' );
+                $emailDAO->reset_date = '';
+            }
+            
+            return $emailDAO->save();
+        }
+        
+        if (! empty($values['email'])) {
+            
+            $emailDAO->location_id = $values['location'][$locationBlockId];
+            
+            $emailDAO->whereAdd('id=' . $values['email'][$emailBlockId]);
+            $emailDAO->whereAdd('hold_date IS NOT NULL');
+            
+            if ( $emailDAO->find(true) ) {
+                $emailDAO->on_hold     = 0;
+                $emailDAO->hold_date   = '';
+                $emailDAO->reset_date  = date( 'YmdHis' );
+            }
+                        
+            return $emailDAO->save();
+        }
+    }
 }
-
 ?>

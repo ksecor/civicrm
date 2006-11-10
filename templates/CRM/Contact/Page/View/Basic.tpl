@@ -54,9 +54,13 @@
    {foreach from=$loc.email item=email}
       {if $email.email}
         {if $email.is_primary eq 1}<strong>{/if}
-        {ts}Email:{/ts} <a href="mailto:{$email.email}">{$email.email}</a>
+        <span>{ts}Email:{/ts} <a href="mailto:{$email.email}">{$email.email}</a></span>
         {if $email.is_primary eq 1}</strong>{/if}
-        <br />
+        
+      {/if}
+      {if $email.on_hold}
+	<span class="status-hold">&nbsp;On Hold</span>
+	<br />
       {/if}
    {/foreach}
 
