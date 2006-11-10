@@ -36,6 +36,7 @@
     </div>
 
 {else}
+    <div class='spacer'></div>
     <div id="help">
         {if $action EQ 512}
             {ts}Use <strong>%</strong> wildcard(s) for partial matches (other than contact name/email). EXAMPLE: Enter "Volunteer%" as your Activity Type to match any activity whose type is "Volunteer" + any other words (e.g. Volunteer for Open House).{/ts}

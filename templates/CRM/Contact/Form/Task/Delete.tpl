@@ -1,4 +1,5 @@
 {* Confirmation of contact deletes  *}
+<div class="spacer"></div>
 <div class="messages status">
   <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>

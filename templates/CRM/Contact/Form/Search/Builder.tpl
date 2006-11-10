@@ -1,5 +1,5 @@
 {* Search Builder *}
-
+<div class='spacer'></div>
 <div id="help">
 {ts 1="http://wiki.civicrm.org/confluence//x/si"}
 <p><strong>IMPORTANT: Search Builder requires you to use specific formats for your search values. Review the <a href="%1">Search Builder documentation</a> before building your first search...</strong></p>

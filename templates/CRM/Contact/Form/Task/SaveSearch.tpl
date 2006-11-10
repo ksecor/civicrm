@@ -1,3 +1,4 @@
+<div class='spacer'></div>
 <fieldset>
 <legend>{ts}Smart Group{/ts}</legend>
 {if $qill[0]}

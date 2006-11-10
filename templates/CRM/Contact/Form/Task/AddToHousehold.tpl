@@ -1,12 +1,14 @@
+<div class='spacer'></div>
 <fieldset>
 <legend>
 {ts}Choose Relationship Type and Target Household{/ts}
 </legend>
 <br />
-{include file="CRM/Contact/Form/Task.tpl"}
          <div class="form-item">
             <dl>
             <dt></dt>
+            <dd>{include file="CRM/Contact/Form/Task.tpl"}</dd> 
+            <dt></dt>   
             {if $action EQ 2} {* action = update *}
               <dd><label>{$sort_name}</label></dd>
           	</dl>
