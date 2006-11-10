@@ -12,5 +12,4 @@
     <li>{ts 1=$siteRoot 2='civicrm/profile/edit?reset=1&amp;gid=3'}<strong>Contact Edit Forms</strong> - Allow <strong>authenticated users</strong> to edit their own contact info with a Profile using the following path: <em>%1/%2</em>. (This example links to an edit form for Profile ID 3.){/ts}</li>
     <li>{ts}<strong>Standalone Forms</strong> - If you want more control over form layout, or want to add Profile input forms to non-CiviCRM blocks, pages and/or sites...click the *Standalone Form* action link for a Profile below - and copy and paste the HTML form code into any web page.{/ts}</li>
     </ul>
-    <br />configContribURL is {$configContribURL}
 {/htxt}
