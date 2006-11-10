@@ -135,45 +135,49 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         require_once 'CRM/Utils/Type.php';
         $errorMsg = array ();
         foreach ($fld as $k => $v) {
+	  if ( !$v[1] ) {
+	    $errorMsg["operator[$v[3]][$v[4]]"] = "Please enter the operator.";  
+	  } else {
             if ( $v[0] == 'group' ) {
-                $grpId = array_keys($v[2]);
-
-                if ( $v[1] == '=') {
-
-                    $error = CRM_Utils_Type::validate( $grpId[0], 'Integer', false );
-                    if ( $error != $grpId[0] ) {
-                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid group id.";
-                    }
-
-                } else if ( $v[1] == 'IN') {
-                    foreach ($grpId as $val) {
-                        $error = CRM_Utils_Type::validate( $val, 'Integer', false );
-                        if ( $error != $val  ) { 
-                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";
-                            break;
-                        }
-                    }
-                    
-                }
-            } else {
-                if ( substr($v[0], 0, 7) == 'custom_' ) {
-                    $type = $fields[$v[0]]['data_type'];
-                } else{
-                    $fldType = $fields[$v[0]]['type'];
-                    $type  = CRM_Utils_Type::typeToString( $fldType );
-                }
+	      $grpId = array_keys($v[2]);
+	      
+	      if ( $v[1] == '=') {
+		
+		$error = CRM_Utils_Type::validate( $grpId[0], 'Integer', false );
+		if ( $error != $grpId[0] ) {
+		  $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid group id.";
+		}
+		
+	      } else if ( $v[1] == 'IN') {
+		foreach ($grpId as $val) {
+		  $error = CRM_Utils_Type::validate( $val, 'Integer', false );
+		  if ( $error != $val  ) { 
+		    $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";
+		    break;
+		  }
+		}
                 
-                if ( trim($v[2]) && $type ) {
-                    $error = CRM_Utils_Type::validate( $v[2], $type, false );
-                    if ( $error != $v[2]  ) {
-                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";;
-                    }
-                }
+	      }
+            } else {
+	      if ( substr($v[0], 0, 7) == 'custom_' ) {
+		$type = $fields[$v[0]]['data_type'];
+	      } else{
+		$fldType = $fields[$v[0]]['type'];
+		$type  = CRM_Utils_Type::typeToString( $fldType );
+	      }
+              
+	      if ( trim($v[2]) && $type ) {
+		$error = CRM_Utils_Type::validate( $v[2], $type, false );
+		if ( $error != $v[2]  ) {
+		  $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";;
+		}
+	      }
             }
-        }
-
+	  }
+	}
+	
         if ( !empty($errorMsg) ) {
-            return $errorMsg;
+	  return $errorMsg;
         }
         
         return true;
