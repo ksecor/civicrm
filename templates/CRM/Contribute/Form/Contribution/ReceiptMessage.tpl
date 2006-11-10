@@ -36,6 +36,12 @@ Membership End Date   : {$mem_end_date|crmDate}
 {ts}Membership Transaction #{/ts}: {$membership_trx_id}
 
 {/if}
+{if $is_recur}
+{ts}This is a recurring contribution. You can modify or cancel
+future contributions by logging in to your account at:{/ts}
+
+{$cancelSubscriptionUrl}
+{/if}
 
 {if $honor_block_is_active }
 ===========================================================

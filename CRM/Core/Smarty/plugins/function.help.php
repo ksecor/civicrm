@@ -62,8 +62,8 @@ function smarty_function_help( $params, &$smarty ) {
     $id   = urlencode( $params['id'] );
     $file = urlencode( $file );
     return "
-<img id=\"{$id}_help\" src=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/i/Inform.gif\">
-<span dojoType=\"tooltip\" connectId=\"{$id}_help\" href=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/extern/ajax.php?q=civicrm/help&id=$id&file=$file\" style=\"width: 300px;\">
+<img id=\"{$id}_help\" class=\"action-icon\" src=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/i/Inform.gif\">
+<span dojoType=\"tooltip\" connectId=\"{$id}_help\" href=\"{$smarty->_tpl_vars[ 'config']->resourceBase}/extern/ajax.php?q=civicrm/help&id=$id&file=$file\" style=\"width: 480px; padding: 1em;\">
 </span>
 ";
 

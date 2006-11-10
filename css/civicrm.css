@@ -412,7 +412,7 @@ div.spacer, .spacer {
   border-bottom: 1px solid #000;
   text-align: left;
 }
-#crm-container tr.columnheader-dark td, #crm-container tr.columnheader td, #crm-container tr.columnfooter td {
+#crm-container tr.columnheader-dark td, #crm-container tr.columnheader-dark th, #crm-container tr.columnheader td, #crm-container tr.columnfooter td {
   font-size: 1.1em;
   font-weight: bold;
 }

@@ -38,20 +38,23 @@ function clearAmountOther() {
  
     <table class="form-layout-compressed">
     <tr>
-        <td class="label">{$form.amount.label}</td><td>{$form.amount.html}</td>
+        <td class="label nowrap">{$form.amount.label}</td><td>{$form.amount.html}</td>
     </tr>
     {if $is_allow_other_amount}
         <tr><td class="label">{$form.amount_other.label}</td><td>{$config->defaultCurrencySymbol}&nbsp;{$form.amount_other.html}</td></tr>
     {/if}
     {if $form.is_recur}  
         <tr>
-           <td class="label">{$form.is_recur.label}</td><td>{$form.is_recur.html}</td>
-       </tr>
-        <tr>
-           <td class="label">{$form.frequency_interval.label}</td><td>{$form.frequency_interval.html}&nbsp;{$form.frequency_unit.html}</td>
-       </tr>
-        <tr>
-           <td class="label">{$form.installments.label}</td><td>{$form.installments.html}</td>
+           <td>&nbsp;</td><td><strong>{$form.is_recur.html} {ts}every{/ts} &nbsp; {$form.frequency_interval.html} &nbsp; {$form.frequency_unit.html} &nbsp; {ts}for{/ts} &nbsp; {$form.installments.html} &nbsp; {$form.installments.label}</strong><br />
+                           <p><span class="description">{ts}Your recurring contribution will be processed automatically for the number of
+                           installments you specify. You can leave the number of installments blank if you want to make an open-ended commitment.
+                           In either case, you can choose to cancel at any time.{/ts}
+                           {if $is_email_receipt}
+                                {ts}You will receive an email receipt for each recurring contribution. The receipts will
+                                include a link you can use if you decide to modify or cancel your future contributions.{/ts}
+                           {/if}
+                           </p>
+           </td>
        </tr>
     {/if}
     <tr>

@@ -45,6 +45,22 @@
         {if $membership_trx_id}
            {ts}Membership Transaction #{/ts}: {$membership_trx_id}
         {/if}
+        
+        {* Recurring contribution information *}
+        {if $is_recur}
+            {if $installments}
+                <p><strong>{ts 1=$frequency_interval 2=$frequency_unit 3=$installments}This recurring contribution will be automatically processed every %1 %2(s) for a total %3 installments (including this initial contribution).{/ts}</strong></p>
+            {else}
+                <p><strong>{ts 1=$frequency_interval 2=$frequency_unit}This recurring contribution will be automatically processed every %1 %2(s).{/ts}</strong></p>
+            {/if}
+            <p>
+            {ts 1=$cancelSubscriptionUrl}You can modify or cancel future contributions at any time by <a href="%1">logging in to your account</a>.{/ts}
+            {if $is_email_receipt}
+                {ts}You will receive an email receipt for each recurring contribution. The receipts will also
+                include a link you can use if you decide to modify or cancel your future contributions.{/ts}
+            {/if}
+            </p>
+        {/if}
     </div>
 
     {include file="CRM/Contribute/Form/Contribution/Honor.tpl"}

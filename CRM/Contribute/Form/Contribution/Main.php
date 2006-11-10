@@ -278,20 +278,26 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     function buildRecur( ) {
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionRecur' );
 
-        $this->addYesNo( 'is_recur', ts( 'Recurring Contribution' ) );
+	$elements = array( );
+      	$elements[] =& $this->createElement('radio', null, '', ts( 'I want to make a one-time contribution.' ), 0 );
+      	$elements[] =& $this->createElement('radio', null, '', ts( 'I want to contribute this amount' ), 1 );
+	$this->addGroup( $elements, 'is_recur', null, '<br />' );
+	$this->_defaults['is_recur'] = 0;
 
-        $this->add( 'text', 'frequency_interval', ts( 'Contribution Frequency' ),
+        $this->add( 'text', 'frequency_interval', ts( 'Every' ),
                     $attributes['frequency_interval'] );
+        $this->addRule( 'frequency_interval', ts( 'Frequency must be a whole number (EXAMPLE: Every 3 months).' ), 'integer' );
 
-        $units = array( 0       => ts( ' -select-' ),
-                        'day'   => ts( 'Days'      ),
-                        'week'  => ts( 'Weeks'     ),
-                        'month' => ts( 'Months'    ),
-                        'year'  => ts( 'Years'     ) );
+        $units = array( 0       => ts( ' -period-' ),
+                        'day'   => ts( 'day(s)'      ),
+                        'week'  => ts( 'week(s)'     ),
+                        'month' => ts( 'month(s)'    ),
+                        'year'  => ts( 'year(s)'     ) );
         $this->add( 'select', 'frequency_unit', null, $units );
 
-        $this->add( 'text', 'installments', ts( 'Number of Contributions' ),
+        $this->add( 'text', 'installments', ts( 'installments' ),
                     $attributes['installments'] );
+        $this->addRule( 'installments', ts( 'Number of installments must be a whole number.' ), 'integer' );
 
     }
 
@@ -338,11 +344,19 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
                       CRM_Utils_Array::value( 'honor_last_name' , $fields )) ||
                       CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
-                $errors['_qf_default'] = ts('Honor First Name and Last Name OR an email should be set.');
+                $errors['_qf_default'] = ts('In Honor Of - First Name and Last Name, OR an Email Address is required.');
             }
             
         }
-        
+        if ( $fields['is_recur'] ) {
+            if ( $fields['frequency_interval'] <= 0 ) {
+                $errors['frequency_interval'] = ts('Please enter a number for how often you want to make this recurring contribution (EXAMPLE: Every 3 months).'); 
+            }
+            if ( $fields['frequency_unit'] == '0' ) {
+                $errors['frequency_unit'] = ts('Please select a period (e.g. months, years ...) for how often you want to make this recurring contribution (EXAMPLE: Every 3 MONTHS).'); 
+            }
+        }
+
         if( $fields['selectMembership'] && $fields['selectMembership'] != 'no_thanks') {
             require_once 'CRM/Member/BAO/Membership.php';
             require_once 'CRM/Member/BAO/MembershipType.php';

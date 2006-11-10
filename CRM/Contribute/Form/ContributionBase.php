@@ -177,6 +177,21 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->assign( 'is_monetary', $this->_values['is_monetary'] );
         $this->assign( 'is_email_receipt', $this->_values['is_email_receipt'] );
 
+
+        //assign cancelSubscription URL to templates
+        $cancelSubscriptionUrl = '';
+        
+        if ( $this->_mode == 'live' ) {
+            if ( $config->paymentProcessor == 'PayPal_Standard' ) {
+                $cancelSubscriptionUrl = 'https://www.paypal.com/cgi-bin/webscr?cmd=_subscr-find&alias=' . urlencode($config->paymentUsername['live']);
+            }
+        } else {
+            if ( $config->paymentProcessor == 'PayPal_Standard' ) {
+                $cancelSubscriptionUrl = 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_subscr-find&alias=' . urlencode($config->paymentUsername['test']);
+            }
+        }
+        $this->assign( 'cancelSubscriptionUrl', $cancelSubscriptionUrl );
+        
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
         CRM_Utils_System::setTitle($this->_values['title']);  
@@ -212,13 +227,21 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         $vars = array( 'amount', 'currencyID',
                        'credit_card_type', 'trxn_id' );
+ 
+        $config =& CRM_Core_Config::singleton( );
+        if ( $this->_values['is_recur'] &&
+             $config->paymentProcessor == 'PayPal_Standard' ) {
+            $this->assign( 'is_recur_enabled', 1 );
+            $vars = array_merge( $vars, array( 'is_recur', 'frequency_interval', 'frequency_unit',
+                                               'installments' ) );
+        }
 
         foreach ( $vars as $v ) {
             if ( CRM_Utils_Array::value( $v, $this->_params ) ) {
                 $this->assign( $v, $this->_params[$v] );
             }
         }
-        
+
         // assign the address formatted up for display
         $addressParts  = array('street_address', 'city', 'postal_code', 'state_province', 'country');
         $addressFields = array();
