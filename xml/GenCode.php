@@ -377,7 +377,12 @@ foreach ( array_keys( $tables ) as $name ) {
 }
 
 // add the Subversion revision to templates
-$svnversion = `svnversion .`;
+// use svnversion if the version was not specified explicitely on the commandline
+if (isset($argv[2]) and $argv[2] != '') {
+    $svnversion = $argv[2];
+} else {
+    $svnversion = `svnversion .`;
+}
 file_put_contents("$tplCodePath/CRM/common/version.tpl", $svnversion);
 
 function &parseInput( $file ) {

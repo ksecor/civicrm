@@ -84,7 +84,7 @@ $DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
 
 cp -r com_civicrm/civicrm/joomla/* com_civicrm
 
-zip -r -9 $DM_TARGETDIR/civicrm-joomla-php4-SNAPSHOT-rev$REV.zip com_civicrm
+zip -r -9 $DM_TARGETDIR/civicrm-joomla-php4-$DM_VERSION.zip com_civicrm
 
 # clean up
 rm -rf com_civicrm
