@@ -17,7 +17,7 @@ if( isset( $GLOBALS['_SERVER']['DM_GENFILESDIR'] ) ) {
 //$sourceCheckoutDir ='/home/anil/svn/crm';
 //$targetDir         ='/home/anil/svn/crm4';  
 require_once "$sourceCheckoutDir/civicrm.config.php";
-require_once 'PHP/Beautifier.php';
+require_once "$sourceCheckoutDir/packages/PHP/Beautifier.php";
 
  /**
   * This function creates destination directory

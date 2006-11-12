@@ -15,7 +15,7 @@ if( isset( $GLOBALS['_SERVER']['DM_TMPDIR'] ) ) {
 $targetDirLength = strlen( $targetDir );
 
 require_once "$sourceCheckoutDir/civicrm.config.php";
-require_once 'Smarty/Smarty.class.php';
+require_once "$sourceCheckoutDir/packages/Smarty/Smarty.class.php";
 
 $path = array( 'CRM', 'api', 'bin', 'css', 'i', 'js', 'l10n', 'sql', 'templates', 'joomla', 'packages' );
 $files = array( 'affero_gpl.txt' => 1,
