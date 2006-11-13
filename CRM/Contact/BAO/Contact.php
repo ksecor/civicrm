@@ -204,7 +204,7 @@ WHERE contact_a.id = %1 AND $permission";
         }
 
         $query = "
-SELECT email, civicrm_location_type.name as locationType, civicrm_email.is_primary as is_primary
+SELECT email, civicrm_location_type.name as locationType, civicrm_email.is_primary as is_primary, civicrm_email.on_hold as on_hold
 FROM    civicrm_contact
 LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
                                 civicrm_contact.id = civicrm_location.entity_id )
@@ -220,7 +220,8 @@ ORDER BY
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         while ( $dao->fetch( ) ) {
             $emails[$dao->email] = array( 'locationType' => $dao->locationType,
-                                          'is_primary'   => $dao->is_primary );
+                                          'is_primary'   => $dao->is_primary,
+                                          'on_hold'      => $dao->on_hold );
         }
         return $emails;
     }

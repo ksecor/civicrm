@@ -84,6 +84,8 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             $this->_single     = true;
             $emails     = CRM_Contact_BAO_Contact::allEmails( $cid );
             $this->_emails = array( );
+            $this->_onHold = array( );
+            
             $toName = CRM_Contact_BAO_Contact::displayName( $cid );
             foreach ( $emails as $email => $item ) {
                 if (!$email && ( count($emails) <= 1 ) ) {
@@ -92,6 +94,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                 } else {
                     if ($email) {
                         $this->_emails[$email] = '"' . $toName . '" <' . $email . '> ' . $item['locationType'];
+                        $this->_onHold[$email] = $item['on_hold'];
                     }
                 }
 
@@ -114,14 +117,12 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
      */
     public function buildQuickForm()
     {
-
         if ( ! $this->_single ) {
             $toArray = array();
             $validMails = array();
             $suppressedEmails = 0;
             foreach ( $this->_contactIds as $contactId ) {
                 list($toDisplayName, $toEmail, $toDoNotEmail) = CRM_Contact_BAO_Contact::getContactDetails($contactId);
-
                 if ( ! trim( $toDisplayName ) ) {
                     $toDisplayName = $toEmail;
                 }
@@ -196,8 +197,32 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         } else {
             $this->addDefaultButtons( ts('Send Email') );
         }
+        
+        $this->addFormRule( array( 'CRM_Contact_Form_Task_Email', 'formRule' ), $this );
     }
-
+    
+    /**  
+     * form rule  
+     *  
+     * @param array $fields    the input form values  
+     * @param array $dontCare   
+     * @param array $self      additional values form 'this'  
+     *  
+     * @return true if no errors, else array of errors  
+     * @access public  
+     * 
+     */  
+    function formRule($fields, $dontCare, $self) {
+        $toEmail = CRM_Utils_Array::value( 'to', $fields );
+        $errors = array();
+        
+        if ($self->_onHold[$toEmail]) {
+            $errors['to'] = ts("The selected email address is On Hold because the maximum number of delivery attempts has failed. If you have been informed that the problem with this address is resolved, you can take the address off Hold by editing the contact record. Otherwise, you will need to try an different email address for this contact.");
+        }
+        
+        return empty($errors) ? true : $errors;
+    }
+    
     /**
      * process the form after the input has been submitted and validated
      *
@@ -237,20 +262,36 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                 }
             }
         }
-
+        
         $subject = $this->controller->exportValue( 'Email', 'subject' );
         $message = $this->controller->exportValue( 'Email', 'message' );
-
+        
+        $statusOnHold = '';
+        foreach ($this->_contactIds as $item => $contactId) {
+            $email     = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
+            $allEmails = CRM_Contact_BAO_Contact::allEmails($contactId);
+            
+            if ( $allEmails[$email[1]]['is_primary'] && $allEmails[$email[1]]['on_hold'] ) {
+                $displayName = CRM_Contact_BAO_Contact::displayName($contactId);
+                $contactLink = CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$contactId");
+                unset($this->_contactIds[$item]);
+                $statusOnHold .= ts("Email was not sent to <a href=$contactLink> %1 </a> because their primary email address (<strong>%2</strong>) is On Hold.<br />", array( 1 => $displayName, 2 => $email[1])
+                                    );
+            }
+        }
+        
         require_once 'CRM/Core/BAO/EmailHistory.php';
         list( $total, $sent, $notSent ) = CRM_Core_BAO_EmailHistory::sendEmail( $this->_contactIds, $subject, $message, $emailAddress );
-
+        
         $status = array(
                         '',
-                        ts('Total Selected Contact(s): %1', array(1 => $total))
+                        ts('Total Selected Contact(s): %1', array(1 => count($this->_contactIds) ))
                         );
+        
         if ( $sent ) {
             $status[] = ts('Email sent to contact(s): %1', array(1 => count($sent)));
         }
+        
         //Display the name and number of contacts for those email is not sent.
         if ( $notSent ) {
             $statusDisplay = ts('Email not sent to contact(s) (no email address on file or communication preferences specify DO NOT EMAIL): %1  <br />Details : ', array(1 => count($notSent)));
@@ -265,7 +306,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             }
             $status[] = $statusDisplay;
         }
-        
+        $status[] = $statusOnHold;
         CRM_Core_Session::setStatus( $status );
         
     }//end of function
