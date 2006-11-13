@@ -74,7 +74,7 @@ echo "trunk.$REV Drupal PHP4" > $TRG/civicrm-version.txt
 
 # gen tarball
 cd $TRG/..
-tar czf $DM_TARGETDIR/civicrm-drupal-php4-$DM_VERSION.tgz civicrm
+tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-drupal-php4.tgz civicrm
 
 # clean up
 rm -rf $TRG
