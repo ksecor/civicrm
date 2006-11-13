@@ -12,7 +12,10 @@
 # DM_GENFILESDIR=/home/user/generated           <- generated files
 # DM_TMPDIR=/tmp                                <- temporary files (will be deleted afterwards)
 # DM_TARGETDIR=/tmp/outdir                      <- target dir for tarballs
-# DM_PHP5PATH=/opt/php5/bin                     <- php5 binary path
+# DM_PHP=/opt/php5/bin/php                      <- php5 binary
+# DM_RSYNC=/usr/bin/rsync                       <- rsync binary
+# DM_VERSION=trunk.r1234                        <- what the version number should be
+# DM_ZIP=/usr/bin/zip                           <- zip binary
 # 
 #
 # ========================================================
@@ -62,7 +65,7 @@ check_conf()
 		exit 1
 	else
 		for l in `cat $P/distmaker.conf`; do export $l; done
-		for k in "$DM_SOURCEDIR" "$DM_GENFILESDIR" "$DM_TARGETDIR" "$DM_TMPDIR" "$DM_PHP5PATH"; do
+		for k in "$DM_SOURCEDIR" "$DM_GENFILESDIR" "$DM_TARGETDIR" "$DM_TMPDIR"; do
 			if [ ! -d "$k" ] ; then
 				echo; echo "ERROR! " $k "directory not found!"; echo "(if you get empty directory name, it might mean that one of necessary variables is not set)"; echo;
 				exit 1
@@ -134,7 +137,7 @@ esac
 # Before anything - regenerate DAOs
 
 cd $DM_SOURCEDIR/xml
-$DM_PHP5PATH/php GenCode.php schema/Schema.xml $DM_VERSION
+$DM_PHP GenCode.php schema/Schema.xml $DM_VERSION
 
 cd $ORIGPWD
 
@@ -168,5 +171,5 @@ if [ $M4PACK = 1 ]; then
 	sh $P/dists/joomla_php4.sh
 fi
 
-unset DM_SOURCEDIR DM_GENFILESDIR DM_TARGETDIR DM_TMPDIR DM_PHP5PATH
+unset DM_SOURCEDIR DM_GENFILESDIR DM_TARGETDIR DM_TMPDIR DM_PHP DM_RSYNC DM_VERSION DM_ZIP
 echo;echo "DISTMAKER Done.";echo;

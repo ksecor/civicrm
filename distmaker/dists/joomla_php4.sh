@@ -15,7 +15,7 @@ else
 fi
 
 RSYNCOPTIONS="-avC --exclude=svn"
-RSYNCCOMMAND="/usr/local/bin/rsync $RSYNCOPTIONS"
+RSYNCCOMMAND="$DM_RSYNC $RSYNCOPTIONS"
 SRC=$DM_SOURCEDIR
 TRG=$DM_TMPDIR/civicrm
 
@@ -80,11 +80,11 @@ mkdir com_civicrm/civicrm
 
 cp -r -p civicrm/* com_civicrm/civicrm
 
-$DM_PHP5PATH/php $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
+$DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
 
 cp -r com_civicrm/civicrm/joomla/* com_civicrm
 
-zip -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla-php4.zip com_civicrm
+$DM_ZIP -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla-php4.zip com_civicrm
 
 # clean up
 rm -rf com_civicrm

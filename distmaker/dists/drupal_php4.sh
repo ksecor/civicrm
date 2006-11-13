@@ -15,7 +15,7 @@ else
 fi
 
 RSYNCOPTIONS="-avC --exclude=svn"
-RSYNCCOMMAND="/usr/local/bin/rsync $RSYNCOPTIONS"
+RSYNCCOMMAND="$DM_RSYNC $RSYNCOPTIONS"
 SRC=$DM_SOURCEDIR
 TRG=$DM_TMPDIR/civicrm
 
