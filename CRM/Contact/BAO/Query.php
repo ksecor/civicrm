@@ -1495,7 +1495,7 @@ class CRM_Contact_BAO_Query {
 
             case 'civicrm_log':
                 $from .= " $side JOIN civicrm_log ON (civicrm_log.entity_id = contact_a.id )";
-                $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_log.modified_id = contact_b.id )";
+                $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_log.modified_id = contact_b.id AND civicrm_log.entity_table=\"civicrm_contact\")";
                 continue;
                 
             case 'civicrm_activity':
