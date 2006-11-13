@@ -64,6 +64,7 @@ echo "$DM_VERSION Drupal PHP5" > $TRG/civicrm-version.txt
 # gen tarball
 cd $TRG/..
 tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-drupal-php5.tar.gz --exclude l10n civicrm
+tar czf $DM_TARGETDIR/civicrm-$DM_VERSION-l10n.tar.gz --include l10n civicrm
 
 # clean up
 rm -rf $TRG
