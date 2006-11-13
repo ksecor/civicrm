@@ -28,11 +28,15 @@ class TC_TestAdminOnlineContribution < Test::Unit::TestCase
     configure_thankyou_page()
     configure_custom_page()
     configure_premiums_page()
-    #configure_testdrive_page()
-    back_to_online_contribution_page()
+    configure_testdrive_page()
+    move_to_online_contribution_page()
+    configure_click()
+    configure_liveContribution_page()
+    move_to_online_contribution_page()
     disable_contribution_page()
     enable_contribution_page()
-    #contribution_page_testdrive()
+    contribution_page_testdrive()
+    move_to_online_contribution_page()
     delete_contribution_page()
   end
 
@@ -211,51 +215,55 @@ class TC_TestAdminOnlineContribution < Test::Unit::TestCase
     @page.click_and_wait "//input[@type='submit' and @name='_qf_Premium_next']"    
   end
 
+  def values_for_online_contribution
+    #this function contains the values used for online contribution
+    @selenium.check "document.Main.amount[3]"
+    @selenium.select "credit_card_type", "label=Visa"
+    @selenium.type "credit_card_number", "4807731747657838"
+    @selenium.type "cvv2", "000"
+    @selenium.type "first_name", "Abhilasha"
+    @selenium.type "last_name", "Vasu"
+    @selenium.select "credit_card_exp_date[M]", "label=Jan"
+    @selenium.select "credit_card_exp_date[Y]", "label=2008"
+    @selenium.type "street_address", "88, Ashbury Terrace"
+    @selenium.type "city", "San Francisco"
+    @selenium.select "state_province_id", "label=California"
+    @selenium.type "postal_code", "94117"
+    @selenium.select "country_id", "label=United States"
+    
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_Main_next']" 
+    assert @selenium.is_text_present("Your contribution will not be completed until you click the Make Contribution button. Please click the button one time only.")
+    @page.click_and_wait "//input[@type='submit' and @name='_qf_Confirm_next']" 
+  end
+
   # Editing online contribution information
   def configure_testdrive_page
     #Clicking Test drive
     assert_equal "» Test-drive", @selenium.get_text("link=» Test-drive")
     @page.click_and_wait "link=» Test-drive"
     
-    @selenium.select "credit_card_type", "label=Visa"
-    @selenium.type "credit_card_number", "4111111111111111"
-    @selenium.type "cvv2", "123"
-    @selenium.type "first_name", "Abhilasha"
-    @selenium.type "last_name", "Vasu"
-    @selenium.select "credit_card_exp_date[M]", "label=Oct"
-    @selenium.select "credit_card_exp_date[Y]", "label=2011"
-    @selenium.type "street_address", "b-1069"
-    @selenium.type "city", "Mumbai"
-    @selenium.select "state_province_id", "label=California"
-    @selenium.type "postal_code", "400072"
-    @selenium.select "country_id", "label=United States"
-    @selenium.check "document.Main.amount[1]"
+    assert @selenium.is_text_present("This page is currently running in test-drive mode. Transactions will be sent to your payment processor's test server. No live financial transactions will be submitted. However, a contact record will be created or updated and a contribution record will be saved to the database. Use obvious test contact names so you can review and delete these records as needed. Refer to your payment processor's documentation for information on values to use for test credit card number, security code, postal code, etc.")
 
-    @page.click_and_wait "//input[@type='image' and @id='_qf_Main_next_express']"    
+    values_for_online_contribution()
+  end
+
+  # Editing live contribution page 
+  def configure_liveContribution_page
+    #Clicking Live Contribution page
+    assert @selenium.is_text_present("» Live Contribution Page")    
+    @page.click_and_wait "link=» Live Contribution Page"
+
+    values_for_online_contribution()
   end
 
   #TestDrive to contribution page
   def contribution_page_testdrive
     assert @selenium.is_element_present("//div[@id='configure_contribution_page']/descendant::tr[td[contains(.,'Test Contribution Page')]]/descendant::a[contains(.,'Test-drive')]")
     @page.click_and_wait "//div[@id='configure_contribution_page']/descendant::tr[td[contains(.,'Test Contribution Page')]]/descendant::a[contains(.,'Test-drive')]"
+    
+    assert @selenium.is_text_present("This page is currently running in test-drive mode. Transactions will be sent to your payment processor's test server. No live financial transactions will be submitted. However, a contact record will be created or updated and a contribution record will be saved to the database. Use obvious test contact names so you can review and delete these records as needed. Refer to your payment processor's documentation for information on values to use for test credit card number, security code, postal code, etc.")
 
-     assert @selenium.is_text_present("Test-drive Your Contribution Page\n\nThis page is currently running in test-drive mode. Transactions will be sent to your payment processor's test server. No live financial transactions will be submitted. However, a contact record will be created or updated and a contribution record will be saved to the database. Use obvious test contact names so you can review and delete these records as needed. Refer to your payment processor's documentation for information on values to use for test credit card number, security code, postal code, etc.")
-   
-    @selenium.select "credit_card_type", "label=Visa"
-    @selenium.type "credit_card_number", "4111111111111111"
-    @selenium.type "cvv2", "123"
-    @selenium.type "first_name", "Abhilasha"
-    @selenium.type "last_name", "Vasu"
-    @selenium.select "credit_card_exp_date[M]", "label=Oct"
-    @selenium.select "credit_card_exp_date[Y]", "label=2011"
-    @selenium.type "street_address", "b-1069"
-    @selenium.type "city", "Mumbai"
-    @selenium.select "state_province_id", "label=California"
-    @selenium.type "postal_code", "400072"
-    @selenium.select "country_id", "label=United States"
-    @selenium.wait_for_page_to_load 15000
-    assert @selenium.is_text_present("Your contribution will not be completed until you click the Make Contribution button. Please click the button one time only.")
-    @page.click_and_wait "//input[@type='submit' and @name='_qf_Confirm_next']"
+    values_for_online_contribution()
   end
 
   # Disable contributionPage

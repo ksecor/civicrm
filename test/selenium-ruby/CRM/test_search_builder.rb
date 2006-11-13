@@ -22,7 +22,7 @@ class TC_TestSearchBuilder < Test::Unit::TestCase
     #Find Contacts with Given Search criteria 
     multiple_field_search()
     search_with_field_contribution()
-    #search_with_field_household()
+    search_with_field_household()
     search_with_multiple_field_household()
     search_with_field_organization()
   end
@@ -102,12 +102,6 @@ class TC_TestSearchBuilder < Test::Unit::TestCase
     @selenium.select "operator[1][2]", "label=LIKE"
     @selenium.type "value[1][2]", "Online"
     
-    @page.click_and_wait "addMore[1]"
-    
-    @selenium.select "mapper[1][3][0]", "label=Contribution"
-    @selenium.select "mapper[1][3][1]", "label=Transaction ID"
-    @selenium.select "operator[1][3]", "label=="
-    @selenium.type "value[1][3]", "P20193L6 "
     
     #submit form
     search_click()
@@ -120,87 +114,100 @@ class TC_TestSearchBuilder < Test::Unit::TestCase
   def search_with_field_household
     @selenium.select "mapper[1][0][0]", "label=Households"
     @selenium.select "operator[1][0]", "label=="
-    @selenium.type "value[1][0]", "Rebecca Smith's home"
+    @selenium.type "value[1][0]", "Sheila Roberts's home"
 
     @page.click_and_wait "addMore[1]"
 
     @selenium.select "mapper[1][1][0]", "label=Households"
-    @selenium.select "mapper[1][1][1]", "label=Phone"
-    @selenium.select "mapper[1][1][3]", "label=Phone"
+    @selenium.select "mapper[1][1][1]", "label=Email"
+    @selenium.select "mapper[1][1][2]", "label=Home"
     @selenium.select "operator[1][1]", "label=="
-    @selenium.type "value[1][1]", "47537593 "
+    @selenium.type "value[1][1]", "SheilaRobertsshome@amazon.net"
 
     @page.click_and_wait "addMore[1]"
-
+    
     @selenium.select "mapper[1][2][0]", "label=Households"
     @selenium.select "mapper[1][2][1]", "label=Country"
+    @selenium.select "mapper[1][2][2]", "label=Home"
     @selenium.select "operator[1][2]", "label=="
     @selenium.type "value[1][2]", "United States"
-
+    
     @selenium.select "mapper[2][0][0]", "label=Households"
-    @selenium.select "mapper[2][0][1]", "label=Preferred Communication Method"
+    @selenium.select "mapper[2][0][1]", "label=State"
+    @selenium.select "mapper[2][0][2]", "label=Home"
     @selenium.select "operator[2][0]", "label=="
-    @selenium.type "value[2][0]", "SMS"
+    @selenium.type "value[2][0]", "South Carolina"
     
     #submit form
     search_click()
     
     #print the result on command prompt
-    search_query = "Search Contacts where Household information includes,Name=Rebecca Smith's Home, Phone=47537593 and Country=United States"
+    search_query = "Search Contacts where Household information includes,Name=Sheila Roberts's home, Email=SheilaRobertsshome@amazon.net, State = South Carolina and Country=United States"
     print_result(search_query)
   end
   
   def search_with_field_organization
-    @selenium.select "mapper[1][0][1]", "label=Preferred Communication Method"
+    @selenium.select "mapper[1][0][0]", "label=Organizations"
     @selenium.select "operator[1][0]", "label=="
-    @selenium.type "value[1][0]", "Phone"
+    @selenium.type "value[1][0]", "Magic Bus"
     
-    @page.click_and_wait "addMore[1]"
+    #click 'Also include contacts where' link
+    assert_equal "Also include contacts where", @selenium.get_value("//input[@id='addBlock']")
+    @page.click_and_wait "//input[@id='addBlock']"
     
-    @selenium.select "mapper[1][1][0]", "label=Organizations"
-    @selenium.select "mapper[1][1][1]", "label=Preferred Mail Format"
-    @selenium.select "operator[1][1]", "label=="
-    @selenium.type "value[1][1]", "Both"
+    @selenium.select "mapper[2][0][0]", "label=Organizations"
+    @selenium.select "mapper[2][0][1]", "label=City"
+    @selenium.select "mapper[2][0][2]", "label=Main"
+    @selenium.select "operator[2][0]", "label=="
+    @selenium.type "value[2][0]", "Crystal Lake"
     
-    @page.click_and_wait "addMore[1]"
-    
-    @selenium.select "mapper[1][2][0]", "label=Organizations"
-    @selenium.select "mapper[1][2][1]", "label=Group(s)"
-    @selenium.select "operator[1][2]", "label=LIKE"
-    @selenium.type "value[1][2]", "Advisory Board"
+     #click 'Also include contacts where' link
+    assert_equal "Also include contacts where", @selenium.get_value("//input[@id='addBlock']")
+    @page.click_and_wait "//input[@id='addBlock']"
+
+    @selenium.select "mapper[3][0][0]", "label=Organizations"
+    @selenium.select "mapper[3][0][1]", "label=Do Not Email"
+    @selenium.select "operator[3][0]", "label=="
+    @selenium.type "value[3][0]", "1"
     
     #submit form
     search_click()
     
     #print the result on command prompt
-    search_query = "Search Contacts where organization information includes,Preferred communication method=Phone, Preferred Mail Format=Both and Group=Advisory Board"
+    search_query = "Search Contacts where organization information includes,Organization name=Magic Bus, City=Crystal Lake and Do not Email"
     print_result(search_query)
   end
 
   def search_with_multiple_field_household
     @selenium.select "mapper[1][0][0]", "label=Households"
     @selenium.select "operator[1][0]", "label=="
-    @selenium.type "value[1][0]", "Rebecca Smith's home"
+    @selenium.type "value[1][0]", "Sheila Roberts's home"
+
+    #click 'Also include contacts where' link
+    assert_equal "Also include contacts where", @selenium.get_value("//input[@id='addBlock']")
+    @page.click_and_wait "//input[@id='addBlock']"
 
     @selenium.select "mapper[2][0][0]", "label=Households"
-    @selenium.select "mapper[2][0][1]", "label=Preferred Communication Method"
+    @selenium.select "mapper[2][0][1]", "label=State"
+    @selenium.select "mapper[2][0][2]", "label=Home"
     @selenium.select "operator[2][0]", "label=="
-    @selenium.type "value[2][0]", "SMS"
-    
+    @selenium.type "value[2][0]", "South Carolina"
+
     #click 'Also include contacts where' link
     assert_equal "Also include contacts where", @selenium.get_value("//input[@id='addBlock']")
     @page.click_and_wait "//input[@id='addBlock']"
 
     @selenium.select "mapper[3][0][0]", "label=Households"
-    @selenium.select "operator[3][0]", "label=="
     @selenium.select "mapper[3][0][1]", "label=City"
-    @selenium.type "value[3][0]", "Arizona"
-
+    @selenium.select "mapper[3][0][2]", "label=Home"
+    @selenium.select "operator[3][0]", "label=="
+    @selenium.type "value[3][0]", "Crocketville"
+    
     #submit form
     search_click()
     
     #print the result on command prompt
-    search_query = "Search Contacts where Household information includes,Name=Rebecca Smith's Home, Preferred communication method=Phone and City= Arizona"
+    search_query = "Search Contacts where Household information includes,Name=Sheila Roberts's home, State= South Carolina and City= Crocketville"
     print_result(search_query)
   end
 end
