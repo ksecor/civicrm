@@ -20,7 +20,7 @@ What
 *************************
 CiviCRM is released as a module that runs within the Drupal and Joomla
 content management systems. It can be downloaded from
-http://www.openngo.org/
+http://civicrm.org/
 
 
 *************************
