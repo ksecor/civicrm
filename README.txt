@@ -12,7 +12,7 @@ Who
 CiviCRM is a constituent relationship management system designed to meet
 the needs of grassroots groups. It is an open source project coordinated
 by the Social Source Foundation. The project website is
-http://www.openngo.org/.
+http://www.civicrm.org/.
 
 
 *************************
