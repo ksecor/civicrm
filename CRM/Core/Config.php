@@ -614,6 +614,10 @@ class CRM_Core_Config
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
             $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
         }
+        
+        if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
+            $this->imageUploadURL = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADURL, '/' );
+        }
 
         if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
             $this->userFrameworkFrontend = CIVICRM_UF_FRONTEND;
