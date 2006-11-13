@@ -78,25 +78,20 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
         $email->is_primary  = $isPrimary;
         $isPrimary          = false;
         
-        $email->save( );
+        if ( array_key_exists( 'on_hold', $params['location'][$locationId]['email'][$emailId]) ) {
+            $values = array(
+                      'location' => array( $locationId => $params['location'][$locationId]['id'] ),
+                      'email'    => $ids['location'][$locationId]['email']
+                      );
+            
+            self::holdEmail( $email, $values, $locationId, $emailId,
+                             CRM_Utils_Array::value( 'on_hold', $params['location'][$locationId]['email'][$emailId], false));
+            
+            return $email;
+        }
         
-        //CRM_Core_Error::debug('Params', $params);
-        //CRM_Core_Error::debug('ids', $ids);
+        return $email->save();
         
-        //CRM_Core_Error::debug('Location ID', $locationId);
-        //CRM_Core_Error::debug('Email ID', $emailId);
-        
-        $values = array(
-                  'location' => array( $locationId => $params['location'][$locationId]['id'] ),
-                  'email'    => $ids['location'][$locationId]['email']
-                  );
-        
-        //CRM_Core_Error::debug( 'Values', $values);
-        
-        self::holdEmail( $values, $locationId, $emailId,
-                         CRM_Utils_Array::value( 'on_hold', $params['location'][$locationId]['email'][$emailId], false));
-        
-        return $email;
     }
     
     /**
@@ -162,24 +157,55 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
         $dao->delete();
     }
     
-    public static function holdEmail( $values, $locationBlockId = 1, $emailBlockId = 1, $holdStatus = false) {
-        
-        $emailDAO = new CRM_Core_DAO_Email();
+    /**
+     * Method to hold or reset email(s)
+     * 
+     * This method is used to hold and reset the email(s) according to
+     * the 'holodStatus' value provided.
+     * 'Values' array contains values required to search for required
+     * email record in update mode.
+     * An example Values array looks like : 
+     * 
+     * Values
+     *
+     * Array
+     * (
+     * [location] => Array
+     *      (
+     *       [2] => 92
+     *      )
+     *
+     * [email] => Array
+     *      (
+     *       [1] => 170
+     *       [2] => 171
+     *       [3] => 172
+     *      )
+     *
+     * )
+     * 
+     * @param object  $emailDAO          (referance) email dao object
+     * @param array   $values
+     * @param int     $locationBlockId   Location Block Number
+     * @param int     $emailBlockId      Email Block Number
+     * @param boolean $holdStatus        flag to indicate whether hold
+     *                                   an email or reset
+     *
+     */
+    public static function holdEmail( &$emailDAO, $values, $locationBlockId = 1, $emailBlockId = 1, $holdStatus = false) {
         
         if ($holdStatus) {
-            $emailDAO->location_id = $values['location'][$locationBlockId];
             
-            if( $emailDAO->find(true) ) {
-                $emailDAO->on_hold     = 1;
-                $emailDAO->hold_date  = date( 'YmdHis' );
-                $emailDAO->reset_date = '';
-            }
+            $emailDAO->on_hold     = 1;
+            $emailDAO->hold_date   = date( 'YmdHis' );
+            $emailDAO->reset_date  = '';
             
-            return $emailDAO->save();
+            $emailDAO->save();
+            
+            return true;
         }
         
         if (! empty($values['email'])) {
-            
             $emailDAO->location_id = $values['location'][$locationBlockId];
             
             $emailDAO->whereAdd('id=' . $values['email'][$emailBlockId]);
@@ -190,8 +216,10 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
                 $emailDAO->hold_date   = '';
                 $emailDAO->reset_date  = date( 'YmdHis' );
             }
-                        
-            return $emailDAO->save();
+            
+            $emailDAO->save();
+            
+            return true;
         }
     }
 }
