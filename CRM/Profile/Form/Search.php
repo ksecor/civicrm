@@ -72,7 +72,7 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
      */ 
     function &setDefaultValues() {
         $defaults = array(); 
-
+        
         // note we intentionally overwrite value since we use it as defaults
         // and its all pass by value
         // we need to figure out the type, so we can either set an array element
@@ -81,13 +81,13 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
             if ( substr( $key, 0, 7 ) == 'custom_' ) {
                 if ( strpos( $value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) !== false ) {
                     $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
-		    $value = array();
-		    foreach ( $v as $item ) {
-		      if( $item ) {
-                        $value[$item] = $item;
-		      }
+                    $value = array();
+                    foreach ( $v as $item ) {
+                        if( $item ) {
+                            $value[$item] = $item;
+                        }
                     }
-		}
+                }
             } else if ( $key == 'group' || $key == 'tag' ) {
                 $v = explode( ',', $value );
                 $value = array( ); 
