@@ -279,7 +279,7 @@
   </field>
   <field>
       <name>contribution_status_id</name>
-      <title>Status</title>
+      <title>Contribution Status</title>
       <type>int unsigned</type>
       <default>1</default>
       <import>true</import>

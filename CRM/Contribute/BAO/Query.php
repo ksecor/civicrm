@@ -35,38 +35,59 @@
  * 
  */ 
 
-class CRM_Contribute_BAO_Query {
-
-    static function &getFields( ) {
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        $fields =& CRM_Contribute_BAO_Contribution::exportableFields( );
-
-        //fix for adding the option values filed in 
-        require_once "CRM/Core/DAO/OptionValue.php";
-        $option = CRM_Core_DAO_OptionValue::import( );
-        
-        foreach (array_keys( $option ) as $id ) {
-            $optionName = $option[$id];
-        }
-        $nameTitle = array('contrib_status'            => array('name' => 'contrib_status',
-                                                                'title'=> 'Contribution Status'),
-                           );
-        foreach ( $nameTitle as $name => $attribs ) {
-            $optionFields[$name] = $optionName;
-            list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
-            $optionFields[$name]['where'] = $name . '.' . $fieldName;
-            foreach ( $attribs as $key => $val ) {
-                $optionFields[$name][$key] = $val;
+class CRM_Contribute_BAO_Query 
+{
+    
+    /**
+     * static field for all the export/import contribution fields
+     *
+     * @var array
+     * @static
+     */
+    static $_contributionFields = null;
+    
+    /**
+     * Function get the import/export fields for contribution
+     *
+     * @return array self::$_contributionFields  associative array of contribution fields
+     * @static
+     */
+    static function &getFields( ) 
+    {
+        if ( ! self::$_contributionFields ) {
+            self::$_contributionFields = array( );
+            
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $fields =& CRM_Contribute_BAO_Contribution::exportableFields( );
+            
+            //fix for adding the option values filed in 
+            require_once "CRM/Core/DAO/OptionValue.php";
+            $option = CRM_Core_DAO_OptionValue::import( );
+            
+            foreach (array_keys( $option ) as $id ) {
+                $optionName = $option[$id];
             }
+            $nameTitle = array('contrib_status'            => array('name' => 'contrib_status',
+                                                                    'title'=> 'Contribution Status'),
+                               );
+            foreach ( $nameTitle as $name => $attribs ) {
+                $optionFields[$name] = $optionName;
+                list( $tableName, $fieldName ) = explode( '.', $optionName['where'] );  
+                $optionFields[$name]['where'] = $name . '.' . $fieldName;
+                foreach ( $attribs as $key => $val ) {
+                    $optionFields[$name][$key] = $val;
+                }
+            }
+            if ( !empty ( $optionFields ) ) {
+                $fields =  array_merge( $fields ,$optionFields );
+            }
+            unset( $fields['contact_id']);
+            unset( $fields['note'] ); 
+            self::$_contributionFields = $fields;
         }
-        if ( !empty ( $optionFields ) ) {
-            $fields =  array_merge( $fields ,$optionFields );
-        }
-        unset( $fields['contact_id']);
-        unset( $fields['note'] ); 
-        return $fields;
+        return self::$_contributionFields;
     }
-
+        
     /** 
      * if contributions are involved, add the specific contribute fields
      * 
@@ -105,6 +126,9 @@ class CRM_Contribute_BAO_Query {
 
     static function whereClauseSingle( &$values, &$query ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
+
+        $fields = array( );
+        $fields = self::getFields();
 
         switch ( $name ) {
        
@@ -188,7 +212,7 @@ class CRM_Contribute_BAO_Query {
             require_once "CRM/Core/OptionGroup.php";
             $statusValues = CRM_Core_OptionGroup::values("contribution_status");
             if ($value != "All") {
-                $query->_where[$grouping][] = "civicrm_contribution.contribution_status_id = " .$value ;
+                $query->_where[$grouping][] = "civicrm_contribution.contribution_status_id $op " .$value ;
                 $query->_qill[$grouping ][]  = ts( 'Contribution Status -' ) . $statusValues[$value];
                 $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
                 return;
@@ -215,7 +239,39 @@ class CRM_Contribute_BAO_Query {
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
             return;
-        }
+
+        default :
+            //all other elements are handle in this case
+            $fldName = substr($name, 13 );
+            $whereTable = $fields[$fldName];
+            
+            //date fields
+            $dateFields = array ( 'receive_date', 'cancel_date', 'receipt_date', 'thankyou_date', 'fulfilled_date' ) ;
+            if ( in_array($fldName, $dateFields) ) {
+                $date = CRM_Utils_Date::format( $value );
+                if ( $date ) {
+                    $query->_where[$grouping][] = "$whereTable[where] $op $date";
+                    $value = CRM_Utils_Date::customFormat( $value );
+                }
+            } else {
+                $value = strtolower( addslashes( $value ) );
+                if ( $wildcard ) {
+                    $value = "%$value%"; 
+                    $op    = 'LIKE';
+                }
+                $query->_where[$grouping][] = "LOWER( $whereTable[where] ) $op '$value'";
+            }
+
+            $query->_qill[$grouping][]  = "$whereTable[title] $op \"$value\"";            
+            list( $tableName, $fieldName ) = explode( '.', $whereTable['where'], 2 );  
+            $query->_tables[$tableName] = $query->_whereTables[$tableName] = 1;
+            if ($tableName == 'civicrm_contribution_product') {
+                $query->_tables['civicrm_product']      = $query->_whereTables['civicrm_product'     ] = 1;
+                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            } else {
+                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            }
+        }        
     }
 
     static function from( $name, $mode, $side ) {
