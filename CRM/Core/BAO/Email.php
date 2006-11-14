@@ -193,12 +193,12 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
      *
      */
     public static function holdEmail( &$emailDAO, $values, $locationBlockId = 1, $emailBlockId = 1, $holdStatus = false) {
-        
         if ($holdStatus) {
             $emailDAO->on_hold     = 1;
             $emailDAO->hold_date   = date( 'YmdHis' );
             $emailDAO->reset_date  = '';
-        } else if (! empty($values['email'])) {
+        } else if (! empty($values['email'][$emailBlockId])) {
+            $emailDAO->save();
             $emailDAO->location_id = $values['location'][$locationBlockId];
             
             $emailDAO->whereAdd('id=' . $values['email'][$emailBlockId]);
@@ -212,7 +212,6 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
         
         $emailDAO->save();
         return true;
-            
     }
 }
 ?>
