@@ -68,8 +68,8 @@
         {/if}
         {if $email.on_hold}
 	    <span class="status-hold">&nbsp;(On Hold)</span>
-	    <br />
-        {/if}
+	{/if}
+	<br />
    {/foreach}
 
    {foreach from=$loc.im item=im key=imKey}
