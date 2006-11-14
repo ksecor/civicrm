@@ -331,9 +331,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         } else {
             $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables, $whereTables ); 
         }
-        $where .= " AND $permission ";
+        
         
         $from = CRM_Contact_BAO_Query::fromClause( $tables );
+        
+        $where .= " AND $permission ";
 
         $order = $limit = '';
         if (! $count ) {
@@ -367,8 +369,16 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 default: 
                     $prefix = 'pending_'; 
                 } 
-                $values[$id][$prefix . 'date']      = $dao->date; 
-                $values[$id][$prefix . 'method']    = $dao->method; 
+                $values[$id][$prefix . 'date']            = $dao->date; 
+                $values[$id][$prefix . 'method']          = $dao->method; 
+                if ( $status == "Removed" ) {
+                    $query = "SELECT `date` as `date_added` FROM civicrm_subscription_history WHERE id = (SELECT max(id) FROM civicrm_subscription_history WHERE contact_id = %1 AND status = \"Added\" AND group_id = $dao->group_id )";
+                    $dateDAO =& CRM_Core_DAO::executeQuery( $query, $params );
+                    if ($dateDAO->fetch() ) {
+                        $values[$id]["date_added"]          = $dateDAO->date_added; 
+                    }
+                    
+                }
             }
             return $values;
         }
