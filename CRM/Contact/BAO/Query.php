@@ -1733,9 +1733,12 @@ class CRM_Contact_BAO_Query {
             $names[] = $tagNames[$id];
         }
 
-        if ( $op != 'NOT IN' ) {
-            $op = 'IN';
-        }
+        //commented for CRM-1394
+//         if ( $op != 'NOT IN' ) {
+//             $op = 'IN';
+//         }
+
+
         $this->_where[$grouping][] = "tag_id $op (". implode( ',', array_keys( $value ) ) . ')';
         $this->_qill[$grouping][]  = ts('Tagged %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names ); 
         $this->_tables['civicrm_entity_tag'] = $this->_whereTables['civicrm_entity_tag'] = 1;
