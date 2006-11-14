@@ -131,7 +131,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    ts( 'Membership Type' ), 
                    array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ),array('onChange' => "reload(true)"),
                    true );
-
+        $this->addRule('membership_type_id',ts("Please Select Membership Type"), "required");
+        
         $this->add('date', 'join_date', ts('Join Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );         
         $this->addRule('join_date', ts('Select a valid date.'), 'qfDate');
         $this->add('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );         
