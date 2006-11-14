@@ -31,13 +31,13 @@
 	</tr>
    	 <tr>
         <td>&nbsp;</td>
-        <td>{$form.source.label}</td>
+        <td>{$form.contact_source.label}</td>
         <td>{$form.nick_name.label}</td>
         <td>{$form.greeting_type.label} &nbsp; </td>
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td>{$form.source.html|crmReplace:class:big}</td>
+        <td>{$form.contact_source.html|crmReplace:class:big}</td>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
         <td>{$form.greeting_type.html}</td>
     </tr>

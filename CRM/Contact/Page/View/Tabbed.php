@@ -149,15 +149,17 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         // do the below only if the person has access to contributions
         $config =& CRM_Core_Config::singleton( );
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-            $allTabs[ts('Contributions')] = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
-                                                                   "reset=1&force=1&snippet=1&cid={$this->_contactId}" );
+            $allTabs[ts('Contributions')] = array ( 'id'  => 'contribute',
+                                                    'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/contribution',
+                                                                                     "reset=1&force=1&snippet=1&cid={$this->_contactId}" ) );
         }
 
         // get the memberships, new style of doing stuff
         // do the below only if the person has access to memberships
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-            $allTabs[ts('Memberships')] = CRM_Utils_System::url( 'civicrm/contact/view/membership',
-                                                                 "reset=1&force=1&snippet=1&cid={$this->_contactId}" );
+            $allTabs[ts('Memberships')] = array ( 'id'  => 'member',
+                                                  'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/membership',
+                                                                                   "reset=1&force=1&snippet=1&cid={$this->_contactId}" ) );
         }
         
         $rest = array( 'activity'      => ts( 'Activities'    ),
@@ -190,8 +192,9 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
 
         $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.TabContainer');dojo.require('dojo.widget.ContentPane');dojo.require('dojo.widget.LinkPane');" );
-        $this->assign( 'allTabs'     , $allTabs     );
 
+        $this->assign( 'allTabs'     , $allTabs     );
+        
         $selectedChild = CRM_Utils_Request::retrieve( 'selectedChild', 'String', $this, false, 'summary' );
         $this->assign( 'selectedChild', $selectedChild );
         

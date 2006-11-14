@@ -311,6 +311,11 @@ ORDER BY
     static function add(&$params, &$ids) {
         $contact =& new CRM_Contact_BAO_Contact();
         
+        //fixed contact source
+        if ( isset($params['contact_source']) ) {
+            $params['source'] = $params['contact_source'];
+        }
+
         $contact->copyValues($params);
         //fix for preffered communication method
         $prefComm = CRM_Utils_Array::value('preferred_communication_method', $params, array());
