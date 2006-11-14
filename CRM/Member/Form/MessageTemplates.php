@@ -101,7 +101,6 @@ class CRM_Member_Form_MessageTemplates extends CRM_Member_Form
         require_once 'CRM/Member/BAO/MessageTemplates.php';
         if($this->_action & CRM_Core_Action::DELETE) {
             CRM_Member_BAO_MessageTemplates::del($this->_id);
-            CRM_Core_Session::setStatus( ts('Selected message templates has been deleted.') );
         } else { 
             $params = $ids = array( );
             // store the submitted values in an array

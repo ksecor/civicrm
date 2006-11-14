@@ -126,11 +126,21 @@ class CRM_Member_BAO_MessageTemplates extends CRM_Member_DAO_MessageTemplates
      * @return object
      */
     static function del( $messageTemplatesID ) {
-        $messageTemplates               =& new CRM_Member_DAO_MessageTemplates( );
-        $messageTemplates->id = $messageTemplatesID;
-        $messageTemplates->delete();
+        
+        require_once 'CRM/Member/DAO/MembershipType.php';
+        $membershipDAO=& new CRM_Member_DAO_MembershipType();
+        $membershipDAO->renewal_msg_id = $messageTemplatesID;
+        if ($membershipDAO->find(true)) {
+            $session =& CRM_Core_Session::singleton();
+            CRM_Core_Session::setStatus( ts('Selected message template can not be deleted.') );
+        } else {
+            $messageTemplates =& new CRM_Member_DAO_MessageTemplates( );
+            $messageTemplates->id = $messageTemplatesID;
+            $messageTemplates->delete();
+            CRM_Core_Session::setStatus( ts('Selected message templates has been deleted.') );
+        }
     }
-
+    
     /**
      * function to delete the Message Templates
      *
