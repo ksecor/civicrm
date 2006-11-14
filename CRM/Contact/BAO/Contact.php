@@ -1425,12 +1425,12 @@ WHERE civicrm_contact.id IN $idString ";
                   AND status != 'Completed'";
         $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query, $params ); 
 
-        $query = "SELECT count(*) FROM civicrm_activity,civicrm_option_value 
+        $query = "SELECT count(Distinct(civicrm_activity.id)) FROM civicrm_activity,civicrm_option_value 
                   WHERE ( civicrm_activity.target_entity_table = 'civicrm_contact' $clause )
                   AND civicrm_option_value.value = civicrm_activity.activity_type_id 
                   AND civicrm_option_value.is_active = 1  AND status != 'Completed'";
         $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
-
+       
         return  $rowMeeting + $rowPhonecall + $rowActivity;
     }
 

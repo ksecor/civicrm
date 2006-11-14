@@ -287,6 +287,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                 }
             }
+            if ( $key == 'deceased_date' ) {
+                if( $val ) {
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                }
+            }
         }
         //date-format part ends
 
@@ -319,7 +324,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @access public
      */
     function import( $onDuplicate, &$values) {
-
+       
         // first make sure this is a valid line
         //$this->_updateWithId = false;
         $response = $this->summary( $values );
@@ -340,6 +345,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 }
             }
             if ( $key == 'birth_date' ) {
+                if( $val ) {
+                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+                }
+            }
+            if ( $key == 'deceased_date' ) {
                 if( $val ) {
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                 }

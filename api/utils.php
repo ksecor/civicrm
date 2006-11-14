@@ -567,8 +567,8 @@ function _crm_format_contrib_params( &$params, &$values ) {
 
 function _crm_update_contact( $contact, $values, $overwrite = true ) 
 {
-    // CRM_Core_Error::debug( 'c', $contact );
-    // CRM_Core_Error::debug( 'v', $values );
+    //CRM_Core_Error::debug( 'c', $contact );
+    //CRM_Core_Error::debug( 'v', $values );
 
     // first check to make sure the location arrays sync up
     $param = array("contact_id" =>$contact->id );
@@ -608,7 +608,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         if ( ! $middleName ) {
             $middleName = isset( $contact->contact_type_object->middle_name ) ? $contact->contact_type_object->middle_name : '';
         }
-        
+         
         if ($overwrite || ! isset($contact->contact_type_object->last_name)) {
             $lastName = CRM_Utils_Array::value( 'last_name', $values );
         } else {
@@ -687,6 +687,11 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
             $values['sort_name'] = "$firstName";
         }
         $values['display_name'] = "$prefix $firstName $middleName $lastName $suffix ";
+
+        $contact->contact_type_object->birth_date = CRM_Utils_Date::isoToMysql($contact->contact_type_object->birth_date);
+
+        $contact->contact_type_object->deceased_date = CRM_Utils_Date::isoToMysql($contact->contact_type_object->deceased_date);
+ 
     } else if ( $contact->contact_type == 'Household' ) {
         if ($overwrite || ! isset($contact->contact_type_object->household_name)) {
             $householdName = CRM_Utils_Array::value( 'household_name', $values );
@@ -953,7 +958,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
     }
 
     }
-
+    
     return $contact;
 }
 
