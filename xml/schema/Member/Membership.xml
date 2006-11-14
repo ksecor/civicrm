@@ -41,6 +41,7 @@
       <type>int unsigned</type>
       <title>Membership Type</title>
       <import>true</import>
+      <headerPattern>/^membership|(m(embership\s)?type)$/i</headerPattern>
       <required>true</required>
       <comment>FK to Membership Type</comment>
       <add>1.5</add>
@@ -56,6 +57,7 @@
       <title>Member Since</title>
       <type>date</type>
       <import>true</import>
+      <headerPattern>/^member|(m(ember\s)?since)$/i</headerPattern>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
       <comment>Beginning of initial membership period (member since...).</comment>  
       <add>1.5</add>  
@@ -66,6 +68,7 @@
       <title>Membership Start Date</title>
       <type>date</type>
       <import>true</import>
+       <headerPattern>/^start|(s(tart\s)?date)$/i</headerPattern>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>               
       <comment>Beginning of current uninterrupted membership period.</comment>
       <add>1.5</add>  
@@ -76,6 +79,7 @@
       <title>Membership Expiration Date</title>
       <type>date</type>
       <import>true</import>
+      <headerPattern>/^end|(e(nd\s)?date)$/i</headerPattern>
       <dataPattern>/\d{4}-?\d{2}-?\d{2}/</dataPattern>
       <comment>Current membership period expire date.</comment>  
       <add>1.5</add>  
@@ -85,6 +89,7 @@
       <uniqueName>membership_source</uniqueName>
       <title>Source</title>
       <import>true</import>
+       <headerPattern>/^source$/i</headerPattern>
       <type>varchar</type>
       <length>128</length>
       <add>1.5</add>  
@@ -93,6 +98,7 @@
       <name>status_id</name>
       <title>Membership Status</title>
       <import>true</import>
+      <headerPattern>/^status$/i</headerPattern>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to Membership Status</comment>
