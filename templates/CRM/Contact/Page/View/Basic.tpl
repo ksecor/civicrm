@@ -59,7 +59,7 @@
         
       {/if}
       {if $email.on_hold}
-	<span class="status-hold">&nbsp;On Hold</span>
+	<span class="status-hold">&nbsp;(On Hold)</span>
 	<br />
       {/if}
    {/foreach}
