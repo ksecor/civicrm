@@ -64,7 +64,19 @@ class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
         $delivered->time_stamp = date('YmdHis');
         $delivered->copyValues($params);
         $delivered->save();
-
+        
+        $queue = new CRM_Mailing_Event_BAO_Queue();
+        $queue->id = $params['event_queue_id'];
+        $queue->find(true);
+        
+        while ( $queue->fetch() ) {
+            $email =& new CRM_Core_BAO_Email();
+            $email->id         = $queue->email_id;
+            $email->hold_date  = '';
+            $email->reset_date = date( 'YmdHis' );
+            $email->save();
+        }
+        
         return $delivered;
     }
 

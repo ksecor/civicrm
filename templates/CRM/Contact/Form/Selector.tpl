@@ -27,7 +27,7 @@
 
   { if $id }
       {foreach from=$rows item=row}
-        <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
+        <tr id='rowid{$row.contact_id}' class="status-hold {cycle values="odd-row,even-row"}">
             {assign var=cbName value=$row.checkbox}
             <td>{$form.$cbName.html}</td>
             {if $context eq 'smog'}
@@ -72,7 +72,7 @@
               <td>{$row.state_province}</td>
               <td>{$row.postal_code}</td>
               <td>{$row.country}</td>
-              <td>{$row.email|mb_truncate:17:"...":true}</td>
+              <td {if $row.on_hold}class="status-hold"{/if}>{$row.email|mb_truncate:17:"...":true}{if $row.on_hold}&nbsp;(On Hold){/if}</td>
               <td>{$row.phone}</td>
             {else}
               {foreach from=$row item=value key=key}

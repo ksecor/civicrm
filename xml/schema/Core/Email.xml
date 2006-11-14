@@ -55,6 +55,7 @@
   </field>
   <field>
     <name>on_hold</name>
+    <export>true</export>
     <type>boolean</type>
     <default>0</default>
     <required>true</required>

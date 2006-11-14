@@ -78,7 +78,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                 'sort_name', 'street_address',
                                 'city', 'state_province', 'postal_code', 'country',
                                 'geo_code_1', 'geo_code_2',
-                                'email', 'phone', 'status' );
+                                'email', 'on_hold', 'phone', 'status' );
 
     /**
      * This caches the content for the display system.

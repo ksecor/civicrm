@@ -388,6 +388,7 @@ class CRM_Contact_BAO_Query {
             }
 
             $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
+            
             if ( CRM_Utils_Array::value( $name, $this->_paramLookup ) ||
                  CRM_Utils_Array::value( $name, $this->_returnProperties ) ) {
 
@@ -2213,6 +2214,7 @@ class CRM_Contact_BAO_Query {
                                                                'geo_code_1'             => 1,
                                                                'geo_code_2'             => 1,
                                                                'email'                  => 1, 
+                                                               'on_hold'                => 1, 
                                                                'phone'                  => 1, 
                                                                'im'                     => 1, 
                                                                ); 

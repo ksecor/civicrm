@@ -266,6 +266,11 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         $subject = $this->controller->exportValue( 'Email', 'subject' );
         $message = $this->controller->exportValue( 'Email', 'message' );
         
+        $status = array(
+                        '',
+                        ts('Total Selected Contact(s): %1', array(1 => count($this->_contactIds) ))
+                        );
+        
         $statusOnHold = '';
         foreach ($this->_contactIds as $item => $contactId) {
             $email     = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
@@ -275,7 +280,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
                 $displayName = CRM_Contact_BAO_Contact::displayName($contactId);
                 $contactLink = CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$contactId");
                 unset($this->_contactIds[$item]);
-                $statusOnHold .= ts("Email was not sent to <a href=$contactLink> %1 </a> because their primary email address (<strong>%2</strong>) is On Hold.<br />", array( 1 => $displayName, 2 => $email[1])
+                $statusOnHold .= ts("Email was not sent to <a href=$contactLink> %1 </a> because primary email address (<strong>%2</strong>) is On Hold.<br />", array( 1 => $displayName, 2 => $email[1])
                                     );
             }
         }
@@ -283,13 +288,8 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         require_once 'CRM/Core/BAO/EmailHistory.php';
         list( $total, $sent, $notSent ) = CRM_Core_BAO_EmailHistory::sendEmail( $this->_contactIds, $subject, $message, $emailAddress );
         
-        $status = array(
-                        '',
-                        ts('Total Selected Contact(s): %1', array(1 => count($this->_contactIds) ))
-                        );
-        
         if ( $sent ) {
-            $status[] = ts('Email sent to contact(s): %1', array(1 => count($sent)));
+            $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));
         }
         
         //Display the name and number of contacts for those email is not sent.
@@ -306,7 +306,11 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
             }
             $status[] = $statusDisplay;
         }
-        $status[] = $statusOnHold;
+        
+        if ( strlen($statusOnHold) ) {
+            $status[] = $statusOnHold;
+        }
+        
         CRM_Core_Session::setStatus( $status );
         
     }//end of function
