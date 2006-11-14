@@ -1418,10 +1418,36 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $defaults[$fldName] = $details['individual_prefix_id'];
                     } else if ($name == 'individual_suffix') {
                         $defaults[$fldName] = $details['individual_suffix_id'];
+                    } else if ( substr( $name, 0, 7 ) == 'custom_') {
+                        //fix for custom fields
+                        $customFields = CRM_Core_BAO_CustomField::getFields( $values['Individual'] );
+                        switch( $customFields[substr($name,7,9)][3] ) {
+                        
+                        case 'Multi-Select':
+                            $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
+                            foreach ( $v as $item ) {
+                                if ($item) {
+                                    $defaults["field[$contactId][$name]"][$item] = $item;
+                                }
+                            }
+                            break;
+                            
+                        case 'CheckBox':
+                            $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
+                            foreach ( $v as $item ) {
+                                if ($item) {
+                                    $defaults["field[$contactId][$name][$item]"] = $item;
+                                }
+                            }
+                            break;
+                            
+                        default:
+                            $defaults["field[$contactId][$name]"] = $details[$name];
+                            break;
+                        }
                     } else{
                         $defaults[$fldName] = $details[$name];
                     }
-                    
                 } else {
                     list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $name);
                     if ( is_array($details) ) {   
@@ -1471,10 +1497,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         }
                     }
                 }
-            
-
             }
-            
             
             if ( CRM_Core_Permission::access( 'Quest', false ) ) {
                 require_once 'CRM/Quest/BAO/Student.php';
