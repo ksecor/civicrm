@@ -149,7 +149,7 @@ class CRM_Contribute_BAO_Query
             return;
 
         case 'contribution_total_amount':
-            $query->_where[$grouping][] = "civicrm_contribution.total_amount $op " . CRM_Utils_Type::escape( $value, "Integer" );
+            $query->_where[$grouping][] = "civicrm_contribution.total_amount $op " . CRM_Utils_Type::escape( $value, "Money" );
             $query->_qill[$grouping ][] = ts( 'Contribution Total Amount %1 %2', array( 1 => $op, 2 => $value ) );
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;
@@ -244,7 +244,9 @@ class CRM_Contribute_BAO_Query
             //all other elements are handle in this case
             $fldName = substr($name, 13 );
             $whereTable = $fields[$fldName];
-            
+
+            $value = trim($value);
+
             //date fields
             $dateFields = array ( 'receive_date', 'cancel_date', 'receipt_date', 'thankyou_date', 'fulfilled_date' ) ;
             if ( in_array($fldName, $dateFields) ) {

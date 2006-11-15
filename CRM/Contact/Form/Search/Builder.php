@@ -128,13 +128,13 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $compomentFields =& CRM_Core_Component::getQueryFields( );
         
         $fields = array_merge( $fields, $compomentFields );
-        
+
         $fld = array ();
         $fld = CRM_Core_BAO_Mapping::formattedFields($values, true);
         
         require_once 'CRM/Utils/Type.php';
         $errorMsg = array ();
-        foreach ($fld as $k => $v) {
+        foreach ($fld as $k => $v) {          
             if ( !$v[1] ) {
                 $errorMsg["operator[$v[3]][$v[4]]"] = "Please enter the operator.";  
             } else {
@@ -142,7 +142,6 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
                     $grpId = array_keys($v[2]);
                     
                     if ( $v[1] == '=') {
-                        
                         $error = CRM_Utils_Type::validate( $grpId[0], 'Integer', false );
                         if ( $error != $grpId[0] ) {
                             $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid group id.";
@@ -156,16 +155,21 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
                                 break;
                             }
                         }
-                        
                     }
                 } else {
                     if ( substr($v[0], 0, 7) == 'custom_' ) {
                         $type = $fields[$v[0]]['data_type'];
                     } else{
-                        $fldType = $fields[$v[0]]['type'];
+                        
+                        $fldName = $v[0];
+                        if ( substr( $v[0], 0, 13 ) == 'contribution_' ) {
+                            $fldName = substr($v[0], 13 );
+                        }
+                
+                        $fldType = $fields[$fldName]['type'];
                         $type  = CRM_Utils_Type::typeToString( $fldType );
                     }
-                    
+
                     if ( trim($v[2]) && $type ) {
                         $error = CRM_Utils_Type::validate( $v[2], $type, false );
                         if ( $error != $v[2]  ) {
