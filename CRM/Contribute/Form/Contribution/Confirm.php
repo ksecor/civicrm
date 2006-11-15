@@ -301,7 +301,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id );
             $this->set( 'contactID', $contactID );
         } else {
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID );
+            $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact",$contactID,"contact_type");
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID,null,null,$ctype);
         }
 
         if ( $membershipParams['selectMembership'] &&  $membershipParams['selectMembership'] != 'no_thanks' && 

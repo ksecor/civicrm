@@ -1881,6 +1881,11 @@ WHERE civicrm_contact.id IN $idString ";
             list($details, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactID, $fields );
             $contactDetails = $details[$contactID];
         }
+        if ( $ctype == "Organization" ) {
+            $data["organization_name"] = $contactDetails["organization_name"];
+        } else if ( $ctype == "Household" ) {
+            $data["household_name"] = $contactDetails["household_name"];
+        }
 
         //get the custom fields for the contact
         $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );

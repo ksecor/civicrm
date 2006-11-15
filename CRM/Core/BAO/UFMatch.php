@@ -175,6 +175,9 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 } else if ( $ctype == 'Household' ) {
                     $params['household_name'] = $mail;
                 }
+                if ( ! $ctype ) {
+                    $ctype = "Individual";
+                }
                 $contact =& crm_create_contact( $params, $ctype );
                 if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::debug( 'error', $contact );
