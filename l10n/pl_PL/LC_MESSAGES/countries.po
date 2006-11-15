@@ -3,7 +3,7 @@
 # Alastair McKinstry <mckinstry@computer.org>, 2002
 # Translations from KDE:
 # Jacek Stolarczyk <jacek@mer.chemia.polsl.gliwice.pl>
-# Translation for OpenNGO's CiviCRM:
+# Translation for CiviCRM:
 # Piotr Szotkowski <shot@caltha.pl>
 msgid ""
 msgstr ""

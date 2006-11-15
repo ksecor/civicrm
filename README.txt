@@ -27,7 +27,7 @@ http://civicrm.org/
 Documentation
 *************************
 Documentation, as well as the project bug tracker and mailing lists, can
-be found at http://www.openngo.org/. Just click on the appropriate link.
+be found at http://civicrm.org/. Just click on the appropriate link.
 
 *************************
 Directory Structure

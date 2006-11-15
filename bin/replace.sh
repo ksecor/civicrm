@@ -8,7 +8,7 @@ for j in test; do
     perl -pi -e 's/Foundation at info\[AT]socialsourcefoundation\[DOT]org.  If you have/Foundation at info\[AT]civicrm\[DOT]org.  If you have questions      /' $i;
     perl -pi -e 's/questions about the Affero General Public License or the licensing/about the Affero General Public License or the licensing  of      /' $i;
     perl -pi -e 's/CiviCRM, see the CiviCRM license FAQ at                         /CiviCRM, see the CiviCRM license FAQ at                         /' $i;
-    perl -pi -e 's/at http:\/\/www.openngo.org\/faqs\/licensing.html/http:\/\/www.civicrm.org\/licensing\/           /' $i;
+    perl -pi -e 's/at http:\/\/www.openngo.org\/faqs\/licensing.html/http:\/\/civicrm.org\/licensing\/           /' $i;
   done
 done
 
