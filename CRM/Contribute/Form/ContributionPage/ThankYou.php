@@ -73,7 +73,6 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
         $this->addElement('checkbox', 'is_email_receipt', ts( 'Email Receipt to Contributor?' ) );
         $this->add('text', 'receipt_from_name', ts('Receipt From Name'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_from_name') );
         $this->add('text', 'receipt_from_email', ts('Receipt From Email'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_from_email'));
-        $this->addRule( 'receipt_from_email', ts('Please enter a valid email address'), 'email' );
         $this->add('textarea', 'receipt_text', ts('Receipt Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'receipt_text') );
         
         $this->add('text', 'cc_receipt', ts('CC Receipt To'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'cc_receipt') );
@@ -109,8 +108,8 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
             }
             //added for CRM-1348
             $email = trim( CRM_Utils_Array::value( 'receipt_from_email', $fields ) );
-            if ( empty( $email ) ) {
-                $errors['receipt_from_email'] = ts( 'A Receipt From Email address must be specified if Email Receipt to Contributor is enabled' );
+            if ( empty( $email ) || !CRM_Utils_Rule::email($email) ) {
+                $errors['receipt_from_email'] = ts( 'A valid Receipt From Email address must be specified if Email Receipt to Contributor is enabled' );
             }
 
         }
