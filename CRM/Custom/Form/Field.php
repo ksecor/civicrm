@@ -379,9 +379,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 break;
 
             case 'Float':
-            case 'Money':
+                //   case 'Money':
                 if ( ! CRM_Utils_Rule::numeric( $default ) ) {
                     $errors['default_value'] = ts( 'Please enter a valid number as default value.' );
+                }
+                break;
+            case 'Money':
+                if ( ! CRM_Utils_Rule::money( $default ) ) {
+                    $errors['default_value'] = ts( 'Please enter a valid number value.' );
                 }
                 break;
                     
@@ -499,11 +504,18 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                         }
                     }
                 }
+               
                 if ($fields['option_value'][$i] && $dataType != 'String') {
                     if ( $dataType == 'Int') {
                         if ( ! CRM_Utils_Rule::integer( $fields['option_value'][$i] ) ) {
                             $_flagOption = 1;
                             $errors['option_value['.$i.']'] = ts( 'Please enter a valid integer.' );
+                        }
+                    } else  if ( $dataType == 'Money') {
+                        if ( ! CRM_Utils_Rule::money( $fields['option_value'][$i] ) ) {
+                            $_flagOption = 1;
+                            $errors['option_value['.$i.']'] = ts( 'Please enter a valid money value.' );
+                            
                         }
                     } else {
                         if ( ! CRM_Utils_Rule::numeric( $fields['option_value'][$i] ) ) {

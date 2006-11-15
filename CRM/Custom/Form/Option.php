@@ -265,9 +265,14 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                 break;
 
             case 'Float':
-            case 'Money':
+                //     case 'Money':
                 if ( ! CRM_Utils_Rule::numeric( $fields["value"] ) ) {
                     $errors['value'] = ts( 'Please enter a valid number value.' );
+                }
+                break;
+            case 'Money':
+                if ( ! CRM_Utils_Rule::money( $fields["value"] ) ) {
+                    $errors['value'] = ts( 'Please enter a valid value.' );
                 }
                 break;
                     
