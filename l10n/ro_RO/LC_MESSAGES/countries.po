@@ -1,16 +1,17 @@
-# Romanian translations for l package.
-# Copyright (C) 2005
-# This file is distributed under the same license as the iso-codes package.
-# Automatically generated, 2006.
-# 
+# Romanian translations of ISO 3166 country names 
+# Copyright (C) 2002,2003 Free Software Foundation, Inc.
+# Alastair McKinstry <mckinstry@computer.org>, 2002
+# Translations from KDE: 
+#  Claudiu Costin <claudiuc@geocities.com> 
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: l 10n\n"
+"Project-Id-Version: iso-codes 0.55\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-03-07 08:29-0500\n"
-"PO-Revision-Date: 2005-03-07 08:29-0500\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2002-01-05 17:40+0000\n"
+"Last-Translator: Claudiu Costin <claudiuc@geocities.com>\n"
+"Language-Team: Romanian <ro-kde@egroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,8 +25,9 @@ msgid "The Transitional Islamic State of Afghanistan"
 msgstr ""
 
 #. name for ALA
+#, fuzzy
 msgid "Åland Islands"
-msgstr ""
+msgstr "Plan"
 
 #. name for ALB
 msgid "Albania"
@@ -36,16 +38,18 @@ msgid "Republic of Albania"
 msgstr ""
 
 #. name for DZA
+#, fuzzy
 msgid "Algeria"
-msgstr ""
+msgstr "Julia"
 
 #. official_name for DZA
 msgid "People's Democratic Republic of Algeria"
 msgstr ""
 
 #. name for ASM
+#, fuzzy
 msgid "American Samoa"
-msgstr ""
+msgstr "Qmamecat"
 
 #. name for AND
 msgid "Andorra"
@@ -60,8 +64,9 @@ msgid "Angola"
 msgstr ""
 
 #. official_name for AGO
+#, fuzzy
 msgid "Republic of Angola"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for AIA
 msgid "Anguilla"
@@ -76,16 +81,19 @@ msgid "Antigua and Barbuda"
 msgstr ""
 
 #. name for ARG
+#, fuzzy
 msgid "Argentina"
-msgstr ""
+msgstr "Arena"
 
 #. official_name for ARG
+#, fuzzy
 msgid "Argentine Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for ARM
+#, fuzzy
 msgid "Armenia"
-msgstr ""
+msgstr "Arena"
 
 #. official_name for ARM
 msgid "Republic of Armenia"
@@ -96,80 +104,93 @@ msgid "Aruba"
 msgstr ""
 
 #. name for AUS
+#, fuzzy
 msgid "Australia"
-msgstr ""
+msgstr "AustroNaut"
 
 #. name for AUT
+#, fuzzy
 msgid "Austria"
-msgstr ""
+msgstr "AustroNaut"
 
 #. official_name for AUT
 msgid "Republic of Austria"
 msgstr ""
 
 #. name for AZE
+#, fuzzy
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Debian"
 
 #. official_name for AZE
+#, fuzzy
 msgid "Republic of Azerbaijan"
-msgstr ""
+msgstr "Debian"
 
 #. name for BHS
+#, fuzzy
 msgid "Bahamas"
-msgstr ""
+msgstr "Plan"
 
 #. official_name for BHS
 msgid "Commonwealth of the Bahamas"
 msgstr ""
 
 #. name for BHR
+#, fuzzy
 msgid "Bahrain"
-msgstr ""
+msgstr "Panglică"
 
 #. official_name for BHR
+#, fuzzy
 msgid "State of Bahrain"
-msgstr ""
+msgstr "Panglică"
 
 #. name for BGD
+#, fuzzy
 msgid "Bangladesh"
-msgstr ""
+msgstr "Energie"
 
 #. official_name for BGD
 msgid "People's Republic of Bangladesh"
 msgstr ""
 
 #. name for BRB
+#, fuzzy
 msgid "Barbados"
-msgstr ""
+msgstr "Table"
 
 #. name for BLR
+#, fuzzy
 msgid "Belarus"
-msgstr ""
+msgstr "Pine"
 
 #. official_name for BLR
 msgid "Republic of Belarus"
 msgstr ""
 
 #. name for BEL
+#, fuzzy
 msgid "Belgium"
-msgstr ""
+msgstr "Ajutor"
 
 #. official_name for BEL
 msgid "Kingdom of Belgium"
 msgstr ""
 
 #. name for BLZ
+#, fuzzy
 msgid "Belize"
-msgstr ""
+msgstr "Ajutor"
 
 #. name for BEN
 msgid "Benin"
 msgstr ""
 
 #. official_name for BEN
+#, fuzzy
 msgid "Republic of Benin"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for BMU
 msgid "Bermuda"
@@ -184,8 +205,9 @@ msgid "Kingdom of Bhutan"
 msgstr ""
 
 #. name for BOL
+#, fuzzy
 msgid "Bolivia"
-msgstr ""
+msgstr "Table"
 
 #. official_name for BOL
 msgid "Republic of Bolivia"
@@ -212,8 +234,9 @@ msgid "Bouvet Island"
 msgstr ""
 
 #. name for BRA
+#, fuzzy
 msgid "Brazil"
-msgstr ""
+msgstr "Panglică"
 
 #. official_name for BRA
 msgid "Federative Republic of Brazil"
@@ -228,8 +251,9 @@ msgid "Brunei Darussalam"
 msgstr ""
 
 #. name for BGR
+#, fuzzy
 msgid "Bulgaria"
-msgstr ""
+msgstr "Julia"
 
 #. official_name for BGR
 msgid "Republic of Bulgaria"
@@ -248,8 +272,9 @@ msgid "Republic of Burundi"
 msgstr ""
 
 #. name for KHM
+#, fuzzy
 msgid "Cambodia"
-msgstr ""
+msgstr "Coolmail"
 
 #. official_name for KHM
 msgid "Kingdom of Cambodia"
@@ -264,8 +289,9 @@ msgid "Republic of Cameroon"
 msgstr ""
 
 #. name for CAN
+#, fuzzy
 msgid "Canada"
-msgstr ""
+msgstr "Cărţi"
 
 #. name for CPV
 msgid "Cape Verde"
@@ -280,32 +306,39 @@ msgid "Cayman Islands"
 msgstr ""
 
 #. name for CAF
+#, fuzzy
 msgid "Central African Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for TCD
+#, fuzzy
 msgid "Chad"
-msgstr ""
+msgstr "XChat"
 
 #. official_name for TCD
+#, fuzzy
 msgid "Republic of Chad"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for CHL
+#, fuzzy
 msgid "Chile"
-msgstr ""
+msgstr "Pine"
 
 #. official_name for CHL
+#, fuzzy
 msgid "Republic of Chile"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for CHN
+#, fuzzy
 msgid "China"
-msgstr ""
+msgstr "XChat"
 
 #. official_name for CHN
+#, fuzzy
 msgid "People's Republic of China"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for CXR
 msgid "Christmas Island"
@@ -316,8 +349,9 @@ msgid "Cocos (Keeling) Islands"
 msgstr ""
 
 #. name for COL
+#, fuzzy
 msgid "Colombia"
-msgstr ""
+msgstr "Coolmail"
 
 #. official_name for COL
 msgid "Republic of Colombia"
@@ -364,36 +398,42 @@ msgid "Republic of Cote d'Ivoire"
 msgstr ""
 
 #. name for HRV
+#, fuzzy
 msgid "Croatia"
-msgstr ""
+msgstr "Cristal"
 
 #. official_name for HRV
 msgid "Republic of Croatia"
 msgstr ""
 
 #. name for CUB
+#, fuzzy
 msgid "Cuba"
-msgstr ""
+msgstr "Coolmail"
 
 #. official_name for CUB
+#, fuzzy
 msgid "Republic of Cuba"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for CYP
 msgid "Cyprus"
 msgstr ""
 
 #. official_name for CYP
+#, fuzzy
 msgid "Republic of Cyprus"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for CZE
+#, fuzzy
 msgid "Czech Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for DNK
+#, fuzzy
 msgid "Denmark"
-msgstr ""
+msgstr "Arena"
 
 #. official_name for DNK
 msgid "Kingdom of Denmark"
@@ -408,16 +448,18 @@ msgid "Republic of Djibouti"
 msgstr ""
 
 #. name for DMA
+#, fuzzy
 msgid "Dominica"
-msgstr ""
+msgstr "Sonar"
 
 #. official_name for DMA
 msgid "Commonwealth of Dominica"
 msgstr ""
 
 #. name for DOM
+#, fuzzy
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for TLS
 msgid "Timor-Leste"
@@ -428,28 +470,33 @@ msgid "Democratic Republic of Timor-Leste"
 msgstr ""
 
 #. name for ECU
+#, fuzzy
 msgid "Ecuador"
-msgstr ""
+msgstr "Emulatoare"
 
 #. official_name for ECU
 msgid "Republic of Ecuador"
 msgstr ""
 
 #. name for EGY
+#, fuzzy
 msgid "Egypt"
-msgstr ""
+msgstr "Energie"
 
 #. official_name for EGY
+#, fuzzy
 msgid "Arab Republic of Egypt"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for SLV
+#, fuzzy
 msgid "El Salvador"
-msgstr ""
+msgstr "Emulatoare"
 
 #. official_name for SLV
+#, fuzzy
 msgid "Republic of El Salvador"
-msgstr ""
+msgstr "Emulatoare"
 
 #. name for GNQ
 msgid "Equatorial Guinea"
@@ -464,16 +511,18 @@ msgid "Eritrea"
 msgstr ""
 
 #. name for EST
+#, fuzzy
 msgid "Estonia"
-msgstr ""
+msgstr "Sonar"
 
 #. official_name for EST
 msgid "Republic of Estonia"
 msgstr ""
 
 #. name for ETH
+#, fuzzy
 msgid "Ethiopia"
-msgstr ""
+msgstr "Sonar"
 
 #. official_name for ETH
 msgid "Federal Democratic Republic of Ethiopia"
@@ -484,8 +533,9 @@ msgid "Falkland Islands (Malvinas)"
 msgstr ""
 
 #. name for FRO
+#, fuzzy
 msgid "Faroe Islands"
-msgstr ""
+msgstr "Plan"
 
 #. name for FJI
 msgid "Fiji"
@@ -496,20 +546,23 @@ msgid "Republic of the Fiji Islands"
 msgstr ""
 
 #. name for FIN
+#, fuzzy
 msgid "Finland"
-msgstr ""
+msgstr "Plan"
 
 #. official_name for FIN
 msgid "Republic of Finland"
 msgstr ""
 
 #. name for FRA
+#, fuzzy
 msgid "France"
-msgstr ""
+msgstr "Ciudat"
 
 #. official_name for FRA
+#, fuzzy
 msgid "French Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for GUF
 msgid "French Guiana"
@@ -528,80 +581,95 @@ msgid "Gabon"
 msgstr ""
 
 #. official_name for GAB
+#, fuzzy
 msgid "Gabonese Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for GMB
+#, fuzzy
 msgid "Gambia"
-msgstr ""
+msgstr "Emacs"
 
 #. official_name for GMB
 msgid "Republic of the Gambia"
 msgstr ""
 
 #. name for GEO
+#, fuzzy
 msgid "Georgia"
-msgstr ""
+msgstr "Debian"
 
 #. name for DEU
+#, fuzzy
 msgid "Germany"
-msgstr ""
+msgstr "Gravitaţie"
 
 #. official_name for DEU
+#, fuzzy
 msgid "Federal Republic of Germany"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for GHA
+#, fuzzy
 msgid "Ghana"
-msgstr ""
+msgstr "XChat"
 
 #. official_name for GHA
+#, fuzzy
 msgid "Republic of Ghana"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for GIB
 msgid "Gibraltar"
 msgstr ""
 
 #. name for GRC
+#, fuzzy
 msgid "Greece"
-msgstr ""
+msgstr "Freeciv"
 
 #. official_name for GRC
+#, fuzzy
 msgid "Hellenic Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for GRL
+#, fuzzy
 msgid "Greenland"
-msgstr ""
+msgstr "Arena"
 
 #. name for GRD
+#, fuzzy
 msgid "Grenada"
-msgstr ""
+msgstr "Arena"
 
 #. name for GLP
 msgid "Guadeloupe"
 msgstr ""
 
 #. name for GUM
+#, fuzzy
 msgid "Guam"
-msgstr ""
+msgstr "Galaxie"
 
 #. name for GTM
+#, fuzzy
 msgid "Guatemala"
-msgstr ""
+msgstr "Galaxie"
 
 #. official_name for GTM
+#, fuzzy
 msgid "Republic of Guatemala"
-msgstr ""
+msgstr "Galaxie"
 
 #. name for GIN
 msgid "Guinea"
 msgstr ""
 
 #. official_name for GIN
+#, fuzzy
 msgid "Republic of Guinea"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for GNB
 msgid "Guinea-Bissau"
@@ -616,16 +684,18 @@ msgid "Guyana"
 msgstr ""
 
 #. official_name for GUY
+#, fuzzy
 msgid "Republic of Guyana"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for HTI
 msgid "Haiti"
 msgstr ""
 
 #. official_name for HTI
+#, fuzzy
 msgid "Republic of Haiti"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for HMD
 msgid "Heard Island and McDonald Islands"
@@ -636,8 +706,9 @@ msgid "Holy See (Vatican City State)"
 msgstr ""
 
 #. name for HND
+#, fuzzy
 msgid "Honduras"
-msgstr ""
+msgstr "Module"
 
 #. official_name for HND
 msgid "Republic of Honduras"
@@ -652,104 +723,124 @@ msgid "Hong Kong Special Administrative Region of China"
 msgstr ""
 
 #. name for HUN
+#, fuzzy
 msgid "Hungary"
-msgstr ""
+msgstr "Sonar"
 
 #. official_name for HUN
 msgid "Republic of Hungary"
 msgstr ""
 
 #. name for ISL
+#, fuzzy
 msgid "Iceland"
-msgstr ""
+msgstr "Plan"
 
 #. official_name for ISL
 msgid "Republic of Iceland"
 msgstr ""
 
 #. name for IND
+#, fuzzy
 msgid "India"
-msgstr ""
+msgstr "Iconiţe"
 
 #. official_name for IND
+#, fuzzy
 msgid "Republic of India"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for IDN
+#, fuzzy
 msgid "Indonesia"
-msgstr ""
+msgstr "Iconiţe"
 
 #. official_name for IDN
+#, fuzzy
 msgid "Republic of Indonesia"
-msgstr ""
+msgstr "Iconiţe"
 
 #. name for IRN
+#, fuzzy
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. official_name for IRN
+#, fuzzy
 msgid "Islamic Republic of Iran"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for IRQ
+#, fuzzy
 msgid "Iraq"
-msgstr ""
+msgstr "Coral"
 
 #. official_name for IRQ
+#, fuzzy
 msgid "Republic of Iraq"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for IRL
+#, fuzzy
 msgid "Ireland"
-msgstr ""
+msgstr "Plan"
 
 #. name for ISR
+#, fuzzy
 msgid "Israel"
-msgstr ""
+msgstr "Coral"
 
 #. official_name for ISR
 msgid "State of Israel"
 msgstr ""
 
 #. name for ITA
+#, fuzzy
 msgid "Italy"
-msgstr ""
+msgstr "Galaxie"
 
 #. official_name for ITA
+#, fuzzy
 msgid "Italian Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for JAM
+#, fuzzy
 msgid "Jamaica"
-msgstr ""
+msgstr "Emacs"
 
 #. name for JPN
+#, fuzzy
 msgid "Japan"
-msgstr ""
+msgstr "Plan"
 
 #. name for JOR
+#, fuzzy
 msgid "Jordan"
-msgstr ""
+msgstr "Forte"
 
 #. official_name for JOR
 msgid "Hashemite Kingdom of Jordan"
 msgstr ""
 
 #. name for KAZ
+#, fuzzy
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Triunghi"
 
 #. official_name for KAZ
+#, fuzzy
 msgid "Republic of Kazakhstan"
-msgstr ""
+msgstr "Triunghi"
 
 #. name for KEN
 msgid "Kenya"
 msgstr ""
 
 #. official_name for KEN
+#, fuzzy
 msgid "Republic of Kenya"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for KIR
 msgid "Kiribati"
@@ -768,8 +859,9 @@ msgid "Democratic People's Republic of Korea"
 msgstr ""
 
 #. name for KOR
+#, fuzzy
 msgid "Korea, Republic of"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for KWT
 msgid "Kuwait"
@@ -784,28 +876,32 @@ msgid "Kyrgyzstan"
 msgstr ""
 
 #. official_name for KGZ
+#, fuzzy
 msgid "Kyrgyz Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for LAO
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
 #. name for LVA
+#, fuzzy
 msgid "Latvia"
-msgstr ""
+msgstr "Matematică"
 
 #. official_name for LVA
+#, fuzzy
 msgid "Republic of Latvia"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for LBN
 msgid "Lebanon"
 msgstr ""
 
 #. official_name for LBN
+#, fuzzy
 msgid "Lebanese Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for LSO
 msgid "Lesotho"
@@ -816,8 +912,9 @@ msgid "Kingdom of Lesotho"
 msgstr ""
 
 #. name for LBR
+#, fuzzy
 msgid "Liberia"
-msgstr ""
+msgstr "Debian"
 
 #. official_name for LBR
 msgid "Republic of Liberia"
@@ -840,32 +937,37 @@ msgid "Principality of Liechtenstein"
 msgstr ""
 
 #. name for LTU
+#, fuzzy
 msgid "Lithuania"
-msgstr ""
+msgstr "Fulger"
 
 #. official_name for LTU
+#, fuzzy
 msgid "Republic of Lithuania"
-msgstr ""
+msgstr "Fulger"
 
 #. name for LUX
+#, fuzzy
 msgid "Luxembourg"
-msgstr ""
+msgstr "Memorie"
 
 #. official_name for LUX
 msgid "Grand Duchy of Luxembourg"
 msgstr ""
 
 #. name for MAC
+#, fuzzy
 msgid "Macao"
-msgstr ""
+msgstr "Matematică"
 
 #. official_name for MAC
 msgid "Macao Special Administrative Region of China"
 msgstr ""
 
 #. name for MKD
+#, fuzzy
 msgid "Macedonia, Republic of"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. official_name for MKD
 msgid "The Former Yugoslav Republic of Macedonia"
@@ -880,40 +982,48 @@ msgid "Republic of Madagascar"
 msgstr ""
 
 #. name for MWI
+#, fuzzy
 msgid "Malawi"
-msgstr ""
+msgstr "Matematică"
 
 #. official_name for MWI
+#, fuzzy
 msgid "Republic of Malawi"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for MYS
+#, fuzzy
 msgid "Malaysia"
-msgstr ""
+msgstr "Matematică"
 
 #. name for MDV
+#, fuzzy
 msgid "Maldives"
-msgstr ""
+msgstr "Matematică"
 
 #. official_name for MDV
 msgid "Republic of Maldives"
 msgstr ""
 
 #. name for MLI
+#, fuzzy
 msgid "Mali"
-msgstr ""
+msgstr "Matematică"
 
 #. official_name for MLI
+#, fuzzy
 msgid "Republic of Mali"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for MLT
+#, fuzzy
 msgid "Malta"
-msgstr ""
+msgstr "Matematică"
 
 #. official_name for MLT
+#, fuzzy
 msgid "Republic of Malta"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for MHL
 msgid "Marshall Islands"
@@ -928,28 +1038,32 @@ msgid "Martinique"
 msgstr ""
 
 #. name for MRT
+#, fuzzy
 msgid "Mauritania"
-msgstr ""
+msgstr "Fulger"
 
 #. official_name for MRT
 msgid "Islamic Republic of Mauritania"
 msgstr ""
 
 #. name for MUS
+#, fuzzy
 msgid "Mauritius"
-msgstr ""
+msgstr "Fulger"
 
 #. official_name for MUS
+#, fuzzy
 msgid "Republic of Mauritius"
-msgstr ""
+msgstr "Fulger"
 
 #. name for MYT
 msgid "Mayotte"
 msgstr ""
 
 #. name for MEX
+#, fuzzy
 msgid "Mexico"
-msgstr ""
+msgstr "Memorie"
 
 #. official_name for MEX
 msgid "United Mexican States"
@@ -964,8 +1078,9 @@ msgid "Federated States of Micronesia"
 msgstr ""
 
 #. name for MDA
+#, fuzzy
 msgid "Moldova, Republic of"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. official_name for MDA
 msgid "Republic of Moldova"
@@ -1004,12 +1119,14 @@ msgid "Republic of Mozambique"
 msgstr ""
 
 #. name for MMR
+#, fuzzy
 msgid "Myanmar"
-msgstr ""
+msgstr "Plan"
 
 #. official_name for MMR
+#, fuzzy
 msgid "Union of Myanmar"
-msgstr ""
+msgstr "Plan"
 
 #. name for NAM
 msgid "Namibia"
@@ -1024,8 +1141,9 @@ msgid "Nauru"
 msgstr ""
 
 #. official_name for NRU
+#, fuzzy
 msgid "Republic of Nauru"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for NPL
 msgid "Nepal"
@@ -1036,32 +1154,38 @@ msgid "Kingdom of Nepal"
 msgstr ""
 
 #. name for NLD
+#, fuzzy
 msgid "Netherlands"
-msgstr ""
+msgstr "Ethereal"
 
 #. official_name for NLD
 msgid "Kingdom of the Netherlands"
 msgstr ""
 
 #. name for ANT
+#, fuzzy
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Ethereal"
 
 #. name for NCL
+#, fuzzy
 msgid "New Caledonia"
-msgstr ""
+msgstr "Mozilla"
 
 #. name for NZL
+#, fuzzy
 msgid "New Zealand"
-msgstr ""
+msgstr "Plan"
 
 #. name for NIC
+#, fuzzy
 msgid "Nicaragua"
-msgstr ""
+msgstr "Gri pal"
 
 #. official_name for NIC
+#, fuzzy
 msgid "Republic of Nicaragua"
-msgstr ""
+msgstr "Gri pal"
 
 #. name for NER
 msgid "Niger"
@@ -1072,20 +1196,23 @@ msgid "Republic of the Niger"
 msgstr ""
 
 #. name for NGA
+#, fuzzy
 msgid "Nigeria"
-msgstr ""
+msgstr "Debian"
 
 #. official_name for NGA
+#, fuzzy
 msgid "Federal Republic of Nigeria"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for NIU
 msgid "Niue"
 msgstr ""
 
 #. official_name for NIU
+#, fuzzy
 msgid "Republic of Niue"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for NFK
 msgid "Norfolk Island"
@@ -1100,8 +1227,9 @@ msgid "Commonwealth of the Northern Mariana Islands"
 msgstr ""
 
 #. name for NOR
+#, fuzzy
 msgid "Norway"
-msgstr ""
+msgstr "Coral"
 
 #. official_name for NOR
 msgid "Kingdom of Norway"
@@ -1124,12 +1252,14 @@ msgid "Islamic Republic of Pakistan"
 msgstr ""
 
 #. name for PLW
+#, fuzzy
 msgid "Palau"
-msgstr ""
+msgstr "Gri pal"
 
 #. official_name for PLW
+#, fuzzy
 msgid "Republic of Palau"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for PSE
 msgid "Palestinian Territory, Occupied"
@@ -1140,32 +1270,37 @@ msgid "Occupied Palestinian Territory"
 msgstr ""
 
 #. name for PAN
+#, fuzzy
 msgid "Panama"
-msgstr ""
+msgstr "Plan"
 
 #. official_name for PAN
+#, fuzzy
 msgid "Republic of Panama"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for PNG
 msgid "Papua New Guinea"
 msgstr ""
 
 #. name for PRY
+#, fuzzy
 msgid "Paraguay"
-msgstr ""
+msgstr "Gri pal"
 
 #. official_name for PRY
 msgid "Republic of Paraguay"
 msgstr ""
 
 #. name for PER
+#, fuzzy
 msgid "Peru"
-msgstr ""
+msgstr "Pine"
 
 #. official_name for PER
+#, fuzzy
 msgid "Republic of Peru"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for PHL
 msgid "Philippines"
@@ -1180,28 +1315,33 @@ msgid "Pitcairn"
 msgstr ""
 
 #. name for POL
+#, fuzzy
 msgid "Poland"
-msgstr ""
+msgstr "Plan"
 
 #. official_name for POL
+#, fuzzy
 msgid "Republic of Poland"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for PRT
+#, fuzzy
 msgid "Portugal"
-msgstr ""
+msgstr "Coral"
 
 #. official_name for PRT
+#, fuzzy
 msgid "Portuguese Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for PRI
 msgid "Puerto Rico"
 msgstr ""
 
 #. name for QAT
+#, fuzzy
 msgid "Qatar"
-msgstr ""
+msgstr "Matematică"
 
 #. official_name for QAT
 msgid "State of Qatar"
@@ -1212,20 +1352,23 @@ msgid "Reunion"
 msgstr ""
 
 #. name for ROU
+#, fuzzy
 msgid "Romania"
-msgstr ""
+msgstr "Sonar"
 
 #. name for RUS
 msgid "Russian Federation"
 msgstr ""
 
 #. name for RWA
+#, fuzzy
 msgid "Rwanda"
-msgstr ""
+msgstr "Cărţi"
 
 #. official_name for RWA
+#, fuzzy
 msgid "Rwandese Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for SHN
 msgid "Saint Helena"
@@ -1236,8 +1379,9 @@ msgid "Saint Kitts and Nevis"
 msgstr ""
 
 #. name for LCA
+#, fuzzy
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Qt Linguist"
 
 #. name for SPM
 msgid "Saint Pierre and Miquelon"
@@ -1312,16 +1456,19 @@ msgid "Republic of Singapore"
 msgstr ""
 
 #. name for SVK
+#, fuzzy
 msgid "Slovakia"
-msgstr ""
+msgstr "Sonar"
 
 #. official_name for SVK
+#, fuzzy
 msgid "Slovak Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for SVN
+#, fuzzy
 msgid "Slovenia"
-msgstr ""
+msgstr "Sonar"
 
 #. official_name for SVN
 msgid "Republic of Slovenia"
@@ -1332,28 +1479,33 @@ msgid "Solomon Islands"
 msgstr ""
 
 #. name for SOM
+#, fuzzy
 msgid "Somalia"
-msgstr ""
+msgstr "Sonar"
 
 #. official_name for SOM
+#, fuzzy
 msgid "Somali Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for ZAF
+#, fuzzy
 msgid "South Africa"
-msgstr ""
+msgstr "Aventuri"
 
 #. official_name for ZAF
+#, fuzzy
 msgid "Republic of South Africa"
-msgstr ""
+msgstr "Aventuri"
 
 #. name for SGS
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
 #. name for ESP
+#, fuzzy
 msgid "Spain"
-msgstr ""
+msgstr "Salvează"
 
 #. official_name for ESP
 msgid "Kingdom of Spain"
@@ -1368,8 +1520,9 @@ msgid "Democratic Socialist Republic of Sri Lanka"
 msgstr ""
 
 #. name for SDN
+#, fuzzy
 msgid "Sudan"
-msgstr ""
+msgstr "Sunet"
 
 #. official_name for SDN
 msgid "Republic of the Sudan"
@@ -1388,60 +1541,70 @@ msgid "Svalbard and Jan Mayen"
 msgstr ""
 
 #. name for SWZ
+#, fuzzy
 msgid "Swaziland"
-msgstr ""
+msgstr "Plan"
 
 #. official_name for SWZ
+#, fuzzy
 msgid "Kingdom of Swaziland"
-msgstr ""
+msgstr "Plan"
 
 #. name for SWE
+#, fuzzy
 msgid "Sweden"
-msgstr ""
+msgstr "Ecran"
 
 #. official_name for SWE
 msgid "Kingdom of Sweden"
 msgstr ""
 
 #. name for CHE
+#, fuzzy
 msgid "Switzerland"
-msgstr ""
+msgstr "Vîrtej"
 
 #. official_name for CHE
 msgid "Swiss Confederation"
 msgstr ""
 
 #. name for SYR
+#, fuzzy
 msgid "Syrian Arab Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for TWN
 msgid "Taiwan, Province of China"
 msgstr ""
 
 #. common_name for TWN
+#, fuzzy
 msgid "Taiwan"
-msgstr ""
+msgstr "Triunghi"
 
 #. name for TJK
+#, fuzzy
 msgid "Tajikistan"
-msgstr ""
+msgstr "Triunghi"
 
 #. official_name for TJK
+#, fuzzy
 msgid "Republic of Tajikistan"
-msgstr ""
+msgstr "Triunghi"
 
 #. name for TZA
+#, fuzzy
 msgid "Tanzania, United Republic of"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. official_name for TZA
 msgid "United Republic of Tanzania"
 msgstr ""
 
 #. name for THA
+#, fuzzy
 msgid "Thailand"
-msgstr ""
+msgstr "Plan"
 
 #. official_name for THA
 msgid "Kingdom of Thailand"
@@ -1452,8 +1615,9 @@ msgid "Togo"
 msgstr ""
 
 #. official_name for TGO
+#, fuzzy
 msgid "Togolese Republic"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for TKL
 msgid "Tokelau"
@@ -1476,20 +1640,23 @@ msgid "Republic of Trinidad and Tobago"
 msgstr ""
 
 #. name for TUN
+#, fuzzy
 msgid "Tunisia"
-msgstr ""
+msgstr "Julia"
 
 #. official_name for TUN
 msgid "Republic of Tunisia"
 msgstr ""
 
 #. name for TUR
+#, fuzzy
 msgid "Turkey"
-msgstr ""
+msgstr "Tux"
 
 #. official_name for TUR
+#, fuzzy
 msgid "Republic of Turkey"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for TKM
 msgid "Turkmenistan"
@@ -1504,16 +1671,19 @@ msgid "Tuvalu"
 msgstr ""
 
 #. name for UGA
+#, fuzzy
 msgid "Uganda"
-msgstr ""
+msgstr "Cărţi"
 
 #. official_name for UGA
+#, fuzzy
 msgid "Republic of Uganda"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for UKR
+#, fuzzy
 msgid "Ukraine"
-msgstr ""
+msgstr "Pine"
 
 #. name for ARE
 msgid "United Arab Emirates"
@@ -1540,8 +1710,9 @@ msgid "United States Minor Outlying Islands"
 msgstr ""
 
 #. name for URY
+#, fuzzy
 msgid "Uruguay"
-msgstr ""
+msgstr "Energie"
 
 #. official_name for URY
 msgid "Eastern Republic of Uruguay"
@@ -1564,16 +1735,19 @@ msgid "Republic of Vanuatu"
 msgstr ""
 
 #. name for VEN
+#, fuzzy
 msgid "Venezuela"
-msgstr ""
+msgstr "Arena"
 
 #. official_name for VEN
+#, fuzzy
 msgid "Bolivarian Republic of Venezuela"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for VNM
+#, fuzzy
 msgid "Viet Nam"
-msgstr ""
+msgstr "Viţă-de-vie"
 
 #. official_name for VNM
 msgid "Socialist Republic of Viet Nam"
@@ -1584,16 +1758,19 @@ msgid "Virgin Islands, British"
 msgstr ""
 
 #. official_name for VGB
+#, fuzzy
 msgid "British Virgin Islands"
-msgstr ""
+msgstr "Plan"
 
 #. name for VIR
+#, fuzzy
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "Plan"
 
 #. official_name for VIR
+#, fuzzy
 msgid "Virgin Islands of the United States"
-msgstr ""
+msgstr "Plan"
 
 #. name for WLF
 msgid "Wallis and Futuna"
@@ -1608,16 +1785,19 @@ msgid "Yemen"
 msgstr ""
 
 #. official_name for YEM
+#, fuzzy
 msgid "Republic of Yemen"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for ZMB
+#, fuzzy
 msgid "Zambia"
-msgstr ""
+msgstr "Emacs"
 
 #. official_name for ZMB
+#, fuzzy
 msgid "Republic of Zambia"
-msgstr ""
+msgstr "Ajutor Debian"
 
 #. name for ZWE
 msgid "Zimbabwe"
@@ -1630,3 +1810,31 @@ msgstr ""
 #. name for SCG
 msgid "Serbia and Montenegro"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Guernsey"
+#~ msgstr "Gravitaţie"
+
+#, fuzzy
+#~ msgid "Serbia"
+#~ msgstr "Debian"
+
+#, fuzzy
+#~ msgid "Republic of Serbia"
+#~ msgstr "Ajutor Debian"
+
+#, fuzzy
+#~ msgid "Micronesia"
+#~ msgstr "Mozilla"
+
+#, fuzzy
+#~ msgid "Britain (UK)"
+#~ msgstr "Panglică"
+
+#, fuzzy
+#~ msgid "Iran"
+#~ msgstr "Coral"
+
+#, fuzzy
+#~ msgid "Macedonia"
+#~ msgstr "Mozilla"
