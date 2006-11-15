@@ -1,7 +1,6 @@
-# Drupal-CiviCRM Canadian French file
+# Drupal-CiviCRM Romanian file
 # copyright CiviCRM LLC (c) 2004-2006
 # This file is distributed under the same license as the CiviCRM package.
-# Piotr Szotkowski <shot@caltha.pl>, 2005
 # 
 # 
 msgid ""
@@ -9,38 +8,36 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-29 13:48+0100\n"
-"PO-Revision-Date: 2006-11-02 07:03-0800\n"
-"Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
+"PO-Revision-Date: 2005-12-29 13:48+0100\n"
+"Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-"X-Generator: Pootle 0.10\n"
 
 msgid "add contacts"
-msgstr "Ajouter un contact"
+msgstr ""
 
 msgid "view all contacts"
-msgstr "Voir tous les contacts"
+msgstr ""
 
 msgid "edit all contacts"
-msgstr "Modifier tous les contacts"
+msgstr ""
 
 msgid "edit groups"
-msgstr "Éditer les groupes"
+msgstr ""
 
 msgid "administer CiviCRM"
-msgstr "Administrer CiviCRM"
+msgstr ""
 
 msgid "access CiviCRM"
-msgstr "Accéder à CiviCRM"
+msgstr ""
 
 msgid "edit contacts in %1"
-msgstr "Éditer les contacts dans %1"
+msgstr ""
 
 msgid "view contacts in %1"
-msgstr "Voir les contacts dans %1"
+msgstr ""
 
 msgid ""
 "The CiviCRM module stores information on the universe of people associated "
@@ -72,13 +69,13 @@ msgid ""
 msgstr ""
 
 msgid "You can:"
-msgstr "Vous pouvez:"
+msgstr ""
 
 msgid "read the <a href=\"%1\">CiviCRM Administrator Guide</a>."
-msgstr "lire le <a href=\"%1\">Guide de l'administrateur CiviCRM</a>."
+msgstr ""
 
 msgid "enable CiviCRM blocks at <a href=\"%1\">administer &gt;&gt; blocks</a>."
-msgstr "activer des blocs CiviCRM dans la section <a href=\"%1\">administration &gt;&gt; blocs</a>."
+msgstr ""
 
 msgid ""
 "read <a href=\"%1\">CiviCRM access permissions</a> and set access "
@@ -145,6 +142,3 @@ msgid ""
 "Constituent Relationship Management (CRM). Allows sites to manage contacts, "
 "relationships and groups, and track contact activities."
 msgstr ""
-
-#~ msgid "access CiviCRM Profile Listings"
-#~ msgstr "Acceder a CiviCRM"
