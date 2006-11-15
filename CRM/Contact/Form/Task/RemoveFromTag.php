@@ -83,13 +83,13 @@ class CRM_Contact_Form_Task_RemoveFromTag extends CRM_Contact_Form_Task {
         $tagId         = $this->controller->exportValue( 'RemoveFromTag', 'tag'  );
         $this->_name   = array(); 
         foreach($tagId as $key=>$dnc) {
-        $this->_name   = $this->_tags[$key];
-
-        list( $total, $removed, $notRemoved ) = CRM_Core_BAO_EntityTag::removeContactsFromTag( $this->_contactIds, $key );
-        $status = array(
-                        'Contact(s) tagged as: '       . $this->_name,
-                        'Total Selected Contact(s): '  . $total
-                        );
+            $this->_name[]   = $this->_tags[$key];
+            
+            list( $total, $removed, $notRemoved ) = CRM_Core_BAO_EntityTag::removeContactsFromTag( $this->_contactIds, $key );
+            $status = array(
+                            'Contact(s) tagged as: '       . implode(',', $this->_name),
+                            'Total Selected Contact(s): '  . $total
+                            );
         }
         if ( $removed ) {
             $status[] = 'Total Contact(s) to be  removed from tag: ' . $removed;
