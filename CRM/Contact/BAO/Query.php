@@ -1727,6 +1727,11 @@ class CRM_Contact_BAO_Query {
             $this->_useDistinct = true;
         }
 
+        $etTable = "`civicrm_entity_tag-" .implode( ',', array_keys($value) ) ."`";
+        $this->_tables[$etTable] = $this->_whereTables[$etTable] =
+            " LEFT JOIN civicrm_entity_tag {$etTable} ON ( {$etTable}.entity_table = 'civicrm_contact' AND
+                                                             contact_a.id = {$etTable}.entity_id ) ";
+       
         $names = array( );
         $tagNames =& CRM_Core_PseudoConstant::tag( );
         foreach ( $value as $id => $dontCare ) {
@@ -1739,9 +1744,9 @@ class CRM_Contact_BAO_Query {
 //         }
 
 
-        $this->_where[$grouping][] = "tag_id $op (". implode( ',', array_keys( $value ) ) . ')';
+        $this->_where[$grouping][] = "{$etTable}.tag_id $op (". implode( ',', array_keys( $value ) ) . ')';
         $this->_qill[$grouping][]  = ts('Tagged %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names ); 
-        $this->_tables['civicrm_entity_tag'] = $this->_whereTables['civicrm_entity_tag'] = 1;
+        //$this->_tables['civicrm_entity_tag'] = $this->_whereTables['civicrm_entity_tag'] = 1;
     } 
 
     /**
