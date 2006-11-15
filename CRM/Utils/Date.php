@@ -469,45 +469,20 @@ class CRM_Utils_Date {
         if ( $dateType == 1 ) {
             return ;
         }
-        if ( $dateType == 2 ) {
+        $now = getDate();
+        $cen = substr($now['year'],  0, 2);
 
-            if ($params[$dateParam]) {
-                $value = $params[$dateParam];
-            }
-            $year   = (int) substr($value,  6, 2);
-            $year  = ($year < 100)? "19"."$year" : $year;
-            $month  = (int) substr($value,  0, 2);
-            $day    = (int) substr($value,  3, 2);
-            
-            $month = ($month < 10)? "0"."$month" : $month;
-            $day   = ($day < 10)? "0"."$day" : $day;
-            
-            if ($params[$dateParam]) {
-                $params[$dateParam] = "$year$month$day";
-            }
+        if ($params[$dateParam]) {
+            $value = $params[$dateParam];
         }
-        if ( $dateType == 4 ) {
-            
-            if ($params[$dateParam]) {
-                $value = $params[$dateParam];
-            }
-            $year   = (int) substr($value,  6, 4);
+        if ( $dateType == 2 || $dateType == 4) {
+            $year   = (int) substr($value,  6, $dateType);
             $month  = (int) substr($value,  0, 2);
             $day    = (int) substr($value,  3, 2);
-            
-            $month = ($month < 10)? "0"."$month" : $month;
-            $day   = ($day < 10)? "0"."$day" : $day;
-            
-            if ($params[$dateParam]) {
-                $params[$dateParam] = "$year$month$day";
-            }
         }
         if ( $dateType == 8 ) {
-            
-            if ($params[$dateParam]) {
-                $value = $params[$dateParam];
-            }
             $dateArray = explode(' ',$value);
+            $dateArray[1] = (int) substr($dateArray[1], 0, 2); //ignore comma(,) 
             
             $monthInt = 0;
             $fullMonths = self::getFullMonthNames();
@@ -526,21 +501,11 @@ class CRM_Utils_Date {
                     }
                 }
             }
-            $year   =  $dateArray[2];
-            $year  = ($year < 100)? "19"."$year" : $year;
+            $year   = (int) $dateArray[2];
             $day    = (int) $dateArray[1];
-            $month  = ($monthInt < 10)? "0"."$monthInt" : $monthInt;
-            $day    = ($day < 10)? "0"."$day" : $day;
-            
-            if ($params[$dateParam]) {
-                $params[$dateParam] = "$year$month$day";
-            }
+            $month  = (int) $monthInt;
         }
         if ( $dateType == 16 ) {
-            
-            if ($params[$dateParam]) {
-                $value = $params[$dateParam];
-            }
             $dateArray = explode('-',$value);
             
             $monthInt = 0;
@@ -560,15 +525,18 @@ class CRM_Utils_Date {
                     }
                 }
             }
-            $year   =  $dateArray[2];
-            $year  = ($year < 100)? "19"."$year" : $year;
+            $year   = (int) $dateArray[2];
             $day    = (int) $dateArray[0];
-            $month  = ($monthInt < 10)? "0"."$monthInt" : $monthInt;
-            $day    = ($day < 10)? "0"."$day" : $day;
-            
-            if ($params[$dateParam]) {
-                $params[$dateParam] = "$year$month$day";
-            }
+            $month  = (int) $monthInt;
+        }
+        
+        $year  = ($year < 10) ? "0" . "$year"  : $year;
+        $month = ($month < 10)? "0" . "$month" : $month;
+        $day   = ($day < 10)  ? "0" . "$day"   : $day;
+        $year  = ($year < 100)? $cen . "$year" : $year;
+        
+        if ($params[$dateParam]) {
+            $params[$dateParam] = "$year$month$day";
         }
     }
 
