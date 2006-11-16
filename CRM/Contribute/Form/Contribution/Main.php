@@ -207,7 +207,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     function buildCustom( $id, $name ) {
         if ( $id ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
-            CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name, $this->_fields );
+            $session =& CRM_Core_Session::singleton( );
+            $contactID = $session->get( 'userID' );
+            if ( $contactID ) {
+                require_once "CRM/Core/BAO/UFGroup.php";
+                if ( CRM_Core_BAO_UFGroup::filterUFGroups($id)  ) {
+                    CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name, $this->_fields );
+                }
+            } else {
+                CRM_Core_BAO_UFGroup::buildQuickForm( $id, $this, $name, $this->_fields );
+            }
         }
     }
 
