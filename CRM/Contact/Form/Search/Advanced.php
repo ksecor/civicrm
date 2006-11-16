@@ -106,6 +106,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         if ( ! $this->_formType ) {
             $this->buildQuickFormCommon();
+        } else {
+            $this->assign( 'suppressForm', true );
         }
     }
 
@@ -117,6 +119,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             return "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
         }
     }
+
     /**
      * Set the default form values
      *

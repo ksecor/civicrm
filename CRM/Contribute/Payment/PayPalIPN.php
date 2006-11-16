@@ -36,50 +36,46 @@
  */
 
 class CRM_Contribute_Payment_PayPalIPN {
-    static function recur( ) {
-    }
 
-    static function single( ) {
+    static function recur( $contactID, &$contribution, &$contributionType ) {
         $store = null;
 
-        require_once 'CRM/Utils/Request.php';
-
-        // get the contribution, contact and contributionType ids from the GET params
-        $contactID          = CRM_Utils_Request::retrieve( 'contactID', 'Integer', $store,
-                                                           false, null, 'GET' );
-        $contributionID     = CRM_Utils_Request::retrieve( 'contributionID', 'Integer', $store,
-                                                           false, null, 'GET' );
-        $contributionTypeID = CRM_Utils_Request::retrieve( 'contributionTypeID', 'Integer', $store,
-                                                         false, null, 'GET' );
-        $membershipTypeID   = CRM_Utils_Request::retrieve( '$membershipTypeID', 'Integer', $store,
-                                                           false, null, 'GET' );
-
-        if ( ! $contactID || ! $contributionID || ! $contributionTypeID ) {
-            CRM_Core_Error::debug_log_message( "Could not find the right GET parameters" );
-            echo "Failure: Invalid parameters<p>";
+        $contributionRecurID = CRM_Utils_Request::retrieve( 'contributionRecurID', 'Integer', $store,
+                                                            false, null, 'GET' );
+        if ( ! $contributionRecurID ) {
+            CRM_Core_Error::debug_log_message( "Could not find the contribution recurring ID" );
+            echo "Failure: Invalid parameters<p>"; 
             return;
         }
+
+        require_once 'CRM/Contribute/DAO/ContributionRecur.php';
+        $recur =& new CRM_Contribute_DAO_ContributionRecur( );
+        $recur->id = $contributionRecurID;
+        if ( ! $recur->find( true ) ) {
+            CRM_Core_Error::debug_log_message( "Could not find recur record: $contributionRecurID" );
+            echo "Failure: Could not find recur record: $contributionRecurID<p>";
+            return;
+        }
+
+        $now = date( 'YmdHis' );
+
+        $recur->create_date = CRM_Utils_Date::isoToMysql( $recur->create_date );
+        
+        if ( $first ) {
+            $recur->start_date    = $now;
+        } else {
+            $recur->start_date    = CRM_Utils_Date::isoToMysql( $recur->start_date );
+            $recur->modified_date = $now;
+        }
+    }
+
+    static function single( $contactID, &$contribution, &$contributionType ) {
+        $store = null;
+
+        $membershipTypeID   = CRM_Utils_Request::retrieve( 'membershipTypeID', 'Integer', $store,
+                                                           false, null, 'GET' );
 
         // make sure the invoice is valid and matches what we have in the contribution record
-        require_once 'CRM/Contribute/DAO/Contribution.php';
-        $contribution =& new CRM_Contribute_DAO_Contribution( );
-        $contribution->id = $contributionID;
-        if ( ! $contribution->find( true ) ) {
-            CRM_Core_Error::debug_log_message( "Could not find contribution record: $contributionID" );
-            echo "Failure: Could not find contribution record for $contributionID<p>";
-            return;
-        }
-        $now = date( 'YmdHis' );
-        
-        require_once 'CRM/Contribute/DAO/ContributionType.php';
-        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-        $contributionType->id = $contributionTypeID;
-        if ( ! $contributionType->find( true ) ) {
-            CRM_Core_Error::debug_log_message( "Could not find contribution type record: $contributionTypeID" );
-            echo "Failure: Could not find contribution type record for $contributionTypeID<p>";
-            return;
-        }
-        
         $invoice = CRM_Utils_Request::retrieve( 'invoice', 'String', $store,
                                                 false, null, 'POST' );
         if ( $contribution->invoice_id != $invoice ) {
@@ -88,6 +84,7 @@ class CRM_Contribute_Payment_PayPalIPN {
             return;
         }
 
+        $now = date( 'YmdHis' );
         $amount = CRM_Utils_Request::retrieve( 'payment_gross', 'Money', $store,
                                                false, null, 'POST' );
         if ( $contribution->total_amount != $amount ) {
@@ -119,7 +116,8 @@ class CRM_Contribute_Payment_PayPalIPN {
             CRM_Contact_BAO_Contact::createFlat($params, $idParams );
         }
 
-        $contribution->receive_date = CRM_Utils_Date::isoToMysql($receive_date); // lets keep this the same
+        // lets keep this the same
+        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
 
         $status = CRM_Utils_Request::retrieve( 'payment_status', 'String', $store,
                                                false, 0, 'POST' );
@@ -220,8 +218,6 @@ class CRM_Contribute_Payment_PayPalIPN {
             CRM_Core_Error::debug_log_message( "error in updating activity" );
         }
 
-        // TODO: membership and honor stuff
-
         // create membership record
         if ($membershipTypeID) {
             $template =& CRM_Core_Smarty::singleton( );
@@ -307,12 +303,64 @@ class CRM_Contribute_Payment_PayPalIPN {
         CRM_Core_Error::debug_var( 'GET' , $_GET , true, true );
         CRM_Core_Error::debug_var( 'POST', $_POST, true, true );
 
-        if ( array_key_exists( 'recur', $_GET ) &&
-             $_GET['recur'] ) {
-            return self::recur( );
+        require_once 'CRM/Utils/Request.php';
+
+        // get the contribution, contact and contributionType ids from the GET params
+        $store              = null;
+        $contactID          = CRM_Utils_Request::retrieve( 'contactID', 'Integer', $store,
+                                                           false, null, 'GET' );
+        $contributionID     = CRM_Utils_Request::retrieve( 'contributionID', 'Integer', $store,
+                                                           false, null, 'GET' );
+        $contributionTypeID = CRM_Utils_Request::retrieve( 'contributionTypeID', 'Integer', $store,
+                                                         false, null, 'GET' );
+
+        if ( ! $contactID || ! $contributionID || ! $contributionTypeID ) {
+            CRM_Core_Error::debug_log_message( "Could not find the right GET parameters" );
+            echo "Failure: Invalid parameters<p>";
+            return;
         }
 
-        return self::single( );
+        // make sure contact exists and is valid
+        require_once 'CRM/Contact/DAO/Contact.php';
+        $contact =& new CRM_Contact_DAO_Contact( );
+        $contact->id = $contactID;
+        if ( ! $contact->find( true ) ) {
+            CRM_Core_Error::debug_log_message( "Could not find contact record: $contactID" );
+            echo "Failure: Could not find contact record: $contactID<p>";
+            return;
+        }
+
+        // make sure contribution exists and is valid
+        require_once 'CRM/Contribute/DAO/Contribution.php';
+        $contribution =& new CRM_Contribute_DAO_Contribution( );
+        $contribution->id = $contributionID;
+        if ( ! $contribution->find( true ) ) {
+            CRM_Core_Error::debug_log_message( "Could not find contribution record: $contributionID" );
+            echo "Failure: Could not find contribution record for $contributionID<p>";
+            return;
+        }
+        
+        // make sure contribution type exists and is valid
+        require_once 'CRM/Contribute/DAO/ContributionType.php';
+        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+        $contributionType->id = $contributionTypeID;
+        if ( ! $contributionType->find( true ) ) {
+            CRM_Core_Error::debug_log_message( "Could not find contribution type record: $contributionTypeID" );
+            echo "Failure: Could not find contribution type record for $contributionTypeID<p>";
+            return;
+        }
+        
+        if ( array_key_exists( 'contributionRecurID', $_GET ) ) {
+            // check if first contribution is completed, else complete first contribution
+            $first = false;
+            if ( $contribution->contribution_status_id != 1 ) {
+                self::single( $contactID, $contribution, $contributionType );
+                $first = true;
+            }
+            return self::recur( $contactID, $contribution, $contributionType, $first );
+        } else {
+            return self::single( $contactID, $contribution, $contributionType );
+        }
     }
 
 }

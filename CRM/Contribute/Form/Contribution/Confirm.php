@@ -119,7 +119,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $this->_params['invoiceID'] = $this->get( 'invoiceID' );
         $this->set( 'params', $this->_params );
-;       
     }
 
     /**
@@ -343,17 +342,22 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 // when we get a callback from the payment processor
                 // also add the contact ID and contribution ID to the params list
                 $this->_params['contactID'] = $contactID;
-                $contribution =& self::processContribution( $this->_params,
-                                                            null,
-                                                            $contactID,
-                                                            $contributionType, 
-                                                            true,
-                                                            true );
+                $contribution =& $this->processContribution( $this->_params,
+                                                             null,
+                                                             $contactID,
+                                                             $contributionType, 
+                                                             true,
+                                                             true );
                 $this->_params['contributionID'    ] = $contribution->id;
                 $this->_params['contributionTypeID'] = $contributionType->id;
                 $this->_params['item_name'         ] = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
                 $this->_params['receive_date']       = $now;
-                
+
+                if ( $this->_values['is_recur'] &&
+                     $contribution->contribution_recur_id ) {
+                    $this->_params['contributionRecurID'] = $contribution->contribution_recur_id;
+                }
+
                 $this->set( 'params', $this->_params );
                 self::postProcessPremium( $premiumParams, $contribution );
 
@@ -389,7 +393,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->set('is_deductible',  true);
             }
 
-            $contribution =  self::processContribution( $this->_params, $result, $contactID, $contributionType,  true );
+            $contribution =& $this->processContribution( $this->_params, $result, $contactID, 
+                                                         $contributionType,  true, false );
             
             self::postProcessPremium( $premiumParams, $contribution );
         
@@ -501,12 +506,16 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return void
      * @access public
      */
-    public function processContribution( $params, $result, $contactID, $contributionType, $deductibleMode = true, $pending = false ) {
+    public function processContribution( $params, $result, $contactID, $contributionType,
+                                         $deductibleMode = true, $pending = false ) {
+
         CRM_Core_DAO::transaction( 'BEGIN' );
 
         if ( $this->get( 'honor_block_is_active' ) ) {
            $honorCId = self::createHonorContact( );
         }
+
+        $recurringContributionID = $this->processRecurringContribution( $params, $contactID );
 
         $config =& CRM_Core_Config::singleton( );
         $nonDeductibleAmount = $params['amount'];
@@ -546,6 +555,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                'currency'              => $params['currencyID'],
                                'source'                => ts( 'Online Contribution:' ) . ' ' . $this->_values['title']
                                );
+
         if ( ! $pending && $result ) {
             $contribParams += array(
                                     'fee_amount'   => CRM_Utils_Array::value( 'fee_amount', $result ),
@@ -559,19 +569,19 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contribParams["honor_contact_id"] = $honorCId;
         }
 
-        if ( $pending ) {
-            $contribParams["contribution_status_id"] = 2;
-        } else {
-            $contribParams["contribution_status_id"] = 1;
+        if ( $recurringContributionID ) {
+            $contribParams['contribution_recur_id'] = $recurringContributionID;
         }
+
+        $contribParams["contribution_status_id"] = $pending ? 2 : 1;
 
         if( $this->_action & CRM_Core_Action::PREVIEW ) {
             $contribParams["is_test"] = 1;
         }
-        
+
         $ids = array( );
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-           
+ 
         // process the custom data that is submitted or that came via the url
         $groupTree    = $this->get( 'groupTree' );
         $customValues = $this->get( 'customGetValues' );
@@ -625,6 +635,35 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         return $contribution;
     }
+
+    /**
+     * Create the recurring contribution record
+     *
+     */
+    function &processRecurringContribution( &$params, $contactID ) {
+        if ( ! $this->_values['is_recur'] ) {
+            return null;
+        }
+
+        $recurParams = array( );
+
+        $config =& CRM_Core_Config::singleton( );
+        $recurParams['contact_id']         = $contactID;
+        $recurParams['amount']             = $params['amount'];
+        $recurParams['frequency_unit']     = $params['frequency_unit'];
+        $recurParams['frequency_interval'] = $params['frequency_interval'];
+        $recurParams['installments']       = $params['installments'];
+        
+        $now = date( 'YmdHis' );
+        $recurParams['start_date'] = $recurParams['create_date'] = $now;
+        $recurParams['invoice_id'] = $params['invoiceID'];
+        $recurParams['contribution_status_id'] = 2;
+
+        $ids = array( ); 
+        $recurring =& CRM_Contribute_BAO_ContributionRecur::add( $recurParams, $ids );
+        return ( $recurring ) ? $recurring->id : null;
+    }
+
 
     /**
      * Create the Honor contact

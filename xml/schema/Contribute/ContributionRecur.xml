@@ -71,28 +71,28 @@
   </field>
   <field>
        <name>start_date</name>
-       <type>date</type>
+       <type>datetime</type>
        <required>true</required>
        <comment>The date the first scheduled recurring contribution occurs.</comment>
        <add>1.6</add>
   </field>
   <field>
        <name>create_date</name>
-       <type>date</type>
+       <type>datetime</type>
        <required>true</required>
        <comment>When this recurring contribution record was created.</comment>
        <add>1.6</add>
   </field>
   <field>
        <name>modified_date</name>
-       <type>date</type>
+       <type>datetime</type>
        <required>true</required>
        <comment>Last updated date for this record. mostly the last time a payment was received</comment>
        <add>1.6</add>
   </field>
   <field>
        <name>cancel_date</name>
-       <type>date</type>
+       <type>datetime</type>
        <required>true</required>
        <comment>Date this recurring contribution was cancelled by contributor- if we can get access to it</comment>
        <add>1.6</add>
@@ -135,7 +135,7 @@
     <add>1.6</add>
   </index>
   <field>
-      <name>contribution_recur_status_id</name>
+      <name>contribution_status_id</name>
       <title>Recurring Contribution Status</title>
       <type>int unsigned</type>
       <default>1</default>
@@ -143,8 +143,8 @@
       <add>1.6</add>
   </field>
   <index>
-    <name>index_contribution_recur_status</name>
-    <fieldName>contribution_recur_status_id</fieldName>
+    <name>index_contribution_status</name>
+    <fieldName>contribution_status_id</fieldName>
     <add>1.6</add>
   </index>
   <field>
@@ -157,7 +157,7 @@
   </field>
   <field>
        <name>next_sched_contribution</name>
-       <type>date</type>
+       <type>datetime</type>
        <required>true</required>
        <comment>At Groundspring this was used by the cron job which triggered payments. If we\'re not doing that but we know about payments, it might still be useful to store for display to org andor contributors.</comment>
        <add>1.6</add>
@@ -171,7 +171,7 @@
   </field>
   <field>
        <name>failure_retry_date</name>
-       <type>date</type>
+       <type>datetime</type>
        <comment>At Groundspring we set a business rule to retry failed payments every 7 days - and stored the next scheduled attempt date there.</comment>
        <add>1.6</add>
   </field>
