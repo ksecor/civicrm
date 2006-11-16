@@ -126,7 +126,7 @@ class CRM_Contribute_BAO_Query
 
     static function whereClauseSingle( &$values, &$query ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
+        
         $fields = array( );
         $fields = self::getFields();
 
@@ -244,9 +244,7 @@ class CRM_Contribute_BAO_Query
             //all other elements are handle in this case
             $fldName = substr($name, 13 );
             $whereTable = $fields[$fldName];
-
             $value = trim($value);
-
             //date fields
             $dateFields = array ( 'receive_date', 'cancel_date', 'receipt_date', 'thankyou_date', 'fulfilled_date' ) ;
             if ( in_array($fldName, $dateFields) ) {
@@ -256,12 +254,16 @@ class CRM_Contribute_BAO_Query
                     $value = CRM_Utils_Date::customFormat( $value );
                 }
             } else {
-                $value = strtolower( addslashes( $value ) );
-                if ( $wildcard ) {
-                    $value = "%$value%"; 
-                    $op    = 'LIKE';
+                if ($op == "IN" ||$op == "NOT IN" ) {
+                    $query->_where[$grouping][] = "LOWER( $whereTable[where] ) $op $value";
+                } else {
+                    $value = strtolower( addslashes( $value ) );
+                    if ( $wildcard ) {
+                        $value = "%$value%"; 
+                        $op    = 'LIKE';
+                    }
+                    $query->_where[$grouping][] = "LOWER( $whereTable[where] ) $op '$value'";
                 }
-                $query->_where[$grouping][] = "LOWER( $whereTable[where] ) $op '$value'";
             }
 
             $query->_qill[$grouping][]  = "$whereTable[title] $op \"$value\"";            
