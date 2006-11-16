@@ -52,10 +52,13 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
     public function buildQuickForm( ) {
 
         $config =& CRM_Core_Config::singleton();
-        $dirList = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
-        
-        foreach ($dirList as $key) {
-            $locales[$key] = $key;
+
+        $locales = array();
+        if (is_dir($config->gettextResourceDir)) {
+            $dirList = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
+            foreach ($dirList as $key) {
+                $locales[$key] = $key;
+            }
         }
         
         $this->addElement('select','lcMessages', ts('LC Messages'), array('en_US' => 'en_US') + $locales);
