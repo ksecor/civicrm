@@ -400,7 +400,8 @@ AND (civicrm_custom_group.extends_entity_column_value IS NULL )";
                         $customValueDAO->float_data = $data;
                         break;
                     case 'Money':
-                        $customValueDAO->decimal_data = number_format( $data, 2, '.', '' ); 
+                        $customValueDAO->decimal_data = CRM_Utils_Rule::cleanMoney( $data );
+                        //$customValueDAO->decimal_data = number_format( $data, 2, '.', '' ); 
                         break;
                     case 'Memo':
                         $customValueDAO->memo_data = $data;

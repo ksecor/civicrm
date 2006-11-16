@@ -479,12 +479,20 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             break;
             
         case 'Float':
-        case 'Money':
             if ( $field->is_search_range && $search) {
                 $qf->addRule($elementName.'_from', ts('%1 From must be a number (with or without decimal point).', array(1 => $label)), 'numeric');
                 $qf->addRule($elementName.'_to', ts('%1 To must be a number (with or without decimal point).', array(1 => $label)), 'numeric');
             } else {
                 $qf->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $label)), 'numeric');
+            }
+            break;
+
+        case 'Money':
+            if ( $field->is_search_range && $search) {
+                $qf->addRule($elementName.'_from', ts('%1 From must in proper money format. (decimal point/comma/space is allowed).', array(1 => $label)), 'money');
+                $qf->addRule($elementName.'_to', ts('%1 To must in proper money format. (decimal point/comma/space is allowed).', array(1 => $label)), 'money');
+            } else {
+                $qf->addRule($elementName, ts('%1 must be in proper money format. (decimal point/comma/space is allowed).', array(1 => $label)), 'money');
             }
             break;
         }
