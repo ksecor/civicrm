@@ -372,6 +372,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $memBlock       = CRM_Member_BAO_Membership::getMembershipBlock( $self->_id );
             $memTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $fields['selectMembership']);
             if ( $self->_values['amount_block_is_active'] && ! $memBlock['is_separate_payment']) {
+                require_once 'CRM/Utils/Money.php';
                 if ($fields['amount'] == 'amount_other_radio') {
                     if ( $fields['amount_other'] < $memTypeDetails['minimum_fee']) {
                          $errors['selectMembership'] = ts(' The Membership you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'])));

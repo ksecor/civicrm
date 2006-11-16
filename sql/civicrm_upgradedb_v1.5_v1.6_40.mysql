@@ -221,14 +221,41 @@ CREATE TABLE civicrm_acl_entity_role (
   
 )  TYPE=InnoDB  ;
 
+
+-- /*******************************************************
+-- *
+-- * civicrm_msg_template
+-- *
+-- * Users will need a way to save and retrieve templates with tokens for use in recurring email communication tasks
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_msg_template (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Message Template ID',
+     domain_id int unsigned NOT NULL   COMMENT 'Which Domain owns this contact',
+     msg_title varchar(255)    COMMENT 'Descriptive title of message',
+     msg_subject varchar(255)    COMMENT 'Subject for email message.',
+     msg_text text    COMMENT 'Text formatted message',
+     msg_html text    COMMENT 'HTML formatted message',
+     is_active tinyint   DEFAULT 1  
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,      INDEX FKEY_domain_id ( domain_id ) ,  
+     FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+  
+)  TYPE=InnoDB  ;
+	
 -- /*******************************************************
 -- *
 -- * Modify the civicrm_acl  Table Structure
 -- *******************************************************/
 
-	ALTER TABLE `civicrm_acl` ADD domain_id int(10) unsigned NOT NULL   COMMENT 'Which Domain owns this contact';
-	ALTER TABLE `civicrm_acl` ADD INDEX domain_id (`domain_id`);		
-	ALTER TABLE `civicrm_acl` ADD FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain`(`id`);
+	ALTER TABLE `civicrm_acl` ADD domain_id int unsigned NOT NULL DEFAULT '0' COMMENT 'Which Domain owns this contact';
+	ALTER TABLE `civicrm_acl` ADD INDEX FKEY_domain_id (domain_id);
+	ALTER TABLE `civicrm_acl` ADD FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id);
 
 	ALTER TABLE `civicrm_acl` ADD name varchar(64) COMMENT 'ACL Name.';
 
@@ -280,10 +307,17 @@ CREATE TABLE civicrm_acl_entity_role (
 
 	ALTER TABLE `civicrm_contribution` ADD	`contribution_status_id` int unsigned   DEFAULT '1';  
 	ALTER TABLE `civicrm_contribution` DROP FOREIGN KEY `civicrm_contribution_ibfk_6`;
+	ALTER TABLE `civicrm_contribution` DROP FOREIGN KEY `civicrm_contribution_ibfk_7`;
 	ALTER TABLE `civicrm_contribution` DROP INDEX `FKEY_payment_instrument_id`;
-	ALTER TABLE `civicrm_contribution` ADD is_test tinyint NULL DEFAULT 0;
+	ALTER TABLE `civicrm_contribution` DROP INDEX `FKEY_recur_contribution_id`;
 	
+	ALTER TABLE `civicrm_contribution` DROP recur_contribution_id;
+	
+	ALTER TABLE `civicrm_contribution` ADD is_test tinyint NULL DEFAULT 0;
 	ALTER TABLE `civicrm_contribution` ADD `honor_contact_id` int unsigned COMMENT 'FK to contact ID';
+	ALTER TABLE `civicrm_contribution` ADD contribution_recur_id int unsigned AFTER note;
+	ALTER TABLE `civicrm_contribution` ADD INDEX FKEY_contribution_recur_id (contribution_recur_id);
+	ALTER TABLE `civicrm_contribution` ADD CONSTRAINT FOREIGN KEY (`contribution_recur_id`) REFERENCES civicrm_contribution_recur (`id`);
 	
 	ALTER TABLE `civicrm_contribution` ADD INDEX `UI_contrib_payment_instrument_id`(payment_instrument_id);
 	ALTER TABLE `civicrm_contribution` ADD INDEX `index_contribution_status` (contribution_status_id);
@@ -304,6 +338,7 @@ CREATE TABLE civicrm_acl_entity_role (
 	ALTER TABLE `civicrm_contribution_page` ADD honor_block_title varchar(255) COMMENT 'Title for honor block.';
 	ALTER TABLE `civicrm_contribution_page` ADD honor_block_text text COMMENT 'text for honor block.';
 	ALTER TABLE `civicrm_contribution_page` ADD is_monetary tinyint DEFAULT '1' COMMENT 'if true - allows real-time monetary transactions otherwise non-monetary transactions.';
+	ALTER TABLE `civicrm_contribution_page` ADD is_recur tinyint NULL DEFAULT '0' AFTER is_monetary;
 
 -- /*******************************************************
 -- *
@@ -419,6 +454,40 @@ CREATE TABLE civicrm_acl_entity_role (
 
 	ALTER TABLE `civicrm_mapping` MODIFY mapping_type enum('Export','Import','Export Contributions','Import Contributions','Import Activity History','Search Builder','Import Memberships') COMMENT 'Type of Mapping.';
 
+-- /*******************************************************
+-- *
+-- * civicrm_membership
+-- *
+-- * Contact Membership records.
+-- *
+-- *******************************************************/
+	
+	ALTER TABLE civicrm_membership ADD reminder_date date AFTER is_override;
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership_log
+-- *
+-- * Logs actions which affect a Membership record (signup, status override, renewal, etc.)
+-- *
+-- *******************************************************/
+	
+	ALTER TABLE civicrm_membership_log ADD renewal_reminder_date date AFTER modified_date;
+
+-- /*******************************************************
+-- *
+-- * civicrm_membership_type
+-- *
+-- * Sites can configure multiple types of memberships. They encode the owner organization, fee, and the rules needed to set start and end (expire) dates when a member signs up for that type.
+-- *
+-- *******************************************************/
+	
+	ALTER TABLE civicrm_membership_type ADD renewal_msg_id int unsigned AFTER weight;
+    	ALTER TABLE civicrm_membership_type ADD renewal_reminder_day int AFTER renewal_msg_id;
+	
+	ALTER TABLE civicrm_membership_type ADD INDEX FKEY_renewal_msg_id ( renewal_msg_id );
+	ALTER TABLE civicrm_membership_type ADD FOREIGN KEY (renewal_msg_id) REFERENCES civicrm_msg_template(id);
+		
 -- /*******************************************************
 -- *
 -- * civicrm_phone
