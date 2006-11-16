@@ -175,6 +175,11 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
      * @access public
      */
     public function buildQuickForm( ) {
+        // set breadcrumb to append to 2nd layer pages
+        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
+        $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Global Settings') . '</a>';
+        CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),
@@ -201,7 +206,7 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         require_once "CRM/Core/BAO/Setting.php";
         CRM_Core_BAO_Setting::add($params);
 
-        CRM_Core_Session::setStatus( ts('Global settings has been saved.') );
+        CRM_Core_Session::setStatus( ts('Your settings changes have been saved.') );
     }
 }
 

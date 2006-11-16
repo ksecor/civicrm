@@ -1,13 +1,16 @@
-<div class="form-item">
-<fieldset><legend>{ts}Components{/ts}</legend>
-    <dl>
-        <dt>{$form.enableComponents.label}</dt><dd>{$form.enableComponents.html}</dd>
-
-        <dt>&nbsp</dt><dd class="description">{ts}To enable or hide add-on components which provide additional functionality
-  for  CiviCRM site.<br />EXAMPLE: enable the CiviContribute component for collecting and managing online and offline
- contributions.{/ts}</dd>
-       <dt></dt><dd>{$form.buttons.html}</dd>
-     </dl>   
-<div class="spacer"></div>
-</fieldset>
+<div id="help">
+    {ts}CiviCRM includes several optional components which can be enabled to give you more tools for engaging your
+    constituents.{/ts}{help id="components"}
 </div>
+<fieldset><legend>{ts}Enable Components{/ts}</legend>
+<div class="form-item">
+{$form.enableComponents.html}
+<p class="description">
+    {ts}Enabled components are listed in the right-hand box. Disabled components are listed in the left-hand box.
+    Highlight a component and click the Enable or Disable button to move it from one box to the other.
+    Then click <strong>Save</strong>.{/ts}
+</p>
+<p>{$form.buttons.html}</p>
+</div>
+</fieldset>
+<div class="spacer"></div>

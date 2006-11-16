@@ -1,0 +1,8 @@
+{htxt id='components'}
+<p>{ts}CiviCRM components provide additional functionality for your organization or community.{/ts}
+<ul>
+<li>{ts}<strong>CiviContribute</strong> - Online contributions ... {/ts}</li>
+<li>{ts}<strong>CiviMail</strong> - Broadcast email ... {/ts}</li>
+<li>{ts}<strong>CiviMember</strong> - Membership management ... {/ts}</li>
+</ul>
+{/htxt}
