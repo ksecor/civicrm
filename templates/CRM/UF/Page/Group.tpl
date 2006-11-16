@@ -8,11 +8,7 @@
     {* Display HTML Code for standalone Profile form *}
     {include file="CRM/common/dojo.tpl"}
     <div id="help">
-    <p>{ts}The HTML code below will display a form consisting of the active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts}</p>
-    <p>{ts}You can control the web page that someone is directed to AFTER completing the form by modifying the contents of the hidden <strong>postURL</strong> input field. Replace the default value with any valid complete URL prior to saving the form code to the desired page(s).{/ts}</p>
-    <p>{ts}EXAMPLE:{/ts} <strong>&lt;input type="hidden" name="postURL" value="http://www.example.com/thank_you.html"&gt;</strong></p>
-    <p>{ts}If the form is submitted with errors (i.e. required field not completed...) - the default behavior is to display the errors within the "built-in" profile form. You can override this behavior - specifying your own error page - by adding a hidden <strong>errorURL</strong> input field{/ts} (<a href="http://wiki.civicrm.org/confluence/display/CRM/Configure+CiviCRM+Profile" target="_blank">{ts}more info{/ts}...</a>).</p>
-    <p><strong>{ts}Make sure the CAPTCHA feature is NOT enabled for this profile when you are grabbing the HTML code for a stand-alone form. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.{/ts}</strong></p>
+    <p>{ts}The HTML code below will display a form consisting of the active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts} {help id='standalone'}</p>
     </div>
    
     <h3>{ts}{$title} - Code for Stand-alone HTML Form{/ts}</h3>
@@ -28,8 +24,6 @@
     </form>
 
 {else}
-
-    {include file="CRM/common/dojo.tpl"}
     <div id="help">
     <p>{ts}CiviCRM Profile(s) allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features. They provide a powerful set of tools for you to collect information from constituents and selectively share contact information.{/ts} {help id='profile_overview'}</p>
     </div>

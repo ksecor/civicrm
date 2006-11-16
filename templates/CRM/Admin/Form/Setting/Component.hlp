@@ -1,8 +1,6 @@
 {htxt id='components'}
-<p>{ts}CiviCRM components provide additional functionality for your organization or community.{/ts}
-<ul>
-<li>{ts}<strong>CiviContribute</strong> - Online contributions ... {/ts}</li>
-<li>{ts}<strong>CiviMail</strong> - Broadcast email ... {/ts}</li>
-<li>{ts}<strong>CiviMember</strong> - Membership management ... {/ts}</li>
-</ul>
+<p>{ts}These optional components give you more tools to connect with and engage your supporters.{/ts}</p>
+<p>{ts 1="http://wiki.civicrm.org/confluence/display/CRM/CiviContribute+Guide"}<strong>CiviContribute</strong> - An online fundraising and donor management component which enables you to track and manage contributions to your organization. It also allows you to quickly and easily create customized web pages to accept online donations. Refer to the <a href="%1" target="_blank">CiviContribute Guide</a> for more info.{/ts}</p>
+<p>{ts 1="http://wiki.civicrm.org/confluence/display/CRM/CiviMail+Guide"}<strong>CiviMail</strong> - A robust mass-mailing component which allows you to engage your constituents with personalized email blasts and newsletters. Refer to the <a href="%1" target="_blank">CiviMail Guide</a> for more info.{/ts}</p>
+<p>{ts 1="http://wiki.civicrm.org/confluence/display/CRM/CiviMember+Guide"}<strong>CiviMember</strong> -  A flexible membership management component which includes convenient online signup and renewal. Refer to the <a href="%1" target="_blank">CiviMember Guide</a> for more info.{/ts}</p>
 {/htxt}

@@ -1,6 +1,5 @@
 <div id="help">
-    {ts}CiviCRM includes several optional components which can be enabled to give you more tools for engaging your
-    constituents.{/ts}{help id="components"}
+    {ts}CiviCRM includes several optional components which give you more tools to connect with and engage your constituents.{/ts}{help id="components"}
 </div>
 <fieldset><legend>{ts}Enable Components{/ts}</legend>
 <div class="form-item">

@@ -36,12 +36,9 @@
     </div>
 
 {else}
-    <div class='spacer'></div>
     <div id="help">
         {if $action EQ 512}
-            {ts}Use <strong>%</strong> wildcard(s) for partial matches (other than contact name/email). EXAMPLE: Enter "Volunteer%" as your Activity Type to match any activity whose type is "Volunteer" + any other words (e.g. Volunteer for Open House).{/ts}
-            <p>{ts}If multiple boxes are checked for Contact Types, Groups, Tags and Location Types, the selections are combined as <strong>OR</strong> criteria (e.g. checking &quot;Group A&quot; and &quot;Group B&quot; will find contacts who are either in &quot;Group A&quot; OR &quot;Group B&quot;).
-                All other search fields are combined as <strong>AND</strong> criteria (e.g. selecting Tag is &quot;Major Donor&quot; AND Country is &quot;Mexico&quot; returns only those contacts who meet both criteria).{/ts}</p>
+            <p>{ts}Use <strong>%</strong> wildcard(s) for partial matches (other than contact name/email). EXAMPLE: Enter "Volunteer%" as your Activity Type to match any activity whose type is "Volunteer" + any other words (e.g. Volunteer for Open House).{/ts} {help id='advanced-intro'}</p>
         {else}
             {ts}Use the Search Criteria form to find contacts by name, type of contact, group membership, tags, etc. You can then view or edit contact details, print a contact list, assign tags, export contact data to a spreadsheet, etc.{/ts}
         {/if}
