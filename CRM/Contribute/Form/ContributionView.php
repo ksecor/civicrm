@@ -58,7 +58,7 @@ class CRM_Contribute_Form_ContributionView extends CRM_Core_Form
         CRM_Contribute_BAO_Contribution::getValues( $params, 
                                                     $values, 
                                                     $ids );             
-        CRM_Contribute_BAO_Contribution::resolveDefaults( $values ); 
+        CRM_Contribute_BAO_Contribution::resolveDefaults( $values );
         
         if ( $values["honor_contact_id"] ) {
             $sql = "SELECT display_name FROM civicrm_contact WHERE id = " . $values["honor_contact_id"];

@@ -71,6 +71,14 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
     private static $creditCard;
 
     /**
+     * contribution status 
+     *
+     * @var array
+     * @static
+     */
+    private static $contributionStatus; 
+
+    /**
      * Get all the contribution types
      *
      * @access public
@@ -217,6 +225,22 @@ class CRM_Contribute_PseudoConstant extends CRM_Core_PseudoConstant {
         return $products;        
     }
     
+    /**
+     * Get all the contribution types
+     *
+     * @access public
+     * @return array - array reference of all contribution types if any
+     * @static
+     */
+    public static function &contributionStatus($id = null)
+    {
+        self::$contributionStatus = array();
+        if ( ! self::$contributionStatus ) {
+            require_once "CRM/Core/OptionGroup.php";
+            self::$contributionStatus = CRM_Core_OptionGroup::values("contribution_status");
+        }
+        return self::$contributionStatus;
+    }
 }
 
 ?>

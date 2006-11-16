@@ -296,6 +296,8 @@ CREATE TABLE civicrm_acl_entity_role (
 	ALTER TABLE `civicrm_contribution` ADD INDEX UI_contrib_payment_instrument_id (payment_instrument_id);
 	ALTER TABLE `civicrm_contribution` ADD INDEX index_contribution_status (contribution_status_id);
 	
+	UPDATE civicrm_contribution SET contribution_status_id=3          WHERE cancel_date IS NOT NULL;
+
 -- /*******************************************************
 -- *
 -- * civicrm_contribution_page

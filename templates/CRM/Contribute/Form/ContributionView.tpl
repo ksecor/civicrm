@@ -30,8 +30,11 @@
 {/if}
 {if $cancel_date}
         <dt>{ts}Cancelled{/ts}</dt><dd>{$cancel_date|truncate:10:''|crmDate}</dd>
+        {if $cancel_reason}
         <dt>{ts}Cancellation Reason{/ts}</dt><dd>{$cancel_reason}</dd>
+        {/if}
 {/if}
+        <dt>{ts}Contribution Status{/ts}</dt><dd>{$contribution_status}</dd>
     </dl>
 {if $premium}
 <fieldset>
