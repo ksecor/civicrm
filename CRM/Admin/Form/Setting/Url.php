@@ -50,8 +50,9 @@ class CRM_Admin_Form_Setting_Url extends CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
-          
-        $this->addElement('text','userFrameworkResourceURL' ,ts('UF Resource URL'));  
+        CRM_Utils_System::setTitle(ts('Settings - Resource URLs'));
+
+        $this->addElement('text','userFrameworkResourceURL' ,ts('CiviCRM Resource URL'));  
         $this->addElement('text','imageUploadURL', ts('Image Upload URL'));  
         parent::buildQuickForm( ); 
     }

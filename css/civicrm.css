@@ -321,7 +321,7 @@ div.spacer, .spacer {
 }
 
 /*
-** Styles for formating of text
+** Styles for formatting text
 */
 
 /* Inline form field 'post-help' */
@@ -661,7 +661,7 @@ div.crm-pager a {
 /*
 ** overflowing for elements (e.g. Advanced Search page)
 */
-#crm-container .listing-box{
+#crm-container .listing-box {
   margin: 0.25em 2.0em -0.5em 0em;
   width: auto;
   height: 6.75em;	

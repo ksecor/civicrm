@@ -50,10 +50,11 @@ class CRM_Admin_Form_Setting_Mapping extends CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
+        CRM_Utils_System::setTitle(ts('Settings - Mapping Provider'));
 
         $map = CRM_Core_SelectValues::mapProvider();
-        $this->addElement('select','mapProvider', ts('Map Provider'),array('select' => 'select') + $map);  
-        $this->addElement('text','mapAPIKey', ts('Map API Key'));  
+        $this->addElement('select','mapProvider', ts('Map Provider'),array('select' => '- select -') + $map);  
+        $this->add('text','mapAPIKey', ts('Provider Key'), null, true);  
         $this->addYesNo( 'mapGeoCoding', ts( 'Geo Coding' ));
         //$this->addElement('text','geocodeMethod', ts('Geocode Method')); 
     

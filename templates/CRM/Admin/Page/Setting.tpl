@@ -13,18 +13,18 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/url' q='reset=1'}" id="idUrls">&raquo; {ts}Site URLs{/ts}</a></td>
-    <td>{ts}URL paths for resource files.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/url' q='reset=1'}" id="idUrls">&raquo; {ts}Resource URLs{/ts}</a></td>
+    <td>{ts}URLs used to access CiviCRM resources (CSS files, Javascript files, images, etc.).{/ts}</td>
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/smtp' q='reset=1'}" id="idSMTP">&raquo; {ts}Email (SMTP) Settings{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/smtp' q='reset=1'}" id="idSMTP">&raquo; {ts}Outbound Email (SMTP){/ts}</a></td>
     <td>{ts}SMTP server, port and authentication settings for outbound email.{/ts}</td>
 </tr>
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/mapping' q='reset=1'}" id="idMapping">&raquo; {ts}Mapping and Gecoding{/ts}</a></td>
-    <td>{ts}Select and configure mapping provider.{/ts}</td>
+    <td>{ts}Select and configure the mapping provider for this set (e.g. Google or Yahoo).{/ts}</td>
 </tr>
 
 <tr>

@@ -50,13 +50,13 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
-
+        CRM_Utils_System::setTitle(ts('Settings - SMTP Configuration'));
           
-        $this->addElement('text','smtpServer', ts('SMTP Server'));
-        $this->addElement('text','smtpPort', ts('SMTP Port'));  
+        $this->add('text','smtpServer', ts('SMTP Server'), null, true);
+        $this->add('text','smtpPort', ts('SMTP Port'), null, true);  
         $this->addRule('smtpPort',ts('SMTP Port is a required field'),'required');  
-        $this->addYesNo( 'smtpAuth', ts( 'SMTP Auth' ));
-        $this->addElement('text','smtpUsername', ts('SMTP UserName')); 
+        $this->addYesNo( 'smtpAuth', ts( 'Authentication?' ));
+        $this->addElement('text','smtpUsername', ts('SMTP Username')); 
        
         parent::buildQuickForm();
     }
