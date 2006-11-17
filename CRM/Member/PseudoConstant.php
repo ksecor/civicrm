@@ -65,7 +65,8 @@ class CRM_Member_PseudoConstant extends CRM_Core_PseudoConstant {
     {
         if ( ! self::$membershipType ) {
             CRM_Core_PseudoConstant::populate( self::$membershipType,
-                                               'CRM_Member_DAO_MembershipType' );
+                                               'CRM_Member_DAO_MembershipType',
+                                               false, 'name', 'is_active', null, 'weight');
         }
         if ($id) {
             if (array_key_exists($id, self::$membershipType)) {
@@ -88,7 +89,8 @@ class CRM_Member_PseudoConstant extends CRM_Core_PseudoConstant {
     {
         if ( ! self::$membershipStatus ) {
             CRM_Core_PseudoConstant::populate( self::$membershipStatus,
-                                               'CRM_Member_DAO_MembershipStatus' );
+                                               'CRM_Member_DAO_MembershipStatus',
+                                               false, 'name', 'is_active', null, 'weight' );
         }
         if ($id) {
             if (array_key_exists($id, self::$membershipStatus)) {
