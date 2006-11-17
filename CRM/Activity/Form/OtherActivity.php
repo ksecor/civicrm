@@ -91,9 +91,8 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         $activityType = CRM_Core_PseudoConstant::activityType(false,true);
         
         $this->applyFilter('__ALL__', 'trim');
-        $this->addElement('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType, array('onchange' => "reload(true)"), true );
-        $this->addRule('activity_type_id', ts('Select a valid activity.'), 'required');
-
+        $this->add('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType,true, array('onchange' => "reload(true)") );
+       
         $this->add('text', 'description', ts('Description'),
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ), false);
 

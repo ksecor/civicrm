@@ -65,15 +65,12 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
         CRM_Utils_System::setTitle( ts('Add Members to Organization') );
         $this->addElement('text', 'name'      , ts('Find Target Organization') );
 
-        $this->addElement('select',
+        $this->add('select',
                           'relationship_type_id',
                           ts('Relationship Type'),
                           array('' => ts('- select -')) +
-                          CRM_Contact_BAO_Relationship::getRelationType("Organization"));
+                          CRM_Contact_BAO_Relationship::getRelationType("Organization"),true);
     
-
-        $this->addRule('relationship_type_id', ts('Please select a relationship type.'), 'required' );
-
         $searchRows    = $this->get( 'searchRows' );
         $searchCount   = $this->get( 'searchCount' );
         if ( $searchRows ) {

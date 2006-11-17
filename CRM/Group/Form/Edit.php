@@ -139,8 +139,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
             $this->applyFilter('__ALL__', 'trim');
             $this->add('text', 'title'       , ts('Name:') . ' ' ,
-                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
-            $this->addRule( 'title', ts('Group name is required.'), 'required' );
+                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ),true );
             $this->addRule( 'title', ts('Name already exists in Database.'),
                             'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
             

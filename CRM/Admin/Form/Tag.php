@@ -63,10 +63,8 @@ class CRM_Admin_Form_Tag extends CRM_Admin_Form
         } else {
             $this->applyFilter('__ALL__', 'trim');
             
-            $this->add('text', 'name'       , ts('Name')       ,
-                       CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Tag', 'name' ) );
-            $this->addRule( 'name', ts('Please enter a valid name.'), 'required' );
-
+            $this->add('text', 'name', ts('Name')       ,
+                       CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Tag', 'name' ),true );
             $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_Tag', $this->_id ) );
 
             $this->add('text', 'description', ts('Description'), 

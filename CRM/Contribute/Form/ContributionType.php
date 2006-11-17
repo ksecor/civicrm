@@ -58,8 +58,7 @@ class CRM_Contribute_Form_ContributionType extends CRM_Contribute_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionType', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a valid contribution type name.'), 'required' );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionType', 'name' ),true);
         $this->addRule( 'name', ts('A contribution type with this name already exists. Please select another name.'), 'objectExists', array( 'CRM_Contribute_DAO_ContributionType', $this->_id ) );
         
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionType', 'description' ) );

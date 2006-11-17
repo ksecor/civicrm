@@ -72,10 +72,7 @@ class CRM_Member_Form_MessageTemplates extends CRM_Member_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'msg_title', ts('Message Title'), CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MessageTemplates', 'msg_title' ) );
-        $this->addRule( 'msg_title', ts('Please enter a valid Message Template name.'), 'required' );
-        
-
+        $this->add('text', 'msg_title', ts('Message Title'), CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MessageTemplates', 'msg_title' ),true );
         
         $this->add('text', 'msg_subject', ts('Message Subject'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MessageTemplates', 'msg_subject' ) );

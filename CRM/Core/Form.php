@@ -186,8 +186,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *
      */
     function &add($type, $name, $label,
-                  $attributes = '', $required   = false ) {
-        $element =& $this->addElement($type, $name, $label, $attributes);
+                  $attributes = '', $required = false, $javascript = null ) {
+        $element =& $this->addElement($type, $name, $label, $attributes, $javascript );
         if (HTML_QuickForm::isError($element)) {
             CRM_Core_Error::fatal(HTML_QuickForm::errorMessage($element));
         }

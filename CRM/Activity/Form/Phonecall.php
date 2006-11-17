@@ -69,12 +69,10 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
             $contactPhone = CRM_Core_BAO_Phone::getphoneNumber($this->_contactId);
         }
         
-        $this->add('text', 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Phonecall', 'subject' ));
-        $this->addRule( 'subject', ts('The Field Subject should not be Empty'), 'required' );
-        $this->add('date', 'scheduled_date_time', ts('Date and Time'),CRM_Core_SelectValues::date('datetime'));
+        $this->add('text', 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Phonecall', 'subject' ),true);
+        $this->add('date', 'scheduled_date_time', ts('Date and Time'),CRM_Core_SelectValues::date('datetime'),true);
         //$this->addRule( 'scheduled_date_time', ts('Please enter a valid date and time for this call.'), 'qfDate' );
-        $this->addRule( 'scheduled_date_time', ts('Call Date and Time are required.'), 'required' );
-
+        
         $this->add('select','phone_id',ts('Phone Number'), $contactPhone );
         $this->add('text', 'phone_number'  , ' ' . ts('OR New Phone') , CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Phonecall', 'phone_number' ));
         $this->add('select', 'duration_hours', '', CRM_Core_SelectValues::getHours());

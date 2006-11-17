@@ -165,8 +165,8 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
         $url = CRM_Utils_System::url('civicrm/admin/contribute', 'reset=1&action=update&id='.$this->_id.'&subPage=Premium'); 
         $session->pushUserContext( $url );
 
-        $this->addElement('select', 'product_id', ts('Select the Product') . ' ', $this->_products );
-        $this->addRule('product_id', ts('Select the Product') . ' ', 'required' );
+        $this->add('select', 'product_id', ts('Select the Product') . ' ', $this->_products ,true);
+     
         $this->addElement('text','sort_position', ts('Weight'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_PremiumsProduct', 'sort_position') );
              
         $this->addRule('sort_position',ts('Please enter integer value for weight') , 'integer');

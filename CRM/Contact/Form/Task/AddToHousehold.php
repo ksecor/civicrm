@@ -65,13 +65,10 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
         CRM_Utils_System::setTitle( ts('Add Members to Household') );
         $this->addElement('text', 'name'      , ts('Find Target Household') );
         
-        $this->addElement('select',
-                          'relationship_type_id',
-                          ts('Relationship Type'),
+        $this->add('select','relationship_type_id', ts('Relationship Type'),
                           array('' => ts('- select -')) +
-                          CRM_Contact_BAO_Relationship::getRelationType("Household"));
-        $this->addRule('relationship_type_id', ts('Please select a relationship type.'), 'required' );
-        
+                          CRM_Contact_BAO_Relationship::getRelationType("Household"),true);
+              
         $searchRows    = $this->get( 'searchRows' );
         $searchCount   = $this->get( 'searchCount' );
         if ( $searchRows ) {

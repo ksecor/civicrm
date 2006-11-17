@@ -54,7 +54,6 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
           
         $this->add('text','smtpServer', ts('SMTP Server'), null, true);
         $this->add('text','smtpPort', ts('SMTP Port'), null, true);  
-        $this->addRule('smtpPort',ts('SMTP Port is a required field'),'required');  
         $this->addYesNo( 'smtpAuth', ts( 'Authentication?' ));
         $this->addElement('text','smtpUsername', ts('SMTP Username')); 
        

@@ -123,8 +123,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         }
         
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'label', ts('Label'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'label' ) );
-        $this->addRule( 'label', ts('Please enter a valid ' . $this->_gName . ' name.'), 'required' );
+        $this->add('text', 'label', ts('Label'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'label' ),true );
         $this->addRule( 'label', ts('Name already exists in Database.'), 'optionExists', array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid ) );
         
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );

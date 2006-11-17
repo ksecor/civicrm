@@ -57,8 +57,7 @@ class CRM_Admin_Form_OptionGroup extends CRM_Admin_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionGroup', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a valid Option Group name.'), 'required' );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionGroup', 'name' ),true );
         $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_OptionGroup', $this->_id ) );
         
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionGroup', 'description' ) );
