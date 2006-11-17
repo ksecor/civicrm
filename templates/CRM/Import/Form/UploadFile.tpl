@@ -6,10 +6,7 @@
  
  <div id="help">
     <p>
-    {ts}The Import Wizard allows you to easily upload contact records from other applications into CiviCRM. For example, if your organization has contacts in MS Access&copy; or Excel&copy;, and you want to start using CiviCRM to store these contacts, you can 'import' them here.{/ts}
-    </p>
-    <p>
-    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}
+    {ts}The Import Wizard allows you to easily upload contact records from other applications into CiviCRM. For example, if your organization has contacts in MS Access&copy; or Excel&copy;, and you want to start using CiviCRM to store these contacts, you can 'import' them here.{/ts} {help id='upload-intro'}
     </p>
  </div>    
 
@@ -26,35 +23,8 @@
         <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "First Name","Last Name","Email"){/ts}
         </dd> 
-        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">
-            {ts}Select 'Individual' if each record in your file represents and individual person - even if the file also contains related Organization data (e.g. Employer Name, Employer Address, etc.).{/ts}
-        </dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select 'Organization' or 'Household' if each record in your file represents a contact of that type.{/ts}
-        </dd> 
-        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">
-            {ts}If a contact in the import file appears to be a duplicate of an existing CiviCRM contact...{/ts}
-        </dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">
-            {ts}<label>Skip:</label> Reports and then Skips duplicate import file rows - leaving the matching record in the database as-is (default).{/ts}
-        </dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">
-            {ts}<label>Update:</label> Updates database fields with available import data. Fields in the database which are NOT included in the import row are left as-is.{/ts}
-        </dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">
-            {ts}<label>Fill:</label> Fills in additional contact data only. Database fields which currently have values are left as-is.{/ts}
-        </dd>
-        <dt>&nbsp;</dt>
-        <dd class="description">
-            {ts}<label>No Duplicate Checking:</label> Insert all valid records without comparing them to existing contact records for possible duplicates.{/ts}
-        </dd>
+        <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}</dd>
+        <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
         {include file="CRM/Core/Date.tpl"}
         <dt>&nbsp;</dt>
         <dd class="description">

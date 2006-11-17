@@ -82,7 +82,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
             null, null, ts('No Duplicate Checking'), CRM_Import_Parser::DUPLICATE_NOCHECK);
         
         $this->addGroup($duplicateOptions, 'onDuplicate', 
-                        ts('On duplicate entries'));
+                        ts('For Duplicate Contacts'));
         $this->setDefaults(array('onDuplicate' =>
                                     CRM_Import_Parser::DUPLICATE_SKIP));
 
