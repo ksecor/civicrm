@@ -97,6 +97,13 @@
        <comment>Date this recurring contribution was cancelled by contributor- if we can get access to it</comment>
        <add>1.6</add>
   </field>
+  <field>
+       <name>end_date</name>
+       <type>datetime</type>
+       <required>true</required>
+       <comment>Date this recurring contribution finished successfully</comment>
+       <add>1.6</add>
+  </field>
   <field>   
       <name>processor_id</name>
       <type>varchar</type>   

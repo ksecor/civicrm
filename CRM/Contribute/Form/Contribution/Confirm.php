@@ -328,7 +328,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // if folks need to use it
             $this->_params['contributionType_name']            = $contributionType->name;
             $this->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
-            $this->_params['contributionForm_id']              = $this->_values['id'];
+            $this->_params['contributionPageID']               = $this->_values['id'];
+            
             
             require_once 'CRM/Contribute/Payment.php';
             $payment =& CRM_Contribute_Payment::singleton( $this->_mode );

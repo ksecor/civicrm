@@ -37,14 +37,29 @@
 
 class CRM_Contribute_Payment_PayPalIPN {
 
-    static function recur( $contactID, &$contribution, &$contributionType ) {
+    static function retrieve( $name, $type, $location = 'POST', $abort = true ) {
+        static $store = null;
+        $value = CRM_Utils_Request::retrieve( $name, $type, $store,
+                                              false, null, $location );
+        if ( $abort && $value === null ) {
+            CRM_Core_Error::debug_log_message( "Could not find an entry for $name in $location" );
+            echo "Failure: Missing Parameter<p>";
+            exit( );
+        }
+        return $value;
+    }
+
+    static function recur( $contactID, &$contribution, &$contributionType, $first ) {
         $store = null;
 
-        $contributionRecurID = CRM_Utils_Request::retrieve( 'contributionRecurID', 'Integer', $store,
-                                                            false, null, 'GET' );
-        if ( ! $contributionRecurID ) {
-            CRM_Core_Error::debug_log_message( "Could not find the contribution recurring ID" );
-            echo "Failure: Invalid parameters<p>"; 
+        $contributionRecurID = self::retrieve( 'contributionRecurID', 'Integer', 'GET' , true );
+        $contributionPageID  = self::retrieve( 'contributionPageID' , 'Integer', 'GET' , true );
+        $txnType             = self::retrieve( 'txn_type'           , 'String' , 'POST', true );
+
+        if ( $txnType == 'subscr_payment' &&
+             $_POST['payment_status'] != 'Completed' ) {
+            CRM_Core_Error::debug_log_message( "Ignore all IPN payments that are not completed" );
+            echo "Failure: Invalid parameters<p>";
             return;
         }
 
@@ -57,41 +72,121 @@ class CRM_Contribute_Payment_PayPalIPN {
             return;
         }
 
-        $now = date( 'YmdHis' );
-
-        $recur->create_date = CRM_Utils_Date::isoToMysql( $recur->create_date );
-        
-        if ( $first ) {
-            $recur->start_date    = $now;
-        } else {
-            $recur->start_date    = CRM_Utils_Date::isoToMysql( $recur->start_date );
-            $recur->modified_date = $now;
-        }
-    }
-
-    static function single( $contactID, &$contribution, &$contributionType ) {
-        $store = null;
-
-        $membershipTypeID   = CRM_Utils_Request::retrieve( 'membershipTypeID', 'Integer', $store,
-                                                           false, null, 'GET' );
-
+        // make sure the invoice ids match
         // make sure the invoice is valid and matches what we have in the contribution record
-        $invoice = CRM_Utils_Request::retrieve( 'invoice', 'String', $store,
-                                                false, null, 'POST' );
-        if ( $contribution->invoice_id != $invoice ) {
+        $invoice             = self::retrieve( 'invoice'           , 'String' , 'POST', true );
+        if ( $recur->invoice_id != $invoice ) {
             CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
             echo "Failure: Invoice values dont match between database and IPN request<p>";
             return;
         }
 
         $now = date( 'YmdHis' );
-        $amount = CRM_Utils_Request::retrieve( 'payment_gross', 'Money', $store,
-                                               false, null, 'POST' );
-        if ( $contribution->total_amount != $amount ) {
-            CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
-            echo "Failure: Amount values dont match between database and IPN request<p>";
+
+        // fix dates that already exist
+        $dates = array( 'create', 'start', 'end', 'cancel', 'modified' );
+        foreach ( $dates as $date ) {
+            $name = "{$date}_date";
+            if ( $recur->$name ) {
+                $recur->$name CRM_Utils_Date::isoToMysql( $recur->$name );
+            }
+        }
+
+        switch ( $txn_type ) {
+
+        case 'subscr_signup':
+            $recur->create_date            = $now;
+            $recur->contribution_status_id = 2;
+            $recur->processor_id           = $_POST['subscr_id'];
+            $recur->trxn_id                = $recur->processor_id;
+            break;
+            
+        case 'subscr_eot':
+            $recur->contribution_status_id = 1;
+            $recur->end_date               = $now;
+            break;
+
+        case 'subscr_cancel':
+            $recur->contribution_status_id = 3;
+            $recur->cancel_date            = $now;
+            break;
+
+        case 'subscr_failed':
+            $recur->contribution_status_id = 4;
+            $recur->cancel_date            = $now;
+            break;
+
+        case 'subscr_modify':
+            CRM_Core_Error::debug_log_message( "We do not handle modifications to subscriptions right now" );
+            echo "Failure: We do not handle modifications to subscriptions right now<p>";
+            return;
+
+        case 'subscr_payment':
+            if ( $first ) {
+                $recur->start_date    = $now;
+            } else {
+                $recur->modified_date = $now;
+            }
+            // make sure the contribution status is not done
+            // since order of ipn's is unknown
+            if ( $recur->contribution_status_id != 1 ) {
+                $recur->contribution_status_id = 5;
+            }
+            break;
+
+        }
+
+        $recur->save( );
+        
+        CRM_Core_DAO::transaction( 'COMMIT' );
+
+        if ( $txnType != 'subscr_payment' ) {
             return;
         }
+
+        if ( ! $first ) {
+            // create a contribution and then get it processed
+            $contribution & new CRM_Contribute_DAO_Contribution( );
+            $contribution->domain_id = CRM_Core_Config::domainID( );
+            $contribution->contact_id = $contactID;
+            $contribution->contribution_type_id = $contributionType->id;
+            $contribution->contribution_page_id = $contributionPageID;
+            $contribution->receive_date         = $now;
+        }
+
+        self::single( $contactID, $contribution, $contributionType, true, $first );
+    }
+
+    static function single( $contactID, &$contribution, &$contributionType, $recur = false, $first = false ) {
+        $store = null;
+
+        $membershipTypeID   = self::retrieve( 'membershipTypeID', 'Integer', 'GET', false );
+
+        // make sure the invoice is valid and matches what we have in the contribution record
+        if ( ( ! $recur ) || ( $recur && $first ) ) {
+            $invoice             = self::retrieve( 'invoice', 'String' , 'POST', true );
+            if ( $contribution->invoice_id != $invoice ) {
+                CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
+                echo "Failure: Invoice values dont match between database and IPN request<p>";
+                return;
+            }
+        } else {
+            $contribution->invoice_id = md5(uniqid(rand(), true));
+        }
+
+        $now = date( 'YmdHis' );
+        if ( ! $recur ) {
+            $amount =  self::retrieve( 'payment_gross', 'Money', 'POST', true );
+            if ( $contribution->total_amount != $amount ) {
+                CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
+                echo "Failure: Amount values dont match between database and IPN request<p>";
+                return;
+            }
+        } else {
+            $amount =  self::retrieve( 'amount3', 'Money', 'POST', true );
+            $contribution->total_amount = $amount;
+        }
+
 
         // ok we are done with error checking, now let the real work begin
         // update the contact record with the name and address
@@ -104,12 +199,12 @@ class CRM_Contribute_Payment_PayPalIPN {
                          'postal_code'    => 'address_zip',
                          'country'        => 'address_country_code' );
         foreach ( $lookup as $name => $paypalName ) {
-            $value = CRM_Utils_Request::retrieve( $paypalName, 'String', $store,
-                                                  false, null, 'POST' );
+            $value = self::retrieve( $paypalName, 'String', 'POST', false );
             if ( $value ) {
                 $params[$name] = $value;
             }
         }
+
         if ( ! empty( $params ) ) {
             // update contact record
             $idParams = array( 'id' => $contactID, 'contact_id' => $contactID );
@@ -120,9 +215,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         // lets keep this the same
         $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
 
-        $status = CRM_Utils_Request::retrieve( 'payment_status', 'String', $store,
-                                               false, 0, 'POST' );
-        
+        $status = self::retrieve( 'payment_status', 'String', 'POST', true );
         if ( $status == 'Denied' || $status == 'Failed' || $status == 'Voided' ) {
             $contribution->contribution_status_id = 4;
             $contribution->save( );
@@ -138,8 +231,7 @@ class CRM_Contribute_Payment_PayPalIPN {
         } else if ( $status == 'Refunded' || $status == 'Reversed' ) {
             $contribution->contribution_status_id = 3;
             $contribution->cancel_date = $now;
-            $contribution->cancel_reason = CRM_Utils_Request::retrieve( 'ReasonCode', 'String', $store,
-                                                                        false, null,'POST' );
+            $contribution->cancel_reason = self::retrieve( 'ReasonCode', 'String', 'POST', false );
             $contribution->save( );
             CRM_Core_DAO::transaction( 'COMMIT' );
             CRM_Core_Error::debug_log_message( "Setting contribution status to cancelled" );
@@ -163,14 +255,11 @@ class CRM_Contribute_Payment_PayPalIPN {
         CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
         
         $contribution->contribution_status_id  = 1;
-        $contribution->is_test    = CRM_Utils_Request::retrieve( 'test_ipn', 'Integer', $store,
-                                                                 false, 0, 'POST' );
-        $contribution->fee_amount = CRM_Utils_Request::retrieve( 'payment_fee', 'Money', $store, 
-                                                                 false, 0, 'POST' );
-        $contribution->net_amount = CRM_Utils_Request::retrieve( 'settle_amount', 'Money', $store,  
-                                                                 false, 0, 'POST' ); 
-        $contribution->trxn_id    = CRM_Utils_Request::retrieve( 'txn_id', 'String', $store,
-                                                                 false, 0, 'POST' );
+        $contribution->is_test    = self::retrieve( 'test_ipn'     , 'Integer', 'POST', false );
+        $contribution->fee_amount = self::retrieve( 'payment_fee'  , 'Money'  , 'POST', false );
+        $contribution->net_amount = self::retrieve( 'settle_amount', 'Money'  , 'POST', false );
+        $contribution->trxn_id    = self::retrieve( 'txn_id'       , 'String' , 'POST', false );
+
         if ( $values['is_email_receipt'] ) {
             $contribution->receipt_date = $now;
         }
@@ -240,8 +329,7 @@ class CRM_Contribute_Payment_PayPalIPN {
                     $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id']);
                     $currentMembership['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
                     $currentMembership['end_date']   = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
-                    $currentMembership['source']     = CRM_Utils_Request::retrieve( 'item_name', 'String', $store,
-                                                                                    false, 0, 'POST' );
+                    $currentMembership['source']     = self::retrieve( 'item_name', 'String', 'POST', false );
                     $dao->copyValues($currentMembership);
                     $membership = $dao->save();
                     
@@ -329,18 +417,9 @@ class CRM_Contribute_Payment_PayPalIPN {
 
         // get the contribution, contact and contributionType ids from the GET params
         $store              = null;
-        $contactID          = CRM_Utils_Request::retrieve( 'contactID', 'Integer', $store,
-                                                           false, null, 'GET' );
-        $contributionID     = CRM_Utils_Request::retrieve( 'contributionID', 'Integer', $store,
-                                                           false, null, 'GET' );
-        $contributionTypeID = CRM_Utils_Request::retrieve( 'contributionTypeID', 'Integer', $store,
-                                                         false, null, 'GET' );
-
-        if ( ! $contactID || ! $contributionID || ! $contributionTypeID ) {
-            CRM_Core_Error::debug_log_message( "Could not find the right GET parameters" );
-            echo "Failure: Invalid parameters<p>";
-            return;
-        }
+        $contactID          = self::retrieve( 'contactID'         , 'Integer', 'GET', true );
+        $contributionID     = self::retrieve( 'contributionID'    , 'Integer', 'GET', true );
+        $contributionTypeID = self::retrieve( 'contributionTypeID', 'Integer', 'GET', true );
 
         // make sure contact exists and is valid
         require_once 'CRM/Contact/DAO/Contact.php';
@@ -376,12 +455,12 @@ class CRM_Contribute_Payment_PayPalIPN {
             // check if first contribution is completed, else complete first contribution
             $first = false;
             if ( $contribution->contribution_status_id != 1 ) {
-                self::single( $contactID, $contribution, $contributionType );
+                self::single( $contactID, $contribution, $contributionType, true );
                 $first = true;
             }
             return self::recur( $contactID, $contribution, $contributionType, $first );
         } else {
-            return self::single( $contactID, $contribution, $contributionType );
+            return self::single( $contactID, $contribution, $contributionType, false, false );
         }
     }
 
