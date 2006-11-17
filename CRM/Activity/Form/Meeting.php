@@ -66,13 +66,11 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 
         $this->applyFilter('__ALL__', 'trim');
        
-        $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Meeting', 'subject' ) );
-        $this->addRule( 'subject', ts('Please enter a valid subject.'), 'required' );
-
-        $this->addElement('date', 'scheduled_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('datetime'));
-        $this->addRule('scheduled_date_time', ts('Select a valid date.'), 'qfDate');
-        $this->addRule( 'scheduled_date_time', ts('Please select Scheduled Date.'), 'required' );
+        $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Meeting', 'subject' ),true );
         
+        $this->add('date', 'scheduled_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('datetime'),true);
+        $this->addRule('scheduled_date_time', ts('Select a valid date.'), 'qfDate');
+              
         $this->add('select','duration_hours',ts('Duration'),CRM_Core_SelectValues::getHours());
         $this->add('select','duration_minutes', null,CRM_Core_SelectValues::getMinutes());
 
@@ -81,7 +79,6 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Meeting', 'details' ) );
         
         $status =& $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus());
-        $this->addRule( 'status', ts('Please select status.'), 'required' );
     }
 
     /**

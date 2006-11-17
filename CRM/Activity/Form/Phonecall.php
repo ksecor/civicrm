@@ -79,8 +79,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         $this->add('select', 'duration_minutes', '', CRM_Core_SelectValues::getMinutes());
         
         $status =& $this->add('select','status',ts('Status'),CRM_Core_SelectValues::activityStatus(true));
-        $this->addRule( 'status', ts('Please select status.'), 'required' );
-        
+                
         $this->add('textarea', 'details'       , ts('Details')       ,CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Phonecall', 'details' ));
         
     }
