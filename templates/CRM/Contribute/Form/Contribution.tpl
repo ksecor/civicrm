@@ -102,14 +102,16 @@
 
       {if $premiums }
       <fieldset><legend>{ts}Premium Information{/ts}</legend> 
-        <table class="form-layout-compressed">
-           <tr><td class="label">{$form.product_name.label}</td><td>{$form.product_name.html}</td></tr>
-           <tr><td class="label">{$form.min_amount.label}</td><td>{$form.min_amount.html|crmReplace:class:texttolabel}</td></tr>
-           <tr><td class="label">{$form.fulfilled_date.label}</td><td>{$form.fulfilled_date.html}
+        <div class="form-layout-compressed">
+           <dt class="label">{$form.product_name.label}</dt><dd>{$form.product_name.html}</dd>
+           <div id="premium_contri">
+	   <dt class="label">{$form.min_amount.label}</dt><dd>{$form.min_amount.html|crmReplace:class:texttolabel}</dd>
+           </div>
+           <dt class="label">{$form.fulfilled_date.label}</dt><dd>{$form.fulfilled_date.html}
            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_5}
            {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_5}      
-           </td></tr>
-        </table>            
+           </dd>
+        </div>            
       </fieldset>
       {/if} 
       {include file="CRM/Contact/Form/CustomData.tpl" mainEditForm=1}
@@ -122,9 +124,18 @@
                var product = document.getElementsByName("product_name[0]")[0];
                var product_id = product.options[product.selectedIndex].value;
                var min_amount = document.getElementById("min_amount");
+ 	 
+	       
                var amount = new Array();
                amount[0] = '';  
+	
+               if( product_id > 0 ) {  
+		  show('premium_contri');	      	
+               } else {
+	          hide('premium_contri');	      
+             }
       {/literal}
+     
       var index = 1;
       {foreach from= $mincontribution item=amt key=id}
             {literal}amount[index]{/literal} = "{$amt}"
@@ -135,7 +146,7 @@
               min_amount.value = '$'+amount[product_id];
           } else {
               min_amount.value = "";
-        }           
+          }           
      }  
      </script> 
      {/literal}
@@ -153,6 +164,7 @@
 {if $action eq 1 or $action eq 2 }
     <script type="text/javascript">
     showMinContrib( );
+
     </script>            
 {/if}
 
