@@ -37,11 +37,10 @@
 	 }
     
 	function showHideCertificatePath(){
-	   if ((document.getElementsByName("paymentProcessor")[0].value == "PayPal") || (document.getElementsByName("paymentProcessor")[0].value == "PayPal_Express") ||(document.getElementsByName("paymentProcessor")[0].value == "PayPal_Standard") ) {
-
-          show('certificate_path');
-        }   else {
-          hide('certificate_path');
+	   if ((document.getElementsByName("paymentProcessor")[0].value == "PayPal") || (document.getElementsByName("paymentProcessor")[0].value == "PayPal_Express") ) {
+                show('certificate_path');
+            }   else {
+                hide('certificate_path');
 	   }
 	} 
      </script>
