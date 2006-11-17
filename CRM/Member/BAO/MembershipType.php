@@ -274,19 +274,34 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                 }
             $startDate = $year.'-'.$month.'-'.$day;
         }
-       
+        
+        
+        
         if ( $membershipTypeDetails['period_type'] == 'fixed' && $membershipTypeDetails['fixed_period_rollover_day'] != null ) {
+        
             $toDay  = explode('-', date('Y-m-d'));
+            $month     = substr( $membershipTypeDetails['fixed_period_start_day'], 0, strlen($membershipTypeDetails['fixed_period_start_day'])-2);
+            $day       = substr( $membershipTypeDetails['fixed_period_start_day'],-2);
+            $year      = $toDay[0];
+            
+            $fixedStartDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day, $year));
+
+            
             $month     = substr( $membershipTypeDetails['fixed_period_rollover_day'], 0, strlen($membershipTypeDetails['fixed_period_rollover_day'])-2);
             $day       = substr( $membershipTypeDetails['fixed_period_rollover_day'],-2);
-            if ( $month < $toDay[1] ) {
-                $fixed_period_rollover = true;
-            } else if ( $month == $toDay[1] && $day <= $toDay[2]) {
-                $fixed_period_rollover = true;
-            } else {
-                $fixed_period_rollover = false;
+
+            $fixedRolloverDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day, $year));
+            if ( $fixedRolloverDate <= $fixedStartDate  ) {
+                $fixedRolloverDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day, $year+1));
             }
-                
+
+            
+            $fixed_period_rollover = false;
+            $toDay = date('Y-m-d');
+            
+            if ($fixedRolloverDate <= $toDay) {
+                 $fixed_period_rollover = true;
+            }
         }
                
         $date  = explode('-', $startDate );
