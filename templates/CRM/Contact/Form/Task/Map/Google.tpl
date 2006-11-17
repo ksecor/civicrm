@@ -9,8 +9,6 @@
       var span    = new GSize({/literal}{$span.lng},{$span.lat}{literal});
       var center  = new GLatLng({/literal}{$center.lat},{$center.lng}{literal});
 
-      var geocoder = new GClientGeocoder();
-
       var oldZoom = 13;
       var newZoom = 17 - oldZoom; //Relation between zoom levels of v1 and v2 
 
@@ -27,38 +25,15 @@
 
         return marker;
       }
-	function showAddress(address, data) {
-	  geocoder.getLatLng(
-	    address,
-	    function(point) {
-	      if ( point ) {
-	        map.setCenter(point, 13);
-	        var marker = createMarker(point, data);
-	        map.addOverlay(marker);
-              }
-      {/literal}
-{if $geoCodeWarn}
-      {literal}
-	      else {
-	        alert( address + ': could not be geocoded, please check and try again' );
-              }
-      {/literal}
-{/if}
-      {literal}
-	    }
-	  );
-	}
       
       {/literal}
       {foreach from=$locations item=location}
-      {literal} 
+      {literal}
 
 	 var data = "{/literal}<a href={$location.url}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}<br /><br />Get Directions TO:&nbsp;<input type=text id=to size=20>&nbsp;<a href=\"javascript:popUp();\">&raquo; Go</a>{literal}";
 	 var address = "{/literal}{$location.address}{literal}";
 {/literal}
-{if $mapGeoCoding and $location.geoCodeAddress}
-   showAddress("{$location.geoCodeAddress}", data);
-{elseif $location.lat}
+{if $location.lat}
        	var point = new GLatLng({$location.lat},{$location.lng});
 	map.setCenter(center, newZoom);
        	var marker = createMarker(point, data);
@@ -72,7 +47,7 @@
 
     function popUp() {
        {/literal}
-       var from = '{$location.geoCodeAddress}';
+       var from = '{$location.address}';
        {literal}
        var to   = document.getElementById('to').value;
        var URL  = "http://maps.google.com/maps?saddr=" + from + "&daddr=" + to;

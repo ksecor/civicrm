@@ -322,13 +322,6 @@ class CRM_Core_Config
     public $mapProvider = null;
 
     /**
-     * Map GeoCoding 
-     *
-     * @var boolean
-     */
-    public $mapGeoCoding = null;
-
-    /**
      * Map API Key 
      *
      * @var boolean
@@ -781,10 +774,6 @@ class CRM_Core_Config
 
          if ( defined( 'CIVICRM_MAP_API_KEY' ) ) {
              $this->mapAPIKey = CIVICRM_MAP_API_KEY;
-         }
-
-         if ( defined( 'CIVICRM_MAP_GEOCODING' ) ) {
-             $this->mapGeoCoding = CIVICRM_MAP_GEOCODING;
          }
 
          if ( defined( 'CIVICRM_GEOCODE_METHOD' ) ) {
