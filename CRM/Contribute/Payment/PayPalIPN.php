@@ -113,7 +113,8 @@ class CRM_Contribute_Payment_PayPalIPN {
         if ( ! empty( $params ) ) {
             // update contact record
             $idParams = array( 'id' => $contactID, 'contact_id' => $contactID );
-            CRM_Contact_BAO_Contact::createFlat($params, $idParams );
+            require_once "CRM/Contact/BAO/Contact.php";
+            $contact = CRM_Contact_BAO_Contact::createFlat($params, $idParams );
         }
 
         // lets keep this the same
@@ -121,7 +122,7 @@ class CRM_Contribute_Payment_PayPalIPN {
 
         $status = CRM_Utils_Request::retrieve( 'payment_status', 'String', $store,
                                                false, 0, 'POST' );
-
+        
         if ( $status == 'Denied' || $status == 'Failed' || $status == 'Voided' ) {
             $contribution->contribution_status_id = 4;
             $contribution->save( );
@@ -131,7 +132,7 @@ class CRM_Contribute_Payment_PayPalIPN {
             return;
         } else if ( $status == 'Pending' ) {
             CRM_Core_Error::debug_log_message( "returning since contribution status is pending" );
-
+            
             echo "Success: Returning since contribution status is pending<p>";
             return;
         } else if ( $status == 'Refunded' || $status == 'Reversed' ) {
@@ -158,6 +159,7 @@ class CRM_Contribute_Payment_PayPalIPN {
             return;
         }
 
+        require_once 'CRM/Contribute/BAO/ContributionPage.php';
         CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
         
         $contribution->contribution_status_id  = 1;
@@ -223,7 +225,10 @@ class CRM_Contribute_Payment_PayPalIPN {
             $template =& CRM_Core_Smarty::singleton( );
             $template->assign('membership_assign' , true );
             
-            $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipID );
+            require_once 'CRM/Member/BAO/Membership.php';
+            require_once 'CRM/Member/DAO/MembershipLog.php';
+            require_once 'CRM/Member/BAO/MembershipType.php';
+            $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeID );
             $template->assign('membership_name',$membershipDetails['name']);
             
             $minimumFee = $membershipDetails['minimum_fee'];
@@ -231,7 +236,6 @@ class CRM_Contribute_Payment_PayPalIPN {
             
             if ($currentMembership = CRM_Member_BAO_Membership::getContactMembership($contactID,  $membershipTypeID)) {
                 if ( ! $currentMembership['is_current_member'] ) {
-                    require_once 'CRM/Member/BAO/MembershipStatus.php';
                     $dao = &new CRM_Member_DAO_Membership();
                     $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id']);
                     $currentMembership['start_date'] = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
@@ -242,7 +246,6 @@ class CRM_Contribute_Payment_PayPalIPN {
                     $membership = $dao->save();
                     
                     //insert log here 
-                    require_once 'CRM/Member/DAO/MembershipLog.php';
                     $dao = new CRM_Member_DAO_MembershipLog();
                     $dao->membership_id = $membership->id;
                     $dao->status_id     = $membership->status_id;
@@ -256,14 +259,12 @@ class CRM_Contribute_Payment_PayPalIPN {
                     $template->assign('mem_end_date',   CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                     
                 } else {
-                    require_once 'CRM/Member/BAO/MembershipStatus.php';
                     $dao = &new CRM_Member_DAO_Membership();
                     $dao->id = $currentMembership['id'];
                     $dao->find(true); 
                     $membership = $dao ;
                     
                     //insert log here 
-                    require_once 'CRM/Member/DAO/MembershipLog.php';
                     $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id);
                     $dao = new CRM_Member_DAO_MembershipLog();
                     $dao->membership_id = $membership->id;
@@ -278,10 +279,31 @@ class CRM_Contribute_Payment_PayPalIPN {
                     $template->assign('mem_end_date',   CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
                     
                 }
+            } else {
+                require_once 'CRM/Member/BAO/MembershipStatus.php';
+                $memParams = array();
+                $memParams['contact_id']             = $contactID;
+                $memParams['membership_type_id']     = $membershipTypeID;
+                $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membershipTypeID);
+                
+                $memParams['join_date']     = CRM_Utils_Date::customFormat($dates['join_date'],'%Y%m%d');
+                $memParams['start_date']    = CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d');
+                $memParams['end_date']      = CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d');
+                $memParams['reminder_date'] = CRM_Utils_Date::customFormat($dates['reminder_date'],'%Y%m%d'); 
+                $memParams['source'  ]      = CRM_Utils_Request::retrieve( 'item_name', 'String', $store,
+                                                                           false, 0, 'POST' );
+                $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( CRM_Utils_Date::customFormat($dates['start_date'],'%Y-%m-%d'),CRM_Utils_Date::customFormat($dates['end_date'],'%Y-%m-%d'),CRM_Utils_Date::customFormat($dates['join_date'],'%Y-%m-%d')) ;
+                
+                $memParams['status_id']   = $status['id'];
+                $memParams['is_override'] = false;
+                $dao = &new CRM_Member_DAO_Membership();
+                $dao->copyValues($memParams);
+                $membership = $dao->save();
+                $template->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
+                $template->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
             }
         }
-
-        $values = array( );
+        
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
