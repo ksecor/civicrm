@@ -61,7 +61,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
      * @access public
      * @static
      */
-    static function add(&$params, &$ids, $locationId)
+    static function add(&$params, &$ids, $locationId, $fixAddress = true)
     {
         if ( ! self::dataExists($params, $locationId, $ids) ) {
             return null;
@@ -70,15 +70,17 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
         $address              =& new CRM_Core_BAO_Address();
         $address->location_id = $params['location'][$locationId]['id'];
         $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
-
-        CRM_Core_BAO_Address::fixAddress( $params['location'][$locationId]['address'] );
-
+        
+        if ( $fixAddress ) {
+            CRM_Core_BAO_Address::fixAddress( $params['location'][$locationId]['address'] );
+        }
+        
         if ( $address->copyValues($params['location'][$locationId]['address']) ) {
             // we copied only null stuff, so we delete the object
             $address->delete( );
             return null;
         }
-
+        
         return $address->save();
     }
 

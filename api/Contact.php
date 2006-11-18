@@ -139,7 +139,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 }
 
 
-function &crm_create_contact_formatted( &$params , $onDuplicate) {
+function &crm_create_contact_formatted( &$params , $onDuplicate, $fixAddress = true ) {
     _crm_initialize( );
 
     CRM_Core_DAO::freeResult( );
@@ -171,7 +171,7 @@ function &crm_create_contact_formatted( &$params , $onDuplicate) {
     CRM_Contact_BAO_Contact::resolveDefaults($params, true);
 
     $contact = CRM_Contact_BAO_Contact::create( $params, $ids, 
-                                                count($params['location']));
+                                                count($params['location']), $fixAddress);
 
     return $contact;
 }

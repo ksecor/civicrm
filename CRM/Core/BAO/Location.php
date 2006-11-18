@@ -64,7 +64,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId ) {
+    static function add( &$params, &$ids, $locationId, $fixAddress = true ) {
         if ( ! self::dataExists( $params, $locationId, $ids ) ) {
             return null;
         }
@@ -117,7 +117,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         $location->save( );
 
         $params['location'][$locationId]['id'] = $location->id;
-        $address_object = CRM_Core_BAO_Address::add( $params, $ids, $locationId );
+        $address_object = CRM_Core_BAO_Address::add( $params, $ids, $locationId, $fixAddress );
         $location->address = $address_object;
         // set this to true if this has been made the primary IM.
         // the rule is the first entered value is the primary object

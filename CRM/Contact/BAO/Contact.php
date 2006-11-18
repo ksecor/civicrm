@@ -516,7 +516,7 @@ ORDER BY
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids, $maxLocationBlocks) {
+    static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true) {
         if (!$params['contact_type']) {
             return;
         }
@@ -540,7 +540,7 @@ ORDER BY
 
         $location = array();
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-            $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId);
+            $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
         }
         $contact->location = $location;
 	

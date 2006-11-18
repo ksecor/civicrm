@@ -457,7 +457,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     $this->_newContacts[] = $newContact->id;
             }
         } else {
-            $newContact = crm_create_contact_formatted( $formatted, $onDuplicate );
+            $newContact = crm_create_contact_formatted( $formatted, $onDuplicate, false );
             $relationship = true;
         }
         if ( $relationship ) {
