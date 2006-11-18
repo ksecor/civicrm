@@ -14,14 +14,17 @@
 </div>
 
 {if $rows}
+   {include file="CRM/common/dojo.tpl"}
     <div class="form-item" id="configure_contribution_page">
         {strip}
-        <table>
-        <tr class="columnheader">
-            <th>{ts}Title{/ts}</th>
-            <th>{ts}Status?{/ts}</th>
-            <th>&nbsp;</th>
-        </tr>
+        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+         <thead> 
+          <tr class="columnheader">
+            <th field="Title" dataType="String" >{ts}Title{/ts}</th>
+            <th field="Status" dataType="String" >{ts}Status?{/ts}</th>
+            <th datatype="html">&nbsp;</th>
+          </tr>
+         </thead>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>
