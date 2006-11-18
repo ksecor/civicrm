@@ -213,7 +213,7 @@ class CRM_Contribute_BAO_Query
             $statusValues = CRM_Core_OptionGroup::values("contribution_status");
             if ($value != "All") {
                 $query->_where[$grouping][] = "civicrm_contribution.contribution_status_id $op " .$value ;
-                $query->_qill[$grouping ][]  = ts( 'Contribution Status -' ) . $statusValues[$value];
+                $query->_qill[$grouping ][]  = ts( 'Contribution Status - "%1"', array ( 1 => $statusValues[$value]));
                 $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
                 return;
             }
