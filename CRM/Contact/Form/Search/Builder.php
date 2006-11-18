@@ -134,9 +134,13 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         
         require_once 'CRM/Utils/Type.php';
         $errorMsg = array ();
-        foreach ($fld as $k => $v) {          
+        foreach ($fld as $k => $v) {   
             if ( !$v[1] ) {
                 $errorMsg["operator[$v[3]][$v[4]]"] = "Please enter the operator.";  
+            } else if( is_array($v[2]) ) {
+                if( ! key($v[2]) ) {
+                    $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the value.";  
+                }
             } else {
                 if ( $v[0] == 'group' ) {
                     $grpId = array_keys($v[2]);
@@ -165,11 +169,11 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
                         if ( substr( $v[0], 0, 13 ) == 'contribution_' ) {
                             $fldName = substr($v[0], 13 );
                         }
-                
+                        
                         $fldType = $fields[$fldName]['type'];
                         $type  = CRM_Utils_Type::typeToString( $fldType );
                     }
-
+                    
                     if ( trim($v[2]) && $type ) {
                         $error = CRM_Utils_Type::validate( $v[2], $type, false );
                         if ( $error != $v[2]  ) {
