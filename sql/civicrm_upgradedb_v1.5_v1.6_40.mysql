@@ -351,6 +351,7 @@ CREATE TABLE civicrm_msg_template (
 	ALTER TABLE `civicrm_contribution_recur` ADD trxn_id varchar(255) COMMENT 'unique transaction id. may be processor id, bank id + trans id, or account number + check number... depending on payment_method';
 	ALTER TABLE `civicrm_contribution_recur` ADD  invoice_id varchar(255) COMMENT 'unique invoice id, system generated or passed in';
 	ALTER TABLE `civicrm_contribution_recur` ADD contribution_status_id int unsigned NULL DEFAULT '1' AFTER invoice_id;
+	ALTER TABLE `civicrm_contribution_recur` ADD end_date datetime NOT NULL AFTER cancel_date;
 	
 	ALTER TABLE `civicrm_contribution_recur` MODIFY start_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
     	ALTER TABLE `civicrm_contribution_recur` MODIFY create_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
