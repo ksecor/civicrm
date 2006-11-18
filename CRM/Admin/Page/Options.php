@@ -106,9 +106,6 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         } else {
             CRM_Utils_System::setTitle(ts(self::$_GName . ' Options'));
         }
-
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
-
     }
 
     /**
@@ -170,6 +167,8 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
      */
     function run()
     {
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
+
         $this->preProcess();
         parent::run();
     }
