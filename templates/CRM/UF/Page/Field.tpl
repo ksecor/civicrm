@@ -4,12 +4,11 @@
     {include file="CRM/UF/Form/Preview.tpl"}
 {else}
     {if $ufField}
-    {include file="CRM/common/dojo.tpl"}
     <div id="field_page">
      <p></p>
         <div class="form-item">
         {strip}
-    <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+    <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
 	<thead>
         <tr class="columnheader">
             <th field="Name" dataType="String">{ts}CiviCRM Field Name{/ts}</th>
@@ -23,6 +22,8 @@
             <th datatype="html"></th>
         </tr>
     </thead>
+	
+	<tbody>
         {foreach from=$ufField item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}
             {if NOT $row.is_active}disabled{/if}">
@@ -37,6 +38,7 @@
             <td>{$row.action}</td>
         </tr>
         {/foreach}
+	</tbody>
         </table>
         {/strip}
         

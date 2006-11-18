@@ -6,7 +6,6 @@
     {include file="CRM/UF/Form/Preview.tpl"}
 {elseif $action eq 8192}
     {* Display HTML Code for standalone Profile form *}
-    {include file="CRM/common/dojo.tpl"}
     <div id="help">
     <p>{ts}The HTML code below will display a form consisting of the active CiviCRM Profile fields. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information.{/ts} {help id='standalone'}</p>
     </div>
@@ -34,7 +33,7 @@
     <p></p>
         <div class="form-item">
         {strip}
-       <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+      <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
     <thead>
         <tr class="columnheader">
             <th field="Title" dataType="String" >{ts}Profile Title{/ts}</th>
@@ -45,7 +44,9 @@
 
             <th datatype="html"></th>
         </tr>
-     </thead>   
+     </thead> 
+
+    <tbody>  
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}
         {if NOT $row.is_active}disabled{/if}">
@@ -57,6 +58,7 @@
             <td>{$row.action}</td>
         </tr>
         {/foreach}
+    </tbody>
         </table>
         
         {if NOT ($action eq 1 or $action eq 2)}
