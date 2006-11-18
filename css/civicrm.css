@@ -433,12 +433,16 @@ div.spacer, .spacer {
   border: 1px solid #ddd;
 }
 
-#crm-container .odd-row {
+#crm-container .odd-row, tbody.scrollContent {
   background-color: #FAFAF8;
 }
 
-#crm-container .even-row {
+#crm-container .even-row, tbody.scrollContent tr.alternateRow  {
   background-color: #EAEAEA;
+}
+
+#crm-container tbody.scrollContent tr:hover  {
+  background-color: #D1D1D1;
 }
 
 #crm-container tr.even-row td, #crm-container tr.odd-row td {
@@ -750,6 +754,18 @@ div.crm-pager a {
 }
 
 #crm-container .content-pane {
-	overflow: auto;
+  overflow: auto;
 }
 
+#crm-container thead td.selectedUp,#crm-container thead th.selectedUp { 
+  background-repeat: no-repeat;
+  background-position: 75% 50%;
+  background-image:url(./sort-asc.png);
+}
+
+#crm-container thead td.selectedDown,#crm-container thead th.selectedDown { 
+  background-repeat: no-repeat;
+  background-position: 75% 50%;
+  background-image:url(./sort-desc.png);
+  margin-right: 20px;
+}
