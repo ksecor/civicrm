@@ -42,7 +42,8 @@
             <th field="Used" dataType="String">{ts}Used For{/ts}</th>
             <th field="Status" dataType="String">{ts}Status?{/ts}</th>
             <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
-            <th></th>
+
+            <th datatype="html"></th>
         </tr>
      </thead>   
         {foreach from=$rows item=row}

@@ -8,17 +8,20 @@
 {/if}
 
 {if $rows}
+{include file="CRM/common/dojo.tpl"}
 <div id="mapping">
 <p></p>
     <div class="form-item">
         {strip}
-        <table>
+        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+	<thead> 
         <tr class="columnheader">
-	        <th>{ts}Name{/ts}</th>
-	        <th>{ts}Description{/ts}</th>
-            <th>{ts}Mapping Type{/ts}</th>
-	        <th></th>
+	        <th field="Name" dataType="String" >{ts}Name{/ts}</th>
+	        <th field="Description" dataType="String">{ts}Description{/ts}</th>
+            <th field="MemberType" dataType="String">{ts}Mapping Type{/ts}</th>
+	        <th datatype="html"></th>
         </tr>
+        </thead>   
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
             <td>{$row.name}</td>	

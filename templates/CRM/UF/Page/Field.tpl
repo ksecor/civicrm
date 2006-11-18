@@ -4,22 +4,25 @@
     {include file="CRM/UF/Form/Preview.tpl"}
 {else}
     {if $ufField}
+    {include file="CRM/common/dojo.tpl"}
     <div id="field_page">
      <p></p>
         <div class="form-item">
         {strip}
-        <table>
+    <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+	<thead>
         <tr class="columnheader">
-            <th>{ts}CiviCRM Field Name{/ts}</th>
-            <th>{ts}Visibility{/ts}</th>
-            <th>{ts}Searchable?{/ts}</th>
-            <th>{ts}In Selector?{/ts}</th>
-            <th>{ts}Weight{/ts}</th>
-            <th>{ts}Active{/ts}</th>	
-            <th>{ts}Required{/ts}</th>	
-            <th>{ts}View Only{/ts}</th>	
-            <th>&nbsp;</th>
+            <th field="Name" dataType="String">{ts}CiviCRM Field Name{/ts}</th>
+            <th field="Visibility" dataType="String">{ts}Visibility{/ts}</th>
+            <th field="Searchable" dataType="String">{ts}Searchable?{/ts}</th>
+            <th field="Selector" dataType="String">{ts}In Selector?{/ts}</th>
+            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+            <th field="Active" dataType="String">{ts}Active{/ts}</th>	
+            <th field="Required" dataType="String">{ts}Required{/ts}</th>	
+            <th field="View" dataType="String">{ts}View Only{/ts}</th>	
+            <th datatype="html"></th>
         </tr>
+    </thead>
         {foreach from=$ufField item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}
             {if NOT $row.is_active}disabled{/if}">
