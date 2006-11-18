@@ -48,7 +48,7 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
      * @static
      */
     static $_links = null;
-
+   
     /**
      * Get BAO Name
      *
@@ -114,6 +114,8 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
      */
     function run()
     {
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
+
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
