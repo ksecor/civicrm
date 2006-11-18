@@ -231,6 +231,8 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
     function run()
     {
         require_once 'CRM/Core/BAO/CustomField.php';
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
+
         // get the field id
         $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
                                                   $this, false, 0);

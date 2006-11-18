@@ -323,7 +323,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      * @static 
      */ 
     static function formRule( &$fields, &$files, &$self ) { 
-       
+        //$config =& CRM_Core_Config::singleton( );print_r($config);
         $errors = array( ); 
 
         // first clean up the other amount field if present

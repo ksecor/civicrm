@@ -3,19 +3,22 @@
 {/if}
 
 {if $customOption}
+    {include file="CRM/common/dojo.tpl"}
     <div id="field_page">
      <p></p>
         <div class="form-item">
         {strip}
-        <table>
+        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+    	<thead>
         <tr class="columnheader">
-        <th>{ts}Option Label{/ts}</th>
-        <th>{ts}Option Value{/ts}</th>
-	    <th>{ts}Default{/ts}</th>
-        <th>{ts}Weight{/ts}</th>
-	    <th>{ts}Status?{/ts}</th>
-            <th>&nbsp;</th>
+        <th field="Option Label" dataType="String">{ts}Option Label{/ts}</th>
+        <th field="Option Value" dataType="String">{ts}Option Value{/ts}</th>
+	    <th field="Default" dataType="String">{ts}Default{/ts}</th>
+        <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+	    <th field="Status" dataType="String" >{ts}Status?{/ts}</th>
+        <th datatype="html">&nbsp;</th>
         </tr>
+        </thead>
         {foreach from=$customOption item=row}
         <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>

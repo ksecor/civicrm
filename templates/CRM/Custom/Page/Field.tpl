@@ -6,20 +6,23 @@
     {include file="CRM/Custom/Form/Preview.tpl"}
 {else}
     {if $customField}
+    {include file="CRM/common/dojo.tpl"}
     <div id="field_page">
      <p></p>
         <div class="form-item">
         {strip}
-        <table>
+        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+    	<thead> 
         <tr class="columnheader">
-            <th>{ts}Field Label{/ts}</th>
-            <th>{ts}Data Type{/ts}</th>
-            <th>{ts}Field Type{/ts}</th>
-            <th>{ts}Weight{/ts}</th>
-            <th>{ts}Req?{/ts}</th>
-            <th>{ts}Status?{/ts}</th>
-            <th>&nbsp;</th>
+            <th field="Field Label" dataType="String">{ts}Field Label{/ts}</th>
+            <th field="Data Type"   dataType="String">{ts}Data Type{/ts}</th>
+            <th field="Field Type"  dataType="String">{ts}Field Type{/ts}</th>
+            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+            <th field="Req"         dataType="String">{ts}Req?{/ts}</th>
+            <th field="Status"      dataType="String">{ts}Status?{/ts}</th>
+            <th datatype="html">&nbsp;</th>
         </tr>
+        </thead>
         {foreach from=$customField item=row}
         <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
