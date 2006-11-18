@@ -8,18 +8,21 @@
 {/if}
 
 {if $rows}
+{include file="CRM/common/dojo.tpl"}
 <div id="ltype">
 <p></p>
     <div class="form-item">
         {strip}
-        <table>
+        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+        <thead>
         <tr class="columnheader">
-	        <th>{ts}Relationship A to B{/ts}</th>
-	        <th>{ts}Relationship B to A{/ts}</th>
-	        <th>{ts}Contact Type A{/ts}</th>
-	        <th>{ts}Contact Type B{/ts}</th>
-	        <th></th>
+	        <th field="Relationship A to B" dataType="String" sort="asc">{ts}Relationship A to B{/ts}</th>
+	        <th field="Relationship B to A" dataType="String">{ts}Relationship B to A{/ts}</th>
+	        <th field="Contact Type A" dataType="String">{ts}Contact Type A{/ts}</th>
+	        <th field="Contact Type B" dataType="String">{ts}Contact Type B{/ts}</th>
+	        <th datatype="html"></th>
         </tr>
+        </thead>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td> {$row.name_a_b} </td>	

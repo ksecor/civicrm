@@ -8,20 +8,23 @@
 {/if}
 
 {if $rows}
+{include file="CRM/common/dojo.tpl"}
 <div id="browseValues">
     <div class="form-item">
         {strip}
-        <table>
+        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+        <thead>
         <tr class="columnheader">
-            <th>{ts}Title{/ts}</th>
-            <th>{ts}Value{/ts}</th>
-            <th>{ts}Description{/ts}</th>
-            <th>{ts}Weight{/ts}</th>
-            <th>{ts}Default{/ts}</th>
-            <th>{ts}Reserved?{/ts}</th>
-            <th>{ts}Enabled?{/ts}</th>
-            <th></th>
+            <th field="Title" dataType="String">{ts}Title{/ts}</th>
+            <th field="Value" dataType="String">{ts}Value{/ts}</th>
+            <th field="Description" dataType="String">{ts}Description{/ts}</th>
+            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+            <th field="Default"  dataType="String">{ts}Default{/ts}</th>
+            <th field="Reserved" dataType="String">{ts}Reserved?{/ts}</th>
+            <th field="Enabled" dataType="String">{ts}Enabled?{/ts}</th>
+            <th datatype="html"></th>
         </tr>
+        </thead>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
