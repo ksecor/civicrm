@@ -130,6 +130,8 @@ class CRM_UF_Page_Group extends CRM_Core_Page
      */
     function run()
     {
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
+
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false,

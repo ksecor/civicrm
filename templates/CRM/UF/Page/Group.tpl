@@ -29,19 +29,22 @@
     </div>
 
     {if $rows}
+    {include file="CRM/common/dojo.tpl"}
     <div id="uf_profile">
     <p></p>
         <div class="form-item">
         {strip}
-        <table>
+       <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+    <thead>
         <tr class="columnheader">
-            <th>{ts}Profile Title{/ts}</th>
-            <th>{ts}ID{/ts}</th>
-            <th>{ts}Used For{/ts}</th>
-            <th>{ts}Status?{/ts}</th>
-            <th>{ts}Weight{/ts}</th>
+            <th field="Title" dataType="String" >{ts}Profile Title{/ts}</th>
+            <th field="ID" dataType="Number">{ts}ID{/ts}</th>
+            <th field="Used" dataType="String">{ts}Used For{/ts}</th>
+            <th field="Status" dataType="String">{ts}Status?{/ts}</th>
+            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
             <th></th>
         </tr>
+     </thead>   
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}
         {if NOT $row.is_active}disabled{/if}">
