@@ -7,12 +7,11 @@
 {/if}
 
 {if $rows}
-{include file="CRM/common/dojo.tpl"}
 <div id="membership_type">
 <p></p>
     <div class="form-item">
         {strip}
-	<table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+	<table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
 	<thead>
         <tr class="columnheader">
             <th field="Membership" dataType="String">{ts}Membership{/ts}</th>
@@ -26,8 +25,9 @@
             <th datatype="html"></th>
         </tr>
 	</thead>
-        {foreach from=$rows item=row}
-        <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+        <tbody>
+          {foreach from=$rows item=row}
+           <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.period_type}</td>
 	        <td>{$row.fixed_period_start_day}</td>
@@ -37,8 +37,9 @@
 	        <td>{$row.weight}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
-        </tr>
-        {/foreach}
+           </tr>
+          {/foreach}
+        </tbody
         </table>
         {/strip}
 

@@ -14,10 +14,9 @@
 </div>
 
 {if $rows}
-   {include file="CRM/common/dojo.tpl"}
     <div class="form-item" id="configure_contribution_page">
         {strip}
-        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
          <thead> 
           <tr class="columnheader">
             <th field="Title" dataType="String" >{ts}Title{/ts}</th>
@@ -25,6 +24,7 @@
             <th datatype="html">&nbsp;</th>
           </tr>
          </thead>
+        <tbody>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>
@@ -35,6 +35,7 @@
             <td>{$row.action}</td>
         </tr>
         {/foreach}
+        </tbody>
         </table>
         
         {if NOT ($action eq 1 or $action eq 2) }
