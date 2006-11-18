@@ -616,9 +616,9 @@ class CRM_Core_SelectValues {
         static $processor = null;
         if (!$processor) {
             $processor = array(
-                               'PayPal'           => ts('PayPal'),
-                               'PayPal_Express'   => ts('PayPal Express'),
-                               'PayPal_Standard'  => ts('PayPal Standard'),
+                               'PayPal'           => ts('PayPal - Website Payments Pro'),
+                               'PayPal_Express'   => ts('PayPal - Express'),
+                               'PayPal_Standard'  => ts('PayPal - Website Payments Standard'),
                                'Moneris'          => ts('Moneris')
                                );
         }

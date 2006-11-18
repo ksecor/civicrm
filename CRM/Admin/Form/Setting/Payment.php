@@ -51,16 +51,17 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) {
 
-        $this->addYesNo( 'enableSSL', ts( 'Enable SSL' ));
+        $this->addYesNo( 'enableSSL', ts( 'Force Secure (SSL) URLs' ));
         $processor = CRM_Core_SelectValues::paymentProcessor();
-        $this->addElement('select','paymentProcessor', ts('Payment Processor'), array('select' => 'select') + $processor, array( 'onchange' => 'showHideCertificatePath()'));  
-        $this->addElement('text','paymentExpressButton', ts('Payment Express Button '));  
-        $this->addElement('text','paymentUsername_test', ts('Paypal Test Username')); 
-        $this->addElement('text','paymentCertPath_test', ts('Paypal Test Certificate Path')); 
-        $this->addElement('text','paymentPayPalExpressTestUrl', ts('Paypal Express Test Url')); 
-        $this->addElement('text','paymentUsername_live', ts('Paypal Live Username')); 
-        $this->addElement('text','paymentCertPath_live', ts('Paypal Live Certificate Path')); 
-        $this->addElement('text','paymentPayPalExpressUrl', ts('Paypal Express Url'));
+        $extra1 = array( 'onclick' => "return showHideByValue('paymentProcessor', 'PayPal|PayPal_Express', 'certificate_path', 'block', 'select', false);" );
+        $this->addElement('select','paymentProcessor', ts('Payment Processor'), array('select' => '- select -') + $processor, $extra1);  
+        $this->addElement('text','paymentExpressButton', ts('PayPal Express Button'));  
+        $this->addElement('text','paymentUsername_test', ts('Username - TEST')); 
+        $this->addElement('text','paymentCertPath_test', ts('Certificate Path - TEST')); 
+        $this->addElement('text','paymentPayPalExpressTestUrl', ts('Paypal Url - TEST')); 
+        $this->addElement('text','paymentUsername_live', ts('Username - LIVE')); 
+        $this->addElement('text','paymentCertPath_live', ts('Certificate Path - LIVE')); 
+        $this->addElement('text','paymentPayPalExpressUrl', ts('Paypal Url - LIVE'));
         
         parent::buildQuickForm();
     }

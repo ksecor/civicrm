@@ -24,12 +24,12 @@
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/mapping' q='reset=1'}" id="idMapping">&raquo; {ts}Mapping and Gecoding{/ts}</a></td>
-    <td>{ts}Select and configure the mapping provider for this set (e.g. Google or Yahoo).{/ts}</td>
+    <td>{ts}Configure a mapping provider (e.g. Google or Yahoo) to display maps for contact addresses.{/ts}</td>
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/payment' q='reset=1'}" id="idPayments">&raquo; {ts}Online Payments{/ts}</a></td>
-    <td>{ts}Select and configure payment processor for online contributions.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/payment' q='reset=1'}" id="idPayments">&raquo; {ts}Online Contributions{/ts}</a></td>
+    <td>{ts}Select and configure a payment processing service for online contributions and / or membership fees.{/ts}</td>
 </tr>
 
 <tr>
