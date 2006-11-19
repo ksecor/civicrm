@@ -28,18 +28,18 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/payment' q='reset=1'}" id="idPayments">&raquo; {ts}Online Contributions{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/payment' q='reset=1'}" id="idPayments">&raquo; {ts}Payment Processor{/ts}</a></td>
     <td>{ts}Select and configure a payment processing service for online contributions and / or membership fees.{/ts}</td>
 </tr>
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/localisation' q='reset=1'}" id="idLocale">&raquo; {ts}Localisation{/ts}</a></td>
-    <td>{ts}Localisation settings including language, default currency and money formatting.{/ts}</td>
+    <td>{ts}Localisation settings include user language, default currency and available countries for address input.{/ts}</td>
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/address}" id="idAddress">&raquo; {ts}Address Formatting{/ts}</a></td>
-    <td>{ts}Format address display.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/address}" id="idAddress">&raquo; {ts}Address Settings{/ts}</a></td>
+    <td>{ts}Format contact address input and display. Configure optional Address Standardization provider.{/ts}</td>
 </tr>
 
 <tr>
@@ -49,15 +49,16 @@
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/misc' q='reset=1'}" id="idMisc">&raquo; {ts}Miscellaneous Settings{/ts}</a></td>
-    <td>{ts}Miscellaneous includes ....{/ts}</td>
-</tr>
-<tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/debug' q='reset=1'}" id="idDebug">&raquo; {ts}Debugging{/ts}</a></td>
-    <td>{ts}Enable debugging features including display of template variables and backtracing.{/ts}</td>
+    <td>{ts}Enable version checking and configure optional CAPTCHA feature for Profile forms.{/ts}</td>
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/mail' q='reset=1'}" id="idMailing">&raquo; {ts}Email Settings{/ts}</a></td>
-    <td>{ts}Configure CiviMail.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/mail' q='reset=1'}" id="idMailing">&raquo; {ts}CiviMail Configuration{/ts}</a></td>
+    <td>{ts}Configure settings for the optional CiviMail component (spool period, batch throttling, etc.).{/ts}</td>
+</tr>
+
+<tr>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/debug' q='reset=1'}" id="idDebug">&raquo; {ts}Debugging{/ts}</a></td>
+    <td>{ts}Enable debugging features including display of template variables and backtracing.{/ts}</td>
 </tr>
 </table>

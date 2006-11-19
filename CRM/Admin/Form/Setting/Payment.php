@@ -50,6 +50,7 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
+        CRM_Utils_System::setTitle(ts('Settings - Payment Processor'));
 
         $this->addYesNo( 'enableSSL', ts( 'Force Secure (SSL) URLs' ));
         $processor = CRM_Core_SelectValues::paymentProcessor();

@@ -50,8 +50,9 @@ class CRM_Admin_Form_Setting_Mail extends CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) 
     {
+        CRM_Utils_System::setTitle(ts('Settings - CiviMail'));
         $this->addElement('text','mailerPeriod', ts('Mailer Spool Period'));
-        $this->addElement('text','verpSeparator', ts(' VERP separator'));
+        $this->addElement('text','verpSeparator', ts(' VERP Separator'));
         $this->addElement('text','mailerBatchLimit', ts('Mailer Batch Limit'));
   
         parent::buildQuickForm();

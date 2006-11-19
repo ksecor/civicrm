@@ -50,13 +50,14 @@ class CRM_Admin_Form_Setting_Date extends CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
+        CRM_Utils_System::setTitle(ts('Settings - Date Formatting'));
 
-        $this->addElement('text', 'dateformatDatetime', ts('Date Format Date Time'));
-        $this->addElement('text', 'dateformatFull', ts('Date Format Full'));
-        $this->addElement('text', 'dateformatPartial', ts('Date Format partial'));
-        $this->addElement('text', 'dateformatYear', ts('Date Format Year'));
-        $this->addElement('text', 'dateformatQfDate', ts('Date Format Of Date'));
-        $this->addElement('text', 'dateformatQfDatetime', ts('Date Format Of Date Time'));
+        $this->addElement('text', 'dateformatDatetime', ts('Complete Date and Time'));
+        $this->addElement('text', 'dateformatFull', ts('Complete Date'));
+        $this->addElement('text', 'dateformatPartial', ts('Month and Year'));
+        $this->addElement('text', 'dateformatYear', ts('Year Only'));
+        $this->addElement('text', 'dateformatQfDate', ts('Complete Date'));
+        $this->addElement('text', 'dateformatQfDatetime', ts('Complete Date and Time'));
         
         parent::buildQuickForm();
     }

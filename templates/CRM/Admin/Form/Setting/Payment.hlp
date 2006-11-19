@@ -3,8 +3,8 @@
 CiviCRM with your account information.{/ts}</p>
 <p>{ts}CiviCRM currently supports three different PayPal payment processing services, as well as Moneris. Refer to the each payment processor's website
 for details on requirements, fees and terms for these services.{/ts}
-<p>{ts 1="http://wiki.civicrm.org/confluence//x/ihk"}<strong>NOTE: For security reasons, some of the required payment processor settings are stored in your CiviCRM settings file (civicrm.settings.php). You
-must input these values before your can process TEST or LIVE transactions.</strong> Refer to the <a href="%1">Payment Processor Configuration Guide</a> for more information.{/ts}</p>
+<p>{ts 1="http://wiki.civicrm.org/confluence//x/ihk"}<strong>For security reasons, some of the required payment processor settings are stored in your CiviCRM settings file (civicrm.settings.php). You
+must input these values before your can process TEST or LIVE transactions. Refer to the <a href="%1" target="_blank" title="Payment Processor Configuration Guide (opens in a new window).">Payment Processor Configuration Guide</a> for more information.</strong>{/ts}</p>
 <p>{ts}We recommend obtaining a TEST account from the processor, and configuring and testing your online contribution page(s)
 in test-drive mode first. Once you are satisfied that your test contributions are working properly, you can register for the LIVE merchant account and configure that
 account information. Then you are ready to activate and promote your contribution page(s).{/ts}</p>

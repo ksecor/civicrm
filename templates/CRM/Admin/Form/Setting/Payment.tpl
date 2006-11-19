@@ -1,6 +1,8 @@
 <div id="help">
-{ts}If you want accept contributions or membership fees online you must select a Payment Processing Service, register for the applicable type of account with that processor, and configure
-CiviCRM with your account information.{/ts} {help id='processor-overview'}
+<p>{ts}If you want accept contributions or membership fees online you must select a Payment Processing Service, register for the applicable type of account with that processor, and configure
+CiviCRM with your account information.{/ts} {help id='processor-overview'}</p>
+<p>{ts 1="http://wiki.civicrm.org/confluence//x/ihk"}<strong>For security reasons, some of the required payment processor settings are stored in your CiviCRM settings file (civicrm.settings.php). You
+must input these values before your can process TEST or LIVE transactions. Refer to the <a href="%1" target="_blank" title="Payment Processor Configuration Guide. Opens in a new window.">Payment Processor Configuration Guide</a> for more information.</strong>{/ts}</p>
 </div>
 <div class="form-item">
 <fieldset><legend>{ts}Online Payments{/ts}</legend>
@@ -16,17 +18,17 @@ CiviCRM with your account information.{/ts} {help id='processor-overview'}
             <div id="certificate_path">
                 <dl>	
                 <dt>{$form.paymentCertPath_test.label}</dt><dd>{$form.paymentCertPath_test.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}This setting is only used for PayPal Website Payments Pro/Express with certificate-based authentication. If you are using the recommended signature-based authentication, leave this field blank.{/ts}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}This setting is only used for PayPal Website Payments Pro/Express with Certificate authentication method. If you are using the recommended Signature authentication, leave this field blank.{/ts}</dd>
                 <dt>{$form.paymentCertPath_live.label}</dt><dd>{$form.paymentCertPath_live.html}</dd>
-                <dt>&nbsp</dt><dd class="description">{ts}This setting is only used for PayPal Website Payments Pro/Express with certificate-based authentication. If you are using the recommended signature-based authentication, leave this field blank.{/ts}</dd>
+                <dt>&nbsp</dt><dd class="description">{ts}This setting is only used for PayPal Website Payments Pro/Express with Certificate authentication method. If you are using the recommended Signature authentication, leave this field blank.{/ts}</dd>
                 </dl>
             </div>
             <dt>{$form.paymentExpressButton.label}</dt><dd>{$form.paymentExpressButton.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}URL to the button image used for the PayPal Express service. Leave the default value unless you want to use a different button image.{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}URL to the button image used for the PayPal Express service. Keep the default value, unless you want to use a different button image.{/ts}</dd>
             <dt>{$form.paymentPayPalExpressTestUrl.label}</dt><dd>{$form.paymentPayPalExpressTestUrl.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}TEST hostname for PayPal processing service. Leave the default unless you need to connect to a specific international PayPal processing host.{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}TEST URL for the PayPal processing service gateway. Keep the default value, unless you need to connect to a specific international PayPal processing host.{/ts}</dd>
             <dt>{$form.paymentPayPalExpressUrl.label}</dt><dd>{$form.paymentPayPalExpressUrl.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}LIVE hostname for PayPal processing service. Leave the default unless you need to connect to a specific international PayPal processing host.{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}LIVE URL for PayPal processing service gateway. Keep the default value, unless you need to connect to a specific international PayPal processing host.{/ts}</dd>
             <dt></dt><dd>{$form.buttons.html}</dd>
         </dl>
 <div class="spacer"></div>

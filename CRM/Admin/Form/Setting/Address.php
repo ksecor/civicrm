@@ -50,14 +50,15 @@ class CRM_Admin_Form_Setting_Address extends CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) 
     {
+        CRM_Utils_System::setTitle(ts('Settings - Addresses'));
           
         $this->addElement('textarea','addressFormat', ts('Address Formatting'));  
-        $this->addElement('text','maxLocationBlocks', ts('Maximum Location Blocks'));
-        $this->addYesNo('includeCounty', ts('Include County'));
+        $this->addElement('text','maxLocationBlocks', ts('Maximum Locations'));
+        $this->addYesNo('includeCounty', ts('Include County?'));
         // Address Standarization
-        $this->addElement('text','AddressStdProvider', ts('Standarization Provider'));
-        $this->addElement('text','AddressStdUserID', ts('Standarization User Id'));
-        $this->addElement('text','AddressStdURL', ts('Standarization Url'));
+        $this->addElement('text','AddressStdProvider', ts('Provider'));
+        $this->addElement('text','AddressStdUserID', ts('User ID'));
+        $this->addElement('text','AddressStdURL', ts('Web Service URL'));
   
         parent::buildQuickForm();
     }

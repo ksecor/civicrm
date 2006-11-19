@@ -52,6 +52,7 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
     public function buildQuickForm( ) {
 
         $config =& CRM_Core_Config::singleton();
+        CRM_Utils_System::setTitle(ts('Settings - Localisation'));
 
         $locales = array();
         if (is_dir($config->gettextResourceDir)) {
@@ -61,33 +62,33 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
             }
         }
         
-        $this->addElement('select','lcMessages', ts('LC Messages'), array('en_US' => 'en_US') + $locales);
-        $this->addElement('text','moneyformat', ts('Money Format')); 
-        $this->addElement('select','lcMonetary', ts('Monetory'), array('en_US' => 'en_US') + $locales);
+        $this->addElement('select','lcMessages', ts('User Language'), array('en_US' => 'en_US') + $locales);
+        $this->addElement('select','lcMonetary', ts('Monetary Locale'), array('en_US' => 'en_US') + $locales);
+        $this->addElement('text','moneyformat', ts('Monetary Display Format')); 
 
         $country = array( ) ;
         CRM_Core_PseudoConstant::populate( $country, 'CRM_Core_DAO_Country', true, 'name', 'is_active' );
         
         $includeCountry =& $this->addElement('advmultiselect', 'countryLimit', 
-                                      ts('Country Limit') . ' ', $country,
+                                      ts('Available Countries') . ' ', $country,
                                       array('size' => 5, 'style' => 'width:150px'));
 
         $includeCountry->setButtonAttributes('add', array('value' => ts('Add >>')));
         $includeCountry->setButtonAttributes('remove', array('value' => ts('<< Remove')));
 
         $includeState =& $this->addElement('advmultiselect', 'provinceLimit', 
-                                      ts('Province Limit') . ' ', $country,
+                                      ts('Available States and Provinces') . ' ', $country,
                                       array('size' => 5, 'style' => 'width:150px'));
 
         $includeState->setButtonAttributes('add', array('value' => ts('Add >>')));
         $includeState->setButtonAttributes('remove', array('value' => ts('<< Remove')));
     
-        $this->addElement('select','defaultContactCountry', ts('Default Contact Country'), $country);
+        $this->addElement('select','defaultContactCountry', ts('Default Country'), $country);
         $symbol = $config->currencySymbols;
         foreach($symbol as $key=>$value) {
             $currencySymbols[$key] = "$key ($value)";
         } 
-        $this->addElement('select','defaultCurrency', ts('CiviContribute Default Currency'), $currencySymbols);
+        $this->addElement('select','defaultCurrency', ts('Default Currency'), $currencySymbols);
         $this->addElement('text','legacyEncoding', ts('Legacy Encoding'));  
        
         parent::buildQuickForm();
