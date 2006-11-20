@@ -877,9 +877,8 @@ class CRM_Core_Config
             $this->userFramework       = CIVICRM_UF;
         }
 
-        if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
-            $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
-            $this->resourceBase             = $this->userFrameworkResourceURL;
+        if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
+            $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
         }
 
         // set the error callback
@@ -1030,7 +1029,7 @@ class CRM_Core_Config
         $variables = array();
         CRM_Core_BAO_Setting::retrieve($variables);
 
-        if ( empty($variables) ) {
+        if ( empty( $variables ) ) {
             $this->retrieveFromSettings( );
 
             $variables = get_object_vars($this);
@@ -1041,8 +1040,6 @@ class CRM_Core_Config
 
             CRM_Core_BAO_Setting::add($variables);
         }
-        
-        // CRM_Core_Error::debug('def', $variables );
         
         $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
 
