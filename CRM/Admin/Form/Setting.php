@@ -63,10 +63,10 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 
 
     public function setValues(&$defaults) {
-        // should actually call CRM_Utils_System::baseURL( );
-        global $base_url;
-
         $config =& CRM_Core_Config::singleton( );
+
+        $baseURL = $config->userFrameworkBaseURL;
+
         if ( $config->templateCompileDir ) {
             $path = dirname( $config->templateCompileDir );
             $path = CRM_Core_Config::addTrailingSlash( $path );
@@ -74,89 +74,120 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 
         //set defaults if not set in db
         if ( ! isset( $defaults['userFrameworkResourceURL'] ) ) {
-            $defaults['userFrameworkResourceURL'] = $base_url. "/modules/civicrm/"; 
+            if ( $config->userFramework == 'Joomla' ) {
+                $defaults['userFrameworkResourceURL'] = $baseURL . "components/com_civicrm/civicrm/";
+            } else {
+                $defaults['userFrameworkResourceURL'] = $baseURL . "/modules/civicrm/"; 
+            }
         }
+
         if ( ! isset( $defaults['imageUploadDir'] ) ) {
             $defaults['imageUploadDir'] = $path . "persist/contribute/";
         }
+
         if ( ! isset( $defaults['customFileUploadDir'] ) ) {
             $defaults['customFileUploadDir'] = $path . "upload/custom/";
         }
+
         if ( ! isset( $defaults['uploadDir'] ) ) {
             $defaults['uploadDir'] = $path . "upload/";
         }
+
         if ( ! isset( $defaults['smtpPort'] ) ) {
             $defaults['smtpPort'] = 25;
         }
+
         if ( ! isset( $defaults['smtpAuth'] ) ) {
             $defaults['smtpAuth'] = 0;
         }
+
         if ( ! isset( $defaults['countryLimit'][0] ) ) {
             $defaults['countryLimit'] = 1228;
         }
+
         if ( ! isset( $defaults['provinceLimit'][0] ) ) {
             $defaults['provinceLimit'] = 1228;
         }
+
         if ( ! isset( $defaults['defaultContactCountry'] ) ) {
             $defaults['defaultContactCountry'] = 1228;
         }
+
         if ( ! isset( $defaults['defaultCurrency'] ) ) {
             $defaults['defaultCurrency'] = 'USD';
         }
+
         if ( ! isset( $defaults['lcMonetary'] ) ) {
             $defaults['lcMonetary'] = 'en_US';
         }
+
         if ( ! isset( $defaults['mapGeoCoding'] ) ) {
             $defaults['mapGeoCoding'] = 1;
         }
+
         if ( ! isset( $defaults['versionCheck'] ) ) {
             $defaults['versionCheck'] = 1;
         }
+
         if ( ! isset( $defaults['enableSSL'] ) ) {
             $defaults['enableSSL'] = 0;
         }
+
         if ( ! isset( $defaults['paymentExpressButton'] ) ) {
             $defaults['paymentExpressButton'] = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif';
         }
+
         if ( ! isset( $defaults['paymentPayPalExpressTestUrl'] ) ) {
             $defaults['paymentPayPalExpressTestUrl'] = 'www.sandbox.paypal.com';
         }
+
         if ( ! isset( $defaults['paymentPayPalExpressUrl'] ) ) {
             $defaults['paymentPayPalExpressUrl'] = 'www.paypal.com';
         }
+
         if ( ! isset( $defaults['maxLocationBlocks'] ) ) {
             $defaults['maxLocationBlocks'] = 2;
         }
+
         if ( ! isset( $defaults['captchaFontPath'] ) ) {
             $defaults['captchaFontPath'] = '/usr/X11R6/lib/X11/fonts/';
         }
+
         if ( ! isset( $defaults['captchaFont'] ) ) {
             $defaults['captchaFont'] = 'HelveticaBold.ttf';
         }
+
         if ( ! isset( $defaults['debug'] ) ) {
             $defaults['debug'] = 0;
         }
+
         if ( ! isset( $defaults['backtrace'] ) ) {
             $defaults['backtrace'] = 0;
         }
+
         if ( ! isset( $defaults['fatalErrorTemplate'] ) ) {
             $defaults['fatalErrorTemplate'] = 'CRM/error.tpl';
         }
+
         if ( ! isset( $defaults['mailerPeriod'] ) ) {
             $defaults['mailerPeriod'] = 180;
         }
+
         if ( ! isset( $defaults['mailerBatchLimit'] ) ) {
             $defaults['mailerBatchLimit'] = 0;
         }
+
         if ( ! isset( $defaults['legacyEncoding'] ) ) {
             $defaults['legacyEncoding'] = 'Windows-1252';
         }
+
         if ( ! isset( $defaults['enableComponents'] ) ) {
             $defaults['enableComponents'] = array(
                                                   0 => 'CiviContribute',
                                                   1 => 'CiviMember'
                                                   );
         }
+
         if ( ! isset( $defaults['addressFormat'] ) ) {
             $defaults['addressFormat']= '{street_address}
                                          {supplemental_address_1}

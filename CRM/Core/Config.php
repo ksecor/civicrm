@@ -762,8 +762,8 @@ class CRM_Core_Config
              $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
          }
 
-        if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
-            $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
+         if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
+             $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
              $this->resourceBase             = $this->userFrameworkResourceURL;
          }
 
@@ -872,6 +872,15 @@ class CRM_Core_Config
 
         // also initialize the logger
         self::$_log =& Log::singleton( 'display' );
+
+        if ( defined( 'CIVICRM_UF' ) ) {
+            $this->userFramework       = CIVICRM_UF;
+        }
+
+        if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
+            $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
+            $this->resourceBase             = $this->userFrameworkResourceURL;
+        }
 
         // set the error callback
         CRM_Core_Error::setCallback();
@@ -1020,7 +1029,7 @@ class CRM_Core_Config
         require_once "CRM/Core/BAO/Setting.php";
         $variables = array();
         CRM_Core_BAO_Setting::retrieve($variables);
-        
+
         if ( empty($variables) ) {
             $this->retrieveFromSettings( );
 
