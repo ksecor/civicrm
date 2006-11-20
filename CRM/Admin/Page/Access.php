@@ -43,7 +43,13 @@ require_once 'CRM/Core/Page/Basic.php';
 class CRM_Admin_Page_Access extends CRM_Core_Page 
 {
     function run( ) {
-        $ufAccessURL = CRM_Utils_System::url( 'admin/access' );
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFrameworkVersion < 5 ) {
+            $ufAccessURL = CRM_Utils_System::url( 'admin/access' );
+        } else {
+            $ufAccessURL = CRM_Utils_System::url( 'admin/user/access' );
+        }
+        
         $this->assign('ufAccessURL', $ufAccessURL);
         return parent::run();
     }
