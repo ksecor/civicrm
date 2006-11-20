@@ -485,7 +485,6 @@ class CRM_Core_Config
                 // retrieve and overwrite stuff from the settings file
                 self::$_singleton->addCoreVariables( );
             }
-
         }
 
         return self::$_singleton;

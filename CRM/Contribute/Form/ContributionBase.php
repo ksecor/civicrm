@@ -105,7 +105,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         // make sure we have a valid payment class, else abort
         if ( ! $config->paymentClass ) {
-            CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set in the config file.' ) );
+            CRM_Core_Error::fatal( ts( 'CIVICRM_CONTRIBUTE_PAYMENT_PROCESSOR is not set.' ) );
         }
 
         // current contribution page id 
