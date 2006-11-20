@@ -390,6 +390,16 @@ class CRM_Contribute_Payment_PayPalIPN {
                 $template->assign('mem_start_date',  CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d'));
                 $template->assign('mem_end_date', CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d'));
             }
+            require_once 'CRM/Member/DAO/MembershipBlock.php';
+            $dao = & new CRM_Member_DAO_MembershipBlock();
+            $dao->entity_table = 'civicrm_contribution_page';
+            $dao->entity_id = $contribution->contribution_page_id; 
+            $dao->is_active = 1;
+            if ( $dao->find(true) ) {
+                $membershipBlock   = array(); 
+                CRM_Core_DAO::storeValues($dao, $membershipBlock );
+                $template->assign( 'membershipBlock' , $membershipBlock );
+            }
         }
         
         require_once 'CRM/Contribute/BAO/ContributionPage.php';

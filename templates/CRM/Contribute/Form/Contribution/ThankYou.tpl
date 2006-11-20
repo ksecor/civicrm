@@ -25,7 +25,7 @@
         {/if}
     </div>
     
-    {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context=""thankContribution"}
+    {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="thankContribution"}
     <div class="header-dark">
         {ts}Contribution Information{/ts}
     </div>
