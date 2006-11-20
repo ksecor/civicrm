@@ -120,6 +120,8 @@ class CRM_Utils_System {
                                                 'optiongroup'        => 'OptionGroup',
                                                 'deletefile'         => 'DeleteFile',
                                                 'optionvalue'        => 'OptionValue',
+                                                'messagetemplates'   => 'MessageTemplates',
+                                                
                                                 );
     
     static $_callbacks = null;
