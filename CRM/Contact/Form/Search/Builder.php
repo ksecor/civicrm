@@ -137,21 +137,17 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         foreach ($fld as $k => $v) {   
             if ( !$v[1] ) {
                 $errorMsg["operator[$v[3]][$v[4]]"] = "Please enter the operator.";  
-            } else if( is_array($v[2]) ) {
-                if( ! key($v[2]) ) {
-                    $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the value.";  
-                }
             } else {
-                if ( $v[0] == 'group' ) {
+                if ( $v[0] == 'group' || $v[0] == 'tag' ) {
                     $grpId = array_keys($v[2]);
-                    
-                    if ( $v[1] == '=') {
-                        $error = CRM_Utils_Type::validate( $grpId[0], 'Integer', false );
-                        if ( $error != $grpId[0] ) {
-                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid group id.";
+                    if( ! key($v[2]) ) {
+                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the value.";  
+                    }
+                  
+                    if ( count($grpId) > 1) { 
+                        if ( $v[1] !='IN' && $v[1] != 'NOT IN' ) {
+                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the valid value.";  
                         }
-                        
-                    } else if ( $v[1] == 'IN') {
                         foreach ($grpId as $val) {
                             $error = CRM_Utils_Type::validate( $val, 'Integer', false );
                             if ( $error != $val  ) { 
@@ -159,12 +155,26 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
                                 break;
                             }
                         }
+                    } else {
+                        $error = CRM_Utils_Type::validate( $grpId[0], 'Integer', false );
+                        if ( $error != $grpId[0] ) {
+                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid $v[0] id.";
+                        }
+                    }
+                } else if ( substr($v[0], 0, 7) === 'do_not_' or substr($v[0], 0, 3) === 'is_' ) { 
+                    $v2 = array($v[2]);
+                    if( !isset($v[2]) ) {
+                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the value.";  
+                    }
+
+                    $error = CRM_Utils_Type::validate($v2[0] , 'Integer', false );
+                    if ( $error != $v2[0] ) {
+                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";  
                     }
                 } else {
                     if ( substr($v[0], 0, 7) == 'custom_' ) {
                         $type = $fields[$v[0]]['data_type'];
-                    } else{
-                        
+                    } else {
                         $fldName = $v[0];
                         if ( substr( $v[0], 0, 13 ) == 'contribution_' ) {
                             $fldName = substr($v[0], 13 );
