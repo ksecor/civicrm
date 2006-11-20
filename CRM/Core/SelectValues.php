@@ -101,14 +101,8 @@ class CRM_Core_SelectValues {
     {
         static $pcm = null;
         if (!$pcm) {
-            $pcm = array(
-                ''      => ts('- no preference -'),
-                'Phone' => ts('Phone'),
-                'Email' => ts('Email'), 
-                'Post'  => ts('Postal Mail'),
-                'SMS'  => ts('SMS'),
-                'Fax'   => ts('Fax')
-            );
+            require_once "CRM/Core/OptionGroup.php";
+            $pcm = CRM_Core_OptionGroup::values("preferred_communication_method");
         }
         return $pcm;
     }
@@ -122,10 +116,11 @@ class CRM_Core_SelectValues {
         static $pmf = null;
         if (!$pmf) {
             $pmf = array(
-                'Both' => ts('Both'),
-                'HTML' => ts('HTML'),
-                'Text' => ts('Text')
+                         'Both' => ts('Both'),
+                         'HTML' => ts('HTML'),
+                         'Text' => ts('Text')
             );
+            
         }
         return $pmf;
     }

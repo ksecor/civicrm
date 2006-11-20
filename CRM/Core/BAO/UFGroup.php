@@ -515,7 +515,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     public static function getValues( $cid, &$fields, &$values ,$searchable = true ) {
         $options = array( );
-
         $studentFields = array( );
         if ( CRM_Core_Permission::access( 'Quest', false ) ) {
             //student fields ( check box ) 
@@ -554,6 +553,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $values[$index] = $details->$name;
                     $idx = $name . '_id';
                     $params[$index] = $details->$idx;
+                   
+                } else if ( $name === 'preferred_communication_method' ) {
+                    $communicationFields = CRM_Core_SelectValues::pcm();
+                    $pref = array();
+                    $pref = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details->$name );
+                    
+                    foreach($pref as $k) {
+                        $compref .= $communicationFields[$k] .", ";
+                    }
+                    $params[$index] = $details->$name;
+                    $values[$index] = substr($compref, 0, -2);
                 } else if ( $name == 'group' ) {
                     $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $cid, 'Added', null, false, true );
                     $title = array( );
@@ -642,9 +652,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ($id == 'Primary') {
                     $locationTypeName = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
                 } else {
-		  $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
-		}
-
+                    $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+                }
+                
                 if ( ! $locationTypeName ) {
                     continue;
                 }
@@ -781,10 +791,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
                 }   
                 $form->addGroup($genderOptions, $field['name'], $field['title'] );  
-            } else if ( $field['name'] === 'individual_prefix' ){
+            } else if ( $field['name'] === 'individual_prefix' ) {
                 $form->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix());
-            } else if ( $field['name'] === 'individual_suffix' ){
+            } else if ( $field['name'] === 'individual_suffix' ) {
                 $form->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix());
             } else if ( $field['name'] === 'group' ) {
@@ -795,6 +805,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, 0,
                                                               CRM_Contact_Form_GroupTag::TAG );
+            } else if ( $field['name'] === 'preferred_communication_method' ) {
+                $communicationFields = CRM_Core_SelectValues::pcm();
+                foreach ( $communicationFields as $key => $var ) {
+                    if ( $key == '' ) {
+                        continue;
+                    }
+                $communicationOptions[] =& HTML_QuickForm::createElement( 'checkbox',$key , null,  $var);
+                }
+                $form->addGroup($communicationOptions, $field['name'],$field['title'] , '<br/>' );
+            } else if ($field['name'] === 'preferred_mail_format') {
+                $form->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
             } else if (substr($field['name'], 0, 6) === 'custom') {
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
                 CRM_Core_BAO_CustomField::addQuickFormElement($form, $name, $customFieldID, $inactiveNeeded, false);
@@ -1262,10 +1283,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $attributes = $field['attributes'];
         $rule       = $field['rule'];
         $view       = $field['is_view'];
-
         $required = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? false : $field['is_required'];
         $search   = ( $mode == CRM_Profile_Form::MODE_SEARCH ) ? true : false;
-        
+            
         if ($contactId) {
             $name = "field[$contactId][$fieldName]";
         } else {
@@ -1311,7 +1331,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( $key == '' ) {
                     continue;
                 }
-                $communicationOptions[] =& HTML_QuickForm::createElement( 'checkbox', $var, null, $key );
+                $communicationOptions[] =& HTML_QuickForm::createElement( 'checkbox', $key, null, $var );
             }
             $form->addGroup($communicationOptions, $name, $title, '<br/>' );
         } else if ($fieldName === 'preferred_mail_format') {
@@ -1392,7 +1412,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             //get the contact details
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
             $details = $contactDetails[$contactId];
-            
             //start of code to set the default values
             foreach ($fields as $name => $field ) {
                 //set the field name depending upon the profile mode(single/batch)
@@ -1401,7 +1420,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 } else {
                     $fldName = "field[$contactId][$name]";
                 }
-                
+                $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                $value = array();
+                foreach ( $v as $item ) {
+                    if( $item ) {
+                        $value[$item] = $item;
+                    }
+                }
+                               
                 require_once 'CRM/Contact/Form/GroupTag.php';
                 if ( $name == 'group' ) {                   
                     CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::GROUP ); 
@@ -1418,11 +1444,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $defaults[$fldName] = $details['individual_prefix_id'];
                     } else if ($name == 'individual_suffix') {
                         $defaults[$fldName] = $details['individual_suffix_id'];
+                    } else if ($name == 'preferred_communication_method') {
+                        $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
+                        foreach ( $v as $item ) {
+                            if ($item) {
+                                $defaults["preferred_communication_method[$item]"] = 1;
+                            }
+                        } 
                     } else if ( substr( $name, 0, 7 ) == 'custom_') {
                         //fix for custom fields
                         $customFields = CRM_Core_BAO_CustomField::getFields( $values['Individual'] );
                         switch( $customFields[substr($name,7,9)][3] ) {
-                        
+                            
                         case 'Multi-Select':
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                             foreach ( $v as $item ) {
