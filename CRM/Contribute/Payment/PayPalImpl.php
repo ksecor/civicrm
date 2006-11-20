@@ -511,13 +511,13 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         $config =& CRM_Core_Config::singleton( );
 
         $error = array( );
-
+        static $errorMessage = '%1 is not set in the Administer CiviCRM &raquo; Global Settings &raquo Payment Processor.';
         if ( $config->paymentProcessor == 'PayPal_Standard' ) {
             if ( empty( $config->paymentUsername[$mode] ) ) {
                 if ( $mode == 'live' ) {
-                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME') );
+                    $error[] = ts( $errorMessage, array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_USERNAME') );
                 } else {
-                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME') );
+                    $error[] = ts( $errorMessage, array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_USERNAME') );
                 }
             }
         }
@@ -525,9 +525,9 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         if ( $config->paymentProcessor == 'PayPal' ) {
             if ( empty(  $config->paymentUsername[$mode] ) && empty( $config->paymentCertPath[$mode] ) ) {
                 if ( $mode == 'live' ) {
-                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH') );
+                    $error[] = ts( $errorMessage, array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_CERT_PATH') );
                 } else {
-                    $error[] = ts( '%1 is not set in the config file.', array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH') );
+                    $error[] = ts( $errorMessage, array(1 => 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_CERT_PATH') );
                 }
             }
         }
@@ -558,6 +558,7 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
     }
 
     function doTransferCheckout( &$params ) {
+        CRM_Core_Error::debug( 'p', $params );
         $config =& CRM_Core_Config::singleton( );
         
         $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}";
@@ -585,8 +586,9 @@ class CRM_Contribute_Payment_PayPalImpl extends CRM_Contribute_Payment {
         
         // if recurring donations, add a few more items
         if ( ! empty( $params['is_recur'] ) ) {
-            if ( $params['contribution_recur_id'] ) {
+            if ( $params['contributionRecurID'] ) {
                 $notifyURL .= "&contributionRecurID={$params['contributionRecurID']}&contributionPageID={$params['contributionPageID']}";
+                $paypalParams['notify_url'] = $notifyURL;
             } else {
                 CRM_Core_Error::fatal( ts( 'Recurring contribution, but no database id' ) );
             }

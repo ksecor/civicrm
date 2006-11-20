@@ -88,11 +88,11 @@ class CRM_Contribute_Payment_PayPalIPN {
         foreach ( $dates as $date ) {
             $name = "{$date}_date";
             if ( $recur->$name ) {
-                $recur->$name CRM_Utils_Date::isoToMysql( $recur->$name );
+                $recur->$name = CRM_Utils_Date::isoToMysql( $recur->$name );
             }
         }
 
-        switch ( $txn_type ) {
+        switch ( $txnType ) {
 
         case 'subscr_signup':
             $recur->create_date            = $now;
@@ -146,12 +146,13 @@ class CRM_Contribute_Payment_PayPalIPN {
 
         if ( ! $first ) {
             // create a contribution and then get it processed
-            $contribution & new CRM_Contribute_DAO_Contribution( );
+            $contribution =& new CRM_Contribute_DAO_Contribution( );
             $contribution->domain_id = CRM_Core_Config::domainID( );
             $contribution->contact_id = $contactID;
-            $contribution->contribution_type_id = $contributionType->id;
-            $contribution->contribution_page_id = $contributionPageID;
-            $contribution->receive_date         = $now;
+            $contribution->contribution_type_id  = $contributionType->id;
+            $contribution->contribution_page_id  = $contributionPageID;
+            $contribution->contribution_recur_id = $contributionRecurID;
+            $contribution->receive_date          = $now;
         }
 
         self::single( $contactID, $contribution, $contributionType, true, $first );
@@ -175,18 +176,16 @@ class CRM_Contribute_Payment_PayPalIPN {
         }
 
         $now = date( 'YmdHis' );
+        $amount =  self::retrieve( 'payment_gross', 'Money', 'POST', true );
         if ( ! $recur ) {
-            $amount =  self::retrieve( 'payment_gross', 'Money', 'POST', true );
             if ( $contribution->total_amount != $amount ) {
                 CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
                 echo "Failure: Amount values dont match between database and IPN request<p>";
                 return;
             }
         } else {
-            $amount =  self::retrieve( 'amount3', 'Money', 'POST', true );
             $contribution->total_amount = $amount;
         }
-
 
         // ok we are done with error checking, now let the real work begin
         // update the contact record with the name and address
@@ -463,10 +462,9 @@ class CRM_Contribute_Payment_PayPalIPN {
         
         if ( array_key_exists( 'contributionRecurID', $_GET ) ) {
             // check if first contribution is completed, else complete first contribution
-            $first = false;
-            if ( $contribution->contribution_status_id != 1 ) {
-                self::single( $contactID, $contribution, $contributionType, true );
-                $first = true;
+            $first = true;
+            if ( $contribution->contribution_status_id == 1 ) {
+                $first = false;
             }
             return self::recur( $contactID, $contribution, $contributionType, $first );
         } else {

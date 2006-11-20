@@ -154,6 +154,13 @@
     <fieldName>contribution_status_id</fieldName>
     <add>1.6</add>
   </index>
+  <field>     
+      <name>is_test</name>  
+      <title>Test</title>
+      <type>boolean</type>
+      <default>0</default>
+      <import>true</import>
+  </field>
   <field>
        <name>cycle_day</name>
        <type>int unsigned</type>

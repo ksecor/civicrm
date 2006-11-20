@@ -654,6 +654,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $recurParams['frequency_unit']     = $params['frequency_unit'];
         $recurParams['frequency_interval'] = $params['frequency_interval'];
         $recurParams['installments']       = $params['installments'];
+
+        if( $this->_action & CRM_Core_Action::PREVIEW ) {
+            $recurParams["is_test"] = 1;
+        }
+
         
         $now = date( 'YmdHis' );
         $recurParams['start_date'] = $recurParams['create_date'] = $now;
@@ -661,8 +666,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $recurParams['contribution_status_id'] = 2;
 
         $ids = array( ); 
+
+        require_once 'CRM/Contribute/BAO/ContributionRecur.php';
         $recurring =& CRM_Contribute_BAO_ContributionRecur::add( $recurParams, $ids );
-        return ( $recurring ) ? $recurring->id : null;
+        if ( is_a( $recurring, 'CRM_Core_Error' ) ) {
+                CRM_Core_Error::displaySessionError( $result );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
+        }
+        return $recurring->id;
     }
 
 
