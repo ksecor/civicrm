@@ -560,10 +560,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $pref = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details->$name );
                     
                     foreach($pref as $k) {
-                        $compref .= $communicationFields[$k] .", ";
+                        if ( $k ) {
+                            $compref[] = $communicationFields[$k];
+                        }
                     }
                     $params[$index] = $details->$name;
-                    $values[$index] = substr($compref, 0, -2);
+                    $values[$index] = implode( ",", $compref);
                 } else if ( $name == 'group' ) {
                     $groups = CRM_Contact_BAO_GroupContact::getContactGroup( $cid, 'Added', null, false, true );
                     $title = array( );

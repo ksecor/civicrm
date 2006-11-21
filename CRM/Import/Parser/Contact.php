@@ -812,8 +812,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     break;
 
                 case 'preferred_communication_method':    
-                    if (!self::in_value($value,CRM_Core_PseudoConstant::pcm())) {
-                        self::addToErrorMsg('Preferred Communication Method', $errorMessage);
+                    $preffComm = array( );
+                    $preffComm = explode(',' , $value);
+                    foreach ($preffComm as $v) {
+                        if (!self::in_value($v, CRM_Core_PseudoConstant::pcm())) {
+                            self::addToErrorMsg('Preferred Communication Method', $errorMessage);
+                        }
                     }
                     break;
                     
@@ -907,7 +911,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     function in_value($value , $valueArray) 
     {
         foreach( $valueArray  as $key => $v ) {
-            if (strtolower( $v ) == strtolower( $value )) {
+            if ( trim(strtolower( $v ) ) == trim (strtolower( $value ) ) ) {
                 return true;
             }
         }

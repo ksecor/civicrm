@@ -1126,16 +1126,18 @@ function _crm_add_formatted_param(&$values, &$params) {
     }
     
     if (isset($values['preferred_communication_method'])) {
-        require_once 'CRM/Core/OptionGroup.php';
-        $preffComm = $comm = array();
-        $preffComm    = explode(',' , $values['preferred_communication_method']);
-        $optionValues = CRM_Core_OptionGroup::values('preferred_communication_method',true);
-        foreach( $preffComm as $v ) {
-            if(array_key_exists( trim($v) ,$optionValues )) {
-                $comm[trim($v)] = $optionValues[trim($v)];
+        $comm = array( );
+        $preffComm = array( );
+        $pcm = array( );
+        $pcm = CRM_Core_PseudoConstant::pcm();
+        $preffComm = explode(',' , $values['preferred_communication_method']);
+        foreach ($preffComm as $v) {
+            if ( in_array ( trim($v), $pcm)) {
+                $comm[array_search(trim($v), $pcm)] = 1;
             }
         }
-        $params['preferred_communication_method'] = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $comm ).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+        
+        $params['preferred_communication_method'] = $comm;
         return true;
     }
     

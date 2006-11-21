@@ -317,7 +317,8 @@ ORDER BY
         }
 
         $contact->copyValues($params);
-        //fix for preffered communication method
+
+        //fix for preferred communication method
         $prefComm = CRM_Utils_Array::value('preferred_communication_method', $params, array());
         $newPref = array();
         foreach ( $prefComm  as $k => $v ) {
@@ -326,8 +327,9 @@ ORDER BY
             }
         }
         $prefComm =  $newPref;
-        if(is_array($prefComm)) {
-            $prefComm = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm));
+        if ( is_array($prefComm) ) {
+            $prefComm = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($prefComm)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+            
             $contact->preferred_communication_method = $prefComm;
         }
         $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
