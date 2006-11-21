@@ -36,8 +36,8 @@
  * $Id$
  *
  */
-
-class CRM_Core_SelectValues {
+class CRM_Core_SelectValues 
+{
 
     /**
      * greetings
@@ -76,37 +76,6 @@ class CRM_Core_SelectValues {
         return $phoneType;
     }
 
-    /**
-     * list of counties
-     * FIXME a bit short at the moment
-     * @static
-     */
-    static function &county()
-    {
-        static $county = null;
-        if (!$county) {
-            $county = array(
-                ''   => ts('-select-'),
-                1001 => ts('San Francisco')
-            );
-        }
-        return $county;
-    }
-    
-    /**
-     * preferred communication method
-     * @static
-     */
-    static function &pcm()
-    {
-        static $pcm = null;
-        if (!$pcm) {
-            require_once "CRM/Core/OptionGroup.php";
-            $pcm = CRM_Core_OptionGroup::values("preferred_communication_method");
-        }
-        return $pcm;
-    }
-    
     /**
      * preferred mail format
      * @static

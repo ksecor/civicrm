@@ -41,8 +41,8 @@ require_once 'api/crm.php';
 /**
  * class to parse contact csv files
  */
-class CRM_Import_Parser_Contact extends CRM_Import_Parser {
-
+class CRM_Import_Parser_Contact extends CRM_Import_Parser 
+{
     protected $_mapperKeys;
     protected $_mapperLocType;
     protected $_mapperPhoneType;
@@ -84,7 +84,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     function __construct( &$mapperKeys, $mapperLocType = null, 
                           $mapperPhoneType = null, $mapperRelated = null, $mapperRelatedContactType=null,
                           $mapperRelatedContactDetails = null, $mapperRelatedContactLocType = null, 
-                          $mapperRelatedContactPhoneType = null) {
+                          $mapperRelatedContactPhoneType = null) 
+    {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
         $this->_mapperLocType =& $mapperLocType;
@@ -103,7 +104,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @return void
      * @access public
      */
-    function init( ) {
+    function init( ) 
+    {
         require_once 'CRM/Contact/BAO/Contact.php';
         $fields =& CRM_Contact_BAO_Contact::importableFields( $this->_contactType );
 
@@ -185,7 +187,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @return boolean
      * @access public
      */
-    function mapField( &$values ) {
+    function mapField( &$values ) 
+    {
         return CRM_Import_Parser::VALID;
     }
 
@@ -198,7 +201,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @return boolean      the result of this processing
      * @access public
      */
-    function preview( &$values ) {
+    function preview( &$values ) 
+    {
         return $this->summary($values);
     }
 
@@ -210,7 +214,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @return boolean      the result of this processing
      * @access public
      */
-    function summary( &$values ) {
+    function summary( &$values ) 
+    {
         $response = $this->setActiveFieldValues( $values );
 
         $errorRequired = false;
@@ -323,8 +328,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @return boolean      the result of this processing
      * @access public
      */
-    function import( $onDuplicate, &$values) {
-       
+    function import( $onDuplicate, &$values) 
+    {
         // first make sure this is a valid line
         //$this->_updateWithId = false;
         $response = $this->summary( $values );
@@ -666,7 +671,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @return array
      * @access public
      */
-    function &getImportedContacts() {
+    function &getImportedContacts() 
+    {
         return $this->_newContacts;
     }
    
@@ -676,7 +682,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @return array
      * @access public
      */
-    function &getRelatedImportedContacts() {
+    function &getRelatedImportedContacts() 
+    {
         return $this->_newRelatedContacts;
     }
 
@@ -686,7 +693,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @return void
      * @access public
      */
-    function fini( ) {
+    function fini( ) 
+    {
     }
 
     /**
@@ -699,8 +707,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      *  @access public 
      */
 
-    function isDuplicate($error) {
-        
+    function isDuplicate($error) 
+    {
         if( is_a( $error, CRM_Core_Error ) ) {
             $code = $error->_errors[0]['code'];
             if($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
@@ -718,14 +726,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      *  @access public 
      */
 
-    function isErrorInCustomData($params, &$errorMessage) {
-
+    function isErrorInCustomData($params, &$errorMessage) 
+    {
         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
         foreach ($params as $key => $value) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                 /* check if it's a valid custom field id */
                 if ( !array_key_exists($customFieldID, $customFields)) {
-                    //return _crm_error('Invalid custom field ID');
                     self::addToErrorMsg('field ID', $errorMessage);
                 }
                 /* validate the data against the CF type */
@@ -737,7 +744,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                         $valid = CRM_Core_BAO_CustomValue::typecheck(
                                                                      $customFields[$customFieldID][2], $value);
                         if (! $valid) {
-                            //return _crm_error('Invalid value for custom field :' .$customFields[$customFieldID][0]);
                             self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
                         }
                     }
@@ -754,7 +760,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                                 }
                             }
                             if (! $flag ) {
-                                //return _crm_error('Invalid value for custom field :' .$customFields[$customFieldID][0]);
                                 self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
                             }
                         }
@@ -768,7 +773,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                             }
                         }
                         if (! $flag ) {
-                            //return _crm_error('Invalid value for custom field :' .$customFields[$customFieldID][0]);
                             self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
                         }
                     }
@@ -777,7 +781,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 self::isErrorInCustomData( $params[$key] ,$errorMessage );
             }
         }
-        //return true;
     }
     
     /**
@@ -787,8 +790,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      *
      * @access public
      */
-    
-    function isErrorInCoreData($params, &$errorMessage) {
+    function isErrorInCoreData($params, &$errorMessage) 
+    {
         foreach ($params as $key => $value) {
             if ( $value ) {
                 switch( $key ) {
@@ -803,32 +806,29 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                     }
                     break;
                 case 'gender':    
-                    if (!self::in_value($value,CRM_Core_PseudoConstant::gender(true))) {
-                        //return _crm_error('Invalid value for field  : Gender');
+                    if (!self::in_value($value,CRM_Core_PseudoConstant::gender())) {
                         self::addToErrorMsg('Gender', $errorMessage);
                     }
                     break;
-                // case 'preferred_communication_method':
-//                     if(!array_key_exists(strtolower($value),array_change_key_case(CRM_Core_SelectValues::pcm(), CASE_LOWER))) {
-//                         //return _crm_error('Invalid value for field  : Preferred Communication Method');
-//                         self::addToErrorMsg('Preferred Communication Method', $errorMessage);
-//                     }
-//                     break;
+
+                case 'preferred_communication_method':    
+                    if (!self::in_value($value,CRM_Core_PseudoConstant::pcm())) {
+                        self::addToErrorMsg('Preferred Communication Method', $errorMessage);
+                    }
+                    break;
+                    
                 case 'preferred_mail_format':
                     if(!array_key_exists(strtolower($value),array_change_key_case(CRM_Core_SelectValues::pmf(), CASE_LOWER))) {
-                        //return _crm_error('Invalid value for field  : Preferred Communication Method');
                         self::addToErrorMsg('Preferred Mail Format', $errorMessage);
                     }
                     break;
                 case 'individual_prefix':
-                    if (! self::in_value($value,CRM_Core_PseudoConstant::individualPrefix(true))) {
-                        //return _crm_error('Invalid value for field  : Individual Prefix');
+                    if (! self::in_value($value,CRM_Core_PseudoConstant::individualPrefix())) {
                         self::addToErrorMsg('Individual Prefix', $errorMessage);
                     }
                     break;
                 case 'individual_suffix':
-                    if (!self::in_value($value,CRM_Core_PseudoConstant::individualSuffix(true))) {
-                        //return _crm_error('Invalid value for field  : Individual Suffix');
+                    if (!self::in_value($value,CRM_Core_PseudoConstant::individualSuffix())) {
                         self::addToErrorMsg('Individual Suffix', $errorMessage);
                     }   
                     break;
@@ -856,7 +856,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                                    || self::in_value($stateValue['country'], CRM_Core_PseudoConstant::country())) {
                                     continue;
                                 } else {
-                                    //return _crm_error('Invalid value for field  : Country');
                                     self::addToErrorMsg('Country', $errorMessage);
                                 }
                             }
@@ -870,7 +869,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                                 if ( CRM_Utils_Rule::numeric($codeValue['geo_code_1'])) {
                                     continue;
                                 } else {
-                                    //return _crm_error('Invalid value for field  : geo_code_1');
                                     self::addToErrorMsg('geo_code_1', $errorMessage);
                                 }
                             }
@@ -884,7 +882,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                                 if ( CRM_Utils_Rule::numeric($codeValue['geo_code_2'])) {
                                     continue;
                                 } else {
-                                    //return _crm_error('Invalid value for field  : geo_code_2');
                                     self::addToErrorMsg('geo_code_2', $errorMessage);
                                 }
                             }
@@ -898,7 +895,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 }
             }
         }
-        //return true;
     }
 
     /**
@@ -908,7 +904,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * 
      * @access public
      */
-    function in_value($value , $valueArray) {
+    function in_value($value , $valueArray) 
+    {
         foreach( $valueArray  as $key => $v ) {
             if (strtolower( $v ) == strtolower( $value )) {
                 return true;
@@ -926,7 +923,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @static
      * @access public
      */
-    static function addToErrorMsg($errorName, &$errorMessage) {
+    static function addToErrorMsg($errorName, &$errorMessage) 
+    {
         if ($errorMessage) {
             $errorMessage .= "; $errorName";
         } else {

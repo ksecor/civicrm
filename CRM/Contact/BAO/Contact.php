@@ -856,7 +856,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                         self::lookupValue( $location['address'], 'country', 
                                            CRM_Core_PseudoConstant::countryIsoCode(), $reverse );
                     }
-                    self::lookupValue( $location['address'], 'county'        , CRM_Core_SelectValues::county()         , $reverse );
+                    self::lookupValue( $location['address'], 'county'        , CRM_Core_PseudoConstant::county()         , $reverse );
                 }
 
                 if (array_key_exists('im', $location)) {

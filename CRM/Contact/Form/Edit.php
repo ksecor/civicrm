@@ -579,14 +579,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $form->addGroup($privacy, 'privacy', ts('Privacy'), '&nbsp;');
 
         // preferred communication method 
-        require_once 'CRM/Core/OptionGroup.php';
-        //$form->add('select', 'preferred_communication_method', ts('Prefers'), CRM_Core_SelectValues::pcm());
-        //$form->addCheckBox('preferred_communication_method',ts('Prefers'),CRM_Core_OptionGroup::values( 'preferred_communication_method', true ), null, null);
-        $comm = CRM_Core_OptionGroup::values( 'preferred_communication_method', true); 
-     
+        require_once 'CRM/Core/PseudoConstant.php';
+        $comm = CRM_Core_PseudoConstant::pcm(); 
+
         $commPreff = array();
         foreach ( $comm as $k => $v ) {
-            $commPreff[] = HTML_QuickForm::createElement('advcheckbox', $v , null, $k );
+            $commPreff[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
         }
         $form->addGroup($commPreff, 'preferred_communication_method', ts('Prefers'));
 

@@ -555,7 +555,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $params[$index] = $details->$idx;
                    
                 } else if ( $name === 'preferred_communication_method' ) {
-                    $communicationFields = CRM_Core_SelectValues::pcm();
+                    $communicationFields = CRM_Core_PseudoConstant::pcm();
                     $pref = array();
                     $pref = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details->$name );
                     
@@ -806,7 +806,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, 0,
                                                               CRM_Contact_Form_GroupTag::TAG );
             } else if ( $field['name'] === 'preferred_communication_method' ) {
-                $communicationFields = CRM_Core_SelectValues::pcm();
+                $communicationFields = CRM_Core_PseudoConstant::pcm();
                 foreach ( $communicationFields as $key => $var ) {
                     if ( $key == '' ) {
                         continue;
@@ -1326,7 +1326,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
         } else if ($fieldName === 'preferred_communication_method') {
-            $communicationFields = CRM_Core_SelectValues::pcm();
+            $communicationFields = CRM_Core_PseudoConstant::pcm();
             foreach ( $communicationFields as $key => $var ) {
                 if ( $key == '' ) {
                     continue;

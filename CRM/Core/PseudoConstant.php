@@ -45,9 +45,8 @@
  * $Id$
  *
  */
-
-
-class CRM_Core_PseudoConstant {
+class CRM_Core_PseudoConstant 
+{
     /**
      * location type
      * @var array
@@ -183,6 +182,13 @@ class CRM_Core_PseudoConstant {
     private static $tasks;
 
     /**
+     * preferred communication methods
+     * @var array
+     * @static
+     */
+    private static $pcm;
+    
+    /**
      * populate the object from the database. generic populate
      * method
      *
@@ -203,10 +209,11 @@ class CRM_Core_PseudoConstant {
      * @static
      */
     public static function populate( &$var, $name, $all = false, $retrieve = 'name',
-                                        $filter = 'is_active', $condition = null, $orderby = null ) {
+                                     $filter = 'is_active', $condition = null, $orderby = null ) 
+    {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object =& new ' . $name . '( );' );
-       
+        
         $object->domain_id = CRM_Core_Config::domainID( );
         $object->selectAdd( );
         $object->selectAdd( "id, $retrieve" );
@@ -219,7 +226,7 @@ class CRM_Core_PseudoConstant {
         } else {
             $object->orderBy( $orderby );
         }
-
+        
         if ( ! $all ) {
             $object->$filter = 1;
         }
@@ -275,7 +282,6 @@ class CRM_Core_PseudoConstant {
         return self::$locationVcardName;
     }
 
-
     /**
      * Get all Activty types.
      *
@@ -289,22 +295,21 @@ class CRM_Core_PseudoConstant {
      * @return array - array reference of all activty types.
      *
      */
-
-
-    public static function &activityType( $all=false,  $cond = 'id > 4')
+    public static function &activityType( $all = true )
     {
         require_once 'CRM/Core/OptionGroup.php';
         $activityType = CRM_Core_OptionGroup::values('activity_type');
-        $otherActivities = array();
-        if ( $cond != null ) {
+        
+        if ( $all ) {
+            return $activityType;
+        } else {
+            $otherActivities = array();
             foreach( $activityType as $key => $value ) {
-                if ($key > 4   ) {
+                if ( $key > 4 ) {
                     $otherActivities [$key] = $value;
                 }
             }
             return $otherActivities;
-        } else {
-            return $activityType;
         }
     }
 
@@ -321,10 +326,10 @@ class CRM_Core_PseudoConstant {
      * @return array - array reference of all individual prefix.
      *
      */
-    public static function &individualPrefix( $all=false )
+    public static function &individualPrefix( )
     {
-        require_once 'CRM/Core/OptionGroup.php';
         if ( ! self::$individualPrefix ) {
+            require_once 'CRM/Core/OptionGroup.php';
             self::$individualPrefix = CRM_Core_OptionGroup::values('individual_prefix');
         }
         return self::$individualPrefix;
@@ -343,10 +348,10 @@ class CRM_Core_PseudoConstant {
      * @return array - array reference of all individual suffix.
      *
      */
-    public static function &individualSuffix( $all=false )
+    public static function &individualSuffix( )
     {
-        require_once 'CRM/Core/OptionGroup.php';
         if ( ! self::$individualSuffix ) {
+            require_once 'CRM/Core/OptionGroup.php';
             self::$individualSuffix = CRM_Core_OptionGroup::values('individual_suffix');
         }
         return self::$individualSuffix;
@@ -365,10 +370,10 @@ class CRM_Core_PseudoConstant {
      * @return array - array reference of all gender.
      *
      */
-    public static function &gender( $all=false )
+    public static function &gender( )
     {
-        require_once 'CRM/Core/OptionGroup.php';
         if ( ! self::$gender ) {
+            require_once 'CRM/Core/OptionGroup.php';
             self::$gender = CRM_Core_OptionGroup::values('gender');
         }
         return self::$gender;
@@ -390,9 +395,10 @@ class CRM_Core_PseudoConstant {
      * @return array - array reference of all IM providers.
      *
      */
-    public static function &IMProvider( $all = false ) {
-        require_once 'CRM/Core/OptionGroup.php';
+    public static function &IMProvider( ) 
+    {
         if ( ! self::$imProvider ) {
+            require_once 'CRM/Core/OptionGroup.php';
             self::$imProvider = CRM_Core_OptionGroup::values('instant_messenger_service');
         }        
         return self::$imProvider;
@@ -654,21 +660,21 @@ class CRM_Core_PseudoConstant {
         return CRM_Core_Permission::group( );
     }
 
-/**
-* Get all permissioned groups from database
- *
- * The static array group is returned, and if it's
- * called the first time, the <b>Group DAO</b> is used 
- * to get all the groups.
- *
- * Note: any database errors will be trapped by the DAO.
- *
- * @access public
- * @static
- *
- * @return array - array reference of all groups.
- *
- */
+    /**
+     * Get all permissioned groups from database
+     *
+     * The static array group is returned, and if it's
+     * called the first time, the <b>Group DAO</b> is used 
+     * to get all the groups.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all groups.
+     *
+     */
     public static function &staticGroup()
     {
         if ( ! self::$staticGroup ) {
@@ -814,7 +820,23 @@ class CRM_Core_PseudoConstant {
         return self::$county;
     }
 
-
+    /**
+     * Get all the Preferred Communication Methods from database.
+     *
+     * @access public
+     * @static
+     *
+     * @return array self::pcm - array reference of all preferred communication methods.
+     *
+     */
+    public static function &pcm( ) 
+    {
+        if ( ! self::$pcm ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$pcm = CRM_Core_OptionGroup::values('preferred_communication_method');
+        }        
+        return self::$pcm;
+    }
 }
 
 ?>

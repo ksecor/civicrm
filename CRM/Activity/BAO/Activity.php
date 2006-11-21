@@ -218,7 +218,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( $activityType == 'Phonecall' ) {
             $title = ts('Phone Call');
         } else if ( $activityType == 'Activity' ) {
-            $activityType = CRM_Core_PseudoConstant::activityType(true);
+            $activityType = CRM_Core_PseudoConstant::activityType(false);
             $title        = $activityType[$params['activity_type_id']];
         } else {
             $title = $activityType;

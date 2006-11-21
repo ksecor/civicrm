@@ -183,7 +183,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix(), $required);
             } else if ($field['name'] === 'preferred_communication_method') {
-                $values = CRM_Core_SelectValues::pcm();
+                $values = CRM_Core_PseudoConstant::pcm();
                 foreach ( $values as $key => $var ) {
                     if ( $key == '' ) {
                         continue;

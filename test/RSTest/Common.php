@@ -187,7 +187,7 @@ class test_RSTest_Common
             $typeValue         = CRM_Core_SelectValues::greeting();        
             break;
         case 'PCMType'         :
-            $typeValue         = CRM_Core_SelectValues::pcm();
+            $typeValue         = CRM_Core_PseudoConstant::pcm();
             break;
         case 'relationshipType':
             $typeValue         = CRM_Core_PseudoConstant::relationshipType();

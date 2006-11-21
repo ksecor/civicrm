@@ -88,7 +88,7 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
         
         $url = CRM_Utils_System::url($url); 
         $this->assign("refreshURL",$url);
-        $activityType = CRM_Core_PseudoConstant::activityType(false,true);
+        $activityType = CRM_Core_PseudoConstant::activityType(false);
         
         $this->applyFilter('__ALL__', 'trim');
         $this->add('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType,true, array('onchange' => "reload(true)") );
