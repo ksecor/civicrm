@@ -57,7 +57,6 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
         require_once "CRM/Core/BAO/Setting.php";
         CRM_Core_BAO_Setting::retrieve($defaults);
         self::setValues($defaults);
-        
         return $defaults;
     }
 
@@ -185,11 +184,8 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
             $defaults['legacyEncoding'] = 'Windows-1252';
         }
 
-        if ( ! isset( $defaults['enableComponents'] ) ) {
-            $defaults['enableComponents'] = array(
-                                                  0 => 'CiviContribute',
-                                                  1 => 'CiviMember'
-                                                  );
+        if ( empty ( $defaults['enableComponents'] ) ) {
+            $defaults['enableComponents'] = array('CiviContribute','CiviMember');
         }
 
         if ( ! isset( $defaults['addressFormat'] ) ) {
