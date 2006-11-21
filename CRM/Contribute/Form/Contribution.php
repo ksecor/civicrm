@@ -523,7 +523,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @return None 
      */ 
     
-    function buldPremiumForm( $form)
+    function buldPremiumForm( &$form )
     {
         require_once 'CRM/Contribute/DAO/Product.php';
         $sel1 = $sel2 = array();
