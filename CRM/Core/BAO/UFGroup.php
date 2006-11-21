@@ -1382,7 +1382,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                             foreach ( $v as $item ) {
                                 if ($item) {
-                                    $defaults["field[$contactId][$name]"][$item] = $item;
+                                    $defaults[$fldName][$item] = $item;
                                 }
                             }
                             break;
@@ -1391,13 +1391,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                             $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                             foreach ( $v as $item ) {
                                 if ($item) {
-                                    $defaults["field[$contactId][$name][$item]"] = $item;
+                                    $defaults[$fldName][$item] = $item;
                                 }
                             }
                             break;
                             
                         default:
-                            $defaults["field[$contactId][$name]"] = $details[$name];
+                            $defaults[$fldName] = $details[$name];
                             break;
                         }
                     } else{
