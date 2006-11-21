@@ -913,7 +913,7 @@ if (isset($argv[1])) {
     // start of code to convert files recursively ---
     // this code is to convert the whole directory from php5 to php4
     
-    $directory = array('CRM', 'api',"bin");
+    $directory = array('CRM', 'api',"bin","extern");
     // $directory = array('api');
 
     foreach ($directory as $v) {

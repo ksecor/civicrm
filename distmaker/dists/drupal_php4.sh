@@ -25,13 +25,13 @@ if [ -d $TRG ] ; then
 fi
 
 # copy generated files first
-for E in CRM api drupal bin; do
+for E in CRM api drupal bin extern; do
 	echo $E
 	[ -d $DM_GENFILESDIR/$E ] && $RSYNCCOMMAND $DM_GENFILESDIR/$E $TRG
 done
 
 # copy all the rest of the stuff
-for CODE in css i js l10n packages PEAR templates joomla extern; do
+for CODE in css i js l10n packages PEAR templates joomla; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
