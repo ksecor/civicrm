@@ -415,6 +415,10 @@ class CRM_Contribute_BAO_Query
         
         require_once "CRM/Core/OptionGroup.php";
         $statusValues = CRM_Core_OptionGroup::values("contribution_status");
+        // Remove status values that are only used for recurring contributions for now (Failed and In Progress).
+        unset( $statusValues['4']);
+        unset( $statusValues['5']);
+
         foreach ( $statusValues as $key => $val ) {
             $status[] = $form->createElement( 'radio', null, null, $val , $key );    
         }

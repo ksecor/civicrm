@@ -246,6 +246,8 @@ class CRM_Core_Menu {
                             'icon'    => 'admin/rela_type.png',
                             'weight'  => 250
                             ),
+/* Commenting out the generic menu for Option groups for 1.6. We may put it back in and just show "custom" option groups 
+    a future release. dgg
                       array(
                             'path'    => 'civicrm/admin/optionGroup',
                             'title'   => ts('Options'),
@@ -256,6 +258,7 @@ class CRM_Core_Menu {
                             'icon'    => 'admin/option.png',
                             'weight'  => 280
                             ),
+*/
                       array(
                             'path'    => 'civicrm/admin/dupematch',
                             'title'   => ts('Duplicate Matching'),

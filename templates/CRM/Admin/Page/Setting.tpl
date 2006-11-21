@@ -54,7 +54,7 @@
 
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/mail' q='reset=1'}" id="idMailing">&raquo; {ts}CiviMail Configuration{/ts}</a></td>
-    <td>{ts}Configure settings for the optional CiviMail component (spool period, batch throttling, etc.).{/ts}</td>
+    <td>{ts}Settings for the optional CiviMail component (spool period, batch throttling, etc.).{/ts}</td>
 </tr>
 
 <tr>

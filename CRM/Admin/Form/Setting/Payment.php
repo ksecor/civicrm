@@ -52,7 +52,7 @@ class CRM_Admin_Form_Setting_Payment extends CRM_Admin_Form_Setting
     public function buildQuickForm( ) {
         CRM_Utils_System::setTitle(ts('Settings - Payment Processor'));
 
-        $this->addYesNo( 'enableSSL', ts( 'Force Secure (SSL) URLs' ));
+        $this->addYesNo( 'enableSSL', ts( 'Force Secure URLs (SSL)' ));
         $processor = CRM_Core_SelectValues::paymentProcessor();
         $extra1 = array( 'onclick' => "return showHideByValue('paymentProcessor', 'PayPal|PayPal_Express', 'certificate_path', 'block', 'select', false);" );
         $this->addElement('select','paymentProcessor', ts('Payment Processor'), array('select' => '- select -') + $processor, $extra1);  

@@ -8,19 +8,22 @@
  *
  * CiviCRM can be hosted in either Drupal or Joomla.
  * 
- * Settings for Drupal 4.7.x:
+ * Settings for Drupal 5.0.x:
  *      define( 'CIVICRM_UF'        , 'Drupal' );
- *      define( 'CIVICRM_UF_VERSION', '4.7' );
+ *      define( 'CIVICRM_UF_VERSION', '5.0' );
  *      define( 'CIVICRM_UF_URLVAR' , 'q'  );
  *
+ * For Drupal 4.7.x, same as above except
+ *      define( 'CIVICRM_UF_VERSION', '4.7' );
  * For Drupal 4.6.x, same as above except
  *      define( 'CIVICRM_UF_VERSION', '4.6' );
  *
- * Settings for Joomla:
+ * Settings for Joomla 1.0.x and 1.5.x:
  *      define( 'CIVICRM_UF'        , 'Joomla' );
- *      define( 'CIVICRM_UF_VERSION', '1.0.8' );
+ *      define( 'CIVICRM_UF_VERSION', '1' );
  *      define( 'CIVICRM_UF_URLVAR' , 'task'  );
  */
+
 define( 'CIVICRM_UF'               , '%%cms%%'        );
 define( 'CIVICRM_UF_VERSION'       , '%%cmsVersion%%' );
 define( 'CIVICRM_UF_URLVAR'        , '%%cmsURLVar%%'  );
@@ -32,6 +35,7 @@ define( 'CIVICRM_UF_URLVAR'        , '%%cmsURLVar%%'  );
  * Datasource (DSN) format:
  *      define( 'CIVICRM_UF_DSN', 'mysql://cms_db_username:cms_db_password@db_server/cms_database?new_link=true');
  */
+
 define( 'CIVICRM_UF_DSN'           , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
 
 /** 
@@ -41,8 +45,46 @@ define( 'CIVICRM_UF_DSN'           , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%
  * where the CMS user data is stored. Default for Drupal installs is 'users'.
  * If you are using table-prefixing for the users table, you must enter the tablename
  * with the prefix. Default table name for Joomla - 'jos_users'. For Mambo - 'mos_users'.
- */ 
+ */
+
 define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
+
+/**
+ * CiviCRM Database Settings
+ *
+ * MySQL Version:
+ * CiviCRM has been optimized for MySQL 4.1 or greater, but will also run on many 4.0.x versions.
+ * If you are using a 4.0.x release of MySQL, you MUST change CIVICRM_MYSQL_VERSION to 4.0
+ * IMPORTANT: Enter closest dot release to your installed version. 4.0, 4.1, 5.0 are all valid examples. Do NOT
+ * specify minor revision (second dot) - 4.1.2 is NOT a valid value for this setting. 
+ *
+ * Database URL (CIVICRM_DSN) for CiviCRM Data:
+ * Database URL format:
+ *      define( 'CIVICRM_DSN', 'mysql://crm_db_username:crm_db_password@db_server/crm_database?new_link=true');
+ *
+ * Drupal and CiviCRM can share the same database, or can be installed into separate databases.
+ *
+ * EXAMPLE: Drupal and CiviCRM running in the same database...
+ *      DB Name = drupal, DB User = drupal
+ *      define( 'CIVICRM_DSN'         , 'mysql://drupal:YOUR_PASSWORD@localhost/drupal?new_link=true' );
+ *
+ * EXAMPLE: Drupal and CiviCRM running in separate databases...
+ *      Drupal  DB Name = drupal, DB User = drupal
+ *      CiviCRM DB Name = civicrm, CiviCRM DB User = civicrm
+ *      define( 'CIVICRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
+ *
+ * MySQL Path:
+ * This stores the installed path of mysql. You will need to verify and modify this value if you are
+ * planning on using CiviCRMs built-in Database Backup utility. If you have shell access, you may be
+ * able to query the path by using one of the following commands:
+ * $ whereis mysql
+ * $ type mysql
+ *
+ */
+ 
+define( 'CIVICRM_MYSQL_VERSION', 4.1 );
+define( 'CIVICRM_DSN'          , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
+define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
 
 /**
  * File System Paths:
@@ -75,7 +117,9 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/joomla/media/civicrm/templates_c/' );
  *
  */
+
 global $civicrm_root;
+
 $civicrm_root = '%%crmRoot%%';
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
 
@@ -83,18 +127,18 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
  * Site URLs:
  *
  * This section defines absolute and relative URLs to access the host CMS (Drupal or Joomla)
- * and CiviCRM resources.
+ * resources.
  *
  * IMPORTANT: Trailing slashes should be used on all URL settings.
  *
- * EXAMPLES - Drupal/CivicSpace Installations:
- * If your site's home url is http://www.example.com/civicspace/
+ * EXAMPLE - Drupal Installations:
+ * If your site's home url is http://www.example.com/drupal/
  * these variables would be set as below. Modify as needed for your install. 
  *
  * CIVICRM_UF_BASEURL - home URL for your site:
- *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/civicspace/' );
+ *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/drupal/' );
  *
- * EXAMPLES - Joomla Installations:
+ * EXAMPLE - Joomla Installations:
  * If your site's home url is http://www.example.com/joomla/
  *
  * CIVICRM_UF_BASEURL - home URL for your site:
@@ -104,65 +148,25 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
  *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/joomla/' );
  *
  */
+ 
 define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 
 /**
- * CiviCRM Database Settings:
+ * SMTP Server Authentication Password:
  *
- * Define the version of MySQL you are running. 
- * CiviCRM has been optimized for MySQL 4.1, but will also run on many 4.0.x versions.
- * If you are using a 4.0.x release of MySQL, you MUST change CIVICRM_MYSQL_VERSION to 4.0
- *
- * Define the database URL (CIVICRM_DSN) for the CiviCRM database and the Drupal/Joomla database
- * Database URL format:
- *      define( 'CIVICRM_DSN', 'mysql://crm_db_username:crm_db_password@db_server/crm_database?new_link=true');
- *
- * Drupal and CiviCRM can share the same database, or can be installed into separate databases.
- *
- * EXAMPLE: Drupal and CiviCRM running in the same database...
- *      DB Name = drupal, DB User = drupal
- *      define( 'CIVICRM_DSN'         , 'mysql://drupal:YOUR_PASSWORD@localhost/drupal?new_link=true' );
- *
- * EXAMPLE: Drupal and CiviCRM running in separate databases...
- *      Drupal  DB Name = drupal, DB User = drupal
- *      CiviCRM DB Name = civicrm, CiviCRM DB User = civicrm
- *      define( 'CIVICRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
- *
- * define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
- *
- * This stores the installed path of mysql. You will need to verify and modify this value if you are
- * planning on using CiviCRMs built-in Database Backup utility. If you have shell access, you may be
- * able to query the path by using one of the following commands:
- * $ whereis mysql
- * $ type mysql
- */
-// Enter closest dot release to your installed version. 4.0, 4.1, 5.0 are all valid examples. Do NOT
-// specify minor revision (second dot) - 4.1.2 is NOT a valid value for this setting. 
-define( 'CIVICRM_MYSQL_VERSION', 4.0 );
-define( 'CIVICRM_DSN'          , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
-define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
-
-/**
- * SMTP Server:
- *
- * If you are sending emails to contacts using CiviCRM's simple 'Send Email' functionality
- * AND / OR using the CiviMail component, you need to enter the (machine) name for your
- * SMTP Server.
+ * If your SMTP server requires authentication, you will enable that and enter the 
+ * Username from Administer CiviCRM >> Global Settings >> SMTP. Then enter the
+ * authentication Password below.
  *
  */
 define( 'CIVICRM_SMTP_PASSWORD', ''    );
 
 /**
- * Payment Processor Settings:
+ * Payment Processor Passwords and/or Signature:
  *
- * If you are using CiviContribute for Online Contributions, you must obtain a Payment Processor
- * (merchant) account and configure your site and the settings below with that account information.
- * 
- * You should start with a Test Server (e.g. Sandbox) account, and configure both the LIVE and TEST
- * settings below using your test (sandbox) account info. Once you are ready to go live, update
- * the LIVE settings to use your live account info. Consult your Payment Processor's documentation
- * and CiviCRM Payment Processor Configuration documentation (http://wiki.civicrm.org/confluence//x/ihk)
- * for details on these settings.
+ * Select and configure your payment processing service from Administer CiviCRM >> Global Settings >> 
+ * Payment Processor. For most services, you will also need to enter a Password and/or a Signature
+ * or key below. These values are not stored separately (not in your database) for security reasons.
  */
 
 /*
@@ -171,20 +175,26 @@ define( 'CIVICRM_SMTP_PASSWORD', ''    );
  * 
  */
 
-// API Password
-// PayPal API Signature credential: API Password value (from your PayPal account - View API Signature screen).
-// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
-// Moneris: API Token value.
+/* API Password
+ * PayPal API Signature credential: API Password value (from your PayPal account - View API Signature screen).
+ * PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this value.
+ * Moneris: API Token value.
+ */
+ 
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_PASSWORD'      , '' ); 
 
-// API Signature or Key 
-// PayPal API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
-// PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
-// Moneris: Use the storeid value.
+/* API Signature or Key 
+ * PayPal API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
+ * PayPal API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+ * Moneris: Use the storeid value.
+ */
+ 
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_KEY'           , '' ); 
 
-// API Subject
-// PayPal API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
+/* API Subject
+ * PayPal API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
+ */
+ 
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_SUBJECT'       , '' );
 
 /*
@@ -193,20 +203,26 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_TEST_SUBJECT'       , '' );
  * 
  */
 
-// API Password
-// PayPal Pro or Express with API Signature credential: API Password value (from your PayPal account - View API Signature screen)
-// PayPal Pro or Express with API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
-// Moneris: API Token value.
+/* API Password
+ * PayPal Pro or Express with API Signature credential: API Password value (from your PayPal account - View API Signature screen)
+ * PayPal Pro or Express with API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+ * Moneris: API Token value.
+ */
+
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_PASSWORD'      , '' );
 
-// API Signature or Key 
-// PayPal Pro or Express with API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
-// PayPal Pro or Express with API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
-// Moneris: Use the storeid value.
+/* API Signature or Key 
+ * PayPal Pro or Express with API Signature credential: Use the API Signature value (from your PayPal account - View API Signature screen).
+ * PayPal Pro or Express with API Certificate credential: Go to Administer CiviCRM >> Create PayPal API Profile to generate this key value.
+ * Moneris: Use the storeid value.
+ */
+
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_KEY'           , '' );
 
-// API Subject
-// PayPal Pro or Express with API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
+/* API Subject
+ * PayPal Pro or Express with API Signature credential only: Use this setting to process transactions in behalf of a 3rd party.
+  */
+
 define( 'CIVICRM_CONTRIBUTE_PAYMENT_SUBJECT'       , '' );
 
 /**
@@ -217,6 +233,7 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_SUBJECT'       , '' );
  *
  * Refer to the 'Multi-site Support' section of the Installation Guide for more info.
  */
+
 define('CIVICRM_DOMAIN_ID' , 1 );
 
 /**
@@ -231,8 +248,9 @@ define( 'CIVICRM_SMS_AGGREGATOR', 'CRM_SMS_Protocol_Clickatell' );
 /**
  * Joomla! Front-end Component Flag
  * If this configuration file is being used by a Joomla! front-end CiviCRM component
- * instance, this flag is set to 1.
+ * instance, set this value to 1.
  */
+
 define( 'CIVICRM_UF_FRONTEND', %%frontEnd%% );
 
 /**

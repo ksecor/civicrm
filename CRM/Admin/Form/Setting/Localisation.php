@@ -64,7 +64,7 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
         
         $this->addElement('select','lcMessages', ts('User Language'), array('en_US' => 'en_US') + $locales);
         $this->addElement('select','lcMonetary', ts('Monetary Locale'), array('en_US' => 'en_US') + $locales);
-        $this->addElement('text','moneyformat', ts('Monetary Display Format')); 
+        $this->addElement('text','moneyformat', ts('Monetary Display')); 
 
         $country = array( ) ;
         CRM_Core_PseudoConstant::populate( $country, 'CRM_Core_DAO_Country', true, 'name', 'is_active' );

@@ -13,7 +13,7 @@
     {capture assign=findMembersURL}{crmURL p="civicrm/member/search/basic" q="reset=1"}{/capture}
     <p>{ts 1=$findMembersURL}This table provides a summary of <strong>Membership Signup and Renewal Activity</strong>, and includes shortcuts to view the details for these commonly used search criteria. To run your own customized searches - click <a href="%1">Find Members</a>. You can search by Member Name, Membership Type, Status, and Signup Date Ranges.{/ts}</p>
 </div>
-<table class="report form-layout-compressed">
+<table class="report">
 <tr class="columnheader-dark">
     <th scope="col">{ts}Members by Type{/ts}</th>
     <th scope="col">{ts}{$currentMonth}-New/Renew (MTD){/ts}</th>

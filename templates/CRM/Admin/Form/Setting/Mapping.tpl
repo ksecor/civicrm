@@ -6,7 +6,7 @@
 <fieldset><legend>{ts}Mapping and Geocoding{/ts}</legend>
         <dl>
          <dt>{$form.mapProvider.label}</dt><dd>{$form.mapProvider.html}</dd>
-         <dt>&nbsp</dt><dd class="description">{ts} Choose the provider that has the best coverage for your the majority of your contact addresses.{/ts}</dd>
+         <dt>&nbsp</dt><dd class="description">{ts} Choose the provider that has the best coverage for the majority of your contact addresses.{/ts}</dd>
          <dt>{$form.mapAPIKey.label}</dt><dd>{$form.mapAPIKey.html}</dd>
          <dt>&nbsp</dt><dd class="description">{ts}Enter your Google API Key OR your Yahoo Application ID.{/ts} {help id='map-key2'}</dd>
          {*<dt>{$form.geocodeMethod.label}</dt><dd>{$form.geocodeMethod.html}</dd>
