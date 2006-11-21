@@ -408,11 +408,13 @@ div.spacer, .spacer {
   color: #FFFFFF;
   border: 1px solid #000000;
 }
+
 #crm-container th {
   padding: 8px 4px 4px 4px;
   border-bottom: 1px solid #000;
   text-align: left;
 }
+
 #crm-container tr.columnheader-dark td, #crm-container tr.columnheader-dark th, #crm-container tr.columnheader td, #crm-container tr.columnfooter td {
   font-size: 1.1em;
   font-weight: bold;
@@ -758,15 +760,23 @@ div.crm-pager a {
   overflow: auto;
 }
 
-#crm-container thead td.selectedUp,#crm-container thead th.selectedUp { 
-  background-repeat: no-repeat;
-  background-position: 75% 50%;
-  background-image:url(./sort-asc.png);
+/*
+** Following styles are used specificaly for dojo based elements
+*/
+#crm-container thead tr.columnheader th {
+  text-indent: 0.5em;
+  cursor: pointer;
 }
-
-#crm-container thead td.selectedDown,#crm-container thead th.selectedDown { 
+#crm-container tbody td {
+  text-indent: 0.5em;
+}
+#crm-container thead th.selectedUp { 
   background-repeat: no-repeat;
-  background-position: 75% 50%;
+  background-position: 0% 50%;
   background-image:url(./sort-desc.png);
-  margin-right: 20px;
+}
+#crm-container thead th.selectedDown { 
+  background-repeat: no-repeat;
+  background-position: 0% 50%;
+  background-image:url(./sort-asc.png);
 }
