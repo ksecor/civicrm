@@ -1,3 +1,5 @@
+{include file="CRM/common/dojo.tpl"}
+
 {if $displayRecent and $recentlyViewed}
     {include file="CRM/common/recentlyViewed.tpl"}
 {/if}
