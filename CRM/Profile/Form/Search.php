@@ -78,7 +78,7 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
         // we need to figure out the type, so we can either set an array element
         // or a scalar -- FIX ME sometime please
         foreach ( $_GET as $key => $value ) {
-            if ( substr( $key, 0, 7 ) == 'custom_' ) {
+            if ( substr( $key, 0, 7 ) == 'custom_' || $key == "preferred_communication_method" ) {
                 if ( strpos( $value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) !== false ) {
                     $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
                     $value = array();

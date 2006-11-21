@@ -2063,31 +2063,39 @@ class CRM_Contact_BAO_Query {
     }
 
     function preferredCommunication( &$values ) {
-        require_once 'CRM/Core/BAO/OptionValue.php';
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         
-        foreach ( $value as $method => $val ) {
-            $params['label'] = $method;
-            $optionValue = CRM_Core_BAO_OptionValue::retrieve( $params, $defaults ) ;
-            if ($optionValue->value) {
-                $like = $like ? ($like . '%' . $optionValue->value) : $optionValue->value;
+        $pref  = array( );
+        if ( !is_array($value) ) {
+            $v = array( );
+            
+            if ( strpos( $value, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) !== false ) {
+                $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+            } else{
+                $v = explode( ",", $value );
             }
-            $showValue = $showValue ? ($showValue . ', ' . $method) : ($method);
-        }
-        if ( $wildcard ) {
-            $value = "%$like%"; 
-            $op    = 'LIKE';
-        }
-
-        $field = CRM_Utils_Array::value( $name, $this->_fields );
-        if ( $field ) {
-            $title = $field['title'];
+            
+            foreach ( $v as $item ) {
+                if( $item ) {
+                    $pref[] = $item;
+                }
+            }
         } else {
-            $title = $name;
+            $pref  = array_keys($value);
         }
 
-        $this->_where[$grouping][] = "contact_a.{$name} $op '$value'";
-        $this->_qill[$grouping][]  = ts( "%1 %2 %3", array( 1 => $title, 2 => $op, 3 => $showValue ) );
+        $commPref = array( );
+        $commPref = CRM_Core_PseudoConstant::pcm();
+
+        $sqlValue = array( ) ;
+
+        $sql = "LOWER(contact_a.preferred_communication_method)";
+        foreach ( $pref as $val ) { 
+            $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $val . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
+            $showValue[] =  $commPref[$val];
+        }
+        $this->_where[$grouping][] = implode( ' AND ', $sqlValue ); 
+        $this->_qill[$grouping][]  = ts( "%1 %2 %3", array( 1 => 'Preferred Communication Method', 2 => $op, 3 => implode( ' or ', $showValue) ) );
     }
 
     /**

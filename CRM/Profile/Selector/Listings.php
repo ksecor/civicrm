@@ -393,17 +393,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
         
         require_once "CRM/Core/OptionGroup.php";
 
-        $multipleSelectFields = null;
+        $multipleSelectFields = array( 'preferred_communication_method' => 1 );
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
 
-
-        // CRM_Core_Error::debug( 'n', $names );
         while ($result->fetch()) {
-            // CRM_Core_Error::debug( 'r', $result );
-
             if (isset($result->country)) {
                 // the query returns the untranslated country name
                 $i18n =& CRM_Core_I18n::singleton();

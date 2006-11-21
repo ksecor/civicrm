@@ -442,7 +442,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
 
         //hack for student data (checkboxs)
-        $multipleSelectFields = null;
+        $multipleSelectFields = array( 'preferred_communication_method' => 1 );
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
@@ -487,7 +487,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             if (!empty ($result->postal_code_suffix)) {
                 $row['postal_code'] .= "-" . $result->postal_code_suffix;
             }
-            
             
             if ($output != CRM_Core_Selector_Controller::EXPORT ||
                 $context == 'smog') {

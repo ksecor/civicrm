@@ -557,6 +557,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 } else if ( $name === 'preferred_communication_method' ) {
                     $communicationFields = CRM_Core_PseudoConstant::pcm();
                     $pref = array();
+                    $compref = array();
                     $pref = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details->$name );
                     
                     foreach($pref as $k) {
