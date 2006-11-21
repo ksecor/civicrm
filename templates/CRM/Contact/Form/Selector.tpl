@@ -5,7 +5,7 @@
 {strip}
 <table summary="{ts}Search results listings.{/ts}">
   <tr class="columnheader">
-  <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th>
+  <th scope="col" title="Select All Rows">{$form.toggleSelect.html}</th>
   {if $context eq 'smog'}
       <th scope="col">
         {ts}Status{/ts}

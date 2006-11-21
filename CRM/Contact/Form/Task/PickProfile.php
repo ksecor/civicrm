@@ -117,7 +117,7 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
         $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles($types);
         $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $profiles, true);
 
-        $this->addDefaultButtons( ts( 'Pick profile' ) );
+        $this->addDefaultButtons( ts( 'Continue >>' ) );
     }
 
     /**

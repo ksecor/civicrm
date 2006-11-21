@@ -1,11 +1,14 @@
 <div class="form-item">
 <fieldset>
+<div id="help">
+    {ts}Update field values for each contact as needed. Click <strong>Update Contacts</strong> below to save all your changes. To set a field to the same value for ALL rows, enter that value for the first contact and then click the <strong>Copy icon</strong> (next to the column title).{/ts}
+</div>
     <legend>{$profileTitle}</legend>
          <table>
             <tr class="columnheader">
              <th>Name</th>
              {foreach from=$fields item=field key=name}
-                <th><img  src="{$config->resourceBase}i/copy.png" alt="{$field.title}" onClick="copyValues('{$field.name}')" ) />&nbsp;{$field.title}</th>
+                <th><img  src="{$config->resourceBase}i/copy.png" alt="{ts 1=$field.title}Click to copy %1 from row one to all rows.{/ts}" onclick="copyValues('{$field.name}')" class="action-icon" title="{ts}Click here to copy the value in row one to ALL rows.{/ts}" />{$field.title}</th>
              {/foreach}
             </tr>
             {foreach from=$contactIds item=cid}
@@ -30,11 +33,10 @@
     function copyValues(fieldName) 
     {
         var cId = new Array();	
-        var i = 0;{/literal}	
+        var i = 0;{/literal}
         {literal}var i = 0;{/literal}
         {foreach from=$contactIds item=field}
-        {literal}cId[i]{/literal} = {$field}
-        {literal}i = i + 1 {/literal}    
+        {literal}cId[i++]{/literal} = {$field}
         {/foreach}
 	{literal}        
 	
