@@ -57,7 +57,7 @@ function civicrm_invoke( ) {
 
     global $my;
     require_once 'CRM/Core/BAO/UFMatch.php';
-    CRM_Core_BAO_UFMatch::synchronize( $my, false, 'Joomla' );
+    CRM_Core_BAO_UFMatch::synchronize( $my, false, 'Joomla', 'Individual' );
 
     CRM_Core_Invoke::invoke( $args );
 }
