@@ -56,10 +56,13 @@ class CRM_Admin_Form_Setting_Localisation extends  CRM_Admin_Form_Setting
 
         $locales = array();
         if (is_dir($config->gettextResourceDir)) {
-            $dirList = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
-            foreach ($dirList as $key) {
-                $locales[$key] = $key;
+            $dir = opendir($config->gettextResourceDir);
+            while ($filename = readdir($dir)) {
+                if (preg_match('/^[a-z][a-z]_[A-Z][A-Z]$/', $filename)) {
+                    $locales[$filename] = $filename;
+                }
             }
+            closedir($dir);
         }
         
         $this->addElement('select','lcMessages', ts('User Language'), array('en_US' => 'en_US') + $locales);
