@@ -1358,7 +1358,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if( $name == 'tag' ) {
                     CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::TAG ); 
                 }
-                if (CRM_Utils_Array::value($name, $details )) {
+                if (CRM_Utils_Array::value($name, $details ) || isset( $details[$name] ) ) {
                     //to handle custom data (checkbox) to be written
                     // to handle gender / suffix / prefix
                     if ($name == 'gender') { 
