@@ -754,87 +754,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     }
 
     /**
-     * build a form for the given UF group
-     *
-     * @param int           $id        the group id
-     * @param CRM_Core_Form $form      the form element
-     * @param string        $name      the name that we should store the fields as
-     * @param array         $allFields reference to the array where all the fields are stored
-     *
-     * @return void
-     * @static
-     * @access public
-     */
-    public static function buildQuickForm( $id, &$form, $name, &$allFields) {
-        $fields =& CRM_Core_BAO_UFGroup::getFields( $id, false, $action );
-
-        foreach ( $fields as $n => $fld ) {
-            if ( ! array_key_exists( $n, $allFields ) ) {
-                $allFields[$n] = $fld;
-            }
-        }
-
-        $form->assign( $name, $fields );
-        foreach ( $fields as $name => $field ) {
-            $required = $field['is_required'];
-
-            if ( substr($field['name'],0,14) === 'state_province' ) {
-                $form->add('select', $name, $field['title'],
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
-            } else if ( substr($field['name'],0,7) === 'country' ) {
-                $form->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
-            } else if ( $field['name'] === 'birth_date' ) {  
-                $form->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth') );  
-            } else if ( $field['name'] === 'gender' ) {  
-                $genderOptions = array( );   
-                $gender = CRM_Core_PseudoConstant::gender();   
-                foreach ($gender as $key => $var) {   
-                    $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);   
-                }   
-                $form->addGroup($genderOptions, $field['name'], $field['title'] );  
-            } else if ( $field['name'] === 'individual_prefix' ) {
-                $form->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualPrefix());
-            } else if ( $field['name'] === 'individual_suffix' ) {
-                $form->add('select', $name, $field['title'], 
-                           array('' => ts('- select -')) + CRM_Core_PseudoConstant::individualSuffix());
-            } else if ( $field['name'] === 'group' ) {
-                require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, 0,
-                                                              CRM_Contact_Form_GroupTag::GROUP);
-            } else if ( $field['name'] === 'tag' ) {
-                require_once 'CRM/Contact/Form/GroupTag.php';
-                CRM_Contact_Form_GroupTag::buildGroupTagBlock($form, 0,
-                                                              CRM_Contact_Form_GroupTag::TAG );
-            } else if ( $field['name'] === 'preferred_communication_method' ) {
-                $communicationFields = CRM_Core_PseudoConstant::pcm();
-                foreach ( $communicationFields as $key => $var ) {
-                    if ( $key == '' ) {
-                        continue;
-                    }
-                $communicationOptions[] =& HTML_QuickForm::createElement( 'checkbox',$key , null,  $var);
-                }
-                $form->addGroup($communicationOptions, $field['name'],$field['title'] , '<br/>' );
-            } else if ($field['name'] === 'preferred_mail_format') {
-                $form->add('select', $name, $field['title'], CRM_Core_SelectValues::pmf());
-            } else if (substr($field['name'], 0, 6) === 'custom') {
-                $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
-                CRM_Core_BAO_CustomField::addQuickFormElement($form, $name, $customFieldID, $inactiveNeeded, false);
-                if ($required) {
-                    $form->addRule($name, ts('%1 is a required field.', array(1 => $field['title'])) , 'required');
-                }
-            } else {
-                $form->add('text', $name, $field['title'], $field['attributes'], $required );
-            }
-
-            if ( $field['rule'] ) {
-                $form->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
-            }
-        }
-    }
-
-    /**
      * function to add the UF Group
      *
      * @param array $params reference array contains the values submitted by the form
@@ -1280,6 +1199,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function buildProfile( &$form, &$field, $mode, $contactId = null ) 
     {
+        require_once "CRM/Profile/Form.php";
         $fieldName  = $field['name'];
         $title      = $field['title'];
         $attributes = $field['attributes'];

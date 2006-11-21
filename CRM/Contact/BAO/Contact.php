@@ -2152,7 +2152,7 @@ WHERE civicrm_contact.id IN $idString ";
             $isOptOut  = $params['is_opt_out']         ? true : false;
             $data['is_opt_out'] = $isOptOut;
             // on change, create new civicrm_subscription_history entry
-            if ($wasOptOut != $isOptOut) {
+            if (($wasOptOut != $isOptOut) && $contactDetails['contact_id'] ) {
                 $shParams = array(
                                   'contact_id' => $contactDetails['contact_id'],
                                   'status'     => $isOptOut ? 'Removed' : 'Added',
