@@ -1448,7 +1448,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $v = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $details[$name] );
                         foreach ( $v as $item ) {
                             if ($item) {
-                                $defaults["preferred_communication_method[$item]"] = 1;
+                                $defaults[$fldName."[$item]"] = 1;
                             }
                         } 
                     } else if ( substr( $name, 0, 7 ) == 'custom_') {
