@@ -53,12 +53,46 @@ class CRM_Admin_Form_Setting_Mapping extends CRM_Admin_Form_Setting
         CRM_Utils_System::setTitle(ts('Settings - Mapping Provider'));
 
         $map = CRM_Core_SelectValues::mapProvider();
-        $this->addElement('select','mapProvider', ts('Map Provider'),array('select' => '- select -') + $map);  
-        $this->add('text','mapAPIKey', ts('Provider Key'), null, true);  
+        $this->addElement('select','mapProvider', ts('Map Provider'),array('' => '- select -') + $map);  
+        $this->add('text','mapAPIKey', ts('Provider Key'), null);  
         //$this->addElement('text','geocodeMethod', ts('Geocode Method')); 
     
         parent::buildQuickForm();
     }
+
+
+    /**
+     * global form rule
+     *
+     * @param array $fields  the input form values
+
+     * @return true if no errors, else array of errors
+     * @access public
+     * @static
+     */
+    static function formRule(&$fields) {
+        $errors = array();
+        if ( !$fields['mapAPIKey'] && $fields['mapProvider'] != '' ) {
+            $errors['mapAPIKey'] = "Api key is a required field";
+        } 
+        return $errors;
+    }
+
+    /**
+     * This function is used to add the rules (mainly global rules) for form.
+     * All local rules are added near the element
+     *
+     * @param null
+     * 
+     * @return void
+     * @access public
+     */
+    function addRules( )
+    {
+        $this->addFormRule( array( 'CRM_Admin_Form_Setting_Mapping', 'formRule' ) );
+    }
+    
+ 
 }
 
 ?>

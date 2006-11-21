@@ -85,6 +85,10 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
             $defaults['imageUploadDir'] = $path . "persist/contribute/";
         }
 
+        if ( ! isset( $defaults['imageUploadURL'] ) ) {
+            $defaults['imageUploadURL'] = $baseURL . "files/civicrm/persist/contribute/";
+        }
+
         if ( ! isset( $defaults['customFileUploadDir'] ) ) {
             $defaults['customFileUploadDir'] = $path . "upload/custom/";
         }
