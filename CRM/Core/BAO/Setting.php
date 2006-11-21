@@ -60,7 +60,7 @@ class CRM_Core_BAO_Setting
         }
                            
         // CRM_Core_Error::debug('par', $params);
-        //  exit();
+        // exit();
 
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();

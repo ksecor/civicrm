@@ -237,15 +237,6 @@ define( 'CIVICRM_CONTRIBUTE_PAYMENT_SUBJECT'       , '' );
 define('CIVICRM_DOMAIN_ID' , 1 );
 
 /**
- * CiviSMS Settings:
- *
- * CiviSMS component is in pre-alpha. Contact the development team if you want to work
- * with this component.
- */
-define( 'CIVICRM_SMS_USERNAME'  , 'USERNAME' );
-define( 'CIVICRM_SMS_AGGREGATOR', 'CRM_SMS_Protocol_Clickatell' );
-
-/**
  * Joomla! Front-end Component Flag
  * If this configuration file is being used by a Joomla! front-end CiviCRM component
  * instance, set this value to 1.
