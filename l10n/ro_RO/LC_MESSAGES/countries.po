@@ -9,188 +9,169 @@ msgstr ""
 "Project-Id-Version: iso-codes 0.55\n"
 "Report-Msgid-Bugs-To: Alastair McKinstry <mckinstry@debian.org>\n"
 "POT-Creation-Date: 2005-03-07 08:29-0500\n"
-"PO-Revision-Date: 2002-01-05 17:40+0000\n"
-"Last-Translator: Claudiu Costin <claudiuc@geocities.com>\n"
+"PO-Revision-Date: 2006-11-15 10:22-0800\n"
+"Last-Translator: Claudiu Cristea <clau.cristea@gmail.com>\n"
 "Language-Team: Romanian <ro-kde@egroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 #. name for AFG
 msgid "Afghanistan"
-msgstr ""
+msgstr "Afganistan"
 
 #. official_name for AFG
 msgid "The Transitional Islamic State of Afghanistan"
 msgstr ""
 
 #. name for ALA
-#, fuzzy
 msgid "Åland Islands"
-msgstr "Plan"
+msgstr "Insulele Åland"
 
 #. name for ALB
 msgid "Albania"
-msgstr ""
+msgstr "Albania"
 
 #. official_name for ALB
 msgid "Republic of Albania"
-msgstr ""
+msgstr "Republica Albania"
 
 #. name for DZA
-#, fuzzy
 msgid "Algeria"
-msgstr "Julia"
+msgstr "Algeria"
 
 #. official_name for DZA
 msgid "People's Democratic Republic of Algeria"
-msgstr ""
+msgstr "Republica Populară Democratică Algeria"
 
 #. name for ASM
-#, fuzzy
 msgid "American Samoa"
-msgstr "Qmamecat"
+msgstr "Samoa Americană"
 
 #. name for AND
 msgid "Andorra"
-msgstr ""
+msgstr "Andora"
 
 #. official_name for AND
 msgid "Principality of Andorra"
-msgstr ""
+msgstr "Principatul Andora"
 
 #. name for AGO
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #. official_name for AGO
-#, fuzzy
 msgid "Republic of Angola"
-msgstr "Ajutor Debian"
+msgstr "Republica Angola"
 
 #. name for AIA
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #. name for ATA
 msgid "Antarctica"
-msgstr ""
+msgstr "Antarctica"
 
 #. name for ATG
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "Antigua şi Barbuda"
 
 #. name for ARG
-#, fuzzy
 msgid "Argentina"
-msgstr "Arena"
+msgstr "Argentina"
 
 #. official_name for ARG
-#, fuzzy
 msgid "Argentine Republic"
-msgstr "Ajutor Debian"
+msgstr "Republica Argentina"
 
 #. name for ARM
-#, fuzzy
 msgid "Armenia"
-msgstr "Arena"
+msgstr "Armenia"
 
 #. official_name for ARM
 msgid "Republic of Armenia"
-msgstr ""
+msgstr "Republica Armenia"
 
 #. name for ABW
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #. name for AUS
-#, fuzzy
 msgid "Australia"
-msgstr "AustroNaut"
+msgstr "Australia"
 
 #. name for AUT
-#, fuzzy
 msgid "Austria"
-msgstr "AustroNaut"
+msgstr "Austria"
 
 #. official_name for AUT
 msgid "Republic of Austria"
-msgstr ""
+msgstr "Republica Austria"
 
 #. name for AZE
-#, fuzzy
 msgid "Azerbaijan"
-msgstr "Debian"
+msgstr "Azerbaijan"
 
 #. official_name for AZE
-#, fuzzy
 msgid "Republic of Azerbaijan"
-msgstr "Debian"
+msgstr "Republica Azerbaijan"
 
 #. name for BHS
-#, fuzzy
 msgid "Bahamas"
-msgstr "Plan"
+msgstr "Bahamas"
 
 #. official_name for BHS
 msgid "Commonwealth of the Bahamas"
 msgstr ""
 
 #. name for BHR
-#, fuzzy
 msgid "Bahrain"
-msgstr "Panglică"
+msgstr "Bahrain"
 
 #. official_name for BHR
-#, fuzzy
 msgid "State of Bahrain"
-msgstr "Panglică"
+msgstr ""
 
 #. name for BGD
-#, fuzzy
 msgid "Bangladesh"
-msgstr "Energie"
+msgstr "Bangladesh"
 
 #. official_name for BGD
 msgid "People's Republic of Bangladesh"
-msgstr ""
+msgstr "Republica Populară Bangladesh"
 
 #. name for BRB
-#, fuzzy
 msgid "Barbados"
-msgstr "Table"
+msgstr "Barbados"
 
 #. name for BLR
-#, fuzzy
 msgid "Belarus"
-msgstr "Pine"
+msgstr "Belarus"
 
 #. official_name for BLR
 msgid "Republic of Belarus"
-msgstr ""
+msgstr "Republica Belarus"
 
 #. name for BEL
-#, fuzzy
 msgid "Belgium"
-msgstr "Ajutor"
+msgstr "Belgia"
 
 #. official_name for BEL
 msgid "Kingdom of Belgium"
-msgstr ""
+msgstr "Regatul Belgiei"
 
 #. name for BLZ
-#, fuzzy
 msgid "Belize"
-msgstr "Ajutor"
+msgstr "Belize"
 
 #. name for BEN
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 #. official_name for BEN
-#, fuzzy
 msgid "Republic of Benin"
-msgstr "Ajutor Debian"
+msgstr "Republica Benin"
 
 #. name for BMU
 msgid "Bermuda"
@@ -1352,27 +1333,24 @@ msgid "Reunion"
 msgstr ""
 
 #. name for ROU
-#, fuzzy
 msgid "Romania"
-msgstr "Sonar"
+msgstr "România"
 
 #. name for RUS
 msgid "Russian Federation"
-msgstr ""
+msgstr "Federaţia Rusă"
 
 #. name for RWA
-#, fuzzy
 msgid "Rwanda"
-msgstr "Cărţi"
+msgstr "Ruanda"
 
 #. official_name for RWA
-#, fuzzy
 msgid "Rwandese Republic"
-msgstr "Ajutor Debian"
+msgstr "Republica Ruanda"
 
 #. name for SHN
 msgid "Saint Helena"
-msgstr ""
+msgstr "Sfânta Elena"
 
 #. name for KNA
 msgid "Saint Kitts and Nevis"
@@ -1809,7 +1787,7 @@ msgstr ""
 
 #. name for SCG
 msgid "Serbia and Montenegro"
-msgstr ""
+msgstr "Serbia şi Muntenegru"
 
 #, fuzzy
 #~ msgid "Guernsey"

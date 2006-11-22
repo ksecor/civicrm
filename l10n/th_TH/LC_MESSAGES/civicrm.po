@@ -9,12 +9,13 @@ msgstr ""
 "Project-Id-Version: CiviCRM 1.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-02 14:13+0100\n"
-"PO-Revision-Date: 2005-08-18 13:39+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2006-11-19 07:18-0800\n"
+"Last-Translator: Akarawuth Tamrareang <akarawuth@joomlacorner.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 0.10\n"
 
 #: CRM/Activity/BAO/Activity.php CRM/Contact/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -576,7 +577,7 @@ msgstr "แก้ไขกลุ่ม"
 
 #: CRM/Admin/Page/OptionGroup.php CRM/Custom/Page/Option.php
 msgid "Edit Option"
-msgstr ""
+msgstr "แก้ไขตัวเลือก"
 
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Membership.php
 #: CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php
