@@ -5,9 +5,9 @@
     {if $rows}
     {ts}For existing pages{/ts}:
     <ul class="indented">
-    <li>{ts}Click the <strong>title</strong> to go to the live page (enabled pages only).{/ts}</li>
     <li>{ts}Click <strong>Configure</strong> to view and modify settings, amounts, and text for existing pages.{/ts}</li>
     <li>{ts}Click <strong>Test-drive</strong> to try out the page in <strong>test mode</strong>. This allows you to go through the full contribution process using a dummy credit card on a test server.{/ts}</li>
+    <li>{ts}If your page is enabled, click <strong>Live Page</strong> to view to the page in <strong>live mode</strong>.{/ts}</li>
     </ul>
     <p>{ts 1=$newPageURL}Click <a href="%1">New Contribution Page</a> to create and configure a new online contribution page using the step-by-step wizard.{/ts}</p>
     {/if}

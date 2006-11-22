@@ -166,12 +166,12 @@ class CRM_Contact_Form_Search_Criteria {
         $form->add( 'hidden', 'hidden_changeLog', 1 );
 
         // block for change log
-        $form->addElement('text', 'changed_by', ts('Changed By'), null);
+        $form->addElement('text', 'changed_by', ts('Modified By'), null);
       
-        $form->add('date', 'modified_date_low', ts('Modified - From'), CRM_Core_SelectValues::date('relative'));
+        $form->add('date', 'modified_date_low', ts('Modified Between'), CRM_Core_SelectValues::date('relative'));
         $form->addRule('modified_date_low', ts('Select a valid date.'), 'qfDate');
 
-        $form->add('date', 'modified_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
+        $form->add('date', 'modified_date_high', ts('and'), CRM_Core_SelectValues::date('relative'));
         $form->addRule('modified_date_high', ts('Select a valid date.'), 'qfDate');
     }
 
