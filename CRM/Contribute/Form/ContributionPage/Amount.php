@@ -54,7 +54,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
     public function buildQuickForm()
     {
         // do u want to allow a free form text field for amount 
-        $this->addElement('checkbox', 'is_allow_other_amount', ts('Allow Other Amounts?' ), null, array( 'onchange' => "minMax(this);" ) );  
+        $this->addElement('checkbox', 'is_allow_other_amount', ts('Allow Other Amounts?' ), null, array( 'onclick' => "minMax(this);" ) );  
         $this->add('text', 'min_amount', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $this->addRule( 'min_amount', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
 

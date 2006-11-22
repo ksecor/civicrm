@@ -54,14 +54,13 @@
 <div id="crm-submit-buttons">
     {$form.buttons.html}
 </div>
+{literal}
 <script type="text/javascript">
-	{literal}
-    for( i=0; i < document.Amount.elements.length; i++) {
-        if (document.Amount.elements[i].name == "is_allow_other_amount" && document.Amount.elements[i].checked == false ) {
-            hide('minMaxFields');
-        }
-    }
-    
+	var element_other_amount = document.getElementsByName('is_allow_other_amount');
+  	if (! element_other_amount[0].checked) {
+	  hide('minMaxFields');
+	}
+
 	function minMax(chkbox) {
         if (chkbox.checked) {
 		    show('minMaxFields');
@@ -73,5 +72,6 @@
 		    return;
 		}
 	}	
-	{/literal}
+
 </script>
+{/literal}

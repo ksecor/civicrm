@@ -182,20 +182,20 @@ div.spacer, .spacer {
   /* width: auto; */
   width: 98%;	
   border-collapse: collapse;
-  border: 0px hidden;
+  border: 0px none;
 }
 
 #crm-container table.form-layout-compressed {
   margin: 0em;
   width: auto;
   border-collapse: collapse;
-  border: 0px hidden;
+  border: 0px none;
 }
 
 #crm-container .form-layout td {
   padding: 3px;
   white-space: nowrap;
-  border: 0px hidden;
+  border: 0px none;
 }
 
 #crm-container .form-layout td.report {
@@ -210,14 +210,14 @@ div.spacer, .spacer {
   padding: 3px;
   width: 25%;
   white-space: nowrap;
-  border: 0px hidden;
+  border: 0px none;
   text-align: center;
 }
 
 #crm-container .form-layout td.label, #crm-container .form-layout-compressed td.label, #crm-container .selector td.label, #crm-container .form-layout-compressed th.label {
   text-align: right;
   padding: 0em 0.50em 0em 0.75em;
-  border: 0px hidden;
+  border: 0px none;
 }
 
 #crm-container .form-layout-compressed td.describe-image {
@@ -244,7 +244,8 @@ div.spacer, .spacer {
   margin: 0.5em;
   background-color: #ffff99;
   padding: .25em .5em .25em .5em;
-  border: 1px solid #abc;
+  /*border: 1px solid #abc;*/
+  border: 1px solid #5A8FDB;
 }
 
 #crm-container .footer {
@@ -378,7 +379,8 @@ div.spacer, .spacer {
   margin: .5em 0em .5em;
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid #000000;
+  /*border: 1px solid #000000;*/
+  border: 1px solid #4A88DF;
 }
 
 #crm-container #map-field table, #crm-container table.report  {
@@ -399,9 +401,11 @@ div.spacer, .spacer {
 }
 
 #crm-container tr.columnheader {
-  background-color: #CCCCCC;
+  /*background-color: #CCCCCC;*/
+  background-color: #B3D1FF;
   color: #000000;
-  border: 1px solid #000000;
+  /*border: 1px solid #000000;*/
+  border: 1px solid #5A8FDB;
 }
 #crm-container tr.columnheader-dark {
   background-color: #B0B0B0;
@@ -411,7 +415,8 @@ div.spacer, .spacer {
 
 #crm-container th {
   padding: 8px 4px 4px 4px;
-  border-bottom: 1px solid #000;
+  /*border-bottom: 1px solid #000;*/
+  border-bottom: 1px solid #5A8FDB;
   text-align: left;
 }
 
@@ -425,7 +430,8 @@ div.spacer, .spacer {
 }
 
 #crm-container #map-field th {
-    border-right: 1px solid #000;
+    /*border-right: 1px solid #000;*/
+    border-right: 1px solid #5A8FDB;
 }
 
 #crm-container #map-field td, #crm-container .report td {
@@ -433,24 +439,30 @@ div.spacer, .spacer {
 }
 
 #crm-container .report td {
-  border: 1px solid #ddd;
+  /*border: 1px solid #ddd;*/
+  border: 1px solid #92B6EC;
+  background-color: #F6F6F6;
 }
 
 #crm-container .odd-row, tbody.scrollContent {
-  background-color: #FAFAF8;
+  /*background-color: #FAFAF8;*/
+  background-color: #FAFAFA;
 }
 
 #crm-container .even-row, tbody.scrollContent tr.alternateRow  {
-  background-color: #EAEAEA;
+  /*background-color: #EAEAEA;*/
+  background-color: #E8F2FF; /*#E6F8FE;*/
 }
 
 #crm-container tbody.scrollContent tr:hover  {
-  background-color: #D1D1D1;
+  /*background-color: #b9caf2;*/
+  background-color: #D0E6FD;
 }
 
-#crm-container tr.even-row td, #crm-container tr.odd-row td {
+#crm-container tr.even-row td, #crm-container tr.odd-row td{
   border-collapse: collapse;
-  border-top: 1px solid #000000;
+  /*border-top: 1px solid #000000;*/
+  border-top: 1px solid #92B6EC;
 }
 
 #crm-container .selected {
@@ -520,7 +532,8 @@ div.spacer, .spacer {
 
 #crm-container #search-status {
  padding: 0.25em;
- background-color: #ccc;
+ /*background-color: #ccc;*/
+ background-color: #B3D1FF;
  font-size: .95em;
  font-weight: bold;
 }
@@ -536,9 +549,11 @@ div.spacer, .spacer {
 }
 
 div.crm-pager {
-  border: thin solid #000000;
-  background-color: #B0B0B0;
-  color: #FFFFFF;
+  /*border: thin solid #000000;*/
+  border: thin solid #4A88DF; 
+  background-color: #2E7ED6;
+  /*color: #FFFFFF;*/
+  color: #213245;
   position: relative;
   height: 25px;
   margin-left: -1px;
@@ -546,7 +561,8 @@ div.crm-pager {
 }
 
 div.crm-pager a {
-  color: #FFFFFF;
+  /*color: #FFFFFF;*/
+  color: #BADAFF;
 }
 
 .crm-pager-nav {
@@ -584,20 +600,25 @@ div.crm-pager a {
 }
 #crm-container ul.wizard-bar li {
   display: inline;
-  background-color: #fff;
-  border: 1px solid #bbb;
+  /*background-color: #fff;
+  border: 1px solid #bbb;*/
+  background-color: #FAFAFA;
+  border: 1px solid #92B6EC;
   height: auto;
   margin-right: 2em;
   padding: .5em 1em .5em;
   text-decoration: none;
 }
 #crm-container ul.wizard-bar li.current-step {
-  background-color: #fff;
-  border-color: #000;
+  /*background-color: #fff;
+  border-color: #000;*/
+  background-color: #FAFAFA;
+  border-color: #92B6EC;
   font-weight: bold;
 }
 #crm-container ul.wizard-bar li.past-step {
-  background-color: #eee;
+  /*background-color: #eee;*/
+  background-color: #EDF2FF;
   color: #666;
 }
 
@@ -606,9 +627,12 @@ div.crm-pager a {
   margin: 5px 0px 10px;
   font-weight: bold;
   font-size: .95em;
-  color: #6e6e6e;
-  background-color: #eee;
-  border: 1px solid #6e6e6e;
+  /*color: #6e6e6e;*/
+  color: #4A88DF;
+  /*background-color: #eee;*/
+  background-color: #EDF2FF;
+  /*border: 1px solid #6e6e6e;*/
+  border: 1px solid #4A88DF;
   overflow: hidden;
 }
 #crm-container div#alpha-filter {
@@ -635,8 +659,10 @@ div.crm-pager a {
 
 #crm-container #alpha-filter li {
   display: inline;
-  background-color: #eee;
-  border: 1px solid #6e6e6e;
+  /*background-color: #eee;*/
+  background-color: #EDF2FF;
+  /*border: 1px solid #6e6e6e;*/
+  border: 1px solid #4A88DF;
   color: #aaa;
   font-size: .95em;
   font-weight: normal;
@@ -661,7 +687,8 @@ div.crm-pager a {
 
 #crm-container #recently-viewed a {
   font-weight: normal;
-  color: #6e6e6e;
+  /*color: #6e6e6e;*/
+  color: #4A88DF;
   font-size: .95em
 }
 
@@ -671,9 +698,10 @@ div.crm-pager a {
 #crm-container .listing-box {
   margin: 0.25em 2.0em -0.5em 0em;
   width: auto;
-  height: 6.75em;	
+  height: 6.75em;
   overflow: auto;
-  border: 1px solid #B0B0B0;
+  /*border: 1px solid #B0B0B0;*/
+  border: 1px solid #92B6EC;
 }
 
 /* Image Styles */
@@ -742,9 +770,11 @@ div.crm-pager a {
 #crm-container .label-pane {
     margin: 0.25em 0em 0em;
     padding: 0.25em;
-    background-color: #B0B0B0;
+    /*background-color: #B0B0B0;*/
+    background-color: #6AA8EE;
 	cursor: pointer;
-	color: #fff;
+	/*color: #fff;*/
+        color: #213245;
 	font-weight: bold;
 }
 
@@ -763,13 +793,14 @@ div.crm-pager a {
 /*
 ** Following styles are used specificaly for dojo based elements
 */
+#crm-container thead tr.columnheader th, #crm-container tbody td {
+  text-indent: 0.9em;
+}
+
 #crm-container thead tr.columnheader th {
-  text-indent: 0.5em;
   cursor: pointer;
 }
-#crm-container tbody td {
-  text-indent: 0.5em;
-}
+
 #crm-container thead th.selectedUp { 
   background-repeat: no-repeat;
   background-position: 0% 50%;
