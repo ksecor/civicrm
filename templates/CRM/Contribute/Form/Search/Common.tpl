@@ -46,7 +46,8 @@
         </tr>
         <tr>
             <td class="label">{$form.contribution_source.label}</td>
-            <td colspan="3">{$form.contribution_source.html}</td>
+            <td colspan="2">{$form.contribution_source.html}</td>
+            <td colspan="2">{$form.contribution_recurring.html}&nbsp;<label>{ts}Find Recurring Contributions{/ts}</label></td>
         </tr>
         <tr>
             <td colspan="4">

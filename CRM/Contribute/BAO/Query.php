@@ -81,6 +81,12 @@ class CRM_Contribute_BAO_Query
             if ( !empty ( $optionFields ) ) {
                 $fields =  array_merge( $fields ,$optionFields );
             }
+            // add field to get recurent_id
+            $fields["contribution_recur_id"] = array("name"  => "contribution_recur_id",
+                                                     "title" => "Recurring Contributions ID",
+                                                     "where" => "civicrm_contribution.contribution_recur_id"
+                                                     );
+            
             unset( $fields['contact_id']);
             unset( $fields['note'] ); 
             self::$_contributionFields = $fields;
@@ -239,6 +245,15 @@ class CRM_Contribute_BAO_Query
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
             return;
+        case 'contribution_recurring':
+            if ( $value ) {
+                $query->_where[$grouping][] = "civicrm_contribution.contribution_recur_id IS NOT NULL";
+                if ( $value ) {
+                    $query->_qill[$grouping][]  = "Recurring Contributions Only";
+                }
+                $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            }
+            return;
 
         default :
             //all other elements are handle in this case
@@ -355,6 +370,7 @@ class CRM_Contribute_BAO_Query
                                 'is_test'                 => 1,
                                 'contribution_status_id'  => 1,
                                 'contrib_status'          => 1,
+                                'contribution_recur_id'   => 1, 
                                 );
 
             // also get all the custom contribution properties
@@ -427,7 +443,7 @@ class CRM_Contribute_BAO_Query
         $status[] = $form->createElement( 'radio', null, null, ts( 'All' )      , 'All'       );
 
         $form->addGroup( $status, 'contribution_status', ts( 'Contribution Status' ) );
-
+        
         // add null checkboxes for thank you and receipt
         $form->addElement( 'checkbox', 'contribution_thankyou_date_isnull', ts( 'Thank-you date not set?' ) );
         $form->addElement( 'checkbox', 'contribution_receipt_date_isnull' , ts( 'Receipt date not set?' ) );
@@ -436,6 +452,8 @@ class CRM_Contribute_BAO_Query
         $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
         $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions ?' ) );
         
+        $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Find Recurring Contributions ?' ) );
+
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Contribution' ) );
