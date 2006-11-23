@@ -34,7 +34,6 @@
     {
         var cId = new Array();	
         var i = 0;{/literal}
-        {literal}var i = 0;{/literal}
         {foreach from=$contactIds item=field}
         {literal}cId[i++]{/literal} = {$field}
         {/foreach}
