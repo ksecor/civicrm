@@ -84,12 +84,12 @@ function &crm_create_contribution( &$params ) {
     }
 
     $values  = array( );
-
+   
     $error = _crm_format_contrib_params( $params, $values );
     if (is_a($error, 'CRM_Core_Error') ) {
         return $error;
     }
-
+    $values["contact_id"] = $params["contact_id"];
     $ids     = array( );
 
     $contribution = CRM_Contribute_BAO_Contribution::create( $values, $ids );
@@ -181,13 +181,15 @@ function &crm_get_contribution( $params, $returnProperties = null ) {
     }
 
     if ( ! CRM_Utils_Array::value( 'contribution_id', $params ) ) {
-        $returnProperties = array( 'trxn_id' );
-        $contributions = crm_contribution_search( $params, $returnProperties );
+        $returnProperties = array( 'trxn_id' => 1 ,"contributiom_id" => 1);
+        require_once "CRM/Contact/Form/Search.php";
+        $newP =& CRM_Contact_Form_Search::convertFormValues( $params );
+        list( $contributions , $options ) = crm_search( $newP, $returnProperties );
         if ( count( $contributions ) != 1 ) {
             return _crm_error( count( $contributions ) . " contributions matching input params." );
         }
-        $contributionIds = array_keys( $contributions );
-        $params['contribution_id'] = $contributionIds[0];
+        $contributionIds = array_values( $contributions );
+        $params['contribution_id'] = $contributionIds[0]["contribution_id"];
     }
 
     $params['id'] = $params['contribution_id']; 
@@ -199,11 +201,11 @@ function &crm_get_contribution( $params, $returnProperties = null ) {
         return _crm_error( 'Did not find contribution object for ' . $params['contribution_id'] ); 
     } 
  
-    unset($params['id']); 
+   //  unset($params['id']); 
      
-    $contribution->contribution_type_object = CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
- 
-    $contribution->custom_values =& CRM_Core_BAO_CustomValue::getContributionValues($contribution->id); 
+//     $contribution->contribution_type_object = CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
+    
+//     $contribution->custom_values =& CRM_Core_BAO_CustomValue::getContributionValues($contribution->id); 
  
     return $contribution; 
 }

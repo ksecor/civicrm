@@ -464,7 +464,8 @@ function _crm_format_contrib_params( &$params, &$values ) {
                 return _crm_error("contact_id not valid: $value");
             }
             $dao =& new CRM_Core_DAO();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value");
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
             if (!$svq) {
                 return _crm_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
